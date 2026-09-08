@@ -4,298 +4,169 @@ Ngày chốt: 2026-09-08
 
 ## 1. Mục tiêu
 
-Roadmap này biến hướng phát triển hiện tại thành một chuỗi có thể thi hành và đo được:
+Roadmap sản phẩm đang chạy:
 
-`English-first → Daily Learning Loop → Life Graph → Recommendation Engine → Adaptive Companion → Cross-domain expansion`
+`English-first → Daily Learning Loop → Life Graph signals → Recommendation Engine → Adaptive Companion → Cross-domain proof`
 
-Đây là roadmap SẢN PHẨM đang chạy, không thay thế roadmap kiến trúc tham khảo ở `docs/architecture-v2/21-ROADMAP.md`. Khi hai tài liệu cùng chạm một hạng mục, roadmap sản phẩm này quyết định **thứ tự ưu tiên**, còn tài liệu kiến trúc quyết định **invariant/biên kỹ thuật**.
+Roadmap này quyết định **thứ tự ưu tiên sản phẩm**. `docs/architecture-v2/21-ROADMAP.md` tiếp tục quyết định invariant/biên kỹ thuật. Không tạo backlog V2 thứ hai.
 
 ## 2. Nguyên tắc bắt buộc
 
-1. **Không mở rộng chiều rộng trước khi có bằng chứng người dùng thật.** Trong 2–4 tuần đầu không thêm môn, khóa, specialization hay mini-app mới.
-2. **English là wedge market.** Người dùng vào vì nhu cầu tiếng Anh; nền tảng giữ họ lại nhờ hiểu mục tiêu và lịch sử dài hạn.
-3. **Deterministic-first.** Rule/code lọc và chấm điểm trước; LLM chỉ dùng cho phần cần ngôn ngữ/suy luận mềm.
-4. **Planning ≠ Execution ≠ State Mutation.** AI không được tự biến suy luận thành dữ liệu authoritative.
-5. **Evidence-first personalization.** Mọi thay đổi hồ sơ phải có provenance/evidence/confidence.
-6. **Một slice = một outcome nhỏ, reversible, có acceptance criteria và rollback.**
-7. **Không scale theo ước lượng.** Chỉ mua hạ tầng sau load test và số liệu thật.
+1. Không mở rộng chiều rộng trước khi có bằng chứng người dùng thật.
+2. English là wedge market.
+3. Deterministic-first; LLM chỉ dùng khi rule/code không đủ.
+4. Planning ≠ Execution ≠ State Mutation.
+5. Evidence-first personalization: provenance/confidence bắt buộc cho state derived.
+6. Một slice = một outcome nhỏ, reversible, có acceptance criteria.
+7. Không scale theo ước lượng; đo trước khi mua hạ tầng.
 
-## 3. North Star và chỉ số cổng
-
-### North Star
+## 3. North Star
 
 **Weekly Successful Learning Days / Active Learner**
 
-Một ngày học thành công là ngày người dùng hoàn thành ít nhất một hoạt động có bằng chứng kết quả (lesson/quiz/SRS/speaking/writing/practice hoặc activity khác đã được domain đăng ký).
+Một ngày thành công = người dùng hoàn thành ít nhất một activity có bằng chứng kết quả.
 
-### Metric phụ
+Metric phụ:
+- activation;
+- D1/D7/D30 return;
+- completion của Daily Plan;
+- recommendation CTR/completion;
+- % đạt goal đo được trong 30 ngày;
+- cost / successful learning day;
+- tỷ lệ recommendation không cần LLM.
 
-- Activation: signup → onboarding complete → first meaningful activity.
-- D1 / D7 / D30 return.
-- % người dùng đạt một goal đo được trong 30 ngày.
-- Completion rate của Daily Plan.
-- Recommendation acceptance rate.
-- Cost / successful learning day.
-- Tỷ lệ recommendation được tạo không cần LLM.
+Guardrail:
+- không tăng LLM calls chỉ để “cá nhân hóa cho đẹp”;
+- không ghi state derived thiếu provenance;
+- không đưa dữ liệu nhạy cảm sai purpose;
+- không làm giảm typecheck/lint/test/build/a11y/bundle/security.
 
-### Guardrail
+## 4. P0 — Evidence window
 
-- Không tăng call LLM/user chỉ để cá nhân hóa.
-- Không ghi fact/goal derived nếu thiếu provenance.
-- Không đưa dữ liệu nhạy cảm vào context sai purpose.
-- Không làm giảm các cổng hiện có: typecheck/lint/test/build/a11y/bundle/security.
+Trong 2–4 tuần, ưu tiên người dùng thật và analytics. Không thêm môn/khóa/domain mới. Dùng activation, DAU/WAU/MAU, returning và đường đi thực tế để quyết định mảng nào đáng đào sâu.
 
-## 4. Phase P0 — Evidence window (2–4 tuần)
-
-### Outcome
-
-Biết người dùng thật dùng gì, bỏ gì và có quay lại hay không.
-
-### Việc
-
-- Mời tối thiểu 5 người học thật, gồm: English, Programming, Career/Work, Life và một người chiều B.
-- Dùng analytics hiện có để đọc activation, DAU/WAU/MAU, returning và day-2 return.
-- Ghi lại các đường đi thực tế: tính năng được dùng, bị bỏ qua, điểm rơi khỏi funnel.
-- Không thêm domain/môn mới trong cửa sổ này.
-
-### Gate
-
-Chỉ chuyển trọng tâm sang một mảng khi có ít nhất một trong các bằng chứng:
-
-- người dùng quay lại tự nhiên;
-- completion tốt nhưng friction rõ ràng;
-- goal thật có thể đo và cải thiện;
-- nhu cầu lặp lại từ nhiều người.
-
-Nếu không có bằng chứng, ưu tiên sửa activation/onboarding thay vì thêm tính năng.
-
-## 5. Phase P1 — Daily Learning Loop
+## 5. P1 — Daily Learning Loop
 
 ### Outcome
 
-Home trở thành nơi trả lời câu hỏi: **“Hôm nay tôi nên làm gì?”**
+Home trả lời: **“Hôm nay tôi nên làm gì?”**
 
-### Read model tối thiểu
+### P1.1 — Deterministic Daily Plan
 
-Mỗi recommendation candidate có:
+Trạng thái: **đang triển khai ở PR #878**.
 
-- `activityId`
-- `domain`
-- `kind`
-- `goalRelevance`
-- `urgency`
-- `weakness`
-- `forgettingRisk`
-- `estimatedMinutes`
-- `reasonCodes[]`
+- tách ranking khỏi JSX;
+- ưu tiên SRS đến hạn, sau đó giữ mạch học đang dang dở;
+- fallback an toàn;
+- reason + estimated minutes;
+- không gọi AI để ranking.
 
-### Scoring baseline
+### P1.2 — Analytics cho recommendation
 
-Không dùng LLM cho ranking baseline:
+Trạng thái: **đang triển khai ở PR #879**.
 
-`score = goalRelevance × urgency × weakness × forgettingRisk × timeFit`
+- impression/click theo action kind;
+- planner version được ghi để so sánh;
+- không lưu nội dung học/dữ liệu nhạy cảm;
+- chưa tin completion do client tự khai.
 
-Có thể chuẩn hóa/weight theo domain, nhưng mọi weight phải nằm server-side và có test.
+### P1.3 — Completion server-derived
 
-### UI tối thiểu
+Định nghĩa completion theo dữ liệu domain/server state, không cho client tùy ý bắn `complete`. Mục tiêu là funnel:
 
-Home hiển thị 1–3 việc cho hôm nay, mỗi việc có:
+`impression → click → meaningful completion → D1/D7 return`
 
-- lý do ngắn;
-- thời lượng ước tính;
-- CTA đi thẳng vào activity;
-- trạng thái done/skipped.
+### Gate P1
 
-### Gate
+- deterministic tạo được phần lớn plan;
+- đo được impression/click/completion;
+- không tăng AI call trước khi user bắt đầu activity;
+- có đủ dữ liệu để thay đổi weight dựa trên outcome thay vì cảm giác.
 
-- recommendation deterministic tạo được ít nhất 80% daily plan;
-- đo được impression/start/complete/skip;
-- không tăng call AI cho user chưa bắt đầu hoạt động.
+## 6. P2 — Life Graph signals
 
-## 6. Phase P2 — V2-05 Life Graph foundation
+### Trạng thái baseline
 
-### Outcome
+**V2-05 Life Graph foundation đã tồn tại trên `main`**, gồm migration `0043_life_graph.sql`, service `lifeGraphService.ts` và test. Không viết lại schema/API này.
 
-Có một read model chung nối mục tiêu dài hạn với domain activity mà không giành ownership dữ liệu domain.
+`docs/architecture-v2/V2-05-SLICE-1.md` từ nay là baseline/invariant, không phải backlog implementation.
 
-### Node types v1
+### P2.1 — Gap audit cho Daily Plan
 
-- Person
-- Goal
-- Project
-- Skill
-- Organization
-- Event
-- Commitment
-- Constraint
-- Decision
+Chỉ bổ sung phần thiếu mà P1/P3 thực sự cần, ví dụ:
+- evidence links;
+- Goal Graph read model tối ưu;
+- reconciliation/outbox khi source thay đổi.
 
-### Edge types v1
+Không bulk backfill hay graph UI nếu chưa có use case thật.
 
-- requires
-- contributes_to
-- blocks
-- conflicts_with
-- supports
-- belongs_to
-- involves
+### P2.2 — Skill/evidence links
 
-### Quy tắc dữ liệu
+Goal có thể nối tới skill/evidence read models; Learning vẫn sở hữu mastery và evidence payload.
 
-Mọi node/edge có tối thiểu:
-
-- owner/person id;
-- provenance/source reference;
-- version;
-- created/updated timestamps;
-- active/archived state.
-
-Derived state phải có thêm:
-
-- confidence;
-- evidence references;
-- derivation kind/version.
-
-Life Graph là projection/read model. Domain gốc tiếp tục sở hữu payload nghiệp vụ.
-
-### Slice P2.1 — Learning Goal round-trip
-
-Dùng learning goal onboarding hiện tại làm gate đầu tiên. Yêu cầu chi tiết ở `docs/architecture-v2/V2-05-SLICE-1.md`.
-
-Acceptance:
-
-1. backfill idempotent;
-2. không update/delete source Learning;
-3. round-trip giữ nguyên learner identity, label, target minutes và status;
-4. profile chưa onboarding không tạo goal giả;
-5. edge không thể cross-user/orphan;
-6. optimistic concurrency trả conflict cho stale writer;
-7. mutation có audit append-only.
-
-### Slice P2.2 — Evidence links
-
-Nối Goal với evidence read models từ Learning mà không copy toàn bộ dữ liệu học tập.
-
-### Slice P2.3 — Skill links
-
-Cho phép goal yêu cầu/contributes_to skill; Learning vẫn sở hữu mastery.
-
-### Slice P2.4 — Goal Graph read API
-
-API trả graph nhỏ phục vụ Daily Plan và Companion; chưa cần graph database.
-
-### Không làm trong P2
-
-- graph database;
-- bulk inference bằng LLM;
-- UI graph trực quan lớn;
-- tự động tạo goal từ chat;
-- cross-domain mutation.
-
-## 7. Phase P3 — Recommendation Engine
-
-### Outcome
-
-Daily Plan lấy signal từ Life Graph + Learning read models.
+## 7. P3 — Recommendation Engine
 
 Pipeline:
 
-`candidate generation → deterministic filters → permission/sensitivity → scoring → top-K → optional LLM wording`
+`candidate generation → deterministic filters → policy/sensitivity → scoring → top-K → optional LLM wording`
 
-LLM không được quyết activity khi deterministic layer đã loại vì policy, privacy hoặc eligibility.
+Mọi recommendation phải có reason codes truy vết được và fallback khi AI provider lỗi.
 
-### Gate
+## 8. P4 — Adaptive Companion
 
-- top-K recommendation có reason codes truy vết được;
-- fallback chạy được khi mọi AI provider lỗi;
-- recommendation quality đo bằng start/complete/skip và outcome, không chỉ bằng eval prompt.
+Flow:
 
-## 8. Phase P4 — Adaptive Companion
-
-### Outcome
-
-Companion hiểu mục tiêu và trạng thái dài hạn nhưng không tự ý mutate hồ sơ.
-
-Flow chuẩn:
-
-`request → intent → context → goal relevance → planner → proposed action → user/domain action → evidence → state candidate`
+`request → intent → context → goal relevance → planner → proposed action → domain action → evidence → state candidate`
 
 State candidate chỉ thành update khi qua rule/policy của owner tương ứng.
 
-### Gate
-
-- mỗi context item có provenance;
-- sensitive data lọc theo purpose;
-- provider thay đổi không làm mất state;
-- AI outage không làm mất Daily Plan baseline.
-
-## 9. Phase P5 — Cross-domain proof
-
-### Outcome
-
-Chứng minh giá trị khác biệt bằng một flow xuyên domain thật.
+## 9. P5 — Cross-domain proof
 
 Flow ưu tiên:
 
 `Career goal → skill gap English/SQL/Statistics → Learning plan → evidence/mastery → Career progress`
 
-Chỉ mở phase này khi P0 có người dùng thật cần flow liên domain.
-
-### Gate
-
-- Career không query trực tiếp bảng Learning;
-- Life Graph/read model làm lớp liên kết;
-- progress có evidence từ domain nguồn.
+Chỉ mở rộng khi có người dùng thật cần flow này.
 
 ## 10. Những việc tạm dừng
 
-Cho tới khi dữ liệu người dùng mở lại gate:
-
-- nối thêm STEM vào app;
-- mở specialization/khóa mới;
-- mở rộng Career/Work/Startup/Life thành mini-app độc lập;
-- thêm model/provider chỉ vì mới hơn;
+- thêm STEM/domain mới;
+- thêm specialization/khóa mới;
+- Career/Work/Startup/Life thành mini-app độc lập;
+- thêm provider/model chỉ vì mới;
 - graph database;
 - scale 50k concurrent theo lý thuyết.
 
 ## 11. Reliability/Security track chạy song song
 
-Các việc này được phép chạy song song vì không đổi product scope:
-
-- kiểm tra Redis sau swap;
+- Redis sau swap;
 - verify restore backup;
-- k6 theo nấc trước khi mua hạ tầng;
-- verify Gemini Live với API key thật trước khi coi production-ready;
-- mở rộng golden eval set;
-- hoàn tất chiến lược mã hóa dữ liệu cũ + key management;
-- dependency patch/minor an toàn; major upgrade tách PR riêng.
+- k6 theo nấc;
+- Gemini Live với API key thật;
+- mở rộng golden eval;
+- mã hóa dữ liệu cũ + key management;
+- dependency patch/minor an toàn, major tách PR.
 
-## 12. Thứ tự PR đề xuất
+## 12. Thứ tự PR hiện tại
 
-1. **PR-R0** — đặc tả roadmap này + liên kết vào nguồn điều hành.
-2. **PR-P2.1a** — V2-05 schema + integrity + migration.
-3. **PR-P2.1b** — Learning goal adapter + round-trip API.
-4. **PR-P2.1c** — audit/concurrency/negative tests + operational notes.
-5. **PR-P1.1** — daily candidate contract + deterministic scoring.
-6. **PR-P1.2** — Home Daily Plan read-only UI + analytics.
-7. **PR-P2.2** — evidence links.
-8. **PR-P3.1** — recommendation engine v1.
-9. **PR-P4.1** — Companion context integration read-only.
+1. **PR #877** — đặc tả roadmap và sửa trạng thái V2-05 theo bằng chứng hiện có.
+2. **PR #878 / P1.1** — deterministic Daily Learning Plan.
+3. **PR #879 / P1.2** — impression/click analytics.
+4. **P1.3** — completion server-derived + funnel.
+5. **P2.1** — gap audit Life Graph cho signals thật sự cần bởi P1/P3.
+6. **P3.1** — recommendation engine v1 dựa trên outcome.
+7. **P4.1** — Companion context integration read-only.
 
-Lý do P2.1 đi trước P1 implementation: Daily Plan cần một representation ổn định của goal để tránh hard-code thêm một lớp goal mới. P1 chỉ dùng read-only Life Graph ở giai đoạn đầu.
+## 13. Definition of Done mỗi slice
 
-## 13. Definition of Done cho mỗi slice
-
-Một slice chỉ được báo xong khi:
-
-- acceptance criteria có test hoặc bằng chứng tương ứng;
+- acceptance criteria có test/bằng chứng;
 - format/typecheck/lint/build/test xanh;
-- migration có rollback/recovery note nếu có;
+- migration có rollback note nếu có;
 - không sửa trực tiếp `main`;
-- PR nhỏ, mô tả rõ invariant và phần chưa làm;
+- PR nhỏ và reversible;
 - UI change có Tầng 8b 1440px + 390px trước/sau;
-- metric/analytics được thêm nếu slice thay đổi hành vi người dùng.
+- analytics được thêm khi thay đổi hành vi người dùng.
 
 ## 14. Quyết định hiện tại
 
-Bắt đầu bằng **V2-05 Life Graph foundation — slice 1**, nhưng chia nhỏ thành schema/integrity trước, adapter/API sau. Không xây UI Life Graph ở giai đoạn này.
+**Không triển khai lại V2-05.** Tận dụng Life Graph baseline đã có, triển khai P1 trước để tạo dữ liệu hành vi thật. Chỉ quay lại P2 khi P1/P3 chỉ ra signal/read model cụ thể còn thiếu.
