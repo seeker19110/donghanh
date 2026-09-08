@@ -34,9 +34,19 @@ class FakeAudio {
   pause() {}
 }
 
+const NativeURL = URL
+
+function stubUrl(createObjectURL: (blob: Blob) => string = () => 'blob:fake') {
+  class FakeURL extends NativeURL {
+    static createObjectURL = createObjectURL
+    static revokeObjectURL() {}
+  }
+  vi.stubGlobal('URL', FakeURL)
+}
+
 beforeEach(async () => {
   vi.stubGlobal('Audio', FakeAudio)
-  vi.stubGlobal('URL', { createObjectURL: () => 'blob:fake', revokeObjectURL: () => {} })
+  stubUrl()
   // `restoreAllMocks()` (dùng ở describe "ensureAudioBuffer" bên dưới) xoá luôn
   // implementation của getAccessToken (vi.fn() từ vi.mock factory) — không chỉ các
   // spy tạo bằng vi.spyOn. Đặt lại giá trị mặc định mỗi test để các describe SAU đó
@@ -694,12 +704,9 @@ describe('unlockAudio — Đợt 2 coverage: getSilentUrl dùng lại URL đã t
       currentTime = 0
     }
     vi.stubGlobal('Audio', FlakyAudio)
-    vi.stubGlobal('URL', {
-      createObjectURL: () => {
-        createObjectURLCalls += 1
-        return 'blob:fake'
-      },
-      revokeObjectURL: () => {},
+    stubUrl(() => {
+      createObjectURLCalls += 1
+      return 'blob:fake'
     })
     const { unlockAudio } = await import('./tts')
     expect(() => unlockAudio()).not.toThrow() // lần 1: play() ném lỗi → catch nuốt, không throw
@@ -868,12 +875,9 @@ describe('speakViaGoogle — Đợt 2 coverage: mimeType theo giọng + preserve
   it('giọng Gemini (đọc truyện) → tạo Blob kiểu audio/wav thay vì mp3', async () => {
     vi.stubGlobal('Audio', AutoEndingCaptureAudio)
     const capturedTypes: string[] = []
-    vi.stubGlobal('URL', {
-      createObjectURL: (blob: Blob) => {
-        capturedTypes.push(blob.type)
-        return 'blob:fake'
-      },
-      revokeObjectURL: () => {},
+    stubUrl((blob: Blob) => {
+      capturedTypes.push(blob.type)
+      return 'blob:fake'
     })
     const { speak } = await import('./tts')
     await speak('Ngày xửa ngày xưa', 'vi-VN', 'Gemini-Leda')
@@ -883,12 +887,9 @@ describe('speakViaGoogle — Đợt 2 coverage: mimeType theo giọng + preserve
   it('giọng thường (không phải Gemini) → tạo Blob kiểu audio/mpeg', async () => {
     vi.stubGlobal('Audio', AutoEndingCaptureAudio)
     const capturedTypes: string[] = []
-    vi.stubGlobal('URL', {
-      createObjectURL: (blob: Blob) => {
-        capturedTypes.push(blob.type)
-        return 'blob:fake'
-      },
-      revokeObjectURL: () => {},
+    stubUrl((blob: Blob) => {
+      capturedTypes.push(blob.type)
+      return 'blob:fake'
     })
     const { speak } = await import('./tts')
     await speak('Hello', 'en-US', 'Kore')
@@ -918,7 +919,7 @@ describe('speakViaGoogle — Đợt 2 coverage: mimeType theo giọng + preserve
       pause() {}
     }
     vi.stubGlobal('Audio', WebkitOnlyAudio)
-    vi.stubGlobal('URL', { createObjectURL: () => 'blob:fake', revokeObjectURL: () => {} })
+    stubUrl()
     const { speak } = await import('./tts')
     await speak('Hello', 'en-US', 'Kore', 1.25)
     expect(createdInstances).toHaveLength(1)
@@ -990,7 +991,7 @@ describe('speakBilingual — Đợt 2 coverage: bị "cướp" thẻ audio giữ
       pause() {}
     }
     vi.stubGlobal('Audio', FakeAudioNoAutoEnd)
-    vi.stubGlobal('URL', { createObjectURL: () => 'blob:fake', revokeObjectURL: () => {} })
+    stubUrl()
     const { getAudioEntry } = await import('./audioCache')
     vi.mocked(getAudioEntry).mockResolvedValue({ buffer: new ArrayBuffer(4), timeline: null })
   })
@@ -1117,7 +1118,7 @@ describe('speakViaGoogle — Đợt 2 coverage: onWord theo tiến độ audio +
       }
     }
     vi.stubGlobal('Audio', Recording)
-    vi.stubGlobal('URL', { createObjectURL: () => 'blob:fake', revokeObjectURL: () => {} })
+    stubUrl()
     const { getAudioEntry } = await import('./audioCache')
     vi.mocked(getAudioEntry).mockResolvedValue({ buffer: new ArrayBuffer(4), timeline: null })
     const { speak } = await import('./tts')
@@ -1160,7 +1161,7 @@ describe('speakViaGoogle — Đợt 2 coverage: onWord theo tiến độ audio +
       }
     }
     vi.stubGlobal('Audio', Recording)
-    vi.stubGlobal('URL', { createObjectURL: () => 'blob:fake', revokeObjectURL: () => {} })
+    stubUrl()
     const { getAudioEntry } = await import('./audioCache')
     vi.mocked(getAudioEntry).mockResolvedValue({ buffer: new ArrayBuffer(4), timeline: null })
     const { speak } = await import('./tts')
@@ -1201,7 +1202,7 @@ describe('speakViaGoogle — Đợt 2 coverage: onWord theo tiến độ audio +
       }
     }
     vi.stubGlobal('Audio', Recording)
-    vi.stubGlobal('URL', { createObjectURL: () => 'blob:fake', revokeObjectURL: () => {} })
+    stubUrl()
     vi.stubGlobal('speechSynthesis', {
       cancel: vi.fn(),
       getVoices: () => [],
@@ -1235,7 +1236,7 @@ describe('speakViaGoogle — Đợt 2 coverage: onWord theo tiến độ audio +
       pause() {}
     }
     vi.stubGlobal('Audio', RejectPlayAudio)
-    vi.stubGlobal('URL', { createObjectURL: () => 'blob:fake', revokeObjectURL: () => {} })
+    stubUrl()
     vi.stubGlobal('speechSynthesis', {
       cancel: vi.fn(),
       getVoices: () => [],

@@ -9,9 +9,15 @@ const sendMock = vi.fn(async (cmd: { input: Record<string, unknown> }) => {
   return {}
 })
 vi.mock('@aws-sdk/client-s3', () => ({
-  S3Client: vi.fn(() => ({ send: sendMock })),
-  PutObjectCommand: vi.fn((input: unknown) => ({ input })),
-  ListObjectsV2Command: vi.fn((input: unknown) => ({ input })),
+  S3Client: vi.fn(function () {
+    return { send: sendMock }
+  }),
+  PutObjectCommand: vi.fn(function (input: unknown) {
+    return { input }
+  }),
+  ListObjectsV2Command: vi.fn(function (input: unknown) {
+    return { input }
+  }),
 }))
 
 const ORIGINAL_ENV = { ...process.env }

@@ -7,8 +7,12 @@ vi.mock('@dhcb/core-db/pgPool', () => {
 
 const s3SendMock = vi.fn(() => Promise.resolve({}))
 vi.mock('@aws-sdk/client-s3', () => ({
-  S3Client: vi.fn(() => ({ send: s3SendMock })),
-  ListObjectsV2Command: vi.fn((input: unknown) => input),
+  S3Client: vi.fn(function () {
+    return { send: s3SendMock }
+  }),
+  ListObjectsV2Command: vi.fn(function (input: unknown) {
+    return input
+  }),
 }))
 
 import { getPgPool } from '@dhcb/core-db/pgPool'
