@@ -1,14 +1,11 @@
 // api/analytics.ts — Analytics tự viết (KHÔNG dùng script bên thứ 3 như Google Analytics —
 // tránh vấn đề cookie/GDPR/CSP, khớp triết lý "không tin client" của dự án). Đo hiệu quả
-// các kênh marketing (landing page, chia sẻ, mời bạn...) sắp triển khai.
+// các kênh marketing và hành vi sản phẩm nhẹ, không block trải nghiệm.
 //
 // POST /api/analytics  body { event, refCode?, utmSource?, path? } → ghi 1 dòng vào
 // bảng analytics_events (migration 0006). Auth TUỲ CHỌN — phải ghi được cả khi khách
 // CHƯA đăng nhập (vd xem landing page trước khi đăng ký); validateAuth() tự trả null
 // nếu không có/token không hợp lệ, không hề chặn request trong trường hợp đó.
-//
-// KHÔNG có GET công khai trả dữ liệu tổng hợp — tránh lộ thông tin, để dành cho trang
-// admin ở hạng mục sau.
 
 import { z } from 'zod'
 import { getPgPool } from '@dhcb/core-db/pgPool'
@@ -23,9 +20,16 @@ import { jsonResponse, getClientIp } from '@dhcb/core-http/http'
 
 // Whitelist cố định — KHÔNG nhận chuỗi tự do để tránh spam bảng dữ liệu rác.
 // [2026-09-06] `signup` / `first_session_done` / `day2_return` đã BỎ khỏi đây: chúng được suy
-// ra từ `users` + `daily_usage` trong analytics-summary.ts, không nhận từ client nữa (client có
-// thể bắn giả; và trước đó cũng chưa nơi nào bắn).
-const EVENT_TYPES = ['landing_view', 'cta_click', 'share_click'] as const
+// ra từ `users` + `daily_usage` trong analytics-summary.ts, không nhận từ client nữa.
+// [2026-09-08] Daily Plan dùng refCode = action kind và utmSource = planner version để đo
+// impression/click mà không cần migration hay metadata tự do.
+const EVENT_TYPES = [
+  'landing_view',
+  'cta_click',
+  'share_click',
+  'daily_plan_impression',
+  'daily_plan_click',
+] as const
 
 const AnalyticsSchema = z.object({
   event: z.enum(EVENT_TYPES),
@@ -42,8 +46,6 @@ export default async function handler(req: Request): Promise<Response> {
     return jsonResponse({ error: 'Method not allowed' }, 405, allHeaders)
   }
 
-  // Rate limit theo IP — ngưỡng vừa phải vì endpoint này gọi thường xuyên từ UI (mỗi lượt
-  // xem landing/click), không cần chặt như /api/auth.
   const clientIp = getClientIp(req)
   if (!(await checkRateLimit(clientIp, 120, 'analytics'))) {
     return jsonResponse({ error: 'Quá nhiều yêu cầu — thử lại sau 1 phút' }, 429, allHeaders)
@@ -57,8 +59,6 @@ export default async function handler(req: Request): Promise<Response> {
     return jsonResponse({ error: result.error.message }, result.error.status, allHeaders)
   const e = result.data
 
-  // Auth KHÔNG bắt buộc — thử lấy userId, không có/không hợp lệ thì ghi user_id = null,
-  // KHÔNG trả 401 (khách chưa đăng nhập vẫn phải track được, vd xem landing page).
   const auth = await validateAuth(req)
 
   const pool = getPgPool()

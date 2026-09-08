@@ -3,6 +3,7 @@
 //
 // P1.1 (2026-09-08): hai việc không còn hard-code thứ tự trong JSX. Planner thuần ở
 // dailyLearningPlan.ts xếp hạng deterministic từ tín hiệu đã có; UI chỉ render kế hoạch.
+// P1.2: đo impression/click theo action kind để biết planner có tạo hành vi thật hay không.
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -18,6 +19,7 @@ import {
 } from 'lucide-react'
 import { fetchProactiveBriefing } from '../../lib/proactiveBriefingApi'
 import { speak } from '../../lib/tts'
+import { track } from '../../lib/analytics'
 import type { ProactiveBriefing } from '@dhcb/core-contracts/proactiveBriefing'
 import { buildDailyLearningPlan, type DailyPlanAction } from '../../lib/dailyLearningPlan'
 
@@ -33,6 +35,7 @@ interface Props {
 
 const FALLBACK_SUMMARY =
   'Hôm nay hãy bắt đầu bằng việc quan trọng nhất trước, rồi giữ một bước nhỏ tiếp theo để duy trì nhịp học.'
+const DAILY_PLAN_VERSION = 'p1.1'
 
 const ACTION_BUTTON =
   'tap-44 flex items-start justify-between gap-2 p-3 rounded-2xl bg-zinc-800/60 hover:bg-zinc-800 text-left transition-colors duration-200 active:scale-[0.98] group'
@@ -76,6 +79,7 @@ export default function HomeAiBriefingCard({
     dailyMax,
     continueLessonLabel,
   })
+  const planKey = plan.map((action) => action.kind).join(',')
 
   useEffect(() => {
     let isMounted = true
@@ -94,10 +98,21 @@ export default function HomeAiBriefingCard({
     }
   }, [])
 
+  useEffect(() => {
+    // Một impression cho mỗi action thực sự được render. `planKey` chỉ đổi khi tập action đổi,
+    // nên các re-render do briefing/loading không bắn lặp dữ liệu.
+    for (const action of plan) {
+      track('daily_plan_impression', { refCode: action.kind, utmSource: DAILY_PLAN_VERSION })
+    }
+    // `plan` được dựng lại mỗi render; dependency dùng key ổn định để tránh impression trùng.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [planKey])
+
   const summary = briefing?.summary ?? FALLBACK_SUMMARY
   const insight = briefing?.insights?.[0]
 
   function runAction(action: DailyPlanAction) {
+    track('daily_plan_click', { refCode: action.kind, utmSource: DAILY_PLAN_VERSION })
     if (action.kind === 'srs_review') {
       nav(
         continueLevelId
