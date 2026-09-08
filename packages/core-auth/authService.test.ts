@@ -282,9 +282,9 @@ describe('verifyGoogleIdToken', () => {
     googleAuth.verifyIdToken.mockReset()
     // Các describe trước gọi vi.restoreAllMocks() (dọn spy khác) — nó cũng xoá luôn
     // implementation đã gán cho OAuth2Client mock, nên phải gán lại ở đây mỗi lần.
-    vi.mocked(OAuth2Client).mockImplementation(
-      () => ({ verifyIdToken: googleAuth.verifyIdToken }) as unknown as OAuth2Client,
-    )
+    vi.mocked(OAuth2Client).mockImplementation(function () {
+      return { verifyIdToken: googleAuth.verifyIdToken } as unknown as OAuth2Client
+    })
   })
   afterEach(() => {
     if (OLD === undefined) delete process.env.GOOGLE_CLIENT_ID
@@ -607,9 +607,9 @@ describe('verifyGoogleIdToken — nhánh còn thiếu (Đợt 2 coverage 2026-09
   beforeEach(() => {
     process.env.GOOGLE_CLIENT_ID = 'gclient'
     googleAuth.verifyIdToken.mockReset()
-    vi.mocked(OAuth2Client).mockImplementation(
-      () => ({ verifyIdToken: googleAuth.verifyIdToken }) as unknown as OAuth2Client,
-    )
+    vi.mocked(OAuth2Client).mockImplementation(function () {
+      return { verifyIdToken: googleAuth.verifyIdToken } as unknown as OAuth2Client
+    })
   })
   afterEach(() => {
     if (OLD === undefined) delete process.env.GOOGLE_CLIENT_ID

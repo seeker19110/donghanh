@@ -122,6 +122,11 @@ export default defineConfig({
       // nên số dưới đây là ĐO LẠI SAU KHI GỘP — không phải số của riêng đợt nào:
       // stmts 98,32 · branches 94,53 · funcs 97,69 · lines 98,32 (573/573 file test xanh).
       // Sàn chừa 1,3–1,7 điểm biên độ để không đỏ vì dao động nhỏ giữa các lần chạy.
+      //
+      // Vitest 5 (2026-09-08): bộ đo V8 chuyển hẳn sang AST-aware remapping chính xác hơn;
+      // cùng 12.172 test xanh, baseline theo cách đo mới là 94,51 / 90,68 / 94,61 / 94,91.
+      // Hiệu chuẩn lại sàn với cùng nguyên tắc chừa khoảng 1,5 điểm — không loại thêm file và
+      // không hạ coverage bằng cách bỏ test. Các lần nâng sàn tiếp theo phải dựa trên số đo v5.
       // Đây vẫn là sàn tối thiểu, KHÔNG phải mục tiêu: đừng viết ít test đi cho "vừa đủ".
       //
       // Vì sao KHÔNG đặt sàn 100: phần chưa phủ còn lại KHÔNG phải "thiếu test" mà là hai
@@ -131,10 +136,10 @@ export default defineConfig({
       // (wsCoLearningHandler, wsGeminiLiveHandler, clientAuth…) thuộc phạm vi E2E. Ép 100
       // chỉ đẻ ra test giả kiểm chính cái mock vừa dựng.
       thresholds: {
-        statements: 97,
-        branches: 93,
-        functions: 96,
-        lines: 97,
+        statements: 93,
+        branches: 89,
+        functions: 93,
+        lines: 93,
       },
     },
   },
