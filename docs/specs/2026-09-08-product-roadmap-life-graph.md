@@ -78,6 +78,9 @@ Trạng thái: **đang triển khai ở PR #879**.
 
 `impression → click → meaningful completion → D1/D7 return`
 
+P1.3a đã được tách thành một slice triển khai được cho SRS; xem
+[`2026-09-08-p1-3-daily-plan-completion.md`](2026-09-08-p1-3-daily-plan-completion.md).
+
 ### Gate P1
 
 - deterministic tạo được phần lớn plan;
