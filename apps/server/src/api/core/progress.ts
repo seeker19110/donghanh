@@ -19,6 +19,7 @@ import { validateBody, readJsonBody } from '@dhcb/core-http/validation'
 import { jsonResponse, getClientIp } from '@dhcb/core-http/http'
 import { vnDateStr } from '@dhcb/core-db/date'
 import { FREE_WEEKLY_BONUS_PER_DAY } from '@dhcb/core-billing/usage'
+import { withTransaction } from '@dhcb/core-db/transaction'
 import {
   mergeSrsMap,
   mergeExamMap,
@@ -57,6 +58,49 @@ interface ProgressRow {
   achievements: string[]
   settings: Record<string, unknown>
   streak_freeze_dates: string[]
+}
+
+const DAILY_PLAN_VERSION = 'p1.1'
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+/** Chỉ server suy ra receipt từ transition SRS trước/sau; client không truyền action/evidence. */
+function countCompletedDueVocabularyCards(
+  before: Record<string, unknown>,
+  after: Record<string, unknown>,
+  nowMs: number,
+): number {
+  let count = 0
+  for (const [cardId, beforeValue] of Object.entries(before)) {
+    if (cardId.startsWith('grammar:') || !isRecord(beforeValue)) continue
+    const beforeDue = beforeValue.due
+    const beforeReps = beforeValue.reps
+    if (
+      typeof beforeDue !== 'number' ||
+      !Number.isFinite(beforeDue) ||
+      beforeDue > nowMs ||
+      typeof beforeReps !== 'number' ||
+      !Number.isFinite(beforeReps)
+    )
+      continue
+
+    const afterValue = after[cardId]
+    if (!isRecord(afterValue)) continue
+    const afterDue = afterValue.due
+    const afterReps = afterValue.reps
+    if (
+      typeof afterDue === 'number' &&
+      Number.isFinite(afterDue) &&
+      afterDue > nowMs &&
+      typeof afterReps === 'number' &&
+      Number.isFinite(afterReps) &&
+      afterReps > beforeReps
+    )
+      count += 1
+  }
+  return count
 }
 
 export default async function handler(req: Request): Promise<Response> {
@@ -125,37 +169,6 @@ export default async function handler(req: Request): Promise<Response> {
   // động học thật trong request này, cộng thưởng (idempotent theo ngày, xem
   // grant_daily_bonus_rolling). Không cộng khi chỉ đồng bộ lại dữ liệu cũ (pullProgress →
   // pushProgress merge) mà không có gì mới.
-  const { rows: existingRows } = await pool.query<ProgressRow>(
-    `select learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked, cefr_exams,
-            placement, weekly_goal, achievements, settings, streak_freeze_dates
-       from english.learning_progress where user_id = $1`,
-    [auth.userId],
-  )
-  const existing = existingRows[0]
-  // KHÔNG tính `hard` (audit 2026-08-12): đánh dấu một từ là "khó" KHÔNG phải hành động học —
-  // nó chỉ là gắn nhãn để lọc ở tab Từ khó, bấm phát một cái là xong, không cần học gì. Tính nó
-  // vào đây nghĩa là bật/tắt 1 từ khó cũng lĩnh trọn +5 lượt AI của ngày mà không học chữ nào.
-  // Ba tín hiệu còn lại đều là học thật: thuộc thêm từ, xong thêm bài ngữ pháp, xong thêm hội thoại.
-  const grewLearning =
-    !existing ||
-    d.learned.length > (existing.learned ?? []).length ||
-    d.cefrGrammar.length > (existing.cefr_grammar ?? []).length ||
-    d.cefrDialogues.length > (existing.cefr_dialogues ?? []).length
-
-  if (grewLearning) {
-    try {
-      await pool.query('select public.grant_daily_bonus_rolling($1, $2, $3, $4)', [
-        auth.userId,
-        vnDateStr(),
-        FREE_WEEKLY_BONUS_PER_DAY,
-        'english',
-      ])
-    } catch (err) {
-      // FAIL-OPEN: lỗi cộng thưởng không được làm vỡ luồng lưu tiến độ chính.
-      console.warn('[progress] cộng thưởng lượt lỗi → bỏ qua:', err)
-    }
-  }
-
   // Hợp nhất với dữ liệu đang có trên server — CHẶN TUYỆT ĐỐI kịch bản mất tiến độ khi dùng
   // nhiều thiết bị/tab (một thiết bị gửi lên dữ liệu CŨ/thiếu trước khi kịp kéo dữ liệu thật
   // về, do mất mạng, 2 tab cùng mở, hoặc 2 thiết bị học song song rồi đồng bộ gần như đồng
@@ -166,28 +179,48 @@ export default async function handler(req: Request): Promise<Response> {
   // không còn tác dụng lâu dài, vì máy khác đồng bộ lại sẽ tự thêm lại mục vừa bỏ (xem
   // _lib/progressMerge.ts). Riêng `hard` (nhãn từ khó, chỉ là lọc hiển thị — không phải tiến
   // độ) VẪN ghi đè theo client như cũ.
-  const merged = {
-    learned: mergeArrayUnion(existing?.learned ?? [], d.learned),
-    hard: d.hard,
-    srs: mergeSrsMap(existing?.srs ?? {}, d.srs),
-    cefrGrammar: mergeArrayUnion(existing?.cefr_grammar ?? [], d.cefrGrammar),
-    cefrDialogues: mergeArrayUnion(existing?.cefr_dialogues ?? [], d.cefrDialogues),
-    cefrUnlocked: mergeArrayUnion(existing?.cefr_unlocked ?? [], d.cefrUnlocked),
-    cefrExams: mergeExamMap(existing?.cefr_exams ?? {}, d.cefrExams),
-    placement: mergeByTimestamp(existing?.placement ?? {}, d.placement, 'lastAt'),
-    weeklyGoal: mergeByTimestamp(existing?.weekly_goal ?? {}, d.weeklyGoal, 'updatedAt'),
-    achievements: mergeArrayUnion(existing?.achievements ?? [], d.achievements),
-    // settings: "lựa chọn hiện tại" (ngôn ngữ giao diện, chiều học, âm thanh, giọng đọc) —
-    // không phải tiến độ "chỉ tăng", nên hợp nhất theo mốc updatedAt MỚI HƠN thắng, giống
-    // placement/weeklyGoal.
-    settings: mergeByTimestamp(existing?.settings ?? {}, d.settings, 'updatedAt'),
-    // streakFreezeDates: vé nghỉ streak ĐÃ DÙNG là sự kiện đã xảy ra — chỉ tăng, union như
-    // learned/achievements (không bao giờ mất vé đã ghi nhận ở máy khác).
-    streakFreezeDates: mergeArrayUnion(existing?.streak_freeze_dates ?? [], d.streakFreezeDates),
-  }
+  const grewLearning = await withTransaction(pool, async (client) => {
+    // Khoá state hiện tại để hai thiết bị không cùng suy completion từ một bản trước merge.
+    const { rows: existingRows } = await client.query<ProgressRow>(
+      `select learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked, cefr_exams,
+              placement, weekly_goal, achievements, settings, streak_freeze_dates
+         from english.learning_progress where user_id = $1 for update`,
+      [auth.userId],
+    )
+    const existing = existingRows[0]
+    const merged = {
+      learned: mergeArrayUnion(existing?.learned ?? [], d.learned),
+      hard: d.hard,
+      srs: mergeSrsMap(existing?.srs ?? {}, d.srs),
+      cefrGrammar: mergeArrayUnion(existing?.cefr_grammar ?? [], d.cefrGrammar),
+      cefrDialogues: mergeArrayUnion(existing?.cefr_dialogues ?? [], d.cefrDialogues),
+      cefrUnlocked: mergeArrayUnion(existing?.cefr_unlocked ?? [], d.cefrUnlocked),
+      cefrExams: mergeExamMap(existing?.cefr_exams ?? {}, d.cefrExams),
+      placement: mergeByTimestamp(existing?.placement ?? {}, d.placement, 'lastAt'),
+      weeklyGoal: mergeByTimestamp(existing?.weekly_goal ?? {}, d.weeklyGoal, 'updatedAt'),
+      achievements: mergeArrayUnion(existing?.achievements ?? [], d.achievements),
+      // settings: "lựa chọn hiện tại" (ngôn ngữ giao diện, chiều học, âm thanh, giọng đọc) —
+      // không phải tiến độ "chỉ tăng", nên hợp nhất theo mốc updatedAt MỚI HƠN thắng, giống
+      // placement/weeklyGoal.
+      settings: mergeByTimestamp(existing?.settings ?? {}, d.settings, 'updatedAt'),
+      // streakFreezeDates: vé nghỉ streak ĐÃ DÙNG là sự kiện đã xảy ra — chỉ tăng, union như
+      // learned/achievements (không bao giờ mất vé đã ghi nhận ở máy khác).
+      streakFreezeDates: mergeArrayUnion(existing?.streak_freeze_dates ?? [], d.streakFreezeDates),
+    }
 
-  await pool.query(
-    `insert into english.learning_progress
+    // KHÔNG tính `hard`: đây chỉ là nhãn lọc. Ba tín hiệu sau là hoạt động học thật.
+    const didGrowLearning =
+      !existing ||
+      d.learned.length > (existing.learned ?? []).length ||
+      d.cefrGrammar.length > (existing.cefr_grammar ?? []).length ||
+      d.cefrDialogues.length > (existing.cefr_dialogues ?? []).length
+    const nowMs = Date.now()
+    const reviewedCardCount = existing
+      ? countCompletedDueVocabularyCards(existing.srs ?? {}, merged.srs, nowMs)
+      : 0
+
+    await client.query(
+      `insert into english.learning_progress
        (user_id, learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked,
         cefr_exams, placement, weekly_goal, achievements, settings, streak_freeze_dates,
         updated_at)
@@ -206,21 +239,47 @@ export default async function handler(req: Request): Promise<Response> {
        settings = excluded.settings,
        streak_freeze_dates = excluded.streak_freeze_dates,
        updated_at = now()`,
-    [
-      auth.userId,
-      JSON.stringify(merged.learned),
-      JSON.stringify(merged.hard),
-      JSON.stringify(merged.srs),
-      JSON.stringify(merged.cefrGrammar),
-      JSON.stringify(merged.cefrDialogues),
-      JSON.stringify(merged.cefrUnlocked),
-      JSON.stringify(merged.cefrExams),
-      JSON.stringify(merged.placement),
-      JSON.stringify(merged.weeklyGoal),
-      JSON.stringify(merged.achievements),
-      JSON.stringify(merged.settings),
-      JSON.stringify(merged.streakFreezeDates),
-    ],
-  )
+      [
+        auth.userId,
+        JSON.stringify(merged.learned),
+        JSON.stringify(merged.hard),
+        JSON.stringify(merged.srs),
+        JSON.stringify(merged.cefrGrammar),
+        JSON.stringify(merged.cefrDialogues),
+        JSON.stringify(merged.cefrUnlocked),
+        JSON.stringify(merged.cefrExams),
+        JSON.stringify(merged.placement),
+        JSON.stringify(merged.weeklyGoal),
+        JSON.stringify(merged.achievements),
+        JSON.stringify(merged.settings),
+        JSON.stringify(merged.streakFreezeDates),
+      ],
+    )
+
+    if (reviewedCardCount > 0) {
+      await client.query(
+        `insert into public.daily_plan_completions
+           (user_id, action_kind, planner_version, source, evidence)
+         values ($1, 'srs_review', $2, 'progress_merge', $3::jsonb)
+         on conflict do nothing`,
+        [auth.userId, DAILY_PLAN_VERSION, JSON.stringify({ reviewedCardCount })],
+      )
+    }
+    return didGrowLearning
+  })
+
+  if (grewLearning) {
+    try {
+      await pool.query('select public.grant_daily_bonus_rolling($1, $2, $3, $4)', [
+        auth.userId,
+        vnDateStr(),
+        FREE_WEEKLY_BONUS_PER_DAY,
+        'english',
+      ])
+    } catch (err) {
+      // FAIL-OPEN: receipt/progress đã commit; lỗi cộng thưởng không làm vỡ luồng học.
+      console.warn('[progress] cộng thưởng lượt lỗi → bỏ qua:', err)
+    }
+  }
   return jsonResponse({ ok: true }, 200, allHeaders)
 }

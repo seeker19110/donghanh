@@ -20,6 +20,7 @@ import { checkRateLimit, validateAuth } from '@dhcb/core-auth/security'
 
 const mockedGetPool = vi.mocked(getPgPool)
 const query = vi.fn()
+const release = vi.fn()
 
 const EMPTY_PROGRESS_ROW = {
   learned: [],
@@ -36,9 +37,13 @@ const EMPTY_PROGRESS_ROW = {
 
 beforeEach(() => {
   query.mockReset()
+  release.mockReset()
   vi.mocked(checkRateLimit).mockResolvedValue(true)
   vi.mocked(validateAuth).mockResolvedValue({ userId: 'u1' })
-  mockedGetPool.mockReturnValue({ query } as unknown as ReturnType<typeof getPgPool>)
+  mockedGetPool.mockReturnValue({
+    query,
+    connect: vi.fn(async () => ({ query, release })),
+  } as unknown as ReturnType<typeof getPgPool>)
 })
 
 function makeRequest(body: unknown): Request {
@@ -338,6 +343,107 @@ describe('POST /api/progress — hợp nhất với dữ liệu đã có trên s
     expect(resp.status).toBe(200)
     const params = insertedParams()
     expect(JSON.parse(params[12] as string)).toEqual(['2026-08-01', '2026-08-05'])
+  })
+})
+
+describe('POST /api/progress — Daily Plan completion do server xác nhận', () => {
+  const now = 2_000_000_000_000
+
+  beforeEach(() => {
+    vi.spyOn(Date, 'now').mockReturnValue(now)
+  })
+
+  function oldState(srs: Record<string, unknown>) {
+    query.mockImplementation(async (sql: string) => {
+      if (sql.includes('select learned, hard, srs'))
+        return { rows: [{ ...EMPTY_PROGRESS_ROW, srs }] }
+      return { rows: [] }
+    })
+  }
+
+  it('thẻ từ vựng đến hạn tăng reps và dời due sang tương lai → tạo một receipt tối giản', async () => {
+    oldState({ apple: { reps: 1, due: now - 1, interval: 1 } })
+    const resp = await handler(
+      makeRequest({ srs: { apple: { reps: 2, due: now + 86_400_000, interval: 2 } } }),
+    )
+
+    expect(resp.status).toBe(200)
+    const receipt = findCall('insert into public.daily_plan_completions')
+    expect(receipt?.[1]).toEqual(['u1', 'p1.1', JSON.stringify({ reviewedCardCount: 1 })])
+    expect(String(receipt?.[0])).not.toContain('card_id')
+    expect(query.mock.calls.map(([sql]) => String(sql))).toEqual(
+      expect.arrayContaining(['begin', 'commit']),
+    )
+    expect(release).toHaveBeenCalledOnce()
+  })
+
+  it.each([
+    ['sync state cũ', { apple: { reps: 1, due: now - 1 } }, { apple: { reps: 1, due: now - 1 } }],
+    ['chỉ đổi hard', { apple: { reps: 1, due: now - 1 } }, { apple: { reps: 1, due: now - 1 } }],
+    [
+      'grammar card',
+      { 'grammar:a1': { reps: 1, due: now - 1 } },
+      { 'grammar:a1': { reps: 2, due: now + 1 } },
+    ],
+    [
+      'thẻ chưa đến hạn',
+      { apple: { reps: 1, due: now + 1 } },
+      { apple: { reps: 2, due: now + 2 } },
+    ],
+    ['reps không tăng', { apple: { reps: 2, due: now - 1 } }, { apple: { reps: 2, due: now + 1 } }],
+    [
+      'due chưa sang tương lai',
+      { apple: { reps: 1, due: now - 2 } },
+      { apple: { reps: 2, due: now - 1 } },
+    ],
+  ])('%s → không tạo receipt', async (_label, before, after) => {
+    oldState(before)
+    await handler(makeRequest({ hard: ['optional'], srs: after }))
+    expect(findCall('insert into public.daily_plan_completions')).toBeFalsy()
+  })
+
+  it('chưa có state trước merge → không coi payload client là completion', async () => {
+    query.mockResolvedValue({ rows: [] })
+    await handler(makeRequest({ srs: { apple: { reps: 2, due: now + 1 } } }))
+    expect(findCall('insert into public.daily_plan_completions')).toBeFalsy()
+  })
+
+  it('nhiều thẻ hợp lệ → một insert receipt với count tổng; unique index xử lý retry trong ngày', async () => {
+    oldState({
+      apple: { reps: 1, due: now - 1 },
+      book: { reps: 3, due: now },
+    })
+    await handler(
+      makeRequest({
+        srs: {
+          apple: { reps: 2, due: now + 1 },
+          book: { reps: 4, due: now + 2 },
+        },
+      }),
+    )
+    const receipts = query.mock.calls.filter(([sql]) =>
+      String(sql).includes('insert into public.daily_plan_completions'),
+    )
+    expect(receipts).toHaveLength(1)
+    expect(receipts[0]?.[1]?.[2]).toBe(JSON.stringify({ reviewedCardCount: 2 }))
+    expect(String(receipts[0]?.[0])).toContain('on conflict do nothing')
+  })
+
+  it('ghi receipt lỗi → rollback cả progress và giải phóng connection', async () => {
+    oldState({ apple: { reps: 1, due: now - 1 } })
+    query.mockImplementation(async (sql: string) => {
+      if (sql.includes('select learned, hard, srs'))
+        return { rows: [{ ...EMPTY_PROGRESS_ROW, srs: { apple: { reps: 1, due: now - 1 } } }] }
+      if (sql.includes('insert into public.daily_plan_completions')) throw new Error('receipt down')
+      return { rows: [] }
+    })
+
+    await expect(
+      handler(makeRequest({ srs: { apple: { reps: 2, due: now + 1 } } })),
+    ).rejects.toThrow('receipt down')
+    expect(query.mock.calls.map(([sql]) => String(sql))).toContain('rollback')
+    expect(query.mock.calls.map(([sql]) => String(sql))).not.toContain('commit')
+    expect(release).toHaveBeenCalledOnce()
   })
 })
 

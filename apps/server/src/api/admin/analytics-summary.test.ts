@@ -104,4 +104,58 @@ describe('GET /api/analytics-summary', () => {
     await handler(makeRequest('?days=abc'))
     expect(query.mock.calls[0]?.[1]).toEqual([14])
   })
+
+  it('completion Daily Plan chỉ đọc receipt server-owned, nhóm ngày VN + action + version', async () => {
+    query.mockResolvedValueOnce({ rows: [] })
+    query.mockResolvedValueOnce({ rows: [] })
+    query.mockResolvedValueOnce({
+      rows: [{ day: '2026-09-08', actionKind: 'srs_review', plannerVersion: 'p1.1', count: 2 }],
+    })
+    query.mockResolvedValueOnce({
+      rows: [
+        {
+          actionKind: 'srs_review',
+          plannerVersion: 'p1.1',
+          impressionCount: 10,
+          clickCount: 5,
+          completionCount: 2,
+        },
+      ],
+    })
+
+    const res = await handler(makeRequest('?days=7'))
+    const body = (await res.json()) as {
+      totalsByEvent: Record<string, number>
+      dailyPlanActions: {
+        actionKind: string
+        completionCount: number | null
+        completionRate: number | null
+      }[]
+    }
+    expect(body.totalsByEvent.daily_plan_completion).toBe(2)
+    expect(body.dailyPlanActions).toEqual([
+      expect.objectContaining({
+        actionKind: 'srs_review',
+        completionCount: 2,
+        completionRate: 0.2,
+      }),
+      expect.objectContaining({
+        actionKind: 'continue_learning',
+        completionCount: null,
+        completionRate: null,
+      }),
+      expect.objectContaining({
+        actionKind: 'discover_path',
+        completionCount: null,
+        completionRate: null,
+      }),
+    ])
+
+    const completionSql = String(query.mock.calls[2]?.[0])
+    expect(completionSql).toContain('public.daily_plan_completions')
+    expect(completionSql).toContain('Asia/Ho_Chi_Minh')
+    expect(completionSql).toContain('action_kind')
+    expect(completionSql).toContain('planner_version')
+    expect(completionSql).not.toContain('analytics_events')
+  })
 })
