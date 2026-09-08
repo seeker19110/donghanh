@@ -5,7 +5,7 @@
 // tuyến" nhấp nháy vĩnh viễn và nhãn HOA nhỏ giãn chữ — đúng bộ "tell" của UI do AI sinh mà
 // mục 9 của `.agents/skills/ui-ux-craftsman` liệt kê. Mấy thứ này rất dễ quay lại theo từng
 // PR nhỏ, nên canh bằng test render thật (happy-dom) ở cả trạng thái đang tải lẫn đã tải.
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { MemoryRouter } from 'react-router-dom'
@@ -16,6 +16,7 @@ vi.mock('../../lib/proactiveBriefingApi', () => ({
   fetchProactiveBriefing: () => fetchBriefing(),
 }))
 vi.mock('../../lib/tts', () => ({ speak: vi.fn() }))
+vi.mock('../../lib/analytics', () => ({ track: vi.fn() }))
 
 // happy-dom không có sẵn cờ này; React 18 cần nó để act() không cảnh báo.
 ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
@@ -45,6 +46,11 @@ describe('HomeAiBriefingCard — thẻ AI tập trung (đợt C)', () => {
     fetchBriefing.mockReset()
   })
 
+  afterEach(async () => {
+    await act(async () => root.unmount())
+    container.remove()
+  })
+
   it('đang tải: chỉ có skeleton, không có chấm nhấp nháy hay quầng sáng', async () => {
     fetchBriefing.mockReturnValue(new Promise(() => {}))
     const el = await render({ userName: 'An' })
@@ -72,7 +78,9 @@ describe('HomeAiBriefingCard — thẻ AI tập trung (đợt C)', () => {
   it('API lỗi: vẫn có câu dự phòng, không vỡ thẻ', async () => {
     fetchBriefing.mockRejectedValue(new Error('down'))
     const el = await render({})
-    expect(el.innerHTML).toContain('Hôm nay bạn đang duy trì chuỗi học tập rất tốt')
-    expect(el.innerHTML).toContain('Khám phá lộ trình CEFR')
+    expect(el.textContent).toContain('Hôm nay hãy bắt đầu bằng việc quan trọng nhất trước')
+    expect(el.textContent).toContain('Chọn bước tiếp theo trong lộ trình')
+    expect(el.innerHTML).not.toContain('animate-pulse')
+    expect(el.textContent).not.toContain('chuỗi học tập rất tốt')
   })
 })
