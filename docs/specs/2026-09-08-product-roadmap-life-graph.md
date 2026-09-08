@@ -27,6 +27,7 @@ Roadmap này quyết định **thứ tự ưu tiên sản phẩm**. `docs/archit
 Một ngày thành công = người dùng hoàn thành ít nhất một activity có bằng chứng kết quả.
 
 Metric phụ:
+
 - activation;
 - D1/D7/D30 return;
 - completion của Daily Plan;
@@ -36,6 +37,7 @@ Metric phụ:
 - tỷ lệ recommendation không cần LLM.
 
 Guardrail:
+
 - không tăng LLM calls chỉ để “cá nhân hóa cho đẹp”;
 - không ghi state derived thiếu provenance;
 - không đưa dữ liệu nhạy cảm sai purpose;
@@ -94,6 +96,7 @@ Trạng thái: **đang triển khai ở PR #879**.
 ### P2.1 — Gap audit cho Daily Plan
 
 Chỉ bổ sung phần thiếu mà P1/P3 thực sự cần, ví dụ:
+
 - evidence links;
 - Goal Graph read model tối ưu;
 - reconciliation/outbox khi source thay đổi.
