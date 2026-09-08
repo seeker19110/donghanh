@@ -1,6 +1,5 @@
 // src/components/admin/AdminAnalyticsPanel.tsx — Tab "Analytics" trong /admin.
-// Đọc GET /api/analytics-summary (chỉ admin) — bảng số tổng theo sự kiện + theo ngày, KHÔNG
-// cần biểu đồ đẹp (xem đặc tả M1.7 gốc), chỉ cần biết kênh nào đang hoạt động.
+// Đọc GET /api/analytics-summary (chỉ admin) — bảng số tổng theo sự kiện + theo ngày.
 import { useCallback, useEffect, useState } from 'react'
 import { BarChart3, Loader2, ShieldAlert, RefreshCw } from 'lucide-react'
 import { getAuthHeader } from '@core/authHeader'
@@ -16,7 +15,6 @@ interface Summary {
   totalsByEvent: Record<string, number>
 }
 
-// Nhãn tiếng Việt cho các event — khớp EVENT_TYPES trong api/analytics.ts, không thêm event lạ.
 const EVENT_LABELS: Record<string, string> = {
   landing_view: 'Xem landing page',
   cta_click: 'Bấm nút bắt đầu',
@@ -24,6 +22,8 @@ const EVENT_LABELS: Record<string, string> = {
   first_session_done: 'Hoàn thành phiên học đầu',
   share_click: 'Chia sẻ kết quả',
   day2_return: 'Quay lại ngày thứ 2',
+  daily_plan_impression: 'Daily Plan được hiển thị',
+  daily_plan_click: 'Bấm gợi ý Daily Plan',
 }
 
 const DAY_OPTIONS = [7, 14, 30, 90]
@@ -38,8 +38,6 @@ export default function AdminAnalyticsPanel() {
   const load = useCallback(async () => {
     try {
       const headers = await getAuthHeader()
-      // Bật spinner SAU await đầu tiên — setState đồng bộ trong effect bị cấm (react-hooks 7);
-      // lúc mount loading đã là true sẵn nên không đổi hành vi.
       setLoading(true)
       setError('')
       const res = await fetch(`/api/analytics-summary?days=${days}`, { headers })
@@ -57,7 +55,6 @@ export default function AdminAnalyticsPanel() {
   }, [days])
 
   useEffect(() => {
-    // Hoãn sang microtask để KHÔNG setState đồng bộ trong thân effect (luật react-hooks 7).
     void Promise.resolve().then(load)
   }, [load])
 
@@ -70,8 +67,6 @@ export default function AdminAnalyticsPanel() {
     )
   }
 
-  // Danh sách event xuất hiện trong dữ liệu, ưu tiên thứ tự trong EVENT_LABELS trước, event lạ
-  // (nếu whitelist server đổi mà UI chưa cập nhật) xếp cuối thay vì bị ẩn mất.
   const knownEvents = Object.keys(EVENT_LABELS)
   const eventKeys = summary
     ? [
@@ -87,7 +82,7 @@ export default function AdminAnalyticsPanel() {
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <BarChart3 className="w-4 h-4 text-accent-400" />
-          <h2 className="text-sm font-semibold text-white">Analytics marketing</h2>
+          <h2 className="text-sm font-semibold text-white">Analytics marketing & sản phẩm</h2>
         </div>
         <div className="flex items-center gap-2">
           <select
@@ -133,15 +128,14 @@ export default function AdminAnalyticsPanel() {
 
       {!loading && !error && summary && eventKeys.length > 0 && (
         <>
-          {/* Tổng theo event */}
           <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4">
             <p className="text-sm font-semibold text-white mb-1">
               Tổng {summary.days} ngày gần đây
             </p>
             <p className="text-xs text-zinc-400 mb-3">
-              Ba bước &quot;Đăng ký&quot; · &quot;Phiên học đầu&quot; · &quot;Quay lại ngày thứ
-              2&quot; tính từ tài khoản tạo trong cửa sổ này (bảng users + daily_usage), không phải
-              sự kiện client gửi lên.
+              Ba bước "Đăng ký" · "Phiên học đầu" · "Quay lại ngày thứ 2" được suy ra server-side.
+              Daily Plan impression/click được client gửi với action kind trong ref_code để đo CTR
+              theo gợi ý.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {eventKeys.map((key) => (
@@ -158,7 +152,6 @@ export default function AdminAnalyticsPanel() {
             </div>
           </section>
 
-          {/* Bảng theo ngày — không vẽ biểu đồ, đủ dùng để thấy xu hướng thô */}
           <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 overflow-x-auto">
             <p className="text-sm font-semibold text-white mb-3">Theo ngày</p>
             <table className="w-full text-xs">

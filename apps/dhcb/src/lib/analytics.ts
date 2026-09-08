@@ -7,7 +7,8 @@ import { getAuthHeader } from '@core/authHeader'
 // Whitelist khớp EVENT_TYPES ở api/platform/analytics.ts — giữ đồng bộ khi thêm event mới.
 // Ba bước phễu signup / first_session_done / day2_return KHÔNG bắn từ client: server tự suy ra
 // từ bảng users + daily_usage (xem api/admin/analytics-summary.ts).
-export type AnalyticsEvent = 'landing_view' | 'cta_click' | 'share_click'
+export type AnalyticsEvent =
+  'landing_view' | 'cta_click' | 'share_click' | 'daily_plan_impression' | 'daily_plan_click'
 
 export interface AnalyticsExtra {
   refCode?: string
