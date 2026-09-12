@@ -29,6 +29,7 @@ const EMPTY_PROGRESS_ROW = {
   cefr_grammar: [],
   cefr_dialogues: [],
   cefr_unlocked: [],
+  cefr_unlocked_grandfathered: [],
   cefr_exams: {},
   placement: {},
   weekly_goal: {},
@@ -96,6 +97,8 @@ describe('GET /api/progress — đọc tiến độ học', () => {
     expect(json).toBeNull()
   })
 
+  // GĐ2a: `cefrUnlocked` KHÔNG còn là cột đọc thẳng — server tính lại mỗi lượt đọc từ gói +
+  // cefr_exams + grandfather, nên response không phản chiếu giá trị rác trong cột nữa.
   it('có dữ liệu tiến độ → trả camelCase response', async () => {
     query.mockResolvedValueOnce({
       rows: [
@@ -106,6 +109,7 @@ describe('GET /api/progress — đọc tiến độ học', () => {
           cefr_grammar: ['g1'],
           cefr_dialogues: ['d1'],
           cefr_unlocked: ['u1'],
+          cefr_unlocked_grandfathered: ['A2'],
           cefr_exams: { e1: { score: 90 } },
           placement: { cefr: 'A2' },
           weekly_goal: { target: 10 },
@@ -126,7 +130,8 @@ describe('GET /api/progress — đọc tiến độ học', () => {
       srs: { apple: { reps: 3 } },
       cefrGrammar: ['g1'],
       cefrDialogues: ['d1'],
-      cefrUnlocked: ['u1'],
+      // 'u1' là giá trị client cũ tự khai — server BỎ QUA; A1 luôn mở, A2 nhờ grandfather.
+      cefrUnlocked: ['A1', 'A2'],
       cefrExams: { e1: { score: 90 } },
       placement: { cefr: 'A2' },
       weeklyGoal: { target: 10 },
@@ -140,11 +145,7 @@ describe('GET /api/progress — đọc tiến độ học', () => {
 describe('POST /api/progress — cộng thưởng lượt khi phát hiện học thật', () => {
   it('learned dài ra so với bản cũ → gọi grant_daily_bonus_rolling', async () => {
     query.mockImplementation(async (sql: string) => {
-      if (
-        sql.includes(
-          'select learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked, cefr_exams',
-        )
-      )
+      if (sql.includes('select learned, hard, srs, cefr_grammar'))
         return { rows: [EMPTY_PROGRESS_ROW] }
       return { rows: [] }
     })
@@ -155,11 +156,7 @@ describe('POST /api/progress — cộng thưởng lượt khi phát hiện học
 
   it('cefrDialogues dài ra → cũng tính là học thật, gọi grant_daily_bonus_rolling', async () => {
     query.mockImplementation(async (sql: string) => {
-      if (
-        sql.includes(
-          'select learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked, cefr_exams',
-        )
-      )
+      if (sql.includes('select learned, hard, srs, cefr_grammar'))
         return { rows: [EMPTY_PROGRESS_ROW] }
       return { rows: [] }
     })
@@ -170,11 +167,7 @@ describe('POST /api/progress — cộng thưởng lượt khi phát hiện học
 
   it('gửi lại ĐÚNG dữ liệu cũ (không mảng nào dài ra) → KHÔNG cộng thưởng', async () => {
     query.mockImplementation(async (sql: string) => {
-      if (
-        sql.includes(
-          'select learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked, cefr_exams',
-        )
-      )
+      if (sql.includes('select learned, hard, srs, cefr_grammar'))
         return { rows: [{ ...EMPTY_PROGRESS_ROW, learned: ['apple'] }] }
       return { rows: [] }
     })
@@ -185,11 +178,7 @@ describe('POST /api/progress — cộng thưởng lượt khi phát hiện học
 
   it('lỗi khi cộng thưởng (DB throw) → vẫn lưu tiến độ thành công (fail-open, không vỡ luồng chính)', async () => {
     query.mockImplementation(async (sql: string) => {
-      if (
-        sql.includes(
-          'select learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked, cefr_exams',
-        )
-      )
+      if (sql.includes('select learned, hard, srs, cefr_grammar'))
         return { rows: [EMPTY_PROGRESS_ROW] }
       if (sql.includes('grant_daily_bonus_rolling')) throw new Error('db down')
       return { rows: [] }
@@ -197,6 +186,93 @@ describe('POST /api/progress — cộng thưởng lượt khi phát hiện học
     const resp = await handler(makeRequest({ learned: ['apple'] }))
     expect(resp.status).toBe(200)
     expect(findCall('insert into english.learning_progress')).toBeTruthy()
+  })
+})
+
+// ── GĐ2a: server là NGUỒN SỰ THẬT của quyền mở cấp CEFR ──────────────────────────────────
+// Đặc tả docs/specs/2026-09-12-gd2-vip-hoc-tu-do-mon-anh.md §④ — tiêu chí 4 (chống giả mạo) là
+// test quan trọng nhất của cả đợt: client POST mảng cefrUnlocked bịa ra phải bị BỎ QUA.
+describe('POST /api/progress — cefrUnlocked do SERVER tính, không nhận từ client', () => {
+  // Dựng mock DB: hàng tiến độ hiện có + gói trả về cho câu đọc public.profiles.
+  function mockDb(options: {
+    plan?: string
+    planExpiresAt?: Date | null
+    exams?: Record<string, unknown>
+    grandfathered?: string[]
+  }) {
+    query.mockImplementation(async (sql: string) => {
+      if (sql.includes('select plan, plan_expires_at'))
+        return {
+          rows: [{ plan: options.plan ?? 'free', plan_expires_at: options.planExpiresAt ?? null }],
+        }
+      if (sql.includes('select learned, hard, srs, cefr_grammar'))
+        return {
+          rows: [
+            {
+              ...EMPTY_PROGRESS_ROW,
+              cefr_exams: options.exams ?? {},
+              cefr_unlocked_grandfathered: options.grandfathered ?? [],
+            },
+          ],
+        }
+      return { rows: [] }
+    })
+  }
+
+  // Tham số $7 của câu insert = cefr_unlocked (xem thứ tự cột trong handler).
+  function savedUnlocked(): string[] {
+    const call = findCall('insert into english.learning_progress')
+    if (!call) throw new Error('không thấy câu insert')
+    return JSON.parse((call[1] as unknown[])[6] as string) as string[]
+  }
+
+  it('TIÊU CHÍ 4 — Free POST cefrUnlocked giả [A1..C2] → server BỎ QUA, chỉ lưu [A1]', async () => {
+    mockDb({ plan: 'free' })
+    const resp = await handler(makeRequest({ cefrUnlocked: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] }))
+    expect(resp.status).toBe(200)
+    expect(savedUnlocked()).toEqual(['A1'])
+    // Response cũng trả đúng danh sách của server, không phải mảng client gửi.
+    expect((await resp.json()).cefrUnlocked).toEqual(['A1'])
+  })
+
+  it('TIÊU CHÍ 1 — VIP chưa thi cấp nào → lưu cả 6 cấp', async () => {
+    mockDb({ plan: 'vip' })
+    await handler(makeRequest({}))
+    expect(savedUnlocked()).toEqual(['A1', 'A2', 'B1', 'B2', 'C1', 'C2'])
+  })
+
+  it('TIÊU CHÍ 3 — Free đã thi đạt A1 → lưu [A1, A2]', async () => {
+    mockDb({ plan: 'free', exams: { A1: { passed: true, bestPct: 85, attempts: 1, lastAt: 'x' } } })
+    await handler(makeRequest({}))
+    expect(savedUnlocked()).toEqual(['A1', 'A2'])
+  })
+
+  it('TIÊU CHÍ 5 — grandfather giữ quyền của user cũ dù chưa thi cấp nào', async () => {
+    mockDb({ plan: 'free', grandfathered: ['A1', 'A2', 'B1'] })
+    await handler(makeRequest({}))
+    expect(savedUnlocked()).toEqual(['A1', 'A2', 'B1'])
+  })
+
+  it('TIÊU CHÍ 6 — VIP HẾT HẠN → chỉ còn cấp thi đạt thật, cấp mở nhờ VIP bị khoá lại', async () => {
+    mockDb({
+      plan: 'vip',
+      planExpiresAt: new Date('2020-01-01T00:00:00Z'), // đã quá hạn
+      exams: { A1: { passed: true } },
+    })
+    await handler(makeRequest({}))
+    expect(savedUnlocked()).toEqual(['A1', 'A2'])
+  })
+
+  it('FAIL-SAFE — đọc plan lỗi → coi như Free (khoá chặt), KHÔNG mở hết', async () => {
+    query.mockImplementation(async (sql: string) => {
+      if (sql.includes('select plan, plan_expires_at')) throw new Error('db down')
+      if (sql.includes('select learned, hard, srs, cefr_grammar'))
+        return { rows: [EMPTY_PROGRESS_ROW] }
+      return { rows: [] }
+    })
+    const resp = await handler(makeRequest({ cefrUnlocked: ['A1', 'C2'] }))
+    expect(resp.status).toBe(200)
+    expect(savedUnlocked()).toEqual(['A1'])
   })
 })
 
@@ -214,11 +290,7 @@ describe('POST /api/progress — hợp nhất với dữ liệu đã có trên s
 
   it('srs: giữ thẻ đã có trên server nếu reps cao hơn bản client gửi lên (client gửi bản CŨ)', async () => {
     query.mockImplementation(async (sql: string) => {
-      if (
-        sql.includes(
-          'select learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked, cefr_exams',
-        )
-      )
+      if (sql.includes('select learned, hard, srs, cefr_grammar'))
         return {
           rows: [
             { ...EMPTY_PROGRESS_ROW, srs: { book: { interval: 5, ease: 2, due: 10, reps: 5 } } },
@@ -239,11 +311,7 @@ describe('POST /api/progress — hợp nhất với dữ liệu đã có trên s
 
   it('placement: giữ bản trên server nếu lastAt mới hơn bản client gửi lên', async () => {
     query.mockImplementation(async (sql: string) => {
-      if (
-        sql.includes(
-          'select learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked, cefr_exams',
-        )
-      )
+      if (sql.includes('select learned, hard, srs, cefr_grammar'))
         return {
           rows: [
             {
@@ -268,11 +336,7 @@ describe('POST /api/progress — hợp nhất với dữ liệu đã có trên s
 
   it('learned HỢP UNION với server (2026-08-13: chỉ tăng, không giảm dù đổi máy/nhiều thiết bị) — client bỏ đánh dấu 1 từ KHÔNG xoá được nó khỏi server nếu server đã từng lưu', async () => {
     query.mockImplementation(async (sql: string) => {
-      if (
-        sql.includes(
-          'select learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked, cefr_exams',
-        )
-      )
+      if (sql.includes('select learned, hard, srs, cefr_grammar'))
         return { rows: [{ ...EMPTY_PROGRESS_ROW, learned: ['apple', 'banana'] }] }
       return { rows: [] }
     })
@@ -286,11 +350,7 @@ describe('POST /api/progress — hợp nhất với dữ liệu đã có trên s
 
   it('hard VẪN ghi đè theo client (chỉ là lọc hiển thị, không phải tiến độ học)', async () => {
     query.mockImplementation(async (sql: string) => {
-      if (
-        sql.includes(
-          'select learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked, cefr_exams',
-        )
-      )
+      if (sql.includes('select learned, hard, srs, cefr_grammar'))
         return { rows: [{ ...EMPTY_PROGRESS_ROW, hard: ['apple', 'banana'] }] }
       return { rows: [] }
     })
@@ -302,11 +362,7 @@ describe('POST /api/progress — hợp nhất với dữ liệu đã có trên s
 
   it('settings: giữ bản có updatedAt MỚI HƠN (không phải tiến độ chỉ tăng, là lựa chọn hiện tại)', async () => {
     query.mockImplementation(async (sql: string) => {
-      if (
-        sql.includes(
-          'select learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked, cefr_exams',
-        )
-      )
+      if (sql.includes('select learned, hard, srs, cefr_grammar'))
         return {
           rows: [
             {
@@ -331,11 +387,7 @@ describe('POST /api/progress — hợp nhất với dữ liệu đã có trên s
 
   it('streakFreezeDates HỢP UNION với server (vé nghỉ đã dùng ở máy khác không bị mất)', async () => {
     query.mockImplementation(async (sql: string) => {
-      if (
-        sql.includes(
-          'select learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked, cefr_exams',
-        )
-      )
+      if (sql.includes('select learned, hard, srs, cefr_grammar'))
         return { rows: [{ ...EMPTY_PROGRESS_ROW, streak_freeze_dates: ['2026-08-01'] }] }
       return { rows: [] }
     })
@@ -466,6 +518,7 @@ describe('Ca biên: cột DB trả NULL và chưa có bản ghi nào', () => {
           cefr_grammar: null,
           cefr_dialogues: null,
           cefr_unlocked: null,
+          cefr_unlocked_grandfathered: null,
           cefr_exams: null,
           placement: null,
           weekly_goal: null,
@@ -486,7 +539,8 @@ describe('Ca biên: cột DB trả NULL và chưa có bản ghi nào', () => {
       srs: {},
       cefrGrammar: [],
       cefrDialogues: [],
-      cefrUnlocked: [],
+      // Cột NULL hết → không có quyền nào được cấp, nhưng A1 luôn mở (sàn của luật mở cấp).
+      cefrUnlocked: ['A1'],
       cefrExams: {},
       placement: {},
       weeklyGoal: {},

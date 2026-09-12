@@ -81,8 +81,8 @@ import {
   circleDoneCount,
   levelVocabCounts,
   levelGrammarCounts,
-  computeLockedMapPersisted,
-  persistUnlockedLevels,
+  computeLockedMapFromServer,
+  computeLockedMap,
   findNextStep,
   isExamEligible,
   UNLOCK_PCT,
@@ -209,15 +209,17 @@ export default function CefrLevelPage() {
     () => new Set(Object.keys(examMap).filter((id) => examMap[id]?.passed)),
     [examMap],
   )
+  // Quyền mở cấp do SERVER cấp (GĐ2a) — client chỉ đọc danh sách server trả về.
   const lockedMap = useMemo(
-    () => computeLockedMapPersisted(uid, levels, examPassed),
+    () => computeLockedMapFromServer(uid, levels, examPassed),
     [uid, levels, examPassed],
   )
 
-  // Ghi nhớ cấp VỪA mở khóa (grandfather) — side effect tách khỏi render, xem cefrProgress.ts.
-  useEffect(() => {
-    persistUnlockedLevels(uid, levels, examPassed)
-  }, [uid, levels, examPassed])
+  // Cấp mà người dùng FREE sẽ thấy ổ khoá — dùng để gắn nhãn "Mở tự do (VIP)" (GĐ2a §① mục 4).
+  const freeRuleLockedMap = useMemo(
+    () => computeLockedMap(levels, examPassed),
+    [levels, examPassed],
+  )
 
   // Số thứ tự "Bài N" liên tục trong cả cấp (ổn định dù có ẩn bài đã xong).
   const lessonNumberOf = useMemo(() => {
@@ -316,6 +318,9 @@ export default function CefrLevelPage() {
 
   const accent: AccentClasses = level ? ACCENT[level.accent] : ACCENT.emerald
   const locked = level ? (lockedMap.get(level.id) ?? false) : false
+  // Cấp này mở ra là NHỜ gói VIP (Free sẽ thấy ổ khoá) — nói rõ quyền lợi đang được hưởng.
+  const unlockedByVip =
+    user.plan === 'vip' && !locked && !!level && (freeRuleLockedMap.get(level.id) ?? false)
 
   // Đánh số bài ngữ pháp liên tục trong cả cấp (Bài 1, Bài 2, …) — cần TRƯỚC các early-return
   // màn con bên dưới vì `masterList` (cột trái desktop, xem `shell`) dùng lại số này.
@@ -788,6 +793,16 @@ export default function CefrLevelPage() {
                 ))}
               </ul>
             </details>
+
+            {/* Nhãn quyền lợi VIP: cấp này người dùng Free sẽ thấy ổ khoá (GĐ2a). */}
+            {unlockedByVip && (
+              <p className="mt-4 flex items-center gap-1.5 text-sm text-accent-300 theme-light:text-accent-800">
+                <Sparkles className="w-4 h-4 shrink-0" aria-hidden="true" />
+                {isA
+                  ? 'Mở tự do (VIP) — bạn vào thẳng cấp này mà không cần thi cấp trước.'
+                  : 'Open access (VIP) — you can jump straight in without passing the previous exam.'}
+              </p>
+            )}
           </div>
 
           {locked ? (

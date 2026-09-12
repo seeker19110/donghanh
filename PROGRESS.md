@@ -165,13 +165,13 @@ lượt/ngày)** miễn phí. **VIP** là gói trả phí duy nhất, đặc quy
 Chia giai đoạn, mỗi giai đoạn MỘT PR, dừng xin duyệt giữa các giai đoạn. **Toàn bộ quyết định
 đã chốt 2026-09-12** — trừ một mục cần xác nhận trước khi bắt đầu (GĐ2b, xem dưới):
 
-| GĐ  | Đặc tả                                                | Quyết định đã chốt                                                                                                                               | Trạng thái                                              |
-| --- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------- |
-| 1   | `docs/specs/2026-09-12-gd1-xoa-goi-pro.md`            | Xoá **cả Pro lẫn Plus**; Free hưởng hạn mức Plus cũ (30/ngày); người đang trả còn hạn → nâng VIP giữ nguyên hạn                                  | ✅ **ĐÃ THI HÀNH** (PR GĐ1, `docs/changelog/0289-*.md`) |
-| 2a  | `docs/specs/2026-09-12-gd2-vip-hoc-tu-do-mon-anh.md`  | Khoá theo **cấp CEFR A1–C2**; chốt chặn **ở SERVER** (không phải chỉ giao diện)                                                                  | ✅ sẵn sàng                                             |
-| 2b  | (chưa viết — khung ở GĐ2 §⑦)                          | Chuyển **chấm thi** về server để bịt nốt lỗ `cefrExams`                                                                                          | ⚠️ **khuyến nghị hoãn** — làm mất khả năng thi offline  |
-| 3   | `docs/specs/2026-09-12-gd3-khoa-bai-mon-lap-trinh.md` | Khoá theo **bậc P1→P6** (dễ→nâng cao); mở bậc sau khi **≥70% bài** bậc trước; **chỉ** xương sống, không khoá hướng chuyên sâu/khoá ngắn/lộ trình | ✅ sẵn sàng                                             |
-| 4   | `docs/specs/2026-09-12-gd4-khoa-bai-4-tru.md`         | **KHÔNG khoá gì ở 4 trụ** — chúng là công cụ, không phải giáo trình                                                                              | ⛔ **ĐÓNG, không thi hành**                             |
+| GĐ  | Đặc tả                                                | Quyết định đã chốt                                                                                                                               | Trạng thái                                               |
+| --- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- |
+| 1   | `docs/specs/2026-09-12-gd1-xoa-goi-pro.md`            | Xoá **cả Pro lẫn Plus**; Free hưởng hạn mức Plus cũ (30/ngày); người đang trả còn hạn → nâng VIP giữ nguyên hạn                                  | ✅ **ĐÃ THI HÀNH** (PR GĐ1, `docs/changelog/0289-*.md`)  |
+| 2a  | `docs/specs/2026-09-12-gd2-vip-hoc-tu-do-mon-anh.md`  | Khoá theo **cấp CEFR A1–C2**; chốt chặn **ở SERVER** (không phải chỉ giao diện)                                                                  | ✅ **ĐÃ THI HÀNH** (PR GĐ2a, `docs/changelog/0290-*.md`) |
+| 2b  | (chưa viết — khung ở GĐ2 §⑦)                          | Chuyển **chấm thi** về server để bịt nốt lỗ `cefrExams`                                                                                          | ⚠️ **khuyến nghị hoãn** — làm mất khả năng thi offline   |
+| 3   | `docs/specs/2026-09-12-gd3-khoa-bai-mon-lap-trinh.md` | Khoá theo **bậc P1→P6** (dễ→nâng cao); mở bậc sau khi **≥70% bài** bậc trước; **chỉ** xương sống, không khoá hướng chuyên sâu/khoá ngắn/lộ trình | ✅ sẵn sàng                                              |
+| 4   | `docs/specs/2026-09-12-gd4-khoa-bai-4-tru.md`         | **KHÔNG khoá gì ở 4 trụ** — chúng là công cụ, không phải giáo trình                                                                              | ⛔ **ĐÓNG, không thi hành**                              |
 
 **Ngưỡng 70% dùng chung** giữa môn Anh (`UNLOCK_PCT`) và môn Lập trình — nếu đổi, đổi ở một nơi.
 
@@ -180,8 +180,12 @@ Chia giai đoạn, mỗi giai đoạn MỘT PR, dừng xin duyệt giữa các g
 1. ~~Hệ thống thực tế có **4 gói** (`free/plus/pro/vip`)~~ — ✅ **ĐÓNG ở GĐ1 (2026-09-12):** nay
    đúng **2 gói** `free` + `vip`; con số 30 đã chuyển thành cấu hình (`app_settings.pro_daily_limit`,
    cột giữ tên cũ, ý nghĩa mới là "hạn mức Free"). `CLAUDE.md` mục 6 đã được sửa cho đúng.
-2. Luật khoá cấp CEFR **và cả việc chấm thi** hiện nằm hoàn toàn ở client; server chỉ lưu hộ và
-   tin thẳng dữ liệu client gửi. Đó là lý do GĐ2 phải tách 2a/2b.
+2. ~~Luật khoá cấp CEFR **và cả việc chấm thi** hiện nằm hoàn toàn ở client~~ — ✅ **ĐÓNG MỘT NỬA
+   ở GĐ2a (2026-09-12):** **quyền mở cấp** nay do server tính (`packages/core-learner/cefrUnlock.ts`
+   - migration `0077` giữ grandfather); `/api/progress` KHÔNG nhận `cefrUnlocked` từ client nữa, nên
+     sửa localStorage hay POST thẳng mảng giả không vượt được. **Còn lại:** `cefr_exams` vẫn do client
+     ghi (chấm thi ở trình duyệt) — bịa kết quả thi vẫn mở được cấp sau. Đó là **GĐ2b**, đang khuyến
+     nghị hoãn vì nó làm mất khả năng thi offline.
 
 ⚠️ Việc này **mâu thuẫn với quyết định đóng băng phạm vi 2026-09-06** (ưu tiên 1: đo bằng chứng
 người học thật trước). Đã nêu với chủ dự án; chủ dự án vẫn chọn làm. Ghi lại để sau này biết vì
