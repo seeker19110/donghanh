@@ -4,8 +4,9 @@
 // học. Cột mốc có đường nối tô dần nên tiến độ đọc được bằng mắt, không cần đọc số.
 //
 // Vòng tiến độ vẽ bằng SVG viết tay — luật §1.3: không thêm thư viện nào cho phần nhìn.
-import { ChevronRight, Languages, Clock, Check } from 'lucide-react'
+import { ChevronRight, Languages, Clock, Check, Lock } from 'lucide-react'
 import type { ProgrammingLevel } from '@dhcb/subject-programming/curriculum'
+import type { LevelLockInfo } from '../../lib/programmingLevelLock'
 
 interface Props {
   levels: readonly ProgrammingLevel[]
@@ -14,6 +15,13 @@ interface Props {
   onOpen: (level: ProgrammingLevel) => void
   /** Bậc chứa bài học tiếp — được đánh dấu "bạn đang ở đây". */
   currentLevelId?: string | undefined
+  /**
+   * Trạng thái khoá của bậc (GĐ3 — Free học tuần tự, VIP học tự do). Không truyền → không bậc
+   * nào bị khoá, đúng như trước khi có luật này.
+   */
+  lockOf?: (levelId: string) => LevelLockInfo | undefined
+  /** Câu giải thích hiện dưới ổ khoá ("còn N bài ở P1 nữa là mở"). */
+  lockHint?: (info: LevelLockInfo) => string
 }
 
 /** Vòng tròn tiến độ nhỏ. `size` cố định 40px cho khớp cột mốc. */
@@ -64,13 +72,23 @@ function ProgressRing({ done, total }: { done: number; total: number }) {
   )
 }
 
-export default function LevelMilestones({ levels, progressOf, onOpen, currentLevelId }: Props) {
+export default function LevelMilestones({
+  levels,
+  progressOf,
+  onOpen,
+  currentLevelId,
+  lockOf,
+  lockHint,
+}: Props) {
   return (
     <ol className="space-y-2">
       {levels.map((level, i) => {
         const { done, total } = progressOf(level.id)
         const xong = total > 0 && done === total
         const dangO = level.id === currentLevelId
+        const khoa = lockOf?.(level.id)
+        const biKhoa = khoa?.locked === true
+        const giaiThich = biKhoa && khoa && lockHint ? lockHint(khoa) : ''
         return (
           <li key={level.id} className="relative">
             {/* Đường nối xuống bậc kế — tô đậm khi bậc này đã xong. */}
@@ -84,11 +102,18 @@ export default function LevelMilestones({ levels, progressOf, onOpen, currentLev
             )}
             <button
               onClick={() => onOpen(level)}
-              aria-label={`Bậc ${level.id.toUpperCase()} ${level.name} — đã xong ${done} trên ${total} bài`}
+              disabled={biKhoa}
+              aria-label={
+                biKhoa
+                  ? `Bậc ${level.id.toUpperCase()} ${level.name} — đang khoá. ${giaiThich}`
+                  : `Bậc ${level.id.toUpperCase()} ${level.name} — đã xong ${done} trên ${total} bài`
+              }
               className={`tap-44 w-full text-left rounded-3xl p-4 transition flex items-start gap-3 active:scale-[0.99] border ${
-                dangO
-                  ? 'bg-zinc-900 border-accent-500/50'
-                  : 'bg-zinc-900/80 border-zinc-800 hover:border-zinc-700'
+                biKhoa
+                  ? 'bg-zinc-900/50 border-zinc-800 cursor-not-allowed'
+                  : dangO
+                    ? 'bg-zinc-900 border-accent-500/50'
+                    : 'bg-zinc-900/80 border-zinc-800 hover:border-zinc-700'
               }`}
             >
               <ProgressRing done={done} total={total} />
@@ -103,6 +128,11 @@ export default function LevelMilestones({ levels, progressOf, onOpen, currentLev
                       bạn đang ở đây
                     </span>
                   )}
+                  {biKhoa && (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-zinc-950 border border-zinc-700 text-[11px] font-semibold text-zinc-300">
+                      <Lock className="w-3 h-3" aria-hidden="true" /> đang khoá
+                    </span>
+                  )}
                   {xong && (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-[11px] font-semibold text-emerald-300 theme-light:text-emerald-800">
                       <Check className="w-3 h-3" aria-hidden="true" /> xong
@@ -110,6 +140,8 @@ export default function LevelMilestones({ levels, progressOf, onOpen, currentLev
                   )}
                 </p>
                 <p className="text-xs text-zinc-400 leading-relaxed">{level.canDo}</p>
+                {/* Ổ khoá CÂM là thứ làm người học bỏ đi — luôn nói rõ còn thiếu bao nhiêu. */}
+                {giaiThich && <p className="text-xs text-zinc-100 leading-relaxed">{giaiThich}</p>}
                 <div className="flex items-center gap-3 flex-wrap text-[11px] text-zinc-500">
                   <span className="inline-flex items-center gap-1">
                     <Languages className="w-3.5 h-3.5" aria-hidden="true" />{' '}

@@ -67,6 +67,14 @@ describe('ProgrammingSpecializationPage — lối vào bài học', () => {
     expect(html).not.toContain(NHAN_VAO_HOC)
   })
 
+  // GĐ3 (docs/specs/2026-09-12-gd3-khoa-bai-mon-lap-trinh.md §④.5): luật khoá tuần tự CHỈ áp
+  // cho xương sống P1→P6. Hướng chuyên sâu là nội dung song song — khoá ở đây là vô nghĩa.
+  it('người học chưa hoàn thành bài nào vẫn vào được hướng chuyên sâu (không khoá lây)', () => {
+    const html = render('web')
+    expect(html).toContain(NHAN_VAO_HOC)
+    expect(html).not.toContain('chưa mở')
+  })
+
   it('mã hướng lạ: nói không biết, không đoán bừa một hướng', () => {
     const html = render('khong-co-huong-nay')
     expect(html).toContain('Không có hướng này')

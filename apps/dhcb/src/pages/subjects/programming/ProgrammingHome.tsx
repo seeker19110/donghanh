@@ -36,10 +36,13 @@ import {
   countCompletedByLevel,
 } from '../../../lib/programmingNextLesson'
 import { PROGRAMMING_LEVELS } from '@dhcb/subject-programming/curriculum'
+import { UNLOCK_PCT } from '@dhcb/subject-programming/levelLock'
 import { PROJECT_STAGES } from '@dhcb/subject-programming/projectSteps'
 import { PROGRAMMING_SPECIALIZATIONS } from '@dhcb/subject-programming/specializations/registry'
 import { SHORT_COURSES } from '@dhcb/subject-programming/courses/registry'
 import { LEARNING_PATHS } from '@dhcb/subject-programming/learningPaths/registry'
+import { levelLockMap, seedGrandfather, loiGiaiThichKhoa } from '../../../lib/programmingLevelLock'
+import { effectivePlan } from '../../../lib/promo'
 import { goToSubjects } from '../../../lib/subjectsHost'
 import { buildSlugSegment } from '@core/slug'
 import { duongDanBac, duongDanKhoa, duongDanLoTrinh } from '../../../lib/programmingRoutes'
@@ -60,6 +63,9 @@ export default function ProgrammingHome() {
   useEffect(() => {
     if (!user) return
     void fetchProgress(user.id).then((p) => {
+      // Chống hồi tố: người đã học ở bậc nào từ TRƯỚC khi có luật khoá thì giữ nguyên quyền
+      // vào bậc đó (đặc tả §①.3). Phải chạy sau khi tiến độ về, trước khi tính bản đồ khoá.
+      seedGrandfather(user.id, p)
       setProgress(p)
       setFetched(true)
     })
@@ -68,6 +74,11 @@ export default function ProgrammingHome() {
   const next = pickNextLesson(progress)
   const { done, total } = countCompleted(progress)
   const xongMon = loaded && next === null
+
+  // Khoá bậc (GĐ3): Free đi tuần tự P1→P6, VIP vào bậc nào cũng được. Tính ở client CHỈ để
+  // hiển thị — tiến độ thật vẫn do server giữ, và nội dung bài học không phải bí mật.
+  const plan = user ? effectivePlan(user.plan) : 'free'
+  const lockMap = levelLockMap(user?.id, progress, plan)
 
   // Chặng dự án đang ở = chặng của bậc chứa bài học tiếp; xong môn thì là chặng cuối.
   const changDangO =
@@ -294,7 +305,15 @@ export default function ProgrammingHome() {
             progressOf={(levelId) => countCompletedByLevel(progress, levelId)}
             onOpen={(level) => nav(duongDanBac(level))}
             currentLevelId={next?.levelId}
+            lockOf={(levelId) => lockMap.get(levelId)}
+            lockHint={loiGiaiThichKhoa}
           />
+          {plan === 'free' && (
+            <p className="text-xs text-zinc-400 leading-relaxed">
+              Bậc sau mở khi bạn hoàn thành ít nhất {Math.round(UNLOCK_PCT * 100)}% số bài của bậc
+              trước. VIP vào bậc nào cũng được.
+            </p>
+          )}
         </section>
 
         {/* ⑥ Sau xương sống là gì — trả lời câu "học xong môn này rồi sao nữa?" ngay tại đây,

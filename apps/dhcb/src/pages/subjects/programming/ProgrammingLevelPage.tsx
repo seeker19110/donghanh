@@ -14,6 +14,13 @@ import {
   isLessonCompleted,
   type ProgrammingLessonProgress,
 } from '../../../lib/programmingProgress'
+import {
+  levelLockMap,
+  seedGrandfather,
+  markLevelEntered,
+  loiGiaiThichKhoa,
+} from '../../../lib/programmingLevelLock'
+import { effectivePlan } from '../../../lib/promo'
 import { getProgrammingLevel, nhomUnitTheoTrack } from '@dhcb/subject-programming/curriculum'
 import { getUnitSummaries } from '@dhcb/subject-programming/lessonsLoader'
 import { buildSlugSegment, idFromSlugSegment } from '@core/slug'
@@ -48,10 +55,29 @@ export default function ProgrammingLevelPage() {
     : (level?.units ?? []).map((u) => `unit-${u.id}`)
   const activeUnit = useActiveSection(idMucLuc)
 
+  const [fetched, setFetched] = useState(false)
+
   useEffect(() => {
     if (!user) return
-    void fetchProgress(user.id).then(setProgress)
+    void fetchProgress(user.id).then((p) => {
+      // Chống hồi tố (đặc tả §①.3) — xem lib/programmingLevelLock.ts.
+      seedGrandfather(user.id, p)
+      setProgress(p)
+      setFetched(true)
+    })
   }, [user])
+
+  // Khoá bậc (GĐ3): Free học tuần tự, VIP học tự do. Không bọc useMemo — React Compiler đã ghi
+  // nhớ hộ, còn useMemo tay ở đây bị nó từ chối tối ưu cả component (lint react-hooks).
+  const plan = user ? effectivePlan(user.plan) : 'free'
+  const lockInfo = level ? levelLockMap(user?.id, progress, plan).get(level.id) : undefined
+  const biKhoa = lockInfo?.locked === true
+
+  // Đã vào được bậc này thì ghi nhớ — luật khoá có siết sau này cũng không lấy lại quyền đã có.
+  useEffect(() => {
+    if (!user || !level || !fetched || biKhoa) return
+    markLevelEntered(user.id, level.id)
+  }, [user, level, fetched, biKhoa])
 
   // Id bậc lạ → về trang tổng quan môn, không render trang rỗng.
   if (!level) return <Navigate to="/lap-trinh" replace />
@@ -154,6 +180,28 @@ export default function ProgrammingLevelPage() {
               subtitle={level.canDo}
             />
 
+            {/* Bậc đang khoá (Free học tuần tự — GĐ3). Đề cương vẫn hiện để người học biết mình
+            đang tiến tới cái gì; chỉ nút "Học bài" là chưa mở. */}
+            {biKhoa && lockInfo && (
+              <section className="rounded-3xl border border-amber-500/40 bg-amber-500/10 p-5 space-y-2">
+                <h2 className="text-base font-bold text-white flex items-center gap-2">
+                  <Lock className="w-5 h-5 text-amber-300 theme-light:text-amber-900" />
+                  <span>Bậc này chưa mở</span>
+                </h2>
+                <p className="text-sm text-zinc-100 leading-relaxed">
+                  {loiGiaiThichKhoa(lockInfo)} Học theo thứ tự giúp bạn không hổng nền — hoặc nâng
+                  VIP để vào bậc nào cũng được.
+                </p>
+                <button
+                  onClick={() => nav('/lap-trinh')}
+                  className="tap-44 inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition"
+                >
+                  <Play className="w-4 h-4" />
+                  <span>Quay lại học tiếp</span>
+                </button>
+              </section>
+            )}
+
             {/* P6 soạn TRƯỚC mốc "P1–P5 chạy thật với người học" nên dễ phải sửa hơn — nói ra vì
             đây là cảnh báo có hệ quả thực tế cho người đang học, không phải tự bôi xấu. */}
             {level.id === 'p6' && (
@@ -250,28 +298,29 @@ export default function ProgrammingLevelPage() {
                             </span>
                           </p>
                         )}
-                        {lessons.map((lesson) => (
-                          <div key={lesson.id} className="space-y-1.5">
-                            {/* Ngôn ngữ hiện TRƯỚC khi bấm (PR-UX1) — học viên biết sắp viết gì. */}
-                            <LangBadge language={lesson.language} />
-                            <button
-                              onClick={() =>
-                                nav(
-                                  `/lap-trinh/bai-hoc/${buildSlugSegment(lesson.id, lesson.title)}`,
-                                )
-                              }
-                              className="tap-44 w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition active:scale-[0.98]"
-                            >
-                              <span className="flex items-center gap-2 min-w-0">
-                                <Play className="w-4 h-4 shrink-0" />
-                                <span className="truncate">Học bài: {lesson.title}</span>
-                              </span>
-                              {isLessonCompleted(progress, lesson.id) && (
-                                <CheckCircle2 className="w-4 h-4 shrink-0" />
-                              )}
-                            </button>
-                          </div>
-                        ))}
+                        {!biKhoa &&
+                          lessons.map((lesson) => (
+                            <div key={lesson.id} className="space-y-1.5">
+                              {/* Ngôn ngữ hiện TRƯỚC khi bấm (PR-UX1) — học viên biết sắp viết gì. */}
+                              <LangBadge language={lesson.language} />
+                              <button
+                                onClick={() =>
+                                  nav(
+                                    `/lap-trinh/bai-hoc/${buildSlugSegment(lesson.id, lesson.title)}`,
+                                  )
+                                }
+                                className="tap-44 w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition active:scale-[0.98]"
+                              >
+                                <span className="flex items-center gap-2 min-w-0">
+                                  <Play className="w-4 h-4 shrink-0" />
+                                  <span className="truncate">Học bài: {lesson.title}</span>
+                                </span>
+                                {isLessonCompleted(progress, lesson.id) && (
+                                  <CheckCircle2 className="w-4 h-4 shrink-0" />
+                                )}
+                              </button>
+                            </div>
+                          ))}
                       </div>
                     )
                   })}
