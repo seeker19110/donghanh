@@ -132,6 +132,15 @@ jobs:
       - name: Chất lượng nội dung bài học (audit:lessons)
         run: npm run audit:lessons -- --ci
 
+      # Cảnh báo PROGRESS.md lỗi thời (TRAPS.md mục 2) — chỉ đối chiếu khi push thẳng main:
+      # lúc PR còn mở, nhánh feature vẫn tồn tại là bình thường, kiểm lúc đó báo oan. Cần
+      # fetch-depth đủ để `git ls-remote` thấy remote thật (actions/checkout mặc định đã fetch
+      # origin nên không cần cấu hình thêm). Ở dạng CẢNH BÁO, không chặn merge — xem
+      # docs/specs/2026-09-12-traps-va-kiem-progress-loi-thoi.md.
+      - name: PROGRESS.md lỗi thời (cảnh báo)
+        if: github.event_name == 'push'
+        run: bash scripts/check-progress-freshness.sh
+
   # ── Job TỔNG HỢP: đây là required status check `quality` ───────────────────
   quality:
     name: quality
