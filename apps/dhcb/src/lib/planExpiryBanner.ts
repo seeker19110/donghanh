@@ -1,5 +1,5 @@
 // lib/planExpiryBanner.ts — Logic THUẦN (không đụng DOM/localStorage) cho
-// PlanExpiryBanner: quyết định có nên hiện banner "còn X ngày dùng gói Pro/VIP" hay không.
+// PlanExpiryBanner: quyết định có nên hiện banner "còn X ngày dùng gói VIP" hay không.
 // Cùng khuôn mẫu promoEndingBanner.ts (tách hàm thuần khỏi component để test ca biên ngày
 // tháng — điểm dễ sai nhất của loại banner này).
 import { vnDateStr, MS_DAY } from './date'

@@ -152,7 +152,7 @@ export default function EmailVerifySection({
       toast.success(
         r.trialGranted
           ? isA
-            ? `Đã xác thực email! Tặng bạn ${days} ngày dùng thử gói Pro 🎁`
+            ? `Đã xác thực email! Tặng bạn ${days} ngày dùng thử gói VIP 🎁`
             : `Email verified! Enjoy ${days} days of Pro on us 🎁`
           : isA
             ? 'Đã xác thực email!'
@@ -174,7 +174,7 @@ export default function EmailVerifySection({
       </div>
       <p className="text-xs text-amber-200/80 theme-light:text-amber-800 mb-1">
         {isA
-          ? 'Xác thực email để nhận 14 ngày dùng thử gói Pro (tặng 1 lần) và mở khoá thưởng mời bạn. Bạn vẫn học bình thường nếu chưa xác thực.'
+          ? 'Xác thực email để nhận 14 ngày dùng thử gói VIP (tặng 1 lần) và mở khoá thưởng mời bạn. Bạn vẫn học bình thường nếu chưa xác thực.'
           : 'Verify your email for a one-time 14-day Pro trial and to unlock invite rewards. You can keep learning without it.'}
       </p>
       <p className="text-xs text-amber-200/60 theme-light:text-amber-900 mb-3 break-all">

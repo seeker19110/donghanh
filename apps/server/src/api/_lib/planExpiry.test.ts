@@ -24,12 +24,12 @@ describe('downgradeExpiredPlans', () => {
     expect(await downgradeExpiredPlans()).toEqual({ downgraded: 0 })
   })
 
-  it('câu lệnh SQL chỉ nhắm đúng pro/vip đã hết hạn, đưa về free', async () => {
+  it('câu lệnh SQL chỉ nhắm đúng vip đã hết hạn, đưa về free', async () => {
     const pool = mockPool(1)
     mockedGetPool.mockReturnValue(pool)
     await downgradeExpiredPlans()
     const sql = vi.mocked(pool.query).mock.calls[0]?.[0] as string
-    expect(sql).toMatch(/plan in \('plus', 'pro', 'vip'\)/)
+    expect(sql).toMatch(/plan in \('vip'\)/)
     expect(sql).toMatch(/plan_expires_at < now\(\)/)
     expect(sql).toMatch(/set plan = 'free', plan_expires_at = null/)
   })

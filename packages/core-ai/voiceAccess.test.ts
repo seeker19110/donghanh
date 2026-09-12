@@ -26,18 +26,21 @@ describe('clampVoiceToPlan', () => {
     expect(await clampVoiceToPlan('Umbriel', 'free')).toBe('Puck') // nam → nam
   })
 
-  it('pro được 8 giọng cụ thể — giọng nằm ngoài (vd Umbriel) vẫn bị hạ về mặc định', async () => {
-    mockedEffectivePlan.mockResolvedValue('pro')
-    expect(await clampVoiceToPlan('Zephyr', 'pro')).toBe('Zephyr')
-    expect(await clampVoiceToPlan('Umbriel', 'pro')).toBe('Puck')
+  // GĐ1 2026-09-12: gói Pro bị xoá; bộ 8 giọng seed sẵn của nó nay là mức KHUYẾN MÃI của Free
+  // (PROMO_FREE_VOICES) — effectivePlan trả 'vip' khi khuyến mãi bật, nhưng quyền giọng KHÔNG
+  // nâng lên VIP để tránh mở giọng Studio/ElevenLabs đắt tiền cho toàn bộ người dùng Free.
+  it('free trong lúc khuyến mãi: 8 giọng seed sẵn — giọng ngoài (Umbriel) vẫn bị hạ', async () => {
+    mockedEffectivePlan.mockResolvedValue('vip')
+    expect(await clampVoiceToPlan('Zephyr', 'free')).toBe('Zephyr')
+    expect(await clampVoiceToPlan('Umbriel', 'free')).toBe('Puck')
   })
 
   // Giọng Gemini (đọc truyện) chưa mở khoá → ưu tiên giọng Chirp3-HD CÙNG TÊN trước khi rơi
   // về mặc định, để giữ đúng "chất giọng" nhân vật của thể loại truyện.
   it('giọng Gemini ngoài quyền → hạ về giọng Chirp3-HD cùng tên nếu được phép', async () => {
-    mockedEffectivePlan.mockResolvedValue('pro')
-    // Pro có Gemini → giữ nguyên
-    expect(await clampVoiceToPlan('Gemini-Leda', 'pro')).toBe('Gemini-Leda')
+    mockedEffectivePlan.mockResolvedValue('vip')
+    // Free trong lúc khuyến mãi có Gemini → giữ nguyên
+    expect(await clampVoiceToPlan('Gemini-Leda', 'free')).toBe('Gemini-Leda')
     mockedEffectivePlan.mockResolvedValue('free')
     // Free không có Gemini lẫn Leda → giọng mặc định cùng giới tính (nữ)
     expect(await clampVoiceToPlan('Gemini-Leda', 'free')).toBe('Kore')
@@ -51,16 +54,12 @@ describe('clampVoiceToPlan', () => {
     expect(await clampVoiceToPlan('Iapetus', 'vip')).toBe('Iapetus')
   })
 
-  it('khuyến mãi đang bật (effectivePlan trả vip dù plan gốc là free) → được dùng đủ 14 giọng', async () => {
-    mockedEffectivePlan.mockResolvedValue('vip')
-    expect(await clampVoiceToPlan('Umbriel', 'free')).toBe('Umbriel')
-  })
-
-  it('giọng ElevenLabs (Rachel) chỉ VIP mới dùng được — free/pro bị hạ về DEFAULT_VOICE', async () => {
+  it('giọng ElevenLabs (Rachel) chỉ VIP THẬT mới dùng được — Free bị hạ về DEFAULT_VOICE', async () => {
     mockedEffectivePlan.mockResolvedValue('free')
     expect(await clampVoiceToPlan('Rachel', 'free')).toBe('Kore')
-    mockedEffectivePlan.mockResolvedValue('pro')
-    expect(await clampVoiceToPlan('Rachel', 'pro')).toBe('Kore')
+    // Kể cả khi khuyến mãi nâng hạn mức Free lên VIP, giọng đắt tiền vẫn KHÔNG mở.
+    mockedEffectivePlan.mockResolvedValue('vip')
+    expect(await clampVoiceToPlan('Rachel', 'free')).toBe('Kore')
   })
 
   it('vip được dùng giọng ElevenLabs (Rachel), không bị hạ', async () => {
@@ -69,13 +68,13 @@ describe('clampVoiceToPlan', () => {
   })
 
   // Quyết định 2026-07-27: Studio đắt gấp 12 lần Chirp3-HD ($24 vs $2 mỗi triệu ký tự, và
-  // KHÔNG có hạn mức miễn phí) → rút khỏi Pro, chỉ còn VIP.
-  it('giọng Studio CHỈ VIP — free và pro bị hạ về mặc định cùng giới tính', async () => {
+  // KHÔNG có hạn mức miễn phí) → chỉ VIP THẬT, kể cả trong lúc khuyến mãi.
+  it('giọng Studio CHỈ VIP — Free bị hạ về mặc định cùng giới tính, cả khi khuyến mãi bật', async () => {
     mockedEffectivePlan.mockResolvedValue('free')
     expect(await clampVoiceToPlan('Studio-O', 'free')).toBe('Kore')
-    mockedEffectivePlan.mockResolvedValue('pro')
-    expect(await clampVoiceToPlan('Studio-O', 'pro')).toBe('Kore')
-    expect(await clampVoiceToPlan('Studio-Q', 'pro')).toBe('Puck') // Studio-Q là giọng NAM
+    mockedEffectivePlan.mockResolvedValue('vip')
+    expect(await clampVoiceToPlan('Studio-O', 'free')).toBe('Kore')
+    expect(await clampVoiceToPlan('Studio-Q', 'free')).toBe('Puck') // Studio-Q là giọng NAM
   })
 
   it('vip dùng được giọng Studio, không bị hạ', async () => {

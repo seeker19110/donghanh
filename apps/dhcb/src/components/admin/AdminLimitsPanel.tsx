@@ -1,7 +1,7 @@
 // src/components/admin/AdminLimitsPanel.tsx — Nội dung tab "Hạn mức & khuyến mãi" trong /admin-s.
 // Tab này trong /admin-s là nơi duy nhất chứa logic/API /api/admin-settings.
 //
-// Quyết định 2026-07-27: hạn mức Pro/VIP đổi từ "5 số riêng theo chế độ (chat/writing/
+// Quyết định 2026-07-27: hạn mức đổi từ "5 số riêng theo chế độ (chat/writing/
 // speaking/stt/pronounce)" sang MỘT số TỔNG lượt/ngày mỗi gói — không còn chia lẻ. Free
 // KHÔNG hiện ở đây: từ trước Free đã enforce qua kho lượt chung cửa sổ trượt 7 ngày (xem
 // api/_lib/usage.ts), không đọc app_settings, nên không có gì để chỉnh ở màn này.
@@ -12,14 +12,14 @@ import { getAuthHeader } from '@core/authHeader'
 import { Button } from '@core/Button'
 
 interface AppSettings {
-  limits: { pro: number; vip: number }
+  limits: { free: number; vip: number }
   promoUntil: string | null
   aiCircuitBreaker: boolean
   leaderboardEnabled: boolean
 }
 
-const PLANS: { key: 'pro' | 'vip'; label: string }[] = [
-  { key: 'pro', label: 'Pro' },
+const PLANS: { key: 'free' | 'vip'; label: string }[] = [
+  { key: 'free', label: 'Free' },
   { key: 'vip', label: 'VIP' },
 ]
 
@@ -69,7 +69,7 @@ export default function AdminLimitsPanel({ onForbiddenChange }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  function updateLimit(plan: 'pro' | 'vip', value: number) {
+  function updateLimit(plan: 'free' | 'vip', value: number) {
     setSettings((prev) => (prev ? { ...prev, limits: { ...prev.limits, [plan]: value } } : prev))
   }
 
@@ -191,8 +191,9 @@ export default function AdminLimitsPanel({ onForbiddenChange }: Props) {
             <p className="text-sm font-semibold text-white mb-1">Hạn mức lượt AI/ngày</p>
             <p className="text-xs text-zinc-400 mb-3">
               Một con số TỔNG cho mọi tính năng AI cộng lại (Chat + Luyện viết + Luyện nói + STT +
-              Chấm phát âm) — không còn chia riêng từng chế độ. Gói Free dùng kho lượt riêng (tối đa
-              35, +5/ngày học thật, tính theo 7 ngày gần nhất), không chỉnh được ở đây.
+              Chấm phát âm) — không còn chia riêng từng chế độ. Từ 2026-09-12 chỉ còn 2 gói: Free
+              (miễn phí, mặc định 30 lượt/ngày) và VIP. Đổi ở đây có hiệu lực ngay, không cần
+              deploy.
             </p>
             <div className="grid grid-cols-1 gap-2.5">
               {PLANS.map(({ key: plan, label }) => (

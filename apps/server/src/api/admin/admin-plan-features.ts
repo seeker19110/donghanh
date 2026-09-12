@@ -5,7 +5,7 @@
 // GET    /api/admin-plan-features                        (danh mục + ma trận hiện tại)
 // POST   /api/admin-plan-features  body: { featureKey, plan, enabled }   (bật/tắt 1 ô)
 // PUT    /api/admin-plan-features  body: { key, label, description? }   (thêm tính năng mới,
-//                                                                         mặc định bật cả 3 gói)
+//                                                                         mặc định bật cả 2 gói)
 // DELETE /api/admin-plan-features  body: { key }                        (xoá hẳn tính năng)
 
 import { z } from 'zod'
@@ -26,7 +26,7 @@ import { jsonResponse, getClientIp } from '@dhcb/core-http/http'
 
 const ToggleSchema = z.object({
   featureKey: z.string().trim().min(1).max(100),
-  plan: z.enum(['free', 'plus', 'pro', 'vip']),
+  plan: z.enum(['free', 'vip']),
   enabled: z.boolean(),
 })
 
@@ -120,7 +120,7 @@ export default async function handler(req: Request): Promise<Response> {
       }
       await client.query(
         `insert into public.plan_feature_flags (feature_key, plan, enabled)
-         select $1, p.plan, true from (values ('free'), ('plus'), ('pro'), ('vip')) as p(plan)`,
+         select $1, p.plan, true from (values ('free'), ('vip')) as p(plan)`,
         [key],
       )
       return { ok: true as const }

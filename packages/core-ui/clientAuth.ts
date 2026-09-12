@@ -3,7 +3,9 @@
 
 import { setStoredToken, clearStoredToken, getAuthHeader } from './authHeader.js'
 
-export type Plan = 'free' | 'plus' | 'pro' | 'vip'
+// GĐ1 2026-09-12 (docs/specs/2026-09-12-gd1-xoa-goi-pro.md): chỉ còn Free + VIP.
+// PHẢI khớp packages/core-billing/plan.ts (server là nguồn sự thật) và apps/dhcb/src/types.ts.
+export type Plan = 'free' | 'vip'
 
 export interface AppUser {
   id: string

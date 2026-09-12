@@ -90,7 +90,7 @@ interface Stats {
     daily: { day: string; count: number; vnd: number }[]
     marginVnd: number
   }
-  freeCredit: { cap: number; users: number; total: number; exhausted: number; capped: number }
+  freeCredit: { cap: number; users: number; total: number; exhausted: number }
   topUsers: {
     email: string
     plan: string
@@ -281,8 +281,8 @@ export default function AdminUsagePanel() {
                 hint={`${stats.users.returningInRange} người học ≥ 2 ngày`}
               />
             </div>
-            <div className="grid grid-cols-3 gap-2.5 mt-2.5">
-              {(['free', 'pro', 'vip'] as const).map((plan) => (
+            <div className="grid grid-cols-2 gap-2.5 mt-2.5">
+              {(['free', 'vip'] as const).map((plan) => (
                 <Tile
                   key={plan}
                   label={`Gói ${plan.toUpperCase()}`}
@@ -519,19 +519,19 @@ export default function AdminUsagePanel() {
             )}
           </Card>
 
-          {/* ── Sức khoẻ hạn mức gói Free ──────────────────────────────── */}
+          {/* ── Sức khoẻ hạn mức NGÀY của gói Free (GĐ1 2026-09-12) ────── */}
           <Card
-            title="Kho lượt cửa sổ trượt 7 ngày của gói Free"
+            title="Hạn mức ngày của gói Free"
             icon={Wallet}
-            note={`Trần tự nhiên ${stats.freeCredit.cap} lượt/cửa sổ 7 ngày (không reset theo tuần lịch). Nhiều người CẠN kho = hạn mức đang quá chặt (mất người dùng); nhiều người ĐẦY kho = tặng dư, có thể giảm để tiết kiệm.`}
+            note={`Hạn mức hiện tại ${stats.freeCredit.cap} lượt/ngày (chỉnh ở tab "Hạn mức"). Nhiều người-ngày CHẠM TRẦN = hạn mức đang quá chặt (mất người dùng); còn dư nhiều = có thể giảm để tiết kiệm chi phí AI.`}
           >
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
               <Tile
-                label="Có kho hiện tại"
+                label="Người-ngày có dùng AI"
                 value={stats.freeCredit.users.toLocaleString('vi-VN')}
               />
               <Tile
-                label="Cạn kho (0 lượt)"
+                label="Chạm trần hạn mức"
                 value={stats.freeCredit.exhausted.toLocaleString('vi-VN')}
                 hint={
                   stats.freeCredit.users > 0
@@ -540,11 +540,7 @@ export default function AdminUsagePanel() {
                 }
               />
               <Tile
-                label="Đầy trần (dùng không hết)"
-                value={stats.freeCredit.capped.toLocaleString('vi-VN')}
-              />
-              <Tile
-                label="Lượt còn lại (tổng)"
+                label="Lượt còn dư (tổng)"
                 value={stats.freeCredit.total.toLocaleString('vi-VN')}
               />
             </div>

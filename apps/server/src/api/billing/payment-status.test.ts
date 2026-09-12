@@ -76,7 +76,7 @@ describe('/api/payment-status', () => {
       rows: [
         {
           status: 'paid',
-          plan: 'pro',
+          plan: 'vip',
           cycle: 'month',
           amount_vnd: 40_000,
           expires_at: new Date('2026-07-27T12:00:00Z'),
@@ -85,6 +85,6 @@ describe('/api/payment-status', () => {
     })
     const resp = await handler(makeRequest('ENVI7K2M9QRT'))
     expect(resp.status).toBe(200)
-    expect(await resp.json()).toMatchObject({ status: 'paid', plan: 'pro', amountVnd: 40_000 })
+    expect(await resp.json()).toMatchObject({ status: 'paid', plan: 'vip', amountVnd: 40_000 })
   })
 })

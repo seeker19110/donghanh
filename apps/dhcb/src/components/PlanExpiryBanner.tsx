@@ -1,4 +1,4 @@
-// components/PlanExpiryBanner.tsx — Banner "còn X ngày dùng gói Pro/VIP" khi hạn sắp tới
+// components/PlanExpiryBanner.tsx — Banner "còn X ngày dùng gói VIP" khi hạn sắp tới
 // (trial 14 ngày cấp tự động lúc đăng ký, hoặc gói trả phí sắp hết hạn — cùng cột
 // profiles.plan_expires_at nên banner này dùng chung cho cả 2 trường hợp, xem
 // api/_lib/trial.ts + api/_lib/authService.ts ensureProfileRow()).
@@ -49,7 +49,8 @@ export default function PlanExpiryBanner() {
   }
 
   const daysLeft = daysUntilPlanExpires(planExpiresAt as string, new Date())
-  const planLabel = user.plan === 'vip' ? 'VIP' : user.plan === 'plus' ? 'Plus' : 'Pro'
+  // GĐ1 2026-09-12: chỉ còn VIP là gói có hạn — banner chỉ hiện cho gói đó.
+  const planLabel = 'VIP'
 
   const handleDismiss = () => {
     writeDismissedToday()

@@ -1,8 +1,14 @@
 // api/usage-summary.ts — Cho CLIENT (user đã đăng nhập, không cần admin) đọc "còn bao nhiêu
-// lượt AI" để hiển thị UI đúng — riêng gói Free giờ dùng kho lượt CHUNG theo cửa sổ TRƯỢT 7
-// ngày liền kề (xem postgres/migrations/0017_free_rolling_credit.sql + api/_lib/usage.ts),
-// không còn tính theo NGÀY/theo TỪNG MODE như Pro/VIP, nên client không tự suy ra được từ dữ
-// liệu local nữa — phải hỏi server.
+// lượt AI" để hiển thị UI đúng.
+//
+// GĐ1 2026-09-12 (docs/specs/2026-09-12-gd1-xoa-goi-pro.md): gói Free bỏ kho lượt cửa sổ trượt
+// 7 ngày, chuyển sang hạn mức TỔNG/ngày y như VIP (chỉ khác con số, đọc từ app_settings). Vì
+// hạn mức là TỔNG mọi mode cộng lại — không suy ra được từ dữ liệu local per-mode của client —
+// nên client vẫn phải hỏi server.
+//
+// HỢP ĐỒNG TRẢ VỀ giữ nguyên tên field cũ (`freeWeeklyCredit`/`freeWeeklyCap`) để không phải
+// sửa đồng loạt client + cache localStorage đã phát hành; Ý NGHĨA nay là "còn bao nhiêu lượt
+// HÔM NAY" / "hạn mức lượt mỗi ngày".
 //
 // GET /api/usage-summary  (cần đăng nhập — cookie)
 
@@ -15,12 +21,8 @@ import {
   logSecurityEvent,
 } from '@dhcb/core-auth/security'
 import { jsonResponse, getClientIp } from '@dhcb/core-http/http'
-import {
-  lookupPlan,
-  FREE_WEEKLY_CAP,
-  FREE_ROLLING_WINDOW_DAYS,
-  DEFAULT_SUBJECT,
-} from '@dhcb/core-billing/usage'
+import { lookupPlan, DEFAULT_SUBJECT, AI_USAGE_COLUMNS } from '@dhcb/core-billing/usage'
+import { getAppSettings } from '@dhcb/core-db/settings'
 import { vnDateStr } from '@dhcb/core-db/date'
 
 export default async function handler(req: Request): Promise<Response> {
@@ -39,40 +41,28 @@ export default async function handler(req: Request): Promise<Response> {
 
   try {
     const plan = await lookupPlan(auth.userId)
-
-    if (plan !== 'free') {
-      // Pro/VIP: UI vẫn hiển thị theo daily_usage + limits như trước (đã đúng, không đổi).
-      return jsonResponse(
-        { plan, freeWeeklyCredit: null, freeWeeklyCap: FREE_WEEKLY_CAP },
-        200,
-        allHeaders,
-      )
-    }
+    const { limits } = await getAppSettings()
+    const cap = limits[plan]
 
     const pool = getPgPool()
     const today = vnDateStr()
-    // Cửa sổ trượt: tổng bonus_earned trừ credits_spent trong FREE_ROLLING_WINDOW_DAYS ngày
-    // gần nhất (kể cả hôm nay) — PHẢI cùng công thức với consume_rolling_credit (migration
-    // 0017), chỉ khác là KHÔNG khoá dòng (chỉ đọc để hiển thị, không tiêu lượt ở đây).
-    const { rows } = await pool.query<{ available: string | null }>(
-      `select coalesce(sum(bonus_earned), 0) - coalesce(sum(credits_spent), 0) as available
-       from public.free_daily_credit
-       where user_id = $1 and subject = $4
-         and day > $2::date - $3::int and day <= $2::date`,
-      [auth.userId, today, FREE_ROLLING_WINDOW_DAYS, DEFAULT_SUBJECT],
+    // Đã dùng bao nhiêu lượt HÔM NAY — PHẢI cùng công thức với hàm SQL consume_usage_total
+    // (cộng tay từng cột mode của đúng ngày + đúng môn), chỉ khác là chỉ đọc, không tiêu lượt.
+    const { rows } = await pool.query<{ used: string | null }>(
+      `select ${AI_USAGE_COLUMNS.join(' + ')} as used
+         from public.daily_usage
+        where user_id = $1 and day = $2::date and subject = $3`,
+      [auth.userId, today, DEFAULT_SUBJECT],
     )
-    const rawAvailable = Number(rows[0]?.available ?? 0)
-    // Kẹp về [0, cap] — sum có thể âm nhất thời trong ca hiếm (đọc giữa lúc ghi), và không
-    // bao giờ vượt cap thật (không có cơ chế dồn bù) nhưng kẹp cho chắc, tránh hiện số âm/quá lớn.
-    const freeWeeklyCredit = Math.max(0, Math.min(rawAvailable, FREE_WEEKLY_CAP))
+    const used = Number(rows[0]?.used ?? 0)
+    // Kẹp về [0, cap] — admin có thể hạ hạn mức xuống dưới số đã dùng, không được hiện số âm.
+    const remaining = Math.max(0, Math.min(cap - used, cap))
 
-    return jsonResponse({ plan, freeWeeklyCredit, freeWeeklyCap: FREE_WEEKLY_CAP }, 200, allHeaders)
+    return jsonResponse({ plan, freeWeeklyCredit: remaining, freeWeeklyCap: cap }, 200, allHeaders)
   } catch (err) {
-    console.warn('[usage-summary] lỗi đọc kho lượt → fail-open (coi như 0):', err)
-    return jsonResponse(
-      { plan: 'free', freeWeeklyCredit: 0, freeWeeklyCap: FREE_WEEKLY_CAP },
-      200,
-      allHeaders,
-    )
+    console.warn('[usage-summary] lỗi đọc lượt đã dùng → fail-open (ẩn số, không chặn):', err)
+    // Lỗi hạ tầng: KHÔNG bịa con số. `null` = client tự hiểu là chưa biết và không hiện thanh
+    // tiến trình sai — việc chặn thật vẫn do server quyết ở checkAndConsumeUsage().
+    return jsonResponse({ plan: 'free', freeWeeklyCredit: null, freeWeeklyCap: 0 }, 200, allHeaders)
   }
 }

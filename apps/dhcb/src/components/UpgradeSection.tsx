@@ -1,4 +1,4 @@
-// src/components/UpgradeSection.tsx — Khối "Nâng cấp Pro/VIP".
+// src/components/UpgradeSection.tsx — Khối "Nâng cấp VIP".
 // Bản đầy đủ (`variant="full"`) nằm ở trang riêng /nang-cap (pages/core/Pricing.tsx);
 // trang Hồ sơ chỉ nhúng bản rút gọn (`variant="compact"`) dẫn sang đó.
 //
@@ -23,6 +23,7 @@ import { useToast } from '@core/ToastProvider'
 import { Skeleton } from './Skeleton'
 import LoadError from './LoadError'
 import { getPlanMarketing } from '../lib/planMarketing'
+import type { Plan } from '../types'
 
 const CYCLE_LABEL: Record<PayableCycle, { vi: string; en: string }> = {
   '10day': { vi: '10 ngày', en: '10 days' },
@@ -36,7 +37,7 @@ const CYCLE_LABEL: Record<PayableCycle, { vi: string; en: string }> = {
 // quyền giọng THẬT tại thời điểm viết (api/_lib/usage.ts, src/lib/voiceTiers.ts) — chỉ dùng khi
 // admin chưa từng sửa gì trong DB.
 const PLAN_INFO: Record<
-  'free' | 'plus' | 'pro' | 'vip',
+  Plan,
   {
     badge: string
     title: { vi: string; en: string }
@@ -47,40 +48,14 @@ const PLAN_INFO: Record<
   free: {
     badge: '🌱',
     title: { vi: 'Free', en: 'Free' },
-    tagline: { vi: 'Học cơ bản miễn phí', en: 'Basic free learning' },
+    tagline: { vi: 'Học đầy đủ, miễn phí', en: 'Full learning, free' },
     bullets: [
       { vi: '12.168 từ vựng tra cứu & SRS flashcard', en: '12,168 dictionary words & SRS' },
       {
-        vi: 'Tặng +5 lượt AI/ngày khi học từ mới (Chat/Viết/Nói/Nghe), tích luỹ tối đa 35 lượt trong 7 ngày',
-        en: '+5 AI turns/day when you study new words (Chat/Writing/Speaking/Listening), rolling cap of 35 over 7 days',
+        vi: '30 lượt AI/ngày (Chat · Viết · Nói · Nghe) — không cần trả phí',
+        en: '30 AI turns/day (Chat · Writing · Speaking · Listening) — no payment needed',
       },
       { vi: 'Đầy đủ lộ trình CEFR A1–C2', en: 'Full A1–C2 CEFR roadmap' },
-    ],
-  },
-  plus: {
-    badge: '✨',
-    title: { vi: 'Plus', en: 'Plus' },
-    tagline: { vi: 'Tiết kiệm & Học đều', en: 'Affordable daily study' },
-    bullets: [
-      { vi: '30 lượt AI/ngày, mở toàn bộ giáo trình', en: '30 AI turns/day, full curriculum' },
-      { vi: 'Kho bài tập & Phòng Lab STEM nâng cao', en: 'Advanced STEM Problem Bank & Lab' },
-      { vi: '15 lượt phân tích phát âm GOP/ngày', en: '15 GOP pronunciation analyses/day' },
-    ],
-  },
-  pro: {
-    badge: '⭐',
-    title: { vi: 'Pro', en: 'Pro' },
-    tagline: { vi: 'Học đều & Luyện thi', en: 'For daily practice & exams' },
-    bullets: [
-      {
-        vi: '100 lượt AI/ngày + Đấu trường 1v1 PvP không giới hạn',
-        en: '100 AI turns/day + Unlimited 1v1 PvP',
-      },
-      { vi: 'Chấm bài viết luận IELTS/Toulmin Band 9', en: 'IELTS/Toulmin Essay grading Band 9' },
-      {
-        vi: '8 giọng đọc chất lượng cao, phát tức thì',
-        en: '8 high-quality voices, instant playback',
-      },
     ],
   },
   vip: {
@@ -109,7 +84,7 @@ function PlanFeatureCard({
   isA,
   isCurrent,
 }: {
-  planKey: 'free' | 'plus' | 'pro' | 'vip'
+  planKey: Plan
   isA: boolean
   isCurrent: boolean
 }) {
@@ -184,7 +159,8 @@ export default function UpgradeSection({
   // hỏng hay đang tải. Nay tách rõ hai trạng thái tải / lỗi (có nút thử lại).
   const [pricesLoading, setPricesLoading] = useState(true)
   const [pricesError, setPricesError] = useState(false)
-  const [plan, setPlan] = useState<PayablePlan>('pro')
+  // GĐ1 2026-09-12: VIP là gói trả phí duy nhất — không còn nút chọn gói, chỉ chọn chu kỳ.
+  const plan: PayablePlan = 'vip'
   const [cycle, setCycle] = useState<PayableCycle>('month')
   // Số năm mua liền một lần — CHỈ có ý nghĩa khi cycle === 'year' (giảm giá luỹ tiến theo số
   // năm, xem multiYearDiscountPercent ở api/_lib/prices.ts). Reset về 1 khi đổi sang chu kỳ khác.
@@ -237,13 +213,13 @@ export default function UpgradeSection({
         <div className="flex items-center gap-2 mb-1.5">
           <Crown className="w-4 h-4 text-amber-400 theme-light:text-amber-900" />
           <h2 className="text-sm font-semibold text-white">
-            {isA ? 'Nâng cấp Pro/VIP' : 'Upgrade to Pro/VIP'}
+            {isA ? 'Nâng cấp VIP' : 'Upgrade to VIP'}
           </h2>
         </div>
         <p className="text-xs text-zinc-300 mb-3">
           {isA
-            ? 'So sánh đầy đủ Free · Plus · Pro · VIP và chọn chu kỳ 10 ngày / tháng / năm ở trang bảng giá.'
-            : 'Compare Free · Plus · Pro · VIP and pick a 10-day / monthly / yearly cycle on the pricing page.'}
+            ? 'So sánh đầy đủ Free · VIP và chọn chu kỳ 10 ngày / tháng / năm ở trang bảng giá.'
+            : 'Compare Free · VIP and pick a 10-day / monthly / yearly cycle on the pricing page.'}
         </p>
         <Link
           to="/nang-cap"
@@ -324,7 +300,7 @@ export default function UpgradeSection({
       <div className="flex items-center gap-2 mb-3">
         <Crown className="w-4 h-4 text-amber-400 theme-light:text-amber-900" />
         <h2 className="text-sm font-semibold text-white">
-          {isA ? 'Nâng cấp Pro/VIP' : 'Upgrade to Pro/VIP'}
+          {isA ? 'Nâng cấp VIP' : 'Upgrade to VIP'}
         </h2>
       </div>
 
@@ -402,26 +378,11 @@ export default function UpgradeSection({
         </div>
       ) : (
         <div>
-          {/* Desktop rộng → 4 gói xếp cạnh nhau để SO SÁNH được (audit 2026-08-31 mục B9). */}
-          <div className="grid grid-cols-1 gap-2 mb-4 sm:grid-cols-2 lg:grid-cols-4">
-            {(['free', 'plus', 'pro', 'vip'] as const).map((p) => (
+          {/* GĐ1 2026-09-12: còn 2 gói (Free · VIP) nên bảng so sánh chỉ 2 cột, và không còn
+              hàng nút chọn gói — chỉ chọn chu kỳ thanh toán của VIP. */}
+          <div className="grid grid-cols-1 gap-2 mb-4 sm:grid-cols-2">
+            {(['free', 'vip'] as const).map((p) => (
               <PlanFeatureCard key={p} planKey={p} isA={isA} isCurrent={currentPlan === p} />
-            ))}
-          </div>
-          <div className="flex gap-2 mb-3">
-            {(['plus', 'pro', 'vip'] as const).map((p) => (
-              <button
-                key={p}
-                type="button"
-                onClick={() => setPlan(p)}
-                className={`flex-1 py-2 rounded-xl text-sm font-semibold border ${
-                  plan === p
-                    ? 'bg-amber-500/15 text-amber-300 theme-light:text-amber-800 border-amber-500/40'
-                    : 'bg-zinc-800/60 text-zinc-400 border-zinc-700'
-                }`}
-              >
-                {p === 'plus' ? 'Plus' : p === 'pro' ? 'Pro' : 'VIP'}
-              </button>
             ))}
           </div>
           {pricesLoading && (

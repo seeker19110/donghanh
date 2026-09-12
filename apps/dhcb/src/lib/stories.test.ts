@@ -78,8 +78,8 @@ describe('getStoryVoice — hạ giọng theo gói', () => {
     expect(getStoryVoice('fairy-tale')).toBe('Gemini-Leda')
   })
 
-  it('gói pro/vip có giọng Gemini → giữ nguyên', () => {
-    expect(getStoryVoice('fairy-tale', 'pro')).toBe('Gemini-Leda')
+  it('gói vip có giọng Gemini → giữ nguyên', () => {
+    expect(getStoryVoice('fairy-tale', 'vip')).toBe('Gemini-Leda')
     expect(getStoryVoice('myth', 'vip')).toBe('Gemini-Orus')
   })
 

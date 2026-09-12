@@ -1,4 +1,6 @@
-export type Plan = 'free' | 'plus' | 'pro' | 'vip'
+// GĐ1 2026-09-12 (docs/specs/2026-09-12-gd1-xoa-goi-pro.md): chỉ còn Free + VIP.
+// PHẢI khớp packages/core-billing/plan.ts (server là nguồn sự thật).
+export type Plan = 'free' | 'vip'
 export type Level = 'beginner' | 'intermediate' | 'advanced'
 // A = Người Việt học tiếng Anh | B = Người nước ngoài học tiếng Việt (qua tiếng Anh)
 export type Direction = 'A' | 'B'
@@ -64,7 +66,7 @@ export interface User {
   // Email đã xác thực chưa — chỉ có ở /api/auth?action=me (đăng nhập/đăng ký chưa trả về).
   // undefined = chưa biết, KHÔNG suy ra là "chưa xác thực" để tránh nhắc nhầm người đã xác thực.
   emailVerified?: boolean
-  // Hạn gói Pro/VIP hiện tại (ISO string) — null/undefined = gói vĩnh viễn hoặc đang Free.
+  // Hạn gói VIP hiện tại (ISO string) — null/undefined = gói vĩnh viễn hoặc đang Free.
   // Dùng cho banner "còn X ngày dùng thử" (xem src/lib/planExpiry.ts).
   planExpiresAt?: string | null
   // Chỉ để UI ẩn/hiện link "/admin-s" — server tự kiểm lại quyền thật mỗi lần gọi API admin
@@ -150,19 +152,16 @@ export interface DailyUsage {
   learnCount?: number
 }
 
-// Giới hạn theo gói (quyết định người dùng chốt 2026-07-21): Free 5 lượt/tính năng/ngày,
-// Pro 100 lượt/tính năng/ngày, VIP không giới hạn (dùng số rất lớn thay Infinity).
-// Trong thời gian khuyến mãi ra mắt (xem src/lib/promo.ts), effectivePlan() nâng mỗi gói
-// ĐÚNG 1 BẬC khi tính hạn mức hiển thị: free → pro, pro → vip, vip giữ nguyên.
-// PHẢI khớp với api/_lib/usage.ts (LIMITS) để client/server đồng nhất.
+// Giới hạn theo gói HIỂN THỊ ở client (server vẫn là nơi chặn thật — packages/core-billing/
+// usage.ts). GĐ1 2026-09-12: Free hưởng thẳng hạn mức Plus cũ = 30 lượt/ngày (server tính là
+// TỔNG mọi tính năng/ngày, con số đọc từ app_settings), VIP không giới hạn (số rất lớn thay
+// Infinity). Trong lúc khuyến mãi ra mắt (src/lib/promo.ts), effectivePlan() nâng Free → VIP.
 const UNLIMITED = 1_000_000
 export const LIMITS: Record<
   Plan,
   { chat: number; writing: number; speaking: number; stt: number; pronounce: number }
 > = {
-  free: { chat: 5, writing: 5, speaking: 5, stt: 5, pronounce: 5 },
-  plus: { chat: 30, writing: 30, speaking: 30, stt: 30, pronounce: 15 },
-  pro: { chat: 100, writing: 100, speaking: 100, stt: 100, pronounce: 100 },
+  free: { chat: 30, writing: 30, speaking: 30, stt: 30, pronounce: 30 },
   vip: {
     chat: UNLIMITED,
     writing: UNLIMITED,

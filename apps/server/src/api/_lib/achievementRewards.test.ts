@@ -31,7 +31,7 @@ const mockedGetPool = vi.mocked(getPgPool)
 const query = vi.fn()
 
 const REWARD_ROWS = [
-  { achievement_id: 'streak_7', enabled: true, reward_plan: 'pro', reward_days: 1 },
+  { achievement_id: 'streak_7', enabled: true, reward_plan: 'vip', reward_days: 1 },
 ]
 
 function setupQueryImplementation(overrides: {
@@ -95,7 +95,7 @@ describe('getAchievementsStatus', () => {
     const items = await getAchievementsStatus('u1')
     const streak7 = items.find((i) => i.id === 'streak_7')
     expect(streak7?.earned).toBe(true)
-    expect(streak7?.reward).toEqual({ enabled: true, rewardPlan: 'pro', rewardDays: 1 })
+    expect(streak7?.reward).toEqual({ enabled: true, rewardPlan: 'vip', rewardDays: 1 })
   })
 
   it('huy hiệu chưa có cấu hình admin → mặc định tắt, 0 ngày', async () => {
@@ -103,7 +103,7 @@ describe('getAchievementsStatus', () => {
     setupQueryImplementation({ rewardRows: [] })
     const items = await getAchievementsStatus('u1')
     const vocab100 = items.find((i) => i.id === 'vocab_100')
-    expect(vocab100?.reward).toEqual({ enabled: false, rewardPlan: 'pro', rewardDays: 0 })
+    expect(vocab100?.reward).toEqual({ enabled: false, rewardPlan: 'vip', rewardDays: 0 })
   })
 
   it('trả đủ 19 huy hiệu, đúng huy hiệu đã claimed', async () => {
@@ -165,8 +165,8 @@ describe('claimAchievementReward', () => {
     streakMock.mockResolvedValue(7)
     setupQueryImplementation({})
     const r = await claimAchievementReward('u1', 'streak_7')
-    expect(r).toEqual({ ok: true, rewardDays: 1, rewardPlan: 'pro' })
-    expect(granted.calls).toEqual([{ userId: 'u1', plan: 'pro', days: 1 }])
+    expect(r).toEqual({ ok: true, rewardDays: 1, rewardPlan: 'vip' })
+    expect(granted.calls).toEqual([{ userId: 'u1', plan: 'vip', days: 1 }])
   })
 
   it('đã nhận thưởng huy hiệu này rồi (insert conflict) → ok:false, KHÔNG cấp thêm', async () => {
@@ -195,7 +195,7 @@ describe('getAllRewardConfigs / upsertRewardConfig (admin)', () => {
     expect(rows).toHaveLength(ACHIEVEMENT_IDS.length)
     expect(rows.find((r) => r.achievementId === 'streak_7')?.config).toEqual({
       enabled: true,
-      rewardPlan: 'pro',
+      rewardPlan: 'vip',
       rewardDays: 1,
     })
   })
@@ -281,6 +281,6 @@ describe('Ca biên: cache cấu hình thưởng và dữ liệu DB thiếu/NULL'
     setupQueryImplementation({ rewardRows: [] })
     const configs = await getAllRewardConfigs()
     expect(configs).toHaveLength(ACHIEVEMENT_IDS.length)
-    expect(configs[0]?.config).toEqual({ enabled: false, rewardPlan: 'pro', rewardDays: 0 })
+    expect(configs[0]?.config).toEqual({ enabled: false, rewardPlan: 'vip', rewardDays: 0 })
   })
 })

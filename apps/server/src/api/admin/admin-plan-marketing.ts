@@ -23,7 +23,7 @@ import { getPlanMarketing, invalidatePlanMarketingCache } from '@dhcb/core-billi
 import { readJsonBody, validateBody } from '@dhcb/core-http/validation'
 import { jsonResponse, getClientIp } from '@dhcb/core-http/http'
 
-const PlanEnum = z.enum(['free', 'pro', 'vip'])
+const PlanEnum = z.enum(['free', 'vip'])
 
 const UpdateInfoSchema = z.object({
   plan: PlanEnum,

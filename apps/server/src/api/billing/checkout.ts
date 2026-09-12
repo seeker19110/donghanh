@@ -1,8 +1,8 @@
-// api/checkout.ts — Tạo đơn thanh toán Pro/VIP qua SePay. KHÔNG gọi API ngoài nào: SePay không
+// api/checkout.ts — Tạo đơn thanh toán VIP qua SePay. KHÔNG gọi API ngoài nào: SePay không
 // phải cổng trung gian nên không có bước "tạo link thanh toán" — ta tự sinh mã, tự dựng URL QR,
 // người dùng chuyển khoản, SePay bắn webhook (api/payment-webhook.ts) khi tiền về.
 //
-// POST /api/checkout  body { plan: 'pro'|'vip', cycle: '10day'|'month'|'year', years?: number }
+// POST /api/checkout  body { plan: 'vip', cycle: '10day'|'month'|'year', years?: number }
 // `years` (1-5, mặc định 1) CHỈ có ý nghĩa với cycle='year' — mua nhiều năm liền một lần,
 // giảm giá luỹ tiến (xem multiYearDiscountPercent ở _lib/prices.ts).
 // Trả { paymentCode, amountVnd, qrUrl, bankAccount, bankName, expiresAt, plan, cycle, years }
@@ -29,7 +29,8 @@ import { readJsonBody, validateBody } from '@dhcb/core-http/validation'
 import { jsonResponse, getClientIp } from '@dhcb/core-http/http'
 
 const CheckoutSchema = z.object({
-  plan: z.enum(['plus', 'pro', 'vip']),
+  // GĐ1 2026-09-12: chỉ còn VIP bán được — 'plus'/'pro' cũ bị Zod từ chối (400).
+  plan: z.enum(['vip']),
   cycle: z.enum(['10day', 'month', 'year']),
   years: z.number().int().min(1).max(MAX_PROMO_YEARS).optional(),
 })

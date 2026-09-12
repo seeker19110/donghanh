@@ -29,7 +29,7 @@ export default async function handler(req: Request): Promise<Response> {
   if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: allHeaders })
 
   const clientIp = getClientIp(req)
-  // Giới hạn chặt — đây cũng là chỗ CẤP THƯỞNG THẬT (ngày Pro/VIP), giống api/quests.ts.
+  // Giới hạn chặt — đây cũng là chỗ CẤP THƯỞNG THẬT (ngày VIP), giống api/quests.ts.
   if (!(await checkRateLimit(clientIp, 20, 'achievements'))) {
     logSecurityEvent('RATE_LIMIT_EXCEEDED', clientIp, { path: '/api/achievements' })
     return jsonResponse({ error: 'Quá nhiều yêu cầu — thử lại sau 1 phút' }, 429, allHeaders)

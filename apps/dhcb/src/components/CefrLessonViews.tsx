@@ -1208,7 +1208,7 @@ export function DialogueView({
 
           <div className="h-3.5 w-px bg-zinc-700" />
 
-          {/* Đóng vai — chỉ Pro/VIP. Free thấy nút khoá + link nâng cấp. */}
+          {/* Đóng vai — chỉ VIP. Free thấy nút khoá + link nâng cấp. */}
           {!rolePlay && (
             <div className="relative">
               <button
@@ -1265,14 +1265,14 @@ export function DialogueView({
                     <>
                       <p className="text-xs text-zinc-300 mb-2">
                         {isA
-                          ? 'Đóng vai đọc hội thoại + AI chấm điểm là tính năng dành cho gói Pro/VIP.'
-                          : 'Dialogue role-play + AI grading is a Pro/VIP feature.'}
+                          ? 'Đóng vai đọc hội thoại + AI chấm điểm là tính năng dành cho gói VIP.'
+                          : 'Dialogue role-play + AI grading is a VIP feature.'}
                       </p>
                       <Link
                         to="/cai-dat"
                         className="inline-flex items-center gap-1 text-xs font-semibold text-accent-400 theme-light:text-accent-700 hover:underline"
                       >
-                        {isA ? 'Nâng cấp Pro/VIP →' : 'Upgrade to Pro/VIP →'}
+                        {isA ? 'Nâng cấp VIP →' : 'Upgrade to VIP →'}
                       </Link>
                     </>
                   )}

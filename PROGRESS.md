@@ -165,20 +165,21 @@ lượt/ngày)** miễn phí. **VIP** là gói trả phí duy nhất, đặc quy
 Chia giai đoạn, mỗi giai đoạn MỘT PR, dừng xin duyệt giữa các giai đoạn. **Toàn bộ quyết định
 đã chốt 2026-09-12** — trừ một mục cần xác nhận trước khi bắt đầu (GĐ2b, xem dưới):
 
-| GĐ  | Đặc tả                                                | Quyết định đã chốt                                                                                                                               | Trạng thái                                             |
-| --- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------ |
-| 1   | `docs/specs/2026-09-12-gd1-xoa-goi-pro.md`            | Xoá **cả Pro lẫn Plus**; Free hưởng hạn mức Plus cũ (30/ngày); người đang trả còn hạn → nâng VIP giữ nguyên hạn                                  | ✅ **làm trước tiên**                                  |
-| 2a  | `docs/specs/2026-09-12-gd2-vip-hoc-tu-do-mon-anh.md`  | Khoá theo **cấp CEFR A1–C2**; chốt chặn **ở SERVER** (không phải chỉ giao diện)                                                                  | ✅ sẵn sàng                                            |
-| 2b  | (chưa viết — khung ở GĐ2 §⑦)                          | Chuyển **chấm thi** về server để bịt nốt lỗ `cefrExams`                                                                                          | ⚠️ **khuyến nghị hoãn** — làm mất khả năng thi offline |
-| 3   | `docs/specs/2026-09-12-gd3-khoa-bai-mon-lap-trinh.md` | Khoá theo **bậc P1→P6** (dễ→nâng cao); mở bậc sau khi **≥70% bài** bậc trước; **chỉ** xương sống, không khoá hướng chuyên sâu/khoá ngắn/lộ trình | ✅ sẵn sàng                                            |
-| 4   | `docs/specs/2026-09-12-gd4-khoa-bai-4-tru.md`         | **KHÔNG khoá gì ở 4 trụ** — chúng là công cụ, không phải giáo trình                                                                              | ⛔ **ĐÓNG, không thi hành**                            |
+| GĐ  | Đặc tả                                                | Quyết định đã chốt                                                                                                                               | Trạng thái                                              |
+| --- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------- |
+| 1   | `docs/specs/2026-09-12-gd1-xoa-goi-pro.md`            | Xoá **cả Pro lẫn Plus**; Free hưởng hạn mức Plus cũ (30/ngày); người đang trả còn hạn → nâng VIP giữ nguyên hạn                                  | ✅ **ĐÃ THI HÀNH** (PR GĐ1, `docs/changelog/0289-*.md`) |
+| 2a  | `docs/specs/2026-09-12-gd2-vip-hoc-tu-do-mon-anh.md`  | Khoá theo **cấp CEFR A1–C2**; chốt chặn **ở SERVER** (không phải chỉ giao diện)                                                                  | ✅ sẵn sàng                                             |
+| 2b  | (chưa viết — khung ở GĐ2 §⑦)                          | Chuyển **chấm thi** về server để bịt nốt lỗ `cefrExams`                                                                                          | ⚠️ **khuyến nghị hoãn** — làm mất khả năng thi offline  |
+| 3   | `docs/specs/2026-09-12-gd3-khoa-bai-mon-lap-trinh.md` | Khoá theo **bậc P1→P6** (dễ→nâng cao); mở bậc sau khi **≥70% bài** bậc trước; **chỉ** xương sống, không khoá hướng chuyên sâu/khoá ngắn/lộ trình | ✅ sẵn sàng                                             |
+| 4   | `docs/specs/2026-09-12-gd4-khoa-bai-4-tru.md`         | **KHÔNG khoá gì ở 4 trụ** — chúng là công cụ, không phải giáo trình                                                                              | ⛔ **ĐÓNG, không thi hành**                             |
 
 **Ngưỡng 70% dùng chung** giữa môn Anh (`UNLOCK_PCT`) và môn Lập trình — nếu đổi, đổi ở một nơi.
 
 **Phát hiện khi khảo sát mã (2026-09-12), ảnh hưởng tới ước lượng:**
 
-1. Hệ thống thực tế có **4 gói** (`free/plus/pro/vip`), không phải 3 như `CLAUDE.md` mục 6 ghi.
-   Plus có hạn mức **hard-code 30** ở `usage.ts:156`; nên chuyển thành cấu hình được khi làm GĐ1.
+1. ~~Hệ thống thực tế có **4 gói** (`free/plus/pro/vip`)~~ — ✅ **ĐÓNG ở GĐ1 (2026-09-12):** nay
+   đúng **2 gói** `free` + `vip`; con số 30 đã chuyển thành cấu hình (`app_settings.pro_daily_limit`,
+   cột giữ tên cũ, ý nghĩa mới là "hạn mức Free"). `CLAUDE.md` mục 6 đã được sửa cho đúng.
 2. Luật khoá cấp CEFR **và cả việc chấm thi** hiện nằm hoàn toàn ở client; server chỉ lưu hộ và
    tin thẳng dữ liệu client gửi. Đó là lý do GĐ2 phải tách 2a/2b.
 
@@ -232,6 +233,15 @@ sao ưu tiên 1 bị chen ngang.
 > để lần sau khỏi phải đi kiểm lại từ đầu.
 
 ### A. CÒN PHẢI LÀM
+
+- **[2026-09-12 · GĐ1 · LÀM TRƯỚC KHI MERGE PR GĐ1] Export CSV sao lưu gói của người đang trả
+  tiền trên DB PRODUCTION.** Migration `0076_remove_pro_plus_plans.sql` **ghi đè** cột
+  `profiles.plan` của các hàng `'plus'`/`'pro'` nên KHÔNG lùi lại được nếu không có bản sao.
+  SSH vào VPS rồi chạy trong `psql`:
+  `\copy (select id, plan, plan_expires_at from public.profiles where plan in ('plus','pro')) to 'backup-plans-2026-09-12.csv' csv header`
+  Tiện thể chạy `select plan, count(*) from public.profiles group by 1;` và dán kết quả vào mục
+  **Nghiệm thu** của `docs/specs/2026-09-12-gd1-xoa-goi-pro.md` (phiên thi hành KHÔNG có DB thật
+  nên chưa điền được). Migration lũy đẳng, an toàn cả khi không có hàng Plus/Pro nào.
 
 - **[2026-09-06] Mời 5 người học thật (mỗi người một trụ: Anh · Lập trình · Career/Work ·
   Life · một người học chiều B), dùng 2 tuần.** Không cần công cụ ngoài: tab admin "Analytics"
@@ -552,6 +562,14 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 > Mục này CHỈ giữ nợ **đang mở** (🟡/🔴). Nợ đã đóng (🟢) được dời sang
 > `docs/legacy/no-ky-thuat-da-dong.md` (2026-09-01) để file này chỉ nói trạng thái hiện tại —
 > đúng vai trò ở mục 2 `CLAUDE.md`. Đóng một món nợ = cắt khối đó dán sang file kia, kèm ngày.
+
+- 🟡 **[2026-09-12 — GĐ1, xem `docs/changelog/0289-*.md`] Kho lượt cửa sổ trượt 7 ngày của gói
+  Free nay MỒ CÔI.** GĐ1 bỏ `consume_rolling_credit`/`refund_rolling_credit` khỏi đường enforce
+  (Free chuyển sang hạn mức TỔNG/ngày), nhưng **bảng `free_daily_credit`, 4 hàm SQL và lời gọi
+  `grant_daily_bonus_rolling` trong `api/progress.ts` vẫn còn** — đặc tả GĐ1 cấm xoá dữ liệu lịch
+  sử nên cố ý giữ. Hệ quả: mỗi ngày vẫn ghi bonus vào một bảng không còn ai đọc để chặn (tốn ghi
+  DB, và là bẫy cho người đọc mã sau này tưởng cơ chế còn hiệu lực). **Dọn ở đợt RIÊNG** (gỡ lời
+  gọi ở `progress.ts` trước, giữ bảng thêm một thời gian rồi mới drop) — đừng gộp vào PR khác.
 
 - 🟡 **[2026-08-28 — rà UI/UX 5 trang trụ cột, xem `docs/changelog/0186-*.md`] Ba việc còn để
   ngỏ, cần người dùng quyết hoặc tách đợt riêng.**

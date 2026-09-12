@@ -51,13 +51,13 @@ describe('quyền truy cập', () => {
 describe('GET /api/admin-achievement-rewards', () => {
   it('admin → 200, trả toàn bộ cấu hình', async () => {
     getAllMock.mockResolvedValue([
-      { achievementId: 'streak_7', config: { enabled: true, rewardPlan: 'pro', rewardDays: 1 } },
+      { achievementId: 'streak_7', config: { enabled: true, rewardPlan: 'vip', rewardDays: 1 } },
     ])
     const res = await handler(new Request('http://localhost/api/admin-achievement-rewards'))
     expect(res.status).toBe(200)
     expect(await res.json()).toEqual({
       rewards: [
-        { achievementId: 'streak_7', config: { enabled: true, rewardPlan: 'pro', rewardDays: 1 } },
+        { achievementId: 'streak_7', config: { enabled: true, rewardPlan: 'vip', rewardDays: 1 } },
       ],
     })
   })

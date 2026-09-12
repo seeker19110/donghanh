@@ -55,7 +55,7 @@ describe('/api/checkout', () => {
 
   it('chưa đăng nhập → 401', async () => {
     authState.user = null
-    const resp = await handler(makeRequest({ plan: 'pro', cycle: 'month' }))
+    const resp = await handler(makeRequest({ plan: 'vip', cycle: 'month' }))
     expect(resp.status).toBe(401)
     expect(query).not.toHaveBeenCalled()
   })
@@ -76,11 +76,11 @@ describe('/api/checkout', () => {
     expect(query).not.toHaveBeenCalled()
   })
 
-  it('tạo đơn hợp lệ → trả đúng giá mặc định (Pro/tháng = 40.000đ)', async () => {
-    const resp = await handler(makeRequest({ plan: 'pro', cycle: 'month' }))
+  it('tạo đơn hợp lệ → trả đúng giá mặc định (VIP/tháng = 75.000đ)', async () => {
+    const resp = await handler(makeRequest({ plan: 'vip', cycle: 'month' }))
     expect(resp.status).toBe(200)
     const data = (await resp.json()) as { amountVnd: number; paymentCode: string; qrUrl: string }
-    expect(data.amountVnd).toBe(40_000)
+    expect(data.amountVnd).toBe(75_000)
     expect(data.paymentCode).toMatch(/^DHCB/)
     expect(data.qrUrl).toContain('qr.sepay.vn')
     expect(query).toHaveBeenCalledTimes(3) // đọc bảng giá + đọc khuyến mãi % + insert đơn
@@ -88,7 +88,7 @@ describe('/api/checkout', () => {
 
   it('thiếu cấu hình ngân hàng trên VPS → 503, không tạo đơn', async () => {
     delete process.env.SEPAY_BANK_ACCOUNT
-    const resp = await handler(makeRequest({ plan: 'pro', cycle: 'month' }))
+    const resp = await handler(makeRequest({ plan: 'vip', cycle: 'month' }))
     expect(resp.status).toBe(503)
     expect(query).not.toHaveBeenCalled()
   })

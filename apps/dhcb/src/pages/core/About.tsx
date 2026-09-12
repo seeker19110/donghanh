@@ -365,8 +365,8 @@ export default function About() {
           <div className="text-xs text-zinc-300">
             <p>
               {isA
-                ? 'Càng học đều, càng kiếm được nhiều huy hiệu và ngày dùng gói Pro/VIP miễn phí — xem chi tiết ở mục Nhiệm vụ trong Hồ sơ.'
-                : 'The more consistently you study, the more achievements and free Pro/VIP days you earn — see the Quests section in your Profile.'}
+                ? 'Càng học đều, càng kiếm được nhiều huy hiệu và ngày dùng gói VIP miễn phí — xem chi tiết ở mục Nhiệm vụ trong Hồ sơ.'
+                : 'The more consistently you study, the more achievements and free VIP days you earn — see the Quests section in your Profile.'}
             </p>
             <p className="mt-1.5">
               {isA ? (

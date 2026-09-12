@@ -96,17 +96,17 @@ describe('/api/admin-plan-marketing', () => {
   it('PUT thành công → cập nhật badge/tagline', async () => {
     query.mockResolvedValueOnce({})
     const resp = await handler(
-      makeRequest('PUT', { plan: 'pro', badge: 'HOT', taglineVi: 'Xin chào' }),
+      makeRequest('PUT', { plan: 'vip', badge: 'HOT', taglineVi: 'Xin chào' }),
     )
     expect(resp.status).toBe(200)
     expect(await resp.json()).toEqual({ ok: true })
     const [, params] = query.mock.calls[0] as [string, unknown[]]
-    expect(params).toEqual(['pro', 'HOT', 'Xin chào', undefined])
+    expect(params).toEqual(['vip', 'HOT', 'Xin chào', undefined])
     expect(invalidatePlanMarketingCache).toHaveBeenCalledTimes(1)
   })
 
   it('POST body sai (thiếu textEn) → 400', async () => {
-    const resp = await handler(makeRequest('POST', { plan: 'pro', textVi: 'abc' }))
+    const resp = await handler(makeRequest('POST', { plan: 'vip', textVi: 'abc' }))
     expect(resp.status).toBe(400)
   })
 
@@ -114,7 +114,7 @@ describe('/api/admin-plan-marketing', () => {
     query
       .mockResolvedValueOnce({ rows: [{ max_order: 20 }] })
       .mockResolvedValueOnce({ rows: [{ id: 5 }] })
-    const resp = await handler(makeRequest('POST', { plan: 'pro', textVi: 'Vi', textEn: 'En' }))
+    const resp = await handler(makeRequest('POST', { plan: 'vip', textVi: 'Vi', textEn: 'En' }))
     expect(resp.status).toBe(200)
     expect(await resp.json()).toEqual({ id: 5 })
     const [, params] = query.mock.calls[1] as [string, unknown[]]
@@ -124,7 +124,7 @@ describe('/api/admin-plan-marketing', () => {
   it('POST có sortOrder → dùng luôn, không truy vấn max', async () => {
     query.mockResolvedValueOnce({ rows: [{ id: 7 }] })
     const resp = await handler(
-      makeRequest('POST', { plan: 'pro', textVi: 'Vi', textEn: 'En', sortOrder: 5 }),
+      makeRequest('POST', { plan: 'vip', textVi: 'Vi', textEn: 'En', sortOrder: 5 }),
     )
     expect(resp.status).toBe(200)
     expect(query).toHaveBeenCalledTimes(1)

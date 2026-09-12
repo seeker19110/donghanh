@@ -153,7 +153,7 @@ async function claimGeneric(
             : `Bạn đã nhận thưởng rồi — quay lại sau ${cooldownDays} ngày kể từ lần trước nhé.`,
       }
     }
-    await grantPlanDays(userId, 'pro', rewardDays)
+    await grantPlanDays(userId, 'vip', rewardDays)
     return { ok: true, rewardDays }
   } catch (err) {
     console.error('[quests] claimGeneric lỗi:', err)

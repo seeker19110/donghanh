@@ -1,5 +1,6 @@
-// Test /api/usage-summary — trả số lượt AI còn lại cho client. Gói Free đọc kho lượt trượt
-// 7 ngày từ DB; Pro/VIP trả thẳng plan, không tra DB. Kiểm cả nhánh lỗi DB fail-open về 0.
+// Test /api/usage-summary — trả số lượt AI còn lại HÔM NAY cho client.
+// GĐ1 2026-09-12: cả Free lẫn VIP đều dùng hạn mức TỔNG/ngày (đọc app_settings) rồi trừ đi số
+// đã dùng trong `daily_usage` của đúng ngày + đúng môn. Kiểm cả nhánh lỗi DB fail-open.
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 
 const authState: { user: { userId: string } | null } = { user: { userId: 'user-1' } }
@@ -15,9 +16,12 @@ vi.mock('@dhcb/core-auth/security', () => ({
 const lookupPlanMock = vi.fn()
 vi.mock('@dhcb/core-billing/usage', () => ({
   lookupPlan: (userId: string) => lookupPlanMock(userId),
-  FREE_WEEKLY_CAP: 70,
-  FREE_ROLLING_WINDOW_DAYS: 7,
   DEFAULT_SUBJECT: 'english',
+  AI_USAGE_COLUMNS: ['chat_count', 'writing_count'],
+}))
+
+vi.mock('@dhcb/core-db/settings', () => ({
+  getAppSettings: async () => ({ limits: { free: 30, vip: 300 } }),
 }))
 
 vi.mock('@dhcb/core-db/pgPool', () => ({ getPgPool: vi.fn() }))
@@ -61,40 +65,46 @@ describe('GET /api/usage-summary', () => {
     expect(res.status).toBe(401)
   })
 
-  it('gói Pro → trả thẳng plan, không tra DB', async () => {
-    lookupPlanMock.mockResolvedValue('pro')
+  it('gói VIP → cap = hạn mức VIP, trừ đúng số đã dùng hôm nay', async () => {
+    lookupPlanMock.mockResolvedValue('vip')
+    query.mockResolvedValue({ rows: [{ used: '20' }] })
     const res = await handler(new Request('http://localhost/api/usage-summary'))
     expect(res.status).toBe(200)
-    expect(await res.json()).toEqual({ plan: 'pro', freeWeeklyCredit: null, freeWeeklyCap: 70 })
-    expect(query).not.toHaveBeenCalled()
+    expect(await res.json()).toEqual({ plan: 'vip', freeWeeklyCredit: 280, freeWeeklyCap: 300 })
   })
 
-  it('gói Free → đọc kho lượt trượt từ DB, kẹp trong [0, cap]', async () => {
+  it('gói Free → cap = hạn mức Free (30), còn lại = 30 − đã dùng', async () => {
     lookupPlanMock.mockResolvedValue('free')
-    query.mockResolvedValue({ rows: [{ available: '35' }] })
+    query.mockResolvedValue({ rows: [{ used: '5' }] })
     const res = await handler(new Request('http://localhost/api/usage-summary'))
     expect(res.status).toBe(200)
-    expect(await res.json()).toEqual({ plan: 'free', freeWeeklyCredit: 35, freeWeeklyCap: 70 })
-    expect(query.mock.calls[0]?.[1]).toEqual(['user-1', expect.any(String), 7, 'english'])
+    expect(await res.json()).toEqual({ plan: 'free', freeWeeklyCredit: 25, freeWeeklyCap: 30 })
+  })
+
+  it('đã dùng vượt hạn mức (admin vừa hạ limit) → kẹp về 0, không hiện số âm', async () => {
+    lookupPlanMock.mockResolvedValue('free')
+    query.mockResolvedValue({ rows: [{ used: '99' }] })
+    const res = await handler(new Request('http://localhost/api/usage-summary'))
+    expect(await res.json()).toEqual({ plan: 'free', freeWeeklyCredit: 0, freeWeeklyCap: 30 })
   })
 
   // Hồi quy (audit 2026-08-12): truy vấn HIỂN THỊ phải lọc `subject` GIỐNG hàm SQL enforce
-  // (consume_rolling_credit lọc `subject = p_subject`, migration 0029). Thiếu bộ lọc này thì
-  // khi có môn thứ 2 (ADR-0001), UI cộng lượt của MỌI môn → hiện nhiều hơn số server cho phép.
-  it('gói Free → truy vấn kho lượt LỌC theo subject, khớp hàm SQL enforce', async () => {
+  // (consume_usage_total lọc `subject = p_subject`, migration 0029). Thiếu bộ lọc này thì khi
+  // có môn thứ 2 (ADR-0001), UI cộng lượt của MỌI môn → hiện ít hơn số server thật sự cho phép.
+  it('truy vấn LỌC theo ngày + subject, khớp hàm SQL enforce', async () => {
     lookupPlanMock.mockResolvedValue('free')
-    query.mockResolvedValue({ rows: [{ available: '10' }] })
+    query.mockResolvedValue({ rows: [{ used: '1' }] })
     await handler(new Request('http://localhost/api/usage-summary'))
     const [sql, params] = query.mock.calls[0] as [string, unknown[]]
-    expect(sql).toMatch(/subject\s*=\s*\$4/)
-    expect(params[3]).toBe('english')
+    expect(sql).toMatch(/subject\s*=\s*\$3/)
+    expect(params).toEqual(['user-1', expect.any(String), 'english'])
   })
 
-  it('lỗi DB → fail-open trả 0, vẫn 200', async () => {
+  it('lỗi DB → fail-open, vẫn 200 và KHÔNG bịa con số (credit = null)', async () => {
     lookupPlanMock.mockResolvedValue('free')
     query.mockRejectedValue(new Error('db down'))
     const res = await handler(new Request('http://localhost/api/usage-summary'))
     expect(res.status).toBe(200)
-    expect(await res.json()).toEqual({ plan: 'free', freeWeeklyCredit: 0, freeWeeklyCap: 70 })
+    expect(await res.json()).toEqual({ plan: 'free', freeWeeklyCredit: null, freeWeeklyCap: 0 })
   })
 })

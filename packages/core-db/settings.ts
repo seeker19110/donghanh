@@ -5,11 +5,15 @@
 import { getPgPool } from './pgPool.js'
 
 export interface AppSettings {
-  // Quyết định 2026-07-27: hạn mức Pro/VIP là MỘT con số TỔNG lượt/ngày cho MỌI tính năng AI
-  // cộng lại (không còn chia riêng chat/writing/speaking/stt/pronounce) — cùng triết lý đã áp
-  // cho Free từ trước (kho lượt tuần chung, xem usage.ts FREE_WEEKLY_*). Free KHÔNG có mặt ở
-  // đây vì không enforce qua app_settings (xem usage.ts).
-  limits: { pro: number; vip: number }
+  // Quyết định 2026-07-27: hạn mức là MỘT con số TỔNG lượt/ngày cho MỌI tính năng AI cộng lại
+  // (không còn chia riêng chat/writing/speaking/stt/pronounce).
+  //
+  // GĐ1 2026-09-12 (docs/specs/2026-09-12-gd1-xoa-goi-pro.md): gói Pro/Plus bị xoá, chỉ còn
+  // Free + VIP. `limits.free` ĐỌC TỪ ĐÚNG CỘT DB CŨ `pro_daily_limit` — cột giữ nguyên tên để
+  // KHÔNG phải migration đổi tên cột (rủi ro cao, phải sửa cả admin-settings + panel), nhưng Ý
+  // NGHĨA nay là "hạn mức người dùng miễn phí". Mặc định 30 = đúng hạn mức Plus cũ, và vẫn
+  // chỉnh được qua /api/admin-settings nên đổi hạn mức toàn hệ thống không cần deploy lại.
+  limits: { free: number; vip: number }
   // null = không có khuyến mãi đang chạy (áp hạn mức thật ngay)
   promoUntil: string | null
   // Cầu dao khẩn cấp chặn TOÀN BỘ lượt gọi AI (chat/writing/speaking/stt/pronounce) — admin bật
@@ -29,12 +33,13 @@ export interface AppSettings {
 
 // Mặc định dùng khi DB CHƯA có dòng cấu hình hoặc query lỗi (fail-open, giống mọi nơi khác
 // trong app — không để lỗi hạ tầng làm vỡ luồng chính) — PHẢI khớp giá trị seed trong
-// postgres/migrations/0016_daily_total_limit.sql (Pro 30/ngày, VIP 300/ngày, đều là TỔNG).
+// postgres/migrations/0016_daily_total_limit.sql (cột pro_daily_limit 30/ngày — nay là hạn mức
+// Free, VIP 300/ngày, đều là TỔNG).
 // promoUntil = null CÓ CHỦ Ý: nếu DB lỗi/mất dòng cấu hình mà mặc định vẫn bật khuyến mãi
 // thì hệ thống tự nâng gói cho toàn bộ user → phát sinh chi phí AI/TTS ngoài kiểm soát.
 // Fail-open ở đây chỉ áp dụng cho HẠN MỨC (vẫn cho dùng), KHÔNG áp dụng cho khuyến mãi.
 const DEFAULT_SETTINGS: AppSettings = {
-  limits: { pro: 30, vip: 300 },
+  limits: { free: 30, vip: 300 },
   promoUntil: null,
   aiCircuitBreaker: false,
   leaderboardEnabled: false,
@@ -52,7 +57,8 @@ interface AppSettingsRow {
 
 function rowToSettings(row: AppSettingsRow): AppSettings {
   return {
-    limits: { pro: row.pro_daily_limit, vip: row.vip_daily_limit },
+    // `pro_daily_limit` = tên cột DB cũ, ý nghĩa mới là hạn mức Free (xem AppSettings ở trên).
+    limits: { free: row.pro_daily_limit, vip: row.vip_daily_limit },
     promoUntil: row.promo_until ? new Date(row.promo_until).toISOString() : null,
     aiCircuitBreaker: Boolean(row.ai_circuit_breaker),
     leaderboardEnabled: Boolean(row.leaderboard_enabled),

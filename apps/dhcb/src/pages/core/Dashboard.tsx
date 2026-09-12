@@ -230,7 +230,7 @@ export default function Dashboard() {
   const [ready, setReady] = useState(false)
   const [cefr, setCefr] = useState<LevelProgress[]>([])
   // Gói Free: kho lượt AI tuần chung nằm ở server (weekly_ai_credit), không suy ra được
-  // từ dữ liệu local như Pro/VIP (per-mode, theo ngày) — phải hỏi server (usage-summary.ts).
+  // từ dữ liệu local per-mode — hạn mức là TỔNG/ngày nên phải hỏi server (usage-summary.ts).
   const [weeklyCredit, setWeeklyCredit] = useState<WeeklyCreditInfo | null>(null)
 
   usePageTitle('Tiến độ học tập | Đồng hành cùng bạn')
@@ -437,8 +437,8 @@ export default function Dashboard() {
           <Bar pct={(stats.learnedToday / stats.dailySpeed) * 100} color="bg-lime-500" />
         </div>
 
-        {/* Lượt dùng còn lại — gói Free: 1 kho lượt AI CHUNG theo tuần (xem
-              api/usage-summary.ts); Pro/VIP: giữ nguyên hiển thị theo từng tính năng/ngày. */}
+        {/* Lượt dùng còn lại — gói Free: MỘT hạn mức TỔNG/ngày cho mọi tính năng AI (GĐ1
+              2026-09-12, xem api/usage-summary.ts); VIP: hiển thị theo từng tính năng/ngày. */}
         {effectivePlan(user.plan) === 'free' ? (
           <div className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4">
             <div className="flex items-start justify-between mb-2">
@@ -446,10 +446,10 @@ export default function Dashboard() {
                   ở màn hẹp — phần trong ngoặc mới là thứ giải thích lượt tính từ đâu. */}
               <span className="text-sm text-zinc-300 flex items-start gap-1.5 min-w-0">
                 <MessageCircle className="w-4 h-4 text-accent-400 shrink-0 mt-0.5" />
-                <span>{vi ? 'Lượt AI tuần này (chat · nói · viết)' : 'AI credits this week'}</span>
+                <span>{vi ? 'Lượt AI hôm nay (chat · nói · viết)' : 'AI credits today'}</span>
               </span>
               <span className="text-sm font-semibold text-accent-300 theme-light:text-accent-800 shrink-0 ml-2">
-                {weeklyCredit?.freeWeeklyCredit ?? '…'}/{weeklyCredit?.freeWeeklyCap ?? 35}
+                {weeklyCredit?.freeWeeklyCredit ?? '…'}/{weeklyCredit?.freeWeeklyCap ?? 30}
               </span>
             </div>
             <Bar
@@ -462,8 +462,8 @@ export default function Dashboard() {
             />
             <p className="text-[11px] text-zinc-400 mt-2">
               {vi
-                ? 'Học từ mới/hoàn thành bài mỗi ngày để được +5 lượt (tối đa 35, tính theo 7 ngày gần nhất).'
-                : 'Learn a new word or finish a lesson each day for +5 credits (up to 35, based on the last 7 days).'}
+                ? 'Hạn mức tính chung cho mọi tính năng AI và làm mới mỗi ngày (giờ Việt Nam).'
+                : 'The quota covers every AI feature and resets each day (Vietnam time).'}
             </p>
           </div>
         ) : (

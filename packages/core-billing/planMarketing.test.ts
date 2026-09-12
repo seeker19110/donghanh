@@ -16,7 +16,7 @@ beforeEach(() => {
 })
 
 describe('getPlanMarketing', () => {
-  it('không có dòng nào → trả về 3 gói rỗng, updatedAt mặc định', async () => {
+  it('không có dòng nào → trả về 2 gói rỗng, updatedAt mặc định', async () => {
     query.mockResolvedValueOnce({ rows: [] }).mockResolvedValueOnce({ rows: [] })
     const data = await getPlanMarketing()
     expect(data.plans.free).toEqual({
@@ -26,7 +26,6 @@ describe('getPlanMarketing', () => {
       taglineEn: '',
       bullets: [],
     })
-    expect(data.plans.pro.plan).toBe('pro')
     expect(data.plans.vip.plan).toBe('vip')
     expect(data.updatedAt).toBe('1970-01-01T00:00:00.000Z')
   })
@@ -36,7 +35,7 @@ describe('getPlanMarketing', () => {
       .mockResolvedValueOnce({
         rows: [
           {
-            plan: 'pro',
+            plan: 'vip',
             badge: 'Phổ biến',
             tagline_vi: 'Học nhanh hơn',
             tagline_en: 'Learn faster',
@@ -48,7 +47,7 @@ describe('getPlanMarketing', () => {
         rows: [
           {
             id: 1,
-            plan: 'pro',
+            plan: 'vip',
             sort_order: 1,
             text_vi: 'Không giới hạn',
             text_en: 'Unlimited',
@@ -57,8 +56,8 @@ describe('getPlanMarketing', () => {
         ],
       })
     const data = await getPlanMarketing()
-    expect(data.plans.pro.badge).toBe('Phổ biến')
-    expect(data.plans.pro.bullets).toEqual([
+    expect(data.plans.vip.badge).toBe('Phổ biến')
+    expect(data.plans.vip.bullets).toEqual([
       { id: 1, textVi: 'Không giới hạn', textEn: 'Unlimited', sortOrder: 1 },
     ])
     expect(data.plans.free.badge).toBe('') // gói không có info vẫn giữ rỗng

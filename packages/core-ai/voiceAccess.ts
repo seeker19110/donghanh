@@ -35,13 +35,19 @@ export type AnyVoiceId = VoiceId | ElevenVoiceId | StudioVoiceId | GeminiVoiceId
 // Xuất ra để test đối chiếu tự động với bảng client (api/_lib/voiceTierParity.test.ts).
 export const VOICE_TIERS: Record<Plan, AnyVoiceId[]> = {
   free: ['Kore', 'Aoede', 'Puck', 'Charon'],
-  plus: ['Kore', 'Aoede', 'Puck', 'Charon'],
-  pro: [...DEFAULT_SEED_VOICE_IDS, ...GEMINI_VOICE_IDS],
   vip: [...VOICE_IDS, ...ELEVEN_VOICE_IDS, ...STUDIO_VOICE_IDS, ...GEMINI_VOICE_IDS],
 }
 
+// Bộ giọng cấp cho gói Free TRONG LÚC KHUYẾN MÃI — CỐ Ý không phải bộ VIP đầy đủ.
+// GĐ1 2026-09-12 xoá gói Pro nên effectivePlan() nâng Free thẳng lên VIP khi tính HẠN MỨC;
+// quyền GIỌNG thì KHÔNG nâng theo vì Studio/ElevenLabs đắt gấp nhiều lần (xem ghi chú chi phí
+// ở VOICE_TIERS). Bộ này giữ ĐÚNG danh sách Free từng được nâng lên trước GĐ1 → chi phí không
+// đổi. PHẢI khớp apps/dhcb/src/lib/voiceTiers.ts.
+const PROMO_FREE_VOICES: AnyVoiceId[] = [...DEFAULT_SEED_VOICE_IDS, ...GEMINI_VOICE_IDS]
+
 async function getAllowedVoices(plan: Plan, now: Date): Promise<AnyVoiceId[]> {
-  return VOICE_TIERS[await effectivePlan(plan, now)]
+  if (plan === 'free' && (await effectivePlan(plan, now)) !== 'free') return PROMO_FREE_VOICES
+  return VOICE_TIERS[plan]
 }
 
 // Giọng mặc định THEO GIỚI TÍNH. PHẢI khớp defaultVoiceForGender() trong

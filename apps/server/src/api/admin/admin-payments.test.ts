@@ -104,7 +104,7 @@ describe('/api/admin-payments', () => {
     queryMock.mockResolvedValueOnce({ rows: [{ id: 'u99' }] })
     // 2) Đọc đơn thanh toán
     queryMock.mockResolvedValueOnce({
-      rows: [{ id: 'pay-1', status: 'pending', plan: 'pro', cycle: 'month' }],
+      rows: [{ id: 'pay-1', status: 'pending', plan: 'vip', cycle: 'month' }],
     })
     // 3) Update trạng thái đơn
     queryMock.mockResolvedValueOnce({ rows: [] })
@@ -122,7 +122,7 @@ describe('/api/admin-payments', () => {
     expect(res.status).toBe(200)
     const json = await res.json()
     expect(json.ok).toBe(true)
-    expect(json.message).toContain('PRO')
+    expect(json.message).toContain('VIP')
   })
 
   it('POST manual-match: email không tồn tại → 404', async () => {
@@ -159,7 +159,7 @@ describe('/api/admin-payments', () => {
     queryMock.mockResolvedValueOnce({ rows: [{ id: 'u99' }] })
     // 2) Đọc đơn thanh toán → đã paid
     queryMock.mockResolvedValueOnce({
-      rows: [{ id: 'pay-1', status: 'paid', plan: 'pro', cycle: 'month' }],
+      rows: [{ id: 'pay-1', status: 'paid', plan: 'vip', cycle: 'month' }],
     })
 
     const req = new Request('http://localhost/api/admin-payments', {

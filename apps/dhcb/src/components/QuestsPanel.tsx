@@ -76,7 +76,7 @@ export default function QuestsPanel({ isA, userId }: { isA: boolean; userId?: st
     setClaiming(null)
     if (days) {
       toast.success(
-        isA ? `Tuyệt vời! Tặng thêm ${days} ngày dùng gói Pro 🎁` : `Nice! +${days} day of Pro 🎁`,
+        isA ? `Tuyệt vời! Tặng thêm ${days} ngày dùng gói VIP 🎁` : `Nice! +${days} day of VIP 🎁`,
       )
       void load()
     } else {
@@ -91,7 +91,7 @@ export default function QuestsPanel({ isA, userId }: { isA: boolean; userId?: st
     if (days) {
       toast.success(
         isA
-          ? `Chúc mừng cấp ${level}! Tặng thêm ${days} ngày dùng gói Pro 🎁`
+          ? `Chúc mừng cấp ${level}! Tặng thêm ${days} ngày dùng gói VIP 🎁`
           : `Level ${level} — +${days} day of Pro 🎁`,
       )
       void load()
@@ -165,7 +165,7 @@ export default function QuestsPanel({ isA, userId }: { isA: boolean; userId?: st
                   ? 'Đã nhận thưởng cho cấp này.'
                   : 'Reward already claimed for this level.'
                 : isA
-                  ? `Nhận +${e.rewardDays} ngày dùng gói Pro.`
+                  ? `Nhận +${e.rewardDays} ngày dùng gói VIP.`
                   : `Claim +${e.rewardDays} day of Pro.`
             }
             status={e.claimed ? 'done' : 'ready'}

@@ -3,6 +3,12 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 
 vi.mock('@dhcb/core-db/pgPool', () => ({ getPgPool: vi.fn() }))
+
+// Hạn mức Free đọc từ app_settings (GĐ1 2026-09-12) — mock để KHÔNG tiêu mất một lượt gọi của
+// `query` giả bên dưới (nó trả kết quả theo THỨ TỰ, lệch một nhịp là sai toàn bộ assertion).
+vi.mock('@dhcb/core-db/settings', () => ({
+  getAppSettings: async () => ({ limits: { free: 30, vip: 300 } }),
+}))
 const authState: { user: { userId: string } | null } = { user: { userId: 'user-1' } }
 vi.mock('@dhcb/core-auth/security', () => ({
   getCorsHeaders: () => ({}),
@@ -32,8 +38,7 @@ function seedQueries(overrides: Record<number, unknown[]> = {}) {
     [{ total: 100, new_in_range: 10 }], // ① users
     [
       { plan: 'free', count: 90 },
-      { plan: 'pro', count: 8 },
-      { plan: 'vip', count: 2 },
+      { plan: 'vip', count: 10 },
     ], // ② plan
     [], // ③ daily
     [], // ④ plan usage
@@ -42,7 +47,7 @@ function seedQueries(overrides: Record<number, unknown[]> = {}) {
     [], // ⑦ payments
     [], // ⑧ paid breakdown
     [], // ⑨ revenue daily
-    [{ users: 0, total: 0, exhausted: 0, capped: 0 }], // ⑩ credit
+    [{ users: 0, total: 0, exhausted: 0 }], // ⑩ sức khoẻ hạn mức ngày gói Free
     [], // ⑪ top users
   ]
   let call = 0
@@ -103,10 +108,7 @@ describe('GET /api/admin-usage-stats', () => {
   it('người dùng chưa có dòng profiles vẫn được tính là Free', async () => {
     // 100 user nhưng chỉ 30 dòng profiles → 70 người còn lại phải rơi vào Free.
     seedQueries({
-      1: [
-        { plan: 'pro', count: 20 },
-        { plan: 'vip', count: 10 },
-      ],
+      1: [{ plan: 'vip', count: 30 }],
     })
     const body = (await (await handler(makeRequest())).json()) as Body
     expect(body.users.byPlan.free).toBe(70)

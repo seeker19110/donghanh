@@ -30,7 +30,6 @@ interface MarketingData {
 
 const PLAN_SECTIONS: { key: Plan; label: string }[] = [
   { key: 'free', label: 'Free' },
-  { key: 'pro', label: 'Pro' },
   { key: 'vip', label: 'VIP' },
 ]
 

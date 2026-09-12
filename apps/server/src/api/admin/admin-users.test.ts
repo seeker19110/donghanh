@@ -59,7 +59,7 @@ describe('/api/admin-users', () => {
           email: 'a@b.com',
           created_at: '2026-01-01T00:00:00Z',
           email_verified: '2026-01-02T00:00:00Z',
-          plan: 'pro',
+          plan: 'vip',
           plan_expires_at: '2026-02-01T00:00:00Z',
           last_active_day: '2026-01-15',
         },
@@ -82,7 +82,7 @@ describe('/api/admin-users', () => {
     }
     expect(data.total).toBe(2)
     expect(data.users).toHaveLength(2)
-    expect(data.users[0]).toMatchObject({ email: 'a@b.com', emailVerified: true, plan: 'pro' })
+    expect(data.users[0]).toMatchObject({ email: 'a@b.com', emailVerified: true, plan: 'vip' })
     expect(data.users[1]).toMatchObject({ email: 'c@d.com', emailVerified: false, plan: 'free' })
     const [, params] = query.mock.calls[1] as [string, unknown[]]
     expect(params).toEqual(['%%', 20, 0])

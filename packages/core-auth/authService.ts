@@ -452,7 +452,7 @@ export interface ProfileInfo {
   plan: Plan
   onboarded: boolean
   name: string
-  // Hạn gói Pro/VIP hiện tại (ISO string), null = gói vĩnh viễn HOẶC đang Free. Cần cho UI
+  // Hạn gói VIP hiện tại (ISO string), null = gói vĩnh viễn HOẶC đang Free. Cần cho UI
   // hiển thị "còn X ngày dùng thử" (banner trial/upsell) — xem src/lib/planExpiry.ts.
   planExpiresAt: string | null
 }

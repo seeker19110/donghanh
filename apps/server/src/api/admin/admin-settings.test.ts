@@ -19,7 +19,7 @@ vi.mock('@dhcb/core-auth/adminAuth', () => ({
   isAdminEmail: (email: string | null | undefined) => email === 'admin@x.com',
 }))
 const settingsResult = {
-  limits: { pro: 30, vip: 300 },
+  limits: { free: 30, vip: 300 },
   promoUntil: null,
   aiCircuitBreaker: false,
   leaderboardEnabled: false,
@@ -95,9 +95,9 @@ describe('/api/admin-settings', () => {
     expect(await resp.json()).toEqual(settingsResult)
   })
 
-  it('POST body sai (limits.pro âm) → 400', async () => {
+  it('POST body sai (limits.free âm) → 400', async () => {
     const resp = await handler(
-      makeRequest('POST', { limits: { pro: -1, vip: 300 }, promoUntil: null }),
+      makeRequest('POST', { limits: { free: -1, vip: 300 }, promoUntil: null }),
     )
     expect(resp.status).toBe(400)
     expect(query).not.toHaveBeenCalled()
@@ -105,7 +105,7 @@ describe('/api/admin-settings', () => {
 
   it('POST promoUntil không hợp lệ → 400', async () => {
     const resp = await handler(
-      makeRequest('POST', { limits: { pro: 30, vip: 300 }, promoUntil: 'khong-phai-ngay' }),
+      makeRequest('POST', { limits: { free: 30, vip: 300 }, promoUntil: 'khong-phai-ngay' }),
     )
     expect(resp.status).toBe(400)
   })
@@ -118,7 +118,7 @@ describe('/api/admin-settings', () => {
     }))
     query.mockResolvedValueOnce({})
     const resp = await handler(
-      makeRequest('POST', { limits: { pro: 40, vip: 400 }, promoUntil: null }),
+      makeRequest('POST', { limits: { free: 40, vip: 400 }, promoUntil: null }),
     )
     expect(resp.status).toBe(200)
     const [, params] = query.mock.calls[0] as [string, unknown[]]
@@ -130,7 +130,7 @@ describe('/api/admin-settings', () => {
     query.mockResolvedValueOnce({})
     const resp = await handler(
       makeRequest('POST', {
-        limits: { pro: 50, vip: 500 },
+        limits: { free: 50, vip: 500 },
         promoUntil: '2026-02-01T00:00:00Z',
         aiCircuitBreaker: true,
         leaderboardEnabled: true,
@@ -145,7 +145,7 @@ describe('/api/admin-settings', () => {
   it('lỗi DB khi ghi → ném lỗi', async () => {
     query.mockRejectedValueOnce(new Error('db down'))
     await expect(
-      handler(makeRequest('POST', { limits: { pro: 30, vip: 300 }, promoUntil: null })),
+      handler(makeRequest('POST', { limits: { free: 30, vip: 300 }, promoUntil: null })),
     ).rejects.toThrow('db down')
   })
 })

@@ -89,7 +89,7 @@ describe('/api/admin-grant-plan', () => {
   it('GET thành công → trả plan hiện tại', async () => {
     query
       .mockResolvedValueOnce({ rows: [{ id: 'u1' }] })
-      .mockResolvedValueOnce({ rows: [{ plan: 'pro', plan_expires_at: null }] })
+      .mockResolvedValueOnce({ rows: [{ plan: 'vip', plan_expires_at: null }] })
     const resp = await handler(makeRequest('GET', '?email=a@b.com'))
     expect(resp.status).toBe(200)
     const data = (await resp.json()) as {
@@ -97,7 +97,7 @@ describe('/api/admin-grant-plan', () => {
       plan: string
       planExpiresAt: string | null
     }
-    expect(data).toMatchObject({ email: 'a@b.com', plan: 'pro', planExpiresAt: null })
+    expect(data).toMatchObject({ email: 'a@b.com', plan: 'vip', planExpiresAt: null })
   })
 
   it('POST body sai (plan không hợp lệ) → 400', async () => {
@@ -110,24 +110,24 @@ describe('/api/admin-grant-plan', () => {
 
   it('POST không tìm thấy user → 404', async () => {
     query.mockResolvedValueOnce({ rows: [] })
-    const resp = await handler(makeRequest('POST', '', { email: 'a@b.com', plan: 'pro', days: 10 }))
+    const resp = await handler(makeRequest('POST', '', { email: 'a@b.com', plan: 'vip', days: 10 }))
     expect(resp.status).toBe(404)
   })
 
   it('POST thành công → cấp gói, tính đúng ngày hết hạn', async () => {
     query.mockResolvedValueOnce({ rows: [{ id: 'u1' }] }).mockResolvedValueOnce({ rows: [] })
-    const resp = await handler(makeRequest('POST', '', { email: 'a@b.com', plan: 'pro', days: 10 }))
+    const resp = await handler(makeRequest('POST', '', { email: 'a@b.com', plan: 'vip', days: 10 }))
     expect(resp.status).toBe(200)
     const data = (await resp.json()) as {
       email: string
       plan: string
       planExpiresAt: string | null
     }
-    expect(data.plan).toBe('pro')
+    expect(data.plan).toBe('vip')
     expect(data.planExpiresAt).not.toBeNull()
     const [, params] = query.mock.calls[1] as [string, unknown[]]
     expect(params[0]).toBe('u1')
-    expect(params[1]).toBe('pro')
+    expect(params[1]).toBe('vip')
   })
 
   it('POST plan=vip, days=null → cấp vĩnh viễn (planExpiresAt = null)', async () => {

@@ -112,7 +112,7 @@ describe('GET /api/profile', () => {
     query.mockResolvedValue({
       rows: [
         {
-          plan: 'pro',
+          plan: 'vip',
           plan_expires_at: '2099-01-01T00:00:00.000Z',
           onboarded: true,
           name: 'Liên',
@@ -125,7 +125,7 @@ describe('GET /api/profile', () => {
     })
     const res = await handler(makeGet())
     const body = await res.json()
-    expect(body.plan).toBe('pro')
+    expect(body.plan).toBe('vip')
     expect(body.name).toBe('Liên')
     expect(body.ageGroup).toBe('thanh_nien')
   })

@@ -1,4 +1,4 @@
-// src/lib/payment.ts — Client cho thanh toán Pro/VIP qua SePay (xem api/checkout.ts,
+// src/lib/payment.ts — Client cho thanh toán VIP qua SePay (xem api/checkout.ts,
 // api/payment-webhook.ts, api/payment-status.ts, api/payment-history.ts).
 //
 // SePay KHÔNG redirect người dùng về sau khi chuyển khoản — UI phải tự POLL trạng thái đơn
@@ -6,7 +6,8 @@
 
 import { getAuthHeader } from '@core/authHeader'
 
-export type PayablePlan = 'plus' | 'pro' | 'vip'
+// GĐ1 2026-09-12: VIP là gói trả phí DUY NHẤT — PHẢI khớp packages/core-billing/prices.ts.
+export type PayablePlan = 'vip'
 export type PayableCycle = '10day' | 'month' | 'year'
 
 export interface CheckoutResult {

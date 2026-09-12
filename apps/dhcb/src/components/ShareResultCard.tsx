@@ -176,7 +176,7 @@ export default function ShareResultCard({
             if (!days) return
             toast.success(
               isA
-                ? `Cảm ơn bạn đã chia sẻ! Tặng thêm ${days} ngày dùng gói Pro 🎁`
+                ? `Cảm ơn bạn đã chia sẻ! Tặng thêm ${days} ngày dùng gói VIP 🎁`
                 : `Thanks for sharing! Here's ${days} extra day of Pro on us 🎁`,
             )
           })

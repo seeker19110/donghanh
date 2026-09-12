@@ -1,9 +1,13 @@
-// api/_lib/prices.ts — Đọc bảng giá Pro/VIP (public.plan_prices, migration 0014). Cùng khuôn
-// mẫu cache TTL ngắn như api/_lib/settings.ts — đọc trên đường nóng của /api/checkout.
+// packages/core-billing/prices.ts — Đọc bảng giá VIP (public.plan_prices, migration 0014). Cùng
+// khuôn mẫu cache TTL ngắn như core-db/settings.ts — đọc trên đường nóng của /api/checkout.
+//
+// GĐ1 2026-09-12 (docs/specs/2026-09-12-gd1-xoa-goi-pro.md): gói 'plus'/'pro' KHÔNG còn bán.
+// Các dòng giá cũ của chúng trong `plan_prices` được GIỮ NGUYÊN (dữ liệu lịch sử, đối chiếu với
+// bảng `payments`), chỉ là không còn được đọc/chào bán ở đây nữa.
 import { getPgPool } from '@dhcb/core-db/pgPool'
 
 export type PayableCycle = '10day' | 'month' | 'year'
-export type PayablePlan = 'plus' | 'pro' | 'vip'
+export type PayablePlan = 'vip'
 
 // Số ngày cấp cho mỗi chu kỳ — DUY NHẤT một chỗ đổi nếu sau này thêm chu kỳ mới.
 export const CYCLE_DAYS: Record<PayableCycle, number> = { '10day': 10, month: 30, year: 365 }
@@ -19,16 +23,6 @@ export type PlanPrices = Record<PayablePlan, Record<PayableCycle, PriceEntry>>
 // Mặc định khi DB chưa có dòng nào / query lỗi (fail-open) — PHẢI khớp giá trị seed migration
 // 0014 & 0055.
 const DEFAULT_PRICES: PlanPrices = {
-  plus: {
-    '10day': { priceVnd: 15_000, salePriceVnd: null, saleUntil: null },
-    month: { priceVnd: 29_000, salePriceVnd: null, saleUntil: null },
-    year: { priceVnd: 249_000, salePriceVnd: null, saleUntil: null },
-  },
-  pro: {
-    '10day': { priceVnd: 20_000, salePriceVnd: null, saleUntil: null },
-    month: { priceVnd: 40_000, salePriceVnd: null, saleUntil: null },
-    year: { priceVnd: 360_000, salePriceVnd: null, saleUntil: null },
-  },
   vip: {
     '10day': { priceVnd: 30_000, salePriceVnd: null, saleUntil: null },
     month: { priceVnd: 75_000, salePriceVnd: null, saleUntil: null },
@@ -37,7 +31,9 @@ const DEFAULT_PRICES: PlanPrices = {
 }
 
 interface PriceRow {
-  plan: PayablePlan
+  // `string` chứ không phải PayablePlan: bảng DB vẫn còn dòng của gói đã ngừng bán ('plus',
+  // 'pro') — lọc ở vòng lặp bên dưới thay vì giả vờ rằng chúng không tồn tại.
+  plan: string
   cycle: PayableCycle
   price_vnd: number
   sale_price_vnd: number | null
@@ -58,12 +54,11 @@ export async function getPlanPrices(): Promise<PlanPrices> {
     // Bắt đầu từ mặc định rồi ghi đè bằng dữ liệu DB — nếu DB thiếu 1 dòng (chưa migrate hết),
     // gói/chu kỳ đó vẫn có giá mặc định hợp lý thay vì `undefined` làm vỡ /api/checkout.
     const value: PlanPrices = {
-      plus: { ...DEFAULT_PRICES.plus },
-      pro: { ...DEFAULT_PRICES.pro },
       vip: { ...DEFAULT_PRICES.vip },
     }
     for (const row of rows) {
-      if (value[row.plan]) {
+      // Bảng DB còn dòng của gói cũ ('plus'/'pro') — bỏ qua, chỉ nhận gói còn bán.
+      if (row.plan === 'vip' && value[row.plan][row.cycle]) {
         value[row.plan][row.cycle] = {
           priceVnd: row.price_vnd,
           salePriceVnd: row.sale_price_vnd,

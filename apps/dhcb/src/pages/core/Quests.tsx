@@ -26,7 +26,7 @@ export default function Quests() {
           title={isA ? 'Nhiệm vụ' : 'Quests'}
           subtitle={
             isA
-              ? 'Hoàn thành nhiệm vụ để nhận thêm ngày dùng gói Pro miễn phí'
+              ? 'Hoàn thành nhiệm vụ để nhận thêm ngày dùng gói VIP miễn phí'
               : 'Complete quests to earn extra free days of Pro'
           }
         />
