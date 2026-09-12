@@ -1,104 +1,156 @@
-# Đặc tả GĐ2 — VIP học tự do (môn Anh), Free đi tuần tự
+# Đặc tả GĐ2 — VIP học tự do (môn Anh), Free đi tuần tự — CHỐT CHẶN Ở SERVER
 
-**Ngày:** 2026-09-12 · **Trạng thái:** ⛔ CHƯA duyệt — đọc §0.1 trước, có một quyết định kiến
-trúc phải chốt · **Phụ thuộc:** GĐ1 phải merge trước (cần khái niệm gói đã gọn còn Free/VIP)
+**Ngày:** 2026-09-12 · **Trạng thái:** 🟡 Đã chốt hướng, **nhưng phải chia đôi** (xem §0.2) ·
+**Phụ thuộc:** GĐ1 merge trước
 
 ## 0. Một câu
 
-Người dùng **VIP** được vào thẳng bất kỳ cấp CEFR nào (A1→C2) mà không cần đạt điều kiện mở khoá;
-người dùng **Free** vẫn phải đi tuần tự từ A1 và thi đạt mới lên cấp — đúng luật đang chạy.
+**VIP** vào thẳng bất kỳ cấp CEFR nào (A1→C2); **Free** đi tuần tự A1→C2, thi đạt mới lên cấp —
+và điều đó được **server cưỡng chế**, không phải chỉ ẩn/hiện ở giao diện.
 
-## 0.1. ⚠️ QUYẾT ĐỊNH KIẾN TRÚC PHẢI CHỐT TRƯỚC
+## 0.0. Đã chốt (chủ dự án, 2026-09-12)
 
-**Luật khoá cấp hiện NẰM HOÀN TOÀN Ở CLIENT.** Khảo sát mã 2026-09-12:
+1. **Đơn vị khoá = CẤP CEFR**: A1 · A2 · B1 · B2 · C1 · C2. Không khoá mịn tới từng bài.
+2. **Chốt chặn đặt ở SERVER** (phương án A), không phải chỉ trợ giúp giao diện. Nghĩa là người
+   sửa localStorage hoặc gọi thẳng API **không** vượt được.
 
-- `apps/dhcb/src/lib/cefrProgress.ts` tính `computeLockedMap` **trong trình duyệt**, nguồn dữ
-  liệu là `localStorage` (`et_cefr_unlocked_*`).
-- Server (`apps/server/src/api/core/progress.ts` dòng 197) chỉ **lưu hộ**:
-  `cefrUnlocked: mergeArrayUnion(existing, d.cefrUnlocked)` — **tin thẳng mảng client gửi lên**,
-  không kiểm chứng gì.
-- Không có API nào gác nội dung bài học theo cấp — client tự quyết hiển thị gì.
+## 0.2. ⚠️ HỆ QUẢ CỦA QUYẾT ĐỊNH "CHẶN Ở SERVER" — ĐỌC TRƯỚC KHI ƯỚC LƯỢNG
 
-Hệ quả: hôm nay **ai cũng có thể mở mọi cấp** bằng cách sửa localStorage. Chừng nào quyền mở khoá
-không phải quyền trả tiền thì điều đó vô hại. **Nhưng GĐ2 biến "học tự do" thành đặc quyền VIP
-trả tiền** — nếu vẫn để ở client thì đó là paywall giả: bất kỳ ai cũng vượt được trong 10 giây.
-Điều này vi phạm CLAUDE.md mục 4.2 ("logic nhạy cảm — kiểm quyền — luôn ở server").
+Khi khảo sát sâu (2026-09-12) mới thấy việc này **lớn hơn** mô tả ban đầu. Không chỉ luật khoá
+nằm ở client — **cả việc CHẤM THI cũng ở client**:
 
-Hai đường đi, chọn một:
+```
+apps/dhcb/src/lib/cefrExam.ts:114     scoreExam(correct, total)        ← chấm điểm TRONG TRÌNH DUYỆT
+apps/dhcb/src/lib/cefrExam.ts:90      saveExamAttempt(uid, level, pct) ← client tự quyết "đạt"
+apps/server/.../core/progress.ts:176  cefrExams: mergeExamMap(...)     ← server CHỈ LƯU HỘ kết quả client gửi
+apps/server/.../core/progress.ts:197  cefrUnlocked: mergeArrayUnion(…) ← server CHỈ LƯU HỘ mảng cấp đã mở
+```
 
-|               | **(A) Paywall thật — chuyển kiểm quyền về server**                                                                            | **(B) Chỉ là trợ giúp giao diện, không phải paywall**                |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| Việc phải làm | Server gác: `progress.ts` từ chối `cefrUnlocked` mà user không đủ điều kiện (trừ VIP); nội dung cấp khoá không trả về qua API | Giữ nguyên client, chỉ thêm nhánh `if (plan === 'vip') → không khoá` |
-| Công sức      | Lớn — đổi hợp đồng API, cần migration lưu bằng chứng thi đạt server-side                                                      | Nhỏ — ~20 dòng                                                       |
-| Trung thực    | Đúng: trả tiền mới vượt được                                                                                                  | Người biết kỹ thuật vượt được miễn phí                               |
-| Rủi ro        | Có thể chặn nhầm người dùng cũ đã grandfather                                                                                 | Thấp                                                                 |
+Server **có** dữ liệu `cefr_exams` nhưng **chưa bao giờ kiểm chứng** nó — client POST lên "đã đạt
+C2" là server ghi nhận. Vì vậy chỉ sửa `computeLockedMap` phía client là **không** đạt yêu cầu
+"chặn ở server": vẫn giả một dòng `cefrExams` là mở hết.
 
-**Khuyến nghị: (B) trước, (A) sau — và nói thật trên trang bán hàng.** Lý do: (1) dự án chưa có
-người học thật nào (xem `PROGRESS.md` ưu tiên 1), làm paywall chống gian lận trước khi có người
-dùng là tối ưu hoá sớm; (2) "học tự do" là **tiện lợi**, không phải nội dung độc quyền — người
-vượt rào vẫn không nhận thêm nội dung nào mà Free không có; (3) (A) đụng `progress.ts` — file vừa
-được sửa ở PR #883, đang là hotspot. Nếu chủ dự án muốn paywall nghiêm ngặt thì chọn (A) và **tách
-thành GĐ2b riêng**, đừng gộp.
+**Chặn thật hoàn toàn đòi hỏi chuyển việc chấm thi về server**: đề thi phải sinh/lưu ở server
+(không thì server không biết đáp án đúng để chấm) → đổi luồng thi → đổi hợp đồng API → migration
+lưu đề + lượt thi.
 
-## ① Phạm vi
+**→ Bắt buộc chia đôi, KHÔNG gộp một PR:**
 
-### LÀM (giả định chọn phương án B)
+| PR       | Nội dung                                                                                                                                              | Quy mô                 |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| **GĐ2a** | Server cưỡng chế **quyền mở cấp** dựa trên `cefr_exams` đã có + gói VIP. Chặn được: sửa localStorage, gọi thẳng `/api/progress` để bịa `cefrUnlocked` | Vừa                    |
+| **GĐ2b** | Chuyển **chấm thi** về server (đề + đáp án + chấm ở server). Chặn nốt lỗ cuối: bịa `cefrExams`                                                        | Lớn — cần đặc tả riêng |
 
-1. VIP: mọi cấp CEFR đều mở, không phụ thuộc `examPassed` hay `et_cefr_unlocked_*`.
-2. Free: **giữ nguyên 100%** luật hiện tại (A1 mở; cấp sau cần thi đạt cấp trước; grandfather).
-3. Giao diện nói rõ vì sao mở: VIP thấy nhãn kiểu "Mở tự do (VIP)" ở cấp mà Free sẽ thấy ổ khoá —
-   không để người dùng tưởng mình đã đạt điều kiện.
-4. Hạ VIP → Free (hết hạn) **không xoá tiến độ**: cấp đã thực sự thi đạt vẫn mở; cấp chỉ mở nhờ
-   VIP thì khoá lại. Tức là **không ghi cấp mở-nhờ-VIP vào `et_cefr_unlocked_*`**.
+Đặc tả này mô tả **GĐ2a**. GĐ2b chỉ ghi phần khung ở §⑦.
 
-### KHÔNG làm
+**Góp ý thẳng:** GĐ2a **đã đóng phần lớn lỗ hổng thực tế**. GĐ2b nên hoãn tới khi có người học
+thật và có dấu hiệu gian lận thật, vì nó đổi cả luồng làm bài của người dùng lương thiện và
+**làm mất khả năng thi offline** (xem §⑦). Quyết định cuối là của chủ dự án.
 
-- Không đụng luật thi cuối cấp (`isExamEligible`, ≥70% từ vựng + 100% ngữ pháp) — VIP vẫn phải
-  học đủ mới **được thi**, chỉ khác là được **vào xem/học** cấp bất kỳ.
-- Không đụng môn Lập trình / 4 trụ (GĐ3, GĐ4).
-- Không chuyển kiểm quyền về server (đó là GĐ2b nếu chọn (A)).
+## ① Phạm vi (GĐ2a)
 
-## ② Điểm chạm
+### LÀM
 
-| File                                                                                                                            | Sửa gì                                                                                                                                                                                            |
-| ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `apps/dhcb/src/lib/cefrProgress.ts`                                                                                             | `computeLockedMapPersisted(uid, levels, examPassed)` thêm tham số `plan: Plan`; `plan === 'vip'` → trả map toàn `false`. **`computeLockedMap` (hàm thuần) giữ nguyên chữ ký** để test cũ không vỡ |
-| `persistUnlockedLevels` (cùng file)                                                                                             | Thêm chốt: **không** ghi vào `et_cefr_unlocked_*` những cấp chỉ mở vì VIP (nếu ghi, hạ gói sẽ vẫn mở vĩnh viễn — sai §①.4)                                                                        |
-| `apps/dhcb/src/pages/subjects/english/CefrLevelPage.tsx`, `EnglishHome.tsx`, `components/RoadmapTab.tsx`, `pages/core/Home.tsx` | Truyền `plan` vào; hiện nhãn "Mở tự do (VIP)"                                                                                                                                                     |
+1. **Server tự tính** tập cấp được mở cho mỗi user, không nhận từ client:
+   - `plan === 'vip'` → mở cả 6 cấp.
+   - ngược lại → A1 luôn mở; `L(n+1)` mở khi `cefr_exams[L(n)].passed === true`.
+   - cộng thêm tập **grandfather** đã lưu (xem §③).
+2. `/api/progress` **từ chối ghi** `cefrUnlocked` do client gửi — trường này thành **chỉ đọc từ
+   server** (server trả xuống, client hiển thị).
+3. Client bỏ tự tính khoá, dùng thẳng danh sách server trả về.
+4. Giao diện: VIP thấy nhãn "Mở tự do (VIP)" ở cấp mà Free sẽ thấy ổ khoá.
+5. Hạ VIP → Free: cấp **thi đạt thật** vẫn mở; cấp chỉ mở nhờ VIP thì khoá lại (server tính lại
+   mỗi lần, không lưu "đã mở nhờ VIP" vào đâu cả).
 
-`npm run codemap -- callers apps/dhcb/src/lib/cefrProgress.ts#computeLockedMapPersisted` trước khi sửa.
+### KHÔNG làm (để GĐ2b)
+
+- Không chuyển chấm thi về server — `cefrExams` vẫn do client ghi (lỗ hổng còn lại, **nói rõ**).
+- Không đụng điều kiện **dự thi** (`isExamEligible`: ≥70% từ vựng + 100% ngữ pháp) — vẫn ở client,
+  vì nó chỉ bật/tắt nút Thi, không cấp quyền gì.
+- Không đụng môn Lập trình / 4 trụ.
+
+## ② Điểm chạm (đã đọc mã xác minh 2026-09-12)
+
+| File                                                                 | Sửa gì                                                                                                                                                                                                                            |
+| -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `packages/core-learner/` (file mới, vd `cefrUnlock.ts`)              | Hàm **thuần** `computeUnlockedLevels({ plan, exams, grandfathered })` — **dùng chung server + client** (client chỉ để hiển thị lạc quan, server là nguồn sự thật)                                                                 |
+| `apps/server/src/api/core/progress.ts`                               | Dòng 197: **bỏ** `cefrUnlocked: mergeArrayUnion(existing, d.cefrUnlocked)`, thay bằng tính từ `cefr_exams` + `plan` + grandfather. Đọc `plan` qua `resolvePlan()`. Schema Zod (~dòng 39): `cefrUnlocked` **không nhận từ client** |
+| `apps/dhcb/src/lib/cefrProgress.ts`                                  | `computeLockedMapPersisted` đổi thành đọc danh sách server trả về; **bỏ** ghi `et_cefr_unlocked_*`                                                                                                                                |
+| `apps/dhcb/src/lib/progressSync.ts`                                  | Ngừng gửi `cefrUnlocked` lên server                                                                                                                                                                                               |
+| `CefrLevelPage.tsx`, `EnglishHome.tsx`, `RoadmapTab.tsx`, `Home.tsx` | Nhận danh sách mở từ server; nhãn "Mở tự do (VIP)"                                                                                                                                                                                |
+
+**Bắt buộc chạy trước khi sửa:** `npm run codemap -- impact apps/server/src/api/core/progress.ts`
+— file này **vừa sửa ở PR #883** (Daily Plan completion, có transaction + row lock). Đọc kỹ phần
+transaction trước khi chèn logic mới.
 
 ## ③ Hợp đồng dữ liệu
 
-**Không có migration.** Không thêm cột, không đổi schema. `plan` đọc từ nguồn sẵn có (context
-user phía client).
+**Cần migration** để giữ grandfather: hôm nay tập "đã từng mở" nằm ở `localStorage`
+(`et_cefr_unlocked_*`) và ở cột `cefr_unlocked`. Khi server ngừng tin client, phải **đóng băng tập
+hiện có** làm grandfather, nếu không người dùng cũ mất quyền đã có.
 
-## ④ Tiêu chí chấp nhận
+```sql
+-- Migration 00NN: đóng băng quyền mở cấp đã có làm grandfather.
+-- cefr_unlocked hiện là mảng client tự khai; từ nay server không nhận ghi mới nữa,
+-- nhưng giá trị ĐANG CÓ được giữ nguyên làm "quyền đã cấp" (chống hồi tố).
+alter table public.learning_progress
+  add column if not exists cefr_unlocked_grandfathered text[] default '{}';
 
-1. User VIP, chưa thi cấp nào → `computeLockedMapPersisted` trả **tất cả `false`** cho A1–C2.
-2. User Free, chưa thi cấp nào → A1 mở, A2–C2 khoá (đúng như hôm nay — test hiện có phải còn xanh).
-3. User VIP mở cấp B2 rồi hết hạn VIP → B2 khoá lại; cấp đã **thi đạt** vẫn mở.
-4. VIP vào cấp C1 nhưng chưa đủ 70% từ vựng → **nút "Thi cuối cấp" vẫn tắt** (không được bỏ qua
-   điều kiện dự thi).
-5. Toàn bộ test cũ của `cefrProgress.test.ts` xanh không sửa (chứng minh Free không đổi hành vi).
-6. Cổng a11y `e2e/a11y.spec.ts` + `a11y-aaa.spec.ts` xanh với nhãn mới (tương phản AA/AAA).
+update public.learning_progress
+   set cefr_unlocked_grandfathered = coalesce(cefr_unlocked, '{}')
+ where cefr_unlocked_grandfathered = '{}';
+```
+
+**Rollback:** giữ nguyên cột `cefr_unlocked` cũ (không xoá) → quay lại chỉ cần cho server nhận ghi
+trở lại. Cột `_grandfathered` để lại vô hại.
+
+⚠️ **Chạy migration TRƯỚC khi deploy mã mới.** Ngược thứ tự = người dùng cũ mất quyền trong vài
+phút giữa hai bước.
+
+## ④ Tiêu chí chấp nhận (đo được)
+
+1. VIP chưa thi cấp nào → `/api/progress` trả `cefrUnlocked = [A1,A2,B1,B2,C1,C2]`.
+2. Free chưa thi cấp nào → trả `[A1]`.
+3. Free đã có `cefr_exams.A1.passed = true` → trả `[A1, A2]`.
+4. **Chống giả mạo:** Free POST `/api/progress` kèm `cefrUnlocked: [A1..C2]` → server **bỏ qua**,
+   lần đọc kế tiếp vẫn trả `[A1]`. **Đây là test quan trọng nhất của cả đợt.**
+5. User cũ có `cefr_unlocked = [A1,A2,B1]` trước migration → sau migration vẫn mở đúng 3 cấp đó
+   dù chưa thi cấp nào (grandfather).
+6. VIP mở B2, hết hạn VIP → lần đọc sau B2 khoá lại; cấp thi đạt thật vẫn mở.
+7. Test cũ `cefrProgress.test.ts` còn xanh, hoặc sửa **có chủ đích kèm lý do ghi trong PR**.
 
 ## ⑤ Bất biến không được phá
 
-- **Grandfather không được mất:** người đã mở cấp theo luật cũ giữ nguyên quyền (lý do ghi rõ ở
-  `cefrProgress.ts` dòng 183–188 — đọc trước khi sửa).
-- `computeLockedMap*` phải **THUẦN** (gọi được trong `useMemo`) — ghi localStorage chỉ ở
-  `persistUnlockedLevels` gọi từ `useEffect`. Nợ này đã trả ở 2026-08-24, **đừng tái phạm**.
-- Free không đổi một hành vi nào.
+- **Không ai mất quyền đã có** (tiêu chí 5) — bài học chống hồi tố ghi ở `cefrProgress.ts`
+  dòng 183–188.
+- **Không tin client** — chính là mục đích của đợt này (CLAUDE.md mục 4.2).
+- Transaction/row lock của `progress.ts` do PR #883 đặt ra **phải còn nguyên**; logic mới không
+  được phá tính lũy đẳng của merge tiến độ.
+- Hàm tính quyền phải **thuần**, test được không cần DB.
+- **Fail-safe đúng chiều:** server lỗi đọc `plan` → coi như **Free** (khoá chặt), KHÔNG phải mở
+  hết. Khác `checkAndConsumeUsage` (fail-open) — ở đây fail-open nghĩa là phát không gói VIP.
 
 ## ⑥ Quy ước dự án liên quan
 
-- Đây là `feat(` → mô tả PR phải trỏ file đặc tả này + "Approved for implementation".
-- Chạm giao diện → **BẮT BUỘC Tầng 8b**: ảnh chụp 1440px + 390px trước/sau
-  (`docs/framework/QUY-TRINH-AUDIT.md`).
-- Không sửa `apps/dhcb/src/prompts/*` nên không cần `eval:tutor`.
+- `feat(billing)` hoặc `feat(english)` → mô tả PR trỏ file này + "Approved for implementation".
+- Migration → **thêm dòng vào `postgres/migrations/README.md`** (bẫy đã dính ở PR #883).
+- Chạm giao diện → **Tầng 8b bắt buộc** (ảnh 1440px + 390px trước/sau).
+- Nhật ký `docs/changelog/` + cập nhật `PROGRESS.md`.
+
+## ⑦ Khung cho GĐ2b (chấm thi ở server — chưa viết đặc tả đầy đủ)
+
+Việc phải giải khi bắt tay:
+
+- Đề thi sinh ở đâu: server sinh và lưu, hay server giữ đáp án của bộ đề tĩnh?
+- Chống xem trước đáp án: API trả đề **không kèm đáp án**.
+- Chống thi lại vô hạn để dò đáp án: giới hạn lượt / thời gian chờ.
+- Người đang thi dở lúc deploy thì sao?
+- **Offline/PWA: hiện thi được offline — chuyển lên server là MẤT khả năng đó.** Cần quyết định
+  trước, vì đây là mất tính năng thật với người dùng lương thiện để chặn người gian lận.
 
 ## Nghiệm thu
 
-- [ ] Đã chốt phương án (A) hay (B) ở §0.1 — ghi quyết định + ngày vào đây
-- [ ] 6 tiêu chí §④ đạt · [ ] Có ảnh chụp Tầng 8b
+- [x] §0.0 đã chốt: đơn vị = cấp CEFR · chốt chặn ở server — chủ dự án 2026-09-12
+- [ ] Đã xác nhận chia đôi GĐ2a/GĐ2b (§0.2) trước khi bắt đầu
+- [ ] Đã chạy migration TRƯỚC khi deploy mã
+- [ ] 7 tiêu chí §④ đạt, đặc biệt tiêu chí 4 (chống giả mạo) · [ ] Có ảnh chụp Tầng 8b

@@ -1,14 +1,25 @@
 # Đặc tả GĐ3 — Khoá bài tuần tự môn Lập trình (Free), VIP học tự do
 
-**Ngày:** 2026-09-12 · **Trạng thái:** 🟡 BẢN NHÁP — **chưa đủ để thi hành**, còn 3 quyết định
-phải chốt (§0.1) · **Phụ thuộc:** GĐ1 + GĐ2 merge trước
+**Ngày:** 2026-09-12 · **Trạng thái:** ✅ Đã chốt đủ — sẵn sàng thi hành ·
+**Phụ thuộc:** GĐ1 + GĐ2a merge trước
 
 ## 0. Một câu
 
 Người dùng **Free** phải học tuần tự môn Lập trình (hết bài trước mới mở bài sau); **VIP** vào
 bài nào cũng được.
 
-## 0.1. ⛔ BA QUYẾT ĐỊNH PHẢI CHỐT TRƯỚC KHI VIẾT MÃ
+## 0.0. Đã chốt (chủ dự án, 2026-09-12)
+
+1. **Đơn vị khoá:** tuyến tính theo độ khó tăng dần — "từ đơn giản đến nâng cao", tức theo
+   **bậc P1 → P6**. Không khoá mịn tới từng bài trong bậc.
+2. **Ngưỡng mở bậc sau: hoàn thành ≥70% số bài của bậc trước** (không đòi 100%, không đòi đạt
+   quiz mọi chặng). Con số 70% **trùng với `UNLOCK_PCT` của môn Anh** — dùng chung một ngưỡng
+   cho cả nền tảng, người học không phải nhớ hai luật khác nhau.
+3. **Phạm vi: CHỈ xương sống P1→P6.** Hướng chuyên sâu (14 hướng), khoá ngắn và lộ trình mục tiêu
+   **KHÔNG khoá** — chúng là nội dung song song, không phải bậc tuyến tính, khoá tuần tự ở đó vô
+   nghĩa. (Đây là khuyến nghị trong bản nháp, chủ dự án không phản đối khi chốt hai mục trên.)
+
+## 0.1. Bối cảnh khảo sát mã (giữ lại làm hồ sơ)
 
 Khác môn Anh (đã có sẵn luật khoá cấp để mở rộng), môn Lập trình **chưa có** khái niệm khoá theo
 tiến độ ở cấp bài học. Khảo sát mã 2026-09-12:
@@ -23,23 +34,14 @@ tiến độ ở cấp bài học. Khảo sát mã 2026-09-12:
   S1→S4** của hướng chuyên sâu. `ProgrammingLevelPage.tsx:233` có nhãn "Sắp mở" nhưng đó là
   **nội dung chưa soạn**, không phải khoá theo tiến độ người học.
 
-**Ba câu hỏi:**
+Cả ba câu hỏi của bản nháp **đã được trả lời ở §0.0** — giữ phần khảo sát trên làm căn cứ.
 
-1. **Đơn vị khoá là gì?** (a) theo **bậc** P1→P6 (thô, dễ làm, giống CEFR) · (b) theo **từng bài**
-   trong bậc (mịn, đúng ý "học hết từ đầu mới mở bài sau", nhưng nhiều bài → dễ gây bí) ·
-   (c) cả hai tầng. **Khuyến nghị (a)** cho đợt đầu: ít rủi ro gây tắc, đối xứng với môn Anh.
-2. **Điều kiện mở bậc sau là gì?** Môn Anh dùng "thi đạt ≥70%". Môn Lập trình có quiz theo chặng
-   (`stageQuizzes.ts`, mỗi chặng 5 câu) — dùng **đạt quiz của mọi chặng trong bậc**? hay chỉ cần
-   `lesson_progress.status='completed'` cho hết bài của bậc? Cần chốt **con số ngưỡng**.
-3. **Có áp cho hướng chuyên sâu + khoá ngắn + lộ trình mục tiêu không?** Ba thứ này là **nội dung
-   song song**, không phải bậc tuyến tính — khoá tuần tự có thể vô nghĩa ở đây. **Khuyến nghị:
-   KHÔNG khoá**, chỉ khoá xương sống P1→P6.
-
-## ① Phạm vi (giả định chọn (a) + khoá theo `lesson_progress`)
+## ① Phạm vi
 
 ### LÀM
 
-1. Free: bậc `P(n+1)` khoá cho tới khi **100% bài của bậc `P(n)`** có `status='completed'`. P1 luôn mở.
+1. Free: bậc `P(n+1)` khoá cho tới khi **≥70% số bài của bậc `P(n)`** có `status='completed'`.
+   P1 luôn mở.
 2. VIP: mọi bậc mở.
 3. Grandfather như môn Anh: ai **đã từng** vào học bậc sau trước khi luật này ra đời thì **không
    bị khoá lại** (chống hồi tố — bài học xương máu ghi ở `cefrProgress.ts` dòng 183–188).
@@ -73,12 +75,15 @@ tránh migration ở đợt đầu).
 
 ## ④ Tiêu chí chấp nhận
 
-1. Free hoàn thành 100% bài P1 → P2 mở; còn thiếu 1 bài → P2 vẫn khoá và **hiện đúng số bài còn thiếu**.
+1. Free hoàn thành **đúng 70%** số bài P1 → P2 mở. Ở **69%** → P2 vẫn khoá và **hiện đúng số bài
+   còn thiếu**. (Test cả hai phía ngưỡng — đây là ca biên hay sai nhất.)
 2. VIP chưa học gì → P1–P6 đều mở.
 3. User đã từng học P3 trước khi luật ra đời → P3 vẫn mở sau khi deploy (grandfather).
-4. Hàm compute là **thuần**, có test ca biên: bậc rỗng (chưa có bài nào soạn) → **không khoá bậc sau**
-   (nếu không, bậc chưa có nội dung sẽ khoá vĩnh viễn toàn bộ phần sau — lỗi chí mạng).
-5. Cổng a11y AA/AAA xanh với ổ khoá + chữ giải thích.
+4. Hàm compute là **thuần**, có test ca biên: bậc rỗng (chưa có bài nào soạn) → **không khoá bậc
+   sau** (nếu không, bậc chưa có nội dung sẽ khoá vĩnh viễn toàn bộ phần sau — lỗi chí mạng).
+5. Hướng chuyên sâu / khoá ngắn / lộ trình mục tiêu **vẫn mở bình thường** cho Free, không bị
+   khoá lây (test canh: mở trang hướng chuyên sâu với user chưa học bài nào → vào được).
+6. Cổng a11y AA/AAA xanh với ổ khoá + chữ giải thích.
 
 ## ⑤ Bất biến không được phá
 
@@ -89,10 +94,12 @@ tránh migration ở đợt đầu).
 ## ⑥ Quy ước dự án liên quan
 
 - `feat(programming): ...` → mô tả PR trỏ file đặc tả này + "Approved for implementation".
+- **Ngưỡng 70% dùng chung với môn Anh** — nếu sau này đổi, đổi ở MỘT nơi (hằng số chung), đừng
+  để hai con số 70 rời rạc ở hai môn.
 - Chạm giao diện → **Tầng 8b bắt buộc** (ảnh 1440px + 390px trước/sau).
 - Không sửa `feedbackPrompt.ts` nên không cần `eval:code-feedback`.
 
 ## Nghiệm thu
 
-- [ ] Đã chốt 3 câu hỏi §0.1 (đơn vị khoá · ngưỡng mở · phạm vi) — ghi quyết định vào đây
-- [ ] 5 tiêu chí §④ đạt · [ ] Có ảnh chụp Tầng 8b
+- [x] Đã chốt 3 quyết định (§0.0): bậc P1→P6 · ngưỡng ≥70% bài · chỉ xương sống — chủ dự án 2026-09-12
+- [ ] 6 tiêu chí §④ đạt, đặc biệt ca biên 69% vs 70% · [ ] Có ảnh chụp Tầng 8b

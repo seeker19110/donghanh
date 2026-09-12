@@ -162,14 +162,25 @@ Quyết định: **xoá gói Pro và Plus, chỉ còn Free + VIP**. Free hưởn
 lượt/ngày)** miễn phí. **VIP** là gói trả phí duy nhất, đặc quyền là **học tự do** (nhảy cấp tuỳ
 ý); Free học tuần tự từ đầu. Người đang trả Plus/Pro còn hạn → **nâng VIP giữ nguyên hạn đã trả**.
 
-Chia 4 giai đoạn, mỗi giai đoạn MỘT PR, dừng xin duyệt giữa các giai đoạn:
+Chia giai đoạn, mỗi giai đoạn MỘT PR, dừng xin duyệt giữa các giai đoạn. **Toàn bộ quyết định
+đã chốt 2026-09-12** — trừ một mục cần xác nhận trước khi bắt đầu (GĐ2b, xem dưới):
 
-| GĐ  | Đặc tả                                                | Trạng thái                                                                       |
-| --- | ----------------------------------------------------- | -------------------------------------------------------------------------------- |
-| 1   | `docs/specs/2026-09-12-gd1-xoa-goi-pro.md`            | ✅ đã chốt phương án — **làm trước tiên**                                        |
-| 2   | `docs/specs/2026-09-12-gd2-vip-hoc-tu-do-mon-anh.md`  | ⛔ còn 1 quyết định kiến trúc (paywall client hay server)                        |
-| 3   | `docs/specs/2026-09-12-gd3-khoa-bai-mon-lap-trinh.md` | ⛔ còn 3 quyết định (đơn vị khoá · ngưỡng · phạm vi)                             |
-| 4   | `docs/specs/2026-09-12-gd4-khoa-bai-4-tru.md`         | 🔴 **khuyến nghị KHÔNG làm** — 4 trụ là công cụ, không phải giáo trình; đọc §0.1 |
+| GĐ  | Đặc tả                                                | Quyết định đã chốt                                                                                                                               | Trạng thái                                             |
+| --- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------ |
+| 1   | `docs/specs/2026-09-12-gd1-xoa-goi-pro.md`            | Xoá **cả Pro lẫn Plus**; Free hưởng hạn mức Plus cũ (30/ngày); người đang trả còn hạn → nâng VIP giữ nguyên hạn                                  | ✅ **làm trước tiên**                                  |
+| 2a  | `docs/specs/2026-09-12-gd2-vip-hoc-tu-do-mon-anh.md`  | Khoá theo **cấp CEFR A1–C2**; chốt chặn **ở SERVER** (không phải chỉ giao diện)                                                                  | ✅ sẵn sàng                                            |
+| 2b  | (chưa viết — khung ở GĐ2 §⑦)                          | Chuyển **chấm thi** về server để bịt nốt lỗ `cefrExams`                                                                                          | ⚠️ **khuyến nghị hoãn** — làm mất khả năng thi offline |
+| 3   | `docs/specs/2026-09-12-gd3-khoa-bai-mon-lap-trinh.md` | Khoá theo **bậc P1→P6** (dễ→nâng cao); mở bậc sau khi **≥70% bài** bậc trước; **chỉ** xương sống, không khoá hướng chuyên sâu/khoá ngắn/lộ trình | ✅ sẵn sàng                                            |
+| 4   | `docs/specs/2026-09-12-gd4-khoa-bai-4-tru.md`         | **KHÔNG khoá gì ở 4 trụ** — chúng là công cụ, không phải giáo trình                                                                              | ⛔ **ĐÓNG, không thi hành**                            |
+
+**Ngưỡng 70% dùng chung** giữa môn Anh (`UNLOCK_PCT`) và môn Lập trình — nếu đổi, đổi ở một nơi.
+
+**Phát hiện khi khảo sát mã (2026-09-12), ảnh hưởng tới ước lượng:**
+
+1. Hệ thống thực tế có **4 gói** (`free/plus/pro/vip`), không phải 3 như `CLAUDE.md` mục 6 ghi.
+   Plus có hạn mức **hard-code 30** ở `usage.ts:156`; nên chuyển thành cấu hình được khi làm GĐ1.
+2. Luật khoá cấp CEFR **và cả việc chấm thi** hiện nằm hoàn toàn ở client; server chỉ lưu hộ và
+   tin thẳng dữ liệu client gửi. Đó là lý do GĐ2 phải tách 2a/2b.
 
 ⚠️ Việc này **mâu thuẫn với quyết định đóng băng phạm vi 2026-09-06** (ưu tiên 1: đo bằng chứng
 người học thật trước). Đã nêu với chủ dự án; chủ dự án vẫn chọn làm. Ghi lại để sau này biết vì
