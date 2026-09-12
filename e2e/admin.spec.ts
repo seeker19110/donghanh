@@ -173,7 +173,7 @@ const MOCK_USAGE_STATS = {
 }
 
 const MOCK_ADMIN_SETTINGS = {
-  limits: { pro: 200, vip: 999 },
+  limits: { free: 200, vip: 999 },
   promoUntil: null,
   aiCircuitBreaker: false,
   leaderboardEnabled: false,
@@ -261,19 +261,12 @@ const MOCK_PLAN_MARKETING = {
       taglineEn: 'Basic',
       bullets: [],
     },
-    pro: {
-      plan: 'pro',
+    vip: {
+      plan: 'vip',
       badge: 'Phổ biến',
       taglineVi: 'Học không giới hạn',
       taglineEn: 'Learn unlimited',
       bullets: [{ id: 1, textVi: 'Chat không giới hạn', textEn: 'Unlimited chat', sortOrder: 10 }],
-    },
-    vip: {
-      plan: 'vip',
-      badge: 'Tốt nhất',
-      taglineVi: 'Tất cả tính năng',
-      taglineEn: 'All features',
-      bullets: [],
     },
   },
   updatedAt: '2026-08-01T00:00:00.000Z',
@@ -899,13 +892,13 @@ test.describe('Admin Dashboard — /admin-s', () => {
     await expect(page.getByText('Khuyến mãi ra mắt')).toBeVisible({ timeout: VISIBLE_TIMEOUT })
   })
 
-  test('Limits: Hiện input Pro và VIP', async ({ page }) => {
+  test('Limits: Hiện input Free và VIP', async ({ page }) => {
     await gotoAdmin(page, 'limits')
-    await expect(page.getByText('Gói Pro (lượt/ngày)')).toBeVisible({ timeout: VISIBLE_TIMEOUT })
+    await expect(page.getByText('Gói Free (lượt/ngày)')).toBeVisible({ timeout: VISIBLE_TIMEOUT })
     await expect(page.getByText('Gói VIP (lượt/ngày)')).toBeVisible()
   })
 
-  test('Limits: Giá trị Pro=200, VIP=999', async ({ page }) => {
+  test('Limits: Giá trị Free=200, VIP=999', async ({ page }) => {
     await gotoAdmin(page, 'limits')
     await expect(page.locator('input[type="number"]').first()).toHaveValue('200', {
       timeout: VISIBLE_TIMEOUT,
@@ -1144,11 +1137,9 @@ test.describe('Admin Dashboard — /admin-s', () => {
     expect(calls.some((u) => u.includes('search='))).toBe(true)
   })
 
-  test('GrantPlan: Form cấp gói hiện text "Cấp gói Pro/VIP thủ công theo email"', async ({
-    page,
-  }) => {
+  test('GrantPlan: Form cấp gói hiện text "Cấp gói VIP thủ công theo email"', async ({ page }) => {
     await gotoAdmin(page, 'grant-plan')
-    await expect(page.getByText('Cấp gói Pro/VIP thủ công theo email')).toBeVisible({
+    await expect(page.getByText('Cấp gói VIP thủ công theo email')).toBeVisible({
       timeout: VISIBLE_TIMEOUT,
     })
   })
@@ -1164,7 +1155,7 @@ test.describe('Admin Dashboard — /admin-s', () => {
     await gotoAdmin(page, 'grant-plan')
     const grantSection = page
       .locator('section')
-      .filter({ hasText: 'Cấp gói Pro/VIP thủ công theo email' })
+      .filter({ hasText: 'Cấp gói VIP thủ công theo email' })
     await grantSection.locator('input[type="checkbox"]').uncheck()
     await expect(grantSection.locator('input[type="number"]')).toBeVisible({ timeout: 5000 })
   })
