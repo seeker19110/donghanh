@@ -16,11 +16,14 @@
 
 import type { CefrLevel, CefrUnit } from '../data/cefr'
 import type { Circle } from '../data/curriculum'
+import { UNLOCK_PCT } from '@dhcb/core-learner/unlockThreshold'
 import { pushProgress } from './progressSync'
 import { addGrammarToSRS } from './srs'
 
 // Ngưỡng mở khóa cấp tiếp theo: thuộc ≥70% từ vựng của cấp trước.
-export const UNLOCK_PCT = 0.7
+// Con số nằm ở `@dhcb/core-learner/unlockThreshold` — DÙNG CHUNG với luật mở bậc môn Lập trình
+// (GĐ3, 2026-09-12) để cả nền tảng chỉ có MỘT ngưỡng, đổi một chỗ là đổi hết.
+export { UNLOCK_PCT }
 
 const GRAMMAR_KEY = (uid: string) => `et_cefr_grammar_${uid}`
 const DIALOGUE_KEY = (uid: string) => `et_cefr_dialogue_${uid}`

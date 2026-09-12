@@ -61,6 +61,20 @@ test('tiến độ và cột mốc bậc đọc từ dữ liệu thật, không 
   await expect(page.getByRole('button', { name: /Bậc P1 .* đã xong 2 trên \d+ bài/ })).toBeVisible()
 })
 
+// GĐ3 (docs/specs/2026-09-12-gd3-khoa-bai-mon-lap-trinh.md): Free học tuần tự P1→P6.
+test('Free chưa học gì: bậc P2 khoá, ổ khoá NÓI RÕ còn thiếu bao nhiêu bài', async ({ page }) => {
+  await mockLogin(page, 'vi', 'dark-blue')
+  await gioLapTiendo(page, [])
+  await page.goto('/lap-trinh', { waitUntil: 'domcontentloaded' })
+
+  const p2 = page.getByRole('button', { name: /Bậc P2 .* đang khoá/ })
+  await expect(p2).toBeDisabled()
+  // Ổ khoá câm là lỗi sản phẩm — câu giải thích phải hiện ngay trên thẻ bậc.
+  await expect(page.getByText(/Còn \d+ bài ở P1 nữa là mở/).first()).toBeVisible()
+  // P1 thì không bao giờ khoá.
+  await expect(page.getByRole('button', { name: /Bậc P1 .* đã xong 0 trên \d+ bài/ })).toBeEnabled()
+})
+
 // Ca "đã đi hết môn → chúc mừng" KHÔNG kiểm ở tầng e2e: dựng nó cần danh sách toàn bộ mã bài,
 // tức phải import gói `@dhcb/subject-programming` vào e2e — mà tsconfig.e2e.json không có
 // `paths`, nên chỉ chạy được khi packages/*/dist đã build sẵn (xanh ở máy dev, đỏ trên CI).

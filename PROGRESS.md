@@ -170,10 +170,12 @@ Chia giai đoạn, mỗi giai đoạn MỘT PR, dừng xin duyệt giữa các g
 | 1   | `docs/specs/2026-09-12-gd1-xoa-goi-pro.md`            | Xoá **cả Pro lẫn Plus**; Free hưởng hạn mức Plus cũ (30/ngày); người đang trả còn hạn → nâng VIP giữ nguyên hạn                                  | ✅ **ĐÃ THI HÀNH** (PR GĐ1, `docs/changelog/0289-*.md`)  |
 | 2a  | `docs/specs/2026-09-12-gd2-vip-hoc-tu-do-mon-anh.md`  | Khoá theo **cấp CEFR A1–C2**; chốt chặn **ở SERVER** (không phải chỉ giao diện)                                                                  | ✅ **ĐÃ THI HÀNH** (PR GĐ2a, `docs/changelog/0290-*.md`) |
 | 2b  | (chưa viết — khung ở GĐ2 §⑦)                          | Chuyển **chấm thi** về server để bịt nốt lỗ `cefrExams`                                                                                          | ⚠️ **khuyến nghị hoãn** — làm mất khả năng thi offline   |
-| 3   | `docs/specs/2026-09-12-gd3-khoa-bai-mon-lap-trinh.md` | Khoá theo **bậc P1→P6** (dễ→nâng cao); mở bậc sau khi **≥70% bài** bậc trước; **chỉ** xương sống, không khoá hướng chuyên sâu/khoá ngắn/lộ trình | ✅ sẵn sàng                                              |
+| 3   | `docs/specs/2026-09-12-gd3-khoa-bai-mon-lap-trinh.md` | Khoá theo **bậc P1→P6** (dễ→nâng cao); mở bậc sau khi **≥70% bài** bậc trước; **chỉ** xương sống, không khoá hướng chuyên sâu/khoá ngắn/lộ trình | ✅ **ĐÃ THI HÀNH** (PR GĐ3, `docs/changelog/0291-*.md`)  |
 | 4   | `docs/specs/2026-09-12-gd4-khoa-bai-4-tru.md`         | **KHÔNG khoá gì ở 4 trụ** — chúng là công cụ, không phải giáo trình                                                                              | ⛔ **ĐÓNG, không thi hành**                              |
 
-**Ngưỡng 70% dùng chung** giữa môn Anh (`UNLOCK_PCT`) và môn Lập trình — nếu đổi, đổi ở một nơi.
+**Ngưỡng 70% dùng chung** giữa môn Anh (`UNLOCK_PCT`) và môn Lập trình — nếu đổi, đổi ở một nơi:
+`packages/core-learner/unlockThreshold.ts` (GĐ3, 2026-09-12). Môn Anh re-export hằng này qua
+`apps/dhcb/src/lib/cefrProgress.ts`; môn Lập trình dùng qua `packages/subject-programming/levelLock.ts`.
 
 **Phát hiện khi khảo sát mã (2026-09-12), ảnh hưởng tới ước lượng:**
 
@@ -562,6 +564,14 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 > Mục này CHỈ giữ nợ **đang mở** (🟡/🔴). Nợ đã đóng (🟢) được dời sang
 > `docs/legacy/no-ky-thuat-da-dong.md` (2026-09-01) để file này chỉ nói trạng thái hiện tại —
 > đúng vai trò ở mục 2 `CLAUDE.md`. Đóng một món nợ = cắt khối đó dán sang file kia, kèm ngày.
+
+- 🟡 **[2026-09-12 — GĐ3, xem `docs/changelog/0291-*.md`] Khoá bậc môn Lập trình mới cưỡng chế ở
+  CLIENT.** Luật "Free học tuần tự P1→P6" tính ở trình duyệt (`lib/programmingLevelLock.ts`), và
+  grandfather nằm ở localStorage chứ không phải cột DB như môn Anh (migration 0077). Người sửa
+  localStorage hoặc gõ thẳng URL `/lap-trinh/bai-hoc/<id>` vẫn xem được bài của bậc chưa mở. Cố ý
+  chấp nhận ở đợt đầu: nội dung bài học không phải bí mật, còn tiến độ + hạn mức AI thì server đã
+  giữ. Siết ở `api/subjects/programming/progress.ts` (như GĐ2a đã làm cho môn Anh) khi có lý do
+  thật, đừng gộp vào PR khác.
 
 - 🟡 **[2026-09-12 — GĐ1, xem `docs/changelog/0289-*.md`] Kho lượt cửa sổ trượt 7 ngày của gói
   Free nay MỒ CÔI.** GĐ1 bỏ `consume_rolling_credit`/`refund_rolling_credit` khỏi đường enforce
