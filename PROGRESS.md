@@ -40,6 +40,12 @@ sâu + khoá ngắn + lộ trình mục tiêu; 4 trụ Career/Work/Startup/Life 
 `docs/goals/2026-08-31-mon-hoc-toan-ly-hoa-sinh.md`). Cổng chất lượng đo thật 2026-09-06:
 typecheck ✅ · 574 file / 12.160 unit test ✅ · coverage sàn 97/93/96/97.
 
+**PR #890 (2026-09-12, đã merge) — `TRAPS.md` + cổng kiểm `PROGRESS.md` lỗi thời.** Mượn ý
+tưởng từ repo khung `seeker19110/project-template`: `TRAPS.md` ở gốc repo (sổ bẫy đã mắc thật,
+khác `docs/adr/` ghi quyết định) + `scripts/check-progress-freshness.sh` (cảnh báo, chưa chặn
+CI, chạy trong job `audit` khi push `main`) — quét nhánh nêu tên trong file này mà không còn
+tồn tại trên remote và chưa gắn nhãn giải quyết. Chi tiết: `docs/changelog/0292-*.md`.
+
 ## Đã xong — tóm tắt theo mảng
 
 **Lõi sản phẩm (MVP → v2):** đăng nhập Supabase Auth · 3 chế độ Chat/Viết/Nói song ngữ (STT
