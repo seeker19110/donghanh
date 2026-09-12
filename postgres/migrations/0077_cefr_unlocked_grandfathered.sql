@@ -18,22 +18,27 @@
 --
 -- Bảng thật nằm ở schema `english` (migration 0030 đã dời khỏi `public`; `public.learning_progress`
 -- nay chỉ là VIEW `select * from english.learning_progress`). Đặc tả §③ viết `public.` từ trước
--- đợt dời schema đó — ở đây bám bảng thật, rồi dựng lại view cho cột mới lộ ra.
+-- đợt dời schema đó — ở đây bám bảng thật, rồi cập nhật view cho cột mới lộ ra.
 --
 -- Lũy đẳng: `if not exists` + mệnh đề `where` chỉ backfill dòng chưa có gì.
 
+-- KIỂU LÀ jsonb, KHÔNG phải text[] như SQL mẫu ở đặc tả §③ viết: mọi cột mảng của bảng này đều
+-- là `jsonb not null default '[]'` (xem postgres/schema.sql mục 6b), và handler ghi bằng
+-- JSON.stringify(...). Dùng text[] sẽ lỗi kiểu ngay ở câu update backfill bên dưới.
 alter table english.learning_progress
-  add column if not exists cefr_unlocked_grandfathered text[] not null default '{}';
+  add column if not exists cefr_unlocked_grandfathered jsonb not null default '[]'::jsonb;
 
 update english.learning_progress
-   set cefr_unlocked_grandfathered = coalesce(cefr_unlocked, '{}')
- where cefr_unlocked_grandfathered = '{}'
-   and coalesce(array_length(cefr_unlocked, 1), 0) > 0;
+   set cefr_unlocked_grandfathered = coalesce(cefr_unlocked, '[]'::jsonb)
+ where cefr_unlocked_grandfathered = '[]'::jsonb
+   -- jsonb_array_length() NÉM LỖI nếu gặp giá trị không phải mảng (dòng rác cũ) → chặn trước.
+   and jsonb_typeof(cefr_unlocked) = 'array'
+   and jsonb_array_length(cefr_unlocked) > 0;
 
--- View public.* phải dựng lại thì cột mới mới xuất hiện qua nó (create or replace view không tự
--- thêm cột vào view đã tồn tại khi dùng `select *`).
-drop view if exists public.learning_progress;
-create view public.learning_progress as select * from english.learning_progress;
+-- Cho cột mới lộ ra qua view `public.learning_progress`. Postgres CHO PHÉP `create or replace
+-- view` thêm cột vào CUỐI danh sách cột (chỉ cấm đổi/xoá/chèn giữa), nên không cần `drop view` —
+-- và không drop thì cũng không rủi ro gãy thứ gì đang phụ thuộc vào view.
+create or replace view public.learning_progress as select * from english.learning_progress;
 
 -- ============================================================================
 -- ROLLBACK (chạy tay nếu cần lùi):
@@ -42,6 +47,6 @@ create view public.learning_progress as select * from english.learning_progress;
 -- deploy lại bản mã cũ (server nhận ghi `cefrUnlocked` từ client trở lại) là hệ thống chạy như cũ.
 -- Cột `_grandfathered` để lại vô hại. Nếu vẫn muốn xoá hẳn:
 --
+-- drop view if exists public.learning_progress;   -- phải xoá view trước: nó đang tham chiếu cột
 -- alter table english.learning_progress drop column if exists cefr_unlocked_grandfathered;
--- drop view if exists public.learning_progress;
 -- create view public.learning_progress as select * from english.learning_progress;

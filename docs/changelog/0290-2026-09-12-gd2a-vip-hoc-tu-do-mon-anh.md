@@ -34,9 +34,18 @@ localStorage, hoặc POST thẳng `{"cefrUnlocked":["A1",…,"C2"]}`, là mở �
 
 ## Quyết định / đánh đổi trong lúc thi hành
 
-- **Bảng là `english.learning_progress`, không phải `public.`** như SQL mẫu trong đặc tả §③ viết —
-  migration `0030` đã dời bảng sang schema `english` và để `public.learning_progress` làm VIEW.
-  Migration bám bảng thật rồi **dựng lại view** (view `select *` không tự mọc thêm cột).
+- **SQL mẫu ở đặc tả §③ sai hai chỗ so với schema thật, đã sửa khi thi hành:**
+  1. **Bảng là `english.learning_progress`, không phải `public.`** — migration `0030` đã dời bảng
+     sang schema `english`, `public.learning_progress` nay chỉ là VIEW. Migration bám bảng thật rồi
+     `create or replace view` cho cột mới lộ ra (Postgres cho phép thêm cột vào CUỐI view; không
+     `drop view` để khỏi gãy thứ đang phụ thuộc).
+  2. **Kiểu cột là `jsonb`, không phải `text[]`.** Mọi cột mảng của bảng này đều là
+     `jsonb not null default '[]'` (`postgres/schema.sql` mục 6b; migration `0040` thêm
+     `settings`/`streak_freeze_dates` cũng theo đúng khuôn đó) và handler ghi bằng
+     `JSON.stringify(...)`. Nếu bê nguyên `text[]` + `coalesce(cefr_unlocked, '{}')` của đặc tả thì
+     **migration lỗi kiểu ngay ở câu backfill** trên DB thật — test không bắt được vì test mock DB.
+     Backfill thêm `jsonb_typeof(...) = 'array'` vì `jsonb_array_length()` ném lỗi khi gặp dòng rác
+     không phải mảng.
 - **Đọc `plan` NGOÀI transaction.** Đặt trong transaction thì một lỗi đọc `profiles` sẽ abort cả
   transaction Postgres, và `catch` ở tầng JS không cứu được — fail-safe sẽ biến thành hỏng cả lượt
   ghi tiến độ. Ngoài transaction thì lỗi chỉ rơi về `free` đúng như §⑤ yêu cầu.
