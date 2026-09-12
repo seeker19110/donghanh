@@ -133,6 +133,38 @@ describe('pushProgressAsync', () => {
   })
 })
 
+// GĐ2a: quyền mở cấp là việc của server — client KHÔNG khai lên nữa (đặc tả §② progressSync.ts).
+describe('sendProgressSnapshot — không gửi cefrUnlocked lên server', () => {
+  it('payload POST KHÔNG chứa khoá cefrUnlocked, dù localStorage có bộ đệm', async () => {
+    localStorage.setItem('et_cefr_unlocked_u1', JSON.stringify(['A1', 'A2', 'C2']))
+    const bodies: Record<string, unknown>[] = []
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (_url: string, init?: RequestInit) => {
+        if (init?.method === 'POST') bodies.push(JSON.parse(init.body as string))
+        return new Response('{}', { status: 200 })
+      }),
+    )
+    await pushProgressAsync('u1')
+    expect(bodies.length).toBe(1)
+    expect(bodies[0]).not.toHaveProperty('cefrUnlocked')
+  })
+
+  it('ghi bộ đệm từ cefrUnlocked server trả về trong response POST', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(
+        async () =>
+          new Response(JSON.stringify({ ok: true, cefrUnlocked: ['A1', 'A2'] }), {
+            status: 200,
+          }),
+      ),
+    )
+    await pushProgressAsync('u1')
+    expect(JSON.parse(localStorage.getItem('et_cefr_unlocked_u1') as string)).toEqual(['A1', 'A2'])
+  })
+})
+
 describe('pushProgress (bắn rồi quên)', () => {
   it('gọi fetch nhưng không chặn — trả về ngay, không phải Promise', () => {
     const fetchMock = vi.fn(async () => new Response('{}', { status: 200 }))
@@ -318,7 +350,9 @@ describe('pullProgress', () => {
 
     expect(new Set(grammar)).toEqual(new Set(['g1', 'g2']))
     expect(new Set(dialogues)).toEqual(new Set(['d1', 'd2']))
-    expect(new Set(unlocked)).toEqual(new Set(['u1', 'u2']))
+    // [SỬA CÓ CHỦ ĐÍCH — GĐ2a] cefrUnlocked KHÔNG hợp nhất nữa: server là nguồn sự thật duy nhất,
+    // lấy union sẽ giữ lại đúng những cấp giả mạo/hết hạn mà server vừa gỡ. Bản local 'u1' bị bỏ.
+    expect(new Set(unlocked)).toEqual(new Set(['u2']))
     expect(new Set(achievements)).toEqual(new Set(['a1', 'a2']))
     expect(exams.B1.passed).toBe(true)
   })

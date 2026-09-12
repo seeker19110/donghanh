@@ -16,11 +16,14 @@
 
 import type { CefrLevel, CefrUnit } from '../data/cefr'
 import type { Circle } from '../data/curriculum'
+import { UNLOCK_PCT } from '@dhcb/core-learner/unlockThreshold'
 import { pushProgress } from './progressSync'
 import { addGrammarToSRS } from './srs'
 
 // Ngưỡng mở khóa cấp tiếp theo: thuộc ≥70% từ vựng của cấp trước.
-export const UNLOCK_PCT = 0.7
+// Con số nằm ở `@dhcb/core-learner/unlockThreshold` — DÙNG CHUNG với luật mở bậc môn Lập trình
+// (GĐ3, 2026-09-12) để cả nền tảng chỉ có MỘT ngưỡng, đổi một chỗ là đổi hết.
+export { UNLOCK_PCT }
 
 const GRAMMAR_KEY = (uid: string) => `et_cefr_grammar_${uid}`
 const DIALOGUE_KEY = (uid: string) => `et_cefr_dialogue_${uid}`
@@ -180,60 +183,41 @@ export function computeLockedMap(
   return map
 }
 
-// ── Grandfather: cấp đã từng mở khóa thì không bao giờ khóa lại ─────────
-// QUAN TRỌNG khi ra mắt bài THI cuối cấp: trước đây cấp sau tự mở khi cấp trước
-// đạt ≥70% từ vựng + 100% ngữ pháp; nay cần THI ĐẠT. Người dùng đã mở khóa cấp
-// theo luật cũ (đã ghi vào et_cefr_unlocked_*) PHẢI được giữ nguyên — không bị
-// khóa lại vì chưa thi (chống hồi tố). Với họ, bài thi thành TÙY CHỌN lấy chứng
-// nhận. (Cột này cũng chống hồi tố khi tổng từ vựng cấp trước tăng thêm sau này.)
+// ── Quyền mở cấp: SERVER là nguồn sự thật (GĐ2a, 2026-09-12) ────────────
+// Đặc tả: docs/specs/2026-09-12-gd2-vip-hoc-tu-do-mon-anh.md
+//
+// TRƯỚC ĐÂY client tự tính tập cấp đã mở rồi GHI vào `et_cefr_unlocked_*` và đẩy lên server —
+// server ghi hộ mà không kiểm chứng. Ai sửa localStorage (hoặc POST thẳng /api/progress) là mở
+// được mọi cấp. Nay việc tính nằm ở server (`apps/server/src/api/core/progress.ts`, dùng chung
+// hàm thuần `@dhcb/core-learner/cefrUnlock`), client CHỈ ĐỌC danh sách server trả về.
+//
+// `et_cefr_unlocked_*` từ đây là BỘ ĐỆM ĐỌC của danh sách server (progressSync.ts ghi khi kéo/đẩy
+// tiến độ), không còn là lời khai của client. Grandfather cho người dùng cũ đã chuyển sang cột DB
+// `cefr_unlocked_grandfathered` (migration 0077) nên KHÔNG ai mất quyền đã có.
 const UNLOCKED_KEY = (uid: string) => `et_cefr_unlocked_${uid}`
 
+/** Danh sách cấp server cho phép, đọc từ bộ đệm. Rỗng = chưa đồng bộ lần nào. */
 export function getUnlockedLevels(uid: string): Set<string> {
   return readSet(UNLOCKED_KEY(uid))
 }
 
-// [2026-08-24] Tách làm 2 hàm — trả nợ ghi ở PROGRESS.md: hàm compute phải THUẦN
-// (gọi được trong render/useMemo, React Compiler bảo toàn memo được); phần GHI
-// localStorage + pushProgress tách sang persistUnlockedLevels, gọi từ useEffect.
-export function computeLockedMapPersisted(
+/**
+ * Bản đồ khoá cấp để HIỂN THỊ. Nguồn chính là danh sách server; chưa có bộ đệm (lần đầu mở app,
+ * đang offline) thì tạm dùng luật sống tính từ kết quả thi trên máy — chỉ là hiển thị lạc quan,
+ * server vẫn cưỡng chế thật nên đoán sai cũng không cấp thêm quyền gì.
+ *
+ * THUẦN: không ghi localStorage, không gọi mạng — gọi được trong render/useMemo.
+ */
+export function computeLockedMapFromServer(
   uid: string,
   levels: CefrLevel[],
   examPassed: Set<string>,
 ): Map<CefrLevel['id'], boolean> {
-  const everUnlocked = getUnlockedLevels(uid)
-  const liveMap = computeLockedMap(levels, examPassed)
+  const serverUnlocked = getUnlockedLevels(uid)
+  if (serverUnlocked.size === 0) return computeLockedMap(levels, examPassed)
   const result = new Map<CefrLevel['id'], boolean>()
-  for (const l of levels) {
-    const liveLocked = liveMap.get(l.id) ?? false
-    // Cấp đang mở theo luật sống HOẶC đã từng mở (grandfather) → không khóa.
-    result.set(l.id, liveLocked && !everUnlocked.has(l.id))
-  }
+  for (const l of levels) result.set(l.id, !serverUnlocked.has(l.id))
   return result
-}
-
-// Ghi nhớ các cấp VỪA mở theo luật sống vào et_cefr_unlocked_* (chống hồi tố về sau)
-// + đồng bộ cloud. Idempotent: không đổi gì thì không ghi, không push. Gọi từ
-// useEffect ở các trang dùng computeLockedMapPersisted — KHÔNG gọi trong render.
-export function persistUnlockedLevels(
-  uid: string,
-  levels: CefrLevel[],
-  examPassed: Set<string>,
-): void {
-  if (!uid) return
-  const everUnlocked = getUnlockedLevels(uid)
-  const liveMap = computeLockedMap(levels, examPassed)
-  let changed = false
-  for (const l of levels) {
-    const liveLocked = liveMap.get(l.id) ?? false
-    if (!liveLocked && !everUnlocked.has(l.id)) {
-      everUnlocked.add(l.id)
-      changed = true
-    }
-  }
-  if (changed) {
-    writeSet(UNLOCKED_KEY(uid), everUnlocked)
-    pushProgress(uid) // đồng bộ lên Supabase
-  }
 }
 
 // ── Mục học tiếp theo trong 1 cấp ───────────────────────────────────────

@@ -37,8 +37,7 @@ import { loadFoundation } from '../../../data/curriculumLoader'
 import { getLearnedWords, getRecentlyLearnedWords } from '../../../lib/vocab'
 import {
   getDoneGrammar,
-  computeLockedMapPersisted,
-  persistUnlockedLevels,
+  computeLockedMapFromServer,
   findNextStep,
   circleDoneCount,
 } from '../../../lib/cefrProgress'
@@ -83,14 +82,8 @@ export default function EnglishHome() {
   const doneGrammar = getDoneGrammar(uid)
   const examPassed = getPassedExamLevels(uid)
 
-  const lockedMap = computeLockedMapPersisted(uid, cefrLevels, examPassed)
-
-  // Ghi nhớ cấp VỪA mở khóa (grandfather) — side effect tách khỏi render, xem cefrProgress.ts.
-  // examPassed là Set mới mỗi render → effect chạy mỗi render, nhưng persist idempotent
-  // (không đổi thì không ghi, không push) nên vô hại.
-  useEffect(() => {
-    persistUnlockedLevels(uid, cefrLevels, examPassed)
-  })
+  // Quyền mở cấp do SERVER cấp (GĐ2a) — client chỉ đọc danh sách server trả về.
+  const lockedMap = computeLockedMapFromServer(uid, cefrLevels, examPassed)
 
   const continueLevel = (() => {
     for (const lv of cefrLevels) {

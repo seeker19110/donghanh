@@ -28,11 +28,12 @@ import { loadFoundation } from '../data/curriculumLoader'
 import { getLearnedWords } from '../lib/vocab'
 import {
   getDoneGrammar,
-  computeLockedMapPersisted,
-  persistUnlockedLevels,
+  computeLockedMapFromServer,
+  computeLockedMap,
   levelVocabCounts,
   levelGrammarCounts,
 } from '../lib/cefrProgress'
+import { useAuth } from '../context/useAuth'
 import { getExamMap } from '../lib/cefrExam'
 import { ACCENT } from '../lib/cefrAccent'
 
@@ -41,6 +42,7 @@ const pct = (done: number, total: number) => (total > 0 ? Math.round((done / tot
 
 export default function RoadmapTab({ uid, isA }: { uid: string; isA: boolean }) {
   const nav = useNavigate()
+  const { user } = useAuth()
   const [levels, setLevels] = useState<CefrLevel[]>([])
   const [circleById, setCircleById] = useState<Record<string, Circle>>({})
   const [ready, setReady] = useState(false)
@@ -65,15 +67,19 @@ export default function RoadmapTab({ uid, isA }: { uid: string; isA: boolean }) 
     () => new Set(Object.keys(examMap).filter((id) => examMap[id]?.passed)),
     [examMap],
   )
+  // Quyền mở cấp do SERVER cấp (GĐ2a) — client chỉ đọc, không tự tính rồi ghi ngược lên nữa.
   const lockedMap = useMemo(
-    () => computeLockedMapPersisted(uid, levels, examPassed),
+    () => computeLockedMapFromServer(uid, levels, examPassed),
     [uid, levels, examPassed],
   )
 
-  // Ghi nhớ cấp VỪA mở khóa (grandfather) — side effect tách khỏi render, xem cefrProgress.ts.
-  useEffect(() => {
-    persistUnlockedLevels(uid, levels, examPassed)
-  }, [uid, levels, examPassed])
+  // Cấp mà NGƯỜI DÙNG FREE sẽ thấy ổ khoá — để gắn nhãn "Mở tự do (VIP)" cho người dùng VIP,
+  // cho họ thấy rõ quyền lợi đang được hưởng thay vì tưởng ai cũng vào được (GĐ2a §① mục 4).
+  const isVip = user?.plan === 'vip'
+  const freeRuleLockedMap = useMemo(
+    () => computeLockedMap(levels, examPassed),
+    [levels, examPassed],
+  )
 
   if (!ready) {
     return (
@@ -109,6 +115,8 @@ export default function RoadmapTab({ uid, isA }: { uid: string; isA: boolean }) 
       {levels.map((level) => {
         const a = ACCENT[level.accent]
         const locked = lockedMap.get(level.id) ?? false
+        // Mở ra nhờ gói VIP: cấp này Free sẽ thấy khoá, nhưng người dùng đang vào được.
+        const unlockedByVip = isVip && !locked && (freeRuleLockedMap.get(level.id) ?? false)
         const v = levelVocabCounts(level, circleById, learned)
         const g = levelGrammarCounts(level, doneGrammar)
         const grammarTotal = level.units.reduce((s, u) => s + u.grammar.length, 0)
@@ -235,23 +243,31 @@ export default function RoadmapTab({ uid, isA }: { uid: string; isA: boolean }) 
                   : `Pass the ${prev?.id ?? 'previous'} end-of-level exam to unlock`}
               </p>
             ) : (
-              <button
-                onClick={() => nav(`/lo-trinh-hoc/${level.id.toLowerCase()}`)}
-                className="mt-3 w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-accent-500/20 hover:bg-accent-500/30 text-accent-300 theme-light:text-accent-800 text-sm font-medium transition"
-              >
-                {complete
-                  ? isA
-                    ? 'Ôn lại'
-                    : 'Review'
-                  : started
+              <>
+                {unlockedByVip && (
+                  <p className="mt-3 flex items-center gap-1.5 text-xs text-accent-300 theme-light:text-accent-800">
+                    <Sparkles className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                    {isA ? 'Mở tự do (VIP)' : 'Open access (VIP)'}
+                  </p>
+                )}
+                <button
+                  onClick={() => nav(`/lo-trinh-hoc/${level.id.toLowerCase()}`)}
+                  className="mt-3 w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-accent-500/20 hover:bg-accent-500/30 text-accent-300 theme-light:text-accent-800 text-sm font-medium transition"
+                >
+                  {complete
                     ? isA
-                      ? 'Tiếp tục học'
-                      : 'Continue'
-                    : isA
-                      ? 'Bắt đầu học'
-                      : 'Start'}
-                <ChevronRight className="w-4 h-4" />
-              </button>
+                      ? 'Ôn lại'
+                      : 'Review'
+                    : started
+                      ? isA
+                        ? 'Tiếp tục học'
+                        : 'Continue'
+                      : isA
+                        ? 'Bắt đầu học'
+                        : 'Start'}
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </>
             )}
           </div>
         )
