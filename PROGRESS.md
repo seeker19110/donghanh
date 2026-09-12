@@ -165,13 +165,13 @@ lượt/ngày)** miễn phí. **VIP** là gói trả phí duy nhất, đặc quy
 Chia giai đoạn, mỗi giai đoạn MỘT PR, dừng xin duyệt giữa các giai đoạn. **Toàn bộ quyết định
 đã chốt 2026-09-12** — trừ một mục cần xác nhận trước khi bắt đầu (GĐ2b, xem dưới):
 
-| GĐ  | Đặc tả                                                | Quyết định đã chốt                                                                                                                               | Trạng thái                                               |
-| --- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- |
-| 1   | `docs/specs/2026-09-12-gd1-xoa-goi-pro.md`            | Xoá **cả Pro lẫn Plus**; Free hưởng hạn mức Plus cũ (30/ngày); người đang trả còn hạn → nâng VIP giữ nguyên hạn                                  | ✅ **ĐÃ THI HÀNH** (PR GĐ1, `docs/changelog/0289-*.md`)  |
-| 2a  | `docs/specs/2026-09-12-gd2-vip-hoc-tu-do-mon-anh.md`  | Khoá theo **cấp CEFR A1–C2**; chốt chặn **ở SERVER** (không phải chỉ giao diện)                                                                  | ✅ **ĐÃ THI HÀNH** (PR GĐ2a, `docs/changelog/0290-*.md`) |
-| 2b  | (chưa viết — khung ở GĐ2 §⑦)                          | Chuyển **chấm thi** về server để bịt nốt lỗ `cefrExams`                                                                                          | ⚠️ **khuyến nghị hoãn** — làm mất khả năng thi offline   |
-| 3   | `docs/specs/2026-09-12-gd3-khoa-bai-mon-lap-trinh.md` | Khoá theo **bậc P1→P6** (dễ→nâng cao); mở bậc sau khi **≥70% bài** bậc trước; **chỉ** xương sống, không khoá hướng chuyên sâu/khoá ngắn/lộ trình | ✅ **ĐÃ THI HÀNH** (PR GĐ3, `docs/changelog/0291-*.md`)  |
-| 4   | `docs/specs/2026-09-12-gd4-khoa-bai-4-tru.md`         | **KHÔNG khoá gì ở 4 trụ** — chúng là công cụ, không phải giáo trình                                                                              | ⛔ **ĐÓNG, không thi hành**                              |
+| GĐ  | Đặc tả                                                | Quyết định đã chốt                                                                                                                               | Trạng thái                                                 |
+| --- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------- |
+| 1   | `docs/specs/2026-09-12-gd1-xoa-goi-pro.md`            | Xoá **cả Pro lẫn Plus**; Free hưởng hạn mức Plus cũ (30/ngày); người đang trả còn hạn → nâng VIP giữ nguyên hạn                                  | ✅ **ĐÃ THI HÀNH** (PR GĐ1, `docs/changelog/0289-*.md`)    |
+| 2a  | `docs/specs/2026-09-12-gd2-vip-hoc-tu-do-mon-anh.md`  | Khoá theo **cấp CEFR A1–C2**; chốt chặn **ở SERVER** (không phải chỉ giao diện)                                                                  | ✅ **ĐÃ THI HÀNH** (PR #887, `docs/changelog/0290-*.md`)   |
+| 2b  | (chưa viết — khung ở GĐ2 §⑦)                          | Chuyển **chấm thi** về server để bịt nốt lỗ `cefrExams`                                                                                          | ⛔ **HOÃN** (chủ dự án chốt 2026-09-12) — xem ghi chú dưới |
+| 3   | `docs/specs/2026-09-12-gd3-khoa-bai-mon-lap-trinh.md` | Khoá theo **bậc P1→P6** (dễ→nâng cao); mở bậc sau khi **≥70% bài** bậc trước; **chỉ** xương sống, không khoá hướng chuyên sâu/khoá ngắn/lộ trình | ✅ **ĐÃ THI HÀNH** (PR #888, `docs/changelog/0291-*.md`)   |
+| 4   | `docs/specs/2026-09-12-gd4-khoa-bai-4-tru.md`         | **KHÔNG khoá gì ở 4 trụ** — chúng là công cụ, không phải giáo trình                                                                              | ⛔ **ĐÓNG, không thi hành**                                |
 
 **Ngưỡng 70% dùng chung** giữa môn Anh (`UNLOCK_PCT`) và môn Lập trình — nếu đổi, đổi ở một nơi:
 `packages/core-learner/unlockThreshold.ts` (GĐ3, 2026-09-12). Môn Anh re-export hằng này qua
@@ -186,12 +186,24 @@ Chia giai đoạn, mỗi giai đoạn MỘT PR, dừng xin duyệt giữa các g
    ở GĐ2a (2026-09-12):** **quyền mở cấp** nay do server tính (`packages/core-learner/cefrUnlock.ts`
    - migration `0077` giữ grandfather); `/api/progress` KHÔNG nhận `cefrUnlocked` từ client nữa, nên
      sửa localStorage hay POST thẳng mảng giả không vượt được. **Còn lại:** `cefr_exams` vẫn do client
-     ghi (chấm thi ở trình duyệt) — bịa kết quả thi vẫn mở được cấp sau. Đó là **GĐ2b**, đang khuyến
-     nghị hoãn vì nó làm mất khả năng thi offline.
+     ghi (chấm thi ở trình duyệt) — bịa kết quả thi vẫn mở được cấp sau. Đó là **GĐ2b**, chủ dự án đã
+     chốt HOÃN (xem ghi chú dưới) vì nó làm mất khả năng thi offline.
 
 ⚠️ Việc này **mâu thuẫn với quyết định đóng băng phạm vi 2026-09-06** (ưu tiên 1: đo bằng chứng
 người học thật trước). Đã nêu với chủ dự án; chủ dự án vẫn chọn làm. Ghi lại để sau này biết vì
 sao ưu tiên 1 bị chen ngang.
+
+**GĐ2b — chốt HOÃN (chủ dự án, 2026-09-12).** Đã hỏi lại trước khi thi hành vì hai lý do: (1) đặc
+tả GĐ2 §⑦ chỉ có khung, chưa viết đủ (5 câu hỏi thiết kế còn để ngỏ); (2) đánh đổi thật —
+chuyển chấm thi CEFR về server sẽ **làm mất khả năng thi offline (PWA)** của người dùng lương
+thiện để chặn người gian lận. Chủ dự án xác nhận **hoãn**, giữ đúng khuyến nghị gốc của đặc tả:
+đợi tới khi có người học thật + dấu hiệu gian lận thật (ưu tiên 1) mới làm.
+
+Nếu sau này mở lại: đã hỏi trước và chốt sẵn nguồn đề thi = **bộ đề tĩnh trên server** (server
+giữ ngân hàng đề + đáp án có sẵn, trả câu hỏi không kèm đáp án, chấm khi nộp) — không chọn
+phương án AI sinh đề động mỗi lượt thi. Bốn câu hỏi thiết kế còn lại của §⑦ (chống dò đáp án qua
+thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lượt/thời gian chờ) vẫn cần viết đặc tả
+đầy đủ trước khi giao việc.
 
 ### Ưu tiên 2 — nợ nội dung của mảng đã ship (đi sâu, không mở rộng)
 
@@ -583,7 +595,6 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 
 - 🟡 **[2026-08-28 — rà UI/UX 5 trang trụ cột, xem `docs/changelog/0186-*.md`] Ba việc còn để
   ngỏ, cần người dùng quyết hoặc tách đợt riêng.**
-
   1. ~~**`Career.tsx` vẫn hỏi "Số năm kinh nghiệm"**~~ — ✅ **ĐÓNG 2026-09-03, người dùng chốt
      "giữ nguyên mọi thứ, thang bậc 5".** Mô tả cũ ("hai thước đo mâu thuẫn sống song song") là
      **SAI** — đã đọc lại code: `<Field label="Số năm kinh nghiệm">` (dòng 662) là trường của
