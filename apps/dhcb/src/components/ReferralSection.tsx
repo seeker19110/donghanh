@@ -52,7 +52,7 @@ export default function ReferralSection({ isA }: { isA: boolean }) {
         <>
           <p className="text-xs text-zinc-400 mb-3">
             {isA
-              ? `Bạn và bạn của bạn mỗi người được +${stats.rewardDays} ngày gói Pro khi họ học xong buổi đầu tiên.`
+              ? `Bạn và bạn của bạn mỗi người được +${stats.rewardDays} ngày gói VIP khi họ học xong buổi đầu tiên.`
               : `You and your friend each get +${stats.rewardDays} days of Pro once they finish their first session.`}
           </p>
 

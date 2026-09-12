@@ -47,8 +47,20 @@ describe('getPlanFeatureMatrix', () => {
           description: 'mô tả',
           sort_order: 1,
           created_at: new Date('2026-01-01'),
-          plan: 'pro',
+          plan: 'vip',
           enabled: true,
+          flag_updated_at: new Date('2026-01-03'),
+        },
+        // Dòng của gói ĐÃ XOÁ (GĐ1 2026-09-12) vẫn còn trong DB — phải bị BỎ QUA, không được
+        // lọt vào ma trận cờ (nếu lọt, UI admin lại mọc ra cột của gói không còn tồn tại).
+        {
+          key: 'speaking',
+          label: 'Luyện nói',
+          description: 'mô tả',
+          sort_order: 1,
+          created_at: new Date('2026-01-01'),
+          plan: 'pro',
+          enabled: false,
           flag_updated_at: new Date('2026-01-03'),
         },
       ],
@@ -57,7 +69,7 @@ describe('getPlanFeatureMatrix', () => {
     expect(matrix.catalog).toEqual([
       { key: 'speaking', label: 'Luyện nói', description: 'mô tả', sortOrder: 1 },
     ])
-    expect(matrix.flags.speaking).toEqual({ free: false, plus: true, pro: true, vip: true })
+    expect(matrix.flags.speaking).toEqual({ free: false, vip: true })
     expect(matrix.updatedAt).toBe(new Date('2026-01-03').toISOString())
   })
 

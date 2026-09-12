@@ -9,7 +9,6 @@ import {
   pickRandomAllowedVoice,
   resolveActualVoice,
   VOICE_IDS,
-  DEFAULT_SEED_VOICE_IDS,
   STUDIO_VOICE_IDS,
   GEMINI_VOICE_IDS,
   clampVoiceToAllowed,
@@ -34,12 +33,9 @@ describe('getAllowedVoices — theo gói (không khuyến mãi)', () => {
 
   // Từ 2026-08-10 bảng tier client có thêm giọng Gemini (đọc truyện) cho khớp bảng server —
   // chúng KHÔNG hiện trong VoicePicker (mọi nơi chọn giọng lọc theo VOICE_OPTIONS).
-  it('pro: 8 giọng seed sẵn + giọng Gemini (đọc truyện)', () => {
-    expect(getAllowedVoices('pro', noPromo)).toEqual([
-      ...DEFAULT_SEED_VOICE_IDS,
-      ...GEMINI_VOICE_IDS,
-    ])
-  })
+  // GĐ1 2026-09-12: gói Pro bị xoá. Bộ giọng của nó nay là mức KHUYẾN MÃI của Free (giữ đúng
+  // chi phí cũ, không mở giọng Studio/ElevenLabs đắt tiền) — ca đó kiểm ở promo.test.ts, nơi
+  // đã mock sẵn getAppSettings để bật/tắt khuyến mãi.
 
   it('vip: tất cả giọng + giọng Gemini', () => {
     expect(getAllowedVoices('vip', noPromo)).toEqual([...VOICE_IDS, ...GEMINI_VOICE_IDS])
@@ -70,8 +66,8 @@ describe('cache "giọng gói hiện tại cho phép" (localStorage)', () => {
   })
 
   it('cacheAllowedVoices rồi đọc lại đúng danh sách của gói', () => {
-    cacheAllowedVoices('pro', new Date('2020-01-01'))
-    expect(getCachedAllowedVoices()).toEqual([...DEFAULT_SEED_VOICE_IDS, ...GEMINI_VOICE_IDS])
+    cacheAllowedVoices('vip', new Date('2020-01-01'))
+    expect(getCachedAllowedVoices()).toEqual([...VOICE_IDS, ...GEMINI_VOICE_IDS])
   })
 
   it('dữ liệu cache không phải mảng hợp lệ → về mặc định an toàn', () => {

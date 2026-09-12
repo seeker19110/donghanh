@@ -499,7 +499,7 @@ export function LessonView({
 
             <div className="h-3.5 w-px bg-zinc-700" />
 
-            {/* Đóng vai — chỉ Pro/VIP. Free thấy nút khoá + link nâng cấp. */}
+            {/* Đóng vai — chỉ VIP. Free thấy nút khoá + link nâng cấp. */}
             <RolePlayToolbar
               isA={isA}
               isPro={isPro}

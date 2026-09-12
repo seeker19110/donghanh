@@ -95,14 +95,14 @@ describe('/api/admin-plan-features', () => {
   })
 
   it('POST body sai (thiếu featureKey) → 400', async () => {
-    const resp = await handler(makeRequest('POST', { plan: 'pro', enabled: true }))
+    const resp = await handler(makeRequest('POST', { plan: 'vip', enabled: true }))
     expect(resp.status).toBe(400)
   })
 
   it('POST không tìm thấy tính năng → 404', async () => {
     query.mockResolvedValueOnce({ rowCount: 0 })
     const resp = await handler(
-      makeRequest('POST', { featureKey: 'nope', plan: 'pro', enabled: true }),
+      makeRequest('POST', { featureKey: 'nope', plan: 'vip', enabled: true }),
     )
     expect(resp.status).toBe(404)
   })
@@ -110,11 +110,11 @@ describe('/api/admin-plan-features', () => {
   it('POST thành công → bật/tắt 1 ô, invalidate cache', async () => {
     query.mockResolvedValueOnce({ rowCount: 1 })
     const resp = await handler(
-      makeRequest('POST', { featureKey: 'speaking', plan: 'pro', enabled: false }),
+      makeRequest('POST', { featureKey: 'speaking', plan: 'vip', enabled: false }),
     )
     expect(resp.status).toBe(200)
     const data = await resp.json()
-    expect(data).toEqual({ featureKey: 'speaking', plan: 'pro', enabled: false })
+    expect(data).toEqual({ featureKey: 'speaking', plan: 'vip', enabled: false })
     expect(invalidatePlanFeatureCache).toHaveBeenCalledTimes(1)
   })
 

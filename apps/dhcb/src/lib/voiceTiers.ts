@@ -155,20 +155,27 @@ export const DEFAULT_SEED_VOICE_IDS: VoiceId[] = [
 // trước đây chỉ có ghi chú "PHẢI khớp tay", không có gì chặn khi lệch.
 export const VOICE_TIERS: Record<Plan, VoiceId[]> = {
   free: ['Kore', 'Aoede', 'Puck', 'Charon'],
-  plus: ['Kore', 'Aoede', 'Puck', 'Charon'],
-  // Giọng Gemini (đọc truyện) mở cho Pro + VIP, ĐÚNG như bảng server. Chúng KHÔNG hiện trong
+  // Giọng Gemini (đọc truyện) mở cho VIP, ĐÚNG như bảng server. Chúng KHÔNG hiện trong
   // VoicePicker vì mọi nơi chọn giọng đều lọc theo VOICE_OPTIONS (không chứa Gemini) — có mặt
   // ở đây chỉ để client biết gói nào được giữ giọng Gemini, gói nào phải hạ (getStoryVoice).
-  pro: [...DEFAULT_SEED_VOICE_IDS, ...GEMINI_VOICE_IDS],
   vip: [...VOICE_IDS, ...GEMINI_VOICE_IDS],
 }
 
 // Đang trong giai đoạn khuyến mãi ra mắt hay không — xem src/lib/promo.ts.
 export { isFullAccessPromoActive as isVoicePromoActive } from './promo'
 
+// Bộ giọng cấp cho gói Free TRONG LÚC KHUYẾN MÃI — CỐ Ý không phải bộ VIP đầy đủ.
+// GĐ1 2026-09-12 xoá gói Pro nên `effectivePlan()` nâng Free thẳng lên VIP khi tính HẠN MỨC.
+// Nhưng quyền GIỌNG thì không được nâng theo: giọng Studio giá $24/1 triệu ký tự, không có
+// hạn mức miễn phí (đắt gấp 12 lần Chirp3-HD) — mở cho toàn bộ người dùng Free trong một đợt
+// khuyến mãi là rủi ro chi phí thật. Bộ này giữ ĐÚNG danh sách mà Free từng được nâng lên
+// trước GĐ1, nên hành vi/chi phí không đổi. PHẢI khớp packages/core-ai/voiceAccess.ts.
+const PROMO_FREE_VOICES: VoiceId[] = [...DEFAULT_SEED_VOICE_IDS, ...GEMINI_VOICE_IDS]
+
 // Danh sách giọng user THỰC SỰ được chọn ngay bây giờ (đã áp khuyến mãi nếu còn hiệu lực).
 export function getAllowedVoices(plan: Plan, now: Date = new Date()): VoiceId[] {
-  return VOICE_TIERS[effectivePlan(plan, now)]
+  if (plan === 'free' && effectivePlan(plan, now) !== 'free') return PROMO_FREE_VOICES
+  return VOICE_TIERS[plan]
 }
 
 // Hạ 1 giọng bất kỳ về giọng gói hiện tại THỰC SỰ dùng được, giữ nguyên giới tính:

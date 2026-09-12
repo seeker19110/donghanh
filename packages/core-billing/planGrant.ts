@@ -1,21 +1,22 @@
-// api/_lib/planGrant.ts — Cấp/gia hạn gói Pro/VIP cho 1 user, DÙNG CHUNG cho mọi nguồn cấp:
+// packages/core-billing/planGrant.ts — Cấp/gia hạn gói VIP cho 1 user, DÙNG CHUNG cho mọi nguồn cấp:
 // thưởng mời bạn (api/referral.ts), cấp tay của admin (api/admin-grant-plan.ts), và sau này là
 // thanh toán thật. Tách riêng vì đây là chỗ đụng "tiền thật" — mỗi nơi tự viết lại logic cộng
 // ngày là cách chắc chắn nhất để sinh lỗi lệch nhau (cấp trùng, hạ nhầm gói, mất hạn còn lại).
 //
 // NGUYÊN TẮC BẤT BIẾN của hàm này:
-//   1. KHÔNG BAO GIỜ hạ cấp người dùng. Đang VIP mà được thưởng Pro → vẫn giữ VIP.
+//   1. KHÔNG BAO GIỜ hạ cấp người dùng (giữ gói cao hơn trong 2 gói được so sánh).
 //   2. KHÔNG BAO GIỜ làm mất thời hạn đang còn. Cộng dồn từ mốc hết hạn hiện tại nếu còn hiệu
 //      lực, chỉ tính từ "bây giờ" khi gói cũ đã hết hạn.
-//   3. Gói vĩnh viễn (plan pro/vip + plan_expires_at = null) là cao nhất — không đụng vào.
+//   3. Gói vĩnh viễn (plan vip + plan_expires_at = null) là cao nhất — không đụng vào.
 
 import type { Pool, PoolClient } from 'pg'
 import { getPgPool } from '@dhcb/core-db/pgPool'
 import { resolvePlan, type Plan } from './plan.js'
 import { getAppSettings } from '@dhcb/core-db/settings'
 
-// Thứ hạng gói để so sánh cao/thấp — free < plus < pro < vip.
-const PLAN_RANK: Record<Plan, number> = { free: 0, plus: 1, pro: 2, vip: 3 }
+// Thứ hạng gói để so sánh cao/thấp — free < vip (GĐ1 2026-09-12 xoá 2 bậc trung gian
+// plus/pro; giữ bảng hạng vì luật "không bao giờ hạ cấp" vẫn cần so sánh).
+const PLAN_RANK: Record<Plan, number> = { free: 0, vip: 1 }
 
 const MS_DAY = 86_400_000
 
@@ -30,7 +31,7 @@ export interface PlanGrantResult {
  *
  * @param currentPlanRaw  giá trị cột profiles.plan hiện tại (chuỗi tự do, có thể null)
  * @param currentExpiresAt giá trị cột profiles.plan_expires_at hiện tại
- * @param grantPlan   gói muốn cấp ('pro' | 'vip')
+ * @param grantPlan   gói muốn cấp ('vip')
  * @param days        số ngày cấp thêm (> 0)
  * @param now         mốc thời gian tham chiếu (cho test)
  * @param promoUntil  hạn khuyến mãi hiện hành (null = không có). Quyết định 2026-07-26: cấp
@@ -46,11 +47,11 @@ export function computePlanGrant(
   now: Date = new Date(),
   promoUntil: Date | string | null = null,
 ): PlanGrantResult {
-  // Gói ĐANG CÒN HIỆU LỰC (Pro/VIP hết hạn đã tự coi như free — xem plan.ts).
+  // Gói ĐANG CÒN HIỆU LỰC (VIP hết hạn đã tự coi như free — xem plan.ts).
   const activePlan = resolvePlan(currentPlanRaw, currentExpiresAt, now)
 
   // Ca 3: đang có gói trả phí VĨNH VIỄN (không hạn) → đã là cao nhất về thời hạn, không đụng.
-  // Chỉ nâng gói nếu gói cấp mới cao hơn (vd đang Pro vĩnh viễn, được cấp VIP → thành VIP vĩnh viễn).
+  // Chỉ nâng gói nếu gói cấp mới cao hơn.
   if (activePlan !== 'free' && currentExpiresAt == null) {
     const keepPlan = PLAN_RANK[grantPlan] > PLAN_RANK[activePlan] ? grantPlan : activePlan
     return { plan: keepPlan, planExpiresAt: null }

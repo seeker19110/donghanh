@@ -22,10 +22,12 @@ import { readJsonBody, validateBody } from '@dhcb/core-http/validation'
 import { jsonResponse, getClientIp } from '@dhcb/core-http/http'
 
 // Quyết định 2026-07-27: 1 hạn mức TỔNG lượt/ngày cho MỌI tính năng AI cộng lại (không còn
-// chia riêng chat/writing/speaking/stt/pronounce) — xem api/_lib/settings.ts.
+// chia riêng chat/writing/speaking/stt/pronounce) — xem packages/core-db/settings.ts.
+// GĐ1 2026-09-12: `limits.free` ghi vào ĐÚNG cột DB cũ `pro_daily_limit` (giữ tên cột để khỏi
+// phải migration đổi tên; ý nghĩa nay là hạn mức người dùng miễn phí).
 const UpdateSchema = z.object({
   limits: z.object({
-    pro: z.number().int().min(0).max(1_000_000),
+    free: z.number().int().min(0).max(1_000_000),
     vip: z.number().int().min(0).max(1_000_000),
   }),
   // null = tắt khuyến mãi; chuỗi = ISO datetime hợp lệ
@@ -88,7 +90,7 @@ export default async function handler(req: Request): Promise<Response> {
          pro_daily_limit = $1, vip_daily_limit = $2,
          promo_until = $3, ai_circuit_breaker = $4, leaderboard_enabled = $5, updated_at = now()
        where id = 1`,
-      [limits.pro, limits.vip, promoUntil, aiCircuitBreaker, leaderboardEnabled],
+      [limits.free, limits.vip, promoUntil, aiCircuitBreaker, leaderboardEnabled],
     )
     invalidateSettingsCache()
 

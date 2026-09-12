@@ -47,11 +47,11 @@ beforeEach(() => {
 })
 
 describe('claimShareQuest', () => {
-  it('đủ điều kiện (hàm SQL trả true) → cấp đúng số ngày Pro', async () => {
+  it('đủ điều kiện (hàm SQL trả true) → cấp đúng số ngày VIP', async () => {
     query.mockResolvedValueOnce({ rows: [{ claim_quest_if_ready: true }] })
     const r = await claimShareQuest('u1')
     expect(r).toEqual({ ok: true, rewardDays: SHARE_QUEST_REWARD_DAYS })
-    expect(granted.calls).toEqual([{ userId: 'u1', plan: 'pro', days: SHARE_QUEST_REWARD_DAYS }])
+    expect(granted.calls).toEqual([{ userId: 'u1', plan: 'vip', days: SHARE_QUEST_REWARD_DAYS }])
   })
 
   it('truyền đúng quest key + số ngày hồi vào hàm SQL', async () => {

@@ -46,28 +46,17 @@ describe('/api/plan-prices', () => {
     const resp = await handler(new Request('http://localhost/api/plan-prices'))
     expect(resp.status).toBe(200)
     const data = (await resp.json()) as {
-      plus: {
-        '10day': { effectiveVnd: number }
-        month: { effectiveVnd: number }
-        year: { effectiveVnd: number }
-      }
-      pro: {
-        '10day': { effectiveVnd: number }
-        month: { effectiveVnd: number }
-        year: { effectiveVnd: number }
-      }
+      plus?: unknown
+      pro?: unknown
       vip: {
         '10day': { effectiveVnd: number }
         month: { effectiveVnd: number }
         year: { effectiveVnd: number }
       }
     }
-    expect(data.plus['10day'].effectiveVnd).toBe(15_000)
-    expect(data.plus.month.effectiveVnd).toBe(29_000)
-    expect(data.plus.year.effectiveVnd).toBe(249_000)
-    expect(data.pro['10day'].effectiveVnd).toBe(20_000)
-    expect(data.pro.month.effectiveVnd).toBe(40_000)
-    expect(data.pro.year.effectiveVnd).toBe(360_000)
+    // GĐ1 2026-09-12: gói 'plus'/'pro' đã ngừng bán — endpoint KHÔNG được chào chúng nữa.
+    expect(data.plus).toBeUndefined()
+    expect(data.pro).toBeUndefined()
     expect(data.vip['10day'].effectiveVnd).toBe(30_000)
     expect(data.vip.month.effectiveVnd).toBe(75_000)
     expect(data.vip.year.effectiveVnd).toBe(500_000)

@@ -235,12 +235,10 @@ export default function Profile() {
           className={`mt-3 inline-block rounded-full px-2.5 py-1 text-[11px] font-medium ${
             user.plan === 'vip'
               ? 'border border-violet-500/20 bg-violet-500/15 text-violet-300 theme-light:text-violet-800'
-              : user.plan === 'pro'
-                ? 'border border-amber-500/20 bg-amber-500/15 text-amber-300 theme-light:text-amber-800'
-                : 'border border-line-strong bg-surface-raised text-content-muted'
+              : 'border border-line-strong bg-surface-raised text-content-muted'
           }`}
         >
-          {user.plan === 'vip' ? T.planVip : user.plan === 'pro' ? T.planPro : T.planFree}
+          {user.plan === 'vip' ? T.planVip : T.planFree}
         </span>
       </section>
 
@@ -305,12 +303,10 @@ export default function Profile() {
                     className={`inline-block mt-2 text-[11px] px-2.5 py-1 rounded-full font-medium ${
                       user.plan === 'vip'
                         ? 'bg-violet-500/15 text-violet-300 theme-light:text-violet-800 border border-violet-500/20'
-                        : user.plan === 'pro'
-                          ? 'bg-amber-500/15 text-amber-300 theme-light:text-amber-800 border border-amber-500/20'
-                          : 'bg-zinc-800 text-zinc-400 border border-zinc-700'
+                        : 'bg-zinc-800 text-zinc-400 border border-zinc-700'
                     }`}
                   >
-                    {user.plan === 'vip' ? T.planVip : user.plan === 'pro' ? T.planPro : T.planFree}
+                    {user.plan === 'vip' ? T.planVip : T.planFree}
                   </span>
                 </div>
               </section>
@@ -494,7 +490,7 @@ export default function Profile() {
                       {isA ? 'Nhiệm vụ' : 'Quests'}
                     </p>
                     <p className="text-xs text-zinc-400 mt-0.5">
-                      {isA ? 'Kiếm thêm ngày dùng gói Pro miễn phí' : 'Earn extra free days of Pro'}
+                      {isA ? 'Kiếm thêm ngày dùng gói VIP miễn phí' : 'Earn extra free days of VIP'}
                     </p>
                   </div>
                 </div>
@@ -512,7 +508,7 @@ export default function Profile() {
             {/* Băng khuyến mãi % */}
             <PricePromoBanner isA={isA} />
 
-            {/* Nâng cấp Pro/VIP — bản RÚT GỌN dẫn sang /nang-cap; bảng so sánh đầy đủ + luồng
+            {/* Nâng cấp VIP — bản RÚT GỌN dẫn sang /nang-cap; bảng so sánh đầy đủ + luồng
             thanh toán SePay nay ở trang riêng (audit UI/UX 2026-08-31 mục B9). Gói đang dùng
             của người dùng vẫn hiện ở khối thông tin tài khoản phía trên. */}
             <UpgradeSection isA={isA} currentPlan={user.plan} variant="compact" />

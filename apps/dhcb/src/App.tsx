@@ -147,7 +147,7 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
       {/* Chỉ hiện cho user đã đăng nhập + đã onboard — banner báo trước sắp hết
           khuyến mãi, không cần thiết ở landing/login/onboarding. */}
       <PromoEndingBanner />
-      {/* Banner "còn X ngày dùng gói Pro/VIP" (trial hoặc gói trả phí sắp hết hạn) */}
+      {/* Banner "còn X ngày dùng gói VIP" (trial hoặc gói trả phí sắp hết hạn) */}
       <PlanExpiryBanner />
       {children}
     </>

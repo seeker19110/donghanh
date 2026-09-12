@@ -36,15 +36,14 @@ const EMPTY_ENTRY = (plan: Plan): PlanMarketingEntry => ({
 const DEFAULT_DATA: PlanMarketingData = {
   plans: {
     free: EMPTY_ENTRY('free'),
-    plus: EMPTY_ENTRY('plus'),
-    pro: EMPTY_ENTRY('pro'),
     vip: EMPTY_ENTRY('vip'),
   },
   updatedAt: '1970-01-01T00:00:00.000Z',
 }
 
 interface InfoRow {
-  plan: Plan
+  // `string`: bảng DB vẫn còn dòng nội dung của gói đã xoá ('plus'/'pro') — lọc khi đọc.
+  plan: string
   badge: string
   tagline_vi: string
   tagline_en: string
@@ -53,11 +52,17 @@ interface InfoRow {
 
 interface BulletRow {
   id: number
-  plan: Plan
+  plan: string
   sort_order: number
   text_vi: string
   text_en: string
   updated_at: Date
+}
+
+// Bỏ qua dòng của gói đã ngừng tồn tại ('plus'/'pro' — xoá ở GĐ1 2026-09-12): dữ liệu cũ vẫn
+// nằm trong bảng (không xoá lịch sử) nhưng không còn gói nào để hiển thị.
+function isKnownPlan(value: string): value is Plan {
+  return value === 'free' || value === 'vip'
 }
 
 async function loadData(): Promise<PlanMarketingData> {
@@ -75,13 +80,12 @@ async function loadData(): Promise<PlanMarketingData> {
 
   const plans: Record<Plan, PlanMarketingEntry> = {
     free: EMPTY_ENTRY('free'),
-    plus: EMPTY_ENTRY('plus'),
-    pro: EMPTY_ENTRY('pro'),
     vip: EMPTY_ENTRY('vip'),
   }
   let latest = new Date(0)
 
   for (const row of infoRows) {
+    if (!isKnownPlan(row.plan)) continue
     plans[row.plan] = {
       plan: row.plan,
       badge: row.badge,
@@ -92,6 +96,7 @@ async function loadData(): Promise<PlanMarketingData> {
     if (row.updated_at > latest) latest = row.updated_at
   }
   for (const row of bulletRows) {
+    if (!isKnownPlan(row.plan)) continue
     plans[row.plan].bullets.push({
       id: row.id,
       textVi: row.text_vi,

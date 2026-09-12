@@ -1,4 +1,4 @@
-// Nút "Đóng vai" trên thanh điều khiển: popover chọn vai (Pro/VIP) hoặc lời mời nâng cấp
+// Nút "Đóng vai" trên thanh điều khiển: popover chọn vai (VIP) hoặc lời mời nâng cấp
 // (Free), và nút "Dừng đóng vai" khi đang chạy. Tách từ LessonView.tsx (2026-09-06), JSX giữ nguyên.
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -32,7 +32,7 @@ export function RolePlayToolbar({
   const [alignRight, setAlignRight] = useState(false)
   return (
     <>
-      {/* Đóng vai — chỉ Pro/VIP. Free thấy nút khoá + link nâng cấp. */}
+      {/* Đóng vai — chỉ VIP. Free thấy nút khoá + link nâng cấp. */}
       {!rolePlay && (
         <div className="relative">
           <button
@@ -88,14 +88,14 @@ export function RolePlayToolbar({
                 <>
                   <p className="text-xs text-zinc-300 mb-2">
                     {isA
-                      ? 'Đóng vai đọc hội thoại + AI chấm điểm là tính năng dành cho gói Pro/VIP.'
-                      : 'Dialogue role-play + AI grading is a Pro/VIP feature.'}
+                      ? 'Đóng vai đọc hội thoại + AI chấm điểm là tính năng dành cho gói VIP.'
+                      : 'Dialogue role-play + AI grading is a VIP feature.'}
                   </p>
                   <Link
                     to="/profile"
                     className="inline-flex items-center gap-1 text-xs font-semibold text-accent-400 theme-light:text-accent-700 hover:underline"
                   >
-                    {isA ? 'Nâng cấp Pro/VIP →' : 'Upgrade to Pro/VIP →'}
+                    {isA ? 'Nâng cấp VIP →' : 'Upgrade to VIP →'}
                   </Link>
                 </>
               )}

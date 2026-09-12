@@ -2,7 +2,7 @@
 //
 // Vì sao tách khỏi trang Hồ sơ (audit UI/UX 2026-08-31 mục B9): bảng gói trước đây là một
 // <h2> nhúng giữa Profile, mà Profile giới hạn `max-w-3xl` — trên desktop 4 gói
-// (Free/Plus/Pro/VIP) không xếp cạnh nhau để so sánh được, và không có URL nào dẫn thẳng
+// (Free/VIP) không xếp cạnh nhau để so sánh được, và không có URL nào dẫn thẳng
 // tới bảng giá. Trang này nới bề rộng ở desktop (`lg:max-w-6xl`) để UpgradeSection bung
 // `lg:grid-cols-4`; Hồ sơ giữ bản rút gọn có nút dẫn sang đây.
 
@@ -18,7 +18,7 @@ export default function Pricing() {
   const { user } = useAuth()
   const isA = getDirection() === 'A'
 
-  usePageTitle('Nâng cấp Pro/VIP | Đồng hành cùng bạn')
+  usePageTitle('Nâng cấp VIP | Đồng hành cùng bạn')
 
   return (
     <div className="min-h-dvh bg-zinc-950">
@@ -29,8 +29,8 @@ export default function Pricing() {
           title={isA ? 'Nâng cấp gói' : 'Upgrade your plan'}
           subtitle={
             isA
-              ? 'So sánh Free · Plus · Pro · VIP rồi chọn chu kỳ 10 ngày, tháng hoặc năm.'
-              : 'Compare Free · Plus · Pro · VIP, then pick a 10-day, monthly or yearly cycle.'
+              ? 'So sánh Free · VIP rồi chọn chu kỳ 10 ngày, tháng hoặc năm.'
+              : 'Compare Free · VIP, then pick a 10-day, monthly or yearly cycle.'
           }
         />
 

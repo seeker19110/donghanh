@@ -1,11 +1,11 @@
-// api/admin-grant-plan.ts — Cho ADMIN cấp/gia hạn gói Pro/VIP THỦ CÔNG cho 1 user theo email.
+// api/admin-grant-plan.ts — Cho ADMIN cấp/gia hạn gói VIP THỦ CÔNG cho 1 user theo email.
 // Đây là "cổng thanh toán tay" tạm thời trong lúc CHƯA nối cổng thanh toán thật (PayOS/Casso...):
-// người dùng chuyển khoản, admin xác nhận rồi gọi endpoint này cấp N ngày Pro/VIP. Xem
-// api/_lib/plan.ts (resolvePlan) — Pro/VIP tự hết hiệu lực đúng lúc dựa vào plan_expires_at,
+// người dùng chuyển khoản, admin xác nhận rồi gọi endpoint này cấp N ngày VIP. Xem
+// packages/core-billing/plan.ts (resolvePlan) — VIP tự hết hiệu lực đúng lúc dựa vào plan_expires_at,
 // không cần thao tác gì thêm khi hết hạn.
 //
 // GET  /api/admin-grant-plan?email=...        (tra cứu gói hiện tại của 1 user)
-// POST /api/admin-grant-plan  body: { email, plan: 'free'|'pro'|'vip', days: number|null }
+// POST /api/admin-grant-plan  body: { email, plan: 'free'|'vip', days: number|null }
 //      days = null → không giới hạn thời gian (vd VIP cấp vĩnh viễn); days > 0 → hết hạn sau N ngày.
 
 import { z } from 'zod'
@@ -25,7 +25,7 @@ import { jsonResponse, getClientIp } from '@dhcb/core-http/http'
 
 const GrantSchema = z.object({
   email: z.string().trim().toLowerCase().email(),
-  plan: z.enum(['free', 'plus', 'pro', 'vip']),
+  plan: z.enum(['free', 'vip']),
   days: z.number().int().min(1).max(3650).nullable(),
 })
 
@@ -96,7 +96,7 @@ export default async function handler(req: Request): Promise<Response> {
     if (!userId)
       return jsonResponse({ error: 'Không tìm thấy user với email này' }, 404, allHeaders)
 
-    // plan='free' hoặc days=null → không giới hạn thời gian (free: mãi mãi free; pro/vip: vĩnh viễn)
+    // plan='free' hoặc days=null → không giới hạn thời gian (free: mãi mãi free; vip: vĩnh viễn)
     const planExpiresAt = plan !== 'free' && days ? new Date(Date.now() + days * 86_400_000) : null
 
     await pool.query(

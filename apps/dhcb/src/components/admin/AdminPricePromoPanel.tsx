@@ -1,8 +1,8 @@
 // src/components/admin/AdminPricePromoPanel.tsx — Nội dung tab "Khuyến mãi giá" trong /admin-s.
-// Cho admin đặt % giảm giá áp dụng cho TOÀN BỘ gói/chu kỳ (Pro/VIP × 10 ngày/tháng/năm) cùng
+// Cho admin đặt % giảm giá áp dụng cho TOÀN BỘ chu kỳ của gói VIP (10 ngày/tháng/năm) cùng
 // lúc, có ngày bắt đầu + kết thúc — lưu bảng price_promo (migration 0026), API
 // api/admin-price-promo.ts. Khác tab "Hạn mức & khuyến mãi" (AdminLimitsPanel — đó là khuyến
-// mãi NÂNG HẠN MỨC cho user Free, không phải giảm GIÁ BÁN gói Pro/VIP).
+// mãi NÂNG HẠN MỨC cho user Free, không phải giảm GIÁ BÁN gói VIP).
 import { useEffect, useState } from 'react'
 import { ShieldAlert, Loader2, Save } from 'lucide-react'
 import { useToast } from '@core/ToastProvider'
@@ -117,9 +117,9 @@ export default function AdminPricePromoPanel({ onForbiddenChange }: Props) {
           <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4">
             <p className="text-sm font-semibold text-white mb-1">Khuyến mãi giá bán</p>
             <p className="text-xs text-zinc-400 mb-3">
-              Giảm % trên giá niêm yết cho TẤT CẢ gói/chu kỳ (Pro + VIP × 10 ngày/tháng/năm) cùng
-              lúc, trong khoảng ngày chọn bên dưới. Trang Nâng cấp + đơn thanh toán mới tự động dùng
-              giá đã giảm — không ảnh hưởng đơn đã tạo trước đó.
+              Giảm % trên giá niêm yết cho TẤT CẢ chu kỳ của gói VIP (10 ngày/tháng/năm) cùng lúc,
+              trong khoảng ngày chọn bên dưới. Trang Nâng cấp + đơn thanh toán mới tự động dùng giá
+              đã giảm — không ảnh hưởng đơn đã tạo trước đó.
             </p>
             <label className="flex items-center gap-2 text-sm text-zinc-300 mb-3">
               <input

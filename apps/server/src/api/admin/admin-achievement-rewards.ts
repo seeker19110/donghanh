@@ -1,4 +1,4 @@
-// api/admin-achievement-rewards.ts — Cho ADMIN cấu hình phần thưởng (ngày Pro/VIP) của TỪNG
+// api/admin-achievement-rewards.ts — Cho ADMIN cấu hình phần thưởng (ngày VIP) của TỪNG
 // huy hiệu & mốc (migration 0026). Áp dụng NGAY cho toàn bộ người dùng (không cần deploy lại) —
 // cùng mô hình api/admin-plan-marketing.ts (bảng cấu hình + cache TTL ngắn ở
 // api/_lib/achievementRewards.ts).
@@ -27,7 +27,7 @@ import { jsonResponse, getClientIp } from '@dhcb/core-http/http'
 const UpdateSchema = z.object({
   achievementId: z.enum(ACHIEVEMENT_IDS),
   enabled: z.boolean().optional(),
-  rewardPlan: z.enum(['pro', 'vip']).optional(),
+  rewardPlan: z.enum(['vip']).optional(),
   rewardDays: z.number().int().min(0).max(3650).optional(),
 })
 

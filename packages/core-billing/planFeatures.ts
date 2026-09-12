@@ -30,9 +30,15 @@ interface Row {
   description: string | null
   sort_order: number
   created_at: Date
-  plan: Plan
+  // `string`: bảng plan_feature_flags còn dòng của gói đã xoá ('plus'/'pro') — lọc khi đọc.
+  plan: string
   enabled: boolean
   flag_updated_at: Date
+}
+
+// GĐ1 2026-09-12: chỉ còn 2 gói; bảng cờ trong DB vẫn còn dòng 'plus'/'pro' của gói đã xoá.
+function isKnownPlan(value: string): value is Plan {
+  return value === 'free' || value === 'vip'
 }
 
 async function loadMatrix(): Promise<PlanFeatureMatrix> {
@@ -58,8 +64,9 @@ async function loadMatrix(): Promise<PlanFeatureMatrix> {
         sortOrder: row.sort_order,
       })
     }
-    const featureFlags = (flags[row.key] ??= { free: true, plus: true, pro: true, vip: true })
-    featureFlags[row.plan] = row.enabled
+    const featureFlags = (flags[row.key] ??= { free: true, vip: true })
+    // Dòng của gói đã ngừng tồn tại thì bỏ qua (xem isKnownPlan) — giữ dữ liệu lịch sử trong DB.
+    if (isKnownPlan(row.plan)) featureFlags[row.plan] = row.enabled
     if (row.created_at > latest) latest = row.created_at
     if (row.flag_updated_at > latest) latest = row.flag_updated_at
   }

@@ -135,7 +135,26 @@ Vì vậy **BẮT BUỘC** export trước khi chạy:
 
 ## Nghiệm thu (điền sau khi thi hành)
 
+**Đã thi hành 2026-09-12** — xem `docs/changelog/0289-2026-09-12-gd1-xoa-goi-pro-plus.md`.
+
 - [x] §0.1 đã chốt: xoá cả Pro lẫn Plus; Free hưởng hạn mức Plus cũ (30/ngày) — chủ dự án, 2026-09-12
-- [ ] Đã chạy `select plan, count(*) from public.profiles group by 1;` và ghi kết quả vào đây
-- [ ] Đã export CSV backup trước migration
-- [ ] 6 tiêu chí §④ đạt
+- [x] Đã chạy `select plan, count(*) from public.profiles group by 1;` trên VPS production
+      (2026-09-12, sau khi PR #886 lên CI xanh, trước khi merge): **`vip=4 · pro=27 · free=6`**
+      (không có hàng `plus` nào). 27 người `pro` sẽ được migration `0076` xét: còn hạn
+      (`plan_expires_at > now()`) → nâng `vip` giữ nguyên hạn; hết hạn → `free` (30 lượt/ngày).
+- [x] Đã export CSV backup trước migration (lệnh `\copy` ghi ở đầu file migration `0076`) chạy
+      trên VPS (`/var/www/dhcb`) → **`COPY 27`** (khớp đúng số hàng `pro` ở trên). File lưu tại
+      `/var/www/dhcb/backup-plans-2026-09-12.csv` trên VPS.
+- [x] 6 tiêu chí §④ đạt — bảng đối chiếu từng tiêu chí kèm nơi kiểm nằm ở changelog `0289`.
+      Cổng CLAUDE.md §8: build ✅ · typecheck ✅ · lint ✅ (0 cảnh báo) · format ✅ ·
+      test ✅ 577 file / 12.194 test.
+
+### Quyết định phát sinh ngoài chữ của đặc tả (ghi lại để rà)
+
+Đặc tả không nói gì về **khuyến mãi** (`effectivePlan`). Mất bậc Pro thì "nâng đúng 1 bậc" chỉ
+có thể là Free → VIP. Với **hạn mức** điều đó đúng ý; với **quyền giọng** thì KHÔNG: giọng Studio
+$24/1 triệu ký tự, không có hạn mức miễn phí — mở cho toàn bộ Free trong một đợt khuyến mãi là
+rủi ro chi phí thật, và repo vốn đã có test canh đúng điều đó. Đã thêm `PROMO_FREE_VOICES` ở cả
+`packages/core-ai/voiceAccess.ts` lẫn `apps/dhcb/src/lib/voiceTiers.ts` = đúng bộ giọng Free từng
+được nâng lên trước GĐ1 → chi phí giọng không đổi. Nếu chủ dự án muốn khuyến mãi mở luôn giọng
+VIP cho Free thì xoá hai hằng số đó là xong.

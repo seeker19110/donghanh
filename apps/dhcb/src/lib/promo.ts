@@ -1,7 +1,7 @@
 // src/lib/promo.ts — Mốc khuyến mãi ra mắt: khi server báo promoUntil khác null (đọc qua
 // src/lib/appSettings.ts, đồng bộ lúc mở app từ /api/app-settings — nguồn sự thật là bảng
-// app_settings, admin chỉnh qua /api/admin-settings), MỖI GÓI được nâng lên ĐÚNG 1 BẬC tới
-// thời điểm đó: Free → hạn mức/giọng của Pro, Pro → VIP, VIP giữ nguyên. Server
+// app_settings, admin chỉnh qua /api/admin-settings), gói được nâng lên bậc trên tới
+// thời điểm đó: Free → hạn mức/giọng của VIP, VIP giữ nguyên. Server
 // (api/_lib/promo.ts) luôn là nguồn sự thật cuối cùng cho việc CHẶN thật — đây chỉ để UI
 // không hiện nhầm "hết lượt"/mở nhầm giọng trong lúc server vẫn đang cho phép.
 //
@@ -19,6 +19,5 @@ export function isFullAccessPromoActive(now: Date = new Date()): boolean {
 // Gói THỰC SỰ áp dụng ngay bây giờ cho việc tính hạn mức/quyền giọng hiển thị ở UI.
 export function effectivePlan(plan: Plan, now: Date = new Date()): Plan {
   if (!isFullAccessPromoActive(now)) return plan
-  if (plan === 'free') return 'pro'
-  return 'vip' // pro → vip (không giới hạn); vip → vip (không đổi)
+  return 'vip' // free → vip (hạn mức cao nhất); vip → vip (không đổi)
 }

@@ -51,7 +51,7 @@ export default function PricePromoBanner({ isA }: Props) {
         <div className="flex-1 min-w-0">
           <p className="text-white font-semibold text-sm flex items-center gap-1.5">
             <Sparkles className="w-4 h-4 text-amber-400 theme-light:text-amber-900 shrink-0" />
-            {isA ? `Giảm ${percent}% cho gói Pro/VIP` : `${percent}% off Pro/VIP plans`}
+            {isA ? `Giảm ${percent}% cho gói VIP` : `${percent}% off the VIP plan`}
           </p>
           {endsLabel && (
             <p className="text-xs text-zinc-400 mt-0.5">

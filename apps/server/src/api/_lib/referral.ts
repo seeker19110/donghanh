@@ -177,10 +177,10 @@ export async function rewardReferralIfEligible(refereeId: string): Promise<void>
     const rewardedCount = Number(countRows[0]?.count ?? 0)
 
     // Người ĐƯỢC MỜI luôn được thưởng (họ không kiểm soát được việc người mời đã mời bao nhiêu).
-    await grantPlanDays(refereeId, 'pro', REFERRAL_REWARD_DAYS)
+    await grantPlanDays(refereeId, 'vip', REFERRAL_REWARD_DAYS)
 
     if (rewardedCount <= MAX_REWARDED_REFERRALS) {
-      await grantPlanDays(referrerId, 'pro', REFERRAL_REWARD_DAYS)
+      await grantPlanDays(referrerId, 'vip', REFERRAL_REWARD_DAYS)
     } else {
       logSecurityEvent('REFERRAL_CAP_REACHED', 'system', { referrerId, rewardedCount })
     }

@@ -50,7 +50,7 @@ export async function grantSignupTrial(userId: string): Promise<boolean> {
     )
     if (!rowCount) return false
 
-    await grantPlanDays(userId, 'pro', SIGNUP_TRIAL_DAYS)
+    await grantPlanDays(userId, 'vip', SIGNUP_TRIAL_DAYS)
     return true
   } catch (err) {
     console.error('[trial] Lỗi khi cấp quà dùng thử:', err)

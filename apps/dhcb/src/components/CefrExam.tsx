@@ -157,7 +157,7 @@ export default function CefrExam({
           if (days) {
             toast.success(
               isA
-                ? `Chúc mừng qua cấp ${level.id}! Tặng thêm ${days} ngày dùng gói Pro 🎁`
+                ? `Chúc mừng qua cấp ${level.id}! Tặng thêm ${days} ngày dùng gói VIP 🎁`
                 : `Congrats on passing ${level.id}! Here's ${days} extra day of Pro on us 🎁`,
             )
           }

@@ -68,7 +68,7 @@ describe('/api/payment-history', () => {
     query.mockResolvedValueOnce({
       rows: [
         {
-          plan: 'pro',
+          plan: 'vip',
           cycle: 'month',
           amount_vnd: 40_000,
           status: 'paid',
@@ -89,7 +89,7 @@ describe('/api/payment-history', () => {
     const data = (await resp.json()) as { payments: unknown[] }
     expect(data.payments).toEqual([
       {
-        plan: 'pro',
+        plan: 'vip',
         cycle: 'month',
         amountVnd: 40_000,
         status: 'paid',

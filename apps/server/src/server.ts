@@ -276,7 +276,7 @@ function startWeeklyReportScheduler() {
   }, 60_000)
 }
 
-// ── Dọn gói Pro/VIP hết hạn (1 lần/ngày) ─────────────────────────────────────
+// ── Dọn gói VIP hết hạn (1 lần/ngày) ─────────────────────────────────────
 // Chỉ dọn dữ liệu cho ĐÚNG (cột `plan` trong DB) — việc CHẶN quyền hết hạn đã tự áp ngay lúc
 // đọc plan (resolvePlan trong api/_lib/plan.ts), không phụ thuộc job này chạy đúng giờ hay không.
 function startPlanExpiryScheduler() {

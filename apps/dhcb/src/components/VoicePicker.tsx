@@ -51,7 +51,7 @@ export default function VoicePicker({ plan, isA }: Props) {
   const { promoUntil } = getAppSettings()
 
   // Giọng ngoài quyền gói: bấm vào KHÔNG chọn giọng, thay vào đó cuộn thẳng xuống khối
-  // "Nâng cấp Pro/VIP" (UpgradeSection.tsx, id="upgrade-section", cùng nằm trên trang Hồ sơ) —
+  // "Nâng cấp VIP" (UpgradeSection.tsx, id="upgrade-section", cùng nằm trên trang Hồ sơ) —
   // đỡ người dùng phải tự tìm nút nâng cấp ở đâu khi thấy giọng bị khoá.
   function choose(v: Voice) {
     if (!allowed.has(v)) {
@@ -187,8 +187,8 @@ export default function VoicePicker({ plan, isA }: Props) {
                   title={
                     !isAllowed
                       ? isA
-                        ? 'Nâng cấp gói Pro/VIP để mở khoá giọng này — bấm để xem gói'
-                        : 'Upgrade to Pro/VIP to unlock this voice — tap to see plans'
+                        ? 'Nâng cấp gói VIP để mở khoá giọng này — bấm để xem gói'
+                        : 'Upgrade to VIP to unlock this voice — tap to see plans'
                       : isEleven
                         ? `${v.id}${elevenHint}`
                         : isStudio

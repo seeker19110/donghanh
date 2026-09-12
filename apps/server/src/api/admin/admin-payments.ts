@@ -125,7 +125,9 @@ export default async function handler(req: Request): Promise<Response> {
     const { rows: pRows } = await pool.query<{
       id: string
       status: string
-      plan: 'pro' | 'vip'
+      // Đơn CŨ trong bảng payments còn plan 'plus'/'pro' (gói đã xoá ở GĐ1 2026-09-12) — dữ
+      // liệu lịch sử giữ nguyên, nhưng khớp tay thì luôn cấp VIP (xem chuẩn hoá bên dưới).
+      plan: string
       cycle: '10day' | 'month' | 'year'
     }>('select id, status, plan, cycle from public.payments where id = $1', [paymentId])
 
@@ -151,13 +153,14 @@ export default async function handler(req: Request): Promise<Response> {
       [txnId, paymentId],
     )
 
-    // Cấp gói Pro/VIP cho user
-    await grantPlanDays(targetUserId, pay.plan, days)
+    // Cấp gói VIP cho user. Đơn của gói cũ ('plus'/'pro') vẫn được cấp VIP — người đã trả tiền
+    // không bao giờ bị mất quyền lợi vì ta xoá gói (đặc tả §⑤).
+    await grantPlanDays(targetUserId, 'vip', days)
 
     return jsonResponse(
       {
         ok: true,
-        message: `Đã khớp đơn thủ công và cấp gói ${pay.plan.toUpperCase()} (${days} ngày) cho ${email}`,
+        message: `Đã khớp đơn thủ công và cấp gói VIP (${days} ngày) cho ${email}`,
       },
       200,
       allHeaders,

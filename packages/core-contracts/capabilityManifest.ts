@@ -33,7 +33,7 @@ export const CapabilityExecutionModeSchema = z.enum(['deterministic', 'workflow'
 export const CapabilityLifecycleSchema = z.enum(['experimental', 'active', 'deprecated'])
 
 // Trần chi phí của MỘT capability, tính theo TỪNG NGƯỜI DÙNG mỗi ngày (không phải trần toàn hệ
-// thống) — hạn mức gói Free/Pro/VIP vẫn nằm ở `core-billing/usage.ts`, cái này là lưới an toàn
+// thống) — hạn mức gói Free/VIP vẫn nằm ở `core-billing/usage.ts`, cái này là lưới an toàn
 // riêng của capability để 1 capability đắt không đốt hết ngân sách của người dùng.
 export const CapabilityCostPolicySchema = z
   .object({

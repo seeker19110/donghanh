@@ -26,10 +26,10 @@ beforeEach(() => {
 })
 
 describe('grantSignupTrial', () => {
-  it('lần đầu → cấp đúng 14 ngày gói pro', async () => {
+  it('lần đầu → cấp đúng 14 ngày gói vip', async () => {
     query.mockResolvedValueOnce({ rowCount: 1, rows: [] })
     expect(await grantSignupTrial('u1')).toBe(true)
-    expect(granted.calls).toEqual([{ userId: 'u1', plan: 'pro', days: SIGNUP_TRIAL_DAYS }])
+    expect(granted.calls).toEqual([{ userId: 'u1', plan: 'vip', days: SIGNUP_TRIAL_DAYS }])
   })
 
   it('đã nhận trước đó (rowCount = 0) → KHÔNG cấp lần 2', async () => {

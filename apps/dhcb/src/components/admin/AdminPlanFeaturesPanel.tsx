@@ -1,5 +1,5 @@
 // src/components/admin/AdminPlanFeaturesPanel.tsx — Tab "Tính năng theo gói" trong /admin.
-// Bảng ma trận: hàng = tính năng, cột = Free/Pro/VIP, mỗi ô là checkbox bật/tắt. Gọi thẳng
+// Bảng ma trận: hàng = tính năng, cột = Free/VIP, mỗi ô là checkbox bật/tắt. Gọi thẳng
 // api/admin-plan-features.ts — thêm tính năng mới (mặc định bật cả 3 gói) + xoá hẳn 1 tính
 // năng khỏi danh mục.
 import { useCallback, useEffect, useState } from 'react'
@@ -23,8 +23,6 @@ interface Matrix {
 
 const PLAN_COLS: { key: Plan; label: string }[] = [
   { key: 'free', label: 'Free' },
-  { key: 'plus', label: 'Plus' },
-  { key: 'pro', label: 'Pro' },
   { key: 'vip', label: 'VIP' },
 ]
 

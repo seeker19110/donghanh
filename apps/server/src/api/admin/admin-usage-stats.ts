@@ -8,7 +8,7 @@
 // payments, free_daily_credit) để trả lời 3 câu hỏi tiền bạc:
 //   1. Tính năng nào được dùng nhiều/ít → nên đầu tư thêm hay bỏ bớt?
 //   2. Chi phí AI ước tính bao nhiêu, ai đang ngốn nhiều nhất → có cần siết hạn mức không?
-//   3. Doanh thu Pro/VIP có bù nổi chi phí không → biên lãi/lỗ.
+//   3. Doanh thu VIP có bù nổi chi phí không → biên lãi/lỗ.
 //
 // Mọi truy vấn đều là GROUP BY toàn bảng, KHÔNG trả dữ liệu học tập chi tiết của cá nhân.
 // Riêng bảng "top người dùng" có email — cần thiết để liên hệ khi phát hiện lạm dụng, và chỉ
@@ -27,19 +27,21 @@ import { isAdminEmail } from '@dhcb/core-auth/adminAuth'
 import { jsonResponse, getClientIp } from '@dhcb/core-http/http'
 import { getUnitCostsUsd, getUsdVndRate, estimateCostUsd } from '@dhcb/core-ai/aiCost'
 import { getDailyBudgetUsd } from '@dhcb/core-ai/aiTokenUsage'
-import { FREE_WEEKLY_CAP, FREE_ROLLING_WINDOW_DAYS, type UsageMode } from '@dhcb/core-billing/usage'
+import { type UsageMode } from '@dhcb/core-billing/usage'
 import { vnDateStr, addDays } from '@dhcb/core-db/date'
+import { getAppSettings } from '@dhcb/core-db/settings'
 
 const DEFAULT_DAYS = 30
 const MAX_DAYS = 180
 const TOP_USERS_LIMIT = 10
 
-// Biểu thức SQL "gói ĐANG có hiệu lực" — Pro/VIP đã quá hạn thì tính là free. Phải khớp
-// logic resolvePlan() ở api/_lib/plan.ts; viết bằng SQL vì gộp theo gói ngay trong DB rẻ
-// hơn nhiều so với kéo toàn bộ profiles về Node rồi lọc.
+// Biểu thức SQL "gói ĐANG có hiệu lực" — VIP đã quá hạn thì tính là free. Phải khớp logic
+// resolvePlan() ở packages/core-billing/plan.ts; viết bằng SQL vì gộp theo gói ngay trong DB rẻ
+// hơn nhiều so với kéo toàn bộ profiles về Node rồi lọc. Giá trị cũ 'plus'/'pro' còn sót trong
+// DB (gói đã xoá ở GĐ1 2026-09-12) được coi như VIP — đúng như normalizePlan().
 const EFFECTIVE_PLAN_SQL = `case
-  when p.plan in ('pro', 'vip') and (p.plan_expires_at is null or p.plan_expires_at > now())
-    then p.plan
+  when p.plan in ('plus', 'pro', 'vip') and (p.plan_expires_at is null or p.plan_expires_at > now())
+    then 'vip'
   else 'free'
 end`
 
@@ -153,6 +155,10 @@ export default async function handler(req: Request): Promise<Response> {
   const pool = getPgPool()
 
   try {
+    // Hạn mức ngày của gói Free (cấu hình được ở /admin — xem packages/core-db/settings.ts).
+    const { limits } = await getAppSettings()
+    const freeDailyLimit = limits.free
+
     const [
       usersRes,
       planRes,
@@ -279,23 +285,21 @@ export default async function handler(req: Request): Promise<Response> {
         [days],
       ),
 
-      // ⑩ Sức khoẻ kho lượt cửa sổ trượt 7 ngày của gói Free — bao nhiêu người CẠN kho (chạm
-      // trần chặn, dấu hiệu hạn mức quá chặt) so với bao nhiêu người ĐẦY kho (dùng không hết).
-      // Công thức PHẢI khớp consume_rolling_credit/usage-summary.ts (migration 0017): tổng
-      // bonus_earned trừ credits_spent trong FREE_ROLLING_WINDOW_DAYS ngày gần nhất, gộp theo
-      // user TRƯỚC rồi mới đếm số người cạn/đầy (không gộp thẳng toàn bảng).
-      pool.query<{ users: number; total: number; exhausted: number; capped: number }>(
+      // ⑩ Sức khoẻ hạn mức NGÀY của gói Free (GĐ1 2026-09-12 — thay cho kho lượt cửa sổ trượt
+      // 7 ngày đã bỏ): trong khoảng đang xem, bao nhiêu người-ngày CHẠM trần hạn mức (dấu hiệu
+      // hạn mức quá chặt) so với tổng số người-ngày có dùng AI. Chỉ tính người đang ở gói Free.
+      pool.query<{ users: number; total: number; exhausted: number }>(
         `select count(*)::int as users,
-                coalesce(sum(available), 0)::int as total,
-                count(*) filter (where available <= 0)::int as exhausted,
-                count(*) filter (where available >= $3)::int as capped
+                coalesce(sum(greatest($3::int - used, 0)), 0)::int as total,
+                count(*) filter (where used >= $3::int)::int as exhausted
          from (
-           select user_id, sum(bonus_earned) - sum(credits_spent) as available
-           from public.free_daily_credit
-           where day > $1::date - $2::int and day <= $1::date
-           group by user_id
+           select d.user_id, d.day, ${AI_SUM_D_SQL} as used
+           from public.daily_usage d
+           join public.profiles p on p.id = d.user_id
+           where d.day >= $1::date and d.day <= $2::date
+             and (${EFFECTIVE_PLAN_SQL}) = 'free'
          ) t`,
-        [today, FREE_ROLLING_WINDOW_DAYS, FREE_WEEKLY_CAP],
+        [from, today, freeDailyLimit],
       ),
 
       // ⑪ Top người dùng theo tổng lượt AI — phát hiện lạm dụng / user cần mời lên gói cao
@@ -342,14 +346,14 @@ export default async function handler(req: Request): Promise<Response> {
 
     // ── Gộp số liệu, tính chi phí ────────────────────────────────────────────
     const totalUsers = usersRes.rows[0]?.total ?? 0
-    const planCounts = { free: 0, pro: 0, vip: 0 }
+    const planCounts = { free: 0, vip: 0 }
     for (const row of planRes.rows) {
-      if (row.plan === 'pro' || row.plan === 'vip') planCounts[row.plan] = row.count
+      if (row.plan === 'vip') planCounts.vip = row.count
       else planCounts.free = row.count
     }
     // Người dùng chưa có dòng profiles vẫn là người dùng Free thật — nếu bỏ qua, tổng cộng
     // các gói sẽ không bằng tổng người dùng và bảng nhìn như bị mất dữ liệu.
-    const profiledTotal = planCounts.free + planCounts.pro + planCounts.vip
+    const profiledTotal = planCounts.free + planCounts.vip
     planCounts.free += Math.max(totalUsers - profiledTotal, 0)
 
     const usageTotals = {
@@ -418,7 +422,7 @@ export default async function handler(req: Request): Promise<Response> {
     )
 
     const activeRow = activeRes.rows[0] ?? { dau: 0, wau: 0, mau: 0, returning: 0 }
-    const paidUsers = planCounts.pro + planCounts.vip
+    const paidUsers = planCounts.vip
     const costVnd = totalCostUsd * usdVndRate
 
     return jsonResponse(
@@ -472,8 +476,8 @@ export default async function handler(req: Request): Promise<Response> {
           marginVnd: revenueVnd - costVnd,
         },
         freeCredit: {
-          cap: FREE_WEEKLY_CAP,
-          ...(creditRes.rows[0] ?? { users: 0, total: 0, exhausted: 0, capped: 0 }),
+          cap: freeDailyLimit,
+          ...(creditRes.rows[0] ?? { users: 0, total: 0, exhausted: 0 }),
         },
         topUsers: topUsersRes.rows,
       },

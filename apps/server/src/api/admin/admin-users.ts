@@ -23,8 +23,8 @@ const MAX_LIMIT = 100
 
 // Phải khớp EFFECTIVE_PLAN_SQL ở api/admin-usage-stats.ts (nguồn chân lý logic resolvePlan()).
 const EFFECTIVE_PLAN_SQL = `case
-  when p.plan in ('pro', 'vip') and (p.plan_expires_at is null or p.plan_expires_at > now())
-    then p.plan
+  when p.plan in ('plus', 'pro', 'vip') and (p.plan_expires_at is null or p.plan_expires_at > now())
+    then 'vip'
   else 'free'
 end`
 
@@ -33,7 +33,7 @@ interface UserRow {
   email: string
   created_at: string
   email_verified: string | null
-  plan: 'free' | 'pro' | 'vip'
+  plan: 'free' | 'vip'
   plan_expires_at: string | null
   last_active_day: string | null
 }

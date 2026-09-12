@@ -11,7 +11,6 @@ import type { Plan } from '@dhcb/core-billing/plan'
 
 const PLAN_OPTIONS: { key: Plan; label: string }[] = [
   { key: 'free', label: 'Free' },
-  { key: 'pro', label: 'Pro' },
   { key: 'vip', label: 'VIP' },
 ]
 
@@ -46,7 +45,7 @@ export default function AdminGrantPlanPanel({
     setPrevPrefill(prefillEmail)
     if (prefillEmail) setEmail(prefillEmail)
   }
-  const [plan, setPlan] = useState<Plan>('pro')
+  const [plan, setPlan] = useState<Plan>('vip')
   const [unlimited, setUnlimited] = useState(true)
   const [days, setDays] = useState(30)
   const [lookingUp, setLookingUp] = useState(false)
@@ -118,7 +117,7 @@ export default function AdminGrantPlanPanel({
   return (
     <div className="space-y-4">
       <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 space-y-3">
-        <p className="text-sm font-semibold text-white">Cấp gói Pro/VIP thủ công theo email</p>
+        <p className="text-sm font-semibold text-white">Cấp gói VIP thủ công theo email</p>
         <p className="text-xs text-zinc-500">
           Dùng khi user đã chuyển khoản nhưng chưa có cổng thanh toán tự động. Nhập đúng email user
           đã đăng ký.

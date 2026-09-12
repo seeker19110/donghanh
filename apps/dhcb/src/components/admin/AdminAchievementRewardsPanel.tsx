@@ -1,5 +1,5 @@
 // src/components/admin/AdminAchievementRewardsPanel.tsx — Tab "Thưởng huy hiệu" trong /admin-s.
-// Cấu hình phần thưởng (bật/tắt + gói Pro/VIP + số ngày) cho TỪNG huy hiệu & mốc (migration
+// Cấu hình phần thưởng (bật/tắt + số ngày VIP) cho TỪNG huy hiệu & mốc (migration
 // 0026), áp dụng NGAY cho toàn bộ người dùng. Gọi thẳng api/admin-achievement-rewards.ts.
 import { useCallback, useEffect, useState } from 'react'
 import { Loader2, Save } from 'lucide-react'
@@ -9,7 +9,7 @@ import { ACHIEVEMENTS } from '../../data/achievements'
 
 interface RewardConfig {
   enabled: boolean
-  rewardPlan: 'pro' | 'vip'
+  rewardPlan: 'vip'
   rewardDays: number
 }
 
@@ -36,7 +36,8 @@ function RewardRowEditor({ row, onReload }: { row: RewardRow; onReload: () => Pr
   const toast = useToast()
   const def = ACHIEVEMENTS.find((a) => a.id === row.achievementId)
   const [enabled, setEnabled] = useState(row.config.enabled)
-  const [rewardPlan, setRewardPlan] = useState<'pro' | 'vip'>(row.config.rewardPlan)
+  // GĐ1 2026-09-12: chỉ còn VIP nên không có ô chọn gói nữa — mọi phần thưởng đều là ngày VIP.
+  const rewardPlan = 'vip' as const
   const [rewardDays, setRewardDays] = useState(row.config.rewardDays)
   const [saving, setSaving] = useState(false)
 
@@ -46,7 +47,6 @@ function RewardRowEditor({ row, onReload }: { row: RewardRow; onReload: () => Pr
   if (prevRow !== row) {
     setPrevRow(row)
     setEnabled(row.config.enabled)
-    setRewardPlan(row.config.rewardPlan)
     setRewardDays(row.config.rewardDays)
   }
 
@@ -80,15 +80,6 @@ function RewardRowEditor({ row, onReload }: { row: RewardRow; onReload: () => Pr
         Bật thưởng
       </label>
 
-      <select
-        value={rewardPlan}
-        onChange={(e) => setRewardPlan(e.target.value as 'pro' | 'vip')}
-        className="bg-zinc-800 border border-zinc-700 rounded-lg px-2 py-1.5 text-sm text-white"
-      >
-        <option value="pro">Pro</option>
-        <option value="vip">VIP</option>
-      </select>
-
       <input
         type="number"
         min={0}
@@ -97,7 +88,7 @@ function RewardRowEditor({ row, onReload }: { row: RewardRow; onReload: () => Pr
         onChange={(e) => setRewardDays(Math.max(0, Number(e.target.value) || 0))}
         className="w-24 bg-zinc-800 border border-zinc-700 rounded-lg px-2 py-1.5 text-sm text-white"
       />
-      <span className="text-xs text-zinc-500 shrink-0">ngày</span>
+      <span className="text-xs text-zinc-500 shrink-0">ngày VIP</span>
 
       <button
         type="button"
@@ -147,9 +138,9 @@ export default function AdminAchievementRewardsPanel() {
   return (
     <div className="space-y-3">
       <p className="text-xs text-zinc-500">
-        Mỗi huy hiệu/mốc tặng thêm N ngày gói Pro/VIP khi người dùng đạt được (nhận 1 lần duy
-        nhất/tài khoản). Sửa xong bấm Lưu ở đúng hàng — áp dụng ngay cho toàn bộ người dùng, không
-        cần deploy lại. Tắt "Bật thưởng" nếu chưa muốn phát thưởng cho huy hiệu đó.
+        Mỗi huy hiệu/mốc tặng thêm N ngày gói VIP khi người dùng đạt được (nhận 1 lần duy nhất/tài
+        khoản). Sửa xong bấm Lưu ở đúng hàng — áp dụng ngay cho toàn bộ người dùng, không cần deploy
+        lại. Tắt "Bật thưởng" nếu chưa muốn phát thưởng cho huy hiệu đó.
       </p>
 
       {loading && (

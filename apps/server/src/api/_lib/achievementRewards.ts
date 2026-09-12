@@ -1,4 +1,4 @@
-// api/_lib/achievementRewards.ts — Phần thưởng (ngày Pro/VIP) cho HUY HIỆU & MỐC, migration
+// api/_lib/achievementRewards.ts — Phần thưởng (ngày VIP) cho HUY HIỆU & MỐC, migration
 // 0026. Admin cấu hình từng huy hiệu qua api/admin-achievement-rewards.ts (bảng
 // achievement_rewards); người dùng nhận thưởng qua api/achievements.ts (bảng
 // achievement_claims, mỗi huy hiệu CHỈ nhận 1 LẦN/tài khoản — khác nhiệm vụ lặp lại theo
@@ -66,6 +66,13 @@ export function invalidateAchievementRewardsCache(): void {
   cache = null
 }
 
+// Mọi phần thưởng "N ngày gói" nay chỉ còn VIP (GĐ1 2026-09-12 xoá Pro/Plus) — giá trị cũ
+// 'pro'/'plus' trong bảng achievement_rewards được đọc thành 'vip' để người dùng KHÔNG mất
+// quyền lợi đã cấu hình, và dữ liệu lịch sử trong DB không phải xoá.
+function normalizeRewardPlan(): 'vip' {
+  return 'vip'
+}
+
 async function loadRewardConfig(): Promise<Map<AchievementId, AchievementRewardConfig>> {
   if (cache && cache.expiresAt > Date.now()) return cache.data
 
@@ -73,7 +80,9 @@ async function loadRewardConfig(): Promise<Map<AchievementId, AchievementRewardC
   const { rows } = await pool.query<{
     achievement_id: string
     enabled: boolean
-    reward_plan: 'pro' | 'vip'
+    // `string` chứ không phải kiểu gói: dòng cũ trong DB có thể còn giá trị 'pro'/'plus' đã bị
+    // xoá ở GĐ1 (2026-09-12) — chuẩn hoá về 'vip' ngay khi đọc thay vì tin kiểu dữ liệu.
+    reward_plan: string
     reward_days: number
   }>('select achievement_id, enabled, reward_plan, reward_days from public.achievement_rewards')
 
@@ -81,13 +90,13 @@ async function loadRewardConfig(): Promise<Map<AchievementId, AchievementRewardC
   for (const id of ACHIEVEMENT_IDS) {
     // Mặc định an toàn nếu admin chưa từng tạo hàng cho huy hiệu này: tắt, 0 ngày — không
     // tự ý phát thưởng khi thiếu cấu hình.
-    map.set(id, { enabled: false, rewardPlan: 'pro', rewardDays: 0 })
+    map.set(id, { enabled: false, rewardPlan: 'vip', rewardDays: 0 })
   }
   for (const r of rows) {
     if ((ACHIEVEMENT_IDS as readonly string[]).includes(r.achievement_id)) {
       map.set(r.achievement_id as AchievementId, {
         enabled: r.enabled,
-        rewardPlan: r.reward_plan,
+        rewardPlan: normalizeRewardPlan(),
         rewardDays: r.reward_days,
       })
     }
@@ -217,7 +226,7 @@ export async function getAchievementsStatus(userId: string): Promise<Achievement
     id,
     earned: isEarned(id, stats),
     claimed: claimed.has(id),
-    reward: rewardConfig.get(id) ?? { enabled: false, rewardPlan: 'pro', rewardDays: 0 },
+    reward: rewardConfig.get(id) ?? { enabled: false, rewardPlan: 'vip', rewardDays: 0 },
   }))
 }
 
@@ -268,7 +277,7 @@ export async function getAllRewardConfigs(): Promise<
   const map = await loadRewardConfig()
   return ACHIEVEMENT_IDS.map((achievementId) => ({
     achievementId,
-    config: map.get(achievementId) ?? { enabled: false, rewardPlan: 'pro', rewardDays: 0 },
+    config: map.get(achievementId) ?? { enabled: false, rewardPlan: 'vip', rewardDays: 0 },
   }))
 }
 
@@ -285,7 +294,7 @@ export async function upsertRewardConfig(
   const pool = getPgPool()
   await pool.query(
     `insert into public.achievement_rewards (achievement_id, enabled, reward_plan, reward_days, updated_at)
-     values ($1, coalesce($2, true), coalesce($3, 'pro'), coalesce($4, 0), now())
+     values ($1, coalesce($2, true), coalesce($3, 'vip'), coalesce($4, 0), now())
      on conflict (achievement_id) do update set
        enabled = coalesce($2, achievement_rewards.enabled),
        reward_plan = coalesce($3, achievement_rewards.reward_plan),

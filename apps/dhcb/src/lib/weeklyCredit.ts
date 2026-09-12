@@ -1,19 +1,18 @@
-// src/lib/weeklyCredit.ts — Đọc "còn bao nhiêu lượt" từ SERVER cho gói Free (kho lượt chung,
-// cửa sổ TRƯỢT 7 ngày liền kề — xem api/usage-summary.ts +
-// postgres/migrations/0017_free_rolling_credit.sql). Tên file/biến giữ "weekly"/"freeWeekly*"
-// vì lịch sử (bản cũ 0012 dùng tuần lịch) — không đổi tên để tránh sửa lại mọi nơi hiển thị,
-// bản chất giờ là cửa sổ trượt chứ không phải tuần lịch.
-// Pro/VIP KHÔNG cần gọi API này — vẫn hiển thị đúng bằng dữ liệu local như cũ (per-mode,
-// đếm theo ngày, xem src/lib/storage.ts).
+// src/lib/weeklyCredit.ts — Đọc "còn bao nhiêu lượt AI HÔM NAY" từ SERVER (xem
+// api/usage-summary.ts). Tên file/field giữ "weekly"/"freeWeekly*" vì LỊCH SỬ: gói Free từng
+// dùng kho lượt cửa sổ trượt 7 ngày; GĐ1 2026-09-12 đổi sang hạn mức TỔNG/ngày (Free 30, VIP
+// theo cấu hình) nhưng giữ nguyên tên field để không phá cache localStorage đã phát hành.
+//   freeWeeklyCredit = còn bao nhiêu lượt hôm nay (null = server lỗi, chưa biết)
+//   freeWeeklyCap    = hạn mức lượt mỗi ngày của gói hiện tại
 //
-// Không cache lâu (kho đổi liên tục mỗi lần dùng AI/học từ mới) — luôn hỏi lại server khi
-// vào các trang Chat/Writing/Speaking/Dashboard/Challenge để số hiển thị luôn đúng.
+// Không cache lâu (số đổi mỗi lần dùng AI) — luôn hỏi lại server khi vào các trang
+// Chat/Writing/Speaking/Dashboard/Challenge để số hiển thị luôn đúng.
 
 import { getAuthHeader } from '@core/authHeader'
 
 export interface WeeklyCreditInfo {
-  plan: 'free' | 'pro' | 'vip'
-  freeWeeklyCredit: number | null // null = không phải gói Free (Pro/VIP không áp dụng)
+  plan: 'free' | 'vip'
+  freeWeeklyCredit: number | null // null = server không đọc được (fail-open, UI ẩn số)
   freeWeeklyCap: number
 }
 

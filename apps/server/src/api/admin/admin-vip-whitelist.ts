@@ -110,7 +110,7 @@ export default async function handler(req: Request): Promise<Response> {
 
     await pool.query('delete from public.vip_whitelist where email = $1', [email])
     // Hạ về free ngay — chỉ áp dụng cho user đang là vip do whitelist cấp (không đụng user đã
-    // mua Pro/VIP thật qua thanh toán, việc đó dùng plan_expires_at riêng của giao dịch mua).
+    // mua VIP thật qua thanh toán, việc đó dùng plan_expires_at riêng của giao dịch mua).
     // Whitelist cấp vĩnh viễn (plan_expires_at = null) nên không phân biệt được nguồn gốc VIP
     // vĩnh viễn khác — admin cần biết: gỡ khỏi danh sách này sẽ hạ MỌI VIP vĩnh viễn về free.
     await pool.query(

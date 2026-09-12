@@ -1,4 +1,4 @@
-// api/plan-prices.ts — Đọc CÔNG KHAI bảng giá Pro/VIP (public.plan_prices), KHÔNG cần đăng
+// api/plan-prices.ts — Đọc CÔNG KHAI bảng giá VIP (public.plan_prices), KHÔNG cần đăng
 // nhập — chỉ là giá bán hiển thị, không phải dữ liệu riêng tư. Khác api/checkout.ts (TẠO đơn,
 // bắt buộc đăng nhập). UI (UpgradeSection.tsx) gọi endpoint này để hiện bảng giá trước khi
 // người dùng bấm mua.
@@ -51,30 +51,6 @@ export default async function handler(req: Request): Promise<Response> {
     // Chỉ trả kèm mốc kết thúc khi khuyến mãi đang THẬT SỰ hiệu lực (pct !== null) — tránh
     // lộ lịch khuyến mãi tương lai chưa công bố nếu admin đã đặt trước nhưng chưa tới giờ.
     promoEndsAt: pct !== null ? promo.endsAt : null,
-    plus: {
-      '10day': {
-        ...prices.plus['10day'],
-        effectiveVnd: effectivePrice(prices.plus['10day'], now, pct),
-      },
-      month: { ...prices.plus.month, effectiveVnd: effectivePrice(prices.plus.month, now, pct) },
-      year: {
-        ...prices.plus.year,
-        effectiveVnd: effectivePrice(prices.plus.year, now, pct),
-        yearTotals: yearTotals(prices.plus.year),
-      },
-    },
-    pro: {
-      '10day': {
-        ...prices.pro['10day'],
-        effectiveVnd: effectivePrice(prices.pro['10day'], now, pct),
-      },
-      month: { ...prices.pro.month, effectiveVnd: effectivePrice(prices.pro.month, now, pct) },
-      year: {
-        ...prices.pro.year,
-        effectiveVnd: effectivePrice(prices.pro.year, now, pct),
-        yearTotals: yearTotals(prices.pro.year),
-      },
-    },
     vip: {
       '10day': {
         ...prices.vip['10day'],
