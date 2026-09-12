@@ -18,8 +18,7 @@ import {
   unitGrammarCounts,
   levelGrammarCounts,
   computeLockedMap,
-  computeLockedMapPersisted,
-  persistUnlockedLevels,
+  computeLockedMapFromServer,
   getUnlockedLevels,
   isExamEligible,
   findNextStep,
@@ -184,43 +183,37 @@ describe('computeLockedMap — mở khóa cấp sau khi THI ĐẠT cấp trướ
   })
 })
 
-describe('computeLockedMapPersisted — grandfather: đã mở thì không khóa lại', () => {
-  it('mở khóa A2 (compute thuần) và persistUnlockedLevels ghi nhớ lại khi vừa thi đạt A1', () => {
-    const map = computeLockedMapPersisted('u1', [A1, A2], new Set(['A1']))
-    expect(map.get('A2')).toBe(false)
-    // compute THUẦN — không tự ghi; phần ghi nhớ là việc của persistUnlockedLevels.
-    expect(getUnlockedLevels('u1').has('A2')).toBe(false)
-    persistUnlockedLevels('u1', [A1, A2], new Set(['A1']))
-    expect(getUnlockedLevels('u1').has('A2')).toBe(true)
-  })
-
-  it('KHÔNG khóa lại A2 dù sau này không còn trong tập thi đạt (grandfather)', () => {
-    // Lần 1: A1 thi đạt → A2 mở + ghi nhớ
-    persistUnlockedLevels('u1', [A1, A2], new Set(['A1']))
-    expect(computeLockedMap([A1, A2], new Set()).get('A2')).toBe(true) // tính sống: khóa
-
-    // Lần 2: dù examPassed rỗng (vd dữ liệu chưa đồng bộ) → vẫn mở nhờ grandfather
-    const persistedMap = computeLockedMapPersisted('u1', [A1, A2], new Set())
-    expect(persistedMap.get('A2')).toBe(false)
-  })
-
-  it('người dùng cũ đã ở trong et_cefr_unlocked KHÔNG bị khóa lại dù chưa thi', () => {
-    // Giả lập người dùng đã mở khóa A2 theo luật CŨ (ghi sẵn vào localStorage).
+// [SỬA CÓ CHỦ ĐÍCH — GĐ2a, 2026-09-12, đặc tả docs/specs/2026-09-12-gd2-vip-hoc-tu-do-mon-anh.md]
+// Nhóm test cũ kiểm `computeLockedMapPersisted` + `persistUnlockedLevels`: client TỰ TÍNH quyền
+// mở cấp rồi GHI vào `et_cefr_unlocked_*` và đẩy lên server. Đó chính là lỗ hổng đợt này vá —
+// server ghi hộ mà không kiểm chứng, sửa localStorage là mở được mọi cấp. Hai hàm đó đã bị XOÁ.
+// Thay bằng `computeLockedMapFromServer`: chỉ ĐỌC danh sách server cấp (bộ đệm `et_cefr_unlocked_*`
+// do progressSync ghi từ response). Grandfather chuyển sang cột DB `cefr_unlocked_grandfathered`
+// (migration 0077) nên bất biến "không ai mất quyền đã có" vẫn giữ, chỉ đổi chỗ thi hành.
+describe('computeLockedMapFromServer — đọc quyền mở cấp do SERVER cấp', () => {
+  it('có danh sách server → theo đúng danh sách đó, bỏ qua kết quả thi trên máy', () => {
     localStorage.setItem('et_cefr_unlocked_u1', JSON.stringify(['A1', 'A2']))
-    const map = computeLockedMapPersisted('u1', [A1, A2], new Set()) // chưa thi đạt gì
-    expect(map.get('A2')).toBe(false) // vẫn mở — chống hồi tố
+    // examPassed rỗng nhưng server đã cấp A2 (vd người dùng VIP) → A2 vẫn mở.
+    const map = computeLockedMapFromServer('u1', [A1, A2], new Set())
+    expect(map.get('A1')).toBe(false)
+    expect(map.get('A2')).toBe(false)
   })
 
-  it('không ghi/đồng bộ thừa khi trạng thái không đổi giữa 2 lần gọi', () => {
-    persistUnlockedLevels('u1', [A1, A2], new Set(['A1']))
-    const afterFirst = [...JSON.parse(localStorage.getItem('et_cefr_unlocked_u1') ?? '[]')].sort()
+  it('server CHỈ cấp A1 → A2 khoá, dù localStorage cũ từng ghi là đã thi đạt A1', () => {
+    localStorage.setItem('et_cefr_unlocked_u1', JSON.stringify(['A1']))
+    const map = computeLockedMapFromServer('u1', [A1, A2], new Set(['A1']))
+    expect(map.get('A2')).toBe(true) // server là nguồn sự thật, không phải máy người dùng
+  })
 
-    persistUnlockedLevels('u1', [A1, A2], new Set(['A1']))
-    const map = computeLockedMapPersisted('u1', [A1, A2], new Set(['A1']))
-    const afterSecond = [...JSON.parse(localStorage.getItem('et_cefr_unlocked_u1') ?? '[]')].sort()
-
+  it('chưa có bộ đệm (lần đầu mở app / offline) → tạm dùng luật sống để hiển thị', () => {
+    const map = computeLockedMapFromServer('u1', [A1, A2], new Set(['A1']))
     expect(map.get('A2')).toBe(false)
-    expect(afterSecond).toEqual(afterFirst) // lần gọi thứ 2 không đổi trạng thái đã lưu
+  })
+
+  it('THUẦN: không ghi gì vào localStorage', () => {
+    computeLockedMapFromServer('u1', [A1, A2], new Set(['A1']))
+    expect(localStorage.getItem('et_cefr_unlocked_u1')).toBeNull()
+    expect(getUnlockedLevels('u1').size).toBe(0)
   })
 })
 

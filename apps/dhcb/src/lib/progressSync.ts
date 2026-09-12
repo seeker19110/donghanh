@@ -32,6 +32,8 @@ const SRS = (uid: string) => `srs_${uid}`
 // PHẢI khớp key trong lib/cefrProgress.ts (GRAMMAR_KEY/DIALOGUE_KEY/UNLOCKED_KEY).
 const CEFR_GRAMMAR = (uid: string) => `et_cefr_grammar_${uid}`
 const CEFR_DIALOGUE = (uid: string) => `et_cefr_dialogue_${uid}`
+// GĐ2a (2026-09-12): key này giờ là BỘ ĐỆM ĐỌC danh sách cấp do SERVER cấp, không phải dữ liệu
+// client tự khai — ta chỉ GHI XUỐNG từ response, không bao giờ GỬI LÊN nữa (xem cefrProgress.ts).
 const CEFR_UNLOCKED = (uid: string) => `et_cefr_unlocked_${uid}`
 // Kết quả bài thi cuối cấp (map levelId → {passed,bestPct,attempts,lastAt}) —
 // migration 0009. Khớp key trong lib/cefrExam.ts (EXAM_KEY).
@@ -234,7 +236,7 @@ async function sendProgressSnapshot(userId: string): Promise<void> {
         srs: readObj(SRS(userId)),
         cefrGrammar: readArr(CEFR_GRAMMAR(userId)),
         cefrDialogues: readArr(CEFR_DIALOGUE(userId)),
-        cefrUnlocked: readArr(CEFR_UNLOCKED(userId)),
+        // CỐ Ý KHÔNG gửi `cefrUnlocked`: server tự tính quyền mở cấp (GĐ2a) và bỏ qua nếu có.
         cefrExams: readExamMap(CEFR_EXAMS(userId)),
         placement: readPlacement(PLACEMENT(userId)) ?? {},
         weeklyGoal: readWeeklyGoal(WEEKLY_GOAL(userId)) ?? {},
@@ -246,6 +248,15 @@ async function sendProgressSnapshot(userId: string): Promise<void> {
     if (!resp.ok) {
       console.warn('[progress] đẩy tiến độ lỗi: HTTP', resp.status)
     } else {
+      // Server trả kèm danh sách cấp nó vừa tính → cập nhật bộ đệm NGAY, để vừa thi đạt là cấp
+      // sau mở ra mà không phải chờ lượt pullProgress kế tiếp.
+      try {
+        const body = (await resp.clone().json()) as { cefrUnlocked?: unknown }
+        if (Array.isArray(body.cefrUnlocked))
+          localStorage.setItem(CEFR_UNLOCKED(userId), JSON.stringify(body.cefrUnlocked))
+      } catch {
+        /* response không phải JSON / hết dung lượng — bỏ qua, lượt pull sau sẽ đồng bộ lại */
+      }
       // Đẩy thành công → xoá hàng chờ review offline
       void getPendingOfflineReviews(userId).then((pending) => {
         const ids = pending.map((p) => p.id!).filter(Boolean)
@@ -335,10 +346,9 @@ async function doPull(userId: string): Promise<void> {
     ...readArr(CEFR_DIALOGUE(userId)),
     ...(cloud.cefrDialogues ?? []),
   ])
-  const cefrUnlocked = new Set<string>([
-    ...readArr(CEFR_UNLOCKED(userId)),
-    ...(cloud.cefrUnlocked ?? []),
-  ])
+  // cefrUnlocked: KHÔNG hợp nhất với bản local nữa — server là nguồn sự thật duy nhất (GĐ2a),
+  // lấy union sẽ giữ lại đúng những cấp giả mạo/hết hạn mà server vừa gỡ.
+  const cefrUnlocked = cloud.cefrUnlocked ?? []
   const achievements = new Set<string>([
     ...readArr(ACHIEVEMENTS(userId)),
     ...(cloud.achievements ?? []),
@@ -386,7 +396,7 @@ async function doPull(userId: string): Promise<void> {
     localStorage.setItem(SRS(userId), JSON.stringify(merged))
     localStorage.setItem(CEFR_GRAMMAR(userId), JSON.stringify([...cefrGrammar]))
     localStorage.setItem(CEFR_DIALOGUE(userId), JSON.stringify([...cefrDialogues]))
-    localStorage.setItem(CEFR_UNLOCKED(userId), JSON.stringify([...cefrUnlocked]))
+    localStorage.setItem(CEFR_UNLOCKED(userId), JSON.stringify(cefrUnlocked))
     localStorage.setItem(CEFR_EXAMS(userId), JSON.stringify(cefrExams))
     localStorage.setItem(ACHIEVEMENTS(userId), JSON.stringify([...achievements]))
     if (placement) localStorage.setItem(PLACEMENT(userId), JSON.stringify(placement))
