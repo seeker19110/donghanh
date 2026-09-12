@@ -1,7 +1,8 @@
 # Đặc tả GĐ4 — Khoá tuần tự ở 4 trụ Career/Work/Startup/Life
 
-**Ngày:** 2026-09-12 · **Trạng thái:** 🔴 **KHUYẾN NGHỊ KHÔNG LÀM như đã hình dung** — đọc §0.1
-trước khi quyết · **Phụ thuộc:** GĐ1–GĐ3
+**Ngày:** 2026-09-12 · **Trạng thái:** ⛔ **ĐÓNG — KHÔNG THI HÀNH.** Chủ dự án đồng ý khuyến
+nghị ở §0.1 (2026-09-12): chọn **phương án 1 — không khoá gì ở 4 trụ**. Giữ file này làm hồ sơ
+lý do, để sau này không ai mở lại việc đã cân nhắc và bác bỏ.
 
 ## 0. Một câu
 
@@ -67,5 +68,7 @@ có là tạo ra đặc tả trông-như-đủ nhưng rỗng. Điền khi §0.1 
 
 ## Nghiệm thu
 
-- [ ] Chủ dự án đã chọn: ⬜ phương án 1 (không khoá) · ⬜ phương án 2 · ⬜ phương án 3 · ⬜ vẫn khoá tuần tự
-- [ ] Nếu chọn "vẫn khoá tuần tự": đã thiết kế xong thứ tự bài cho từng trụ (§①.1)
+- [x] Chủ dự án đã chọn: ✅ **phương án 1 (không khoá gì ở 4 trụ)** — 2026-09-12
+- [x] Không cần thiết kế thứ tự bài — việc đã đóng, không thi hành
+
+**Hệ quả:** 4 trụ Career/Work/Startup/Life **mở cho mọi gói**. VIP khác biệt nhờ hạn mức AI + quyền học tự do ở môn Anh (GĐ2) và Lập trình (GĐ3), không nhờ khoá 4 trụ.
