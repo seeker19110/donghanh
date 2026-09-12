@@ -55,7 +55,7 @@ Home trả lời: **“Hôm nay tôi nên làm gì?”**
 
 ### P1.1 — Deterministic Daily Plan
 
-Trạng thái: **đang triển khai ở PR #878**.
+Trạng thái: **đã merge ở PR #878**.
 
 - tách ranking khỏi JSX;
 - ưu tiên SRS đến hạn, sau đó giữ mạch học đang dang dở;
@@ -65,7 +65,7 @@ Trạng thái: **đang triển khai ở PR #878**.
 
 ### P1.2 — Analytics cho recommendation
 
-Trạng thái: **đang triển khai ở PR #879**.
+Trạng thái: **đã merge ở PR #879**.
 
 - impression/click theo action kind;
 - planner version được ghi để so sánh;
@@ -80,6 +80,10 @@ Trạng thái: **đang triển khai ở PR #879**.
 
 P1.3a đã được tách thành một slice triển khai được cho SRS; xem
 [`2026-09-08-p1-3-daily-plan-completion.md`](2026-09-08-p1-3-daily-plan-completion.md).
+
+Trạng thái P1.3a: **đã triển khai** — receipt append-only được suy từ transition SRS trong
+transaction `/api/progress`; admin đọc funnel theo action/version. `continue_learning` và
+`discover_path` tiếp tục hiển thị `n/a` cho đến khi có bằng chứng domain riêng.
 
 ### Gate P1
 
@@ -158,7 +162,7 @@ Chỉ mở rộng khi có người dùng thật cần flow này.
 1. **PR #877** — đặc tả roadmap và sửa trạng thái V2-05 theo bằng chứng hiện có.
 2. **PR #878 / P1.1** — deterministic Daily Learning Plan.
 3. **PR #879 / P1.2** — impression/click analytics.
-4. **P1.3** — completion server-derived + funnel.
+4. **P1.3a** — completion server-derived + funnel cho `srs_review`.
 5. **P2.1** — gap audit Life Graph cho signals thật sự cần bởi P1/P3.
 6. **P3.1** — recommendation engine v1 dựa trên outcome.
 7. **P4.1** — Companion context integration read-only.

@@ -13,6 +13,14 @@ interface Summary {
   days: number
   daily: DailyRow[]
   totalsByEvent: Record<string, number>
+  dailyPlanActions?: {
+    actionKind: string
+    plannerVersion: string
+    impressionCount: number
+    clickCount: number
+    completionCount: number | null
+    completionRate: number | null
+  }[]
 }
 
 const EVENT_LABELS: Record<string, string> = {
@@ -24,6 +32,13 @@ const EVENT_LABELS: Record<string, string> = {
   day2_return: 'Quay lại ngày thứ 2',
   daily_plan_impression: 'Daily Plan được hiển thị',
   daily_plan_click: 'Bấm gợi ý Daily Plan',
+  daily_plan_completion: 'Hoàn thành Daily Plan có bằng chứng',
+}
+
+const ACTION_LABELS: Record<string, string> = {
+  srs_review: 'Ôn SRS',
+  continue_learning: 'Học tiếp',
+  discover_path: 'Khám phá lộ trình',
 }
 
 const DAY_OPTIONS = [7, 14, 30, 90]
@@ -150,6 +165,52 @@ export default function AdminAnalyticsPanel() {
                 </div>
               ))}
             </div>
+          </section>
+
+          <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 overflow-x-auto">
+            <p className="text-sm font-semibold text-white mb-1">Phễu Daily Plan theo action</p>
+            <p className="text-xs text-zinc-400 mb-3">
+              Completion chỉ được tính từ receipt phía server. Hai action chưa có bằng chứng domain
+              hiển thị n/a, không coi là 0%.
+            </p>
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="text-left text-zinc-500">
+                  <th className="pb-2 pr-3 font-medium">Action</th>
+                  <th className="pb-2 px-3 font-medium text-right">Hiển thị</th>
+                  <th className="pb-2 px-3 font-medium text-right">Bấm</th>
+                  <th className="pb-2 px-3 font-medium text-right">Completion</th>
+                  <th className="pb-2 pl-3 font-medium text-right">Tỷ lệ</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(summary.dailyPlanActions ?? []).map((action) => (
+                  <tr
+                    key={`${action.actionKind}:${action.plannerVersion}`}
+                    className="border-t border-zinc-800/80"
+                  >
+                    <td className="py-2 pr-3 text-zinc-300 whitespace-nowrap">
+                      {ACTION_LABELS[action.actionKind] ?? action.actionKind}{' '}
+                      <span className="text-zinc-500">({action.plannerVersion})</span>
+                    </td>
+                    <td className="py-2 px-3 text-right text-zinc-400 tabular-nums">
+                      {action.impressionCount}
+                    </td>
+                    <td className="py-2 px-3 text-right text-zinc-400 tabular-nums">
+                      {action.clickCount}
+                    </td>
+                    <td className="py-2 px-3 text-right text-zinc-400 tabular-nums">
+                      {action.completionCount ?? 'n/a'}
+                    </td>
+                    <td className="py-2 pl-3 text-right text-accent-400 tabular-nums">
+                      {action.completionRate === null
+                        ? 'n/a'
+                        : `${(action.completionRate * 100).toFixed(1)}%`}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </section>
 
           <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 overflow-x-auto">

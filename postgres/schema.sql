@@ -163,6 +163,30 @@ create table if not exists english.learning_progress (
 );
 create or replace view public.learning_progress as select * from english.learning_progress;
 
+-- Daily Learning Plan: receipt completion append-only do server xác nhận (P1.3a).
+create table if not exists public.daily_plan_completions (
+  id              bigserial primary key,
+  user_id         uuid not null references public.users(id) on delete cascade,
+  action_kind     text not null check (action_kind = 'srs_review'),
+  planner_version text not null,
+  source          text not null check (source = 'progress_merge'),
+  occurred_at     timestamptz not null default now(),
+  evidence        jsonb not null,
+  constraint daily_plan_completions_evidence_shape check (
+    jsonb_typeof(evidence) = 'object'
+    and evidence = jsonb_build_object('reviewedCardCount', evidence -> 'reviewedCardCount')
+    and jsonb_typeof(evidence -> 'reviewedCardCount') = 'number'
+    and (evidence ->> 'reviewedCardCount')::integer > 0
+  )
+);
+create unique index if not exists daily_plan_completions_user_action_version_vn_day_uidx
+  on public.daily_plan_completions (
+    user_id,
+    action_kind,
+    planner_version,
+    ((occurred_at at time zone 'Asia/Ho_Chi_Minh')::date)
+  );
+
 -- ── 7. profiles: cột onboarding + giải đấu tuần ───────────────
 alter table public.profiles add column if not exists onboarded     boolean not null default false;
 alter table public.profiles add column if not exists user_level    text             default 'beginner';

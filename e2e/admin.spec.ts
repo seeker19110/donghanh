@@ -301,10 +301,42 @@ const MOCK_PRICE_PROMO = {
 
 const MOCK_ANALYTICS = {
   days: 14,
-  totalsByEvent: { landing_view: 500, signup: 120, first_session_done: 80 },
+  totalsByEvent: {
+    landing_view: 500,
+    signup: 120,
+    first_session_done: 80,
+    daily_plan_completion: 8,
+  },
   daily: [
     { day: '2026-08-05', event: 'landing_view', count: 50 },
     { day: '2026-08-05', event: 'signup', count: 12 },
+    { day: '2026-08-05', event: 'daily_plan_completion', count: 8 },
+  ],
+  dailyPlanActions: [
+    {
+      actionKind: 'srs_review',
+      plannerVersion: 'p1.1',
+      impressionCount: 20,
+      clickCount: 12,
+      completionCount: 8,
+      completionRate: 0.4,
+    },
+    {
+      actionKind: 'continue_learning',
+      plannerVersion: 'p1.1',
+      impressionCount: 15,
+      clickCount: 7,
+      completionCount: null,
+      completionRate: null,
+    },
+    {
+      actionKind: 'discover_path',
+      plannerVersion: 'p1.1',
+      impressionCount: 5,
+      clickCount: 2,
+      completionCount: null,
+      completionRate: null,
+    },
   ],
 }
 
@@ -1264,6 +1296,18 @@ test.describe('Admin Dashboard — /admin-s', () => {
   test('Analytics: Số liệu landing_view=500 hiện', async ({ page }) => {
     await gotoAdmin(page, 'analytics')
     await expect(page.getByText('500')).toBeVisible({ timeout: VISIBLE_TIMEOUT })
+  })
+
+  test('Analytics: funnel Daily Plan hiển thị completion SRS và n/a cho action chưa được hỗ trợ', async ({
+    page,
+  }) => {
+    await gotoAdmin(page, 'analytics')
+    await expect(page.getByText('Phễu Daily Plan theo action')).toBeVisible({
+      timeout: VISIBLE_TIMEOUT,
+    })
+    await expect(page.getByText('Ôn SRS')).toBeVisible()
+    await expect(page.getByText('40.0%')).toBeVisible()
+    await expect(page.getByText('n/a').first()).toBeVisible()
   })
 
   // AdminFeedbackPanel giờ có 2 tab con: "Ý Kiến Người Dùng" (mặc định) và "Đánh Giá Gia Sư AI 👎"

@@ -36,6 +36,21 @@ interface DailyRow {
   count: number
 }
 
+interface DailyPlanRow {
+  day: string
+  actionKind: string
+  plannerVersion: string
+  count: number
+}
+
+interface DailyPlanActionRow {
+  actionKind: string
+  plannerVersion: string
+  impressionCount: number
+  clickCount: number
+  completionCount: number
+}
+
 // Cột lượt dùng của `daily_usage` — có > 0 ở bất kỳ cột nào = "đã học thật" trong ngày đó.
 // Khớp `admin-usage-stats.ts`; thêm cột đếm mới thì thêm vào đây.
 const USAGE_SUM =
@@ -71,6 +86,40 @@ const FUNNEL_SQL = `
   union all
   select 'day2_return', day, count(*)::int from day2 group by 2
   order by 2 asc`
+
+const DAILY_PLAN_COMPLETION_SQL = `
+  select to_char(occurred_at at time zone 'Asia/Ho_Chi_Minh', 'YYYY-MM-DD') as day,
+         action_kind as "actionKind",
+         planner_version as "plannerVersion",
+         count(distinct user_id)::int as count
+  from public.daily_plan_completions
+  where occurred_at >= now() - ($1 || ' days')::interval
+  group by 1, 2, 3
+  order by 1 asc, 2 asc, 3 asc`
+
+const DAILY_PLAN_ACTION_SQL = `
+  with client_metrics as (
+    select ref_code as action_kind,
+           utm_source as planner_version,
+           count(*) filter (where event = 'daily_plan_impression')::int as impression_count,
+           count(*) filter (where event = 'daily_plan_click')::int as click_count
+    from public.analytics_events
+    where created_at >= now() - ($1 || ' days')::interval
+      and event in ('daily_plan_impression', 'daily_plan_click')
+    group by 1, 2
+  ), completions as (
+    select action_kind, planner_version, count(distinct user_id)::int as completion_count
+    from public.daily_plan_completions
+    where occurred_at >= now() - ($1 || ' days')::interval
+    group by 1, 2
+  )
+  select coalesce(m.action_kind, c.action_kind) as "actionKind",
+         coalesce(m.planner_version, c.planner_version) as "plannerVersion",
+         coalesce(m.impression_count, 0)::int as "impressionCount",
+         coalesce(m.click_count, 0)::int as "clickCount",
+         coalesce(c.completion_count, 0)::int as "completionCount"
+  from client_metrics m full join completions c using (action_kind, planner_version)
+  order by 1, 2`
 
 export default async function handler(req: Request): Promise<Response> {
   const allHeaders = { ...getCorsHeaders(req), ...SECURITY_HEADERS }
@@ -114,13 +163,65 @@ export default async function handler(req: Request): Promise<Response> {
 
   const { rows: funnelRows } = await pool.query<DailyRow>(FUNNEL_SQL, [days])
 
+  // Completion là event dẫn xuất chỉ đọc từ receipt server-owned, không đọc analytics client.
+  const { rows: dailyPlanCompletions } = await pool.query<DailyPlanRow>(DAILY_PLAN_COMPLETION_SQL, [
+    days,
+  ])
+  const { rows: measuredDailyPlanActions } = await pool.query<DailyPlanActionRow>(
+    DAILY_PLAN_ACTION_SQL,
+    [days],
+  )
+
+  const completionDailyRows: DailyRow[] = dailyPlanCompletions.map((row) => ({
+    day: row.day,
+    event: 'daily_plan_completion',
+    count: row.count,
+  }))
+
   const totalsByEvent: Record<string, number> = {}
-  for (const row of [...rows, ...funnelRows]) {
+  for (const row of [...rows, ...funnelRows, ...completionDailyRows]) {
     totalsByEvent[row.event] = (totalsByEvent[row.event] ?? 0) + row.count
   }
 
-  const daily = [...rows, ...funnelRows].sort((a, b) => a.day.localeCompare(b.day))
-  return jsonResponse({ days, daily, totalsByEvent }, 200, allHeaders)
+  const daily = [...rows, ...funnelRows, ...completionDailyRows].sort((a, b) =>
+    a.day.localeCompare(b.day),
+  )
+  const dailyPlanActions = ['srs_review', 'continue_learning', 'discover_path'].flatMap((kind) => {
+    const rowsForKind = measuredDailyPlanActions.filter((row) => row.actionKind === kind)
+    // Một action có thể chạy song song nhiều planner version trong A/B test; giữ từng dòng
+    // thay vì Map theo action rồi vô tình ghi đè số liệu phiên bản trước.
+    const versions =
+      rowsForKind.length > 0
+        ? rowsForKind
+        : [
+            {
+              actionKind: kind,
+              plannerVersion: 'p1.1',
+              impressionCount: 0,
+              clickCount: 0,
+              completionCount: 0,
+            },
+          ]
+    return versions.map((measured) => {
+      const supported = kind === 'srs_review'
+      return {
+        actionKind: kind,
+        plannerVersion: measured.plannerVersion,
+        impressionCount: measured.impressionCount,
+        clickCount: measured.clickCount,
+        completionCount: supported ? measured.completionCount : null,
+        completionRate:
+          supported && measured.impressionCount > 0
+            ? measured.completionCount / measured.impressionCount
+            : null,
+      }
+    })
+  })
+  return jsonResponse(
+    { days, daily, totalsByEvent, dailyPlanCompletions, dailyPlanActions },
+    200,
+    allHeaders,
+  )
 }
 
 export const config = { runtime: 'edge' }
