@@ -156,6 +156,25 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
 - **[2026-09-06] Mời 5 người học thật, quan sát 2 tuần** (việc tay của người dùng, xem mục
   "Cần làm tay"). Sau 2 tuần đọc phễu + DAU/returning rồi mới quyết mảng nào đi sâu.
 
+### Ưu tiên 1b — ĐỔI MÔ HÌNH GÓI (chủ dự án chốt 2026-09-12, đặc tả đã viết, CHƯA thi hành)
+
+Quyết định: **xoá gói Pro và Plus, chỉ còn Free + VIP**. Free hưởng **hạn mức Plus cũ (30
+lượt/ngày)** miễn phí. **VIP** là gói trả phí duy nhất, đặc quyền là **học tự do** (nhảy cấp tuỳ
+ý); Free học tuần tự từ đầu. Người đang trả Plus/Pro còn hạn → **nâng VIP giữ nguyên hạn đã trả**.
+
+Chia 4 giai đoạn, mỗi giai đoạn MỘT PR, dừng xin duyệt giữa các giai đoạn:
+
+| GĐ  | Đặc tả                                                | Trạng thái                                                                       |
+| --- | ----------------------------------------------------- | -------------------------------------------------------------------------------- |
+| 1   | `docs/specs/2026-09-12-gd1-xoa-goi-pro.md`            | ✅ đã chốt phương án — **làm trước tiên**                                        |
+| 2   | `docs/specs/2026-09-12-gd2-vip-hoc-tu-do-mon-anh.md`  | ⛔ còn 1 quyết định kiến trúc (paywall client hay server)                        |
+| 3   | `docs/specs/2026-09-12-gd3-khoa-bai-mon-lap-trinh.md` | ⛔ còn 3 quyết định (đơn vị khoá · ngưỡng · phạm vi)                             |
+| 4   | `docs/specs/2026-09-12-gd4-khoa-bai-4-tru.md`         | 🔴 **khuyến nghị KHÔNG làm** — 4 trụ là công cụ, không phải giáo trình; đọc §0.1 |
+
+⚠️ Việc này **mâu thuẫn với quyết định đóng băng phạm vi 2026-09-06** (ưu tiên 1: đo bằng chứng
+người học thật trước). Đã nêu với chủ dự án; chủ dự án vẫn chọn làm. Ghi lại để sau này biết vì
+sao ưu tiên 1 bị chen ngang.
+
 ### Ưu tiên 2 — nợ nội dung của mảng đã ship (đi sâu, không mở rộng)
 
 - ~~Lộ trình "Kỹ Sư Trưởng AI": quiz sau chặng mới soạn 4/22~~ — **SAI, đo lại 2026-09-06:**
