@@ -234,14 +234,10 @@ sao ưu tiên 1 bị chen ngang.
 
 ### A. CÒN PHẢI LÀM
 
-- **[2026-09-12 · GĐ1 · LÀM TRƯỚC KHI MERGE PR GĐ1] Export CSV sao lưu gói của người đang trả
-  tiền trên DB PRODUCTION.** Migration `0076_remove_pro_plus_plans.sql` **ghi đè** cột
-  `profiles.plan` của các hàng `'plus'`/`'pro'` nên KHÔNG lùi lại được nếu không có bản sao.
-  SSH vào VPS rồi chạy trong `psql`:
-  `\copy (select id, plan, plan_expires_at from public.profiles where plan in ('plus','pro')) to 'backup-plans-2026-09-12.csv' csv header`
-  Tiện thể chạy `select plan, count(*) from public.profiles group by 1;` và dán kết quả vào mục
-  **Nghiệm thu** của `docs/specs/2026-09-12-gd1-xoa-goi-pro.md` (phiên thi hành KHÔNG có DB thật
-  nên chưa điền được). Migration lũy đẳng, an toàn cả khi không có hàng Plus/Pro nào.
+- **[2026-09-12 · GĐ1 · ĐÃ XONG]** Export CSV sao lưu gói người đang trả tiền trên DB
+  PRODUCTION trước khi merge PR #886 — đã chạy trên VPS: `COPY 27` dòng
+  (`/var/www/dhcb/backup-plans-2026-09-12.csv`). Số liệu thật: `vip=4 · pro=27 · free=6` (không
+  có `plus`). Đã điền vào mục Nghiệm thu của `docs/specs/2026-09-12-gd1-xoa-goi-pro.md`.
 
 - **[2026-09-06] Mời 5 người học thật (mỗi người một trụ: Anh · Lập trình · Career/Work ·
   Life · một người học chiều B), dùng 2 tuần.** Không cần công cụ ngoài: tab admin "Analytics"

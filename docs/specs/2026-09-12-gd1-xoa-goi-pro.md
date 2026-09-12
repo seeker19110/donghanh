@@ -138,16 +138,13 @@ Vì vậy **BẮT BUỘC** export trước khi chạy:
 **Đã thi hành 2026-09-12** — xem `docs/changelog/0289-2026-09-12-gd1-xoa-goi-pro-plus.md`.
 
 - [x] §0.1 đã chốt: xoá cả Pro lẫn Plus; Free hưởng hạn mức Plus cũ (30/ngày) — chủ dự án, 2026-09-12
-- [ ] ~~Đã chạy `select plan, count(*) from public.profiles group by 1;`~~ — **KHÔNG chạy được:
-      phiên thi hành không có DB thật** (không `.env`, không `DATABASE_URL`, `pg_isready` không
-      phản hồi). Đã thi hành theo hướng **migration lũy đẳng an toàn với cả trường hợp không có
-      dữ liệu Pro/Plus nào**: cả 3 lệnh trong `0076_remove_pro_plus_plans.sql` đều là
-      `update ... where` theo điều kiện "chưa di trú", chạy trên DB rỗng hoặc chạy lại lần hai
-      đều không đổi thêm hàng nào. Ngoài ra `normalizePlan()` được viết để **chịu được hàng
-      `'plus'`/`'pro'` lọt lưới migration** (coi như VIP, rồi `resolvePlan` kiểm hạn) nên kể cả
-      migration chưa chạy, không ai đang trả tiền bị mất quyền lợi.
-- [ ] **Đã export CSV backup trước migration — CHƯA LÀM, việc cần làm TAY trên VPS trước khi
-      merge.** Lệnh ghi sẵn ở đầu file migration và ở `PROGRESS.md` mục "⚠️ Cần làm tay / A".
+- [x] Đã chạy `select plan, count(*) from public.profiles group by 1;` trên VPS production
+      (2026-09-12, sau khi PR #886 lên CI xanh, trước khi merge): **`vip=4 · pro=27 · free=6`**
+      (không có hàng `plus` nào). 27 người `pro` sẽ được migration `0076` xét: còn hạn
+      (`plan_expires_at > now()`) → nâng `vip` giữ nguyên hạn; hết hạn → `free` (30 lượt/ngày).
+- [x] Đã export CSV backup trước migration (lệnh `\copy` ghi ở đầu file migration `0076`) chạy
+      trên VPS (`/var/www/dhcb`) → **`COPY 27`** (khớp đúng số hàng `pro` ở trên). File lưu tại
+      `/var/www/dhcb/backup-plans-2026-09-12.csv` trên VPS.
 - [x] 6 tiêu chí §④ đạt — bảng đối chiếu từng tiêu chí kèm nơi kiểm nằm ở changelog `0289`.
       Cổng CLAUDE.md §8: build ✅ · typecheck ✅ · lint ✅ (0 cảnh báo) · format ✅ ·
       test ✅ 577 file / 12.194 test.
