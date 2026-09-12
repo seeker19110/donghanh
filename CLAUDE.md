@@ -42,6 +42,10 @@ Ba chế độ:
 - `docs/changelog/` — **nhật ký từng đợt việc, mỗi đợt một file** (tách khỏi `PROGRESS.md`
   2026-08-26 để hai PR song song không xung đột — xem `docs/changelog/README.md`). Xem nhanh:
   `npm run changelog`.
+- `TRAPS.md` — **sổ bẫy đã mắc THẬT** (khác `docs/adr/` ghi quyết định): khuôn lỗi + cách rà +
+  cổng chốt chặn, có ngày/PR. Tra trước khi debug lại từ đầu. Cổng liên quan:
+  `scripts/check-progress-freshness.sh` cảnh báo khi `PROGRESS.md` nhắc nhánh đã lỗi thời
+  (chạy trong CI job `audit` khi push lên `main`).
 - `App-Gia-Su-Tieng-Anh-AI.md` — kế hoạch sản phẩm đầy đủ.
 - `docs/framework/KHUNG-1..3-*.md` — quy trình 9 giai đoạn + luật AI + research-first chọn công nghệ.
 - `docs/framework/BO-SUNG-*.md` — chất lượng Nhóm 1/2 (mobile, hiệu năng, a11y, UI/UX, chống lỗi logic), theme, i18n/PWA/Sentry/SEO.
