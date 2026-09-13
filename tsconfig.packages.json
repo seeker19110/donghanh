@@ -50,19 +50,22 @@
       "path": "./packages/core-personal"
     },
     {
+      "path": "./packages/subject-biology"
+    },
+    {
       "path": "./packages/subject-chemistry"
     },
     {
       "path": "./packages/subject-english"
     },
     {
-      "path": "./packages/subject-programming"
+      "path": "./packages/subject-math"
     },
     {
       "path": "./packages/subject-physics"
     },
     {
-      "path": "./packages/subject-biology"
+      "path": "./packages/subject-programming"
     }
   ]
 }

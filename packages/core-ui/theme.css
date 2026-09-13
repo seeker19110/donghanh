@@ -238,4 +238,13 @@
   --text-secondary: var(--z-300); /* AAA mọi nơi — nội dung phụ */
   --text-muted: var(--z-400); /* AA — nhãn, chú thích; KHÔNG dùng cho nội dung */
   --text-disabled: var(--z-500); /* AA — trạng thái tắt, gợi ý mờ */
+
+  /* Màu ĐỒ HOẠ cho hoạt ảnh bài học (LessonAnimation) — giữ nghĩa quy ước của dự án:
+     xanh lá = đúng/đạt, hổ phách = cảnh báo, đỏ = sai/nguy hiểm.
+     Giá trị CỐ ĐỊNH (không đổi theo theme) vì đã chọn mức giữa đạt ≥ 3:1 trên CẢ bề mặt tối
+     nhất lẫn sáng nhất của 5 theme — 3:1 là ngưỡng WCAG cho đối tượng đồ hoạ phi văn bản.
+     KHÔNG dùng làm màu CHỮ (chữ cần 4.5:1/7:1) — schema lessonAnimation.ts chặn sẵn. */
+  --anim-correct: 5 150 105;
+  --anim-warn: 217 119 6;
+  --anim-danger: 220 38 38;
 }
