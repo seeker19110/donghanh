@@ -203,12 +203,12 @@ export const TOAN11_C1_LESSONS: MathLesson[] = [
       },
       {
         prompt:
-          'Biết cos α = 1/2 và −π/2 < α < 0. Giá trị của sin α bằng bao nhiêu? (Nhập số thập phân làm tròn 3 chữ số.)',
-        answer: { kind: 'numeric', value: -0.866, tolerance: { mode: 'absolute', eps: 0.002 } },
+          'Biết cos α = 1/2 và −π/2 < α < 0. Giá trị của sin α bằng bao nhiêu? (Nhập số thập phân làm tròn 2 chữ số.)',
+        answer: { kind: 'numeric', value: -0.87, tolerance: { mode: 'absolute', eps: 0.01 } },
         explain:
-          'Từ sin²α = 1 − 1/4 = 3/4 ta có sin α = ±√3/2 ≈ ±0,866. Đây chính là bẫy: phải dùng điều kiện về góc để ' +
+          'Từ sin²α = 1 − 1/4 = 3/4 ta có sin α = ±√3/2 ≈ ±0,87. Đây chính là bẫy: phải dùng điều kiện về góc để ' +
           'chọn dấu. Góc α thuộc khoảng (−π/2; 0) tức phần tư thứ tư, điểm nằm PHÍA DƯỚI trục hoành nên tung độ âm, ' +
-          'do đó sin α = −0,866. Rất nhiều bạn dừng ở bước khai căn và lấy luôn giá trị dương.',
+          'do đó sin α = −0,87. Rất nhiều bạn dừng ở bước khai căn và lấy luôn giá trị dương.',
       },
       {
         prompt: 'Giá trị của biểu thức sin²35° + cos²35° bằng bao nhiêu?',
