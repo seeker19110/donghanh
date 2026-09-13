@@ -1,6 +1,6 @@
 # 0295 — 2026-09-13 — Hoàn thiện 4 môn STEM và nối vào app
 
-**PR:** (điền khi tạo) · **Nhánh:** `claude/jolly-galileo-8uy96y`
+**PR:** #893 · **Nhánh:** `claude/jolly-galileo-8uy96y`
 **Đặc tả:** `docs/specs/2026-09-13-hoan-thien-4-mon-stem.md`
 
 ## Việc đã làm
