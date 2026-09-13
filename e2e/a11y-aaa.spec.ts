@@ -60,6 +60,10 @@ const ROUTES = [
   '/lap-trinh/huong/architecture--kien-truc-he-thong-dac-ta-cho-ai-thi-hanh', // hướng kiến trúc — trang chi tiết dài nhất, nhiều danh sách chữ
   '/lap-trinh/huong/web--lap-trinh-web/web-s2--full-stack-co-backend-cua-minh', // trang CHẶNG: mục tiêu, tự kiểm, rubric, đặc tả 6 ô
   '/lap-trinh/khoa-hoc/git--git-github-thuc-hanh', // khoá ngắn Git & GitHub (PR 3/4 khoá Git) — cắt ngang bậc
+  // [2026-09-13] Bốn môn STEM nối vào app. Trang bài học gần như toàn chữ đọc nên AAA là
+  // chuẩn đúng cho nó; quét một môn đại diện vì cả bốn dùng chung một khuôn trang.
+  '/mon-hoc/physics/bai-hoc', // danh sách bài
+  '/mon-hoc/physics/bai-hoc/ly10-c2-b10--su-roi-tu-do', // một bài đầy đủ, có hoạt ảnh
 ] as const
 
 // Đếm số phần tử vi phạm NẰM TRONG phần nội dung/tiêu đề (bỏ phần vỏ giao diện).

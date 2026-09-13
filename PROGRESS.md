@@ -35,10 +35,11 @@ khảo: `docs/README.md`.
 
 **Vị trí hôm nay (2026-09-06):** app nền tảng chạy thật tại `donghanhcungban.org`; môn Anh
 chín nhất (A1→C2, 3 chế độ, hai chiều A/B); môn Lập trình có xương sống P1–P6 + 14 hướng chuyên
-sâu + khoá ngắn + lộ trình mục tiêu; 4 trụ Career/Work/Startup/Life có trang; 3 môn STEM
-(`packages/subject-{physics,chemistry,biology}`) mới là **bản nháp chưa nối vào app** (theo dõi ở
-`docs/goals/2026-08-31-mon-hoc-toan-ly-hoa-sinh.md`). Cổng chất lượng đo thật 2026-09-06:
-typecheck ✅ · 574 file / 12.160 unit test ✅ · coverage sàn 97/93/96/97.
+sâu + khoá ngắn + lộ trình mục tiêu; 4 trụ Career/Work/Startup/Life có trang; **4 môn STEM
+(Toán/Lí/Hoá/Sinh) ĐÃ NỐI VÀO APP 2026-09-13** — 294 bài, 55 bài có hoạt ảnh minh hoạ, 24 chuyên
+đề bồi dưỡng học sinh giỏi ba cấp, chấm câu hỏi tất định bằng `@dhcb/core-grading`
+(`docs/changelog/0295-2026-09-13-hoan-thien-4-mon-stem.md`). Cổng chất lượng đo thật 2026-09-13:
+typecheck ✅ · 586 file / 12.269 unit test ✅ · a11y AA+AAA ✅ · bundle 135,09/140 kB.
 
 **PR #890 (2026-09-12, đã merge) — `TRAPS.md` + cổng kiểm `PROGRESS.md` lỗi thời.** Mượn ý
 tưởng từ repo khung `seeker19110/project-template`: `TRAPS.md` ở gốc repo (sổ bẫy đã mắc thật,
@@ -232,9 +233,15 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
 - **Chương trình M (mở rộng ngôn ngữ) 11/12 PR — PR-M4–M6 (nội dung Swift) CHẶN** cho tới khi
   đối chiếu bộ chạy Swift với `swift` thật (việc tay, mục "Cần làm tay" A). Hiến chương:
   `docs/research/dac-ta-mo-rong-ngon-ngu-va-tu-duy-2026-08-26.md`.
-- **3 môn STEM (Lý/Hoá/Sinh) — bản nháp chờ duyệt chuyên môn, CHƯA nối vào `apps/`.** Cổng bắt
-  buộc trước khi nối: duyệt nội dung theo GDPT 2018 (`docs/goals/2026-08-31-mon-hoc-toan-ly-hoa-sinh.md`).
-  Không nối khi chưa có người học thật ở môn Anh/Lập trình cần nó.
+- **4 môn STEM đã nối vào app (2026-09-13) — QUYẾT ĐỊNH CŨ VỀ CỔNG DUYỆT ĐÃ BỊ ĐẢO.** Trước đây
+  mục này ghi "chờ duyệt chuyên môn, không nối khi chưa có người học thật cần". Người dùng chốt
+  ngược lại trong phiên 2026-09-13: nối thẳng khi AI viết xong. Thay cho người duyệt, mỗi môn có
+  test canh chấm lại TOÀN BỘ đáp án bằng engine chấm thật. Mọi bài vẫn mang `reviewStatus: 'draft'`.
+  **Nợ còn lại:** nội dung chưa ai có chuyên môn đọc lại; chuẩn sư phạm mới rà trên phần bài trọng
+  điểm, chưa quét hết 294 bài. Chi tiết: `docs/changelog/0295-2026-09-13-hoan-thien-4-mon-stem.md`.
+- **Môn Toán thiếu hình học không gian và thống kê** — lớp 10 C5; lớp 11 C3, C4, C8; lớp 12 C2, C3,
+  và phương trình đường thẳng trong không gian. Đây là mảng mỏng nhất của cả bốn môn STEM.
+- **Môn Sinh chưa có nhánh bồi dưỡng học sinh giỏi** — đợt 2026-09-13 chỉ làm cho Toán/Lí/Hoá.
 - **4 trang trụ Career/Work/Startup/Life chưa có chiều B** (0/4 file dùng `direction`) — nợ có
   chủ đích, người dùng chốt "chiều B nợ". Làm khi có người học chiều B thật.
 
