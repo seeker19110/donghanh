@@ -161,6 +161,14 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
   được phễu thật, có cả số quá khứ.
 - **[2026-09-06] Mời 5 người học thật, quan sát 2 tuần** (việc tay của người dùng, xem mục
   "Cần làm tay"). Sau 2 tuần đọc phễu + DAU/returning rồi mới quyết mảng nào đi sâu.
+- **[2026-09-13] ✅ Đọc phễu thật (20 người dùng) → tắt gate Intake 5 câu (`docs/changelog/0293-*.md`).**
+  Tab Analytics cho thấy 20 đăng ký/14 ngày nhưng chỉ 4 hoàn thành phiên học đầu (rớt 80%). Đọc
+  code xác nhận nguyên nhân nhiều khả năng nhất: người dùng mới bị ép qua Intake 5 câu rồi
+  Onboarding 4 bước (tối đa 9 lượt bấm) trước khi vào được nội dung học. Đã tắt route tới Intake
+  (`App.tsx` `RequireAuth` → thẳng `/onboarding`), thêm đo `onboarding_step_view` để biết rớt ở
+  bước nào trong 4 bước Onboarding còn lại nếu vẫn còn rớt cao. **Theo dõi tiếp 1–2 tuần** xem tỉ
+  lệ `first_session_done` có tăng không trước khi quyết bước kế (rút gọn tiếp Onboarding? thêm
+  nút bỏ qua?).
 
 ### Ưu tiên 1b — ĐỔI MÔ HÌNH GÓI (chủ dự án chốt 2026-09-12, đặc tả đã viết, CHƯA thi hành)
 

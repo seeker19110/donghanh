@@ -23,12 +23,15 @@ import { jsonResponse, getClientIp } from '@dhcb/core-http/http'
 // ra từ `users` + `daily_usage` trong analytics-summary.ts, không nhận từ client nữa.
 // [2026-09-08] Daily Plan dùng refCode = action kind và utmSource = planner version để đo
 // impression/click mà không cần migration hay metadata tự do.
+// [2026-09-13] onboarding_step_view: đo rớt từng bước Intake/Onboarding (refCode =
+// `intake:<step>`/`onboarding:<step>`) — điều tra vì sao chỉ 20% đăng ký hoàn thành phiên đầu.
 const EVENT_TYPES = [
   'landing_view',
   'cta_click',
   'share_click',
   'daily_plan_impression',
   'daily_plan_click',
+  'onboarding_step_view',
 ] as const
 
 const AnalyticsSchema = z.object({

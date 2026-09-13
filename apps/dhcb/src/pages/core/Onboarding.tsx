@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import {
   Plane,
@@ -12,6 +12,7 @@ import {
 import { usePageTitle } from '../../lib/usePageTitle'
 import { useAuth } from '../../context/useAuth'
 import { saveOnboarding } from '../../lib/cloud'
+import { track } from '../../lib/analytics'
 import { cacheOnboarding, minutesToSpeed } from '../../lib/onboarding'
 import { setDailySpeed } from '../../lib/curriculum'
 import type { AgeGroup } from '../../types'
@@ -91,6 +92,12 @@ export default function Onboarding() {
   const [saving, setSaving] = useState(false)
 
   usePageTitle('Làm quen | Đồng hành cùng bạn')
+
+  // Đo rớt từng bước — đây là cổng bắt buộc duy nhất còn lại trước khi vào app (Intake đã
+  // tắt, xem App.tsx RequireAuth). refCode dùng chung khuôn "loại:bước" như Daily Plan.
+  useEffect(() => {
+    track('onboarding_step_view', { refCode: `onboarding:${step}` })
+  }, [step])
 
   async function finish() {
     if (!user) return

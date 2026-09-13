@@ -138,10 +138,13 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
   if (loading) return <PageLoading />
   if (!user) return <Navigate to="/login" replace />
-  // Người MỚI đi qua lớp nền tảng trước (5 câu ~90 giây), rồi mới tới onboarding của môn.
+  // [2026-09-13] TẮT lớp Intake 5 câu trước /onboarding — người dùng chốt sau khi thấy funnel
+  // thật (20 đăng ký/14 ngày, chỉ 4 hoàn thành phiên học đầu): đăng ký xong vào thẳng
+  // /onboarding (4 bước, có sẵn giá trị mặc định, bấm "Tiếp theo" là qua) thay vì phải qua thêm
+  // 5 câu hỏi ở /bat-dau trước đó. Trang /bat-dau (Intake.tsx) + API intakeApi vẫn giữ nguyên,
+  // không xoá — chỉ không còn route nào điều hướng người dùng mới tới đó nữa.
   // Người đã onboarded từ trước KHÔNG bị chạm tới — họ không bao giờ vào nhánh này.
-  // Trang /bat-dau tự kiểm: ai đã trả lời rồi thì nó chuyển thẳng sang /onboarding.
-  if (!user.onboarded) return <Navigate to="/bat-dau" replace />
+  if (!user.onboarded) return <Navigate to="/onboarding" replace />
   return (
     <>
       {/* Chỉ hiện cho user đã đăng nhập + đã onboard — banner báo trước sắp hết

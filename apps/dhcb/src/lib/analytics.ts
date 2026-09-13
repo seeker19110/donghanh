@@ -7,8 +7,15 @@ import { getAuthHeader } from '@core/authHeader'
 // Whitelist khớp EVENT_TYPES ở api/platform/analytics.ts — giữ đồng bộ khi thêm event mới.
 // Ba bước phễu signup / first_session_done / day2_return KHÔNG bắn từ client: server tự suy ra
 // từ bảng users + daily_usage (xem api/admin/analytics-summary.ts).
+// [2026-09-13] onboarding_step_view: đo rớt TỪNG bước trong Intake (5 câu)/Onboarding (4 bước)
+// giữa lúc đăng ký và "first_session_done" — refCode = `intake:<step>` hoặc `onboarding:<step>`.
 export type AnalyticsEvent =
-  'landing_view' | 'cta_click' | 'share_click' | 'daily_plan_impression' | 'daily_plan_click'
+  | 'landing_view'
+  | 'cta_click'
+  | 'share_click'
+  | 'daily_plan_impression'
+  | 'daily_plan_click'
+  | 'onboarding_step_view'
 
 export interface AnalyticsExtra {
   refCode?: string
