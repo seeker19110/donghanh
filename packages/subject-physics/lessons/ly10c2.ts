@@ -74,6 +74,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Khi vật chuyển động thẳng và không đổi chiều.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -146,6 +147,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Vectơ v₁₃ = vectơ v₁₂ + vectơ v₂₃.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -216,6 +218,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'v = s / t (s là khoảng cách giữa 2 cổng quang, t là thời gian chuyển động).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -289,6 +292,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'v = (d₂ - d₁) / (t₂ - t₁).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -362,6 +366,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Khi gia tốc ngược chiều với vận tốc (a.v < 0).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -432,10 +437,158 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'd = v_o.t + 0,5.a.t².',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
     id: 'ly10-c2-b10',
+    // Hoạt ảnh phá hiểu lầm kinh điển "vật nặng rơi nhanh hơn": đặt cạnh nhau ống chân không
+    // (bi và lông chim rơi trùng nhau) và ống có không khí (lông chim tụt lại).
+    animation: {
+      title: 'Trong chân không, bi sắt và lông chim rơi như nhau',
+      description:
+        'Bên trái là ống đã hút hết không khí: một viên bi sắt và một chiếc lông chim được thả cùng lúc từ miệng ống. Ở mọi thời điểm hai vật luôn ngang nhau và cùng chạm đáy. Quãng đường đi được trong từng giây liên tiếp tăng dần theo tỉ lệ 1 : 3 : 5 — đó chính là dấu hiệu của chuyển động nhanh dần đều với gia tốc g. Bên phải là ống còn không khí: viên bi vẫn rơi như cũ, nhưng chiếc lông chim tụt lại rất xa vì lực cản không khí lớn so với trọng lượng bé của nó. Kết luận: cái làm hai vật rơi khác nhau là lực cản không khí, không phải khối lượng.',
+      viewBoxWidth: 420,
+      viewBoxHeight: 260,
+      durationMs: 3000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'rect',
+          id: 'ong-chan-khong',
+          x: 20,
+          y: 30,
+          w: 160,
+          h: 200,
+          rx: 8,
+          stroke: 'neutral',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'rect',
+          id: 'ong-khong-khi',
+          x: 240,
+          y: 30,
+          w: 160,
+          h: 200,
+          rx: 8,
+          stroke: 'neutral',
+          strokeWidth: 2,
+          dash: '6 4',
+        },
+        {
+          kind: 'circle',
+          id: 'bi-chan-khong',
+          cx: 60,
+          cy: 50,
+          r: 9,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 0, dy: 0 },
+            { atMs: 750, dy: 10 },
+            { atMs: 1500, dy: 40 },
+            { atMs: 2250, dy: 90 },
+            { atMs: 3000, dy: 160 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'long-chan-khong',
+          cx: 140,
+          cy: 50,
+          r: 9,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dy: 0 },
+            { atMs: 750, dy: 10 },
+            { atMs: 1500, dy: 40 },
+            { atMs: 2250, dy: 90 },
+            { atMs: 3000, dy: 160 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'bi-khong-khi',
+          cx: 280,
+          cy: 50,
+          r: 9,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 0, dy: 0 },
+            { atMs: 750, dy: 10 },
+            { atMs: 1500, dy: 40 },
+            { atMs: 2250, dy: 90 },
+            { atMs: 3000, dy: 160 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'long-khong-khi',
+          cx: 360,
+          cy: 50,
+          r: 9,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dy: 0 },
+            { atMs: 750, dy: 12 },
+            { atMs: 1500, dy: 30 },
+            { atMs: 2250, dy: 52 },
+            { atMs: 3000, dy: 76 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-chan-khong',
+          x: 100,
+          y: 22,
+          text: 'Ống chân không',
+          size: 14,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-khong-khi',
+          x: 320,
+          y: 22,
+          text: 'Ống có không khí',
+          size: 14,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-bi',
+          x: 60,
+          y: 248,
+          text: 'bi sắt',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-long',
+          x: 140,
+          y: 248,
+          text: 'lông chim',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+      ],
+      captions: [
+        { atMs: 0, text: 'Thả đồng thời bi sắt và lông chim ở cả hai ống.' },
+        {
+          atMs: 1500,
+          text: 'Trong chân không hai vật luôn ngang nhau; bên ống có không khí lông chim đã tụt lại.',
+        },
+        {
+          atMs: 3000,
+          text: 'Chân không: chạm đáy cùng lúc. Khác biệt sinh ra từ lực cản, không phải khối lượng.',
+        },
+      ],
+    },
     grade: '10',
     chapterNumber: 2,
     chapterTitle: 'Động học',
@@ -452,7 +605,13 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       '— Tính chất: Chuyển động thẳng nhanh dần đều không vận tốc đầu (v_o = 0).\\n\\n' +
       'GIA TỐC RƠI TỰ DO (g):\\n' +
       '— Tại một nơi xác định trên Trái Đất và ở gần mặt đất, mọi vật đều rơi tự do với cùng một gia tốc g.\\n' +
-      '— Thường lấy g ≈ 9,8 m/s² hoặc g ≈ 10 m/s².\\n\\n' +
+      '— VÌ SAO vật nặng và vật nhẹ lại rơi như nhau? Trọng lực tác dụng lên vật nặng đúng là lớn hơn (P = m.g), ' +
+      'nhưng chính vật nặng cũng "ì" hơn: theo định luật 2 Newton a = F/m = m.g/m = g, khối lượng m bị triệt tiêu. ' +
+      'Lực kéo lớn hơn bao nhiêu lần thì quán tính cũng lớn hơn đúng bấy nhiêu lần, nên gia tốc không đổi.\\n' +
+      '— ĐIỀU KIỆN ÁP DỤNG: chỉ đúng khi bỏ qua được lực cản không khí. Với chiếc lá, tờ giấy, quả bóng bay — ' +
+      'lực cản so được với trọng lượng nên chúng KHÔNG rơi tự do và công thức dưới đây không dùng được.\\n' +
+      '— GIỚI HẠN: g còn thay đổi theo vĩ độ và độ cao (ở địa cực lớn hơn ở xích đạo, lên cao thì giảm), ' +
+      'nên g là hằng số của MỘT NƠI chứ không phải hằng số của vũ trụ. Thường lấy g ≈ 9,8 m/s² hoặc g ≈ 10 m/s².\\n\\n' +
       'CÁC CÔNG THỨC RƠI TỰ DO (Chọn chiều dương hướng xuống, gốc tại điểm thả):\\n' +
       '1. Vận tốc tại thời điểm t: v = g.t.\\n' +
       '2. Quãng đường (độ cao rơi) sau thời gian t: h = 0,5.g.t².\\n' +
@@ -494,6 +653,25 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         },
         explain: 'Vận tốc chạm đất v = g.t = 10 * 2 = 20 m/s.',
       },
+      {
+        // Câu bẫy: hiểu lầm phổ biến nhất của chương này — "nặng thì rơi nhanh hơn".
+        prompt:
+          'Thả đồng thời từ cùng một độ cao trong ống đã hút hết không khí: viên bi sắt 2 kg và viên bi thuỷ tinh 20 g. Vật nào chạm đáy trước?',
+        choices: [
+          { id: 'sat', label: 'Bi sắt, vì nó nặng gấp 100 lần nên trọng lực kéo nó mạnh hơn' },
+          { id: 'cung_luc', label: 'Cả hai chạm đáy cùng lúc' },
+          { id: 'thuy_tinh', label: 'Bi thuỷ tinh, vì nhẹ hơn nên dễ chuyển động hơn' },
+        ],
+        answer: {
+          kind: 'choice',
+          correctIds: ['cung_luc'],
+        },
+        explain:
+          'Trọng lực lên bi sắt đúng là lớn gấp 100 lần thật — nhưng khối lượng (tức mức quán tính) của nó cũng lớn gấp 100 lần. ' +
+          'Gia tốc a = P/m = m.g/m = g, khối lượng bị triệt tiêu, nên cả hai cùng có gia tốc g và chạm đáy cùng lúc. ' +
+          'Sở dĩ trong đời thường ta thấy hòn đá rơi nhanh hơn tờ giấy là do LỰC CẢN KHÔNG KHÍ, không phải do khối lượng: ' +
+          'vò tờ giấy thành viên nhỏ rồi thả lại, nó sẽ rơi gần như cùng lúc với hòn đá.',
+      },
     ],
     srsCards: [
       {
@@ -505,6 +683,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'v = √(2.g.h).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -581,6 +760,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Nam châm điện.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -653,6 +833,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'L = v_o * √(2.h / g).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

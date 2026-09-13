@@ -70,6 +70,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
         dap: 'Đồng hoá: tổng hợp phân tử phức tạp, cần ATP. Dị hoá: phân giải phân tử phức tạp, giải phóng ATP.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -139,6 +140,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
         dap: 'Quang hợp: CO₂ + H₂O + ánh sáng → C₆H₁₂O₆ + O₂ (tích lũy năng lượng). Hô hấp: C₆H₁₂O₆ + O₂ → CO₂ + H₂O + ATP (giải phóng năng lượng).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -217,6 +219,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
         dap: 'pH trung tính, khoảng 6.7 - 7.0.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -291,6 +294,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
         dap: 'Kì giữa (Metaphase).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -367,6 +371,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
         dap: 'Xảy ra ở kì đầu của Giảm phân I. Tạo ra sự tái tổ hợp gen, tăng biến dị di truyền.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -432,6 +437,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
         dap: 'Thấy các NST kép xếp thành hàng ở mặt phẳng trung tâm (xích đạo) tế bào.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -502,6 +508,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
         dap: 'Chuyển nhân tế bào sinh dưỡng vào trứng đã bỏ nhân, kích hoạt phát triển phôi → cá thể có gen giống hệt cá thể cho nhân.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

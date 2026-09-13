@@ -76,6 +76,7 @@ export const LY10_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Kiểm chứng giả thuyết đó đúng hay sai bằng thực tế thí nghiệm.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -153,6 +154,7 @@ export const LY10_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Để phòng tránh điện giật và tránh chập mạch làm cháy hỏng linh kiện.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -233,6 +235,7 @@ export const LY10_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Thực hiện đo lặp lại nhiều lần và tính giá trị trung bình.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

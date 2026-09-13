@@ -64,6 +64,7 @@ export const HOA10_C5_LESSONS: ChemLesson[] = [
         dap: 'ΔᵣH° = Σ ΔfH°(sản phẩm) − Σ ΔfH°(chất đầu), nhân hệ số cân bằng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

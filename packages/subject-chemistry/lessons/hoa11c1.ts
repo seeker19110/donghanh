@@ -15,19 +15,19 @@ export const HOA11_C1_LESSONS: ChemLesson[] = [
       'Hầu hết các phản ứng trong công nghiệp không xảy ra hoàn toàn đến cùng. Chúng dừng lại ở ' +
       'một trạng thái mà cả chất tham gia và sản phẩm cùng tồn tại song song — đó là trạng thái cân bằng.',
     theory:
-      'PHẢN ỨNG MỘT CHIỀU VÀ PHẢN ỨNG THUẬN NGHỊCH:\\n' +
-      '— Phản ứng một chiều: phản ứng chỉ xảy ra theo một chiều từ chất tham gia tạo thành sản phẩm (dùng mũi tên đơn →).\\n' +
-      '— Phản ứng thuận nghịch: trong cùng điều kiện, phản ứng xảy ra theo cả hai chiều trái ngược nhau: chiều thuận (chất đầu → sản phẩm) và chiều nghịch (sản phẩm → chất đầu) (dùng mũi tên hai chiều ⇌).\\n\\n' +
-      'TRẠNG THÁI CÂN BẰNG HOÁ HỌC:\\n' +
-      '— Trạng thái cân bằng của phản ứng thuận nghịch là trạng thái tại đó tốc độ phản ứng thuận bằng tốc độ phản ứng nghịch (vt = vn).\\n' +
-      '— Đây là CÂN BẰNG ĐỘNG: phản ứng thuận và nghịch vẫn tiếp tục xảy ra với tốc độ bằng nhau, nồng độ của các chất trong hệ không thay đổi nữa.\\n\\n' +
-      'HẰNG SỐ CÂN BẰNG (Kc):\\n' +
-      '— Đối với phản ứng thuận nghịch tổng quát ở trạng thái khí hoặc dung dịch: aA + bB ⇌ cC + dD.\\n' +
-      '— Biểu thức hằng số cân bằng: Kc = ([C]^c * [D]^d) / ([A]^a * [B]^b). Trong đó [A], [B], [C], [D] là nồng độ mol/L của các chất ở trạng thái cân bằng. Chất rắn không xuất hiện trong biểu thức Kc.\\n\\n' +
-      'NGUYÊN LÍ CHUYỂN DỊCH CÂN BẰNG LE CHATELIER:\\n' +
-      '— Phát biểu: Một phản ứng thuận nghịch đang ở trạng thái cân bằng, khi chịu một tác động từ bên ngoài (như biến đổi nồng độ, nhiệt độ, áp suất), cân bằng sẽ chuyển dịch theo chiều làm GIẢM tác động đó.\\n' +
-      '— Nhiệt độ: Tăng nhiệt độ làm cân bằng dịch chuyển theo chiều thu nhiệt (ΔH > 0), giảm nhiệt độ dịch chuyển theo chiều toả nhiệt (ΔH < 0).\\n' +
-      '— Áp suất: Tăng áp suất chung của hệ làm cân bằng dịch chuyển theo chiều làm giảm số phân tử khí (chiều có tổng hệ số khí nhỏ hơn), giảm áp suất dịch chuyển theo chiều tăng số phân tử khí. Nếu số phân tử khí ở hai vế bằng nhau, áp suất không ảnh hưởng.\\n' +
+      'PHẢN ỨNG MỘT CHIỀU VÀ PHẢN ỨNG THUẬN NGHỊCH:\n' +
+      '— Phản ứng một chiều: phản ứng chỉ xảy ra theo một chiều từ chất tham gia tạo thành sản phẩm (dùng mũi tên đơn →).\n' +
+      '— Phản ứng thuận nghịch: trong cùng điều kiện, phản ứng xảy ra theo cả hai chiều trái ngược nhau: chiều thuận (chất đầu → sản phẩm) và chiều nghịch (sản phẩm → chất đầu) (dùng mũi tên hai chiều ⇌).\n\n' +
+      'TRẠNG THÁI CÂN BẰNG HOÁ HỌC:\n' +
+      '— Trạng thái cân bằng của phản ứng thuận nghịch là trạng thái tại đó tốc độ phản ứng thuận bằng tốc độ phản ứng nghịch (vt = vn).\n' +
+      '— Đây là CÂN BẰNG ĐỘNG: phản ứng thuận và nghịch vẫn tiếp tục xảy ra với tốc độ bằng nhau, nồng độ của các chất trong hệ không thay đổi nữa.\n\n' +
+      'HẰNG SỐ CÂN BẰNG (Kc):\n' +
+      '— Đối với phản ứng thuận nghịch tổng quát ở trạng thái khí hoặc dung dịch: aA + bB ⇌ cC + dD.\n' +
+      '— Biểu thức hằng số cân bằng: Kc = ([C]^c * [D]^d) / ([A]^a * [B]^b). Trong đó [A], [B], [C], [D] là nồng độ mol/L của các chất ở trạng thái cân bằng. Chất rắn không xuất hiện trong biểu thức Kc.\n\n' +
+      'NGUYÊN LÍ CHUYỂN DỊCH CÂN BẰNG LE CHATELIER:\n' +
+      '— Phát biểu: Một phản ứng thuận nghịch đang ở trạng thái cân bằng, khi chịu một tác động từ bên ngoài (như biến đổi nồng độ, nhiệt độ, áp suất), cân bằng sẽ chuyển dịch theo chiều làm GIẢM tác động đó.\n' +
+      '— Nhiệt độ: Tăng nhiệt độ làm cân bằng dịch chuyển theo chiều thu nhiệt (ΔH > 0), giảm nhiệt độ dịch chuyển theo chiều toả nhiệt (ΔH < 0).\n' +
+      '— Áp suất: Tăng áp suất chung của hệ làm cân bằng dịch chuyển theo chiều làm giảm số phân tử khí (chiều có tổng hệ số khí nhỏ hơn), giảm áp suất dịch chuyển theo chiều tăng số phân tử khí. Nếu số phân tử khí ở hai vế bằng nhau, áp suất không ảnh hưởng.\n' +
       '— Nồng độ: Tăng nồng độ một chất làm cân bằng dịch chuyển theo chiều làm giảm nồng độ chất đó (tiêu thụ chất đó).',
     workedExample: {
       problem:
@@ -84,6 +84,7 @@ export const HOA11_C1_LESSONS: ChemLesson[] = [
         dap: 'Cân bằng dịch chuyển theo chiều chống lại tác động bên ngoài (nhiệt độ, nồng độ, áp suất) để làm giảm tác động đó.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -97,21 +98,21 @@ export const HOA11_C1_LESSONS: ChemLesson[] = [
       'Nước nguyên chất dẫn điện cực kỳ kém, nhưng nước muối hay nước chanh lại dẫn điện rất tốt. ' +
       'Bí ẩn nằm ở sự phân li thành các hạt mang điện chuyển động tự do — gọi là ion.',
     theory:
-      'SỰ ĐIỆN LI:\\n' +
-      '— Sự điện li là quá trình phân li các chất trong nước thành các ion.\\n' +
-      '— Chất điện li mạnh: phân li hoàn toàn thành ion khi tan trong nước (gồm acid mạnh như HCl, HNO₃, H₂SO₄; base mạnh như NaOH, KOH, Ca(OH)₂; và hầu hết muối). Dùng mũi tên một chiều (→).\\n' +
-      '— Chất điện li yếu: chỉ phân li một phần thành ion (gồm acid yếu như CH₃COOH, H₂CO₃, H₂S; base yếu như NH₃; nước). Dùng mũi tên hai chiều (⇌).\\n\\n' +
-      'THUYẾT ACID - BASE CỦA BRØNSTED - LOWRY:\\n' +
-      '— Acid là chất nhường proton (H⁺).\\n' +
-      '— Base là chất nhận proton (H⁺).\\n' +
-      '— Ví dụ: NH₃ + H₂O ⇌ NH₄⁺ + OH⁻. H₂O nhường H⁺ cho NH₃ nên H₂O là acid; NH₃ nhận H⁺ tạo NH₄⁺ nên NH₃ là base.\\n\\n' +
-      'TÍCH SỐ ION CỦA NƯỚC VÀ pH:\\n' +
-      '— Sự tự điện li của nước: H₂O ⇌ H⁺ + OH⁻. Ở 25 °C, tích số ion của nước là Kw = [H⁺][OH⁻] = 10⁻¹⁴.\\n' +
-      '— Khái niệm pH: pH = −log[H⁺].\\n' +
-      '— Môi trường: Trung tính (pH = 7, [H⁺] = 10⁻⁷ M); Acid (pH < 7, [H⁺] > 10⁻⁷ M); Base (pH > 7, [H⁺] < 10⁻⁷ M).\\n' +
-      '— Chất chỉ thị màu: Quỳ tím (hoá đỏ trong acid, hoá xanh trong base); Phenolphthalein (hoá hồng trong base, không màu trong acid/trung tính).\\n\\n' +
-      'CHUẨN ĐỘ ACID - BASE:\\n' +
-      '— Chuẩn độ là phương pháp xác định nồng độ của một chất bằng một dung dịch chuẩn đã biết nồng độ.\\n' +
+      'SỰ ĐIỆN LI:\n' +
+      '— Sự điện li là quá trình phân li các chất trong nước thành các ion.\n' +
+      '— Chất điện li mạnh: phân li hoàn toàn thành ion khi tan trong nước (gồm acid mạnh như HCl, HNO₃, H₂SO₄; base mạnh như NaOH, KOH, Ca(OH)₂; và hầu hết muối). Dùng mũi tên một chiều (→).\n' +
+      '— Chất điện li yếu: chỉ phân li một phần thành ion (gồm acid yếu như CH₃COOH, H₂CO₃, H₂S; base yếu như NH₃; nước). Dùng mũi tên hai chiều (⇌).\n\n' +
+      'THUYẾT ACID - BASE CỦA BRØNSTED - LOWRY:\n' +
+      '— Acid là chất nhường proton (H⁺).\n' +
+      '— Base là chất nhận proton (H⁺).\n' +
+      '— Ví dụ: NH₃ + H₂O ⇌ NH₄⁺ + OH⁻. H₂O nhường H⁺ cho NH₃ nên H₂O là acid; NH₃ nhận H⁺ tạo NH₄⁺ nên NH₃ là base.\n\n' +
+      'TÍCH SỐ ION CỦA NƯỚC VÀ pH:\n' +
+      '— Sự tự điện li của nước: H₂O ⇌ H⁺ + OH⁻. Ở 25 °C, tích số ion của nước là Kw = [H⁺][OH⁻] = 10⁻¹⁴.\n' +
+      '— Khái niệm pH: pH = −log[H⁺].\n' +
+      '— Môi trường: Trung tính (pH = 7, [H⁺] = 10⁻⁷ M); Acid (pH < 7, [H⁺] > 10⁻⁷ M); Base (pH > 7, [H⁺] < 10⁻⁷ M).\n' +
+      '— Chất chỉ thị màu: Quỳ tím (hoá đỏ trong acid, hoá xanh trong base); Phenolphthalein (hoá hồng trong base, không màu trong acid/trung tính).\n\n' +
+      'CHUẨN ĐỘ ACID - BASE:\n' +
+      '— Chuẩn độ là phương pháp xác định nồng độ của một chất bằng một dung dịch chuẩn đã biết nồng độ.\n' +
       '— Điểm tương đương là thời điểm acid và base phản ứng vừa đủ với nhau, nhận biết qua sự đổi màu đột ngột của chất chỉ thị.',
     workedExample: {
       problem: 'Tính pH của dung dịch chứa HCl 0,001 M ở 25 °C.',
@@ -154,6 +155,7 @@ export const HOA11_C1_LESSONS: ChemLesson[] = [
       { hoi: 'Tích số ion của nước Kw ở 25 °C bằng bao nhiêu?', dap: 'Kw = [H⁺][OH⁻] = 10⁻¹⁴.' },
       { hoi: 'Công thức tính pH?', dap: 'pH = −log[H⁺].' },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -167,11 +169,11 @@ export const HOA11_C1_LESSONS: ChemLesson[] = [
       'Cân bằng hoá học và cân bằng trong dung dịch là nền tảng cốt lõi giải thích hoạt động của cơ thể ' +
       '(như hệ đệm pH trong máu) cho đến các nhà máy sản xuất hoá chất quy mô lớn.',
     theory:
-      'HỆ THỐNG HOÁ KIẾN THỨC CHƯƠNG 1:\\n' +
-      '1. Cân bằng hoá học là trạng thái động, vt = vn. Kc chỉ phụ thuộc vào nhiệt độ, không phụ thuộc vào nồng độ các chất.\\n' +
-      '2. Chuyển dịch cân bằng tuân theo nguyên lí Le Chatelier. Các yếu tố ảnh hưởng gồm: Nhiệt độ (luôn ảnh hưởng), Nồng độ, Áp suất (chỉ ảnh hưởng khi có chất khí và có sự thay đổi số phân tử khí).\\n' +
-      '3. Sự điện li chia làm điện li mạnh (→) và điện li yếu (⇌).\\n' +
-      '4. Thuyết acid-base của Brønsted-Lowry mở rộng khái niệm acid/base không chỉ giới hạn trong nước (acid nhường H⁺, base nhận H⁺).\\n' +
+      'HỆ THỐNG HOÁ KIẾN THỨC CHƯƠNG 1:\n' +
+      '1. Cân bằng hoá học là trạng thái động, vt = vn. Kc chỉ phụ thuộc vào nhiệt độ, không phụ thuộc vào nồng độ các chất.\n' +
+      '2. Chuyển dịch cân bằng tuân theo nguyên lí Le Chatelier. Các yếu tố ảnh hưởng gồm: Nhiệt độ (luôn ảnh hưởng), Nồng độ, Áp suất (chỉ ảnh hưởng khi có chất khí và có sự thay đổi số phân tử khí).\n' +
+      '3. Sự điện li chia làm điện li mạnh (→) và điện li yếu (⇌).\n' +
+      '4. Thuyết acid-base của Brønsted-Lowry mở rộng khái niệm acid/base không chỉ giới hạn trong nước (acid nhường H⁺, base nhận H⁺).\n' +
       '5. Môi trường acid pH < 7, trung tính pH = 7, base pH > 7 (ở 25 °C). Chuẩn độ acid-base dựa trên phản ứng trung hoà giữa H⁺ và OH⁻.',
     workedExample: {
       problem:
@@ -224,6 +226,7 @@ export const HOA11_C1_LESSONS: ChemLesson[] = [
         dap: 'Để nhận biết thời điểm dừng chuẩn độ (điểm tương đương) khi acid và base phản ứng vừa đủ.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

@@ -82,6 +82,7 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
         dap: 'Vi khuẩn (Bacteria) và Cổ khuẩn (Archaea).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -155,6 +156,7 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
         dap: 'Vì liên tục bổ sung chất dinh dưỡng mới và đồng thời loại bỏ các chất độc hại cùng sinh khối dư thừa.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -235,6 +237,7 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
         dap: 'Vì chúng cộng sinh ở nốt sần rễ cây, chuyển hóa nitơ tự do (N₂) thành dạng ion amoni (NH₄⁺) mà cây có thể hấp thụ được.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -307,6 +310,7 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
         dap: 'Trước khi cấy: Tiêu diệt mọi vi sinh vật bám trên que cấy tránh nhiễm mẫu; Sau khi cấy: Tiêu diệt vi sinh vật còn bám trên que cấy tránh phát tán ra môi trường.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -387,6 +391,7 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
         dap: 'Là nhóm virus chuyên ký sinh và phá hủy các tế bào vi khuẩn.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -459,6 +464,7 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
         dap: 'Vì kháng sinh chỉ có tác dụng tiêu diệt hoặc ức chế vi khuẩn; virus không có cấu tạo tế bào nên không bị kháng sinh tác động.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -537,6 +543,7 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
         dap: 'Tính toàn năng của tế bào thực vật (totipotency) và khả năng phản biệt hóa, tái biệt hóa của chúng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

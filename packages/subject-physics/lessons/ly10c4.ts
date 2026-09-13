@@ -74,6 +74,7 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Bằng 0 (lực không sinh công).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -143,6 +144,7 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
         dap: '𝒫 = F.v.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -211,6 +213,7 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Phụ thuộc vào việc chọn gốc toạ độ (mốc thế năng bằng 0).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -283,6 +286,7 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Thế năng giảm dần và chuyển hoá hoàn toàn thành động năng tăng dần.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -350,6 +354,7 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Thường biến đổi thành nhiệt năng toả ra môi trường xung quanh.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

@@ -79,6 +79,7 @@ export const LY12_C2_LESSONS: PhysicsLesson[] = [
         dap: 'V / T = hằng số (hay V1 / T1 = V2 / T2).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -156,6 +157,7 @@ export const LY12_C2_LESSONS: PhysicsLesson[] = [
         dap: 'p * V = n * R * T (với R = 8.31 J/(mol.K)).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -238,6 +240,7 @@ export const LY12_C2_LESSONS: PhysicsLesson[] = [
         dap: 'kB = R / NA (xấp xỉ 1.38 * 10^-23 J/K).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -303,6 +306,7 @@ export const LY12_C2_LESSONS: PhysicsLesson[] = [
         dap: '22.4 lít.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

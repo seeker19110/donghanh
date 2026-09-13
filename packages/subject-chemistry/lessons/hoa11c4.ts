@@ -15,18 +15,18 @@ export const HOA11_C4_LESSONS: ChemLesson[] = [
       'Khí gas nấu ăn hằng ngày chứa propane và butane. Xăng chạy xe máy chứa chủ yếu hexane và octane. ' +
       'Tất cả chúng đều thuộc dòng hydrocarbon no được gọi là alkane.',
     theory:
-      'KHÁI NIỆM VÀ ĐỒNG PHÂN:\\n' +
-      '— Alkane là các hydrocarbon no, mạch hở, chỉ có liên kết đơn C−C và C−H trong phân tử.\\n' +
-      '— Công thức chung: CₙH₂ₙ₊₂ (n ≥ 1).\\n' +
-      '— Đồng phân: Từ C₄H₁₀ trở đi có đồng phân mạch carbon (mạch thẳng và mạch phân nhánh).\\n\\n' +
-      'DANH PHÁP (Tên thay thế theo IUPAC):\\n' +
-      '— Tên 10 alkane mạch thẳng đầu tiên: Methane (C1), Ethane (C2), Propane (C3), Butane (C4), Pentane (C5), Hexane (C6), Heptane (C7), Octane (C8), Nonane (C9), Decane (C10).\\n' +
-      '— Nguyên tắc gọi tên alkane mạch nhánh: Chọn mạch dài nhất làm mạch chính → Đánh số C mạch chính từ đầu gần nhánh hơn → Đọc tên: [Vị trí nhánh]-[Tên nhánh][Tên alkane mạch chính].\\n\\n' +
-      'TÍNH CHẤT HOÁ HỌC:\\n' +
-      'Alkane khá trơ về mặt hoá học, phản ứng đặc trưng là phản ứng thế.\\n' +
-      '1. Phản ứng thế halogen (clo hoá, brom hoá): Nguyên tử H ở carbon bậc cao hơn dễ bị thế hơn nguyên tử H ở carbon bậc thấp.\\n' +
-      '   Ví dụ: CH₄ + Cl₂ → CH₃Cl + HCl (chiếu sáng).\\n' +
-      '2. Phản ứng tách (cracking và reforming): Cracking bẻ gãy liên kết C−C tạo alkane và alkene ngắn hơn; reforming chuyển alkane mạch thẳng thành mạch nhánh hoặc vòng.\\n' +
+      'KHÁI NIỆM VÀ ĐỒNG PHÂN:\n' +
+      '— Alkane là các hydrocarbon no, mạch hở, chỉ có liên kết đơn C−C và C−H trong phân tử.\n' +
+      '— Công thức chung: CₙH₂ₙ₊₂ (n ≥ 1).\n' +
+      '— Đồng phân: Từ C₄H₁₀ trở đi có đồng phân mạch carbon (mạch thẳng và mạch phân nhánh).\n\n' +
+      'DANH PHÁP (Tên thay thế theo IUPAC):\n' +
+      '— Tên 10 alkane mạch thẳng đầu tiên: Methane (C1), Ethane (C2), Propane (C3), Butane (C4), Pentane (C5), Hexane (C6), Heptane (C7), Octane (C8), Nonane (C9), Decane (C10).\n' +
+      '— Nguyên tắc gọi tên alkane mạch nhánh: Chọn mạch dài nhất làm mạch chính → Đánh số C mạch chính từ đầu gần nhánh hơn → Đọc tên: [Vị trí nhánh]-[Tên nhánh][Tên alkane mạch chính].\n\n' +
+      'TÍNH CHẤT HOÁ HỌC:\n' +
+      'Alkane khá trơ về mặt hoá học, phản ứng đặc trưng là phản ứng thế.\n' +
+      '1. Phản ứng thế halogen (clo hoá, brom hoá): Nguyên tử H ở carbon bậc cao hơn dễ bị thế hơn nguyên tử H ở carbon bậc thấp.\n' +
+      '   Ví dụ: CH₄ + Cl₂ → CH₃Cl + HCl (chiếu sáng).\n' +
+      '2. Phản ứng tách (cracking và reforming): Cracking bẻ gãy liên kết C−C tạo alkane và alkene ngắn hơn; reforming chuyển alkane mạch thẳng thành mạch nhánh hoặc vòng.\n' +
       '3. Phản ứng oxi hoá (đốt cháy): Phản ứng toả nhiều nhiệt, luôn sinh ra nCO₂ < nH₂O: CₙH₂ₙ₊₂ + (3n+1)/2 O₂ → n CO₂ + (n+1) H₂O.',
     workedExample: {
       problem:
@@ -76,6 +76,7 @@ export const HOA11_C4_LESSONS: ChemLesson[] = [
         dap: 'Ưu tiên thế nguyên tử H ở carbon bậc cao hơn (tạo sản phẩm chính).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -89,21 +90,21 @@ export const HOA11_C4_LESSONS: ChemLesson[] = [
       'Khí ethylene là một hormone thực vật tự nhiên giúp thúc quả chín nhanh. Trái cây xanh xếp cùng ' +
       'vài quả chín sẽ chín nhanh hơn nhờ khí ethylene giải phóng ra.',
     theory:
-      'KHÁI NIỆM PHÂN LOẠI:\\n' +
-      '— Alkene: hydrocarbon không no, mạch hở, có 1 liên kết đôi C=C. Công thức chung: CₙH₂ₙ (n ≥ 2).\\n' +
-      '— Alkyne: hydrocarbon không no, mạch hở, có 1 liên kết ba C≡C. Công thức chung: CₙH₂ₙ₋₂ (n ≥ 2).\\n\\n' +
-      'TÍNH CHẤT HOÁ HỌC (Đặc trưng là phản ứng cộng):\\n' +
-      'Do có liên kết pi (π) kém bền trong liên kết đôi hoặc liên kết ba, chúng dễ tham gia phản ứng cộng để đạt trạng thái no bền vững hơn.\\n' +
-      '1. Phản ứng cộng H₂, X₂ (nước Bromine):\\n' +
-      '   — Alkene và alkyne làm MẤT MÀU nước bromine ngay ở điều kiện thường (dùng để nhận biết hydrocarbon không no).\\n' +
-      '2. Phản ứng cộng HX, H₂O (quy tắc Markovnikov):\\n' +
-      '   — Phát biểu: Khi cộng tác nhân bất đối xứng (như HCl, H₂O) vào alkene bất đối xứng, phần mang điện dương (như H⁺) ưu tiên cộng vào carbon mang liên kết đôi có nhiều H hơn (bậc thấp hơn), phần mang điện âm (như Cl⁻, OH⁻) ưu tiên cộng vào carbon có ít H hơn (bậc cao hơn).\\n' +
-      '3. Phản ứng trùng hợp (đối với alkene):\\n' +
-      '   — Nhiều phân tử alkene nhỏ (monomer) kết hợp với nhau tạo phân tử polymer mạch rất dài dưới tác dụng của t°, p, xt.\\n' +
-      '   — Ví dụ trùng hợp ethylene: n CH₂=CH₂ → −(CH₂−CH₂)−ₙ (Polyethylene - nhựa PE).\\n' +
-      '4. Phản ứng oxi hoá bởi dung dịch KMnO₄:\\n' +
-      '   — Alkene và alkyne làm MẤT MÀU dung dịch thuốc tím KMnO₄ và tạo kết tủa đen MnO₂ (dùng nhận biết alkene/alkyne).\\n' +
-      '5. Phản ứng thế kim loại của alk-1-yne:\\n' +
+      'KHÁI NIỆM PHÂN LOẠI:\n' +
+      '— Alkene: hydrocarbon không no, mạch hở, có 1 liên kết đôi C=C. Công thức chung: CₙH₂ₙ (n ≥ 2).\n' +
+      '— Alkyne: hydrocarbon không no, mạch hở, có 1 liên kết ba C≡C. Công thức chung: CₙH₂ₙ₋₂ (n ≥ 2).\n\n' +
+      'TÍNH CHẤT HOÁ HỌC (Đặc trưng là phản ứng cộng):\n' +
+      'Do có liên kết pi (π) kém bền trong liên kết đôi hoặc liên kết ba, chúng dễ tham gia phản ứng cộng để đạt trạng thái no bền vững hơn.\n' +
+      '1. Phản ứng cộng H₂, X₂ (nước Bromine):\n' +
+      '   — Alkene và alkyne làm MẤT MÀU nước bromine ngay ở điều kiện thường (dùng để nhận biết hydrocarbon không no).\n' +
+      '2. Phản ứng cộng HX, H₂O (quy tắc Markovnikov):\n' +
+      '   — Phát biểu: Khi cộng tác nhân bất đối xứng (như HCl, H₂O) vào alkene bất đối xứng, phần mang điện dương (như H⁺) ưu tiên cộng vào carbon mang liên kết đôi có nhiều H hơn (bậc thấp hơn), phần mang điện âm (như Cl⁻, OH⁻) ưu tiên cộng vào carbon có ít H hơn (bậc cao hơn).\n' +
+      '3. Phản ứng trùng hợp (đối với alkene):\n' +
+      '   — Nhiều phân tử alkene nhỏ (monomer) kết hợp với nhau tạo phân tử polymer mạch rất dài dưới tác dụng của t°, p, xt.\n' +
+      '   — Ví dụ trùng hợp ethylene: n CH₂=CH₂ → −(CH₂−CH₂)−ₙ (Polyethylene - nhựa PE).\n' +
+      '4. Phản ứng oxi hoá bởi dung dịch KMnO₄:\n' +
+      '   — Alkene và alkyne làm MẤT MÀU dung dịch thuốc tím KMnO₄ và tạo kết tủa đen MnO₂ (dùng nhận biết alkene/alkyne).\n' +
+      '5. Phản ứng thế kim loại của alk-1-yne:\n' +
       '   — Các alkyne có liên kết ba đầu mạch (alk-1-yne như CH≡CH) phản ứng được với dung dịch AgNO₃ trong NH₃ tạo kết tủa màu vàng nhạt (bạc acetylide): CH≡CH + 2AgNO₃ + 2NH₃ → AgC≡CAg↓ + 2NH₄NO₃ (dùng nhận biết alk-1-yne).',
     workedExample: {
       problem:
@@ -158,6 +159,7 @@ export const HOA11_C4_LESSONS: ChemLesson[] = [
         dap: 'Tác dụng với AgNO₃/NH₃ tạo kết tủa màu vàng nhạt.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -171,19 +173,19 @@ export const HOA11_C4_LESSONS: ChemLesson[] = [
       'Benzene có cấu trúc vòng lục giác hoàn hảo với hệ liên kết bền vững khác thường. Nhờ độ bền này, ' +
       'nó là dung môi công nghiệp cực tốt, nhưng lại cực độc đối với con người.',
     theory:
-      'CẤU TẠO PHÂN TỬ BENZENE (C₆H₆):\\n' +
-      '— Phân tử benzene gồm 6 nguyên tử C tạo thành một vòng sáu cạnh đều nằm trên một mặt phẳng. Hệ liên kết pi (π) liên hợp khép kín tạo nên cấu trúc vòng siêu bền (nhân thơm).\\n\\n' +
-      'DANH PHÁP ARENE:\\n' +
-      '— Dãy đồng đẳng arene gồm benzene (C₆H₆) và các alkylbenzene (toluene C₆H₅-CH₃, xylene C₆H₄(CH₃)₂...).\\n\\n' +
-      'TÍNH CHẤT HOÁ HỌC (Tính thơm: dễ thế, khó cộng, bền với chất oxi hoá):\\n' +
-      '1. Phản ứng thế ở nhân thơm (tính chất đặc trưng):\\n' +
-      '   — Thế halogen (brom hoá): Benzene phản ứng với Br₂ khan khi có xúc tác FeBr₃ tạo bromobenzene: C₆H₆ + Br₂ → C₆H₅Br + HBr.\\n' +
-      '   — Phản ứng nitro hoá: Phản ứng với hỗn hợp HNO₃ đặc / H₂SO₄ đặc tạo nitrobenzene.\\n' +
-      '   — Đối với toluene: Nhóm alkyl (−CH₃) hoạt hoá nhân thơm, làm phản ứng thế xảy ra dễ dàng hơn benzene và ưu tiên thế vào vị trí ortho (o-) và para (p-).\\n' +
-      '2. Phản ứng cộng vào nhân thơm (chỉ xảy ra ở điều kiện khắc nghiệt):\\n' +
-      '   — Cộng H₂ (t°, Ni) tạo cyclohexane.\\n' +
-      '   — Cộng Cl₂ (chiếu sáng) tạo thuốc trừ sâu 666 (hexachlorocyclohexane C₆H₆Cl₆).\\n' +
-      '3. Phản ứng oxi hoá mạch nhánh của alkylbenzene:\\n' +
+      'CẤU TẠO PHÂN TỬ BENZENE (C₆H₆):\n' +
+      '— Phân tử benzene gồm 6 nguyên tử C tạo thành một vòng sáu cạnh đều nằm trên một mặt phẳng. Hệ liên kết pi (π) liên hợp khép kín tạo nên cấu trúc vòng siêu bền (nhân thơm).\n\n' +
+      'DANH PHÁP ARENE:\n' +
+      '— Dãy đồng đẳng arene gồm benzene (C₆H₆) và các alkylbenzene (toluene C₆H₅-CH₃, xylene C₆H₄(CH₃)₂...).\n\n' +
+      'TÍNH CHẤT HOÁ HỌC (Tính thơm: dễ thế, khó cộng, bền với chất oxi hoá):\n' +
+      '1. Phản ứng thế ở nhân thơm (tính chất đặc trưng):\n' +
+      '   — Thế halogen (brom hoá): Benzene phản ứng với Br₂ khan khi có xúc tác FeBr₃ tạo bromobenzene: C₆H₆ + Br₂ → C₆H₅Br + HBr.\n' +
+      '   — Phản ứng nitro hoá: Phản ứng với hỗn hợp HNO₃ đặc / H₂SO₄ đặc tạo nitrobenzene.\n' +
+      '   — Đối với toluene: Nhóm alkyl (−CH₃) hoạt hoá nhân thơm, làm phản ứng thế xảy ra dễ dàng hơn benzene và ưu tiên thế vào vị trí ortho (o-) và para (p-).\n' +
+      '2. Phản ứng cộng vào nhân thơm (chỉ xảy ra ở điều kiện khắc nghiệt):\n' +
+      '   — Cộng H₂ (t°, Ni) tạo cyclohexane.\n' +
+      '   — Cộng Cl₂ (chiếu sáng) tạo thuốc trừ sâu 666 (hexachlorocyclohexane C₆H₆Cl₆).\n' +
+      '3. Phản ứng oxi hoá mạch nhánh của alkylbenzene:\n' +
       '   — Toluene phản ứng với dung dịch KMnO₄ khi đun nóng, làm mất màu thuốc tím tạo kali benzoate (C₆H₅COOK) và kết tủa đen MnO₂. Benzene không phản ứng.',
     workedExample: {
       problem:
@@ -238,6 +240,7 @@ export const HOA11_C4_LESSONS: ChemLesson[] = [
         dap: 'Nhóm methyl giúp thế dễ dàng hơn và định hướng vào vị trí ortho và para.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -251,10 +254,10 @@ export const HOA11_C4_LESSONS: ChemLesson[] = [
       'Ôn tập và đối chiếu 4 nhóm hydrocarbon quan trọng nhất: Saturated (no), Unsaturated (không no) và Aromatic (thơm). ' +
       'Sự khác biệt cấu trúc tạo nên tính chất hoá học đặc trưng.',
     theory:
-      'TỔNG KẾT SO SÁNH CÁC LỚP HYDROCARBON:\\n' +
-      '1. Alkane (CₙH₂ₙ₊₂): Chỉ chứa liên kết đơn C−C, C−H. Phản ứng thế halogen (chiếu sáng) đặc trưng. Đốt cháy cho nCO₂ < nH₂O.\\n' +
-      '2. Alkene (CₙH₂ₙ): Có 1 liên kết đôi C=C (chứa 1 liên kết pi kém bền). Phản ứng cộng (H₂, Br₂, HX, H₂O) đặc trưng, phản ứng trùng hợp. Làm mất màu nước Bromine và dung dịch KMnO₄.\\n' +
-      '3. Alkyne (CₙH₂ₙ₋₂): Có 1 liên kết ba C≡C (chứa 2 liên kết pi kém bền). Phản ứng cộng tương tự alkene. Riêng alk-1-yne thế AgNO₃/NH₃ tạo kết tủa vàng nhạt.\\n' +
+      'TỔNG KẾT SO SÁNH CÁC LỚP HYDROCARBON:\n' +
+      '1. Alkane (CₙH₂ₙ₊₂): Chỉ chứa liên kết đơn C−C, C−H. Phản ứng thế halogen (chiếu sáng) đặc trưng. Đốt cháy cho nCO₂ < nH₂O.\n' +
+      '2. Alkene (CₙH₂ₙ): Có 1 liên kết đôi C=C (chứa 1 liên kết pi kém bền). Phản ứng cộng (H₂, Br₂, HX, H₂O) đặc trưng, phản ứng trùng hợp. Làm mất màu nước Bromine và dung dịch KMnO₄.\n' +
+      '3. Alkyne (CₙH₂ₙ₋₂): Có 1 liên kết ba C≡C (chứa 2 liên kết pi kém bền). Phản ứng cộng tương tự alkene. Riêng alk-1-yne thế AgNO₃/NH₃ tạo kết tủa vàng nhạt.\n' +
       '4. Arene (CₙH₂ₙ₋₆): Có nhân benzene bền vững. Phản ứng thế nhân đặc trưng, khó cộng. Alkylbenzene bị oxi hoá nhánh bởi KMnO₄ nóng.',
     workedExample: {
       problem:
@@ -306,6 +309,7 @@ export const HOA11_C4_LESSONS: ChemLesson[] = [
         dap: 'Làm mất màu dung dịch KMnO₄ khi đun nóng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

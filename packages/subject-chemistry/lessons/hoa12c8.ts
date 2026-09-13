@@ -15,14 +15,14 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
       'Sắt chế tạo máy móc, đồng dẫn điện, chromium chống gỉ sét, manganese tăng độ cứng của thép. ' +
       'Tất cả chúng đều là các kim loại chuyển tiếp nhóm d, nằm ở trung tâm bảng tuần hoàn.',
     theory:
-      'VỊ TRÍ VÀ CẤU HÌNH ELECTRON NGUYÊN TỬ:\\n' +
-      '— Kim loại chuyển tiếp d thuộc các nhóm từ IIIB đến IIIB (nhóm 3 đến 12 trong bảng tuần hoàn), nằm ở chu kì 4, 5, 6, 7.\\n' +
-      '— Dãy chuyển tiếp thứ nhất nằm ở chu kì 4, từ Scandium (Sc, Z=21) đến Zinc (Zn, Z=30). Nguyên tử của chúng có cấu hình electron lớp ngoài cùng dạng (n−1)d¹⁻¹⁰ns².\\n' +
-      '   * Ngoại lệ cấu hình bán bão hoà và bão hoà bền vững: Chromium (Cr, Z=24): [Ar]3d⁵4s¹; Copper (Cu, Z=29): [Ar]3d¹⁰4s¹.\\n\\n' +
-      'ĐẶC ĐIỂM TÍNH CHẤT VẬT LÍ:\\n' +
-      '— Đều là kim loại. So với kim loại nhóm IA và IIA, kim loại chuyển tiếp d có nhiệt độ nóng chảy cao hơn, độ cứng lớn hơn, khối lượng riêng lớn hơn nhiều vì có sự tham gia liên kết của các electron lớp d.\\n\\n' +
-      'ĐẶC ĐIỂM TÍNH CHẤT HOÁ HỌC:\\n' +
-      '1. Có nhiều trạng thái oxi hoá khác nhau trong các hợp chất (do các electron 3d có năng lượng gần với 4s, đều có thể tham gia liên kết). Ví dụ: Fe (+2, +3); Cu (+1, +2); Cr (+2, +3, +6); Mn (+2, +4, +6, +7).\\n' +
+      'VỊ TRÍ VÀ CẤU HÌNH ELECTRON NGUYÊN TỬ:\n' +
+      '— Kim loại chuyển tiếp d thuộc các nhóm từ IIIB đến IIIB (nhóm 3 đến 12 trong bảng tuần hoàn), nằm ở chu kì 4, 5, 6, 7.\n' +
+      '— Dãy chuyển tiếp thứ nhất nằm ở chu kì 4, từ Scandium (Sc, Z=21) đến Zinc (Zn, Z=30). Nguyên tử của chúng có cấu hình electron lớp ngoài cùng dạng (n−1)d¹⁻¹⁰ns².\n' +
+      '   * Ngoại lệ cấu hình bán bão hoà và bão hoà bền vững: Chromium (Cr, Z=24): [Ar]3d⁵4s¹; Copper (Cu, Z=29): [Ar]3d¹⁰4s¹.\n\n' +
+      'ĐẶC ĐIỂM TÍNH CHẤT VẬT LÍ:\n' +
+      '— Đều là kim loại. So với kim loại nhóm IA và IIA, kim loại chuyển tiếp d có nhiệt độ nóng chảy cao hơn, độ cứng lớn hơn, khối lượng riêng lớn hơn nhiều vì có sự tham gia liên kết của các electron lớp d.\n\n' +
+      'ĐẶC ĐIỂM TÍNH CHẤT HOÁ HỌC:\n' +
+      '1. Có nhiều trạng thái oxi hoá khác nhau trong các hợp chất (do các electron 3d có năng lượng gần với 4s, đều có thể tham gia liên kết). Ví dụ: Fe (+2, +3); Cu (+1, +2); Cr (+2, +3, +6); Mn (+2, +4, +6, +7).\n' +
       '2. Các hợp chất thường có màu sắc đặc trưng sinh động: dung dịch muối Cu²⁺ màu xanh lam; Fe³⁺ màu vàng nâu; Fe²⁺ màu xanh lục nhạt; ion MnO₄⁻ màu tím.',
     workedExample: {
       problem: 'Viết cấu hình electron của nguyên tử Iron (sắt, Fe, Z=26) và cation Fe³⁺.',
@@ -68,6 +68,7 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
       },
       { hoi: 'Cấu hình electron của Fe²⁺?', dap: '[Ar] 3d⁶ (mất 2 electron ở phân lớp 4s).' },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -81,13 +82,13 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
       'Chất hemoglobin trong máu người mang sắt (Fe²⁺) liên kết phối trí với khí oxygen để nuôi cơ thể.' +
       ' Chất diệp lục của cây xanh mang magnesium. Chúng đều thuộc một nhóm hợp chất đặc biệt gọi là phức chất.',
     theory:
-      'KHÁI NIỆM PHỨC CHẤT:\\n' +
-      '— Phức chất (coordination compound) là hợp chất có chứa cầu phức, được hình thành từ một ion kim loại trung tâm liên kết với các phối tử xung quanh bằng liên kết phối trí.\\n\\n' +
-      'CẤU TRÚC PHỨC CHẤT (ví dụ: [Cu(NH₃)₄]²⁺):\\n' +
-      '1. Ion trung tâm (central ion): Thường là cation kim loại chuyển tiếp d (như Cu²⁺, Ag⁺, Fe²⁺, Co³⁺) có các orbital trống.\\n' +
-      '2. Phối tử (ligand): Là các phân tử hoặc anion có cặp electron tự do chưa liên kết (như H₂O, NH₃, Cl⁻, OH⁻, CN⁻) để nhường vào orbital trống của ion trung tâm.\\n' +
-      '3. Liên kết phối trí (coordinate bond): Liên kết cho - nhận electron giữa phối tử và ion trung tâm (phối tử cho cặp electron, ion trung tâm nhận).\\n' +
-      '4. Số phối trí (coordination number): Số liên kết phối trí trực tiếp của ion trung tâm với phối tử. Thường gặp: 2, 4, 6.\\n' +
+      'KHÁI NIỆM PHỨC CHẤT:\n' +
+      '— Phức chất (coordination compound) là hợp chất có chứa cầu phức, được hình thành từ một ion kim loại trung tâm liên kết với các phối tử xung quanh bằng liên kết phối trí.\n\n' +
+      'CẤU TRÚC PHỨC CHẤT (ví dụ: [Cu(NH₃)₄]²⁺):\n' +
+      '1. Ion trung tâm (central ion): Thường là cation kim loại chuyển tiếp d (như Cu²⁺, Ag⁺, Fe²⁺, Co³⁺) có các orbital trống.\n' +
+      '2. Phối tử (ligand): Là các phân tử hoặc anion có cặp electron tự do chưa liên kết (như H₂O, NH₃, Cl⁻, OH⁻, CN⁻) để nhường vào orbital trống của ion trung tâm.\n' +
+      '3. Liên kết phối trí (coordinate bond): Liên kết cho - nhận electron giữa phối tử và ion trung tâm (phối tử cho cặp electron, ion trung tâm nhận).\n' +
+      '4. Số phối trí (coordination number): Số liên kết phối trí trực tiếp của ion trung tâm với phối tử. Thường gặp: 2, 4, 6.\n' +
       '5. Điện tích của cầu phức: Bằng tổng điện tích của ion trung tâm và các phối tử.',
     workedExample: {
       problem:
@@ -134,6 +135,7 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
         dap: 'Bằng tổng đại số điện tích của ion trung tâm và các phối tử.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -147,18 +149,18 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
       'Nhỏ amoniac vào cốc dung dịch đồng sunfat màu xanh nhạt: lúc đầu kết tủa xuất hiện, ' +
       'sau đó kết tủa tan rã ra tạo thành dung dịch màu xanh lam thẫm đẹp mắt. Phức chất đã làm thay đổi tính chất hoá học của đồng.',
     theory:
-      'SỰ TẠO THÀNH PHỨC CHẤT TRONG DUNG DỊCH:\\n' +
-      '1. Phức chất của Copper (đồng):\\n' +
-      '   — Khi nhỏ dung dịch NH₃ từ từ vào dung dịch CuSO₄, ban đầu tạo kết tủa xanh nhạt Cu(OH)₂. Khi NH₃ dư, kết tủa tan tạo dung dịch phức chất màu xanh lam thẫm đặc trưng:\\n' +
-      '     Cu(OH)₂↓ + 4NH₃ → [Cu(NH₃)₄]²⁺ + 2OH⁻ (dung dịch phức tetraammincopper(II)).\\n' +
-      '2. Phức chất của Silver (bạc):\\n' +
-      '   — Kết tủa AgCl màu trắng ít tan trong nước, nhưng tan dễ dàng trong dung dịch NH₃ dư nhờ tạo phức chất không màu diamminesilver(I):\\n' +
-      '     AgCl↓ + 2NH₃ → [Ag(NH₃)₂]⁺ + Cl⁻.\\n\\n' +
-      'HẰNG SỐ BỀN (K_b):\\n' +
-      '— Độ bền của phức chất trong dung dịch được đánh giá bằng hằng số bền K_b (hoặc hằng số tạo thành β). Trị số K_b càng lớn thì phức chất càng bền vững, phối tử khó bị thay thế bởi các tác nhân khác.\\n\\n' +
-      'ỨNG DỤNG CỦA PHỨC CHẤT:\\n' +
-      '— Trong hoá phân tích: Nhận biết, tách và định lượng các ion kim loại (ví dụ: dùng thuốc thử Tollens chứa phức chất bạc để nhận biết aldehyde).\\n' +
-      '— Trong y học: Dùng chất tạo phức chelate (như muối EDTA) để giải độc kim loại nặng bằng cách "bẫy" ion kim loại độc hại thành phức chất tan, đào thải qua nước tiểu.\\n' +
+      'SỰ TẠO THÀNH PHỨC CHẤT TRONG DUNG DỊCH:\n' +
+      '1. Phức chất của Copper (đồng):\n' +
+      '   — Khi nhỏ dung dịch NH₃ từ từ vào dung dịch CuSO₄, ban đầu tạo kết tủa xanh nhạt Cu(OH)₂. Khi NH₃ dư, kết tủa tan tạo dung dịch phức chất màu xanh lam thẫm đặc trưng:\n' +
+      '     Cu(OH)₂↓ + 4NH₃ → [Cu(NH₃)₄]²⁺ + 2OH⁻ (dung dịch phức tetraammincopper(II)).\n' +
+      '2. Phức chất của Silver (bạc):\n' +
+      '   — Kết tủa AgCl màu trắng ít tan trong nước, nhưng tan dễ dàng trong dung dịch NH₃ dư nhờ tạo phức chất không màu diamminesilver(I):\n' +
+      '     AgCl↓ + 2NH₃ → [Ag(NH₃)₂]⁺ + Cl⁻.\n\n' +
+      'HẰNG SỐ BỀN (K_b):\n' +
+      '— Độ bền của phức chất trong dung dịch được đánh giá bằng hằng số bền K_b (hoặc hằng số tạo thành β). Trị số K_b càng lớn thì phức chất càng bền vững, phối tử khó bị thay thế bởi các tác nhân khác.\n\n' +
+      'ỨNG DỤNG CỦA PHỨC CHẤT:\n' +
+      '— Trong hoá phân tích: Nhận biết, tách và định lượng các ion kim loại (ví dụ: dùng thuốc thử Tollens chứa phức chất bạc để nhận biết aldehyde).\n' +
+      '— Trong y học: Dùng chất tạo phức chelate (như muối EDTA) để giải độc kim loại nặng bằng cách "bẫy" ion kim loại độc hại thành phức chất tan, đào thải qua nước tiểu.\n' +
       '— Xúc tác trong công nghiệp hoá chất.',
     workedExample: {
       problem:
@@ -166,7 +168,7 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
       steps: [
         'Cu(OH)₂ là chất rắn kết tủa ít tan trong nước.',
         'Khi cho amoniac (NH₃) vào dung dịch, phân tử NH₃ có cặp electron tự do trên nguyên tử N nhường vào orbital trống của ion Cu²⁺.',
-        'Phản ứng tạo phức chất [Cu(NH₃)₄]²⁺ tan tốt trong nước theo phương trình:\\n  Cu(OH)₂↓ + 4NH₃ → [Cu(NH₃)₄]²⁺ + 2OH⁻.',
+        'Phản ứng tạo phức chất [Cu(NH₃)₄]²⁺ tan tốt trong nước theo phương trình:\n  Cu(OH)₂↓ + 4NH₃ → [Cu(NH₃)₄]²⁺ + 2OH⁻.',
         'Nhờ sự hình thành cầu phức tan này, kết tủa xanh nhạt Cu(OH)₂ bị hoà tan hoàn toàn và dung dịch chuyển sang màu xanh lam thẫm.',
       ],
       answer: 'Do tạo phức chất tan [Cu(NH₃)₄]²⁺ màu xanh lam thẫm',
@@ -211,6 +213,7 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
         dap: 'Dùng giải độc chì, thuỷ ngân bằng cách tạo phức bền chelate tan được để đào thải.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -224,10 +227,10 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
       'Chương 8 đúc kết cấu trúc phức tạp và thú vị của thế giới phức chất và kim loại chuyển tiếp d, ' +
       'nền tảng của hoá vô cơ hiện đại.',
     theory:
-      'HỆ THỐNG HOÁ KIẾN THỨC CHƯƠNG 8:\\n' +
-      '1. Kim loại chuyển tiếp d chu kì 4 (Sc đến Zn): cấu hình lớp ngoài (n−1)d¹⁻¹⁰ns². Cr ([Ar]3d⁵4s¹) và Cu ([Ar]3d¹⁰4s¹) cấu hình đặc biệt. Tính chất: độ cứng cao, nóng chảy cao, nhiều số oxi hoá, hợp chất có màu đặc trưng.\\n' +
-      '2. Phức chất: Gồm ion trung tâm (cation d) liên kết phối trí với phối tử ligand (H₂O, NH₃, Cl⁻...). Số phối trí là số liên kết phối trí (2, 4, 6).\\n' +
-      '3. Sự tạo phức trong nước: Cu(OH)₂ tan trong NH₃ tạo [Cu(NH₃)₄]²⁺ màu xanh lam thẫm; AgCl tan trong NH₃ tạo [Ag(NH₃)₂]⁺ không màu.\\n' +
+      'HỆ THỐNG HOÁ KIẾN THỨC CHƯƠNG 8:\n' +
+      '1. Kim loại chuyển tiếp d chu kì 4 (Sc đến Zn): cấu hình lớp ngoài (n−1)d¹⁻¹⁰ns². Cr ([Ar]3d⁵4s¹) và Cu ([Ar]3d¹⁰4s¹) cấu hình đặc biệt. Tính chất: độ cứng cao, nóng chảy cao, nhiều số oxi hoá, hợp chất có màu đặc trưng.\n' +
+      '2. Phức chất: Gồm ion trung tâm (cation d) liên kết phối trí với phối tử ligand (H₂O, NH₃, Cl⁻...). Số phối trí là số liên kết phối trí (2, 4, 6).\n' +
+      '3. Sự tạo phức trong nước: Cu(OH)₂ tan trong NH₃ tạo [Cu(NH₃)₄]²⁺ màu xanh lam thẫm; AgCl tan trong NH₃ tạo [Ag(NH₃)₂]⁺ không màu.\n' +
       '4. Hằng số bền K_b càng lớn phức chất càng bền. Ứng dụng phân tích định lượng, giải độc kim loại y học (EDTA), chất xúc tác.',
     workedExample: {
       problem:
@@ -268,6 +271,7 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
       },
       { hoi: 'Số phối trí thường gặp trong phức chất?', dap: '2, 4, và 6.' },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

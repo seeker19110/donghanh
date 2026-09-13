@@ -66,6 +66,7 @@ export const HOA10_C3_LESSONS: ChemLesson[] = [
         dap: 'Nhường electron, nhận electron, hoặc góp chung electron.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -142,6 +143,7 @@ export const HOA10_C3_LESSONS: ChemLesson[] = [
         dap: 'Nhiệt độ nóng chảy/sôi cao, thể rắn ở nhiệt độ thường, dẫn điện khi nóng chảy/hoà tan.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -215,6 +217,7 @@ export const HOA10_C3_LESSONS: ChemLesson[] = [
         dap: 'Một cặp electron dùng chung (liên kết đơn).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -296,6 +299,7 @@ export const HOA10_C3_LESSONS: ChemLesson[] = [
         dap: 'Ở MỌI phân tử, tăng theo khối lượng phân tử và diện tích tiếp xúc.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

@@ -74,6 +74,7 @@ export const LY10_C7_LESSONS: PhysicsLesson[] = [
         dap: 'Là giá trị lực tác dụng tối đa lên vật mà khi ngừng tác dụng lực vật vẫn có thể lấy lại hình dạng cũ.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -149,6 +150,7 @@ export const LY10_C7_LESSONS: PhysicsLesson[] = [
         dap: 'Thể tích phần chất lưu bị vật chiếm chỗ và khối lượng riêng của chất lưu đó.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

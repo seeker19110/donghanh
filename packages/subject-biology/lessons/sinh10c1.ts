@@ -78,6 +78,7 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
         dap: 'Là những nguyên tắc, chuẩn mực đạo đức áp dụng trong các nghiên cứu và ứng dụng sinh học.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -163,6 +164,7 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
         dap: 'Quan sát và đặt câu hỏi nghiên cứu.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -245,6 +247,7 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
         dap: 'Là nguyên tắc tổ chức từ thấp đến cao, trong đó tổ chức cấp dưới làm nền tảng cấu tạo nên tổ chức cấp trên.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -326,6 +329,7 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
         dap: 'Vì nguyên tử Oxygen có độ âm điện lớn hơn Hydrogen, hút cặp electron dùng chung lệch về phía mình.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -406,6 +410,7 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
         dap: 'DNA chứa A, T, G, C. RNA chứa A, U, G, C (thay Thymine bằng Uracil).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -485,6 +490,7 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
         dap: 'Vì nhiệt độ cao làm phân tử tinh bột duỗi thẳng, iốt giải phóng khỏi ống xoắn tinh bột; khi nguội tinh bột xoắn lại làm iốt bị bẫy lại và màu xanh tím xuất hiện.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

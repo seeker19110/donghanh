@@ -79,6 +79,7 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Là chiều dịch chuyển có hướng của các điện tích dương.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -151,6 +152,7 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
         dap: 'R = ρ * L / S.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -225,6 +227,7 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
         dap: 'U_trong = I * r (với I là cường độ dòng điện, r là điện trở trong của nguồn).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -299,6 +302,7 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Q = R * I² * t.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -370,6 +374,7 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Tìm giao điểm của đoạn đồ thị kéo dài với trục tung U (ứng với I = 0).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

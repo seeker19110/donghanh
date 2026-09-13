@@ -76,6 +76,7 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
         dap: 'Peptidoglycan.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -156,6 +157,7 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
         dap: 'ER thô có ribosome bám vào mặt ngoài, ER trơn không có ribosome.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -233,6 +235,7 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
         dap: 'Để tránh tạo bọt khí trong mẫu, bọt khí sẽ làm biến dạng và khó quan sát tế bào.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -315,6 +318,7 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
         dap: 'Khuếch tán thụ động theo chiều gradient nồng độ, không cần ATP. Vận chuyển chủ động ngược gradient nồng độ, cần tiêu tốn ATP.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -392,6 +396,7 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
         dap: 'Đặt tế bào đang co nguyên sinh vào nước cất hoặc dung dịch nhược trương để nước thấm trở lại.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -468,6 +473,7 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
         dap: 'Vì lõi kị nước của lớp kép phospholipid ngăn cản các phân tử phân cực hoặc ion đi qua.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

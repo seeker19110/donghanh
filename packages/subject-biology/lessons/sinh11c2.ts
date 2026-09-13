@@ -70,6 +70,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         dap: 'Auxin tập trung nhiều ở phía tối (phía không được chiếu sáng trực tiếp).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -143,6 +144,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         dap: 'Gián tiếp đo hoạt động đóng mở khí khổng - một phản ứng cảm ứng của lá đối với sự thay đổi độ ẩm và ánh sáng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -218,6 +220,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         dap: 'Vì hệ chuỗi hạch có tế bào thần kinh tập trung hơn, giúp phản ứng cục bộ chính xác ở từng vùng bị kích thích thay vì co rút toàn bộ cơ thể như dạng lưới.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -288,6 +291,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         dap: 'Bảo vệ tế bào võng mạc không bị kích thích quá mức gây tổn thương dưới tác động của cường độ ánh sáng quá mạnh.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -360,6 +364,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         dap: 'Gibberellin (GA), nhờ kích hoạt các enzyme phân giải tinh bột thành đường cung cấp cho phôi.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -425,6 +430,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         dap: 'Pha chậm đầu -> Pha nhanh lũy thừa -> Pha chậm lại -> Pha bão hòa/ngừng tăng trưởng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -502,6 +508,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         dap: 'Vì iốt là thành phần bắt buộc để tuyến giáp tổng hợp hormone thyroxine (hormone kích thích biến thái của nòng nọc).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -572,6 +579,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         dap: 'Là giai đoạn tĩnh, nhộng không di chuyển và không ăn uống; các tế bào ấu trùng tiêu biến nhường chỗ cho sự hình thành cấu trúc cơ thể bướm.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -643,6 +651,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         dap: 'Giâm cành, chiết cành và ghép (ghép cành hoặc ghép mắt).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -722,6 +731,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         dap: 'Thực hiện vào sáng sớm (khoảng 7-9 giờ sáng), khi hoa cái nở to nhất và đầu nhụy tiết nhiều dịch bám phấn nhất.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -798,6 +808,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         dap: 'Vì phôi thai phát triển trong cơ thể mẹ được bảo vệ an toàn khỏi các yếu tố môi trường và kẻ thù, được nuôi dưỡng liên tục qua nhau thai.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -874,6 +885,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         dap: 'Ngăn cản phôi thai làm tổ ở niêm mạc tử cung bằng cách gây phản ứng viêm nhẹ vô trùng tại chỗ.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -949,6 +961,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         dap: 'Ở thực vật: Hệ hormone thực vật. Ở động vật: Hệ thần kinh và hệ nội tiết.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -1021,6 +1034,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         dap: 'Xác định đúng loại phân, đúng liều lượng, đúng thời điểm nhu cầu của cây và bón đúng cách tránh làm ngộ độc rễ.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

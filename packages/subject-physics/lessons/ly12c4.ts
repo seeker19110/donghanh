@@ -70,6 +70,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Các hạt nhân của cùng một nguyên tố có cùng số proton Z nhưng khác nhau số neutron N.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -145,6 +146,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Mức độ bền vững của hạt nhân.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -222,6 +224,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Không bảo toàn khối lượng nghỉ.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -295,6 +298,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Sóng điện từ có bước sóng cực ngắn (các photon năng lượng cao).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -373,6 +377,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Phản ứng kết hợp các hạt nhân nhẹ thành hạt nhân nặng hơn ở nhiệt độ cực cao.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -437,6 +442,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
         dap: 'dE = (mtruoc - msau) * c².',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

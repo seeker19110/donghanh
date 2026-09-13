@@ -78,6 +78,7 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Là quá trình chuyển thể trực tiếp từ thể rắn sang thể khí (không qua thể lỏng trung gian).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -153,6 +154,7 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Q < 0 khi hệ toả nhiệt ra bên ngoài. A < 0 khi hệ dãn nở thực hiện công lên bên ngoài.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -224,6 +226,7 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Tương đương đúng 10 K (vì ΔT = Δt).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -295,6 +298,7 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Vì nước có nhiệt dung riêng rất lớn (4200 J/kg.K), giúp hấp thụ lượng nhiệt lớn mà ít bị tăng nhiệt độ quá cao.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -361,6 +365,7 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Nghĩa là cần cung cấp 340.000 J nhiệt lượng để làm nóng chảy hoàn toàn 1 kg nước đá ở 0 °C.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -428,6 +433,7 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Joule trên kilôgam (J/kg).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -500,6 +506,7 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Gồm 3 giai đoạn: 1) Đá nhận nhiệt tăng lên 0 °C; 2) Đá nóng chảy hoàn toàn thành nước ở 0 °C; 3) Nước đá tan tăng nhiệt độ lên nhiệt độ cân bằng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

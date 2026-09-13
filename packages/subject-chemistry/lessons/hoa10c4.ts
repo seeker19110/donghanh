@@ -66,6 +66,7 @@ export const HOA10_C4_LESSONS: ChemLesson[] = [
         dap: 'Số electron chất khử nhường = số electron chất oxi hoá nhận.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

@@ -15,20 +15,20 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
       'Túi nilon, sợi vải nhân tạo và lốp xe cao su đều cấu tạo từ các phân tử khổng lồ có hàng vạn nguyên tử liên kết với nhau.' +
       ' Chúng được các nhà hoá học gọi chung là polymer.',
     theory:
-      'KHÁI NIỆM VÀ PHÂN LOẠI:\\n' +
-      '— Polymer là những hợp chất có khối lượng phân tử rất lớn do nhiều đơn vị cơ bản (gọi là mắt xích) liên kết với nhau tạo nên. Monomer là những phân tử nhỏ phản ứng tạo nên polymer.\\n' +
-      '— Phân loại theo nguồn gốc:\\n' +
-      '  1. Polymer thiên nhiên: Có sẵn trong tự nhiên (như tinh bột, cellulose, bông, tơ tằm, cao su thiên nhiên).\\n' +
-      '  2. Polymer tổng hợp: Do con người tự tổng hợp từ các chất hoá học (như PE, PVC, nylon-6,6, cao su Buna).\\n' +
-      '  3. Polymer bán tổng hợp (nhân tạo): Lấy polymer thiên nhiên chế hoá hoá học một phần (như tơ viscose, tơ acetate).\\n\\n' +
-      'ĐẶC ĐIỂM CẤU TRÚC:\\n' +
-      '— Mạch không phân nhánh: như PE, PVC, amylose, cellulose.\\n' +
-      '— Mạch phân nhánh: như amylopectin, glycogen.\\n' +
-      '— Mạch mạng không gian (khâu mạch): như cao su lưu hoá, nhựa bakelite.\\n\\n' +
-      'PHƯƠNG PHÁP TỔNG HỢP:\\n' +
-      '1. Phản ứng trùng hợp: Là quá trình kết hợp nhiều phân tử nhỏ giống nhau hoặc tương tự nhau (monomer) thành phân tử lớn (polymer) không giải phóng chất phụ.\\n' +
-      '   — Điều kiện monomer: Phân tử phải có liên kết bội kém bền (C=C, C≡C) hoặc vòng kém bền (như ethylene, vinyl chloride, styrene).\\n' +
-      '2. Phản ứng trùng ngưng: Là quá trình kết hợp nhiều phân tử monomer thành phân tử polymer đồng thời giải phóng các phân tử nhỏ khác (thường là H₂O).\\n' +
+      'KHÁI NIỆM VÀ PHÂN LOẠI:\n' +
+      '— Polymer là những hợp chất có khối lượng phân tử rất lớn do nhiều đơn vị cơ bản (gọi là mắt xích) liên kết với nhau tạo nên. Monomer là những phân tử nhỏ phản ứng tạo nên polymer.\n' +
+      '— Phân loại theo nguồn gốc:\n' +
+      '  1. Polymer thiên nhiên: Có sẵn trong tự nhiên (như tinh bột, cellulose, bông, tơ tằm, cao su thiên nhiên).\n' +
+      '  2. Polymer tổng hợp: Do con người tự tổng hợp từ các chất hoá học (như PE, PVC, nylon-6,6, cao su Buna).\n' +
+      '  3. Polymer bán tổng hợp (nhân tạo): Lấy polymer thiên nhiên chế hoá hoá học một phần (như tơ viscose, tơ acetate).\n\n' +
+      'ĐẶC ĐIỂM CẤU TRÚC:\n' +
+      '— Mạch không phân nhánh: như PE, PVC, amylose, cellulose.\n' +
+      '— Mạch phân nhánh: như amylopectin, glycogen.\n' +
+      '— Mạch mạng không gian (khâu mạch): như cao su lưu hoá, nhựa bakelite.\n\n' +
+      'PHƯƠNG PHÁP TỔNG HỢP:\n' +
+      '1. Phản ứng trùng hợp: Là quá trình kết hợp nhiều phân tử nhỏ giống nhau hoặc tương tự nhau (monomer) thành phân tử lớn (polymer) không giải phóng chất phụ.\n' +
+      '   — Điều kiện monomer: Phân tử phải có liên kết bội kém bền (C=C, C≡C) hoặc vòng kém bền (như ethylene, vinyl chloride, styrene).\n' +
+      '2. Phản ứng trùng ngưng: Là quá trình kết hợp nhiều phân tử monomer thành phân tử polymer đồng thời giải phóng các phân tử nhỏ khác (thường là H₂O).\n' +
       '   — Điều kiện monomer: Phân tử phải chứa ít nhất hai nhóm chức có khả năng phản ứng với nhau (ví dụ: acid adipic và hexamethylenediamine).',
     workedExample: {
       problem:
@@ -77,6 +77,7 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
         dap: 'Có chứa liên kết bội kém bền (như C=C) hoặc vòng kém bền dễ mở.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -90,18 +91,18 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
       'Chất dẻo làm đồ gia dụng, tơ sợi dệt quần áo ấm, cao su làm lốp xe chịu lực, keo dán gắn kết vật liệu. ' +
       'Mọi vật liệu hiện đại này đều được làm từ polymer chế hoá phù hợp.',
     theory:
-      'CHẤT DẺO (Plastics):\\n' +
-      '— Là những vật liệu polymer có tính dẻo (bị biến dạng khi chịu tác dụng của nhiệt, áp lực bên ngoài và vẫn giữ nguyên sự biến dạng đó khi thôi tác dụng).\\n' +
-      '— Các chất dẻo phổ biến: Polyethylene (PE), Poly(vinyl chloride) (PVC), Poly(methyl methacrylate) (PMM - thuỷ tinh hữu cơ Plexiglas), Poly(tetrafluoroethylene) (Teflon - chảo chống dính).\\n\\n' +
-      'TƠ (Fibers):\\n' +
-      '— Là những vật liệu polymer hình sợi dài, mảnh, độ bền kéo cao.\\n' +
-      '— Tơ polyamide (chứa nhóm −CO−NH−): tơ nylon-6, nylon-6,6. Kém bền với nhiệt, acid, base do nhóm amide bị thuỷ phân.\\n' +
-      '   * Nylon-6,6 trùng ngưng từ acid adipic HOOC−(CH₂)₄−COOH và hexamethylenediamine H₂N−(CH₂)₆−NH₂.\\n' +
-      '— Tơ vinylic: tơ nitron (hay olon), dai, ấm, giữ nhiệt tốt, dùng dệt len nhân tạo, trùng hợp từ acrylonitrile CH₂=CH−CN.\\n\\n' +
-      'CAO SU (Rubbers):\\n' +
-      '— Là vật liệu polymer có tính đàn hồi (khả năng khôi phục hình dạng ban đầu sau khi chịu tác dụng lực).\\n' +
-      '— Cao su thiên nhiên: polymer của isoprene (cis-polyisoprene).\\n' +
-      '— Cao su tổng hợp: Cao su Buna (trùng hợp butadiene), cao su Buna-S (đồng trùng hợp butadiene và styrene), cao su Buna-N (đồng trùng hợp butadiene và acrylonitrile).\\n' +
+      'CHẤT DẺO (Plastics):\n' +
+      '— Là những vật liệu polymer có tính dẻo (bị biến dạng khi chịu tác dụng của nhiệt, áp lực bên ngoài và vẫn giữ nguyên sự biến dạng đó khi thôi tác dụng).\n' +
+      '— Các chất dẻo phổ biến: Polyethylene (PE), Poly(vinyl chloride) (PVC), Poly(methyl methacrylate) (PMM - thuỷ tinh hữu cơ Plexiglas), Poly(tetrafluoroethylene) (Teflon - chảo chống dính).\n\n' +
+      'TƠ (Fibers):\n' +
+      '— Là những vật liệu polymer hình sợi dài, mảnh, độ bền kéo cao.\n' +
+      '— Tơ polyamide (chứa nhóm −CO−NH−): tơ nylon-6, nylon-6,6. Kém bền với nhiệt, acid, base do nhóm amide bị thuỷ phân.\n' +
+      '   * Nylon-6,6 trùng ngưng từ acid adipic HOOC−(CH₂)₄−COOH và hexamethylenediamine H₂N−(CH₂)₆−NH₂.\n' +
+      '— Tơ vinylic: tơ nitron (hay olon), dai, ấm, giữ nhiệt tốt, dùng dệt len nhân tạo, trùng hợp từ acrylonitrile CH₂=CH−CN.\n\n' +
+      'CAO SU (Rubbers):\n' +
+      '— Là vật liệu polymer có tính đàn hồi (khả năng khôi phục hình dạng ban đầu sau khi chịu tác dụng lực).\n' +
+      '— Cao su thiên nhiên: polymer của isoprene (cis-polyisoprene).\n' +
+      '— Cao su tổng hợp: Cao su Buna (trùng hợp butadiene), cao su Buna-S (đồng trùng hợp butadiene và styrene), cao su Buna-N (đồng trùng hợp butadiene và acrylonitrile).\n' +
       '— Lưu hoá cao su: Trộn cao su với lưu huỳnh và đun nóng, tạo cầu nối disulfide (−S−S−) giữa các mạch polymer, chuyển cấu trúc mạch thẳng thành cấu trúc mạng không gian bền vững, đàn hồi hơn, chịu nhiệt tốt hơn, khó tan hơn.',
     workedExample: {
       problem:
@@ -148,6 +149,7 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
         dap: 'Vì tơ polyamide dễ bị thuỷ phân trong môi trường kiềm và kém bền nhiệt.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -161,9 +163,9 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
       'Chương 4 kết nối bức tranh toàn cảnh từ các monomer phân tử nhỏ sang các vật liệu polymer khổng lồ, ' +
       'nền tảng của vật liệu học hiện đại.',
     theory:
-      'HỆ THỐNG HOÁ KIẾN THỨC CHƯƠNG 4:\\n' +
-      '1. Khái niệm polymer: n mắt xích monomer. Có 3 nguồn gốc: thiên nhiên, tổng hợp, bán tổng hợp (viscose, acetate). Mạch thẳng, nhánh (amylopectin), mạng không gian (cao su lưu hoá, bakelite).\\n' +
-      '2. Phương pháp tổng hợp: Trùng hợp (cộng hợp mở liên kết đôi, không giải phóng phụ), Trùng ngưng (đóng vòng hoặc kết hợp có tách H₂O).\\n' +
+      'HỆ THỐNG HOÁ KIẾN THỨC CHƯƠNG 4:\n' +
+      '1. Khái niệm polymer: n mắt xích monomer. Có 3 nguồn gốc: thiên nhiên, tổng hợp, bán tổng hợp (viscose, acetate). Mạch thẳng, nhánh (amylopectin), mạng không gian (cao su lưu hoá, bakelite).\n' +
+      '2. Phương pháp tổng hợp: Trùng hợp (cộng hợp mở liên kết đôi, không giải phóng phụ), Trùng ngưng (đóng vòng hoặc kết hợp có tách H₂O).\n' +
       '3. Vật liệu polymer: Chất dẻo (PE, PVC, PMM, Teflon); Cao su (thiên nhiên isoprene, tổng hợp Buna, Buna-S, Buna-N); Tơ (thiên nhiên bông/tơ tằm, bán tổng hợp viscose/acetate, tổng hợp nylon-6, nylon-6,6, tơ nitron).',
     workedExample: {
       problem:
@@ -212,6 +214,7 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
         dap: 'Dễ bị phân huỷ trong môi trường acid hoặc kiềm nóng do thuỷ phân liên kết amide.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

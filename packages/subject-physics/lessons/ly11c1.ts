@@ -78,6 +78,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Hertz (Hz).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -153,6 +154,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Tần số góc của dao động điều hoà bằng đúng tốc độ góc của chuyển động tròn đều (ω).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -226,6 +228,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Vận tốc bằng không (v = 0), gia tốc có độ lớn cực đại (a_max = ω²A).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -298,6 +301,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Vận tốc v mang giá trị dương (v > 0).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -374,6 +378,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Tại vị trí cân bằng (x = 0), khi đó vận tốc cực đại nên động năng cực đại, thế năng bằng không.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -452,6 +457,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Được quyết định hoàn toàn bởi tần số của ngoại lực cưỡng bức tuần hoàn bên ngoài.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -526,6 +532,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Vì cơ năng được bảo toàn khi không có ma sát tiêu hao năng lượng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

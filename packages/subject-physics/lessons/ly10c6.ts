@@ -72,6 +72,7 @@ export const LY10_C6_LESSONS: PhysicsLesson[] = [
         dap: 'Vì tuy độ lớn của vận tốc không đổi, hướng của vectơ vận tốc luôn thay đổi (luôn có phương tiếp tuyến quỹ đạo).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -143,6 +144,7 @@ export const LY10_C6_LESSONS: PhysicsLesson[] = [
         dap: 'Không, nó chỉ là tên gọi vai trò của các lực có sẵn (như ma sát, hấp dẫn, căng dây) khi hướng vào tâm quỹ đạo tròn.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

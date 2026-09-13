@@ -72,6 +72,7 @@ export const LY10_C5_LESSONS: PhysicsLesson[] = [
         dap: 'Đo bằng N.s, bằng độ biến thiên động lượng của vật.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -146,6 +147,7 @@ export const LY10_C5_LESSONS: PhysicsLesson[] = [
         dap: 'Một phần vật chất phóng ra theo một hướng, phần còn lại sẽ chuyển động ngược hướng do bảo toàn động lượng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -221,6 +223,7 @@ export const LY10_C5_LESSONS: PhysicsLesson[] = [
         dap: 'Để thực hiện phép đo thí nghiệm va chạm mềm (hai xe dính chặt vào nhau sau va chạm).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

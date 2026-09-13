@@ -76,6 +76,7 @@ export const LY11_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Bằng 1.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -149,6 +150,7 @@ export const LY11_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Cường độ điện trường do nhiều điện tích gây ra tại một điểm bằng tổng vectơ các cường độ điện trường do từng điện tích riêng lẻ gây ra.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -222,6 +224,7 @@ export const LY11_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Có hình dạng đường parabol (tương tự chuyển động ném ngang).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -293,6 +296,7 @@ export const LY11_C3_LESSONS: PhysicsLesson[] = [
         dap: 'A = qEd.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -363,6 +367,7 @@ export const LY11_C3_LESSONS: PhysicsLesson[] = [
         dap: 'U = E * d.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -433,6 +438,7 @@ export const LY11_C3_LESSONS: PhysicsLesson[] = [
         dap: 'W = 1/2 * Q² / C.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

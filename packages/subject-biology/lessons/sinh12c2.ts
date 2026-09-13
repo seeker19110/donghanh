@@ -69,6 +69,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
         dap: 'Vì cả hai đều có chung tổ tiên là động vật có xương sống thủy sinh; phôi lặp lại các đặc điểm tổ tiên trước khi biệt hoá thành loài đặc thù.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -139,6 +140,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
         dap: 'Vì chọn lọc tự nhiên thay đổi tần số allele trong quần thể qua nhiều thế hệ, còn cá thể đã có kiểu gen cố định từ khi sinh ra không thể thay đổi trong đời.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -218,6 +220,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
         dap: 'Quần thể có kích thước nhỏ.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -289,6 +292,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
         dap: 'Vì cách ly địa lý ngăn dòng gene giữa các quần thể, để chọn lọc tự nhiên và biến động di truyền tích luỹ sự sai khác di truyền theo từng hướng khác nhau cho đến khi hai quần thể không còn giao phối được nữa.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -359,6 +363,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
         dap: 'Vi khuẩn lam (cyanobacteria) thực hiện quang hợp giải phóng O₂.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -439,6 +444,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
         dap: 'Đẳng nhiệt: duy trì nhiệt độ cơ thể ổn định (thú, chim). Biến nhiệt: nhiệt độ cơ thể phụ thuộc môi trường (bò sát, ếch, cá).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -513,6 +519,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
         dap: 'Số cá thể trên đơn vị diện tích (hoặc thể tích). Phản ánh áp lực cạnh tranh nguồn sống và ảnh hưởng đến tốc độ tăng trưởng quần thể.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -584,6 +591,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
         dap: 'Cạnh tranh (-/-): cả hai loài cùng bị hại. Ký sinh (+/-): loài ký sinh có lợi, vật chủ bị hại.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -658,6 +666,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
         dap: 'Vị trí của sinh vật trong chuỗi thức ăn, xác định bởi số bước cách xa sinh vật sản xuất (bậc 1 = sản xuất, bậc 2 = ăn thực vật, v.v.).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -733,6 +742,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
         dap: 'Vì cây rừng là bể chứa carbon sinh học lớn; phá rừng → gỗ phân huỷ hoặc đốt → CO₂ giải phóng vào khí quyển; đồng thời mất khả năng hấp thụ CO₂ của rừng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -809,6 +819,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
         dap: 'Công ước quốc tế về buôn bán các loài động thực vật hoang dã nguy cấp, hạn chế/cấm buôn bán các loài bị đe doạ tuyệt chủng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

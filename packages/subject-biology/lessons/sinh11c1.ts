@@ -71,6 +71,7 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
         dap: '1. Trao đổi chất giữa cơ thể với môi trường; 2. Vận chuyển các chất trong cơ thể; 3. Trao đổi chất và năng lượng ở tế bào.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -149,6 +150,7 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
         dap: 'Do tế bào hạt đậu có thành trong dày, thành ngoài mỏng. Khi no nước, thành ngoài mỏng căng ra kéo thành trong cong theo làm xuất hiện khe hở (khí khổng mở).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -222,6 +224,7 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
         dap: 'Vì mặt dưới lá cây cam có mật độ khí khổng cao hơn nhiều so với mặt trên, dẫn đến tốc độ thoát hơi nước ở mặt dưới lớn hơn.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -296,6 +299,7 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
         dap: 'Để thích nghi với môi trường khô hạn sa mạc: ban ngày chúng phải đóng khí khổng chống mất nước, ban đêm mát mẻ mới mở khí khổng để hấp thụ CO₂.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -367,6 +371,7 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
         dap: 'Diệp lục b (xanh vàng) -> Diệp lục a (xanh lục) -> Xanthophyll (vàng) -> Carotene (cam).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -442,6 +447,7 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
         dap: 'Ti thể (Mitochondria).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -514,6 +520,7 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
         dap: 'Xuất hiện kết tủa trắng làm dung dịch bị vẩn đục do CO₂ + Ca(OH)₂ -> CaCO₃↓ + H₂O.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -587,6 +594,7 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
         dap: 'Tiêu hóa nội bào bên trong không bào tiêu hóa nhờ enzyme từ bào quan lysosome.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -665,6 +673,7 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
         dap: 'Bề mặt diện tích rộng, mỏng, luôn ẩm ướt, có mạng lưới mao mạch máu phong phú và có sắc tố hô hấp.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -738,6 +747,7 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
         dap: 'Vì trong một chu kỳ tim 0.8 giây, tim co mất 0.4 giây và có thời gian dãn chung nghỉ ngơi hoàn toàn là 0.4 giây. Thời gian nghỉ đủ để phục hồi khả năng co bóp.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -811,6 +821,7 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
         dap: 'Mạch máu siêu nhỏ, chỉ cho hồng cầu xếp thành một hàng đơn lẻ di chuyển chậm chạp.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -883,6 +894,7 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
         dap: 'Hệ đệm Bicarbonate (H₂CO₃/HCO₃⁻), hệ đệm Phosphate (H₂PO₄⁻/HPO₄²⁻) và hệ đệm Protein (Proteinate).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

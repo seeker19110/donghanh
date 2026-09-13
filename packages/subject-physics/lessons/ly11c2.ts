@@ -71,6 +71,7 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Phụ thuộc hoàn toàn vào tính chất vật lí của môi trường truyền sóng (như nhiệt độ, mật độ, tính đàn hồi).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -145,6 +146,7 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Không, sóng ngang chỉ truyền được trong chất rắn và trên bề mặt chất lỏng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -215,6 +217,7 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
         dap: 'T = 5 * 2 ms = 10 ms = 0,01 s.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -289,6 +292,7 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Sóng vô tuyến -> Tia hồng ngoại -> Tia tử ngoại -> Tia X (tần số tăng tương ứng bước sóng giảm).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -362,6 +366,7 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Vì tại đó hai sóng từ hai nguồn truyền tới ngược pha nhau và triệt tiêu biên độ của nhau hoàn toàn.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -435,6 +440,7 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Bằng một phần tư bước sóng (λ / 4).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -498,6 +504,7 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
         dap: 'L = (2k + 1) * λ / 4.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -568,6 +575,7 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Vì miệng ống tiếp giáp tự do với không khí bên ngoài, cho phép các phần tử khí dao động tự do với biên độ lớn nhất.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

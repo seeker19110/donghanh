@@ -78,6 +78,7 @@ export const HOA10_C1_LESSONS: ChemLesson[] = [
         dap: 'Hiện tượng hoá học sinh ra CHẤT MỚI; vật lí chỉ đổi trạng thái/hình dạng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -147,6 +148,7 @@ export const HOA10_C1_LESSONS: ChemLesson[] = [
       },
       { hoi: 'Công thức tính số khối A?', dap: 'A = p + n (số proton cộng số neutron).' },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -219,6 +221,7 @@ export const HOA10_C1_LESSONS: ChemLesson[] = [
         dap: 'M̄ = Σ(Aᵢ × xᵢ) / 100, với xᵢ là % số nguyên tử đồng vị i.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -282,6 +285,7 @@ export const HOA10_C1_LESSONS: ChemLesson[] = [
         dap: 'Số electron ở lớp ngoài cùng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

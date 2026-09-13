@@ -74,6 +74,7 @@ export const HOA10_C6_LESSONS: ChemLesson[] = [
         dap: 'Nồng độ, nhiệt độ, diện tích bề mặt, chất xúc tác, áp suất (với khí).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

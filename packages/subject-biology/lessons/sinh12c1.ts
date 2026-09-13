@@ -80,6 +80,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Trong mỗi phân tử ADN con được tạo ra, có một mạch là của ADN mẹ ban đầu và mạch còn lại được tổng hợp mới từ nguyên liệu môi trường.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -149,6 +150,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Vì intron là các đoạn không mang thông tin mã hóa axit amin; chỉ các exon (mạch mã hóa liên tục) mới được nối lại tạo mARN trưởng thành để dịch mã chính xác.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -226,6 +228,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Vì lactose liên kết trực tiếp với protein ức chế, làm thay đổi cấu hình không gian ba chiều của nó khiến nó không tương thích bám vào vùng O nữa.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -299,6 +302,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Vì thay thế chỉ làm thay đổi tối đa một axit amin tại bộ ba bị đột biến, không làm dịch khung đọc mã di truyền của toàn bộ gen phía sau.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -367,6 +371,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Đột biến đảo đoạn và đột biến chuyển đoạn trên cùng một nhiễm sắc thể (chỉ làm thay đổi trật tự sắp xếp gen).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -435,6 +440,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Là thể dị đa bội mang bộ NST lưỡng bội của hai loài khác nhau (2n_A + 2n_B), được hình thành bằng con đường lai xa kết hợp đa bội hóa.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -504,6 +510,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Kì giữa (Metaphase) của nguyên phân hoặc giảm phân.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -576,6 +583,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Trong tế bào giao tử, các nhân tố di truyền (alen) phân li đồng đều, mỗi giao tử chỉ chứa duy nhất một nhân tố di truyền của cặp tương ứng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -645,6 +653,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Gen đột biến HbS gây hội chứng hồng cầu hình liềm: vừa làm hồng cầu hình liềm gây thiếu máu, vừa gây tắc nghẽn mạch dẫn tới suy đa tạng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -708,6 +717,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: '1 cM là khoảng cách tương ứng với tần số hoán vị gen bằng 1%.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -785,6 +795,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Là hiện tượng gen lặn trên NST X của bố truyền cho con gái (ở dạng dị hợp không biểu hiện) rồi biểu hiện ở cháu ngoại trai.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -855,6 +866,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Thường biến: Biến đổi kiểu hình, không đổi kiểu gen, đồng loạt, thích nghi, không di truyền. Đột biến: Biến đổi kiểu gen (và kiểu hình), riêng lẻ, vô hướng, di truyền được.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -921,6 +933,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Để ghi nhận thông tin phép lai (kiểu gen/dòng bố mẹ, ngày thụ phấn) phục vụ quản lý và đối chiếu kết quả F₁ thu hoạch sau này.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -990,6 +1003,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Aa = (1/2)⁴ = 1/16 = 6.25%.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -1057,6 +1071,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Giao phối tự do ngẫu nhiên giữa các cá thể, và duy trì tần số alen không đổi qua các thế hệ dưới điều kiện tiêu chuẩn.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -1130,6 +1145,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Là phép lai giữa các dòng thuần chủng khác nhau để lấy con lai F₁ thương phẩm (lấy thịt, trứng, sữa) mà không dùng làm giống.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -1201,6 +1217,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Nhân nhanh số lượng con con quý hiếm từ một phôi bò mẹ tốt nhờ nhiều bò mẹ thông thường mang thai hộ.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -1271,6 +1288,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Vì E. coli sinh sản rất nhanh (khoảng 20 phút nhân đôi một lần), giúp nhân nhanh số lượng gen chuyển để thu hoạch lượng lớn sản phẩm protein mong muốn trong thời gian ngắn.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -1339,6 +1357,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Hội chứng Down (3 NST 21), hội chứng Klinefelter (XXY) và hội chứng Turner (XO).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

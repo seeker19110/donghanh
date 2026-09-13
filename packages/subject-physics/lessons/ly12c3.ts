@@ -76,6 +76,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Đi ra từ cực Bắc (N) và đi vào cực Nam (S).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -154,6 +155,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Bằng 0 độ hoặc 180 độ (dây dẫn đặt song song đường sức từ).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -236,6 +238,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
         dap: 'B = 2pi * 10^-7 * N * I / R.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -316,6 +319,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
         dap: 'R = m * v / (|q| * B).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -388,6 +392,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Tốc độ biến thiên cường độ dòng điện trong mạch.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -466,6 +471,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Giảm đi 25 lần.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -544,6 +550,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Vì sắt non mất từ tính rất nhanh khi ngắt dòng điện, giúp điều khiển nam châm dễ dàng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -606,6 +613,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Khi có sự biến thiên của cường độ dòng điện trong chính mạch đó.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

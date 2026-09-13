@@ -75,6 +75,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Vectơ lực tổng hợp được biểu diễn bằng đường chéo của hình bình hành mà hai cạnh là hai vectơ lực thành phần.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -146,6 +147,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Vật không chịu lực hoặc chịu hợp lực bằng không thì đứng yên tiếp tục đứng yên, chuyển động tiếp tục chuyển động thẳng đều.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -212,6 +214,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Gia tốc luôn cùng hướng với lực tác dụng (hoặc hợp lực).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -287,6 +290,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Xuất hiện/mất đi đồng thời, trực đối (cùng độ lớn, ngược chiều), đặt vào hai vật khác nhau.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -364,6 +368,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Xuất hiện khi sợi dây bị kéo căng, hướng dọc theo dây hướng vào phía trong sợi dây.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -434,6 +439,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Phụ thuộc vào vật liệu cấu tạo và tình trạng nhẵn hay nhám của hai bề mặt tiếp xúc.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -507,6 +513,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Khi lực cản của chất lưu cân bằng hoàn toàn với lực đẩy/trọng lực khiến vật chuyển động thẳng đều.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -578,6 +585,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Chỉ phụ thuộc vào góc nghiêng α và gia tốc g (a = g.sin α), không phụ thuộc khối lượng vật.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -650,6 +658,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Vật cân bằng khi tổng moment lực làm quay cùng chiều kim đồng hồ bằng tổng moment làm quay ngược chiều kim đồng hồ.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -719,6 +728,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Tổng vectơ F₁ + F₂ + F₃ = vectơ 0.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]
