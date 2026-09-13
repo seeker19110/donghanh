@@ -11,18 +11,18 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
     title: 'Khái quát về chuyển hoá vật chất và năng lượng',
     hook: 'Ngay cả khi ngủ, cơ thể bạn vẫn tiêu thụ năng lượng. Tế bào không bao giờ nghỉ ngơi—chúng không ngừng chuyển hoá năng lượng từ thức ăn thành ATP để duy trì sự sống.',
     theory:
-      'CHUYỂN HOÁ VẬT CHẤT VÀ NĂNG LƯỢNG:\\n' +
-      '— Chuyển hoá (Metabolism): Toàn bộ các phản ứng hoá học xảy ra trong tế bào và cơ thể sống.\\n' +
-      '— Hai quá trình đối lập:\\n' +
-      '  1. Đồng hoá (Anabolism): Tổng hợp các phân tử phức tạp từ phân tử đơn giản. Cần năng lượng ATP. Ví dụ: quang hợp, tổng hợp protein.\\n' +
-      '  2. Dị hoá (Catabolism): Phân giải các phân tử phức tạp thành phân tử đơn giản. Giải phóng năng lượng ATP. Ví dụ: hô hấp tế bào.\\n\\n' +
-      'ENZYME (ENZYM) VÀ VAI TRÒ XÚC TÁC:\\n' +
-      '— Enzyme là chất xúc tác sinh học, bản chất là protein (một số là RNA - ribozyme).\\n' +
-      '— Đặc điểm:\\n' +
-      '  + Xúc tác đặc hiệu: Mỗi enzyme chỉ xúc tác một hoặc một số phản ứng nhất định.\\n' +
-      '  + Tăng tốc độ phản ứng mà không bị tiêu hao.\\n' +
-      '  + Hoạt động phụ thuộc nhiệt độ, pH, nồng độ cơ chất.\\n' +
-      '— Cơ chế: Enzyme gắn với cơ chất (substrate) tại trung tâm hoạt động (active site), tạo phức enzyme-cơ chất, thực hiện phản ứng, rồi giải phóng sản phẩm.\\n' +
+      'CHUYỂN HOÁ VẬT CHẤT VÀ NĂNG LƯỢNG:\n' +
+      '— Chuyển hoá (Metabolism): Toàn bộ các phản ứng hoá học xảy ra trong tế bào và cơ thể sống.\n' +
+      '— Hai quá trình đối lập:\n' +
+      '  1. Đồng hoá (Anabolism): Tổng hợp các phân tử phức tạp từ phân tử đơn giản. Cần năng lượng ATP. Ví dụ: quang hợp, tổng hợp protein.\n' +
+      '  2. Dị hoá (Catabolism): Phân giải các phân tử phức tạp thành phân tử đơn giản. Giải phóng năng lượng ATP. Ví dụ: hô hấp tế bào.\n\n' +
+      'ENZYME (ENZYM) VÀ VAI TRÒ XÚC TÁC:\n' +
+      '— Enzyme là chất xúc tác sinh học, bản chất là protein (một số là RNA - ribozyme).\n' +
+      '— Đặc điểm:\n' +
+      '  + Xúc tác đặc hiệu: Mỗi enzyme chỉ xúc tác một hoặc một số phản ứng nhất định.\n' +
+      '  + Tăng tốc độ phản ứng mà không bị tiêu hao.\n' +
+      '  + Hoạt động phụ thuộc nhiệt độ, pH, nồng độ cơ chất.\n' +
+      '— Cơ chế: Enzyme gắn với cơ chất (substrate) tại trung tâm hoạt động (active site), tạo phức enzyme-cơ chất, thực hiện phản ứng, rồi giải phóng sản phẩm.\n' +
       '— ATP (Adenosine Triphosphate): Là đơn vị năng lượng phổ quát của tế bào. Năng lượng được lưu trong liên kết phosphate cao năng.',
     workedExample: {
       problem:
@@ -82,24 +82,24 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
     title: 'Phân giải và tổng hợp các chất trong tế bào',
     hook: 'Khi bạn chạy bộ, cơ thể đốt cháy glucose và mỡ để lấy năng lượng. Khi bạn ngủ, cơ thể dùng năng lượng đó để tổng hợp protein phục hồi cơ. Hai quá trình này—hô hấp tế bào và quang hợp—là trụ cột của sự sống.',
     theory:
-      'HÔ HẤP TẾ BÀO (CELLULAR RESPIRATION):\\n' +
-      '— Phương trình tổng quát: C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + Năng lượng (ATP + Nhiệt).\\n' +
-      '— Ba giai đoạn chính:\\n' +
-      '  1. Đường phân (Glycolysis): Xảy ra trong tế bào chất. Glucose (6C) → 2 Pyruvate (3C) + 2 ATP + 2 NADH.\\n' +
-      '  2. Chu trình Krebs (Citric acid cycle): Xảy ra trong chất nền ty thể. Pyruvate → CO₂ + ATP + NADH + FADH₂.\\n' +
-      '  3. Chuỗi chuyền điện tử (Electron Transport Chain): Xảy ra trên màng trong ty thể. NADH/FADH₂ → 32-34 ATP + H₂O.\\n\\n' +
-      'QUANG HỢP (PHOTOSYNTHESIS) - Chỉ ở sinh vật có lục lạp:\\n' +
-      '— Phương trình tổng quát: 6CO₂ + 6H₂O + Ánh sáng → C₆H₁₂O₆ + 6O₂.\\n' +
-      '— Hai giai đoạn:\\n' +
-      '  1. Pha sáng (Light reactions): Xảy ra trên màng thylakoid. Ánh sáng phân li H₂O, giải phóng O₂, tổng hợp ATP và NADPH.\\n' +
+      'HÔ HẤP TẾ BÀO (CELLULAR RESPIRATION):\n' +
+      '— Phương trình tổng quát: C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + Năng lượng (ATP + Nhiệt).\n' +
+      '— Ba giai đoạn chính:\n' +
+      '  1. Đường phân (Glycolysis): Xảy ra trong tế bào chất. Glucose (6C) → 2 Pyruvate (3C) + 2 ATP + 2 NADH.\n' +
+      '  2. Chu trình Krebs (Citric acid cycle): Xảy ra trong chất nền ty thể. Pyruvate → CO₂ + ATP + NADH + FADH₂.\n' +
+      '  3. Chuỗi chuyền điện tử (Electron Transport Chain): Xảy ra trên màng trong ty thể. NADH/FADH₂ → 32-34 ATP + H₂O.\n\n' +
+      'QUANG HỢP (PHOTOSYNTHESIS) - Chỉ ở sinh vật có lục lạp:\n' +
+      '— Phương trình tổng quát: 6CO₂ + 6H₂O + Ánh sáng → C₆H₁₂O₆ + 6O₂.\n' +
+      '— Hai giai đoạn:\n' +
+      '  1. Pha sáng (Light reactions): Xảy ra trên màng thylakoid. Ánh sáng phân li H₂O, giải phóng O₂, tổng hợp ATP và NADPH.\n' +
       '  2. Pha tối/Chu trình Calvin (Dark reactions/Calvin cycle): Xảy ra trong chất nền lục lạp (stroma). CO₂ + ATP + NADPH → Glucose.',
     workedExample: {
       problem:
         'Tính số phân tử ATP tối đa có thể tổng hợp được từ 1 phân tử glucose qua hô hấp hiếu khí.',
       steps: [
-        'Đường phân: 2 ATP (thực tế).\\n',
-        'Chu trình Krebs: 2 ATP.\\n',
-        'Chuỗi chuyền điện tử: ~32-34 ATP từ 10 NADH và 2 FADH₂ qua phosphoryl hóa oxy hóa.\\n',
+        'Đường phân: 2 ATP (thực tế).\n',
+        'Chu trình Krebs: 2 ATP.\n',
+        'Chuỗi chuyền điện tử: ~32-34 ATP từ 10 NADH và 2 FADH₂ qua phosphoryl hóa oxy hóa.\n',
         'Tổng cộng: ~36-38 ATP/glucose. Trong thực tế tế bào, hiệu suất thực thường khoảng 30-32 ATP.',
       ],
       answer: 'Khoảng 36-38 ATP/glucose (lý thuyết), thực tế khoảng 30-32 ATP.',
@@ -385,18 +385,18 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
       'Thực hành: Thí nghiệm phân tích ảnh hưởng của một số yếu tố đến hoạt tính của enzyme và kiểm tra hoạt tính của enzyme amylase',
     hook: 'Enzyme hoạt động trong điều kiện nhất định. Nhiệt độ cao có thể biến nước bọt mất khả năng tiêu hoá tinh bột. Hãy kiểm chứng điều này trong phòng thí nghiệm.',
     theory:
-      'CÁC YẾU TỐ ẢNH HƯỞNG ĐẾN HOẠT TÍNH CỦA ENZYME:\\n' +
-      '1. Nhiệt độ:\\n' +
-      '   — Nhiệt độ thấp: Enzyme hoạt động chậm.\\n' +
-      '   — Nhiệt độ tối ưu (thường 37-40°C với enzyme người): Hoạt tính cao nhất.\\n' +
-      '   — Nhiệt độ cao (>60°C): Enzyme bị biến tính (denature), mất hoạt tính vĩnh viễn vì cấu trúc không gian bị phá huỷ.\\n' +
-      '2. pH:\\n' +
-      '   — Mỗi enzyme có pH tối ưu khác nhau (amylase nước bọt: pH ~7, pepsin dạ dày: pH ~2).\\n' +
-      '   — pH quá cao hoặc thấp làm enzyme biến tính.\\n' +
-      '3. Nồng độ cơ chất: Khi tăng nồng độ cơ chất đến mức bão hoà enzyme, vận tốc phản ứng tăng rồi đạt mức tối đa (Vmax).\\n\\n' +
-      'THÍ NGHIỆM VỚI AMYLASE NƯỚC BỌT:\\n' +
-      '— Ống 1 (đối chứng - nhiệt độ phòng): Amylase + hồ tinh bột → thử với dung dịch iốt sau 3 phút: không xanh tím (tinh bột đã bị phân giải).\\n' +
-      '— Ống 2 (đun sôi): Đun sôi amylase trước rồi thêm hồ tinh bột → thử iốt: xanh tím (tinh bột không bị phân giải, enzyme bị biến tính).\\n' +
+      'CÁC YẾU TỐ ẢNH HƯỞNG ĐẾN HOẠT TÍNH CỦA ENZYME:\n' +
+      '1. Nhiệt độ:\n' +
+      '   — Nhiệt độ thấp: Enzyme hoạt động chậm.\n' +
+      '   — Nhiệt độ tối ưu (thường 37-40°C với enzyme người): Hoạt tính cao nhất.\n' +
+      '   — Nhiệt độ cao (>60°C): Enzyme bị biến tính (denature), mất hoạt tính vĩnh viễn vì cấu trúc không gian bị phá huỷ.\n' +
+      '2. pH:\n' +
+      '   — Mỗi enzyme có pH tối ưu khác nhau (amylase nước bọt: pH ~7, pepsin dạ dày: pH ~2).\n' +
+      '   — pH quá cao hoặc thấp làm enzyme biến tính.\n' +
+      '3. Nồng độ cơ chất: Khi tăng nồng độ cơ chất đến mức bão hoà enzyme, vận tốc phản ứng tăng rồi đạt mức tối đa (Vmax).\n\n' +
+      'THÍ NGHIỆM VỚI AMYLASE NƯỚC BỌT:\n' +
+      '— Ống 1 (đối chứng - nhiệt độ phòng): Amylase + hồ tinh bột → thử với dung dịch iốt sau 3 phút: không xanh tím (tinh bột đã bị phân giải).\n' +
+      '— Ống 2 (đun sôi): Đun sôi amylase trước rồi thêm hồ tinh bột → thử iốt: xanh tím (tinh bột không bị phân giải, enzyme bị biến tính).\n' +
       '— Ống 3 (môi trường acid): Thêm HCl loãng → thử iốt: xanh tím (pH thấp làm enzyme mất hoạt tính).',
     workedExample: {
       problem:
@@ -465,19 +465,19 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
       'Từ một hợp tử duy nhất, sau hơn 40 lần phân chia bạn có được 37 nghìn tỉ tế bào cấu tạo nên cơ thể. ' +
       'Làm thế nào mỗi tế bào con lại nhận được đầy đủ bộ nhiễm sắc thể?',
     theory:
-      'CHU KÌ TẾ BÀO (CELL CYCLE):\\n' +
-      '— Chu kì tế bào: Chuỗi các sự kiện diễn ra từ khi tế bào được hình thành đến khi nó phân chia tạo ra tế bào con.\\n' +
-      '— Gồm 2 giai đoạn chính:\\n' +
-      '  1. Kì trung gian (Interphase): Chiếm phần lớn thời gian. Gồm G₁ (sinh trưởng, tổng hợp protein), S (nhân đôi DNA), G₂ (chuẩn bị phân bào). DNA được nhân đôi trong pha S.\\n' +
-      '  2. Phân bào (M phase): Gồm nguyên phân (Mitosis) và phân chia tế bào chất (Cytokinesis).\\n\\n' +
-      'NGUYÊN PHÂN (MITOSIS):\\n' +
-      '— Từ 1 tế bào mẹ (2n) → 2 tế bào con (2n) có bộ NST giống hệt tế bào mẹ.\\n' +
-      '— Vai trò: Tăng số lượng tế bào (sinh trưởng, sinh sản), tái sinh mô.\\n' +
-      '— 4 kì phân bào:\\n' +
-      '  1. Kì đầu (Prophase): NST co xoắn cực đại, thoi phân bào hình thành, màng nhân tan.\\n' +
-      '  2. Kì giữa (Metaphase): NST xếp thành hàng ở mặt phẳng xích đạo tế bào.\\n' +
-      '  3. Kì sau (Anaphase): Chromatid tách nhau, di chuyển về 2 cực tế bào.\\n' +
-      '  4. Kì cuối (Telophase): Màng nhân hình thành, NST giãn xoắn, tế bào chất phân chia.\\n' +
+      'CHU KÌ TẾ BÀO (CELL CYCLE):\n' +
+      '— Chu kì tế bào: Chuỗi các sự kiện diễn ra từ khi tế bào được hình thành đến khi nó phân chia tạo ra tế bào con.\n' +
+      '— Gồm 2 giai đoạn chính:\n' +
+      '  1. Kì trung gian (Interphase): Chiếm phần lớn thời gian. Gồm G₁ (sinh trưởng, tổng hợp protein), S (nhân đôi DNA), G₂ (chuẩn bị phân bào). DNA được nhân đôi trong pha S.\n' +
+      '  2. Phân bào (M phase): Gồm nguyên phân (Mitosis) và phân chia tế bào chất (Cytokinesis).\n\n' +
+      'NGUYÊN PHÂN (MITOSIS):\n' +
+      '— Từ 1 tế bào mẹ (2n) → 2 tế bào con (2n) có bộ NST giống hệt tế bào mẹ.\n' +
+      '— Vai trò: Tăng số lượng tế bào (sinh trưởng, sinh sản), tái sinh mô.\n' +
+      '— 4 kì phân bào:\n' +
+      '  1. Kì đầu (Prophase): NST co xoắn cực đại, thoi phân bào hình thành, màng nhân tan.\n' +
+      '  2. Kì giữa (Metaphase): NST xếp thành hàng ở mặt phẳng xích đạo tế bào.\n' +
+      '  3. Kì sau (Anaphase): Chromatid tách nhau, di chuyển về 2 cực tế bào.\n' +
+      '  4. Kì cuối (Telophase): Màng nhân hình thành, NST giãn xoắn, tế bào chất phân chia.\n' +
       '— Kết quả: 1 tế bào mẹ (2n) → 2 tế bào con (2n).',
     workedExample: {
       problem:
@@ -839,20 +839,20 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
       'Giảm phân là "bí quyết" của sinh sản hữu tính—nó tạo ra trứng và tinh trùng với nửa bộ nhiễm sắc thể. ' +
       'Khi hai tế bào đơn bội kết hợp, bộ NST lại trở về đủ số.',
     theory:
-      'GIẢM PHÂN (MEIOSIS):\\n' +
-      '— Mục tiêu: Tạo ra tế bào sinh dục (giao tử) có bộ NST đơn bội (n = một nửa).\\n' +
-      '— Diễn ra trong các cơ quan sinh dục.\\n' +
-      '— Gồm 2 lần phân bào liên tiếp:\\n\\n' +
-      'GIẢM PHÂN I (Phân li đồng dạng):\\n' +
-      '— Kì đầu I: NST kép cùng dạng (tương đồng) bắt cặp, trao đổi đoạn (crossing-over). Thoi phân bào hình thành.\\n' +
-      '— Kì giữa I: Các cặp NST tương đồng xếp ngẫu nhiên ở mặt phẳng xích đạo.\\n' +
-      '— Kì sau I: Các NST kép tương đồng phân li về 2 cực.\\n' +
-      '— Kì cuối I: 2 tế bào con với n NST kép.\\n\\n' +
-      'GIẢM PHÂN II (Giống nguyên phân):\\n' +
-      '— Tách chromatid chị em, tạo 4 tế bào con (n NST đơn).\\n' +
-      '— Kết quả: Từ 1 tế bào (2n) → 4 tế bào con (n).\\n\\n' +
-      'Ý NGHĨA:\\n' +
-      '— Duy trì bộ NST ổn định qua các thế hệ sinh hữu tính.\\n' +
+      'GIẢM PHÂN (MEIOSIS):\n' +
+      '— Mục tiêu: Tạo ra tế bào sinh dục (giao tử) có bộ NST đơn bội (n = một nửa).\n' +
+      '— Diễn ra trong các cơ quan sinh dục.\n' +
+      '— Gồm 2 lần phân bào liên tiếp:\n\n' +
+      'GIẢM PHÂN I (Phân li đồng dạng):\n' +
+      '— Kì đầu I: NST kép cùng dạng (tương đồng) bắt cặp, trao đổi đoạn (crossing-over). Thoi phân bào hình thành.\n' +
+      '— Kì giữa I: Các cặp NST tương đồng xếp ngẫu nhiên ở mặt phẳng xích đạo.\n' +
+      '— Kì sau I: Các NST kép tương đồng phân li về 2 cực.\n' +
+      '— Kì cuối I: 2 tế bào con với n NST kép.\n\n' +
+      'GIẢM PHÂN II (Giống nguyên phân):\n' +
+      '— Tách chromatid chị em, tạo 4 tế bào con (n NST đơn).\n' +
+      '— Kết quả: Từ 1 tế bào (2n) → 4 tế bào con (n).\n\n' +
+      'Ý NGHĨA:\n' +
+      '— Duy trì bộ NST ổn định qua các thế hệ sinh hữu tính.\n' +
       '— Tăng biến dị di truyền (nhờ crossing-over và phân li độc lập các cặp NST tương đồng).',
     workedExample: {
       problem:
@@ -1245,11 +1245,11 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
     title: 'Thực hành: Làm và quan sát tiêu bản quá trình nguyên phân và giảm phân',
     hook: 'Đỉnh rễ hành tây đang phân chia từng giây. Chúng ta có thể nhuộm và soi để trực tiếp nhìn thấy các NST trong từng kì phân bào.',
     theory:
-      'QUY TRÌNH LÀM TIÊU BẢN QUAN SÁT NGUYÊN PHÂN (RỄ HÀNH TÂY):\\n' +
-      '1. Chuẩn bị: Cắt 1 cm đỉnh rễ hành tây đang mọc (đỉnh rễ có nhiều tế bào đang phân chia tích cực).\\n' +
-      '2. Xử lí hoá chất (thuốc nhuộm): Cố định mẫu bằng dung dịch Carnoy (ethanol:acid acetic 3:1), sau đó nhuộm bằng thuốc nhuộm Carmine hoặc Giemsa để NST bắt màu đỏ/tím.\\n' +
-      '3. Xử lí mô mềm: Ngâm đỉnh rễ trong HCl 1N ở 60°C trong 8-12 phút để làm mềm mô và tách rời tế bào.\\n' +
-      '4. Làm tiêu bản ép: Đặt đỉnh rễ lên lam kính, giọt glycerol + thuốc nhuộm, đậy lamela và ép nhẹ.\\n' +
+      'QUY TRÌNH LÀM TIÊU BẢN QUAN SÁT NGUYÊN PHÂN (RỄ HÀNH TÂY):\n' +
+      '1. Chuẩn bị: Cắt 1 cm đỉnh rễ hành tây đang mọc (đỉnh rễ có nhiều tế bào đang phân chia tích cực).\n' +
+      '2. Xử lí hoá chất (thuốc nhuộm): Cố định mẫu bằng dung dịch Carnoy (ethanol:acid acetic 3:1), sau đó nhuộm bằng thuốc nhuộm Carmine hoặc Giemsa để NST bắt màu đỏ/tím.\n' +
+      '3. Xử lí mô mềm: Ngâm đỉnh rễ trong HCl 1N ở 60°C trong 8-12 phút để làm mềm mô và tách rời tế bào.\n' +
+      '4. Làm tiêu bản ép: Đặt đỉnh rễ lên lam kính, giọt glycerol + thuốc nhuộm, đậy lamela và ép nhẹ.\n' +
       '5. Quan sát: Tìm kiếm các tế bào đang ở các kì khác nhau của nguyên phân dưới vật kính 40x hoặc 100x.',
     workedExample: {
       problem: 'Tại sao người ta chọn đỉnh rễ hành tây để quan sát nguyên phân?',
@@ -1311,17 +1311,17 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
     title: 'Công nghệ tế bào',
     hook: 'Nhờ công nghệ tế bào, các nhà khoa học tạo ra giống cây trồng mới chỉ trong vài tháng, sản xuất kháng thể chữa ung thư và thậm chí nuôi cấy da nhân tạo cho bệnh nhân bỏng.',
     theory:
-      'CÔNG NGHỆ TẾ BÀO (CELL TECHNOLOGY):\\n' +
-      '— Là ngành kĩ thuật ứng dụng kiến thức sinh học tế bào để sản xuất các sản phẩm phục vụ con người.\\n\\n' +
-      'MỘT SỐ LĨNH VỰC CHÍNH:\\n' +
-      '1. Nuôi cấy mô (Tissue culture / Micropropagation):\\n' +
-      '   — Nguyên tắc: Dựa trên tính toàn năng của tế bào (mỗi tế bào đều chứa đủ bộ gene và có khả năng phát triển thành cơ thể hoàn chỉnh).\\n' +
-      '   — Quy trình: Lấy mô thực vật → nuôi cấy trên môi trường dinh dưỡng vô trùng (hormone thực vật) → mô sẹo → cây hoàn chỉnh.\\n' +
-      '   — Ứng dụng: Nhân giống nhanh cây sạch bệnh, giữ giống quý.\\n' +
-      '2. Nhân bản vô tính (Cloning):\\n' +
-      '   — Cừu Dolly (1996): Tế bào tuyến vú của cừu trưởng thành được chuyển nhân vào trứng đã bỏ nhân, kích hoạt phát triển → cừu con có bộ gen giống hệt cừu mẹ.\\n' +
-      '3. Tế bào gốc (Stem cells):\\n' +
-      '   — Tế bào có khả năng tự phân chia và biệt hoá thành nhiều loại tế bào chuyên biệt.\\n' +
+      'CÔNG NGHỆ TẾ BÀO (CELL TECHNOLOGY):\n' +
+      '— Là ngành kĩ thuật ứng dụng kiến thức sinh học tế bào để sản xuất các sản phẩm phục vụ con người.\n\n' +
+      'MỘT SỐ LĨNH VỰC CHÍNH:\n' +
+      '1. Nuôi cấy mô (Tissue culture / Micropropagation):\n' +
+      '   — Nguyên tắc: Dựa trên tính toàn năng của tế bào (mỗi tế bào đều chứa đủ bộ gene và có khả năng phát triển thành cơ thể hoàn chỉnh).\n' +
+      '   — Quy trình: Lấy mô thực vật → nuôi cấy trên môi trường dinh dưỡng vô trùng (hormone thực vật) → mô sẹo → cây hoàn chỉnh.\n' +
+      '   — Ứng dụng: Nhân giống nhanh cây sạch bệnh, giữ giống quý.\n' +
+      '2. Nhân bản vô tính (Cloning):\n' +
+      '   — Cừu Dolly (1996): Tế bào tuyến vú của cừu trưởng thành được chuyển nhân vào trứng đã bỏ nhân, kích hoạt phát triển → cừu con có bộ gen giống hệt cừu mẹ.\n' +
+      '3. Tế bào gốc (Stem cells):\n' +
+      '   — Tế bào có khả năng tự phân chia và biệt hoá thành nhiều loại tế bào chuyên biệt.\n' +
       '   — Ứng dụng: Điều trị bệnh máu, trồng cơ quan nội tạng trong tương lai.',
     workedExample: {
       problem:

@@ -13,15 +13,15 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
       'Hàng tỉ vi khuẩn đang sống trong ruột bạn ngay lúc này, giúp bạn tiêu hoá thức ăn. ' +
       'Chúng thuộc dạng tế bào đơn giản nhất, nhưng cũng có thể làm khổ sở bạn với đủ loại bệnh tật.',
     theory:
-      'TẾ BÀO NHÂN SƠ (PROKARYOTIC CELL - NHÂN NGUYÊN SƠ):\\n' +
-      '— Định nghĩa: Là loại tế bào chưa có màng nhân (không có nhân thật sự), vật chất di truyền (DNA dạng vòng, không cuộn chặt với protein histone) nằm trực tiếp trong tế bào chất (vùng nhân - nucleoid).\\n' +
-      '— Đại diện: Vi khuẩn (Bacteria) và Cổ khuẩn (Archaea).\\n\\n' +
-      'CẤU TRÚC TẾ BÀO VI KHUẨN:\\n' +
-      '1. Thành tế bào (Cell wall): Cấu tạo từ peptidoglycan. Bảo vệ tế bào, duy trì hình dạng cố định.\\n' +
-      '2. Màng sinh chất (Plasma membrane): Lớp kép phospholipid nằm bên trong thành tế bào. Kiểm soát sự trao đổi chất với môi trường.\\n' +
-      '3. Tế bào chất (Cytoplasm): Dung dịch nước (cytosol) chứa các phân tử hữu cơ và ribosome. Không có màng bao. Nơi diễn ra các phản ứng trao đổi chất.\\n' +
-      '4. Vùng nhân (Nucleoid): Chứa một phân tử DNA vòng kép không gắn với protein histone.\\n' +
-      '5. Ribosome: Là bào quan duy nhất của tế bào nhân sơ, nhỏ hơn ribosome tế bào nhân thực (70S so với 80S). Nơi tổng hợp protein.\\n' +
+      'TẾ BÀO NHÂN SƠ (PROKARYOTIC CELL - NHÂN NGUYÊN SƠ):\n' +
+      '— Định nghĩa: Là loại tế bào chưa có màng nhân (không có nhân thật sự), vật chất di truyền (DNA dạng vòng, không cuộn chặt với protein histone) nằm trực tiếp trong tế bào chất (vùng nhân - nucleoid).\n' +
+      '— Đại diện: Vi khuẩn (Bacteria) và Cổ khuẩn (Archaea).\n\n' +
+      'CẤU TRÚC TẾ BÀO VI KHUẨN:\n' +
+      '1. Thành tế bào (Cell wall): Cấu tạo từ peptidoglycan. Bảo vệ tế bào, duy trì hình dạng cố định.\n' +
+      '2. Màng sinh chất (Plasma membrane): Lớp kép phospholipid nằm bên trong thành tế bào. Kiểm soát sự trao đổi chất với môi trường.\n' +
+      '3. Tế bào chất (Cytoplasm): Dung dịch nước (cytosol) chứa các phân tử hữu cơ và ribosome. Không có màng bao. Nơi diễn ra các phản ứng trao đổi chất.\n' +
+      '4. Vùng nhân (Nucleoid): Chứa một phân tử DNA vòng kép không gắn với protein histone.\n' +
+      '5. Ribosome: Là bào quan duy nhất của tế bào nhân sơ, nhỏ hơn ribosome tế bào nhân thực (70S so với 80S). Nơi tổng hợp protein.\n' +
       '— Các cấu trúc phụ của một số vi khuẩn: Lông roi (Flagellum - giúp di chuyển), Lông nhung (Pilus/Fimbria - giúp bám dính), Vỏ nhày (Capsule - bảo vệ chống thực bào), Plasmid (DNA vòng nhỏ ngoài NST).',
     workedExample: {
       problem:
@@ -88,21 +88,21 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
     title: 'Tế bào nhân thực',
     hook: 'Mỗi tế bào trong cơ thể bạn giống như một siêu đô thị vi mô. Bên trong nó, hàng nghìn bào quan hoạt động 24/7 như các nhà máy, trung tâm điều khiển và nhà kho.',
     theory:
-      'TẾ BÀO NHÂN THỰC (EUKARYOTIC CELL):\\n' +
-      '— Có nhân thật sự được bao bọc bởi màng nhân.\\n' +
-      '— Đại diện: Tế bào động vật, thực vật, nấm, động vật nguyên sinh.\\n\\n' +
-      'CÁC BÀO QUAN CHÍNH VÀ CHỨC NĂNG:\\n' +
-      '1. Nhân (Nucleus): Chứa DNA và nucleolus. Trung tâm điều khiển mọi hoạt động tế bào, bảo quản thông tin di truyền.\\n' +
-      '2. Ty thể (Mitochondria): Có màng kép (outer + inner membrane), có DNA và ribosome riêng. Sản xuất ATP qua hô hấp tế bào (trạm năng lượng tế bào).\\n' +
-      '3. Lưới nội chất (Endoplasmic Reticulum - ER):\\n' +
-      '   — ER thô (có ribosome bám): Tổng hợp và vận chuyển protein tiết.\\n' +
-      '   — ER trơn (không có ribosome): Tổng hợp lipid, chuyển hoá thuốc/độc chất.\\n' +
-      '4. Bộ máy Golgi (Golgi apparatus): Phân loại, đóng gói và vận chuyển các phân tử (xuất bào).\\n' +
-      '5. Ribosome: Gắn ER thô hoặc tự do trong tế bào chất. Tổng hợp protein.\\n' +
-      '6. Lysosome (ở tế bào động vật): Chứa enzyme tiêu hoá nội bào. Tiêu hoá các phân tử lớn, bào quan hỏng.\\n' +
-      '7. Không bào (Vacuole): Lớn ở tế bào thực vật (trung tâm không bào - chứa dịch tế bào), nhỏ ở tế bào động vật.\\n' +
-      '8. Lục lạp (Chloroplast - chỉ có ở tế bào thực vật và tảo): Có màng kép và DNA riêng. Quang hợp chuyển hoá năng lượng ánh sáng thành năng lượng hoá học.\\n' +
-      '9. Thành tế bào (Cell wall - ở tế bào thực vật, nấm): Cấu tạo từ cellulose (thực vật) hoặc chitin (nấm). Bảo vệ và duy trì hình dạng.\\n' +
+      'TẾ BÀO NHÂN THỰC (EUKARYOTIC CELL):\n' +
+      '— Có nhân thật sự được bao bọc bởi màng nhân.\n' +
+      '— Đại diện: Tế bào động vật, thực vật, nấm, động vật nguyên sinh.\n\n' +
+      'CÁC BÀO QUAN CHÍNH VÀ CHỨC NĂNG:\n' +
+      '1. Nhân (Nucleus): Chứa DNA và nucleolus. Trung tâm điều khiển mọi hoạt động tế bào, bảo quản thông tin di truyền.\n' +
+      '2. Ty thể (Mitochondria): Có màng kép (outer + inner membrane), có DNA và ribosome riêng. Sản xuất ATP qua hô hấp tế bào (trạm năng lượng tế bào).\n' +
+      '3. Lưới nội chất (Endoplasmic Reticulum - ER):\n' +
+      '   — ER thô (có ribosome bám): Tổng hợp và vận chuyển protein tiết.\n' +
+      '   — ER trơn (không có ribosome): Tổng hợp lipid, chuyển hoá thuốc/độc chất.\n' +
+      '4. Bộ máy Golgi (Golgi apparatus): Phân loại, đóng gói và vận chuyển các phân tử (xuất bào).\n' +
+      '5. Ribosome: Gắn ER thô hoặc tự do trong tế bào chất. Tổng hợp protein.\n' +
+      '6. Lysosome (ở tế bào động vật): Chứa enzyme tiêu hoá nội bào. Tiêu hoá các phân tử lớn, bào quan hỏng.\n' +
+      '7. Không bào (Vacuole): Lớn ở tế bào thực vật (trung tâm không bào - chứa dịch tế bào), nhỏ ở tế bào động vật.\n' +
+      '8. Lục lạp (Chloroplast - chỉ có ở tế bào thực vật và tảo): Có màng kép và DNA riêng. Quang hợp chuyển hoá năng lượng ánh sáng thành năng lượng hoá học.\n' +
+      '9. Thành tế bào (Cell wall - ở tế bào thực vật, nấm): Cấu tạo từ cellulose (thực vật) hoặc chitin (nấm). Bảo vệ và duy trì hình dạng.\n' +
       '10. Màng sinh chất (Plasma membrane): Bao xung quanh mọi tế bào, kiểm soát sự trao đổi chất.',
     workedExample: {
       problem: 'Tại sao một số nhà khoa học lại gọi ty thể là "trạm điện" của tế bào?',
@@ -169,14 +169,14 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
     title: 'Thực hành: Quan sát tế bào',
     hook: 'Sử dụng kính hiển vi, chúng ta sẽ thực sự "nhìn thấy" thế giới tế bào mà mắt thường không bao giờ thấy được: hình dạng tế bào biểu bì hành tây và các bào quan của nó.',
     theory:
-      'KÍNH HIỂN VI VÀ KĨ THUẬT LÀM TIÊU BẢN TẾ BÀO:\\n' +
-      '1. Kính hiển vi quang học (Light microscope): Dùng ánh sáng thông thường và thấu kính để phóng to mẫu. Độ phóng đại tối đa khoảng 1000-2000 lần. Quan sát được hình dạng và một số bào quan lớn.\\n' +
-      '2. Kính hiển vi điện tử (Electron microscope): Dùng chùm electron, độ phóng đại lên đến hàng chục nghìn đến vài triệu lần. Quan sát được cấu trúc chi tiết các bào quan và vật thể nano.\\n\\n' +
-      'QUY TRÌNH LÀM TIÊU BẢN HIỂN VI:\\n' +
-      '1. Chuẩn bị mẫu: Bóc lớp biểu bì mỏng của hành tây.\\n' +
-      '2. Đặt mẫu lên lam kính, nhỏ 1-2 giọt dung dịch nước cất lên mẫu.\\n' +
-      '3. Đậy lamela (lá kính) nhẹ nhàng, tránh tạo bọt khí.\\n' +
-      '4. Nhỏ thuốc nhuộm màu (dung dịch xanh methylene hoặc lugol) vào rìa lamela.\\n' +
+      'KÍNH HIỂN VI VÀ KĨ THUẬT LÀM TIÊU BẢN TẾ BÀO:\n' +
+      '1. Kính hiển vi quang học (Light microscope): Dùng ánh sáng thông thường và thấu kính để phóng to mẫu. Độ phóng đại tối đa khoảng 1000-2000 lần. Quan sát được hình dạng và một số bào quan lớn.\n' +
+      '2. Kính hiển vi điện tử (Electron microscope): Dùng chùm electron, độ phóng đại lên đến hàng chục nghìn đến vài triệu lần. Quan sát được cấu trúc chi tiết các bào quan và vật thể nano.\n\n' +
+      'QUY TRÌNH LÀM TIÊU BẢN HIỂN VI:\n' +
+      '1. Chuẩn bị mẫu: Bóc lớp biểu bì mỏng của hành tây.\n' +
+      '2. Đặt mẫu lên lam kính, nhỏ 1-2 giọt dung dịch nước cất lên mẫu.\n' +
+      '3. Đậy lamela (lá kính) nhẹ nhàng, tránh tạo bọt khí.\n' +
+      '4. Nhỏ thuốc nhuộm màu (dung dịch xanh methylene hoặc lugol) vào rìa lamela.\n' +
       '5. Đặt lên bàn kính và quan sát từ vật kính bé (10x) đến vật kính lớn hơn (40x).',
     workedExample: {
       problem: 'Mô tả quy trình quan sát tế bào biểu bì hành tây qua kính hiển vi quang học.',
@@ -249,19 +249,19 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
       'Màng tế bào không phải bức tường cứng mà là cửa kiểm soát năng động, chọn lọc cái gì vào và ra. ' +
       'Mỗi giây, hàng tỉ phân tử và ion đang di chuyển qua lớp màng mỏng chỉ bằng vài nanomét này.',
     theory:
-      'MÀNG SINH CHẤT (PLASMA MEMBRANE):\\n' +
-      '— Cấu trúc khảm lỏng (Fluid mosaic model): Lớp kép phospholipid (fluidic bilayer) với các protein màng rải rác và di động tự do. Có thể có cholesterol (ở tế bào động vật) để ổn định độ lỏng của màng.\\n\\n' +
-      'CÁC CON ĐƯỜNG TRAO ĐỔI CHẤT QUA MÀNG:\\n' +
-      '1. Khuếch tán thụ động (Passive transport - không cần năng lượng ATP):\\n' +
-      '   — Khuếch tán đơn giản (Simple diffusion): Các phân tử nhỏ không phân cực, không tích điện (O₂, CO₂, N₂, các phân tử kị nước) thấm trực tiếp qua lớp kép phospholipid từ nơi nồng độ cao sang thấp.\\n' +
-      '   — Khuếch tán có hỗ trợ (Facilitated diffusion): Các phân tử ưa nước hoặc ion đi qua màng nhờ protein kênh (channel protein) hoặc protein vận chuyển (carrier protein) từ cao xuống thấp.\\n' +
-      '   — Thẩm thấu (Osmosis): Sự khuếch tán của nước qua màng bán thấm từ dung dịch nhược trương sang ưu trương.\\n' +
-      '2. Vận chuyển chủ động (Active transport - cần năng lượng ATP):\\n' +
-      '   — Di chuyển chất từ nơi nồng độ thấp đến cao (ngược gradient) cần protein vận chuyển đặc biệt và ATP.\\n' +
-      '   — Ví dụ: Bơm Na⁺-K⁺ trong tế bào thần kinh.\\n' +
-      '3. Nhập bào (Endocytosis) và Xuất bào (Exocytosis): Vận chuyển các phân tử lớn bằng túi thực bào hoặc xuất bào.\\n\\n' +
-      'HIỆN TƯỢNG CO NGUYÊN SINH VÀ PHẢN CO NGUYÊN SINH:\\n' +
-      '— Co nguyên sinh (Plasmolysis): Tế bào thực vật đặt trong dung dịch ưu trương, nước rời khỏi không bào, màng sinh chất tách khỏi thành tế bào.\\n' +
+      'MÀNG SINH CHẤT (PLASMA MEMBRANE):\n' +
+      '— Cấu trúc khảm lỏng (Fluid mosaic model): Lớp kép phospholipid (fluidic bilayer) với các protein màng rải rác và di động tự do. Có thể có cholesterol (ở tế bào động vật) để ổn định độ lỏng của màng.\n\n' +
+      'CÁC CON ĐƯỜNG TRAO ĐỔI CHẤT QUA MÀNG:\n' +
+      '1. Khuếch tán thụ động (Passive transport - không cần năng lượng ATP):\n' +
+      '   — Khuếch tán đơn giản (Simple diffusion): Các phân tử nhỏ không phân cực, không tích điện (O₂, CO₂, N₂, các phân tử kị nước) thấm trực tiếp qua lớp kép phospholipid từ nơi nồng độ cao sang thấp.\n' +
+      '   — Khuếch tán có hỗ trợ (Facilitated diffusion): Các phân tử ưa nước hoặc ion đi qua màng nhờ protein kênh (channel protein) hoặc protein vận chuyển (carrier protein) từ cao xuống thấp.\n' +
+      '   — Thẩm thấu (Osmosis): Sự khuếch tán của nước qua màng bán thấm từ dung dịch nhược trương sang ưu trương.\n' +
+      '2. Vận chuyển chủ động (Active transport - cần năng lượng ATP):\n' +
+      '   — Di chuyển chất từ nơi nồng độ thấp đến cao (ngược gradient) cần protein vận chuyển đặc biệt và ATP.\n' +
+      '   — Ví dụ: Bơm Na⁺-K⁺ trong tế bào thần kinh.\n' +
+      '3. Nhập bào (Endocytosis) và Xuất bào (Exocytosis): Vận chuyển các phân tử lớn bằng túi thực bào hoặc xuất bào.\n\n' +
+      'HIỆN TƯỢNG CO NGUYÊN SINH VÀ PHẢN CO NGUYÊN SINH:\n' +
+      '— Co nguyên sinh (Plasmolysis): Tế bào thực vật đặt trong dung dịch ưu trương, nước rời khỏi không bào, màng sinh chất tách khỏi thành tế bào.\n' +
       '— Phản co nguyên sinh: Tế bào đã co nguyên sinh được đặt vào nước hoặc dung dịch nhược trương, nước thấm vào lại.',
     workedExample: {
       problem:
@@ -562,14 +562,14 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
     title: 'Thực hành: Thí nghiệm co và phản co nguyên sinh',
     hook: 'Trong bài thực hành này, chúng ta sẽ thực sự quan sát bằng mắt qua kính hiển vi tế bào biểu bì hành tây co lại và phục hồi khi thay đổi môi trường lỏng.',
     theory:
-      'THIẾT KẾ THÍ NGHIỆM CO VÀ PHẢN CO NGUYÊN SINH:\\n' +
-      '1. Quan sát tế bào bình thường: Bóc biểu bì hành tây màu tím (có màu anthocyanin dễ quan sát), làm tiêu bản với nước cất và quan sát hình dạng tế bào.\\n' +
-      '2. Gây co nguyên sinh:\\n' +
-      '   — Nhỏ dung dịch muối ưu trương (NaCl 10%) vào rìa lamela.\\n' +
-      '   — Dùng giấy thấm kéo dung dịch vào.\\n' +
-      '   — Quan sát tế bào sau khoảng 5-10 phút: Không bào co lại, nguyên sinh chất (bao gồm màng sinh chất và tế bào chất) co rút và tách khỏi thành tế bào (plasmolysis).\\n' +
-      '3. Gây phản co nguyên sinh:\\n' +
-      '   — Sau khi quan sát co nguyên sinh, nhỏ nước cất vào rìa lamela, hút dung dịch ưu trương ra.\\n' +
+      'THIẾT KẾ THÍ NGHIỆM CO VÀ PHẢN CO NGUYÊN SINH:\n' +
+      '1. Quan sát tế bào bình thường: Bóc biểu bì hành tây màu tím (có màu anthocyanin dễ quan sát), làm tiêu bản với nước cất và quan sát hình dạng tế bào.\n' +
+      '2. Gây co nguyên sinh:\n' +
+      '   — Nhỏ dung dịch muối ưu trương (NaCl 10%) vào rìa lamela.\n' +
+      '   — Dùng giấy thấm kéo dung dịch vào.\n' +
+      '   — Quan sát tế bào sau khoảng 5-10 phút: Không bào co lại, nguyên sinh chất (bao gồm màng sinh chất và tế bào chất) co rút và tách khỏi thành tế bào (plasmolysis).\n' +
+      '3. Gây phản co nguyên sinh:\n' +
+      '   — Sau khi quan sát co nguyên sinh, nhỏ nước cất vào rìa lamela, hút dung dịch ưu trương ra.\n' +
       '   — Quan sát sau 5-10 phút: Nguyên sinh chất phình trở lại và tiếp xúc với thành tế bào (phản co nguyên sinh).',
     workedExample: {
       problem:
@@ -642,13 +642,13 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
       'Khi bạn thấy mối nguy hiểm, trong mili giây não bộ đã truyền tín hiệu đến khắp cơ thể và tuyến thượng thận tiết ra adrenalin để chuẩn bị cho "chiến hay chạy". ' +
       'Tế bào giao tiếp với nhau như thế nào?',
     theory:
-      'TRUYỀN TIN TẾ BÀO (CELL SIGNALING):\\n' +
-      'Gồm 3 giai đoạn chính:\\n' +
-      '1. Tiếp nhận (Reception): Phân tử tín hiệu (ligand như hormone, chất dẫn truyền thần kinh) gắn vào protein thụ thể (receptor) đặc hiệu trên màng tế bào đích.\\n' +
-      '2. Chuyển đổi tín hiệu (Signal transduction): Liên kết của ligand thay đổi hình dạng thụ thể, khởi động một chuỗi phản ứng phân tử (signaling cascade) bên trong tế bào, khuếch đại tín hiệu.\\n' +
-      '3. Đáp ứng (Response): Cuối cùng dẫn đến sự thay đổi hoạt động của tế bào (thay đổi biểu hiện gene, co rút cơ, tiết hormone, phân bào...).\\n\\n' +
-      'CÁC LOẠI TÍN HIỆU PHÂN TỬ:\\n' +
-      '— Phân tử ưa nước (như phần lớn hormone peptide, adrenaline): Không qua được màng lipid, gắn với thụ thể bề mặt, kích hoạt chuỗi phân tử nội bào.\\n' +
+      'TRUYỀN TIN TẾ BÀO (CELL SIGNALING):\n' +
+      'Gồm 3 giai đoạn chính:\n' +
+      '1. Tiếp nhận (Reception): Phân tử tín hiệu (ligand như hormone, chất dẫn truyền thần kinh) gắn vào protein thụ thể (receptor) đặc hiệu trên màng tế bào đích.\n' +
+      '2. Chuyển đổi tín hiệu (Signal transduction): Liên kết của ligand thay đổi hình dạng thụ thể, khởi động một chuỗi phản ứng phân tử (signaling cascade) bên trong tế bào, khuếch đại tín hiệu.\n' +
+      '3. Đáp ứng (Response): Cuối cùng dẫn đến sự thay đổi hoạt động của tế bào (thay đổi biểu hiện gene, co rút cơ, tiết hormone, phân bào...).\n\n' +
+      'CÁC LOẠI TÍN HIỆU PHÂN TỬ:\n' +
+      '— Phân tử ưa nước (như phần lớn hormone peptide, adrenaline): Không qua được màng lipid, gắn với thụ thể bề mặt, kích hoạt chuỗi phân tử nội bào.\n' +
       '— Phân tử kị nước (như hormone steroid, NO, hormone tuyến giáp): Khuếch tán qua màng phospholipid, gắn với thụ thể trong tế bào chất hoặc nhân, trực tiếp thay đổi biểu hiện gene.',
     workedExample: {
       problem: 'Mô tả quá trình truyền tín hiệu khi adrenaline gắn vào thụ thể tế bào cơ tim.',
