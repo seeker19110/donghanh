@@ -8,6 +8,7 @@ import { SINH11_C1_LESSONS } from './lessons/sinh11c1.js'
 import { SINH11_C2_LESSONS } from './lessons/sinh11c2.js'
 import { SINH12_C1_LESSONS } from './lessons/sinh12c1.js'
 import { SINH12_C2_LESSONS } from './lessons/sinh12c2.js'
+import { SINH12_C3_LESSONS } from './lessons/sinh12c3.js'
 
 export const BIOLOGY_LESSONS: BiologyLesson[] = [
   ...SINH10_C1_LESSONS,
@@ -18,6 +19,7 @@ export const BIOLOGY_LESSONS: BiologyLesson[] = [
   ...SINH11_C2_LESSONS,
   ...SINH12_C1_LESSONS,
   ...SINH12_C2_LESSONS,
+  ...SINH12_C3_LESSONS,
 ]
 
 const lessonMap = new Map<string, BiologyLesson>(BIOLOGY_LESSONS.map((l) => [l.id, l]))
