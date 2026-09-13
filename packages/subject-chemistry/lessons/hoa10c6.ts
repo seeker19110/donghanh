@@ -59,6 +59,24 @@ export const HOA10_C6_LESSONS: ChemLesson[] = [
         answer: { kind: 'numeric', value: 9 },
         explain: 'Số lần tăng 10°C = 20/10 = 2. Tốc độ tăng γ^n = 3² = 9 lần.',
       },
+      {
+        // Câu BẪY: nhầm "xúc tác làm phản ứng xảy ra nhiều hơn / tạo nhiều sản phẩm hơn".
+        prompt:
+          'Thêm chất xúc tác vào một phản ứng thuận nghịch đang xảy ra thì LƯỢNG sản phẩm thu ' +
+          'được lúc hệ đạt cân bằng thay đổi thế nào?',
+        choices: [
+          { id: 'nhieu', label: 'Nhiều hơn, vì xúc tác làm phản ứng mạnh hơn' },
+          { id: 'khong', label: 'Không đổi — chỉ đạt tới lượng đó NHANH hơn' },
+          { id: 'it', label: 'Ít hơn, vì xúc tác giữ lại một phần chất phản ứng' },
+        ],
+        answer: { kind: 'choice', correctIds: ['khong'] },
+        explain:
+          'Rất nhiều bạn chọn "nhiều hơn" vì gộp chung hai khái niệm khác hẳn nhau: TỐC ĐỘ (đi ' +
+          'nhanh cỡ nào) và CÂN BẰNG (đi tới đâu thì dừng). Xúc tác hạ thấp năng lượng hoạt hoá ' +
+          'của cả chiều thuận lẫn chiều nghịch nên làm cả hai nhanh lên như nhau — hệ tới trạng ' +
+          'thái cân bằng sớm hơn, nhưng vị trí cân bằng (và do đó lượng sản phẩm cuối cùng) ' +
+          'không hề đổi. Muốn đổi lượng sản phẩm thì phải đổi nhiệt độ, nồng độ hoặc áp suất.',
+      },
     ],
     srsCards: [
       {
@@ -74,6 +92,180 @@ export const HOA10_C6_LESSONS: ChemLesson[] = [
         dap: 'Nồng độ, nhiệt độ, diện tích bề mặt, chất xúc tác, áp suất (với khí).',
       },
     ],
+    animation: {
+      title: 'Va chạm hiệu quả và va chạm không hiệu quả',
+      description:
+        'Hàng trên: hai phân tử lao vào nhau với năng lượng đủ lớn và đúng hướng — liên kết cũ ' +
+        'đứt, liên kết mới hình thành, sinh ra sản phẩm. Đó là VA CHẠM HIỆU QUẢ. Hàng dưới: hai ' +
+        'phân tử cũng gặp nhau nhưng đi chậm (năng lượng nhỏ hơn năng lượng hoạt hoá) nên chỉ ' +
+        'nảy ra, không sinh sản phẩm — va chạm không hiệu quả. Nhờ hình này mà hiểu được vì sao ' +
+        'các yếu tố lại làm phản ứng nhanh lên: tăng nồng độ hay áp suất làm SỐ va chạm nhiều ' +
+        'hơn, còn tăng nhiệt độ làm TỈ LỆ va chạm đủ mạnh cao hơn — đó là lý do nhiệt độ có ảnh ' +
+        'hưởng mạnh hơn hẳn.',
+      viewBoxWidth: 420,
+      viewBoxHeight: 220,
+      durationMs: 6000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'label',
+          id: 'tieu-1',
+          x: 10,
+          y: 20,
+          text: 'Va chạm HIỆU QUẢ (đủ năng lượng, đúng hướng)',
+          size: 11,
+          anchor: 'start',
+          fill: 'neutral',
+        },
+        {
+          kind: 'circle',
+          id: 'a1',
+          cx: 60,
+          cy: 60,
+          r: 16,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 0, dx: 0 },
+            { atMs: 1500, dx: 120 },
+            { atMs: 1800, dx: 120, opacity: 0 },
+            { atMs: 6000, dx: 120, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'b1',
+          cx: 260,
+          cy: 60,
+          r: 16,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dx: 0 },
+            { atMs: 1500, dx: -60 },
+            { atMs: 1800, dx: -60, opacity: 0 },
+            { atMs: 6000, dx: -60, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'sp1',
+          cx: 185,
+          cy: 60,
+          r: 14,
+          fill: 'correct',
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 1800, opacity: 1, dx: 0 },
+            { atMs: 2600, dx: 60, opacity: 1 },
+            { atMs: 6000, dx: 60, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'sp2',
+          cx: 185,
+          cy: 60,
+          r: 14,
+          fill: 'correct',
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 1800, opacity: 1, dx: 0 },
+            { atMs: 2600, dx: -60, opacity: 1 },
+            { atMs: 6000, dx: -60, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'kq1',
+          x: 300,
+          y: 64,
+          text: '⇒ sinh sản phẩm',
+          size: 11,
+          anchor: 'start',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 2000, opacity: 1 },
+            { atMs: 6000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'ngan',
+          x1: 10,
+          y1: 110,
+          x2: 410,
+          y2: 110,
+          stroke: 'muted',
+          strokeWidth: 1,
+          dash: '4 4',
+        },
+        {
+          kind: 'label',
+          id: 'tieu-2',
+          x: 10,
+          y: 134,
+          text: 'Va chạm KHÔNG hiệu quả (năng lượng nhỏ hơn năng lượng hoạt hoá)',
+          size: 11,
+          anchor: 'start',
+          fill: 'neutral',
+        },
+        {
+          kind: 'circle',
+          id: 'a2',
+          cx: 60,
+          cy: 175,
+          r: 16,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 3000, dx: 0 },
+            { atMs: 4200, dx: 110 },
+            { atMs: 5400, dx: 20 },
+            { atMs: 6000, dx: 0 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'b2',
+          cx: 260,
+          cy: 175,
+          r: 16,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 3000, dx: 0 },
+            { atMs: 4200, dx: -50 },
+            { atMs: 5400, dx: 40 },
+            { atMs: 6000, dx: 0 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'kq2',
+          x: 300,
+          y: 179,
+          text: '⇒ nảy ra, không phản ứng',
+          size: 11,
+          anchor: 'start',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            { atMs: 3000, opacity: 0 },
+            { atMs: 4400, opacity: 1 },
+            { atMs: 6000, opacity: 1 },
+          ],
+        },
+      ],
+      captions: [
+        { atMs: 0, text: 'Chỉ va chạm đủ mạnh và đúng hướng mới bẻ được liên kết cũ.' },
+        { atMs: 3000, text: 'Va chạm yếu chỉ làm hai phân tử nảy ra — phản ứng không xảy ra.' },
+        {
+          atMs: 5000,
+          text: 'Tăng nồng độ ⇒ nhiều va chạm hơn. Tăng nhiệt độ ⇒ tỉ lệ va chạm đủ mạnh cao hơn.',
+        },
+      ],
+    },
     track: 'core',
     reviewStatus: 'draft',
   },

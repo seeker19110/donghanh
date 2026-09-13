@@ -120,7 +120,7 @@ export const HOA11_C4_LESSONS: ChemLesson[] = [
     },
     checkQuestions: [
       {
-        prompt: ' alkene và alkyne làm mất màu dung dịch chất nào sau đây ngay ở điều kiện thường?',
+        prompt: 'Alkene và alkyne làm mất màu dung dịch chất nào sau đây ngay ở điều kiện thường?',
         choices: [
           { id: 'nacl', label: 'Dung dịch NaCl' },
           { id: 'brom', label: 'Dung dịch nước Bromine (Br₂)' },
@@ -144,6 +144,24 @@ export const HOA11_C4_LESSONS: ChemLesson[] = [
         explain:
           'Acetylene là alk-1-yne, nguyên tử H linh động đính ở carbon mang liên kết ba đầu mạch bị thế bởi ion bạc tạo kết tủa vàng nhạt AgC≡CAg.',
       },
+      {
+        // Câu BẪY: áp dụng NGƯỢC quy tắc Markovnikov (nhớ máy móc "nhóm lớn vào chỗ nào").
+        prompt:
+          'Cho but-1-ene (CH₂=CH–CH₂–CH₃) hợp nước (H₂O, xúc tác acid). Sản phẩm chính thu được ' +
+          'là chất nào?',
+        choices: [
+          { id: 'butan1ol', label: 'Butan-1-ol: CH₂(OH)–CH₂–CH₂–CH₃' },
+          { id: 'butan2ol', label: 'Butan-2-ol: CH₃–CH(OH)–CH₂–CH₃' },
+          { id: 'ete', label: 'Diethyl ether: C₂H₅–O–C₂H₅' },
+        ],
+        answer: { kind: 'choice', correctIds: ['butan2ol'] },
+        explain:
+          'Bẫy là áp dụng ngược quy tắc Markovnikov. Hai carbon của liên kết đôi: C1 (CH₂, có 2 ' +
+          'H) và C2 (CH, có 1 H). Phần mang điện dương H⁺ cộng vào C NHIỀU H hơn (C1), phần OH⁻ ' +
+          'cộng vào C ÍT H hơn (C2) ⇒ nhóm −OH nằm ở C2, sản phẩm chính là butan-2-ol. Mẹo nhớ ' +
+          'theo bản chất chứ đừng học vẹt: H⁺ vào trước tạo carbocation, mà carbocation ở C2 ' +
+          '(bậc II) bền hơn ở C1 (bậc I) nên hướng đó chiếm ưu thế.',
+      },
     ],
     srsCards: [
       {
@@ -159,6 +177,223 @@ export const HOA11_C4_LESSONS: ChemLesson[] = [
         dap: 'Tác dụng với AgNO₃/NH₃ tạo kết tủa màu vàng nhạt.',
       },
     ],
+    animation: {
+      title: 'Phản ứng cộng HCl vào propene theo quy tắc Markovnikov',
+      description:
+        'Bên trái là phân tử propene CH₃–CH=CH₂: hai vạch song song ở giữa là liên kết đôi, ' +
+        'trong đó vạch phía trên là liên kết pi kém bền. Phân tử HCl tiến lại gần. Liên kết pi ' +
+        'đứt ra (vạch trên biến mất), giải phóng hai vị trí liên kết mới: nguyên tử H gắn vào ' +
+        'carbon ĐẦU MẠCH (carbon đang có nhiều hydrogen hơn), còn nguyên tử Cl gắn vào carbon ' +
+        'giữa (carbon ít hydrogen hơn). Sản phẩm chính thu được là CH₃–CHCl–CH₃ ' +
+        '(2-chloropropane). Lý do sâu xa của quy tắc Markovnikov: H⁺ cộng vào trước tạo ra ' +
+        'carbocation, và carbocation bậc II ở carbon giữa bền hơn carbocation bậc I ở đầu mạch, ' +
+        'nên hướng này chiếm ưu thế.',
+      viewBoxWidth: 440,
+      viewBoxHeight: 200,
+      durationMs: 6000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'label',
+          id: 'c1',
+          x: 90,
+          y: 105,
+          text: 'CH₃',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'c2',
+          x: 175,
+          y: 105,
+          text: 'CH',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'c3',
+          x: 260,
+          y: 105,
+          text: 'CH₂',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'line',
+          id: 'noi-12',
+          x1: 112,
+          y1: 100,
+          x2: 155,
+          y2: 100,
+          stroke: 'neutral',
+          strokeWidth: 2.5,
+        },
+        {
+          kind: 'line',
+          id: 'sigma',
+          x1: 196,
+          y1: 100,
+          x2: 238,
+          y2: 100,
+          stroke: 'neutral',
+          strokeWidth: 2.5,
+        },
+        {
+          kind: 'line',
+          id: 'pi',
+          x1: 196,
+          y1: 92,
+          x2: 238,
+          y2: 92,
+          stroke: 'accent',
+          strokeWidth: 2.5,
+          keyframes: [
+            { atMs: 0, opacity: 1 },
+            { atMs: 2200, opacity: 1 },
+            { atMs: 2600, opacity: 0 },
+            { atMs: 6000, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'pi-t',
+          x: 217,
+          y: 80,
+          text: 'liên kết pi kém bền',
+          size: 10,
+          anchor: 'middle',
+          fill: 'muted',
+          keyframes: [
+            { atMs: 0, opacity: 1 },
+            { atMs: 2400, opacity: 0 },
+            { atMs: 6000, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'h-cong',
+          cx: 390,
+          cy: 40,
+          r: 11,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 0, dx: 0, dy: 0 },
+            { atMs: 2200, dx: -110, dy: 25 },
+            { atMs: 3200, dx: -125, dy: 100 },
+            { atMs: 6000, dx: -125, dy: 100 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'h-t',
+          x: 390,
+          y: 45,
+          text: 'H',
+          size: 13,
+          anchor: 'middle',
+          fill: 'surface',
+          keyframes: [
+            { atMs: 0, dx: 0, dy: 0 },
+            { atMs: 2200, dx: -110, dy: 25 },
+            { atMs: 3200, dx: -125, dy: 100 },
+            { atMs: 6000, dx: -125, dy: 100 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'cl-cong',
+          cx: 390,
+          cy: 160,
+          r: 13,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dx: 0, dy: 0 },
+            { atMs: 2200, dx: -150, dy: -30 },
+            { atMs: 3200, dx: -212, dy: -15 },
+            { atMs: 6000, dx: -212, dy: -15 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'cl-t',
+          x: 390,
+          y: 165,
+          text: 'Cl',
+          size: 13,
+          anchor: 'middle',
+          fill: 'neutral',
+          keyframes: [
+            { atMs: 0, dx: 0, dy: 0 },
+            { atMs: 2200, dx: -150, dy: -30 },
+            { atMs: 3200, dx: -212, dy: -15 },
+            { atMs: 6000, dx: -212, dy: -15 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'hcl-t',
+          x: 390,
+          y: 105,
+          text: 'HCl',
+          size: 13,
+          anchor: 'middle',
+          fill: 'muted',
+          keyframes: [
+            { atMs: 0, opacity: 1 },
+            { atMs: 2000, opacity: 0 },
+            { atMs: 6000, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'quy-tac',
+          x: 220,
+          y: 30,
+          text: 'H vào C nhiều H hơn · Cl vào C ít H hơn',
+          size: 11,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 2600, opacity: 1 },
+            { atMs: 6000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'sp',
+          x: 220,
+          y: 185,
+          text: 'sản phẩm chính: CH₃–CHCl–CH₃ (2-chloropropane)',
+          size: 12,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 3400, opacity: 1 },
+            { atMs: 6000, opacity: 1 },
+          ],
+        },
+      ],
+      captions: [
+        {
+          atMs: 0,
+          text: 'Liên kết đôi C=C gồm một liên kết sigma bền và một liên kết pi kém bền.',
+        },
+        { atMs: 2200, text: 'Liên kết pi đứt, mở ra hai vị trí để HCl cộng vào.' },
+        {
+          atMs: 3400,
+          text: 'H vào carbon nhiều H hơn, Cl vào carbon ít H hơn — quy tắc Markovnikov.',
+        },
+      ],
+    },
     track: 'core',
     reviewStatus: 'draft',
   },

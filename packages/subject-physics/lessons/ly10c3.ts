@@ -4,6 +4,151 @@ import type { PhysicsLesson } from '../lessonTypes.js'
 export const LY10_C3_LESSONS: PhysicsLesson[] = [
   {
     id: 'ly10-c3-b13',
+    // Hoạt ảnh dựng hình bình hành theo ĐÚNG thứ tự thao tác học sinh phải làm khi giải bài.
+    animation: {
+      title: 'Dựng hình bình hành để tìm hợp lực',
+      description:
+        'Cảnh dựng hình theo bốn bước, đúng thứ tự khi giải bài. Bước 1: từ điểm đặt O vẽ lực F₁ = 6 N nằm ngang sang phải (mũi tên dài 6 ô). Bước 2: cũng từ O vẽ lực F₂ = 8 N thẳng đứng hướng lên (mũi tên dài 8 ô). Bước 3: từ ngọn mỗi mũi tên kẻ một đường nét đứt song song với mũi tên kia, hai đường cắt nhau tại một điểm. Bước 4: nối O với điểm cắt đó, được đường chéo hình bình hành — chính là hợp lực F. Vì F₁ vuông góc F₂ nên hình bình hành thành hình chữ nhật và F = √(6² + 8²) = 10 N. Chú ý: hợp lực 10 N nhỏ hơn tổng số học 6 + 8 = 14 N, vì lực là vectơ chứ không phải con số cộng thẳng.',
+      viewBoxWidth: 320,
+      viewBoxHeight: 220,
+      durationMs: 4000,
+      loop: true,
+      shapes: [
+        { kind: 'circle', id: 'diem-dat', cx: 60, cy: 190, r: 5, fill: 'neutral' },
+        {
+          kind: 'label',
+          id: 'nhan-o',
+          x: 48,
+          y: 208,
+          text: 'O',
+          size: 14,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'arrow',
+          id: 'luc-f1',
+          x1: 60,
+          y1: 190,
+          x2: 180,
+          y2: 190,
+          stroke: 'primary',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 400, opacity: 1 },
+            { atMs: 4000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'luc-f2',
+          x1: 60,
+          y1: 190,
+          x2: 60,
+          y2: 30,
+          stroke: 'accent',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 1000, opacity: 0 },
+            { atMs: 1400, opacity: 1 },
+            { atMs: 4000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'phu-tro-1',
+          x1: 180,
+          y1: 190,
+          x2: 180,
+          y2: 30,
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '5 4',
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 2000, opacity: 0 },
+            { atMs: 2400, opacity: 1 },
+            { atMs: 4000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'phu-tro-2',
+          x1: 60,
+          y1: 30,
+          x2: 180,
+          y2: 30,
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '5 4',
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 2000, opacity: 0 },
+            { atMs: 2400, opacity: 1 },
+            { atMs: 4000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'hop-luc',
+          x1: 60,
+          y1: 190,
+          x2: 180,
+          y2: 30,
+          stroke: 'correct',
+          strokeWidth: 4,
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 3000, opacity: 0 },
+            { atMs: 3400, opacity: 1 },
+            { atMs: 4000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-f1',
+          x: 120,
+          y: 208,
+          text: 'F₁ = 6 N',
+          size: 13,
+          anchor: 'middle',
+          fill: 'primary',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-f2',
+          x: 14,
+          y: 110,
+          text: 'F₂ = 8 N',
+          size: 13,
+          anchor: 'start',
+          fill: 'accent',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-f',
+          x: 196,
+          y: 96,
+          text: 'F = 10 N',
+          size: 14,
+          anchor: 'start',
+          fill: 'neutral',
+        },
+      ],
+      captions: [
+        { atMs: 0, text: 'Bước 1: vẽ F₁ = 6 N từ điểm đặt O.' },
+        { atMs: 1400, text: 'Bước 2: vẽ F₂ = 8 N cũng từ O, theo đúng phương chiều của nó.' },
+        { atMs: 2400, text: 'Bước 3: kẻ hai đường song song để khép kín hình bình hành.' },
+        { atMs: 3400, text: 'Bước 4: đường chéo từ O là hợp lực F = 10 N — không phải 14 N.' },
+      ],
+    },
     grade: '10',
     chapterNumber: 3,
     chapterTitle: 'Động lực học',
@@ -63,6 +208,24 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
         },
         explain:
           'Điều kiện cân bằng của một vật là tổng vectơ của tất cả các lực tác dụng lên nó phải bằng vectơ không.',
+      },
+      {
+        // Câu bẫy: cộng độ lớn hai lực như cộng hai con số, quên rằng lực là VECTƠ.
+        prompt:
+          'Hai lực đồng quy có độ lớn F₁ = 5 N và F₂ = 12 N, góc giữa chúng thay đổi được. Giá trị nào sau đây KHÔNG thể là độ lớn hợp lực của chúng?',
+        choices: [
+          { id: 'bay', label: '7 N' },
+          { id: 'muoi_ba', label: '13 N' },
+          { id: 'hai_muoi', label: '20 N' },
+        ],
+        answer: {
+          kind: 'choice',
+          correctIds: ['hai_muoi'],
+        },
+        explain:
+          'Lực là VECTƠ nên hợp lực không phải là phép cộng số học. Khi góc giữa hai lực chạy từ 0° đến 180°, độ lớn hợp lực chỉ chạy trong khoảng |F₁ − F₂| ≤ F ≤ F₁ + F₂, tức 7 N ≤ F ≤ 17 N. ' +
+          'Vậy 7 N đạt được khi hai lực ngược chiều, 13 N đạt được khi hai lực vuông góc (√(5² + 12²) = 13), còn 20 N thì vượt cả trường hợp thuận lợi nhất là hai lực cùng chiều (17 N) nên không thể xảy ra. ' +
+          'Sai lầm thường gặp là cứ thấy hai lực là cộng 5 + 12 = 17 rồi tưởng hợp lực muốn lớn bao nhiêu cũng được.',
       },
     ],
     srsCards: [
@@ -219,6 +382,145 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
   },
   {
     id: 'ly10-c3-b16',
+    // Hai người trượt patin đẩy nhau: lực bằng nhau nhưng gia tốc khác nhau — cảnh này tách bạch
+    // được "lực bằng nhau" (định luật 3) với "chuyển động giống nhau" (không hề suy ra được).
+    animation: {
+      title: 'Hai người trượt patin đẩy nhau',
+      description:
+        'Hai bạn đứng yên trên giày trượt, tay chạm tay. Bạn A nặng 60 kg (hình tròn lớn), bạn B nặng 30 kg (hình tròn nhỏ). A dùng tay đẩy B một cái. Ngay lúc đó xuất hiện ĐỒNG THỜI hai mũi tên dài bằng nhau nhưng ngược chiều: lực A đẩy B hướng sang phải, lực B đẩy lại A hướng sang trái — chỉ một cú đẩy của A mà sinh ra cả hai. Sau đó hai bạn trôi ra xa nhau, nhưng B đi được quãng đường gấp đôi A trong cùng thời gian. Hai lực bằng nhau, còn gia tốc thì không: a = F/m, ai nhẹ hơn thì bị đẩy đi nhanh hơn. Hai lực này cũng không triệt tiêu nhau vì chúng đặt lên hai người khác nhau.',
+      viewBoxWidth: 420,
+      viewBoxHeight: 200,
+      durationMs: 4000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'line',
+          id: 'san-bang',
+          x1: 10,
+          y1: 150,
+          x2: 410,
+          y2: 150,
+          stroke: 'neutral',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'circle',
+          id: 'nguoi-a',
+          cx: 186,
+          cy: 120,
+          r: 28,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 0, dx: 0 },
+            { atMs: 1200, dx: 0 },
+            { atMs: 4000, dx: -70 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'nguoi-b',
+          cx: 234,
+          cy: 130,
+          r: 18,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dx: 0 },
+            { atMs: 1200, dx: 0 },
+            { atMs: 4000, dx: 140 },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'luc-a-day-b',
+          x1: 220,
+          y1: 86,
+          x2: 300,
+          y2: 86,
+          stroke: 'primary',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 1200, opacity: 1 },
+            { atMs: 2000, opacity: 1 },
+            { atMs: 2400, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'luc-b-day-a',
+          x1: 200,
+          y1: 86,
+          x2: 120,
+          y2: 86,
+          stroke: 'accent',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 1200, opacity: 1 },
+            { atMs: 2000, opacity: 1 },
+            { atMs: 2400, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-a',
+          x: 186,
+          y: 126,
+          text: 'A 60 kg',
+          size: 12,
+          anchor: 'middle',
+          fill: 'surface',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-b',
+          x: 234,
+          y: 134,
+          text: 'B 30 kg',
+          size: 11,
+          anchor: 'middle',
+          fill: 'surface',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-luc-1',
+          x: 310,
+          y: 82,
+          text: 'F (A đẩy B)',
+          size: 12,
+          anchor: 'start',
+          fill: 'primary',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-luc-2',
+          x: 112,
+          y: 82,
+          text: "F' (B đẩy A)",
+          size: 12,
+          anchor: 'end',
+          fill: 'accent',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-ket',
+          x: 210,
+          y: 184,
+          text: 'F = F′ nhưng a_B = 2·a_A',
+          size: 13,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+      ],
+      captions: [
+        { atMs: 0, text: 'Hai bạn đứng yên, tay chạm tay.' },
+        { atMs: 1200, text: 'A đẩy B — hai lực trực đối xuất hiện cùng lúc, dài bằng nhau.' },
+        { atMs: 2600, text: 'Cả hai cùng trôi ra, nhưng B nhẹ hơn nên đi nhanh gấp đôi.' },
+        { atMs: 4000, text: 'Lực bằng nhau không có nghĩa là chuyển động giống nhau.' },
+      ],
+    },
     grade: '10',
     chapterNumber: 3,
     chapterTitle: 'Động lực học',
@@ -279,6 +581,35 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
         },
         explain: 'Hai lực ngược hướng nên dạng vectơ có dấu trừ phía trước: F_12 = -F_21.',
       },
+      {
+        // Câu bẫy kinh điển "nghịch lý con ngựa kéo xe": trực đối nhưng KHÔNG cân bằng.
+        prompt: 'Con ngựa kéo xe chuyển động nhanh dần về phía trước. Nhận định nào đúng?',
+        choices: [
+          {
+            id: 'ngua_manh_hon',
+            label: 'Lực ngựa kéo xe lớn hơn lực xe kéo lại ngựa, nhờ vậy hệ mới đi tới được',
+          },
+          {
+            id: 'bang_nhau',
+            label:
+              'Hai lực đó luôn bằng nhau; xe đi tới được là nhờ lực ma sát của mặt đường đẩy ngựa về phía trước lớn hơn lực xe kéo lại ngựa',
+          },
+          {
+            id: 'khong_the_di',
+            label:
+              'Hai lực bằng nhau và ngược chiều nên chúng triệt tiêu, hệ không thể chuyển động',
+          },
+        ],
+        answer: {
+          kind: 'choice',
+          correctIds: ['bang_nhau'],
+        },
+        explain:
+          'Lực ngựa kéo xe và lực xe kéo lại ngựa LUÔN bằng nhau, dù xe đứng yên, đi đều hay tăng tốc — định luật 3 không có ngoại lệ. ' +
+          'Chúng không triệt tiêu vì đặt lên HAI vật khác nhau: lực thứ nhất đặt lên xe, lực thứ hai đặt lên ngựa, nên không được viết chung vào một phương trình định luật 2. ' +
+          'Muốn biết ngựa có tăng tốc không thì chỉ xét các lực đặt LÊN NGỰA: lực ma sát của mặt đường đẩy ngựa tới trước và lực xe kéo lại ngựa. ' +
+          'Ngựa đạp mạnh xuống đất, đất đạp lại lớn hơn lực xe níu, nên cả hệ tăng tốc. Nếu ngựa đứng trên mặt băng trơn thì đúng là không đi được — không phải vì định luật 3 sai, mà vì thiếu ma sát.',
+      },
     ],
     srsCards: [
       {
@@ -308,7 +639,14 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
       '— Trọng lực (vectơ P) là lực hút của Trái Đất tác dụng lên vật, gây ra gia tốc rơi tự do cho vật.\\n' +
       '  — Điểm đặt: Tại trọng tâm (center of gravity) của vật.\\n' +
       '  — Phương: Thẳng đứng. Chiều: Từ trên xuống dưới (hướng về tâm Trái Đất).\\n' +
-      '  — Độ lớn (Trọng lượng P): P = m.g (g là gia tốc rơi tự do tại nơi đo).\\n\\n' +
+      '  — Độ lớn (Trọng lượng P): P = m.g (g là gia tốc rơi tự do tại nơi đo).\\n' +
+      '— PHÂN BIỆT KHỐI LƯỢNG VỚI TRỌNG LƯỢNG — hai đại lượng khác hẳn nhau, hay bị gọi lẫn trong đời thường:\\n' +
+      '  — Khối lượng m là lượng chất của vật, đo bằng kilôgam (kg), là đại lượng VÔ HƯỚNG và KHÔNG đổi ' +
+      'dù mang vật đi đâu. Nó đo mức quán tính: vật càng nặng càng khó thay đổi vận tốc.\\n' +
+      '  — Trọng lượng P là một LỰC, đo bằng niutơn (N), là đại lượng VECTƠ và THAY ĐỔI theo nơi đặt vật ' +
+      'vì g thay đổi. Bạn 50 kg trên Trái Đất có P = 500 N; lên Mặt Trăng (g ≈ 1,6 m/s²) vẫn 50 kg nhưng P chỉ còn 80 N.\\n' +
+      '  — VÌ SAO hay nhầm: cái cân trong nhà thực ra đo LỰC ép lên mặt cân rồi tự chia cho g để hiện ra số kg. ' +
+      'Đưa đúng cái cân đó lên Mặt Trăng thì nó sẽ hiện sai, vì nó vẫn chia cho g của Trái Đất.\\n\\n' +
       'LỰC CĂNG DÂY (TENSION FORCE):\\n' +
       '— Khi một sợi dây bị kéo căng, nó tác dụng lên các vật gắn với hai đầu dây các lực căng dây (vectơ T).\\n' +
       '— Đặc điểm lực căng dây:\\n' +
@@ -356,6 +694,25 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
         },
         explain:
           'Lực căng dây luôn hướng dọc theo sợi dây và hướng vào trong để co kéo chống lại lực kéo dãn.',
+      },
+      {
+        // Câu bẫy: nhầm khối lượng với trọng lượng — lỗi sai phổ biến nhất của cả chương.
+        prompt:
+          'Một nhà du hành có khối lượng 60 kg trên Trái Đất (g = 10 m/s²) bay lên Mặt Trăng, nơi g_MT = 1,6 m/s². Trên Mặt Trăng, khối lượng và trọng lượng của người đó lần lượt là bao nhiêu?',
+        choices: [
+          { id: 'ca_hai_giam', label: 'Khối lượng còn 9,6 kg và trọng lượng còn 96 N' },
+          { id: 'dung', label: 'Khối lượng vẫn 60 kg, trọng lượng còn 96 N' },
+          { id: 'khong_doi', label: 'Khối lượng vẫn 60 kg, trọng lượng vẫn 600 N' },
+        ],
+        answer: {
+          kind: 'choice',
+          correctIds: ['dung'],
+        },
+        explain:
+          'Khối lượng là lượng chất của cơ thể — bay lên Mặt Trăng người đó không mất đi tế bào nào, nên vẫn 60 kg. ' +
+          'Trọng lượng là LỰC hút, phụ thuộc nơi đặt vật: P = m·g_MT = 60 × 1,6 = 96 N (trên Trái Đất là 600 N). ' +
+          'Nhầm lẫn xuất phát từ thói quen đời thường gọi "vật nặng 60 kg" — kg là đơn vị của khối lượng, không phải của lực; ' +
+          'còn cái "nhẹ bẫng" khi đi trên Mặt Trăng là do trọng lượng giảm, chứ quán tính thì không đổi: đẩy một thùng hàng 60 kg trên Mặt Trăng vẫn khó y như trên Trái Đất.',
       },
     ],
     srsCards: [

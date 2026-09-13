@@ -148,6 +148,101 @@ export const HOA10_C1_LESSONS: ChemLesson[] = [
       },
       { hoi: 'Công thức tính số khối A?', dap: 'A = p + n (số proton cộng số neutron).' },
     ],
+    // Hoạt ảnh: cho thấy TỈ LỆ kích thước hạt nhân/nguyên tử — điều mà chữ nói mãi vẫn khó hình dung.
+    animation: {
+      title: 'Nguyên tử: hạt nhân bé xíu ở giữa, electron chuyển động ở lớp vỏ',
+      description:
+        'Vòng tròn lớn nét đứt là ranh giới lớp vỏ nguyên tử. Ở đúng tâm là một chấm rất nhỏ — ' +
+        'hạt nhân, chứa proton (+) và neutron (không mang điện), nắm gần như toàn bộ khối lượng. ' +
+        'Hai electron (−) chạy vòng quanh trên lớp vỏ, cho thấy phần lớn thể tích nguyên tử là ' +
+        'khoảng trống. Vì số electron bằng số proton nên nguyên tử trung hoà về điện.',
+      viewBoxWidth: 400,
+      viewBoxHeight: 200,
+      durationMs: 4000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'circle',
+          id: 'vo',
+          cx: 200,
+          cy: 100,
+          r: 70,
+          stroke: 'muted',
+          strokeWidth: 1.5,
+          dash: '5 4',
+          fill: 'surface',
+        },
+        { kind: 'circle', id: 'hatnhan', cx: 200, cy: 100, r: 7, fill: 'primary' },
+        {
+          kind: 'circle',
+          id: 'e1',
+          cx: 270,
+          cy: 100,
+          r: 5,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dx: 0, dy: 0 },
+            { atMs: 500, dx: -20.5, dy: 49.5 },
+            { atMs: 1000, dx: -70, dy: 70 },
+            { atMs: 1500, dx: -119.5, dy: 49.5 },
+            { atMs: 2000, dx: -140, dy: 0 },
+            { atMs: 2500, dx: -119.5, dy: -49.5 },
+            { atMs: 3000, dx: -70, dy: -70 },
+            { atMs: 3500, dx: -20.5, dy: -49.5 },
+            { atMs: 4000, dx: 0, dy: 0 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'e2',
+          cx: 130,
+          cy: 100,
+          r: 5,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dx: 0, dy: 0 },
+            { atMs: 500, dx: 20.5, dy: -49.5 },
+            { atMs: 1000, dx: 70, dy: -70 },
+            { atMs: 1500, dx: 119.5, dy: -49.5 },
+            { atMs: 2000, dx: 140, dy: 0 },
+            { atMs: 2500, dx: 119.5, dy: 49.5 },
+            { atMs: 3000, dx: 70, dy: 70 },
+            { atMs: 3500, dx: 20.5, dy: 49.5 },
+            { atMs: 4000, dx: 0, dy: 0 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-text',
+          x: 200,
+          y: 88,
+          text: 'hạt nhân (p⁺, n)',
+          size: 11,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'vo-text',
+          x: 200,
+          y: 190,
+          text: 'lớp vỏ electron (e⁻) — gần như trống rỗng',
+          size: 11,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+      ],
+      captions: [
+        {
+          atMs: 0,
+          text: 'Hạt nhân nhỏ nhưng nặng: gần như toàn bộ khối lượng nguyên tử nằm ở đây.',
+        },
+        {
+          atMs: 2000,
+          text: 'Electron chuyển động quanh hạt nhân; số e⁻ = số p⁺ nên nguyên tử trung hoà điện.',
+        },
+      ],
+    },
     track: 'core',
     reviewStatus: 'draft',
   },
@@ -237,11 +332,17 @@ export const HOA10_C1_LESSONS: ChemLesson[] = [
     theory:
       'Electron trong nguyên tử được sắp xếp thành từng LỚP (kí hiệu K, L, M, N... hoặc số thứ ' +
       'tự n = 1, 2, 3...), mỗi lớp lại chia thành các PHÂN LỚP (s, p, d, f).\n\n' +
-      'Số electron tối đa ở lớp thứ n là 2n² (lớp K tối đa 2e, lớp L tối đa 8e, lớp M tối đa ' +
-      '18e — nhưng ở 20 nguyên tố đầu, lớp M dừng ở 8e do quy tắc bền vững bát tử chi phối ' +
-      'trước khi lớp M đầy hẳn).\n\n' +
+      'Số electron tối đa ở lớp thứ n là 2n²: lớp K (n=1) 2e, lớp L (n=2) 8e, lớp M (n=3) 18e.\n\n' +
+      'VÌ SAO lớp M của K (Z=19) và Ca (Z=20) mới có 8e mà electron đã nhảy sang lớp N? Không ' +
+      'phải vì "quy tắc bát tử", mà vì electron luôn điền vào PHÂN LỚP CÓ MỨC NĂNG LƯỢNG THẤP ' +
+      'HƠN TRƯỚC — mà mức 4s lại THẤP HƠN mức 3d. Vì vậy sau 3p⁶ (8e ở lớp M) electron điền ' +
+      'tiếp vào 4s, rồi mới quay lại lấp đầy 3d. Đây là lý do có hiện tượng "chèn mức năng ' +
+      'lượng", và cũng là lý do dãy nguyên tố d bắt đầu từ Sc (Z=21).\n\n' +
       'CẤU HÌNH ELECTRON là cách viết electron phân bố vào các phân lớp theo thứ tự mức năng ' +
-      'lượng tăng dần: 1s 2s 2p 3s 3p 4s 3d...\n\n' +
+      'lượng tăng dần: 1s 2s 2p 3s 3p 4s 3d 4p...\n\n' +
+      'Điều kiện áp dụng: thứ tự trên đúng cho hầu hết nguyên tố nhóm A của chương trình phổ ' +
+      'thông; một số nguyên tố d (Cr, Cu) có cấu hình ngoại lệ vì phân lớp d bán bão hoà/bão ' +
+      'hoà bền hơn.\n\n' +
       'Nguyên tố s, p, d, f: gọi theo phân lớp electron cuối cùng được điền — ví dụ Sodium ' +
       '(Na, Z=11) có cấu hình 1s²2s²2p⁶3s¹ → là nguyên tố s (electron cuối ở phân lớp s).\n\n' +
       'ELECTRON LỚP NGOÀI CÙNG quyết định phần lớn tính chất hoá học của nguyên tố — nguyên ' +
@@ -273,6 +374,18 @@ export const HOA10_C1_LESSONS: ChemLesson[] = [
           'Cấu hình Mg: 1s²2s²2p⁶3s². Lớp ngoài cùng (n=3) chỉ có phân lớp 3s² ⇒ 2 electron ' +
           'lớp ngoài cùng — đây là lý do Mg dễ nhường 2 electron để đạt cấu hình bền.',
       },
+      {
+        // Câu BẪY: lỗi phổ biến là "lớp M chứa tối đa 18e nên K (Z=19) có 9e ở lớp M".
+        prompt:
+          'Nguyên tử Potassium (K) có Z = 19. Hỏi K có bao nhiêu electron ở LỚP NGOÀI CÙNG? ' +
+          '(chỉ nhập số)',
+        answer: { kind: 'numeric', value: 1 },
+        explain:
+          'Rất nhiều bạn trả lời 9 vì nghĩ "lớp M chứa tối đa 18e nên cứ điền tiếp vào lớp M". ' +
+          'Sai ở chỗ: electron điền theo MỨC NĂNG LƯỢNG, mà 4s thấp hơn 3d. Sau 1s²2s²2p⁶3s²3p⁶ ' +
+          '(18e) thì electron thứ 19 vào 4s, cho cấu hình 1s²2s²2p⁶3s²3p⁶4s¹. Lớp ngoài cùng là ' +
+          'lớp N (n=4) với đúng 1 electron — đó mới là lý do K là kim loại kiềm rất hoạt động.',
+      },
     ],
     srsCards: [
       { hoi: 'Số electron tối đa ở lớp thứ n?', dap: '2n² (lớp K: 2e, lớp L: 8e...).' },
@@ -285,6 +398,242 @@ export const HOA10_C1_LESSONS: ChemLesson[] = [
         dap: 'Số electron ở lớp ngoài cùng.',
       },
     ],
+    // Hoạt ảnh: electron được điền LẦN LƯỢT từ lớp trong ra lớp ngoài — thứ tự này là cái
+    // học sinh hay làm sai khi viết cấu hình.
+    animation: {
+      title: 'Điền electron vào các lớp: nguyên tử Sodium (Na, Z = 11)',
+      description:
+        'Ba vòng tròn đồng tâm là ba lớp electron K (trong cùng), L (giữa), M (ngoài cùng). ' +
+        'Electron xuất hiện lần lượt từ trong ra ngoài: 2 electron điền đầy lớp K, rồi 8 ' +
+        'electron điền đầy lớp L, và electron thứ 11 nằm một mình ở lớp M. Cấu hình thu được ' +
+        'là 1s²2s²2p⁶3s¹ — đúng một electron ở lớp ngoài cùng, nên Na rất dễ nhường 1 electron ' +
+        'để thành ion Na⁺ có cấu hình bền như khí hiếm Neon.',
+      viewBoxWidth: 400,
+      viewBoxHeight: 220,
+      durationMs: 5000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'circle',
+          id: 'lop-k',
+          cx: 200,
+          cy: 110,
+          r: 28,
+          fill: 'surface',
+          stroke: 'muted',
+          strokeWidth: 1,
+          dash: '4 3',
+        },
+        {
+          kind: 'circle',
+          id: 'lop-l',
+          cx: 200,
+          cy: 110,
+          r: 58,
+          fill: 'surface',
+          stroke: 'muted',
+          strokeWidth: 1,
+          dash: '4 3',
+        },
+        {
+          kind: 'circle',
+          id: 'lop-m',
+          cx: 200,
+          cy: 110,
+          r: 88,
+          fill: 'surface',
+          stroke: 'muted',
+          strokeWidth: 1,
+          dash: '4 3',
+        },
+        { kind: 'circle', id: 'nhan', cx: 200, cy: 110, r: 10, fill: 'primary' },
+        {
+          kind: 'circle',
+          id: 'k1',
+          cx: 228,
+          cy: 110,
+          r: 4,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 400, opacity: 1 },
+            { atMs: 5000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'k2',
+          cx: 172,
+          cy: 110,
+          r: 4,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 800, opacity: 1 },
+            { atMs: 5000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'l1',
+          cx: 258,
+          cy: 110,
+          r: 4,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            { atMs: 1000, opacity: 0 },
+            { atMs: 1300, opacity: 1 },
+            { atMs: 5000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'l2',
+          cx: 241,
+          cy: 151,
+          r: 4,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            { atMs: 1200, opacity: 0 },
+            { atMs: 1500, opacity: 1 },
+            { atMs: 5000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'l3',
+          cx: 200,
+          cy: 168,
+          r: 4,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            { atMs: 1400, opacity: 0 },
+            { atMs: 1700, opacity: 1 },
+            { atMs: 5000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'l4',
+          cx: 159,
+          cy: 151,
+          r: 4,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            { atMs: 1600, opacity: 0 },
+            { atMs: 1900, opacity: 1 },
+            { atMs: 5000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'l5',
+          cx: 142,
+          cy: 110,
+          r: 4,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            { atMs: 1800, opacity: 0 },
+            { atMs: 2100, opacity: 1 },
+            { atMs: 5000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'l6',
+          cx: 159,
+          cy: 69,
+          r: 4,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            { atMs: 2000, opacity: 0 },
+            { atMs: 2300, opacity: 1 },
+            { atMs: 5000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'l7',
+          cx: 200,
+          cy: 52,
+          r: 4,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            { atMs: 2200, opacity: 0 },
+            { atMs: 2500, opacity: 1 },
+            { atMs: 5000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'l8',
+          cx: 241,
+          cy: 69,
+          r: 4,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            { atMs: 2400, opacity: 0 },
+            { atMs: 2700, opacity: 1 },
+            { atMs: 5000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'm1',
+          cx: 288,
+          cy: 110,
+          r: 5,
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            { atMs: 3000, opacity: 0 },
+            { atMs: 3400, opacity: 1 },
+            { atMs: 5000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-t',
+          x: 200,
+          y: 114,
+          text: 'Na',
+          size: 10,
+          anchor: 'middle',
+          fill: 'surface',
+        },
+        {
+          kind: 'label',
+          id: 'ghi-k',
+          x: 200,
+          y: 212,
+          text: 'K: 2e · L: 8e · M: 1e ⇒ 1s²2s²2p⁶3s¹',
+          size: 12,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+      ],
+      captions: [
+        {
+          atMs: 0,
+          text: 'Lớp K (gần hạt nhân nhất, năng lượng thấp nhất) được điền trước: 2 electron.',
+        },
+        { atMs: 1000, text: 'Lớp L điền tiếp cho đủ 8 electron.' },
+        {
+          atMs: 3000,
+          text: 'Electron thứ 11 ra lớp M, đứng một mình — Na rất dễ nhường electron này.',
+        },
+      ],
+    },
     track: 'core',
     reviewStatus: 'draft',
   },

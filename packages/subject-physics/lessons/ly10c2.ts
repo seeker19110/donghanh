@@ -765,6 +765,149 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
   },
   {
     id: 'ly10-c2-b12',
+    // Hoạt ảnh cho thấy hai chuyển động thành phần độc lập nhau: bi ném ngang và bi thả rơi
+    // luôn ở CÙNG một độ cao tại mọi thời điểm, nên chạm đất cùng lúc.
+    animation: {
+      title: 'Ném ngang = rơi tự do cộng với chuyển động thẳng đều',
+      description:
+        'Hai viên bi rời mép bàn cùng một lúc: viên A được thả rơi thẳng đứng, viên B được ném ngang. Viên B vạch ra một nhánh parabol, còn viên A đi thẳng xuống. Điều đáng chú ý: ở mọi thời điểm hai viên luôn ở cùng một độ cao (các đoạn nét đứt nằm ngang nối chúng luôn song song với mặt đất), và chúng chạm đất cùng lúc. Theo phương ngang viên B đi được những đoạn bằng nhau trong những khoảng thời gian bằng nhau (thẳng đều, vì không có lực nào theo phương ngang); theo phương thẳng đứng nó rơi y hệt viên A (nhanh dần đều với gia tốc g). Tầm xa chỉ phụ thuộc tốc độ ném và độ cao, không ảnh hưởng tới thời gian rơi.',
+      viewBoxWidth: 420,
+      viewBoxHeight: 260,
+      durationMs: 3000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'line',
+          id: 'mat-dat',
+          x1: 10,
+          y1: 220,
+          x2: 410,
+          y2: 220,
+          stroke: 'neutral',
+          strokeWidth: 3,
+        },
+        { kind: 'rect', id: 'ban', x: 10, y: 40, w: 34, h: 10, stroke: 'muted', strokeWidth: 2 },
+        {
+          kind: 'polyline',
+          id: 'quy-dao',
+          points: [
+            [44, 40],
+            [84, 43],
+            [124, 51],
+            [164, 65],
+            [204, 85],
+            [244, 110],
+            [284, 141],
+            [324, 178],
+            [364, 220],
+          ],
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '5 4',
+        },
+        {
+          kind: 'circle',
+          id: 'bi-tha-roi',
+          cx: 44,
+          cy: 40,
+          r: 8,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dy: 0 },
+            { atMs: 750, dy: 11 },
+            { atMs: 1500, dy: 45 },
+            { atMs: 2250, dy: 101 },
+            { atMs: 3000, dy: 180 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'bi-nem-ngang',
+          cx: 44,
+          cy: 40,
+          r: 8,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 0, dx: 0, dy: 0 },
+            { atMs: 750, dx: 80, dy: 11 },
+            { atMs: 1500, dx: 160, dy: 45 },
+            { atMs: 2250, dx: 240, dy: 101 },
+            { atMs: 3000, dx: 320, dy: 180 },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'vec-v-ngang',
+          x1: 44,
+          y1: 40,
+          x2: 104,
+          y2: 40,
+          stroke: 'primary',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'arrow',
+          id: 'vec-g',
+          x1: 380,
+          y1: 60,
+          x2: 380,
+          y2: 110,
+          stroke: 'neutral',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'label',
+          id: 'nhan-g',
+          x: 388,
+          y: 92,
+          text: 'g',
+          size: 14,
+          anchor: 'start',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-vo',
+          x: 108,
+          y: 36,
+          text: 'v₀ (không đổi)',
+          size: 12,
+          anchor: 'start',
+          fill: 'primary',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-a',
+          x: 30,
+          y: 32,
+          text: 'A: thả rơi',
+          size: 12,
+          anchor: 'start',
+          fill: 'accent',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-tam-xa',
+          x: 200,
+          y: 240,
+          text: 'tầm xa L = v₀·√(2h/g)',
+          size: 13,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+      ],
+      captions: [
+        { atMs: 0, text: 'Hai viên bi rời mép bàn cùng lúc: A thả rơi, B ném ngang.' },
+        {
+          atMs: 1500,
+          text: 'Ở giữa đường, hai viên vẫn ở cùng độ cao — phương thẳng đứng của chúng giống hệt nhau.',
+        },
+        {
+          atMs: 3000,
+          text: 'Chạm đất cùng lúc. Vận tốc ném chỉ quyết định vật bay XA bao nhiêu, không quyết định rơi LÂU bao nhiêu.',
+        },
+      ],
+    },
     grade: '10',
     chapterNumber: 2,
     chapterTitle: 'Động học',
@@ -821,6 +964,25 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         },
         explain:
           'Thời gian rơi t = √(2h/g) = √(160/10) = 4 s. Tầm xa L = v_o * t = 50 * 4 = 200 m.',
+      },
+      {
+        // Câu bẫy: học sinh hay tưởng ném càng mạnh thì vật "bay lâu hơn" nên rơi chậm hơn.
+        prompt:
+          'Từ mép một chiếc bàn cao 1,25 m, viên bi A được thả rơi thẳng đứng còn viên bi B được ném ngang với tốc độ 4 m/s, cùng một lúc. Viên nào chạm sàn trước?',
+        choices: [
+          { id: 'a_truoc', label: 'Viên A, vì nó đi thẳng xuống theo đường ngắn nhất' },
+          { id: 'b_truoc', label: 'Viên B, vì nó có thêm vận tốc ban đầu' },
+          { id: 'cung_luc', label: 'Cả hai chạm sàn cùng lúc' },
+        ],
+        answer: {
+          kind: 'choice',
+          correctIds: ['cung_luc'],
+        },
+        explain:
+          'Hai chuyển động thành phần ĐỘC LẬP với nhau. Vận tốc ném v₀ nằm ngang nên nó không đóng góp gì vào phương thẳng đứng: ' +
+          'theo phương Oy cả hai vật đều rơi tự do không vận tốc đầu, t = √(2h/g) = √(2·1,25/10) = 0,5 s như nhau. ' +
+          'Quãng đường viên B đi được đúng là dài hơn (đường parabol dài hơn đoạn thẳng), nhưng nó cũng đi nhanh hơn đúng phần chênh lệch đó theo phương ngang. ' +
+          'Tốc độ ném chỉ quyết định vật rơi XA bao nhiêu (L = v₀·t = 2 m), không quyết định rơi LÂU bao nhiêu.',
       },
     ],
     srsCards: [

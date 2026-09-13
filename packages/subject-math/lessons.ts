@@ -1,8 +1,24 @@
 // lessons.ts — Registry BÀI HỌC môn Toán (gộp từ các file theo chương) + hàm tra cứu.
 import type { MathLesson } from './lessonTypes.js'
 import { TOAN10_C1_LESSONS } from './lessons/toan10c1.js'
+import { TOAN10_C2_LESSONS } from './lessons/toan10c2.js'
+import { TOAN10_C3_LESSONS } from './lessons/toan10c3.js'
+import { TOAN10_C4_LESSONS } from './lessons/toan10c4.js'
+import { TOAN10_C6_LESSONS } from './lessons/toan10c6.js'
+import { TOAN10_C7_LESSONS } from './lessons/toan10c7.js'
+import { TOAN10_C8_LESSONS } from './lessons/toan10c8.js'
+import { TOAN10_C9_LESSONS } from './lessons/toan10c9.js'
 
-export const MATH_LESSONS: MathLesson[] = [...TOAN10_C1_LESSONS]
+export const MATH_LESSONS: MathLesson[] = [
+  ...TOAN10_C1_LESSONS,
+  ...TOAN10_C2_LESSONS,
+  ...TOAN10_C3_LESSONS,
+  ...TOAN10_C4_LESSONS,
+  ...TOAN10_C6_LESSONS,
+  ...TOAN10_C7_LESSONS,
+  ...TOAN10_C8_LESSONS,
+  ...TOAN10_C9_LESSONS,
+]
 
 const lessonMap = new Map<string, MathLesson>(MATH_LESSONS.map((l) => [l.id, l]))
 
