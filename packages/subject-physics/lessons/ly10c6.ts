@@ -13,16 +13,16 @@ export const LY10_C6_LESSONS: PhysicsLesson[] = [
       'Cánh quạt phong điện khổng lồ quay đều đặn hay Mặt Trăng quay quanh Trái Đất đều vẽ nên những đường tròn kì diệu. ' +
       'Làm thế nào để tính toán quãng đường và tốc độ quay của chúng?',
     theory:
-      'ĐỊNH NGHĨA CHUYỂN ĐỘNG TRÒN ĐỀU:\\n' +
-      '— Chuyển động tròn là chuyển động có quỹ đạo là một đường tròn.\\n' +
-      '— Chuyển động tròn đều là chuyển động tròn có tốc độ dài không đổi (đi được những cung tròn có độ dài bằng nhau trong những khoảng thời gian bằng nhau).\\n\\n' +
-      'CÁC ĐẠI LƯỢNG ĐẶC TRƯNG:\\n' +
-      '1. Độ dịch chuyển góc (Δθ): Góc quét bởi bán kính nối từ tâm đến vật trong thời gian Δt. Đơn vị: Radian (rad). Hệ thức: π rad = 180°.\\n' +
-      '2. Tốc độ góc (ω): Đại lượng đo bằng độ dịch chuyển góc chia cho thời gian dịch chuyển góc tương ứng.\\n' +
-      '   — Công thức: ω = Δθ / Δt. Đơn vị: Radian trên giây (rad/s).\\n' +
-      '3. Chu kì (T): Khoảng thời gian vật đi hết một vòng tròn quỹ đạo. Đơn vị: Giây (s). Công thức: T = 2π / ω.\\n' +
-      '4. Tần số (f): Số vòng vật đi được trong một giây. Đơn vị: Hertz (Hz) hoặc 1/s. Công thức: f = 1 / T = ω / 2π.\\n' +
-      '5. Tốc độ dài (v): Tốc độ đi dọc theo cung tròn của quỹ đạo. Công thức: v = s / t = ω.r (với r là bán kính đường tròn).\\n' +
+      'ĐỊNH NGHĨA CHUYỂN ĐỘNG TRÒN ĐỀU:\n' +
+      '— Chuyển động tròn là chuyển động có quỹ đạo là một đường tròn.\n' +
+      '— Chuyển động tròn đều là chuyển động tròn có tốc độ dài không đổi (đi được những cung tròn có độ dài bằng nhau trong những khoảng thời gian bằng nhau).\n\n' +
+      'CÁC ĐẠI LƯỢNG ĐẶC TRƯNG:\n' +
+      '1. Độ dịch chuyển góc (Δθ): Góc quét bởi bán kính nối từ tâm đến vật trong thời gian Δt. Đơn vị: Radian (rad). Hệ thức: π rad = 180°.\n' +
+      '2. Tốc độ góc (ω): Đại lượng đo bằng độ dịch chuyển góc chia cho thời gian dịch chuyển góc tương ứng.\n' +
+      '   — Công thức: ω = Δθ / Δt. Đơn vị: Radian trên giây (rad/s).\n' +
+      '3. Chu kì (T): Khoảng thời gian vật đi hết một vòng tròn quỹ đạo. Đơn vị: Giây (s). Công thức: T = 2π / ω.\n' +
+      '4. Tần số (f): Số vòng vật đi được trong một giây. Đơn vị: Hertz (Hz) hoặc 1/s. Công thức: f = 1 / T = ω / 2π.\n' +
+      '5. Tốc độ dài (v): Tốc độ đi dọc theo cung tròn của quỹ đạo. Công thức: v = s / t = ω.r (với r là bán kính đường tròn).\n' +
       '  — Chú ý: Vectơ vận tốc dài luôn có phương tiếp tuyến với đường tròn quỹ đạo, hướng thay đổi liên tục dù độ lớn v không đổi.',
     workedExample: {
       problem:
@@ -233,14 +233,14 @@ export const LY10_C6_LESSONS: PhysicsLesson[] = [
       'Khi ô tô đi qua khúc cua tròn, bánh xe bám chặt mặt đường nhờ lực ma sát hướng vào tâm cua. ' +
       'Nếu đường trơn trượt mất đi lực này, xe sẽ văng ra ngoài theo quán tính. Lực hướng vào tâm này là gì?',
     theory:
-      'GIA TỐC HƯỚNG TÂM (CENTRIPETAL ACCELERATION):\\n' +
-      '— Trong chuyển động tròn đều, tuy tốc độ dài không đổi nhưng hướng vận tốc thay đổi liên tục, sinh ra gia tốc hướng tâm (vectơ a_ht).\\n' +
-      '— Hướng: Vectơ gia tốc hướng tâm luôn hướng vào tâm của đường tròn quỹ đạo.\\n' +
-      '— Độ lớn: a_ht = v² / r = ω².r.\\n\\n' +
-      'LỰC HƯỚNG TÂM (CENTRIPETAL FORCE):\\n' +
-      '— Lực (hoặc hợp lực) tác dụng lên vật chuyển động tròn đều gây ra gia tốc hướng tâm gọi là lực hướng tâm.\\n' +
-      '— Hướng: Luôn hướng vào tâm quỹ đạo tròn.\\n' +
-      '— Độ lớn: F_ht = m.a_ht = m.v² / r = m.ω².r.\\n' +
+      'GIA TỐC HƯỚNG TÂM (CENTRIPETAL ACCELERATION):\n' +
+      '— Trong chuyển động tròn đều, tuy tốc độ dài không đổi nhưng hướng vận tốc thay đổi liên tục, sinh ra gia tốc hướng tâm (vectơ a_ht).\n' +
+      '— Hướng: Vectơ gia tốc hướng tâm luôn hướng vào tâm của đường tròn quỹ đạo.\n' +
+      '— Độ lớn: a_ht = v² / r = ω².r.\n\n' +
+      'LỰC HƯỚNG TÂM (CENTRIPETAL FORCE):\n' +
+      '— Lực (hoặc hợp lực) tác dụng lên vật chuyển động tròn đều gây ra gia tốc hướng tâm gọi là lực hướng tâm.\n' +
+      '— Hướng: Luôn hướng vào tâm quỹ đạo tròn.\n' +
+      '— Độ lớn: F_ht = m.a_ht = m.v² / r = m.ω².r.\n' +
       '— Bản chất: Lực hướng tâm không phải lực mới trong tự nhiên, nó chỉ là một trong các lực cơ học đã biết (ma sát nghỉ, lực hấp dẫn, lực căng dây...) đóng vai trò hướng vào tâm để giữ vật chuyển động tròn.',
     workedExample: {
       problem:

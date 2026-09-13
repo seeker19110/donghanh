@@ -13,14 +13,14 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Nếu bạn đi bộ 3 km về phía Đông rồi quay lại 3 km về phía Tây, tổng quãng đường bạn đi là 6 km, nhưng độ dịch chuyển của bạn lại bằng 0. ' +
       'Tại sao lại có sự khác biệt thú vị này?',
     theory:
-      'HỆ QUY CHIẾU VÀ TỌA ĐỘ:\\n' +
-      '— Để xác định vị trí của vật, ta cần chọn một vật làm mốc, hệ trục toạ độ gắn với vật mốc, mốc thời gian và một đồng hồ (hệ quy chiếu).\\n' +
-      '— Vị trí vật tại một thời điểm được xác định bởi toạ độ (x, y).\\n\\n' +
-      'QUÃNG ĐƯỜNG VÀ ĐỘ DỊCH CHUYỂN:\\n' +
-      '— Quãng đường đi được (s): Độ dài tuyến đường vật đi qua. Là đại lượng vô hướng luôn không âm (s ≥ 0).\\n' +
-      '— Độ dịch chuyển (d): Là một đại lượng vectơ biểu diễn sự thay đổi vị trí của vật. Vectơ độ dịch chuyển bắt đầu từ vị trí đầu và hướng thẳng tới vị trí cuối.\\n' +
-      '  — Độ lớn của độ dịch chuyển bằng khoảng cách giữa vị trí đầu và vị trí cuối.\\n' +
-      '  — Hướng: Hướng từ vị trí đầu đến vị trí cuối.\\n' +
+      'HỆ QUY CHIẾU VÀ TỌA ĐỘ:\n' +
+      '— Để xác định vị trí của vật, ta cần chọn một vật làm mốc, hệ trục toạ độ gắn với vật mốc, mốc thời gian và một đồng hồ (hệ quy chiếu).\n' +
+      '— Vị trí vật tại một thời điểm được xác định bởi toạ độ (x, y).\n\n' +
+      'QUÃNG ĐƯỜNG VÀ ĐỘ DỊCH CHUYỂN:\n' +
+      '— Quãng đường đi được (s): Độ dài tuyến đường vật đi qua. Là đại lượng vô hướng luôn không âm (s ≥ 0).\n' +
+      '— Độ dịch chuyển (d): Là một đại lượng vectơ biểu diễn sự thay đổi vị trí của vật. Vectơ độ dịch chuyển bắt đầu từ vị trí đầu và hướng thẳng tới vị trí cuối.\n' +
+      '  — Độ lớn của độ dịch chuyển bằng khoảng cách giữa vị trí đầu và vị trí cuối.\n' +
+      '  — Hướng: Hướng từ vị trí đầu đến vị trí cuối.\n' +
       '— Mối liên hệ: Khi vật chuyển động thẳng và không đổi chiều, độ lớn độ dịch chuyển bằng quãng đường (d = s). Khi vật đổi chiều chuyển động, quãng đường luôn lớn hơn độ lớn độ dịch chuyển (s > d).',
     workedExample: {
       problem:
@@ -88,16 +88,16 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Đồng hồ tốc độ trên xe máy chỉ cho bạn biết xe chạy nhanh hay chậm (tốc độ). Nhưng để lái phi cơ an toàn, ' +
       'phi công cần biết thêm hướng chuyển động của gió và máy bay (vận tốc). Sự khác nhau giữa chúng là gì?',
     theory:
-      'TỐC ĐỘ (SPEED):\\n' +
-      '— Tốc độ trung bình: v_tb = s / t. Đặc trưng cho mức độ nhanh hay chậm của chuyển động trên cả quãng đường.\\n' +
-      '— Tốc độ tức thời: Tốc độ tại một thời điểm xác định (chỉ số trên tốc kế).\\n\\n' +
-      'VẬN TỐC (VELOCITY):\\n' +
-      '— Vận tốc trung bình (v): Là đại lượng vectơ xác định bằng thương số giữa độ dịch chuyển của vật và thời gian dịch chuyển.\\n' +
-      '  — Công thức: v = d / t (dạng độ lớn trên trục thẳng) hoặc vectơ v = vectơ d / t.\\n' +
-      '  — Hướng của vận tốc trùng với hướng của độ dịch chuyển.\\n\\n' +
-      'CÔNG THỨC CỘNG VẬN TỐC (RELATIVE VELOCITY):\\n' +
-      '— Nếu một vật tham gia đồng thời hai chuyển động thì vận tốc tuyệt đối (vật so với hệ quy chiếu đứng yên 1-3) bằng tổng vectơ của vận tốc tương đối (vật so với hệ quy chiếu chuyển động 1-2) và vận tốc kéo theo (hệ quy chiếu chuyển động so với hệ quy chiếu đứng yên 2-3):\\n' +
-      '  — Vectơ v₁₃ = vectơ v₁₂ + vectơ v₂₃.\\n' +
+      'TỐC ĐỘ (SPEED):\n' +
+      '— Tốc độ trung bình: v_tb = s / t. Đặc trưng cho mức độ nhanh hay chậm của chuyển động trên cả quãng đường.\n' +
+      '— Tốc độ tức thời: Tốc độ tại một thời điểm xác định (chỉ số trên tốc kế).\n\n' +
+      'VẬN TỐC (VELOCITY):\n' +
+      '— Vận tốc trung bình (v): Là đại lượng vectơ xác định bằng thương số giữa độ dịch chuyển của vật và thời gian dịch chuyển.\n' +
+      '  — Công thức: v = d / t (dạng độ lớn trên trục thẳng) hoặc vectơ v = vectơ d / t.\n' +
+      '  — Hướng của vận tốc trùng với hướng của độ dịch chuyển.\n\n' +
+      'CÔNG THỨC CỘNG VẬN TỐC (RELATIVE VELOCITY):\n' +
+      '— Nếu một vật tham gia đồng thời hai chuyển động thì vận tốc tuyệt đối (vật so với hệ quy chiếu đứng yên 1-3) bằng tổng vectơ của vận tốc tương đối (vật so với hệ quy chiếu chuyển động 1-2) và vận tốc kéo theo (hệ quy chiếu chuyển động so với hệ quy chiếu đứng yên 2-3):\n' +
+      '  — Vectơ v₁₃ = vectơ v₁₂ + vectơ v₂₃.\n' +
       '  — Cùng chiều: v₁₃ = v₁₂ + v₂₃. Ngược chiều: v₁₃ = |v₁₂ - v₂₃|.',
     workedExample: {
       problem:
@@ -161,14 +161,14 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Làm thế nào các thiết bị bắn tốc độ của cảnh sát giao thông biết chính xác xe bạn đang chạy quá tốc độ? ' +
       'Hãy học cách tự thiết lập phép đo tốc độ chính xác trong phòng thực hành.',
     theory:
-      'PHƯƠNG PHÁP ĐO TỐC ĐỘ THƯỜNG DÙNG:\\n' +
-      '— Sử dụng thước và đồng hồ bấm giây (đo thủ công): Sai số lớn do phản xạ bấm nút của con người (~0,1s đến 0,2s).\\n' +
-      '— Sử dụng cổng quang điện và đồng hồ đo thời gian hiện số (đo tự động):\\n' +
-      '  — Khi vật chắn cổng quang điện thứ nhất, đồng hồ bắt đầu chạy. Khi vật chắn cổng thứ hai, đồng hồ dừng.\\n' +
-      '  — Tốc độ trung bình: v = s / t với s là khoảng cách giữa 2 cổng quang, t là thời gian hiển thị trên đồng hồ.\\n' +
-      '— Sử dụng cảm biến chuyển động (sonar hoặc laser) nối với máy tính để ghi lại đồ thị độ dịch chuyển tự động.\\n\\n' +
-      'SAI SỐ TRONG THỰC HÀNH:\\n' +
-      '— Sai số ngẫu nhiên: Do vị trí thả vật lệch, luồng gió nhẹ, hoặc bấm nút lệch thời gian.\\n' +
+      'PHƯƠNG PHÁP ĐO TỐC ĐỘ THƯỜNG DÙNG:\n' +
+      '— Sử dụng thước và đồng hồ bấm giây (đo thủ công): Sai số lớn do phản xạ bấm nút của con người (~0,1s đến 0,2s).\n' +
+      '— Sử dụng cổng quang điện và đồng hồ đo thời gian hiện số (đo tự động):\n' +
+      '  — Khi vật chắn cổng quang điện thứ nhất, đồng hồ bắt đầu chạy. Khi vật chắn cổng thứ hai, đồng hồ dừng.\n' +
+      '  — Tốc độ trung bình: v = s / t với s là khoảng cách giữa 2 cổng quang, t là thời gian hiển thị trên đồng hồ.\n' +
+      '— Sử dụng cảm biến chuyển động (sonar hoặc laser) nối với máy tính để ghi lại đồ thị độ dịch chuyển tự động.\n\n' +
+      'SAI SỐ TRONG THỰC HÀNH:\n' +
+      '— Sai số ngẫu nhiên: Do vị trí thả vật lệch, luồng gió nhẹ, hoặc bấm nút lệch thời gian.\n' +
       '— Sai số dụng cụ: Lấy theo độ chia nhỏ nhất của thước đo và độ nhạy của đồng hồ đo.',
     workedExample: {
       problem:
@@ -232,13 +232,13 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Một đồ thị đơn giản có thể vẽ nên toàn bộ hành trình của một chiếc tàu hoả. Nhìn vào đồ thị độ dịch chuyển - thời gian, ' +
       'ta không chỉ biết tàu đang đi đâu, mà còn biết tàu chạy nhanh thế nào hay đang dừng nghỉ.',
     theory:
-      'ĐỒ THỊ ĐỘ DỊCH CHUYỂN — THỜI GIAN (d-t):\\n' +
-      '— Trục đứng (tung độ) biểu diễn độ dịch chuyển d. Trục ngang (hoành độ) biểu diễn thời gian t.\\n\\n' +
-      'Ý NGHĨA CỦA ĐỒ THỊ d-t:\\n' +
-      '— Đường thẳng nằm ngang (song song với trục t): Độ dịch chuyển không đổi theo thời gian → Vật đứng yên (v = 0).\\n' +
-      '— Đường thẳng dốc lên: Độ dịch chuyển tăng đều theo thời gian → Vật chuyển động thẳng đều theo chiều dương (v > 0).\\n' +
-      '— Đường thẳng dốc xuống: Độ dịch chuyển giảm đều theo thời gian → Vật chuyển động thẳng đều ngược chiều dương (v < 0).\\n' +
-      '— Độ dốc (slope / hệ số góc) của đồ thị d-t chính là vận tốc của chuyển động:\\n' +
+      'ĐỒ THỊ ĐỘ DỊCH CHUYỂN — THỜI GIAN (d-t):\n' +
+      '— Trục đứng (tung độ) biểu diễn độ dịch chuyển d. Trục ngang (hoành độ) biểu diễn thời gian t.\n\n' +
+      'Ý NGHĨA CỦA ĐỒ THỊ d-t:\n' +
+      '— Đường thẳng nằm ngang (song song với trục t): Độ dịch chuyển không đổi theo thời gian → Vật đứng yên (v = 0).\n' +
+      '— Đường thẳng dốc lên: Độ dịch chuyển tăng đều theo thời gian → Vật chuyển động thẳng đều theo chiều dương (v > 0).\n' +
+      '— Đường thẳng dốc xuống: Độ dịch chuyển giảm đều theo thời gian → Vật chuyển động thẳng đều ngược chiều dương (v < 0).\n' +
+      '— Độ dốc (slope / hệ số góc) của đồ thị d-t chính là vận tốc của chuyển động:\n' +
       '  — Hệ số góc: v = Δd / Δt = (d₂ - d₁) / (t₂ - t₁).',
     workedExample: {
       problem:
@@ -306,16 +306,16 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Một chiếc siêu xe thể thao có thể tăng tốc từ 0 lên 100 km/h chỉ trong 2,5 giây. Đại lượng nào đo lường ' +
       'mức độ thay đổi vận tốc nhanh hay chậm của chiếc xe đó?',
     theory:
-      'KHÁI NIỆM CHUYỂN ĐỘNG BIẾN ĐỔI:\\n' +
-      '— Chuyển động biến đổi là chuyển động có vận tốc thay đổi theo thời gian.\\n\\n' +
-      'GIA TỐC (ACCELERATION):\\n' +
-      '— Gia tốc là đại lượng vectơ đặc trưng cho sự thay đổi nhanh hay chậm của vận tốc theo thời gian.\\n' +
-      '— Công thức tính gia tốc trung bình:\\n' +
-      '  — a = Δv / Δt = (v_t - v_o) / t (dạng đại số trên trục chuyển động thẳng).\\n' +
-      '  — Dạng vectơ: vectơ a = (vectơ v_t - vectơ v_o) / Δt.\\n' +
-      '— Đơn vị đo trong hệ SI: Mét trên giây bình phương (m/s²).\\n\\n' +
-      'TÍNH CHẤT CHUYỂN ĐỘNG THẲNG BIẾN ĐỔI:\\n' +
-      '— Chuyển động thẳng nhanh dần: Vectơ vận tốc và vectơ gia tốc cùng chiều (a và v cùng dấu: a.v > 0).\\n' +
+      'KHÁI NIỆM CHUYỂN ĐỘNG BIẾN ĐỔI:\n' +
+      '— Chuyển động biến đổi là chuyển động có vận tốc thay đổi theo thời gian.\n\n' +
+      'GIA TỐC (ACCELERATION):\n' +
+      '— Gia tốc là đại lượng vectơ đặc trưng cho sự thay đổi nhanh hay chậm của vận tốc theo thời gian.\n' +
+      '— Công thức tính gia tốc trung bình:\n' +
+      '  — a = Δv / Δt = (v_t - v_o) / t (dạng đại số trên trục chuyển động thẳng).\n' +
+      '  — Dạng vectơ: vectơ a = (vectơ v_t - vectơ v_o) / Δt.\n' +
+      '— Đơn vị đo trong hệ SI: Mét trên giây bình phương (m/s²).\n\n' +
+      'TÍNH CHẤT CHUYỂN ĐỘNG THẲNG BIẾN ĐỔI:\n' +
+      '— Chuyển động thẳng nhanh dần: Vectơ vận tốc và vectơ gia tốc cùng chiều (a và v cùng dấu: a.v > 0).\n' +
       '— Chuyển động thẳng chậm dần: Vectơ vận tốc và vectơ gia tốc ngược chiều (a và v trái dấu: a.v < 0).',
     workedExample: {
       problem:
@@ -380,11 +380,11 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Khi một đoàn tàu phanh lại hoặc một chiếc phi cơ cất cánh trên đường băng, vận tốc của chúng tăng hoặc giảm đều đặn. ' +
       'Đây là chuyển động thẳng biến đổi đều — nền tảng của mọi bài toán cơ học động lực.',
     theory:
-      'ĐỊNH NGHĨA CHUYỂN ĐỘNG THẲNG BIẾN ĐỔI ĐỀU:\\n' +
-      '— Chuyển động thẳng có gia tốc không đổi theo thời gian (a = hằng số).\\n\\n' +
-      'HỆ PHƯƠNG TRÌNH CHUYỂN ĐỘNG THẲNG BIẾN ĐỔI ĐỀU (Chọn gốc toạ độ trùng vị trí đầu, chiều dương là chiều chuyển động):\\n' +
-      '1. Phương trình vận tốc: v = v_o + a.t.\\n' +
-      '2. Phương trình độ dịch chuyển: d = v_o.t + 0,5.a.t².\\n' +
+      'ĐỊNH NGHĨA CHUYỂN ĐỘNG THẲNG BIẾN ĐỔI ĐỀU:\n' +
+      '— Chuyển động thẳng có gia tốc không đổi theo thời gian (a = hằng số).\n\n' +
+      'HỆ PHƯƠNG TRÌNH CHUYỂN ĐỘNG THẲNG BIẾN ĐỔI ĐỀU (Chọn gốc toạ độ trùng vị trí đầu, chiều dương là chiều chuyển động):\n' +
+      '1. Phương trình vận tốc: v = v_o + a.t.\n' +
+      '2. Phương trình độ dịch chuyển: d = v_o.t + 0,5.a.t².\n' +
       '3. Công thức liên hệ không phụ thuộc thời gian: v² - v_o² = 2.a.d.',
     workedExample: {
       problem:
@@ -598,23 +598,23 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Nếu thả rơi một chiếc lá và một quả cân trong không khí, quả cân sẽ chạm đất trước. Nhưng nếu hút hết không khí ra để tạo chân không, ' +
       'cả hai sẽ rơi nhanh như nhau và chạm đất cùng lúc. Chuyển động kì diệu đó gọi là sự rơi tự do.',
     theory:
-      'ĐỊNH NGHĨA SỰ RƠI TỰ DO:\\n' +
-      '— Sự rơi tự do là sự rơi của các vật chỉ dưới tác dụng của trọng lực (bỏ qua sức cản của không khí).\\n\\n' +
-      'ĐẶC ĐIỂM CỦA CHUYỂN ĐỘNG RƠI TỰ DO:\\n' +
-      '— Phương: Thẳng đứng. Chiều: Từ trên xuống dưới.\\n' +
-      '— Tính chất: Chuyển động thẳng nhanh dần đều không vận tốc đầu (v_o = 0).\\n\\n' +
-      'GIA TỐC RƠI TỰ DO (g):\\n' +
-      '— Tại một nơi xác định trên Trái Đất và ở gần mặt đất, mọi vật đều rơi tự do với cùng một gia tốc g.\\n' +
+      'ĐỊNH NGHĨA SỰ RƠI TỰ DO:\n' +
+      '— Sự rơi tự do là sự rơi của các vật chỉ dưới tác dụng của trọng lực (bỏ qua sức cản của không khí).\n\n' +
+      'ĐẶC ĐIỂM CỦA CHUYỂN ĐỘNG RƠI TỰ DO:\n' +
+      '— Phương: Thẳng đứng. Chiều: Từ trên xuống dưới.\n' +
+      '— Tính chất: Chuyển động thẳng nhanh dần đều không vận tốc đầu (v_o = 0).\n\n' +
+      'GIA TỐC RƠI TỰ DO (g):\n' +
+      '— Tại một nơi xác định trên Trái Đất và ở gần mặt đất, mọi vật đều rơi tự do với cùng một gia tốc g.\n' +
       '— VÌ SAO vật nặng và vật nhẹ lại rơi như nhau? Trọng lực tác dụng lên vật nặng đúng là lớn hơn (P = m.g), ' +
       'nhưng chính vật nặng cũng "ì" hơn: theo định luật 2 Newton a = F/m = m.g/m = g, khối lượng m bị triệt tiêu. ' +
-      'Lực kéo lớn hơn bao nhiêu lần thì quán tính cũng lớn hơn đúng bấy nhiêu lần, nên gia tốc không đổi.\\n' +
+      'Lực kéo lớn hơn bao nhiêu lần thì quán tính cũng lớn hơn đúng bấy nhiêu lần, nên gia tốc không đổi.\n' +
       '— ĐIỀU KIỆN ÁP DỤNG: chỉ đúng khi bỏ qua được lực cản không khí. Với chiếc lá, tờ giấy, quả bóng bay — ' +
-      'lực cản so được với trọng lượng nên chúng KHÔNG rơi tự do và công thức dưới đây không dùng được.\\n' +
+      'lực cản so được với trọng lượng nên chúng KHÔNG rơi tự do và công thức dưới đây không dùng được.\n' +
       '— GIỚI HẠN: g còn thay đổi theo vĩ độ và độ cao (ở địa cực lớn hơn ở xích đạo, lên cao thì giảm), ' +
-      'nên g là hằng số của MỘT NƠI chứ không phải hằng số của vũ trụ. Thường lấy g ≈ 9,8 m/s² hoặc g ≈ 10 m/s².\\n\\n' +
-      'CÁC CÔNG THỨC RƠI TỰ DO (Chọn chiều dương hướng xuống, gốc tại điểm thả):\\n' +
-      '1. Vận tốc tại thời điểm t: v = g.t.\\n' +
-      '2. Quãng đường (độ cao rơi) sau thời gian t: h = 0,5.g.t².\\n' +
+      'nên g là hằng số của MỘT NƠI chứ không phải hằng số của vũ trụ. Thường lấy g ≈ 9,8 m/s² hoặc g ≈ 10 m/s².\n\n' +
+      'CÁC CÔNG THỨC RƠI TỰ DO (Chọn chiều dương hướng xuống, gốc tại điểm thả):\n' +
+      '1. Vận tốc tại thời điểm t: v = g.t.\n' +
+      '2. Quãng đường (độ cao rơi) sau thời gian t: h = 0,5.g.t².\n' +
       '3. Vận tốc liên hệ với quãng đường: v² = 2.g.h hay v = √(2.g.h).',
     workedExample: {
       problem:
@@ -697,13 +697,13 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Giá trị g = 9,8 m/s² được ghi trong sách giáo khoa từ đâu mà có? Hãy tự mình thực hành và tính toán ' +
       'hằng số vũ trụ này ngay tại phòng thí nghiệm trường học.',
     theory:
-      'NGUYÊN TẮC ĐO GIA TỐC RƠI TỰ DO:\\n' +
-      '— Một quả cầu kim loại được giữ trên cao bằng nam châm điện.\\n' +
-      '— Khi ngắt điện, nam châm nhả quả cầu rơi tự do, đồng hồ hiện số bắt đầu đo thời gian.\\n' +
-      '— Quả cầu đi qua cổng quang điện đặt ở khoảng cách h phía dưới, đồng hồ dừng đếm thời gian t.\\n' +
-      '— Từ công thức h = 0,5.g.t² ta suy ra gia tốc rơi tự do thực nghiệm: g = 2.h / t².\\n\\n' +
-      'HẠN CHẾ SAI SỐ TRONG THÍ NGHIỆM:\\n' +
-      '— Dùng quả cầu sắt nhỏ, khối lượng riêng lớn để giảm thiểu tác dụng sức cản không khí.\\n' +
+      'NGUYÊN TẮC ĐO GIA TỐC RƠI TỰ DO:\n' +
+      '— Một quả cầu kim loại được giữ trên cao bằng nam châm điện.\n' +
+      '— Khi ngắt điện, nam châm nhả quả cầu rơi tự do, đồng hồ hiện số bắt đầu đo thời gian.\n' +
+      '— Quả cầu đi qua cổng quang điện đặt ở khoảng cách h phía dưới, đồng hồ dừng đếm thời gian t.\n' +
+      '— Từ công thức h = 0,5.g.t² ta suy ra gia tốc rơi tự do thực nghiệm: g = 2.h / t².\n\n' +
+      'HẠN CHẾ SAI SỐ TRONG THÍ NGHIỆM:\n' +
+      '— Dùng quả cầu sắt nhỏ, khối lượng riêng lớn để giảm thiểu tác dụng sức cản không khí.\n' +
       '— Đo thời gian t nhiều lần tại mỗi độ cao h để lấy giá trị trung bình, giảm sai số ngẫu nhiên.' +
       '— Vẽ đồ thị h theo t² để tìm g từ hệ số góc của đồ thị.',
     workedExample: {
@@ -917,15 +917,15 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Khi một cầu thủ sút bóng bổng hoặc một phi cơ thả hàng cứu trợ, quỹ đạo bay của vật đều là một đường cong tuyệt đẹp. ' +
       'Làm thế nào để tính toán điểm rơi chính xác của vật ném?',
     theory:
-      'CHUYỂN ĐỘNG NÉM NGANG (Chọn hệ trục Ox nằm ngang theo hướng ném, Oy thẳng đứng hướng xuống, gốc tại điểm ném):\\n' +
-      '— Phương trình chuyển động:\\n' +
-      '  — Theo trục Ox: Vật không chịu lực cản → Chuyển động thẳng đều: a_x = 0, v_x = v_o, x = v_o.t.\\n' +
-      '  — Theo trục Oy: Vật chỉ chịu trọng lực → Chuyển động rơi tự do: a_y = g, v_y = g.t, y = 0,5.g.t².\\n' +
-      '— Phương trình quỹ đạo (y theo x): y = (g / (2.v_o²)) * x² (quỹ đạo là một nhánh parabol).\\n' +
-      '— Thời gian bay (cho đến khi chạm đất từ độ cao h): t = √(2.h / g).\\n' +
-      '— Tầm xa (khoảng cách nằm ngang xa nhất): L = x_max = v_o * t = v_o * √(2.h / g).\\n\\n' +
-      'CHUYỂN ĐỘNG NÉM XIÊN (Ném góc α so với phương ngang):\\n' +
-      '— Vận tốc ban đầu phân tích thành: v_ox = v_o.cos α, v_oy = v_o.sin α.\\n' +
+      'CHUYỂN ĐỘNG NÉM NGANG (Chọn hệ trục Ox nằm ngang theo hướng ném, Oy thẳng đứng hướng xuống, gốc tại điểm ném):\n' +
+      '— Phương trình chuyển động:\n' +
+      '  — Theo trục Ox: Vật không chịu lực cản → Chuyển động thẳng đều: a_x = 0, v_x = v_o, x = v_o.t.\n' +
+      '  — Theo trục Oy: Vật chỉ chịu trọng lực → Chuyển động rơi tự do: a_y = g, v_y = g.t, y = 0,5.g.t².\n' +
+      '— Phương trình quỹ đạo (y theo x): y = (g / (2.v_o²)) * x² (quỹ đạo là một nhánh parabol).\n' +
+      '— Thời gian bay (cho đến khi chạm đất từ độ cao h): t = √(2.h / g).\n' +
+      '— Tầm xa (khoảng cách nằm ngang xa nhất): L = x_max = v_o * t = v_o * √(2.h / g).\n\n' +
+      'CHUYỂN ĐỘNG NÉM XIÊN (Ném góc α so với phương ngang):\n' +
+      '— Vận tốc ban đầu phân tích thành: v_ox = v_o.cos α, v_oy = v_o.sin α.\n' +
       '— Tầm xa đạt cực đại khi góc ném α = 45° (nếu bỏ qua sức cản không khí).',
     workedExample: {
       problem:

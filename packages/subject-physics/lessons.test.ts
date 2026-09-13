@@ -1,7 +1,13 @@
 // lessons.test.ts — Gác chất lượng nội dung bài học Vật lí.
 import { describe, expect, it } from 'vitest'
 import { gradeAnswer, UNITS } from '@dhcb/core-grading'
-import { PHYSICS_LESSONS, getPhysicsLesson, listPhysicsLessonsByGrade } from './lessons.js'
+import {
+  PHYSICS_LESSONS,
+  getPhysicsLesson,
+  listPhysicsAdvancedLessons,
+  listPhysicsCoreLessons,
+  listPhysicsLessonsByGrade,
+} from './lessons.js'
 import { PhysicsLessonSchema } from './lessonTypes.js'
 
 describe('physics lessons', () => {
@@ -60,6 +66,64 @@ describe('physics lessons', () => {
     }
   })
 
+  it("bài 'advanced' phải có advancedTier; bài 'core' tuyệt đối không được có", () => {
+    for (const lesson of PHYSICS_LESSONS) {
+      if (lesson.track === 'advanced') {
+        expect(lesson.advancedTier, `Bài advanced ${lesson.id} thiếu advancedTier`).toBeDefined()
+      } else {
+        expect(
+          lesson.advancedTier,
+          `Bài core ${lesson.id} không được khai advancedTier`,
+        ).toBeUndefined()
+      }
+    }
+  })
+
+  it('hoạt ảnh: id hình không trùng, keyframe không vượt durationMs, nhãn chữ không dùng màu đồ hoạ', () => {
+    // Ba bất biến này Zod đã canh, nhưng lặp lại ở đây để khi đỏ thì thông báo chỉ đúng bài và
+    // đúng hình sai — thay vì một khối lỗi Zod dài không đọc được.
+    const mauCamChoChu = new Set(['correct', 'warn', 'danger'])
+    for (const lesson of PHYSICS_LESSONS) {
+      const anim = lesson.animation
+      if (!anim) continue
+      const ids = new Set<string>()
+      for (const shape of anim.shapes) {
+        expect(ids.has(shape.id), `Bài ${lesson.id}: id hình trùng "${shape.id}"`).toBe(false)
+        ids.add(shape.id)
+        for (const kf of shape.keyframes ?? []) {
+          expect(
+            kf.atMs,
+            `Bài ${lesson.id}, hình "${shape.id}": keyframe ${kf.atMs}ms vượt quá durationMs ${anim.durationMs}ms`,
+          ).toBeLessThanOrEqual(anim.durationMs)
+        }
+        if (shape.kind === 'label') {
+          expect(
+            mauCamChoChu.has(shape.fill ?? '') || mauCamChoChu.has(shape.stroke ?? ''),
+            `Bài ${lesson.id}, nhãn "${shape.id}": chữ không được dùng vai trò màu đồ hoạ (correct/warn/danger)`,
+          ).toBe(false)
+        }
+      }
+      for (const caption of anim.captions ?? []) {
+        expect(
+          caption.atMs,
+          `Bài ${lesson.id}: lời dẫn ở ${caption.atMs}ms vượt quá durationMs ${anim.durationMs}ms`,
+        ).toBeLessThanOrEqual(anim.durationMs)
+      }
+    }
+  })
+
+  it('mỗi cấp HSG đều có chuyên đề, và chuyên đề nào cũng thuộc nhánh advanced', () => {
+    const advanced = listPhysicsAdvancedLessons()
+    expect(advanced.length).toBeGreaterThan(0)
+    for (const tier of ['hsg-truong', 'hsg-tinh', 'hsg-quoc-gia'] as const) {
+      expect(
+        advanced.some((l) => l.advancedTier === tier),
+        `Chưa có chuyên đề nào ở cấp ${tier}`,
+      ).toBe(true)
+    }
+    expect(listPhysicsCoreLessons().every((l) => l.track === 'core')).toBe(true)
+  })
+
   it('getPhysicsLesson tra được đúng bài theo id', () => {
     const lesson = getPhysicsLesson('ly10-c1-b1')
     expect(lesson?.title).toBe('Làm quen với Vật lí')
@@ -74,6 +138,17 @@ describe('physics lessons', () => {
       const prevKey = prev.chapterNumber * 1000 + prev.lessonNumber
       const curKey = cur.chapterNumber * 1000 + cur.lessonNumber
       expect(curKey).toBeGreaterThanOrEqual(prevKey)
+    }
+  })
+  it('không bài nào in ra chữ "\\n" thay vì xuống dòng thật', () => {
+    // Đã dính thật 2026-09-13: 1052 chỗ viết '\\n' (hai gạch chéo) trong chuỗi, nên học sinh
+    // nhìn thấy ký tự \n lẫn giữa nội dung và cả đoạn theory dồn thành một dòng. Kiểu vẫn
+    // đúng, schema vẫn qua — chỉ ca test này bắt được.
+    for (const lesson of PHYSICS_LESSONS) {
+      expect(
+        JSON.stringify(lesson).includes(String.fromCharCode(92, 92) + 'n'),
+        `Bài ${lesson.id} còn chứa chuỗi gạch-chéo-n — phải là ký tự xuống dòng thật`,
+      ).toBe(false)
     }
   })
 })

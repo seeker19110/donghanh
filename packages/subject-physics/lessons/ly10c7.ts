@@ -13,17 +13,17 @@ export const LY10_C7_LESSONS: PhysicsLesson[] = [
       'Dây cung bắn tên hay đệm nhảy lò xo trampoline có thể co giãn đàn hồi linh hoạt rồi quay lại hình dạng cũ. ' +
       'Nhưng nếu kéo quá mạnh, chúng sẽ bị méo mó vĩnh viễn. Đâu là ranh giới khoa học cho sự đàn hồi?',
     theory:
-      'PHÂN LOẠI BIẾN DẠNG:\\n' +
-      '— Biến dạng đàn hồi: Vật lấy lại được hình dạng và kích thước ban đầu sau khi ngừng tác dụng lực.\\n' +
-      '— Biến dạng dẻo (không đàn hồi): Vật giữ nguyên hình dạng biến đổi sau khi lực ngừng tác dụng.\\n' +
-      '— Giới hạn đàn hồi: Lực tác dụng tối đa mà vật vẫn có thể phục hồi lại hình dạng cũ.\\n\\n' +
-      'ĐẶC ĐIỂM BIẾN DẠNG KÉO VÀ NÉN:\\n' +
-      '— Biến dạng kéo: Chiều dài vật tăng lên (Δl > 0), các phân tử kéo ra xa nhau, lực đàn hồi xuất hiện hướng vào trong chống lại lực kéo.\\n' +
-      '— Biến dạng nén: Chiều dài vật giảm đi (Δl < 0), các phân tử ép sát nhau, lực đàn hồi hướng ra ngoài chống lại lực nén.\\n\\n' +
-      'ĐỊNH LUẬT HOOKE (ĐỊNH LUẬT ĐÀN HỒI LÒ XO):\\n' +
-      '— Phát biểu: Trong giới hạn đàn hồi, độ lớn lực đàn hồi của lò xo tỉ lệ thuận với độ biến dạng của lò xo.\\n' +
-      '— Công thức: F_đh = k.|Δl|.\\n' +
-      '  — k: Độ cứng (độ chịu biến dạng) của lò xo. Đơn vị: Newton trên mét (N/m).\\n' +
+      'PHÂN LOẠI BIẾN DẠNG:\n' +
+      '— Biến dạng đàn hồi: Vật lấy lại được hình dạng và kích thước ban đầu sau khi ngừng tác dụng lực.\n' +
+      '— Biến dạng dẻo (không đàn hồi): Vật giữ nguyên hình dạng biến đổi sau khi lực ngừng tác dụng.\n' +
+      '— Giới hạn đàn hồi: Lực tác dụng tối đa mà vật vẫn có thể phục hồi lại hình dạng cũ.\n\n' +
+      'ĐẶC ĐIỂM BIẾN DẠNG KÉO VÀ NÉN:\n' +
+      '— Biến dạng kéo: Chiều dài vật tăng lên (Δl > 0), các phân tử kéo ra xa nhau, lực đàn hồi xuất hiện hướng vào trong chống lại lực kéo.\n' +
+      '— Biến dạng nén: Chiều dài vật giảm đi (Δl < 0), các phân tử ép sát nhau, lực đàn hồi hướng ra ngoài chống lại lực nén.\n\n' +
+      'ĐỊNH LUẬT HOOKE (ĐỊNH LUẬT ĐÀN HỒI LÒ XO):\n' +
+      '— Phát biểu: Trong giới hạn đàn hồi, độ lớn lực đàn hồi của lò xo tỉ lệ thuận với độ biến dạng của lò xo.\n' +
+      '— Công thức: F_đh = k.|Δl|.\n' +
+      '  — k: Độ cứng (độ chịu biến dạng) của lò xo. Đơn vị: Newton trên mét (N/m).\n' +
       '  — Δl = l - l_o: Độ biến dạng của lò xo (l độ dài sau biến dạng, l_o độ dài tự nhiên ban đầu). Đơn vị: mét (m).',
     workedExample: {
       problem:
@@ -88,19 +88,19 @@ export const LY10_C7_LESSONS: PhysicsLesson[] = [
       'Tại sao một chiếc tàu sân bay bằng thép khổng lồ có thể nổi ung dung trên mặt biển, trong khi một cây kim khâu nhỏ bằng sắt ' +
       'lại chìm nghỉm ngay lập tức? Câu trả lời nằm ở khái niệm khối lượng riêng và áp suất.',
     theory:
-      'KHỐI LƯỢNG RIÊNG (DENSITY):\\n' +
-      '— Khối lượng riêng (ρ) của một chất là khối lượng của một đơn vị thể tích chất đó.\\n' +
-      '— Công thức: ρ = m / V (m là khối lượng, V là thể tích). Đơn vị trong hệ SI: kg/m³.\\n\\n' +
-      'ÁP SUẤT (PRESSURE):\\n' +
-      '— Áp suất là độ lớn của áp lực (lực nén vuông góc) tác dụng lên một đơn vị diện tích bị ép.\\n' +
-      '— Công thức: p = F / S. Đơn vị trong hệ SI: Pascal (Pa), với 1 Pa = 1 N/m².\\n\\n' +
-      'ÁP SUẤT CHẤT LỎNG (HYDROSTATIC PRESSURE):\\n' +
-      '— Chất lỏng tác dụng áp suất lên đáy bình, thành bình và mọi điểm trong lòng chất lỏng.\\n' +
-      '— Công thức tính áp suất chất lỏng ở độ sâu h tính từ mặt thoáng chất lỏng:\\n' +
-      '  — p = p_o + ρ.g.h (p_o là áp suất khí quyển bề mặt thoáng, ρ là khối lượng riêng chất lỏng).\\n' +
-      '  — Áp suất tĩnh của riêng cột chất lỏng: p_tĩnh = ρ.g.h.\\n\\n' +
-      'LỰC ĐẨY ARCHIMEDES (ARCHIMEDES LIFT FORCE):\\n' +
-      '— Lực đẩy tác dụng lên một vật chìm trong chất lưu hướng thẳng đứng từ dưới lên có độ lớn bằng trọng lượng phần chất lưu bị vật chiếm chỗ:\\n' +
+      'KHỐI LƯỢNG RIÊNG (DENSITY):\n' +
+      '— Khối lượng riêng (ρ) của một chất là khối lượng của một đơn vị thể tích chất đó.\n' +
+      '— Công thức: ρ = m / V (m là khối lượng, V là thể tích). Đơn vị trong hệ SI: kg/m³.\n\n' +
+      'ÁP SUẤT (PRESSURE):\n' +
+      '— Áp suất là độ lớn của áp lực (lực nén vuông góc) tác dụng lên một đơn vị diện tích bị ép.\n' +
+      '— Công thức: p = F / S. Đơn vị trong hệ SI: Pascal (Pa), với 1 Pa = 1 N/m².\n\n' +
+      'ÁP SUẤT CHẤT LỎNG (HYDROSTATIC PRESSURE):\n' +
+      '— Chất lỏng tác dụng áp suất lên đáy bình, thành bình và mọi điểm trong lòng chất lỏng.\n' +
+      '— Công thức tính áp suất chất lỏng ở độ sâu h tính từ mặt thoáng chất lỏng:\n' +
+      '  — p = p_o + ρ.g.h (p_o là áp suất khí quyển bề mặt thoáng, ρ là khối lượng riêng chất lỏng).\n' +
+      '  — Áp suất tĩnh của riêng cột chất lỏng: p_tĩnh = ρ.g.h.\n\n' +
+      'LỰC ĐẨY ARCHIMEDES (ARCHIMEDES LIFT FORCE):\n' +
+      '— Lực đẩy tác dụng lên một vật chìm trong chất lưu hướng thẳng đứng từ dưới lên có độ lớn bằng trọng lượng phần chất lưu bị vật chiếm chỗ:\n' +
       '  — F_A = ρ_cl.g.V (V là thể tích phần vật chìm trong chất lưu, ρ_cl là khối lượng riêng chất lưu).',
     workedExample: {
       problem:
