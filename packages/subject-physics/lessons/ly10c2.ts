@@ -13,14 +13,14 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Nếu bạn đi bộ 3 km về phía Đông rồi quay lại 3 km về phía Tây, tổng quãng đường bạn đi là 6 km, nhưng độ dịch chuyển của bạn lại bằng 0. ' +
       'Tại sao lại có sự khác biệt thú vị này?',
     theory:
-      'HỆ QUY CHIẾU VÀ TỌA ĐỘ:\\n' +
-      '— Để xác định vị trí của vật, ta cần chọn một vật làm mốc, hệ trục toạ độ gắn với vật mốc, mốc thời gian và một đồng hồ (hệ quy chiếu).\\n' +
-      '— Vị trí vật tại một thời điểm được xác định bởi toạ độ (x, y).\\n\\n' +
-      'QUÃNG ĐƯỜNG VÀ ĐỘ DỊCH CHUYỂN:\\n' +
-      '— Quãng đường đi được (s): Độ dài tuyến đường vật đi qua. Là đại lượng vô hướng luôn không âm (s ≥ 0).\\n' +
-      '— Độ dịch chuyển (d): Là một đại lượng vectơ biểu diễn sự thay đổi vị trí của vật. Vectơ độ dịch chuyển bắt đầu từ vị trí đầu và hướng thẳng tới vị trí cuối.\\n' +
-      '  — Độ lớn của độ dịch chuyển bằng khoảng cách giữa vị trí đầu và vị trí cuối.\\n' +
-      '  — Hướng: Hướng từ vị trí đầu đến vị trí cuối.\\n' +
+      'HỆ QUY CHIẾU VÀ TỌA ĐỘ:\n' +
+      '— Để xác định vị trí của vật, ta cần chọn một vật làm mốc, hệ trục toạ độ gắn với vật mốc, mốc thời gian và một đồng hồ (hệ quy chiếu).\n' +
+      '— Vị trí vật tại một thời điểm được xác định bởi toạ độ (x, y).\n\n' +
+      'QUÃNG ĐƯỜNG VÀ ĐỘ DỊCH CHUYỂN:\n' +
+      '— Quãng đường đi được (s): Độ dài tuyến đường vật đi qua. Là đại lượng vô hướng luôn không âm (s ≥ 0).\n' +
+      '— Độ dịch chuyển (d): Là một đại lượng vectơ biểu diễn sự thay đổi vị trí của vật. Vectơ độ dịch chuyển bắt đầu từ vị trí đầu và hướng thẳng tới vị trí cuối.\n' +
+      '  — Độ lớn của độ dịch chuyển bằng khoảng cách giữa vị trí đầu và vị trí cuối.\n' +
+      '  — Hướng: Hướng từ vị trí đầu đến vị trí cuối.\n' +
       '— Mối liên hệ: Khi vật chuyển động thẳng và không đổi chiều, độ lớn độ dịch chuyển bằng quãng đường (d = s). Khi vật đổi chiều chuyển động, quãng đường luôn lớn hơn độ lớn độ dịch chuyển (s > d).',
     workedExample: {
       problem:
@@ -74,6 +74,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Khi vật chuyển động thẳng và không đổi chiều.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -87,16 +88,16 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Đồng hồ tốc độ trên xe máy chỉ cho bạn biết xe chạy nhanh hay chậm (tốc độ). Nhưng để lái phi cơ an toàn, ' +
       'phi công cần biết thêm hướng chuyển động của gió và máy bay (vận tốc). Sự khác nhau giữa chúng là gì?',
     theory:
-      'TỐC ĐỘ (SPEED):\\n' +
-      '— Tốc độ trung bình: v_tb = s / t. Đặc trưng cho mức độ nhanh hay chậm của chuyển động trên cả quãng đường.\\n' +
-      '— Tốc độ tức thời: Tốc độ tại một thời điểm xác định (chỉ số trên tốc kế).\\n\\n' +
-      'VẬN TỐC (VELOCITY):\\n' +
-      '— Vận tốc trung bình (v): Là đại lượng vectơ xác định bằng thương số giữa độ dịch chuyển của vật và thời gian dịch chuyển.\\n' +
-      '  — Công thức: v = d / t (dạng độ lớn trên trục thẳng) hoặc vectơ v = vectơ d / t.\\n' +
-      '  — Hướng của vận tốc trùng với hướng của độ dịch chuyển.\\n\\n' +
-      'CÔNG THỨC CỘNG VẬN TỐC (RELATIVE VELOCITY):\\n' +
-      '— Nếu một vật tham gia đồng thời hai chuyển động thì vận tốc tuyệt đối (vật so với hệ quy chiếu đứng yên 1-3) bằng tổng vectơ của vận tốc tương đối (vật so với hệ quy chiếu chuyển động 1-2) và vận tốc kéo theo (hệ quy chiếu chuyển động so với hệ quy chiếu đứng yên 2-3):\\n' +
-      '  — Vectơ v₁₃ = vectơ v₁₂ + vectơ v₂₃.\\n' +
+      'TỐC ĐỘ (SPEED):\n' +
+      '— Tốc độ trung bình: v_tb = s / t. Đặc trưng cho mức độ nhanh hay chậm của chuyển động trên cả quãng đường.\n' +
+      '— Tốc độ tức thời: Tốc độ tại một thời điểm xác định (chỉ số trên tốc kế).\n\n' +
+      'VẬN TỐC (VELOCITY):\n' +
+      '— Vận tốc trung bình (v): Là đại lượng vectơ xác định bằng thương số giữa độ dịch chuyển của vật và thời gian dịch chuyển.\n' +
+      '  — Công thức: v = d / t (dạng độ lớn trên trục thẳng) hoặc vectơ v = vectơ d / t.\n' +
+      '  — Hướng của vận tốc trùng với hướng của độ dịch chuyển.\n\n' +
+      'CÔNG THỨC CỘNG VẬN TỐC (RELATIVE VELOCITY):\n' +
+      '— Nếu một vật tham gia đồng thời hai chuyển động thì vận tốc tuyệt đối (vật so với hệ quy chiếu đứng yên 1-3) bằng tổng vectơ của vận tốc tương đối (vật so với hệ quy chiếu chuyển động 1-2) và vận tốc kéo theo (hệ quy chiếu chuyển động so với hệ quy chiếu đứng yên 2-3):\n' +
+      '  — Vectơ v₁₃ = vectơ v₁₂ + vectơ v₂₃.\n' +
       '  — Cùng chiều: v₁₃ = v₁₂ + v₂₃. Ngược chiều: v₁₃ = |v₁₂ - v₂₃|.',
     workedExample: {
       problem:
@@ -146,6 +147,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Vectơ v₁₃ = vectơ v₁₂ + vectơ v₂₃.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -159,14 +161,14 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Làm thế nào các thiết bị bắn tốc độ của cảnh sát giao thông biết chính xác xe bạn đang chạy quá tốc độ? ' +
       'Hãy học cách tự thiết lập phép đo tốc độ chính xác trong phòng thực hành.',
     theory:
-      'PHƯƠNG PHÁP ĐO TỐC ĐỘ THƯỜNG DÙNG:\\n' +
-      '— Sử dụng thước và đồng hồ bấm giây (đo thủ công): Sai số lớn do phản xạ bấm nút của con người (~0,1s đến 0,2s).\\n' +
-      '— Sử dụng cổng quang điện và đồng hồ đo thời gian hiện số (đo tự động):\\n' +
-      '  — Khi vật chắn cổng quang điện thứ nhất, đồng hồ bắt đầu chạy. Khi vật chắn cổng thứ hai, đồng hồ dừng.\\n' +
-      '  — Tốc độ trung bình: v = s / t với s là khoảng cách giữa 2 cổng quang, t là thời gian hiển thị trên đồng hồ.\\n' +
-      '— Sử dụng cảm biến chuyển động (sonar hoặc laser) nối với máy tính để ghi lại đồ thị độ dịch chuyển tự động.\\n\\n' +
-      'SAI SỐ TRONG THỰC HÀNH:\\n' +
-      '— Sai số ngẫu nhiên: Do vị trí thả vật lệch, luồng gió nhẹ, hoặc bấm nút lệch thời gian.\\n' +
+      'PHƯƠNG PHÁP ĐO TỐC ĐỘ THƯỜNG DÙNG:\n' +
+      '— Sử dụng thước và đồng hồ bấm giây (đo thủ công): Sai số lớn do phản xạ bấm nút của con người (~0,1s đến 0,2s).\n' +
+      '— Sử dụng cổng quang điện và đồng hồ đo thời gian hiện số (đo tự động):\n' +
+      '  — Khi vật chắn cổng quang điện thứ nhất, đồng hồ bắt đầu chạy. Khi vật chắn cổng thứ hai, đồng hồ dừng.\n' +
+      '  — Tốc độ trung bình: v = s / t với s là khoảng cách giữa 2 cổng quang, t là thời gian hiển thị trên đồng hồ.\n' +
+      '— Sử dụng cảm biến chuyển động (sonar hoặc laser) nối với máy tính để ghi lại đồ thị độ dịch chuyển tự động.\n\n' +
+      'SAI SỐ TRONG THỰC HÀNH:\n' +
+      '— Sai số ngẫu nhiên: Do vị trí thả vật lệch, luồng gió nhẹ, hoặc bấm nút lệch thời gian.\n' +
       '— Sai số dụng cụ: Lấy theo độ chia nhỏ nhất của thước đo và độ nhạy của đồng hồ đo.',
     workedExample: {
       problem:
@@ -216,6 +218,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'v = s / t (s là khoảng cách giữa 2 cổng quang, t là thời gian chuyển động).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -229,13 +232,13 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Một đồ thị đơn giản có thể vẽ nên toàn bộ hành trình của một chiếc tàu hoả. Nhìn vào đồ thị độ dịch chuyển - thời gian, ' +
       'ta không chỉ biết tàu đang đi đâu, mà còn biết tàu chạy nhanh thế nào hay đang dừng nghỉ.',
     theory:
-      'ĐỒ THỊ ĐỘ DỊCH CHUYỂN — THỜI GIAN (d-t):\\n' +
-      '— Trục đứng (tung độ) biểu diễn độ dịch chuyển d. Trục ngang (hoành độ) biểu diễn thời gian t.\\n\\n' +
-      'Ý NGHĨA CỦA ĐỒ THỊ d-t:\\n' +
-      '— Đường thẳng nằm ngang (song song với trục t): Độ dịch chuyển không đổi theo thời gian → Vật đứng yên (v = 0).\\n' +
-      '— Đường thẳng dốc lên: Độ dịch chuyển tăng đều theo thời gian → Vật chuyển động thẳng đều theo chiều dương (v > 0).\\n' +
-      '— Đường thẳng dốc xuống: Độ dịch chuyển giảm đều theo thời gian → Vật chuyển động thẳng đều ngược chiều dương (v < 0).\\n' +
-      '— Độ dốc (slope / hệ số góc) của đồ thị d-t chính là vận tốc của chuyển động:\\n' +
+      'ĐỒ THỊ ĐỘ DỊCH CHUYỂN — THỜI GIAN (d-t):\n' +
+      '— Trục đứng (tung độ) biểu diễn độ dịch chuyển d. Trục ngang (hoành độ) biểu diễn thời gian t.\n\n' +
+      'Ý NGHĨA CỦA ĐỒ THỊ d-t:\n' +
+      '— Đường thẳng nằm ngang (song song với trục t): Độ dịch chuyển không đổi theo thời gian → Vật đứng yên (v = 0).\n' +
+      '— Đường thẳng dốc lên: Độ dịch chuyển tăng đều theo thời gian → Vật chuyển động thẳng đều theo chiều dương (v > 0).\n' +
+      '— Đường thẳng dốc xuống: Độ dịch chuyển giảm đều theo thời gian → Vật chuyển động thẳng đều ngược chiều dương (v < 0).\n' +
+      '— Độ dốc (slope / hệ số góc) của đồ thị d-t chính là vận tốc của chuyển động:\n' +
       '  — Hệ số góc: v = Δd / Δt = (d₂ - d₁) / (t₂ - t₁).',
     workedExample: {
       problem:
@@ -289,6 +292,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'v = (d₂ - d₁) / (t₂ - t₁).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -302,16 +306,16 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Một chiếc siêu xe thể thao có thể tăng tốc từ 0 lên 100 km/h chỉ trong 2,5 giây. Đại lượng nào đo lường ' +
       'mức độ thay đổi vận tốc nhanh hay chậm của chiếc xe đó?',
     theory:
-      'KHÁI NIỆM CHUYỂN ĐỘNG BIẾN ĐỔI:\\n' +
-      '— Chuyển động biến đổi là chuyển động có vận tốc thay đổi theo thời gian.\\n\\n' +
-      'GIA TỐC (ACCELERATION):\\n' +
-      '— Gia tốc là đại lượng vectơ đặc trưng cho sự thay đổi nhanh hay chậm của vận tốc theo thời gian.\\n' +
-      '— Công thức tính gia tốc trung bình:\\n' +
-      '  — a = Δv / Δt = (v_t - v_o) / t (dạng đại số trên trục chuyển động thẳng).\\n' +
-      '  — Dạng vectơ: vectơ a = (vectơ v_t - vectơ v_o) / Δt.\\n' +
-      '— Đơn vị đo trong hệ SI: Mét trên giây bình phương (m/s²).\\n\\n' +
-      'TÍNH CHẤT CHUYỂN ĐỘNG THẲNG BIẾN ĐỔI:\\n' +
-      '— Chuyển động thẳng nhanh dần: Vectơ vận tốc và vectơ gia tốc cùng chiều (a và v cùng dấu: a.v > 0).\\n' +
+      'KHÁI NIỆM CHUYỂN ĐỘNG BIẾN ĐỔI:\n' +
+      '— Chuyển động biến đổi là chuyển động có vận tốc thay đổi theo thời gian.\n\n' +
+      'GIA TỐC (ACCELERATION):\n' +
+      '— Gia tốc là đại lượng vectơ đặc trưng cho sự thay đổi nhanh hay chậm của vận tốc theo thời gian.\n' +
+      '— Công thức tính gia tốc trung bình:\n' +
+      '  — a = Δv / Δt = (v_t - v_o) / t (dạng đại số trên trục chuyển động thẳng).\n' +
+      '  — Dạng vectơ: vectơ a = (vectơ v_t - vectơ v_o) / Δt.\n' +
+      '— Đơn vị đo trong hệ SI: Mét trên giây bình phương (m/s²).\n\n' +
+      'TÍNH CHẤT CHUYỂN ĐỘNG THẲNG BIẾN ĐỔI:\n' +
+      '— Chuyển động thẳng nhanh dần: Vectơ vận tốc và vectơ gia tốc cùng chiều (a và v cùng dấu: a.v > 0).\n' +
       '— Chuyển động thẳng chậm dần: Vectơ vận tốc và vectơ gia tốc ngược chiều (a và v trái dấu: a.v < 0).',
     workedExample: {
       problem:
@@ -362,6 +366,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Khi gia tốc ngược chiều với vận tốc (a.v < 0).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -375,11 +380,11 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Khi một đoàn tàu phanh lại hoặc một chiếc phi cơ cất cánh trên đường băng, vận tốc của chúng tăng hoặc giảm đều đặn. ' +
       'Đây là chuyển động thẳng biến đổi đều — nền tảng của mọi bài toán cơ học động lực.',
     theory:
-      'ĐỊNH NGHĨA CHUYỂN ĐỘNG THẲNG BIẾN ĐỔI ĐỀU:\\n' +
-      '— Chuyển động thẳng có gia tốc không đổi theo thời gian (a = hằng số).\\n\\n' +
-      'HỆ PHƯƠNG TRÌNH CHUYỂN ĐỘNG THẲNG BIẾN ĐỔI ĐỀU (Chọn gốc toạ độ trùng vị trí đầu, chiều dương là chiều chuyển động):\\n' +
-      '1. Phương trình vận tốc: v = v_o + a.t.\\n' +
-      '2. Phương trình độ dịch chuyển: d = v_o.t + 0,5.a.t².\\n' +
+      'ĐỊNH NGHĨA CHUYỂN ĐỘNG THẲNG BIẾN ĐỔI ĐỀU:\n' +
+      '— Chuyển động thẳng có gia tốc không đổi theo thời gian (a = hằng số).\n\n' +
+      'HỆ PHƯƠNG TRÌNH CHUYỂN ĐỘNG THẲNG BIẾN ĐỔI ĐỀU (Chọn gốc toạ độ trùng vị trí đầu, chiều dương là chiều chuyển động):\n' +
+      '1. Phương trình vận tốc: v = v_o + a.t.\n' +
+      '2. Phương trình độ dịch chuyển: d = v_o.t + 0,5.a.t².\n' +
       '3. Công thức liên hệ không phụ thuộc thời gian: v² - v_o² = 2.a.d.',
     workedExample: {
       problem:
@@ -432,10 +437,158 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'd = v_o.t + 0,5.a.t².',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
     id: 'ly10-c2-b10',
+    // Hoạt ảnh phá hiểu lầm kinh điển "vật nặng rơi nhanh hơn": đặt cạnh nhau ống chân không
+    // (bi và lông chim rơi trùng nhau) và ống có không khí (lông chim tụt lại).
+    animation: {
+      title: 'Trong chân không, bi sắt và lông chim rơi như nhau',
+      description:
+        'Bên trái là ống đã hút hết không khí: một viên bi sắt và một chiếc lông chim được thả cùng lúc từ miệng ống. Ở mọi thời điểm hai vật luôn ngang nhau và cùng chạm đáy. Quãng đường đi được trong từng giây liên tiếp tăng dần theo tỉ lệ 1 : 3 : 5 — đó chính là dấu hiệu của chuyển động nhanh dần đều với gia tốc g. Bên phải là ống còn không khí: viên bi vẫn rơi như cũ, nhưng chiếc lông chim tụt lại rất xa vì lực cản không khí lớn so với trọng lượng bé của nó. Kết luận: cái làm hai vật rơi khác nhau là lực cản không khí, không phải khối lượng.',
+      viewBoxWidth: 420,
+      viewBoxHeight: 260,
+      durationMs: 3000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'rect',
+          id: 'ong-chan-khong',
+          x: 20,
+          y: 30,
+          w: 160,
+          h: 200,
+          rx: 8,
+          stroke: 'neutral',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'rect',
+          id: 'ong-khong-khi',
+          x: 240,
+          y: 30,
+          w: 160,
+          h: 200,
+          rx: 8,
+          stroke: 'neutral',
+          strokeWidth: 2,
+          dash: '6 4',
+        },
+        {
+          kind: 'circle',
+          id: 'bi-chan-khong',
+          cx: 60,
+          cy: 50,
+          r: 9,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 0, dy: 0 },
+            { atMs: 750, dy: 10 },
+            { atMs: 1500, dy: 40 },
+            { atMs: 2250, dy: 90 },
+            { atMs: 3000, dy: 160 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'long-chan-khong',
+          cx: 140,
+          cy: 50,
+          r: 9,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dy: 0 },
+            { atMs: 750, dy: 10 },
+            { atMs: 1500, dy: 40 },
+            { atMs: 2250, dy: 90 },
+            { atMs: 3000, dy: 160 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'bi-khong-khi',
+          cx: 280,
+          cy: 50,
+          r: 9,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 0, dy: 0 },
+            { atMs: 750, dy: 10 },
+            { atMs: 1500, dy: 40 },
+            { atMs: 2250, dy: 90 },
+            { atMs: 3000, dy: 160 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'long-khong-khi',
+          cx: 360,
+          cy: 50,
+          r: 9,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dy: 0 },
+            { atMs: 750, dy: 12 },
+            { atMs: 1500, dy: 30 },
+            { atMs: 2250, dy: 52 },
+            { atMs: 3000, dy: 76 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-chan-khong',
+          x: 100,
+          y: 22,
+          text: 'Ống chân không',
+          size: 14,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-khong-khi',
+          x: 320,
+          y: 22,
+          text: 'Ống có không khí',
+          size: 14,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-bi',
+          x: 60,
+          y: 248,
+          text: 'bi sắt',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-long',
+          x: 140,
+          y: 248,
+          text: 'lông chim',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+      ],
+      captions: [
+        { atMs: 0, text: 'Thả đồng thời bi sắt và lông chim ở cả hai ống.' },
+        {
+          atMs: 1500,
+          text: 'Trong chân không hai vật luôn ngang nhau; bên ống có không khí lông chim đã tụt lại.',
+        },
+        {
+          atMs: 3000,
+          text: 'Chân không: chạm đáy cùng lúc. Khác biệt sinh ra từ lực cản, không phải khối lượng.',
+        },
+      ],
+    },
     grade: '10',
     chapterNumber: 2,
     chapterTitle: 'Động học',
@@ -445,17 +598,23 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Nếu thả rơi một chiếc lá và một quả cân trong không khí, quả cân sẽ chạm đất trước. Nhưng nếu hút hết không khí ra để tạo chân không, ' +
       'cả hai sẽ rơi nhanh như nhau và chạm đất cùng lúc. Chuyển động kì diệu đó gọi là sự rơi tự do.',
     theory:
-      'ĐỊNH NGHĨA SỰ RƠI TỰ DO:\\n' +
-      '— Sự rơi tự do là sự rơi của các vật chỉ dưới tác dụng của trọng lực (bỏ qua sức cản của không khí).\\n\\n' +
-      'ĐẶC ĐIỂM CỦA CHUYỂN ĐỘNG RƠI TỰ DO:\\n' +
-      '— Phương: Thẳng đứng. Chiều: Từ trên xuống dưới.\\n' +
-      '— Tính chất: Chuyển động thẳng nhanh dần đều không vận tốc đầu (v_o = 0).\\n\\n' +
-      'GIA TỐC RƠI TỰ DO (g):\\n' +
-      '— Tại một nơi xác định trên Trái Đất và ở gần mặt đất, mọi vật đều rơi tự do với cùng một gia tốc g.\\n' +
-      '— Thường lấy g ≈ 9,8 m/s² hoặc g ≈ 10 m/s².\\n\\n' +
-      'CÁC CÔNG THỨC RƠI TỰ DO (Chọn chiều dương hướng xuống, gốc tại điểm thả):\\n' +
-      '1. Vận tốc tại thời điểm t: v = g.t.\\n' +
-      '2. Quãng đường (độ cao rơi) sau thời gian t: h = 0,5.g.t².\\n' +
+      'ĐỊNH NGHĨA SỰ RƠI TỰ DO:\n' +
+      '— Sự rơi tự do là sự rơi của các vật chỉ dưới tác dụng của trọng lực (bỏ qua sức cản của không khí).\n\n' +
+      'ĐẶC ĐIỂM CỦA CHUYỂN ĐỘNG RƠI TỰ DO:\n' +
+      '— Phương: Thẳng đứng. Chiều: Từ trên xuống dưới.\n' +
+      '— Tính chất: Chuyển động thẳng nhanh dần đều không vận tốc đầu (v_o = 0).\n\n' +
+      'GIA TỐC RƠI TỰ DO (g):\n' +
+      '— Tại một nơi xác định trên Trái Đất và ở gần mặt đất, mọi vật đều rơi tự do với cùng một gia tốc g.\n' +
+      '— VÌ SAO vật nặng và vật nhẹ lại rơi như nhau? Trọng lực tác dụng lên vật nặng đúng là lớn hơn (P = m.g), ' +
+      'nhưng chính vật nặng cũng "ì" hơn: theo định luật 2 Newton a = F/m = m.g/m = g, khối lượng m bị triệt tiêu. ' +
+      'Lực kéo lớn hơn bao nhiêu lần thì quán tính cũng lớn hơn đúng bấy nhiêu lần, nên gia tốc không đổi.\n' +
+      '— ĐIỀU KIỆN ÁP DỤNG: chỉ đúng khi bỏ qua được lực cản không khí. Với chiếc lá, tờ giấy, quả bóng bay — ' +
+      'lực cản so được với trọng lượng nên chúng KHÔNG rơi tự do và công thức dưới đây không dùng được.\n' +
+      '— GIỚI HẠN: g còn thay đổi theo vĩ độ và độ cao (ở địa cực lớn hơn ở xích đạo, lên cao thì giảm), ' +
+      'nên g là hằng số của MỘT NƠI chứ không phải hằng số của vũ trụ. Thường lấy g ≈ 9,8 m/s² hoặc g ≈ 10 m/s².\n\n' +
+      'CÁC CÔNG THỨC RƠI TỰ DO (Chọn chiều dương hướng xuống, gốc tại điểm thả):\n' +
+      '1. Vận tốc tại thời điểm t: v = g.t.\n' +
+      '2. Quãng đường (độ cao rơi) sau thời gian t: h = 0,5.g.t².\n' +
       '3. Vận tốc liên hệ với quãng đường: v² = 2.g.h hay v = √(2.g.h).',
     workedExample: {
       problem:
@@ -494,6 +653,25 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         },
         explain: 'Vận tốc chạm đất v = g.t = 10 * 2 = 20 m/s.',
       },
+      {
+        // Câu bẫy: hiểu lầm phổ biến nhất của chương này — "nặng thì rơi nhanh hơn".
+        prompt:
+          'Thả đồng thời từ cùng một độ cao trong ống đã hút hết không khí: viên bi sắt 2 kg và viên bi thuỷ tinh 20 g. Vật nào chạm đáy trước?',
+        choices: [
+          { id: 'sat', label: 'Bi sắt, vì nó nặng gấp 100 lần nên trọng lực kéo nó mạnh hơn' },
+          { id: 'cung_luc', label: 'Cả hai chạm đáy cùng lúc' },
+          { id: 'thuy_tinh', label: 'Bi thuỷ tinh, vì nhẹ hơn nên dễ chuyển động hơn' },
+        ],
+        answer: {
+          kind: 'choice',
+          correctIds: ['cung_luc'],
+        },
+        explain:
+          'Trọng lực lên bi sắt đúng là lớn gấp 100 lần thật — nhưng khối lượng (tức mức quán tính) của nó cũng lớn gấp 100 lần. ' +
+          'Gia tốc a = P/m = m.g/m = g, khối lượng bị triệt tiêu, nên cả hai cùng có gia tốc g và chạm đáy cùng lúc. ' +
+          'Sở dĩ trong đời thường ta thấy hòn đá rơi nhanh hơn tờ giấy là do LỰC CẢN KHÔNG KHÍ, không phải do khối lượng: ' +
+          'vò tờ giấy thành viên nhỏ rồi thả lại, nó sẽ rơi gần như cùng lúc với hòn đá.',
+      },
     ],
     srsCards: [
       {
@@ -505,6 +683,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'v = √(2.g.h).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -518,13 +697,13 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Giá trị g = 9,8 m/s² được ghi trong sách giáo khoa từ đâu mà có? Hãy tự mình thực hành và tính toán ' +
       'hằng số vũ trụ này ngay tại phòng thí nghiệm trường học.',
     theory:
-      'NGUYÊN TẮC ĐO GIA TỐC RƠI TỰ DO:\\n' +
-      '— Một quả cầu kim loại được giữ trên cao bằng nam châm điện.\\n' +
-      '— Khi ngắt điện, nam châm nhả quả cầu rơi tự do, đồng hồ hiện số bắt đầu đo thời gian.\\n' +
-      '— Quả cầu đi qua cổng quang điện đặt ở khoảng cách h phía dưới, đồng hồ dừng đếm thời gian t.\\n' +
-      '— Từ công thức h = 0,5.g.t² ta suy ra gia tốc rơi tự do thực nghiệm: g = 2.h / t².\\n\\n' +
-      'HẠN CHẾ SAI SỐ TRONG THÍ NGHIỆM:\\n' +
-      '— Dùng quả cầu sắt nhỏ, khối lượng riêng lớn để giảm thiểu tác dụng sức cản không khí.\\n' +
+      'NGUYÊN TẮC ĐO GIA TỐC RƠI TỰ DO:\n' +
+      '— Một quả cầu kim loại được giữ trên cao bằng nam châm điện.\n' +
+      '— Khi ngắt điện, nam châm nhả quả cầu rơi tự do, đồng hồ hiện số bắt đầu đo thời gian.\n' +
+      '— Quả cầu đi qua cổng quang điện đặt ở khoảng cách h phía dưới, đồng hồ dừng đếm thời gian t.\n' +
+      '— Từ công thức h = 0,5.g.t² ta suy ra gia tốc rơi tự do thực nghiệm: g = 2.h / t².\n\n' +
+      'HẠN CHẾ SAI SỐ TRONG THÍ NGHIỆM:\n' +
+      '— Dùng quả cầu sắt nhỏ, khối lượng riêng lớn để giảm thiểu tác dụng sức cản không khí.\n' +
       '— Đo thời gian t nhiều lần tại mỗi độ cao h để lấy giá trị trung bình, giảm sai số ngẫu nhiên.' +
       '— Vẽ đồ thị h theo t² để tìm g từ hệ số góc của đồ thị.',
     workedExample: {
@@ -581,10 +760,154 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Nam châm điện.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
     id: 'ly10-c2-b12',
+    // Hoạt ảnh cho thấy hai chuyển động thành phần độc lập nhau: bi ném ngang và bi thả rơi
+    // luôn ở CÙNG một độ cao tại mọi thời điểm, nên chạm đất cùng lúc.
+    animation: {
+      title: 'Ném ngang = rơi tự do cộng với chuyển động thẳng đều',
+      description:
+        'Hai viên bi rời mép bàn cùng một lúc: viên A được thả rơi thẳng đứng, viên B được ném ngang. Viên B vạch ra một nhánh parabol, còn viên A đi thẳng xuống. Điều đáng chú ý: ở mọi thời điểm hai viên luôn ở cùng một độ cao (các đoạn nét đứt nằm ngang nối chúng luôn song song với mặt đất), và chúng chạm đất cùng lúc. Theo phương ngang viên B đi được những đoạn bằng nhau trong những khoảng thời gian bằng nhau (thẳng đều, vì không có lực nào theo phương ngang); theo phương thẳng đứng nó rơi y hệt viên A (nhanh dần đều với gia tốc g). Tầm xa chỉ phụ thuộc tốc độ ném và độ cao, không ảnh hưởng tới thời gian rơi.',
+      viewBoxWidth: 420,
+      viewBoxHeight: 260,
+      durationMs: 3000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'line',
+          id: 'mat-dat',
+          x1: 10,
+          y1: 220,
+          x2: 410,
+          y2: 220,
+          stroke: 'neutral',
+          strokeWidth: 3,
+        },
+        { kind: 'rect', id: 'ban', x: 10, y: 40, w: 34, h: 10, stroke: 'muted', strokeWidth: 2 },
+        {
+          kind: 'polyline',
+          id: 'quy-dao',
+          points: [
+            [44, 40],
+            [84, 43],
+            [124, 51],
+            [164, 65],
+            [204, 85],
+            [244, 110],
+            [284, 141],
+            [324, 178],
+            [364, 220],
+          ],
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '5 4',
+        },
+        {
+          kind: 'circle',
+          id: 'bi-tha-roi',
+          cx: 44,
+          cy: 40,
+          r: 8,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dy: 0 },
+            { atMs: 750, dy: 11 },
+            { atMs: 1500, dy: 45 },
+            { atMs: 2250, dy: 101 },
+            { atMs: 3000, dy: 180 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'bi-nem-ngang',
+          cx: 44,
+          cy: 40,
+          r: 8,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 0, dx: 0, dy: 0 },
+            { atMs: 750, dx: 80, dy: 11 },
+            { atMs: 1500, dx: 160, dy: 45 },
+            { atMs: 2250, dx: 240, dy: 101 },
+            { atMs: 3000, dx: 320, dy: 180 },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'vec-v-ngang',
+          x1: 44,
+          y1: 40,
+          x2: 104,
+          y2: 40,
+          stroke: 'primary',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'arrow',
+          id: 'vec-g',
+          x1: 380,
+          y1: 60,
+          x2: 380,
+          y2: 110,
+          stroke: 'neutral',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'label',
+          id: 'nhan-g',
+          x: 388,
+          y: 92,
+          text: 'g',
+          size: 14,
+          anchor: 'start',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-vo',
+          x: 108,
+          y: 36,
+          text: 'v₀ (không đổi)',
+          size: 12,
+          anchor: 'start',
+          fill: 'primary',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-a',
+          x: 30,
+          y: 32,
+          text: 'A: thả rơi',
+          size: 12,
+          anchor: 'start',
+          fill: 'accent',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-tam-xa',
+          x: 200,
+          y: 240,
+          text: 'tầm xa L = v₀·√(2h/g)',
+          size: 13,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+      ],
+      captions: [
+        { atMs: 0, text: 'Hai viên bi rời mép bàn cùng lúc: A thả rơi, B ném ngang.' },
+        {
+          atMs: 1500,
+          text: 'Ở giữa đường, hai viên vẫn ở cùng độ cao — phương thẳng đứng của chúng giống hệt nhau.',
+        },
+        {
+          atMs: 3000,
+          text: 'Chạm đất cùng lúc. Vận tốc ném chỉ quyết định vật bay XA bao nhiêu, không quyết định rơi LÂU bao nhiêu.',
+        },
+      ],
+    },
     grade: '10',
     chapterNumber: 2,
     chapterTitle: 'Động học',
@@ -594,15 +917,15 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       'Khi một cầu thủ sút bóng bổng hoặc một phi cơ thả hàng cứu trợ, quỹ đạo bay của vật đều là một đường cong tuyệt đẹp. ' +
       'Làm thế nào để tính toán điểm rơi chính xác của vật ném?',
     theory:
-      'CHUYỂN ĐỘNG NÉM NGANG (Chọn hệ trục Ox nằm ngang theo hướng ném, Oy thẳng đứng hướng xuống, gốc tại điểm ném):\\n' +
-      '— Phương trình chuyển động:\\n' +
-      '  — Theo trục Ox: Vật không chịu lực cản → Chuyển động thẳng đều: a_x = 0, v_x = v_o, x = v_o.t.\\n' +
-      '  — Theo trục Oy: Vật chỉ chịu trọng lực → Chuyển động rơi tự do: a_y = g, v_y = g.t, y = 0,5.g.t².\\n' +
-      '— Phương trình quỹ đạo (y theo x): y = (g / (2.v_o²)) * x² (quỹ đạo là một nhánh parabol).\\n' +
-      '— Thời gian bay (cho đến khi chạm đất từ độ cao h): t = √(2.h / g).\\n' +
-      '— Tầm xa (khoảng cách nằm ngang xa nhất): L = x_max = v_o * t = v_o * √(2.h / g).\\n\\n' +
-      'CHUYỂN ĐỘNG NÉM XIÊN (Ném góc α so với phương ngang):\\n' +
-      '— Vận tốc ban đầu phân tích thành: v_ox = v_o.cos α, v_oy = v_o.sin α.\\n' +
+      'CHUYỂN ĐỘNG NÉM NGANG (Chọn hệ trục Ox nằm ngang theo hướng ném, Oy thẳng đứng hướng xuống, gốc tại điểm ném):\n' +
+      '— Phương trình chuyển động:\n' +
+      '  — Theo trục Ox: Vật không chịu lực cản → Chuyển động thẳng đều: a_x = 0, v_x = v_o, x = v_o.t.\n' +
+      '  — Theo trục Oy: Vật chỉ chịu trọng lực → Chuyển động rơi tự do: a_y = g, v_y = g.t, y = 0,5.g.t².\n' +
+      '— Phương trình quỹ đạo (y theo x): y = (g / (2.v_o²)) * x² (quỹ đạo là một nhánh parabol).\n' +
+      '— Thời gian bay (cho đến khi chạm đất từ độ cao h): t = √(2.h / g).\n' +
+      '— Tầm xa (khoảng cách nằm ngang xa nhất): L = x_max = v_o * t = v_o * √(2.h / g).\n\n' +
+      'CHUYỂN ĐỘNG NÉM XIÊN (Ném góc α so với phương ngang):\n' +
+      '— Vận tốc ban đầu phân tích thành: v_ox = v_o.cos α, v_oy = v_o.sin α.\n' +
       '— Tầm xa đạt cực đại khi góc ném α = 45° (nếu bỏ qua sức cản không khí).',
     workedExample: {
       problem:
@@ -642,6 +965,25 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         explain:
           'Thời gian rơi t = √(2h/g) = √(160/10) = 4 s. Tầm xa L = v_o * t = 50 * 4 = 200 m.',
       },
+      {
+        // Câu bẫy: học sinh hay tưởng ném càng mạnh thì vật "bay lâu hơn" nên rơi chậm hơn.
+        prompt:
+          'Từ mép một chiếc bàn cao 1,25 m, viên bi A được thả rơi thẳng đứng còn viên bi B được ném ngang với tốc độ 4 m/s, cùng một lúc. Viên nào chạm sàn trước?',
+        choices: [
+          { id: 'a_truoc', label: 'Viên A, vì nó đi thẳng xuống theo đường ngắn nhất' },
+          { id: 'b_truoc', label: 'Viên B, vì nó có thêm vận tốc ban đầu' },
+          { id: 'cung_luc', label: 'Cả hai chạm sàn cùng lúc' },
+        ],
+        answer: {
+          kind: 'choice',
+          correctIds: ['cung_luc'],
+        },
+        explain:
+          'Hai chuyển động thành phần ĐỘC LẬP với nhau. Vận tốc ném v₀ nằm ngang nên nó không đóng góp gì vào phương thẳng đứng: ' +
+          'theo phương Oy cả hai vật đều rơi tự do không vận tốc đầu, t = √(2h/g) = √(2·1,25/10) = 0,5 s như nhau. ' +
+          'Quãng đường viên B đi được đúng là dài hơn (đường parabol dài hơn đoạn thẳng), nhưng nó cũng đi nhanh hơn đúng phần chênh lệch đó theo phương ngang. ' +
+          'Tốc độ ném chỉ quyết định vật rơi XA bao nhiêu (L = v₀·t = 2 m), không quyết định rơi LÂU bao nhiêu.',
+      },
     ],
     srsCards: [
       {
@@ -653,6 +995,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
         dap: 'L = v_o * √(2.h / g).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

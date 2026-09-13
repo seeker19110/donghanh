@@ -75,7 +75,8 @@
     "prepare": "husky",
     "swift:conformance": "tsx scripts/swift-conformance.ts",
     "kotlin:conformance": "tsx scripts/kotlin-conformance.ts",
-    "gen:feature-map": "tsx scripts/gen-feature-map.ts"
+    "gen:feature-map": "tsx scripts/gen-feature-map.ts",
+    "gen:stem-lesson-index": "tsx scripts/gen-stem-lesson-index.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1127.0",

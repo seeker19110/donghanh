@@ -19,7 +19,13 @@
     "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
     "paths": {
-      "@core/*": ["../../packages/core-ui/*"]
+      "@core/*": ["../../packages/core-ui/*"],
+      // Hub không import gói `@dhcb/*` nào, nhưng nó QUÉT cả `packages/core-ui` (xem
+      // "include" bên dưới), nên phải phân giải được import của core-ui. Thiếu dòng này thì
+      // `tsc -p apps/hub/tsconfig.json` đỏ ngay khi một file core-ui import gói khác — đã
+      // dính thật 2026-09-13 với LessonAnimation.tsx, và chỉ lộ ra ở CI vì máy lập trình
+      // còn `packages/*/dist` cũ để phân giải tạm.
+      "@dhcb/*": ["../../packages/*"]
     }
   },
   "include": ["src", "../../packages/core-ui"]

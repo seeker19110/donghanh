@@ -30,6 +30,13 @@ describe('chuẩn hoá số — bẫy cách viết tiếng Việt', () => {
     expect(evaluateNumeric('1.5')).toBe(1.5) // 1 chữ số → dấu thập phân
     expect(evaluateNumeric('1.0000')).toBe(1.0) // 4 chữ số → dấu thập phân
     expect(evaluateNumeric('1.000.000')).toBe(1000000)
+
+    // Phần nguyên bằng 0 thì không thể là phân nhóm nghìn — không ai viết 866 thành "0.866".
+    // Thiếu ngoại lệ này, học sinh gõ đáp án lượng giác/xác suất quen thuộc bị chấm sai.
+    expect(evaluateNumeric('0.866')).toBe(0.866)
+    expect(evaluateNumeric('0,866')).toBe(0.866)
+    expect(evaluateNumeric('-0.866')).toBe(-0.866)
+    expect(evaluateNumeric('0.125')).toBe(0.125)
     expect(evaluateNumeric('1 000 000')).toBe(1000000)
   })
 

@@ -71,4 +71,17 @@ describe('BIOLOGY_LESSONS registry', () => {
       expect(lesson.srsCards.length, `${lesson.id}: thiếu srsCards`).toBeGreaterThanOrEqual(2)
     }
   })
+
+  it('không bài nào in ra chữ "\\n" thay vì xuống dòng thật', () => {
+    // Đã dính thật 2026-09-13: 1173 chỗ viết '\\n' (hai gạch chéo) trong chuỗi, nên học sinh
+    // nhìn thấy ký tự \n lẫn giữa nội dung và cả đoạn theory dồn thành một dòng. Kiểu vẫn
+    // đúng, schema vẫn qua — chỉ ca test này bắt được.
+    const chuoiSai = String.fromCharCode(92) + 'n'
+    for (const lesson of BIOLOGY_LESSONS) {
+      expect(
+        JSON.stringify(lesson).includes(String.fromCharCode(92, 92) + 'n'),
+        `Bài ${lesson.id} còn chứa chuỗi "${chuoiSai}" — phải là ký tự xuống dòng thật`,
+      ).toBe(false)
+    }
+  })
 })

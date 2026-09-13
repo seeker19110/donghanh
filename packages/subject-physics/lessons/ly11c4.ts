@@ -4,6 +4,152 @@ import type { PhysicsLesson } from '../lessonTypes.js'
 export const LY11_C4_LESSONS: PhysicsLesson[] = [
   {
     id: 'ly11-c4-b22',
+    // Tách bạch CHIỀU QUY ƯỚC của dòng điện với chiều chuyển động thật của electron —
+    // chỗ gây rối cho gần như mọi học sinh khi mới học điện.
+    animation: {
+      title: 'Chiều dòng điện quy ước và chiều đi thật của electron',
+      description:
+        'Một mạch kín gồm pin và bóng đèn nối bằng dây dẫn. Mũi tên lớn ở cạnh trên chạy từ cực dương của pin qua đèn về cực âm: đó là CHIỀU QUY ƯỚC của dòng điện, được chọn từ thời chưa biết đến electron. Các chấm nhỏ ở cạnh dưới là electron tự do trong kim loại, chúng chạy NGƯỢC lại vì mang điện tích âm. Hai chiều ngược nhau nhưng không mâu thuẫn: điện tích âm đi sang trái gây hiệu ứng y hệt điện tích dương đi sang phải. Electron trôi rất chậm (cỡ 0,1 mm/s), còn đèn sáng gần như tức thì vì điện trường lan trong dây với tốc độ gần bằng tốc độ ánh sáng. Cường độ dòng điện I = q/t đo lượng điện tích qua tiết diện dây trong một giây.',
+      viewBoxWidth: 420,
+      viewBoxHeight: 240,
+      durationMs: 4000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'rect',
+          id: 'day-dan',
+          x: 60,
+          y: 50,
+          w: 300,
+          h: 140,
+          stroke: 'neutral',
+          strokeWidth: 3,
+        },
+        { kind: 'rect', id: 'pin', x: 40, y: 100, w: 40, h: 40, rx: 4, fill: 'muted' },
+        { kind: 'circle', id: 'den', cx: 360, cy: 120, r: 20, stroke: 'warn', strokeWidth: 3 },
+        {
+          kind: 'label',
+          id: 'nhan-cuc-duong',
+          x: 60,
+          y: 94,
+          text: '+',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-cuc-am',
+          x: 60,
+          y: 162,
+          text: '−',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-den',
+          x: 360,
+          y: 168,
+          text: 'đèn',
+          size: 12,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'arrow',
+          id: 'chieu-quy-uoc-tren',
+          x1: 140,
+          y1: 50,
+          x2: 260,
+          y2: 50,
+          stroke: 'primary',
+          strokeWidth: 4,
+        },
+        {
+          kind: 'arrow',
+          id: 'chieu-electron-duoi',
+          x1: 260,
+          y1: 190,
+          x2: 140,
+          y2: 190,
+          stroke: 'accent',
+          strokeWidth: 4,
+        },
+        {
+          kind: 'circle',
+          id: 'electron-1',
+          cx: 280,
+          cy: 190,
+          r: 6,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dx: 0 },
+            { atMs: 4000, dx: -180 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'electron-2',
+          cx: 220,
+          cy: 190,
+          r: 6,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dx: 0 },
+            { atMs: 4000, dx: -180 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'hat-dien-quy-uoc',
+          cx: 120,
+          cy: 50,
+          r: 6,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 0, dx: 0 },
+            { atMs: 4000, dx: 180 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-i',
+          x: 200,
+          y: 38,
+          text: 'I (chiều quy ước)',
+          size: 13,
+          anchor: 'middle',
+          fill: 'primary',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-e',
+          x: 200,
+          y: 212,
+          text: 'electron đi ngược chiều I',
+          size: 13,
+          anchor: 'middle',
+          fill: 'accent',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-ct',
+          x: 210,
+          y: 232,
+          text: 'I = q / t (ampe = culông mỗi giây)',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+      ],
+      captions: [
+        { atMs: 0, text: 'Đóng mạch: dòng điện quy ước chạy từ cực dương qua đèn về cực âm.' },
+        { atMs: 2000, text: 'Trong dây kim loại, electron tự do lại trôi theo chiều ngược lại.' },
+        { atMs: 4000, text: 'Hai cách mô tả cùng một hiện tượng — I = q/t vẫn tính như nhau.' },
+      ],
+    },
     grade: '11',
     chapterNumber: 4,
     chapterTitle: 'Dòng điện. Mạch điện',
@@ -14,21 +160,21 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
       'Đó là nhờ dòng chảy của hàng tỷ tỷ electron tự do di chuyển có hướng dọc theo dây đồng. ' +
       'Tốc độ của dòng chảy này chính là Cường độ dòng điện.',
     theory:
-      'DÒNG ĐIỆN VÀ ĐIỀU KIỆN CÓ DÒNG ĐIỆN:\\n' +
-      '— Dòng điện là dòng dịch chuyển có hướng của các hạt mang điện tích.\\n' +
-      '— Điều kiện để có dòng điện: Phải có các hạt mang điện tự do và phải có một điện trường duy trì bên trong vật dẫn (do nguồn điện cung cấp).\\n' +
-      '— Chiều dòng điện: Được quy ước là chiều dịch chuyển có hướng của các điện tích dương (ngược chiều dịch chuyển của các electron tự do trong kim loại).\\n\\n' +
-      'CƯỜNG ĐỘ DÒNG ĐIỆN (CURRENT INTENSITY):\\n' +
-      '— Cường độ dòng điện (I) là đại lượng đặc trưng cho tác dụng mạnh hay yếu của dòng điện. Đo bằng lượng điện tích dịch chuyển qua tiết diện thẳng của vật dẫn trong một đơn vị thời gian.\\n' +
-      '— Công thức cho dòng điện không đổi: I = q / t  ⇒  q = I * t.\\n' +
-      '  — I: Cường độ dòng điện. Đơn vị trong hệ SI: Ampere (A).\\n' +
-      '  — q: Điện tích chuyển qua tiết diện (C).\\n' +
-      '  — t: Thời gian dòng điện chạy qua (s).\\n\\n' +
-      'MÔ HÌNH DÒNG ĐIỆN TRONG KIM LOẠI (DRIFT VELOCITY):\\n' +
-      '— I = n * S * v * e.\\n' +
-      '  — n: Mật độ electron tự do trong kim loại.\\n' +
-      '  — S: Diện tích tiết diện thẳng của dây dẫn.\\n' +
-      '  — v: Tốc độ trôi (tốc độ chuyển động có hướng của electron dưới tác dụng của điện trường).\\n' +
+      'DÒNG ĐIỆN VÀ ĐIỀU KIỆN CÓ DÒNG ĐIỆN:\n' +
+      '— Dòng điện là dòng dịch chuyển có hướng của các hạt mang điện tích.\n' +
+      '— Điều kiện để có dòng điện: Phải có các hạt mang điện tự do và phải có một điện trường duy trì bên trong vật dẫn (do nguồn điện cung cấp).\n' +
+      '— Chiều dòng điện: Được quy ước là chiều dịch chuyển có hướng của các điện tích dương (ngược chiều dịch chuyển của các electron tự do trong kim loại).\n\n' +
+      'CƯỜNG ĐỘ DÒNG ĐIỆN (CURRENT INTENSITY):\n' +
+      '— Cường độ dòng điện (I) là đại lượng đặc trưng cho tác dụng mạnh hay yếu của dòng điện. Đo bằng lượng điện tích dịch chuyển qua tiết diện thẳng của vật dẫn trong một đơn vị thời gian.\n' +
+      '— Công thức cho dòng điện không đổi: I = q / t  ⇒  q = I * t.\n' +
+      '  — I: Cường độ dòng điện. Đơn vị trong hệ SI: Ampere (A).\n' +
+      '  — q: Điện tích chuyển qua tiết diện (C).\n' +
+      '  — t: Thời gian dòng điện chạy qua (s).\n\n' +
+      'MÔ HÌNH DÒNG ĐIỆN TRONG KIM LOẠI (DRIFT VELOCITY):\n' +
+      '— I = n * S * v * e.\n' +
+      '  — n: Mật độ electron tự do trong kim loại.\n' +
+      '  — S: Diện tích tiết diện thẳng của dây dẫn.\n' +
+      '  — v: Tốc độ trôi (tốc độ chuyển động có hướng của electron dưới tác dụng của điện trường).\n' +
       '  — e: Độ lớn điện tích của electron (e ≈ 1,6 * 10⁻¹⁹ C).',
     workedExample: {
       problem:
@@ -68,6 +214,24 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
         },
         explain: 'q = I * t = 0,2 * 10 = 2 C.',
       },
+      {
+        // Câu bẫy: lẫn chiều quy ước với chiều đi thật của electron.
+        prompt:
+          'Trong dây dẫn kim loại của một mạch điện kín đang hoạt động, các electron tự do chuyển động theo chiều nào so với chiều quy ước của dòng điện?',
+        choices: [
+          { id: 'cung_chieu', label: 'Cùng chiều, vì electron chính là hạt tạo ra dòng điện' },
+          { id: 'nguoc_chieu', label: 'Ngược chiều, vì electron mang điện tích âm' },
+          { id: 'khong_di', label: 'Electron đứng yên, chỉ có điện trường chạy trong dây' },
+        ],
+        answer: {
+          kind: 'choice',
+          correctIds: ['nguoc_chieu'],
+        },
+        explain:
+          'Chiều quy ước của dòng điện được chọn là chiều chuyển động của các điện tích DƯƠNG (từ cực dương qua mạch ngoài về cực âm) — quy ước này có từ trước khi người ta phát hiện ra electron. ' +
+          'Trong kim loại, hạt tải điện thật lại là electron mang điện tích âm, nên chúng trôi ngược chiều quy ước. Đây không phải mâu thuẫn: điện tích âm đi sang trái gây ra hiệu ứng y hệt điện tích dương đi sang phải, nên mọi công thức I = q/t, định luật Ohm… đều không đổi. ' +
+          'Một điểm dễ nhầm nữa: electron trôi rất chậm (cỡ 0,1 mm/s), nhưng đèn sáng gần như tức thì vì điện trường lan trong dây với tốc độ gần bằng tốc độ ánh sáng và làm electron ở khắp nơi trong mạch cùng lúc chuyển động.',
+      },
     ],
     srsCards: [
       {
@@ -79,6 +243,7 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Là chiều dịch chuyển có hướng của các điện tích dương.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -92,15 +257,15 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
       'Đẩy nước qua một đường ống rộng thì rất dễ dàng, nhưng đẩy nước qua một đường ống hẹp nhét đầy cát thì cực kì khó khăn. ' +
       'Dây dẫn điện cũng cản trở dòng electron tương tự như vậy. Đại lượng này là Điện trở.',
     theory:
-      'ĐIỆN TRỞ CỦA VẬT DẪN (RESISTANCE):\\n' +
-      '— Điện trở R đặc trưng cho mức độ cản trở dòng điện của vật dẫn. Đơn vị: Ohm (Ω).\\n\\n' +
-      'ĐÌNH LUẬT OHM CHO ĐOẠN MẠCH CHỈ CÓ ĐIỆN TRỞ R:\\n' +
-      '— Phát biểu: Cường độ dòng điện chạy qua một vật dẫn tỉ lệ thuận với hiệu điện thế giữa hai đầu vật dẫn và tỉ lệ nghịch với điện trở của nó.\\n' +
-      '— Công thức: I = U / R  ⇒  R = U / I.\\n\\n' +
-      'ĐIỆN TRỞ CỦA DÂY DẪN KIM LOẠI ĐỒNG TÍNH:\\n' +
-      '— R = ρ * L / S.\\n' +
-      '  — ρ: Điện trở suất của vật liệu dây dẫn (đơn vị: Ω.m). Điện trở suất phụ thuộc vào bản chất vật liệu và nhiệt độ (nhiệt độ tăng, ρ tăng).\\n' +
-      '  — L: Chiều dài dây dẫn (m).\\n' +
+      'ĐIỆN TRỞ CỦA VẬT DẪN (RESISTANCE):\n' +
+      '— Điện trở R đặc trưng cho mức độ cản trở dòng điện của vật dẫn. Đơn vị: Ohm (Ω).\n\n' +
+      'ĐÌNH LUẬT OHM CHO ĐOẠN MẠCH CHỈ CÓ ĐIỆN TRỞ R:\n' +
+      '— Phát biểu: Cường độ dòng điện chạy qua một vật dẫn tỉ lệ thuận với hiệu điện thế giữa hai đầu vật dẫn và tỉ lệ nghịch với điện trở của nó.\n' +
+      '— Công thức: I = U / R  ⇒  R = U / I.\n\n' +
+      'ĐIỆN TRỞ CỦA DÂY DẪN KIM LOẠI ĐỒNG TÍNH:\n' +
+      '— R = ρ * L / S.\n' +
+      '  — ρ: Điện trở suất của vật liệu dây dẫn (đơn vị: Ω.m). Điện trở suất phụ thuộc vào bản chất vật liệu và nhiệt độ (nhiệt độ tăng, ρ tăng).\n' +
+      '  — L: Chiều dài dây dẫn (m).\n' +
       '  — S: Diện tích tiết diện ngang của dây dẫn (m²).',
     workedExample: {
       problem:
@@ -151,6 +316,7 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
         dap: 'R = ρ * L / S.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -164,17 +330,17 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
       'Để nước chảy tuần hoàn trong máng trượt nước, ta cần một máy bơm nước đẩy nước lên cao. ' +
       'Để dòng điện chạy tuần hoàn trong mạch, ta cũng cần một "máy bơm điện" để đẩy điện tích. Đó là Nguồn điện.',
     theory:
-      'BẢN CHẤT CỦA NGUỒN ĐIỆN VÀ LỰC LẠ:\\n' +
+      'BẢN CHẤT CỦA NGUỒN ĐIỆN VÀ LỰC LẠ:\n' +
       '— Nguồn điện duy trì hiệu điện thế giữa hai cực của nó. Bên trong nguồn điện, các hạt mang điện chuyển động ngược chiều lực điện trường ' +
-      'nhờ lực phi tĩnh điện gọi là lực lạ (lực hóa học trong pin, lực từ trong máy phát điện).\\n\\n' +
-      'SUẤT ĐIỆN ĐỘNG CỦA NGUỒN ĐIỆN (ELECTROMOTIVE FORCE - EMF):\\n' +
-      '— Suất điện động (ξ) đặc trưng cho khả năng thực hiện công của nguồn điện (thực chất là của lực lạ) dịch chuyển điện tích dương từ cực âm sang cực dương bên trong nguồn.\\n' +
-      '— Công thức: ξ = A_lạ / q. Đơn vị: Volt (V).\\n' +
-      '— Điện trở trong (r): Nguồn điện được cấu tạo từ vật dẫn điện nên bản thân nó cũng có một điện trở cản trở dòng điện gọi là điện trở trong r.\\n\\n' +
-      'ĐỊNH LUẬT OHM CHO TOÀN MẠCH (CLOSED CIRCUIT):\\n' +
-      '— Cường độ dòng điện chạy trong mạch điện kín tỉ lệ thuận với suất điện động của nguồn điện và tỉ lệ nghịch với điện trở toàn phần của mạch.\\n' +
-      '— Công thức: I = ξ / (R_ngoài + r)  ⇒  ξ = I * (R_ngoài + r) = U_ngoài + I * r.\\n' +
-      '  — R_ngoài: Tổng điện trở của các thiết bị tiêu thụ điện ngoài nguồn.\\n' +
+      'nhờ lực phi tĩnh điện gọi là lực lạ (lực hóa học trong pin, lực từ trong máy phát điện).\n\n' +
+      'SUẤT ĐIỆN ĐỘNG CỦA NGUỒN ĐIỆN (ELECTROMOTIVE FORCE - EMF):\n' +
+      '— Suất điện động (ξ) đặc trưng cho khả năng thực hiện công của nguồn điện (thực chất là của lực lạ) dịch chuyển điện tích dương từ cực âm sang cực dương bên trong nguồn.\n' +
+      '— Công thức: ξ = A_lạ / q. Đơn vị: Volt (V).\n' +
+      '— Điện trở trong (r): Nguồn điện được cấu tạo từ vật dẫn điện nên bản thân nó cũng có một điện trở cản trở dòng điện gọi là điện trở trong r.\n\n' +
+      'ĐỊNH LUẬT OHM CHO TOÀN MẠCH (CLOSED CIRCUIT):\n' +
+      '— Cường độ dòng điện chạy trong mạch điện kín tỉ lệ thuận với suất điện động của nguồn điện và tỉ lệ nghịch với điện trở toàn phần của mạch.\n' +
+      '— Công thức: I = ξ / (R_ngoài + r)  ⇒  ξ = I * (R_ngoài + r) = U_ngoài + I * r.\n' +
+      '  — R_ngoài: Tổng điện trở của các thiết bị tiêu thụ điện ngoài nguồn.\n' +
       '  — U_ngoài = I * R_ngoài: Hiệu điện thế mạch ngoài (độ sụt thế mạch ngoài).',
     workedExample: {
       problem:
@@ -225,6 +391,7 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
         dap: 'U_trong = I * r (với I là cường độ dòng điện, r là điện trở trong của nguồn).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -238,21 +405,21 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
       'Hằng tháng, gia đình chúng ta trả tiền điện dựa trên số "chữ" điện ghi trên công-tơ. ' +
       'Các "chữ" điện này thực chất là gì và chúng ta tính toán điện năng tiêu thụ của các thiết bị như thế nào?',
     theory:
-      'CÔNG CỦA DÒNG ĐIỆN VÀ ĐIỆN NĂNG TIÊU THỤ (ELECTRICAL WORK):\\n' +
-      '— Khi dòng điện chạy qua một đoạn mạch dưới hiệu điện thế U, lực điện trường sinh công dịch chuyển điện tích q, công này bằng điện năng tiêu thụ của đoạn mạch.\\n' +
-      '— Công thức: A = U * q = U * I * t.\\n' +
-      '  — A: Điện năng tiêu thụ (J). Đơn vị thực tế: Kilowatt-giờ (kWh). 1 kWh = 3.600.000 J (3,6 MJ).\\n\\n' +
-      'CÔNG SUẤT ĐIỆN (ELECTRICAL POWER):\\n' +
-      '— Công suất điện tiêu thụ của một đoạn mạch đặc trưng cho tốc độ tiêu thụ điện năng của đoạn mạch đó, đo bằng điện năng tiêu thụ trong một đơn vị thời gian.\\n' +
-      '— Công thức: P = A / t = U * I.\\n  — P: Công suất điện. Đơn vị: Watt (W).\\n\\n' +
-      'ĐỊNH LUẬT JOULE - LENZ (nhiệt lượng toả ra trên điện trở R):\\n' +
-      '— Khi dòng điện chạy qua một đoạn mạch chỉ có điện trở thuần R, toàn bộ điện năng biến đổi thành nhiệt năng toả ra môi trường.\\n' +
-      '— Công thức nhiệt lượng: Q = R * I² * t.\\n' +
+      'CÔNG CỦA DÒNG ĐIỆN VÀ ĐIỆN NĂNG TIÊU THỤ (ELECTRICAL WORK):\n' +
+      '— Khi dòng điện chạy qua một đoạn mạch dưới hiệu điện thế U, lực điện trường sinh công dịch chuyển điện tích q, công này bằng điện năng tiêu thụ của đoạn mạch.\n' +
+      '— Công thức: A = U * q = U * I * t.\n' +
+      '  — A: Điện năng tiêu thụ (J). Đơn vị thực tế: Kilowatt-giờ (kWh). 1 kWh = 3.600.000 J (3,6 MJ).\n\n' +
+      'CÔNG SUẤT ĐIỆN (ELECTRICAL POWER):\n' +
+      '— Công suất điện tiêu thụ của một đoạn mạch đặc trưng cho tốc độ tiêu thụ điện năng của đoạn mạch đó, đo bằng điện năng tiêu thụ trong một đơn vị thời gian.\n' +
+      '— Công thức: P = A / t = U * I.\n  — P: Công suất điện. Đơn vị: Watt (W).\n\n' +
+      'ĐỊNH LUẬT JOULE - LENZ (nhiệt lượng toả ra trên điện trở R):\n' +
+      '— Khi dòng điện chạy qua một đoạn mạch chỉ có điện trở thuần R, toàn bộ điện năng biến đổi thành nhiệt năng toả ra môi trường.\n' +
+      '— Công thức nhiệt lượng: Q = R * I² * t.\n' +
       '— Công suất toả nhiệt của vật dẫn: P = Q / t = R * I² = U² / R.',
     workedExample: {
       problem:
         'Một chiếc ấm đun nước điện chạy ở hiệu điện thế U = 220 V và cường độ dòng điện chạy qua ấm là I = 5 A. ' +
-        'a) Tính công suất tiêu thụ điện P của chiếc ấm.\\n' +
+        'a) Tính công suất tiêu thụ điện P của chiếc ấm.\n' +
         'b) Tính điện năng tiêu thụ A của ấm khi hoạt động liên tục trong thời gian t = 10 phút.',
       steps: [
         'Tính công suất điện tiêu thụ P: P = U * I = 220 * 5 = 1100 W = 1,1 kW.',
@@ -299,6 +466,7 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Q = R * I² * t.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -312,14 +480,14 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
       'Làm thế nào xác định chính xác các thông số ẩn của một viên pin tiểu như suất điện động ξ và điện trở trong r ' +
       'khi không thể bóc viên pin ra để đo? Ta sử dụng phương pháp đồ thị vôn-ampe.',
     theory:
-      'SƠ ĐỒ THÍ NGHIỆM ĐO ξ VÀ r:\\n' +
-      '— Mạch điện gồm: Pin cần đo mắc nối tiếp với một ampe kế (đo I), một biến trở R để thay đổi tải và một khóa k.\\n' +
-      '— Mắc một vôn kế song song với hai cực của nguồn pin (đo hiệu điện thế mạch ngoài U).\\n\\n' +
-      'PHƯƠNG PHÁP ĐỒ THỊ (PHƯƠNG PHÁP TOÀN MẠCH):\\n' +
-      '— Theo định luật Ohm toàn mạch: U = ξ - I * r.\\n' +
-      '— Tiến hành đo nhiều lần cặp giá trị (U, I) bằng cách thay đổi giá trị biến trở R. Vẽ đồ thị U = f(I) trên hệ trục toạ độ.\\n' +
-      '— Đặc điểm đồ thị U = f(I): Là một đoạn thẳng nghiêng xuống.\\n' +
-      '  — Điểm cắt trục tung (khi dòng điện I = 0): U_max = ξ (đọc được giá trị suất điện động).*\\n' +
+      'SƠ ĐỒ THÍ NGHIỆM ĐO ξ VÀ r:\n' +
+      '— Mạch điện gồm: Pin cần đo mắc nối tiếp với một ampe kế (đo I), một biến trở R để thay đổi tải và một khóa k.\n' +
+      '— Mắc một vôn kế song song với hai cực của nguồn pin (đo hiệu điện thế mạch ngoài U).\n\n' +
+      'PHƯƠNG PHÁP ĐỒ THỊ (PHƯƠNG PHÁP TOÀN MẠCH):\n' +
+      '— Theo định luật Ohm toàn mạch: U = ξ - I * r.\n' +
+      '— Tiến hành đo nhiều lần cặp giá trị (U, I) bằng cách thay đổi giá trị biến trở R. Vẽ đồ thị U = f(I) trên hệ trục toạ độ.\n' +
+      '— Đặc điểm đồ thị U = f(I): Là một đoạn thẳng nghiêng xuống.\n' +
+      '  — Điểm cắt trục tung (khi dòng điện I = 0): U_max = ξ (đọc được giá trị suất điện động).*\n' +
       '  — Độ dốc của đường thẳng chính là giá trị điện trở trong r: r = |ΔU / ΔI|.',
     workedExample: {
       problem:
@@ -370,6 +538,7 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Tìm giao điểm của đoạn đồ thị kéo dài với trục tung U (ứng với I = 0).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

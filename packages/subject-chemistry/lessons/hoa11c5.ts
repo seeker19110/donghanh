@@ -15,14 +15,14 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
       'Chảo chống dính Teflon bền bỉ và ống nhựa PVC dẻo dai đều là polymer được tổng hợp từ dẫn xuất halogen. ' +
       'Các hợp chất này mang nhiều ứng dụng quan trọng lẫn thách thức môi trường.',
     theory:
-      'KHÁI NIỆM:\\n' +
-      '— Dẫn xuất halogen là hợp chất thu được khi thay thế một hay nhiều nguyên tử hydrogen trong phân tử hydrocarbon bằng một hay nhiều nguyên tử halogen (F, Cl, Br, I).\\n\\n' +
-      'TÍNH CHẤT HOÁ HỌC (Hai phản ứng quan trọng):\\n' +
-      '1. Phản ứng thế nhóm halogen bằng nhóm OH (phản ứng thuỷ phân):\\n' +
-      '   — Dẫn xuất halogen đun nóng với dung dịch kiềm (NaOH, KOH) tạo thành alcohol và muối halide.\\n' +
-      '   — Phương trình tổng quát: R−X + NaOH → R−OH + NaX (t°).\\n' +
-      '2. Phản ứng tách hydrogen halide (HX):\\n' +
-      '   — Dẫn xuất halogen có nguyên tử H ở carbon bên cạnh (Cβ) khi đun nóng với dung dịch kiềm trong ethanol (KOH/C₂H₅OH) sẽ bị tách HX tạo ra alkene.\\n' +
+      'KHÁI NIỆM:\n' +
+      '— Dẫn xuất halogen là hợp chất thu được khi thay thế một hay nhiều nguyên tử hydrogen trong phân tử hydrocarbon bằng một hay nhiều nguyên tử halogen (F, Cl, Br, I).\n\n' +
+      'TÍNH CHẤT HOÁ HỌC (Hai phản ứng quan trọng):\n' +
+      '1. Phản ứng thế nhóm halogen bằng nhóm OH (phản ứng thuỷ phân):\n' +
+      '   — Dẫn xuất halogen đun nóng với dung dịch kiềm (NaOH, KOH) tạo thành alcohol và muối halide.\n' +
+      '   — Phương trình tổng quát: R−X + NaOH → R−OH + NaX (t°).\n' +
+      '2. Phản ứng tách hydrogen halide (HX):\n' +
+      '   — Dẫn xuất halogen có nguyên tử H ở carbon bên cạnh (Cβ) khi đun nóng với dung dịch kiềm trong ethanol (KOH/C₂H₅OH) sẽ bị tách HX tạo ra alkene.\n' +
       '   — Quy tắc Zaitsev (định hướng tách): Trong phản ứng tách HX, nguyên tử halogen (X) ưu tiên tách ra cùng với nguyên tử hydrogen (H) ở carbon bên cạnh có bậc cao hơn (có ít hydrogen hơn) để tạo ra sản phẩm chính có liên kết đôi bền vững hơn.',
     workedExample: {
       problem:
@@ -78,6 +78,261 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
         dap: 'Định hướng phản ứng tách HX: H ưu tiên tách ở carbon bên cạnh có ít H hơn.',
       },
     ],
+    animation: {
+      title: 'Tách HBr khỏi 2-bromobutane (quy tắc Zaitsev)',
+      description:
+        'Mạch bốn carbon của 2-bromobutane được vẽ thành hàng: C1 (CH₃) – C2 (CH mang Br) – C3 ' +
+        '(CH₂) – C4 (CH₃). Base OH⁻ trong ethanol lấy đi một nguyên tử hydrogen ở carbon BÊN ' +
+        'CẠNH carbon mang Br, đồng thời Br rời khỏi C2 mang theo cặp electron. Hai vị trí vừa ' +
+        'trống lại ghép thành một liên kết đôi. Hoạt ảnh cho thấy hướng ưu tiên: tách H ở C3 ' +
+        '(carbon có ít hydrogen hơn) tạo but-2-ene, là alkene có nhiều nhóm thế quanh liên kết ' +
+        'đôi nên bền hơn. Nếu tách H ở C1 thì chỉ thu được but-1-ene — sản phẩm phụ.',
+      viewBoxWidth: 440,
+      viewBoxHeight: 210,
+      durationMs: 6000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'label',
+          id: 'c1',
+          x: 70,
+          y: 115,
+          text: 'CH₃',
+          size: 15,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'c2',
+          x: 160,
+          y: 115,
+          text: 'CH',
+          size: 15,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'c3',
+          x: 250,
+          y: 115,
+          text: 'CH₂',
+          size: 15,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'c4',
+          x: 345,
+          y: 115,
+          text: 'CH₃',
+          size: 15,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'line',
+          id: 'n12',
+          x1: 94,
+          y1: 110,
+          x2: 140,
+          y2: 110,
+          stroke: 'neutral',
+          strokeWidth: 2.5,
+        },
+        {
+          kind: 'line',
+          id: 'n23',
+          x1: 180,
+          y1: 110,
+          x2: 226,
+          y2: 110,
+          stroke: 'neutral',
+          strokeWidth: 2.5,
+        },
+        {
+          kind: 'line',
+          id: 'n23b',
+          x1: 180,
+          y1: 101,
+          x2: 226,
+          y2: 101,
+          stroke: 'correct',
+          strokeWidth: 2.5,
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 3600, opacity: 0 },
+            { atMs: 4200, opacity: 1 },
+            { atMs: 6000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'n34',
+          x1: 274,
+          y1: 110,
+          x2: 322,
+          y2: 110,
+          stroke: 'neutral',
+          strokeWidth: 2.5,
+        },
+        {
+          kind: 'line',
+          id: 'noi-br',
+          x1: 160,
+          y1: 128,
+          x2: 160,
+          y2: 162,
+          stroke: 'neutral',
+          strokeWidth: 2,
+          keyframes: [
+            { atMs: 0, opacity: 1 },
+            { atMs: 3400, opacity: 0 },
+            { atMs: 6000, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'br',
+          cx: 160,
+          cy: 176,
+          r: 14,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dx: 0, dy: 0 },
+            { atMs: 2600, dx: 0, dy: 0 },
+            { atMs: 4000, dx: -40, dy: 26 },
+            { atMs: 6000, dx: -40, dy: 26 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'br-t',
+          x: 160,
+          y: 181,
+          text: 'Br',
+          size: 12,
+          anchor: 'middle',
+          fill: 'neutral',
+          keyframes: [
+            { atMs: 0, dx: 0, dy: 0 },
+            { atMs: 2600, dx: 0, dy: 0 },
+            { atMs: 4000, dx: -40, dy: 26 },
+            { atMs: 6000, dx: -40, dy: 26 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'h3',
+          cx: 250,
+          cy: 72,
+          r: 11,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 0, dx: 0, dy: 0 },
+            { atMs: 2600, dx: 0, dy: 0 },
+            { atMs: 4000, dx: 60, dy: -34 },
+            { atMs: 6000, dx: 60, dy: -34 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'h3-t',
+          x: 250,
+          y: 77,
+          text: 'H',
+          size: 12,
+          anchor: 'middle',
+          fill: 'surface',
+          keyframes: [
+            { atMs: 0, dx: 0, dy: 0 },
+            { atMs: 2600, dx: 0, dy: 0 },
+            { atMs: 4000, dx: 60, dy: -34 },
+            { atMs: 6000, dx: 60, dy: -34 },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'noi-h3',
+          x1: 250,
+          y1: 100,
+          x2: 250,
+          y2: 84,
+          stroke: 'neutral',
+          strokeWidth: 2,
+          keyframes: [
+            { atMs: 0, opacity: 1 },
+            { atMs: 3400, opacity: 0 },
+            { atMs: 6000, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'base',
+          x: 400,
+          y: 44,
+          text: 'OH⁻ (KOH/ethanol)',
+          size: 11,
+          anchor: 'end',
+          fill: 'neutral',
+        },
+        {
+          kind: 'arrow',
+          id: 'base-mui',
+          x1: 350,
+          y1: 52,
+          x2: 268,
+          y2: 68,
+          stroke: 'muted',
+          strokeWidth: 1.5,
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 1800, opacity: 1 },
+            { atMs: 4000, opacity: 0 },
+            { atMs: 6000, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'danh-so',
+          x: 205,
+          y: 148,
+          text: 'C1        C2        C3        C4',
+          size: 10,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'sp',
+          x: 220,
+          y: 200,
+          text: 'sản phẩm chính: CH₃–CH=CH–CH₃ (but-2-ene)',
+          size: 12,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 4400, opacity: 1 },
+            { atMs: 6000, opacity: 1 },
+          ],
+        },
+      ],
+      captions: [
+        { atMs: 0, text: 'Br nằm ở C2; hai carbon bên cạnh là C1 (3 H) và C3 (2 H).' },
+        { atMs: 1800, text: 'Base lấy H ở C3 — carbon có ÍT hydrogen hơn (quy tắc Zaitsev).' },
+        {
+          atMs: 4200,
+          text: 'Br rời đi, hai vị trí trống ghép thành liên kết đôi C2=C3: but-2-ene.',
+        },
+      ],
+    },
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -91,20 +346,20 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
       'Ethanol có trong bia rượu là chất lỏng quen thuộc, nhưng methanol (cồn công nghiệp) chỉ hơn kém ' +
       'một nhóm CH₂ lại là chất độc chết người gây mù loà. Sự hiểu biết về alcohol giúp bảo vệ mạng sống của chúng ta.',
     theory:
-      'KHÁI NIỆM VÀ PHÂN LOẠI:\\n' +
-      '— Alcohol là hợp chất hữu cơ có nhóm hydroxyl (−OH) liên kết trực tiếp với nguyên tử carbon no.\\n' +
-      '— Công thức chung của alcohol no, đơn chức, mạch hở: CₙH₂ₙ₊₁OH (n ≥ 1).\\n' +
-      '— Polyalcohol là alcohol có nhiều nhóm −OH (ví dụ: ethylene glycol C₂H₄(OH)₂, glycerol C₃H₅(OH)₃).\\n\\n' +
-      'TÍNH CHẤT VẬT LÍ (Liên kết hydrogen):\\n' +
-      '— Ở điều kiện thường, các alcohol là chất lỏng hoặc rắn. Nhiệt độ sôi và độ tan trong nước của alcohol cao hơn nhiều so với hydrocarbon có cùng phân tử khối vì các phân tử alcohol tạo được LIÊN KẾT HYDROGEN liên phân tử với nhau và với nước.\\n\\n' +
-      'TÍNH CHẤT HOÁ HỌC:\\n' +
-      '1. Phản ứng thế nguyên tử H của nhóm −OH: Tác dụng với kim loại kiềm giải phóng H₂: R−OH + Na → R−ONa + 1/2 H₂.\\n' +
-      '2. Phản ứng oxi hoá không hoàn toàn bởi CuO (t°):\\n' +
-      '   — Alcohol bậc I tạo aldehyde: R−CH₂OH + CuO → R−CHO + Cu + H₂O.\\n' +
-      "   — Alcohol bậc II tạo ketone: R−CH(OH)−R' + CuO → R−CO−R' + Cu + H₂O.\\n" +
-      '   — Alcohol bậc III bền vững, không bị CuO oxi hoá ở điều kiện này.\\n' +
-      '3. Phản ứng tách nước (dehydration):\\n' +
-      '   — Tách nước tạo alkene (tại 170 °C, xúc tác H₂SO₄ đặc): C₂H₅OH → C₂H₄ + H₂O.\\n' +
+      'KHÁI NIỆM VÀ PHÂN LOẠI:\n' +
+      '— Alcohol là hợp chất hữu cơ có nhóm hydroxyl (−OH) liên kết trực tiếp với nguyên tử carbon no.\n' +
+      '— Công thức chung của alcohol no, đơn chức, mạch hở: CₙH₂ₙ₊₁OH (n ≥ 1).\n' +
+      '— Polyalcohol là alcohol có nhiều nhóm −OH (ví dụ: ethylene glycol C₂H₄(OH)₂, glycerol C₃H₅(OH)₃).\n\n' +
+      'TÍNH CHẤT VẬT LÍ (Liên kết hydrogen):\n' +
+      '— Ở điều kiện thường, các alcohol là chất lỏng hoặc rắn. Nhiệt độ sôi và độ tan trong nước của alcohol cao hơn nhiều so với hydrocarbon có cùng phân tử khối vì các phân tử alcohol tạo được LIÊN KẾT HYDROGEN liên phân tử với nhau và với nước.\n\n' +
+      'TÍNH CHẤT HOÁ HỌC:\n' +
+      '1. Phản ứng thế nguyên tử H của nhóm −OH: Tác dụng với kim loại kiềm giải phóng H₂: R−OH + Na → R−ONa + 1/2 H₂.\n' +
+      '2. Phản ứng oxi hoá không hoàn toàn bởi CuO (t°):\n' +
+      '   — Alcohol bậc I tạo aldehyde: R−CH₂OH + CuO → R−CHO + Cu + H₂O.\n' +
+      "   — Alcohol bậc II tạo ketone: R−CH(OH)−R' + CuO → R−CO−R' + Cu + H₂O.\n" +
+      '   — Alcohol bậc III bền vững, không bị CuO oxi hoá ở điều kiện này.\n' +
+      '3. Phản ứng tách nước (dehydration):\n' +
+      '   — Tách nước tạo alkene (tại 170 °C, xúc tác H₂SO₄ đặc): C₂H₅OH → C₂H₄ + H₂O.\n' +
       '   — Tách nước tạo ether (tại 140 °C, xúc tác H₂SO₄ đặc): 2C₂H₅OH → C₂H₅−O−C₂H₅ + H₂O.',
     workedExample: {
       problem:
@@ -163,6 +418,7 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
         dap: '170 °C tạo alkene (ethylene); 140 °C tạo ether (diethyl ether).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -176,17 +432,17 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
       'Phenol là chất sát trùng lâu đời nhất loài người tìm ra, nhưng nó có thể gây bỏng da nghiêm trọng. ' +
       'Khác với alcohol, phenol có tính axit yếu do ảnh hưởng qua lại của vòng benzene.',
     theory:
-      'KHÁI NIỆM:\\n' +
-      '— Phenol là những hợp chất hữu cơ trong phân tử có nhóm hydroxyl (−OH) liên kết trực tiếp với nguyên tử carbon của vòng benzene. Chất đơn giản nhất là C₆H₅OH (phenol).\\n\\n' +
-      'ẢNH HƯỞNG QUA LẠI GIỮA VÒNG BENZENE VÀ NHÓM −OH:\\n' +
-      '— Nhóm −OH đẩy electron vào vòng benzene làm tăng mật độ electron trong vòng, đặc biệt ở các vị trí o- và p-, làm phản ứng thế vào vòng dễ hơn benzene.\\n' +
-      '— Vòng benzene hút electron làm liên kết O−H của nhóm −OH phân cực mạnh hơn so với alcohol, khiến nguyên tử H trở nên linh động hơn (thể hiện tính acid yếu).\\n\\n' +
-      'TÍNH CHẤT HOÁ HỌC:\\n' +
-      '1. Tính acid yếu (mạnh hơn alcohol nhưng yếu hơn carbonic acid H₂CO₃):\\n' +
-      '   — Phenol phản ứng với dung dịch kiềm tạo muối phenolate: C₆H₅OH + NaOH → C₆H₅ONa + H₂O.\\n' +
-      '   — Muối sodium phenolate dễ bị khí CO₂ và nước đẩy ngược lại tạo phenol (dung dịch đục): C₆H₅ONa + CO₂ + H₂O → C₆H₅OH↓ (vẩn đục) + NaHCO₃.\\n' +
-      '2. Phản ứng thế ở vòng thơm:\\n' +
-      '   — Tác dụng với nước Bromine tạo kết tủa TRẮNG (2,4,6-tribromophenol) ngay ở nhiệt độ thường (phản ứng nhạy dùng nhận biết phenol): C₆H₅OH + 3Br₂ → C₆H₂(OH)Br₃↓ + 3HBr.\\n' +
+      'KHÁI NIỆM:\n' +
+      '— Phenol là những hợp chất hữu cơ trong phân tử có nhóm hydroxyl (−OH) liên kết trực tiếp với nguyên tử carbon của vòng benzene. Chất đơn giản nhất là C₆H₅OH (phenol).\n\n' +
+      'ẢNH HƯỞNG QUA LẠI GIỮA VÒNG BENZENE VÀ NHÓM −OH:\n' +
+      '— Nhóm −OH đẩy electron vào vòng benzene làm tăng mật độ electron trong vòng, đặc biệt ở các vị trí o- và p-, làm phản ứng thế vào vòng dễ hơn benzene.\n' +
+      '— Vòng benzene hút electron làm liên kết O−H của nhóm −OH phân cực mạnh hơn so với alcohol, khiến nguyên tử H trở nên linh động hơn (thể hiện tính acid yếu).\n\n' +
+      'TÍNH CHẤT HOÁ HỌC:\n' +
+      '1. Tính acid yếu (mạnh hơn alcohol nhưng yếu hơn carbonic acid H₂CO₃):\n' +
+      '   — Phenol phản ứng với dung dịch kiềm tạo muối phenolate: C₆H₅OH + NaOH → C₆H₅ONa + H₂O.\n' +
+      '   — Muối sodium phenolate dễ bị khí CO₂ và nước đẩy ngược lại tạo phenol (dung dịch đục): C₆H₅ONa + CO₂ + H₂O → C₆H₅OH↓ (vẩn đục) + NaHCO₃.\n' +
+      '2. Phản ứng thế ở vòng thơm:\n' +
+      '   — Tác dụng với nước Bromine tạo kết tủa TRẮNG (2,4,6-tribromophenol) ngay ở nhiệt độ thường (phản ứng nhạy dùng nhận biết phenol): C₆H₅OH + 3Br₂ → C₆H₂(OH)Br₃↓ + 3HBr.\n' +
       '   — Tác dụng với HNO₃ đặc (xúc tác H₂SO₄ đặc) tạo kết tủa VÀNG picric acid (2,4,6-trinitrophenol).',
     workedExample: {
       problem:
@@ -241,6 +497,7 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
         dap: 'Tác dụng nước bromine tạo kết tủa trắng; tác dụng HNO₃ đặc tạo kết tủa vàng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -254,10 +511,10 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
       'Chương 5 hệ thống hoá các dẫn xuất chứa oxi và halogen, thiết lập chiếc cầu nối trung gian ' +
       'quan trọng từ hydrocarbon sang các hợp chất carbonyl tiếp theo.',
     theory:
-      'TỔNG KẾT SO SÁNH DẪN XUẤT HALOGEN, ALCOHOL, PHENOL:\\n' +
-      '1. Dẫn xuất halogen (R−X): Có phản ứng thế halogen bằng −OH (NaOH loãng, t°) và phản ứng tách HX (KOH/ethanol, t° - tuân theo quy tắc Zaitsev).\\n' +
-      '2. Alcohol (R−OH): Có nhóm −OH gắn carbon no. Nhiệt độ sôi cao nhờ liên kết hydrogen. Tác dụng với Na. Oxi hoá bởi CuO tạo aldehyde (bậc I) hoặc ketone (bậc II). Tách nước tạo alkene (170 °C) hoặc ether (140 °C).\\n' +
-      '3. Phenol (C₆H₅OH): Có nhóm −OH gắn trực tiếp vòng benzene. Có tính axit yếu (tác dụng NaOH, bị CO₂ đẩy ra). Dễ thế vòng thơm (phản ứng nước bromine tạo kết tủa trắng, phản ứng HNO₃ đặc tạo kết tủa vàng).\\n' +
+      'TỔNG KẾT SO SÁNH DẪN XUẤT HALOGEN, ALCOHOL, PHENOL:\n' +
+      '1. Dẫn xuất halogen (R−X): Có phản ứng thế halogen bằng −OH (NaOH loãng, t°) và phản ứng tách HX (KOH/ethanol, t° - tuân theo quy tắc Zaitsev).\n' +
+      '2. Alcohol (R−OH): Có nhóm −OH gắn carbon no. Nhiệt độ sôi cao nhờ liên kết hydrogen. Tác dụng với Na. Oxi hoá bởi CuO tạo aldehyde (bậc I) hoặc ketone (bậc II). Tách nước tạo alkene (170 °C) hoặc ether (140 °C).\n' +
+      '3. Phenol (C₆H₅OH): Có nhóm −OH gắn trực tiếp vòng benzene. Có tính axit yếu (tác dụng NaOH, bị CO₂ đẩy ra). Dễ thế vòng thơm (phản ứng nước bromine tạo kết tủa trắng, phản ứng HNO₃ đặc tạo kết tủa vàng).\n' +
       '4. Polyalcohol kề nhau (như glycerol): Tác dụng được với Cu(OH)₂ ở nhiệt độ thường tạo dung dịch xanh lam thẫm (phản ứng đặc trưng nhận biết polyalcohol có nhóm −OH kề nhau).',
     workedExample: {
       problem:
@@ -311,6 +568,7 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
         dap: '170 °C tạo alkene; 140 °C tạo ether.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

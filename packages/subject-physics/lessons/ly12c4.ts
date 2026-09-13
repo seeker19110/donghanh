@@ -11,20 +11,20 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
     title: 'Khái niệm sơ lược về hạt nhân. Cấu trúc hạt nhân',
     hook: 'Tại tâm của mỗi nguyên tử có một hạt nhân vô cùng nhỏ bé và đậm đặc, chiếm tới hơn 99.9% khối lượng nguyên tử nhưng kích thước chỉ bằng một phần một trăm nghìn kích thước nguyên tử.',
     theory:
-      'KÍCH THƯỚC HẠT NHÂN:\\n' +
-      '— Hạt nhân nguyên tử có kích thước rất nhỏ so với kích thước nguyên tử (khoảng 10⁵ lần nhỏ hơn).\\n' +
-      '— Bán kính hạt nhân R được ước lượng phụ thuộc vào số khối A theo công thức: R ≈ 1.2 * 10⁻¹⁵ * A^(1/3) (m).\\n\\n' +
-      'CẤU TẠO HẠT NHÂN:\\n' +
-      '— Hạt nhân được cấu tạo từ các hạt nucleon, gồm hai loại:\\n' +
-      '  1. Proton (ký hiệu là p): mang điện tích dương +e (e ≈ 1.6 * 10⁻¹⁹ C), khối lượng mp ≈ 1.00728 amu.\\n' +
-      '  2. Neutron (ký hiệu là n): không mang điện, khối lượng mn ≈ 1.00866 amu.\\n' +
-      '— Kí hiệu hạt nhân: _Z^A X\\n' +
-      '  + X: tên nguyên tố.\\n' +
-      '  + Z: số hiệu nguyên tử (số proton, số điện tích hạt nhân, số thứ tự trong bảng tuần hoàn).\\n' +
-      '  + A: số khối (tổng số nucleon).\\n' +
-      '— Số neutron trong hạt nhân là N = A - Z.\\n\\n' +
-      'ĐỒNG VỊ:\\n' +
-      '— Các hạt nhân của cùng một nguyên tố có cùng số proton Z nhưng khác nhau số neutron N (dẫn đến số khối A khác nhau) gọi là các đồng vị.\\n' +
+      'KÍCH THƯỚC HẠT NHÂN:\n' +
+      '— Hạt nhân nguyên tử có kích thước rất nhỏ so với kích thước nguyên tử (khoảng 10⁵ lần nhỏ hơn).\n' +
+      '— Bán kính hạt nhân R được ước lượng phụ thuộc vào số khối A theo công thức: R ≈ 1.2 * 10⁻¹⁵ * A^(1/3) (m).\n\n' +
+      'CẤU TẠO HẠT NHÂN:\n' +
+      '— Hạt nhân được cấu tạo từ các hạt nucleon, gồm hai loại:\n' +
+      '  1. Proton (ký hiệu là p): mang điện tích dương +e (e ≈ 1.6 * 10⁻¹⁹ C), khối lượng mp ≈ 1.00728 amu.\n' +
+      '  2. Neutron (ký hiệu là n): không mang điện, khối lượng mn ≈ 1.00866 amu.\n' +
+      '— Kí hiệu hạt nhân: _Z^A X\n' +
+      '  + X: tên nguyên tố.\n' +
+      '  + Z: số hiệu nguyên tử (số proton, số điện tích hạt nhân, số thứ tự trong bảng tuần hoàn).\n' +
+      '  + A: số khối (tổng số nucleon).\n' +
+      '— Số neutron trong hạt nhân là N = A - Z.\n\n' +
+      'ĐỒNG VỊ:\n' +
+      '— Các hạt nhân của cùng một nguyên tố có cùng số proton Z nhưng khác nhau số neutron N (dẫn đến số khối A khác nhau) gọi là các đồng vị.\n' +
       '— Ví dụ: Hiđrô có 3 đồng vị là Hiđrô thường _1^1 H, Đơteri _1^2 H (kí hiệu là D) và Triti _1^3 H (kí hiệu là T).',
     workedExample: {
       problem:
@@ -70,6 +70,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Các hạt nhân của cùng một nguyên tố có cùng số proton Z nhưng khác nhau số neutron N.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -81,20 +82,20 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
     title: 'Lực hạt nhân. Năng lượng liên kết hạt nhân',
     hook: 'Các hạt proton trong hạt nhân đều mang điện tích dương và đẩy nhau bằng một lực tĩnh điện cực mạnh. Lực nào đã thắng lực đẩy này để giữ chúng liên kết chặt chẽ trong hạt nhân? Đó là lực hạt nhân.',
     theory:
-      'LỰC HẠT NHÂN (LỰC TƯƠNG TÁC MẠNH):\\n' +
-      '— Lực hạt nhân: Là lực hút gắn kết các nucleon trong hạt nhân để tạo thành một cấu trúc bền vững.\\n' +
-      '— Đặc điểm:\\n' +
-      '  + Không có cùng bản chất với lực tĩnh điện hay lực hấp dẫn.\\n  + Là lực tương tác ngắn, chỉ có tác dụng trong phạm vi kích thước hạt nhân (khoảng 10⁻¹⁵ m).\\n  + Không phụ thuộc vào điện tích của nucleon (lực hút giữa p-p, n-n, p-n có độ lớn như nhau).\\n\\n' +
-      'ĐỘ HỤT KHỐI (delta m):\\n' +
-      '— Khối lượng của một hạt nhân luôn nhỏ hơn tổng khối lượng của các nucleon cấu tạo nên nó một lượng là delta m:\\n' +
-      '  dm = [Z * mp + (A - Z) * mn] - m_hn > 0\\n\\n' +
-      'NĂNG LƯỢNG LIÊN KẾT (Elk):\\n' +
-      '— Năng lượng liên kết: Là năng lượng toả ra khi các nucleon liên kết lại với nhau tạo thành hạt nhân, hoặc năng lượng tối thiểu cần cung cấp để tách hạt nhân thành các nucleon riêng rẽ.\\n' +
-      '  Elk = dm * c²\\n' +
-      '— Nếu dm tính bằng đơn vị amu thì Elk = dm * 931.5 (MeV) (với 1 amu * c² ≈ 931.5 MeV).\\n\\n' +
-      'NĂNG LƯỢNG LIÊN KẾT RIÊNG (Elkr):\\n' +
-      '— Năng lượng liên kết riêng: Là năng lượng liên kết tính trên một nucleon:\\n' +
-      '  Elkr = Elk / A\\n' +
+      'LỰC HẠT NHÂN (LỰC TƯƠNG TÁC MẠNH):\n' +
+      '— Lực hạt nhân: Là lực hút gắn kết các nucleon trong hạt nhân để tạo thành một cấu trúc bền vững.\n' +
+      '— Đặc điểm:\n' +
+      '  + Không có cùng bản chất với lực tĩnh điện hay lực hấp dẫn.\n  + Là lực tương tác ngắn, chỉ có tác dụng trong phạm vi kích thước hạt nhân (khoảng 10⁻¹⁵ m).\n  + Không phụ thuộc vào điện tích của nucleon (lực hút giữa p-p, n-n, p-n có độ lớn như nhau).\n\n' +
+      'ĐỘ HỤT KHỐI (delta m):\n' +
+      '— Khối lượng của một hạt nhân luôn nhỏ hơn tổng khối lượng của các nucleon cấu tạo nên nó một lượng là delta m:\n' +
+      '  dm = [Z * mp + (A - Z) * mn] - m_hn > 0\n\n' +
+      'NĂNG LƯỢNG LIÊN KẾT (Elk):\n' +
+      '— Năng lượng liên kết: Là năng lượng toả ra khi các nucleon liên kết lại với nhau tạo thành hạt nhân, hoặc năng lượng tối thiểu cần cung cấp để tách hạt nhân thành các nucleon riêng rẽ.\n' +
+      '  Elk = dm * c²\n' +
+      '— Nếu dm tính bằng đơn vị amu thì Elk = dm * 931.5 (MeV) (với 1 amu * c² ≈ 931.5 MeV).\n\n' +
+      'NĂNG LƯỢNG LIÊN KẾT RIÊNG (Elkr):\n' +
+      '— Năng lượng liên kết riêng: Là năng lượng liên kết tính trên một nucleon:\n' +
+      '  Elkr = Elk / A\n' +
       '— Năng lượng liên kết riêng đặc trưng cho mức độ bền vững của hạt nhân. Hạt nhân có năng lượng liên kết riêng càng lớn thì càng bền vững (các hạt nhân bền vững nhất ở giữa bảng tuần hoàn có 50 < A < 80, ví dụ Fe-56).',
     workedExample: {
       problem:
@@ -145,6 +146,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Mức độ bền vững của hạt nhân.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -158,19 +160,19 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
       'Trong các phản ứng hoá học, các nguyên tử chỉ sắp xếp lại liên kết và giữ nguyên bản chất. ' +
       'Nhưng trong phản ứng hạt nhân, các nguyên tố có thể biến đổi hoàn toàn thành các nguyên tố khác, giải phóng nguồn năng lượng khổng lồ.',
     theory:
-      'PHÂN LOẠI PHẢN ỨNG HẠT NHÂN:\\n' +
-      '— Phản ứng tự phát: Quá trình phân rã của một hạt nhân không bền vững tự động biến đổi thành hạt nhân khác (phóng xạ).\\n' +
-      '— Phản ứng kích thích: Quá trình các hạt nhân tương tác với nhau để biến đổi thành các hạt nhân khác.\\n\\n' +
-      'CÁC ĐỊNH LUẬT BẢO TOÀN TRONG PHẢN ỨNG HẠT NHÂN:\\n' +
-      'Xét phản ứng: A1_Z1 A + A2_Z2 B -> A3_Z3 C + A4_Z4 D\\n' +
-      '— Định luật bảo toàn số khối (số nucleon): A1 + A2 = A3 + A4\\n' +
-      '— Định luật bảo toàn điện tích (số hiệu Z): Z1 + Z2 = Z3 + Z4\\n' +
-      '— Định luật bảo toàn động lượng: p_A + p_B = p_C + p_D\\n' +
-      '— Định luật bảo toàn năng lượng toàn phần.\\n' +
-      '— Chú ý: Không có định luật bảo toàn khối lượng nghỉ, không bảo toàn số hạt proton hay neutron riêng rẽ.\\n\\n' +
-      'NĂNG LƯỢNG PHẢN ỨNG HẠT NHÂN (delta E):\\n' +
-      '  dE = (m_truoc - m_sau) * c²\\n' +
-      '— dE > 0: Phản ứng toả năng lượng.\\n' +
+      'PHÂN LOẠI PHẢN ỨNG HẠT NHÂN:\n' +
+      '— Phản ứng tự phát: Quá trình phân rã của một hạt nhân không bền vững tự động biến đổi thành hạt nhân khác (phóng xạ).\n' +
+      '— Phản ứng kích thích: Quá trình các hạt nhân tương tác với nhau để biến đổi thành các hạt nhân khác.\n\n' +
+      'CÁC ĐỊNH LUẬT BẢO TOÀN TRONG PHẢN ỨNG HẠT NHÂN:\n' +
+      'Xét phản ứng: A1_Z1 A + A2_Z2 B -> A3_Z3 C + A4_Z4 D\n' +
+      '— Định luật bảo toàn số khối (số nucleon): A1 + A2 = A3 + A4\n' +
+      '— Định luật bảo toàn điện tích (số hiệu Z): Z1 + Z2 = Z3 + Z4\n' +
+      '— Định luật bảo toàn động lượng: p_A + p_B = p_C + p_D\n' +
+      '— Định luật bảo toàn năng lượng toàn phần.\n' +
+      '— Chú ý: Không có định luật bảo toàn khối lượng nghỉ, không bảo toàn số hạt proton hay neutron riêng rẽ.\n\n' +
+      'NĂNG LƯỢNG PHẢN ỨNG HẠT NHÂN (delta E):\n' +
+      '  dE = (m_truoc - m_sau) * c²\n' +
+      '— dE > 0: Phản ứng toả năng lượng.\n' +
       '— dE < 0: Phản ứng thu năng lượng.',
     workedExample: {
       problem:
@@ -222,10 +224,273 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Không bảo toàn khối lượng nghỉ.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
     id: 'ly12-c4-b23',
+    // Đồ thị phân rã + đám hạt nhân tắt dần: cho thấy chu kì bán rã là "cứ mỗi T thì còn một nửa",
+    // chứ không phải "sau 2T thì hết sạch".
+    animation: {
+      title: 'Chu kì bán rã: cứ sau mỗi T lại còn đúng một nửa',
+      description:
+        'Đường cong bên phải là số hạt nhân phóng xạ còn lại N theo thời gian t, với các mốc thời gian cách nhau đúng một chu kì bán rã T. Sau T đầu tiên số hạt nhân còn N₀/2; sau 2T còn N₀/4; sau 3T còn N₀/8; sau 4T còn N₀/16. Đường cong tụt rất nhanh lúc đầu rồi thoải dần, mãi tiến sát trục hoành mà không bao giờ chạm — nghĩa là mẫu chất KHÔNG bao giờ hết sạch sau một số chu kì hữu hạn, đây là điểm hay bị hiểu sai. Bên trái là đám 16 hạt nhân: sau mỗi chu kì lại có một nửa số hạt còn lại tắt đi, nhưng không thể đoán trước hạt NÀO sẽ tắt — phân rã là quá trình ngẫu nhiên với từng hạt nhân, chỉ có quy luật thống kê của cả đám mới chắc chắn. Công thức tương ứng: N = N₀·2^(−t/T) = N₀·e^(−λt), với hằng số phóng xạ λ = ln2 / T.',
+      viewBoxWidth: 420,
+      viewBoxHeight: 240,
+      durationMs: 4000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'line',
+          id: 'truc-t',
+          x1: 50,
+          y1: 200,
+          x2: 400,
+          y2: 200,
+          stroke: 'neutral',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'line',
+          id: 'truc-n',
+          x1: 60,
+          y1: 210,
+          x2: 60,
+          y2: 40,
+          stroke: 'neutral',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'polyline',
+          id: 'duong-phan-ra',
+          points: [
+            [60, 60],
+            [100, 101],
+            [140, 130],
+            [180, 150.5],
+            [220, 165],
+            [260, 175],
+            [300, 182.5],
+            [340, 187.6],
+            [380, 191.3],
+          ],
+          stroke: 'primary',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'line',
+          id: 'muc-mot-nua',
+          x1: 60,
+          y1: 130,
+          x2: 140,
+          y2: 130,
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '4 4',
+        },
+        {
+          kind: 'line',
+          id: 'moc-t1',
+          x1: 140,
+          y1: 130,
+          x2: 140,
+          y2: 200,
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '4 4',
+        },
+        {
+          kind: 'line',
+          id: 'muc-mot-phan-tu',
+          x1: 60,
+          y1: 165,
+          x2: 220,
+          y2: 165,
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '4 4',
+        },
+        {
+          kind: 'line',
+          id: 'moc-t2',
+          x1: 220,
+          y1: 165,
+          x2: 220,
+          y2: 200,
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '4 4',
+        },
+        {
+          kind: 'circle',
+          id: 'hat-con-1',
+          cx: 18,
+          cy: 70,
+          r: 6,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, opacity: 1 },
+            { atMs: 1000, opacity: 1 },
+            { atMs: 1100, opacity: 0.15 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'hat-con-2',
+          cx: 36,
+          cy: 70,
+          r: 6,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, opacity: 1 },
+            { atMs: 2000, opacity: 1 },
+            { atMs: 2100, opacity: 0.15 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'hat-con-3',
+          cx: 18,
+          cy: 92,
+          r: 6,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, opacity: 1 },
+            { atMs: 1000, opacity: 1 },
+            { atMs: 1100, opacity: 0.15 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'hat-con-4',
+          cx: 36,
+          cy: 92,
+          r: 6,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, opacity: 1 },
+            { atMs: 3000, opacity: 1 },
+            { atMs: 3100, opacity: 0.15 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'hat-con-5',
+          cx: 18,
+          cy: 114,
+          r: 6,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, opacity: 1 },
+            { atMs: 1000, opacity: 1 },
+            { atMs: 1100, opacity: 0.15 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'hat-con-6',
+          cx: 36,
+          cy: 114,
+          r: 6,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, opacity: 1 },
+            { atMs: 2000, opacity: 1 },
+            { atMs: 2100, opacity: 0.15 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'hat-con-7',
+          cx: 18,
+          cy: 136,
+          r: 6,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, opacity: 1 },
+            { atMs: 1000, opacity: 1 },
+            { atMs: 1100, opacity: 0.15 },
+          ],
+        },
+        { kind: 'circle', id: 'hat-con-8', cx: 36, cy: 136, r: 6, fill: 'accent' },
+        {
+          kind: 'label',
+          id: 'nhan-n0',
+          x: 54,
+          y: 62,
+          text: 'N₀',
+          size: 13,
+          anchor: 'end',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-n2',
+          x: 54,
+          y: 134,
+          text: 'N₀/2',
+          size: 12,
+          anchor: 'end',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-n4',
+          x: 54,
+          y: 169,
+          text: 'N₀/4',
+          size: 12,
+          anchor: 'end',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-t1',
+          x: 140,
+          y: 216,
+          text: 'T',
+          size: 13,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-t2',
+          x: 220,
+          y: 216,
+          text: '2T',
+          size: 13,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-t3',
+          x: 300,
+          y: 216,
+          text: '3T',
+          size: 13,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-ct',
+          x: 320,
+          y: 70,
+          text: 'N = N₀·2^(−t/T)',
+          size: 14,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+      ],
+      captions: [
+        { atMs: 0, text: 'Ban đầu có N₀ hạt nhân phóng xạ.' },
+        { atMs: 1100, text: 'Sau một chu kì bán rã T: còn đúng một nửa.' },
+        { atMs: 2100, text: 'Sau 2T: còn N₀/4 — không phải hết sạch.' },
+        { atMs: 4000, text: 'Đường cong mãi mãi tiến sát trục hoành mà không chạm tới.' },
+      ],
+    },
     grade: '12',
     chapterNumber: 4,
     chapterTitle: 'Vật lí hạt nhân',
@@ -233,17 +498,17 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
     title: 'Hiện tượng phóng xạ',
     hook: 'Vào cuối thế kỷ 19, Marie Curie và các nhà khoa học phát hiện ra rằng một số nguyên tố nặng có thể tự phát ra các tia bức xạ mắt thường không nhìn thấy được và biến đổi thành nguyên tố khác. Hiện tượng tự phát này được gọi là phóng xạ.',
     theory:
-      'ĐỊNH NGHĨA HIỆN TƯỢNG PHÓNG XẠ:\\n' +
-      '— Phóng xạ: Là quá trình phân rã tự phát của một hạt nhân không bền vững thành hạt nhân khác, đồng thời phát ra các tia phóng xạ.\\n\\n' +
-      'CÁC DẠNG TIA PHÓNG XẠ CHÍNH:\\n' +
-      '— Phóng xạ Alpha (alpha): Phát ra hạt nhân Heli _2^4 He. Phương trình: _Z^A X -> _(Z-2)^(A-4) Y + _2^4 He. Đâm xuyên yếu, bị lệch trong điện trường.\\n' +
-      '— Phóng xạ Beta (beta):\\n' +
-      '  + Beta trừ: phát ra hạt electron e-. _Z^A X -> _(Z+1)^A Y + e-.\\n  + Beta cộng: phát ra hạt positron e+. _Z^A X -> _(Z-1)^A Y + e+.\\n  + Đâm xuyên trung bình, bị lệch mạnh trong điện trường.\\n' +
-      '— Phóng xạ Gamma (gamma): Bức xạ điện từ bước sóng cực ngắn (photon năng lượng cao). Không làm thay đổi cấu trúc hạt nhân, không bị lệch trong điện trường, đâm xuyên rất mạnh.\\n\\n' +
-      'ĐỊNH LUẬT PHÓNG XẠ:\\n' +
-      'Số hạt nhân (hoặc khối lượng) còn lại sau thời gian t:\\n' +
-      '  N(t) = N0 * 2^(-t/T) = N0 * e^(-lambda * t)\\n' +
-      '  m(t) = m0 * 2^(-t/T) = m0 * e^(-lambda * t)\\n' +
+      'ĐỊNH NGHĨA HIỆN TƯỢNG PHÓNG XẠ:\n' +
+      '— Phóng xạ: Là quá trình phân rã tự phát của một hạt nhân không bền vững thành hạt nhân khác, đồng thời phát ra các tia phóng xạ.\n\n' +
+      'CÁC DẠNG TIA PHÓNG XẠ CHÍNH:\n' +
+      '— Phóng xạ Alpha (alpha): Phát ra hạt nhân Heli _2^4 He. Phương trình: _Z^A X -> _(Z-2)^(A-4) Y + _2^4 He. Đâm xuyên yếu, bị lệch trong điện trường.\n' +
+      '— Phóng xạ Beta (beta):\n' +
+      '  + Beta trừ: phát ra hạt electron e-. _Z^A X -> _(Z+1)^A Y + e-.\n  + Beta cộng: phát ra hạt positron e+. _Z^A X -> _(Z-1)^A Y + e+.\n  + Đâm xuyên trung bình, bị lệch mạnh trong điện trường.\n' +
+      '— Phóng xạ Gamma (gamma): Bức xạ điện từ bước sóng cực ngắn (photon năng lượng cao). Không làm thay đổi cấu trúc hạt nhân, không bị lệch trong điện trường, đâm xuyên rất mạnh.\n\n' +
+      'ĐỊNH LUẬT PHÓNG XẠ:\n' +
+      'Số hạt nhân (hoặc khối lượng) còn lại sau thời gian t:\n' +
+      '  N(t) = N0 * 2^(-t/T) = N0 * e^(-lambda * t)\n' +
+      '  m(t) = m0 * 2^(-t/T) = m0 * e^(-lambda * t)\n' +
       'Trong đó T là chu kì bán rã, lambda = ln 2 / T ≈ 0.693 / T là hằng số phóng xạ.',
     workedExample: {
       problem:
@@ -284,6 +549,25 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
         },
         explain: 't/T = 15/5 = 3 chu kì. Tỉ lệ còn lại = 2^-3 = 1/8 = 12.5%.',
       },
+      {
+        // Câu bẫy: hiểu "bán rã" theo kiểu tuyến tính — nửa sau T, nốt nửa còn lại sau T nữa.
+        prompt:
+          'Một mẫu chất phóng xạ có chu kì bán rã T = 4 ngày. Sau 8 ngày, mẫu chất đó còn lại bao nhiêu phần so với ban đầu?',
+        choices: [
+          { id: 'het', label: 'Không còn gì, vì 8 ngày = 2 lần chu kì bán rã nên đã rã hết' },
+          { id: 'mot_phan_tu', label: 'Còn 1/4 số hạt nhân ban đầu' },
+          { id: 'mot_nua', label: 'Còn 1/2 số hạt nhân ban đầu' },
+        ],
+        answer: {
+          kind: 'choice',
+          correctIds: ['mot_phan_tu'],
+        },
+        explain:
+          'Sau mỗi chu kì bán rã, một nửa số hạt nhân CÒN LẠI ở thời điểm đó bị phân rã — chứ không phải một nửa số ban đầu. ' +
+          'Sau T thứ nhất còn N₀/2; T thứ hai lấy đi một nửa của N₀/2, nên còn N₀/4 = 25%. Công thức: N = N₀·2^(−t/T) = N₀·2^(−2) = N₀/4. ' +
+          'Cách hiểu "hai lần chu kì bán rã là hết" là kiểu suy nghĩ tuyến tính, và nó dẫn tới kết luận nguy hiểm trong thực tế: chất thải phóng xạ có T hàng nghìn năm thì sau vài chu kì vẫn còn hoạt độ đáng kể. ' +
+          'Về mặt toán học, hàm 2^(−t/T) luôn dương nên mẫu chất không bao giờ về đúng 0; chỉ khi số hạt nhân còn lại nhỏ tới mức đếm được thì bài toán mới hết ý nghĩa thống kê.',
+      },
     ],
     srsCards: [
       {
@@ -295,6 +579,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Sóng điện từ có bước sóng cực ngắn (các photon năng lượng cao).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -308,14 +593,14 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
       'Năng lượng hạt nhân có hai nguồn khai thác chính: phân tách các hạt nhân rất nặng (phân hạch - dùng trong lò phản ứng hạt nhân) và ' +
       'hợp nhất các hạt nhân rất nhẹ ở nhiệt độ cực cao (nhiệt hạch - phản ứng đang thắp sáng Mặt Trời).',
     theory:
-      'PHẢN ỨNG PHÂN HẠCH:\\n' +
-      '— Định nghĩa: Phản ứng phân hạch là hiện tượng một hạt nhân rất nặng (như U-235, Pu-239) hấp thụ một neutron chậm rồi vỡ thành hai hạt nhân trung bình, giải phóng 2-3 neutron và toả ra năng lượng rất lớn (~200 MeV/hạt nhân).\\n\\n' +
-      'PHẢN ỨNG DÂY CHUYỀN (CHAIN REACTION):\\n' +
-      '— Gọi k là hệ số nhân neutron trung bình:\\n' +
-      '  + k < 1: Phản ứng tắt ngay.\\n  + k = 1: Phản ứng tự duy trì ổn định (nhà máy điện hạt nhân).\\n  + k > 1: Phản ứng tăng bùng nổ mất kiểm soát (bom nguyên tử).\\n\\n' +
-      'PHẢN ỨNG NHIỆT HẠCH:\\n' +
-      '— Định nghĩa: Phản ứng nhiệt hạch là phản ứng kết hợp hai hạt nhân rất nhẹ (đồng vị H) thành hạt nhân nặng hơn ở nhiệt độ cực kì cao (hàng chục đến hàng trăm triệu độ C).\\n' +
-      '— Phương trình tiêu biểu: _1^2 H + _1^3 H -> _2^4 He + _0^1 n + 17.6 MeV.\\n' +
+      'PHẢN ỨNG PHÂN HẠCH:\n' +
+      '— Định nghĩa: Phản ứng phân hạch là hiện tượng một hạt nhân rất nặng (như U-235, Pu-239) hấp thụ một neutron chậm rồi vỡ thành hai hạt nhân trung bình, giải phóng 2-3 neutron và toả ra năng lượng rất lớn (~200 MeV/hạt nhân).\n\n' +
+      'PHẢN ỨNG DÂY CHUYỀN (CHAIN REACTION):\n' +
+      '— Gọi k là hệ số nhân neutron trung bình:\n' +
+      '  + k < 1: Phản ứng tắt ngay.\n  + k = 1: Phản ứng tự duy trì ổn định (nhà máy điện hạt nhân).\n  + k > 1: Phản ứng tăng bùng nổ mất kiểm soát (bom nguyên tử).\n\n' +
+      'PHẢN ỨNG NHIỆT HẠCH:\n' +
+      '— Định nghĩa: Phản ứng nhiệt hạch là phản ứng kết hợp hai hạt nhân rất nhẹ (đồng vị H) thành hạt nhân nặng hơn ở nhiệt độ cực kì cao (hàng chục đến hàng trăm triệu độ C).\n' +
+      '— Phương trình tiêu biểu: _1^2 H + _1^3 H -> _2^4 He + _0^1 n + 17.6 MeV.\n' +
       '— Ưu điểm: Năng lượng toả ra cực lớn, nguồn nhiên liệu vô tận, sạch và ít phế thải phóng xạ.',
     workedExample: {
       problem:
@@ -373,6 +658,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
         dap: 'Phản ứng kết hợp các hạt nhân nhẹ thành hạt nhân nặng hơn ở nhiệt độ cực cao.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -384,11 +670,11 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
     title: 'Bài tập về vật lí hạt nhân',
     hook: 'Luyện tập giải các bài tập tính toán độ hụt khối, năng lượng liên kết, năng lượng phản ứng hạt nhân và ứng dụng định luật phóng xạ.',
     theory:
-      'CÁC CÔNG THỨC TRỌNG TÂM CẦN NHỚ:\\n' +
-      '1. Độ hụt khối: dm = Z.mp + (A-Z).mn - m_hn\\n' +
-      '2. Năng lượng liên kết: Elk = dm * c² = dm * 931.5 MeV (với dm tính bằng amu)\\n' +
-      '3. Năng lượng liên kết riêng: Elkr = Elk / A\\n' +
-      '4. Số hạt còn lại: N(t) = N0 * 2^(-t/T) = N0 * e^(-lambda * t)\\n' +
+      'CÁC CÔNG THỨC TRỌNG TÂM CẦN NHỚ:\n' +
+      '1. Độ hụt khối: dm = Z.mp + (A-Z).mn - m_hn\n' +
+      '2. Năng lượng liên kết: Elk = dm * c² = dm * 931.5 MeV (với dm tính bằng amu)\n' +
+      '3. Năng lượng liên kết riêng: Elkr = Elk / A\n' +
+      '4. Số hạt còn lại: N(t) = N0 * 2^(-t/T) = N0 * e^(-lambda * t)\n' +
       '5. Năng lượng phản ứng: dE = (m_truoc - m_sau) * c² = Elk_sau - Elk_truoc',
     workedExample: {
       problem:
@@ -437,6 +723,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
         dap: 'dE = (mtruoc - msau) * c².',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

@@ -15,19 +15,19 @@ export const HOA11_C1_LESSONS: ChemLesson[] = [
       'Hầu hết các phản ứng trong công nghiệp không xảy ra hoàn toàn đến cùng. Chúng dừng lại ở ' +
       'một trạng thái mà cả chất tham gia và sản phẩm cùng tồn tại song song — đó là trạng thái cân bằng.',
     theory:
-      'PHẢN ỨNG MỘT CHIỀU VÀ PHẢN ỨNG THUẬN NGHỊCH:\\n' +
-      '— Phản ứng một chiều: phản ứng chỉ xảy ra theo một chiều từ chất tham gia tạo thành sản phẩm (dùng mũi tên đơn →).\\n' +
-      '— Phản ứng thuận nghịch: trong cùng điều kiện, phản ứng xảy ra theo cả hai chiều trái ngược nhau: chiều thuận (chất đầu → sản phẩm) và chiều nghịch (sản phẩm → chất đầu) (dùng mũi tên hai chiều ⇌).\\n\\n' +
-      'TRẠNG THÁI CÂN BẰNG HOÁ HỌC:\\n' +
-      '— Trạng thái cân bằng của phản ứng thuận nghịch là trạng thái tại đó tốc độ phản ứng thuận bằng tốc độ phản ứng nghịch (vt = vn).\\n' +
-      '— Đây là CÂN BẰNG ĐỘNG: phản ứng thuận và nghịch vẫn tiếp tục xảy ra với tốc độ bằng nhau, nồng độ của các chất trong hệ không thay đổi nữa.\\n\\n' +
-      'HẰNG SỐ CÂN BẰNG (Kc):\\n' +
-      '— Đối với phản ứng thuận nghịch tổng quát ở trạng thái khí hoặc dung dịch: aA + bB ⇌ cC + dD.\\n' +
-      '— Biểu thức hằng số cân bằng: Kc = ([C]^c * [D]^d) / ([A]^a * [B]^b). Trong đó [A], [B], [C], [D] là nồng độ mol/L của các chất ở trạng thái cân bằng. Chất rắn không xuất hiện trong biểu thức Kc.\\n\\n' +
-      'NGUYÊN LÍ CHUYỂN DỊCH CÂN BẰNG LE CHATELIER:\\n' +
-      '— Phát biểu: Một phản ứng thuận nghịch đang ở trạng thái cân bằng, khi chịu một tác động từ bên ngoài (như biến đổi nồng độ, nhiệt độ, áp suất), cân bằng sẽ chuyển dịch theo chiều làm GIẢM tác động đó.\\n' +
-      '— Nhiệt độ: Tăng nhiệt độ làm cân bằng dịch chuyển theo chiều thu nhiệt (ΔH > 0), giảm nhiệt độ dịch chuyển theo chiều toả nhiệt (ΔH < 0).\\n' +
-      '— Áp suất: Tăng áp suất chung của hệ làm cân bằng dịch chuyển theo chiều làm giảm số phân tử khí (chiều có tổng hệ số khí nhỏ hơn), giảm áp suất dịch chuyển theo chiều tăng số phân tử khí. Nếu số phân tử khí ở hai vế bằng nhau, áp suất không ảnh hưởng.\\n' +
+      'PHẢN ỨNG MỘT CHIỀU VÀ PHẢN ỨNG THUẬN NGHỊCH:\n' +
+      '— Phản ứng một chiều: phản ứng chỉ xảy ra theo một chiều từ chất tham gia tạo thành sản phẩm (dùng mũi tên đơn →).\n' +
+      '— Phản ứng thuận nghịch: trong cùng điều kiện, phản ứng xảy ra theo cả hai chiều trái ngược nhau: chiều thuận (chất đầu → sản phẩm) và chiều nghịch (sản phẩm → chất đầu) (dùng mũi tên hai chiều ⇌).\n\n' +
+      'TRẠNG THÁI CÂN BẰNG HOÁ HỌC:\n' +
+      '— Trạng thái cân bằng của phản ứng thuận nghịch là trạng thái tại đó tốc độ phản ứng thuận bằng tốc độ phản ứng nghịch (vt = vn).\n' +
+      '— Đây là CÂN BẰNG ĐỘNG: phản ứng thuận và nghịch vẫn tiếp tục xảy ra với tốc độ bằng nhau, nồng độ của các chất trong hệ không thay đổi nữa.\n\n' +
+      'HẰNG SỐ CÂN BẰNG (Kc):\n' +
+      '— Đối với phản ứng thuận nghịch tổng quát ở trạng thái khí hoặc dung dịch: aA + bB ⇌ cC + dD.\n' +
+      '— Biểu thức hằng số cân bằng: Kc = ([C]^c * [D]^d) / ([A]^a * [B]^b). Trong đó [A], [B], [C], [D] là nồng độ mol/L của các chất ở trạng thái cân bằng. Chất rắn không xuất hiện trong biểu thức Kc.\n\n' +
+      'NGUYÊN LÍ CHUYỂN DỊCH CÂN BẰNG LE CHATELIER:\n' +
+      '— Phát biểu: Một phản ứng thuận nghịch đang ở trạng thái cân bằng, khi chịu một tác động từ bên ngoài (như biến đổi nồng độ, nhiệt độ, áp suất), cân bằng sẽ chuyển dịch theo chiều làm GIẢM tác động đó.\n' +
+      '— Nhiệt độ: Tăng nhiệt độ làm cân bằng dịch chuyển theo chiều thu nhiệt (ΔH > 0), giảm nhiệt độ dịch chuyển theo chiều toả nhiệt (ΔH < 0).\n' +
+      '— Áp suất: Tăng áp suất chung của hệ làm cân bằng dịch chuyển theo chiều làm giảm số phân tử khí (chiều có tổng hệ số khí nhỏ hơn), giảm áp suất dịch chuyển theo chiều tăng số phân tử khí. Nếu số phân tử khí ở hai vế bằng nhau, áp suất không ảnh hưởng.\n' +
       '— Nồng độ: Tăng nồng độ một chất làm cân bằng dịch chuyển theo chiều làm giảm nồng độ chất đó (tiêu thụ chất đó).',
     workedExample: {
       problem:
@@ -69,6 +69,24 @@ export const HOA11_C1_LESSONS: ChemLesson[] = [
         explain:
           'Theo nguyên lí Le Chatelier, khi tăng nhiệt độ, cân bằng dịch chuyển theo chiều thu nhiệt (ΔH > 0). Vì chiều thuận toả nhiệt (ΔH < 0) nên chiều nghịch là chiều thu nhiệt. Do đó cân bằng dịch chuyển theo chiều nghịch.',
       },
+      {
+        // Câu BẪY: "cứ tăng áp suất là cân bằng dịch chuyển" — quên kiểm SỐ MOL KHÍ hai vế.
+        prompt:
+          'Cho cân bằng H₂(g) + I₂(g) ⇌ 2HI(g). Khi tăng áp suất chung của hệ (giữ nguyên nhiệt ' +
+          'độ), cân bằng dịch chuyển theo chiều nào?',
+        choices: [
+          { id: 'thuan', label: 'Chiều thuận (tạo thêm HI)' },
+          { id: 'nghich', label: 'Chiều nghịch' },
+          { id: 'khong', label: 'Không dịch chuyển' },
+        ],
+        answer: { kind: 'choice', correctIds: ['khong'] },
+        explain:
+          'Bẫy ở phản xạ "tăng áp suất thì cân bằng phải dịch chuyển". Phải ĐẾM số mol khí hai ' +
+          'vế trước: vế trái có 1 + 1 = 2 mol khí, vế phải cũng có 2 mol khí. Không vế nào làm ' +
+          'giảm được áp suất nhiều hơn vế nào, nên áp suất không ảnh hưởng tới vị trí cân bằng ' +
+          'này. Áp suất chỉ có tác dụng khi tổng hệ số của CHẤT KHÍ ở hai vế khác nhau (ví dụ ' +
+          'N₂ + 3H₂ ⇌ 2NH₃: 4 mol khí so với 2 mol khí).',
+      },
     ],
     srsCards: [
       {
@@ -84,6 +102,203 @@ export const HOA11_C1_LESSONS: ChemLesson[] = [
         dap: 'Cân bằng dịch chuyển theo chiều chống lại tác động bên ngoài (nhiệt độ, nồng độ, áp suất) để làm giảm tác động đó.',
       },
     ],
+    animation: {
+      title: 'Cân bằng chuyển dịch khi tăng nồng độ chất đầu (N₂ + 3H₂ ⇌ 2NH₃)',
+      description:
+        'Hình dùng hình ảnh chiếc cân đòn: đĩa trái là các chất đầu N₂ và H₂, đĩa phải là sản ' +
+        'phẩm NH₃. Lúc đầu đòn cân nằm ngang — hệ đang ở trạng thái cân bằng, tốc độ phản ứng ' +
+        'thuận bằng tốc độ phản ứng nghịch. Sau đó ta bơm thêm N₂ vào, đĩa trái nặng xuống: hệ ' +
+        'bị lệch khỏi cân bằng. Phản ứng theo CHIỀU THUẬN chạy mạnh hơn để tiêu thụ bớt lượng ' +
+        'N₂ vừa thêm, nên đòn cân dần trở lại ngang ở một vị trí cân bằng mới có nhiều NH₃ hơn. ' +
+        'Đúng tinh thần nguyên lí Le Chatelier: hệ chuyển dịch theo chiều LÀM GIẢM tác động vừa ' +
+        'gây ra, chứ không phải theo chiều "thêm gì thì tạo ra thứ đó".',
+      viewBoxWidth: 420,
+      viewBoxHeight: 220,
+      durationMs: 7000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'polyline',
+          id: 'de',
+          points: [
+            [180, 190],
+            [210, 130],
+            [240, 190],
+          ],
+          closed: true,
+          fill: 'muted',
+          stroke: 'neutral',
+          strokeWidth: 1.5,
+        },
+        {
+          kind: 'line',
+          id: 'don',
+          x1: 80,
+          y1: 128,
+          x2: 340,
+          y2: 128,
+          stroke: 'neutral',
+          strokeWidth: 4,
+          keyframes: [
+            { atMs: 0, rotate: 0 },
+            { atMs: 1500, rotate: 0 },
+            { atMs: 2600, rotate: -9 },
+            { atMs: 5200, rotate: -2 },
+            { atMs: 7000, rotate: -2 },
+          ],
+        },
+        {
+          kind: 'rect',
+          id: 'dia-trai',
+          x: 60,
+          y: 100,
+          w: 90,
+          h: 26,
+          rx: 5,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 0, dy: 0 },
+            { atMs: 1500, dy: 0 },
+            { atMs: 2600, dy: 22 },
+            { atMs: 5200, dy: 5 },
+            { atMs: 7000, dy: 5 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'trai-t',
+          x: 105,
+          y: 118,
+          text: 'N₂ + 3H₂',
+          size: 13,
+          anchor: 'middle',
+          fill: 'surface',
+          keyframes: [
+            { atMs: 0, dy: 0 },
+            { atMs: 1500, dy: 0 },
+            { atMs: 2600, dy: 22 },
+            { atMs: 5200, dy: 5 },
+            { atMs: 7000, dy: 5 },
+          ],
+        },
+        {
+          kind: 'rect',
+          id: 'dia-phai',
+          x: 270,
+          y: 100,
+          w: 90,
+          h: 26,
+          rx: 5,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dy: 0 },
+            { atMs: 1500, dy: 0 },
+            { atMs: 2600, dy: -22 },
+            { atMs: 5200, dy: -5 },
+            { atMs: 7000, dy: -5 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'phai-t',
+          x: 315,
+          y: 118,
+          text: '2NH₃',
+          size: 13,
+          anchor: 'middle',
+          fill: 'neutral',
+          keyframes: [
+            { atMs: 0, dy: 0 },
+            { atMs: 1500, dy: 0 },
+            { atMs: 2600, dy: -22 },
+            { atMs: 5200, dy: -5 },
+            { atMs: 7000, dy: -5 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'them-n2',
+          cx: 105,
+          cy: 30,
+          r: 12,
+          fill: 'warn',
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0, dy: 0 },
+            { atMs: 1500, opacity: 1, dy: 0 },
+            { atMs: 2400, opacity: 1, dy: 55 },
+            { atMs: 2600, opacity: 0, dy: 60 },
+            { atMs: 7000, opacity: 0, dy: 60 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'them-t',
+          x: 105,
+          y: 16,
+          text: 'bơm thêm N₂',
+          size: 11,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 1400, opacity: 1 },
+            { atMs: 3200, opacity: 0 },
+            { atMs: 7000, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'chieu-thuan',
+          x1: 165,
+          y1: 68,
+          x2: 265,
+          y2: 68,
+          stroke: 'correct',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 3000, opacity: 1 },
+            { atMs: 7000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'chieu-t',
+          x: 215,
+          y: 58,
+          text: 'cân bằng chuyển dịch theo chiều thuận',
+          size: 11,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 3000, opacity: 1 },
+            { atMs: 7000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'ghi-chu',
+          x: 210,
+          y: 210,
+          text: 'hệ chống lại tác động: thêm N₂ ⇒ tiêu thụ bớt N₂',
+          size: 11,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+      ],
+      captions: [
+        { atMs: 0, text: 'Đòn cân ngang: v(thuận) = v(nghịch), nồng độ các chất không đổi nữa.' },
+        { atMs: 1500, text: 'Bơm thêm N₂ — hệ bị đẩy lệch khỏi cân bằng.' },
+        { atMs: 3000, text: 'Chiều thuận chạy mạnh hơn để tiêu thụ bớt N₂ vừa thêm vào.' },
+        { atMs: 5200, text: 'Hệ đạt cân bằng MỚI, có nhiều NH₃ hơn lúc đầu.' },
+      ],
+    },
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -97,21 +312,21 @@ export const HOA11_C1_LESSONS: ChemLesson[] = [
       'Nước nguyên chất dẫn điện cực kỳ kém, nhưng nước muối hay nước chanh lại dẫn điện rất tốt. ' +
       'Bí ẩn nằm ở sự phân li thành các hạt mang điện chuyển động tự do — gọi là ion.',
     theory:
-      'SỰ ĐIỆN LI:\\n' +
-      '— Sự điện li là quá trình phân li các chất trong nước thành các ion.\\n' +
-      '— Chất điện li mạnh: phân li hoàn toàn thành ion khi tan trong nước (gồm acid mạnh như HCl, HNO₃, H₂SO₄; base mạnh như NaOH, KOH, Ca(OH)₂; và hầu hết muối). Dùng mũi tên một chiều (→).\\n' +
-      '— Chất điện li yếu: chỉ phân li một phần thành ion (gồm acid yếu như CH₃COOH, H₂CO₃, H₂S; base yếu như NH₃; nước). Dùng mũi tên hai chiều (⇌).\\n\\n' +
-      'THUYẾT ACID - BASE CỦA BRØNSTED - LOWRY:\\n' +
-      '— Acid là chất nhường proton (H⁺).\\n' +
-      '— Base là chất nhận proton (H⁺).\\n' +
-      '— Ví dụ: NH₃ + H₂O ⇌ NH₄⁺ + OH⁻. H₂O nhường H⁺ cho NH₃ nên H₂O là acid; NH₃ nhận H⁺ tạo NH₄⁺ nên NH₃ là base.\\n\\n' +
-      'TÍCH SỐ ION CỦA NƯỚC VÀ pH:\\n' +
-      '— Sự tự điện li của nước: H₂O ⇌ H⁺ + OH⁻. Ở 25 °C, tích số ion của nước là Kw = [H⁺][OH⁻] = 10⁻¹⁴.\\n' +
-      '— Khái niệm pH: pH = −log[H⁺].\\n' +
-      '— Môi trường: Trung tính (pH = 7, [H⁺] = 10⁻⁷ M); Acid (pH < 7, [H⁺] > 10⁻⁷ M); Base (pH > 7, [H⁺] < 10⁻⁷ M).\\n' +
-      '— Chất chỉ thị màu: Quỳ tím (hoá đỏ trong acid, hoá xanh trong base); Phenolphthalein (hoá hồng trong base, không màu trong acid/trung tính).\\n\\n' +
-      'CHUẨN ĐỘ ACID - BASE:\\n' +
-      '— Chuẩn độ là phương pháp xác định nồng độ của một chất bằng một dung dịch chuẩn đã biết nồng độ.\\n' +
+      'SỰ ĐIỆN LI:\n' +
+      '— Sự điện li là quá trình phân li các chất trong nước thành các ion.\n' +
+      '— Chất điện li mạnh: phân li hoàn toàn thành ion khi tan trong nước (gồm acid mạnh như HCl, HNO₃, H₂SO₄; base mạnh như NaOH, KOH, Ca(OH)₂; và hầu hết muối). Dùng mũi tên một chiều (→).\n' +
+      '— Chất điện li yếu: chỉ phân li một phần thành ion (gồm acid yếu như CH₃COOH, H₂CO₃, H₂S; base yếu như NH₃; nước). Dùng mũi tên hai chiều (⇌).\n\n' +
+      'THUYẾT ACID - BASE CỦA BRØNSTED - LOWRY:\n' +
+      '— Acid là chất nhường proton (H⁺).\n' +
+      '— Base là chất nhận proton (H⁺).\n' +
+      '— Ví dụ: NH₃ + H₂O ⇌ NH₄⁺ + OH⁻. H₂O nhường H⁺ cho NH₃ nên H₂O là acid; NH₃ nhận H⁺ tạo NH₄⁺ nên NH₃ là base.\n\n' +
+      'TÍCH SỐ ION CỦA NƯỚC VÀ pH:\n' +
+      '— Sự tự điện li của nước: H₂O ⇌ H⁺ + OH⁻. Ở 25 °C, tích số ion của nước là Kw = [H⁺][OH⁻] = 10⁻¹⁴.\n' +
+      '— Khái niệm pH: pH = −log[H⁺].\n' +
+      '— Môi trường: Trung tính (pH = 7, [H⁺] = 10⁻⁷ M); Acid (pH < 7, [H⁺] > 10⁻⁷ M); Base (pH > 7, [H⁺] < 10⁻⁷ M).\n' +
+      '— Chất chỉ thị màu: Quỳ tím (hoá đỏ trong acid, hoá xanh trong base); Phenolphthalein (hoá hồng trong base, không màu trong acid/trung tính).\n\n' +
+      'CHUẨN ĐỘ ACID - BASE:\n' +
+      '— Chuẩn độ là phương pháp xác định nồng độ của một chất bằng một dung dịch chuẩn đã biết nồng độ.\n' +
       '— Điểm tương đương là thời điểm acid và base phản ứng vừa đủ với nhau, nhận biết qua sự đổi màu đột ngột của chất chỉ thị.',
     workedExample: {
       problem: 'Tính pH của dung dịch chứa HCl 0,001 M ở 25 °C.',
@@ -141,6 +356,18 @@ export const HOA11_C1_LESSONS: ChemLesson[] = [
         answer: { kind: 'numeric', value: 9 },
         explain: 'Theo công thức: pH = −log[H⁺] = −log(10⁻⁹) = 9.',
       },
+      {
+        // Câu BẪY: quên H₂SO₄ điện li cho HAI ion H⁺ — lỗi "nhầm nồng độ chất với nồng độ H⁺".
+        prompt:
+          'Tính pH của dung dịch H₂SO₄ 0,001 M ở 25 °C (coi H₂SO₄ điện li hoàn toàn cả hai nấc; ' +
+          'làm tròn 1 chữ số thập phân, chỉ nhập số).',
+        answer: { kind: 'numeric', value: 2.7, tolerance: { mode: 'absolute', eps: 0.05 } },
+        explain:
+          'Nếu bạn ra pH = 3 thì đã lấy thẳng nồng độ H₂SO₄ làm nồng độ H⁺. Mỗi phân tử H₂SO₄ ' +
+          'cho 2 ion H⁺: H₂SO₄ → 2H⁺ + SO₄²⁻, nên [H⁺] = 2 × 0,001 = 0,002 M. Do đó pH = ' +
+          '−log(0,002) ≈ 2,7 — acid hơn (pH nhỏ hơn) so với HCl cùng nồng độ mol. Bài học: luôn ' +
+          'đi từ PHƯƠNG TRÌNH ĐIỆN LI ra nồng độ ion, đừng dùng thẳng nồng độ chất.',
+      },
     ],
     srsCards: [
       {
@@ -154,6 +381,194 @@ export const HOA11_C1_LESSONS: ChemLesson[] = [
       { hoi: 'Tích số ion của nước Kw ở 25 °C bằng bao nhiêu?', dap: 'Kw = [H⁺][OH⁻] = 10⁻¹⁴.' },
       { hoi: 'Công thức tính pH?', dap: 'pH = −log[H⁺].' },
     ],
+    animation: {
+      title: 'Chuẩn độ acid–base: giọt cuối cùng làm đổi màu',
+      description:
+        'Trên cùng là buret chứa dung dịch NaOH đã biết nồng độ, dưới là bình tam giác chứa ' +
+        'dung dịch HCl cần xác định nồng độ, đã nhỏ sẵn vài giọt phenolphthalein. Từng giọt ' +
+        'NaOH rơi xuống, H⁺ và OH⁻ trung hoà nhau theo phương trình ion rút gọn H⁺ + OH⁻ → H₂O. ' +
+        'Suốt quá trình đó dung dịch vẫn không màu vì vẫn còn dư H⁺. Đến đúng thời điểm số mol ' +
+        'OH⁻ thêm vào bằng số mol H⁺ ban đầu — điểm tương đương — thì chỉ một giọt dư cũng làm ' +
+        'pH nhảy vọt và dung dịch chuyển sang hồng nhạt bền. Đó là tín hiệu dừng, đọc thể tích ' +
+        'NaOH đã dùng rồi tính nồng độ HCl.',
+      viewBoxWidth: 360,
+      viewBoxHeight: 240,
+      durationMs: 7000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'rect',
+          id: 'buret',
+          x: 166,
+          y: 10,
+          w: 20,
+          h: 90,
+          rx: 3,
+          fill: 'surface',
+          stroke: 'neutral',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'rect',
+          id: 'dd-buret',
+          x: 168,
+          y: 14,
+          w: 16,
+          h: 70,
+          fill: 'primary',
+          opacity: 0.6,
+        },
+        {
+          kind: 'label',
+          id: 'buret-t',
+          x: 196,
+          y: 40,
+          text: 'NaOH đã biết nồng độ',
+          size: 11,
+          anchor: 'start',
+          fill: 'neutral',
+        },
+        {
+          kind: 'polyline',
+          id: 'binh',
+          points: [
+            [130, 230],
+            [160, 150],
+            [160, 118],
+            [196, 118],
+            [196, 150],
+            [226, 230],
+          ],
+          closed: true,
+          fill: 'surface',
+          stroke: 'neutral',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'polyline',
+          id: 'dd-khong-mau',
+          points: [
+            [142, 200],
+            [214, 200],
+            [224, 228],
+            [132, 228],
+          ],
+          closed: true,
+          fill: 'muted',
+          opacity: 0.5,
+        },
+        {
+          kind: 'polyline',
+          id: 'dd-hong',
+          points: [
+            [142, 200],
+            [214, 200],
+            [224, 228],
+            [132, 228],
+          ],
+          closed: true,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 5000, opacity: 0 },
+            { atMs: 5600, opacity: 0.85 },
+            { atMs: 7000, opacity: 0.85 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'giot1',
+          cx: 176,
+          cy: 104,
+          r: 4,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 0, dy: 0, opacity: 1 },
+            { atMs: 900, dy: 92, opacity: 1 },
+            { atMs: 1000, dy: 92, opacity: 0 },
+            { atMs: 7000, dy: 92, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'giot2',
+          cx: 176,
+          cy: 104,
+          r: 4,
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            { atMs: 1600, dy: 0, opacity: 1 },
+            { atMs: 2500, dy: 92, opacity: 1 },
+            { atMs: 2600, dy: 92, opacity: 0 },
+            { atMs: 7000, dy: 92, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'giot3',
+          cx: 176,
+          cy: 104,
+          r: 4,
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            { atMs: 4200, dy: 0, opacity: 1 },
+            { atMs: 5100, dy: 92, opacity: 1 },
+            { atMs: 5200, dy: 92, opacity: 0 },
+            { atMs: 7000, dy: 92, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'trang-thai-1',
+          x: 20,
+          y: 150,
+          text: 'còn dư H⁺ ⇒ không màu',
+          size: 11,
+          anchor: 'start',
+          fill: 'neutral',
+          keyframes: [
+            { atMs: 0, opacity: 1 },
+            { atMs: 5200, opacity: 0 },
+            { atMs: 7000, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'trang-thai-2',
+          x: 20,
+          y: 150,
+          text: 'điểm tương đương: n(OH⁻) = n(H⁺)',
+          size: 11,
+          anchor: 'start',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 5400, opacity: 1 },
+            { atMs: 7000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'pt',
+          x: 180,
+          y: 18,
+          text: 'H⁺ + OH⁻ → H₂O',
+          size: 10,
+          anchor: 'start',
+          fill: 'muted',
+        },
+      ],
+      captions: [
+        { atMs: 0, text: 'Nhỏ từng giọt NaOH; H⁺ trong bình bị trung hoà dần.' },
+        { atMs: 4200, text: 'Gần điểm tương đương, chỉ một giọt cũng làm pH nhảy vọt.' },
+        { atMs: 5600, text: 'Dung dịch hoá hồng bền — dừng lại và đọc thể tích NaOH đã dùng.' },
+      ],
+    },
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -167,11 +582,11 @@ export const HOA11_C1_LESSONS: ChemLesson[] = [
       'Cân bằng hoá học và cân bằng trong dung dịch là nền tảng cốt lõi giải thích hoạt động của cơ thể ' +
       '(như hệ đệm pH trong máu) cho đến các nhà máy sản xuất hoá chất quy mô lớn.',
     theory:
-      'HỆ THỐNG HOÁ KIẾN THỨC CHƯƠNG 1:\\n' +
-      '1. Cân bằng hoá học là trạng thái động, vt = vn. Kc chỉ phụ thuộc vào nhiệt độ, không phụ thuộc vào nồng độ các chất.\\n' +
-      '2. Chuyển dịch cân bằng tuân theo nguyên lí Le Chatelier. Các yếu tố ảnh hưởng gồm: Nhiệt độ (luôn ảnh hưởng), Nồng độ, Áp suất (chỉ ảnh hưởng khi có chất khí và có sự thay đổi số phân tử khí).\\n' +
-      '3. Sự điện li chia làm điện li mạnh (→) và điện li yếu (⇌).\\n' +
-      '4. Thuyết acid-base của Brønsted-Lowry mở rộng khái niệm acid/base không chỉ giới hạn trong nước (acid nhường H⁺, base nhận H⁺).\\n' +
+      'HỆ THỐNG HOÁ KIẾN THỨC CHƯƠNG 1:\n' +
+      '1. Cân bằng hoá học là trạng thái động, vt = vn. Kc chỉ phụ thuộc vào nhiệt độ, không phụ thuộc vào nồng độ các chất.\n' +
+      '2. Chuyển dịch cân bằng tuân theo nguyên lí Le Chatelier. Các yếu tố ảnh hưởng gồm: Nhiệt độ (luôn ảnh hưởng), Nồng độ, Áp suất (chỉ ảnh hưởng khi có chất khí và có sự thay đổi số phân tử khí).\n' +
+      '3. Sự điện li chia làm điện li mạnh (→) và điện li yếu (⇌).\n' +
+      '4. Thuyết acid-base của Brønsted-Lowry mở rộng khái niệm acid/base không chỉ giới hạn trong nước (acid nhường H⁺, base nhận H⁺).\n' +
       '5. Môi trường acid pH < 7, trung tính pH = 7, base pH > 7 (ở 25 °C). Chuẩn độ acid-base dựa trên phản ứng trung hoà giữa H⁺ và OH⁻.',
     workedExample: {
       problem:
@@ -224,6 +639,7 @@ export const HOA11_C1_LESSONS: ChemLesson[] = [
         dap: 'Để nhận biết thời điểm dừng chuẩn độ (điểm tương đương) khi acid và base phản ứng vừa đủ.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

@@ -1,9 +1,20 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.package.base.json",
   "compilerOptions": {
-    "rootDir": ".",
-    "outDir": "dist"
+    "outDir": "dist",
+    "rootDir": "."
   },
   "include": ["**/*.ts"],
-  "exclude": ["dist", "**/*.test.ts", "**/*.spec.ts"]
+  "exclude": ["dist", "**/*.test.ts", "**/*.spec.ts"],
+  "references": [
+    {
+      "path": "../core-contracts"
+    },
+    {
+      "path": "../core-grading"
+    },
+    {
+      "path": "../core-learner"
+    }
+  ]
 }

@@ -15,19 +15,19 @@ export const HOA11_C6_LESSONS: ChemLesson[] = [
       'Dung dịch formalin dùng để bảo quản xác sinh vật chứa formaldehyde. Nước rửa sơn móng tay có mùi thơm chứa acetone. ' +
       'Cả hai đều chứa nhóm chức carbonyl linh hoạt bậc nhất trong hoá hữu cơ.',
     theory:
-      'KHÁI NIỆM VÀ PHÂN LOẠI:\\n' +
-      '— Hợp chất carbonyl là hợp chất hữu cơ trong phân tử có chứa nhóm carbonyl (C=O).\\n' +
-      '— Aldehyde: nhóm carbonyl liên kết với ít nhất một nguyên tử hydrogen (R−CHO, với chất đơn giản nhất là HCHO).\\n' +
-      "— Ketone: nhóm carbonyl liên kết với hai gốc hydrocarbon (R−CO−R').\\n\\n" +
-      'TÍNH CHẤT HOÁ HỌC:\\n' +
-      '1. Phản ứng khử (cộng H₂):\\n' +
-      '   — Aldehyde bị khử bởi H₂ (Ni, t°) tạo alcohol bậc I: R−CHO + H₂ → R−CH₂OH.\\n' +
-      "   — Ketone bị khử bởi H₂ (Ni, t°) tạo alcohol bậc II: R−CO−R' + H₂ → R−CH(OH)−R'.\\n" +
-      '2. Phản ứng oxi hoá (chỉ có ở aldehyde, ketone bền vững với chất oxi hoá yếu):\\n' +
-      '   — Phản ứng tráng bạc: Aldehyde tác dụng với thuốc thử Tollens [Ag(NH₃)₂]OH tạo ra lớp kim loại bạc sáng bóng như gương bám vào thành ống nghiệm (tráng gương):\\n' +
-      '     R−CHO + 2[Ag(NH₃)₂]OH → R−COONH₄ + 2Ag↓ + 3NH₃ + H₂O (t°).\\n' +
-      '     (Riêng HCHO phản ứng tạo ra 4Ag do nhóm −CHO ở cả hai đầu của cấu trúc vô cơ trung gian).\\n' +
-      '   — Phản ứng với Cu(OH)₂ trong môi trường kiềm nóng: Aldehyde tạo kết tủa đỏ gạch Cu₂O:\\n' +
+      'KHÁI NIỆM VÀ PHÂN LOẠI:\n' +
+      '— Hợp chất carbonyl là hợp chất hữu cơ trong phân tử có chứa nhóm carbonyl (C=O).\n' +
+      '— Aldehyde: nhóm carbonyl liên kết với ít nhất một nguyên tử hydrogen (R−CHO, với chất đơn giản nhất là HCHO).\n' +
+      "— Ketone: nhóm carbonyl liên kết với hai gốc hydrocarbon (R−CO−R').\n\n" +
+      'TÍNH CHẤT HOÁ HỌC:\n' +
+      '1. Phản ứng khử (cộng H₂):\n' +
+      '   — Aldehyde bị khử bởi H₂ (Ni, t°) tạo alcohol bậc I: R−CHO + H₂ → R−CH₂OH.\n' +
+      "   — Ketone bị khử bởi H₂ (Ni, t°) tạo alcohol bậc II: R−CO−R' + H₂ → R−CH(OH)−R'.\n" +
+      '2. Phản ứng oxi hoá (chỉ có ở aldehyde, ketone bền vững với chất oxi hoá yếu):\n' +
+      '   — Phản ứng tráng bạc: Aldehyde tác dụng với thuốc thử Tollens [Ag(NH₃)₂]OH tạo ra lớp kim loại bạc sáng bóng như gương bám vào thành ống nghiệm (tráng gương):\n' +
+      '     R−CHO + 2[Ag(NH₃)₂]OH → R−COONH₄ + 2Ag↓ + 3NH₃ + H₂O (t°).\n' +
+      '     (Riêng HCHO phản ứng tạo ra 4Ag do nhóm −CHO ở cả hai đầu của cấu trúc vô cơ trung gian).\n' +
+      '   — Phản ứng với Cu(OH)₂ trong môi trường kiềm nóng: Aldehyde tạo kết tủa đỏ gạch Cu₂O:\n' +
       '     R−CHO + 2Cu(OH)₂ + NaOH → R−COONa + Cu₂O↓ + 3H₂O (t°).',
     workedExample: {
       problem:
@@ -73,6 +73,7 @@ export const HOA11_C6_LESSONS: ChemLesson[] = [
         dap: 'Aldehyde dễ bị oxi hoá tạo Ag hoặc Cu₂O đỏ gạch, Ketone không phản ứng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -86,18 +87,18 @@ export const HOA11_C6_LESSONS: ChemLesson[] = [
       'Giấm ăn có vị chua thanh nhẹ nhờ chứa acetic acid. Kiến đốt truyền nọc độc formic acid gây sưng rát. ' +
       'Cả hai đều là những axit hữu cơ thuộc nhóm axit carboxylic.',
     theory:
-      'KHÁI NIỆM:\\n' +
-      '— Carboxylic acid là hợp chất hữu cơ trong phân tử có nhóm carboxyl (−COOH) liên kết trực tiếp với nguyên tử carbon hoặc hydrogen.\\n' +
-      '— Công thức chung của acid no, đơn chức, mạch hở: CₙH₂ₙ₊₁COOH (n ≥ 0).\\n\\n' +
-      'TÍNH CHẤT VẬT LÍ (Nhiệt độ sôi rất cao):\\n' +
-      '— Nhiệt độ sôi của carboxylic acid cao hơn alcohol có cùng phân tử khối vì các phân tử acid tạo được LIÊN KẾT HYDROGEN liên phân tử dạng vòng (dimer) hoặc dạng mạch bền vững hơn nhiều.\\n\\n' +
-      'TÍNH CHẤT HOÁ HỌC:\\n' +
-      '1. Tính acid yếu (đầy đủ tính chất acid):\\n' +
-      '   — Làm quỳ tím hoá đỏ. Tác dụng với kim loại giải phóng H₂: 2CH₃COOH + Zn → (CH₃COO)₂Zn + H₂.\\n' +
-      '   — Tác dụng với muối carbonate giải phóng khí CO₂ (dùng nhận biết acid): 2CH₃COOH + CaCO₃ → (CH₃COO)₂Ca + CO₂↑ + H₂O.\\n' +
-      '2. Phản ứng ester hoá (phản ứng với alcohol):\\n' +
-      '   — Phản ứng xảy ra thuận nghịch dưới tác dụng của xúc tác H₂SO₄ đặc và đun nóng:\\n' +
-      "     R−COOH + R'−OH ⇌ R−COOR' (ester) + H₂O.\\n" +
+      'KHÁI NIỆM:\n' +
+      '— Carboxylic acid là hợp chất hữu cơ trong phân tử có nhóm carboxyl (−COOH) liên kết trực tiếp với nguyên tử carbon hoặc hydrogen.\n' +
+      '— Công thức chung của acid no, đơn chức, mạch hở: CₙH₂ₙ₊₁COOH (n ≥ 0).\n\n' +
+      'TÍNH CHẤT VẬT LÍ (Nhiệt độ sôi rất cao):\n' +
+      '— Nhiệt độ sôi của carboxylic acid cao hơn alcohol có cùng phân tử khối vì các phân tử acid tạo được LIÊN KẾT HYDROGEN liên phân tử dạng vòng (dimer) hoặc dạng mạch bền vững hơn nhiều.\n\n' +
+      'TÍNH CHẤT HOÁ HỌC:\n' +
+      '1. Tính acid yếu (đầy đủ tính chất acid):\n' +
+      '   — Làm quỳ tím hoá đỏ. Tác dụng với kim loại giải phóng H₂: 2CH₃COOH + Zn → (CH₃COO)₂Zn + H₂.\n' +
+      '   — Tác dụng với muối carbonate giải phóng khí CO₂ (dùng nhận biết acid): 2CH₃COOH + CaCO₃ → (CH₃COO)₂Ca + CO₂↑ + H₂O.\n' +
+      '2. Phản ứng ester hoá (phản ứng với alcohol):\n' +
+      '   — Phản ứng xảy ra thuận nghịch dưới tác dụng của xúc tác H₂SO₄ đặc và đun nóng:\n' +
+      "     R−COOH + R'−OH ⇌ R−COOR' (ester) + H₂O.\n" +
       '     Ví dụ: CH₃COOH + C₂H₅OH ⇌ CH₃COOC₂H₅ (ethyl acetate, mùi chuối chín) + H₂O.',
     workedExample: {
       problem:
@@ -156,6 +157,7 @@ export const HOA11_C6_LESSONS: ChemLesson[] = [
         dap: 'Là phản ứng thuận nghịch giữa acid và alcohol (xúc tác H₂SO₄ đặc) tạo ra ester và nước.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -169,10 +171,10 @@ export const HOA11_C6_LESSONS: ChemLesson[] = [
       'Ôn tập và liên kết hai lớp dẫn xuất chứa oxygen đỉnh cao: hợp chất carbonyl và carboxylic acid, ' +
       'hoàn thành lộ trình Hoá học hữu cơ lớp 11 của chúng ta.',
     theory:
-      'TỔNG KẾT KIẾN THỨC CHƯƠNG 6:\\n' +
-      "1. Hợp chất carbonyl: Có nhóm C=O. Gồm aldehyde (R−CHO) và ketone (R−CO−R').\\n" +
-      '   — Khử bởi H₂ tạo alcohol tương ứng.\\n' +
-      '   — Aldehyde có tính khử: tráng gương (tạo Ag), phản ứng Cu(OH)₂/NaOH nóng (tạo Cu₂O đỏ gạch). Ketone trơ với các phản ứng này.\\n' +
+      'TỔNG KẾT KIẾN THỨC CHƯƠNG 6:\n' +
+      "1. Hợp chất carbonyl: Có nhóm C=O. Gồm aldehyde (R−CHO) và ketone (R−CO−R').\n" +
+      '   — Khử bởi H₂ tạo alcohol tương ứng.\n' +
+      '   — Aldehyde có tính khử: tráng gương (tạo Ag), phản ứng Cu(OH)₂/NaOH nóng (tạo Cu₂O đỏ gạch). Ketone trơ với các phản ứng này.\n' +
       '2. Carboxylic acid (R−COOH): Có nhóm −COOH. Nhiệt độ sôi rất cao nhờ dimer liên kết hydrogen. Thể hiện đầy đủ tính acid (làm đỏ quỳ, tác dụng kim loại trước H, phản ứng giải phóng khí CO₂ từ muối carbonate). Phản ứng ester hoá với alcohol là phản ứng thuận nghịch.',
     workedExample: {
       problem:
@@ -226,6 +228,7 @@ export const HOA11_C6_LESSONS: ChemLesson[] = [
         dap: 'Vì carboxylic acid mạnh hơn carbonic acid (H₂CO₃), đẩy H₂CO₃ ra ngoài tự phân huỷ thành CO₂ và H₂O.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

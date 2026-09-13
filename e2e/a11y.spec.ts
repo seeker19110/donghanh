@@ -124,6 +124,11 @@ const AUTHED_ROUTES = [
   '/action-canvas', // Bảng hành động của Companion
   '/ung-dung-thuc-te', // Ứng dụng thực tế — 22 thanh trượt mô phỏng
   '/luyen-tap', // Phòng luyện tập
+  // [2026-09-13] Bốn môn STEM nối vào app — một khuôn trang dùng chung cho cả bốn môn,
+  // nên quét đại diện một môn là đủ, cộng một trang bài CÓ hoạt ảnh (hoạt ảnh là thứ mới
+  // nhất về a11y: có chữ trong SVG, có nút tạm dừng, có mô tả thay thế).
+  '/mon-hoc/physics/bai-hoc', // danh sách bài: hai nhánh chuẩn/HSG + chọn lớp
+  '/mon-hoc/physics/bai-hoc/ly10-c2-b10--su-roi-tu-do', // bài CÓ hoạt ảnh
 ]
 for (const route of AUTHED_ROUTES) {
   for (const theme of THEMES) {

@@ -50,6 +50,8 @@ const AvatarDemo = lazyWithRetry(() => import('./pages/companion/AvatarDemo'))
 // ── 3. Multi-Subject Learning & STEM Studio (Phòng Học & Luyện Tập Đa Môn)
 const Subjects = lazyWithRetry(() => import('./pages/learning/Subjects'))
 const SubjectDetail = lazyWithRetry(() => import('./pages/learning/SubjectDetail'))
+const StemLessonList = lazyWithRetry(() => import('./pages/learning/StemLessonList'))
+const StemLessonView = lazyWithRetry(() => import('./pages/learning/StemLessonView'))
 const Practice = lazyWithRetry(() => import('./pages/learning/Practice'))
 const AppliedKnowledge = lazyWithRetry(() => import('./pages/learning/AppliedKnowledge'))
 
@@ -554,6 +556,24 @@ export default function App() {
                         element={
                           <RequireAuth>
                             <ProgrammingLevelPage />
+                          </RequireAuth>
+                        }
+                      />
+                      {/* Bài học bốn môn STEM — đặt TRƯỚC route `:subjectId` để đoạn
+                          `bai-hoc` không bị nuốt thành một mã môn. */}
+                      <Route
+                        path="/mon-hoc/:subjectId/bai-hoc"
+                        element={
+                          <RequireAuth>
+                            <StemLessonList />
+                          </RequireAuth>
+                        }
+                      />
+                      <Route
+                        path="/mon-hoc/:subjectId/bai-hoc/:lessonSlug"
+                        element={
+                          <RequireAuth>
+                            <StemLessonView />
                           </RequireAuth>
                         }
                       />

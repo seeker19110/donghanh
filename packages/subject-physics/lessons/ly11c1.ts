@@ -4,6 +4,174 @@ import type { PhysicsLesson } from '../lessonTypes.js'
 export const LY11_C1_LESSONS: PhysicsLesson[] = [
   {
     id: 'ly11-c1-b1',
+    // Cảnh trả lời câu hỏi VÌ SAO li độ lại là hàm cosin: dao động điều hoà chính là HÌNH CHIẾU
+    // của một chuyển động tròn đều lên một đường thẳng. Hiểu chỗ này thì cả chương nhẹ hẳn.
+    animation: {
+      title: 'Dao động điều hoà là hình chiếu của chuyển động tròn đều',
+      description:
+        'Bên trái: điểm M chạy tròn đều trên đường tròn bán kính A với tốc độ góc ω. Bên phải nó là điểm P — hình chiếu của M lên trục thẳng đứng đi qua tâm. Khi M quay đều, P chạy lên chạy xuống quanh tâm O: nhanh nhất khi đi qua O (lúc M ở ngang, toàn bộ vận tốc của M chiếu hết lên trục) và đứng khựng lại ở hai đầu (lúc M ở trên/dưới cùng, vận tốc của M nằm ngang nên chiếu xuống bằng 0). Khoảng cách từ P tới O chính là A·cos(ωt + φ) theo đúng định nghĩa cosin trong tam giác vuông — đó là lý do li độ của dao động điều hoà là hàm cosin chứ không phải một hàm nào khác. Đồ thị bên phải vẽ lại vị trí của P theo thời gian, cho ra đúng một đường hình sin.',
+      viewBoxWidth: 420,
+      viewBoxHeight: 240,
+      durationMs: 4000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'circle',
+          id: 'duong-tron',
+          cx: 110,
+          cy: 120,
+          r: 60,
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '5 5',
+        },
+        {
+          kind: 'line',
+          id: 'truc-li-do',
+          x1: 110,
+          y1: 40,
+          x2: 110,
+          y2: 200,
+          stroke: 'neutral',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'line',
+          id: 'truc-thoi-gian',
+          x1: 196,
+          y1: 120,
+          x2: 396,
+          y2: 120,
+          stroke: 'neutral',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'polyline',
+          id: 'do-thi-x-t',
+          points: [
+            [200, 60],
+            [215, 68],
+            [230, 90],
+            [245, 120],
+            [260, 150],
+            [275, 172],
+            [290, 180],
+            [305, 172],
+            [320, 150],
+            [335, 120],
+            [350, 90],
+            [365, 68],
+            [380, 60],
+          ],
+          stroke: 'primary',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'circle',
+          id: 'diem-m',
+          cx: 110,
+          cy: 60,
+          r: 8,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dx: 0, dy: 0 },
+            { atMs: 500, dx: 42.4, dy: 17.6 },
+            { atMs: 1000, dx: 60, dy: 60 },
+            { atMs: 1500, dx: 42.4, dy: 102.4 },
+            { atMs: 2000, dx: 0, dy: 120 },
+            { atMs: 2500, dx: -42.4, dy: 102.4 },
+            { atMs: 3000, dx: -60, dy: 60 },
+            { atMs: 3500, dx: -42.4, dy: 17.6 },
+            { atMs: 4000, dx: 0, dy: 0 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'diem-p',
+          cx: 110,
+          cy: 60,
+          r: 8,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 0, dy: 0 },
+            { atMs: 500, dy: 17.6 },
+            { atMs: 1000, dy: 60 },
+            { atMs: 1500, dy: 102.4 },
+            { atMs: 2000, dy: 120 },
+            { atMs: 2500, dy: 102.4 },
+            { atMs: 3000, dy: 60 },
+            { atMs: 3500, dy: 17.6 },
+            { atMs: 4000, dy: 0 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-m',
+          x: 176,
+          y: 44,
+          text: 'M quay đều',
+          size: 12,
+          anchor: 'middle',
+          fill: 'accent',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-p',
+          x: 96,
+          y: 36,
+          text: 'P = hình chiếu',
+          size: 12,
+          anchor: 'end',
+          fill: 'primary',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-o',
+          x: 100,
+          y: 136,
+          text: 'O',
+          size: 13,
+          anchor: 'end',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-bien-do',
+          x: 126,
+          y: 58,
+          text: '+A',
+          size: 12,
+          anchor: 'start',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-bien-do-am',
+          x: 126,
+          y: 190,
+          text: '−A',
+          size: 12,
+          anchor: 'start',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-do-thi',
+          x: 296,
+          y: 216,
+          text: 'x = A·cos(ωt + φ)',
+          size: 13,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+      ],
+      captions: [
+        { atMs: 0, text: 'M bắt đầu ở vị trí cao nhất; hình chiếu P của nó ở li độ x = +A.' },
+        { atMs: 1000, text: 'M đi qua vị trí ngang: P lao qua O nhanh nhất, li độ bằng 0.' },
+        { atMs: 2000, text: 'M ở đáy: P dừng lại đổi chiều ở x = −A.' },
+        { atMs: 4000, text: 'Một vòng quay của M = một chu kì dao động của P, T = 2π/ω.' },
+      ],
+    },
     grade: '11',
     chapterNumber: 1,
     chapterTitle: 'Dao động',
@@ -13,20 +181,20 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
       'Chiếc xích đu đung đưa, dây đàn ghi-ta rung động hay quả lắc đồng hồ tích tắc qua lại đều là dao động cơ. ' +
       'Dạng dao động cơ đơn giản và nền tảng nhất chính là dao động điều hoà.',
     theory:
-      'DAO ĐỘNG CƠ (MECHANICAL OSCILLATION):\\n' +
-      '— Dao động cơ là chuyển động lặp đi lặp lại của một vật quanh một vị trí cân bằng xác định.\\n' +
-      '— Dao động tuần hoàn là dao động mà sau những khoảng thời gian bằng nhau gọi là chu kì, vật trở lại vị trí cũ theo hướng cũ.\\n\\n' +
-      'DAO ĐỘNG ĐIỀU HOÀ (SIMPLE HARMONIC MOTION):\\n' +
-      '— Là dao động tuần hoàn mà li độ (tọa độ của vật tính từ vị trí cân bằng) là một hàm cosin hoặc sin của thời gian.\\n' +
-      '— Phương trình li độ: x = A.cos(ωt + φ).\\n\\n' +
-      'CÁC ĐẠI LƯỢNG TRONG PHƯƠNG TRÌNH:\\n' +
-      '1. x: Li độ của vật (đơn vị: m hoặc cm). Biểu diễn khoảng cách và chiều lệch từ vị trí cân bằng.\\n' +
-      '2. A: Biên độ dao động (A > 0, cùng đơn vị với x). Là độ lệch cực đại của vật khỏi vị trí cân bằng.\\n' +
-      '3. ω: Tần số góc (đơn vị: rad/s). Đo tốc độ biến đổi pha của dao động.\\n' +
-      '4. (ωt + φ): Pha của dao động tại thời điểm t (đơn vị: rad). Xác định trạng thái dao động (vị trí, chiều chuyển động) tại t.\\n' +
-      '5. φ: Pha ban đầu (đơn vị: rad). Xác định trạng thái của vật tại thời điểm khởi đầu t = 0.\\n\\n' +
-      'CHU KÌ VÀ TẦN SỐ:\\n' +
-      '— Chu kì (T): Thời gian vật thực hiện một dao động toàn phần. Công thức: T = 2π / ω (đơn vị: s).\\n' +
+      'DAO ĐỘNG CƠ (MECHANICAL OSCILLATION):\n' +
+      '— Dao động cơ là chuyển động lặp đi lặp lại của một vật quanh một vị trí cân bằng xác định.\n' +
+      '— Dao động tuần hoàn là dao động mà sau những khoảng thời gian bằng nhau gọi là chu kì, vật trở lại vị trí cũ theo hướng cũ.\n\n' +
+      'DAO ĐỘNG ĐIỀU HOÀ (SIMPLE HARMONIC MOTION):\n' +
+      '— Là dao động tuần hoàn mà li độ (tọa độ của vật tính từ vị trí cân bằng) là một hàm cosin hoặc sin của thời gian.\n' +
+      '— Phương trình li độ: x = A.cos(ωt + φ).\n\n' +
+      'CÁC ĐẠI LƯỢNG TRONG PHƯƠNG TRÌNH:\n' +
+      '1. x: Li độ của vật (đơn vị: m hoặc cm). Biểu diễn khoảng cách và chiều lệch từ vị trí cân bằng.\n' +
+      '2. A: Biên độ dao động (A > 0, cùng đơn vị với x). Là độ lệch cực đại của vật khỏi vị trí cân bằng.\n' +
+      '3. ω: Tần số góc (đơn vị: rad/s). Đo tốc độ biến đổi pha của dao động.\n' +
+      '4. (ωt + φ): Pha của dao động tại thời điểm t (đơn vị: rad). Xác định trạng thái dao động (vị trí, chiều chuyển động) tại t.\n' +
+      '5. φ: Pha ban đầu (đơn vị: rad). Xác định trạng thái của vật tại thời điểm khởi đầu t = 0.\n\n' +
+      'CHU KÌ VÀ TẦN SỐ:\n' +
+      '— Chu kì (T): Thời gian vật thực hiện một dao động toàn phần. Công thức: T = 2π / ω (đơn vị: s).\n' +
       '— Tần số (f): Số dao động toàn phần vật thực hiện trong một giây. Công thức: f = 1 / T = ω / 2π (đơn vị: Hz).',
     workedExample: {
       problem:
@@ -67,6 +235,21 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
         },
         explain: 'Tần số góc ω = 10π rad/s. Chu kì T = 2π / ω = 2π / 10π = 0,2 s.',
       },
+      {
+        // Câu bẫy kép: (1) nhầm quãng đường đi trong 1 chu kì với biên độ; (2) quên đổi cm sang m.
+        prompt:
+          'Một vật dao động điều hoà với phương trình x = 5.cos(4πt) cm. Trong một chu kì, vật đi được quãng đường bao nhiêu? Trả lời theo đơn vị mét (m).',
+        answer: {
+          kind: 'numeric',
+          value: 0.2,
+          unit: 'm',
+        },
+        explain:
+          'Trong MỘT chu kì vật đi hết một vòng dao động: từ biên dương về vị trí cân bằng (A), sang biên âm (A), rồi quay ngược lại đúng đường cũ (A + A). Tổng cộng S = 4A = 4 × 5 = 20 cm = 0,20 m. ' +
+          'Hai lỗi hay gặp: (1) trả lời 5 cm vì tưởng "đi được một chu kì thì đi được một biên độ" — biên độ chỉ là độ lệch cực đại, không phải quãng đường; ' +
+          '(2) tính đúng 20 nhưng ghi "20 m" hoặc để nguyên cm khi đề hỏi mét. Đề bài cho li độ bằng cm mà hỏi đáp số bằng mét, nên phải chia cho 100: 20 cm = 0,2 m. ' +
+          'Hãy tập thói quen viết đơn vị ngay cạnh mỗi con số trong lúc tính, thay vì ghi đơn vị sau cùng theo trí nhớ.',
+      },
     ],
     srsCards: [
       {
@@ -78,6 +261,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Hertz (Hz).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -91,17 +275,17 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
       'Làm thế nào để xác định chính xác li độ hay hướng chuyển động của một vật dao động siêu nhanh tại một thời điểm bất kì? ' +
       'Các nhà khoa học sử dụng mối liên hệ hình học tuyệt vời giữa chuyển động tròn đều và dao động điều hoà.',
     theory:
-      'ĐƯỜNG TRÒN LƯỢNG GIÁC (REFERENCE CIRCLE):\\n' +
-      '— Một điểm M chuyển động tròn đều trên đường tròn bán kính A với tốc độ góc ω.\\n' +
-      '— Hình chiếu P của điểm M lên đường kính nằm ngang của đường tròn sẽ dao động điều hoà quanh tâm O với phương trình x = A.cos(ωt + φ).\\n' +
-      '— Do đó, biên độ dao động bằng đúng bán kính đường tròn (A = R), và tần số góc của dao động bằng đúng tốc độ góc quay của M.\\n\\n' +
-      'ĐỘ LỆCH PHA GIỮA HAI DAO ĐỘNG (PHASE DIFFERENCE):\\n' +
-      '— Cho hai dao động cùng tần số góc: x₁ = A₁.cos(ωt + φ₁) và x₂ = A₂.cos(ωt + φ₂).\\n' +
-      '— Độ lệch pha: Δφ = φ₂ - φ₁.\\n' +
-      '  — Nếu Δφ > 0: Dao động 2 nhanh pha (sớm pha) hơn dao động 1.\\n' +
-      '  — Nếu Δφ < 0: Dao động 2 chậm pha (trễ pha) hơn dao động 1.\\n' +
-      '  — Nếu Δφ = 2kπ (k nguyên): Hai dao động cùng pha.\\n' +
-      '  — Nếu Δφ = (2k+1)π (k nguyên): Hai dao động ngược pha.\\n' +
+      'ĐƯỜNG TRÒN LƯỢNG GIÁC (REFERENCE CIRCLE):\n' +
+      '— Một điểm M chuyển động tròn đều trên đường tròn bán kính A với tốc độ góc ω.\n' +
+      '— Hình chiếu P của điểm M lên đường kính nằm ngang của đường tròn sẽ dao động điều hoà quanh tâm O với phương trình x = A.cos(ωt + φ).\n' +
+      '— Do đó, biên độ dao động bằng đúng bán kính đường tròn (A = R), và tần số góc của dao động bằng đúng tốc độ góc quay của M.\n\n' +
+      'ĐỘ LỆCH PHA GIỮA HAI DAO ĐỘNG (PHASE DIFFERENCE):\n' +
+      '— Cho hai dao động cùng tần số góc: x₁ = A₁.cos(ωt + φ₁) và x₂ = A₂.cos(ωt + φ₂).\n' +
+      '— Độ lệch pha: Δφ = φ₂ - φ₁.\n' +
+      '  — Nếu Δφ > 0: Dao động 2 nhanh pha (sớm pha) hơn dao động 1.\n' +
+      '  — Nếu Δφ < 0: Dao động 2 chậm pha (trễ pha) hơn dao động 1.\n' +
+      '  — Nếu Δφ = 2kπ (k nguyên): Hai dao động cùng pha.\n' +
+      '  — Nếu Δφ = (2k+1)π (k nguyên): Hai dao động ngược pha.\n' +
       '  — Nếu Δφ = (2k+1)π/2 (k nguyên): Hai dao động vuông pha.',
     workedExample: {
       problem:
@@ -153,6 +337,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Tần số góc của dao động điều hoà bằng đúng tốc độ góc của chuyển động tròn đều (ω).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -166,18 +351,18 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
       'Trong lúc vật dao động điều hoà qua lại, tốc độ của nó thay đổi thế nào? Gia tốc của nó hướng về đâu? ' +
       'Phương trình đạo hàm thời gian sẽ tiết lộ những quy luật động học này.',
     theory:
-      'VẬN TỐC TRONG DAO ĐỘNG ĐIỀU HOÀ (VELOCITY):\\n' +
-      '— Vận tốc v là đạo hàm bậc nhất của li độ theo thời gian:\\n' +
-      "  v = x' = -ω.A.sin(ωt + φ) = ω.A.cos(ωt + φ + π/2).\\n" +
-      '— Tính chất: Vận tốc biến thiên điều hoà cùng tần số với li độ nhưng sớm pha hơn li độ một góc π/2.\\n' +
-      '  — Ở vị trí cân bằng (x = 0): Vận tốc có độ lớn cực đại v_max = ω.A.\\n' +
-      '  — Ở vị trí biên (x = ±A): Vận tốc bằng không (v = 0).\\n\\n' +
-      'GIA TỐC TRONG DAO ĐỘNG ĐIỀU HOÀ (ACCELERATION):\\n' +
-      '— Gia tốc a là đạo hàm bậc nhất của vận tốc (đạo hàm bậc hai của li độ) theo thời gian:\\n' +
-      '  a = v\' = x" = -ω².A.cos(ωt + φ) = -ω².x = ω².A.cos(ωt + φ + π).\\n' +
-      '— Tính chất: Gia tốc biến thiên điều hoà cùng tần số nhưng ngược pha với li độ (sớm pha π/2 so với vận tốc).\\n' +
-      '  — Vectơ gia tốc luôn hướng về vị trí cân bằng và có độ lớn tỉ lệ với li độ.\\n' +
-      '  — Ở vị trí cân bằng (x = 0): Gia tốc bằng không (a = 0).\\n' +
+      'VẬN TỐC TRONG DAO ĐỘNG ĐIỀU HOÀ (VELOCITY):\n' +
+      '— Vận tốc v là đạo hàm bậc nhất của li độ theo thời gian:\n' +
+      "  v = x' = -ω.A.sin(ωt + φ) = ω.A.cos(ωt + φ + π/2).\n" +
+      '— Tính chất: Vận tốc biến thiên điều hoà cùng tần số với li độ nhưng sớm pha hơn li độ một góc π/2.\n' +
+      '  — Ở vị trí cân bằng (x = 0): Vận tốc có độ lớn cực đại v_max = ω.A.\n' +
+      '  — Ở vị trí biên (x = ±A): Vận tốc bằng không (v = 0).\n\n' +
+      'GIA TỐC TRONG DAO ĐỘNG ĐIỀU HOÀ (ACCELERATION):\n' +
+      '— Gia tốc a là đạo hàm bậc nhất của vận tốc (đạo hàm bậc hai của li độ) theo thời gian:\n' +
+      '  a = v\' = x" = -ω².A.cos(ωt + φ) = -ω².x = ω².A.cos(ωt + φ + π).\n' +
+      '— Tính chất: Gia tốc biến thiên điều hoà cùng tần số nhưng ngược pha với li độ (sớm pha π/2 so với vận tốc).\n' +
+      '  — Vectơ gia tốc luôn hướng về vị trí cân bằng và có độ lớn tỉ lệ với li độ.\n' +
+      '  — Ở vị trí cân bằng (x = 0): Gia tốc bằng không (a = 0).\n' +
       '  — Ở vị trí biên (x = ±A): Gia tốc có độ lớn cực đại a_max = ω².A.',
     workedExample: {
       problem:
@@ -226,6 +411,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Vận tốc bằng không (v = 0), gia tốc có độ lớn cực đại (a_max = ω²A).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -239,14 +425,14 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
       'Làm thế nào để kết nối các thông số li độ, vận tốc, gia tốc mà không cần biết thời gian t? ' +
       'Các hệ thức độc lập thời gian sẽ là chìa khoá để giải quyết mọi bài tập.',
     theory:
-      'HỆ THỨC ĐỘC LẬP VỚI THỜI GIAN (TIME-INDEPENDENT EQUATION):\\n' +
-      '— Từ hai phương trình vuông pha:\\n' +
-      '  (x / A)² + (v / v_max)² = 1 ⇔ (x / A)² + (v / ωA)² = 1.\\n' +
-      '— Viết lại công thức tính biên độ A: A² = x² + v² / ω².\\n' +
-      '— Mối liên hệ gia tốc và li độ: a = -ω².x.\\n\\n' +
-      'PHƯƠNG PHÁP XÁC ĐỊNH TRẠNG THÁI DAO ĐỘNG TẠI THỜI ĐIỂM T:\\n' +
-      '— Bước 1: Xác định phương trình dao động x = A.cos(ωt + φ).\\n' +
-      '— Bước 2: Thay thời điểm t vào phương trình li độ và phương trình vận tốc v = -ωA.sin(ωt + φ).\\n' +
+      'HỆ THỨC ĐỘC LẬP VỚI THỜI GIAN (TIME-INDEPENDENT EQUATION):\n' +
+      '— Từ hai phương trình vuông pha:\n' +
+      '  (x / A)² + (v / v_max)² = 1 ⇔ (x / A)² + (v / ωA)² = 1.\n' +
+      '— Viết lại công thức tính biên độ A: A² = x² + v² / ω².\n' +
+      '— Mối liên hệ gia tốc và li độ: a = -ω².x.\n\n' +
+      'PHƯƠNG PHÁP XÁC ĐỊNH TRẠNG THÁI DAO ĐỘNG TẠI THỜI ĐIỂM T:\n' +
+      '— Bước 1: Xác định phương trình dao động x = A.cos(ωt + φ).\n' +
+      '— Bước 2: Thay thời điểm t vào phương trình li độ và phương trình vận tốc v = -ωA.sin(ωt + φ).\n' +
       '— Bước 3: Xác định dấu của v để biết chiều chuyển động (v > 0: theo chiều dương, v < 0: theo chiều âm).',
     workedExample: {
       problem:
@@ -298,10 +484,182 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Vận tốc v mang giá trị dương (v > 0).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
     id: 'ly11-c1-b5',
+    // Hai parabol úp–ngửa cộng lại thành một đường nằm ngang: đó là toàn bộ nội dung bài này.
+    animation: {
+      title: 'Động năng và thế năng đổi chỗ cho nhau, tổng thì không đổi',
+      description:
+        'Trục ngang là li độ x, chạy từ −A đến +A; trục dọc là năng lượng. Đường cong hình chữ U (thế năng W_t = ½kx²) chạm đáy bằng 0 tại vị trí cân bằng và dâng lên cực đại ở hai biên. Đường cong hình chữ U ngược (động năng W_đ) thì ngược lại: cực đại tại vị trí cân bằng, bằng 0 ở hai biên. Cộng hai đường lại ta luôn được đúng một đường thẳng nằm ngang ở trên cùng — cơ năng W không đổi. Một chấm tròn chạy qua lại trên trục li độ cho thấy vật đang ở đâu: mỗi lần nó lao qua vị trí cân bằng là lúc đi nhanh nhất (toàn bộ năng lượng là động năng), mỗi lần nó khựng lại ở biên là lúc đứng yên trong khoảnh khắc (toàn bộ năng lượng là thế năng). Chú ý: vật đi qua vị trí cân bằng hai lần trong một chu kì, nên mỗi loại năng lượng biến thiên với chu kì T/2.',
+      viewBoxWidth: 420,
+      viewBoxHeight: 240,
+      durationMs: 4000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'line',
+          id: 'truc-x',
+          x1: 50,
+          y1: 200,
+          x2: 396,
+          y2: 200,
+          stroke: 'neutral',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'line',
+          id: 'truc-w',
+          x1: 60,
+          y1: 216,
+          x2: 60,
+          y2: 30,
+          stroke: 'neutral',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'polyline',
+          id: 'the-nang',
+          points: [
+            [60, 40],
+            [100, 110],
+            [140, 160],
+            [180, 190],
+            [220, 200],
+            [260, 190],
+            [300, 160],
+            [340, 110],
+            [380, 40],
+          ],
+          stroke: 'accent',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'polyline',
+          id: 'dong-nang',
+          points: [
+            [60, 200],
+            [100, 130],
+            [140, 80],
+            [180, 50],
+            [220, 40],
+            [260, 50],
+            [300, 80],
+            [340, 130],
+            [380, 200],
+          ],
+          stroke: 'primary',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'line',
+          id: 'co-nang',
+          x1: 60,
+          y1: 40,
+          x2: 380,
+          y2: 40,
+          stroke: 'correct',
+          strokeWidth: 3,
+          dash: '6 4',
+        },
+        {
+          kind: 'circle',
+          id: 'vat',
+          cx: 380,
+          cy: 218,
+          r: 7,
+          fill: 'neutral',
+          keyframes: [
+            { atMs: 0, dx: 0 },
+            { atMs: 500, dx: -47 },
+            { atMs: 1000, dx: -160 },
+            { atMs: 1500, dx: -273 },
+            { atMs: 2000, dx: -320 },
+            { atMs: 2500, dx: -273 },
+            { atMs: 3000, dx: -160 },
+            { atMs: 3500, dx: -47 },
+            { atMs: 4000, dx: 0 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-wt',
+          x: 96,
+          y: 100,
+          text: 'W_t (thế năng)',
+          size: 12,
+          anchor: 'start',
+          fill: 'accent',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-wd',
+          x: 220,
+          y: 68,
+          text: 'W_đ (động năng)',
+          size: 12,
+          anchor: 'middle',
+          fill: 'primary',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-w',
+          x: 386,
+          y: 34,
+          text: 'W = W_t + W_đ',
+          size: 12,
+          anchor: 'end',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-am-a',
+          x: 60,
+          y: 234,
+          text: '−A',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-vtcb',
+          x: 220,
+          y: 234,
+          text: 'O',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-duong-a',
+          x: 380,
+          y: 234,
+          text: '+A',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+      ],
+      captions: [
+        {
+          atMs: 0,
+          text: 'Vật ở biên +A: đứng yên trong khoảnh khắc, năng lượng toàn là thế năng.',
+        },
+        {
+          atMs: 1000,
+          text: 'Qua vị trí cân bằng: nhanh nhất, thế năng bằng 0, động năng cực đại.',
+        },
+        { atMs: 2000, text: 'Tới biên −A: lại dừng, năng lượng trở về hết cho thế năng.' },
+        {
+          atMs: 4000,
+          text: 'Đường nét đứt trên cùng không hề nhúc nhích — cơ năng được bảo toàn.',
+        },
+      ],
+    },
     grade: '11',
     chapterNumber: 1,
     chapterTitle: 'Dao động',
@@ -311,19 +669,19 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
       'Khi chơi xích đu, lúc bạn ở vị trí cao nhất, bạn dừng lại một khoảnh khắc (vận tốc bằng 0), nhưng khi rơi xuống điểm thấp nhất, ' +
       'bạn bay với tốc độ tối đa. Đó chính là sự biến đổi nhịp nhàng giữa Động năng và Thế năng.',
     theory:
-      'ĐỘNG NĂNG TRONG DAO ĐỘNG ĐIỀU HOÀ (KINETIC ENERGY):\\n' +
-      '— Là động năng của chất điểm khối lượng m chuyển động với vận tốc v:\\n' +
-      '  W_đ = 1/2.m.v² = 1/2.m.ω².A².sin²(ωt + φ).\\n\\n' +
-      'THẾ NĂNG TRONG DAO ĐỘNG ĐIỀU HOÀ (POTENTIAL ENERGY):\\n' +
-      '— Thế năng đàn hồi hoặc thế năng trọng trường quy về li độ x của vật:\\n' +
-      '  W_t = 1/2.m.ω².x² = 1/2.m.ω².A².cos²(ωt + φ).\\n\\n' +
-      'CƠ NĂNG VÀ SỰ BẢO TOÀN CƠ NĂNG (MECHANICAL ENERGY):\\n' +
-      '— Cơ năng W là tổng động năng và thế năng:\\n' +
-      '  W = W_đ + W_t = 1/2.m.ω².A² = hằng số.\\n' +
-      '— Khi không có lực ma sát cản trở, cơ năng của vật dao động điều hoà được bảo toàn, tỉ lệ với bình phương biên độ dao động.\\n\\n' +
-      'CHU KÌ BIẾN THIÊN CỦA NĂNG LƯỢNG:\\n' +
-      '— Trong khi li độ biến thiên tuần hoàn với chu kì T, tần số f, thì động năng và thế năng biến thiên tuần hoàn với:\\n' +
-      "  — Chu kì: T' = T / 2.\\n" +
+      'ĐỘNG NĂNG TRONG DAO ĐỘNG ĐIỀU HOÀ (KINETIC ENERGY):\n' +
+      '— Là động năng của chất điểm khối lượng m chuyển động với vận tốc v:\n' +
+      '  W_đ = 1/2.m.v² = 1/2.m.ω².A².sin²(ωt + φ).\n\n' +
+      'THẾ NĂNG TRONG DAO ĐỘNG ĐIỀU HOÀ (POTENTIAL ENERGY):\n' +
+      '— Thế năng đàn hồi hoặc thế năng trọng trường quy về li độ x của vật:\n' +
+      '  W_t = 1/2.m.ω².x² = 1/2.m.ω².A².cos²(ωt + φ).\n\n' +
+      'CƠ NĂNG VÀ SỰ BẢO TOÀN CƠ NĂNG (MECHANICAL ENERGY):\n' +
+      '— Cơ năng W là tổng động năng và thế năng:\n' +
+      '  W = W_đ + W_t = 1/2.m.ω².A² = hằng số.\n' +
+      '— Khi không có lực ma sát cản trở, cơ năng của vật dao động điều hoà được bảo toàn, tỉ lệ với bình phương biên độ dao động.\n\n' +
+      'CHU KÌ BIẾN THIÊN CỦA NĂNG LƯỢNG:\n' +
+      '— Trong khi li độ biến thiên tuần hoàn với chu kì T, tần số f, thì động năng và thế năng biến thiên tuần hoàn với:\n' +
+      "  — Chu kì: T' = T / 2.\n" +
       "  — Tần số: f' = 2f; Tần số góc: ω' = 2ω.",
     workedExample: {
       problem:
@@ -374,6 +732,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Tại vị trí cân bằng (x = 0), khi đó vận tốc cực đại nên động năng cực đại, thế năng bằng không.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -387,16 +746,16 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
       'Tại sao chiếc xích đu nếu không đẩy sẽ dừng lại? Và tại sao một cây cầu thép vững chắc có thể đổ sập ' +
       'chỉ vì một cơn gió nhẹ thổi đúng nhịp? Đó là những bài học thực tế về tắt dần, cưỡng bức và cộng hưởng.',
     theory:
-      'DAO ĐỘNG TẮT DẦN (DAMPED OSCILLATION):\\n' +
-      '— Là dao động có biên độ và năng lượng giảm dần theo thời gian do tác dụng của lực cản/lực ma sát của môi trường.\\n' +
-      '— Lực cản càng lớn, quá trình tắt dần càng nhanh. Ứng dụng: Thiết bị giảm xóc ô tô, xe máy, cửa đóng tự động.\\n\\n' +
-      'DAO ĐỘNG DUY TRÌ (MAINTAINED OSCILLATION):\\n' +
-      '— Được bù đắp năng lượng đúng bằng phần mất đi sau mỗi chu kì mà không làm thay đổi chu kì riêng của hệ. Ứng dụng: Quả lắc đồng hồ.\\n\\n' +
-      'DAO ĐỘNG CƯỠNG BỨC (FORCED OSCILLATION):\\n' +
-      '— Là dao động của hệ dưới tác dụng của ngoại lực biến thiên tuần hoàn F = F_o.cos(2πf.t).\\n' +
-      '— Đặc điểm: Dao động cưỡng bức có biên độ không đổi và tần số bằng đúng tần số f của lực cưỡng bức bên ngoài.\\n\\n' +
-      'HIỆN TƯỢNG CỘNG HƯỞNG (RESONANCE):\\n' +
-      '— Hiện tượng biên độ của dao động cưỡng bức đạt giá trị cực đại khi tần số f của ngoại lực tuần hoàn bằng đúng tần số riêng f_o của hệ dao động.\\n' +
+      'DAO ĐỘNG TẮT DẦN (DAMPED OSCILLATION):\n' +
+      '— Là dao động có biên độ và năng lượng giảm dần theo thời gian do tác dụng của lực cản/lực ma sát của môi trường.\n' +
+      '— Lực cản càng lớn, quá trình tắt dần càng nhanh. Ứng dụng: Thiết bị giảm xóc ô tô, xe máy, cửa đóng tự động.\n\n' +
+      'DAO ĐỘNG DUY TRÌ (MAINTAINED OSCILLATION):\n' +
+      '— Được bù đắp năng lượng đúng bằng phần mất đi sau mỗi chu kì mà không làm thay đổi chu kì riêng của hệ. Ứng dụng: Quả lắc đồng hồ.\n\n' +
+      'DAO ĐỘNG CƯỠNG BỨC (FORCED OSCILLATION):\n' +
+      '— Là dao động của hệ dưới tác dụng của ngoại lực biến thiên tuần hoàn F = F_o.cos(2πf.t).\n' +
+      '— Đặc điểm: Dao động cưỡng bức có biên độ không đổi và tần số bằng đúng tần số f của lực cưỡng bức bên ngoài.\n\n' +
+      'HIỆN TƯỢNG CỘNG HƯỞNG (RESONANCE):\n' +
+      '— Hiện tượng biên độ của dao động cưỡng bức đạt giá trị cực đại khi tần số f của ngoại lực tuần hoàn bằng đúng tần số riêng f_o của hệ dao động.\n' +
       '— Ý nghĩa và tác hại: Có hại làm nứt gãy cầu, nhà, bệ máy nếu tần số rung khớp tần số riêng. Có ích trong nhạc cụ (hộp đàn), chọn sóng đài vô tuyến.',
     workedExample: {
       problem:
@@ -452,6 +811,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Được quyết định hoàn toàn bởi tần số của ngoại lực cưỡng bức tuần hoàn bên ngoài.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -465,17 +825,17 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
       'Làm thế nào để tìm vị trí mà ở đó động năng lớn gấp ba lần thế năng? Hay thế năng lớn gấp đôi động năng? ' +
       'Chúng ta sẽ học phương pháp đại số giải nhanh các bài toán năng lượng.',
     theory:
-      'CÔNG THỨC LIÊN HỆ ĐỘNG NĂNG VÀ THẾ NĂNG:\\n' +
-      '— Từ hệ thức bảo toàn cơ năng: W = W_đ + W_t.\\n' +
-      '— Khi động năng bằng n lần thế năng (W_đ = n.W_t):\\n' +
-      '  W = (n + 1).W_t ⇔ 1/2.m.ω².A² = (n + 1) * 1/2.m.ω².x²\\n' +
-      '  ⇒ x = ± A / √(n + 1).\\n\\n' +
-      'CÁC VỊ TRÍ ĐẶC BIỆT THƯỜNG GẶP:\\n' +
-      '1. Động năng bằng thế năng (W_đ = W_t ⇔ n = 1):\\n' +
-      '   x = ± A / √2 ≈ ± 0,707.A.\\n' +
-      '2. Động năng gấp 3 lần thế năng (W_đ = 3.W_t ⇔ n = 3):\\n' +
-      '   x = ± A / 2 = ± 0,5.A.\\n' +
-      '3. Thế năng gấp 3 lần động năng (W_t = 3.W_đ ⇔ W_đ = 1/3.W_t ⇔ n = 1/3):\\n' +
+      'CÔNG THỨC LIÊN HỆ ĐỘNG NĂNG VÀ THẾ NĂNG:\n' +
+      '— Từ hệ thức bảo toàn cơ năng: W = W_đ + W_t.\n' +
+      '— Khi động năng bằng n lần thế năng (W_đ = n.W_t):\n' +
+      '  W = (n + 1).W_t ⇔ 1/2.m.ω².A² = (n + 1) * 1/2.m.ω².x²\n' +
+      '  ⇒ x = ± A / √(n + 1).\n\n' +
+      'CÁC VỊ TRÍ ĐẶC BIỆT THƯỜNG GẶP:\n' +
+      '1. Động năng bằng thế năng (W_đ = W_t ⇔ n = 1):\n' +
+      '   x = ± A / √2 ≈ ± 0,707.A.\n' +
+      '2. Động năng gấp 3 lần thế năng (W_đ = 3.W_t ⇔ n = 3):\n' +
+      '   x = ± A / 2 = ± 0,5.A.\n' +
+      '3. Thế năng gấp 3 lần động năng (W_t = 3.W_đ ⇔ W_đ = 1/3.W_t ⇔ n = 1/3):\n' +
       '   x = ± A.√3 / 2 ≈ ± 0,866.A.',
     workedExample: {
       problem:
@@ -526,6 +886,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
         dap: 'Vì cơ năng được bảo toàn khi không có ma sát tiêu hao năng lượng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

@@ -15,13 +15,13 @@ export const HOA12_C6_LESSONS: ChemLesson[] = [
       'Vì sao kim loại có thể dát mỏng như lá vàng, kéo sợi dài như dây đồng và dẫn điện tốt đến thế? ' +
       'Bí ẩn nằm ở những "electron tự do" bao quanh các ion dương kim loại.',
     theory:
-      'LIÊN KẾT KIM LOẠI:\\n' +
-      '— Liên kết kim loại là liên kết được hình thành giữa các cation kim loại ở các nút mạng tinh thể và các electron tự do di chuyển hỗn loạn trong toàn bộ mạng tinh thể kim loại.\\n\\n' +
-      'CẤU TRÚC TINH THỂ KIM LOẠI:\\n' +
-      '— Hầu hết kim loại tồn tại ở trạng thái rắn (trừ thủy ngân) có cấu trúc tinh thể.\\n' +
-      '— Ba kiểu mạng tinh thể kim loại phổ biến:\\n' +
-      '  1. Mạng lập phương tâm khối (body-centered cubic): Các nguyên tử/ion chiếm các đỉnh và tâm của hình lập phương (độ rỗng lớn, vd: Li, Na, K, Ba, Fe_α).\\n' +
-      '  2. Mạng lập phương tâm diện (face-centered cubic): Các nguyên tử/ion chiếm các đỉnh và tâm các mặt của hình lập phương (xếp khít hơn, vd: Al, Cu, Ag, Au).\\n' +
+      'LIÊN KẾT KIM LOẠI:\n' +
+      '— Liên kết kim loại là liên kết được hình thành giữa các cation kim loại ở các nút mạng tinh thể và các electron tự do di chuyển hỗn loạn trong toàn bộ mạng tinh thể kim loại.\n\n' +
+      'CẤU TRÚC TINH THỂ KIM LOẠI:\n' +
+      '— Hầu hết kim loại tồn tại ở trạng thái rắn (trừ thủy ngân) có cấu trúc tinh thể.\n' +
+      '— Ba kiểu mạng tinh thể kim loại phổ biến:\n' +
+      '  1. Mạng lập phương tâm khối (body-centered cubic): Các nguyên tử/ion chiếm các đỉnh và tâm của hình lập phương (độ rỗng lớn, vd: Li, Na, K, Ba, Fe_α).\n' +
+      '  2. Mạng lập phương tâm diện (face-centered cubic): Các nguyên tử/ion chiếm các đỉnh và tâm các mặt của hình lập phương (xếp khít hơn, vd: Al, Cu, Ag, Au).\n' +
       '  3. Mạng lục phương (hexagonal close-packed): Các nguyên tử/ion xếp khít nhau dạng lăng trụ lục giác đều (vd: Be, Mg, Zn).',
     workedExample: {
       problem:
@@ -70,6 +70,7 @@ export const HOA12_C6_LESSONS: ChemLesson[] = [
         dap: 'Lập phương tâm khối, lập phương tâm diện, và lục phương.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -83,17 +84,17 @@ export const HOA12_C6_LESSONS: ChemLesson[] = [
       'Đồng dẫn điện tốt, vàng óng ánh sang trọng, sắt cứng cáp làm khung nhà. ' +
       'Các electron tự do không chỉ liên kết mạng tinh thể mà còn quyết định các tính chất vật lí kỳ diệu của kim loại.',
     theory:
-      'TÍNH CHẤT VẬT LÍ CHUNG (Do electron tự do gây ra):\\n' +
-      '— Tính dẻo: Vàng (Au) dẻo nhất (có thể dát mỏng đến mức ánh sáng đi qua được).\\n' +
-      '— Tính dẫn điện: Ag > Cu > Au > Al > Fe. Nhiệt độ càng tăng thì tính dẫn điện càng giảm (do mạng tinh thể dao động mạnh cản trở electron di chuyển).\\n' +
-      '— Tính dẫn nhiệt: Tỉ lệ thuận với tính dẫn điện.\\n' +
-      '— Ánh kim: Phản xạ hầu hết ánh sáng nhìn thấy.\\n\\n' +
-      'TÍNH CHẤT VẬT LÍ RIÊNG (Do nguyên tử và mạng tinh thể quyết định):\\n' +
-      '— Khối lượng riêng: Nhỏ nhất là Li (0,5 g/cm³), lớn nhất là Os (22,6 g/cm³).\\n' +
-      '— Nhiệt độ nóng chảy: Thấp nhất là Hg (−39 °C), cao nhất là W (Tungsten, 3410 °C - làm dây tóc bóng đèn).\\n' +
-      '— Độ cứng: Mềm nhất là Cs (có thể cắt bằng dao), cứng nhất là Cr (Chromium - rạch được thuỷ tinh).\\n\\n' +
-      'TÍNH CHẤT HOÁ HỌC CHUNG:\\n' +
-      '— Kim loại có tính KHỬ đặc trưng (dễ nhường electron để tạo cation): M → Mⁿ⁺ + ne.\\n' +
+      'TÍNH CHẤT VẬT LÍ CHUNG (Do electron tự do gây ra):\n' +
+      '— Tính dẻo: Vàng (Au) dẻo nhất (có thể dát mỏng đến mức ánh sáng đi qua được).\n' +
+      '— Tính dẫn điện: Ag > Cu > Au > Al > Fe. Nhiệt độ càng tăng thì tính dẫn điện càng giảm (do mạng tinh thể dao động mạnh cản trở electron di chuyển).\n' +
+      '— Tính dẫn nhiệt: Tỉ lệ thuận với tính dẫn điện.\n' +
+      '— Ánh kim: Phản xạ hầu hết ánh sáng nhìn thấy.\n\n' +
+      'TÍNH CHẤT VẬT LÍ RIÊNG (Do nguyên tử và mạng tinh thể quyết định):\n' +
+      '— Khối lượng riêng: Nhỏ nhất là Li (0,5 g/cm³), lớn nhất là Os (22,6 g/cm³).\n' +
+      '— Nhiệt độ nóng chảy: Thấp nhất là Hg (−39 °C), cao nhất là W (Tungsten, 3410 °C - làm dây tóc bóng đèn).\n' +
+      '— Độ cứng: Mềm nhất là Cs (có thể cắt bằng dao), cứng nhất là Cr (Chromium - rạch được thuỷ tinh).\n\n' +
+      'TÍNH CHẤT HOÁ HỌC CHUNG:\n' +
+      '— Kim loại có tính KHỬ đặc trưng (dễ nhường electron để tạo cation): M → Mⁿ⁺ + ne.\n' +
       '— Phản ứng đặc trưng: Tác dụng với phi kim (O₂, Cl₂, S); tác dụng với dung dịch acid (HCl, H₂SO₄ loãng giải phóng H₂; HNO₃, H₂SO₄ đặc tạo sản phẩm khử); tác dụng với nước (kim loại kiềm/kiềm thổ); tác dụng với muối của kim loại yếu hơn (thế kim loại).',
     workedExample: {
       problem: 'Sắp xếp khả năng dẫn điện giảm dần của các kim loại sau: Al, Ag, Cu, Fe.',
@@ -143,6 +144,7 @@ export const HOA12_C6_LESSONS: ChemLesson[] = [
         dap: 'Tungsten (W).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -156,18 +158,18 @@ export const HOA12_C6_LESSONS: ChemLesson[] = [
       'Hầu hết kim loại tồn tại trong vỏ Trái Đất dưới dạng quặng oxide hoặc sulfide thô sơ. ' +
       'Để thu được kim loại tinh khiết, con người đã phát minh ra các kỹ nghệ luyện kim tinh xảo.',
     theory:
-      'TRẠNG THÁI TỰ NHIÊN:\\n' +
-      '— Hầu hết kim loại tồn tại dưới dạng hợp chất (quặng bauxite Al₂O₃, quặng hematite Fe₂O₃, quặng pyrite FeS₂...). Chỉ một số ít kim loại rất yếu tồn tại ở trạng thái tự do (dạng đơn chất như Au, Pt).\\n\\n' +
-      'PHƯƠNG PHÁP TÁCH (ĐIỀU CHẾ KIM LOẠI):\\n' +
-      'Nguyên tắc chung: Khử ion kim loại thành nguyên tử: Mⁿ⁺ + ne → M.\\n' +
-      '1. Phương pháp thuỷ luyện (Hydrometallurgy):\\n' +
-      '   — Dùng kim loại mạnh đẩy kim loại yếu ra khỏi dung dịch muối (điều chế kim loại hoạt động yếu như Cu, Ag, Au).\\n' +
-      '   — Ví dụ: Fe + CuSO₄ → FeSO₄ + Cu.\\n' +
-      '2. Phương pháp nhiệt luyện (Pyrometallurgy):\\n' +
-      '   — Dùng chất khử mạnh như CO, C, H₂, Al để khử ion kim loại trong oxide ở nhiệt độ cao (điều chế kim loại hoạt động trung bình như Fe, Cr, Zn, Cu).\\n' +
-      '   — Ví dụ: Fe₂O₃ + 3CO → 2Fe + 3CO₂ (t°).\\n' +
-      '3. Phương pháp điện phân (Electrolysis):\\n' +
-      '   — Điện phân nóng chảy: Điều chế kim loại cực mạnh (nhóm IA, IIA, Al) từ muối clorua hoặc oxit nóng chảy.\\n' +
+      'TRẠNG THÁI TỰ NHIÊN:\n' +
+      '— Hầu hết kim loại tồn tại dưới dạng hợp chất (quặng bauxite Al₂O₃, quặng hematite Fe₂O₃, quặng pyrite FeS₂...). Chỉ một số ít kim loại rất yếu tồn tại ở trạng thái tự do (dạng đơn chất như Au, Pt).\n\n' +
+      'PHƯƠNG PHÁP TÁCH (ĐIỀU CHẾ KIM LOẠI):\n' +
+      'Nguyên tắc chung: Khử ion kim loại thành nguyên tử: Mⁿ⁺ + ne → M.\n' +
+      '1. Phương pháp thuỷ luyện (Hydrometallurgy):\n' +
+      '   — Dùng kim loại mạnh đẩy kim loại yếu ra khỏi dung dịch muối (điều chế kim loại hoạt động yếu như Cu, Ag, Au).\n' +
+      '   — Ví dụ: Fe + CuSO₄ → FeSO₄ + Cu.\n' +
+      '2. Phương pháp nhiệt luyện (Pyrometallurgy):\n' +
+      '   — Dùng chất khử mạnh như CO, C, H₂, Al để khử ion kim loại trong oxide ở nhiệt độ cao (điều chế kim loại hoạt động trung bình như Fe, Cr, Zn, Cu).\n' +
+      '   — Ví dụ: Fe₂O₃ + 3CO → 2Fe + 3CO₂ (t°).\n' +
+      '3. Phương pháp điện phân (Electrolysis):\n' +
+      '   — Điện phân nóng chảy: Điều chế kim loại cực mạnh (nhóm IA, IIA, Al) từ muối clorua hoặc oxit nóng chảy.\n' +
       '   — Điện phân dung dịch: Điều chế kim loại trung bình và yếu.',
     workedExample: {
       problem:
@@ -221,6 +223,7 @@ export const HOA12_C6_LESSONS: ChemLesson[] = [
         dap: 'Kim loại hoạt động yếu (Cu, Ag, Au...).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -234,17 +237,17 @@ export const HOA12_C6_LESSONS: ChemLesson[] = [
       'Sắt nguyên chất khá mềm và dễ gỉ sét. Nhưng khi pha thêm một chút carbon và chromium, ' +
       'ta thu được thép không gỉ vững chãi kiến tạo nên những toà nhà chọc trời.',
     theory:
-      'KHÁI NIỆM HỢP KIM:\\n' +
-      '— Hợp kim là vật liệu kim loại có chứa một kim loại cơ bản và một số kim loại hoặc phi kim khác (như carbon, silicon).\\n\\n' +
-      'TÍNH CHẤT CỦA HỢP KIM:\\n' +
-      '— Tính chất hoá học: Tương tự như tính chất của các đơn chất tham gia tạo thành hợp kim.\\n' +
-      '— Tính chất vật lí và cơ học (khác biệt nhiều so với kim loại thành phần):\\n' +
-      '  1. Độ dẫn điện và dẫn nhiệt của hợp kim kém hơn kim loại thành phần tinh khiết (do sự xáo trộn mạng tinh thể cản trở electron di chuyển).\\n' +
-      '  2. Độ cứng của hợp kim thường cao hơn kim loại thành phần (do các nguyên tử có kích thước khác nhau chèn vào mạng tinh thể làm các lớp tinh thể khó trượt lên nhau hơn).\\n' +
-      '  3. Nhiệt độ nóng chảy của hợp kim thấp hơn nhiệt độ nóng chảy của kim loại thành phần.\\n\\n' +
-      'HỢP KIM PHỔ BIẾN:\\n' +
-      '— Gang (Cast iron): Hợp kim Fe−C (C chiếm 2% − 5%), giòn, cứng.\\n' +
-      '— Thép (Steel): Hợp kim Fe−C (C < 2%), dẻo, bền dai. Thép không gỉ (Inox) chứa Fe−C−Cr−Ni.\\n' +
+      'KHÁI NIỆM HỢP KIM:\n' +
+      '— Hợp kim là vật liệu kim loại có chứa một kim loại cơ bản và một số kim loại hoặc phi kim khác (như carbon, silicon).\n\n' +
+      'TÍNH CHẤT CỦA HỢP KIM:\n' +
+      '— Tính chất hoá học: Tương tự như tính chất của các đơn chất tham gia tạo thành hợp kim.\n' +
+      '— Tính chất vật lí và cơ học (khác biệt nhiều so với kim loại thành phần):\n' +
+      '  1. Độ dẫn điện và dẫn nhiệt của hợp kim kém hơn kim loại thành phần tinh khiết (do sự xáo trộn mạng tinh thể cản trở electron di chuyển).\n' +
+      '  2. Độ cứng của hợp kim thường cao hơn kim loại thành phần (do các nguyên tử có kích thước khác nhau chèn vào mạng tinh thể làm các lớp tinh thể khó trượt lên nhau hơn).\n' +
+      '  3. Nhiệt độ nóng chảy của hợp kim thấp hơn nhiệt độ nóng chảy của kim loại thành phần.\n\n' +
+      'HỢP KIM PHỔ BIẾN:\n' +
+      '— Gang (Cast iron): Hợp kim Fe−C (C chiếm 2% − 5%), giòn, cứng.\n' +
+      '— Thép (Steel): Hợp kim Fe−C (C < 2%), dẻo, bền dai. Thép không gỉ (Inox) chứa Fe−C−Cr−Ni.\n' +
       '— Đồng thau (Brass): Hợp kim Cu−Zn; Đồng bạch: Cu−Ni.',
     workedExample: {
       problem: 'Vì sao hợp kim thường cứng hơn kim loại thành phần tinh khiết cấu tạo nên nó?',
@@ -290,6 +293,7 @@ export const HOA12_C6_LESSONS: ChemLesson[] = [
         dap: 'Kém hơn (do mạng tinh thể bị xáo trộn làm electron tự do khó di chuyển).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -303,18 +307,18 @@ export const HOA12_C6_LESSONS: ChemLesson[] = [
       'Gỉ sét tàn phá cầu đường và tàu biển, gây thiệt hại hàng tỷ USD mỗi năm. ' +
       'Đây không chỉ là phản ứng hoá học đơn thuần mà là một quá trình điện hoá tinh vi.',
     theory:
-      'KHÁI NIỆM ĂN MÒN KIM LOẠI:\\n' +
-      '— Là sự phá huỷ kim loại hoặc hợp kim do tác dụng hoá học của các chất trong môi trường xung quanh: M → Mⁿ⁺ + ne.\\n\\n' +
-      'PHÂN LOẠI ĂN MÒN:\\n' +
-      '1. Ăn mòn hoá học: Kim loại phản ứng trực tiếp với chất oxi hoá trong môi trường (không phát sinh dòng điện, xảy ra ở chi tiết máy tiếp xúc nhiệt độ cao như van động cơ).\\n' +
-      '2. Ăn mòn điện hoá (phổ biến và nguy hiểm nhất): Quá trình ăn mòn kim loại do tác dụng của dung dịch chất điện li và tạo ra dòng điện.\\n' +
-      '   — Điều kiện xảy ra ăn mòn điện hoá (đồng thời cả 3 điều kiện):\\n' +
-      '     1. Hai điện cực khác chất nhau (kim loại - kim loại, kim loại - phi kim như Fe−C).\\n' +
-      '     2. Các điện cực tiếp xúc trực tiếp hoặc gián tiếp qua dây dẫn.\\n' +
-      '     3. Các điện cực cùng tiếp xúc với dung dịch chất điện li (nước mưa, không khí ẩm chứa khí tan).\\n' +
-      '   — Cơ chế cực: Cực âm (Anode) là kim loại mạnh hơn, bị ăn mòn; Cực dương (Cathode) là kim loại yếu hơn/phi kim, được bảo vệ.\\n\\n' +
-      'PHƯƠNG PHÁP BẢO VỆ KIM LOẠI KHÔNG BỊ ĂN MÒN:\\n' +
-      '— Phương pháp cách li môi trường: Sơn, mạ, bôi dầu mỡ, tráng men... lên bề mặt kim loại.\\n' +
+      'KHÁI NIỆM ĂN MÒN KIM LOẠI:\n' +
+      '— Là sự phá huỷ kim loại hoặc hợp kim do tác dụng hoá học của các chất trong môi trường xung quanh: M → Mⁿ⁺ + ne.\n\n' +
+      'PHÂN LOẠI ĂN MÒN:\n' +
+      '1. Ăn mòn hoá học: Kim loại phản ứng trực tiếp với chất oxi hoá trong môi trường (không phát sinh dòng điện, xảy ra ở chi tiết máy tiếp xúc nhiệt độ cao như van động cơ).\n' +
+      '2. Ăn mòn điện hoá (phổ biến và nguy hiểm nhất): Quá trình ăn mòn kim loại do tác dụng của dung dịch chất điện li và tạo ra dòng điện.\n' +
+      '   — Điều kiện xảy ra ăn mòn điện hoá (đồng thời cả 3 điều kiện):\n' +
+      '     1. Hai điện cực khác chất nhau (kim loại - kim loại, kim loại - phi kim như Fe−C).\n' +
+      '     2. Các điện cực tiếp xúc trực tiếp hoặc gián tiếp qua dây dẫn.\n' +
+      '     3. Các điện cực cùng tiếp xúc với dung dịch chất điện li (nước mưa, không khí ẩm chứa khí tan).\n' +
+      '   — Cơ chế cực: Cực âm (Anode) là kim loại mạnh hơn, bị ăn mòn; Cực dương (Cathode) là kim loại yếu hơn/phi kim, được bảo vệ.\n\n' +
+      'PHƯƠNG PHÁP BẢO VỆ KIM LOẠI KHÔNG BỊ ĂN MÒN:\n' +
+      '— Phương pháp cách li môi trường: Sơn, mạ, bôi dầu mỡ, tráng men... lên bề mặt kim loại.\n' +
       '— Phương pháp bảo vệ điện hoá: Dùng kim loại hoạt động mạnh hơn làm "vật hi sinh" để bảo vệ kim loại yếu hơn. Ví dụ: Gắn các khối kẽm (Zn) vào vỏ tàu biển bằng thép (Fe). Kẽm bị ăn mòn trước, thép của tàu được bảo vệ.',
     workedExample: {
       problem:
@@ -367,6 +371,193 @@ export const HOA12_C6_LESSONS: ChemLesson[] = [
         dap: 'Gắn một kim loại mạnh hơn làm vật hi sinh bị ăn mòn trước để bảo vệ kim loại chính.',
       },
     ],
+    animation: {
+      title: 'Ăn mòn điện hoá: vì sao chỗ sắt tiếp xúc đồng lại gỉ nhanh hơn',
+      description:
+        'Một thanh sắt gắn liền với một thanh đồng, cả hai cùng nhúng trong màng nước có hoà tan ' +
+        'chất điện li (nước mưa, không khí ẩm). Ba điều kiện của ăn mòn điện hoá đủ cả: hai điện ' +
+        'cực khác chất, tiếp xúc nhau, cùng nằm trong dung dịch điện li. Kết quả là hình thành ' +
+        'một pin điện hoá tí hon ngay trên bề mặt vật: sắt hoạt động mạnh hơn nên đóng vai trò ' +
+        'anode, bị oxi hoá Fe → Fe²⁺ + 2e và tan dần vào dung dịch (chỗ này gỉ, lõm đi). ' +
+        'Electron chạy qua chỗ tiếp xúc sang thanh đồng — đóng vai trò cathode — và ở đó oxygen ' +
+        'hoà tan nhận electron: O₂ + 2H₂O + 4e → 4OH⁻. Vì electron được "kéo đi" liên tục nên ' +
+        'sắt tan nhanh hơn hẳn so với khi đứng một mình. Đảo lại nguyên lí này chính là cách bảo ' +
+        'vệ vỏ tàu: gắn khối kẽm để kẽm làm anode và bị ăn mòn thay cho sắt.',
+      viewBoxWidth: 440,
+      viewBoxHeight: 220,
+      durationMs: 6000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'rect',
+          id: 'dung-dich',
+          x: 30,
+          y: 90,
+          w: 380,
+          h: 110,
+          rx: 4,
+          fill: 'primary',
+          opacity: 0.15,
+        },
+        {
+          kind: 'label',
+          id: 'dd-t',
+          x: 40,
+          y: 192,
+          text: 'màng nước có chất điện li (không khí ẩm)',
+          size: 10,
+          anchor: 'start',
+          fill: 'muted',
+        },
+        { kind: 'rect', id: 'fe', x: 90, y: 70, w: 130, h: 46, rx: 3, fill: 'muted' },
+        { kind: 'rect', id: 'cu', x: 220, y: 70, w: 130, h: 46, rx: 3, fill: 'accent' },
+        {
+          kind: 'label',
+          id: 'fe-t',
+          x: 155,
+          y: 99,
+          text: 'Fe (anode)',
+          size: 13,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'cu-t',
+          x: 285,
+          y: 99,
+          text: 'Cu (cathode)',
+          size: 13,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'circle',
+          id: 'fe-ion1',
+          cx: 130,
+          cy: 126,
+          r: 8,
+          fill: 'warn',
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0, dy: 0 },
+            { atMs: 800, opacity: 1, dy: 0 },
+            { atMs: 3000, opacity: 1, dy: 55 },
+            { atMs: 6000, opacity: 1, dy: 55 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'fe-ion2',
+          cx: 185,
+          cy: 126,
+          r: 8,
+          fill: 'warn',
+          opacity: 0,
+          keyframes: [
+            { atMs: 1800, opacity: 0, dy: 0 },
+            { atMs: 2400, opacity: 1, dy: 0 },
+            { atMs: 4600, opacity: 1, dy: 48 },
+            { atMs: 6000, opacity: 1, dy: 48 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'e1',
+          cx: 200,
+          cy: 60,
+          r: 5,
+          fill: 'correct',
+          keyframes: [
+            { atMs: 0, dx: 0 },
+            { atMs: 1800, dx: 90 },
+            { atMs: 2000, dx: 90, opacity: 0 },
+            { atMs: 6000, dx: 90, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'e2',
+          cx: 200,
+          cy: 60,
+          r: 5,
+          fill: 'correct',
+          opacity: 0,
+          keyframes: [
+            { atMs: 1200, dx: 0, opacity: 1 },
+            { atMs: 3000, dx: 90, opacity: 1 },
+            { atMs: 3200, dx: 90, opacity: 0 },
+            { atMs: 6000, dx: 90, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'huong-e',
+          x1: 196,
+          y1: 48,
+          x2: 300,
+          y2: 48,
+          stroke: 'muted',
+          strokeWidth: 1.5,
+        },
+        {
+          kind: 'label',
+          id: 'e-t',
+          x: 248,
+          y: 38,
+          text: 'electron',
+          size: 10,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'pt-anode',
+          x: 120,
+          y: 212,
+          text: 'Fe → Fe²⁺ + 2e (sắt tan, gỉ)',
+          size: 11,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'pt-cathode',
+          x: 320,
+          y: 212,
+          text: 'O₂ + 2H₂O + 4e → 4OH⁻',
+          size: 11,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'circle',
+          id: 'o2',
+          cx: 300,
+          cy: 150,
+          r: 7,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 0, dy: 0 },
+            { atMs: 2600, dy: -28 },
+            { atMs: 3000, dy: -28, opacity: 0 },
+            { atMs: 6000, dy: -28, opacity: 0 },
+          ],
+        },
+      ],
+      captions: [
+        {
+          atMs: 0,
+          text: 'Đủ 3 điều kiện: hai kim loại khác nhau, tiếp xúc, cùng trong dung dịch điện li.',
+        },
+        { atMs: 1200, text: 'Sắt (mạnh hơn) làm anode: tan ra thành Fe²⁺ và nhả electron.' },
+        {
+          atMs: 2600,
+          text: 'Electron sang đồng, ở đó oxygen hoà tan nhận electron — sắt tan càng nhanh.',
+        },
+      ],
+    },
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -380,12 +571,12 @@ export const HOA12_C6_LESSONS: ChemLesson[] = [
       'Chương 6 đúc kết các quy luật chung nhất về cấu trúc tinh thể, tính chất hoá học và phương pháp điều chế ' +
       'của thế giới kim loại.',
     theory:
-      'HỆ THỐNG HOÁ KIẾN THỨC CHƯƠNG 6:\\n' +
-      '1. Cấu trúc kim loại: Liên kết kim loại (hút cation - electron tự do). 3 kiểu mạng tinh thể: lập phương tâm khối, lập phương tâm diện, lục phương.\\n' +
-      '2. Tính chất vật lí: Dẫn điện (Ag>Cu>Au>Al>Fe), dẫn nhiệt, tính dẻo, ánh kim do electron tự do. Độ cứng (Cr nhất), nhiệt độ nóng chảy (W nhất), tỷ khối (Os nhất) do nguyên tử quyết định.\\n' +
-      '3. Tính chất hoá học: Tính khử đặc trưng. Dãy điện hoá định hướng phản ứng chất oxi hoá mạnh hơn với chất khử mạnh hơn.\\n' +
-      '4. Điều chế kim loại: Khử ion kim loại. Thuỷ luyện (yếu), Nhiệt luyện (C, CO, H₂, Al khử oxit trung bình/yếu), Điện phân (nóng chảy cho IA, IIA, Al; dung dịch cho trung bình/yếu).\\n' +
-      '5. Hợp kim: Hợp chất kim loại với kim loại/phi kim. Cứng hơn, dẫn điện kém hơn, nóng chảy thấp hơn kim loại gốc.\\n' +
+      'HỆ THỐNG HOÁ KIẾN THỨC CHƯƠNG 6:\n' +
+      '1. Cấu trúc kim loại: Liên kết kim loại (hút cation - electron tự do). 3 kiểu mạng tinh thể: lập phương tâm khối, lập phương tâm diện, lục phương.\n' +
+      '2. Tính chất vật lí: Dẫn điện (Ag>Cu>Au>Al>Fe), dẫn nhiệt, tính dẻo, ánh kim do electron tự do. Độ cứng (Cr nhất), nhiệt độ nóng chảy (W nhất), tỷ khối (Os nhất) do nguyên tử quyết định.\n' +
+      '3. Tính chất hoá học: Tính khử đặc trưng. Dãy điện hoá định hướng phản ứng chất oxi hoá mạnh hơn với chất khử mạnh hơn.\n' +
+      '4. Điều chế kim loại: Khử ion kim loại. Thuỷ luyện (yếu), Nhiệt luyện (C, CO, H₂, Al khử oxit trung bình/yếu), Điện phân (nóng chảy cho IA, IIA, Al; dung dịch cho trung bình/yếu).\n' +
+      '5. Hợp kim: Hợp chất kim loại với kim loại/phi kim. Cứng hơn, dẫn điện kém hơn, nóng chảy thấp hơn kim loại gốc.\n' +
       '6. Ăn mòn: Ăn mòn hoá học và ăn mòn điện hoá (3 điều kiện). Cực âm (anode) bị ăn mòn. Bảo vệ bằng sơn/mạ hoặc gắn kim loại mạnh hi sinh.',
     workedExample: {
       problem:
@@ -433,6 +624,7 @@ export const HOA12_C6_LESSONS: ChemLesson[] = [
         dap: '+3 (khi tác dụng chất oxi hoá mạnh như Cl₂, HNO₃).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

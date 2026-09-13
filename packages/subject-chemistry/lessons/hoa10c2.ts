@@ -74,6 +74,7 @@ export const HOA10_C2_LESSONS: ChemLesson[] = [
       { hoi: 'Số thứ tự chu kì bằng gì?', dap: 'Số lớp electron.' },
       { hoi: 'Số thứ tự nhóm A (nguyên tố chính) bằng gì?', dap: 'Số electron lớp ngoài cùng.' },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -140,6 +141,7 @@ export const HOA10_C2_LESSONS: ChemLesson[] = [
       { hoi: 'Bán kính nguyên tử biến đổi thế nào trong một nhóm (trên→dưới)?', dap: 'Tăng dần.' },
       { hoi: 'Nguyên tố có độ âm điện lớn nhất bảng tuần hoàn?', dap: 'Fluorine (F).' },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -206,6 +208,7 @@ export const HOA10_C2_LESSONS: ChemLesson[] = [
         dap: 'Từ base mạnh (đầu chu kì) sang acid mạnh (cuối chu kì).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -281,6 +284,7 @@ export const HOA10_C2_LESSONS: ChemLesson[] = [
         dap: 'Từ vị trí suy ra cấu hình electron và dự đoán tính chất hoá học.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

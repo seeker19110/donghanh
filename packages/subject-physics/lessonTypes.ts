@@ -1,5 +1,10 @@
 // lessonTypes.ts — Kiểu + Zod schema cho BÀI HỌC môn Vật lí.
 import { z } from 'zod'
+import {
+  AdvancedTierSchema,
+  LessonAnimationSchema,
+  LessonTrackSchema,
+} from '@dhcb/core-contracts/lessonAnimation'
 
 export const PHYSICS_GRADES = ['10', '11', '12'] as const
 export type PhysicsGrade = (typeof PHYSICS_GRADES)[number]
@@ -85,9 +90,20 @@ export const PhysicsLessonSchema = z
       )
       .min(2)
       .max(4),
+    // ── Hoạt ảnh + nhánh nâng cao (thêm 2026-09-13, xem docs/specs/2026-09-13-hoan-thien-4-mon-stem.md) ──
+    /** Hoạt ảnh minh hoạ cơ chế đang dạy. Không bắt buộc: bài nào hình động không giúp
+     *  hiểu thêm thì bỏ trống còn hơn vẽ hình trang trí. */
+    animation: LessonAnimationSchema.optional(),
+    /** 'core' = chương trình chuẩn; 'advanced' = chuyên đề bồi dưỡng học sinh giỏi. */
+    track: LessonTrackSchema,
+    /** Cấp của chuyên đề nâng cao — chỉ có mặt khi track === 'advanced'. */
+    advancedTier: AdvancedTierSchema.optional(),
     reviewStatus: z.enum(['draft', 'reviewed']),
   })
   .strict()
+  .refine((l) => (l.track === 'advanced') === (l.advancedTier !== undefined), {
+    message: "bài 'advanced' phải khai báo advancedTier; bài 'core' thì không được có",
+  })
   .refine((l) => l.id === `ly${l.grade}-c${l.chapterNumber}-b${l.lessonNumber}`, {
     message: 'id phải khớp đúng ly<lớp>-c<chương>-b<bài>',
   })

@@ -13,13 +13,13 @@ export const LY10_C5_LESSONS: PhysicsLesson[] = [
       'Một chiếc tàu thuỷ siêu trọng di chuyển rất chậm vẫn có thể tông sập cầu cảng, và một viên đạn súng nhỏ xíu bay tốc độ cao ' +
       'mang sức phá huỷ cực lớn. Cả hai đều mang một đại lượng cơ học đặc trưng gọi là Động lượng.',
     theory:
-      'ĐỊNH NGHĨA ĐỘNG LƯỢNG (MOMENTUM):\\n' +
-      '— Động lượng của một vật có khối lượng m đang chuyển động với vận tốc vectơ v là đại lượng đo bằng tích của khối lượng và vectơ vận tốc của vật.\\n' +
-      '— Công thức vectơ: vectơ p = m.vectơ v.\\n' +
-      '— Đặc điểm: Động lượng là đại lượng vectơ có cùng hướng với vận tốc. Đơn vị trong hệ SI: kilôgam mét trên giây (kg.m/s) hoặc Newton giây (N.s).\\n\\n' +
-      'XUNG LƯỢNG CỦA LỰC (IMPULSE OF FORCE):\\n' +
-      '— Khi một lực vectơ F tác dụng lên vật trong khoảng thời gian ngắn Δt, tích vectơ F.Δt gọi là xung lượng của lực trong khoảng thời gian đó. Đơn vị: N.s.\\n' +
-      '— Dạng khác của Định luật 2 Newton: vectơ F = Δvectơ p / Δt.\\n' +
+      'ĐỊNH NGHĨA ĐỘNG LƯỢNG (MOMENTUM):\n' +
+      '— Động lượng của một vật có khối lượng m đang chuyển động với vận tốc vectơ v là đại lượng đo bằng tích của khối lượng và vectơ vận tốc của vật.\n' +
+      '— Công thức vectơ: vectơ p = m.vectơ v.\n' +
+      '— Đặc điểm: Động lượng là đại lượng vectơ có cùng hướng với vận tốc. Đơn vị trong hệ SI: kilôgam mét trên giây (kg.m/s) hoặc Newton giây (N.s).\n\n' +
+      'XUNG LƯỢNG CỦA LỰC (IMPULSE OF FORCE):\n' +
+      '— Khi một lực vectơ F tác dụng lên vật trong khoảng thời gian ngắn Δt, tích vectơ F.Δt gọi là xung lượng của lực trong khoảng thời gian đó. Đơn vị: N.s.\n' +
+      '— Dạng khác của Định luật 2 Newton: vectơ F = Δvectơ p / Δt.\n' +
       '— Ý nghĩa: Độ biến thiên động năng/động lượng của vật bằng xung lượng của lực tác dụng lên vật: Δvectơ p = vectơ F.Δt.',
     workedExample: {
       problem:
@@ -72,10 +72,142 @@ export const LY10_C5_LESSONS: PhysicsLesson[] = [
         dap: 'Đo bằng N.s, bằng độ biến thiên động lượng của vật.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
     id: 'ly10-c5-b29',
+    // Va chạm mềm trên đệm khí: tổng động lượng trước = sau, còn động năng thì KHÔNG.
+    animation: {
+      title: 'Va chạm mềm: động lượng được bảo toàn, động năng thì không',
+      description:
+        'Trên đệm khí gần như không ma sát, xe A khối lượng 1 kg chạy sang phải với tốc độ 4 m/s, xe B khối lượng 3 kg đứng yên. Hai xe có gắn miếng dính nên sau va chạm chúng móc vào nhau thành một khối 4 kg. Mũi tên động lượng của A (dài 4 đơn vị) là tất cả động lượng của hệ trước va chạm. Sau va chạm, khối chung vẫn mang đúng mũi tên dài 4 đơn vị đó, nhưng vì khối lượng đã gấp 4 lần nên tốc độ chỉ còn 1 m/s: chúng bò đi chậm hẳn. Kiểm tra bằng số: p = 1×4 = 4 kg·m/s trước và 4×1 = 4 kg·m/s sau — bảo toàn. Trong khi đó động năng giảm từ ½·1·4² = 8 J xuống ½·4·1² = 2 J; 6 J còn lại biến thành nhiệt và tiếng động khi hai xe dính vào nhau. Đây là lý do va chạm mềm không được dùng bảo toàn động năng.',
+      viewBoxWidth: 420,
+      viewBoxHeight: 200,
+      durationMs: 4000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'line',
+          id: 'dem-khi',
+          x1: 10,
+          y1: 140,
+          x2: 410,
+          y2: 140,
+          stroke: 'neutral',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'rect',
+          id: 'xe-a',
+          x: 40,
+          y: 110,
+          w: 30,
+          h: 30,
+          rx: 4,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 0, dx: 0 },
+            { atMs: 2000, dx: 120 },
+            { atMs: 4000, dx: 180 },
+          ],
+        },
+        {
+          kind: 'rect',
+          id: 'xe-b',
+          x: 190,
+          y: 100,
+          w: 40,
+          h: 40,
+          rx: 4,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dx: 0 },
+            { atMs: 2000, dx: 0 },
+            { atMs: 4000, dx: 60 },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'dong-luong-truoc',
+          x1: 40,
+          y1: 80,
+          x2: 120,
+          y2: 80,
+          stroke: 'primary',
+          strokeWidth: 3,
+          keyframes: [
+            { atMs: 0, dx: 0, opacity: 1 },
+            { atMs: 2000, dx: 120, opacity: 1 },
+            { atMs: 2100, dx: 120, opacity: 0 },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'dong-luong-sau',
+          x1: 190,
+          y1: 80,
+          x2: 270,
+          y2: 80,
+          stroke: 'correct',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0, dx: 0 },
+            { atMs: 2100, opacity: 1, dx: 0 },
+            { atMs: 4000, opacity: 1, dx: 60 },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-xe-a',
+          x: 55,
+          y: 160,
+          text: 'A: 1 kg, 4 m/s',
+          size: 12,
+          anchor: 'middle',
+          fill: 'primary',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-xe-b',
+          x: 210,
+          y: 170,
+          text: 'B: 3 kg, đứng yên',
+          size: 12,
+          anchor: 'middle',
+          fill: 'accent',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-p',
+          x: 210,
+          y: 60,
+          text: 'p = 4 kg·m/s (không đổi)',
+          size: 13,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-wd',
+          x: 210,
+          y: 192,
+          text: 'động năng: 8 J → 2 J',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+      ],
+      captions: [
+        { atMs: 0, text: 'Trước va chạm: chỉ A có động lượng, p = 1 × 4 = 4 kg·m/s.' },
+        { atMs: 2000, text: 'Hai xe dính vào nhau thành khối 4 kg.' },
+        {
+          atMs: 4000,
+          text: 'Sau va chạm: v = p/m = 4/4 = 1 m/s. Động lượng giữ nguyên, động năng mất 6 J thành nhiệt.',
+        },
+      ],
+    },
     grade: '10',
     chapterNumber: 5,
     chapterTitle: 'Động lượng',
@@ -85,15 +217,15 @@ export const LY10_C5_LESSONS: PhysicsLesson[] = [
       'Khi một khẩu đại bác khổng lồ bắn một quả đạn nặng đi thẳng về phía trước, cả khẩu đại bác sẽ bị giật mạnh lùi lại phía sau. ' +
       'Định luật bảo toàn động lượng chính là chìa khóa giải thích hiện tượng giật lùi và nguyên lí bay của tên lửa.',
     theory:
-      'HỆ KÍN (HỆ CÔ LẬP):\\n' +
-      '— Hệ gồm nhiều vật tương tác với nhau mà không chịu tác dụng của ngoại lực, hoặc các ngoại lực cân bằng nhau (hợp ngoại lực bằng 0).\\n\\n' +
-      'ĐỊNH LUẬT BẢO TOÀN ĐỘNG LƯỢNG:\\n' +
-      '— Phát biểu: Tổng động lượng của một hệ kín là một đại lượng bảo toàn (không đổi theo thời gian).\\n' +
+      'HỆ KÍN (HỆ CÔ LẬP):\n' +
+      '— Hệ gồm nhiều vật tương tác với nhau mà không chịu tác dụng của ngoại lực, hoặc các ngoại lực cân bằng nhau (hợp ngoại lực bằng 0).\n\n' +
+      'ĐỊNH LUẬT BẢO TOÀN ĐỘNG LƯỢNG:\n' +
+      '— Phát biểu: Tổng động lượng của một hệ kín là một đại lượng bảo toàn (không đổi theo thời gian).\n' +
       "— Biểu thức cho hệ 2 vật: vectơ p₁ + vectơ p₂ = vectơ p₁'" +
-      " + vectơ p₂' hay m₁.vectơ v₁ + m₂.vectơ v₂ = m₁.vectơ v₁' + m₂.vectơ v₂'.\\n\\n" +
-      'ỨNG DỤNG CỦA ĐỊNH LUẬT:\\n' +
-      "1. Va chạm mềm: Hai vật va chạm rồi dính vào nhau chuyển động cùng vận tốc v'.\\n" +
-      "   — Công thức: v' = (m₁.v₁ + m₂.v₂) / (m₁ + m₂) (dạng đại số trên trục thẳng).\\n" +
+      " + vectơ p₂' hay m₁.vectơ v₁ + m₂.vectơ v₂ = m₁.vectơ v₁' + m₂.vectơ v₂'.\n\n" +
+      'ỨNG DỤNG CỦA ĐỊNH LUẬT:\n' +
+      "1. Va chạm mềm: Hai vật va chạm rồi dính vào nhau chuyển động cùng vận tốc v'.\n" +
+      "   — Công thức: v' = (m₁.v₁ + m₂.v₂) / (m₁ + m₂) (dạng đại số trên trục thẳng).\n" +
       '2. Chuyển động bằng phản lực: Một phần của hệ tách ra và phóng đi về một hướng, làm phần còn lại chuyển động về hướng ngược lại (vd: súng giật khi bắn, tên lửa phun khí gas).',
     workedExample: {
       problem:
@@ -135,6 +267,21 @@ export const LY10_C5_LESSONS: PhysicsLesson[] = [
         },
         explain: "Va chạm mềm: v' = (m_A * v_A) / (m_A + m_B) = (1 * 2) / (1 + 1) = 1 m/s.",
       },
+      {
+        // Câu bẫy: động lượng là VECTƠ — hai vật đi ngược chiều thì phải trừ, không phải cộng.
+        prompt:
+          'Xe A nặng 2 kg chạy sang phải với tốc độ 3 m/s, xe B nặng 1 kg chạy sang trái với tốc độ 2 m/s trên cùng một đường thẳng. Chọn chiều dương là chiều sang phải. Tổng động lượng của hệ hai xe bằng bao nhiêu (theo kg·m/s)?',
+        answer: {
+          kind: 'numeric',
+          value: 4,
+          unit: 'kg.m/s',
+        },
+        explain:
+          'Động lượng là đại lượng VECTƠ, nên trước khi cộng phải gắn dấu theo chiều dương đã chọn. Xe A đi theo chiều dương: p_A = +2 × 3 = +6 kg·m/s. Xe B đi ngược chiều dương: p_B = 1 × (−2) = −2 kg·m/s. ' +
+          'Tổng p = 6 + (−2) = +4 kg·m/s, dấu dương cho biết động lượng của hệ hướng sang phải. ' +
+          'Sai lầm phổ biến là cộng thẳng hai độ lớn thành 6 + 2 = 8 kg·m/s vì "cộng cho nhanh". ' +
+          'Quy tắc an toàn: luôn viết rõ "chọn chiều dương là…" ở dòng đầu bài giải, rồi mọi vận tốc ngược chiều đó đều mang dấu trừ — làm vậy thì bài va chạm ngược chiều không bao giờ sai dấu nữa.',
+      },
     ],
     srsCards: [
       {
@@ -146,6 +293,7 @@ export const LY10_C5_LESSONS: PhysicsLesson[] = [
         dap: 'Một phần vật chất phóng ra theo một hướng, phần còn lại sẽ chuyển động ngược hướng do bảo toàn động lượng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -159,17 +307,17 @@ export const LY10_C5_LESSONS: PhysicsLesson[] = [
       'Làm thế nào để đo đạc và kiểm chứng định luật bảo toàn động lượng trong phòng thí nghiệm khi thời gian va chạm xảy ra chỉ trong tích tắc? ' +
       'Sử dụng băng đệm khí và cổng quang điện chính là lời giải.',
     theory:
-      'NGUYÊN TẮC THỰC HÀNH VA CHẠM ĐỆM KHÍ:\\n' +
-      '— Băng đệm khí thổi luồng hơi nâng các xe trượt lên, triệt tiêu ma sát trượt giúp hệ hai xe trượt gần như là hệ kín hoàn hảo.\\n' +
-      '— Sử dụng hai cổng quang điện kết nối đồng hồ hiện số.\\n' +
-      '  — Tốc độ xe trượt: v = d / t (d là độ rộng tấm bản nhựa chắn sáng gắn trên xe, t là thời gian chắn cổng quang).\\n\\n' +
-      'PHÉP ĐO VA CHẠM MỀM (Hai xe dính nhau):\\n' +
-      '— Mắc miếng dính velcro lên mặt tiếp xúc hai xe để chúng dính nhau sau va chạm.\\n' +
-      "— Đo tốc độ xe 1 trước va chạm v₁ và tốc độ hai xe dính nhau v' sau va chạm.\\n" +
-      "— Kiểm tra: m₁.v₁ ≈ (m₁ + m₂).v'.\\n\\n" +
-      'PHÉP ĐO VA CHẠM ĐÀN HỒI (Hai xe nảy nhau):\\n' +
-      '— Mắc lò xo hoặc đệm cao su lên mặt tiếp xúc.\\n' +
-      "— Đo tốc độ v₁, v₂ trước va chạm và v₁', v₂' sau va chạm.\\n" +
+      'NGUYÊN TẮC THỰC HÀNH VA CHẠM ĐỆM KHÍ:\n' +
+      '— Băng đệm khí thổi luồng hơi nâng các xe trượt lên, triệt tiêu ma sát trượt giúp hệ hai xe trượt gần như là hệ kín hoàn hảo.\n' +
+      '— Sử dụng hai cổng quang điện kết nối đồng hồ hiện số.\n' +
+      '  — Tốc độ xe trượt: v = d / t (d là độ rộng tấm bản nhựa chắn sáng gắn trên xe, t là thời gian chắn cổng quang).\n\n' +
+      'PHÉP ĐO VA CHẠM MỀM (Hai xe dính nhau):\n' +
+      '— Mắc miếng dính velcro lên mặt tiếp xúc hai xe để chúng dính nhau sau va chạm.\n' +
+      "— Đo tốc độ xe 1 trước va chạm v₁ và tốc độ hai xe dính nhau v' sau va chạm.\n" +
+      "— Kiểm tra: m₁.v₁ ≈ (m₁ + m₂).v'.\n\n" +
+      'PHÉP ĐO VA CHẠM ĐÀN HỒI (Hai xe nảy nhau):\n' +
+      '— Mắc lò xo hoặc đệm cao su lên mặt tiếp xúc.\n' +
+      "— Đo tốc độ v₁, v₂ trước va chạm và v₁', v₂' sau va chạm.\n" +
       "— Kiểm tra: m₁.v₁ + m₂.v₂ ≈ m₁.v₁' + m₂.v₂'.",
     workedExample: {
       problem:
@@ -221,6 +369,7 @@ export const LY10_C5_LESSONS: PhysicsLesson[] = [
         dap: 'Để thực hiện phép đo thí nghiệm va chạm mềm (hai xe dính chặt vào nhau sau va chạm).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

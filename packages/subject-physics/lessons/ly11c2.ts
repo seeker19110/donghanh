@@ -4,6 +4,160 @@ import type { PhysicsLesson } from '../lessonTypes.js'
 export const LY11_C2_LESSONS: PhysicsLesson[] = [
   {
     id: 'ly11-c2-b8',
+    // Chấm đỏ đứng yên một chỗ chỉ nhấp nhô lên xuống trong khi hình dạng sóng chạy sang phải:
+    // đây là chỗ hiểu sai nhiều nhất của cả chương sóng.
+    animation: {
+      title: 'Sóng chạy đi, phần tử môi trường chỉ nhấp nhô tại chỗ',
+      description:
+        'Đường cong hình sin là mặt nước (hoặc sợi dây) tại một thời điểm, và nó trườn đều sang phải với tốc độ truyền sóng v. Chấm tròn đậm là MỘT phần tử nước cố định, được đánh dấu bằng một vạch thẳng đứng để dễ theo dõi: nó chỉ đi lên rồi đi xuống quanh vị trí cân bằng của mình, không hề trôi sang phải theo sóng. Cái chạy đi là HÌNH DẠNG dao động và NĂNG LƯỢNG, còn vật chất thì đứng tại chỗ — giống hệt chiếc lá trên mặt hồ chỉ nhấp nhô khi sóng đi qua chứ không bị đẩy vào bờ. Mỗi lần sóng trườn đi được đúng một bước sóng λ thì phần tử đó thực hiện trọn một dao động, mất đúng một chu kì T; từ đó suy ra v = λ/T = λ·f.',
+      viewBoxWidth: 420,
+      viewBoxHeight: 240,
+      durationMs: 2000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'line',
+          id: 'muc-can-bang',
+          x1: 0,
+          y1: 120,
+          x2: 420,
+          y2: 120,
+          stroke: 'muted',
+          strokeWidth: 1,
+          dash: '4 4',
+        },
+        {
+          kind: 'polyline',
+          id: 'mat-song',
+          points: [
+            [-180, 120],
+            [-160, 87.9],
+            [-140, 70.8],
+            [-120, 76.7],
+            [-100, 102.9],
+            [-80, 137.1],
+            [-60, 163.3],
+            [-40, 169.2],
+            [-20, 152.1],
+            [0, 120],
+            [20, 87.9],
+            [40, 70.8],
+            [60, 76.7],
+            [80, 102.9],
+            [100, 137.1],
+            [120, 163.3],
+            [140, 169.2],
+            [160, 152.1],
+            [180, 120],
+            [200, 87.9],
+            [220, 70.8],
+            [240, 76.7],
+            [260, 102.9],
+            [280, 137.1],
+            [300, 163.3],
+            [320, 169.2],
+            [340, 152.1],
+            [360, 120],
+            [380, 87.9],
+            [400, 70.8],
+          ],
+          stroke: 'primary',
+          strokeWidth: 3,
+          keyframes: [
+            { atMs: 0, dx: 0 },
+            { atMs: 2000, dx: 180 },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'vach-danh-dau',
+          x1: 90,
+          y1: 60,
+          x2: 90,
+          y2: 180,
+          stroke: 'muted',
+          strokeWidth: 1,
+          dash: '3 3',
+        },
+        {
+          kind: 'circle',
+          id: 'phan-tu-nuoc',
+          cx: 90,
+          cy: 70,
+          r: 8,
+          fill: 'accent',
+          keyframes: [
+            { atMs: 0, dy: 50 },
+            { atMs: 250, dy: 14.6 },
+            { atMs: 500, dy: 0 },
+            { atMs: 750, dy: 14.6 },
+            { atMs: 1000, dy: 50 },
+            { atMs: 1250, dy: 85.4 },
+            { atMs: 1500, dy: 100 },
+            { atMs: 1750, dy: 85.4 },
+            { atMs: 2000, dy: 50 },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'chieu-truyen',
+          x1: 280,
+          y1: 40,
+          x2: 360,
+          y2: 40,
+          stroke: 'neutral',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'arrow',
+          id: 'chieu-dao-dong',
+          x1: 122,
+          y1: 100,
+          x2: 122,
+          y2: 60,
+          stroke: 'accent',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'label',
+          id: 'nhan-v',
+          x: 274,
+          y: 36,
+          text: 'sóng truyền đi: v',
+          size: 12,
+          anchor: 'end',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-phan-tu',
+          x: 132,
+          y: 56,
+          text: 'phần tử nước chỉ lên xuống',
+          size: 12,
+          anchor: 'start',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-lambda',
+          x: 210,
+          y: 214,
+          text: 'bước sóng λ = quãng đường sóng đi trong 1 chu kì',
+          size: 12,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+      ],
+      captions: [
+        { atMs: 0, text: 'Phần tử được đánh dấu đang ở đỉnh sóng.' },
+        {
+          atMs: 1000,
+          text: 'Sóng trườn sang phải nửa bước sóng; phần tử đã xuống tới đáy rồi lên lại.',
+        },
+        { atMs: 2000, text: 'Sóng đi được đúng λ, phần tử vừa xong một chu kì T. Suy ra v = λ/T.' },
+      ],
+    },
     grade: '11',
     chapterNumber: 2,
     chapterTitle: 'Sóng',
@@ -14,15 +168,15 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
       'Nhưng kì lạ thay, một chiếc lá rụng trôi nổi trên mặt hồ chỉ nhấp nhô lên xuống tại chỗ chứ không bị đẩy trôi ra xa cùng sóng. ' +
       'Bản chất sóng là gì?',
     theory:
-      'ĐỊNH NGHĨA SÓNG CƠ (MECHANICAL WAVE):\\n' +
-      '— Sóng cơ là sự lan truyền dao động cơ (biến dạng đàn hồi) trong một môi trường vật chất theo thời gian.\\n' +
+      'ĐỊNH NGHĨA SÓNG CƠ (MECHANICAL WAVE):\n' +
+      '— Sóng cơ là sự lan truyền dao động cơ (biến dạng đàn hồi) trong một môi trường vật chất theo thời gian.\n' +
       '— Lưu ý quan trọng: Khi sóng truyền đi, các phần tử môi trường chỉ dao động xung quanh vị trí cân bằng của chúng, ' +
-      'chứ không chuyển động tịnh tiến theo sóng. Chỉ có pha dao động và năng lượng sóng được truyền đi.\\n\\n' +
-      'CÁC ĐẠI LƯỢNG ĐẶC TRƯNG CỦA SÓNG:\\n' +
-      '1. Chu kì (T), Tần số (f): Là chu kì và tần số dao động của các phần tử môi trường có sóng truyền qua (bằng đúng chu kì/tần số của nguồn phát sóng).\\n' +
+      'chứ không chuyển động tịnh tiến theo sóng. Chỉ có pha dao động và năng lượng sóng được truyền đi.\n\n' +
+      'CÁC ĐẠI LƯỢNG ĐẶC TRƯNG CỦA SÓNG:\n' +
+      '1. Chu kì (T), Tần số (f): Là chu kì và tần số dao động của các phần tử môi trường có sóng truyền qua (bằng đúng chu kì/tần số của nguồn phát sóng).\n' +
       '2. Tốc độ truyền sóng (v): Tốc độ lan truyền pha dao động (khác với tốc độ dao động của các phần tử môi trường). ' +
-      'Tốc độ này chỉ phụ thuộc vào bản chất môi trường (tính đàn hồi, nhiệt độ, khối lượng riêng).\\n' +
-      '3. Bước sóng (λ): Quãng đường sóng truyền đi được trong một chu kì: λ = v.T = v / f.\\n' +
+      'Tốc độ này chỉ phụ thuộc vào bản chất môi trường (tính đàn hồi, nhiệt độ, khối lượng riêng).\n' +
+      '3. Bước sóng (λ): Quãng đường sóng truyền đi được trong một chu kì: λ = v.T = v / f.\n' +
       '  — Định nghĩa khác: Bước sóng là khoảng cách ngắn nhất giữa hai phần tử trên cùng một phương truyền sóng dao động cùng pha với nhau.',
     workedExample: {
       problem:
@@ -60,6 +214,24 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
         },
         explain: 'λ = v / f = 2 / 50 = 0,04 m = 4 cm.',
       },
+      {
+        // Câu bẫy: tưởng phần tử môi trường bị sóng cuốn đi theo phương truyền sóng.
+        prompt:
+          'Một chiếc lá nổi trên mặt hồ. Sóng nước truyền từ giữa hồ vào bờ đi qua chỗ chiếc lá. Chiếc lá sẽ chuyển động thế nào?',
+        choices: [
+          { id: 'vao_bo', label: 'Bị sóng cuốn dần vào bờ với đúng tốc độ truyền sóng' },
+          { id: 'tai_cho', label: 'Chỉ nhấp nhô lên xuống tại chỗ quanh vị trí cũ của nó' },
+          { id: 'ra_giua', label: 'Bị đẩy ngược ra giữa hồ vì sóng phản xạ' },
+        ],
+        answer: {
+          kind: 'choice',
+          correctIds: ['tai_cho'],
+        },
+        explain:
+          'Sóng cơ truyền đi DAO ĐỘNG và NĂNG LƯỢNG chứ không mang theo vật chất. Mỗi phần tử nước chỉ dao động quanh vị trí cân bằng của chính nó rồi kéo phần tử bên cạnh dao động theo, nên cái "chạy" vào bờ là hình dạng gợn sóng, không phải khối nước. ' +
+          'Vì thế chiếc lá chỉ nhô lên hụp xuống tại chỗ. Nếu nước thật sự bị cuốn đi với tốc độ truyền sóng thì mặt hồ đã cạn về một phía từ lâu. ' +
+          'Hãy tách bạch hai tốc độ rất khác nhau: tốc độ truyền sóng v = λ·f (của hình dạng sóng, không đổi trong một môi trường) và tốc độ dao động của phần tử (biến thiên, cực đại khi qua vị trí cân bằng, bằng 0 ở hai biên).',
+      },
     ],
     srsCards: [
       {
@@ -71,6 +243,7 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Phụ thuộc hoàn toàn vào tính chất vật lí của môi trường truyền sóng (như nhiệt độ, mật độ, tính đàn hồi).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -84,14 +257,14 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
       'Khi xảy ra động đất, lòng đất truyền đi hai loại sóng: Sóng P nén dọc lớp đá như lò xo co giãn, ' +
       'và sóng S rung lắc ngang mặt đất. Đó chính là sóng dọc và sóng ngang.',
     theory:
-      'SÓNG NGANG (TRANSVERSE WAVE):\\n' +
-      '— Là sóng trong đó các phần tử môi trường dao động theo phương vuông góc với phương truyền sóng.\\n' +
-      '— Môi trường truyền: Sóng ngang chỉ truyền được trong chất rắn và trên bề mặt chất lỏng (không truyền được trong chất khí và lòng chất lỏng).\\n\\n' +
-      'SÓNG DỌC (LONGITUDINAL WAVE):\\n' +
-      '— Là sóng trong đó các phần tử môi trường dao động theo phương trùng với phương truyền sóng.\\n' +
-      '— Môi trường truyền: Sóng dọc truyền được trong cả chất rắn, chất lỏng và chất khí.\\n\\n' +
-      'SỰ TRUYỀN NĂNG LƯỢNG CỦA SÓNG CƠ:\\n' +
-      '— Nguồn sóng dao động thực hiện công cung cấp năng lượng cho các phần tử lân cận dao động tuần hoàn, năng lượng này lan toả ra khắp không gian.\\n' +
+      'SÓNG NGANG (TRANSVERSE WAVE):\n' +
+      '— Là sóng trong đó các phần tử môi trường dao động theo phương vuông góc với phương truyền sóng.\n' +
+      '— Môi trường truyền: Sóng ngang chỉ truyền được trong chất rắn và trên bề mặt chất lỏng (không truyền được trong chất khí và lòng chất lỏng).\n\n' +
+      'SÓNG DỌC (LONGITUDINAL WAVE):\n' +
+      '— Là sóng trong đó các phần tử môi trường dao động theo phương trùng với phương truyền sóng.\n' +
+      '— Môi trường truyền: Sóng dọc truyền được trong cả chất rắn, chất lỏng và chất khí.\n\n' +
+      'SỰ TRUYỀN NĂNG LƯỢNG CỦA SÓNG CƠ:\n' +
+      '— Nguồn sóng dao động thực hiện công cung cấp năng lượng cho các phần tử lân cận dao động tuần hoàn, năng lượng này lan toả ra khắp không gian.\n' +
       '— Càng ra xa nguồn, mật độ năng lượng sóng càng giảm do sóng trải rộng trên diện tích lớn dần và một phần bị môi trường hấp thụ chuyển hoá thành nhiệt năng.',
     workedExample: {
       problem:
@@ -145,6 +318,7 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Không, sóng ngang chỉ truyền được trong chất rắn và trên bề mặt chất lỏng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -158,13 +332,13 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
       'Làm thế nào để xác định nốt nhạc của một chiếc đàn guitar có đúng tần số chuẩn hay không? ' +
       'Trong phòng thí nghiệm, ta sử dụng micrô và dao động kí điện tử để "chụp ảnh" sóng âm và đo đạc tần số.',
     theory:
-      'NGUYÊN LÝ ĐO TẦN SỐ SÓNG ÂM:\\n' +
-      '— Sóng âm từ nguồn phát (ví dụ âm thoa) được thu bằng một micrô. Micrô chuyển dao động áp suất âm thanh thành dao động điện thế cùng tần số.\\n' +
-      '— Điện tín hiệu này được đưa vào cổng vào (Y) của dao động kí điện tử.\\n\\n' +
-      'CÁCH ĐỌC DAO ĐỘNG KÝ:\\n' +
-      '— Màn hình hiển thị đường cong dạng sin biểu diễn li độ điện áp theo thời gian.\\n' +
-      '— Ta đếm số ô chia dọc theo trục thời gian (trục nằm ngang) cho một chu kì dao động toàn phần (N ô).\\n' +
-      '— Nhân số ô N này với hệ số quét thời gian (Time/Div) đã thiết lập trên máy để có chu kì T (giây): T = N * (Time/Div).\\n' +
+      'NGUYÊN LÝ ĐO TẦN SỐ SÓNG ÂM:\n' +
+      '— Sóng âm từ nguồn phát (ví dụ âm thoa) được thu bằng một micrô. Micrô chuyển dao động áp suất âm thanh thành dao động điện thế cùng tần số.\n' +
+      '— Điện tín hiệu này được đưa vào cổng vào (Y) của dao động kí điện tử.\n\n' +
+      'CÁCH ĐỌC DAO ĐỘNG KÝ:\n' +
+      '— Màn hình hiển thị đường cong dạng sin biểu diễn li độ điện áp theo thời gian.\n' +
+      '— Ta đếm số ô chia dọc theo trục thời gian (trục nằm ngang) cho một chu kì dao động toàn phần (N ô).\n' +
+      '— Nhân số ô N này với hệ số quét thời gian (Time/Div) đã thiết lập trên máy để có chu kì T (giây): T = N * (Time/Div).\n' +
       '— Tần số f được xác định bằng công thức: f = 1 / T.',
     workedExample: {
       problem:
@@ -215,6 +389,7 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
         dap: 'T = 5 * 2 ms = 10 ms = 0,01 s.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -228,15 +403,15 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
       'Sóng Wi-Fi trong phòng khách, ánh sáng từ Mặt Trời sưởi ấm Trái Đất và tia X chụp xương trong bệnh viện đều cùng một bản chất vật lí. ' +
       'Chúng có thể truyền qua khoảng chân không vũ trụ bao la với tốc độ ánh sáng.',
     theory:
-      'ĐỊNH NGHĨA SÓNG ĐIỆN TỪ (ELECTROMAGNETIC WAVE):\\n' +
-      '— Sóng điện từ là điện từ trường lan truyền trong không gian dưới dạng sóng.\\n\\n' +
-      'ĐẶC ĐIỂM CỦA SÓNG ĐIỆN TỪ:\\n' +
+      'ĐỊNH NGHĨA SÓNG ĐIỆN TỪ (ELECTROMAGNETIC WAVE):\n' +
+      '— Sóng điện từ là điện từ trường lan truyền trong không gian dưới dạng sóng.\n\n' +
+      'ĐẶC ĐIỂM CỦA SÓNG ĐIỆN TỪ:\n' +
       '— Truyền được trong chân không (khác biệt cơ bản với sóng cơ cần môi trường vật chất vật lí). ' +
-      'Tốc độ truyền sóng điện từ trong chân không lớn nhất, bằng tốc độ ánh sáng c ≈ 3 * 10⁸ m/s.\\n' +
+      'Tốc độ truyền sóng điện từ trong chân không lớn nhất, bằng tốc độ ánh sáng c ≈ 3 * 10⁸ m/s.\n' +
       '— Sóng điện từ là sóng ngang: Vectơ cường độ điện trường E và vectơ cảm ứng từ B luôn vuông góc với nhau và vuông góc với phương truyền sóng v. ' +
-      'Ba vectơ E, B, v tạo thành một tam diện thuận.\\n' +
-      '— Điện trường E và từ trường B biến thiên cùng tần số và luôn cùng pha với nhau.\\n\\n' +
-      'THANG SÓNG ĐIỆN TỪ (phân theo bước sóng giảm dần):\\n' +
+      'Ba vectơ E, B, v tạo thành một tam diện thuận.\n' +
+      '— Điện trường E và từ trường B biến thiên cùng tần số và luôn cùng pha với nhau.\n\n' +
+      'THANG SÓNG ĐIỆN TỪ (phân theo bước sóng giảm dần):\n' +
       '— Sóng vô tuyến (Radio) -> Tia hồng ngoại -> Ánh sáng nhìn thấy (Đỏ đến Tím) -> Tia tử ngoại (UV) -> Tia X -> Tia Gamma (γ).',
     workedExample: {
       problem:
@@ -289,10 +464,199 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Sóng vô tuyến -> Tia hồng ngoại -> Tia tử ngoại -> Tia X (tần số tăng tương ứng bước sóng giảm).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
     id: 'ly11-c2-b12',
+    // Vẽ đúng bức tranh học sinh nhìn thấy trong khay nước: các gợn tròn từ hai nguồn chồng lên
+    // nhau, sinh ra những đường đứng yên (cực tiểu) xen kẽ những đường dao động mạnh (cực đại).
+    animation: {
+      title: 'Hai nguồn kết hợp và những đường cực đại, cực tiểu',
+      description:
+        'Hai mũi nhọn S₁ và S₂ chạm mặt nước cùng lúc, cùng tần số và cùng pha. Từ mỗi nguồn, các gợn tròn lan ra đều đặn, cứ hai gợn liên tiếp cách nhau một bước sóng λ. Ở những điểm mà hiệu đường đi tới hai nguồn bằng một số nguyên lần bước sóng (d₂ − d₁ = kλ), hai sóng luôn tới cùng pha nên chồng lên nhau và nước dao động rất mạnh: đó là các đường CỰC ĐẠI, trong hình là đường thẳng giữa (k = 0) và hai nhánh cong hai bên (k = ±1). Ở những điểm có d₂ − d₁ = (k + ½)λ, hai sóng luôn ngược pha nên triệt tiêu nhau và mặt nước gần như đứng yên: đó là các đường CỰC TIỂU, vẽ bằng nét đứt. Hình ảnh này cố định theo thời gian, chỉ có các gợn chạy qua nó — vì thế ta nhìn thấy được vân giao thoa bằng mắt thường.',
+      viewBoxWidth: 420,
+      viewBoxHeight: 260,
+      durationMs: 3000,
+      loop: true,
+      shapes: [
+        { kind: 'circle', id: 'nguon-1', cx: 140, cy: 130, r: 6, fill: 'neutral' },
+        { kind: 'circle', id: 'nguon-2', cx: 280, cy: 130, r: 6, fill: 'neutral' },
+        {
+          kind: 'circle',
+          id: 'gon-1a',
+          cx: 140,
+          cy: 130,
+          r: 10,
+          stroke: 'primary',
+          strokeWidth: 2,
+          keyframes: [
+            { atMs: 0, scale: 0.2, opacity: 0.9 },
+            { atMs: 3000, scale: 12, opacity: 0.1 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'gon-1b',
+          cx: 140,
+          cy: 130,
+          r: 10,
+          stroke: 'primary',
+          strokeWidth: 2,
+          keyframes: [
+            { atMs: 0, scale: 4.2, opacity: 0.6 },
+            { atMs: 2000, scale: 12, opacity: 0.1 },
+            { atMs: 2001, scale: 0.2, opacity: 0.9 },
+            { atMs: 3000, scale: 4.2, opacity: 0.6 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'gon-2a',
+          cx: 280,
+          cy: 130,
+          r: 10,
+          stroke: 'accent',
+          strokeWidth: 2,
+          keyframes: [
+            { atMs: 0, scale: 0.2, opacity: 0.9 },
+            { atMs: 3000, scale: 12, opacity: 0.1 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'gon-2b',
+          cx: 280,
+          cy: 130,
+          r: 10,
+          stroke: 'accent',
+          strokeWidth: 2,
+          keyframes: [
+            { atMs: 0, scale: 4.2, opacity: 0.6 },
+            { atMs: 2000, scale: 12, opacity: 0.1 },
+            { atMs: 2001, scale: 0.2, opacity: 0.9 },
+            { atMs: 3000, scale: 4.2, opacity: 0.6 },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'cuc-dai-0',
+          x1: 210,
+          y1: 16,
+          x2: 210,
+          y2: 244,
+          stroke: 'correct',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'polyline',
+          id: 'cuc-dai-phai',
+          points: [
+            [282.5, 20],
+            [271.7, 42],
+            [261.7, 64],
+            [253.2, 86],
+            [247.2, 108],
+            [245, 130],
+            [247.2, 152],
+            [253.2, 174],
+            [261.7, 196],
+            [271.7, 218],
+            [282.5, 240],
+          ],
+          stroke: 'correct',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'polyline',
+          id: 'cuc-tieu-phai',
+          points: [
+            [243.4, 20],
+            [238.7, 42],
+            [234.4, 64],
+            [230.9, 86],
+            [228.4, 108],
+            [227.5, 130],
+            [228.4, 152],
+            [230.9, 174],
+            [234.4, 196],
+            [238.7, 218],
+            [243.4, 240],
+          ],
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '6 5',
+        },
+        {
+          kind: 'polyline',
+          id: 'cuc-tieu-trai',
+          points: [
+            [176.6, 20],
+            [181.3, 42],
+            [185.6, 64],
+            [189.1, 86],
+            [191.6, 108],
+            [192.5, 130],
+            [191.6, 152],
+            [189.1, 174],
+            [185.6, 196],
+            [181.3, 218],
+            [176.6, 240],
+          ],
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '6 5',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-s1',
+          x: 140,
+          y: 152,
+          text: 'S₁',
+          size: 14,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-s2',
+          x: 280,
+          y: 152,
+          text: 'S₂',
+          size: 14,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-cd',
+          x: 210,
+          y: 12,
+          text: 'cực đại k = 0',
+          size: 12,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-ct',
+          x: 300,
+          y: 256,
+          text: 'nét đứt: cực tiểu',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+      ],
+      captions: [
+        { atMs: 0, text: 'Hai nguồn dao động cùng pha, gợn tròn bắt đầu lan ra.' },
+        { atMs: 1500, text: 'Các gợn gặp nhau: chỗ hai đỉnh gặp đỉnh thì nước vồng lên mạnh.' },
+        {
+          atMs: 3000,
+          text: 'Vân giao thoa đứng yên tại chỗ: đường liền = cực đại, nét đứt = cực tiểu.',
+        },
+      ],
+    },
     grade: '11',
     chapterNumber: 2,
     chapterTitle: 'Sóng',
@@ -303,13 +667,13 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
       'Chúng tạo thành một mạng lưới hình học kì ảo: những điểm sóng vọt lên rất cao xen kẽ những điểm nước phẳng lặng như gương. ' +
       'Hiện tượng này gọi là Giao thoa.',
     theory:
-      'NGUỒN KẾT HỢP (COHERENT SOURCES):\\n' +
-      '— Hai nguồn kết hợp là hai nguồn sóng dao động cùng phương, cùng tần số và có độ lệch pha không đổi theo thời gian.\\n' +
-      '— Giao thoa là sự gặp nhau của hai sóng từ hai nguồn kết hợp tạo thành các cực đại và cực tiểu cố định trong không gian.\\n\\n' +
-      'ĐIỀU KIỆN CỰC ĐẠI - CỰC TIỂU GIA THOA (hai nguồn đồng pha):\\n' +
-      '— Xét một điểm M có khoảng cách tới hai nguồn sóng lần lượt là d₁ và d₂.\\n' +
+      'NGUỒN KẾT HỢP (COHERENT SOURCES):\n' +
+      '— Hai nguồn kết hợp là hai nguồn sóng dao động cùng phương, cùng tần số và có độ lệch pha không đổi theo thời gian.\n' +
+      '— Giao thoa là sự gặp nhau của hai sóng từ hai nguồn kết hợp tạo thành các cực đại và cực tiểu cố định trong không gian.\n\n' +
+      'ĐIỀU KIỆN CỰC ĐẠI - CỰC TIỂU GIA THOA (hai nguồn đồng pha):\n' +
+      '— Xét một điểm M có khoảng cách tới hai nguồn sóng lần lượt là d₁ và d₂.\n' +
       '1. Cực đại giao thoa: Hai sóng tăng cường lẫn nhau, biên độ cực đại. ' +
-      'Hiệu đường đi bằng một số nguyên lần bước sóng: d₂ - d₁ = k.λ (với k = 0, ±1, ±2...).\\n' +
+      'Hiệu đường đi bằng một số nguyên lần bước sóng: d₂ - d₁ = k.λ (với k = 0, ±1, ±2...).\n' +
       '2. Cực tiểu giao thoa: Hai sóng triệt tiêu lẫn nhau, biên độ cực tiểu (bằng 0). ' +
       'Hiệu đường đi bằng một số bán nguyên lần bước sóng: d₂ - d₁ = (k + 0,5).λ (với k = 0, ±1, ±2...).',
     workedExample: {
@@ -362,6 +726,7 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Vì tại đó hai sóng từ hai nguồn truyền tới ngược pha nhau và triệt tiêu biên độ của nhau hoàn toàn.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -375,16 +740,16 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
       'Gảy một sợi dây đàn guitar, âm thanh thánh thót vang lên. Trên dây đàn xuất hiện các điểm đứng im xen kẽ ' +
       'các bó sóng phồng to rung động mãnh liệt. Đó là Sóng dừng, nền tảng vật lí của mọi nhạc cụ dây.',
     theory:
-      'ĐỊNH NGHĨA SÓNG DỰNG (STANDING WAVE):\\n' +
+      'ĐỊNH NGHĨA SÓNG DỰNG (STANDING WAVE):\n' +
       '— Sóng dừng là sóng có các nút sóng (điểm luôn đứng yên) và bụng sóng (điểm luôn dao động với biên độ cực đại) cố định trong không gian, ' +
-      'sinh ra do sự giao thoa giữa sóng tới và sóng phản xạ trên cùng một phương truyền.\\n\\n' +
-      'KHOẢNG CÁCH ĐẶC BIỆT TRÊN SÓNG DỰNG:\\n' +
-      '— Khoảng cách giữa hai nút sóng liên tiếp (hoặc hai bụng sóng liên tiếp) bằng nửa bước sóng (λ / 2).\\n' +
-      '— Khoảng cách giữa một nút sóng và một bụng sóng liên tiếp gần nhất bằng một phần tư bước sóng (λ / 4).\\n\\n' +
-      'ĐIỀU KIỆN ĐỂ CÓ SÓNG DỪNG TRÊN DÂY CHIỀU DÀI L:\\n' +
-      '1. Sợi dây có hai đầu cố định (hai đầu đều là nút sóng):\\n' +
-      '   — L = k * (λ / 2) (với k = 1, 2, 3... là số bó sóng/bụng sóng).\\n' +
-      '2. Sợi dây có một đầu cố định, một đầu tự do (đầu cố định là nút, đầu tự do là bụng):\\n' +
+      'sinh ra do sự giao thoa giữa sóng tới và sóng phản xạ trên cùng một phương truyền.\n\n' +
+      'KHOẢNG CÁCH ĐẶC BIỆT TRÊN SÓNG DỰNG:\n' +
+      '— Khoảng cách giữa hai nút sóng liên tiếp (hoặc hai bụng sóng liên tiếp) bằng nửa bước sóng (λ / 2).\n' +
+      '— Khoảng cách giữa một nút sóng và một bụng sóng liên tiếp gần nhất bằng một phần tư bước sóng (λ / 4).\n\n' +
+      'ĐIỀU KIỆN ĐỂ CÓ SÓNG DỪNG TRÊN DÂY CHIỀU DÀI L:\n' +
+      '1. Sợi dây có hai đầu cố định (hai đầu đều là nút sóng):\n' +
+      '   — L = k * (λ / 2) (với k = 1, 2, 3... là số bó sóng/bụng sóng).\n' +
+      '2. Sợi dây có một đầu cố định, một đầu tự do (đầu cố định là nút, đầu tự do là bụng):\n' +
       '   — L = (2k + 1) * (λ / 4) (với k = 0, 1, 2... là số bó sóng nguyên).',
     workedExample: {
       problem:
@@ -435,6 +800,7 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Bằng một phần tư bước sóng (λ / 4).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -448,10 +814,10 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
       'Luyện tập tổng hợp các bài toán về sóng cơ, giao thoa sóng và sóng dừng ' +
       'sẽ giúp bạn nhuần nhuyễn kĩ năng giải toán lý thuyết lẫn thực tế.',
     theory:
-      'TỔNG HỢP CÔNG THỨC SÓNG CẦN NHỚ:\\n' +
-      '— Mối liên hệ chu kì, tần số, tốc độ và bước sóng: λ = v.T = v / f.\\n' +
-      '— Giao thoa sóng: d₂ - d₁ = k.λ (Cực đại); d₂ - d₁ = (k + 0,5).λ (Cực tiểu) (với hai nguồn cùng pha).\\n' +
-      '— Sóng dừng hai đầu cố định: L = k.λ / 2 (k = số bụng sóng). Tần số tối thiểu để có sóng dừng: f_min = v / 2L.\\n' +
+      'TỔNG HỢP CÔNG THỨC SÓNG CẦN NHỚ:\n' +
+      '— Mối liên hệ chu kì, tần số, tốc độ và bước sóng: λ = v.T = v / f.\n' +
+      '— Giao thoa sóng: d₂ - d₁ = k.λ (Cực đại); d₂ - d₁ = (k + 0,5).λ (Cực tiểu) (với hai nguồn cùng pha).\n' +
+      '— Sóng dừng hai đầu cố định: L = k.λ / 2 (k = số bụng sóng). Tần số tối thiểu để có sóng dừng: f_min = v / 2L.\n' +
       '— Sóng dừng một đầu cố định, một đầu tự do: L = (2k + 1).λ / 4.',
     workedExample: {
       problem:
@@ -498,6 +864,7 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
         dap: 'L = (2k + 1) * λ / 4.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -511,13 +878,13 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
       'Làm thế nào để đo tốc độ truyền âm của không khí ngay tại lớp học bằng một ống nhựa rỗng đựng nước? ' +
       'Chúng ta sử dụng một âm thoa phát âm thanh chuẩn và tìm các điểm cộng hưởng cột khí.',
     theory:
-      'NGUYÊN LÝ CỘT KHÍ CỘNG HƯỞNG (RESONANCE TUBE):\\n' +
-      '— Một ống thủy tinh chứa nước, có thể điều chỉnh độ cao mặt nước để thay đổi chiều dài cột khí L từ mặt nước đến miệng ống.\\n' +
+      'NGUYÊN LÝ CỘT KHÍ CỘNG HƯỞNG (RESONANCE TUBE):\n' +
+      '— Một ống thủy tinh chứa nước, có thể điều chỉnh độ cao mặt nước để thay đổi chiều dài cột khí L từ mặt nước đến miệng ống.\n' +
       '— Đặt một âm thoa dao động tần số f sát miệng ống. Sóng âm truyền vào ống phản xạ tại mặt nước (đầu cố định - nút sóng) ' +
-      'và giao thoa với sóng tới ở miệng ống (đầu tự do - bụng sóng).\\n' +
-      '— Khi hạ dần mặt nước, âm thanh nghe được đột ngột to lên tại các vị trí cộng hưởng đầu tiên L₁ và thứ hai L₂.\\n' +
-      '— Khoảng cách giữa hai vị trí cộng hưởng liên tiếp bằng nửa bước sóng: L₂ - L₁ = λ / 2.\\n' +
-      '— Tính bước sóng: λ = 2 * (L₂ - L₁).\\n' +
+      'và giao thoa với sóng tới ở miệng ống (đầu tự do - bụng sóng).\n' +
+      '— Khi hạ dần mặt nước, âm thanh nghe được đột ngột to lên tại các vị trí cộng hưởng đầu tiên L₁ và thứ hai L₂.\n' +
+      '— Khoảng cách giữa hai vị trí cộng hưởng liên tiếp bằng nửa bước sóng: L₂ - L₁ = λ / 2.\n' +
+      '— Tính bước sóng: λ = 2 * (L₂ - L₁).\n' +
       '— Tốc độ truyền âm trong không khí: v = λ * f = 2 * (L₂ - L₁) * f.',
     workedExample: {
       problem:
@@ -568,6 +935,7 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
         dap: 'Vì miệng ống tiếp giáp tự do với không khí bên ngoài, cho phép các phần tử khí dao động tự do với biên độ lớn nhất.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

@@ -1,6 +1,6 @@
 // apps/dhcb/src/pages/SubjectDetail.tsx — Specialized AI STEM Step Solver & Subject Studio
 import { useEffect, useState, useRef } from 'react'
-import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { useParams, useNavigate, useLocation, Link } from 'react-router-dom'
 import {
   Sparkles,
   Send,
@@ -16,6 +16,7 @@ import {
   AlertTriangle,
   Lightbulb,
   ArrowRight,
+  ChevronRight,
 } from 'lucide-react'
 import Layout from '../../components/Layout'
 import { PageShell } from '@core/PageShell'
@@ -27,6 +28,7 @@ import IntegrationsModal from '../../components/IntegrationsModal'
 import { STEM_CURRICULUM } from '../../data/stemCurriculum'
 import type { SubjectManifest } from '@dhcb/core-contracts/subjectManifest'
 import { goToSubjects } from '../../lib/subjectsHost'
+import { duongDanDanhSachBai, getStemSubject } from '../../lib/stemLessonRoutes'
 
 interface SolvedStep {
   title: string
@@ -121,6 +123,8 @@ export default function SubjectDetail() {
   }
 
   const curriculumList = subjectId ? STEM_CURRICULUM[subjectId] || [] : []
+  // Bốn môn STEM có kho bài học thật (nạp lười) — môn khác thì khối này vắng mặt.
+  const stemSubject = getStemSubject(subjectId)
   const currentGradeData =
     curriculumList.find((g) => g.grade === selectedGrade) || curriculumList[0]
 
@@ -386,6 +390,23 @@ export default function SubjectDetail() {
             chồng nhau chiếm gần một phần ba màn hình đầu mà không thêm thông tin nào.
 
             Nó còn là lỗi ngữ nghĩa: trang có HAI thẻ `<h1>`. Nay hero là tiêu đề duy nhất. */}
+        {/* Lối vào kho bài học có chấm điểm của môn (bốn môn STEM). Đặt ngay dưới hero vì đây
+            là việc người học tới trang môn để làm, còn khung chương trình bên dưới chỉ để tra. */}
+        {stemSubject && (
+          <Link
+            to={duongDanDanhSachBai(stemSubject.id)}
+            className="tap-44 flex items-center justify-between gap-4 rounded-3xl border border-line-strong bg-surface-card p-4 text-content"
+          >
+            <span>
+              <span className="block font-semibold">Vào học {stemSubject.label}</span>
+              <span className="block text-content-secondary">
+                {stemSubject.loader.index.length} bài có hoạt ảnh minh hoạ và câu hỏi tự chấm
+              </span>
+            </span>
+            <ChevronRight className="h-5 w-5 shrink-0" aria-hidden="true" />
+          </Link>
+        )}
+
         {/* Khối chọn khối lớp */}
         <section className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-4 flex items-center justify-between gap-4 flex-wrap shadow-sm">
           <div className="flex items-center gap-2">

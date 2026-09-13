@@ -69,6 +69,7 @@ export const HOA10_C7_LESSONS: ChemLesson[] = [
         dap: 'Phân tử hai nguyên tử (X₂), liên kết cộng hoá trị không cực.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -138,6 +139,7 @@ export const HOA10_C7_LESSONS: ChemLesson[] = [
         dap: 'HF < HCl < HBr < HI.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]

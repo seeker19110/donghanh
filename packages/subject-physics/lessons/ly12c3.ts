@@ -13,17 +13,17 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
       'Một cây kim la bàn luôn tự động quay về hướng Bắc, và hai thanh nam châm có thể đẩy hoặc hút nhau từ xa mà không cần tiếp xúc. ' +
       'Lực vô hình nào đã kết nối chúng? Đó chính là từ trường.',
     theory:
-      'KHÁI NIỆM TỪ TRƯỜNG:\\n' +
-      '— Từ trường: Là một dạng vật chất tồn tại xung quanh nam châm, dòng điện hoặc hạt mang điện chuyển động, biểu hiện bằng việc tác dụng lực từ lên nam châm, dòng điện hoặc hạt mang điện chuyển động khác đặt trong nó.\\n' +
-      '— Tương tác từ: Tương tác giữa nam châm với nam châm, giữa nam châm với dòng điện, và giữa hai dòng điện với nhau.\\n\\n' +
-      'ĐƯỜNG SỨC TỪ:\\n' +
-      '— Đường sức từ: Là những đường vẽ trong không gian có từ trường, sao cho tiếp tuyến tại mỗi điểm trùng với hướng của từ trường tại điểm đó.\\n' +
-      '— Các đặc điểm của đường sức từ:\\n' +
-      '  1. Qua mỗi điểm trong không gian chỉ vẽ được một đường sức từ duy nhất.\\n' +
-      '  2. Các đường sức từ là những đường cong khép kín hoặc vô hạn ở hai đầu.\\n' +
-      '  3. Quy ước chiều đường sức từ: Đi ra từ cực Bắc (N) và đi vào cực Nam (S) của nam châm.\\n' +
-      '  4. Nơi nào từ trường mạnh thì đường sức từ vẽ dày, nơi nào từ trường yếu thì đường sức từ vẽ thưa.\\n\\n' +
-      'TỪ PHỔ:\\n' +
+      'KHÁI NIỆM TỪ TRƯỜNG:\n' +
+      '— Từ trường: Là một dạng vật chất tồn tại xung quanh nam châm, dòng điện hoặc hạt mang điện chuyển động, biểu hiện bằng việc tác dụng lực từ lên nam châm, dòng điện hoặc hạt mang điện chuyển động khác đặt trong nó.\n' +
+      '— Tương tác từ: Tương tác giữa nam châm với nam châm, giữa nam châm với dòng điện, và giữa hai dòng điện với nhau.\n\n' +
+      'ĐƯỜNG SỨC TỪ:\n' +
+      '— Đường sức từ: Là những đường vẽ trong không gian có từ trường, sao cho tiếp tuyến tại mỗi điểm trùng với hướng của từ trường tại điểm đó.\n' +
+      '— Các đặc điểm của đường sức từ:\n' +
+      '  1. Qua mỗi điểm trong không gian chỉ vẽ được một đường sức từ duy nhất.\n' +
+      '  2. Các đường sức từ là những đường cong khép kín hoặc vô hạn ở hai đầu.\n' +
+      '  3. Quy ước chiều đường sức từ: Đi ra từ cực Bắc (N) và đi vào cực Nam (S) của nam châm.\n' +
+      '  4. Nơi nào từ trường mạnh thì đường sức từ vẽ dày, nơi nào từ trường yếu thì đường sức từ vẽ thưa.\n\n' +
+      'TỪ PHỔ:\n' +
       '— Từ phổ: Hình ảnh các đường sức từ được hình thành bởi các mạt sắt rắc trên tấm phẳng đặt trong từ trường. Từ phổ giúp ta hình dung trực quan hình dạng của từ trường.',
     workedExample: {
       problem: 'Trình bày đặc điểm và chiều của đường sức từ bên ngoài một thanh nam châm thẳng.',
@@ -76,6 +76,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Đi ra từ cực Bắc (N) và đi vào cực Nam (S).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -89,19 +90,19 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
       'Làm thế nào để tạo ra chuyển động quay của động cơ điện trong quạt hay máy bơm? ' +
       'Tất cả hoạt động dựa trên lực từ tác dụng lên dây dẫn có dòng điện chạy qua đặt trong từ trường.',
     theory:
-      'LỰC TỪ TÁC DỤNG LÊN ĐOẠN DÂY DẪN THẲNG MANG DÒNG ĐIỆN:\\n' +
-      'Một đoạn dây dẫn thẳng có chiều dài L, mang dòng điện I, đặt trong từ trường đều có cảm ứng từ B, chịu tác dụng của lực từ F:\\n' +
-      '— Độ lớn (Công thức Ampere):\\n' +
-      '  F = B * I * L * sin(theta)\\n' +
-      'Trong đó theta là góc hợp bởi chiều dòng điện (hướng của dây) và chiều cảm ứng từ B.\\n' +
-      '— Chiều: Xác định theo Quy tắc bàn tay trái:\\n' +
-      '  + Đặt bàn tay trái sao cho các đường sức từ đâm vào lòng bàn tay.\\n' +
-      '  + Chiều từ cổ tay đến ngón tay giữa trùng với chiều dòng điện.\\n' +
-      '  + Ngón tay cái choãi ra 90 độ chỉ chiều của lực từ F.\\n\\n' +
-      'CẢM ỨNG TỪ:\\n' +
-      '— Cảm ứng từ (B): Đại lượng vectơ đặc trưng cho từ trường về phương diện tác dụng lực. Vectơ cảm ứng từ B có:\\n' +
-      '  + Phương: Trùng với phương của nam châm thử cân bằng tại điểm đó.\\n' +
-      '  + Chiều: Từ cực Nam sang cực Bắc của nam châm thử.\\n' +
+      'LỰC TỪ TÁC DỤNG LÊN ĐOẠN DÂY DẪN THẲNG MANG DÒNG ĐIỆN:\n' +
+      'Một đoạn dây dẫn thẳng có chiều dài L, mang dòng điện I, đặt trong từ trường đều có cảm ứng từ B, chịu tác dụng của lực từ F:\n' +
+      '— Độ lớn (Công thức Ampere):\n' +
+      '  F = B * I * L * sin(theta)\n' +
+      'Trong đó theta là góc hợp bởi chiều dòng điện (hướng của dây) và chiều cảm ứng từ B.\n' +
+      '— Chiều: Xác định theo Quy tắc bàn tay trái:\n' +
+      '  + Đặt bàn tay trái sao cho các đường sức từ đâm vào lòng bàn tay.\n' +
+      '  + Chiều từ cổ tay đến ngón tay giữa trùng với chiều dòng điện.\n' +
+      '  + Ngón tay cái choãi ra 90 độ chỉ chiều của lực từ F.\n\n' +
+      'CẢM ỨNG TỪ:\n' +
+      '— Cảm ứng từ (B): Đại lượng vectơ đặc trưng cho từ trường về phương diện tác dụng lực. Vectơ cảm ứng từ B có:\n' +
+      '  + Phương: Trùng với phương của nam châm thử cân bằng tại điểm đó.\n' +
+      '  + Chiều: Từ cực Nam sang cực Bắc của nam châm thử.\n' +
       '— Đơn vị: Tesla (T).',
     workedExample: {
       problem:
@@ -154,6 +155,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Bằng 0 độ hoặc 180 độ (dây dẫn đặt song song đường sức từ).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -167,18 +169,18 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
       'Mỗi hình dạng dây dẫn khác nhau khi mang dòng điện sẽ tạo ra các đường sức từ có hình dạng và độ lớn khác nhau. ' +
       'Nắm vững các công thức này là nền tảng thiết kế các nam châm điện dùng trong công nghiệp.',
     theory:
-      'TỪ TRƯỜNG CỦA DÒNG ĐIỆN TRONG DÂY DẪN THẲNG DÀI VÔ HẠN:\\n' +
-      '— Các đường sức từ là những đường tròn đồng tâm nằm trong mặt phẳng vuông góc với dây dẫn, tâm nằm trên dây dẫn.\\n' +
-      '— Chiều đường sức từ xác định bằng Quy tắc nắm tay phải.\\n' +
-      '— Độ lớn cảm ứng từ tại điểm cách dây dẫn khoảng cách r:\\n' +
-      '  B = 2 * 10⁻⁷ * I / r\\n\\n' +
-      'TỪ TRƯỜNG CỦA DÒNG ĐIỆN TRONG DÂY DẪN UỐN THÀNH VÒNG TRÒN:\\n' +
-      '— Độ lớn cảm ứng từ tại tâm của vòng tròn bán kính R gồm N vòng dây quấn sát:\\n' +
-      '  B = 2pi * 10⁻⁷ * N * I / R\\n\\n' +
-      'TỪ TRƯỜNG CỦA DÒNG ĐIỆN TRONG ỐNG DÂY HÌNH TRỤ (SOLENOID):\\n' +
-      '— Từ trường bên trong lòng ống dây là từ trường đều, các đường sức từ thẳng song song đều nhau.\\n' +
-      '— Độ lớn cảm ứng từ bên trong lòng ống dây dài L có N vòng dây:\\n' +
-      '  B = 4pi * 10⁻⁷ * (N / L) * I = 4pi * 10⁻⁷ * n * I\\n' +
+      'TỪ TRƯỜNG CỦA DÒNG ĐIỆN TRONG DÂY DẪN THẲNG DÀI VÔ HẠN:\n' +
+      '— Các đường sức từ là những đường tròn đồng tâm nằm trong mặt phẳng vuông góc với dây dẫn, tâm nằm trên dây dẫn.\n' +
+      '— Chiều đường sức từ xác định bằng Quy tắc nắm tay phải.\n' +
+      '— Độ lớn cảm ứng từ tại điểm cách dây dẫn khoảng cách r:\n' +
+      '  B = 2 * 10⁻⁷ * I / r\n\n' +
+      'TỪ TRƯỜNG CỦA DÒNG ĐIỆN TRONG DÂY DẪN UỐN THÀNH VÒNG TRÒN:\n' +
+      '— Độ lớn cảm ứng từ tại tâm của vòng tròn bán kính R gồm N vòng dây quấn sát:\n' +
+      '  B = 2pi * 10⁻⁷ * N * I / R\n\n' +
+      'TỪ TRƯỜNG CỦA DÒNG ĐIỆN TRONG ỐNG DÂY HÌNH TRỤ (SOLENOID):\n' +
+      '— Từ trường bên trong lòng ống dây là từ trường đều, các đường sức từ thẳng song song đều nhau.\n' +
+      '— Độ lớn cảm ứng từ bên trong lòng ống dây dài L có N vòng dây:\n' +
+      '  B = 4pi * 10⁻⁷ * (N / L) * I = 4pi * 10⁻⁷ * n * I\n' +
       'Trong đó n = N/L là mật độ vòng dây.',
     workedExample: {
       problem:
@@ -236,10 +238,243 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
         dap: 'B = 2pi * 10^-7 * N * I / R.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
     id: 'ly12-c3-b15',
+    // Vì sao hạt mang điện đi vòng tròn trong từ trường đều: lực Lorentz luôn vuông góc vận tốc
+    // nên chỉ bẻ hướng, không làm hạt nhanh hay chậm đi.
+    animation: {
+      title: 'Hạt mang điện bay vào từ trường đều thì đi theo đường tròn',
+      description:
+        'Các dấu × rải đều trên hình biểu diễn từ trường đều B hướng vuông góc với mặt phẳng hình vẽ và đi từ ngoài vào trong trang giấy. Một hạt mang điện dương bay vào vùng từ trường này với vận tốc v vuông góc với B. Lực Lorentz f = q·v·B·sinα luôn vuông góc với cả v và B, nghĩa là nó luôn vuông góc với hướng đi của hạt: mũi tên lực (nét ngắn) luôn chỉ vào tâm đường tròn, còn mũi tên vận tốc luôn nằm theo tiếp tuyến. Lực vuông góc với đường đi thì KHÔNG sinh công, nên tốc độ của hạt không đổi, chỉ có hướng đổi liên tục — đúng điều kiện của chuyển động tròn đều. Cân bằng lực hướng tâm qvB = mv²/R cho bán kính quỹ đạo R = mv/(qB): hạt càng nặng hoặc bay càng nhanh thì vòng càng rộng, từ trường càng mạnh thì vòng càng hẹp. Nếu hạt mang điện âm, nó sẽ vòng theo chiều ngược lại với cùng bán kính đó.',
+      viewBoxWidth: 420,
+      viewBoxHeight: 240,
+      durationMs: 4000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'label',
+          id: 'b-1',
+          x: 40,
+          y: 40,
+          text: '×',
+          size: 18,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'b-2',
+          x: 110,
+          y: 40,
+          text: '×',
+          size: 18,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'b-3',
+          x: 180,
+          y: 40,
+          text: '×',
+          size: 18,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'b-4',
+          x: 250,
+          y: 40,
+          text: '×',
+          size: 18,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'b-5',
+          x: 40,
+          y: 110,
+          text: '×',
+          size: 18,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'b-6',
+          x: 110,
+          y: 110,
+          text: '×',
+          size: 18,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'b-7',
+          x: 180,
+          y: 110,
+          text: '×',
+          size: 18,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'b-8',
+          x: 250,
+          y: 110,
+          text: '×',
+          size: 18,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'b-9',
+          x: 40,
+          y: 180,
+          text: '×',
+          size: 18,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'b-10',
+          x: 110,
+          y: 180,
+          text: '×',
+          size: 18,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'b-11',
+          x: 180,
+          y: 180,
+          text: '×',
+          size: 18,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'b-12',
+          x: 250,
+          y: 180,
+          text: '×',
+          size: 18,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'circle',
+          id: 'quy-dao-tron',
+          cx: 120,
+          cy: 100,
+          r: 80,
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '5 5',
+        },
+        { kind: 'circle', id: 'tam-quy-dao', cx: 120, cy: 100, r: 3, fill: 'neutral' },
+        {
+          kind: 'circle',
+          id: 'hat-mang-dien',
+          cx: 120,
+          cy: 180,
+          r: 9,
+          fill: 'primary',
+          keyframes: [
+            { atMs: 0, dx: 0, dy: 0 },
+            { atMs: 500, dx: 56.6, dy: -23.4 },
+            { atMs: 1000, dx: 80, dy: -80 },
+            { atMs: 1500, dx: 56.6, dy: -136.6 },
+            { atMs: 2000, dx: 0, dy: -160 },
+            { atMs: 2500, dx: -56.6, dy: -136.6 },
+            { atMs: 3000, dx: -80, dy: -80 },
+            { atMs: 3500, dx: -56.6, dy: -23.4 },
+            { atMs: 4000, dx: 0, dy: 0 },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'van-toc-vao',
+          x1: 60,
+          y1: 180,
+          x2: 108,
+          y2: 180,
+          stroke: 'primary',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'arrow',
+          id: 'luc-lorentz',
+          x1: 120,
+          y1: 170,
+          x2: 120,
+          y2: 118,
+          stroke: 'accent',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'label',
+          id: 'nhan-v',
+          x: 62,
+          y: 200,
+          text: 'v',
+          size: 14,
+          anchor: 'start',
+          fill: 'primary',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-f',
+          x: 132,
+          y: 146,
+          text: 'f ⊥ v (hướng vào tâm)',
+          size: 12,
+          anchor: 'start',
+          fill: 'accent',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-b',
+          x: 300,
+          y: 40,
+          text: 'B vuông góc, hướng vào trong trang',
+          size: 12,
+          anchor: 'start',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-r',
+          x: 300,
+          y: 120,
+          text: 'R = mv / (qB)',
+          size: 14,
+          anchor: 'start',
+          fill: 'neutral',
+        },
+      ],
+      captions: [
+        { atMs: 0, text: 'Hạt dương bay vào vùng từ trường với v vuông góc B.' },
+        {
+          atMs: 1000,
+          text: 'Lực Lorentz luôn vuông góc với vận tốc nên chỉ bẻ hướng, không sinh công.',
+        },
+        { atMs: 2000, text: 'Tốc độ không đổi, hướng đổi đều — đó chính là chuyển động tròn đều.' },
+        { atMs: 4000, text: 'Bán kính R = mv/(qB); từ trường mạnh hơn thì vòng tròn hẹp lại.' },
+      ],
+    },
     grade: '12',
     chapterNumber: 3,
     chapterTitle: 'Từ trường',
@@ -249,21 +484,21 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
       'Từ trường của Trái Đất đóng vai trò như một lá chắn bảo vệ chúng ta khỏi luồng bức xạ vũ trụ có hại bằng cách ' +
       'bẻ cong đường đi của các hạt mang điện, tạo nên những dải cực quang tuyệt đẹp ở hai đầu cực. Lực bẻ cong đó chính là lực Lorentz.',
     theory:
-      'ĐỊNH NGHĨA LỰC LORENTZ:\\n' +
-      '— Lực Lorentz: Là lực do từ trường tác dụng lên một hạt mang điện chuyển động.\\n\\n' +
-      'ĐẶC ĐIỂM CỦA LỰC LORENTZ:\\n' +
-      'Một hạt có điện tích q chuyển động với vận tốc v trong từ trường đều B:\\n' +
-      '— Độ lớn: F = |q| * v * B * sin(theta)\\n' +
-      'Trong đó theta là góc giữa vectơ vận tốc v và vectơ cảm ứng từ B.\\n' +
-      '— Phương: Vuông góc với cả v và B.\\n' +
-      '— Chiều: Xác định bằng Quy tắc bàn tay trái:\\n' +
-      '  + Đặt bàn tay trái sao cho các đường sức từ đâm vào lòng bàn tay.\\n' +
-      '  + Chiều từ cổ tay đến ngón tay giữa trùng với chiều vận tốc v của hạt.\\n' +
-      '  + Nếu q > 0: Ngón tay cái choãi ra 90 độ chỉ chiều lực Lorentz.\\n' +
-      '  + Nếu q < 0: Lực Lorentz có chiều ngược với chiều chỉ của ngón tay cái.\\n\\n' +
-      'CHUYỂN ĐỘNG CỦA HẠT MANG ĐIỆN TRONG TỪ TRƯỜNG ĐỀU:\\n' +
-      'Khi hạt bay vuông góc với các đường sức từ (theta = 90 độ):\\n' +
-      '— Lực Lorentz đóng vai trò lực hướng tâm làm hạt chuyển động tròn đều.\\n' +
+      'ĐỊNH NGHĨA LỰC LORENTZ:\n' +
+      '— Lực Lorentz: Là lực do từ trường tác dụng lên một hạt mang điện chuyển động.\n\n' +
+      'ĐẶC ĐIỂM CỦA LỰC LORENTZ:\n' +
+      'Một hạt có điện tích q chuyển động với vận tốc v trong từ trường đều B:\n' +
+      '— Độ lớn: F = |q| * v * B * sin(theta)\n' +
+      'Trong đó theta là góc giữa vectơ vận tốc v và vectơ cảm ứng từ B.\n' +
+      '— Phương: Vuông góc với cả v và B.\n' +
+      '— Chiều: Xác định bằng Quy tắc bàn tay trái:\n' +
+      '  + Đặt bàn tay trái sao cho các đường sức từ đâm vào lòng bàn tay.\n' +
+      '  + Chiều từ cổ tay đến ngón tay giữa trùng với chiều vận tốc v của hạt.\n' +
+      '  + Nếu q > 0: Ngón tay cái choãi ra 90 độ chỉ chiều lực Lorentz.\n' +
+      '  + Nếu q < 0: Lực Lorentz có chiều ngược với chiều chỉ của ngón tay cái.\n\n' +
+      'CHUYỂN ĐỘNG CỦA HẠT MANG ĐIỆN TRONG TỪ TRƯỜNG ĐỀU:\n' +
+      'Khi hạt bay vuông góc với các đường sức từ (theta = 90 độ):\n' +
+      '— Lực Lorentz đóng vai trò lực hướng tâm làm hạt chuyển động tròn đều.\n' +
       '— Bán kính quỹ đạo tròn: R = (m * v) / (|q| * B).',
     workedExample: {
       problem:
@@ -316,6 +551,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
         dap: 'R = m * v / (|q| * B).',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -329,15 +565,15 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
       'Khi ta đột ngột rút phích cắm điện của một lò sưởi hay bóng đèn công suất lớn, ta thường thấy một tia lửa điện nhỏ phát ra. ' +
       'Hiện tượng này do chính cuộn dây trong mạch sinh ra nhằm chống lại sự giảm nhanh của dòng điện. Đó là hiện tượng tự cảm.',
     theory:
-      'TỪ THÔNG RIÊNG CỦA MỘT MẠCH KÍN:\\n' +
-      '— Khi có dòng điện cường độ i chạy qua mạch kín, nó tạo từ thông riêng:\\n' +
-      '  Phi = L * i\\n' +
-      'Trong đó L là độ tự cảm (hệ số tự cảm) của mạch. Đơn vị là Henry (H).\\n\\n' +
-      'HIỆN TƯỢNG TỰ CẢM:\\n' +
-      '— Hiện tượng tự cảm: Là hiện tượng cảm ứng điện từ xảy ra trong một mạch kín do chính sự biến đổi của cường độ dòng điện trong mạch đó gây ra.\\n\\n' +
-      'SUẤT ĐIỆN ĐỘNG TỰ CẢM:\\n' +
-      '— Khi dòng điện trong mạch biến thiên, xuất hiện suất điện động tự cảm:\\n' +
-      '  etc = -L * (di / dt)\\n' +
+      'TỪ THÔNG RIÊNG CỦA MỘT MẠCH KÍN:\n' +
+      '— Khi có dòng điện cường độ i chạy qua mạch kín, nó tạo từ thông riêng:\n' +
+      '  Phi = L * i\n' +
+      'Trong đó L là độ tự cảm (hệ số tự cảm) của mạch. Đơn vị là Henry (H).\n\n' +
+      'HIỆN TƯỢNG TỰ CẢM:\n' +
+      '— Hiện tượng tự cảm: Là hiện tượng cảm ứng điện từ xảy ra trong một mạch kín do chính sự biến đổi của cường độ dòng điện trong mạch đó gây ra.\n\n' +
+      'SUẤT ĐIỆN ĐỘNG TỰ CẢM:\n' +
+      '— Khi dòng điện trong mạch biến thiên, xuất hiện suất điện động tự cảm:\n' +
+      '  etc = -L * (di / dt)\n' +
       '— Độ lớn của suất điện động tự cảm tỉ lệ thuận với tốc độ biến thiên cường độ dòng điện trong mạch.',
     workedExample: {
       problem:
@@ -388,6 +624,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Tốc độ biến thiên cường độ dòng điện trong mạch.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -401,13 +638,13 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
       'Các nhà máy điện thường phát ra điện thế hàng kilôvôn, nhưng để truyền tải điện năng đi xa hàng trăm kilômét, người ta phải nâng điện áp lên hàng trăm kilôvôn, ' +
       'sau đó lại hạ xuống 220 V để đưa vào gia đình sử dụng. Thiết bị thực hiện nhiệm vụ này một cách hiệu quả là máy biến áp.',
     theory:
-      'MÁY BIẾN ÁP:\\n' +
-      '— Máy biến áp: Là thiết bị có khả năng biến đổi điện áp xoay chiều mà không làm thay đổi tần số.\\n' +
-      '— Cấu tạo: Gồm hai cuộn dây sơ cấp (N1 vòng) và thứ cấp (N2 vòng) quấn trên cùng lõi sắt non pha silic.\\n' +
-      '— Công thức máy biến áp lí tưởng: U2 / U1 = I1 / I2 = N2 / N1.\\n' +
-      '— Phân loại: N2 > N1: Máy tăng áp; N2 < N1: Máy hạ áp.\\n\\n' +
-      'TRUYỀN TẢI ĐIỆN NĂNG ĐI XA:\\n' +
-      '— Hao phí điện năng do toả nhiệt trên đường dây: Php = r * I² = r * P² / (U² * cos²(phi)).\\n' +
+      'MÁY BIẾN ÁP:\n' +
+      '— Máy biến áp: Là thiết bị có khả năng biến đổi điện áp xoay chiều mà không làm thay đổi tần số.\n' +
+      '— Cấu tạo: Gồm hai cuộn dây sơ cấp (N1 vòng) và thứ cấp (N2 vòng) quấn trên cùng lõi sắt non pha silic.\n' +
+      '— Công thức máy biến áp lí tưởng: U2 / U1 = I1 / I2 = N2 / N1.\n' +
+      '— Phân loại: N2 > N1: Máy tăng áp; N2 < N1: Máy hạ áp.\n\n' +
+      'TRUYỀN TẢI ĐIỆN NĂNG ĐI XA:\n' +
+      '— Hao phí điện năng do toả nhiệt trên đường dây: Php = r * I² = r * P² / (U² * cos²(phi)).\n' +
       '— Để giảm hao phí Php, giải pháp hiệu quả nhất là tăng điện áp truyền tải U trước khi đưa lên dây dẫn. Tăng U lên k lần thì hao phí Php giảm đi k² lần.',
     workedExample: {
       problem:
@@ -466,6 +703,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Giảm đi 25 lần.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -479,15 +717,15 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
       'Làm thế nào một đoàn tàu cao tốc Maglev nặng hàng chục tấn có thể "lơ lửng" trên không trung và lao đi với vận tốc 600 km/h? ' +
       'Làm sao máy chụp MRI có thể nhìn thấy chi tiết tế bào não mà không cần phẫu thuật? Tất cả là nhờ các ứng dụng kỳ diệu của từ trường.',
     theory:
-      'NAM CHÂM ĐIỆN CÔNG NGHIỆP:\\n' +
-      '— Cấu tạo gồm cuộn dây điện quấn quanh lõi sắt non. Lõi sắt non làm tăng từ trường lên nhiều lần và mất hết từ tính khi ngắt điện.\\n' +
-      '— Ứng dụng: Cần cẩu điện hút kim loại vụn.\\n\\n' +
-      'ĐỘNG CƠ ĐIỆN VÀ LOA ĐIỆN:\\n' +
-      '— Động cơ điện: Biến đổi điện năng thành cơ năng dựa trên lực từ tác dụng lên cuộn dây mang điện đặt trong từ trường làm rotor quay.\\n' +
-      '— Loa điện: Dòng điện xoay chiều âm tần chạy vào cuộn dây đặt trong từ trường biến thiên làm rung màng loa tạo sóng âm.\\n\\n' +
-      'TÀU ĐỆM TỪ (MAGLEV):\\n' +
-      '— Sử dụng lực đẩy và lực hút từ trường của nam châm siêu dẫn cực mạnh để nâng tàu lơ lửng trên đường ray (triệt tiêu ma sát) và đẩy tàu tiến lên.\\n\\n' +
-      'CHỤP CỘNG HƯỞNG TỪ (MRI):\\n' +
+      'NAM CHÂM ĐIỆN CÔNG NGHIỆP:\n' +
+      '— Cấu tạo gồm cuộn dây điện quấn quanh lõi sắt non. Lõi sắt non làm tăng từ trường lên nhiều lần và mất hết từ tính khi ngắt điện.\n' +
+      '— Ứng dụng: Cần cẩu điện hút kim loại vụn.\n\n' +
+      'ĐỘNG CƠ ĐIỆN VÀ LOA ĐIỆN:\n' +
+      '— Động cơ điện: Biến đổi điện năng thành cơ năng dựa trên lực từ tác dụng lên cuộn dây mang điện đặt trong từ trường làm rotor quay.\n' +
+      '— Loa điện: Dòng điện xoay chiều âm tần chạy vào cuộn dây đặt trong từ trường biến thiên làm rung màng loa tạo sóng âm.\n\n' +
+      'TÀU ĐỆM TỪ (MAGLEV):\n' +
+      '— Sử dụng lực đẩy và lực hút từ trường của nam châm siêu dẫn cực mạnh để nâng tàu lơ lửng trên đường ray (triệt tiêu ma sát) và đẩy tàu tiến lên.\n\n' +
+      'CHỤP CỘNG HƯỞNG TỪ (MRI):\n' +
       '— Sử dụng từ trường mạnh của nam châm siêu dẫn và sóng vô tuyến để định hướng lại mômen từ nguyên tử hydro trong cơ thể tạo ảnh sắc nét.',
     workedExample: {
       problem: 'Nêu nguyên lí hoạt động cơ bản của loa điện dùng trong các thiết bị âm thanh.',
@@ -544,6 +782,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Vì sắt non mất từ tính rất nhanh khi ngắt dòng điện, giúp điều khiển nam châm dễ dàng.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
   {
@@ -555,10 +794,10 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
     title: 'Bài tập về từ trường',
     hook: 'Tổng hợp và giải quyết các bài tập nâng cao về từ trường giúp hệ thống lại toàn bộ kiến thức về lực từ, lực Lorentz, tự cảm và máy biến áp.',
     theory:
-      'HỆ THỐNG CÔNG THỨC TRỌNG TÂM:\\n' +
-      '1. Lực từ: F = B * I * L * sin(theta)\\n' +
-      '2. Lực Lorentz: F = |q| * v * B * sin(theta)\\n' +
-      '3. Suất điện động tự cảm: etc = -L * (di / dt)\\n' +
+      'HỆ THỐNG CÔNG THỨC TRỌNG TÂM:\n' +
+      '1. Lực từ: F = B * I * L * sin(theta)\n' +
+      '2. Lực Lorentz: F = |q| * v * B * sin(theta)\n' +
+      '3. Suất điện động tự cảm: etc = -L * (di / dt)\n' +
       '4. Máy biến áp lý tưởng: U2 / U1 = N2 / N1',
     workedExample: {
       problem:
@@ -606,6 +845,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
         dap: 'Khi có sự biến thiên của cường độ dòng điện trong chính mạch đó.',
       },
     ],
+    track: 'core',
     reviewStatus: 'draft',
   },
 ]
