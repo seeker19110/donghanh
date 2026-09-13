@@ -66,9 +66,15 @@ function normalizeNumberLiteral(literal: string): string {
   }
 
   // Quy tắc 2: đúng 3 chữ số theo sau và có chữ số phía trước → phân nhóm nghìn.
+  // NGOẠI LỆ: phần nguyên bằng 0 thì KHÔNG thể là phân nhóm nghìn — chẳng ai viết 866 thành
+  // "0.866". Thiếu ngoại lệ này thì học sinh gõ `0,866` (cos30°, sin60°… vô số đáp án lượng
+  // giác và xác suất) bị chấm SAI vì hiểu thành 866. Đã dính thật 2026-09-13.
   const before = parts[0] ?? ''
   const after = parts[1] ?? ''
-  if (after.length === 3 && before.length > 0) return parts.join('')
+  const beforeDigits = before.replace(/^[+-]/, '')
+  if (after.length === 3 && beforeDigits.length > 0 && Number(beforeDigits) !== 0) {
+    return parts.join('')
+  }
 
   // Quy tắc 3
   return parts.join('.')
