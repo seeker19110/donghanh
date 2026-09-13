@@ -37,9 +37,20 @@ describe('chỉ mục nạp lười môn Vật lí', () => {
     }
   })
 
-  it('nạp lười trả về đúng bài', async () => {
-    const first = LESSON_INDEX[0]!
-    const lessons = await CHAPTER_LOADERS[first.chapterKey]!()
-    expect(lessons.some((l) => l.id === first.id)).toBe(true)
+  it('MỌI tệp chương nạp được và chứa đúng những bài chỉ mục nói nó chứa', async () => {
+    // Nạp hết chứ không chỉ chương đầu: một tệp chương lỗi cú pháp hay đổi tên hằng xuất ra
+    // sẽ làm người học mở bài lên thấy trang trắng, mà chỉ ca này bắt được.
+    for (const [chapterKey, nap] of Object.entries(CHAPTER_LOADERS)) {
+      const lessons = await nap()
+      const idTrongTep = new Set(lessons.map((l) => l.id))
+      const idTheoChiMuc = LESSON_INDEX.filter((s) => s.chapterKey === chapterKey).map((s) => s.id)
+      expect(
+        idTheoChiMuc.length,
+        `${NHAC} (chương ${chapterKey} không có bài nào)`,
+      ).toBeGreaterThan(0)
+      for (const id of idTheoChiMuc) {
+        expect(idTrongTep.has(id), `${NHAC} (chương ${chapterKey} thiếu bài ${id})`).toBe(true)
+      }
+    }
   })
 })
