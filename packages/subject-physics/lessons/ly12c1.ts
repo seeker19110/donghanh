@@ -287,7 +287,8 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
           value: 21000,
           unit: 'J',
         },
-        explain: 'Q = m * c * Δt = 0,5 * 4200 * 10 = 21000 J.',
+        explain:
+          'Q = m * c * Δt = 0,5 * 4200 * 10 = 21000 J. Δt ở đây là ĐỘ TĂNG nhiệt độ (K hoặc °C đều được vì là hiệu số), khác với việc đổi nhiệt độ tuyệt đối T sang Kelvin.',
       },
     ],
     srsCards: [
@@ -354,7 +355,8 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
           value: 3,
           unit: 'kg',
         },
-        explain: 'Q = λ * m  ⇒  m = Q / λ = 6 * 10⁵ / (2 * 10⁵) = 3 kg.',
+        explain:
+          'Q = λ * m  ⇒  m = Q / λ = 6 * 10⁵ / (2 * 10⁵) = 3 kg. Công thức này chỉ dùng khi vật ĐÃ ở đúng nhiệt độ nóng chảy — không cộng thêm nhiệt lượng làm nóng vật trước đó.',
       },
     ],
     srsCards: [

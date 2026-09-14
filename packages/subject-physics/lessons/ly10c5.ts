@@ -59,7 +59,8 @@ export const LY10_C5_LESSONS: PhysicsLesson[] = [
           value: 10,
           unit: 'kg*m/s',
         },
-        explain: 'Δp = F * Δt = 50 * 0,2 = 10 kg.m/s (hoặc N.s).',
+        explain:
+          'Δp = F * Δt = 50 * 0,2 = 10 kg.m/s (hoặc N.s). Đây là dạng khác của định luật II Newton: xung lực F.Δt gây ra độ biến thiên động lượng của vật.',
       },
     ],
     srsCards: [

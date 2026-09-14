@@ -57,7 +57,8 @@ export const HOA10_C6_LESSONS: ChemLesson[] = [
           'Một phản ứng có hệ số nhiệt độ γ = 3. Nếu tăng nhiệt độ thêm 20°C, tốc độ phản ' +
           'ứng tăng bao nhiêu lần? (chỉ nhập số)',
         answer: { kind: 'numeric', value: 9 },
-        explain: 'Số lần tăng 10°C = 20/10 = 2. Tốc độ tăng γ^n = 3² = 9 lần.',
+        explain:
+          "Số lần tăng 10°C = 20/10 = 2. Tốc độ tăng γ^n = 3² = 9 lần. Đây là quy tắc Van't Hoff: cứ tăng thêm 10°C, tốc độ phản ứng tăng γ lần (γ thường 2-4 tuỳ phản ứng).",
       },
       {
         // Câu BẪY: nhầm "xúc tác làm phản ứng xảy ra nhiều hơn / tạo nhiều sản phẩm hơn".

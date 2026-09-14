@@ -354,7 +354,8 @@ export const HOA11_C1_LESSONS: ChemLesson[] = [
       {
         prompt: 'Một dung dịch có nồng độ [H⁺] = 10⁻⁹ M ở 25 °C. Hãy tính pH của dung dịch này.',
         answer: { kind: 'numeric', value: 9 },
-        explain: 'Theo công thức: pH = −log[H⁺] = −log(10⁻⁹) = 9.',
+        explain:
+          'Theo công thức: pH = −log[H⁺] = −log(10⁻⁹) = 9. pH = 9 > 7 nên dung dịch có tính base (kiềm); nồng độ H⁺ càng nhỏ thì pH càng lớn — dễ nhầm chiều nếu không để ý dấu trừ.',
       },
       {
         // Câu BẪY: quên H₂SO₄ điện li cho HAI ion H⁺ — lỗi "nhầm nồng độ chất với nồng độ H⁺".

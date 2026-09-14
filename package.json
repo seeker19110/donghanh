@@ -78,6 +78,7 @@
     "gen:feature-map": "tsx scripts/gen-feature-map.ts",
     "gen:stem-lesson-index": "tsx scripts/gen-stem-lesson-index.ts",
     "review:status": "tsx scripts/review-status.ts",
+    "export:review-queue": "tsx scripts/export-review-queue.ts",
     "review:sync": "tsx scripts/review-sync.ts"
   },
   "dependencies": {

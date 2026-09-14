@@ -192,7 +192,8 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
           value: 5,
           unit: 'N',
         },
-        explain: 'Hai lực vuông góc nên F = √(3² + 4²) = √25 = 5 N.',
+        explain:
+          'Hai lực vuông góc nên F = √(3² + 4²) = √25 = 5 N. Đây là quy tắc hình bình hành: khi hai lực thành phần vuông góc, hợp lực tính theo Pythagoras thay vì cộng đại số trực tiếp.',
       },
       {
         prompt:
@@ -680,7 +681,8 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
           kind: 'choice',
           correctIds: ['ct_1'],
         },
-        explain: 'Trọng lượng P bằng khối lượng m nhân với gia tốc g: P = mg.',
+        explain:
+          'Trọng lượng P bằng khối lượng m nhân với gia tốc g: P = mg. P là lực (đơn vị N), khác khối lượng m (đơn vị kg) — nhầm hai đại lượng này là lỗi rất phổ biến.',
       },
       {
         prompt: 'Chiều của lực căng dây tác dụng lên vật có đặc điểm gì?',
@@ -992,7 +994,8 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
           kind: 'choice',
           correctIds: ['ct_1'],
         },
-        explain: 'Moment lực bằng tích lực nhân cánh tay đòn: M = F*d.',
+        explain:
+          'Moment lực bằng tích lực nhân cánh tay đòn: M = F*d. Cánh tay đòn d là khoảng cách VUÔNG GÓC từ trục quay đến giá của lực, không phải khoảng cách bất kỳ đến điểm đặt lực.',
       },
       {
         prompt: 'Đơn vị đo chuẩn của moment lực trong hệ SI là gì?',

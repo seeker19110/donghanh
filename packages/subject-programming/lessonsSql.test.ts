@@ -24,11 +24,13 @@ interface RunOutcome {
   error?: string
 }
 
-/** Mở CSDL mới tinh, nạp dữ liệu mẫu, chạy câu của học viên — mỗi lượt một CSDL sạch. */
-function runSql(sql: string): RunOutcome {
+/** Mở CSDL mới tinh, nạp dữ liệu mẫu, chạy câu của học viên — mỗi lượt một CSDL sạch.
+ *  `seed` cho phép mỗi ca chấm dùng bộ dữ liệu riêng (testCase.datasetSql); bỏ trống thì
+ *  dùng SQL_SEED mặc định, đúng hành vi cũ. */
+function runSql(sql: string, seed: string = SQL_SEED): RunOutcome {
   const db = new SQL.Database()
   try {
-    db.run(SQL_SEED)
+    db.run(seed)
     const tables = db.exec(sql) as SqlResultTable[]
     return { output: formatSqlResults(tables) }
   } catch (err) {
@@ -40,7 +42,7 @@ function runSql(sql: string): RunOutcome {
 
 function gradeAll(sql: string, cases: ProgrammingTestCase[]) {
   return cases.map((c) => {
-    const r = runSql(sql)
+    const r = runSql(sql, c.datasetSql ?? SQL_SEED)
     return gradeTestCase(c, r.output, r.error)
   })
 }

@@ -9,7 +9,7 @@
 // File .wasm tự host tại /sqljs/sql-wasm.wasm (copy trong vite.config.ts), KHÔNG dùng CDN.
 //
 // Giao thức message — cố ý giống pyodideWorker/jsWorker để ba bộ chạy dùng chung hình dạng:
-//  vào : { type: 'run', id, code }
+//  vào : { type: 'run', id, code, seed? }   (seed: bộ dữ liệu riêng của ca chấm, mặc định SQL_SEED)
 //  ra  : { type: 'loading', id } | { type: 'ready', id }
 //        { type: 'stdout', id, text } | { type: 'done', id, durationMs }
 //        { type: 'error', id, message }
@@ -21,6 +21,9 @@ interface RunRequest {
   type: 'run'
   id: number
   code: string
+  /** Bộ dữ liệu riêng cho lượt chạy này (testCase.datasetSql). Không có thì dùng SQL_SEED —
+   *  ĐÚNG một luật với cổng CI (lessonsSql.test.ts), để học viên và cổng không chấm lệch. */
+  seed?: string
 }
 
 const scope = self as unknown as {
@@ -41,7 +44,7 @@ function getSql(id: number): Promise<SqlModule> {
 }
 
 scope.onmessage = async (e: MessageEvent<RunRequest>) => {
-  const { id, code } = e.data
+  const { id, code, seed } = e.data
   let SQL: SqlModule
   try {
     SQL = await getSql(id)
@@ -60,7 +63,7 @@ scope.onmessage = async (e: MessageEvent<RunRequest>) => {
   const startedAt = Date.now()
   const db = new SQL.Database()
   try {
-    db.run(SQL_SEED)
+    db.run(seed ?? SQL_SEED)
     const tables = db.exec(code) as SqlResultTable[]
     scope.postMessage({ type: 'stdout', id, text: formatSqlResults(tables) })
     scope.postMessage({ type: 'done', id, durationMs: Date.now() - startedAt })

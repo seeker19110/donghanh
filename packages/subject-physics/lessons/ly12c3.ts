@@ -600,7 +600,8 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
           kind: 'choice',
           correctIds: ['l_1'],
         },
-        explain: 'Đơn vị đo hệ số tự cảm (độ tự cảm) L là Henry (H).',
+        explain:
+          'Đơn vị đo hệ số tự cảm (độ tự cảm) L là Henry (H). L đặc trưng cho khả năng ống dây tự cảm sinh suất điện động cảm ứng khi dòng điện qua nó biến thiên: e = -L.ΔI/Δt.',
       },
       {
         prompt:
@@ -834,7 +835,8 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
           value: 11,
           unit: 'V',
         },
-        explain: 'U2 = U1 * (N2 / N1) = 220 * (110 / 2200) = 11 V.',
+        explain:
+          'U2 = U1 * (N2 / N1) = 220 * (110 / 2200) = 11 V. Số vòng thứ cấp ít hơn sơ cấp (N2 < N1) nên đây là máy hạ áp — dễ nhầm lẫn nếu quên tỉ lệ thuận giữa U và N.',
       },
     ],
     srsCards: [

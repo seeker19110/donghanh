@@ -133,7 +133,8 @@ export const LY12_C2_LESSONS: PhysicsLesson[] = [
           kind: 'choice',
           correctIds: ['r_1'],
         },
-        explain: 'Trong hệ SI, hằng số khí R = 8.31 J/(mol.K).',
+        explain:
+          'Trong hệ SI, hằng số khí R = 8.31 J/(mol.K). R xuất hiện trong phương trình trạng thái khí lý tưởng pV = nRT, với T phải lấy theo nhiệt độ tuyệt đối (Kelvin), không phải °C.',
       },
       {
         prompt:

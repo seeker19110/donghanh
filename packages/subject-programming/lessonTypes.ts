@@ -19,6 +19,12 @@ export const TestCaseSchema = z
     hidden: z.boolean().default(false),
     /** Mô tả ngắn hiện cho học viên (vd "180 kWh → 380.870 đồng"). */
     label: z.string().min(1).max(200),
+    /** Bài SQL: BỘ DỮ LIỆU RIÊNG của ca chấm này (DDL + INSERT), nạp thay cho SQL_SEED mặc
+     *  định trước khi chạy câu của học viên. Để trống thì dùng SQL_SEED như cũ — nhờ vậy mọi
+     *  bài soạn trước vẫn giữ nguyên hành vi. Mục đích: một bài chấm được trên NHIỀU cảnh dữ
+     *  liệu (có NULL, bảng rỗng, thứ tự khác) để bắt lời giải chỉ đúng với đúng một bộ số.
+     *  Ngôn ngữ khác SQL bỏ qua trường này. */
+    datasetSql: z.string().min(1).max(4000).optional(),
   })
   .strict()
 
