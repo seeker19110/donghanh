@@ -100,6 +100,43 @@ describe('trang bài học STEM', () => {
     expect(chu).toContain(bai.animation!.description)
   })
 
+  it('bài chưa duyệt chuyên môn thì trang bài NÓI RA điều đó', async () => {
+    // Audit 2026-09-14 (F1): 294/294 bài STEM là `draft` mà không màn nào hé lộ. Test này canh
+    // để cảnh báo không biến mất im lặng khi ai đó sửa lại trang.
+    const bai = (await PHYSICS_LOADER.loadLesson('ly10-c2-b10'))!
+    expect(bai.reviewStatus, 'ca test mất nghĩa nếu bài mẫu đã được duyệt').toBe('draft')
+    await act(async () => {
+      root.render(
+        <MemoryRouter initialEntries={[duongDanBaiHoc('physics', bai.id, bai.title)]}>
+          <Routes>
+            <Route path="/mon-hoc/:subjectId/bai-hoc/:lessonSlug" element={<StemLessonView />} />
+          </Routes>
+        </MemoryRouter>,
+      )
+    })
+    expect(container.textContent ?? '').toContain('chưa duyệt chuyên môn')
+  })
+
+  it('danh sách bài cũng nói rõ còn bao nhiêu bản nháp', () => {
+    const tong = PHYSICS_LOADER.listCoreByGrade('10').length
+    const nhap = PHYSICS_LOADER.listCoreByGrade('10').filter(
+      (b) => b.reviewStatus === 'draft',
+    ).length
+    expect(nhap, 'ca test mất nghĩa nếu không còn bản nháp nào').toBeGreaterThan(0)
+    act(() => {
+      root.render(
+        <MemoryRouter initialEntries={['/mon-hoc/physics/bai-hoc']}>
+          <Routes>
+            <Route path="/mon-hoc/:subjectId/bai-hoc" element={<StemLessonList />} />
+          </Routes>
+        </MemoryRouter>,
+      )
+    })
+    const chu = container.textContent ?? ''
+    expect(chu).toContain('chưa duyệt chuyên môn')
+    expect(chu).toContain(nhap === tong ? 'Toàn bộ' : `${nhap}/${tong}`)
+  })
+
   it('chấm câu trắc nghiệm ngay tại chỗ và giải thích khi sai', async () => {
     const bai = (await PHYSICS_LOADER.loadLesson('ly10-c2-b10'))!
     const cau = bai.checkQuestions.find((q) => q.answer.kind === 'choice')!

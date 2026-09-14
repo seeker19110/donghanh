@@ -166,7 +166,7 @@ export const HOA11_C6_LESSONS: ChemLesson[] = [
     chapterNumber: 6,
     chapterTitle: 'Hợp chất carbonyl - Carboxylic acid',
     lessonNumber: 25,
-    title: 'Ôn tập chương 6',
+    title: 'Ôn tập chương 6 — Hợp chất carbonyl - Carboxylic acid',
     hook:
       'Ôn tập và liên kết hai lớp dẫn xuất chứa oxygen đỉnh cao: hợp chất carbonyl và carboxylic acid, ' +
       'hoàn thành lộ trình Hoá học hữu cơ lớp 11 của chúng ta.',

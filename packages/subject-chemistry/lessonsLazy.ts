@@ -15,6 +15,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-truong',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa-hsg-dung-dich',
   },
   {
@@ -27,6 +28,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-tinh',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa-hsg-dung-dich',
   },
   {
@@ -39,6 +41,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-quoc-gia',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa-hsg-dung-dich',
   },
   {
@@ -51,6 +54,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-truong',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa-hsg-huu-co-va-hon-hop',
   },
   {
@@ -63,6 +67,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-tinh',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa-hsg-huu-co-va-hon-hop',
   },
   {
@@ -75,6 +80,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-quoc-gia',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa-hsg-huu-co-va-hon-hop',
   },
   {
@@ -87,6 +93,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-truong',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa-hsg-nhiet-dong-hoc',
   },
   {
@@ -99,6 +106,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-tinh',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa-hsg-nhiet-dong-hoc',
   },
   {
@@ -111,6 +119,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-quoc-gia',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa-hsg-nhiet-dong-hoc',
   },
   {
@@ -122,6 +131,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Nhập môn Hoá học',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa10c1',
   },
   {
@@ -133,6 +143,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thành phần của nguyên tử',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'hoa10c1',
   },
   {
@@ -144,6 +155,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Nguyên tố hoá học',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa10c1',
   },
   {
@@ -155,6 +167,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Cấu trúc lớp vỏ electron nguyên tử',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'hoa10c1',
   },
   {
@@ -166,6 +179,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Cấu tạo của bảng tuần hoàn các nguyên tố hoá học',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa10c2',
   },
   {
@@ -177,6 +191,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Xu hướng biến đổi một số tính chất của nguyên tử trong một chu kì và một nhóm',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa10c2',
   },
   {
@@ -188,6 +203,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Xu hướng biến đổi thành phần và một số tính chất của hợp chất trong một chu kì',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa10c2',
   },
   {
@@ -199,6 +215,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Định luật tuần hoàn và ý nghĩa của bảng tuần hoàn các nguyên tố hoá học',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa10c2',
   },
   {
@@ -210,6 +227,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Quy tắc octet',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa10c3',
   },
   {
@@ -221,6 +239,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Liên kết ion',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'hoa10c3',
   },
   {
@@ -232,6 +251,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Liên kết cộng hoá trị',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'hoa10c3',
   },
   {
@@ -243,6 +263,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Liên kết hydrogen và tương tác van der Waals',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'hoa10c3',
   },
   {
@@ -254,6 +275,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Phản ứng oxi hoá - khử',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'hoa10c4',
   },
   {
@@ -265,6 +287,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Biến thiên enthalpy trong các phản ứng hoá học',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'hoa10c5',
   },
   {
@@ -276,6 +299,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Tốc độ phản ứng',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'hoa10c6',
   },
   {
@@ -287,6 +311,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Nhóm halogen',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa10c7',
   },
   {
@@ -298,6 +323,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Hydrogen halide và một số phản ứng của ion halide',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa10c7',
   },
   {
@@ -309,6 +335,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Khái niệm về cân bằng hoá học',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c1',
   },
   {
@@ -320,6 +347,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Cân bằng trong dung dịch nước',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c1',
   },
   {
@@ -328,9 +356,10 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     chapterNumber: 1,
     chapterTitle: 'Cân bằng hoá học',
     lessonNumber: 3,
-    title: 'Ôn tập chương 1',
+    title: 'Ôn tập chương 1 — Cân bằng hoá học',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c1',
   },
   {
@@ -342,6 +371,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Nitrogen',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c2',
   },
   {
@@ -353,6 +383,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Ammonia - Muối ammonium',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c2',
   },
   {
@@ -364,6 +395,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Một số hợp chất của nitrogen với oxygen',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c2',
   },
   {
@@ -375,6 +407,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Sulfur và sulfur dioxide',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c2',
   },
   {
@@ -386,6 +419,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Sulfuric acid và muối sulfate',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c2',
   },
   {
@@ -394,9 +428,10 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     chapterNumber: 2,
     chapterTitle: 'Nitrogen - Sulfur',
     lessonNumber: 9,
-    title: 'Ôn tập chương 2',
+    title: 'Ôn tập chương 2 — Nitrogen - Sulfur',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c2',
   },
   {
@@ -408,6 +443,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Hợp chất hữu cơ và hoá học hữu cơ',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c3',
   },
   {
@@ -419,6 +455,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Phương pháp tách biệt và tinh chế hợp chất hữu cơ',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c3',
   },
   {
@@ -430,6 +467,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Công thức phân tử hợp chất hữu cơ',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c3',
   },
   {
@@ -441,6 +479,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Cấu tạo hoá học hợp chất hữu cơ',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c3',
   },
   {
@@ -449,9 +488,10 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     chapterNumber: 3,
     chapterTitle: 'Đại cương hoá học hữu cơ',
     lessonNumber: 14,
-    title: 'Ôn tập chương 3',
+    title: 'Ôn tập chương 3 — Đại cương hoá học hữu cơ',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c3',
   },
   {
@@ -463,6 +503,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Alkane',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c4',
   },
   {
@@ -474,6 +515,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Hydrocarbon không no',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c4',
   },
   {
@@ -485,6 +527,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Arene (Hydrocarbon thơm)',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c4',
   },
   {
@@ -493,9 +536,10 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     chapterNumber: 4,
     chapterTitle: 'Hydrocarbon',
     lessonNumber: 18,
-    title: 'Ôn tập chương 4',
+    title: 'Ôn tập chương 4 — Hydrocarbon',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c4',
   },
   {
@@ -507,6 +551,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Dẫn xuất halogen',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c5',
   },
   {
@@ -518,6 +563,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Alcohol',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c5',
   },
   {
@@ -529,6 +575,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Phenol',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c5',
   },
   {
@@ -537,9 +584,10 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     chapterNumber: 5,
     chapterTitle: 'Dẫn xuất halogen - Alcohol - Phenol',
     lessonNumber: 22,
-    title: 'Ôn tập chương 5',
+    title: 'Ôn tập chương 5 — Dẫn xuất halogen - Alcohol - Phenol',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c5',
   },
   {
@@ -551,6 +599,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Hợp chất carbonyl',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c6',
   },
   {
@@ -562,6 +611,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Carboxylic acid',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c6',
   },
   {
@@ -570,9 +620,10 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     chapterNumber: 6,
     chapterTitle: 'Hợp chất carbonyl - Carboxylic acid',
     lessonNumber: 25,
-    title: 'Ôn tập chương 6',
+    title: 'Ôn tập chương 6 — Hợp chất carbonyl - Carboxylic acid',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa11c6',
   },
   {
@@ -584,6 +635,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Ester - Lipid',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c1',
   },
   {
@@ -595,6 +647,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Xà phòng và chất giặt rửa',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c1',
   },
   {
@@ -603,9 +656,10 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     chapterNumber: 1,
     chapterTitle: 'Ester - Lipid',
     lessonNumber: 3,
-    title: 'Ôn tập chương 1',
+    title: 'Ôn tập chương 1 — Ester - Lipid',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c1',
   },
   {
@@ -617,6 +671,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Glucose và fructose',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c2',
   },
   {
@@ -628,6 +683,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Saccharose và maltose',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c2',
   },
   {
@@ -639,6 +695,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Tinh bột và cellulose',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c2',
   },
   {
@@ -647,9 +704,10 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     chapterNumber: 2,
     chapterTitle: 'Carbohydrate',
     lessonNumber: 7,
-    title: 'Ôn tập chương 2',
+    title: 'Ôn tập chương 2 — Carbohydrate',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c2',
   },
   {
@@ -661,6 +719,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Amine',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c3',
   },
   {
@@ -672,6 +731,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Amino acid và peptide',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c3',
   },
   {
@@ -683,6 +743,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Protein và enzyme',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c3',
   },
   {
@@ -691,9 +752,10 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     chapterNumber: 3,
     chapterTitle: 'Hợp chất chứa nitrogen',
     lessonNumber: 11,
-    title: 'Ôn tập chương 3',
+    title: 'Ôn tập chương 3 — Hợp chất chứa nitrogen',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c3',
   },
   {
@@ -705,6 +767,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Đại cương về polymer',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c4',
   },
   {
@@ -716,6 +779,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Vật liệu polymer',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c4',
   },
   {
@@ -724,9 +788,10 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     chapterNumber: 4,
     chapterTitle: 'Polymer',
     lessonNumber: 14,
-    title: 'Ôn tập chương 4',
+    title: 'Ôn tập chương 4 — Polymer',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c4',
   },
   {
@@ -738,6 +803,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thế điện cực và nguồn điện hoá học',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c5',
   },
   {
@@ -749,6 +815,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Điện phân',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c5',
   },
   {
@@ -757,9 +824,10 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     chapterNumber: 5,
     chapterTitle: 'Pin điện và điện phân',
     lessonNumber: 17,
-    title: 'Ôn tập chương 5',
+    title: 'Ôn tập chương 5 — Pin điện và điện phân',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c5',
   },
   {
@@ -771,6 +839,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Cấu tạo và liên kết trong tinh thể kim loại',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c6',
   },
   {
@@ -782,6 +851,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Tính chất vật lí và tính chất hoá học của kim loại',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c6',
   },
   {
@@ -793,6 +863,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Kim loại trong tự nhiên và phương pháp tách kim loại',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c6',
   },
   {
@@ -804,6 +875,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Hợp kim',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c6',
   },
   {
@@ -815,6 +887,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Sự ăn mòn kim loại',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c6',
   },
   {
@@ -823,9 +896,10 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     chapterNumber: 6,
     chapterTitle: 'Đại cương về kim loại',
     lessonNumber: 23,
-    title: 'Ôn tập chương 6',
+    title: 'Ôn tập chương 6 — Đại cương về kim loại',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c6',
   },
   {
@@ -837,6 +911,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Nguyên tố nhóm IA',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c7',
   },
   {
@@ -848,6 +923,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Nguyên tố nhóm IIA',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c7',
   },
   {
@@ -856,9 +932,10 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     chapterNumber: 7,
     chapterTitle: 'Nguyên tố nhóm IA và nhóm IIA',
     lessonNumber: 26,
-    title: 'Ôn tập chương 7',
+    title: 'Ôn tập chương 7 — Nguyên tố nhóm IA và nhóm IIA',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c7',
   },
   {
@@ -870,6 +947,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Đại cương về kim loại chuyển tiếp dãy thứ nhất',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c8',
   },
   {
@@ -881,6 +959,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Sơ lược về phức chất',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c8',
   },
   {
@@ -892,6 +971,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Một số tính chất và ứng dụng của phức chất',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c8',
   },
   {
@@ -900,9 +980,10 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     chapterNumber: 8,
     chapterTitle: 'Sơ lược về kim loại chuyển tiếp d và phức chất',
     lessonNumber: 30,
-    title: 'Ôn tập chương 8',
+    title: 'Ôn tập chương 8 — Sơ lược về kim loại chuyển tiếp d và phức chất',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'hoa12c8',
   },
 ]

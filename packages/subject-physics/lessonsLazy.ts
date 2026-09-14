@@ -14,6 +14,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Làm quen với Vật lí',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c1',
   },
   {
@@ -25,6 +26,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Các quy tắc an toàn trong phòng thực hành Vật lí',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c1',
   },
   {
@@ -36,6 +38,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành tính sai số trong phép đo. Ghi kết quả đo',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c1',
   },
   {
@@ -47,6 +50,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Độ dịch chuyển và quãng đường đi được',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c2',
   },
   {
@@ -58,6 +62,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Tốc độ và vận tốc',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c2',
   },
   {
@@ -69,6 +74,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Đo tốc độ của vật chuyển động',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c2',
   },
   {
@@ -80,6 +86,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Đồ thị độ dịch chuyển – thời gian',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c2',
   },
   {
@@ -91,6 +98,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Chuyển động biến đổi. Gia tốc',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c2',
   },
   {
@@ -102,6 +110,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Chuyển động thẳng biến đổi đều',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c2',
   },
   {
@@ -113,6 +122,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Sự rơi tự do',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c2',
   },
   {
@@ -124,6 +134,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Đo gia tốc rơi tự do',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c2',
   },
   {
@@ -135,6 +146,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Chuyển động ném',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c2',
   },
   {
@@ -146,6 +158,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Tổng hợp và phân tích lực. Cân bằng lực',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c3',
   },
   {
@@ -157,6 +170,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Định luật 1 Newton',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c3',
   },
   {
@@ -168,6 +182,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Định luật 2 Newton',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c3',
   },
   {
@@ -179,6 +194,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Định luật 3 Newton',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c3',
   },
   {
@@ -190,6 +206,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Trọng lực và lực căng',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c3',
   },
   {
@@ -201,6 +218,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Lực ma sát',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c3',
   },
   {
@@ -212,6 +230,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Lực cản và lực nâng',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c3',
   },
   {
@@ -223,6 +242,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Một số ví dụ về cách giải các bài toán thuộc phần động lực học',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c3',
   },
   {
@@ -234,6 +254,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Moment lực. Cân bằng của vật rắn',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c3',
   },
   {
@@ -245,6 +266,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Tổng hợp lực',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c3',
   },
   {
@@ -256,6 +278,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Năng lượng. Công cơ học',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c4',
   },
   {
@@ -267,6 +290,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Công suất',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c4',
   },
   {
@@ -278,6 +302,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Động năng, thế năng',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c4',
   },
   {
@@ -289,6 +314,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Cơ năng và định luật bảo toàn cơ năng',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c4',
   },
   {
@@ -300,6 +326,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Hiệu suất',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c4',
   },
   {
@@ -311,6 +338,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Động lượng',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c5',
   },
   {
@@ -322,6 +350,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Định luật bảo toàn động lượng',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c5',
   },
   {
@@ -333,6 +362,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Xác định động lượng của vật trước và sau va chạm',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c5',
   },
   {
@@ -344,6 +374,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Động học của chuyển động tròn đều',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c6',
   },
   {
@@ -355,6 +386,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Lực hướng tâm và gia tốc hướng tâm',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c6',
   },
   {
@@ -366,6 +398,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Biến dạng của vật rắn',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c7',
   },
   {
@@ -377,6 +410,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Khối lượng riêng. Áp suất chất lỏng',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly10c7',
   },
   {
@@ -388,6 +422,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Dao động điều hoà',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c1',
   },
   {
@@ -399,6 +434,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Mô tả dao động điều hoà',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c1',
   },
   {
@@ -410,6 +446,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Vận tốc, gia tốc trong dao động điều hoà',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c1',
   },
   {
@@ -421,6 +458,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Bài tập về dao động điều hoà',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c1',
   },
   {
@@ -432,6 +470,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Động năng. Thế năng. Sự chuyển hoá năng lượng trong dao động điều hoà',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c1',
   },
   {
@@ -443,6 +482,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Dao động tắt dần. Dao động cưỡng bức. Hiện tượng cộng hưởng',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c1',
   },
   {
@@ -454,6 +494,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Bài tập về sự chuyển hoá năng lượng trong dao động điều hoà',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c1',
   },
   {
@@ -465,6 +506,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Mô tả sóng',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c2',
   },
   {
@@ -476,6 +518,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Sóng ngang. Sóng dọc. Sự truyền năng lượng của sóng cơ',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c2',
   },
   {
@@ -487,6 +530,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Đo tần số của sóng âm',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c2',
   },
   {
@@ -498,6 +542,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Sóng điện từ',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c2',
   },
   {
@@ -509,6 +554,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Giao thoa sóng',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c2',
   },
   {
@@ -520,6 +566,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Sóng dừng',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c2',
   },
   {
@@ -531,6 +578,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Bài tập về sóng',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c2',
   },
   {
@@ -542,6 +590,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Đo tốc độ truyền âm',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c2',
   },
   {
@@ -553,6 +602,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Lực tương tác giữa các điện tích',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c3',
   },
   {
@@ -564,6 +614,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Khái niệm điện trường',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c3',
   },
   {
@@ -575,6 +626,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Điện trường đều',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c3',
   },
   {
@@ -586,6 +638,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thế năng điện',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c3',
   },
   {
@@ -597,6 +650,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Điện thế',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c3',
   },
   {
@@ -608,6 +662,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Tụ điện',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c3',
   },
   {
@@ -619,6 +674,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Cường độ dòng điện',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c4',
   },
   {
@@ -630,6 +686,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Điện trở. Định luật Ohm',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c4',
   },
   {
@@ -641,6 +698,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Nguồn điện',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c4',
   },
   {
@@ -652,6 +710,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Năng lượng và công suất điện',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c4',
   },
   {
@@ -663,6 +722,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Đo suất điện động và điện trở trong của pin điện hoá',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly11c4',
   },
   {
@@ -674,6 +734,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Cấu trúc của chất. Sự chuyển thế',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c1',
   },
   {
@@ -685,6 +746,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Nội năng. Định luật I của nhiệt động lực học',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c1',
   },
   {
@@ -696,6 +758,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Nhiệt độ. Thang nhiệt độ – nhiệt kế',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c1',
   },
   {
@@ -707,6 +770,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Nhiệt dung riêng',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c1',
   },
   {
@@ -718,6 +782,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Nhiệt nóng chảy riêng',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c1',
   },
   {
@@ -729,6 +794,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Nhiệt hoá hơi riêng',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c1',
   },
   {
@@ -740,6 +806,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Bài tập về vật lí nhiệt',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c1',
   },
   {
@@ -751,6 +818,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Định luật Boyle. Định luật Charles',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c2',
   },
   {
@@ -762,6 +830,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Phương trình trạng thái của khí lí tưởng',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c2',
   },
   {
@@ -773,6 +842,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thuyết động học phân tử chất khí',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c2',
   },
   {
@@ -784,6 +854,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Bài tập về khí lí tưởng',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c2',
   },
   {
@@ -795,6 +866,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Đại cương về từ trường',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c3',
   },
   {
@@ -806,6 +878,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Lực từ. Cảm ứng từ',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c3',
   },
   {
@@ -817,6 +890,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Từ trường của dòng điện chạy trong các dây dẫn có hình dạng đặc biệt',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c3',
   },
   {
@@ -828,6 +902,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Lực Lorentz',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c3',
   },
   {
@@ -839,6 +914,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Tự cảm',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c3',
   },
   {
@@ -850,6 +926,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Máy biến áp. Truyền tải điện năng đi xa',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c3',
   },
   {
@@ -861,6 +938,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Ứng dụng của từ trường',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c3',
   },
   {
@@ -872,6 +950,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Bài tập về từ trường',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c3',
   },
   {
@@ -883,6 +962,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Khái niệm sơ lược về hạt nhân. Cấu trúc hạt nhân',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c4',
   },
   {
@@ -894,6 +974,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Lực hạt nhân. Năng lượng liên kết hạt nhân',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c4',
   },
   {
@@ -905,6 +986,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Phản ứng hạt nhân. Định luật bảo toàn trong phản ứng hạt nhân',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c4',
   },
   {
@@ -916,6 +998,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Hiện tượng phóng xạ',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c4',
   },
   {
@@ -927,6 +1010,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Phân hạch và nhiệt hạch',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c4',
   },
   {
@@ -938,6 +1022,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Bài tập về vật lí hạt nhân',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'ly12c4',
   },
   {
@@ -950,6 +1035,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-truong',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'lyhsgcohoc',
   },
   {
@@ -962,6 +1048,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-tinh',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'lyhsgcohoc',
   },
   {
@@ -974,6 +1061,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-quoc-gia',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'lyhsgcohoc',
   },
   {
@@ -986,6 +1074,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-truong',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'lyhsgdaodong',
   },
   {
@@ -998,6 +1087,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-tinh',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'lyhsgdaodong',
   },
   {
@@ -1010,6 +1100,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-quoc-gia',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'lyhsgdaodong',
   },
   {
@@ -1022,6 +1113,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-truong',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'lyhsgnhietdientu',
   },
   {
@@ -1034,6 +1126,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-tinh',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'lyhsgnhietdientu',
   },
   {
@@ -1046,6 +1139,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-quoc-gia',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'lyhsgnhietdientu',
   },
 ]

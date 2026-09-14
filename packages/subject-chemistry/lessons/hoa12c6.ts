@@ -566,7 +566,7 @@ export const HOA12_C6_LESSONS: ChemLesson[] = [
     chapterNumber: 6,
     chapterTitle: 'Đại cương về kim loại',
     lessonNumber: 23,
-    title: 'Ôn tập chương 6',
+    title: 'Ôn tập chương 6 — Đại cương về kim loại',
     hook:
       'Chương 6 đúc kết các quy luật chung nhất về cấu trúc tinh thể, tính chất hoá học và phương pháp điều chế ' +
       'của thế giới kim loại.',

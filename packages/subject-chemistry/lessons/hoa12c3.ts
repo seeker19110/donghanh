@@ -236,7 +236,7 @@ export const HOA12_C3_LESSONS: ChemLesson[] = [
     chapterNumber: 3,
     chapterTitle: 'Hợp chất chứa nitrogen',
     lessonNumber: 11,
-    title: 'Ôn tập chương 3',
+    title: 'Ôn tập chương 3 — Hợp chất chứa nitrogen',
     hook:
       'Hệ thống hoá thế giới hợp chất hữu cơ chứa nitrogen — cầu nối trực tiếp giữa hoá học hữu cơ thuần tuý ' +
       'với thế giới sinh học sống động.',

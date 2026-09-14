@@ -165,7 +165,7 @@ export const HOA12_C7_LESSONS: ChemLesson[] = [
     chapterNumber: 7,
     chapterTitle: 'Nguyên tố nhóm IA và nhóm IIA',
     lessonNumber: 26,
-    title: 'Ôn tập chương 7',
+    title: 'Ôn tập chương 7 — Nguyên tố nhóm IA và nhóm IIA',
     hook:
       'Chương 7 đúc kết các thuộc tính hoá học của hai nhóm kim loại hoạt động mạnh mẽ nhất bảng tuần hoàn, ' +
       'ứng dụng thực tế của kiềm và các kỹ thuật xử lý nước cứng trong đời sống.',

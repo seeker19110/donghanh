@@ -222,7 +222,7 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
     chapterNumber: 8,
     chapterTitle: 'Sơ lược về kim loại chuyển tiếp d và phức chất',
     lessonNumber: 30,
-    title: 'Ôn tập chương 8',
+    title: 'Ôn tập chương 8 — Sơ lược về kim loại chuyển tiếp d và phức chất',
     hook:
       'Chương 8 đúc kết cấu trúc phức tạp và thú vị của thế giới phức chất và kim loại chuyển tiếp d, ' +
       'nền tảng của hoá vô cơ hiện đại.',

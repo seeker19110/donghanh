@@ -10,6 +10,7 @@ import Layout from '../../components/Layout'
 import { PageShell } from '@core/PageShell'
 import { buttonClass } from '@core/buttonStyles'
 import { usePageTitle } from '../../lib/usePageTitle'
+import { TomTatChuaDuyet } from '../../components/ChuaDuyetChuyenMon'
 import {
   duongDanBaiHoc,
   getStemSubject,
@@ -50,6 +51,8 @@ export default function StemLessonList() {
   if (!subject) return <Navigate to="/mon-hoc" replace />
 
   const chuong = nhomTheoChuong(baiCoBan)
+  const nhapCoBan = baiCoBan.filter((b) => b.reviewStatus === 'draft').length
+  const nhapNangCao = baiNangCao.filter((b) => b.reviewStatus === 'draft').length
 
   return (
     <>
@@ -102,6 +105,8 @@ export default function StemLessonList() {
               ))}
             </div>
 
+            <TomTatChuaDuyet soChuaDuyet={nhapCoBan} tong={baiCoBan.length} />
+
             {chuong.length === 0 ? (
               <p className="mt-8 text-content-secondary">
                 Lớp {grade} của môn {subject.label} chưa có bài học nào. Hãy chọn lớp khác.
@@ -143,21 +148,24 @@ export default function StemLessonList() {
             Môn {subject.label} chưa có chuyên đề bồi dưỡng học sinh giỏi.
           </p>
         ) : (
-          <ul className="mt-6 space-y-2">
-            {baiNangCao.map((b) => (
-              <li key={b.id}>
-                <Link
-                  to={duongDanBaiHoc(subject.id, b.id, b.title)}
-                  className="flex min-h-[44px] flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border border-line-subtle bg-surface-card px-4 py-3 text-content"
-                >
-                  <span className="rounded-lg border border-line-strong px-2 py-0.5 text-content-muted">
-                    {nhanCapHsg(b.advancedTier)}
-                  </span>
-                  <span>{b.title}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <>
+            <TomTatChuaDuyet soChuaDuyet={nhapNangCao} tong={baiNangCao.length} />
+            <ul className="mt-6 space-y-2">
+              {baiNangCao.map((b) => (
+                <li key={b.id}>
+                  <Link
+                    to={duongDanBaiHoc(subject.id, b.id, b.title)}
+                    className="flex min-h-[44px] flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border border-line-subtle bg-surface-card px-4 py-3 text-content"
+                  >
+                    <span className="rounded-lg border border-line-strong px-2 py-0.5 text-content-muted">
+                      {nhanCapHsg(b.advancedTier)}
+                    </span>
+                    <span>{b.title}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </>
         )}
       </PageShell>
     </>

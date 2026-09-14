@@ -128,4 +128,19 @@ describe('physics lessons', () => {
       ).toBe(false)
     }
   })
+  it('không hai bài nào trùng tiêu đề nguyên văn', () => {
+    // Audit 2026-09-14 (F8): 6 bài Hoá trùng tiêu đề y hệt giữa lớp 11 và 12 ("Ôn tập chương 1"…),
+    // nên trong danh sách / kết quả tìm kiếm / slug URL chúng trông là một.
+    const theoTieuDe = new Map<string, string[]>()
+    for (const l of PHYSICS_LESSONS) {
+      const ds = theoTieuDe.get(l.title) ?? []
+      ds.push(l.id)
+      theoTieuDe.set(l.title, ds)
+    }
+    const trung = [...theoTieuDe.entries()].filter(([, ids]) => ids.length > 1)
+    expect(
+      trung.map(([t, ids]) => `"${t}" dùng cho ${ids.join(', ')}`),
+      'tiêu đề phải phân biệt được bài này với bài kia',
+    ).toEqual([])
+  })
 })

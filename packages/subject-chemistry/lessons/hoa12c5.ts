@@ -577,7 +577,7 @@ export const HOA12_C5_LESSONS: ChemLesson[] = [
     chapterNumber: 5,
     chapterTitle: 'Pin điện và điện phân',
     lessonNumber: 17,
-    title: 'Ôn tập chương 5',
+    title: 'Ôn tập chương 5 — Pin điện và điện phân',
     hook:
       'Chương 5 liên kết trực tiếp giữa năng lượng điện và năng lượng hoá học, cung cấp các định luật định lượng ' +
       'chuẩn xác nhất cho công nghiệp điện hoá và sản xuất kim loại.',

@@ -64,7 +64,8 @@ async function buildSubject(spec: SubjectSpec): Promise<string> {
         `  { id: '${String(l.id)}', grade: '${String(l.grade)}', chapterNumber: ${Number(l.chapterNumber)}, ` +
           `chapterTitle: ${JSON.stringify(l.chapterTitle)}, lessonNumber: ${Number(l.lessonNumber)}, ` +
           `title: ${JSON.stringify(l.title)}, track: '${String(l.track)}'${tier}, ` +
-          `hasAnimation: ${l.animation ? 'true' : 'false'}, chapterKey: '${ch.key}' },`,
+          `hasAnimation: ${l.animation ? 'true' : 'false'}, ` +
+          `reviewStatus: '${String(l.reviewStatus)}', chapterKey: '${ch.key}' },`,
       )
     }
   }

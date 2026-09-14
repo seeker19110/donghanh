@@ -154,7 +154,7 @@ export const HOA12_C1_LESSONS: ChemLesson[] = [
     chapterNumber: 1,
     chapterTitle: 'Ester - Lipid',
     lessonNumber: 3,
-    title: 'Ôn tập chương 1',
+    title: 'Ôn tập chương 1 — Ester - Lipid',
     hook:
       'Chương 1 trang bị kiến thức về Ester và Lipid, hai lớp chất béo chi phối dinh dưỡng sinh học và ' +
       'ngành công nghiệp xà phòng tẩy rửa thiết yếu.',

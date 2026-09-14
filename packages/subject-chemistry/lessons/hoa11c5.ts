@@ -506,7 +506,7 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
     chapterNumber: 5,
     chapterTitle: 'Dẫn xuất halogen - Alcohol - Phenol',
     lessonNumber: 22,
-    title: 'Ôn tập chương 5',
+    title: 'Ôn tập chương 5 — Dẫn xuất halogen - Alcohol - Phenol',
     hook:
       'Chương 5 hệ thống hoá các dẫn xuất chứa oxi và halogen, thiết lập chiếc cầu nối trung gian ' +
       'quan trọng từ hydrocarbon sang các hợp chất carbonyl tiếp theo.',
