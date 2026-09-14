@@ -1,6 +1,6 @@
 # 0300 — 2026-09-14 — Trả sáu việc nhỏ từ lượt audit môn học
 
-**PR:** (đang mở) · **Nhánh:** `claude/audit-course-quality-vj5pcu`
+**PR:** #902 · **Nhánh:** `claude/audit-course-quality-vj5pcu`
 **Nguồn:** `docs/audit/2026-09-14-chat-luong-noi-dung-cac-mon-hoc.md` (F1 · F4 · F5 · F8 · F9 · F10)
 **Nối tiếp:** đợt 0299 đã trả hai việc nặng nhất (9 đáp án Lí + cổng xanh giả).
 
