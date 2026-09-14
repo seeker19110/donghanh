@@ -69,3 +69,18 @@ khi lớp 12 đạt cổng.
 **Còn treo:** nội dung vẫn ở trạng thái `draft`, cần người có chuyên môn Toán duyệt qua quy trình
 duyệt chuyên môn STEM (PR #904/#905) trước khi coi là chính thức. Lớp 10 (chương 5) và lớp 11
 (chương 3, 4, 8) vẫn thủng — chưa làm trong đợt này.
+
+## 6. Cập nhật (2026-09-14) — ĐÓNG DỨT ĐIỂM: Việc B đã xong, cả 6 chương thủng đều có bài
+
+Theo `docs/specs/2026-09-14-mon-toan-bo-sung-lop10c5-lop11c3c4c8.md` (Approved for implementation
+theo chỉ dẫn trực tiếp của người dùng). Đã thêm 11 bài mới:
+
+- Lớp 10 chương 5 "Các số đặc trưng của mẫu số liệu không ghép nhóm" — 3 bài.
+- Lớp 11 chương 3 "Các số đặc trưng đo xu thế trung tâm của mẫu số liệu ghép nhóm" — 2 bài.
+- Lớp 11 chương 4 "Quan hệ song song trong không gian" — 3 bài (phần lớn câu `choice` vì SGK
+  đánh dấu nội dung này chủ yếu chứng minh/dựng hình, không ép thành câu số).
+- Lớp 11 chương 8 "Các quy tắc tính xác suất" — 3 bài.
+
+**Kết quả đo được:** Toán 10 đủ 9/9 chương, Toán 11 đủ 9/9 chương, Toán 12 đủ 6/6 chương — không
+còn chương chính khoá nào thủng. Tổng 53 bài (từ 35 bài ban đầu). Toàn bộ bài mới `draft`, chờ
+duyệt chuyên môn như đã nêu ở mục 5.
