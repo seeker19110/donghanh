@@ -1,0 +1,487 @@
+{
+  "_note": "CÂU MẪU song ngữ cho các vòng từ vựng CEFR sinh tự động (đặc tả docs/specs/2026-09-14-cau-mau-cho-vong-tu-vung-cefr.md, đợt 0). Đợt này VIẾT TAY 34 vòng bậc A1 (102 câu) vì container thi hành KHÔNG có khoá AI — không viết script gọi AI để tránh mã chết không chạy thử được. Các bậc A2–C2 (554 vòng) để lại cho đợt sau, khi đã có khoá AI: thêm bậc vào 'levelsDone' và bổ sung câu vào 'sentences', test bất biến apps/dhcb/src/data/cefrCircleSentences.test.ts sẽ tự ép các bậc mới. Sửa xong PHẢI chạy lại: npx tsx scripts/archive/gen-curriculum-json.ts",
+  "promptVersion": 1,
+  "generatedWith": {
+    "model": "viet-tay (khong goi AI - container thi hanh khong co khoa AI)",
+    "date": "2026-09-14"
+  },
+  "levelsDone": ["a1"],
+  "sentences": {
+    "cefr-a1-health_med-1": [
+      {
+        "en": "I am sick today, so I stay home.",
+        "vi": "Hôm nay tôi bị ốm nên tôi ở nhà."
+      },
+      {
+        "en": "Walking every morning is good for your health.",
+        "vi": "Đi bộ mỗi sáng tốt cho sức khỏe của bạn."
+      },
+      {
+        "en": "Dr. Lan says smoking is very bad.",
+        "vi": "Bác sĩ Lan nói hút thuốc rất có hại."
+      }
+    ],
+    "cefr-a1-modifier-1": [
+      {
+        "en": "I am very tired now.",
+        "vi": "Bây giờ tôi rất mệt."
+      },
+      {
+        "en": "There is some rice left here.",
+        "vi": "Ở đây vẫn còn một ít cơm."
+      },
+      {
+        "en": "She is not back yet, okay?",
+        "vi": "Cô ấy chưa về, được chứ?"
+      }
+    ],
+    "cefr-a1-modifier-2": [
+      {
+        "en": "Maybe we will go out tonight.",
+        "vi": "Có lẽ tối nay chúng ta sẽ đi chơi."
+      },
+      {
+        "en": "She always wears the same hat.",
+        "vi": "Cô ấy luôn đội cùng một chiếc mũ."
+      },
+      {
+        "en": "Dinner is ready and it smells nice.",
+        "vi": "Bữa tối đã sẵn sàng và thơm lắm."
+      }
+    ],
+    "cefr-a1-modifier-3": [
+      {
+        "en": "I am glad you came so soon.",
+        "vi": "Tôi mừng vì bạn đến sớm thế."
+      },
+      {
+        "en": "The young boy is afraid of dogs.",
+        "vi": "Cậu bé còn nhỏ nên sợ chó."
+      },
+      {
+        "en": "This lesson is important for each student.",
+        "vi": "Bài học này quan trọng với mỗi học sinh."
+      }
+    ],
+    "cefr-a1-modifier-4": [
+      {
+        "en": "My phone screen is broken again.",
+        "vi": "Màn hình điện thoại của tôi lại bị vỡ."
+      },
+      {
+        "en": "We usually wake up early on Monday.",
+        "vi": "Thứ Hai chúng tôi thường dậy sớm."
+      },
+      {
+        "en": "This book is interesting but difficult.",
+        "vi": "Cuốn sách này thú vị nhưng khó."
+      }
+    ],
+    "cefr-a1-modifier-5": [
+      {
+        "en": "Pho is my favorite warm dish.",
+        "vi": "Phở là món nóng tôi thích nhất."
+      },
+      {
+        "en": "The shop is closed on Sunday.",
+        "vi": "Cửa hàng đóng cửa vào Chủ nhật."
+      },
+      {
+        "en": "My older brother runs faster than me.",
+        "vi": "Anh trai tôi chạy nhanh hơn tôi."
+      }
+    ],
+    "cefr-a1-modifier-6": [
+      {
+        "en": "Please read the note below carefully.",
+        "vi": "Hãy đọc kỹ ghi chú bên dưới."
+      },
+      {
+        "en": "This game is more exciting than that one.",
+        "vi": "Trò chơi này hấp dẫn hơn trò kia."
+      },
+      {
+        "en": "My little room is smaller than yours.",
+        "vi": "Phòng nhỏ của tôi bé hơn phòng bạn."
+      }
+    ],
+    "cefr-a1-modifier-7": [
+      {
+        "en": "June is the hottest month in Hue.",
+        "vi": "Tháng Sáu là tháng nóng nhất ở Huế."
+      },
+      {
+        "en": "My elementary teacher is strict but kind.",
+        "vi": "Cô giáo tiểu học của tôi nghiêm nhưng tốt bụng."
+      },
+      {
+        "en": "Please leave the last line blank.",
+        "vi": "Xin để trống dòng cuối cùng."
+      }
+    ],
+    "cefr-a1-modifier-8": [
+      {
+        "en": "This bag is heavier than mine.",
+        "vi": "Cái túi này nặng hơn túi của tôi."
+      },
+      {
+        "en": "Thankfully the rain stopped before noon.",
+        "vi": "May mắn là mưa tạnh trước buổi trưa."
+      },
+      {
+        "en": "My forgetful uncle smiled shyly at us.",
+        "vi": "Ông chú hay quên của tôi cười bẽn lẽn với chúng tôi."
+      }
+    ],
+    "cefr-a1-modifier-9": [
+      {
+        "en": "The class starts at seven a.m.",
+        "vi": "Lớp học bắt đầu lúc bảy giờ sáng."
+      },
+      {
+        "en": "We meet at five o'clock every Friday.",
+        "vi": "Chúng tôi gặp nhau lúc năm giờ mỗi thứ Sáu."
+      },
+      {
+        "en": "Do not worry, everything is all right.",
+        "vi": "Đừng lo, mọi chuyện đều ổn."
+      }
+    ],
+    "cefr-a1-noun-1": [
+      {
+        "en": "My mom and dad went to the market.",
+        "vi": "Mẹ và bố tôi đi chợ."
+      },
+      {
+        "en": "That kid has a good idea.",
+        "vi": "Đứa trẻ đó có một ý tưởng hay."
+      },
+      {
+        "en": "Tell me a fun story, please.",
+        "vi": "Kể cho tôi một câu chuyện vui đi."
+      }
+    ],
+    "cefr-a1-noun-10": [
+      {
+        "en": "My brother plays guitar every evening.",
+        "vi": "Anh trai tôi chơi đàn guitar mỗi tối."
+      },
+      {
+        "en": "The children saw a tiger at the zoo.",
+        "vi": "Bọn trẻ nhìn thấy một con hổ ở sở thú."
+      },
+      {
+        "en": "She eats salad and does math homework.",
+        "vi": "Cô bé ăn rau trộn và làm bài tập toán."
+      }
+    ],
+    "cefr-a1-noun-11": [
+      {
+        "en": "Each worker brings a tool to the site.",
+        "vi": "Mỗi công nhân mang một dụng cụ tới công trường."
+      },
+      {
+        "en": "My family had a picnic near the lake.",
+        "vi": "Gia đình tôi đi dã ngoại gần hồ."
+      },
+      {
+        "en": "I bought a pencil and a burger.",
+        "vi": "Tôi mua một cái bút chì và một cái bánh mì kẹp."
+      }
+    ],
+    "cefr-a1-noun-12": [
+      {
+        "en": "He rides an old bicycle to market.",
+        "vi": "Anh ấy đạp chiếc xe đạp cũ ra chợ."
+      },
+      {
+        "en": "Playing the drum is a useful skill.",
+        "vi": "Chơi trống là một kỹ năng hữu ích."
+      },
+      {
+        "en": "She cleans the table with a cloth.",
+        "vi": "Cô ấy lau bàn bằng một miếng vải."
+      }
+    ],
+    "cefr-a1-noun-13": [
+      {
+        "en": "My hometown has a small bookstore.",
+        "vi": "Quê tôi có một hiệu sách nhỏ."
+      },
+      {
+        "en": "Our neighbour gave the children biscuits.",
+        "vi": "Người hàng xóm cho bọn trẻ mấy cái bánh quy."
+      },
+      {
+        "en": "I look up new words in the dictionary.",
+        "vi": "Tôi tra từ mới trong từ điển."
+      }
+    ],
+    "cefr-a1-noun-14": [
+      {
+        "en": "The children fly a kite in the field.",
+        "vi": "Bọn trẻ thả diều ngoài cánh đồng."
+      },
+      {
+        "en": "Mum wears an apron in the kitchen.",
+        "vi": "Mẹ mặc tạp dề trong bếp."
+      },
+      {
+        "en": "I draw a straight line with my ruler.",
+        "vi": "Tôi kẻ một đường thẳng bằng cây thước."
+      }
+    ],
+    "cefr-a1-noun-15": [
+      {
+        "en": "The lotus opens early in the morning.",
+        "vi": "Hoa sen nở sớm vào buổi sáng."
+      },
+      {
+        "en": "A pink petal fell into the water.",
+        "vi": "Một cánh hoa hồng rơi xuống nước."
+      },
+      {
+        "en": "We play volleyball after class.",
+        "vi": "Chúng tôi chơi bóng chuyền sau giờ học."
+      }
+    ],
+    "cefr-a1-noun-16": [
+      {
+        "en": "My grandparents live in a quiet township.",
+        "vi": "Ông bà tôi sống ở một thị trấn yên tĩnh."
+      },
+      {
+        "en": "I paid the bill with a credit card.",
+        "vi": "Tôi trả tiền bằng thẻ tín dụng."
+      },
+      {
+        "en": "We bought a rattan chair and a dvd.",
+        "vi": "Chúng tôi mua một cái ghế mây và một đĩa DVD."
+      }
+    ],
+    "cefr-a1-noun-17": [
+      {
+        "en": "Mr. Nam and Mrs. Hoa are teachers.",
+        "vi": "Ông Nam và bà Hoa là giáo viên."
+      },
+      {
+        "en": "Please write your last name here.",
+        "vi": "Xin hãy viết họ của bạn vào đây."
+      },
+      {
+        "en": "The children swim in the swimming pool.",
+        "vi": "Bọn trẻ bơi trong bể bơi."
+      }
+    ],
+    "cefr-a1-noun-2": [
+      {
+        "en": "Wait a moment, I have a plan.",
+        "vi": "Đợi một chút, tôi có kế hoạch rồi."
+      },
+      {
+        "en": "Good luck with your dream job!",
+        "vi": "Chúc bạn may mắn với công việc mơ ước!"
+      },
+      {
+        "en": "He drew a picture of a ball.",
+        "vi": "Cậu ấy vẽ một bức tranh quả bóng."
+      }
+    ],
+    "cefr-a1-noun-3": [
+      {
+        "en": "I wrote the list on a paper.",
+        "vi": "Tôi viết danh sách lên một tờ giấy."
+      },
+      {
+        "en": "My sister passed the college test.",
+        "vi": "Chị tôi đã đậu bài kiểm tra đại học."
+      },
+      {
+        "en": "The smell of pho fills the building.",
+        "vi": "Mùi phở lan khắp tòa nhà."
+      }
+    ],
+    "cefr-a1-noun-4": [
+      {
+        "en": "The sun is hot in the field.",
+        "vi": "Mặt trời nóng gắt ngoài cánh đồng."
+      },
+      {
+        "en": "We rest at home every weekend.",
+        "vi": "Cuối tuần nào chúng tôi cũng nghỉ ở nhà."
+      },
+      {
+        "en": "Please take this seat near the glass door.",
+        "vi": "Mời bạn ngồi chỗ này gần cửa kính."
+      }
+    ],
+    "cefr-a1-noun-5": [
+      {
+        "en": "The rain and wind came last night.",
+        "vi": "Mưa và gió kéo đến đêm qua."
+      },
+      {
+        "en": "Grandma poured a cup of green tea.",
+        "vi": "Bà rót một cốc trà xanh."
+      },
+      {
+        "en": "I left a note near the bottle.",
+        "vi": "Tôi để lại một mẩu ghi chú cạnh cái chai."
+      }
+    ],
+    "cefr-a1-noun-6": [
+      {
+        "en": "He put the file on his desk.",
+        "vi": "Anh ấy đặt hồ sơ lên bàn làm việc."
+      },
+      {
+        "en": "The boys play football on the hill.",
+        "vi": "Mấy cậu bé chơi bóng đá trên đồi."
+      },
+      {
+        "en": "I keep a pair of keys in my pocket.",
+        "vi": "Tôi để một đôi chìa khóa trong túi."
+      }
+    ],
+    "cefr-a1-noun-7": [
+      {
+        "en": "Grandpa works on the farm every day.",
+        "vi": "Ông tôi làm việc ngoài nông trại mỗi ngày."
+      },
+      {
+        "en": "We cook a warm meal after shopping.",
+        "vi": "Chúng tôi nấu một bữa ăn ấm nóng sau khi đi mua sắm."
+      },
+      {
+        "en": "The noise woke me before my bath.",
+        "vi": "Tiếng ồn làm tôi thức giấc trước khi đi tắm."
+      }
+    ],
+    "cefr-a1-noun-8": [
+      {
+        "en": "My son rides his bike to school.",
+        "vi": "Con trai tôi đạp xe đến trường."
+      },
+      {
+        "en": "Mum is cleaning the old couch.",
+        "vi": "Mẹ đang dọn cái ghế sofa cũ."
+      },
+      {
+        "en": "She took a photo near the tower.",
+        "vi": "Cô ấy chụp một bức ảnh gần tòa tháp."
+      }
+    ],
+    "cefr-a1-noun-9": [
+      {
+        "en": "The students sit in a circle.",
+        "vi": "Các học sinh ngồi thành một vòng tròn."
+      },
+      {
+        "en": "My pet dog waits by the temple.",
+        "vi": "Con chó cưng của tôi đợi bên ngôi chùa."
+      },
+      {
+        "en": "We ate beef noodles after swimming.",
+        "vi": "Chúng tôi ăn phở bò sau khi bơi."
+      }
+    ],
+    "cefr-a1-other-1": [
+      {
+        "en": "This is a gift from my mother.",
+        "vi": "Đây là món quà từ mẹ tôi."
+      },
+      {
+        "en": "Tell me about your new school.",
+        "vi": "Kể cho tôi nghe về trường mới của bạn."
+      },
+      {
+        "en": "I called him but he was busy.",
+        "vi": "Tôi đã gọi cho anh ấy nhưng anh ấy bận."
+      }
+    ],
+    "cefr-a1-other-2": [
+      {
+        "en": "Someone left something on our table.",
+        "vi": "Ai đó để quên thứ gì trên bàn chúng tôi."
+      },
+      {
+        "en": "We walked around the lake after lunch.",
+        "vi": "Chúng tôi đi dạo quanh hồ sau bữa trưa."
+      },
+      {
+        "en": "Nothing is better than a bowl of pho.",
+        "vi": "Không gì ngon bằng một bát phở."
+      }
+    ],
+    "cefr-a1-other-3": [
+      {
+        "en": "Everybody is welcome at our house.",
+        "vi": "Nhà chúng tôi luôn chào đón mọi người."
+      },
+      {
+        "en": "Wait inside until the rain stops.",
+        "vi": "Hãy đợi bên trong cho đến khi tạnh mưa."
+      },
+      {
+        "en": "This blue umbrella is mine, not yours.",
+        "vi": "Cái ô xanh này là của tôi, không phải của bạn."
+      }
+    ],
+    "cefr-a1-other-4": [
+      {
+        "en": "Good morning, teacher, how are you today?",
+        "vi": "Chào buổi sáng cô, hôm nay cô khỏe không?"
+      },
+      {
+        "en": "We discuss Vietnamese culture in this course.",
+        "vi": "Chúng tôi thảo luận về văn hóa Việt Nam trong khóa học này."
+      },
+      {
+        "en": "He sent an e-mail about the grammar lesson.",
+        "vi": "Anh ấy gửi email về bài học ngữ pháp."
+      }
+    ],
+    "cefr-a1-verb-1": [
+      {
+        "en": "Let me show you the road home.",
+        "vi": "Để tôi chỉ cho bạn đường về nhà."
+      },
+      {
+        "en": "You should ask your teacher for help.",
+        "vi": "Bạn nên hỏi thầy cô để được giúp đỡ."
+      },
+      {
+        "en": "I can hear the rain outside.",
+        "vi": "Tôi nghe thấy tiếng mưa bên ngoài."
+      }
+    ],
+    "cefr-a1-verb-2": [
+      {
+        "en": "We live near the river and grow rice.",
+        "vi": "Chúng tôi sống gần sông và trồng lúa."
+      },
+      {
+        "en": "I will visit my grandparents this summer.",
+        "vi": "Hè này tôi sẽ về thăm ông bà."
+      },
+      {
+        "en": "The children laugh and enjoy the game.",
+        "vi": "Bọn trẻ cười vang và thích thú với trò chơi."
+      }
+    ],
+    "cefr-a1-verb-3": [
+      {
+        "en": "Please fill this form with a pen.",
+        "vi": "Xin điền vào mẫu đơn này bằng bút."
+      },
+      {
+        "en": "I brush my teeth and wash my face.",
+        "vi": "Tôi đánh răng và rửa mặt."
+      },
+      {
+        "en": "We travel to Hue by train.",
+        "vi": "Chúng tôi đi Huế bằng tàu hỏa."
+      }
+    ]
+  }
+}

@@ -15,6 +15,8 @@ import type { DictEntry } from '../types'
 // (scripts/gen-cefr-c1c2-vocab.ts). Nối vào cuối FOUNDATION bên dưới.
 import { CEFR_C1C2_CIRCLES } from './cefrC1C2Vocab'
 import { CEFR_A1B2_EXTRA_CIRCLES } from './cefrA1B2ExtraVocab'
+// Câu mẫu song ngữ cho các vòng CEFR sinh tự động (đợt 0: bậc A1 — 34 vòng).
+import { CEFR_CIRCLE_SENTENCES } from './cefrCircleSentences'
 
 // Kiểu ở `curriculumTypes.ts` (file chỉ-chứa-kiểu) để cắt chu trình import với các file vòng
 // từ vựng sinh tự động; xuất lại ở đây để mọi nơi đang import từ './curriculum' giữ nguyên.
@@ -9041,8 +9043,17 @@ const FOUNDATION_BASE: Circle[] = [
 // động (từ đã gắn nhãn CEFR nhưng chưa có trong vòng thủ công) + các vòng C1/C2
 // sinh tự động từ từ điển. Ghép ở đây để mọi nơi (loader, gen script) dùng chung
 // một danh sách.
+// Ghép câu mẫu (cefrCircleSentences.json) vào vòng CEFR sinh tự động. Vòng nào CHƯA
+// có câu mẫu (bậc chưa tới lượt làm) thì giữ nguyên `sentences: []` như cũ.
+// Đây là ĐÚNG MỘT chỗ nối dữ liệu — mọi nơi khác (loader, script sinh json, giao diện)
+// đều đọc lại từ FOUNDATION nên không phải sửa gì thêm.
+const withCircleSentences = (circle: Circle): Circle => {
+  const sentences = CEFR_CIRCLE_SENTENCES[circle.id]
+  return sentences !== undefined && sentences.length > 0 ? { ...circle, sentences } : circle
+}
+
 export const FOUNDATION: Circle[] = [
   ...FOUNDATION_BASE,
-  ...CEFR_A1B2_EXTRA_CIRCLES,
-  ...CEFR_C1C2_CIRCLES,
+  ...CEFR_A1B2_EXTRA_CIRCLES.map(withCircleSentences),
+  ...CEFR_C1C2_CIRCLES.map(withCircleSentences),
 ]

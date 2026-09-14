@@ -300,7 +300,10 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
   "2 chuyên đề, giữ Điện hoá + Hữu cơ 12"; 6 bài đã vào registry (`docs/changelog/0308-*.md`),
   Hoá cân đối **3/6/6** bài HSG cho lớp 10/11/12, tổng chuyên đề HSG toàn hệ 9 → 15. **F7 đã
   đóng**, và nay có test bất biến chặn CI ép mỗi lớp Hoá có chuyên đề HSG đủ ba cấp nên không
-  tái phát được. Hai đặc tả còn lại (F3 câu mẫu từ vựng · F6 hoạt ảnh STEM) vẫn chờ duyệt.
+  tái phát được. **F6 và F3 cũng đã duyệt và BẮT ĐẦU thi hành** (`docs/changelog/0309-*.md`):
+  hoạt ảnh Vật lí 16,5% → **42,4%** (lớp 12: 8,0% → 56,0%) với ratchet chặn CI; câu mẫu từ vựng
+  bậc A1 xong 34/34 vòng (102 câu), tổng vòng có câu mẫu 89 → **123/677**. CÒN LẠI: F3 năm bậc
+  A2–C2 (554 vòng) · F6 môn Lí lớp 11 rồi Hoá/Sinh/Toán.
 - **4 trang trụ Career/Work/Startup/Life chưa có chiều B** (0/4 file dùng `direction`) — nợ có
   chủ đích, người dùng chốt "chiều B nợ". Làm khi có người học chiều B thật.
 
@@ -657,6 +660,14 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 > `docs/legacy/no-ky-thuat-da-dong.md` (2026-09-01) để file này chỉ nói trạng thái hiện tại —
 > đúng vai trò ở mục 2 `CLAUDE.md`. Đóng một món nợ = cắt khối đó dán sang file kia, kèm ngày.
 
+- **[2026-09-14 — phát hiện khi NHÌN ảnh chụp Tầng 8b, xem `docs/changelog/0309-*.md`] Nhãn chữ
+  trong hoạt ảnh khó đọc ở màn hình 390px.** Đo được **29/150 nhãn dài hơn 24 ký tự** ở cỡ chữ
+  11–12 trong viewBox rộng 440 — trên điện thoại chúng co lại rất nhỏ. **KHÔNG phải lỗi mới**:
+  bài `ly11-c2-b8` đã như vậy từ trước. Sửa tận gốc phải đụng `packages/core-ui/LessonAnimation.tsx`
+  (codemap: 5 file ảnh hưởng) hoặc đặt luật độ dài nhãn cho toàn bộ hoạt ảnh — cần một đợt riêng.
+- **[2026-09-14] Test flaky có sẵn của môn Lập trình:** `apps/dhcb/src/lib/programmingSrs.test.ts`
+  ca "limit cắt đúng số thẻ cho một phiên ôn" đỏ khi chạy cả `apps/dhcb/src` nhưng chạy riêng file
+  thì 9/9 xanh. Dùng `vi.setSystemTime`, nghi phụ thuộc thời gian/thứ tự chạy. Chưa sửa.
 - 🟡 **[2026-09-12 — GĐ3, xem `docs/changelog/0291-*.md`] Khoá bậc môn Lập trình mới cưỡng chế ở
   CLIENT.** Luật "Free học tuần tự P1→P6" tính ở trình duyệt (`lib/programmingLevelLock.ts`), và
   grandfather nằm ở localStorage chứ không phải cột DB như môn Anh (migration 0077). Người sửa

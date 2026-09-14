@@ -1,6 +1,7 @@
 // lessons.test.ts — Gác chất lượng nội dung bài học Vật lí.
 import { describe, expect, it } from 'vitest'
 import { timLoiDuyet, moTaLoiDuyet } from '@dhcb/core-contracts/lessonReviewGuard'
+import { moTaLoiHoatAnh, timLoiHoatAnh } from '@dhcb/core-contracts/animationQuality'
 import { moTaLoiTuCham, timLoiTuCham } from '@dhcb/core-grading/selfGrade'
 import {
   PHYSICS_LESSONS,
@@ -88,6 +89,41 @@ describe('physics lessons', () => {
         ).toBeLessThanOrEqual(anim.durationMs)
       }
     }
+  })
+
+  // ── NGƯỠNG PHỦ HOẠT ẢNH (ratchet) ─────────────────────────────────────────────────────────
+  // Hai hằng số dưới đây CHỈ ĐƯỢC TĂNG. Chúng là lý do F6 ("phủ hoạt ảnh tuỳ hứng") không tái
+  // diễn: xoá hoạt ảnh hoặc thêm bài mới mà không kèm hình động sẽ làm CI đỏ ngay.
+  // Mẫu số cố tình chỉ tính bài `track: 'core'` — nhánh HSG là đợt việc khác (F7).
+  // Đặt ĐÚNG BẰNG mức đạt được sau đợt 1 (2026-09-14), không đặt dư để lấy chỗ trống.
+  const TOI_THIEU_PHU_HOAT_ANH = 36
+  const TOI_THIEU_PHU_HOAT_ANH_LOP_12 = 14
+
+  it('độ phủ hoạt ảnh của bài core không tụt dưới ngưỡng đã đạt (ratchet)', () => {
+    const core = listPhysicsCoreLessons()
+    const coHoatAnh = core.filter((l) => l.animation)
+    expect(
+      coHoatAnh.length,
+      `Độ phủ hoạt ảnh Vật lí tụt: ${coHoatAnh.length}/${core.length} bài core, ngưỡng là ${TOI_THIEU_PHU_HOAT_ANH}. ` +
+        'Ngưỡng chỉ được TĂNG — nếu vừa xoá/gộp bài có hoạt ảnh thì phải bù hoạt ảnh khác, ' +
+        'đừng hạ hằng số.',
+    ).toBeGreaterThanOrEqual(TOI_THIEU_PHU_HOAT_ANH)
+  })
+
+  it('riêng lớp 12 giữ đủ số bài có hoạt ảnh (chương nhiệt · khí · từ · hạt nhân)', () => {
+    const lop12 = listPhysicsCoreLessons().filter((l) => l.grade === '12')
+    const coHoatAnh = lop12.filter((l) => l.animation)
+    expect(
+      coHoatAnh.length,
+      `Vật lí 12 chỉ còn ${coHoatAnh.length}/${lop12.length} bài có hoạt ảnh, ngưỡng là ${TOI_THIEU_PHU_HOAT_ANH_LOP_12}`,
+    ).toBeGreaterThanOrEqual(TOI_THIEU_PHU_HOAT_ANH_LOP_12)
+  })
+
+  it('mọi hoạt ảnh đạt bất biến chất lượng mô tả (dùng chung 4 môn)', () => {
+    // Luật viết MỘT lần ở @dhcb/core-contracts/animationQuality, thử bằng dữ liệu giả ở
+    // animationQuality.test.ts — ca này chỉ áp nó lên dữ liệu thật của môn.
+    const loi = timLoiHoatAnh(PHYSICS_LESSONS)
+    expect(loi.length, `Hoạt ảnh chưa đạt chuẩn mô tả:\n${moTaLoiHoatAnh(loi)}`).toBe(0)
   })
 
   it('mỗi cấp HSG đều có chuyên đề, và chuyên đề nào cũng thuộc nhánh advanced', () => {
