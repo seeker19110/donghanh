@@ -38,6 +38,39 @@ describe('math lessons', () => {
     expect(loi.length, `Đáp án đã khai KHÔNG tự chấm đúng:\n${moTaLoiTuCham(loi)}`).toBe(0)
   })
 
+  it('không thủng chương — mỗi lớp phải có đủ 6 chương SGK "Kết nối tri thức" (khoá theo audit 2026-09-14)', () => {
+    // docs/research/de-xuat-uu-tien-mon-toan-2026-09-14.md: Toán chỉ 35 bài, thủng 6 chương
+    // (10c5, 11c3/c4/c8, 12c2/c3) mà không ai phát hiện — vì KHÔNG có ngưỡng nào canh số chương.
+    // Ngưỡng dưới đây không đòi đủ NGAY (còn đang bổ sung dần theo ưu tiên đã chốt), chỉ khoá
+    // KHÔNG ĐƯỢC THỦNG THÊM: khi một chương đã có ≥1 bài, xoá hết bài của chương đó phải bị chặn.
+    const daCoChuong = new Set(MATH_LESSONS.map((l) => `${l.grade}-c${l.chapterNumber}`))
+    const CHUONG_DA_CO_LUC_KHOA = [
+      '10-c1',
+      '10-c2',
+      '10-c3',
+      '10-c4',
+      '10-c6',
+      '10-c7',
+      '10-c8',
+      '10-c9',
+      '11-c1',
+      '11-c2',
+      '11-c5',
+      '11-c6',
+      '11-c7',
+      '11-c9',
+      '12-c1',
+      '12-c4',
+      '12-c5',
+      '12-c6',
+    ]
+    const mat = CHUONG_DA_CO_LUC_KHOA.filter((c) => !daCoChuong.has(c))
+    expect(
+      mat,
+      'chương đã có bài trước đây bị xoá sạch, thủng thêm ngoài 6 chương đã biết',
+    ).toEqual([])
+  })
+
   it('getMathLesson tra được đúng bài theo id', () => {
     const first = MATH_LESSONS[0]
     expect(first, 'registry môn Toán còn rỗng — chưa có bài nào để tra').toBeDefined()
