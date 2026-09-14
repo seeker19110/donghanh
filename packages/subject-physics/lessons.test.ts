@@ -179,6 +179,9 @@ describe('physics lessons', () => {
  *  ghi lý do trong mô tả PR. Đặc tả: docs/specs/2026-09-14-hoat-anh-minh-hoa-stem.md */
 const TOI_THIEU_PHU_HOAT_ANH = 72
 
+/** Ratchet RIÊNG cho lớp 12 (PR #911). Ngưỡng toàn môn không canh được phân bố theo lớp. */
+const TOI_THIEU_PHU_HOAT_ANH_LOP_12 = 22
+
 describe('Vật lí — hoạt ảnh minh hoạ', () => {
   it(`độ phủ hoạt ảnh nhánh core không tụt dưới ${TOI_THIEU_PHU_HOAT_ANH} bài`, () => {
     const phu = doPhuHoatAnhCore(PHYSICS_LESSONS)
@@ -187,6 +190,19 @@ describe('Vật lí — hoạt ảnh minh hoạ', () => {
       `Độ phủ hoạt ảnh core tụt: ${phu.co}/${phu.tong} (${(phu.tiLe * 100).toFixed(1)}%). ` +
         'Hoặc trả lại hoạt ảnh đã mất, hoặc hạ TOI_THIEU_PHU_HOAT_ANH CÓ CHỦ ĐÍCH kèm lý do trong PR.',
     ).toBeGreaterThanOrEqual(TOI_THIEU_PHU_HOAT_ANH)
+  })
+
+  it('riêng lớp 12 giữ đủ số bài có hoạt ảnh (chương nhiệt · khí · từ · hạt nhân)', () => {
+    // Bất biến này do PR #911 đóng góp, giữ lại khi gộp `main` vào đợt 162 hoạt ảnh: ngưỡng
+    // TOÀN MÔN ở trên không canh được phân bố. Lớp 12 từng là chỗ trống nhất toàn dự án
+    // (2/28 = 7,1%), nên nó cần ngưỡng riêng — nếu không, một đợt sau có thể bù dồn vào lớp 10
+    // mà ngưỡng toàn môn vẫn xanh trong khi lớp 12 lại rỗng đi.
+    const lop12 = listPhysicsCoreLessons().filter((l) => l.grade === '12')
+    const coHoatAnh = lop12.filter((l) => l.animation)
+    expect(
+      coHoatAnh.length,
+      `Vật lí 12 chỉ còn ${coHoatAnh.length}/${lop12.length} bài có hoạt ảnh, ngưỡng là ${TOI_THIEU_PHU_HOAT_ANH_LOP_12}`,
+    ).toBeGreaterThanOrEqual(TOI_THIEU_PHU_HOAT_ANH_LOP_12)
   })
 
   it('mọi hoạt ảnh đạt bất biến chất lượng dùng chung 4 môn', () => {

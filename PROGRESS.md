@@ -301,25 +301,33 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
   Hoá cân đối **3/6/6** bài HSG cho lớp 10/11/12, tổng chuyên đề HSG toàn hệ 9 → 15. **F7 đã
   đóng**, và nay có test bất biến chặn CI ép mỗi lớp Hoá có chuyên đề HSG đủ ba cấp nên không
   tái phát được.
-  **Cập nhật 2026-09-14 (lượt sau):** đặc tả **HOẠT ẢNH STEM (F6) ĐÃ DUYỆT VÀ ĐÃ THI HÀNH XONG**
-  — người dùng chốt "70% cho cả 4 môn · ratchet cứng chặn CI · làm đợt 0→4 một mạch". Đã thêm
-  **162 hoạt ảnh**, độ phủ nhánh core **62/288 (21,5%) → 224/288 (77,8%)**: Lí 84,7% · Hoá 76,4%
-  · Sinh 75,0% · Toán 72,3%, cả 4 môn vượt mốc (`docs/changelog/0309-*.md`). Cổng ratchet
-  `TOI_THIEU_PHU_HOAT_ANH` trong `lessons.test.ts` của từng môn nay chặn CI khi độ phủ tụt, nên
-  **F6 không tái phát được**. **F3 (câu mẫu cho 588 vòng từ vựng CEFR) là đặc tả DUY NHẤT còn
-  chờ duyệt**, và nó cần key AI trong `.env` mới thi hành được — script sinh câu gọi AI theo lô,
-  thiếu key thì thoát mã 1 theo đúng hợp đồng ở §③ của đặc tả.
-- **[2026-09-14 — CẦN NGƯỜI DÙNG QUYẾT, xem `docs/changelog/0309-*.md`] Tiêu chí "file chương
-  ≤ 120 kB nguồn" không đạt với 4 file Sinh** (`sinh12c1.ts` 249,6 kB · `sinh11c2.ts` 139,3 ·
-  `sinh12c2.ts` 136,5 · `sinh11c1.ts` 126,6). Hai điều làm rõ trước khi quyết: (1) mốc nền trong
-  đặc tả **ghi sai** — nó viết "lớn nhất 56,7 kB" vì chỉ đo môn Lí, còn `sinh12c1.ts` **đã 132 kB
-  TRƯỚC** đợt hoạt ảnh; (2) chi phí THẬT người học chịu thì tốt — đo trên `dist/js/` sau build,
-  chunk chương nặng nhất `sinh12c1` = **39,7 kB gzip**, nhẹ hơn hẳn `ProgrammingSpecStagePage`
-  122,2 kB · `vendor-codemirror` 149,2 · `grading` 61,3 đang chạy sẵn trên production. Tức tiêu
-  chí đang đo **byte nguồn** trong khi thứ đáng đo là **chunk sau build**. Ba lựa chọn: (a) sửa
-  tiêu chí sang "chunk chương ≤ N kB gzip" theo số đo thật — rẻ nhất và đo đúng thứ cần đo;
-  (b) tách 4 file chương Sinh (phải sửa loader + sinh lại chỉ mục, là đợt riêng); (c) giữ nguyên
-  tiêu chí và ghi nhận nợ có chủ đích.
+  **Cập nhật 2026-09-14 — F6 và F3 đều đã duyệt và đã thi hành, qua HAI PR song song:**
+  - **PR #911 (`docs/changelog/0309-*.md`):** F6 đợt 1 (hoạt ảnh Vật lí) + **F3 đợt 0 — bậc A1
+    xong 34/34 vòng (102 câu)**, tổng vòng có câu mẫu 89 → **123/677**.
+  - **PR #912 (`docs/changelog/0310-*.md`):** F6 đợt 0→4 **một mạch cho cả 4 môn** — người dùng
+    chốt "70% cho cả 4 môn · ratchet cứng chặn CI". Thêm **162 hoạt ảnh**, độ phủ nhánh core
+    **62/288 (21,5%) → 224/288 (77,8%)**: Lí 84,7% · Hoá 76,4% · Sinh 75,0% · Toán 72,3%. Khi gộp
+    `main`, hai bên cùng vẽ hoạt ảnh cho chung các bài Vật lí; lấy bản của #912 vì nó phủ nhiều
+    hơn (45 so với 29 trên các file xung đột) và **không bài nào chỉ có hoạt ảnh ở phía #911**,
+    nên không mất độ phủ. Giữ lại bất biến **ratchet riêng cho lớp 12** do #911 đóng góp —
+    ngưỡng toàn môn không canh được phân bố theo lớp.
+
+  **F6 ĐÃ ĐÓNG** — ratchet `TOI_THIEU_PHU_HOAT_ANH` trong `lessons.test.ts` của cả 4 môn chặn CI
+  khi độ phủ tụt. **F3 CÒN LẠI 5 bậc A2–C2 (554 vòng)**; thi hành được ngay vì đường ray đã có
+  từ #911, nhưng cần key AI trong `.env` — script sinh câu gọi AI theo lô, thiếu key thì thoát
+  mã 1 theo đúng hợp đồng ở §③ của đặc tả.
+
+- **[2026-09-14 — ĐÃ QUYẾT, người dùng chốt phương án (a)] Tiêu chí kích thước file chương của
+  đặc tả hoạt ảnh đo SAI CHỖ — đã sửa sang đo chunk sau build.** Tiêu chí cũ "file chương ≤ 120 kB
+  **nguồn**" không đạt với 4 file Sinh (`sinh12c1.ts` 249,6 kB · `sinh11c2.ts` 139,3 ·
+  `sinh12c2.ts` 136,5 · `sinh11c1.ts` 126,6), nhưng hai điều cho thấy chính tiêu chí mới là thứ
+  sai: (1) mốc nền trong đặc tả **ghi sai** — nó viết "lớn nhất 56,7 kB" vì chỉ đo môn Lí, còn
+  `sinh12c1.ts` **đã 132 kB TRƯỚC** đợt hoạt ảnh; (2) chi phí THẬT người học chịu thì tốt — đo
+  trên `dist/js/` sau build, chunk chương nặng nhất `sinh12c1` = **39,7 kB gzip**, nhẹ hơn hẳn
+  `ProgrammingSpecStagePage` 122,2 kB · `vendor-codemirror` 149,2 · `grading` 61,3 đang chạy sẵn
+  trên production. Byte mã nguồn không phải thứ người học tải; **chunk sau build** mới là. Tiêu
+  chí đã đổi trong đặc tả và nay có **cổng đo thật chặn CI** (`scripts/check-lesson-chunks.ts`)
+  thay vì một dòng chữ trong tài liệu.
 - **4 trang trụ Career/Work/Startup/Life chưa có chiều B** (0/4 file dùng `direction`) — nợ có
   chủ đích, người dùng chốt "chiều B nợ". Làm khi có người học chiều B thật.
 
@@ -676,6 +684,14 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 > `docs/legacy/no-ky-thuat-da-dong.md` (2026-09-01) để file này chỉ nói trạng thái hiện tại —
 > đúng vai trò ở mục 2 `CLAUDE.md`. Đóng một món nợ = cắt khối đó dán sang file kia, kèm ngày.
 
+- **[2026-09-14 — phát hiện khi NHÌN ảnh chụp Tầng 8b, xem `docs/changelog/0309-*.md`] Nhãn chữ
+  trong hoạt ảnh khó đọc ở màn hình 390px.** Đo được **29/150 nhãn dài hơn 24 ký tự** ở cỡ chữ
+  11–12 trong viewBox rộng 440 — trên điện thoại chúng co lại rất nhỏ. **KHÔNG phải lỗi mới**:
+  bài `ly11-c2-b8` đã như vậy từ trước. Sửa tận gốc phải đụng `packages/core-ui/LessonAnimation.tsx`
+  (codemap: 5 file ảnh hưởng) hoặc đặt luật độ dài nhãn cho toàn bộ hoạt ảnh — cần một đợt riêng.
+- **[2026-09-14] Test flaky có sẵn của môn Lập trình:** `apps/dhcb/src/lib/programmingSrs.test.ts`
+  ca "limit cắt đúng số thẻ cho một phiên ôn" đỏ khi chạy cả `apps/dhcb/src` nhưng chạy riêng file
+  thì 9/9 xanh. Dùng `vi.setSystemTime`, nghi phụ thuộc thời gian/thứ tự chạy. Chưa sửa.
 - 🟡 **[2026-09-12 — GĐ3, xem `docs/changelog/0291-*.md`] Khoá bậc môn Lập trình mới cưỡng chế ở
   CLIENT.** Luật "Free học tuần tự P1→P6" tính ở trình duyệt (`lib/programmingLevelLock.ts`), và
   grandfather nằm ở localStorage chứ không phải cột DB như môn Anh (migration 0077). Người sửa

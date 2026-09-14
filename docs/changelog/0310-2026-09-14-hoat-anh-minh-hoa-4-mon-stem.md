@@ -1,4 +1,4 @@
-# 0309 — 2026-09-14 — Hoạt ảnh minh hoạ 4 môn STEM: 62 → 224 bài (F6)
+# 0310 — 2026-09-14 — Hoạt ảnh minh hoạ 4 môn STEM: 62 → 224 bài (F6)
 
 **PR:** (điền khi tạo) · **Nhánh:** `claude/sleepy-franklin-iv2o1o`
 **Đặc tả:** `docs/specs/2026-09-14-hoat-anh-minh-hoa-stem.md` (Approved for implementation)
