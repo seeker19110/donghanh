@@ -87,3 +87,44 @@ dist-server` rồi `npm run typecheck`. Đây là cách duy nhất tái hiện �
 
 Liên quan: CLAUDE.md mục 8 đã cảnh báo "công cụ phải khớp lockfile" cho trường hợp `node_modules`
 cũ; mục này mở rộng khuôn đó sang lockfile, tạo tác build và lệnh chạy.
+
+---
+
+## 4. Test tự kiểm dữ liệu bằng CHÍNH dữ liệu đó → xanh giả, và tài liệu viện dẫn nó làm cổng duyệt
+
+**Ngày/PR:** mắc ở PR #893 (2026-09-13), phát hiện và sửa ở PR #900 (2026-09-14), ghi lại ở
+PR #901. Báo cáo đầy đủ: `docs/audit/2026-09-14-tinh-chinh-xac-cong-thuc-va-ket-qua.md`.
+
+**Khuôn lỗi — hai tầng, tầng dưới nguy hiểm hơn tầng trên:**
+
+_Tầng 1 — test mù._ Ca test "mọi đáp án tự chấm đúng" của 4 môn STEM dựng bài làm của học sinh
+bằng `(value - offset) / factor`, tức **suy đầu vào ra từ chính trường đang bị kiểm**. `value`
+khai sai hệ quy chiếu thì đầu vào cũng sai y hệt, hai cái sai triệt tiêu nhau, cổng không bao giờ
+đỏ được. Nó đã bỏ lọt **9 câu Vật lí chấm SAI học sinh trả lời ĐÚNG**. Bẫy phụ: cách sửa tưởng
+là hiển nhiên — nạp thẳng `${value} ${unit}` — cũng mù, chỉ mù **chiều ngược lại** (báo đỏ oan
+bài khai chuẩn SI). Không chuỗi nào suy được từ riêng `value` mà phân biệt được hai ca.
+
+_Tầng 2 — tài liệu phong nó làm cổng duyệt._ Đặc tả 2026-09-13 viện dẫn chính ca test đó làm lý
+do **bỏ khâu duyệt của người có chuyên môn** ("người duyệt tự động"), và nhật ký #893 ghi "mỗi
+môn đều có" trong khi **môn Sinh không hề có**. Hệ quả: "12305 test xanh" bị đọc thành "nội dung
+đã được duyệt", và nợ chuyên môn biến mất khỏi tầm nhìn điều hành. Kể cả sau khi cổng đã hết mù,
+nó vẫn **không** phán được nội dung dạy có đúng chương trình hay không — 442/665 câu (66,5%) là
+trắc nghiệm, riêng Sinh 169/170, và với dạng này cổng chỉ xác nhận `correctIds` nằm trong
+`choices`.
+
+**Cách rà.** Với bất kỳ test nào tự nhận là "kiểm chất lượng dữ liệu", hỏi đúng một câu:
+**đầu vào của bài kiểm tra có ĐỘC LẬP với trường đang bị kiểm không?** Dấu hiệu trong mã: biến
+đóng vai đầu vào được suy ra từ chính trường đó (một `switch` trên `q.answer.kind` dựng
+`studentInput` từ `q.answer`). Không có nguồn độc lập thì ca test chỉ chứng minh dữ liệu nhất
+quán với chính nó.
+
+**Cổng chốt chặn:**
+
+1. `packages/core-grading/selfGrade.ts` — một bản dùng chung cho cả 4 môn (trước đó bốn bản tự
+   viết đã lệch nhau: Hoá đúng, Toán/Lí mù, Sinh không có). Hai lớp: tự chấm, **cộng** đối chiếu
+   con số hiển thị với `explain` — lời giải tác giả viết tay, nguồn ĐỘC LẬP với `value`.
+2. Khai đáp án có đơn vị bằng `donViHienThi(<số hiển thị>, <đơn vị>)`, không gõ tay số SI và
+   không chôn hệ số ma thuật.
+3. **Không tài liệu nào được viện một cổng máy làm lý do bỏ khâu duyệt của người.** Cổng máy
+   kiểm tính nhất quán và tính đúng số học; tính đúng kiến thức thì chỉ người đọc mới kết luận
+   được. Nợ đó phải nằm trong `PROGRESS.md` với con số thật, đo bằng script, không chép tay.
