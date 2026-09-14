@@ -31,6 +31,11 @@ describe('chemistry lessons', () => {
   })
 
   it('mọi checkQuestion tự chấm ĐÚNG với chính đáp án đã khai — dùng engine chấm thật, không AI', () => {
+    // CẢNH BÁO ĐỌC KỸ: ca test này là CỔNG NHẤT QUÁN, KHÔNG phải cổng ĐÚNG KIẾN THỨC.
+    // Nó lấy chính đáp án đã khai làm "bài làm của học sinh" rồi đòi engine chấm ra đúng —
+    // tức chỉ chứng minh dữ liệu bài học không tự mâu thuẫn với engine sẽ chấm nó. Với câu
+    // trắc nghiệm, nó KHÔNG chứng minh phương án được đánh dấu là phương án đúng về kiến thức.
+    // Việc đó chỉ người có chuyên môn đọc mới làm được (xem TRAPS.md mục 4).
     for (const lesson of CHEM_LESSONS) {
       for (const q of lesson.checkQuestions) {
         let studentInput: string

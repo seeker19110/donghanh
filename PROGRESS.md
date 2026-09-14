@@ -237,8 +237,14 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
   mục này ghi "chờ duyệt chuyên môn, không nối khi chưa có người học thật cần". Người dùng chốt
   ngược lại trong phiên 2026-09-13: nối thẳng khi AI viết xong. Thay cho người duyệt, mỗi môn có
   test canh chấm lại TOÀN BỘ đáp án bằng engine chấm thật. Mọi bài vẫn mang `reviewStatus: 'draft'`.
-  **Nợ còn lại:** nội dung chưa ai có chuyên môn đọc lại; chuẩn sư phạm mới rà trên phần bài trọng
-  điểm, chưa quét hết 294 bài. Chi tiết: `docs/changelog/0295-2026-09-13-hoan-thien-4-mon-stem.md`.
+  **Nợ còn lại (ĐO LẠI 2026-09-14, xem `docs/changelog/0297-*.md` + TRAPS.md mục 4):** nội dung
+  chưa ai có chuyên môn đọc lại — `reviewStatus: 'reviewed'` đang là **0/294 bài**, tức nợ là
+  TOÀN BỘ **665 câu hỏi + 294 phần lý thuyết**, không phải riêng phần trắc nghiệm. Trong đó
+  **442 câu (66,5%) là trắc nghiệm** — Toán 17/105 · Lí 119/208 · Hoá 137/182 · **Sinh 169/170
+  = 99,4%** — và với câu trắc nghiệm thì test canh KHÔNG kiểm được gì về đúng/sai kiến thức
+  (nó chỉ là cổng nhất quán, xem TRAPS.md mục 4). 223 câu còn lại tự chấm được cũng chỉ được
+  kiểm tính nhất quán, không kiểm tính đúng. Chuẩn sư phạm mới rà trên phần bài trọng điểm,
+  chưa quét hết 294 bài. Chi tiết: `docs/changelog/0295-2026-09-13-hoan-thien-4-mon-stem.md`.
 - **Môn Toán thiếu hình học không gian và thống kê** — lớp 10 C5; lớp 11 C3, C4, C8; lớp 12 C2, C3,
   và phương trình đường thẳng trong không gian. Đây là mảng mỏng nhất của cả bốn môn STEM.
 - **Môn Sinh chưa có nhánh bồi dưỡng học sinh giỏi** — đợt 2026-09-13 chỉ làm cho Toán/Lí/Hoá.

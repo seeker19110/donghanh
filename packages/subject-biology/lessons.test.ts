@@ -1,5 +1,6 @@
 // lessons.test.ts — Kiểm tra toàn bộ bài học Sinh học (chạy qua Zod schema validation).
 import { describe, it, expect } from 'vitest'
+import { gradeAnswer } from '@dhcb/core-grading'
 import { BIOLOGY_LESSONS, getBiologyLesson, listBiologyLessonsByGrade } from './lessons.js'
 import { BiologyLessonSchema, BIOLOGY_GRADES } from './lessonTypes.js'
 
@@ -82,6 +83,35 @@ describe('BIOLOGY_LESSONS registry', () => {
         JSON.stringify(lesson).includes(String.fromCharCode(92, 92) + 'n'),
         `Bài ${lesson.id} còn chứa chuỗi "${chuoiSai}" — phải là ký tự xuống dòng thật`,
       ).toBe(false)
+    }
+  })
+
+  it('mọi bài đánh dấu reviewStatus (không âm thầm coi là đã duyệt)', () => {
+    for (const lesson of BIOLOGY_LESSONS) {
+      expect(['draft', 'reviewed']).toContain(lesson.reviewStatus)
+    }
+  })
+
+  it('mọi checkQuestion tự chấm ĐÚNG với chính đáp án đã khai — dùng engine chấm thật, không AI', () => {
+    // CẢNH BÁO ĐỌC KỸ: ca test này là CỔNG NHẤT QUÁN, KHÔNG phải cổng ĐÚNG KIẾN THỨC.
+    // Nó lấy chính đáp án đã khai làm "bài làm của học sinh" rồi đòi engine chấm ra đúng —
+    // tức chỉ chứng minh dữ liệu bài học không tự mâu thuẫn với engine sẽ chấm nó. Với câu
+    // trắc nghiệm, nó KHÔNG chứng minh phương án được đánh dấu là phương án đúng về kiến thức.
+    // Việc đó chỉ người có chuyên môn đọc mới làm được (xem TRAPS.md mục 4).
+    for (const lesson of BIOLOGY_LESSONS) {
+      for (const q of lesson.checkQuestions) {
+        const studentInput =
+          q.answer.kind === 'choice'
+            ? q.answer.correctIds.join(',')
+            : q.answer.unit
+              ? `${q.answer.value} ${q.answer.unit}`
+              : `${q.answer.value}`
+        const result = gradeAnswer(studentInput, q.answer)
+        expect(
+          result.correct,
+          `Bài ${lesson.id}, câu "${q.prompt}" — đáp án đã khai KHÔNG tự chấm đúng (lý do: ${result.reason})`,
+        ).toBe(true)
+      }
     }
   })
 })

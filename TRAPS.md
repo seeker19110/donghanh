@@ -87,3 +87,44 @@ dist-server` rồi `npm run typecheck`. Đây là cách duy nhất tái hiện �
 
 Liên quan: CLAUDE.md mục 8 đã cảnh báo "công cụ phải khớp lockfile" cho trường hợp `node_modules`
 cũ; mục này mở rộng khuôn đó sang lockfile, tạo tác build và lệnh chạy.
+
+---
+
+## 4. Test "chấm lại toàn bộ đáp án" là cổng NHẤT QUÁN, không phải cổng ĐÚNG KIẾN THỨC
+
+**Ngày/PR:** phát hiện 2026-09-14 khi rà lại số liệu nợ nội dung của đợt 4 môn STEM (PR #893,
+`docs/changelog/0295-*.md`).
+
+**Khuôn lỗi:** đợt #893 bỏ cổng người có chuyên môn duyệt trước khi nối nội dung vào app, và ghi
+trong nhật ký rằng thay vào đó "mỗi môn có test canh chấm lại TOÀN BỘ đáp án bằng engine chấm
+thật, coi như người duyệt tự động". Đọc mã thì ca test đó **lấy chính đáp án đã khai làm bài làm
+của học sinh** rồi khẳng định engine chấm ra đúng
+(`packages/subject-math/lessons.test.ts` — `studentInput` dựng từ `q.answer`, rồi
+`expect(gradeAnswer(studentInput, q.answer).correct).toBe(true)`). Đó là một **tautology**:
+
+- Với câu **trắc nghiệm**, nó chỉ chứng minh `correctIds` có mặt trong `choices` — KHÔNG chứng
+  minh phương án được đánh dấu là phương án đúng về kiến thức. **442/665 câu (66,5%) của 4 môn
+  STEM là trắc nghiệm**, riêng môn Sinh 169/170 = 99,4%.
+- Với câu **numeric/expression**, nó chỉ chứng minh engine chấm nhất quán với dữ liệu, không
+  chứng minh đáp số đúng.
+
+Nguy hiểm không nằm ở ca test — ca test có ích thật (nó đã bắt lỗi engine nuốt số thập phân ba
+chữ số). Nguy hiểm nằm ở chỗ **tài liệu điều hành mô tả nó như một cổng duyệt nội dung**, nên
+"586 tệp test xanh" bị đọc thành "nội dung đã được duyệt", và nợ chuyên môn biến mất khỏi tầm
+nhìn.
+
+**Cách rà:** với bất kỳ test nào tự nhận là "kiểm chất lượng nội dung", hỏi đúng một câu —
+**dữ liệu đầu vào của bài kiểm tra có ĐỘC LẬP với dữ liệu đang bị kiểm không?** Nếu đầu vào
+được dựng ra từ chính trường đang kiểm, ca test không thể phát hiện trường đó sai. Dấu hiệu
+nhận ra trong mã: `studentInput` (hay biến tương đương) được suy ra từ `q.answer` bằng một
+`switch` trên `q.answer.kind`.
+
+**Cổng chốt chặn:**
+
+1. Mọi bài nội dung do AI soạn mang `reviewStatus: 'draft'` cho tới khi có người chuyên môn đọc.
+   Test `mọi bài đánh dấu reviewStatus` canh trường này tồn tại ở cả 4 môn (từ 2026-09-14 môn
+   Sinh cũng có — trước đó thiếu, dù nhật ký #893 ghi là đủ cả 4).
+2. Comment cảnh báo ngay trên thân ca test ở cả 4 môn, nói rõ nó là cổng nhất quán chứ không
+   phải cổng đúng kiến thức — để người đọc mã sau không kết luận nhầm như nhật ký #893.
+3. `PROGRESS.md` phải ghi nợ theo **toàn bộ 665 câu + 294 bài `draft`**, không thu hẹp về riêng
+   phần trắc nghiệm: 223 câu tự chấm được cũng chỉ được kiểm tính nhất quán.

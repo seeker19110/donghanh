@@ -37,6 +37,13 @@ Tổng: **294 bài**, 55 bài có hoạt ảnh, 24 chuyên đề HSG ba cấp tr
 1. **Bỏ cổng duyệt chuyên môn trước khi nối vào app** (người dùng chốt trong phiên). Đảo ngược
    quyết định cũ ở `PROGRESS.md`. Đổi lại, mỗi môn có test canh chấm lại TOÀN BỘ đáp án bằng
    engine chấm thật, coi như "người duyệt tự động". Mọi bài vẫn mang `reviewStatus: 'draft'`.
+
+   > **ĐÍNH CHÍNH 2026-09-14 (xem `docs/changelog/0297-*.md` + TRAPS.md mục 4):** hai chỗ sai
+   > trong câu trên. (1) Ca test đó **không phải "người duyệt tự động"** — nó lấy chính đáp án
+   > đã khai làm bài làm của học sinh, nên là cổng NHẤT QUÁN chứ không phải cổng ĐÚNG KIẾN
+   > THỨC; với 442/665 câu trắc nghiệm nó không kiểm được gì về đúng/sai kiến thức. (2) Lúc đó
+   > **môn Sinh KHÔNG hề có ca test này** (chỉ Toán/Lí/Hoá có); đã bổ sung 2026-09-14.
+
 2. **Màu đúng/sai chỉ dùng cho hình vẽ, cấm dùng cho CHỮ** trong hoạt ảnh — chữ cần 4,5:1/7:1,
    hình chỉ cần 3:1. Chặn ngay tại schema thay vì đợi CI đỏ.
 3. Hoạt ảnh SVG/CSS, không WebGL (người dùng chốt).
