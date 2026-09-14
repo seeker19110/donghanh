@@ -18,6 +18,7 @@ import Layout from '../../components/Layout'
 import { PageShell } from '@core/PageShell'
 import { buttonClass } from '@core/buttonStyles'
 import { usePageTitle } from '../../lib/usePageTitle'
+import { ChuaDuyetChuyenMon } from '../../components/ChuaDuyetChuyenMon'
 import {
   duongDanDanhSachBai,
   getStemSubject,
@@ -186,6 +187,8 @@ export default function StemLessonView() {
                 : `Lớp ${bai.grade} · Chương ${bai.chapterNumber}: ${bai.chapterTitle}`}
             </p>
             <h1 className="mt-1 text-2xl sm:text-3xl font-extrabold text-content">{bai.title}</h1>
+
+            {bai.reviewStatus === 'draft' && <ChuaDuyetChuyenMon />}
 
             <p className="mt-4 text-content-secondary">{bai.hook}</p>
 

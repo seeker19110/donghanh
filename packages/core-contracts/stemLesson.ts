@@ -15,6 +15,9 @@ export interface StemCheckQuestion {
   explain: string
 }
 
+/** Trạng thái duyệt chuyên môn của một bài. */
+export type ReviewStatus = 'draft' | 'reviewed'
+
 /** Phần chung mà mọi bài học STEM đều có — bốn kiểu bài của bốn môn đều thoả. */
 export interface StemLessonLike {
   id: string
@@ -31,6 +34,9 @@ export interface StemLessonLike {
   animation?: LessonAnimation
   track: LessonTrack
   advancedTier?: AdvancedTier
+  /** 'draft' = CHƯA có người chuyên môn đọc lại. Giao diện PHẢI nói ra điều này với người học
+   *  (audit 2026-09-14: 294/294 bài là draft mà không màn nào hé lộ). */
+  reviewStatus: ReviewStatus
 }
 
 /** Bản tóm tắt NHẸ của một bài — đủ cho mọi màn liệt kê, không kéo theo nội dung bài. */
@@ -44,6 +50,7 @@ export interface StemLessonSummary {
   track: LessonTrack
   advancedTier?: AdvancedTier
   hasAnimation: boolean
+  reviewStatus: ReviewStatus
   /** Khoá của tệp chương chứa bài này — dùng để nạp lười đúng tệp. */
   chapterKey: string
 }

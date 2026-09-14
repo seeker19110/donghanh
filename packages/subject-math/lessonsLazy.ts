@@ -14,6 +14,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Mệnh đề, mệnh đề kéo theo và mệnh đề phủ định',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan10c1',
   },
   {
@@ -25,6 +26,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Tập hợp và các phép toán trên tập hợp',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'toan10c1',
   },
   {
@@ -36,6 +38,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Miền nghiệm của bất phương trình bậc nhất hai ẩn',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'toan10c2',
   },
   {
@@ -47,6 +50,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Định lí côsin và định lí sin',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan10c3',
   },
   {
@@ -58,6 +62,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Vectơ và phép cộng vectơ',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'toan10c4',
   },
   {
@@ -69,6 +74,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Tích vô hướng của hai vectơ',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan10c4',
   },
   {
@@ -80,6 +86,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Hàm số bậc hai và đồ thị parabol',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'toan10c6',
   },
   {
@@ -91,6 +98,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Dấu của tam thức bậc hai và bất phương trình bậc hai',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan10c6',
   },
   {
@@ -102,6 +110,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Phương trình đường thẳng và khoảng cách từ điểm đến đường thẳng',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan10c7',
   },
   {
@@ -113,6 +122,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Phương trình đường tròn',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'toan10c7',
   },
   {
@@ -124,6 +134,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Hoán vị, chỉnh hợp và tổ hợp',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan10c8',
   },
   {
@@ -135,6 +146,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Nhị thức Newton',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan10c8',
   },
   {
@@ -146,6 +158,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Không gian mẫu, biến cố và xác suất cổ điển',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan10c9',
   },
   {
@@ -157,6 +170,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Giá trị lượng giác của góc lượng giác và đường tròn lượng giác',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'toan11c1',
   },
   {
@@ -168,6 +182,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Phương trình lượng giác cơ bản',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan11c1',
   },
   {
@@ -179,6 +194,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Cấp số cộng và cấp số nhân',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'toan11c2',
   },
   {
@@ -190,6 +206,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Giới hạn của dãy số và tổng cấp số nhân lùi vô hạn',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'toan11c5',
   },
   {
@@ -201,6 +218,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Giới hạn của hàm số và hàm số liên tục',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan11c5',
   },
   {
@@ -212,6 +230,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Lôgarit và các quy tắc tính',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan11c6',
   },
   {
@@ -223,6 +242,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Phương trình mũ và phương trình lôgarit',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan11c6',
   },
   {
@@ -234,6 +254,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Đường thẳng vuông góc với mặt phẳng',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan11c7',
   },
   {
@@ -246,6 +267,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-truong',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan10c20',
   },
   {
@@ -258,6 +280,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-truong',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan10c20',
   },
   {
@@ -269,6 +292,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Khái niệm đạo hàm và ý nghĩa hình học',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'toan11c9',
   },
   {
@@ -281,6 +305,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-tinh',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan11c20',
   },
   {
@@ -293,6 +318,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-tinh',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan11c20',
   },
   {
@@ -304,6 +330,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Tính đơn điệu và cực trị của hàm số',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'toan12c1',
   },
   {
@@ -315,6 +342,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Đường tiệm cận của đồ thị hàm số',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan12c1',
   },
   {
@@ -326,6 +354,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Nguyên hàm — phép toán ngược của đạo hàm',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan12c4',
   },
   {
@@ -337,6 +366,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Tích phân và ứng dụng tính diện tích, thể tích',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'toan12c4',
   },
   {
@@ -348,6 +378,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Hệ toạ độ Oxyz và tích có hướng của hai vectơ',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan12c5',
   },
   {
@@ -359,6 +390,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Phương trình mặt phẳng và mặt cầu',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan12c5',
   },
   {
@@ -370,6 +402,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Xác suất có điều kiện và công thức Bayes',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan12c6',
   },
   {
@@ -382,6 +415,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-quoc-gia',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan12c20',
   },
   {
@@ -394,6 +428,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     track: 'advanced',
     advancedTier: 'hsg-quoc-gia',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'toan12c20',
   },
 ]

@@ -102,4 +102,34 @@ describe('BIOLOGY_LESSONS registry', () => {
       ).toBe(false)
     }
   })
+  it('không hai bài nào trùng tiêu đề nguyên văn', () => {
+    // Audit 2026-09-14 (F8): 6 bài Hoá trùng tiêu đề y hệt giữa lớp 11 và 12 ("Ôn tập chương 1"…),
+    // nên trong danh sách / kết quả tìm kiếm / slug URL chúng trông là một.
+    const theoTieuDe = new Map<string, string[]>()
+    for (const l of BIOLOGY_LESSONS) {
+      const ds = theoTieuDe.get(l.title) ?? []
+      ds.push(l.id)
+      theoTieuDe.set(l.title, ds)
+    }
+    const trung = [...theoTieuDe.entries()].filter(([, ids]) => ids.length > 1)
+    expect(
+      trung.map(([t, ids]) => `"${t}" dùng cho ${ids.join(', ')}`),
+      'tiêu đề phải phân biệt được bài này với bài kia',
+    ).toEqual([])
+  })
+  it('không lời giải nào cụt dưới 40 ký tự', () => {
+    // Audit 2026-09-14 (F9): 19 câu Lí + 1 câu Hoá có `explain` dưới 40 ký tự — đủ chỗ cho phép
+    // thế số, không đủ chỗ nói VÌ SAO dùng công thức đó. Với môn mà học sinh sai vì hiểu nhầm
+    // khái niệm, một dòng cụt là mất luôn giá trị sư phạm của câu hỏi. Schema chỉ ép min(1).
+    // Ngưỡng 40 = đúng ngưỡng lượt audit đã đo và đã sửa hết. Đo lại 2026-09-14 ở ngưỡng 60 thì
+    // còn 25 câu Lí + 5 câu Hoá nữa ở dải 41-59 — chưa sửa, chờ người dùng quyết (nợ đã ghi ở
+    // PROGRESS.md). Nâng ngưỡng lên 60 chỉ khi đã viết lại nốt dải đó.
+    const cut = BIOLOGY_LESSONS.flatMap((l) =>
+      l.checkQuestions
+        .map((q, i) => ({ q, i }))
+        .filter(({ q }) => q.explain.trim().length < 40)
+        .map(({ q, i }) => `${l.id}#q${i + 1} (${q.explain.trim().length} ký tự)`),
+    )
+    expect(cut, 'lời giải phải nói được vì sao, không chỉ thế số').toEqual([])
+  })
 })

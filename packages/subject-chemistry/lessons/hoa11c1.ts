@@ -577,7 +577,7 @@ export const HOA11_C1_LESSONS: ChemLesson[] = [
     chapterNumber: 1,
     chapterTitle: 'Cân bằng hoá học',
     lessonNumber: 3,
-    title: 'Ôn tập chương 1',
+    title: 'Ôn tập chương 1 — Cân bằng hoá học',
     hook:
       'Cân bằng hoá học và cân bằng trong dung dịch là nền tảng cốt lõi giải thích hoạt động của cơ thể ' +
       '(như hệ đệm pH trong máu) cho đến các nhà máy sản xuất hoá chất quy mô lớn.',

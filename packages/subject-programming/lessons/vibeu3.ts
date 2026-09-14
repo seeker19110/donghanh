@@ -308,6 +308,14 @@ vibe`,
           hidden: false,
           label: 'Cả hai tính năng nhỏ đều xanh khi kiểm chung',
         },
+        {
+          stdinLines: [],
+          expected: 'ket qua: 2 xanh',
+          match: 'contains',
+          hidden: false,
+          label:
+            'Phải đủ HAI tính năng nhỏ: làm một tính năng vẫn ra "xanh het" nhưng số xanh chỉ là 1.',
+        },
       ],
       hints: [
         'Hai vòng mota → xemdiff → nhan riêng biệt, mỗi vòng MỘT việc kiểm được — đừng nhét hai việc vào một mota.',

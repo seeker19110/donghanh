@@ -158,7 +158,7 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
     chapterNumber: 4,
     chapterTitle: 'Polymer',
     lessonNumber: 14,
-    title: 'Ôn tập chương 4',
+    title: 'Ôn tập chương 4 — Polymer',
     hook:
       'Chương 4 kết nối bức tranh toàn cảnh từ các monomer phân tử nhỏ sang các vật liệu polymer khổng lồ, ' +
       'nền tảng của vật liệu học hiện đại.',

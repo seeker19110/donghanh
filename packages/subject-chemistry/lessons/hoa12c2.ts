@@ -230,7 +230,7 @@ export const HOA12_C2_LESSONS: ChemLesson[] = [
     chapterNumber: 2,
     chapterTitle: 'Carbohydrate',
     lessonNumber: 7,
-    title: 'Ôn tập chương 2',
+    title: 'Ôn tập chương 2 — Carbohydrate',
     hook:
       'Chương 2 tổng hợp bức tranh toàn cảnh về Carbohydrate — nguồn dinh dưỡng và vật liệu ' +
       'sinh học cốt lõi liên kết chặt chẽ mọi sự sống.',

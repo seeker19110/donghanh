@@ -390,7 +390,7 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
     chapterNumber: 2,
     chapterTitle: 'Nitrogen - Sulfur',
     lessonNumber: 9,
-    title: 'Ôn tập chương 2',
+    title: 'Ôn tập chương 2 — Nitrogen - Sulfur',
     hook:
       'Chương 2 giới thiệu cho chúng ta hai phi kim nhóm A phi thường: Nitrogen và Sulfur. ' +
       'Các hợp chất của chúng chi phối cả nông nghiệp và công nghiệp nặng.',

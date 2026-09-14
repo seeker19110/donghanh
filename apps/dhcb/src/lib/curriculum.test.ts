@@ -346,6 +346,28 @@ describe('Lọc theo nhóm tuổi — ẩn vòng notForKids cho Nhi đồng (GĐ
     expect(notForKidsIds.length).toBeGreaterThan(0)
   })
 
+  it('vòng SINH TỰ ĐỘNG chủ đề người lớn cũng phải gắn cờ, không riêng vòng thủ công', () => {
+    // Audit 2026-09-14 (F4): cờ này từng chỉ phủ 12 vòng thủ công; 610 vòng sinh tự động không
+    // vòng nào gắn — kể cả vòng A1/A2/B1 chủ đề kinh doanh, y tế, xã hội mà trẻ em học tới.
+    // Khoá chủ đề đặt ở `TOPIC_KEYS_NOT_FOR_KIDS` (scripts/lib/vocabTopics.ts); id vòng sinh tự
+    // động có dạng `cefr-<bậc>-<khoá chủ đề>-<số>`.
+    const khoaNguoiLon = ['business', 'law_politics', 'health_med', 'society', 'thinking']
+    const soHo = FOUNDATION.filter(
+      (c) =>
+        c.id.startsWith('cefr-') &&
+        khoaNguoiLon.some((k) => c.id.includes(`-${k}-`)) &&
+        !c.notForKids,
+    )
+    expect(
+      soHo.map((c) => c.id),
+      'vòng chủ đề người lớn bị bỏ sót cờ notForKids',
+    ).toEqual([])
+    expect(
+      FOUNDATION.filter((c) => c.id.startsWith('cefr-') && c.notForKids).length,
+      'ca test mất nghĩa nếu không vòng sinh tự động nào được gắn cờ',
+    ).toBeGreaterThan(0)
+  })
+
   it('getCircles() mặc định (không rõ nhóm tuổi) VẪN CÓ đủ vòng notForKids', () => {
     const ids = new Set(getCircles().map((c) => c.id))
     for (const id of notForKidsIds) expect(ids.has(id)).toBe(true)
@@ -414,5 +436,16 @@ describe('Lọc theo nhóm tuổi — ẩn vòng notForKids cho Nhi đồng (GĐ
     expect(getCircles('nhi_dong')).toBe(a)
     const p = getLearningPath('nhi_dong')
     expect(getLearningPath('nhi_dong')).toBe(p)
+  })
+})
+
+// Audit 2026-09-14 (F5): 23 vòng dưới 5 từ, hai vòng chỉ có ĐÚNG 1 từ. Một "vòng" 1 từ vẫn
+// chiếm một mục lộ trình, một lần chuyển màn và một mốc tiến độ mà không dạy được gì.
+describe('Cỡ vòng từ vựng tối thiểu', () => {
+  it('không vòng nào dưới 5 từ', () => {
+    const coi = FOUNDATION.filter((c) => c.words.length < 5).map(
+      (c) => `${c.id}(${c.words.length} từ)`,
+    )
+    expect(coi).toEqual([])
   })
 })

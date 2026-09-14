@@ -243,6 +243,13 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
 - **Môn Toán thiếu hình học không gian và thống kê** — lớp 10 C5; lớp 11 C3, C4, C8; lớp 12 C2, C3,
   và phương trình đường thẳng trong không gian. Đây là mảng mỏng nhất của cả bốn môn STEM.
 - **Môn Sinh chưa có nhánh bồi dưỡng học sinh giỏi** — đợt 2026-09-13 chỉ làm cho Toán/Lí/Hoá.
+- ✅ **Sáu việc nhỏ của lượt audit ĐÃ TRẢ XONG (2026-09-14, `docs/changelog/0300-*.md`):**
+  F1 huy hiệu "chưa duyệt chuyên môn" · F4 cờ `notForKids` cho vòng sinh tự động (12 → 42
+  vòng) · F5 gộp vòng dưới 5 từ (699 → 677 vòng, không mất từ nào) · F8 tiêu đề bài Hoá hết
+  trùng · F9 viết lại 20 lời giải cụt · F10 bổ ca kiểm cho 7 bài Vibe.
+  **NỢ MỚI ghi nhận trong lúc làm:** (a) 25 câu Lí + 5 câu Hoá có `explain` dài 41–59 ký tự
+  (cổng đặt ở ngưỡng 40 đã audit, chưa nới lên 60); (b) 4 bài SQL muốn kiểm chặt hơn cần hạ
+  tầng "mỗi test-case một bộ dữ liệu" — việc kiến trúc, chưa làm.
 - ✅/🟡 **Audit tính chính xác (2026-09-14) — ĐÃ SỬA phần máy làm được, xem `docs/changelog/0299-*.md`.** Báo cáo:
   `docs/audit/2026-09-14-tinh-chinh-xac-cong-thuc-va-ket-qua.md`. **9 câu Vật lí chấm SAI học
   sinh trả lời ĐÚNG** vì lưu `value` ở đơn vị hiển thị thay vì SI (`core-grading/types.ts:41`

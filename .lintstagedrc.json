@@ -3,6 +3,8 @@
     "eslint --max-warnings 0",
     "prettier --write"
   ],
-  "scripts/**/*.{ts,tsx}": ["eslint --max-warnings 0", "prettier --write"],
+  "scripts/*.{ts,tsx}": ["eslint --max-warnings 0", "prettier --write"],
+  "scripts/!(archive)/**/*.{ts,tsx}": ["eslint --max-warnings 0", "prettier --write"],
+  "scripts/archive/**/*.{ts,tsx}": ["prettier --write"],
   "*.{js,cjs,mjs,json,css,md,html,yml,yaml}": ["prettier --write"]
 }

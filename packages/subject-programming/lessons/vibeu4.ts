@@ -53,6 +53,14 @@ xemdiff v1`,
           hidden: false,
           label: 'Mô tả đủ rõ (kèm ranh giới) tạo được bản nháp',
         },
+        {
+          stdinLines: [],
+          expected: 'khong lam',
+          match: 'contains',
+          hidden: false,
+          label:
+            'Mô tả phải có vế ranh giới "khong lam" — trọng tâm bài; ca cũ chỉ kiểm có tạo được bản nháp.',
+        },
       ],
       hints: [
         'Mô tả vẫn phải đủ ba vế cũ (ai dùng, vào/ra, ca đặc biệt) — thêm câu "khong lam: ..." vào CUỐI.',

@@ -14,6 +14,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Giới thiệu khái quát môn Sinh học',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c1',
   },
   {
@@ -25,6 +26,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Phương pháp nghiên cứu và học tập môn Sinh học',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c1',
   },
   {
@@ -36,6 +38,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Các cấp độ tổ chức của thế giới sống',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c1',
   },
   {
@@ -47,6 +50,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Các nguyên tố hoá học và nước',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c1',
   },
   {
@@ -58,6 +62,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Các phân tử sinh học',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c1',
   },
   {
@@ -69,6 +74,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Nhận biết một số phân tử sinh học',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c1',
   },
   {
@@ -80,6 +86,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Tế bào nhân sơ',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c2',
   },
   {
@@ -91,6 +98,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Tế bào nhân thực',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c2',
   },
   {
@@ -102,6 +110,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Quan sát tế bào',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c2',
   },
   {
@@ -113,6 +122,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Trao đổi chất qua màng tế bào',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c2',
   },
   {
@@ -124,6 +134,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Thí nghiệm co và phản co nguyên sinh',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c2',
   },
   {
@@ -135,6 +146,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Truyền tin tế bào',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c2',
   },
   {
@@ -146,6 +158,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Khái quát về chuyển hoá vật chất và năng lượng',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c3',
   },
   {
@@ -157,6 +170,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Phân giải và tổng hợp các chất trong tế bào',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c3',
   },
   {
@@ -169,6 +183,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
       'Thực hành: Thí nghiệm phân tích ảnh hưởng của một số yếu tố đến hoạt tính của enzyme và kiểm tra hoạt tính của enzyme amylase',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c3',
   },
   {
@@ -180,6 +195,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Chu kì tế bào và nguyên phân',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c3',
   },
   {
@@ -191,6 +207,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Giảm phân',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c3',
   },
   {
@@ -202,6 +219,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Làm và quan sát tiêu bản quá trình nguyên phân và giảm phân',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c3',
   },
   {
@@ -213,6 +231,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Công nghệ tế bào',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c3',
   },
   {
@@ -224,6 +243,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Khái quát về vi sinh vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c4',
   },
   {
@@ -235,6 +255,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Trao đổi chất, sinh trưởng và sinh sản ở vi sinh vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c4',
   },
   {
@@ -246,6 +267,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Vai trò và ứng dụng của vi sinh vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c4',
   },
   {
@@ -257,6 +279,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Một số phương pháp nghiên cứu vi sinh vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c4',
   },
   {
@@ -268,6 +291,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Khái quát về virus',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c4',
   },
   {
@@ -279,6 +303,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Một số bệnh do virus và các thành tựu nghiên cứu ứng dụng virus',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c4',
   },
   {
@@ -291,6 +316,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
       'Thực hành: Điều tra một số bệnh do virus gây ra và nhân giống cây trồng bằng nuôi cấy mô',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh10c4',
   },
   {
@@ -302,6 +328,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Khái quát về trao đổi chất và chuyển hóa năng lượng ở sinh vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c1',
   },
   {
@@ -313,6 +340,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Trao đổi nước và khoáng ở thực vật',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c1',
   },
   {
@@ -324,6 +352,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Một số thí nghiệm về trao đổi nước và khoáng ở thực vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c1',
   },
   {
@@ -335,6 +364,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Quang hợp ở thực vật',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c1',
   },
   {
@@ -346,6 +376,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Một số thí nghiệm về quang hợp ở thực vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c1',
   },
   {
@@ -357,6 +388,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Hô hấp ở thực vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c1',
   },
   {
@@ -368,6 +400,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Một số thí nghiệm về hô hấp ở thực vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c1',
   },
   {
@@ -379,6 +412,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Dinh dưỡng và tiêu hóa ở động vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c1',
   },
   {
@@ -390,6 +424,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Hô hấp ở động vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c1',
   },
   {
@@ -401,6 +436,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Tuần hoàn ở động vật',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c1',
   },
   {
@@ -412,6 +448,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Một số thí nghiệm về tuần hoàn ở động vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c1',
   },
   {
@@ -423,6 +460,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Bài tiết và cân bằng nội môi',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c1',
   },
   {
@@ -434,6 +472,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Cảm ứng ở thực vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c2',
   },
   {
@@ -445,6 +484,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Một số thí nghiệm về cảm ứng ở thực vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c2',
   },
   {
@@ -456,6 +496,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Cảm ứng ở động vật',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c2',
   },
   {
@@ -467,6 +508,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Một số thí nghiệm về cảm ứng ở động vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c2',
   },
   {
@@ -478,6 +520,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Sinh trưởng và phát triển ở thực vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c2',
   },
   {
@@ -489,6 +532,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Một số thí nghiệm về sinh trưởng và phát triển ở thực vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c2',
   },
   {
@@ -500,6 +544,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Sinh trưởng và phát triển ở động vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c2',
   },
   {
@@ -511,6 +556,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Quan sát các giai đoạn sinh trưởng, phát triển ở động vật và vẽ vòng đời',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c2',
   },
   {
@@ -522,6 +568,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Sinh sản ở thực vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c2',
   },
   {
@@ -533,6 +580,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Nhân giống vô tính ở thực vật và thụ phấn nhân tạo',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c2',
   },
   {
@@ -544,6 +592,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Sinh sản ở động vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c2',
   },
   {
@@ -556,6 +605,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
       'Thực hành: Khảo sát hiện tượng thụ tinh ở động vật và tìm hiểu các biện pháp tránh thai',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c2',
   },
   {
@@ -568,6 +618,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Mối quan hệ giữa các quá trình sinh lý trong cơ thể sinh vật',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c2',
   },
   {
@@ -580,6 +631,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Một số ngành nghề liên quan đến sinh học cơ thể',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh11c2',
   },
   {
@@ -591,6 +643,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Gen, mã di truyền và nhân đôi ADN',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -602,6 +655,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Phiên mã và dịch mã',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -613,6 +667,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Điều hòa biểu hiện gen',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -624,6 +679,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Đột biến gen',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -635,6 +691,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Nhiễm sắc thể và đột biến cấu trúc nhiễm sắc thể',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -646,6 +703,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Đột biến số lượng nhiễm sắc thể',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -657,6 +715,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Quan sát tiêu bản nhiễm sắc thể và đột biến nhiễm sắc thể',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -668,6 +727,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Học thuyết di truyền của Mendel',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -679,6 +739,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Tương tác gen và tác động đa hiệu của gen',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -690,6 +751,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Liên kết gen và hoán vị gen',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -701,6 +763,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Di truyền liên kết giới tính và di truyền ngoài nhân',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -712,6 +775,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Ảnh hưởng của môi trường lên sự biểu hiện của gen',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -723,6 +787,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thực hành: Lai giống',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -734,6 +799,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Cấu trúc di truyền của quần thể',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -745,6 +811,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Trạng thái cân bằng di truyền của quần thể ngẫu phối',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -756,6 +823,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Chọn giống vật nuôi và cây trồng bằng phương pháp truyền thống',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -767,6 +835,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Chọn giống bằng công nghệ tế bào',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -778,6 +847,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Chọn giống bằng công nghệ gen',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -789,6 +859,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Di truyền y học và bảo vệ vốn gen loài người',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c1',
   },
   {
@@ -800,6 +871,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Bằng chứng tiến hoá',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c2',
   },
   {
@@ -811,6 +883,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Học thuyết tiến hoá của Darwin',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c2',
   },
   {
@@ -822,6 +895,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Thuyết tiến hoá tổng hợp hiện đại và các nhân tố tiến hoá',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c2',
   },
   {
@@ -833,6 +907,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Hình thành loài và tiến hoá lớn',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c2',
   },
   {
@@ -844,6 +919,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Nguồn gốc sự sống và tiến hoá của sinh giới qua các đại địa chất',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c2',
   },
   {
@@ -855,6 +931,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Sinh thái học và sinh thái học cá thể',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c2',
   },
   {
@@ -866,6 +943,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Quần thể sinh vật và các đặc trưng cơ bản',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c2',
   },
   {
@@ -877,6 +955,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Quần xã sinh vật và các mối quan hệ trong quần xã',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c2',
   },
   {
@@ -888,6 +967,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Hệ sinh thái',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c2',
   },
   {
@@ -899,6 +979,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Chu trình sinh địa hoá và sinh quyển',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c2',
   },
   {
@@ -910,6 +991,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Bảo vệ đa dạng sinh học và môi trường',
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c2',
   },
   {
@@ -921,6 +1003,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Sinh thái học phục hồi và bảo tồn',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c3',
   },
   {
@@ -932,6 +1015,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'Phát triển bền vững và dấu chân sinh thái',
     track: 'core',
     hasAnimation: true,
+    reviewStatus: 'draft',
     chapterKey: 'sinh12c3',
   },
 ]

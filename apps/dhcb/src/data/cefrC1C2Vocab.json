@@ -125,7 +125,8 @@
           "forms": { "plural": "consultancies" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-c1-law_politics-1",
@@ -228,12 +229,13 @@
           "freq": 29801
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-c1-science_tech-1",
-      "titleVi": "Khoa học & công nghệ 1",
-      "titleEn": "Science & technology 1",
+      "titleVi": "Khoa học & công nghệ",
+      "titleEn": "Science & technology",
       "emoji": "🔬",
       "words": [
         {
@@ -424,16 +426,7 @@
           "freq": 39000,
           "level": "C1",
           "forms": { "plural": "specifications" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c1-science_tech-2",
-      "titleVi": "Khoa học & công nghệ 2",
-      "titleEn": "Science & technology 2",
-      "emoji": "🔬",
-      "words": [
+        },
         {
           "word": "masonry",
           "pos": "n",
@@ -475,8 +468,8 @@
     },
     {
       "id": "cefr-c1-health_med-1",
-      "titleVi": "Sức khỏe & y học 1",
-      "titleEn": "Health & medicine 1",
+      "titleVi": "Sức khỏe & y học",
+      "titleEn": "Health & medicine",
       "emoji": "🏥",
       "words": [
         {
@@ -664,16 +657,7 @@
           "level": "C1",
           "freq": 26869,
           "forms": { "plural": "dispensaries" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c1-health_med-2",
-      "titleVi": "Sức khỏe & y học 2",
-      "titleEn": "Health & medicine 2",
-      "emoji": "🏥",
-      "words": [
+        },
         {
           "word": "repellant",
           "pos": "n",
@@ -698,7 +682,8 @@
           "freq": 47123
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-c1-nature_env-1",
@@ -774,49 +759,6 @@
           "level": "C1",
           "freq": 49750,
           "forms": { "v3s": "domesticates", "ving": "domesticating", "past": "domesticated" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c1-arts_culture-1",
-      "titleVi": "Nghệ thuật & văn hóa",
-      "titleEn": "Arts & culture",
-      "emoji": "🎨",
-      "words": [
-        {
-          "word": "connoisseur",
-          "pos": "n",
-          "vi": "người sành sỏi, người am hiểu (nghệ thuật, ẩm thực)",
-          "ex_en": "He is a true connoisseur of fine wine.",
-          "ex_vi": "Anh ấy là một người thực sự sành sỏi về rượu vang ngon.",
-          "ipa_en": "/ˌkɒnəˈsɜr/",
-          "ipa_vi": "/ŋɯəi˨˩/",
-          "level": "C1",
-          "freq": 22257,
-          "forms": { "plural": "connoisseurs" }
-        },
-        {
-          "word": "artistically",
-          "pos": "adv",
-          "vi": "về mặt nghệ thuật",
-          "ex_en": "The building was artistically designed with bold colors.",
-          "ex_vi": "Tòa nhà được thiết kế về mặt nghệ thuật với những màu sắc táo bạo.",
-          "ipa_en": "/ɑːrˈtɪstɪkli/",
-          "ipa_vi": "/ve˨˩/",
-          "level": "C1",
-          "freq": 31025
-        },
-        {
-          "word": "unmusical",
-          "pos": "adj",
-          "vi": "không có năng khiếu âm nhạc, thiếu du dương",
-          "ex_en": "He admits he is completely unmusical and can't hold a tune.",
-          "ex_vi": "Anh ấy thừa nhận mình hoàn toàn không có năng khiếu âm nhạc và không thể hát đúng nhịp.",
-          "ipa_en": "/ʌnˈmjuzɪkəl/",
-          "ipa_vi": "/xoŋ˧/",
-          "level": "C1",
-          "freq": 73375
         }
       ],
       "sentences": []
@@ -930,7 +872,8 @@
           "level": "C1"
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-c1-emotion-1",
@@ -1333,7 +1276,8 @@
           "forms": { "plural": "abstractions" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-c1-communication-1",
@@ -8042,16 +7986,7 @@
           "ipa_vi": "/sɯ˨˩ʔ/",
           "level": "C1",
           "forms": { "plural": "domestications" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c1-noun-34",
-      "titleVi": "Danh từ nâng cao 34",
-      "titleEn": "Advanced nouns 34",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "popularization",
           "pos": "n",
@@ -15199,16 +15134,7 @@
           "ipa_en": "/ˈlɪniərli/",
           "ipa_vi": "/tʰew˧/",
           "level": "C1"
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c1-modifier-28",
-      "titleVi": "Tính từ & trạng từ 28",
-      "titleEn": "Adjectives & adverbs 28",
-      "emoji": "🎭",
-      "words": [
+        },
         {
           "word": "slackly",
           "pos": "adv",
@@ -15282,6 +15208,40 @@
           "ipa_vi": "/mak̚˨˩ʔ/",
           "freq": 20168,
           "level": "C1"
+        },
+        {
+          "word": "connoisseur",
+          "pos": "n",
+          "vi": "người sành sỏi, người am hiểu (nghệ thuật, ẩm thực)",
+          "ex_en": "He is a true connoisseur of fine wine.",
+          "ex_vi": "Anh ấy là một người thực sự sành sỏi về rượu vang ngon.",
+          "ipa_en": "/ˌkɒnəˈsɜr/",
+          "ipa_vi": "/ŋɯəi˨˩/",
+          "level": "C1",
+          "freq": 22257,
+          "forms": { "plural": "connoisseurs" }
+        },
+        {
+          "word": "artistically",
+          "pos": "adv",
+          "vi": "về mặt nghệ thuật",
+          "ex_en": "The building was artistically designed with bold colors.",
+          "ex_vi": "Tòa nhà được thiết kế về mặt nghệ thuật với những màu sắc táo bạo.",
+          "ipa_en": "/ɑːrˈtɪstɪkli/",
+          "ipa_vi": "/ve˨˩/",
+          "level": "C1",
+          "freq": 31025
+        },
+        {
+          "word": "unmusical",
+          "pos": "adj",
+          "vi": "không có năng khiếu âm nhạc, thiếu du dương",
+          "ex_en": "He admits he is completely unmusical and can't hold a tune.",
+          "ex_vi": "Anh ấy thừa nhận mình hoàn toàn không có năng khiếu âm nhạc và không thể hát đúng nhịp.",
+          "ipa_en": "/ʌnˈmjuzɪkəl/",
+          "ipa_vi": "/xoŋ˧/",
+          "level": "C1",
+          "freq": 73375
         }
       ],
       "sentences": []
@@ -15483,7 +15443,8 @@
           "forms": { "plural": "layoffs" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-c2-business-2",
@@ -15584,7 +15545,8 @@
           "forms": { "plural": "ipos" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-c2-law_politics-1",
@@ -15684,7 +15646,8 @@
           "freq": 65674
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-c2-science_tech-1",
@@ -16279,7 +16242,8 @@
           "forms": { "plural": "placebos" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-c2-health_med-2",
@@ -16454,7 +16418,8 @@
           "forms": { "plural": "herbicides" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-c2-nature_env-1",
@@ -17002,7 +16967,8 @@
           "ipa_vi": "/ve˨˩/"
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-c2-emotion-1",
@@ -17548,7 +17514,8 @@
           "forms": { "plural": "heuristics" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-c2-communication-1",
@@ -36193,16 +36160,7 @@
           "ipa_en": "/mʌl ˈoʊvər/",
           "ipa_vi": "/swi˧/",
           "level": "C2"
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-verb-21",
-      "titleVi": "Động từ nâng cao 21",
-      "titleEn": "Advanced verbs 21",
-      "emoji": "🏃",
-      "words": [
+        },
         {
           "word": "soliloquize",
           "pos": "v",
@@ -43274,16 +43232,7 @@
           "ipa_en": "/məˈloʊdiəsli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "level": "C2"
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-modifier-39",
-      "titleVi": "Tính từ & trạng từ 39",
-      "titleEn": "Adjectives & adverbs 39",
-      "emoji": "🎭",
-      "words": [
+        },
         {
           "word": "patchily",
           "pos": "adv",
@@ -43422,14 +43371,14 @@
       "titleVi": "Khoa học & công nghệ",
       "titleEn": "Science & technology",
       "emoji": "🔬",
-      "circleIds": ["cefr-c1-science_tech-1", "cefr-c1-science_tech-2"]
+      "circleIds": ["cefr-c1-science_tech-1"]
     },
     {
       "id": "cefr-c1-topic-health_med",
       "titleVi": "Sức khỏe & y học",
       "titleEn": "Health & medicine",
       "emoji": "🏥",
-      "circleIds": ["cefr-c1-health_med-1", "cefr-c1-health_med-2"]
+      "circleIds": ["cefr-c1-health_med-1"]
     },
     {
       "id": "cefr-c1-topic-nature_env",
@@ -43437,13 +43386,6 @@
       "titleEn": "Environment & nature",
       "emoji": "🌍",
       "circleIds": ["cefr-c1-nature_env-1"]
-    },
-    {
-      "id": "cefr-c1-topic-arts_culture",
-      "titleVi": "Nghệ thuật & văn hóa",
-      "titleEn": "Arts & culture",
-      "emoji": "🎨",
-      "circleIds": ["cefr-c1-arts_culture-1"]
     },
     {
       "id": "cefr-c1-topic-society",
@@ -43556,7 +43498,7 @@
       "titleVi": "Danh từ nâng cao (7)",
       "titleEn": "Advanced nouns (7)",
       "emoji": "📦",
-      "circleIds": ["cefr-c1-noun-31", "cefr-c1-noun-32", "cefr-c1-noun-33", "cefr-c1-noun-34"]
+      "circleIds": ["cefr-c1-noun-31", "cefr-c1-noun-32", "cefr-c1-noun-33"]
     },
     {
       "id": "cefr-c1-topic-verb-1",
@@ -43661,7 +43603,7 @@
       "titleVi": "Tính từ & trạng từ (6)",
       "titleEn": "Adjectives & adverbs (6)",
       "emoji": "🎭",
-      "circleIds": ["cefr-c1-modifier-26", "cefr-c1-modifier-27", "cefr-c1-modifier-28"]
+      "circleIds": ["cefr-c1-modifier-26", "cefr-c1-modifier-27"]
     },
     {
       "id": "cefr-c1-topic-other",
@@ -43984,13 +43926,6 @@
       ]
     },
     {
-      "id": "cefr-c2-topic-verb-5",
-      "titleVi": "Động từ nâng cao (5)",
-      "titleEn": "Advanced verbs (5)",
-      "emoji": "🏃",
-      "circleIds": ["cefr-c2-verb-21"]
-    },
-    {
       "id": "cefr-c2-topic-modifier-1",
       "titleVi": "Tính từ & trạng từ (1)",
       "titleEn": "Adjectives & adverbs (1)",
@@ -44086,12 +44021,7 @@
       "titleVi": "Tính từ & trạng từ (8)",
       "titleEn": "Adjectives & adverbs (8)",
       "emoji": "🎭",
-      "circleIds": [
-        "cefr-c2-modifier-36",
-        "cefr-c2-modifier-37",
-        "cefr-c2-modifier-38",
-        "cefr-c2-modifier-39"
-      ]
+      "circleIds": ["cefr-c2-modifier-36", "cefr-c2-modifier-37", "cefr-c2-modifier-38"]
     },
     {
       "id": "cefr-c2-topic-other",

@@ -57,6 +57,18 @@ kiemtra`,
           hidden: false,
           label: 'Kiểm tra ra xanh hết vì mô tả đã nhắc ca biên',
         },
+        {
+          stdinLines: [
+            'mota "them may tinh chia tien an trua: nhap tong tien va so nguoi, ra tien moi nguoi, bao loi khi so nguoi bang 0"',
+            'xemdiff v1',
+            'nhan v1',
+          ],
+          expected: 'ket qua: 1 xanh, 0 do',
+          match: 'contains',
+          hidden: false,
+          label:
+            'Ghim đúng SỐ tính năng xanh: nhận thêm bản nháp rồi mới kiểm thì con số này lệch, dù vẫn ra "xanh het".',
+        },
       ],
       hints: [
         'Chỉ một lệnh, không tham số.',
@@ -134,6 +146,18 @@ kiemtra`,
           hidden: false,
           label: 'Sau khi sửa kèm ca biên, kiểm tra ra xanh hết',
         },
+        {
+          stdinLines: [
+            'mota "them nut doi mau giao dien sang xanh duong cho de nhin"',
+            'xemdiff v1',
+            'nhan v1',
+          ],
+          expected: 'quen ca bien',
+          match: 'contains',
+          hidden: false,
+          label:
+            'Phải KIỂM TRƯỚC để thấy đỏ (bước 1 của đề) — nhảy thẳng vào sửa thì không có dòng báo đỏ này.',
+        },
       ],
       hints: [
         'Bốn bước đúng thứ tự đề: kiemtra (thấy đỏ) → sua v1 "<góp ý nhắc ca biên>" → xemdiff v1 → nhan v1 → kiemtra.',
@@ -208,6 +232,14 @@ kiemtra`,
           match: 'contains',
           hidden: false,
           label: 'Mô tả không chứa secret nên tạo được bản nháp bình thường',
+        },
+        {
+          stdinLines: [],
+          expected: 'bien moi truong',
+          match: 'contains',
+          hidden: false,
+          label:
+            'Mô tả phải nói rõ khoá lấy từ biến môi trường — đó là cả bài học, không chỉ tạo được bản nháp.',
         },
       ],
       hints: [
@@ -287,6 +319,19 @@ lichsu`,
           match: 'contains',
           hidden: false,
           label: 'Mốc ghi đúng số tính năng đã nhận (1)',
+        },
+        {
+          stdinLines: [
+            'mota "them may tinh chia tien an trua: nhap tong tien va so nguoi, ra tien moi nguoi, bao loi khi so nguoi bang 0"',
+            'xemdiff v1',
+            'nhan v1',
+            'kiemtra',
+          ],
+          expected: '1. ',
+          match: 'contains',
+          hidden: false,
+          label:
+            'Phải xem LỊCH SỬ mốc (bước 2 của đề): chỉ "luu" thôi thì không có dòng đánh số này.',
         },
       ],
       hints: [
@@ -377,6 +422,22 @@ vibe`,
           match: 'contains',
           hidden: false,
           label: 'Sau khi quay lại, dự án chỉ còn đúng 1 tính năng (đúng mốc)',
+        },
+        {
+          stdinLines: [
+            'mota "them may tinh chia tien an trua: nhap tong tien va so nguoi, ra tien moi nguoi, bao loi khi so nguoi bang 0"',
+            'xemdiff v1',
+            'nhan v1',
+            'luu "ban chay duoc dau tien"',
+            'mota "them tinh nang gui email tu dong cho tung nguoi, bao khi dia chi rong"',
+            'xemdiff v2',
+            'nhan v2',
+          ],
+          expected: 'Da quay ve moc',
+          match: 'contains',
+          hidden: false,
+          label:
+            'Phải dùng "quaylai" thật — gỡ tay từng bản nhận cũng ra 1 tính năng nhưng không có dòng này.',
         },
       ],
       hints: [

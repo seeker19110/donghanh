@@ -484,7 +484,7 @@ export const HOA11_C4_LESSONS: ChemLesson[] = [
     chapterNumber: 4,
     chapterTitle: 'Hydrocarbon',
     lessonNumber: 18,
-    title: 'Ôn tập chương 4',
+    title: 'Ôn tập chương 4 — Hydrocarbon',
     hook:
       'Ôn tập và đối chiếu 4 nhóm hydrocarbon quan trọng nhất: Saturated (no), Unsaturated (không no) và Aromatic (thơm). ' +
       'Sự khác biệt cấu trúc tạo nên tính chất hoá học đặc trưng.',

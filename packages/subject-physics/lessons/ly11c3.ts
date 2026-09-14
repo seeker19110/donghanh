@@ -445,7 +445,8 @@ export const LY11_C3_LESSONS: PhysicsLesson[] = [
           value: 5000,
           unit: 'V/m',
         },
-        explain: 'E = U / d = 50 / 0,01 = 5000 V/m.',
+        explain:
+          'Giữa hai bản song song, điện trường là ĐỀU nên liên hệ với hiệu điện thế rất gọn: E = U / d = 50 / 0,01 = 5000 V/m. Khoảng cách d phải tính bằng MÉT — để nguyên 1 cm là kết quả lệch 100 lần.',
       },
     ],
     srsCards: [

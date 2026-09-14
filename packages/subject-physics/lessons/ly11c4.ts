@@ -212,7 +212,8 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
           value: 2,
           unit: 'C',
         },
-        explain: 'q = I * t = 0,2 * 10 = 2 C.',
+        explain:
+          'Cường độ dòng điện không đổi chính là lượng điện tích qua tiết diện trong mỗi giây, nên q = I * t = 0,2 * 10 = 2 C. Công thức này chỉ dùng được khi dòng KHÔNG ĐỔI; dòng biến thiên thì phải tính theo diện tích dưới đồ thị i(t).',
       },
       {
         // Câu bẫy: lẫn chiều quy ước với chiều đi thật của electron.
@@ -303,7 +304,8 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
           value: 0.5,
           unit: 'A',
         },
-        explain: 'I = U / R = 5 / 10 = 0,5 A.',
+        explain:
+          'Định luật Ohm cho đoạn mạch chỉ có điện trở: I = U / R = 5 / 10 = 0,5 A. Điện trở càng lớn thì cùng một hiệu điện thế cho dòng càng nhỏ — quan hệ NGHỊCH, đừng nhân U với R.',
       },
     ],
     srsCards: [
@@ -378,7 +380,8 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
           value: 1,
           unit: 'A',
         },
-        explain: 'I = E / (R + r) = 12 / (10 + 2) = 1 A.',
+        explain:
+          'Với mạch KÍN phải cộng cả điện trở trong của nguồn vào mẫu số: I = E / (R + r) = 12 / (10 + 2) = 1 A. Bỏ quên r là lỗi phổ biến nhất của chương này — nó cho ra 1,2 A, cao hơn dòng thực tế.',
       },
     ],
     srsCards: [
@@ -453,7 +456,8 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
           value: 80,
           unit: 'W',
         },
-        explain: 'P = R * I² = 20 * 2² = 20 * 4 = 80 W.',
+        explain:
+          'Công suất toả nhiệt theo định luật Joule–Lenz: P = R * I² = 20 * 2² = 20 * 4 = 80 W. Chú ý I được BÌNH PHƯƠNG — dòng tăng gấp đôi thì nhiệt toả ra tăng gấp bốn, đó là lý do dây dẫn quá tải nóng lên rất nhanh.',
       },
     ],
     srsCards: [

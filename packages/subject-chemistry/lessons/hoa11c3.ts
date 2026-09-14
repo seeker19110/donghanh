@@ -311,7 +311,7 @@ export const HOA11_C3_LESSONS: ChemLesson[] = [
     chapterNumber: 3,
     chapterTitle: 'Đại cương hoá học hữu cơ',
     lessonNumber: 14,
-    title: 'Ôn tập chương 3',
+    title: 'Ôn tập chương 3 — Đại cương hoá học hữu cơ',
     hook:
       'Chương 3 mở ra cánh cổng vào thế giới Hoá học hữu cơ rộng lớn, trang bị các công cụ định lượng ' +
       'và tư duy cấu trúc phân tử để ta bước tiếp vào các nhóm hydrocarbon cụ thể.',

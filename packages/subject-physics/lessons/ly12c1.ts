@@ -214,7 +214,8 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
           value: 298.15,
           unit: 'K',
         },
-        explain: 'T = 25 + 273,15 = 298,15 K.',
+        explain:
+          'Thang Kelvin và thang Celsius có cùng ĐỘ CHIA, chỉ khác gốc, nên đổi một giá trị nhiệt độ chỉ cần cộng 273,15: T = 25 + 273,15 = 298,15 K. Cũng vì cùng độ chia nên một ĐỘ CHÊNH nhiệt độ tính bằng °C hay K đều ra cùng con số — chỗ đó không cộng gì cả.',
       },
     ],
     srsCards: [
@@ -421,7 +422,8 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
           value: 2e6,
           unit: 'J/kg',
         },
-        explain: 'L = Q / m = 4 * 10⁶ / 2 = 2 * 10⁶ J/kg.',
+        explain:
+          'Nhiệt hoá hơi riêng là nhiệt lượng cần để hoá hơi MỘT KILÔGAM chất ở nhiệt độ sôi: L = Q / m = 4 * 10⁶ / 2 = 2 * 10⁶ J/kg. Suốt quá trình hoá hơi nhiệt độ KHÔNG tăng — toàn bộ nhiệt dùng để phá liên kết giữa các phân tử.',
       },
     ],
     srsCards: [
