@@ -1,5 +1,6 @@
 // lessonTypes.ts — Kiểu + Zod schema cho BÀI HỌC môn Sinh học (GĐ3, đợt 4).
 import { z } from 'zod'
+import { LessonReviewSchema } from '@dhcb/core-contracts/lessonReview'
 import {
   AdvancedTierSchema,
   LessonAnimationSchema,
@@ -85,6 +86,10 @@ export const BiologyLessonSchema = z
     /** Cấp của chuyên đề nâng cao — chỉ có mặt khi track === 'advanced'. */
     advancedTier: AdvancedTierSchema.optional(),
     reviewStatus: z.enum(['draft', 'reviewed']),
+    /** Chi tiết lượt duyệt chuyên môn (ai · ngày · 7 tiêu chí · băm nội dung). Vắng mặt = chưa
+     *  ai đọc. Trường CŨ `reviewStatus` giữ nguyên vì giao diện đang đọc nó; luật ăn khớp giữa
+     *  hai trường do `lessons.test.ts` canh. Xem `packages/core-contracts/lessonReview.ts`. */
+    review: LessonReviewSchema.optional(),
   })
   .strict()
   .refine((l) => (l.track === 'advanced') === (l.advancedTier !== undefined), {

@@ -271,10 +271,14 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
   **ĐÃ CÓ ĐƯỜNG ĐI (2026-09-14, PR #903):** `docs/specs/2026-09-14-quy-trinh-duyet-chuyen-mon-mon-sinh.md`
   — bản ghi duyệt kiểm chứng được, bộ tiêu chí `sinh-v1` 7 câu, chia **8 lô** môn Sinh theo mật độ
   rủi ro (lô 1 = `sinh12-c1`, 7 bài/14 câu), 5 bất biến kèm test canh. **CHỜ NGƯỜI DÙNG CHỐT 2 câu**
+  **NỀN ĐÃ XONG (PR #904, `docs/changelog/0302-*.md`):** hợp đồng bản ghi duyệt + băm nội dung +
+  luật ăn khớp dùng chung 4 môn (`packages/core-contracts/lessonReview*.ts`), bảng
+  `stem_lesson_reviews` (migration `0078`), API `/api/admin-stem-review` (chỉ admin),
+  `npm run review:status` (đọc tiến độ thật) và `npm run review:sync` (DB → repo, mặc định chỉ in
+  diff). **CÒN LẠI:** giao diện duyệt (PR kế) và khâu AI sàng lọc (làm sau lô 1).
   Ô ⓪.5 **ĐÃ CHỐT trong phiên 2026-09-14**: duyệt **trong `/admin` và ngay trong trang bài học** ·
   AI được sàng lọc vòng 1 nhưng phải làm thật kỹ (5 ràng buộc đo được + ca thử 13 câu) và
-  **không bao giờ** được ghi `reviewed`. Đặc tả đủ điều kiện giao việc; **phần thi hành là PR
-  riêng** (migration `0078` + API admin + giao diện + Tầng 8b), chưa làm.
+  **không bao giờ** được ghi `reviewed`. Phần thi hành chia đôi: **nền xong ở PR #904**, giao diện là PR kế.
 - **Audit chất lượng nội dung 6 môn (2026-09-14)** — báo cáo đầy đủ:
   `docs/audit/2026-09-14-chat-luong-noi-dung-cac-mon-hoc.md`. 11 phát hiện; hai cái đã có ở
   trên (Toán thủng 6 chương · Sinh chưa có HSG). Mới và đáng làm ngay: `reviewStatus: 'draft'`

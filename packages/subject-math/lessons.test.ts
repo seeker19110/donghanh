@@ -1,5 +1,6 @@
 // lessons.test.ts — Gác chất lượng nội dung bài học Toán.
 import { describe, expect, it } from 'vitest'
+import { timLoiDuyet, moTaLoiDuyet } from '@dhcb/core-contracts/lessonReviewGuard'
 import { moTaLoiTuCham, timLoiTuCham } from '@dhcb/core-grading/selfGrade'
 import { MATH_LESSONS, getMathLesson, listMathLessonsByGrade } from './lessons.js'
 import { MathLessonSchema } from './lessonTypes.js'
@@ -84,5 +85,11 @@ describe('math lessons', () => {
         .map(({ q, i }) => `${l.id}#q${i + 1} (${q.explain.trim().length} ký tự)`),
     )
     expect(cut, 'lời giải phải nói được vì sao, không chỉ thế số').toEqual([])
+  })
+  it('trạng thái duyệt ăn khớp với bản ghi duyệt, và băm nội dung còn hiệu lực', () => {
+    // Luật viết MỘT lần ở @dhcb/core-contracts/lessonReviewGuard, thử bằng dữ liệu giả ở
+    // lessonReviewGuard.test.ts — ca này chỉ áp nó lên dữ liệu thật của môn.
+    const loi = timLoiDuyet(MATH_LESSONS)
+    expect(loi.length, `Trạng thái duyệt có vấn đề:\n${moTaLoiDuyet(loi)}`).toBe(0)
   })
 })
