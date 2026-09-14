@@ -1,6 +1,6 @@
 # 0297 — 2026-09-14 — Audit chất lượng nội dung toàn bộ các môn học
 
-**PR:** (đang mở) · **Nhánh:** `claude/audit-course-quality-vj5pcu`
+**PR:** #900 · **Nhánh:** `claude/audit-course-quality-vj5pcu`
 **Báo cáo:** `docs/audit/2026-09-14-chat-luong-noi-dung-cac-mon-hoc.md`
 
 ## Việc đã làm

@@ -1,6 +1,6 @@
 # 0299 — 2026-09-14 — Sửa cổng tự chấm xanh giả và 9 đáp án Vật lí sai hệ quy chiếu
 
-**PR:** (đang mở) · **Nhánh:** `claude/audit-course-quality-vj5pcu`
+**PR:** #900 · **Nhánh:** `claude/audit-course-quality-vj5pcu`
 **Báo cáo gốc:** `docs/audit/2026-09-14-tinh-chinh-xac-cong-thuc-va-ket-qua.md` (mục 9 = cách sửa)
 **Thứ tự người dùng chốt:** sửa CỔNG trước, sửa DỮ LIỆU sau — để cổng tự chứng minh nó hết mù.
 

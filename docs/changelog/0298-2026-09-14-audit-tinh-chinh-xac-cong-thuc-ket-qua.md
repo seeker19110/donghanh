@@ -1,6 +1,6 @@
 # 0298 — 2026-09-14 — Audit tính chính xác công thức và kết quả mọi bài học
 
-**PR:** (đang mở) · **Nhánh:** `claude/audit-course-quality-vj5pcu`
+**PR:** #900 · **Nhánh:** `claude/audit-course-quality-vj5pcu`
 **Báo cáo:** `docs/audit/2026-09-14-tinh-chinh-xac-cong-thuc-va-ket-qua.md`
 **Nối tiếp:** đợt 0297 (đủ/sạch) — đợt này hỏi nội dung có ĐÚNG không.
 
