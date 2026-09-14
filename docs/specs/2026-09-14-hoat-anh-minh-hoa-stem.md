@@ -92,20 +92,25 @@ Hai điều rút ra, quyết định luôn hình dạng đợt việc:
 
 **Ảnh hưởng lan ra:**
 
-`npm run codemap -- impact` **CHƯA CHẠY ĐƯỢC** trong phiên soạn đặc tả này — `node_modules` của
-container không đủ (`sh: 1: tsx: not found`, rồi `Error [ERR_MODULE_NOT_FOUND]: Cannot find
-package 'typescript' imported from scripts/lib/scanGraph.ts`). **Bên thi hành PHẢI chạy
-`npm ci` rồi `npm run codemap -- impact packages/core-contracts/lessonAnimation.ts` và dán kết
-quả vào PR.** Bản đồ thay thế, dựng bằng grep import thật (đủ để khoanh vùng, không thay được codemap):
+**Codemap ĐÃ CHẠY THẬT (2026-09-14, sau `npm ci`):**
 
-- `packages/core-contracts/lessonAnimation.ts` ← `core-contracts/stemLesson.ts`,
-  `core-ui/LessonAnimation.tsx` (+ test), và `lessonTypes.ts` của **cả 4 gói môn**.
-  → Đụng file này là đụng cả 4 môn: **đợt này không đụng nó.**
-- `packages/core-ui/LessonAnimation.tsx` ← chỉ `apps/dhcb/src/pages/learning/StemLessonView.tsx`
-  và `packages/core-ui/LessonAnimation.test.tsx`.
-- Dữ liệu bài học KHÔNG vào initial bundle: giao diện đi qua `lessonsLoader.ts` →
-  `createStemLessonLoader(LESSON_INDEX, CHAPTER_LOADERS)`, nạp lười **theo chương**
-  (`chapterKey`). `StemLessonView` cũng là route `lazyWithRetry` (`apps/dhcb/src/App.tsx:54`).
+```
+$ npm run codemap -- impact packages/core-contracts/lessonAnimation.ts
+124 file bị ảnh hưởng
+  · core-contracts/stemLesson.ts · subject-{math,physics,chemistry,biology}/lessonTypes.ts
+  · core-ui/LessonAnimation.tsx · subject-chemistry/lessons.ts · LessonAnimation.test.tsx
+  ·· core-learner/stemLessonLoader.ts …
+
+$ npm run codemap -- impact packages/core-ui/LessonAnimation.tsx
+5 file bị ảnh hưởng
+  · StemLessonView.tsx · LessonAnimation.test.tsx ·· App.tsx · StemLesson.test.tsx ··· main.tsx
+```
+
+**Đọc ra điều gì:** sửa _schema_ lan ra 124 file, sửa _trình vẽ_ chỉ lan ra 5. Con số này xác
+nhận quyết định lớn nhất của đặc tả: **chỉ thêm dữ liệu `animation`, tuyệt đối không đụng
+schema** — làm vậy thì bề mặt ảnh hưởng gần như bằng 0.
+
+Bản đồ import chi tiết (dựng bằng grep, bổ sung cho codemap):
 
 ## ③ Hợp đồng dữ liệu
 

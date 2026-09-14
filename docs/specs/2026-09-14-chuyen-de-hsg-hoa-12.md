@@ -106,11 +106,26 @@ Lớp 12 chưa dùng mã nào nên lấy 90–95, đúng cách lớp 11 đã là
 | KHÔNG sửa     | `packages/subject-chemistry/lessonTypes.ts`               | Schema đủ dùng; phải sửa = ra ngoài phạm vi                                       |
 | KHÔNG sửa     | `packages/subject-{physics,math,biology}/**`              | Môn khác không đụng                                                               |
 
-**Ảnh hưởng lan ra (theo codemap):** **CHƯA CHẠY ĐƯỢC.** `npm run codemap -- impact
-packages/subject-chemistry/lessons.ts` báo `sh: 1: tsx: not found`, và chạy thẳng
-`npx tsx scripts/codemap.ts impact …` báo `Cannot find package 'typescript'` — container phiên
-này **chưa `npm ci`** (`node_modules/typescript` không tồn tại). Bên thi hành **phải chạy
-`npm ci` rồi chạy lại codemap và dán kết quả vào ô nghiệm thu**.
+**Ảnh hưởng lan ra (codemap ĐÃ CHẠY THẬT 2026-09-14, sau `npm ci`):**
+
+```
+$ npm run codemap -- impact packages/subject-chemistry/lessons.ts
+8 file bị ảnh hưởng khi sửa "packages/subject-chemistry/lessons.ts":
+  · apps/server/src/api/admin/admin-stem-review.ts
+  · packages/subject-chemistry/lessons.test.ts
+  · packages/subject-chemistry/lessonsLazy.test.ts
+  · scripts/export-review-queue.ts
+  · scripts/review-status.ts
+  ·· apps/server/src/routes.ts
+  ·· apps/server/src/api/admin/admin-stem-review.test.ts
+```
+
+**Đọc ra điều gì:** phạm vi hẹp và đúng như mong đợi — thêm bài Hoá chỉ lan tới bộ test của
+chính gói Hoá và **luồng duyệt chuyên môn** (`admin-stem-review`, `export-review-queue`,
+`review-status`). Tức 6 bài mới sẽ tự động vào hàng chờ duyệt ở `/admin`, không cần nối tay.
+Đáng chú ý: **giao diện học KHÔNG nằm trong danh sách** — vì nó đọc `lessonsLazy.ts` chứ không
+đọc registry đồng bộ.
+
 Phạm vi suy ra bằng grep (thay tạm, không thay thế codemap): `lessons.ts` của Hoá được import
 bởi `lessons.test.ts`, `lessonsLoader.ts`, `scripts/gen-stem-lesson-index.ts`,
 `packages/core-learner/stemLessonLoader.ts`. Giao diện **không** import registry đồng bộ — nó
@@ -276,6 +291,6 @@ Hoá hiện có đều đúng khuôn 3 bài/3 cấp, nên ca sẽ xanh với d�
 - Bảng phân bố HSG trước/sau (dán output lệnh ở ô ④):
 - Tiêu chí ④ đạt hết chưa; cái nào chưa và vì sao:
 - Có phá bất biến ⑤ nào không:
-- Kết quả `npm run codemap -- impact packages/subject-chemistry/lessons.ts` (phiên soạn đặc tả chưa chạy được):
+- Kết quả `npm run codemap -- impact packages/subject-chemistry/lessons.ts` (đặc tả đã chạy sẵn ở ô ②, chạy lại để xác nhận không phát sinh phụ thuộc mới):
 - Có mở rộng ngoài phạm vi ① không:
 - Còn để ngỏ: 6 bài mới vẫn `draft` — đưa vào lô duyệt chuyên môn nào, khi nào?

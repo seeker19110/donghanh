@@ -64,7 +64,13 @@ tự, **không có ngưỡng số bài tối thiểu** — trong khi gói Sinh c
 ngưỡng số bài tối thiểu vào test của cả 4 gói cho đồng bộ. **Cần người dùng quyết ưu tiên**
 (viết nội dung là việc lớn, phải tách đợt riêng).
 
-### 🟠 F3 — Vòng từ vựng sinh tự động môn Anh KHÔNG có câu mẫu: 610/699 vòng (87%)
+### 🟠 F3 — Vòng từ vựng sinh tự động môn Anh KHÔNG có câu mẫu: 588/677 vòng (86,9%)
+
+> **ĐÍNH CHÍNH 2026-09-14 (PR đặc tả, xem `docs/specs/2026-09-14-cau-mau-cho-vong-tu-vung-cefr.md`):**
+> con số "610/699" ghi ban đầu ở mục này là **SAI**. Đo lại hai lượt độc lập trên cùng dữ liệu:
+> tổng **677** vòng = **588** vòng `cefr-*` sinh tự động + **89** vòng thủ công. Bản chất phát
+> hiện không đổi: **0/588** vòng sinh tự động có câu mẫu, **89/89** vòng thủ công thì có.
+> Các mục F4 và bảng xếp ưu tiên bên dưới vẫn ghi "610" theo nguyên văn lúc audit — đọc là **588**.
 
 Triết lý gốc ghi ngay đầu `apps/dhcb/src/data/curriculum.ts`: "Mỗi vòng gom ~20 từ cùng chủ đề,
 kèm vài CÂU THÔNG DỤNG dùng chính những từ trong vòng đó (để học từ xong là ráp được câu ngay)".
