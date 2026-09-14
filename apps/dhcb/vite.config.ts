@@ -229,10 +229,7 @@ export default defineConfig(({ mode }) => {
             }
             // Nhóm riêng: qrcode (chỉ dùng ở các trang lazy-load: chia sẻ tiến độ/kết quả,
             // 2FA, kết bạn) — tách khỏi vendor-misc để không tải eager lúc khởi động.
-            if (
-              id.includes('node_modules/qrcode') ||
-              id.includes('node_modules/dijkstrajs')
-            ) {
+            if (id.includes('node_modules/qrcode') || id.includes('node_modules/dijkstrajs')) {
               return 'vendor-qrcode'
             }
             // Nhóm 1: React + Router (core framework) — kèm dependency RUNTIME của chúng
