@@ -1,5 +1,6 @@
 // lessons/ly10c4.ts — Vật lí 10, Chương 4: Năng lượng, công, công suất (5 bài).
 import type { PhysicsLesson } from '../lessonTypes.js'
+import { donViHienThi } from '@dhcb/core-grading/units'
 
 export const LY10_C4_LESSONS: PhysicsLesson[] = [
   {
@@ -338,7 +339,7 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
           'Một máy bơm nước tiêu thụ năng lượng toàn phần là 500 J, trong đó phần năng lượng có ích dùng để bơm nước lên bồn chứa là 400 J. Tính hiệu suất của máy bơm.',
         answer: {
           kind: 'numeric',
-          value: 0.8,
+          value: donViHienThi(80, '%'),
           unit: '%',
         },
         explain: 'H = (400 / 500) * 100% = 80%.',

@@ -1,5 +1,6 @@
 // lessons/ly12c4.ts — Vật lí 12, Chương 4: Vật lí hạt nhân (6 bài).
 import type { PhysicsLesson } from '../lessonTypes.js'
+import { donViHienThi } from '@dhcb/core-grading/units'
 
 export const LY12_C4_LESSONS: PhysicsLesson[] = [
   {
@@ -130,7 +131,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
           'khối lượng proton mp = 1.00728 amu, khối lượng neutron mn = 1.00866 amu.',
         answer: {
           kind: 'numeric',
-          value: 0.03038,
+          value: donViHienThi(0.03038, 'amu'),
           unit: 'amu',
         },
         explain: 'dm = 2 * mp + 2 * mn - m_He = 2 * 1.00728 + 2 * 1.00866 - 4.0015 = 0.03038 amu.',
@@ -544,7 +545,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
           'Sau 15 ngày, lượng chất phóng xạ còn lại chiếm bao nhiêu phần trăm so với ban đầu?',
         answer: {
           kind: 'numeric',
-          value: 12.5,
+          value: donViHienThi(12.5, '%'),
           unit: '%',
         },
         explain: 't/T = 15/5 = 3 chu kì. Tỉ lệ còn lại = 2^-3 = 1/8 = 12.5%.',
@@ -696,7 +697,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
           'Hằng số phóng xạ lambda của chất phóng xạ này xấp xỉ bằng bao nhiêu ngày^-1?',
         answer: {
           kind: 'numeric',
-          value: 0.0693,
+          value: donViHienThi(0.0693, 'ngày^-1'),
           unit: 'ngày^-1',
         },
         explain: 'lambda = ln(2) / T = 0.693 / 10 = 0.0693 ngày^-1.',
@@ -707,7 +708,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
           'Tính năng lượng thu vào của phản ứng này theo đơn vị MeV (lấy 1 amu.c² = 931.5 MeV).',
         answer: {
           kind: 'numeric',
-          value: 4.6575,
+          value: donViHienThi(4.6575, 'MeV'),
           unit: 'MeV',
         },
         explain: 'E_thu = (m_sau - m_truoc) * c^2 = 0.005 * 931.5 = 4.6575 MeV.',

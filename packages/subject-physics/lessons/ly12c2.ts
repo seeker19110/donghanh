@@ -1,5 +1,6 @@
 // lessons/ly12c2.ts — Vật lí 12, Chương 2: Khí lí tưởng (4 bài).
 import type { PhysicsLesson } from '../lessonTypes.js'
+import { donViHienThi } from '@dhcb/core-grading/units'
 
 export const LY12_C2_LESSONS: PhysicsLesson[] = [
   {
@@ -140,7 +141,7 @@ export const LY12_C2_LESSONS: PhysicsLesson[] = [
           'Khối khí biến đổi sang trạng thái 2 có V2 = 2 lít và T2 = 600 K. Tính áp suất p2 (theo đơn vị atm) của khối khí ở trạng thái mới.',
         answer: {
           kind: 'numeric',
-          value: 4,
+          value: donViHienThi(4, 'atm'),
           unit: 'atm',
         },
         explain:
@@ -279,7 +280,7 @@ export const LY12_C2_LESSONS: PhysicsLesson[] = [
           'Khi nén khối khí này đến thể tích 3 lít và nung nóng đến nhiệt độ 327 °C, áp suất mới của khối khí là bao nhiêu atm?',
         answer: {
           kind: 'numeric',
-          value: 4,
+          value: donViHienThi(4, 'atm'),
           unit: 'atm',
         },
         explain:
@@ -290,7 +291,7 @@ export const LY12_C2_LESSONS: PhysicsLesson[] = [
           'Ở điều kiện tiêu chuẩn (áp suất 1 atm, nhiệt độ 0 °C), 1 mol khí lí tưởng chiếm thể tích bao nhiêu lít?',
         answer: {
           kind: 'numeric',
-          value: 22.4,
+          value: donViHienThi(22.4, 'lít'),
           unit: 'lít',
         },
         explain: 'Ở điều kiện tiêu chuẩn, thể tích của 1 mol chất khí bất kì là 22.4 lít.',

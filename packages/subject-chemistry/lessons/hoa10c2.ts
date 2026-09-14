@@ -184,7 +184,8 @@ export const HOA10_C2_LESSONS: ChemLesson[] = [
           'Hoá trị cao nhất với oxygen của nguyên tố nhóm VIA (chu kì 3, là Sulfur) là bao ' +
           'nhiêu? (chỉ nhập số)',
         answer: { kind: 'numeric', value: 6 },
-        explain: 'Hoá trị cao nhất với oxygen = số thứ tự nhóm A. Nhóm VIA ⇒ hoá trị VI.',
+        explain:
+          'Hoá trị cao nhất với oxygen = số thứ tự nhóm A. Nhóm VIA ⇒ hoá trị VI, tức nhập 6.',
       },
       {
         prompt:

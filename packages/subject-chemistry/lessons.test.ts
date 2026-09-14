@@ -2,7 +2,7 @@
 // mọi câu hỏi checkQuestions phải CHẤM ĐÚNG THẬT bằng packages/core-grading khi trả lời đúng
 // đáp án đã khai (bảo đảm dữ liệu bài học không tự mâu thuẫn với chính engine chấm sẽ dùng nó).
 import { describe, expect, it } from 'vitest'
-import { gradeAnswer } from '@dhcb/core-grading'
+import { moTaLoiTuCham, timLoiTuCham } from '@dhcb/core-grading/selfGrade'
 import { CHEM_LESSONS, getChemLesson, listChemLessonsByGrade } from './lessons.js'
 import { ChemLessonSchema } from './lessonTypes.js'
 
@@ -31,33 +31,12 @@ describe('chemistry lessons', () => {
   })
 
   it('mọi checkQuestion tự chấm ĐÚNG với chính đáp án đã khai — dùng engine chấm thật, không AI', () => {
-    for (const lesson of CHEM_LESSONS) {
-      for (const q of lesson.checkQuestions) {
-        let studentInput: string
-        switch (q.answer.kind) {
-          case 'numeric':
-            studentInput = q.answer.unit
-              ? `${q.answer.value} ${q.answer.unit}`
-              : `${q.answer.value}`
-            break
-          case 'choice':
-            studentInput = q.answer.correctIds.join(',')
-            break
-          case 'chemFormula':
-            studentInput = q.answer.formula
-            break
-          case 'chemEquation':
-            // Cân bằng PTHH cần hệ số đúng theo thuật toán riêng — chưa có câu dạng này ở
-            // đợt Chương 1, bỏ qua an toàn thay vì đoán hệ số.
-            continue
-        }
-        const result = gradeAnswer(studentInput, q.answer)
-        expect(
-          result.correct,
-          `Bài ${lesson.id}, câu "${q.prompt}" — đáp án đã khai KHÔNG tự chấm đúng (lý do: ${result.reason})`,
-        ).toBe(true)
-      }
-    }
+    // Cổng dùng chung ở `@dhcb/core-grading/selfGrade`: nạp vào engine ĐÚNG chuỗi tác giả đã
+    // viết (`<value> <unit>`), KHÔNG tự đổi đơn vị. Bản cũ ở đây tự tính
+    // `(value - offset) / factor` nên giả định sẵn điều cần kiểm và không thể đỏ — xem
+    // `docs/audit/2026-09-14-tinh-chinh-xac-cong-thuc-va-ket-qua.md`.
+    const loi = timLoiTuCham(CHEM_LESSONS)
+    expect(loi.length, `Đáp án đã khai KHÔNG tự chấm đúng:\n${moTaLoiTuCham(loi)}`).toBe(0)
   })
 
   it('getChemLesson tra được đúng bài theo id', () => {

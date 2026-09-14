@@ -1,6 +1,6 @@
 // lessons.test.ts — Gác chất lượng nội dung bài học Vật lí.
 import { describe, expect, it } from 'vitest'
-import { gradeAnswer, UNITS } from '@dhcb/core-grading'
+import { moTaLoiTuCham, timLoiTuCham } from '@dhcb/core-grading/selfGrade'
 import {
   PHYSICS_LESSONS,
   getPhysicsLesson,
@@ -35,35 +35,12 @@ describe('physics lessons', () => {
   })
 
   it('mọi checkQuestion tự chấm ĐÚNG với chính đáp án đã khai — dùng engine chấm thật, không AI', () => {
-    for (const lesson of PHYSICS_LESSONS) {
-      for (const q of lesson.checkQuestions) {
-        let studentInput: string
-        switch (q.answer.kind) {
-          case 'numeric': {
-            const unitDef = q.answer.unit ? UNITS[q.answer.unit] : undefined
-            const factor = unitDef ? unitDef.factor : 1
-            const offset = unitDef ? (unitDef.offset ?? 0) : 0
-            const displayValue = (q.answer.value - offset) / factor
-            studentInput = q.answer.unit ? `${displayValue} ${q.answer.unit}` : `${displayValue}`
-            break
-          }
-          case 'choice':
-            studentInput = q.answer.correctIds.join(',')
-            break
-          case 'fraction':
-            studentInput = `${q.answer.num}/${q.answer.den}`
-            break
-          case 'expression':
-            studentInput = q.answer.expr
-            break
-        }
-        const result = gradeAnswer(studentInput, q.answer)
-        expect(
-          result.correct,
-          `Bài ${lesson.id}, câu "${q.prompt}" — đáp án đã khai KHÔNG tự chấm đúng (lý do: ${result.reason})`,
-        ).toBe(true)
-      }
-    }
+    // Cổng dùng chung ở `@dhcb/core-grading/selfGrade`: nạp vào engine ĐÚNG chuỗi tác giả đã
+    // viết (`<value> <unit>`), KHÔNG tự đổi đơn vị. Bản cũ ở đây tự tính
+    // `(value - offset) / factor` nên giả định sẵn điều cần kiểm và không thể đỏ — xem
+    // `docs/audit/2026-09-14-tinh-chinh-xac-cong-thuc-va-ket-qua.md`.
+    const loi = timLoiTuCham(PHYSICS_LESSONS)
+    expect(loi.length, `Đáp án đã khai KHÔNG tự chấm đúng:\n${moTaLoiTuCham(loi)}`).toBe(0)
   })
 
   it("bài 'advanced' phải có advancedTier; bài 'core' tuyệt đối không được có", () => {
