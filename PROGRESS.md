@@ -268,6 +268,13 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
   câu + 294 phần lý thuyết đều chưa ai đọc; 223 câu tự chấm được thì nay đã có cổng thật
   (`selfGrade.ts`) kiểm đúng/sai số học, nhưng cổng đó không phán được nội dung dạy có đúng
   chương trình hay không.
+  **ĐÃ CÓ ĐƯỜNG ĐI (2026-09-14, PR #903):** `docs/specs/2026-09-14-quy-trinh-duyet-chuyen-mon-mon-sinh.md`
+  — bản ghi duyệt kiểm chứng được, bộ tiêu chí `sinh-v1` 7 câu, chia **8 lô** môn Sinh theo mật độ
+  rủi ro (lô 1 = `sinh12-c1`, 7 bài/14 câu), 5 bất biến kèm test canh. **CHỜ NGƯỜI DÙNG CHỐT 2 câu**
+  Ô ⓪.5 **ĐÃ CHỐT trong phiên 2026-09-14**: duyệt **trong `/admin` và ngay trong trang bài học** ·
+  AI được sàng lọc vòng 1 nhưng phải làm thật kỹ (5 ràng buộc đo được + ca thử 13 câu) và
+  **không bao giờ** được ghi `reviewed`. Đặc tả đủ điều kiện giao việc; **phần thi hành là PR
+  riêng** (migration `0078` + API admin + giao diện + Tầng 8b), chưa làm.
 - **Audit chất lượng nội dung 6 môn (2026-09-14)** — báo cáo đầy đủ:
   `docs/audit/2026-09-14-chat-luong-noi-dung-cac-mon-hoc.md`. 11 phát hiện; hai cái đã có ở
   trên (Toán thủng 6 chương · Sinh chưa có HSG). Mới và đáng làm ngay: `reviewStatus: 'draft'`
