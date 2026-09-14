@@ -1,6 +1,6 @@
 # Đặc tả — Chuyên đề HSG môn Hoá lớp 12 (lấp lỗ hổng F7)
 
-**Ngày:** 2026-09-14 · **Trạng thái:** chờ người dùng duyệt (xem ô ⓪.5)
+**Ngày:** 2026-09-14 · **Trạng thái:** ✅ **Approved for implementation** (người dùng chốt 2026-09-14, xem ô ⓪.5)
 **Nguồn gốc:** phát hiện **F7** của `docs/audit/2026-09-14-chat-luong-noi-dung-cac-mon-hoc.md`
 — "Hoá lớp 12 có 0 chuyên đề HSG trong khi Hoá 10 có 3 và Hoá 11 có 6 — chỗ này lệch không có
 lý do ghi ở đâu cả".
@@ -15,16 +15,26 @@ Bổ sung **hai chuyên đề HSG cho Hoá lớp 12** (6 bài, đủ ba cấp tr
 đề) bám đúng chương trình Hoá 12 GDPT 2018 đang có trong repo, để nhánh bồi dưỡng HSG môn Hoá
 phủ đủ cả ba lớp thay vì hụt hẳn lớp cuối cấp.
 
-## 0.5. HAI ĐIỀU CẦN NGƯỜI DÙNG CHỐT TRƯỚC KHI THI HÀNH
+## 0.5. HAI ĐIỀU CẦN CHỐT — **ĐÃ CHỐT 2026-09-14**
 
-Đây là nội dung dạy người thật, tôi không tự quyết:
+> ✅ **Approved for implementation** — người dùng trả lời nguyên văn ngày 2026-09-14:
+> _"2 chuyên đề, giữ Điện hoá + Hữu cơ 12"_.
+>
+> - **Q1 → 2 chuyên đề (6 bài)**, đúng đề xuất. Hoá cân đối **3 / 6 / 6** bài cho lớp 10 / 11 / 12.
+> - **Q2 → giữ nguyên** hai chuyên đề đã đề xuất: **Điện hoá & ăn mòn** và **Hoá hữu cơ tổng hợp
+>   lớp 12**. **KHÔNG** đổi sang "Phức chất & kim loại chuyển tiếp d" — chuyên đề đó nằm ngoài
+>   phạm vi đợt này (nếu sau muốn thêm thì là đợt riêng, đổi cả danh mục bài lẫn mã chương).
+>
+> Không còn câu hỏi mở. Đặc tả này **được phép thi hành**.
+
+Bảng câu hỏi gốc giữ lại để truy vết căn cứ quyết định:
 
 | #      | Câu hỏi                                                                                                                                   | Đề xuất của tôi                                                                                                                                                                                              |
 | ------ | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Q1** | Lớp 12 làm **2 chuyên đề (6 bài)** hay **1 chuyên đề (3 bài)**?                                                                           | **2 chuyên đề**, để Hoá cân đối 3 / 6 / 6 bài cho lớp 10 / 11 / 12 — lớp 12 là lớp thi HSG quốc gia thật nên không nên mỏng hơn lớp 11. Chọn 1 chuyên đề thì bỏ chuyên đề **Điện hoá** và ghi lý do vào ô ①. |
 | **Q2** | Hai chuyên đề đề xuất (**Điện hoá & ăn mòn** · **Hoá hữu cơ tổng hợp: ester–carbohydrate–amine/amino acid–polymer**) có đúng ý bạn không? | Giữ nguyên — căn cứ ở ô ①bis. Nếu bạn muốn đổi một chuyên đề sang **Phức chất & kim loại chuyển tiếp d** (chương 8), nói trước khi thi hành vì nó đổi cả danh mục bài lẫn mã chương.                         |
 
-Chưa có câu trả lời thì **không bắt đầu soạn nội dung**.
+Bảng trên **đã được trả lời** (xem khung ✅ ở đầu mục) — không còn điều kiện chặn nào.
 
 ## ① Phạm vi
 

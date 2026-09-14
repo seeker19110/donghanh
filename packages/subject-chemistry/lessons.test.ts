@@ -5,7 +5,13 @@ import { describe, expect, it } from 'vitest'
 import { timLoiDuyet, moTaLoiDuyet } from '@dhcb/core-contracts/lessonReviewGuard'
 import { moTaLoiTuCham, timLoiTuCham } from '@dhcb/core-grading/selfGrade'
 import { CHEM_LESSONS, getChemLesson, listChemLessonsByGrade } from './lessons.js'
+import { HOA_HSG_NHIET_DONG_LESSONS } from './lessons/hoa-hsg-nhiet-dong-hoc.js'
+import { HOA_HSG_DUNG_DICH_LESSONS } from './lessons/hoa-hsg-dung-dich.js'
+import { HOA_HSG_HUU_CO_LESSONS } from './lessons/hoa-hsg-huu-co-va-hon-hop.js'
+import { HOA_HSG_DIEN_HOA_LESSONS } from './lessons/hoa-hsg-dien-hoa.js'
+import { HOA_HSG_HUU_CO_12_LESSONS } from './lessons/hoa-hsg-huu-co-12.js'
 import { ChemLessonSchema } from './lessonTypes.js'
+import type { ChemLesson } from './lessonTypes.js'
 
 describe('chemistry lessons', () => {
   it('mọi bài đúng khuôn ChemLessonSchema (Zod)', () => {
@@ -85,6 +91,47 @@ describe('chemistry lessons', () => {
         .map(({ q, i }) => `${l.id}#q${i + 1} (${q.explain.trim().length} ký tự)`),
     )
     expect(cut, 'lời giải phải nói được vì sao, không chỉ thế số').toEqual([])
+  })
+  it('mỗi lớp Hoá đều có chuyên đề HSG, mỗi chuyên đề đủ ba cấp', () => {
+    // Audit 2026-09-14 (F7): Hoá 12 có 0 chuyên đề HSG trong khi lớp 10 có 1 và lớp 11 có 2 —
+    // lệch không có lý do ghi ở đâu cả. Ca này biến "đủ ba lớp, mỗi chuyên đề đủ ba cấp" thành
+    // cổng chặn CI. Đặc tả: docs/specs/2026-09-14-chuyen-de-hsg-hoa-12.md.
+    //
+    // Gom nhóm theo FILE dữ liệu (mỗi file = một chuyên đề), KHÔNG theo `chapterTitle`: khuôn
+    // test trong đặc tả dùng chapterTitle và đã đỏ ngay trên dữ liệu cũ, vì chỉ chuyên đề "Cân
+    // bằng ion trong dung dịch" đặt chung một chapterTitle cho cả ba bài, còn hai chuyên đề kia
+    // đặt tiêu đề riêng cho từng bài (Nhiệt hoá học / Động hoá học / Nhiệt động học). Đó là
+    // cách đặt tên hợp lệ, không phải lỗi dữ liệu — nên sửa KHOÁ GOM NHÓM, không sửa dữ liệu cũ.
+    const chuyenDe: Record<string, readonly ChemLesson[]> = {
+      'hoa-hsg-nhiet-dong-hoc': HOA_HSG_NHIET_DONG_LESSONS,
+      'hoa-hsg-dung-dich': HOA_HSG_DUNG_DICH_LESSONS,
+      'hoa-hsg-huu-co-va-hon-hop': HOA_HSG_HUU_CO_LESSONS,
+      'hoa-hsg-dien-hoa': HOA_HSG_DIEN_HOA_LESSONS,
+      'hoa-hsg-huu-co-12': HOA_HSG_HUU_CO_12_LESSONS,
+    }
+
+    // 1. Mỗi chuyên đề đúng 3 bài, đủ ba cấp, cùng một lớp.
+    for (const [ten, bai] of Object.entries(chuyenDe)) {
+      expect([...bai.map((l) => l.advancedTier)].sort(), `chuyên đề ${ten} phải đủ ba cấp`).toEqual(
+        ['hsg-quoc-gia', 'hsg-tinh', 'hsg-truong'],
+      )
+      expect(new Set(bai.map((l) => l.grade)).size, `chuyên đề ${ten} phải cùng một lớp`).toBe(1)
+      for (const l of bai) expect(l.track, `${l.id} phải là nhánh nâng cao`).toBe('advanced')
+    }
+
+    // 2. Mọi bài advanced trong registry đều thuộc đúng một chuyên đề kể trên (không bài mồ côi).
+    const trongChuyenDe = new Set(Object.values(chuyenDe).flatMap((b) => b.map((l) => l.id)))
+    const advIds = CHEM_LESSONS.filter((l) => l.track === 'advanced').map((l) => l.id)
+    expect(
+      advIds.filter((id) => !trongChuyenDe.has(id)),
+      'bài HSG không thuộc chuyên đề nào',
+    ).toEqual([])
+
+    // 3. Lớp nào cũng phải có chuyên đề HSG — chính là lỗ hổng F7 của lớp 12.
+    for (const g of ['10', '11', '12'] as const) {
+      const co = Object.values(chuyenDe).filter((bai) => bai[0]?.grade === g)
+      expect(co.length, `lớp ${g} phải có ít nhất 1 chuyên đề HSG`).toBeGreaterThanOrEqual(1)
+    }
   })
   it('trạng thái duyệt ăn khớp với bản ghi duyệt, và băm nội dung còn hiệu lực', () => {
     // Luật viết MỘT lần ở @dhcb/core-contracts/lessonReviewGuard, thử bằng dữ liệu giả ở
