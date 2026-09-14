@@ -271,7 +271,7 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
   **ĐÃ CÓ ĐƯỜNG ĐI (2026-09-14, PR #903):** `docs/specs/2026-09-14-quy-trinh-duyet-chuyen-mon-mon-sinh.md`
   — bản ghi duyệt kiểm chứng được, bộ tiêu chí `sinh-v1` 7 câu, chia **8 lô** môn Sinh theo mật độ
   rủi ro (lô 1 = `sinh12-c1`, 7 bài/14 câu), 5 bất biến kèm test canh. **CHỜ NGƯỜI DÙNG CHỐT 2 câu**
-  **NỀN + GIAO DIỆN ĐÃ XONG (PR #904 + PR giao diện, `docs/changelog/0302-*.md` · `0303-*.md`):** hợp
+  **NỀN + GIAO DIỆN ĐÃ XONG (PR #904 + #905, `docs/changelog/0302-*.md` · `0303-*.md`):** hợp
   đồng bản ghi duyệt + băm nội dung + luật ăn khớp dùng chung 4 môn
   (`packages/core-contracts/lessonReview*.ts`), bảng `stem_lesson_reviews` (migration `0078`,
   sửa ràng buộc `mon` ở `0079`), API `/api/admin-stem-review` (chỉ admin, **server tự tính băm
