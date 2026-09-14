@@ -134,7 +134,8 @@ export const HOA10_C1_LESSONS: ChemLesson[] = [
           'Nguyên tử Y có số electron là 20. Hỏi nguyên tử Y có bao nhiêu proton? (nguyên tử ' +
           'trung hoà điện)',
         answer: { kind: 'numeric', value: 20 },
-        explain: 'Nguyên tử trung hoà về điện ⇒ số proton = số electron = 20.',
+        explain:
+          'Nguyên tử trung hoà về điện ⇒ số proton = số electron = 20. Proton mang điện dương, electron mang điện âm, số điện tích bằng nhau nên tổng điện tích nguyên tử bằng 0.',
       },
     ],
     srsCards: [
@@ -299,7 +300,8 @@ export const HOA10_C1_LESSONS: ChemLesson[] = [
           'Nguyên tố Copper (Cu) có 2 đồng vị: ⁶³Cu chiếm 69% và ⁶⁵Cu chiếm 31%. Tính nguyên ' +
           'tử khối trung bình (làm tròn 1 chữ số thập phân, chỉ nhập số).',
         answer: { kind: 'numeric', value: 63.62, tolerance: { mode: 'absolute', eps: 0.1 } },
-        explain: 'M̄ = (63×69 + 65×31)/100 = (4347 + 2015)/100 = 63,62.',
+        explain:
+          'M̄ = (63×69 + 65×31)/100 = (4347 + 2015)/100 = 63,62. Đây là nguyên tử khối trung bình theo phần trăm số nguyên tử mỗi đồng vị, không phải trung bình cộng đơn giản của các khối lượng.',
       },
     ],
     srsCards: [

@@ -48,6 +48,8 @@ export interface LessonRunOptions {
   /** Bài/bước 'fetch': API mẫu nào phục vụ lượt chạy — bài học P3-U7 dùng API thời tiết
    *  (mặc định), dự án trục chặng P3 dùng API menu cửa hàng của chính dự án. */
   fetchApi?: FetchApi
+  /** Bài 'sql': bộ dữ liệu riêng của ca chấm (testCase.datasetSql) thay cho SQL_SEED mặc định. */
+  datasetSql?: string
 }
 
 export function runLessonCode(
@@ -141,11 +143,13 @@ export function runLessonCode(
     })
   }
   if (language === 'sql') {
-    // SQL không có input(): dữ liệu đã nằm sẵn trong CSDL mẫu (sqlDataset.ts).
-    const { onOutput, onLoading } = options
+    // SQL không có input(): dữ liệu đã nằm sẵn trong CSDL mẫu (sqlDataset.ts). Ca chấm nào
+    // khai datasetSql thì lượt đó nạp bộ dữ liệu riêng của nó — đúng luật cổng CI đang dùng.
+    const { onOutput, onLoading, datasetSql } = options
     return runSql(code, {
       ...(onOutput ? { onOutput } : {}),
       ...(onLoading ? { onLoading } : {}),
+      ...(datasetSql ? { seed: datasetSql } : {}),
     })
   }
   // Còn lại là các LÀN chạy bằng engine Python. Làn mở rộng của bậc P4 (pytest…) chỉ khác

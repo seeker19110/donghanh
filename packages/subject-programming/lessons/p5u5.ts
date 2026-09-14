@@ -9,6 +9,76 @@
 // viên tạo index nào).
 import type { ProgrammingLesson } from '../lessonTypes.js'
 
+// BA BỘ DỮ LIỆU RIÊNG cho các ca chấm (trường `datasetSql` của test-case, PR hạ tầng dataset).
+// Lý do: một thiết kế bảng tử tế phải đúng với MỌI cảnh dữ liệu, không chỉ với đúng 7 dòng của
+// bộ mẫu. Ba cảnh dưới đây nhắm ba lỗi khác nhau mà bộ mẫu không bao giờ lộ ra.
+// Bất biến chung: luôn có món id = 1 và KHÔNG có đơn id = 5, vì lời giải mở giao dịch thêm
+// đơn 5 rồi chi tiết (5, 1, 2) — bật PRAGMA foreign_keys thì hai id đó phải hợp lệ.
+
+/** Cảnh 1 — BẢNG RỖNG: chi_tiet không có dòng nào. Bắt lời giải "chép dữ liệu" bằng cách
+ *  liệt kê tay từng dòng, hoặc dựa vào việc bảng chắc chắn có dữ liệu. */
+const SEED_RONG = `
+CREATE TABLE mon (id INTEGER PRIMARY KEY, ten TEXT NOT NULL, nhom TEXT NOT NULL, gia INTEGER NOT NULL);
+CREATE TABLE don_hang (id INTEGER PRIMARY KEY, ngay TEXT NOT NULL, ban INTEGER NOT NULL);
+CREATE TABLE chi_tiet (don_id INTEGER NOT NULL, mon_id INTEGER NOT NULL, so_luong INTEGER NOT NULL);
+
+INSERT INTO mon (id, ten, nhom, gia) VALUES
+  (1, 'Ca phe den', 'uong', 20000),
+  (2, 'Banh mi', 'an', 20000);
+
+INSERT INTO don_hang (id, ngay, ban) VALUES
+  (1, '2026-08-01', 1),
+  (2, '2026-08-02', 2);
+-- chi_tiet cố ý KHÔNG có dòng nào: quán mới mở, chưa bán được gì.
+`
+
+/** Cảnh 2 — CÓ NULL và THỨ TỰ ĐẢO: cột ban để trống (khách mang đi, chưa gán bàn) và các dòng
+ *  được ghi theo thứ tự id giảm dần. Bắt lời giải ngầm cho rằng dữ liệu đọc ra đã sắp xếp sẵn
+ *  hoặc mọi ô đều có giá trị. */
+const SEED_NULL_DAO = `
+CREATE TABLE mon (id INTEGER PRIMARY KEY, ten TEXT NOT NULL, nhom TEXT NOT NULL, gia INTEGER NOT NULL);
+CREATE TABLE don_hang (id INTEGER PRIMARY KEY, ngay TEXT NOT NULL, ban INTEGER);
+CREATE TABLE chi_tiet (don_id INTEGER NOT NULL, mon_id INTEGER NOT NULL, so_luong INTEGER NOT NULL);
+
+INSERT INTO mon (id, ten, nhom, gia) VALUES
+  (3, 'Tra da', 'uong', 5000),
+  (2, 'Ca phe sua', 'uong', 25000),
+  (1, 'Ca phe den', 'uong', 20000);
+
+INSERT INTO don_hang (id, ngay, ban) VALUES
+  (4, '2026-08-03', NULL),   -- khách mang đi: chưa hề có số bàn
+  (2, '2026-08-01', 3),
+  (1, '2026-08-01', NULL);
+
+INSERT INTO chi_tiet (don_id, mon_id, so_luong) VALUES
+  (4, 3, 1),
+  (1, 2, 2),
+  (4, 1, 5),
+  (2, 1, 1);
+`
+
+/** Cảnh 3 — ID THƯA và GIÁ TRỊ LỚN: id món/đơn nhảy cóc (không phải 1,2,3…) và số lượng lớn.
+ *  Bắt lời giải gắn cứng dải id hoặc cho rằng id luôn liên tục từ 1. */
+const SEED_ID_THUA = `
+CREATE TABLE mon (id INTEGER PRIMARY KEY, ten TEXT NOT NULL, nhom TEXT NOT NULL, gia INTEGER NOT NULL);
+CREATE TABLE don_hang (id INTEGER PRIMARY KEY, ngay TEXT NOT NULL, ban INTEGER NOT NULL);
+CREATE TABLE chi_tiet (don_id INTEGER NOT NULL, mon_id INTEGER NOT NULL, so_luong INTEGER NOT NULL);
+
+INSERT INTO mon (id, ten, nhom, gia) VALUES
+  (1, 'Ca phe den', 'uong', 20000),
+  (42, 'Nuoc cam', 'uong', 30000),
+  (777, 'Banh ngot', 'an', 15000);
+
+INSERT INTO don_hang (id, ngay, ban) VALUES
+  (9, '2026-08-01', 1),
+  (300, '2026-08-02', 12);
+
+INSERT INTO chi_tiet (don_id, mon_id, so_luong) VALUES
+  (9, 42, 120),
+  (300, 777, 96),
+  (300, 1, 3);
+`
+
 export const P5U5_LESSONS: ProgrammingLesson[] = [
   {
     id: 'p5-u5-l1',
@@ -119,22 +189,25 @@ WHERE don_id NOT IN (SELECT id FROM don_hang);`,
           expected: 'so_khoa_ngoai\n2',
           match: 'contains',
           hidden: false,
-          label: 'Bảng mới khai báo đúng HAI khoá ngoại (don_hang và mon)',
+          datasetSql: SEED_RONG,
+          label: 'Bảng mới khai báo đúng HAI khoá ngoại — kể cả khi chi_tiet chưa có dòng nào',
         },
         {
           stdinLines: [],
           expected: 'idx_ct_don',
           match: 'contains',
           hidden: true,
-          label: 'Ca ẩn: index idx_ct_don tồn tại thật trong CSDL',
+          datasetSql: SEED_NULL_DAO,
+          label: 'Ca ẩn: index idx_ct_don tồn tại thật, trên dữ liệu có ô trống và ghi lộn xộn',
         },
         {
           stdinLines: [],
           expected: 'sqlite_autoindex_chi_tiet_moi_1',
           match: 'contains',
           hidden: true,
+          datasetSql: SEED_ID_THUA,
           label:
-            'Ca ẩn: khoá chính ghép TỰ SINH thêm một index nữa — bằng chứng khoá chính đã được khai đúng',
+            'Ca ẩn: khoá chính ghép TỰ SINH thêm một index nữa — bằng chứng khoá chính đã được khai đúng (dữ liệu id thưa)',
         },
       ],
       hints: [

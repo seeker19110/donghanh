@@ -171,6 +171,8 @@ function LessonBody({ lesson }: { lesson: ProgrammingLesson }) {
       const r = await runLessonCode(lesson.language, code, {
         stdinLines: testCase.stdinLines,
         ...(lesson.domHtml ? { domHtml: lesson.domHtml } : {}),
+        // Bài SQL: ca chấm có thể mang bộ dữ liệu riêng (bảng rỗng, có NULL, thứ tự khác).
+        ...(testCase.datasetSql ? { datasetSql: testCase.datasetSql } : {}),
       })
       out.push(
         gradeTestCase(testCase, r.output, r.error ?? (r.timedOut ? 'Quá thời gian' : undefined)),

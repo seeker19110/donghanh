@@ -58,7 +58,8 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
           kind: 'numeric',
           value: 92,
         },
-        explain: 'Chỉ số dưới Z = 92 đại diện cho số proton của hạt nhân.',
+        explain:
+          'Chỉ số dưới Z = 92 đại diện cho số proton của hạt nhân. Ký hiệu chuẩn là ᴬ_Z X: chỉ số trên A là số khối (proton + neutron), chỉ số dưới Z là số proton — đừng nhầm hai số này.',
       },
     ],
     srsCards: [
@@ -548,7 +549,8 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
           value: donViHienThi(12.5, '%'),
           unit: '%',
         },
-        explain: 't/T = 15/5 = 3 chu kì. Tỉ lệ còn lại = 2^-3 = 1/8 = 12.5%.',
+        explain:
+          't/T = 15/5 = 3 chu kì. Tỉ lệ còn lại = 2^-3 = 1/8 = 12.5%. Công thức tổng quát N/N₀ = 2^(-t/T): mỗi chu kì bán rã, lượng chất phóng xạ giảm đi đúng một nửa, không phải giảm đều theo thời gian.',
       },
       {
         // Câu bẫy: hiểu "bán rã" theo kiểu tuyến tính — nửa sau T, nốt nửa còn lại sau T nữa.
@@ -700,7 +702,8 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
           value: donViHienThi(0.0693, 'ngày^-1'),
           unit: 'ngày^-1',
         },
-        explain: 'lambda = ln(2) / T = 0.693 / 10 = 0.0693 ngày^-1.',
+        explain:
+          'lambda = ln(2) / T = 0.693 / 10 = 0.0693 ngày^-1. Hằng số phóng xạ λ và chu kì bán rã T tỉ lệ nghịch: chất phân rã càng nhanh (T nhỏ) thì λ càng lớn.',
       },
       {
         prompt:

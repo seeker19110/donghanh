@@ -59,7 +59,8 @@ export const HOA_HSG_DUNG_DICH_LESSONS: ChemLesson[] = [
           'Tính pH của dung dịch CH₃COOH 0,10 M, biết Ka = 1,8·10⁻⁵ (làm tròn 2 chữ số thập ' +
           'phân, chỉ nhập số).',
         answer: { kind: 'numeric', value: 2.87, tolerance: { mode: 'absolute', eps: 0.05 } },
-        explain: '[H⁺] = √(Ka·C) = √(1,8·10⁻⁶) = 1,34·10⁻³ M ⇒ pH = 2,87.',
+        explain:
+          '[H⁺] = √(Ka·C) = √(1,8·10⁻⁶) = 1,34·10⁻³ M ⇒ pH = 2,87. Công thức này là xấp xỉ cho acid yếu phân li ít, chỉ dùng khi C đủ lớn so với Ka (không áp dụng cho dung dịch quá loãng).',
       },
       {
         // Câu BẪY trọng tâm: coi acid yếu điện li hoàn toàn như acid mạnh.
