@@ -17,47 +17,45 @@
 So sánh quy mô: Toán 35 bài, trong khi Lí 85 bài, Hoá 72 bài — Toán mỏng nhất trong 4 môn STEM
 dù là môn nền tảng nhất.
 
-## 2. Vấn đề gốc rễ tìm thấy khi khảo sát
+## 2. Vấn đề gốc rễ tìm thấy khi khảo sát — SỬA LẠI (2026-09-14, sau khi đọc kỹ hơn)
 
-Không tồn tại `docs/research/kho-kien-thuc-toan-gdpt2018.md` (Hoá đã có file tương ứng
-`kho-kien-thuc-hoa-gdpt2018.md`, Lí/Sinh cũng có tài liệu nguồn tương tự) — **đây là lý do gốc
-khiến 6 chương bị bỏ sót mà không ai phát hiện**: không có bản đồ đối chiếu chương trình để so
-sánh. `packages/subject-math/lessons.test.ts` cũng chưa có ngưỡng số bài tối thiểu
-(`expect(MATH_LESSONS.length).toBeGreaterThanOrEqual(N)`) như gói Sinh đã làm — nên lỗ hổng
-không bị CI chặn, có thể tiếp tục thủng thêm mà không ai biết.
+**Đính chính:** khảo sát ban đầu báo "không tồn tại kho kiến thức Toán" — SAI, do tìm sai tên
+file. Kho kiến thức Toán **đã tồn tại**, gộp trong `docs/research/kho-kien-thuc-mon-hoc.md` mục
+`[5] kho-kien-thuc-toan-gdpt2018.md`, và phần lớp 10-12 **đã đối chiếu SGK thật ngày 2026-08-03**
+(ghi rõ ở đầu §5 của file đó) — không phải chưa có tài liệu nguồn.
 
-## 3. Vì sao KHÔNG thể tự đoán tên 6 chương thiếu
+Lý do gốc 6 chương vẫn bị thủng dù đã có kho kiến thức: **không có cầu nối giữa tài liệu và
+code** — chưa ai chuyển từ bảng công thức trong `kho-kien-thuc-mon-hoc.md` §5 thành bài học thật
+trong `packages/subject-math/lessons/`. Đã vá phần "không bị chặn": thêm test khoá số chương
+tối thiểu vào `packages/subject-math/lessons.test.ts` (không cho xoá âm thầm 18 chương đã có).
 
-Chương trình GDPT 2018 môn Toán có 3 bộ sách phổ biến (Kết Nối Tri Thức, Chân Trời Sáng Tạo,
-Cánh Diều) đánh số chương **khác nhau** giữa các bộ, và 4 môn STEM khác trong repo cũng không
-ghi rõ đang theo bộ sách nào ở nơi tôi tìm được. Đoán sai tên chương → soạn nhầm nội dung → phải
-bỏ. Cần bạn xác nhận trước.
+## 3. Tên 6 chương thiếu — ĐÃ XÁC ĐỊNH (bạn xác nhận bộ Kết Nối Tri Thức)
 
-## 4. Đề xuất (xin bạn chọn)
+Đối chiếu bảng lớp 12 ở `kho-kien-thuc-mon-hoc.md` §5 (thứ tự chương chuẩn bộ Kết Nối Tri Thức,
+6 chương/19 bài) với 4 chương đã có bài (1,4,5,6) trong repo:
 
-**Việc 0 (làm trước mọi thứ, rủi ro thấp, nên làm ngay bất kể chọn phương án nào):**
-Thêm `docs/research/kho-kien-thuc-toan-gdpt2018.md` (bản đồ đối chiếu chương trình, theo mẫu
-file Hoá đã có) + thêm ngưỡng số bài tối thiểu vào `lessons.test.ts` để khoá không thủng thêm.
-→ **đây có thể giao ngay cho subagent**, không cần quyết định thêm.
+| Chương | Tên (theo mạch kiến thức đã liệt kê trong kho kiến thức)          | Trạng thái   |
+| ------ | ------------------------------------------------------------------ | ------------ |
+| 1      | Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số                   | ✅ đã có bài |
+| **2**  | **Vectơ và hệ trục toạ độ trong không gian** (Oxyz)                | 🔴 THIẾU     |
+| **3**  | **Các số đặc trưng đo mức độ phân tán của mẫu số liệu ghép nhóm**  | 🔴 THIẾU     |
+| 4      | Nguyên hàm, tích phân                                              | ✅ đã có bài |
+| 5      | Phương trình mặt phẳng, đường thẳng, mặt cầu                      | ✅ đã có bài |
+| 6      | Xác suất có điều kiện                                              | ✅ đã có bài |
 
-**Việc 1 (cần bạn chọn TRƯỚC khi giao soạn bài):**
+Lớp 11 (thiếu chương 3, 4, 8) và lớp 10 (thiếu chương 5) chưa đối chiếu chi tiết trong đợt này —
+để dành cho phương án B/C (mục 4) sau khi xong lớp 12.
 
-| Phương án                                         | Mô tả                                                                            | Đánh đổi                                                                       |
-| ------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| A. Ưu tiên lớp 12 (chương 2, 3)                   | Sát kỳ thi tốt nghiệp THPT nhất, giá trị tức thời cao nhất cho học sinh cuối cấp | Chỉ đóng 2/6 chương, lớp 10-11 vẫn thủng                                       |
-| B. Ưu tiên theo mạch kiến thức nền (lớp 10 trước) | Chương 5 lớp 10 thường là nền cho chương sau — đóng sớm tránh học sinh hổng gốc  | Chậm giá trị thi cử trước mắt                                                  |
-| C. Làm cả 6 chương trong 1 đợt                    | Đóng dứt điểm lỗ hổng, khớp tinh thần "giữ nguyên khuôn 4 môn STEM"              | Khối lượng lớn (~15-20 bài mới ước tính), rủi ro chất lượng nếu dồn vào 1 lượt |
+## 4. QUYẾT ĐỊNH (2026-09-14, người dùng chốt)
 
-Khuyến nghị của tôi (kỹ sư): **A trước, sau đó B, cuối cùng C nốt phần còn lại** — chia 3 đợt nhỏ
-thay vì 1 đợt lớn, đúng nguyên tắc "chia nhỏ" ở CLAUDE.md mục 3. Mỗi đợt đều cần có
-`docs/specs/<ngày>-mon-toan-bo-sung-<lop>.md` riêng (đặc tả đủ 6 ô theo khuôn
-`docs/templates/dac-ta-tinh-nang.md`) TRƯỚC khi giao soạn, vì nội dung Toán cần đúng chuyên môn
-— không thể chỉ đưa brief ngắn như 4 việc mechanical vừa làm trong PR này.
+- **Bộ sách:** Kết Nối Tri Thức.
+- **Ưu tiên:** phương án A trước (lớp 12, chương 2-3) — sát kỳ thi tốt nghiệp THPT nhất.
+- **Việc 0:** đã làm (mục 2 ở trên) — thêm test khoá số chương vào `lessons.test.ts`, xác định
+  đúng tên 6 chương thiếu qua kho kiến thức đã có sẵn (không cần viết file mới).
 
-## 5. Việc cần bạn trả lời để tôi tiếp tục
+Đặc tả thi hành cho lớp 12 chương 2-3: `docs/specs/2026-09-14-mon-toan-bo-sung-lop12-c2-c3.md`
+— **cần bạn duyệt riêng file đặc tả đó** (ghi "Approved for implementation") trước khi tôi giao
+soạn nội dung thật, theo đúng quy ước PR `feat` ở CLAUDE.md mục 11.
 
-1. Bộ sách giáo khoa đang theo là bộ nào (Kết Nối Tri Thức / Chân Trời Sáng Tạo / Cánh Diều /
-   tự biên soạn theo khung GDPT 2018 không theo bộ nào cụ thể)?
-2. Chọn phương án ưu tiên ở mục 4 (A/B/C hoặc thứ tự khác)?
-3. Có đồng ý làm Việc 0 (bản đồ đối chiếu + ngưỡng test) ngay trong đợt này không, hay để dành
-   riêng?
+Việc B (lớp 10 chương 5, lớp 11 chương 3/4/8) và C (nốt phần còn lại) để dành đặc tả riêng sau
+khi lớp 12 đạt cổng.
