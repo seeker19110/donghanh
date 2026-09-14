@@ -103,7 +103,7 @@
     "ipa_en": "/ˈɛstəˌmeɪtɪd/",
     "ipa_vi": "/ɗɯək̚˨˩ʔ/",
     "freq": 9758,
-    "level": "B2",
+    "level": "B1",
     "base": "estimate"
   },
   {
@@ -1410,7 +1410,7 @@
     "ipa_en": "/ɪkˈspɛktɪd/",
     "ipa_vi": "/ɗɯək̚˨˩ʔ/",
     "freq": 1786,
-    "level": "B2",
+    "level": "A2",
     "base": "expect"
   },
   {
@@ -3428,7 +3428,7 @@
     "ipa_en": "/fɛl/",
     "ipa_vi": "/ɗaː˧˥ʔ/",
     "freq": 979,
-    "level": "B1",
+    "level": "A2",
     "base": "fall"
   },
   {
@@ -3476,7 +3476,7 @@
     "ipa_en": "/fɛlt/",
     "ipa_vi": "/ɗaː˧˥ʔ/",
     "freq": 669,
-    "level": "A2",
+    "level": "A1",
     "base": "feel"
   },
   {
@@ -4697,7 +4697,7 @@
     "ipa_en": "/fɪkst/",
     "ipa_vi": "/ɗaː˧˥ʔ/",
     "freq": 1838,
-    "level": "B2",
+    "level": "B1",
     "base": "fix"
   },
   {
@@ -6436,7 +6436,7 @@
     "ipa_en": "/faʊnd/",
     "ipa_vi": "/ɗaː˧˥ʔ/",
     "freq": 281,
-    "level": "B2",
+    "level": "A1",
     "base": "find"
   },
   {
@@ -9635,7 +9635,7 @@
     "ipa_en": "/goʊz/",
     "ipa_vi": "/ɗi˧/",
     "freq": 454,
-    "level": "A2",
+    "level": "A1",
     "base": "go"
   },
   {
@@ -9718,7 +9718,7 @@
     "ipa_en": "/gɔn/",
     "ipa_vi": "/ɗaː˧˥ʔ/",
     "freq": 349,
-    "level": "A2",
+    "level": "A1",
     "base": "go"
   },
   {
@@ -11162,7 +11162,7 @@
     "ipa_en": "/groʊɪŋ/",
     "ipa_vi": "/ɗaːŋ˧/",
     "freq": 1934,
-    "level": "B2",
+    "level": "A1",
     "base": "grow"
   },
   {
