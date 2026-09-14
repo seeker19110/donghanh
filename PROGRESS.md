@@ -287,10 +287,15 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
 - **Audit chất lượng nội dung 6 môn (2026-09-14)** — báo cáo đầy đủ:
   `docs/audit/2026-09-14-chat-luong-noi-dung-cac-mon-hoc.md`. 11 phát hiện; hai cái đã có ở
   trên (Toán thủng 6 chương · Sinh chưa có HSG). Mới và đáng làm ngay: `reviewStatus: 'draft'`
-  của 294 bài STEM KHÔNG được giao diện đọc (người học không biết bài chưa duyệt); 610/699 vòng
-  từ vựng sinh tự động thiếu câu mẫu; cờ `notForKids` không phủ vòng sinh tự động; 23 vòng
-  dưới 5 từ; 6 bài Hoá trùng tiêu đề; 20 giải thích câu hỏi dưới 40 ký tự; 14 bài Lập trình
-  chỉ 1 test-case.
+  của 294 bài STEM KHÔNG được giao diện đọc (người học không biết bài chưa duyệt); **588/677**
+  vòng từ vựng sinh tự động thiếu câu mẫu (báo cáo ghi "610/699" là SAI — đã đính chính tại chỗ
+  2026-09-14); cờ `notForKids` không phủ vòng sinh tự động; 23 vòng dưới 5 từ; 6 bài Hoá trùng
+  tiêu đề; 20 giải thích câu hỏi dưới 40 ký tự; 14 bài Lập trình chỉ 1 test-case.
+- **BA ĐẶC TẢ NỘI DUNG MỚI ĐÃ SOẠN XONG, CHỜ NGƯỜI DÙNG DUYỆT** (2026-09-14, xem
+  `docs/changelog/0307-*.md`). Chưa file nào mang cụm "Approved for implementation", nên **chưa
+  được phép thi hành**: `docs/specs/2026-09-14-cau-mau-cho-vong-tu-vung-cefr.md` (F3) ·
+  `docs/specs/2026-09-14-hoat-anh-minh-hoa-stem.md` (F6, ưu tiên Vật lí) ·
+  `docs/specs/2026-09-14-chuyen-de-hsg-hoa-12.md` (F7). Mỗi file có ô câu hỏi chốt ở đầu.
 - **4 trang trụ Career/Work/Startup/Life chưa có chiều B** (0/4 file dùng `direction`) — nợ có
   chủ đích, người dùng chốt "chiều B nợ". Làm khi có người học chiều B thật.
 
