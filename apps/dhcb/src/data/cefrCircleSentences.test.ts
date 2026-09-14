@@ -42,9 +42,10 @@ const GOLDEN_MANUAL_HASH = '180882da5ac9220bc7ce4be677c60f1c1a076152975b9e9704da
 
 /**
  * Số vòng có câu mẫu TỐI THIỂU (chống lùi độ phủ — bất biến #9).
- * 89 vòng thủ công + 34 vòng bậc A1 (đợt 0). Hằng số này chỉ được TĂNG.
+ * 89 vòng thủ công + 588 vòng cefr-* (34 của đợt 0 bậc A1, 554 của đợt 1 bậc A2–C2)
+ * = TOÀN BỘ 677 vòng. Hằng số này chỉ được TĂNG.
  */
-const MIN_CIRCLES_WITH_SENTENCES = 123
+const MIN_CIRCLES_WITH_SENTENCES = 677
 
 const PUBLIC_JSON = path.resolve(process.cwd(), 'apps/dhcb/public/data/curriculum.json')
 
