@@ -38,6 +38,20 @@ export const MAX_SENTENCES_PER_CIRCLE = 5
 export const MIN_DISTINCT_WORDS_COVERED = 3
 
 /**
+ * Trần số từ CỦA VÒNG được phép dồn vào MỘT câu (chặn "nhồi từ").
+ *
+ * Vì sao có (2026-09-14, đợt câu mẫu A2–C2): luật `MIN_DISTINCT_WORDS_COVERED` tính
+ * trên CẢ BỘ 3 câu, nhưng nếu hiểu nhầm thành "mỗi câu phải phủ thật nhiều" thì sẽ
+ * đẻ ra câu nhồi — và câu nhồi kéo theo tiếng Anh hỏng. Ca thật đã bắt được ở lượt
+ * viết đầu: "The gaudy, shakespearean costume was vigorously and miscellaneous-ly
+ * praised…" ("miscellaneous-ly" là từ BỊA). Không cổng nào khác bắt được loại lỗi
+ * này, vì nó đúng ngữ pháp máy nhưng sai tiếng Anh thật.
+ *
+ * Mốc 4 lấy từ chuẩn đã đạt của bậc A1 (đợt 0): câu dày nhất ở đó dùng 3 từ của vòng.
+ */
+export const MAX_CIRCLE_WORDS_PER_SENTENCE = 4
+
+/**
  * Ký tự CHỈ có trong tiếng Việt có dấu (đủ cả hoa/thường).
  * Dùng hai chiều: `vi` BẮT BUỘC có ít nhất một ký tự loại này (chặn AI trả tiếng Anh
  * vào ô dịch), còn `en` thì TUYỆT ĐỐI không được có (chặn lẫn tiếng Việt vào ô Anh).

@@ -23,6 +23,7 @@ import {
 import {
   LENGTH_BY_LEVEL,
   MAX_SENTENCES_PER_CIRCLE,
+  MAX_CIRCLE_WORDS_PER_SENTENCE,
   MIN_DISTINCT_WORDS_COVERED,
   MIN_SENTENCES_PER_CIRCLE,
   countWords,
@@ -109,6 +110,21 @@ describe('Câu mẫu cho vòng từ vựng CEFR', () => {
       if (covered.size < MIN_DISTINCT_WORDS_COVERED) loi.push(`${c.id}=${covered.size}`)
     }
     expect(loi, `vòng phủ chưa đủ từ: ${loi.join(', ')}`).toEqual([])
+  })
+
+  it('KHONG_NHOI_TU — không câu nào dồn quá nhiều từ của vòng vào một câu', () => {
+    const loi: string[] = []
+    for (const c of circlesOfDoneLevels) {
+      const words = c.words.map((w) => w.word)
+      for (const s of c.sentences) {
+        const n = matchedCircleWords(s.en, words).length
+        if (n > MAX_CIRCLE_WORDS_PER_SENTENCE) loi.push(`${c.id} (${n} từ): "${s.en}"`)
+      }
+    }
+    expect(
+      loi,
+      `câu nhồi từ (câu mẫu để RÁP CÂU tự nhiên, không phải để phủ từ):\n${loi.join('\n')}`,
+    ).toEqual([])
   })
 
   it('SONG_NGU_DUNG_NGON_NGU — vi có dấu tiếng Việt, en không lẫn tiếng Việt', () => {

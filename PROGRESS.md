@@ -313,9 +313,14 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
     ngưỡng toàn môn không canh được phân bố theo lớp.
 
   **F6 ĐÃ ĐÓNG** — ratchet `TOI_THIEU_PHU_HOAT_ANH` trong `lessons.test.ts` của cả 4 môn chặn CI
-  khi độ phủ tụt. **F3 CÒN LẠI 5 bậc A2–C2 (554 vòng)**; thi hành được ngay vì đường ray đã có
-  từ #911, nhưng cần key AI trong `.env` — script sinh câu gọi AI theo lô, thiếu key thì thoát
-  mã 1 theo đúng hợp đồng ở §③ của đặc tả.
+  khi độ phủ tụt.
+  - **PR (đợt này) (`docs/changelog/0311-*.md`): F3 ĐÃ ĐÓNG** — 554 vòng A2–C2 (1 662 câu) viết
+    nốt, **677/677 vòng có câu mẫu** (cefr-\*: 588/588). Không cần key AI: viết tay như đợt 0.
+    Kèm hai việc phát sinh do quy mô tăng 17 lần — (1) phải tối ưu `matchedCircleWords` vì test
+    bất biến đỏ do **timeout** (đã đối chiếu cũ/mới trên 2 063 câu: 0 ca lệch; 5,4 s → 0,13 s);
+    (2) lượt viết đầu ra câu **nhồi từ** sinh tiếng Anh bịa (`miscellaneous-ly`) nên **đã viết
+    lại 244 vòng** và thêm bất biến `KHONG_NHOI_TU` chặn CI (trần 4 từ của vòng mỗi câu, mốc lấy
+    từ chuẩn A1 đợt 0). Câu nhồi ≥ 5 từ: 445 → **0**.
 
 - **[2026-09-14 — ĐÃ QUYẾT, người dùng chốt phương án (a)] Tiêu chí kích thước file chương của
   đặc tả hoạt ảnh đo SAI CHỖ — đã sửa sang đo chunk sau build.** Tiêu chí cũ "file chương ≤ 120 kB
