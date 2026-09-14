@@ -3,8 +3,9 @@
 > Ngày: 2026-09-14 · Nguồn: phát hiện **F6** của `docs/audit/2026-09-14-chat-luong-noi-dung-cac-mon-hoc.md`
 > Khuôn: `docs/templates/dac-ta-tinh-nang.md` · Nền kỹ thuật đã có: `docs/specs/2026-09-13-hoan-thien-4-mon-stem.md`
 >
-> **Trạng thái: CHỜ NGƯỜI DÙNG DUYỆT** — chưa được phép thi hành. Xem mục "Cần người dùng chốt"
-> (4 điểm). Chỉ khi người dùng chốt xong thì đặc tả này mới chuyển sang trạng thái duyệt.
+> **Trạng thái: Approved for implementation** — người dùng chốt ngày 2026-09-14. Bốn điểm ở mục
+> "Cần người dùng chốt" đã có câu trả lời, ghi lại nguyên văn ở mục "Quyết định của người dùng"
+> ngay dưới đây; chúng **ghi đè** các đề xuất cũ còn nằm rải trong thân đặc tả.
 
 ## 0. Một câu
 
@@ -261,7 +262,32 @@ Toàn bộ 4 đợt (~~+150 hoạt ảnh) ≈ **+470 kB nguồn**, vẫn 0 kB v�
 Mỗi đợt: nâng hằng số ngưỡng trong `lessons.test.ts` lên đúng mức vừa đạt (ratchet), kèm ảnh chụp
 Tầng 8b và bảng "bài · tiêu chí ③ · hình động cho thấy gì".
 
-## Cần người dùng chốt (4 điểm)
+## Quyết định của người dùng (2026-09-14) — GHI ĐÈ đề xuất trong thân đặc tả
+
+| #   | Câu hỏi             | Người dùng chốt                                                                                                               |
+| --- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Mục tiêu phủ        | **70% cho CẢ BỐN môn** (tính trên bài `track: 'core'`), **cao hơn** đề xuất Lí 60 · Hoá 40 · Sinh 40 · Toán 50                |
+| 2   | Ai duyệt chuyên môn | Hoạt ảnh mới vào ở `reviewStatus: 'draft'` như mọi nội dung STEM khác — không dựng luồng duyệt riêng cho đợt này              |
+| 3   | Ratchet cứng        | **Có.** Ngưỡng phủ core **chặn CI**, chỉ tăng không giảm. Hạ hằng số phải là quyết định có chủ đích, ghi lý do trong mô tả PR |
+| 4   | Đợt 0 tách PR riêng | **Không** — làm đợt 0 → 4 một mạch trong cùng một đợt việc                                                                    |
+
+**Mục tiêu 70% quy ra số tuyệt đối** (mẫu số là bài `core`, đo lại 2026-09-14):
+
+| Môn      | core    | đang có        | cần ≥ 70% | phải bù |
+| -------- | ------- | -------------- | --------- | ------- |
+| Vật lí   | 85      | 14 (16,5%)     | 60        | 46      |
+| Hoá học  | 72      | 15 (20,8%)     | 51        | 36      |
+| Sinh học | 84      | 15 (17,9%)     | 59        | 44      |
+| Toán     | 47      | 18 (38,3%)     | 33        | 15      |
+| **Σ**    | **288** | **62 (21,5%)** | **203**   | **141** |
+
+**Ràng buộc KHÔNG được nới để chạy theo con số 70%:** tiêu chí chọn bài ở mục ③ vẫn là luật.
+Bài ôn tập chương · danh pháp thuần · luyện tính toán thuần thì **để trống vẫn là đáp án đúng**.
+Nếu một môn loại hết bài không xứng đáng mà vẫn không chạm 70%, **báo con số thật** trong mô tả
+PR kèm danh sách bài đã cố ý bỏ qua và lý do — **không vẽ bừa cho đủ số**. Ngưỡng ratchet khi đó
+đặt bằng mức THẬT đạt được, không đặt bằng mức mong muốn.
+
+## Cần người dùng chốt (4 điểm) — ĐÃ CHỐT, giữ lại làm bản ghi
 
 1. **Mục tiêu phủ có đúng tham vọng không?** Đề xuất: Lí 60% · Hoá 40% · Sinh 40% · Toán 50%
    (core). 100% là sai mục tiêu — bài ôn tập/danh pháp không nên có hoạt ảnh.
