@@ -1,6 +1,6 @@
 # Đặc tả — Bổ sung Toán 12, chương 2 (Vectơ & hệ toạ độ Oxyz) và chương 3 (số đặc trưng đo phân tán mẫu ghép nhóm)
 
-> Ngày: 2026-09-14 · Trạng thái: **CHỜ DUYỆT** (chưa "Approved for implementation")
+> Ngày: 2026-09-14 · Trạng thái: **Approved for implementation** (người dùng duyệt 2026-09-14)
 > Căn cứ: `docs/research/de-xuat-uu-tien-mon-toan-2026-09-14.md` (quyết định ưu tiên A, bộ SGK
 > Kết Nối Tri Thức) + `docs/research/kho-kien-thuc-mon-hoc.md` §5 mục "Lớp 12" (đã đối chiếu SGK
 > thật 2026-08-03 — nguồn công thức dùng ở đặc tả này).

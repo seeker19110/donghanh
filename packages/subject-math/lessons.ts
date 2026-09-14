@@ -4,19 +4,25 @@ import { TOAN10_C1_LESSONS } from './lessons/toan10c1.js'
 import { TOAN10_C2_LESSONS } from './lessons/toan10c2.js'
 import { TOAN10_C3_LESSONS } from './lessons/toan10c3.js'
 import { TOAN10_C4_LESSONS } from './lessons/toan10c4.js'
+import { TOAN10_C5_LESSONS } from './lessons/toan10c5.js'
 import { TOAN10_C6_LESSONS } from './lessons/toan10c6.js'
 import { TOAN10_C7_LESSONS } from './lessons/toan10c7.js'
 import { TOAN10_C8_LESSONS } from './lessons/toan10c8.js'
 import { TOAN10_C9_LESSONS } from './lessons/toan10c9.js'
 import { TOAN11_C1_LESSONS } from './lessons/toan11c1.js'
 import { TOAN11_C2_LESSONS } from './lessons/toan11c2.js'
+import { TOAN11_C3_LESSONS } from './lessons/toan11c3.js'
+import { TOAN11_C4_LESSONS } from './lessons/toan11c4.js'
 import { TOAN11_C5_LESSONS } from './lessons/toan11c5.js'
 import { TOAN11_C6_LESSONS } from './lessons/toan11c6.js'
 import { TOAN11_C7_LESSONS } from './lessons/toan11c7.js'
+import { TOAN11_C8_LESSONS } from './lessons/toan11c8.js'
 import { TOAN10_C20_LESSONS } from './lessons/toan10c20.js'
 import { TOAN11_C9_LESSONS } from './lessons/toan11c9.js'
 import { TOAN11_C20_LESSONS } from './lessons/toan11c20.js'
 import { TOAN12_C1_LESSONS } from './lessons/toan12c1.js'
+import { TOAN12_C2_LESSONS } from './lessons/toan12c2.js'
+import { TOAN12_C3_LESSONS } from './lessons/toan12c3.js'
 import { TOAN12_C4_LESSONS } from './lessons/toan12c4.js'
 import { TOAN12_C5_LESSONS } from './lessons/toan12c5.js'
 import { TOAN12_C6_LESSONS } from './lessons/toan12c6.js'
@@ -27,17 +33,23 @@ export const MATH_LESSONS: MathLesson[] = [
   ...TOAN10_C2_LESSONS,
   ...TOAN10_C3_LESSONS,
   ...TOAN10_C4_LESSONS,
+  ...TOAN10_C5_LESSONS,
   ...TOAN10_C6_LESSONS,
   ...TOAN10_C7_LESSONS,
   ...TOAN10_C8_LESSONS,
   ...TOAN10_C9_LESSONS,
   ...TOAN11_C1_LESSONS,
   ...TOAN11_C2_LESSONS,
+  ...TOAN11_C3_LESSONS,
+  ...TOAN11_C4_LESSONS,
   ...TOAN11_C5_LESSONS,
   ...TOAN11_C6_LESSONS,
   ...TOAN11_C7_LESSONS,
+  ...TOAN11_C8_LESSONS,
   ...TOAN11_C9_LESSONS,
   ...TOAN12_C1_LESSONS,
+  ...TOAN12_C2_LESSONS,
+  ...TOAN12_C3_LESSONS,
   ...TOAN12_C4_LESSONS,
   ...TOAN12_C5_LESSONS,
   ...TOAN12_C6_LESSONS,
