@@ -23,6 +23,7 @@ import {
 import {
   LENGTH_BY_LEVEL,
   MAX_SENTENCES_PER_CIRCLE,
+  MAX_CIRCLE_WORDS_PER_SENTENCE,
   MIN_DISTINCT_WORDS_COVERED,
   MIN_SENTENCES_PER_CIRCLE,
   countWords,
@@ -42,9 +43,10 @@ const GOLDEN_MANUAL_HASH = '180882da5ac9220bc7ce4be677c60f1c1a076152975b9e9704da
 
 /**
  * Số vòng có câu mẫu TỐI THIỂU (chống lùi độ phủ — bất biến #9).
- * 89 vòng thủ công + 34 vòng bậc A1 (đợt 0). Hằng số này chỉ được TĂNG.
+ * 89 vòng thủ công + 588 vòng cefr-* (34 của đợt 0 bậc A1, 554 của đợt 1 bậc A2–C2)
+ * = TOÀN BỘ 677 vòng. Hằng số này chỉ được TĂNG.
  */
-const MIN_CIRCLES_WITH_SENTENCES = 123
+const MIN_CIRCLES_WITH_SENTENCES = 677
 
 const PUBLIC_JSON = path.resolve(process.cwd(), 'apps/dhcb/public/data/curriculum.json')
 
@@ -108,6 +110,21 @@ describe('Câu mẫu cho vòng từ vựng CEFR', () => {
       if (covered.size < MIN_DISTINCT_WORDS_COVERED) loi.push(`${c.id}=${covered.size}`)
     }
     expect(loi, `vòng phủ chưa đủ từ: ${loi.join(', ')}`).toEqual([])
+  })
+
+  it('KHONG_NHOI_TU — không câu nào dồn quá nhiều từ của vòng vào một câu', () => {
+    const loi: string[] = []
+    for (const c of circlesOfDoneLevels) {
+      const words = c.words.map((w) => w.word)
+      for (const s of c.sentences) {
+        const n = matchedCircleWords(s.en, words).length
+        if (n > MAX_CIRCLE_WORDS_PER_SENTENCE) loi.push(`${c.id} (${n} từ): "${s.en}"`)
+      }
+    }
+    expect(
+      loi,
+      `câu nhồi từ (câu mẫu để RÁP CÂU tự nhiên, không phải để phủ từ):\n${loi.join('\n')}`,
+    ).toEqual([])
   })
 
   it('SONG_NGU_DUNG_NGON_NGU — vi có dấu tiếng Việt, en không lẫn tiếng Việt', () => {

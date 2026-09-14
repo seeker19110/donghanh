@@ -38,6 +38,20 @@ export const MAX_SENTENCES_PER_CIRCLE = 5
 export const MIN_DISTINCT_WORDS_COVERED = 3
 
 /**
+ * Trần số từ CỦA VÒNG được phép dồn vào MỘT câu (chặn "nhồi từ").
+ *
+ * Vì sao có (2026-09-14, đợt câu mẫu A2–C2): luật `MIN_DISTINCT_WORDS_COVERED` tính
+ * trên CẢ BỘ 3 câu, nhưng nếu hiểu nhầm thành "mỗi câu phải phủ thật nhiều" thì sẽ
+ * đẻ ra câu nhồi — và câu nhồi kéo theo tiếng Anh hỏng. Ca thật đã bắt được ở lượt
+ * viết đầu: "The gaudy, shakespearean costume was vigorously and miscellaneous-ly
+ * praised…" ("miscellaneous-ly" là từ BỊA). Không cổng nào khác bắt được loại lỗi
+ * này, vì nó đúng ngữ pháp máy nhưng sai tiếng Anh thật.
+ *
+ * Mốc 4 lấy từ chuẩn đã đạt của bậc A1 (đợt 0): câu dày nhất ở đó dùng 3 từ của vòng.
+ */
+export const MAX_CIRCLE_WORDS_PER_SENTENCE = 4
+
+/**
  * Ký tự CHỈ có trong tiếng Việt có dấu (đủ cả hoa/thường).
  * Dùng hai chiều: `vi` BẮT BUỘC có ít nhất một ký tự loại này (chặn AI trả tiếng Anh
  * vào ô dịch), còn `en` thì TUYỆT ĐỐI không được có (chặn lẫn tiếng Việt vào ô Anh).
@@ -119,18 +133,60 @@ export function wordVariants(word: string): string[] {
 }
 
 /**
+ * Bộ nhớ đệm regex theo biến thể từ, và đệm danh sách biến thể theo từ gốc.
+ *
+ * Vì sao cần: hàm so khớp dưới đây được gọi cho TỪNG câu × TỪNG từ của vòng. Khi đủ
+ * câu mẫu cho cả 677 vòng (≈ 2 165 câu × ~20 từ × ~8 biến thể ⇒ ~280 nghìn phép so),
+ * dựng lại regex và biến thể mỗi lần khiến test bất biến chạy quá 5 giây và ĐỎ vì
+ * timeout — đo thật 2026-09-14 khi thêm câu mẫu bậc A2–C2. Đệm ở đây là memo hoá
+ * thuần: cùng chuỗi vào thì cùng kết quả ra.
+ */
+const variantRegexCache = new Map<string, RegExp>()
+
+function variantRegex(variant: string): RegExp {
+  let re = variantRegexCache.get(variant)
+  if (re === undefined) {
+    re = new RegExp(`(^|[^a-z0-9])${escapeRegExp(variant)}($|[^a-z0-9])`, 'i')
+    variantRegexCache.set(variant, re)
+  }
+  return re
+}
+
+const variantsCache = new Map<string, string[]>()
+
+function cachedWordVariants(word: string): string[] {
+  let v = variantsCache.get(word)
+  if (v === undefined) {
+    v = wordVariants(word)
+    variantsCache.set(word, v)
+  }
+  return v
+}
+
+/** Biến thể chỉ gồm chữ/số — nhánh nhanh tra Set thay cho chạy regex. */
+const PLAIN_VARIANT_RE = /^[a-z0-9]+$/
+
+/**
  * Trả về danh sách từ CỦA VÒNG mà câu tiếng Anh này dùng được (đã hạ chữ thường).
  * So khớp theo ranh giới không-phải-chữ-số nên "an" không khớp trong "another",
  * còn cụm nhiều từ ("credit card") và từ có dấu chấm ("dr.") vẫn khớp đúng.
+ *
+ * Hai nhánh, CÙNG một ngữ nghĩa:
+ *  · Biến thể chỉ gồm [a-z0-9] (đại đa số) — cắt câu thành các cụm [a-z0-9]+ rồi tra
+ *    Set. Đúng bằng regex `(^|[^a-z0-9])variant($|[^a-z0-9])`, vì ranh giới của
+ *    regex ấy chính là ranh giới cắt cụm.
+ *  · Biến thể có ký tự khác (khoảng trắng, dấu chấm, dấu nháy: "credit card", "dr.",
+ *    "o'clock") — vẫn chạy regex như cũ, vì nó trải qua nhiều cụm.
  */
 export function matchedCircleWords(en: string, circleWords: readonly string[]): string[] {
   const haystack = en.toLowerCase()
+  const tokens = new Set(haystack.match(/[a-z0-9]+/g) ?? [])
   const hit: string[] = []
   for (const raw of circleWords) {
     const word = raw.trim().toLowerCase()
     if (word === '') continue
-    const matched = wordVariants(word).some((variant) =>
-      new RegExp(`(^|[^a-z0-9])${escapeRegExp(variant)}($|[^a-z0-9])`, 'i').test(haystack),
+    const matched = cachedWordVariants(word).some((variant) =>
+      PLAIN_VARIANT_RE.test(variant) ? tokens.has(variant) : variantRegex(variant).test(haystack),
     )
     if (matched) hit.push(word)
   }
