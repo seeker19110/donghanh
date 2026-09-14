@@ -35,13 +35,13 @@ tối thiểu vào `packages/subject-math/lessons.test.ts` (không cho xoá âm 
 6 chương/19 bài) với 4 chương đã có bài (1,4,5,6) trong repo:
 
 | Chương | Tên (theo mạch kiến thức đã liệt kê trong kho kiến thức)          | Trạng thái   |
-| ------ | ------------------------------------------------------------------ | ------------ |
-| 1      | Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số                   | ✅ đã có bài |
-| **2**  | **Vectơ và hệ trục toạ độ trong không gian** (Oxyz)                | 🔴 THIẾU     |
-| **3**  | **Các số đặc trưng đo mức độ phân tán của mẫu số liệu ghép nhóm**  | 🔴 THIẾU     |
-| 4      | Nguyên hàm, tích phân                                              | ✅ đã có bài |
+| ------ | ----------------------------------------------------------------- | ------------ |
+| 1      | Ứng dụng đạo hàm để khảo sát và vẽ đồ thị hàm số                  | ✅ đã có bài |
+| **2**  | **Vectơ và hệ trục toạ độ trong không gian** (Oxyz)               | 🔴 THIẾU     |
+| **3**  | **Các số đặc trưng đo mức độ phân tán của mẫu số liệu ghép nhóm** | 🔴 THIẾU     |
+| 4      | Nguyên hàm, tích phân                                             | ✅ đã có bài |
 | 5      | Phương trình mặt phẳng, đường thẳng, mặt cầu                      | ✅ đã có bài |
-| 6      | Xác suất có điều kiện                                              | ✅ đã có bài |
+| 6      | Xác suất có điều kiện                                             | ✅ đã có bài |
 
 Lớp 11 (thiếu chương 3, 4, 8) và lớp 10 (thiếu chương 5) chưa đối chiếu chi tiết trong đợt này —
 để dành cho phương án B/C (mục 4) sau khi xong lớp 12.

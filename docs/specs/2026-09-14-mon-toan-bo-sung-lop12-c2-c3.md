@@ -48,13 +48,13 @@ theo đúng khuôn dữ liệu 4 môn STEM đã có, để lớp 12 không còn 
 
 ## ② Điểm chạm
 
-| Việc | Đường dẫn file | Ghi chú |
-| ---- | -------------- | ------- |
-| Thêm | `packages/subject-math/lessons/toan12c2.ts` | Export `TOAN12_C2_LESSONS: MathLesson[]` |
-| Thêm | `packages/subject-math/lessons/toan12c3.ts` | Export `TOAN12_C3_LESSONS: MathLesson[]` |
-| Sửa | `packages/subject-math/lessons.ts` | Import + gộp 2 mảng mới vào `MATH_LESSONS` |
-| Sửa | `packages/subject-math/lessons.test.ts` | Thêm `12-c2`, `12-c3` vào mảng `CHUONG_DA_CO_LUC_KHOA` (test khoá chương thêm ở đợt trước) |
-| Sửa (chờ merge) | `docs/research/de-xuat-uu-tien-mon-toan-2026-09-14.md` | Đánh dấu chương 2-3 đã có bài draft |
+| Việc            | Đường dẫn file                                         | Ghi chú                                                                                    |
+| --------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| Thêm            | `packages/subject-math/lessons/toan12c2.ts`            | Export `TOAN12_C2_LESSONS: MathLesson[]`                                                   |
+| Thêm            | `packages/subject-math/lessons/toan12c3.ts`            | Export `TOAN12_C3_LESSONS: MathLesson[]`                                                   |
+| Sửa             | `packages/subject-math/lessons.ts`                     | Import + gộp 2 mảng mới vào `MATH_LESSONS`                                                 |
+| Sửa             | `packages/subject-math/lessons.test.ts`                | Thêm `12-c2`, `12-c3` vào mảng `CHUONG_DA_CO_LUC_KHOA` (test khoá chương thêm ở đợt trước) |
+| Sửa (chờ merge) | `docs/research/de-xuat-uu-tien-mon-toan-2026-09-14.md` | Đánh dấu chương 2-3 đã có bài draft                                                        |
 
 **Ảnh hưởng lan ra:** `packages/subject-programming/lessonsLoader.ts`-tương-đương của môn Toán
 (`packages/subject-math/lessonsLoader.ts`/`lessonsLazy.ts`) tự nạp theo registry — chạy
@@ -84,11 +84,11 @@ soạn nội dung thật, dựa theo cách `@dhcb/core-grading` đã hỗ trợ 
 
 **Ca lỗi (là một phần hợp đồng):**
 
-| Tình huống | Hành vi mong đợi |
-| ---------- | ----------------- |
-| `MathLessonSchema.safeParse` fail | Không được commit — sửa lại cho khớp schema trước |
-| `timLoiTuCham` (tự chấm bằng chính đáp án khai) fail | Đáp án khai sai — soạn lại phép tính, không nới lỏng test |
-| `chapterTitle` không khớp đúng 1 trong 2 tên chương đã chốt ở mục ① | Sai — chỉnh lại theo đúng tên |
+| Tình huống                                                          | Hành vi mong đợi                                          |
+| ------------------------------------------------------------------- | --------------------------------------------------------- |
+| `MathLessonSchema.safeParse` fail                                   | Không được commit — sửa lại cho khớp schema trước         |
+| `timLoiTuCham` (tự chấm bằng chính đáp án khai) fail                | Đáp án khai sai — soạn lại phép tính, không nới lỏng test |
+| `chapterTitle` không khớp đúng 1 trong 2 tên chương đã chốt ở mục ① | Sai — chỉnh lại theo đúng tên                             |
 
 ## ④ Tiêu chí chấp nhận
 
@@ -110,12 +110,12 @@ npm run typecheck && npm run lint && npx vitest run packages/subject-math/lesson
 
 ## ⑤ Bất biến không được phá
 
-| Bất biến | Test nào canh nó |
-| -------- | ----------------- |
+| Bất biến                                                                                               | Test nào canh nó                                                            |
+| ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------- |
 | Đáp án khai trong `answer` phải tự chấm đúng bằng chính engine `@dhcb/core-grading`, không tự tính tay | `packages/subject-math/lessons.test.ts` ca "mọi checkQuestion tự chấm ĐÚNG" |
-| Không xoá/đổi 18 chương đã có trước đó | `packages/subject-math/lessons.test.ts` ca "không thủng chương" |
-| `id` khớp đúng khuôn `toan<lớp>-c<chương>-b<bài>` | `MathLessonSchema` refine trong `lessonTypes.ts` |
-| Bài `advanced` phải có `advancedTier`; bài `core` thì không | `MathLessonSchema` refine |
+| Không xoá/đổi 18 chương đã có trước đó                                                                 | `packages/subject-math/lessons.test.ts` ca "không thủng chương"             |
+| `id` khớp đúng khuôn `toan<lớp>-c<chương>-b<bài>`                                                      | `MathLessonSchema` refine trong `lessonTypes.ts`                            |
+| Bài `advanced` phải có `advancedTier`; bài `core` thì không                                            | `MathLessonSchema` refine                                                   |
 
 ## ⑥ Quy ước dự án liên quan
 
