@@ -181,6 +181,22 @@ export function toSI(value: number, unit: string): number | null {
 }
 
 /**
+ * Dùng KHI SOẠN NỘI DUNG để khai `NumericSpec.value` mà không phải tự nhân hệ số.
+ *
+ * `types.ts` chốt `value` LUÔN ở SI, nhưng tác giả bài học nghĩ bằng đơn vị hiển thị ("8,66 cm").
+ * Viết `donViHienThi(8.66, 'cm')` giữ được con số người đọc thấy trong lời giải mà vẫn lưu đúng
+ * SI — thay cho việc gõ tay `0.0866` (dễ sai) hoặc `0.03038 * 1.660539066605e-27` (số ma thuật).
+ * Ném lỗi ngay lúc nạp module nếu đơn vị không có trong bảng, thay vì âm thầm cho ra `null`.
+ * Chín câu môn Lí từng khai nhầm ở đơn vị hiển thị — xem
+ * `docs/audit/2026-09-14-tinh-chinh-xac-cong-thuc-va-ket-qua.md`.
+ */
+export function donViHienThi(value: number, unit: string): number {
+  const si = toSI(value, unit)
+  if (si === null) throw new Error(`donViHienThi: đơn vị "${unit}" không có trong bảng UNITS`)
+  return si
+}
+
+/**
  * Tách chuỗi trả lời thành phần giá trị và phần đơn vị.
  *
  * Cách làm: thử khớp hậu tố với BẢNG ĐƠN VỊ ĐÃ BIẾT (dài nhất trước), thay vì đoán bằng

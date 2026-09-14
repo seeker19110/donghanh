@@ -242,14 +242,18 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
 - **Môn Toán thiếu hình học không gian và thống kê** — lớp 10 C5; lớp 11 C3, C4, C8; lớp 12 C2, C3,
   và phương trình đường thẳng trong không gian. Đây là mảng mỏng nhất của cả bốn môn STEM.
 - **Môn Sinh chưa có nhánh bồi dưỡng học sinh giỏi** — đợt 2026-09-13 chỉ làm cho Toán/Lí/Hoá.
-- 🔴 **Audit tính chính xác (2026-09-14)** — báo cáo:
+- ✅/🟡 **Audit tính chính xác (2026-09-14) — ĐÃ SỬA phần máy làm được, xem `docs/changelog/0299-*.md`.** Báo cáo:
   `docs/audit/2026-09-14-tinh-chinh-xac-cong-thuc-va-ket-qua.md`. **9 câu Vật lí chấm SAI học
   sinh trả lời ĐÚNG** vì lưu `value` ở đơn vị hiển thị thay vì SI (`core-grading/types.ts:41`
   chốt SI) — 90% số câu có đơn vị hệ số ≠ 1. Nặng hơn: **cổng canh `lessons.test.ts` của cả 4
   môn là XANH GIẢ** — nó dựng bài làm bằng `(value - offset) / factor`, tức giả định sẵn điều
   cần kiểm, nên không thể bắt được lỗi này; mà đặc tả 2026-09-13 lại viện dẫn chính cổng đó
-  làm lý do bỏ khâu duyệt của người. Đã kiểm chứng cách sửa. Còn lại: 442 câu trắc nghiệm
-  (60% tổng số câu; môn Sinh 169/170) KHÔNG máy nào kiểm được, vẫn cần người có chuyên môn.
+  làm lý do bỏ khâu duyệt của người. **Cả hai đã sửa xong 2026-09-14:** cổng gom về
+  `packages/core-grading/selfGrade.ts` với lớp đối chiếu ĐỘC LẬP vào `explain` (nạp thẳng
+  `${value} ${unit}` cũng mù, chỉ mù chiều ngược lại — báo oan bài khai chuẩn SI); 9 giá trị
+  khai lại bằng `donViHienThi(<số hiển thị>, <đơn vị>)`; môn Sinh được bù cổng còn thiếu.
+  **CÒN NỢ:** 442 câu trắc nghiệm (60% tổng số câu; môn Sinh 169/170) KHÔNG máy nào kiểm được,
+  vẫn cần người có chuyên môn đọc.
 - **Audit chất lượng nội dung 6 môn (2026-09-14)** — báo cáo đầy đủ:
   `docs/audit/2026-09-14-chat-luong-noi-dung-cac-mon-hoc.md`. 11 phát hiện; hai cái đã có ở
   trên (Toán thủng 6 chương · Sinh chưa có HSG). Mới và đáng làm ngay: `reviewStatus: 'draft'`
@@ -720,8 +724,13 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   treo request khi Redis chết). Ứng viên hợp lý là nới `connectTimeout` (đang 2000ms) — nhưng
   chỉ khi có bằng chứng, không theo linh cảm.
 
-- 🟡 **[ĐO LẠI 2026-08-26 — nợ này ĐÃ THU HẸP, không còn đúng như mô tả cũ] Chỉ COVERAGE còn
-  mỏng; ngân sách BUNDLE nay rộng.**
+- 🟡 **[ĐO LẠI 2026-09-14 — mô tả "ngân sách BUNDLE nay rộng" ĐÃ LỖI THỜI] Cả COVERAGE lẫn
+  BUNDLE nay đều mỏng.**
+
+  Đo 2026-09-14 (build sạch): **JS 135,09 / 140 kB = 96,5%** — vượt ngưỡng cảnh báo 95% mà
+  `docs/framework/QUY-TRINH-AUDIT.md` Tầng 1 đặt ra, chỉ còn 4,9 kB nên tính năng nhỏ kế tiếp
+  sẽ làm CI đỏ. CSS 18,11 / 20 kB (90,6%; ngưỡng đã nới từ 18 lên 20). Phần mô tả bên dưới là
+  số đo CŨ, giữ lại để so sánh xu hướng — đừng đọc nó như trạng thái hiện tại.
 
   **[Đo lại 2026-09-01, đợt tối ưu dự án]** Trước đợt: JS 127,36 / 140 kB · CSS **17,00 / 18 kB
   (còn đúng 1 kB — PR #797 thêm keyframes/utility)** · branches **90,19%** (còn 0,19 điểm).

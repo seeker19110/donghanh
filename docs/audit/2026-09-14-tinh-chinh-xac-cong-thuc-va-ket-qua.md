@@ -1,5 +1,10 @@
 # Audit TÍNH CHÍNH XÁC — công thức, phép tính, đáp án của mọi bài học · 2026-09-14
 
+> **ĐÃ SỬA 2026-09-14** (cùng ngày, xem `docs/changelog/0299-*.md`): mục 2 (9 giá trị Vật lí),
+> mục 3 (cổng xanh giả) và mục 4 đã xử lý xong. Báo cáo giữ nguyên văn để làm hồ sơ chẩn đoán;
+> phần "đã sửa thế nào" ở cuối file (mục 9). Việc còn lại: mục 7 dòng 5 — người có chuyên môn
+> đọc 442 câu trắc nghiệm.
+
 Phần 2 của lượt rà môn học ngày 2026-09-14. Phần 1
 (`docs/audit/2026-09-14-chat-luong-noi-dung-cac-mon-hoc.md`) hỏi "nội dung có ĐỦ và có SẠCH
 không". Phần này hỏi câu khó hơn: **nội dung có ĐÚNG không** — công thức, phép tính, và đáp án
@@ -170,3 +175,61 @@ npx vitest run packages/subject-programming                               → 44
 Bốn máy kiểm ở mục 1 chạy bằng `tsx` trên registry thật ngày 2026-09-14; mọi cờ đỏ đã đối chiếu
 tay với mã nguồn trước khi lên báo cáo. Cách sửa 9 câu ở mục 2 đã chạy lại qua `gradeAnswer` và
 cả 9 trả về `CORRECT`.
+
+---
+
+## 9. Đã sửa thế nào (2026-09-14, cùng ngày phát hiện)
+
+Làm đúng thứ tự người dùng chốt: **sửa cổng trước, sửa dữ liệu sau** — để cổng tự chứng minh nó
+đã hết mù.
+
+**Bước 1 — thay cổng.** Gom về một hàm dùng chung `packages/core-grading/selfGrade.ts`
+(`timLoiTuCham`), thay cho ba bản tự viết đã lệch nhau (Hoá đúng · Toán/Lí mù · Sinh không có).
+
+Trong lúc làm lộ ra một điều mà báo cáo gốc chưa thấy: **nạp thẳng `${value} ${unit}` cũng SAI**
+— nó mù theo chiều ngược lại, báo đỏ oan đúng bài khai chuẩn SI (`ly10-c4-b27`). Không có chuỗi
+nào suy được từ riêng `value` mà phân biệt được hai trường hợp. Cổng buộc phải có **nguồn đối
+chiếu độc lập với `value`**, và nguồn đó là `explain` — do tác giả viết tay, bằng đơn vị hiển thị.
+Cổng mới vì vậy có hai lớp:
+
+1. **Tự chấm** — đáp án suy từ `value` theo hợp đồng SI phải được engine chấm đúng.
+2. **Đối chiếu độc lập** — với đơn vị lệch SI, con số hiển thị suy từ `value` phải THẬT SỰ xuất
+   hiện trong `explain`. Khai nhầm hệ quy chiếu thì lệch đúng bằng hệ số đổi đơn vị nên trượt.
+
+Bằng chứng cổng đã hết mù: chạy cổng mới trên dữ liệu CHƯA sửa → đỏ **đúng 9 câu** ở mục 2, và
+**không** báo `ly10-c4-b27`.
+
+**Bước 2 — sửa 9 giá trị.** Không gõ tay số SI (`0.03038 * 1.660539066605e-27` là số ma thuật,
+`5.04e-29` thì không ai soát được). Thêm `donViHienThi(value, unit)` vào
+`packages/core-grading/units.ts` để tác giả viết đúng con số mình nghĩ:
+
+```ts
+value: donViHienThi(0.03038, 'amu'),   // thay cho value: 0.03038
+```
+
+`ly10-c4-b27` cũng đổi sang `donViHienThi(80, '%')` — giá trị y hệt cũ (0.8), nhưng nay tự nói
+ra nó nghĩa là 80 %, để lần sau không ai "sửa" nhầm nó thành sai.
+
+**Bước 3 — bù cổng cho môn Sinh**, môn duy nhất chưa từng có, dù đặc tả 2026-09-13 lấy chính
+cổng này làm biện pháp thay khâu duyệt của người.
+
+**Bước 4 —** `hoa10-c2-b7#q1`: lời giải nay ghi "hoá trị VI, tức nhập 6".
+
+### Bằng chứng sau khi sửa
+
+```
+Build ✅ | Typecheck ✅ (sạch dist trước khi chạy) | Lint ✅ 0 cảnh báo | Format ✅
+npm run test:coverage → 590 file, 12304/12304 test xanh
+size-limit → JS 135,09/140 kB · CSS 18,11/20 kB (đo ở HEAD trước khi sửa: 135,1 kB — thay đổi
+này trung tính về kích thước gói)
+```
+
+Chạy lại chính script audit đã phát hiện lỗi: cả 10 câu có đơn vị lệch SI nay trả `CORRECT` cho
+đúng chuỗi mà lời giải của bài viết ra.
+
+### Cảnh báo phát sinh (không thuộc đợt này)
+
+Ngân sách JS đang ở **135,09/140 kB = 96,5%**, vượt ngưỡng cảnh báo 95% mà
+`docs/framework/QUY-TRINH-AUDIT.md` Tầng 1 đặt ra. Đây là nợ CÓ SẴN, không do đợt này (đo ở HEAD
+cũng 135,1 kB). Nợ số 6 trong `PROGRESS.md` đang ghi "ngân sách BUNDLE nay rộng" — mô tả đó nay
+đã LỖI THỜI: chỉ còn 4,9 kB, tính năng nhỏ kế tiếp sẽ làm CI đỏ.

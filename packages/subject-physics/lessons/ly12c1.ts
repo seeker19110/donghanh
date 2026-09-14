@@ -1,5 +1,6 @@
 // lessons/ly12c1.ts — Vật lí 12, Chương 1: Vật lí nhiệt (7 bài).
 import type { PhysicsLesson } from '../lessonTypes.js'
+import { donViHienThi } from '@dhcb/core-grading/units'
 
 export const LY12_C1_LESSONS: PhysicsLesson[] = [
   {
@@ -489,7 +490,7 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
           'Pha trộn 2 kg nước ở 90 °C với 1 kg nước ở 30 °C trong bình cách nhiệt tốt. Tính nhiệt độ cân bằng của hỗn hợp nước thu được.',
         answer: {
           kind: 'numeric',
-          value: 70,
+          value: donViHienThi(70, '°C'),
           unit: '°C',
         },
         explain:

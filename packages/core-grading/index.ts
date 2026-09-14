@@ -34,7 +34,7 @@ export { normalizeAnswerText, simplifyFraction } from './number.js'
 export { expressionsEqual, evaluateNumeric } from './expression.js'
 export { parseFormula, parseEquation, checkBalance } from './chemistry.js'
 export { withinTolerance, DEFAULT_TOLERANCE_BY_SUBJECT } from './tolerance.js'
-export { UNITS, splitValueUnit, toSI } from './units.js'
+export { UNITS, donViHienThi, splitValueUnit, toSI } from './units.js'
 
 const fail = (reason: GradeResult['reason'], normalized?: string): GradeResult => ({
   correct: false,

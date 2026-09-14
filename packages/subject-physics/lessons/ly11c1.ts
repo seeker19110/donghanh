@@ -1,5 +1,6 @@
 // lessons/ly11c1.ts — Vật lí 11, Chương 1: Dao động (7 bài).
 import type { PhysicsLesson } from '../lessonTypes.js'
+import { donViHienThi } from '@dhcb/core-grading/units'
 
 export const LY11_C1_LESSONS: PhysicsLesson[] = [
   {
@@ -869,7 +870,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
           'Một vật dao động điều hoà với biên độ A = 10 cm. Tìm li độ dương của vật tại vị trí mà thế năng bằng 3 lần động năng.',
         answer: {
           kind: 'numeric',
-          value: 8.66,
+          value: donViHienThi(8.66, 'cm'),
           unit: 'cm',
         },
         explain:

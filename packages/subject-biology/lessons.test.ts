@@ -2,6 +2,7 @@
 import { describe, it, expect } from 'vitest'
 import { BIOLOGY_LESSONS, getBiologyLesson, listBiologyLessonsByGrade } from './lessons.js'
 import { BiologyLessonSchema, BIOLOGY_GRADES } from './lessonTypes.js'
+import { moTaLoiTuCham, timLoiTuCham } from '@dhcb/core-grading/selfGrade'
 
 describe('BIOLOGY_LESSONS registry', () => {
   it('có bài học từ tất cả 3 lớp', () => {
@@ -60,6 +61,14 @@ describe('BIOLOGY_LESSONS registry', () => {
         expect(ok, `Thứ tự sắp xếp sai tại lớp ${grade}: ${prev.id} → ${curr.id}`).toBe(true)
       }
     }
+  })
+
+  it('mọi checkQuestion tự chấm ĐÚNG với chính đáp án đã khai — dùng engine chấm thật, không AI', () => {
+    // Ba môn STEM kia có cổng này từ đầu, môn Sinh thì KHÔNG — dù đặc tả
+    // `docs/specs/2026-09-13-hoan-thien-4-mon-stem.md` mục 3.1 lấy chính nó làm biện pháp thay
+    // cho khâu duyệt của người. Bổ sung 2026-09-14 sau audit tính chính xác.
+    const loi = timLoiTuCham(BIOLOGY_LESSONS)
+    expect(loi.length, `Đáp án đã khai KHÔNG tự chấm đúng:\n${moTaLoiTuCham(loi)}`).toBe(0)
   })
 
   it('mỗi bài có ít nhất 2 checkQuestions và 2 srsCards', () => {
