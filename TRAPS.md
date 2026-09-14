@@ -128,3 +128,48 @@ quán với chính nó.
 3. **Không tài liệu nào được viện một cổng máy làm lý do bỏ khâu duyệt của người.** Cổng máy
    kiểm tính nhất quán và tính đúng số học; tính đúng kiến thức thì chỉ người đọc mới kết luận
    được. Nợ đó phải nằm trong `PROGRESS.md` với con số thật, đo bằng script, không chép tay.
+
+## 5. Nhiều tác nhân ghi song song + thao tác git toàn cây → nội dung bị NHÂN ĐÔI hoặc mất
+
+**Ngày/PR:** 2026-09-14, đợt hoạt ảnh STEM (`docs/changelog/0309-*.md`). Bắt được **trước khi
+push**, nhưng chỉ vì tình cờ đối chiếu số khối `animation` giữa HEAD và cây làm việc.
+
+**Khuôn lỗi:** năm tác nhân cùng ghi vào các gói khác nhau của một repo. Hai thao tác git tưởng
+vô hại lại tác động lên **toàn bộ cây làm việc**, không riêng phần của người gọi:
+
+| Thao tác                              | Hậu quả đã xảy ra thật                                                                                                                                                                                                  |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `git commit` đi qua **`lint-staged`** | `lint-staged` cất stash phần CHƯA stage rồi khôi phục sau khi chạy. Với tác nhân khác đang ghi, bản khôi phục **áp đè lần thứ hai** lên bản vừa commit → **16 hoạt ảnh Toán bị nhân đôi** trong cùng một object literal |
+| `git stash` để "so với HEAD cho sạch" | Cất luôn phần việc đang dở của tác nhân khác. Lần này pop lại kịp nên không mất, nhưng đó là may                                                                                                                        |
+| Dùng chung một thư mục scratchpad     | Một tác nhân ghi đè file của tác nhân khác giữa chừng, **mất 20 hoạt ảnh đã soạn**, phải viết lại                                                                                                                       |
+
+**Vì sao không cổng nào bắt được khoá nhân đôi:** trong JS, khoá trùng trong object literal thì
+**khoá sau lặng lẽ thắng**. TypeScript không báo với object literal gán vào mảng đã có kiểu,
+Zod chỉ thấy giá trị cuối, Prettier định dạng cả hai bình thường, test độ phủ vẫn xanh vì bài
+đó vẫn "có hoạt ảnh". Nó chỉ hiện ra khi **đếm** số khối.
+
+**Cách rà (rẻ, chạy được ngay):**
+
+```bash
+# so so khoi mot khoa giua HEAD va cay lam viec — lech = nhan doi hoac mat
+for f in packages/subject-*/lessons/*.ts; do
+  o=$(git show HEAD:$f 2>/dev/null | grep -c 'animation: {'); n=$(grep -c 'animation: {' $f)
+  [ "$o" != "$n" ] && echo "$f HEAD=$o WT=$n"
+done
+```
+
+Và để chứng minh "chỉ thêm, không đụng nội dung cũ": tước bỏ mọi khối khoá mới khỏi bản làm
+việc bằng cách đếm ngoặc, chạy Prettier cả hai bản, rồi `diff` — khác biệt phải chỉ còn các
+dòng comment được thêm.
+
+**Cổng chốt chặn / quy ước:**
+
+1. Khi còn tác nhân khác đang ghi, commit bằng **`git commit --no-verify`** và **tự chạy**
+   `npx prettier --check` + `npx eslint --max-warnings 0` trên đúng các file mình commit. Không
+   để `lint-staged` đụng vào cây làm việc.
+2. **Không bao giờ `git stash`** (kể cả để kiểm chứng) khi có tác nhân khác đang ghi. Muốn so
+   với HEAD thì dùng `git show HEAD:<file>` ra file tạm — chỉ đọc, không đụng cây làm việc.
+3. Mỗi tác nhân dùng **thư mục con riêng** trong scratchpad; đường dẫn scratchpad là của cả
+   phiên, không phải của riêng từng tác nhân.
+4. Trước khi commit phần việc của một tác nhân: **đếm khoá** như lệnh rà ở trên. Lệch là dừng,
+   khôi phục từ HEAD rồi làm lại — đừng sửa tay.

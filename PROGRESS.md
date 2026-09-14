@@ -300,7 +300,26 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
   "2 chuyên đề, giữ Điện hoá + Hữu cơ 12"; 6 bài đã vào registry (`docs/changelog/0308-*.md`),
   Hoá cân đối **3/6/6** bài HSG cho lớp 10/11/12, tổng chuyên đề HSG toàn hệ 9 → 15. **F7 đã
   đóng**, và nay có test bất biến chặn CI ép mỗi lớp Hoá có chuyên đề HSG đủ ba cấp nên không
-  tái phát được. Hai đặc tả còn lại (F3 câu mẫu từ vựng · F6 hoạt ảnh STEM) vẫn chờ duyệt.
+  tái phát được.
+  **Cập nhật 2026-09-14 (lượt sau):** đặc tả **HOẠT ẢNH STEM (F6) ĐÃ DUYỆT VÀ ĐÃ THI HÀNH XONG**
+  — người dùng chốt "70% cho cả 4 môn · ratchet cứng chặn CI · làm đợt 0→4 một mạch". Đã thêm
+  **162 hoạt ảnh**, độ phủ nhánh core **62/288 (21,5%) → 224/288 (77,8%)**: Lí 84,7% · Hoá 76,4%
+  · Sinh 75,0% · Toán 72,3%, cả 4 môn vượt mốc (`docs/changelog/0309-*.md`). Cổng ratchet
+  `TOI_THIEU_PHU_HOAT_ANH` trong `lessons.test.ts` của từng môn nay chặn CI khi độ phủ tụt, nên
+  **F6 không tái phát được**. **F3 (câu mẫu cho 588 vòng từ vựng CEFR) là đặc tả DUY NHẤT còn
+  chờ duyệt**, và nó cần key AI trong `.env` mới thi hành được — script sinh câu gọi AI theo lô,
+  thiếu key thì thoát mã 1 theo đúng hợp đồng ở §③ của đặc tả.
+- **[2026-09-14 — CẦN NGƯỜI DÙNG QUYẾT, xem `docs/changelog/0309-*.md`] Tiêu chí "file chương
+  ≤ 120 kB nguồn" không đạt với 4 file Sinh** (`sinh12c1.ts` 249,6 kB · `sinh11c2.ts` 139,3 ·
+  `sinh12c2.ts` 136,5 · `sinh11c1.ts` 126,6). Hai điều làm rõ trước khi quyết: (1) mốc nền trong
+  đặc tả **ghi sai** — nó viết "lớn nhất 56,7 kB" vì chỉ đo môn Lí, còn `sinh12c1.ts` **đã 132 kB
+  TRƯỚC** đợt hoạt ảnh; (2) chi phí THẬT người học chịu thì tốt — đo trên `dist/js/` sau build,
+  chunk chương nặng nhất `sinh12c1` = **39,7 kB gzip**, nhẹ hơn hẳn `ProgrammingSpecStagePage`
+  122,2 kB · `vendor-codemirror` 149,2 · `grading` 61,3 đang chạy sẵn trên production. Tức tiêu
+  chí đang đo **byte nguồn** trong khi thứ đáng đo là **chunk sau build**. Ba lựa chọn: (a) sửa
+  tiêu chí sang "chunk chương ≤ N kB gzip" theo số đo thật — rẻ nhất và đo đúng thứ cần đo;
+  (b) tách 4 file chương Sinh (phải sửa loader + sinh lại chỉ mục, là đợt riêng); (c) giữ nguyên
+  tiêu chí và ghi nhận nợ có chủ đích.
 - **4 trang trụ Career/Work/Startup/Life chưa có chiều B** (0/4 file dùng `direction`) — nợ có
   chủ đích, người dùng chốt "chiều B nợ". Làm khi có người học chiều B thật.
 
