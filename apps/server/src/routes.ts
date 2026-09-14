@@ -35,6 +35,7 @@ import programmingTsCheckHandler from './api/subjects/programming/ts-check.js'
 import tutorFeedbackHandler from './api/subjects/english/tutor-feedback.js'
 import feedbackHandler from './api/core/feedback.js'
 import adminSettingsHandler from './api/admin/admin-settings.js'
+import adminStemReviewHandler from './api/admin/admin-stem-review.js'
 import appSettingsHandler from './api/platform/app-settings.js'
 import adminGrantPlanHandler from './api/admin/admin-grant-plan.js'
 import adminVipWhitelistHandler from './api/admin/admin-vip-whitelist.js'
@@ -242,6 +243,7 @@ export function registerApiRoutes(app: express.Express): void {
   app.all('/api/tutor-feedback', wrapEdge(tutorFeedbackHandler))
   app.all('/api/feedback', wrapEdge(feedbackHandler))
   app.all('/api/admin-settings', wrapEdge(adminSettingsHandler))
+  app.all('/api/admin-stem-review', wrapEdge(adminStemReviewHandler))
   app.all('/api/app-settings', wrapEdge(appSettingsHandler))
   app.all('/api/admin-grant-plan', wrapEdge(adminGrantPlanHandler))
   app.all('/api/admin-vip-whitelist', wrapEdge(adminVipWhitelistHandler))

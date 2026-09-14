@@ -7,6 +7,7 @@
 // "CHƯA DUYỆT CHUYÊN MÔN". Trường `reviewStatus` bắt buộc mọi bài phải khai báo trạng thái,
 // để không âm thầm coi bản thảo là nội dung cuối cùng (xem docs/goals/2026-08-31-mon-hoc-toan-ly-hoa-sinh.md).
 import { z } from 'zod'
+import { LessonReviewSchema } from '@dhcb/core-contracts/lessonReview'
 import {
   AdvancedTierSchema,
   LessonAnimationSchema,
@@ -126,6 +127,10 @@ export const ChemLessonSchema = z
     /** Cấp của chuyên đề nâng cao — chỉ có mặt khi track === 'advanced'. */
     advancedTier: AdvancedTierSchema.optional(),
     reviewStatus: z.enum(['draft', 'reviewed']),
+    /** Chi tiết lượt duyệt chuyên môn (ai · ngày · 7 tiêu chí · băm nội dung). Vắng mặt = chưa
+     *  ai đọc. Trường CŨ `reviewStatus` giữ nguyên vì giao diện đang đọc nó; luật ăn khớp giữa
+     *  hai trường do `lessons.test.ts` canh. Xem `packages/core-contracts/lessonReview.ts`. */
+    review: LessonReviewSchema.optional(),
   })
   .strict()
   .refine((l) => (l.track === 'advanced') === (l.advancedTier !== undefined), {

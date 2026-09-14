@@ -1,5 +1,6 @@
 // lessons.test.ts — Kiểm tra toàn bộ bài học Sinh học (chạy qua Zod schema validation).
 import { describe, it, expect } from 'vitest'
+import { timLoiDuyet, moTaLoiDuyet } from '@dhcb/core-contracts/lessonReviewGuard'
 import { BIOLOGY_LESSONS, getBiologyLesson, listBiologyLessonsByGrade } from './lessons.js'
 import { BiologyLessonSchema, BIOLOGY_GRADES } from './lessonTypes.js'
 import { moTaLoiTuCham, timLoiTuCham } from '@dhcb/core-grading/selfGrade'
@@ -131,5 +132,11 @@ describe('BIOLOGY_LESSONS registry', () => {
         .map(({ q, i }) => `${l.id}#q${i + 1} (${q.explain.trim().length} ký tự)`),
     )
     expect(cut, 'lời giải phải nói được vì sao, không chỉ thế số').toEqual([])
+  })
+  it('trạng thái duyệt ăn khớp với bản ghi duyệt, và băm nội dung còn hiệu lực', () => {
+    // Luật viết MỘT lần ở @dhcb/core-contracts/lessonReviewGuard, thử bằng dữ liệu giả ở
+    // lessonReviewGuard.test.ts — ca này chỉ áp nó lên dữ liệu thật của môn.
+    const loi = timLoiDuyet(BIOLOGY_LESSONS)
+    expect(loi.length, `Trạng thái duyệt có vấn đề:\n${moTaLoiDuyet(loi)}`).toBe(0)
   })
 })
