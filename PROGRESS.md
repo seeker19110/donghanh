@@ -242,6 +242,14 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
 - **Môn Toán thiếu hình học không gian và thống kê** — lớp 10 C5; lớp 11 C3, C4, C8; lớp 12 C2, C3,
   và phương trình đường thẳng trong không gian. Đây là mảng mỏng nhất của cả bốn môn STEM.
 - **Môn Sinh chưa có nhánh bồi dưỡng học sinh giỏi** — đợt 2026-09-13 chỉ làm cho Toán/Lí/Hoá.
+- 🔴 **Audit tính chính xác (2026-09-14)** — báo cáo:
+  `docs/audit/2026-09-14-tinh-chinh-xac-cong-thuc-va-ket-qua.md`. **9 câu Vật lí chấm SAI học
+  sinh trả lời ĐÚNG** vì lưu `value` ở đơn vị hiển thị thay vì SI (`core-grading/types.ts:41`
+  chốt SI) — 90% số câu có đơn vị hệ số ≠ 1. Nặng hơn: **cổng canh `lessons.test.ts` của cả 4
+  môn là XANH GIẢ** — nó dựng bài làm bằng `(value - offset) / factor`, tức giả định sẵn điều
+  cần kiểm, nên không thể bắt được lỗi này; mà đặc tả 2026-09-13 lại viện dẫn chính cổng đó
+  làm lý do bỏ khâu duyệt của người. Đã kiểm chứng cách sửa. Còn lại: 442 câu trắc nghiệm
+  (60% tổng số câu; môn Sinh 169/170) KHÔNG máy nào kiểm được, vẫn cần người có chuyên môn.
 - **Audit chất lượng nội dung 6 môn (2026-09-14)** — báo cáo đầy đủ:
   `docs/audit/2026-09-14-chat-luong-noi-dung-cac-mon-hoc.md`. 11 phát hiện; hai cái đã có ở
   trên (Toán thủng 6 chương · Sinh chưa có HSG). Mới và đáng làm ngay: `reviewStatus: 'draft'`
