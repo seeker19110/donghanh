@@ -143,6 +143,55 @@ for (const route of AUTHED_ROUTES) {
   }
 }
 
+// ── Khối duyệt chuyên môn STEM (chỉ admin) ──────────────────────────────────────────
+// docs/specs/2026-09-14-quy-trinh-duyet-chuyen-mon-mon-sinh.md (CHỐT Q1): khối duyệt đặt
+// cuối trang bài học + tab "Duyệt nội dung STEM" ở /admin-s, cả hai CHỈ hiện cho admin
+// (RequireAdmin đọc user.isAdmin — mockLogin(..., { isAdmin: true })). Quét cả 5 theme vì
+// đây là UI mới, chưa có cổng chống tụt lùi nào khác canh nó.
+async function mockAdminStemReview(page: Page) {
+  await page.route('**/api/admin-stem-review**', (route) =>
+    route.fulfill({ status: 200, contentType: 'application/json', body: '{"luotDuyet":[]}' }),
+  )
+}
+
+for (const theme of THEMES) {
+  test(`a11y: khối duyệt trong bài học (admin) theme=${theme} — 0 vi phạm A/AA`, async ({
+    page,
+  }) => {
+    await mockLogin(page, 'vi', theme, { isAdmin: true })
+    await mockAdminStemReview(page)
+    await page.goto('/mon-hoc/biology/bai-hoc/sinh12-c1-b1--nhan-doi-adn', {
+      waitUntil: 'domcontentloaded',
+    })
+    await waitForStableDom(page)
+    // Mở khối duyệt (mặc định thu gọn) để axe thấy cả nội dung form bên trong.
+    await page.getByRole('button', { name: /Duyệt chuyên môn bài này/ }).click()
+    await expect(page.getByRole('textbox', { name: /Tên người duyệt/ })).toBeVisible()
+    const { all } = await scan(page)
+    expect(all).toEqual([])
+  })
+
+  test(`a11y: tab Duyệt nội dung STEM ở /admin-s theme=${theme} — 0 vi phạm A/AA`, async ({
+    page,
+  }) => {
+    await mockLogin(page, 'vi', theme, { isAdmin: true })
+    await mockAdminStemReview(page)
+    await page.goto('/admin-s?tab=stem-review', { waitUntil: 'domcontentloaded' })
+    await waitForStableDom(page)
+    const { all } = await scan(page)
+    expect(all).toEqual([])
+  })
+
+  test(`a11y: người học THƯỜNG không thấy khối duyệt theme=${theme}`, async ({ page }) => {
+    await mockLogin(page, 'vi', theme, { isAdmin: false })
+    await page.goto('/mon-hoc/biology/bai-hoc/sinh12-c1-b1--nhan-doi-adn', {
+      waitUntil: 'domcontentloaded',
+    })
+    await waitForStableDom(page)
+    await expect(page.getByRole('button', { name: /Duyệt chuyên môn bài này/ })).not.toBeVisible()
+  })
+}
+
 // ── MÀN KẾT QUẢ CẦN BACKEND (Chat trả lời/nhận xét · Writing chấm điểm/lỗi · Speaking
 //    trả lời/sửa lỗi) ──────────────────────────────────────────────────────────────
 // Các UI này chỉ hiện SAU khi gọi AI nên axe lúc tải trang không thấy. E2E không có

@@ -22,7 +22,7 @@ import {
 } from '@dhcb/core-contracts/lessonReview'
 
 const MON_SANG_GOI: Record<string, string> = {
-  math: 'packages/subject-math',
+  mathematics: 'packages/subject-math',
   physics: 'packages/subject-physics',
   chemistry: 'packages/subject-chemistry',
   biology: 'packages/subject-biology',

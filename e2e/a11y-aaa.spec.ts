@@ -112,6 +112,26 @@ for (const theme of THEMES) {
   }
 }
 
+// Khối duyệt chuyên môn (chỉ admin, cuối trang bài học) mang thêm mấy đoạn <p> hướng dẫn —
+// đúng loại "nội dung để đọc" nên phải qua cổng AAA này, không chỉ cổng AA.
+for (const theme of THEMES) {
+  test(`a11y AAA: khối duyệt trong bài học (admin) theme=${theme}`, async ({ page }) => {
+    await mockLogin(page, 'vi', theme, { isAdmin: true })
+    await page.route('**/api/admin-stem-review**', (route) =>
+      route.fulfill({ status: 200, contentType: 'application/json', body: '{"luotDuyet":[]}' }),
+    )
+    await page.goto('/mon-hoc/biology/bai-hoc/sinh12-c1-b1--nhan-doi-adn', {
+      waitUntil: 'domcontentloaded',
+    })
+    await waitForStableDom(page)
+    await page.getByRole('button', { name: /Duyệt chuyên môn bài này/ }).click()
+    await expect(page.getByRole('textbox', { name: /Tên người duyệt/ })).toBeVisible()
+
+    const violated = await scanAaa(page)
+    expect(violated, `Vi phạm WCAG AAA trên nội dung khối duyệt theme=${theme}.`).toEqual([])
+  })
+}
+
 // Khối AI phản hồi code (PR-L5) chỉ hiện ở bước "Tự viết" sau khi gọi API → vòng quét theo
 // ROUTES ở trên không thấy. Quét riêng đúng trạng thái đó, đủ 5 theme.
 for (const theme of THEMES) {

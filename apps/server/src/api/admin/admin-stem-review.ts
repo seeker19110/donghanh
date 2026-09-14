@@ -7,8 +7,14 @@
 // POST /api/admin-stem-review   body: { lessonId, mon, loai, ... } (xem GhiDuyetSchema)
 //        → ghi/ghi đè lượt duyệt của CHÍNH người đang đăng nhập cho bài đó.
 //
+// BĂM NỘI DUNG DO SERVER TỰ TÍNH, KHÔNG NHẬN TỪ CLIENT. Bản đầu của handler này nhận
+// `bamNoiDung` từ thân yêu cầu — sai: một client hỏng (hay cố ý) gửi băm giả là ghi được "đã
+// duyệt" cho nội dung đã đổi, phá đúng bất biến mà cả quy trình sinh ra để canh. Server chạy
+// trên Node nên tự import registry, tra đúng bài, tự tính `bamNoiDungBaiHoc` — client không có
+// quyền quyết định băm là gì.
+//
 // BẢNG NÀY KHÔNG PHẢI NGUỒN SỰ THẬT: nội dung bài học nằm trong mã nguồn, cổng CI chạy trên
-// repo. Luồng đúng là ghi ở đây → `npm run review:sync` → commit. Xem migration 0078.
+// repo. Luồng đúng là ghi ở đây → `npm run review:sync` → commit. Xem migration 0078/0079.
 import { z } from 'zod'
 import { getPgPool } from '@dhcb/core-db/pgPool'
 import {
@@ -23,12 +29,30 @@ import { isAdminEmail } from '@dhcb/core-auth/adminAuth'
 import { readJsonBody, validateBody } from '@dhcb/core-http/validation'
 import { jsonResponse, getClientIp } from '@dhcb/core-http/http'
 import { KetQuaTieuChiSchema } from '@dhcb/core-contracts/lessonReview'
+import { bamNoiDungBaiHoc, type NoiDungCanDuyet } from '@dhcb/core-contracts/lessonReviewHash'
+import { MATH_LESSONS } from '@dhcb/subject-math/lessons'
+import { PHYSICS_LESSONS } from '@dhcb/subject-physics/lessons'
+import { CHEM_LESSONS } from '@dhcb/subject-chemistry/lessons'
+import { BIOLOGY_LESSONS } from '@dhcb/subject-biology/lessons'
 
-const MON = ['math', 'physics', 'chemistry', 'biology'] as const
+const MON = ['mathematics', 'physics', 'chemistry', 'biology'] as const
+type Mon = (typeof MON)[number]
 const LESSON_ID = /^(toan|ly|hoa|sinh)(10|11|12)-c\d+-b\d+$/
 
-/** Thân yêu cầu ghi một lượt duyệt. Hai nhánh khớp đúng hai nhánh của `LessonReviewSchema` và
- *  của ràng buộc CHECK trong migration 0078 — ba nơi cùng một luật, cố ý. */
+/** Registry đầy đủ của mỗi môn — server chạy Node nên nạp thẳng, không cần nạp lười như client. */
+const REGISTRY: Record<Mon, readonly NoiDungCanDuyet[]> = {
+  mathematics: MATH_LESSONS,
+  physics: PHYSICS_LESSONS,
+  chemistry: CHEM_LESSONS,
+  biology: BIOLOGY_LESSONS,
+}
+
+function timBaiHoc(mon: Mon, lessonId: string): NoiDungCanDuyet | undefined {
+  return REGISTRY[mon].find((b) => (b as { id?: string }).id === lessonId)
+}
+
+/** Thân yêu cầu ghi một lượt duyệt. KHÔNG có `bamNoiDung` — server tự tính, xem trên. Hai
+ *  nhánh khớp đúng hai nhánh của `LessonReviewSchema` và ràng buộc CHECK của migration 0078. */
 const GhiDuyetSchema = z.discriminatedUnion('loai', [
   z
     .object({
@@ -38,7 +62,6 @@ const GhiDuyetSchema = z.discriminatedUnion('loai', [
       nguoiDuyet: z.string().trim().min(2).max(100),
       phienBanTieuChi: z.string().min(1).max(50),
       tieuChi: KetQuaTieuChiSchema,
-      bamNoiDung: z.string().regex(/^[0-9a-f]{64}$/),
       ghiChu: z.string().max(4000).optional(),
     })
     .strict(),
@@ -144,6 +167,19 @@ export default async function handler(req: Request): Promise<Response> {
       )
     }
 
+    let bamNoiDung: string | null = null
+    if (d.loai === 'nguoi-duyet') {
+      const bai = timBaiHoc(d.mon, d.lessonId)
+      if (!bai) {
+        return jsonResponse(
+          { error: `Không tìm thấy bài "${d.lessonId}" trong registry môn "${d.mon}"` },
+          404,
+          allHeaders,
+        )
+      }
+      bamNoiDung = bamNoiDungBaiHoc(bai)
+    }
+
     // Khoá duy nhất là (lesson_id, nguoi_duyet, loai): người duyệt sửa lại đánh giá của chính
     // mình thì GHI ĐÈ, không đẻ thêm dòng. Với 'ai-sang-loc' thì nguoi_duyet là null nên chỉ có
     // một dòng máy cho mỗi bài — chạy lại sàng lọc là cập nhật, đúng như mong đợi.
@@ -170,7 +206,7 @@ export default async function handler(req: Request): Promise<Response> {
             auth.userId,
             d.phienBanTieuChi,
             JSON.stringify(d.tieuChi),
-            d.bamNoiDung,
+            bamNoiDung,
             d.ghiChu ?? null,
           ]
         : [
@@ -194,14 +230,14 @@ export default async function handler(req: Request): Promise<Response> {
 }
 
 /** Tiền tố id bài học của từng môn — chặn ghi nhầm bài Sinh vào môn Hoá. */
-const TIEN_TO_MON: Record<(typeof MON)[number], string> = {
-  math: 'toan',
+const TIEN_TO_MON: Record<Mon, string> = {
+  mathematics: 'toan',
   physics: 'ly',
   chemistry: 'hoa',
   biology: 'sinh',
 }
 
-function khopMon(lessonId: string, mon: (typeof MON)[number]): boolean {
+function khopMon(lessonId: string, mon: Mon): boolean {
   return lessonId.startsWith(TIEN_TO_MON[mon])
 }
 

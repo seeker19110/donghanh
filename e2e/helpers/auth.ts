@@ -29,6 +29,7 @@ export async function mockLogin(
   page: Page,
   uiLang: 'vi' | 'en' = 'vi',
   theme?: ThemeName,
+  options?: { isAdmin?: boolean },
 ): Promise<void> {
   const profile = {
     id: USER_ID,
@@ -40,6 +41,9 @@ export async function mockLogin(
     goal: 'daily',
     dailyMinutes: 10,
     ageGroup: 'nguoi_lon',
+    // Chỉ để quét a11y các khối/trang chỉ-admin (RequireAdmin ở App.tsx đọc đúng cờ này từ
+    // /api/auth?action=me). Mặc định false — không đổi hành vi mọi test đang gọi mockLogin().
+    isAdmin: options?.isAdmin ?? false,
   }
 
   await page.addInitScript(

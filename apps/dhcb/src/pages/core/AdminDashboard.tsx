@@ -10,6 +10,7 @@ import {
   ChevronDown,
   Award,
   Database,
+  GraduationCap,
 } from 'lucide-react'
 import Layout from '../../components/Layout'
 import PageHeader from '../../components/PageHeader'
@@ -31,6 +32,7 @@ import AdminReservedNamesPanel from '../../components/admin/AdminReservedNamesPa
 import AdminFeedbackPanel from '../../components/admin/AdminFeedbackPanel'
 import AdminTtsCachePanel from '../../components/admin/AdminTtsCachePanel'
 import AdminFeatureStatusPanel from '../../components/admin/AdminFeatureStatusPanel'
+import AdminStemReviewPanel from '../../components/admin/AdminStemReviewPanel'
 
 type TabKey =
   | 'usage'
@@ -41,6 +43,7 @@ type TabKey =
   | 'grant-plan'
   | 'analytics'
   | 'tts-cache'
+  | 'stem-review'
 
 const TABS: { key: TabKey; label: string; icon: typeof Sliders }[] = [
   { key: 'usage', label: 'Sử dụng, chi phí & Vận hành', icon: Activity },
@@ -51,6 +54,7 @@ const TABS: { key: TabKey; label: string; icon: typeof Sliders }[] = [
   { key: 'grant-plan', label: 'Người dùng, Thanh toán & Từ cấm', icon: ShieldCheck },
   { key: 'analytics', label: 'Analytics & Phản hồi AI', icon: BarChart3 },
   { key: 'tts-cache', label: 'Cache TTS & R2', icon: Database },
+  { key: 'stem-review', label: 'Duyệt nội dung STEM', icon: GraduationCap },
 ]
 
 // Bọc riêng vì cần state chung: bấm 1 dòng ở bảng "Người dùng" (AdminUsersPanel) sẽ điền sẵn
@@ -108,6 +112,8 @@ function AdminPanel({ tabKey }: { tabKey: TabKey }) {
       )
     case 'tts-cache':
       return <AdminTtsCachePanel />
+    case 'stem-review':
+      return <AdminStemReviewPanel />
   }
 }
 

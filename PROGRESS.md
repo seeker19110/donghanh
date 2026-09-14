@@ -271,14 +271,19 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
   **ĐÃ CÓ ĐƯỜNG ĐI (2026-09-14, PR #903):** `docs/specs/2026-09-14-quy-trinh-duyet-chuyen-mon-mon-sinh.md`
   — bản ghi duyệt kiểm chứng được, bộ tiêu chí `sinh-v1` 7 câu, chia **8 lô** môn Sinh theo mật độ
   rủi ro (lô 1 = `sinh12-c1`, 7 bài/14 câu), 5 bất biến kèm test canh. **CHỜ NGƯỜI DÙNG CHỐT 2 câu**
-  **NỀN ĐÃ XONG (PR #904, `docs/changelog/0302-*.md`):** hợp đồng bản ghi duyệt + băm nội dung +
-  luật ăn khớp dùng chung 4 môn (`packages/core-contracts/lessonReview*.ts`), bảng
-  `stem_lesson_reviews` (migration `0078`), API `/api/admin-stem-review` (chỉ admin),
-  `npm run review:status` (đọc tiến độ thật) và `npm run review:sync` (DB → repo, mặc định chỉ in
-  diff). **CÒN LẠI:** giao diện duyệt (PR kế) và khâu AI sàng lọc (làm sau lô 1).
+  **NỀN + GIAO DIỆN ĐÃ XONG (PR #904 + PR giao diện, `docs/changelog/0302-*.md` · `0303-*.md`):** hợp
+  đồng bản ghi duyệt + băm nội dung + luật ăn khớp dùng chung 4 môn
+  (`packages/core-contracts/lessonReview*.ts`), bảng `stem_lesson_reviews` (migration `0078`,
+  sửa ràng buộc `mon` ở `0079`), API `/api/admin-stem-review` (chỉ admin, **server tự tính băm
+  từ registry — không tin `bamNoiDung` do client gửi**, sửa khỏi thiết kế ban đầu của #904),
+  khối duyệt cuối trang bài học (`LuotDuyetBai.tsx`) + tab "Duyệt nội dung STEM" ở `/admin-s`
+  (`AdminStemReviewPanel.tsx`), `npm run review:status` và `npm run review:sync`. E2E a11y AA
+  277/277 + AAA 165/165 (gồm 15 ca mới), Tầng 8b đã chụp 1440/390px trước/sau.
+  **CÒN LẠI:** khâu AI sàng lọc (③bis) — làm sau khi lô 1 duyệt tay xong, để có 14 câu người đã
+  đọc làm thước đo ca thử 13 câu; `review:sync` chưa dùng thật lần nào.
   Ô ⓪.5 **ĐÃ CHỐT trong phiên 2026-09-14**: duyệt **trong `/admin` và ngay trong trang bài học** ·
   AI được sàng lọc vòng 1 nhưng phải làm thật kỹ (5 ràng buộc đo được + ca thử 13 câu) và
-  **không bao giờ** được ghi `reviewed`. Phần thi hành chia đôi: **nền xong ở PR #904**, giao diện là PR kế.
+  **không bao giờ** được ghi `reviewed`.
 - **Audit chất lượng nội dung 6 môn (2026-09-14)** — báo cáo đầy đủ:
   `docs/audit/2026-09-14-chat-luong-noi-dung-cac-mon-hoc.md`. 11 phát hiện; hai cái đã có ở
   trên (Toán thủng 6 chương · Sinh chưa có HSG). Mới và đáng làm ngay: `reviewStatus: 'draft'`
