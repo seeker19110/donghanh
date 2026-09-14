@@ -295,18 +295,8 @@ interface CircleSentencesFile {
       từ phân biệt của vòng — chặn kiểu "3 câu cùng lặp mỗi một từ". Cùng lệnh trên.
 - [ ] **Song ngữ đầy đủ.** Mọi câu có cả `en` và `vi` không rỗng; `vi` **phải chứa ký tự tiếng
       Việt có dấu** (chặn AI trả tiếng Anh vào ô dịch). Cùng lệnh trên.
-- [ ] **Độ dài theo bậc CEFR** (đếm từ của phần `en`), sàn/trần cứng:
-
-      | Bậc     | Số từ tối thiểu | Số từ tối đa |
-              | ------- | --------------- | ------------ |
-              | A1      | 3               | 10           |
-              | A2      | 4               | 12           |
-              | B1      | 5               | 16           |
-              | B2      | 6               | 20           |
-              | C1 · C2 | 6               | 24           |
-
-              Lý do: A1 mà 20 từ/câu thì người học mới không đọc nổi; C2 mà 5 từ/câu thì không thể hiện
-              được từ vựng trừu tượng của bậc đó. Cùng lệnh trên.
+- [ ] **Độ dài theo bậc CEFR** (đếm từ của phần `en`), sàn/trần cứng theo bảng ngay dưới mục
+      này. Cùng lệnh trên.
 
 - [ ] **Không trùng câu.** Chuẩn hoá (lower, bỏ dấu câu, gộp khoảng trắng) rồi so: không câu nào
       trùng trong toàn bộ 677 vòng — **kể cả trùng với 89 vòng thủ công**. Cùng lệnh trên.
@@ -319,6 +309,19 @@ interface CircleSentencesFile {
 - [ ] **Script lũy đẳng.** Chạy `npm run gen:circle-sentences -- --level=a1` hai lần liên tiếp
       → lần hai `git diff` của file JSON **rỗng** (khi cùng `promptVersion`, dùng cache lời gọi).
 - [ ] **Cổng dự án xanh** (không có ngoại lệ nào cho đợt này).
+
+**Bảng sàn/trần độ dài câu theo bậc** (thuộc tiêu chí "Độ dài theo bậc CEFR" ở trên):
+
+| Bậc     | Số từ tối thiểu | Số từ tối đa |
+| ------- | --------------- | ------------ |
+| A1      | 3               | 10           |
+| A2      | 4               | 12           |
+| B1      | 5               | 16           |
+| B2      | 6               | 20           |
+| C1 · C2 | 6               | 24           |
+
+Lý do: A1 mà 20 từ/câu thì người học mới không đọc nổi; C2 mà 5 từ/câu thì không thể hiện được
+từ vựng trừu tượng của bậc đó.
 
 **Lệnh chứng minh:**
 
