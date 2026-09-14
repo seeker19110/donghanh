@@ -143,7 +143,7 @@ describe('math lessons', () => {
  *  đúng vì không cổng nào canh — độ phủ trôi từ "có làm" về "tuỳ hứng" mà không PR nào đỏ.
  *  Xoá/gộp bài làm số này tụt thì CI đỏ, và hạ hằng số phải là một quyết định CÓ CHỦ ĐÍCH,
  *  ghi lý do trong mô tả PR. Đặc tả: docs/specs/2026-09-14-hoat-anh-minh-hoa-stem.md */
-const TOI_THIEU_PHU_HOAT_ANH = 18
+const TOI_THIEU_PHU_HOAT_ANH = 34
 
 describe('Toán — hoạt ảnh minh hoạ', () => {
   it(`độ phủ hoạt ảnh nhánh core không tụt dưới ${TOI_THIEU_PHU_HOAT_ANH} bài`, () => {
