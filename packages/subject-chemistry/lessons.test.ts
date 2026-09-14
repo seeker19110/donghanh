@@ -3,6 +3,11 @@
 // đáp án đã khai (bảo đảm dữ liệu bài học không tự mâu thuẫn với chính engine chấm sẽ dùng nó).
 import { describe, expect, it } from 'vitest'
 import { timLoiDuyet, moTaLoiDuyet } from '@dhcb/core-contracts/lessonReviewGuard'
+import {
+  doPhuHoatAnhCore,
+  moTaLoiHoatAnh,
+  timLoiHoatAnh,
+} from '@dhcb/core-contracts/animationQuality'
 import { moTaLoiTuCham, timLoiTuCham } from '@dhcb/core-grading/selfGrade'
 import { CHEM_LESSONS, getChemLesson, listChemLessonsByGrade } from './lessons.js'
 import { HOA_HSG_NHIET_DONG_LESSONS } from './lessons/hoa-hsg-nhiet-dong-hoc.js'
@@ -138,5 +143,28 @@ describe('chemistry lessons', () => {
     // lessonReviewGuard.test.ts — ca này chỉ áp nó lên dữ liệu thật của môn.
     const loi = timLoiDuyet(CHEM_LESSONS)
     expect(loi.length, `Trạng thái duyệt có vấn đề:\n${moTaLoiDuyet(loi)}`).toBe(0)
+  })
+})
+
+/** RATCHET độ phủ hoạt ảnh của nhánh core — chỉ được TĂNG, không bao giờ giảm.
+ *  Vì sao là hằng số chặn CI chứ không phải ghi chú: phát hiện F6 của audit 2026-09-14 xảy ra
+ *  đúng vì không cổng nào canh — độ phủ trôi từ "có làm" về "tuỳ hứng" mà không PR nào đỏ.
+ *  Xoá/gộp bài làm số này tụt thì CI đỏ, và hạ hằng số phải là một quyết định CÓ CHỦ ĐÍCH,
+ *  ghi lý do trong mô tả PR. Đặc tả: docs/specs/2026-09-14-hoat-anh-minh-hoa-stem.md */
+const TOI_THIEU_PHU_HOAT_ANH = 15
+
+describe('Hoá học — hoạt ảnh minh hoạ', () => {
+  it(`độ phủ hoạt ảnh nhánh core không tụt dưới ${TOI_THIEU_PHU_HOAT_ANH} bài`, () => {
+    const phu = doPhuHoatAnhCore(CHEM_LESSONS)
+    expect(
+      phu.co,
+      `Độ phủ hoạt ảnh core tụt: ${phu.co}/${phu.tong} (${(phu.tiLe * 100).toFixed(1)}%). ` +
+        'Hoặc trả lại hoạt ảnh đã mất, hoặc hạ TOI_THIEU_PHU_HOAT_ANH CÓ CHỦ ĐÍCH kèm lý do trong PR.',
+    ).toBeGreaterThanOrEqual(TOI_THIEU_PHU_HOAT_ANH)
+  })
+
+  it('mọi hoạt ảnh đạt bất biến chất lượng dùng chung 4 môn', () => {
+    const loi = timLoiHoatAnh(CHEM_LESSONS)
+    expect(loi.length, `Hoạt ảnh chưa đạt chất lượng:\n${moTaLoiHoatAnh(loi)}`).toBe(0)
   })
 })
