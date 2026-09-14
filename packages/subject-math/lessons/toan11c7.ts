@@ -39,6 +39,344 @@ export const TOAN11_C7_LESSONS: MathLesson[] = [
       'CHIẾN LƯỢC LÀM BÀI: muốn chứng minh d ⊥ (P), hãy đi tìm hai đường thẳng cắt nhau trong (P) cùng vuông góc với ' +
       'd. Thường một đường lấy từ giả thiết hình chóp (cạnh bên vuông góc đáy), đường còn lại lấy từ tính chất của ' +
       'đa giác đáy (đường chéo hình vuông, đường cao tam giác cân).',
+    animation: {
+      title: 'Vuông góc với hai đường cắt nhau thì vuông góc với cả mặt phẳng',
+      description:
+        'Mặt phẳng (P) được vẽ dưới dạng hình bình hành, điểm I nằm trong mặt phẳng. Đường thẳng d dựng thẳng đứng từ I lên. Trước hết d được chứng tỏ vuông góc với đường a đi qua I, rồi vuông góc với đường b cũng đi qua I, hai đường a và b CẮT NHAU tại I chứ không song song. Từ đó một đường c thứ ba nằm trong mặt phẳng bắt đầu quay quanh I, quét qua mọi phương có thể; ở mọi vị trí, kí hiệu góc vuông giữa d và c vẫn còn nguyên. Hình động phá đúng chỗ học sinh mất điểm nhiều nhất: điều kiện d vuông góc với HAI đường CẮT NHAU là không thể bỏ bớt. Vuông góc với một đường thôi thì chưa đủ, và vuông góc với hai đường song song cũng chỉ ngang bằng vuông góc với một đường mà thôi.',
+      viewBoxWidth: 320,
+      viewBoxHeight: 250,
+      durationMs: 7000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'polyline',
+          id: 'mat-phang',
+          points: [
+            [40, 150],
+            [230, 150],
+            [280, 210],
+            [90, 210],
+          ],
+          closed: true,
+          stroke: 'muted',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'label',
+          id: 'nhan-mp',
+          x: 288,
+          y: 208,
+          text: '(P)',
+          size: 13,
+          fill: 'muted',
+        },
+        {
+          kind: 'circle',
+          id: 'diem-i',
+          cx: 160,
+          cy: 180,
+          r: 5,
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-i',
+          x: 150,
+          y: 196,
+          text: 'I',
+          size: 14,
+          anchor: 'end',
+          fill: 'neutral',
+        },
+        {
+          kind: 'arrow',
+          id: 'duong-d',
+          x1: 160,
+          y1: 180,
+          x2: 160,
+          y2: 40,
+          stroke: 'primary',
+          strokeWidth: 4,
+        },
+        {
+          kind: 'label',
+          id: 'nhan-d',
+          x: 168,
+          y: 46,
+          text: 'd',
+          size: 15,
+          fill: 'primary',
+        },
+        {
+          kind: 'line',
+          id: 'duong-a',
+          x1: 70,
+          y1: 165,
+          x2: 250,
+          y2: 195,
+          stroke: 'accent',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 500,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-a',
+          x: 258,
+          y: 200,
+          text: 'a',
+          size: 14,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 500,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'rect',
+          id: 'vuong-a',
+          x: 148,
+          y: 166,
+          w: 12,
+          h: 12,
+          stroke: 'correct',
+          strokeWidth: 2,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 900,
+              opacity: 0,
+            },
+            {
+              atMs: 1300,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'duong-b',
+          x1: 100,
+          y1: 205,
+          x2: 220,
+          y2: 155,
+          stroke: 'accent',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1800,
+              opacity: 0,
+            },
+            {
+              atMs: 2200,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-b',
+          x: 228,
+          y: 152,
+          text: 'b',
+          size: 14,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2200,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'rect',
+          id: 'vuong-b',
+          x: 162,
+          y: 166,
+          w: 12,
+          h: 12,
+          stroke: 'correct',
+          strokeWidth: 2,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2600,
+              opacity: 0,
+            },
+            {
+              atMs: 3000,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'duong-c',
+          x1: 95,
+          y1: 180,
+          x2: 225,
+          y2: 180,
+          stroke: 'warn',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+              rotate: 0,
+            },
+            {
+              atMs: 3600,
+              opacity: 0,
+              rotate: 0,
+            },
+            {
+              atMs: 4000,
+              opacity: 1,
+              rotate: 0,
+            },
+            {
+              atMs: 5000,
+              opacity: 1,
+              rotate: 55,
+            },
+            {
+              atMs: 6000,
+              opacity: 1,
+              rotate: 120,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+              rotate: 180,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-c',
+          x: 160,
+          y: 232,
+          text: 'c quay quanh I: d ⊥ c ở MỌI vị trí',
+          size: 13,
+          anchor: 'middle',
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4200,
+              opacity: 0,
+            },
+            {
+              atMs: 4700,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'ket',
+          x: 160,
+          y: 248,
+          text: 'd ⊥ a, d ⊥ b, a ∩ b = I  ⇒  d ⊥ (P)',
+          size: 13,
+          anchor: 'middle',
+          fill: 'accent',
+        },
+      ],
+      captions: [
+        {
+          atMs: 500,
+          text: 'Đường a nằm trong (P) và đi qua I.',
+        },
+        {
+          atMs: 1300,
+          text: 'Kiểm được d ⊥ a.',
+        },
+        {
+          atMs: 2200,
+          text: 'Đường b cũng nằm trong (P), CẮT a tại I chứ không song song.',
+        },
+        {
+          atMs: 3000,
+          text: 'Kiểm tiếp d ⊥ b. Hai điều kiện đã đủ.',
+        },
+        {
+          atMs: 4700,
+          text: 'Cho c quay quanh I quét hết mọi phương trong (P): d vẫn vuông góc với c.',
+        },
+        {
+          atMs: 6600,
+          text: 'Đó chính là nghĩa của d ⊥ (P). Bỏ chữ "cắt nhau" là kết luận sai ngay.',
+        },
+      ],
+    },
     workedExample: {
       problem:
         'Cho hình chóp S.ABCD có đáy ABCD là hình vuông và SA vuông góc với mặt phẳng đáy. Chứng minh BD vuông góc ' +

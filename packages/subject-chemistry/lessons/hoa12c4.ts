@@ -77,6 +77,507 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
         dap: 'Có chứa liên kết bội kém bền (như C=C) hoặc vòng kém bền dễ mở.',
       },
     ],
+    animation: {
+      title: 'Phản ứng trùng hợp: nối đôi mở ra và các mắt xích nối thành mạch dài',
+      description:
+        'Hàng trên là bốn phân tử ethylene CH₂=CH₂ rời rạc, mỗi phân tử có một nối đôi vẽ bằng hai vạch. Khi có xúc tác và nhiệt độ, một vạch của mỗi nối đôi biến mất — cặp electron π mở ra, để lại ở mỗi đầu một mối nối còn trống. Các phân tử lập tức xích lại và các mối nối trống bắt tay nhau tạo thành một mạch liên tục, kéo dài mãi: đó là polyethylene (–CH₂–CH₂–)ₙ. Chú ý hai điều: không có nguyên tử nào bị tách ra khỏi hệ nên công thức của mắt xích trùng với công thức monomer, và hệ số n là số mắt xích chứ không phải hệ số cân bằng thông thường. Điều kiện để trùng hợp được là monomer phải có nối đôi hoặc vòng kém bền — chỉ chất có sẵn liên kết mở được mới nối chuỗi.',
+      viewBoxWidth: 470,
+      viewBoxHeight: 230,
+      durationMs: 8000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'label',
+          id: 'm1',
+          x: 80,
+          y: 60,
+          text: 'CH₂=CH₂',
+          size: 14,
+          anchor: 'middle',
+          fill: 'neutral',
+          keyframes: [
+            {
+              atMs: 0,
+              dx: 0,
+              dy: 0,
+            },
+            {
+              atMs: 2600,
+              dx: 0,
+              dy: 0,
+            },
+            {
+              atMs: 4600,
+              dx: -8,
+              dy: 80,
+            },
+            {
+              atMs: 8000,
+              dx: -8,
+              dy: 80,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'm2',
+          x: 180,
+          y: 60,
+          text: 'CH₂=CH₂',
+          size: 14,
+          anchor: 'middle',
+          fill: 'neutral',
+          keyframes: [
+            {
+              atMs: 0,
+              dx: 0,
+              dy: 0,
+            },
+            {
+              atMs: 2600,
+              dx: 0,
+              dy: 0,
+            },
+            {
+              atMs: 4600,
+              dx: -14,
+              dy: 80,
+            },
+            {
+              atMs: 8000,
+              dx: -14,
+              dy: 80,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'm3',
+          x: 280,
+          y: 60,
+          text: 'CH₂=CH₂',
+          size: 14,
+          anchor: 'middle',
+          fill: 'neutral',
+          keyframes: [
+            {
+              atMs: 0,
+              dx: 0,
+              dy: 0,
+            },
+            {
+              atMs: 2600,
+              dx: 0,
+              dy: 0,
+            },
+            {
+              atMs: 4600,
+              dx: -20,
+              dy: 80,
+            },
+            {
+              atMs: 8000,
+              dx: -20,
+              dy: 80,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'm4',
+          x: 380,
+          y: 60,
+          text: 'CH₂=CH₂',
+          size: 14,
+          anchor: 'middle',
+          fill: 'neutral',
+          keyframes: [
+            {
+              atMs: 0,
+              dx: 0,
+              dy: 0,
+            },
+            {
+              atMs: 2600,
+              dx: 0,
+              dy: 0,
+            },
+            {
+              atMs: 4600,
+              dx: -26,
+              dy: 80,
+            },
+            {
+              atMs: 8000,
+              dx: -26,
+              dy: 80,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'mo',
+          x: 235,
+          y: 100,
+          text: 'xúc tác, t°, p: nối đôi mở ra',
+          size: 11,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1600,
+              opacity: 0,
+            },
+            {
+              atMs: 2200,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'mn1',
+          cx: 122,
+          cy: 54,
+          r: 5,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2200,
+              opacity: 0,
+            },
+            {
+              atMs: 2600,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'mn2',
+          cx: 222,
+          cy: 54,
+          r: 5,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2200,
+              opacity: 0,
+            },
+            {
+              atMs: 2600,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'mn3',
+          cx: 322,
+          cy: 54,
+          r: 5,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2200,
+              opacity: 0,
+            },
+            {
+              atMs: 2600,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'l1',
+          x1: 116,
+          y1: 140,
+          x2: 156,
+          y2: 140,
+          stroke: 'primary',
+          strokeWidth: 2.5,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5000,
+              opacity: 0,
+            },
+            {
+              atMs: 5500,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'l2',
+          x1: 216,
+          y1: 140,
+          x2: 256,
+          y2: 140,
+          stroke: 'primary',
+          strokeWidth: 2.5,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5000,
+              opacity: 0,
+            },
+            {
+              atMs: 5500,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'l3',
+          x1: 316,
+          y1: 140,
+          x2: 356,
+          y2: 140,
+          stroke: 'primary',
+          strokeWidth: 2.5,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5000,
+              opacity: 0,
+            },
+            {
+              atMs: 5500,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'l0',
+          x1: 26,
+          y1: 140,
+          x2: 44,
+          y2: 140,
+          stroke: 'primary',
+          strokeWidth: 2.5,
+          dash: '4 3',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5000,
+              opacity: 0,
+            },
+            {
+              atMs: 5500,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'l4',
+          x1: 426,
+          y1: 140,
+          x2: 446,
+          y2: 140,
+          stroke: 'primary',
+          strokeWidth: 2.5,
+          dash: '4 3',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5000,
+              opacity: 0,
+            },
+            {
+              atMs: 5500,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'kq',
+          x: 235,
+          y: 180,
+          text: '(–CH₂–CH₂–)ₙ  polyethylene',
+          size: 15,
+          anchor: 'middle',
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5600,
+              opacity: 0,
+            },
+            {
+              atMs: 6100,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'kq2',
+          x: 235,
+          y: 204,
+          text: 'mắt xích có cùng công thức với monomer, không mất nguyên tử nào',
+          size: 11,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 6400,
+              opacity: 0,
+            },
+            {
+              atMs: 6900,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'dk',
+          x: 235,
+          y: 226,
+          text: 'Điều kiện: monomer phải có nối đôi hoặc vòng kém bền',
+          size: 10,
+          anchor: 'middle',
+          fill: 'muted',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 6900,
+              opacity: 0,
+            },
+            {
+              atMs: 7400,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+      ],
+      captions: [
+        {
+          atMs: 0,
+          text: 'Bốn phân tử ethylene rời rạc, mỗi phân tử một nối đôi.',
+        },
+        {
+          atMs: 2200,
+          text: 'Xúc tác và nhiệt mở nối đôi, mỗi đầu để lại một mối nối trống.',
+        },
+        {
+          atMs: 5000,
+          text: 'Các mối nối trống bắt tay nhau thành mạch dài polyethylene.',
+        },
+        {
+          atMs: 6400,
+          text: 'Không nguyên tử nào bị tách ra: mắt xích trùng công thức monomer.',
+        },
+      ],
+    },
     track: 'core',
     reviewStatus: 'draft',
   },
@@ -149,6 +650,566 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
         dap: 'Vì tơ polyamide dễ bị thuỷ phân trong môi trường kiềm và kém bền nhiệt.',
       },
     ],
+    animation: {
+      title: 'Mạch thẳng hay mạng không gian quyết định polymer chảy được hay không',
+      description:
+        'Bên trái là polymer mạch thẳng như polyethylene: các mạch nằm cạnh nhau, chỉ giữ nhau bằng lực yếu giữa các phân tử. Khi đun nóng, các mạch trượt qua nhau và cả khối mềm ra rồi chảy, để nguội lại đông cứng — đó là polymer nhiệt dẻo, tái chế được bằng cách nấu chảy rồi đúc lại. Bên phải là cao su đã lưu hoá: giữa các mạch có những cầu nối lưu huỳnh –S–S– khoá chặt mạch này vào mạch kia thành một mạng không gian. Khi đun nóng, các mạch chỉ rung tại chỗ mà không trượt đi đâu được, khối vật liệu không chảy mà cháy phân huỷ — đó là polymer nhiệt rắn, không tái chế bằng nấu chảy được. Cùng một loại mạch carbon, thêm vài cầu nối là đổi hẳn tính chất sử dụng.',
+      viewBoxWidth: 470,
+      viewBoxHeight: 240,
+      durationMs: 8000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'label',
+          id: 'tt1',
+          x: 118,
+          y: 32,
+          text: 'Mạch thẳng — nhiệt dẻo',
+          size: 11,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'polyline',
+          id: 'a1',
+          points: [
+            [36, 70],
+            [76, 62],
+            [116, 70],
+            [156, 62],
+            [196, 70],
+          ],
+          stroke: 'primary',
+          strokeWidth: 2.5,
+          keyframes: [
+            {
+              atMs: 0,
+              dx: 0,
+            },
+            {
+              atMs: 2600,
+              dx: 0,
+            },
+            {
+              atMs: 5000,
+              dx: 34,
+            },
+            {
+              atMs: 8000,
+              dx: 34,
+            },
+          ],
+        },
+        {
+          kind: 'polyline',
+          id: 'a2',
+          points: [
+            [36, 102],
+            [76, 94],
+            [116, 102],
+            [156, 94],
+            [196, 102],
+          ],
+          stroke: 'primary',
+          strokeWidth: 2.5,
+          keyframes: [
+            {
+              atMs: 0,
+              dx: 0,
+            },
+            {
+              atMs: 2600,
+              dx: 0,
+            },
+            {
+              atMs: 5000,
+              dx: -26,
+            },
+            {
+              atMs: 8000,
+              dx: -26,
+            },
+          ],
+        },
+        {
+          kind: 'polyline',
+          id: 'a3',
+          points: [
+            [36, 134],
+            [76, 126],
+            [116, 134],
+            [156, 126],
+            [196, 134],
+          ],
+          stroke: 'primary',
+          strokeWidth: 2.5,
+          keyframes: [
+            {
+              atMs: 0,
+              dx: 0,
+            },
+            {
+              atMs: 2600,
+              dx: 0,
+            },
+            {
+              atMs: 5000,
+              dx: 44,
+            },
+            {
+              atMs: 8000,
+              dx: 44,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'at',
+          x: 118,
+          y: 166,
+          text: 'các mạch trượt qua nhau',
+          size: 10,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5000,
+              opacity: 0,
+            },
+            {
+              atMs: 5500,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'at2',
+          x: 118,
+          y: 186,
+          text: 'nóng thì chảy, nguội thì cứng lại',
+          size: 10,
+          anchor: 'middle',
+          fill: 'muted',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5000,
+              opacity: 0,
+            },
+            {
+              atMs: 5500,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'at3',
+          x: 118,
+          y: 210,
+          text: 'tái chế được bằng cách nấu chảy',
+          size: 10,
+          anchor: 'middle',
+          fill: 'muted',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 6000,
+              opacity: 0,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'chia',
+          x1: 236,
+          y1: 40,
+          x2: 236,
+          y2: 224,
+          stroke: 'muted',
+          strokeWidth: 1.5,
+          dash: '5 5',
+        },
+        {
+          kind: 'label',
+          id: 'tt2',
+          x: 352,
+          y: 32,
+          text: 'Mạng không gian — nhiệt rắn',
+          size: 11,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'polyline',
+          id: 'b1',
+          points: [
+            [272, 70],
+            [312, 62],
+            [352, 70],
+            [392, 62],
+            [432, 70],
+          ],
+          stroke: 'primary',
+          strokeWidth: 2.5,
+          keyframes: [
+            {
+              atMs: 0,
+              dx: 0,
+            },
+            {
+              atMs: 5000,
+              dx: 0,
+            },
+            {
+              atMs: 5600,
+              dx: 3,
+            },
+            {
+              atMs: 6200,
+              dx: -3,
+            },
+            {
+              atMs: 6800,
+              dx: 0,
+            },
+            {
+              atMs: 8000,
+              dx: 0,
+            },
+          ],
+        },
+        {
+          kind: 'polyline',
+          id: 'b2',
+          points: [
+            [272, 102],
+            [312, 94],
+            [352, 102],
+            [392, 94],
+            [432, 102],
+          ],
+          stroke: 'primary',
+          strokeWidth: 2.5,
+          keyframes: [
+            {
+              atMs: 0,
+              dx: 0,
+            },
+            {
+              atMs: 5000,
+              dx: 0,
+            },
+            {
+              atMs: 5600,
+              dx: -3,
+            },
+            {
+              atMs: 6200,
+              dx: 3,
+            },
+            {
+              atMs: 6800,
+              dx: 0,
+            },
+            {
+              atMs: 8000,
+              dx: 0,
+            },
+          ],
+        },
+        {
+          kind: 'polyline',
+          id: 'b3',
+          points: [
+            [272, 134],
+            [312, 126],
+            [352, 134],
+            [392, 126],
+            [432, 134],
+          ],
+          stroke: 'primary',
+          strokeWidth: 2.5,
+          keyframes: [
+            {
+              atMs: 0,
+              dx: 0,
+            },
+            {
+              atMs: 5000,
+              dx: 0,
+            },
+            {
+              atMs: 5600,
+              dx: 3,
+            },
+            {
+              atMs: 6200,
+              dx: -3,
+            },
+            {
+              atMs: 6800,
+              dx: 0,
+            },
+            {
+              atMs: 8000,
+              dx: 0,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 's1',
+          x1: 312,
+          y1: 64,
+          x2: 312,
+          y2: 92,
+          stroke: 'accent',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2400,
+              opacity: 0,
+            },
+            {
+              atMs: 2900,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 's2',
+          x1: 392,
+          y1: 64,
+          x2: 392,
+          y2: 92,
+          stroke: 'accent',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2400,
+              opacity: 0,
+            },
+            {
+              atMs: 2900,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 's3',
+          x1: 312,
+          y1: 96,
+          x2: 312,
+          y2: 124,
+          stroke: 'accent',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2400,
+              opacity: 0,
+            },
+            {
+              atMs: 2900,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 's4',
+          x1: 392,
+          y1: 96,
+          x2: 392,
+          y2: 124,
+          stroke: 'accent',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2400,
+              opacity: 0,
+            },
+            {
+              atMs: 2900,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'st',
+          x: 352,
+          y: 166,
+          text: 'cầu nối lưu huỳnh –S–S– khoá mạch',
+          size: 10,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2400,
+              opacity: 0,
+            },
+            {
+              atMs: 2900,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'st2',
+          x: 352,
+          y: 186,
+          text: 'đun nóng chỉ rung, không trượt được',
+          size: 10,
+          anchor: 'middle',
+          fill: 'muted',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5600,
+              opacity: 0,
+            },
+            {
+              atMs: 6100,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'st3',
+          x: 352,
+          y: 210,
+          text: 'không nấu chảy tái chế được',
+          size: 10,
+          anchor: 'middle',
+          fill: 'muted',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 6400,
+              opacity: 0,
+            },
+            {
+              atMs: 6900,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+      ],
+      captions: [
+        {
+          atMs: 0,
+          text: 'Polymer mạch thẳng: các mạch chỉ nằm cạnh nhau, giữ nhau bằng lực yếu.',
+        },
+        {
+          atMs: 2400,
+          text: 'Cao su lưu hoá: cầu nối –S–S– khoá các mạch thành mạng không gian.',
+        },
+        {
+          atMs: 5000,
+          text: 'Đun nóng mạch thẳng: các mạch trượt qua nhau, vật liệu chảy ra.',
+        },
+        {
+          atMs: 5800,
+          text: 'Đun nóng mạng không gian: mạch chỉ rung tại chỗ, không chảy.',
+        },
+      ],
+    },
     track: 'core',
     reviewStatus: 'draft',
   },

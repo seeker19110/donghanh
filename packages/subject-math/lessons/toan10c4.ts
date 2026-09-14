@@ -269,6 +269,421 @@ export const TOAN10_C4_LESSONS: MathLesson[] = [
       'giống hằng đẳng thức quen thuộc. NHƯNG có hai điều KHÔNG đúng: (i) không có phép chia cho vectơ, nên từ ' +
       'a→·b→ = a→·c→ KHÔNG suy ra được b→ = c→; (ii) không viết được (a→·b→)·c→ theo kiểu kết hợp, vì a→·b→ đã là ' +
       'một số rồi.',
+    animation: {
+      title: 'Tích vô hướng là hình chiếu, nên nó đổi dấu khi góc vượt 90°',
+      description:
+        'Từ gốc O vẽ vectơ u dài 8 nằm ngang sang phải. Vectơ v dài 5 xuất hiện, hợp với u một góc 60 độ; từ ngọn của v hạ đường vuông góc xuống giá của u, chân đường chiếu cách O đúng 5 nhân cos 60 độ bằng 2,5 đơn vị về phía dương. Tích vô hướng bằng 8 nhân 2,5 bằng 20, mang dấu dương. Sau đó v chuyển sang vị trí hợp với u góc 120 độ: hình chiếu lật sang phía âm, dài vẫn 2,5 nhưng ngược chiều u, nên tích vô hướng thành âm 20. Hình động cho thấy điều một câu văn khó nói: bản thân độ dài hai vectơ không đổi, chỉ VỊ TRÍ của chân hình chiếu nhảy sang bên kia gốc O, và đó chính là chỗ dấu của tích vô hướng sinh ra.',
+      viewBoxWidth: 320,
+      viewBoxHeight: 250,
+      durationMs: 7000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'line',
+          id: 'gia-u',
+          x1: 0,
+          y1: 200,
+          x2: 300,
+          y2: 200,
+          stroke: 'muted',
+          strokeWidth: 1,
+          dash: '4 4',
+        },
+        {
+          kind: 'circle',
+          id: 'goc-o',
+          cx: 60,
+          cy: 200,
+          r: 4,
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-o',
+          x: 56,
+          y: 220,
+          text: 'O',
+          size: 13,
+          anchor: 'end',
+          fill: 'neutral',
+        },
+        {
+          kind: 'arrow',
+          id: 'vt-u',
+          x1: 60,
+          y1: 200,
+          x2: 220,
+          y2: 200,
+          stroke: 'primary',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'label',
+          id: 'nhan-u',
+          x: 228,
+          y: 205,
+          text: 'u (8)',
+          size: 13,
+          fill: 'primary',
+        },
+        {
+          kind: 'arrow',
+          id: 'vt-v1',
+          x1: 60,
+          y1: 200,
+          x2: 110,
+          y2: 113,
+          stroke: 'accent',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 500,
+              opacity: 1,
+            },
+            {
+              atMs: 3400,
+              opacity: 1,
+            },
+            {
+              atMs: 3600,
+              opacity: 0,
+            },
+            {
+              atMs: 7000,
+              opacity: 0,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-v1',
+          x: 118,
+          y: 108,
+          text: 'v (5), góc 60°',
+          size: 13,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 500,
+              opacity: 1,
+            },
+            {
+              atMs: 3400,
+              opacity: 1,
+            },
+            {
+              atMs: 3600,
+              opacity: 0,
+            },
+            {
+              atMs: 7000,
+              opacity: 0,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'chieu1',
+          x1: 110,
+          y1: 113,
+          x2: 110,
+          y2: 200,
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '5 4',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1200,
+              opacity: 0,
+            },
+            {
+              atMs: 1600,
+              opacity: 1,
+            },
+            {
+              atMs: 3400,
+              opacity: 1,
+            },
+            {
+              atMs: 3600,
+              opacity: 0,
+            },
+            {
+              atMs: 7000,
+              opacity: 0,
+            },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'hinh-chieu1',
+          x1: 60,
+          y1: 200,
+          x2: 110,
+          y2: 200,
+          stroke: 'correct',
+          strokeWidth: 5,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1800,
+              opacity: 0,
+            },
+            {
+              atMs: 2200,
+              opacity: 1,
+            },
+            {
+              atMs: 3400,
+              opacity: 1,
+            },
+            {
+              atMs: 3600,
+              opacity: 0,
+            },
+            {
+              atMs: 7000,
+              opacity: 0,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'kq1',
+          x: 160,
+          y: 55,
+          text: 'u·v = 8 · (+2,5) = +20',
+          size: 15,
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2400,
+              opacity: 0,
+            },
+            {
+              atMs: 2800,
+              opacity: 1,
+            },
+            {
+              atMs: 3400,
+              opacity: 1,
+            },
+            {
+              atMs: 3600,
+              opacity: 0,
+            },
+            {
+              atMs: 7000,
+              opacity: 0,
+            },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'vt-v2',
+          x1: 60,
+          y1: 200,
+          x2: 10,
+          y2: 113,
+          stroke: 'accent',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3800,
+              opacity: 0,
+            },
+            {
+              atMs: 4200,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-v2',
+          x: 18,
+          y: 102,
+          text: "v' (5), góc 120°",
+          size: 13,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4200,
+              opacity: 0,
+            },
+            {
+              atMs: 4500,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'chieu2',
+          x1: 10,
+          y1: 113,
+          x2: 10,
+          y2: 200,
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '5 4',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4600,
+              opacity: 0,
+            },
+            {
+              atMs: 5000,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'hinh-chieu2',
+          x1: 60,
+          y1: 200,
+          x2: 10,
+          y2: 200,
+          stroke: 'danger',
+          strokeWidth: 5,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5200,
+              opacity: 0,
+            },
+            {
+              atMs: 5600,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'kq2',
+          x: 160,
+          y: 55,
+          text: "u·v' = 8 · (−2,5) = −20",
+          size: 15,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5800,
+              opacity: 0,
+            },
+            {
+              atMs: 6200,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'ct',
+          x: 160,
+          y: 238,
+          text: 'u·v = |u|·|v|·cos(u, v)',
+          size: 14,
+          anchor: 'middle',
+          fill: 'primary',
+        },
+      ],
+      captions: [
+        {
+          atMs: 500,
+          text: 'u dài 8; v dài 5 hợp với u góc 60°.',
+        },
+        {
+          atMs: 1600,
+          text: 'Chiếu ngọn v xuống giá của u: chân chiếu cách O 5·cos60° = 2,5 về phía dương.',
+        },
+        {
+          atMs: 2800,
+          text: 'u·v = 8 · 2,5 = +20.',
+        },
+        {
+          atMs: 4200,
+          text: 'Giữ nguyên độ dài, mở góc lên 120°.',
+        },
+        {
+          atMs: 5600,
+          text: 'Chân chiếu nhảy sang bên trái O: hình chiếu mang dấu âm.',
+        },
+        {
+          atMs: 6200,
+          text: 'u·v′ = 8 · (−2,5) = −20. Dấu của tích vô hướng là dấu của cosin góc.',
+        },
+      ],
+    },
     workedExample: {
       problem:
         'Trong mặt phẳng toạ độ cho A(1; 2), B(4; 3), C(2; 5). Chứng minh tam giác ABC vuông tại A và tính diện tích.',

@@ -547,6 +547,382 @@ export const TOAN11_C4_LESSONS: MathLesson[] = [
       'kì (đều, vuông, cân) chỉ là một tam giác tuỳ ý.\n' +
       'LỖI HAY MẮC: cố vẽ hình vuông ra hình vuông trên giấy rồi đọc số đo góc trên hình vẽ để làm bài. Hình vẽ ' +
       'chỉ để định hướng suy nghĩ; mọi số đo góc và độ dài phải lấy từ giả thiết, tuyệt đối không đo trên hình.',
+    animation: {
+      title: 'Phép chiếu song song giữ trung điểm nhưng không giữ độ dài',
+      description:
+        'Đoạn thẳng AB nằm ngoài mặt phẳng chiếu, M là trung điểm của AB. Ba tia chiếu song song cùng phương xuất phát từ A, M, B đâm xuống mặt phẳng, cho ba ảnh lần lượt là A phẩy, M phẩy, B phẩy. Hình động cho thấy hai điều mà một câu định nghĩa không nói được: thứ nhất, ba tia luôn song song nên ảnh của ba điểm thẳng hàng vẫn thẳng hàng; thứ hai, ảnh M phẩy rơi đúng vào trung điểm của A phẩy B phẩy, dù đoạn A phẩy B phẩy ngắn hơn hẳn đoạn AB gốc. Nghĩa là phép chiếu song song bảo toàn TỈ SỐ trên một đường thẳng nhưng không bảo toàn độ dài, cũng không bảo toàn góc — đó là lí do hình vẽ không gian được phép méo mà vẫn đúng.',
+      viewBoxWidth: 320,
+      viewBoxHeight: 230,
+      durationMs: 6500,
+      loop: true,
+      shapes: [
+        {
+          kind: 'line',
+          id: 'mat-phang',
+          x1: 60,
+          y1: 175.7,
+          x2: 280,
+          y2: 144.3,
+          stroke: 'muted',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'label',
+          id: 'nhan-mp',
+          x: 288,
+          y: 140,
+          text: '(P)',
+          size: 13,
+          fill: 'muted',
+        },
+        {
+          kind: 'line',
+          id: 'doan-ab',
+          x1: 60,
+          y1: 60,
+          x2: 200,
+          y2: 40,
+          stroke: 'primary',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'circle',
+          id: 'diem-a',
+          cx: 60,
+          cy: 60,
+          r: 5,
+          fill: 'primary',
+        },
+        {
+          kind: 'circle',
+          id: 'diem-b',
+          cx: 200,
+          cy: 40,
+          r: 5,
+          fill: 'primary',
+        },
+        {
+          kind: 'circle',
+          id: 'diem-m',
+          cx: 130,
+          cy: 50,
+          r: 5,
+          fill: 'accent',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-a',
+          x: 52,
+          y: 54,
+          text: 'A',
+          size: 14,
+          anchor: 'end',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-b',
+          x: 208,
+          y: 34,
+          text: 'B',
+          size: 14,
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-m',
+          x: 130,
+          y: 36,
+          text: 'M (trung điểm)',
+          size: 12,
+          anchor: 'middle',
+          fill: 'accent',
+        },
+        {
+          kind: 'arrow',
+          id: 'tia-a',
+          x1: 60,
+          y1: 60,
+          x2: 100,
+          y2: 170,
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '5 4',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 700,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'tia-b',
+          x1: 200,
+          y1: 40,
+          x2: 240,
+          y2: 150,
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '5 4',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1400,
+              opacity: 0,
+            },
+            {
+              atMs: 1800,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'tia-m',
+          x1: 130,
+          y1: 50,
+          x2: 170,
+          y2: 160,
+          stroke: 'accent',
+          strokeWidth: 2,
+          dash: '5 4',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2600,
+              opacity: 0,
+            },
+            {
+              atMs: 3000,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'anh-ab',
+          x1: 100,
+          y1: 170,
+          x2: 240,
+          y2: 150,
+          stroke: 'correct',
+          strokeWidth: 4,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3600,
+              opacity: 0,
+            },
+            {
+              atMs: 4100,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'anh-a',
+          cx: 100,
+          cy: 170,
+          r: 5,
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1200,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'anh-b',
+          cx: 240,
+          cy: 150,
+          r: 5,
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2300,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'anh-m',
+          cx: 170,
+          cy: 160,
+          r: 6,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3500,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-a2',
+          x: 92,
+          y: 190,
+          text: "A'",
+          size: 14,
+          anchor: 'end',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-b2',
+          x: 248,
+          y: 168,
+          text: "B'",
+          size: 14,
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-m2',
+          x: 170,
+          y: 200,
+          text: "M' vẫn là trung điểm của A'B'",
+          size: 12,
+          anchor: 'middle',
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4400,
+              opacity: 0,
+            },
+            {
+              atMs: 4900,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'ket',
+          x: 160,
+          y: 222,
+          text: 'giữ tỉ số — KHÔNG giữ độ dài, không giữ góc',
+          size: 13,
+          anchor: 'middle',
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5400,
+              opacity: 0,
+            },
+            {
+              atMs: 5900,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+      ],
+      captions: [
+        {
+          atMs: 700,
+          text: 'Tia chiếu qua A đâm xuống (P) cho ảnh A′.',
+        },
+        {
+          atMs: 1800,
+          text: 'Tia qua B SONG SONG với tia qua A, cho ảnh B′.',
+        },
+        {
+          atMs: 3000,
+          text: 'Tia qua trung điểm M, cũng cùng phương.',
+        },
+        {
+          atMs: 4900,
+          text: 'M′ rơi đúng trung điểm A′B′ — tỉ số được bảo toàn.',
+        },
+        {
+          atMs: 5900,
+          text: 'Nhưng A′B′ ngắn hơn AB: độ dài và góc thì không được bảo toàn.',
+        },
+      ],
+    },
     workedExample: {
       problem:
         'Cho đoạn thẳng AB và điểm I là trung điểm của AB. Chiếu song song ba điểm A, I, B lên mặt phẳng (P) ' +

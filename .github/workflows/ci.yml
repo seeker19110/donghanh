@@ -84,6 +84,13 @@ jobs:
       - name: Bundle size budget (size-limit)
         run: npm run size
 
+      # Ngân sách CHUNK CHƯƠNG bài học STEM. Tách khỏi size-limit ở trên vì đo thứ khác:
+      # size-limit canh initial bundle (thứ MỌI người tải), còn cổng này canh từng chunk nạp
+      # lười theo chương (thứ người học tải khi mở đúng chương đó). Thay cho tiêu chí cũ đo
+      # byte MÃ NGUỒN — xem đầu scripts/check-lesson-chunks.ts để biết vì sao tiêu chí đó sai.
+      - name: Ngân sách chunk chương bài học
+        run: npm run size:chunks
+
       # Boot check: server đã biên dịch (dist-server, phân giải @dhcb qua dist từng gói —
       # phương án B project references) phải KHỞI ĐỘNG được thật và trả /api/health 200.
       # Bắt lỗi phân giải module lúc runtime mà typecheck không thấy (exports/paths lệch).

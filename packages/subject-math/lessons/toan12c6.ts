@@ -39,6 +39,297 @@ export const TOAN12_C6_LESSONS: MathLesson[] = [
       'bệnh). Nhưng nếu bệnh rất hiếm, số người KHOẺ MẠNH bị dương tính giả (1% của một nhóm rất đông) có thể nhiều ' +
       'gấp nhiều lần số người bệnh dương tính thật (99% của một nhóm rất nhỏ). Xác suất nền P(B), gọi là XÁC SUẤT ' +
       'TIÊN NGHIỆM, mới là thứ quyết định kết quả — và đó chính là thứ trực giác hay bỏ quên.',
+    animation: {
+      title: 'Biết B xảy ra thì không gian mẫu co lại còn đúng B',
+      description:
+        'Hình chữ nhật lớn là không gian mẫu, diện tích của nó ứng với xác suất 1. Biến cố B chiếm nửa trái nên P(B) = 1/2. Biến cố A là hình chữ nhật nằm vắt ngang, chiếm 1/4 diện tích toàn bộ nên P(A) = 1/4; phần chung của A và B chiếm 3/16. Khi tin tức B đã xảy ra tới nơi, toàn bộ phần nằm ngoài B mờ đi và biến mất khỏi cuộc chơi: không gian mẫu co lại chỉ còn B. Lúc này A không còn được so với hình lớn nữa mà so với B, cho P(A | B) bằng 3/16 chia 1/2 bằng 3/8, lớn hơn hẳn P(A) = 1/4 ban đầu. Hình động phá nhầm lẫn cốt tử của chương: xác suất có điều kiện không phải một công thức mới, nó là xác suất cũ đo trên một không gian mẫu đã bị thu nhỏ, và mẫu số P(B) chính là diện tích của cái không gian mới ấy.',
+      viewBoxWidth: 300,
+      viewBoxHeight: 250,
+      durationMs: 7000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'rect',
+          id: 'khong-gian',
+          x: 30,
+          y: 40,
+          w: 240,
+          h: 160,
+          stroke: 'muted',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'label',
+          id: 'nhan-omega',
+          x: 30,
+          y: 32,
+          text: 'Ω  (xác suất 1)',
+          size: 13,
+          fill: 'muted',
+        },
+        {
+          kind: 'rect',
+          id: 'bien-co-b',
+          x: 30,
+          y: 40,
+          w: 120,
+          h: 160,
+          fill: 'primary',
+          opacity: 0.18,
+        },
+        {
+          kind: 'label',
+          id: 'nhan-b',
+          x: 62,
+          y: 60,
+          text: 'B: P(B) = 1/2',
+          size: 13,
+          fill: 'primary',
+        },
+        {
+          kind: 'rect',
+          id: 'bien-co-a',
+          x: 60,
+          y: 80,
+          w: 120,
+          h: 80,
+          stroke: 'accent',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'label',
+          id: 'nhan-a',
+          x: 186,
+          y: 96,
+          text: 'A: P(A) = 1/4',
+          size: 13,
+          fill: 'accent',
+        },
+        {
+          kind: 'rect',
+          id: 'phan-chung',
+          x: 60,
+          y: 80,
+          w: 90,
+          h: 80,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1200,
+              opacity: 0,
+            },
+            {
+              atMs: 1700,
+              opacity: 0.4,
+            },
+            {
+              atMs: 7000,
+              opacity: 0.4,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-chung',
+          x: 105,
+          y: 126,
+          text: 'P(A ∩ B) = 3/16',
+          size: 12,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1700,
+              opacity: 0,
+            },
+            {
+              atMs: 2200,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'rect',
+          id: 'che-ngoai',
+          x: 150,
+          y: 40,
+          w: 120,
+          h: 160,
+          fill: 'surface',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3200,
+              opacity: 0,
+            },
+            {
+              atMs: 4000,
+              opacity: 0.85,
+            },
+            {
+              atMs: 7000,
+              opacity: 0.85,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'loai-bo',
+          x: 210,
+          y: 180,
+          text: 'phần ngoài B bị loại',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4000,
+              opacity: 0,
+            },
+            {
+              atMs: 4400,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'rect',
+          id: 'vien-b-moi',
+          x: 30,
+          y: 40,
+          w: 120,
+          h: 160,
+          stroke: 'primary',
+          strokeWidth: 4,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4400,
+              opacity: 0,
+            },
+            {
+              atMs: 4900,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'kg-moi',
+          x: 90,
+          y: 216,
+          text: 'không gian mẫu mới = B',
+          size: 12,
+          anchor: 'middle',
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4900,
+              opacity: 0,
+            },
+            {
+              atMs: 5300,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'ket',
+          x: 150,
+          y: 240,
+          text: 'P(A | B) = (3/16) : (1/2) = 3/8  >  P(A) = 1/4',
+          size: 14,
+          anchor: 'middle',
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5600,
+              opacity: 0,
+            },
+            {
+              atMs: 6100,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+      ],
+      captions: [
+        {
+          atMs: 0,
+          text: 'Hình lớn là Ω; B chiếm nửa trái nên P(B) = 1/2, A chiếm 1/4 hình lớn.',
+        },
+        {
+          atMs: 2200,
+          text: 'Phần giao A ∩ B chiếm 3/16 diện tích toàn bộ.',
+        },
+        {
+          atMs: 4000,
+          text: 'Nghe tin B đã xảy ra: mọi kết quả ngoài B bị loại khỏi cuộc chơi.',
+        },
+        {
+          atMs: 5300,
+          text: 'Không gian mẫu co lại còn đúng B — A phải đo lại trên nền mới này.',
+        },
+        {
+          atMs: 6100,
+          text: 'P(A|B) = P(A ∩ B)/P(B) = 3/8, cao hơn P(A) = 1/4: biết B làm A dễ xảy ra hơn.',
+        },
+      ],
+    },
     workedExample: {
       problem:
         'Một bệnh có tỉ lệ mắc trong dân số là 1%. Xét nghiệm cho kết quả dương tính đúng 99% với người có bệnh, và ' +
