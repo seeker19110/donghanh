@@ -38,6 +38,602 @@ export const TOAN10_C8_LESSONS: MathLesson[] = [
       '— Pascal: Cⁿₖ = Cⁿ⁻¹₍ₖ₋₁₎ + Cⁿ⁻¹ₖ. Xét một phần tử cố định: hoặc nó được chọn, hoặc không.\n\n' +
       'GIỚI HẠN: các công thức trên chỉ áp dụng khi n phần tử ĐÔI MỘT KHÁC NHAU và mỗi phần tử được lấy nhiều nhất ' +
       'một lần. Bài toán cho phép lặp lại (ví dụ lập số có chữ số trùng nhau) phải dùng quy tắc nhân trực tiếp.',
+    animation: {
+      title: 'Cây chọn hai phần tử: 6 chỉnh hợp gộp lại thành 3 tổ hợp',
+      description:
+        'Từ ba phần tử A, B, C, cây lựa chọn được dựng dần theo hai tầng. Tầng một mở ra ba nhánh ứng với ba cách chọn phần tử đứng trước. Tầng hai mỗi nhánh lại mở ra hai nhánh vì chỉ còn hai phần tử chưa dùng, cho đúng 3 nhân 2 bằng 6 kết quả có thứ tự: AB, AC, BA, BC, CA, CB. Đó là số chỉnh hợp chập 2 của 3. Sau đó các cặp cùng thành phần được nối lại với nhau: AB với BA, AC với CA, BC với CB. Mỗi tổ hợp bị đếm đúng 2 lần bằng 2 giai thừa, nên số tổ hợp chỉ còn 6 chia 2 bằng 3. Hình động cho thấy thứ mà công thức không nói ra: mẫu số 2 giai thừa không phải quy ước, nó đếm đúng số lần một tổ hợp bị lặp lại trên cây.',
+      viewBoxWidth: 320,
+      viewBoxHeight: 240,
+      durationMs: 7500,
+      loop: true,
+      shapes: [
+        {
+          kind: 'circle',
+          id: 'goc',
+          cx: 160,
+          cy: 30,
+          r: 6,
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-goc',
+          x: 160,
+          y: 18,
+          text: '{A, B, C}',
+          size: 13,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'line',
+          id: 'n1',
+          x1: 160,
+          y1: 30,
+          x2: 60,
+          y2: 100,
+          stroke: 'muted',
+          strokeWidth: 2,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 600,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'n2',
+          x1: 160,
+          y1: 30,
+          x2: 160,
+          y2: 100,
+          stroke: 'muted',
+          strokeWidth: 2,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 700,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'n3',
+          x1: 160,
+          y1: 30,
+          x2: 260,
+          y2: 100,
+          stroke: 'muted',
+          strokeWidth: 2,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 800,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'l1',
+          x: 60,
+          y: 112,
+          text: 'A',
+          size: 15,
+          anchor: 'middle',
+          fill: 'primary',
+        },
+        {
+          kind: 'label',
+          id: 'l2',
+          x: 160,
+          y: 112,
+          text: 'B',
+          size: 15,
+          anchor: 'middle',
+          fill: 'primary',
+        },
+        {
+          kind: 'label',
+          id: 'l3',
+          x: 260,
+          y: 112,
+          text: 'C',
+          size: 15,
+          anchor: 'middle',
+          fill: 'primary',
+        },
+        {
+          kind: 'line',
+          id: 'm1',
+          x1: 60,
+          y1: 120,
+          x2: 30,
+          y2: 168,
+          stroke: 'muted',
+          strokeWidth: 2,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2000,
+              opacity: 0,
+            },
+            {
+              atMs: 2400,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'm2',
+          x1: 60,
+          y1: 120,
+          x2: 90,
+          y2: 168,
+          stroke: 'muted',
+          strokeWidth: 2,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2000,
+              opacity: 0,
+            },
+            {
+              atMs: 2500,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'm3',
+          x1: 160,
+          y1: 120,
+          x2: 130,
+          y2: 168,
+          stroke: 'muted',
+          strokeWidth: 2,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2000,
+              opacity: 0,
+            },
+            {
+              atMs: 2600,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'm4',
+          x1: 160,
+          y1: 120,
+          x2: 190,
+          y2: 168,
+          stroke: 'muted',
+          strokeWidth: 2,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2000,
+              opacity: 0,
+            },
+            {
+              atMs: 2700,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'm5',
+          x1: 260,
+          y1: 120,
+          x2: 230,
+          y2: 168,
+          stroke: 'muted',
+          strokeWidth: 2,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2000,
+              opacity: 0,
+            },
+            {
+              atMs: 2800,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'm6',
+          x1: 260,
+          y1: 120,
+          x2: 290,
+          y2: 168,
+          stroke: 'muted',
+          strokeWidth: 2,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2000,
+              opacity: 0,
+            },
+            {
+              atMs: 2900,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'k1',
+          x: 30,
+          y: 184,
+          text: 'AB',
+          size: 14,
+          anchor: 'middle',
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3000,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'k2',
+          x: 90,
+          y: 184,
+          text: 'AC',
+          size: 14,
+          anchor: 'middle',
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3100,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'k3',
+          x: 130,
+          y: 184,
+          text: 'BA',
+          size: 14,
+          anchor: 'middle',
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3200,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'k4',
+          x: 190,
+          y: 184,
+          text: 'BC',
+          size: 14,
+          anchor: 'middle',
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3300,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'k5',
+          x: 230,
+          y: 184,
+          text: 'CA',
+          size: 14,
+          anchor: 'middle',
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3400,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'k6',
+          x: 290,
+          y: 184,
+          text: 'CB',
+          size: 14,
+          anchor: 'middle',
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3500,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'cap-1',
+          x1: 30,
+          y1: 196,
+          x2: 130,
+          y2: 196,
+          stroke: 'correct',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4400,
+              opacity: 0,
+            },
+            {
+              atMs: 4900,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'cap-2',
+          x1: 90,
+          y1: 204,
+          x2: 230,
+          y2: 204,
+          stroke: 'correct',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4400,
+              opacity: 0,
+            },
+            {
+              atMs: 5200,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'cap-3',
+          x1: 190,
+          y1: 212,
+          x2: 290,
+          y2: 212,
+          stroke: 'correct',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4400,
+              opacity: 0,
+            },
+            {
+              atMs: 5500,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'ket',
+          x: 160,
+          y: 232,
+          text: 'A₃² = 3·2 = 6  →  C₃² = 6 : 2! = 3',
+          size: 14,
+          anchor: 'middle',
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5800,
+              opacity: 0,
+            },
+            {
+              atMs: 6300,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+      ],
+      captions: [
+        {
+          atMs: 600,
+          text: 'Tầng 1: ba cách chọn phần tử đứng trước.',
+        },
+        {
+          atMs: 2400,
+          text: 'Tầng 2: mỗi nhánh còn 2 phần tử để chọn.',
+        },
+        {
+          atMs: 3500,
+          text: '3 · 2 = 6 kết quả CÓ THỨ TỰ — đó là chỉnh hợp A₃².',
+        },
+        {
+          atMs: 4900,
+          text: 'Nối các cặp cùng thành phần: AB với BA, AC với CA, BC với CB.',
+        },
+        {
+          atMs: 6300,
+          text: 'Mỗi tổ hợp bị đếm 2! = 2 lần, nên C₃² = 6 : 2 = 3.',
+        },
+      ],
+    },
     workedExample: {
       problem:
         'Lớp có 30 học sinh. Tính số cách: (a) chọn 3 bạn đi trực nhật; (b) chọn 3 bạn giữ ba chức vụ lớp trưởng, ' +
@@ -131,6 +727,675 @@ export const TOAN10_C8_LESSONS: MathLesson[] = [
       'của x lại thành một biểu thức theo k, cho bằng m rồi giải tìm k.\n' +
       'GIỚI HẠN: k tìm được phải là số NGUYÊN và thoả 0 ≤ k ≤ n. Nếu k lẻ (ví dụ 7/2) thì số hạng chứa xᵐ KHÔNG tồn ' +
       'tại, và đáp số đúng là "hệ số bằng 0" chứ không phải làm tròn k.',
+    animation: {
+      title: 'Tam giác Pascal mọc từng hàng, mỗi số là tổng hai số phía trên',
+      description:
+        'Tam giác Pascal được dựng từng hàng một, từ hàng 0 đến hàng 5. Mỗi hàng bắt đầu và kết thúc bằng số 1; mỗi số ở giữa bằng tổng đúng hai số nằm chéo phía trên nó. Khi tới hàng 5, hai mũi tên chỉ rõ phép cộng 4 cộng 6 bằng 10 lấy từ hàng 4 xuống. Hàng 4 gồm 1, 4, 6, 4, 1 được tô sáng và viết lại thành khai triển (a + b) mũ 4 bằng a mũ 4 cộng 4a mũ 3 b cộng 6a bình b bình cộng 4ab mũ 3 cộng b mũ 4. Hình động cho thấy điều bảng số tĩnh không nói được: hệ số nhị thức không phải dãy số học thuộc, chúng SINH RA nhau bằng đúng một phép cộng, và vị trí của từng hệ số trong khai triển khớp với vị trí của nó trên hàng.',
+      viewBoxWidth: 340,
+      viewBoxHeight: 250,
+      durationMs: 8000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'label',
+          id: 'r0c0',
+          x: 170,
+          y: 30,
+          text: '1',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'r1c0',
+          x: 153,
+          y: 60,
+          text: '1',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 700,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r1c1',
+          x: 187,
+          y: 60,
+          text: '1',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 700,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r2c0',
+          x: 136,
+          y: 90,
+          text: '1',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1400,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r2c1',
+          x: 170,
+          y: 90,
+          text: '2',
+          size: 16,
+          anchor: 'middle',
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1400,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r2c2',
+          x: 204,
+          y: 90,
+          text: '1',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1400,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r3c0',
+          x: 119,
+          y: 120,
+          text: '1',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2100,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r3c1',
+          x: 153,
+          y: 120,
+          text: '3',
+          size: 16,
+          anchor: 'middle',
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2100,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r3c2',
+          x: 187,
+          y: 120,
+          text: '3',
+          size: 16,
+          anchor: 'middle',
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2100,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r3c3',
+          x: 221,
+          y: 120,
+          text: '1',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2100,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'rect',
+          id: 'to-hang4',
+          x: 88,
+          y: 134,
+          w: 164,
+          h: 24,
+          rx: 6,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5600,
+              opacity: 0,
+            },
+            {
+              atMs: 6100,
+              opacity: 0.3,
+            },
+            {
+              atMs: 8000,
+              opacity: 0.3,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r4c0',
+          x: 102,
+          y: 150,
+          text: '1',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2800,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r4c1',
+          x: 136,
+          y: 150,
+          text: '4',
+          size: 16,
+          anchor: 'middle',
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2800,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r4c2',
+          x: 170,
+          y: 150,
+          text: '6',
+          size: 16,
+          anchor: 'middle',
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2800,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r4c3',
+          x: 204,
+          y: 150,
+          text: '4',
+          size: 16,
+          anchor: 'middle',
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2800,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r4c4',
+          x: 238,
+          y: 150,
+          text: '1',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2800,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'cong-1',
+          x1: 136,
+          y1: 156,
+          x2: 149,
+          y2: 176,
+          stroke: 'correct',
+          strokeWidth: 2,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3400,
+              opacity: 0,
+            },
+            {
+              atMs: 3900,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'cong-2',
+          x1: 170,
+          y1: 156,
+          x2: 157,
+          y2: 176,
+          stroke: 'correct',
+          strokeWidth: 2,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3400,
+              opacity: 0,
+            },
+            {
+              atMs: 3900,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r5c0',
+          x: 85,
+          y: 180,
+          text: '1',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4400,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r5c1',
+          x: 119,
+          y: 180,
+          text: '5',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4400,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r5c2',
+          x: 153,
+          y: 180,
+          text: '10',
+          size: 16,
+          anchor: 'middle',
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4400,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r5c3',
+          x: 187,
+          y: 180,
+          text: '10',
+          size: 16,
+          anchor: 'middle',
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4400,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r5c4',
+          x: 221,
+          y: 180,
+          text: '5',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4400,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'r5c5',
+          x: 255,
+          y: 180,
+          text: '1',
+          size: 16,
+          anchor: 'middle',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4400,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'khai-trien',
+          x: 170,
+          y: 216,
+          text: '(a + b)⁴ = a⁴ + 4a³b + 6a²b² + 4ab³ + b⁴',
+          size: 14,
+          anchor: 'middle',
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 6100,
+              opacity: 0,
+            },
+            {
+              atMs: 6600,
+              opacity: 1,
+            },
+            {
+              atMs: 8000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'chu-thich',
+          x: 170,
+          y: 240,
+          text: 'hàng n của tam giác = hệ số của (a + b)ⁿ',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+      ],
+      captions: [
+        {
+          atMs: 0,
+          text: 'Hàng 0 chỉ có số 1.',
+        },
+        {
+          atMs: 1400,
+          text: 'Số ở giữa mỗi hàng là tổng hai số chéo phía trên: 1 + 1 = 2.',
+        },
+        {
+          atMs: 3900,
+          text: 'Xuống hàng 5, số 10 sinh ra từ 4 + 6 của hàng 4.',
+        },
+        {
+          atMs: 6100,
+          text: 'Hàng 4 là 1, 4, 6, 4, 1.',
+        },
+        {
+          atMs: 6600,
+          text: 'Đó đúng là bộ hệ số của (a + b)⁴, theo thứ tự số mũ của a giảm dần.',
+        },
+      ],
+    },
     workedExample: {
       problem: 'Tìm hệ số của x⁵ trong khai triển (2x + 3)⁸.',
       steps: [

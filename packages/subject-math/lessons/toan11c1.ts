@@ -269,6 +269,303 @@ export const TOAN11_C1_LESSONS: MathLesson[] = [
       'cos x = 0 ⇔ x = π/2 + kπ; cos x = 1 ⇔ x = k2π; cos x = −1 ⇔ x = π + k2π.\n\n' +
       'LƯU Ý VỀ ĐIỀU KIỆN XÁC ĐỊNH: phương trình chứa tan phải có cos x ≠ 0, chứa cot phải có sin x ≠ 0. Giải xong ' +
       'phải ĐỐI CHIẾU điều kiện để loại nghiệm ngoại lai.',
+    animation: {
+      title: 'Vì sao sin x = 1/2 có HAI họ nghiệm chứ không phải một',
+      description:
+        'Trên đường tròn lượng giác, một điểm chạy hết một vòng từ góc 0 độ theo chiều dương. Đường thẳng nằm ngang ứng với tung độ bằng 1/2 cắt đường tròn tại đúng hai điểm: điểm ở góc 30 độ tức pi chia 6, và điểm ở góc 150 độ tức 5pi chia 6. Khi điểm chạy đi qua mỗi giao điểm, giao điểm đó sáng lên. Hình động phá lỗi phổ biến nhất của chương: bấm máy tính ra pi chia 6 rồi tưởng đó là toàn bộ nghiệm. Mắt nhìn thấy rõ đường ngang cắt đường tròn hai lần, nên phải có hai họ nghiệm x = pi/6 cộng k2pi và x = 5pi/6 cộng k2pi; số hạng k2pi chính là việc điểm chạy quay thêm nguyên vòng và rơi lại đúng chỗ cũ.',
+      viewBoxWidth: 300,
+      viewBoxHeight: 260,
+      durationMs: 6000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'circle',
+          id: 'duong-tron',
+          cx: 120,
+          cy: 130,
+          r: 90,
+          stroke: 'muted',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'line',
+          id: 'ox',
+          x1: 15,
+          y1: 130,
+          x2: 225,
+          y2: 130,
+          stroke: 'muted',
+          strokeWidth: 1,
+          dash: '4 4',
+        },
+        {
+          kind: 'line',
+          id: 'oy',
+          x1: 120,
+          y1: 25,
+          x2: 120,
+          y2: 235,
+          stroke: 'muted',
+          strokeWidth: 1,
+          dash: '4 4',
+        },
+        {
+          kind: 'line',
+          id: 'muc-nua',
+          x1: 15,
+          y1: 85,
+          x2: 240,
+          y2: 85,
+          stroke: 'accent',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'label',
+          id: 'nhan-muc',
+          x: 248,
+          y: 90,
+          text: 'y = 1/2',
+          size: 13,
+          fill: 'accent',
+        },
+        {
+          kind: 'circle',
+          id: 'giao-1',
+          cx: 198,
+          cy: 85,
+          r: 6,
+          fill: 'correct',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 400,
+              opacity: 0,
+            },
+            {
+              atMs: 600,
+              opacity: 1,
+            },
+            {
+              atMs: 6000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-g1',
+          x: 208,
+          y: 72,
+          text: 'π/6',
+          size: 14,
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 600,
+              opacity: 0,
+            },
+            {
+              atMs: 900,
+              opacity: 1,
+            },
+            {
+              atMs: 6000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'giao-2',
+          cx: 42,
+          cy: 85,
+          r: 6,
+          fill: 'correct',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2300,
+              opacity: 0,
+            },
+            {
+              atMs: 2600,
+              opacity: 1,
+            },
+            {
+              atMs: 6000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-g2',
+          x: 32,
+          y: 72,
+          text: '5π/6',
+          size: 14,
+          anchor: 'end',
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2600,
+              opacity: 0,
+            },
+            {
+              atMs: 2900,
+              opacity: 1,
+            },
+            {
+              atMs: 6000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'goc-o',
+          cx: 120,
+          cy: 130,
+          r: 3,
+          fill: 'neutral',
+        },
+        {
+          kind: 'circle',
+          id: 'diem-chay',
+          cx: 210,
+          cy: 130,
+          r: 7,
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              dx: 0,
+              dy: 0,
+            },
+            {
+              atMs: 500,
+              dx: -12.06,
+              dy: -45,
+            },
+            {
+              atMs: 1000,
+              dx: -45,
+              dy: -77.94,
+            },
+            {
+              atMs: 1500,
+              dx: -90,
+              dy: -90,
+            },
+            {
+              atMs: 2000,
+              dx: -135,
+              dy: -77.94,
+            },
+            {
+              atMs: 2500,
+              dx: -167.94,
+              dy: -45,
+            },
+            {
+              atMs: 3000,
+              dx: -180,
+              dy: 0,
+            },
+            {
+              atMs: 3500,
+              dx: -167.94,
+              dy: 45,
+            },
+            {
+              atMs: 4000,
+              dx: -135,
+              dy: 77.94,
+            },
+            {
+              atMs: 4500,
+              dx: -90,
+              dy: 90,
+            },
+            {
+              atMs: 5000,
+              dx: -45,
+              dy: 77.94,
+            },
+            {
+              atMs: 5500,
+              dx: -12.06,
+              dy: 45,
+            },
+            {
+              atMs: 6000,
+              dx: 0,
+              dy: 0,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nghiem-1',
+          x: 150,
+          y: 245,
+          text: 'x = π/6 + k2π',
+          size: 14,
+          anchor: 'middle',
+          fill: 'primary',
+        },
+        {
+          kind: 'label',
+          id: 'nghiem-2',
+          x: 150,
+          y: 258,
+          text: 'x = 5π/6 + k2π',
+          size: 14,
+          anchor: 'middle',
+          fill: 'accent',
+        },
+      ],
+      captions: [
+        {
+          atMs: 0,
+          text: 'Điểm chạy xuất phát ở góc 0 và quay theo chiều dương.',
+        },
+        {
+          atMs: 600,
+          text: 'Lần cắt thứ nhất: góc π/6, vì sin(π/6) = 1/2.',
+        },
+        {
+          atMs: 2600,
+          text: 'Lần cắt thứ hai trong cùng một vòng: góc 5π/6, cũng có sin = 1/2.',
+        },
+        {
+          atMs: 4500,
+          text: 'Nửa dưới đường tròn có tung độ âm nên không cắt mức 1/2 lần nào nữa.',
+        },
+        {
+          atMs: 5800,
+          text: 'Quay hết vòng thì lặp lại: mỗi giao điểm sinh một họ nghiệm cộng k2π.',
+        },
+      ],
+    },
     workedExample: {
       problem:
         'Guồng nước có độ cao gàu h(t) = 2 + 3sin(πt/6) (mét, t tính bằng giờ). Tìm các thời điểm t trong 12 giờ ' +

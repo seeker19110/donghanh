@@ -36,6 +36,327 @@ export const TOAN10_C7_LESSONS: MathLesson[] = [
       'Hai đường thẳng song song khi hai pháp tuyến cùng phương nhưng phương trình không tương đương; vuông góc khi ' +
       'n₁→ · n₂→ = 0. Góc giữa hai đường thẳng tính bằng cos α = |n₁→ · n₂→| / (|n₁→|·|n₂→|) — chú ý giá trị tuyệt ' +
       'đối, vì góc giữa hai ĐƯỜNG THẲNG luôn thuộc [0°; 90°], khác với góc giữa hai VECTƠ thuộc [0°; 180°].',
+    animation: {
+      title: 'Khoảng cách từ điểm tới đường thẳng là đoạn vuông góc ngắn nhất',
+      description:
+        'Đường thẳng d: 3x + 4y − 12 = 0 được vẽ qua hai điểm dễ dựng là (4; 0) và (0; 3). Điểm M(4; 5) nằm phía trên đường thẳng. Từ M ba đoạn nối xuống d lần lượt hiện ra: hai đoạn xiên rồi đoạn vuông góc MH, trong đó H(1,6; 1,8) là chân đường vuông góc. Đoạn vuông góc luôn là đoạn ngắn nhất, và độ dài của nó chính bằng giá trị công thức: trị tuyệt đối của 3 nhân 4 cộng 4 nhân 5 trừ 12, chia cho căn bậc hai của 3 bình cộng 4 bình, tức 20 chia 5 bằng 4. Hình động phá quan niệm rằng công thức khoảng cách là một biểu thức trời cho phải học thuộc: nó chỉ là độ dài của đúng đoạn MH mà mắt đang nhìn thấy.',
+      viewBoxWidth: 300,
+      viewBoxHeight: 240,
+      durationMs: 6500,
+      loop: true,
+      shapes: [
+        {
+          kind: 'line',
+          id: 'ox',
+          x1: 20,
+          y1: 190,
+          x2: 285,
+          y2: 190,
+          stroke: 'muted',
+          strokeWidth: 1,
+          dash: '4 4',
+        },
+        {
+          kind: 'line',
+          id: 'oy',
+          x1: 50,
+          y1: 30,
+          x2: 50,
+          y2: 225,
+          stroke: 'muted',
+          strokeWidth: 1,
+          dash: '4 4',
+        },
+        {
+          kind: 'line',
+          id: 'duong-d',
+          x1: 25,
+          y1: 96.25,
+          x2: 175,
+          y2: 208.75,
+          stroke: 'primary',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'label',
+          id: 'nhan-d',
+          x: 186,
+          y: 214,
+          text: 'd: 3x + 4y − 12 = 0',
+          size: 13,
+          fill: 'primary',
+        },
+        {
+          kind: 'circle',
+          id: 'diem-m',
+          cx: 150,
+          cy: 65,
+          r: 5,
+          fill: 'accent',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-m',
+          x: 158,
+          y: 58,
+          text: 'M(4; 5)',
+          size: 13,
+          fill: 'accent',
+        },
+        {
+          kind: 'line',
+          id: 'xien-1',
+          x1: 150,
+          y1: 65,
+          x2: 50,
+          y2: 115,
+          stroke: 'muted',
+          strokeWidth: 2,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1600,
+              opacity: 0,
+            },
+            {
+              atMs: 2000,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-xien1',
+          x: 88,
+          y: 82,
+          text: '≈ 4,47',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2200,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'xien-2',
+          x1: 150,
+          y1: 65,
+          x2: 150,
+          y2: 190,
+          stroke: 'muted',
+          strokeWidth: 2,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 600,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-xien2',
+          x: 158,
+          y: 132,
+          text: '= 5',
+          size: 12,
+          fill: 'muted',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 800,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'doan-mh',
+          x1: 150,
+          y1: 65,
+          x2: 90,
+          y2: 145,
+          stroke: 'correct',
+          strokeWidth: 4,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3200,
+              opacity: 0,
+            },
+            {
+              atMs: 3700,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'diem-h',
+          cx: 90,
+          cy: 145,
+          r: 4,
+          fill: 'correct',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3700,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-h',
+          x: 82,
+          y: 162,
+          text: 'H(1,6; 1,8)',
+          size: 12,
+          anchor: 'end',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4000,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'rect',
+          id: 'goc-vuong',
+          x: 88,
+          y: 131,
+          w: 13,
+          h: 13,
+          stroke: 'neutral',
+          strokeWidth: 1.5,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4200,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'ct',
+          x: 150,
+          y: 30,
+          text: 'd(M, d) = |3·4 + 4·5 − 12| / 5 = 20/5 = 4',
+          size: 13,
+          anchor: 'middle',
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5000,
+              opacity: 0,
+            },
+            {
+              atMs: 5500,
+              opacity: 1,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+          ],
+        },
+      ],
+      captions: [
+        {
+          atMs: 600,
+          text: 'Nối M thẳng xuống d theo phương đứng: đoạn này dài 5.',
+        },
+        {
+          atMs: 2000,
+          text: 'Đổi sang một đoạn xiên khác: dài ≈ 4,47 — ngắn hơn, nhưng vẫn chưa phải ngắn nhất.',
+        },
+        {
+          atMs: 3700,
+          text: 'Đoạn vuông góc MH với H(1,6; 1,8) mới là đoạn ngắn nhất.',
+        },
+        {
+          atMs: 5500,
+          text: 'Độ dài MH đúng bằng công thức: |3·4 + 4·5 − 12| / √(3² + 4²) = 4.',
+        },
+      ],
+    },
     workedExample: {
       problem:
         'Cho điểm M(3; 1) và đường thẳng Δ: 3x − 4y + 5 = 0. Tính khoảng cách từ M đến Δ, rồi viết phương trình ' +

@@ -283,6 +283,362 @@ export const TOAN12_C2_LESSONS: MathLesson[] = [
       '— Trọng tâm G của tam giác ABC: mỗi toạ độ là trung bình cộng BA toạ độ tương ứng.\n' +
       'Cả hai suy thẳng từ đẳng thức vectơ OA→ + OB→ = 2·OI→ và OA→ + OB→ + OC→ = 3·OG→ ở bài trước — không cần ' +
       'học thuộc rời rạc.',
+    animation: {
+      title: 'Ba bước đi tới điểm M(3; 4; 5) trong không gian Oxyz',
+      description:
+        'Hệ trục Oxyz được vẽ theo lối hình chiếu trục đo: trục Ox chếch về phía trước bên trái, trục Oy sang phải, trục Oz thẳng đứng lên trên. Để tới điểm M(3; 4; 5), ba bước đi lần lượt hiện ra đúng theo thứ tự ba toạ độ. Bước một đi 3 đơn vị dọc trục Ox tới điểm A(3; 0; 0). Bước hai rẽ theo phương Oy thêm 4 đơn vị tới B(3; 4; 0), là hình chiếu của M trên mặt phẳng Oxy. Bước ba đi lên theo phương Oz thêm 5 đơn vị thì đúng tới M. Cuối cùng vectơ OM được vẽ thẳng từ gốc tới M. Hình động cho thấy điều dãy ba con số không nói ra: toạ độ của một điểm chính là ba quãng đường nối tiếp theo ba phương của ba trục, và vectơ OM bằng 3i cộng 4j cộng 5k đúng theo quy tắc hình hộp chứ không phải một kí hiệu trừu tượng.',
+      viewBoxWidth: 280,
+      viewBoxHeight: 245,
+      durationMs: 7000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'arrow',
+          id: 'truc-x',
+          x1: 100,
+          y1: 170,
+          x2: 32.5,
+          y2: 210.5,
+          stroke: 'muted',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'arrow',
+          id: 'truc-y',
+          x1: 100,
+          y1: 170,
+          x2: 243,
+          y2: 203,
+          stroke: 'muted',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'arrow',
+          id: 'truc-z',
+          x1: 100,
+          y1: 170,
+          x2: 100,
+          y2: 38,
+          stroke: 'muted',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'label',
+          id: 'nhan-x',
+          x: 24,
+          y: 222,
+          text: 'x',
+          size: 14,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-y',
+          x: 252,
+          y: 210,
+          text: 'y',
+          size: 14,
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-z',
+          x: 100,
+          y: 30,
+          text: 'z',
+          size: 14,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'circle',
+          id: 'goc-o',
+          cx: 100,
+          cy: 170,
+          r: 4,
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-o',
+          x: 110,
+          y: 166,
+          text: 'O',
+          size: 13,
+          fill: 'neutral',
+        },
+        {
+          kind: 'arrow',
+          id: 'buoc-1',
+          x1: 100,
+          y1: 170,
+          x2: 55,
+          y2: 197,
+          stroke: 'primary',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 600,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-a',
+          x: 48,
+          y: 212,
+          text: 'A(3; 0; 0)',
+          size: 12,
+          anchor: 'middle',
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 900,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'buoc-2',
+          x1: 55,
+          y1: 197,
+          x2: 159,
+          y2: 221,
+          stroke: 'accent',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1800,
+              opacity: 0,
+            },
+            {
+              atMs: 2200,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-b',
+          x: 170,
+          y: 232,
+          text: 'B(3; 4; 0)',
+          size: 12,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2500,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'buoc-3',
+          x1: 159,
+          y1: 221,
+          x2: 159,
+          y2: 111,
+          stroke: 'correct',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3400,
+              opacity: 0,
+            },
+            {
+              atMs: 3800,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'diem-m',
+          cx: 159,
+          cy: 111,
+          r: 6,
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4200,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-m',
+          x: 168,
+          y: 104,
+          text: 'M(3; 4; 5)',
+          size: 13,
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4200,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'vt-om',
+          x1: 100,
+          y1: 170,
+          x2: 159,
+          y2: 111,
+          stroke: 'warn',
+          strokeWidth: 4,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5000,
+              opacity: 0,
+            },
+            {
+              atMs: 5500,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'ct',
+          x: 140,
+          y: 62,
+          text: 'OM = 3i + 4j + 5k',
+          size: 14,
+          anchor: 'middle',
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5500,
+              opacity: 0,
+            },
+            {
+              atMs: 6000,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'ghi-chu',
+          x: 140,
+          y: 243,
+          text: 'toạ độ = ba quãng đi theo ba trục, nối tiếp nhau',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+      ],
+      captions: [
+        {
+          atMs: 600,
+          text: 'Bước 1: đi 3 đơn vị theo Ox tới A(3; 0; 0).',
+        },
+        {
+          atMs: 2200,
+          text: 'Bước 2: rẽ theo Oy thêm 4 đơn vị tới B(3; 4; 0) — hình chiếu của M trên mặt Oxy.',
+        },
+        {
+          atMs: 3800,
+          text: 'Bước 3: đi lên theo Oz thêm 5 đơn vị thì tới đúng M.',
+        },
+        {
+          atMs: 5500,
+          text: 'Nối thẳng O với M được vectơ OM.',
+        },
+        {
+          atMs: 6000,
+          text: 'OM = 3i + 4j + 5k — đúng ba bước vừa đi, gộp lại theo quy tắc hình hộp.',
+        },
+      ],
+    },
     workedExample: {
       problem:
         'Trong không gian Oxyz cho A(1; 2; 3) và B(3; 5; 9). Tìm toạ độ vectơ AB→ và toạ độ trung điểm I của đoạn AB.',

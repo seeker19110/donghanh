@@ -150,6 +150,340 @@ export const TOAN12_C5_LESSONS: MathLesson[] = [
       'VỊ TRÍ TƯƠNG ĐỐI GIỮA MẶT PHẲNG VÀ MẶT CẦU: so sánh d(I; (P)) với R. Lớn hơn thì không cắt; bằng thì TIẾP ' +
       'XÚC tại một điểm; nhỏ hơn thì cắt theo một ĐƯỜNG TRÒN có bán kính r = √(R² − d²) — công thức này chỉ là ' +
       'Pythagore trong tam giác vuông tạo bởi bán kính mặt cầu, khoảng cách d và bán kính đường tròn giao tuyến.',
+    animation: {
+      title: 'So d với R để biết mặt cầu cắt, tiếp xúc hay rời mặt phẳng',
+      description:
+        'Hình vẽ là lát cắt vuông góc: mặt phẳng (P) hiện ra thành một đường thẳng, mặt cầu tâm I bán kính R = 45 đơn vị hiện ra thành một đường tròn, còn vectơ pháp tuyến n dựng vuông góc với (P). Mặt cầu hạ dần xuống qua ba vị trí. Vị trí đầu, tâm I cách (P) 110 đơn vị, lớn hơn R, đường tròn không chạm đường thẳng: mặt cầu và mặt phẳng không có điểm chung. Vị trí giữa, khoảng cách đúng bằng 45 tức bằng R, đường tròn chạm đường thẳng tại đúng một điểm: tiếp xúc, và điểm chạm chính là hình chiếu của I trên (P). Vị trí cuối, khoảng cách còn 25 nhỏ hơn R, đường tròn cắt đường thẳng ở hai chỗ: giao tuyến là một đường tròn thật. Hình động cho thấy cả ba trường hợp là MỘT hiện tượng liên tục, chỉ phân biệt bằng phép so d với R.',
+      viewBoxWidth: 320,
+      viewBoxHeight: 240,
+      durationMs: 7500,
+      loop: true,
+      shapes: [
+        {
+          kind: 'line',
+          id: 'mat-phang',
+          x1: 20,
+          y1: 190,
+          x2: 300,
+          y2: 190,
+          stroke: 'muted',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'label',
+          id: 'nhan-mp',
+          x: 300,
+          y: 208,
+          text: '(P): Ax + By + Cz + D = 0',
+          size: 12,
+          anchor: 'end',
+          fill: 'muted',
+        },
+        {
+          kind: 'arrow',
+          id: 'phap-tuyen',
+          x1: 60,
+          y1: 190,
+          x2: 60,
+          y2: 140,
+          stroke: 'accent',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'label',
+          id: 'nhan-n',
+          x: 68,
+          y: 146,
+          text: 'n',
+          size: 13,
+          fill: 'accent',
+        },
+        {
+          kind: 'circle',
+          id: 'mat-cau',
+          cx: 180,
+          cy: 80,
+          r: 45,
+          stroke: 'primary',
+          strokeWidth: 3,
+          keyframes: [
+            {
+              atMs: 0,
+              dy: 0,
+            },
+            {
+              atMs: 2000,
+              dy: 0,
+            },
+            {
+              atMs: 3200,
+              dy: 65,
+            },
+            {
+              atMs: 5000,
+              dy: 65,
+            },
+            {
+              atMs: 6000,
+              dy: 85,
+            },
+            {
+              atMs: 7500,
+              dy: 85,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'tam-i',
+          cx: 180,
+          cy: 80,
+          r: 4,
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              dy: 0,
+            },
+            {
+              atMs: 2000,
+              dy: 0,
+            },
+            {
+              atMs: 3200,
+              dy: 65,
+            },
+            {
+              atMs: 5000,
+              dy: 65,
+            },
+            {
+              atMs: 6000,
+              dy: 85,
+            },
+            {
+              atMs: 7500,
+              dy: 85,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-i',
+          x: 190,
+          y: 76,
+          text: 'I, R = 45',
+          size: 13,
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              dy: 0,
+            },
+            {
+              atMs: 2000,
+              dy: 0,
+            },
+            {
+              atMs: 3200,
+              dy: 65,
+            },
+            {
+              atMs: 5000,
+              dy: 65,
+            },
+            {
+              atMs: 6000,
+              dy: 85,
+            },
+            {
+              atMs: 7500,
+              dy: 85,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'khoang-cach',
+          x1: 180,
+          y1: 35,
+          x2: 180,
+          y2: 190,
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '5 4',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'th-1',
+          x: 60,
+          y: 60,
+          text: 'd = 110 > R: không điểm chung',
+          size: 13,
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 400,
+              opacity: 1,
+            },
+            {
+              atMs: 2000,
+              opacity: 1,
+            },
+            {
+              atMs: 2400,
+              opacity: 0,
+            },
+            {
+              atMs: 7500,
+              opacity: 0,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'th-2',
+          x: 60,
+          y: 60,
+          text: 'd = 45 = R: tiếp xúc tại 1 điểm',
+          size: 13,
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3200,
+              opacity: 0,
+            },
+            {
+              atMs: 3600,
+              opacity: 1,
+            },
+            {
+              atMs: 5000,
+              opacity: 1,
+            },
+            {
+              atMs: 5400,
+              opacity: 0,
+            },
+            {
+              atMs: 7500,
+              opacity: 0,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'th-3',
+          x: 60,
+          y: 60,
+          text: 'd = 25 < R: cắt theo một đường tròn',
+          size: 13,
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 6000,
+              opacity: 0,
+            },
+            {
+              atMs: 6400,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'diem-tiep',
+          cx: 180,
+          cy: 190,
+          r: 5,
+          fill: 'correct',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3400,
+              opacity: 0,
+            },
+            {
+              atMs: 3600,
+              opacity: 1,
+            },
+            {
+              atMs: 5200,
+              opacity: 1,
+            },
+            {
+              atMs: 5400,
+              opacity: 0,
+            },
+            {
+              atMs: 7500,
+              opacity: 0,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'ct',
+          x: 160,
+          y: 232,
+          text: 'd(I, (P)) = |Ax₀ + By₀ + Cz₀ + D| / √(A² + B² + C²)',
+          size: 13,
+          anchor: 'middle',
+          fill: 'primary',
+        },
+      ],
+      captions: [
+        {
+          atMs: 400,
+          text: 'Tâm I cách (P) 110 đơn vị, lớn hơn R = 45: mặt cầu treo hẳn phía trên.',
+        },
+        {
+          atMs: 3600,
+          text: 'Hạ xuống đến khi d = R = 45: chạm đúng một điểm, chính là hình chiếu của I.',
+        },
+        {
+          atMs: 6400,
+          text: 'Hạ tiếp, d = 25 < R: lát cắt cho hai giao điểm, tức mặt cầu cắt (P) theo một đường tròn.',
+        },
+        {
+          atMs: 7200,
+          text: 'Cả ba trường hợp chỉ khác nhau ở phép so d với R.',
+        },
+      ],
+    },
     workedExample: {
       problem:
         'Viết phương trình mặt phẳng đi qua ba điểm A(1; 0; 0), B(0; 2; 0), C(0; 0; 3), rồi tính khoảng cách từ gốc ' +

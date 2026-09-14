@@ -36,6 +36,353 @@ export const TOAN10_C3_LESSONS: MathLesson[] = [
       'CÁC CÔNG THỨC DIỆN TÍCH\n' +
       'S = (1/2)ab·sinC = abc/(4R) = pr = √(p(p−a)(p−b)(p−c)) với p là nửa chu vi (công thức Heron). Chọn công thức ' +
       'theo dữ kiện đang có: biết ba cạnh thì dùng Heron, biết hai cạnh và góc xen giữa thì dùng (1/2)ab·sinC.',
+    animation: {
+      title: 'Cùng hai cạnh, đổi góc xen giữa thì cạnh thứ ba đổi theo',
+      description:
+        'Hai tam giác được dựng lần lượt từ cùng một đỉnh A với hai cạnh giữ nguyên: AB = 5 và AC = 8. Tam giác thứ nhất có góc A = 60 độ, cạnh đối diện tính theo định lí côsin là a bình phương bằng 25 cộng 64 trừ 2 nhân 5 nhân 8 nhân cos 60 độ, tức 89 trừ 40 bằng 49, nên a = 7. Sau đó cạnh AC quay lên vị trí vuông góc với AB: góc A = 90 độ, số hạng trừ biến mất vì cos 90 độ bằng 0, nên a bình phương bằng đúng 89 và a khoảng 9,43. Hình động phá bẫy quen thuộc là tưởng ba cạnh quyết định lẫn nhau một cách cố định: hai cạnh giữ nguyên mà cạnh thứ ba vẫn dài ra khi góc xen giữa mở rộng, và định lí Pytago chỉ là trường hợp riêng khi góc đó bằng 90 độ.',
+      viewBoxWidth: 360,
+      viewBoxHeight: 260,
+      durationMs: 7000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'circle',
+          id: 'dinh-a',
+          cx: 60,
+          cy: 200,
+          r: 4,
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-a',
+          x: 48,
+          y: 218,
+          text: 'A',
+          size: 14,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'line',
+          id: 'canh-ab',
+          x1: 60,
+          y1: 200,
+          x2: 160,
+          y2: 200,
+          stroke: 'primary',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 500,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-b',
+          x: 168,
+          y: 214,
+          text: 'B',
+          size: 14,
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-c5',
+          x: 105,
+          y: 220,
+          text: 'c = 5',
+          size: 13,
+          anchor: 'middle',
+          fill: 'primary',
+        },
+        {
+          kind: 'line',
+          id: 'canh-ac',
+          x1: 60,
+          y1: 200,
+          x2: 140,
+          y2: 61,
+          stroke: 'accent',
+          strokeWidth: 3,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1200,
+              opacity: 0,
+            },
+            {
+              atMs: 1600,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-c',
+          x: 146,
+          y: 54,
+          text: 'C',
+          size: 14,
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-b8',
+          x: 86,
+          y: 124,
+          text: 'b = 8',
+          size: 13,
+          anchor: 'end',
+          fill: 'accent',
+        },
+        {
+          kind: 'line',
+          id: 'canh-bc',
+          x1: 160,
+          y1: 200,
+          x2: 140,
+          y2: 61,
+          stroke: 'correct',
+          strokeWidth: 4,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2200,
+              opacity: 0,
+            },
+            {
+              atMs: 2700,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-a7',
+          x: 176,
+          y: 130,
+          text: 'a = 7',
+          size: 14,
+          fill: 'primary',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3000,
+              opacity: 0,
+            },
+            {
+              atMs: 3400,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'goc-60',
+          x: 92,
+          y: 186,
+          text: 'A = 60°',
+          size: 12,
+          fill: 'muted',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1600,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'canh-ac2',
+          x1: 60,
+          y1: 200,
+          x2: 60,
+          y2: 40,
+          stroke: 'accent',
+          strokeWidth: 3,
+          dash: '6 4',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4200,
+              opacity: 0,
+            },
+            {
+              atMs: 4700,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'line',
+          id: 'canh-bc2',
+          x1: 160,
+          y1: 200,
+          x2: 60,
+          y2: 40,
+          stroke: 'warn',
+          strokeWidth: 4,
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5000,
+              opacity: 0,
+            },
+            {
+              atMs: 5500,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-c2',
+          x: 52,
+          y: 34,
+          text: "C'",
+          size: 14,
+          anchor: 'end',
+          fill: 'neutral',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4700,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-a943',
+          x: 118,
+          y: 106,
+          text: 'a ≈ 9,43',
+          size: 14,
+          anchor: 'end',
+          fill: 'accent',
+          opacity: 0,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5800,
+              opacity: 0,
+            },
+            {
+              atMs: 6200,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'ct',
+          x: 180,
+          y: 244,
+          text: 'a² = b² + c² − 2bc·cosA',
+          size: 15,
+          anchor: 'middle',
+          fill: 'primary',
+        },
+      ],
+      captions: [
+        {
+          atMs: 300,
+          text: 'Từ đỉnh A dựng cạnh AB = 5.',
+        },
+        {
+          atMs: 1600,
+          text: 'Dựng tiếp AC = 8 hợp với AB một góc 60°.',
+        },
+        {
+          atMs: 2700,
+          text: 'Nối B với C: a² = 25 + 64 − 2·5·8·cos60° = 49, vậy a = 7.',
+        },
+        {
+          atMs: 4700,
+          text: 'Giữ nguyên hai cạnh, mở góc A lên 90°: điểm C trượt tới C′.',
+        },
+        {
+          atMs: 6200,
+          text: 'cos90° = 0 nên số hạng trừ biến mất: a² = 89, a ≈ 9,43. Pytago chỉ là một ca riêng.',
+        },
+      ],
+    },
     workedExample: {
       problem:
         'Để đo khoảng cách AB qua một con sông, người ta chọn điểm C ở cùng bờ với A, đo được AC = 120 m, ' +
