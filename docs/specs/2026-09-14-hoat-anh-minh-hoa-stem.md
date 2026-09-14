@@ -187,8 +187,28 @@ toán, bài mà hình chỉ là trang trí tĩnh. Với các bài này, **để 
 - [ ] **Initial JS không tăng quá 0,5 kB** so với trước đợt (kỳ vọng: **0 kB** — dữ liệu bài học
       nạp lười theo chương, không nằm trong entry). Đo bằng `npm run build && npm run budget`,
       dán số trước/sau vào PR.
-- [ ] Không file chương nào (`packages/subject-*/lessons/*.ts`) vượt **120 kB** nguồn sau đợt
-      (hiện lớn nhất: `ly10c3.ts` 56,7 kB) — giữ chunk lười ở mức nạp nhanh trên 3G.
+- [ ] **Không chunk chương nào sau build vượt 45 kB brotli.** Lệnh:
+      `npm run build && npm run size:chunks` (cổng thật `scripts/check-lesson-chunks.ts`, chạy
+      trong CI ở job `build`). Hiện lớn nhất: `sinh12c1` **33,7 kB**, còn 11,3 kB biên độ.
+
+  > **Tiêu chí này đã ĐỔI ngày 2026-09-14, người dùng chốt.** Bản đầu viết: _"không file chương
+  > nào (`packages/subject-*/lessons/*.ts`) vượt 120 kB **nguồn** (hiện lớn nhất `ly10c3.ts`
+  > 56,7 kB)"_. Nó sai hai lần:
+  >
+  > 1. **Đo sai thứ.** Byte mã nguồn không phải thứ người học tải — giữa nguồn và trình duyệt
+  >    còn bundler và nén brotli. `sinh12c1.ts` 249,6 kB nguồn ra chunk **33,7 kB brotli**, chênh
+  >    hơn 7 lần. Ngưỡng nguồn còn phạt nhầm thứ nên khuyến khích: comment tiếng Việt bị bundler
+  >    bỏ hẳn, và `description` dài (bản văn bản thay thế hoạt ảnh cho người dùng trình đọc màn
+  >    hình) thì nén rất tốt vì lặp từ — cả hai đều tính vào byte nguồn.
+  > 2. **Mốc nền ghi sai.** "Lớn nhất 56,7 kB" là con số của riêng môn Lí; lúc viết đặc tả
+  >    `sinh12c1.ts` đã là 132 kB, tức tiêu chí đã bị vi phạm trước khi có ai kiểm nó.
+  >
+  > Điều quan trọng hơn cả việc đổi con số: tiêu chí cũ **chưa bao giờ là cổng**, chỉ là một dòng
+  > chữ trong tài liệu, nên nó bị vi phạm lặng lẽ. Bản mới có `scripts/check-lesson-chunks.ts`
+  > chạy trong CI. Trần 45 kB đặt khi mức thật cao nhất là 33,7 kB — **nới nó phải là quyết định
+  > có chủ đích ghi lý do trong PR**; cách xử lý đúng khi một chương vượt trần là **tách chương
+  > thành nhiều file nguồn**, không phải nâng hằng số.
+
 - [ ] **Tầng 8b (CLAUDE.md/QUY-TRINH-AUDIT):** ảnh chụp trang bài học **1440px + 390px**, mỗi đợt
       ít nhất 2 bài mới, đính vào PR; và **một ảnh chụp với `prefers-reduced-motion: reduce`**
       cho thấy hình đứng yên vẫn đọc được.
