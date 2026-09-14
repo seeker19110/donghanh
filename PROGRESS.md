@@ -296,10 +296,11 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
   được phép thi hành**: `docs/specs/2026-09-14-cau-mau-cho-vong-tu-vung-cefr.md` (F3) ·
   `docs/specs/2026-09-14-hoat-anh-minh-hoa-stem.md` (F6, ưu tiên Vật lí) ·
   `docs/specs/2026-09-14-chuyen-de-hsg-hoa-12.md` (F7). Mỗi file có ô câu hỏi chốt ở đầu.
-  **Cập nhật 2026-09-14:** đặc tả **HSG Hoá 12 ĐÃ ĐƯỢC DUYỆT** — người dùng chốt "2 chuyên đề,
-  giữ Điện hoá + Hữu cơ 12", nên file đó nay mang "Approved for implementation" và **sẵn sàng
-  thi hành** (6 bài, Hoá cân đối 3/6/6 cho lớp 10/11/12). Hai đặc tả còn lại (F3 câu mẫu từ
-  vựng · F6 hoạt ảnh STEM) vẫn chờ duyệt.
+  **Cập nhật 2026-09-14:** đặc tả **HSG Hoá 12 ĐÃ DUYỆT VÀ ĐÃ THI HÀNH XONG** — người dùng chốt
+  "2 chuyên đề, giữ Điện hoá + Hữu cơ 12"; 6 bài đã vào registry (`docs/changelog/0308-*.md`),
+  Hoá cân đối **3/6/6** bài HSG cho lớp 10/11/12, tổng chuyên đề HSG toàn hệ 9 → 15. **F7 đã
+  đóng**, và nay có test bất biến chặn CI ép mỗi lớp Hoá có chuyên đề HSG đủ ba cấp nên không
+  tái phát được. Hai đặc tả còn lại (F3 câu mẫu từ vựng · F6 hoạt ảnh STEM) vẫn chờ duyệt.
 - **4 trang trụ Career/Work/Startup/Life chưa có chiều B** (0/4 file dùng `direction`) — nợ có
   chủ đích, người dùng chốt "chiều B nợ". Làm khi có người học chiều B thật.
 
