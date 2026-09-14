@@ -789,7 +789,8 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
           value: 1,
           unit: 'm',
         },
-        explain: 'L = k * λ / 2 ⇔ 1,5 = 3 * λ / 2 ⇔ λ = 1 m.',
+        explain:
+          'L = k * λ / 2 ⇔ 1,5 = 3 * λ / 2 ⇔ λ = 1 m. Công thức L = kλ/2 áp dụng cho dây hai đầu cố định (hai đầu là nút sóng), với k là số bó sóng nguyên.',
       },
     ],
     srsCards: [
@@ -925,7 +926,8 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
           value: 340,
           unit: 'm/s',
         },
-        explain: 'λ = 2 * 0,17 = 0,34 m. v = λ * f = 0,34 * 1000 = 340 m/s.',
+        explain:
+          'λ = 2 * 0,17 = 0,34 m. v = λ * f = 0,34 * 1000 = 340 m/s. Khoảng cách giữa hai mức cộng hưởng liên tiếp trong ống là nửa bước sóng (λ/2), nên phải nhân đôi trước khi tính v.',
       },
     ],
     srsCards: [

@@ -132,7 +132,8 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
           value: 30000,
           unit: 'J',
         },
-        explain: 'Đổi 3 kW = 3000 W. Công A = 𝒫 * t = 3000 * 10 = 30000 J.',
+        explain:
+          'Đổi 3 kW = 3000 W. Công A = 𝒫 * t = 3000 * 10 = 30000 J. Luôn đổi công suất về đơn vị W (không phải kW) trước khi nhân với thời gian tính bằng giây để ra công đúng đơn vị J.',
       },
     ],
     srsCards: [
@@ -201,7 +202,8 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
           value: 100,
           unit: 'J',
         },
-        explain: 'Thế năng W_t = m.g.h = 2 * 10 * 5 = 100 J.',
+        explain:
+          'Thế năng W_t = m.g.h = 2 * 10 * 5 = 100 J. Giá trị này phụ thuộc vào mốc thế năng chọn trước (thường là mặt đất) — đổi mốc thì h và W_t đổi theo dù vật không di chuyển.',
       },
     ],
     srsCards: [
@@ -274,7 +276,8 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
           value: 60,
           unit: 'J',
         },
-        explain: 'Động năng W_đ = W - W_t = 100 - 40 = 60 J.',
+        explain:
+          'Động năng W_đ = W - W_t = 100 - 40 = 60 J. Dựa trên định luật bảo toàn cơ năng (bỏ qua ma sát): cơ năng W = W_đ + W_t luôn không đổi tại mọi vị trí trên quỹ đạo.',
       },
     ],
     srsCards: [

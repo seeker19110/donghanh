@@ -59,7 +59,8 @@ export const LY10_C6_LESSONS: PhysicsLesson[] = [
           value: 10,
           unit: 'm/s',
         },
-        explain: 'Tốc độ dài v = ω * r = 20 * 0,5 = 10 m/s.',
+        explain:
+          'Tốc độ dài v = ω * r = 20 * 0,5 = 10 m/s. Cùng tốc độ góc ω nhưng điểm càng xa trục quay (r lớn) thì tốc độ dài càng lớn — mọi điểm trên bánh xe có ω như nhau, v khác nhau.',
       },
     ],
     srsCards: [
@@ -278,7 +279,8 @@ export const LY10_C6_LESSONS: PhysicsLesson[] = [
           value: 100,
           unit: 'N',
         },
-        explain: 'F_ht = m * v² / r = 2 * 5² / 0,5 = 2 * 25 / 0,5 = 100 N.',
+        explain:
+          'F_ht = m * v² / r = 2 * 5² / 0,5 = 2 * 25 / 0,5 = 100 N. Lực hướng tâm không phải một loại lực mới mà là hợp lực (ở đây là lực căng dây) hướng vào tâm quỹ đạo, gây ra chuyển động tròn.',
       },
       {
         // Câu bẫy: "lực ly tâm" kéo vật văng ra — và hướng bay sau khi đứt dây.

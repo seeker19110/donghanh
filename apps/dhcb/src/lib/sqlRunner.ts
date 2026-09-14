@@ -8,6 +8,8 @@ export interface SqlRunOptions {
   onOutput?: (textSoFar: string) => void
   /** Gọi khi bắt đầu tải SQLite lần đầu (~648KB) — để UI hiện "đang tải môi trường". */
   onLoading?: () => void
+  /** Bộ dữ liệu riêng của ca chấm (testCase.datasetSql). Bỏ trống thì worker nạp SQL_SEED. */
+  seed?: string
 }
 
 const DEFAULT_TIMEOUT_MS = 10_000
@@ -39,7 +41,7 @@ export function runSql(code: string, options: SqlRunOptions = {}): Promise<CodeR
     })
   }
   busy = true
-  const { timeoutMs = DEFAULT_TIMEOUT_MS, onOutput, onLoading } = options
+  const { timeoutMs = DEFAULT_TIMEOUT_MS, onOutput, onLoading, seed } = options
   const id = nextRunId++
   const w = getWorker()
 
@@ -107,6 +109,6 @@ export function runSql(code: string, options: SqlRunOptions = {}): Promise<CodeR
       { once: true },
     )
     armTimeout()
-    w.postMessage({ type: 'run', id, code })
+    w.postMessage({ type: 'run', id, code, ...(seed ? { seed } : {}) })
   })
 }

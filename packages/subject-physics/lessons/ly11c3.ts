@@ -371,7 +371,8 @@ export const LY11_C3_LESSONS: PhysicsLesson[] = [
           value: 5000,
           unit: 'V/m',
         },
-        explain: 'E = F / q = 10⁻⁵ / (2 * 10⁻⁹) = 5000 V/m.',
+        explain:
+          'E = F / q = 10⁻⁵ / (2 * 10⁻⁹) = 5000 V/m. Cường độ điện trường E là đại lượng đặc trưng cho điện trường tại một điểm, không phụ thuộc vào điện tích thử q đặt vào.',
       },
     ],
     srsCards: [
@@ -518,7 +519,8 @@ export const LY11_C3_LESSONS: PhysicsLesson[] = [
           value: 5e-8,
           unit: 'J',
         },
-        explain: 'A = q * E * d = 10⁻⁹ * 1000 * 0,05 = 5 * 10⁻⁸ J.',
+        explain:
+          'A = q * E * d = 10⁻⁹ * 1000 * 0,05 = 5 * 10⁻⁸ J. Ở đây d phải là hình chiếu quãng đường LÊN phương đường sức điện, không phải quãng đường di chuyển thực tế của điện tích.',
       },
     ],
     srsCards: [

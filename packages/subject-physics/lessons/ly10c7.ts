@@ -138,7 +138,8 @@ export const LY10_C7_LESSONS: PhysicsLesson[] = [
           value: 20,
           unit: 'N',
         },
-        explain: 'F_A = ρ * g * V = 1000 * 10 * 0,002 = 20 N.',
+        explain:
+          'F_A = ρ * g * V = 1000 * 10 * 0,002 = 20 N. Lưu ý ρ ở đây là khối lượng riêng của CHẤT LỎNG (nước), không phải của vật; V là thể tích phần vật chìm trong chất lỏng.',
       },
     ],
     srsCards: [

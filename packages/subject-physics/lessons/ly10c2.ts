@@ -134,7 +134,8 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
           value: 2.5,
           unit: 'm/s',
         },
-        explain: 'Bơi xuôi dòng nên vận tốc cộng lại: v = 2 + 0.5 = 2.5 m/s.',
+        explain:
+          'Bơi xuôi dòng nên vận tốc cộng lại: v = 2 + 0.5 = 2.5 m/s. Đây là công thức cộng vận tốc: vận tốc so với bờ bằng vận tốc so với nước cộng vận tốc của nước so với bờ, cùng chiều thì cộng, ngược chiều thì trừ.',
       },
     ],
     srsCards: [
@@ -652,7 +653,8 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
           value: 20,
           unit: 'm/s',
         },
-        explain: 'Vận tốc chạm đất v = g.t = 10 * 2 = 20 m/s.',
+        explain:
+          'Vận tốc chạm đất v = g.t = 10 * 2 = 20 m/s. Công thức này chỉ đúng khi vật rơi tự do không vận tốc đầu (v₀ = 0); nếu ném có vận tốc ban đầu phải cộng thêm v₀.',
       },
       {
         // Câu bẫy: hiểu lầm phổ biến nhất của chương này — "nặng thì rơi nhanh hơn".
