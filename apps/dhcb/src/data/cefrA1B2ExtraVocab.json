@@ -6,102 +6,6 @@
   "b2WordCount": 2738,
   "circles": [
     {
-      "id": "cefr-a1-business-1",
-      "titleVi": "Kinh doanh & kinh tế",
-      "titleEn": "Business & economy",
-      "emoji": "💼",
-      "words": [
-        {
-          "word": "business",
-          "pos": "n",
-          "vi": "kinh doanh/công việc",
-          "ex_en": "He runs his own business.",
-          "ex_vi": "Anh ấy điều hành công việc kinh doanh của riêng mình.",
-          "ipa_en": "/ˈbɪznɪs/",
-          "ipa_vi": "/kiɲ˧/",
-          "freq": 327,
-          "level": "A1",
-          "forms": { "plural": "businesses" }
-        },
-        {
-          "word": "personals",
-          "pos": "n",
-          "vi": "chuyên mục quảng cáo cá nhân (làm bạn, tìm việc...)",
-          "ex_en": "He found a job through the personals.",
-          "ex_vi": "Anh ấy đã tìm được việc qua chuyên mục quảng cáo cá nhân.",
-          "ipa_en": "/ˈpərsɪnɪlz/",
-          "ipa_vi": "/tɕwiên˧/",
-          "freq": 20576,
-          "level": "A1"
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-a1-law_politics-1",
-      "titleVi": "Luật pháp & chính trị",
-      "titleEn": "Law & politics",
-      "emoji": "⚖️",
-      "words": [
-        {
-          "word": "congressional",
-          "pos": "adj",
-          "vi": "thuộc quốc hội (Mỹ)",
-          "ex_en": "She won a congressional election.",
-          "ex_vi": "Cô ấy đã thắng trong một cuộc bầu cử quốc hội.",
-          "ipa_en": "/kənˈgrɛʃənəl/",
-          "ipa_vi": "/tʰuək̚˨˩ʔ/",
-          "freq": 11705,
-          "level": "A1"
-        },
-        {
-          "word": "submission",
-          "pos": "n",
-          "vi": "sự nộp (bài), sự phục tùng",
-          "ex_en": "The deadline for submission is Friday.",
-          "ex_vi": "Hạn nộp bài là thứ Sáu.",
-          "ipa_en": "/səbˈmɪʃən/",
-          "ipa_vi": "/sɯ˨˩ʔ/",
-          "freq": 16748,
-          "level": "A1",
-          "forms": { "plural": "submissions" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-a1-science_tech-1",
-      "titleVi": "Khoa học & công nghệ",
-      "titleEn": "Science & technology",
-      "emoji": "🔬",
-      "words": [
-        {
-          "word": "course",
-          "pos": "n",
-          "vi": "khóa học/môn học",
-          "ex_en": "I'm taking an English course.",
-          "ex_vi": "Tôi đang học một khóa tiếng Anh.",
-          "ipa_en": "/kɔrs/",
-          "ipa_vi": "/xwaː˦˥/",
-          "freq": 233,
-          "level": "A1",
-          "forms": { "plural": "courses" }
-        },
-        {
-          "word": "e-mail",
-          "pos": "n",
-          "vi": "thư điện tử, email",
-          "ex_en": "I will send you an e-mail tonight.",
-          "ex_vi": "Tối nay tôi sẽ gửi email cho bạn.",
-          "ipa_en": "/ˈiːmeɪl/",
-          "ipa_vi": "/tʰɯ˧/",
-          "level": "A1",
-          "forms": { "plural": "e-mails" }
-        }
-      ],
-      "sentences": []
-    },
-    {
       "id": "cefr-a1-health_med-1",
       "titleVi": "Sức khỏe & y học",
       "titleEn": "Health & medicine",
@@ -177,214 +81,8 @@
           "level": "A1"
         }
       ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-a1-nature_env-1",
-      "titleVi": "Môi trường & thiên nhiên",
-      "titleEn": "Environment & nature",
-      "emoji": "🌍",
-      "words": [
-        {
-          "word": "manure",
-          "pos": "n",
-          "vi": "phân bón (động vật)",
-          "ex_en": "Farmers use manure to enrich the soil.",
-          "ex_vi": "Nông dân dùng phân chuồng để làm giàu đất.",
-          "ipa_en": "/məˈnʊr/",
-          "ipa_vi": "/fən˧/",
-          "freq": 11647,
-          "level": "A1",
-          "forms": { "plural": "manures" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-a1-arts_culture-1",
-      "titleVi": "Nghệ thuật & văn hóa",
-      "titleEn": "Arts & culture",
-      "emoji": "🎨",
-      "words": [
-        {
-          "word": "stage",
-          "pos": "n",
-          "vi": "giai đoạn/sân khấu",
-          "ex_en": "We are in the early stage of the project.",
-          "ex_vi": "Chúng ta đang ở giai đoạn đầu của dự án.",
-          "ipa_en": "/steɪʤ/",
-          "ipa_vi": "/zaːj˧/",
-          "freq": 1414,
-          "level": "A1",
-          "forms": { "plural": "stages" }
-        },
-        {
-          "word": "culture",
-          "pos": "n",
-          "vi": "văn hóa",
-          "ex_en": "I love learning about Vietnamese culture.",
-          "ex_vi": "Tôi rất thích tìm hiểu về văn hóa Việt Nam.",
-          "ipa_en": "/ˈkəlʧər/",
-          "ipa_vi": "/van˧/",
-          "freq": 3439,
-          "level": "A1",
-          "forms": { "plural": "cultures" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-a1-society-1",
-      "titleVi": "Xã hội & con người",
-      "titleEn": "Society & people",
-      "emoji": "🏛️",
-      "words": [
-        {
-          "word": "social",
-          "pos": "adj",
-          "vi": "xã hội/hòa đồng",
-          "ex_en": "She is very social.",
-          "ex_vi": "Cô ấy rất hòa đồng.",
-          "ipa_en": "/ˈsoʊʃəl/",
-          "ipa_vi": "/saː˧˥ʔ/",
-          "freq": 1781,
-          "level": "A1"
-        },
-        {
-          "word": "eldest",
-          "pos": "adj",
-          "vi": "lớn tuổi nhất trong gia đình",
-          "ex_en": "He is the eldest of three brothers.",
-          "ex_vi": "Anh ấy là người lớn tuổi nhất trong ba anh em.",
-          "ipa_en": "/ˈɛldəst/",
-          "ipa_vi": "/ləːn˦˥/",
-          "freq": 13948,
-          "level": "A1"
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-a1-emotion-1",
-      "titleVi": "Cảm xúc & tính cách",
-      "titleEn": "Emotions & personality",
-      "emoji": "❤️",
-      "words": [
-        {
-          "word": "merry",
-          "pos": "adj",
-          "vi": "vui vẻ, hân hoan",
-          "ex_en": "They wished everyone a merry Christmas.",
-          "ex_vi": "Họ chúc mọi người một Giáng sinh vui vẻ.",
-          "ipa_en": "/ˈmɛri/",
-          "ipa_vi": "/vuj˧/",
-          "freq": 1575,
-          "level": "A1",
-          "forms": { "comparative": "merrier", "superlative": "merriest" }
-        },
-        {
-          "word": "shyness",
-          "pos": "n",
-          "vi": "sự nhút nhát",
-          "ex_en": "Her shyness made it hard for her to speak up.",
-          "ex_vi": "Sự nhút nhát khiến cô ấy khó lên tiếng.",
-          "ipa_en": "/ˈʃaɪnəs/",
-          "ipa_vi": "/sɯ˨˩ʔ/",
-          "freq": 23009,
-          "level": "A1",
-          "forms": { "plural": "shynesses" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-a1-thinking-1",
-      "titleVi": "Tư duy & học thuật",
-      "titleEn": "Thinking & academic",
-      "emoji": "📚",
-      "words": [
-        {
-          "word": "would",
-          "pos": "v",
-          "vi": "sẽ (giả định/lịch sự)",
-          "ex_en": "I would like a cup of tea.",
-          "ex_vi": "Tôi muốn một cốc trà.",
-          "ipa_en": "/wʊd/",
-          "ipa_vi": "/sɛ˧˥ʔ/",
-          "freq": 90,
-          "level": "A1"
-        },
-        {
-          "word": "reasoning",
-          "pos": "n",
-          "vi": "lập luận, lý luận",
-          "ex_en": "His reasoning was clear and logical.",
-          "ex_vi": "Lập luận của anh ấy rõ ràng và hợp lý.",
-          "ipa_en": "/ˈrizənɪŋ/",
-          "ipa_vi": "/ləp̚˨˩ʔ/",
-          "freq": 12506,
-          "level": "A1",
-          "forms": { "plural": "reasonings" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-a1-communication-1",
-      "titleVi": "Giao tiếp & ngôn ngữ",
-      "titleEn": "Communication & language",
-      "emoji": "🗣️",
-      "words": [
-        {
-          "word": "word",
-          "pos": "n",
-          "vi": "từ (ngôn ngữ)",
-          "ex_en": "What does this word mean?",
-          "ex_vi": "Từ này có nghĩa là gì?",
-          "ipa_en": "/wərd/",
-          "ipa_vi": "/tɯ˨˩/",
-          "freq": 423,
-          "level": "A1",
-          "forms": { "plural": "words" }
-        },
-        {
-          "word": "discuss",
-          "pos": "v",
-          "vi": "thảo luận",
-          "ex_en": "Let's discuss this later.",
-          "ex_vi": "Hãy thảo luận về điều này sau.",
-          "ipa_en": "/dɪˈskəs/",
-          "ipa_vi": "/tʰaːw˧˩˧/",
-          "freq": 1407,
-          "level": "A1",
-          "forms": { "v3s": "discusses", "ving": "discussing", "past": "discussed" }
-        },
-        {
-          "word": "speech",
-          "pos": "n",
-          "vi": "bài phát biểu",
-          "ex_en": "He gave a great speech.",
-          "ex_vi": "Anh ấy đã có một bài phát biểu tuyệt vời.",
-          "ipa_en": "/spiʧ/",
-          "ipa_vi": "/ɓaːj˨˩/",
-          "freq": 1607,
-          "level": "A1",
-          "forms": { "plural": "speeches" }
-        },
-        {
-          "word": "grammar",
-          "pos": "n",
-          "vi": "ngữ pháp",
-          "ex_en": "She is studying English grammar this semester.",
-          "ex_vi": "Cô ấy đang học ngữ pháp tiếng Anh trong học kỳ này.",
-          "ipa_en": "/ˈgræmər/",
-          "ipa_vi": "/ŋɯ˧˥ʔ/",
-          "freq": 10699,
-          "level": "A1",
-          "forms": { "uncountable": true }
-        }
-      ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-a1-noun-1",
@@ -5181,16 +4879,7 @@
           "freq": 35320,
           "level": "A1",
           "forms": { "v3s": "saturates", "ving": "saturating", "past": "saturated" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-a1-verb-4",
-      "titleVi": "Động từ 4",
-      "titleEn": "Verbs 4",
-      "emoji": "🏃",
-      "words": [
+        },
         {
           "word": "have to",
           "pos": "v",
@@ -7895,6 +7584,228 @@
           "ipa_en": "/gʊd naɪt/",
           "ipa_vi": "/tɕuk̚˦˥/",
           "level": "A1"
+        },
+        {
+          "word": "business",
+          "pos": "n",
+          "vi": "kinh doanh/công việc",
+          "ex_en": "He runs his own business.",
+          "ex_vi": "Anh ấy điều hành công việc kinh doanh của riêng mình.",
+          "ipa_en": "/ˈbɪznɪs/",
+          "ipa_vi": "/kiɲ˧/",
+          "freq": 327,
+          "level": "A1",
+          "forms": { "plural": "businesses" }
+        },
+        {
+          "word": "personals",
+          "pos": "n",
+          "vi": "chuyên mục quảng cáo cá nhân (làm bạn, tìm việc...)",
+          "ex_en": "He found a job through the personals.",
+          "ex_vi": "Anh ấy đã tìm được việc qua chuyên mục quảng cáo cá nhân.",
+          "ipa_en": "/ˈpərsɪnɪlz/",
+          "ipa_vi": "/tɕwiên˧/",
+          "freq": 20576,
+          "level": "A1"
+        },
+        {
+          "word": "congressional",
+          "pos": "adj",
+          "vi": "thuộc quốc hội (Mỹ)",
+          "ex_en": "She won a congressional election.",
+          "ex_vi": "Cô ấy đã thắng trong một cuộc bầu cử quốc hội.",
+          "ipa_en": "/kənˈgrɛʃənəl/",
+          "ipa_vi": "/tʰuək̚˨˩ʔ/",
+          "freq": 11705,
+          "level": "A1"
+        },
+        {
+          "word": "submission",
+          "pos": "n",
+          "vi": "sự nộp (bài), sự phục tùng",
+          "ex_en": "The deadline for submission is Friday.",
+          "ex_vi": "Hạn nộp bài là thứ Sáu.",
+          "ipa_en": "/səbˈmɪʃən/",
+          "ipa_vi": "/sɯ˨˩ʔ/",
+          "freq": 16748,
+          "level": "A1",
+          "forms": { "plural": "submissions" }
+        },
+        {
+          "word": "course",
+          "pos": "n",
+          "vi": "khóa học/môn học",
+          "ex_en": "I'm taking an English course.",
+          "ex_vi": "Tôi đang học một khóa tiếng Anh.",
+          "ipa_en": "/kɔrs/",
+          "ipa_vi": "/xwaː˦˥/",
+          "freq": 233,
+          "level": "A1",
+          "forms": { "plural": "courses" }
+        },
+        {
+          "word": "e-mail",
+          "pos": "n",
+          "vi": "thư điện tử, email",
+          "ex_en": "I will send you an e-mail tonight.",
+          "ex_vi": "Tối nay tôi sẽ gửi email cho bạn.",
+          "ipa_en": "/ˈiːmeɪl/",
+          "ipa_vi": "/tʰɯ˧/",
+          "level": "A1",
+          "forms": { "plural": "e-mails" }
+        },
+        {
+          "word": "manure",
+          "pos": "n",
+          "vi": "phân bón (động vật)",
+          "ex_en": "Farmers use manure to enrich the soil.",
+          "ex_vi": "Nông dân dùng phân chuồng để làm giàu đất.",
+          "ipa_en": "/məˈnʊr/",
+          "ipa_vi": "/fən˧/",
+          "freq": 11647,
+          "level": "A1",
+          "forms": { "plural": "manures" }
+        },
+        {
+          "word": "stage",
+          "pos": "n",
+          "vi": "giai đoạn/sân khấu",
+          "ex_en": "We are in the early stage of the project.",
+          "ex_vi": "Chúng ta đang ở giai đoạn đầu của dự án.",
+          "ipa_en": "/steɪʤ/",
+          "ipa_vi": "/zaːj˧/",
+          "freq": 1414,
+          "level": "A1",
+          "forms": { "plural": "stages" }
+        },
+        {
+          "word": "culture",
+          "pos": "n",
+          "vi": "văn hóa",
+          "ex_en": "I love learning about Vietnamese culture.",
+          "ex_vi": "Tôi rất thích tìm hiểu về văn hóa Việt Nam.",
+          "ipa_en": "/ˈkəlʧər/",
+          "ipa_vi": "/van˧/",
+          "freq": 3439,
+          "level": "A1",
+          "forms": { "plural": "cultures" }
+        },
+        {
+          "word": "social",
+          "pos": "adj",
+          "vi": "xã hội/hòa đồng",
+          "ex_en": "She is very social.",
+          "ex_vi": "Cô ấy rất hòa đồng.",
+          "ipa_en": "/ˈsoʊʃəl/",
+          "ipa_vi": "/saː˧˥ʔ/",
+          "freq": 1781,
+          "level": "A1"
+        },
+        {
+          "word": "eldest",
+          "pos": "adj",
+          "vi": "lớn tuổi nhất trong gia đình",
+          "ex_en": "He is the eldest of three brothers.",
+          "ex_vi": "Anh ấy là người lớn tuổi nhất trong ba anh em.",
+          "ipa_en": "/ˈɛldəst/",
+          "ipa_vi": "/ləːn˦˥/",
+          "freq": 13948,
+          "level": "A1"
+        },
+        {
+          "word": "merry",
+          "pos": "adj",
+          "vi": "vui vẻ, hân hoan",
+          "ex_en": "They wished everyone a merry Christmas.",
+          "ex_vi": "Họ chúc mọi người một Giáng sinh vui vẻ.",
+          "ipa_en": "/ˈmɛri/",
+          "ipa_vi": "/vuj˧/",
+          "freq": 1575,
+          "level": "A1",
+          "forms": { "comparative": "merrier", "superlative": "merriest" }
+        },
+        {
+          "word": "shyness",
+          "pos": "n",
+          "vi": "sự nhút nhát",
+          "ex_en": "Her shyness made it hard for her to speak up.",
+          "ex_vi": "Sự nhút nhát khiến cô ấy khó lên tiếng.",
+          "ipa_en": "/ˈʃaɪnəs/",
+          "ipa_vi": "/sɯ˨˩ʔ/",
+          "freq": 23009,
+          "level": "A1",
+          "forms": { "plural": "shynesses" }
+        },
+        {
+          "word": "would",
+          "pos": "v",
+          "vi": "sẽ (giả định/lịch sự)",
+          "ex_en": "I would like a cup of tea.",
+          "ex_vi": "Tôi muốn một cốc trà.",
+          "ipa_en": "/wʊd/",
+          "ipa_vi": "/sɛ˧˥ʔ/",
+          "freq": 90,
+          "level": "A1"
+        },
+        {
+          "word": "reasoning",
+          "pos": "n",
+          "vi": "lập luận, lý luận",
+          "ex_en": "His reasoning was clear and logical.",
+          "ex_vi": "Lập luận của anh ấy rõ ràng và hợp lý.",
+          "ipa_en": "/ˈrizənɪŋ/",
+          "ipa_vi": "/ləp̚˨˩ʔ/",
+          "freq": 12506,
+          "level": "A1",
+          "forms": { "plural": "reasonings" }
+        },
+        {
+          "word": "word",
+          "pos": "n",
+          "vi": "từ (ngôn ngữ)",
+          "ex_en": "What does this word mean?",
+          "ex_vi": "Từ này có nghĩa là gì?",
+          "ipa_en": "/wərd/",
+          "ipa_vi": "/tɯ˨˩/",
+          "freq": 423,
+          "level": "A1",
+          "forms": { "plural": "words" }
+        },
+        {
+          "word": "discuss",
+          "pos": "v",
+          "vi": "thảo luận",
+          "ex_en": "Let's discuss this later.",
+          "ex_vi": "Hãy thảo luận về điều này sau.",
+          "ipa_en": "/dɪˈskəs/",
+          "ipa_vi": "/tʰaːw˧˩˧/",
+          "freq": 1407,
+          "level": "A1",
+          "forms": { "v3s": "discusses", "ving": "discussing", "past": "discussed" }
+        },
+        {
+          "word": "speech",
+          "pos": "n",
+          "vi": "bài phát biểu",
+          "ex_en": "He gave a great speech.",
+          "ex_vi": "Anh ấy đã có một bài phát biểu tuyệt vời.",
+          "ipa_en": "/spiʧ/",
+          "ipa_vi": "/ɓaːj˨˩/",
+          "freq": 1607,
+          "level": "A1",
+          "forms": { "plural": "speeches" }
+        },
+        {
+          "word": "grammar",
+          "pos": "n",
+          "vi": "ngữ pháp",
+          "ex_en": "She is studying English grammar this semester.",
+          "ex_vi": "Cô ấy đang học ngữ pháp tiếng Anh trong học kỳ này.",
+          "ipa_en": "/ˈgræmər/",
+          "ipa_vi": "/ŋɯ˧˥ʔ/",
+          "freq": 10699,
+          "level": "A1",
+          "forms": { "uncountable": true }
         }
       ],
       "sentences": []
@@ -8000,7 +7911,8 @@
           "level": "A2"
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-a2-law_politics-1",
@@ -8172,7 +8084,8 @@
           "forms": { "plural": "ids" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-a2-science_tech-1",
@@ -8420,7 +8333,8 @@
           "forms": { "v3s": "pollutes", "ving": "polluting", "past": "polluted" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-a2-nature_env-1",
@@ -8573,39 +8487,6 @@
           "freq": 21797,
           "level": "A2",
           "forms": { "plural": "violinists" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-a2-society-1",
-      "titleVi": "Xã hội & con người",
-      "titleEn": "Society & people",
-      "emoji": "🏛️",
-      "words": [
-        {
-          "word": "population",
-          "pos": "n",
-          "vi": "dân số",
-          "ex_en": "The population of Vietnam is growing.",
-          "ex_vi": "Dân số Việt Nam đang tăng.",
-          "ipa_en": "/ˌpɑpjəˈleɪʃən/",
-          "ipa_vi": "/zən˧/",
-          "freq": 4665,
-          "level": "A2",
-          "forms": { "plural": "populations" }
-        },
-        {
-          "word": "census",
-          "pos": "n",
-          "vi": "điều tra dân số",
-          "ex_en": "The census happens every ten years.",
-          "ex_vi": "Điều tra dân số diễn ra mỗi mười năm.",
-          "ipa_en": "/ˈsɛnsəs/",
-          "ipa_vi": "/ɗiəw˨˩/",
-          "freq": 14703,
-          "level": "A2",
-          "forms": { "plural": "censuses" }
         }
       ],
       "sentences": []
@@ -8878,7 +8759,8 @@
           "forms": { "v3s": "postulates", "ving": "postulating", "past": "postulated" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-a2-communication-1",
@@ -16579,16 +16461,7 @@
           "ipa_vi": "/viək̚˨˩ʔ/",
           "level": "A2",
           "forms": { "plural": "washing-ups" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-a2-noun-32",
-      "titleVi": "Danh từ 32",
-      "titleEn": "Nouns 32",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "car park",
           "pos": "n",
@@ -22261,6 +22134,30 @@
           "ipa_en": "/noʊ wʌn/",
           "ipa_vi": "/xoŋ˧/",
           "level": "A2"
+        },
+        {
+          "word": "population",
+          "pos": "n",
+          "vi": "dân số",
+          "ex_en": "The population of Vietnam is growing.",
+          "ex_vi": "Dân số Việt Nam đang tăng.",
+          "ipa_en": "/ˌpɑpjəˈleɪʃən/",
+          "ipa_vi": "/zən˧/",
+          "freq": 4665,
+          "level": "A2",
+          "forms": { "plural": "populations" }
+        },
+        {
+          "word": "census",
+          "pos": "n",
+          "vi": "điều tra dân số",
+          "ex_en": "The census happens every ten years.",
+          "ex_vi": "Điều tra dân số diễn ra mỗi mười năm.",
+          "ipa_en": "/ˈsɛnsəs/",
+          "ipa_vi": "/ɗiəw˨˩/",
+          "freq": 14703,
+          "level": "A2",
+          "forms": { "plural": "censuses" }
         }
       ],
       "sentences": []
@@ -22506,7 +22403,8 @@
           "forms": { "plural": "ltds" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-b1-law_politics-1",
@@ -22701,7 +22599,8 @@
           "level": "B1"
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-b1-science_tech-1",
@@ -23157,8 +23056,8 @@
     },
     {
       "id": "cefr-b1-health_med-1",
-      "titleVi": "Sức khỏe & y học 1",
-      "titleEn": "Health & medicine 1",
+      "titleVi": "Sức khỏe & y học",
+      "titleEn": "Health & medicine",
       "emoji": "🏥",
       "words": [
         {
@@ -23398,16 +23297,7 @@
           "ipa_vi": "/ɓi˨˩ʔ/",
           "level": "B1",
           "freq": 14124
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-b1-health_med-2",
-      "titleVi": "Sức khỏe & y học 2",
-      "titleEn": "Health & medicine 2",
-      "emoji": "🏥",
-      "words": [
+        },
         {
           "word": "pollutant",
           "pos": "n",
@@ -23432,7 +23322,8 @@
           "forms": { "plural": "hivs" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-b1-nature_env-1",
@@ -23816,7 +23707,8 @@
           "level": "B1"
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-b1-emotion-1",
@@ -24331,7 +24223,8 @@
           "forms": { "plural": "rationales" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-b1-communication-1",
@@ -50263,7 +50156,8 @@
           "level": "B2"
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-b2-business-2",
@@ -50364,7 +50258,8 @@
           "forms": { "plural": "leaflets" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-b2-law_politics-1",
@@ -50606,7 +50501,8 @@
           "forms": { "v3s": "discriminates", "ving": "discriminating", "past": "discriminated" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-b2-law_politics-2",
@@ -50754,7 +50650,8 @@
           "forms": { "plural": "polities" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-b2-science_tech-1",
@@ -51235,16 +51132,7 @@
           "ipa_en": "/ˈhaɪtɛk/",
           "ipa_vi": "/koŋ˧/",
           "level": "B2"
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-b2-science_tech-3",
-      "titleVi": "Khoa học & công nghệ 3",
-      "titleEn": "Science & technology 3",
-      "emoji": "🔬",
-      "words": [
+        },
         {
           "word": "high-tech",
           "pos": "adj",
@@ -51511,7 +51399,8 @@
           "level": "B2"
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-b2-health_med-2",
@@ -51753,16 +51642,7 @@
           "ipa_vi": "/tɕoŋ˦˥/",
           "level": "B2",
           "forms": { "plural": "antipollutions" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-b2-health_med-3",
-      "titleVi": "Sức khỏe & y học 3",
-      "titleEn": "Health & medicine 3",
-      "emoji": "🏥",
-      "words": [
+        },
         {
           "word": "health care",
           "pos": "n",
@@ -51784,7 +51664,8 @@
           "level": "B2"
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-b2-nature_env-1",
@@ -52335,7 +52216,8 @@
           "forms": { "plural": "ethnicities" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-b2-emotion-1",
@@ -52998,7 +52880,8 @@
           "forms": { "plural": "olympiads" }
         }
       ],
-      "sentences": []
+      "sentences": [],
+      "notForKids": true
     },
     {
       "id": "cefr-b2-communication-1",
@@ -83302,74 +83185,11 @@
   ],
   "a1Units": [
     {
-      "id": "cefr-a1-topic-business",
-      "titleVi": "Kinh doanh & kinh tế",
-      "titleEn": "Business & economy",
-      "emoji": "💼",
-      "circleIds": ["cefr-a1-business-1"]
-    },
-    {
-      "id": "cefr-a1-topic-law_politics",
-      "titleVi": "Luật pháp & chính trị",
-      "titleEn": "Law & politics",
-      "emoji": "⚖️",
-      "circleIds": ["cefr-a1-law_politics-1"]
-    },
-    {
-      "id": "cefr-a1-topic-science_tech",
-      "titleVi": "Khoa học & công nghệ",
-      "titleEn": "Science & technology",
-      "emoji": "🔬",
-      "circleIds": ["cefr-a1-science_tech-1"]
-    },
-    {
       "id": "cefr-a1-topic-health_med",
       "titleVi": "Sức khỏe & y học",
       "titleEn": "Health & medicine",
       "emoji": "🏥",
       "circleIds": ["cefr-a1-health_med-1"]
-    },
-    {
-      "id": "cefr-a1-topic-nature_env",
-      "titleVi": "Môi trường & thiên nhiên",
-      "titleEn": "Environment & nature",
-      "emoji": "🌍",
-      "circleIds": ["cefr-a1-nature_env-1"]
-    },
-    {
-      "id": "cefr-a1-topic-arts_culture",
-      "titleVi": "Nghệ thuật & văn hóa",
-      "titleEn": "Arts & culture",
-      "emoji": "🎨",
-      "circleIds": ["cefr-a1-arts_culture-1"]
-    },
-    {
-      "id": "cefr-a1-topic-society",
-      "titleVi": "Xã hội & con người",
-      "titleEn": "Society & people",
-      "emoji": "🏛️",
-      "circleIds": ["cefr-a1-society-1"]
-    },
-    {
-      "id": "cefr-a1-topic-emotion",
-      "titleVi": "Cảm xúc & tính cách",
-      "titleEn": "Emotions & personality",
-      "emoji": "❤️",
-      "circleIds": ["cefr-a1-emotion-1"]
-    },
-    {
-      "id": "cefr-a1-topic-thinking",
-      "titleVi": "Tư duy & học thuật",
-      "titleEn": "Thinking & academic",
-      "emoji": "📚",
-      "circleIds": ["cefr-a1-thinking-1"]
-    },
-    {
-      "id": "cefr-a1-topic-communication",
-      "titleVi": "Giao tiếp & ngôn ngữ",
-      "titleEn": "Communication & language",
-      "emoji": "🗣️",
-      "circleIds": ["cefr-a1-communication-1"]
     },
     {
       "id": "cefr-a1-topic-noun-1",
@@ -83422,7 +83242,7 @@
       "titleVi": "Động từ",
       "titleEn": "Verbs",
       "emoji": "🏃",
-      "circleIds": ["cefr-a1-verb-1", "cefr-a1-verb-2", "cefr-a1-verb-3", "cefr-a1-verb-4"]
+      "circleIds": ["cefr-a1-verb-1", "cefr-a1-verb-2", "cefr-a1-verb-3"]
     },
     {
       "id": "cefr-a1-topic-modifier-1",
@@ -83499,13 +83319,6 @@
       "titleEn": "Arts & culture",
       "emoji": "🎨",
       "circleIds": ["cefr-a2-arts_culture-1"]
-    },
-    {
-      "id": "cefr-a2-topic-society",
-      "titleVi": "Xã hội & con người",
-      "titleEn": "Society & people",
-      "emoji": "🏛️",
-      "circleIds": ["cefr-a2-society-1"]
     },
     {
       "id": "cefr-a2-topic-emotion",
@@ -83611,7 +83424,7 @@
       "titleVi": "Danh từ (7)",
       "titleEn": "Nouns (7)",
       "emoji": "📦",
-      "circleIds": ["cefr-a2-noun-31", "cefr-a2-noun-32"]
+      "circleIds": ["cefr-a2-noun-31"]
     },
     {
       "id": "cefr-a2-topic-verb-1",
@@ -83707,7 +83520,7 @@
       "titleVi": "Sức khỏe & y học",
       "titleEn": "Health & medicine",
       "emoji": "🏥",
-      "circleIds": ["cefr-b1-health_med-1", "cefr-b1-health_med-2"]
+      "circleIds": ["cefr-b1-health_med-1"]
     },
     {
       "id": "cefr-b1-topic-nature_env",
@@ -84060,14 +83873,14 @@
       "titleVi": "Khoa học & công nghệ",
       "titleEn": "Science & technology",
       "emoji": "🔬",
-      "circleIds": ["cefr-b2-science_tech-1", "cefr-b2-science_tech-2", "cefr-b2-science_tech-3"]
+      "circleIds": ["cefr-b2-science_tech-1", "cefr-b2-science_tech-2"]
     },
     {
       "id": "cefr-b2-topic-health_med",
       "titleVi": "Sức khỏe & y học",
       "titleEn": "Health & medicine",
       "emoji": "🏥",
-      "circleIds": ["cefr-b2-health_med-1", "cefr-b2-health_med-2", "cefr-b2-health_med-3"]
+      "circleIds": ["cefr-b2-health_med-1", "cefr-b2-health_med-2"]
     },
     {
       "id": "cefr-b2-topic-nature_env",

@@ -18,7 +18,8 @@ import { fileURLToPath } from 'node:url'
 import { CEFR_LEVELS } from '../../apps/dhcb/src/data/cefr.ts'
 import { DIALOGUES } from '../../apps/dhcb/src/data/dialogues.ts'
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+// Script nằm ở scripts/archive/ nên gốc repo lùi HAI cấp (sửa 2026-09-14).
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const CEFR_OUT = path.join(ROOT, 'apps/dhcb/public/data/cefr.json')
 const DLG_OUT = path.join(ROOT, 'apps/dhcb/public/data/dialogues.json')
 

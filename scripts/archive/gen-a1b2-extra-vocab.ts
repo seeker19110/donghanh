@@ -27,7 +27,9 @@ import { fileURLToPath } from 'node:url'
 import type { DictEntry } from '../../apps/dhcb/src/types.ts'
 import { wordKey, buildLevelGroups } from '../lib/vocabTopics.ts'
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+// Script nằm ở scripts/archive/ nên gốc repo lùi HAI cấp (sửa 2026-09-14: sau khi dời vào
+// archive, đường dẫn còn lùi một cấp nên script không chạy được).
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const DICT_DIR = path.join(ROOT, 'apps/dhcb/public/data/dictionary')
 const CURRICULUM_JSON = path.join(ROOT, 'apps/dhcb/public/data/curriculum.json')
 const OUT = path.join(ROOT, 'apps/dhcb/src/data/cefrA1B2ExtraVocab.json')

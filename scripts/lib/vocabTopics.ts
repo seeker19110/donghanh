@@ -410,7 +410,32 @@ export interface OutCircle {
   emoji: string
   words: DictEntry[]
   sentences: never[]
+  /** Chủ đề KHÔNG phù hợp trẻ em — `lib/curriculum.ts` ẩn hẳn khỏi nhóm 'nhi_dong'. */
+  notForKids?: true
 }
+
+/**
+ * Chủ đề bị ẩn khỏi luồng học của nhóm 'nhi_dong'.
+ *
+ * Danh sách này KHÔNG do người viết script tự nghĩ ra: nó soi chiếu đúng các vòng THỦ CÔNG đã
+ * được gắn `notForKids` trong `apps/dhcb/src/data/curriculum.ts` — business/workplace/
+ * money-finance/business-extended/economy-global → `business`; law-justice/politics-government →
+ * `law_politics`; medical-advanced/mental-health → `health_med`; social-issues/relationships-b1 →
+ * `society`; abstract-concepts → `thinking`. Chủ đề `emotion` KHÔNG nằm trong danh sách vì phía
+ * thủ công cũng không ẩn cảm xúc/tính cách của trẻ.
+ *
+ * Vì sao cần (audit 2026-09-14, F4): cờ này trước đây CHỈ gắn được cho 89 vòng thủ công; 610
+ * vòng sinh tự động không vòng nào gắn, kể cả vòng A1/A2/B1 chủ đề kinh doanh, y tế, xã hội —
+ * mà trẻ em chắc chắn học tới các bậc đó. Chú thích cũ trong `curriculumTypes.ts` biện minh
+ * bằng "không ai ở tốc độ học của trẻ em chạm tới C1/C2", lý lẽ đó chỉ đúng cho gói C1/C2.
+ */
+export const TOPIC_KEYS_NOT_FOR_KIDS = new Set([
+  'business',
+  'law_politics',
+  'health_med',
+  'society',
+  'thinking',
+])
 export interface OutUnit {
   id: string
   titleVi: string
@@ -421,6 +446,9 @@ export interface OutUnit {
 
 // Gom 1 danh sách từ (đã lọc + sắp theo tần suất) theo chủ đề → sinh vòng + "Phần"
 // (unit). `idPrefix` vd "cefr-c1" hay "cefr-a1" → id vòng "cefr-c1-business-1"...
+/** Dưới ngưỡng này thì không đáng thành một vòng học riêng. */
+export const MIN_WORDS_PER_CIRCLE = 5
+
 export function buildLevelGroups(
   idPrefix: string,
   words: DictEntry[],
@@ -433,6 +461,18 @@ export function buildLevelGroups(
     const b = bucketOf(e)
     ;(byBucket.get(b) ?? byBucket.set(b, []).get(b)!).push(e)
   }
+  // Bucket quá ít từ thì KHÔNG cho thành vòng riêng — dồn vào 'other' để học chung.
+  // Một "vòng" 1–2 từ vẫn chiếm một mục lộ trình, một lần chuyển màn, một mốc tiến độ mà
+  // chẳng dạy được gì (audit 2026-09-14, F5: 23 vòng dưới 5 từ, hai vòng chỉ có 1 từ).
+  for (const key of BUCKET_ORDER) {
+    if (key === 'other') continue
+    const ws = byBucket.get(key)
+    if (!ws || ws.length === 0 || ws.length >= MIN_WORDS_PER_CIRCLE) continue
+    const other = byBucket.get('other') ?? byBucket.set('other', []).get('other')!
+    other.push(...ws)
+    byBucket.delete(key)
+  }
+
   const circles: OutCircle[] = []
   const units: OutUnit[] = []
   let topicWordCount = 0
@@ -441,9 +481,18 @@ export function buildLevelGroups(
     if (!ws || ws.length === 0) continue
     if (TOPICS.some((t) => t.key === key)) topicWordCount += ws.length
     const meta = bucketMeta(key, posFallback)
-    const nCircles = Math.ceil(ws.length / wordsPerCircle)
+    // Cắt thành từng vòng, nhưng phần ĐUÔI ngắn hơn ngưỡng thì nhập vào vòng liền trước
+    // thay vì đứng riêng thành một vòng còi.
+    const lat: DictEntry[][] = []
+    for (let i = 0; i < ws.length; i += wordsPerCircle) lat.push(ws.slice(i, i + wordsPerCircle))
+    if (lat.length > 1 && lat[lat.length - 1]!.length < MIN_WORDS_PER_CIRCLE) {
+      const duoi = lat.pop()!
+      lat[lat.length - 1]!.push(...duoi)
+    }
+    const nCircles = lat.length
     const groupCircleIds: string[] = []
-    for (let i = 0; i < ws.length; i += wordsPerCircle) {
+    const anKhoiTreEm = TOPIC_KEYS_NOT_FOR_KIDS.has(key)
+    for (const phan of lat) {
       const n = groupCircleIds.length + 1
       const id = `${idPrefix}-${key}-${n}`
       groupCircleIds.push(id)
@@ -452,8 +501,9 @@ export function buildLevelGroups(
         titleVi: nCircles > 1 ? `${meta.titleVi} ${n}` : meta.titleVi,
         titleEn: nCircles > 1 ? `${meta.titleEn} ${n}` : meta.titleEn,
         emoji: meta.emoji,
-        words: ws.slice(i, i + wordsPerCircle),
+        words: phan,
         sentences: [],
+        ...(anKhoiTreEm ? { notForKids: true as const } : {}),
       })
     }
     const nUnits = Math.ceil(groupCircleIds.length / maxCirclesPerUnit)

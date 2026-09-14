@@ -17,7 +17,8 @@ import { fileURLToPath } from 'node:url'
 import { FOUNDATION } from '../../apps/dhcb/src/data/curriculum.ts'
 import type { DictEntry } from '../../apps/dhcb/src/types.ts'
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+// Script nằm ở scripts/archive/ nên gốc repo lùi HAI cấp (sửa 2026-09-14).
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const DICT_DIR = path.join(ROOT, 'apps/dhcb/public/data/dictionary')
 const OUT = path.join(ROOT, 'apps/dhcb/public/data/curriculum.json')
 

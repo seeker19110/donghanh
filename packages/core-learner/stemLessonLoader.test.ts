@@ -20,6 +20,7 @@ function bai(id: string, phan: Partial<StemLessonLike> = {}): StemLessonLike {
     checkQuestions: [],
     srsCards: [],
     track: 'core',
+    reviewStatus: 'draft',
     ...phan,
   }
 }
@@ -38,6 +39,7 @@ function tomTat(
     title: `Bài ${id}`,
     track: 'core',
     hasAnimation: false,
+    reviewStatus: 'draft',
     chapterKey,
     ...phan,
   }
