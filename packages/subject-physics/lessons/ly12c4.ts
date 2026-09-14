@@ -5,6 +5,463 @@ import { donViHienThi } from '@dhcb/core-grading/units'
 export const LY12_C4_LESSONS: PhysicsLesson[] = [
   {
     id: 'ly12-c4-b20',
+    // Tỉ lệ 1 : 100 000 giữa hạt nhân và nguyên tử là thứ KHÔNG cảm được bằng con số; cảnh phóng
+    // to dần từ chấm mờ thành cụm nuclêôn mới làm nó hiện ra.
+    animation: {
+      title: 'Phóng to vào tâm nguyên tử để thấy hạt nhân',
+      description:
+        'Cảnh mở ra với một nguyên tử: vòng nét đứt rộng là vùng đám mây electron, ba chấm nhỏ chạy trên đó là các electron, còn ở chính giữa chỉ có một chấm bé xíu gần như không nhìn thấy — đó là hạt nhân. Rồi chấm ấy được phóng to dần lên 20 lần, và bên trong hiện ra từng hạt: ba prôtôn mang điện dương, rồi bốn nơtron không mang điện, cộng lại thành bảy nuclêôn — đúng hạt nhân liti ⁷₃Li với Z = 3, N = 4, A = 7. Con số mà hình động muốn người học cảm được: bán kính nguyên tử cỡ 10⁻¹⁰ m còn bán kính hạt nhân chỉ cỡ 10⁻¹⁴ m, nhỏ hơn khoảng một trăm nghìn lần, nên nguyên tử gần như rỗng. Vậy mà hầu hết khối lượng lại dồn vào đúng chấm tí hon ấy, vì electron nhẹ hơn nuclêôn gần 2000 lần. Cần nói rõ: tỉ lệ trong hình không thể vẽ đúng thật, hạt nhân đã được cố ý phóng to lên rất nhiều.',
+      viewBoxWidth: 560,
+      viewBoxHeight: 320,
+      durationMs: 7000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'circle',
+          id: 'may-electron',
+          cx: 200,
+          cy: 150,
+          r: 108,
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '6 5',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-nguyen-tu',
+          x: 200,
+          y: 32,
+          text: 'NGUYÊN TỬ — bán kính cỡ 10⁻¹⁰ m',
+          size: 13,
+          anchor: 'middle',
+          fill: 'primary',
+        },
+        {
+          kind: 'circle',
+          id: 'e-1',
+          cx: 308,
+          cy: 150,
+          r: 6,
+          fill: 'accent',
+        },
+        {
+          kind: 'circle',
+          id: 'e-2',
+          cx: 124,
+          cy: 74,
+          r: 6,
+          fill: 'accent',
+        },
+        {
+          kind: 'circle',
+          id: 'e-3',
+          cx: 124,
+          cy: 226,
+          r: 6,
+          fill: 'accent',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-e',
+          x: 324,
+          y: 154,
+          text: 'electron',
+          size: 12,
+          anchor: 'start',
+          fill: 'neutral',
+        },
+        {
+          kind: 'circle',
+          id: 'hat-nhan',
+          cx: 200,
+          cy: 150,
+          r: 2.4,
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              scale: 1,
+            },
+            {
+              atMs: 900,
+              scale: 1,
+            },
+            {
+              atMs: 2600,
+              scale: 20,
+            },
+            {
+              atMs: 7000,
+              scale: 20,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-hn',
+          x: 200,
+          y: 228,
+          text: 'hạt nhân — bán kính cỡ 10⁻¹⁴ m',
+          size: 12,
+          anchor: 'middle',
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2599,
+              opacity: 0,
+            },
+            {
+              atMs: 2900,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'proton-0',
+          cx: 184,
+          cy: 140,
+          r: 9,
+          fill: 'danger',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3199,
+              opacity: 0,
+            },
+            {
+              atMs: 3500,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'proton-1',
+          cx: 214,
+          cy: 134,
+          r: 9,
+          fill: 'danger',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3399,
+              opacity: 0,
+            },
+            {
+              atMs: 3700,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'proton-2',
+          cx: 202,
+          cy: 166,
+          r: 9,
+          fill: 'danger',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3599,
+              opacity: 0,
+            },
+            {
+              atMs: 3900,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'notron-0',
+          cx: 196,
+          cy: 128,
+          r: 9,
+          fill: 'neutral',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3999,
+              opacity: 0,
+            },
+            {
+              atMs: 4300,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'notron-1',
+          cx: 180,
+          cy: 162,
+          r: 9,
+          fill: 'neutral',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4199,
+              opacity: 0,
+            },
+            {
+              atMs: 4500,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'notron-2',
+          cx: 220,
+          cy: 158,
+          r: 9,
+          fill: 'neutral',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4399,
+              opacity: 0,
+            },
+            {
+              atMs: 4700,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'notron-3',
+          cx: 216,
+          cy: 174,
+          r: 9,
+          fill: 'neutral',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4599,
+              opacity: 0,
+            },
+            {
+              atMs: 4900,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'chu-thich-p',
+          x: 340,
+          y: 96,
+          text: 'prôtôn: mang điện +e, có Z hạt',
+          size: 12,
+          anchor: 'start',
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3199,
+              opacity: 0,
+            },
+            {
+              atMs: 3500,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'chu-thich-n',
+          x: 340,
+          y: 118,
+          text: 'nơtron: không mang điện',
+          size: 12,
+          anchor: 'start',
+          fill: 'neutral',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3999,
+              opacity: 0,
+            },
+            {
+              atMs: 4300,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'ky-hieu',
+          x: 340,
+          y: 152,
+          text: 'Ký hiệu ᴬ𝗓X: A = Z + N',
+          size: 13,
+          anchor: 'start',
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4999,
+              opacity: 0,
+            },
+            {
+              atMs: 5300,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'vi-du',
+          x: 340,
+          y: 174,
+          text: 'Ví dụ ⁷₃Li: 3 prôtôn + 4 nơtron = 7 nuclêôn',
+          size: 12,
+          anchor: 'start',
+          fill: 'neutral',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4999,
+              opacity: 0,
+            },
+            {
+              atMs: 5300,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'ti-le',
+          x: 200,
+          y: 288,
+          text: 'Hình đã PHÓNG TO hạt nhân 20 lần cho dễ nhìn. Thật ra bán kính hạt nhân',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'ti-le-2',
+          x: 200,
+          y: 304,
+          text: 'nhỏ hơn nguyên tử khoảng 100 000 lần — nguyên tử gần như rỗng hoàn toàn',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+      ],
+      captions: [
+        {
+          atMs: 200,
+          text: 'Nguyên tử: đám mây electron rộng, giữa là một chấm rất nhỏ.',
+        },
+        {
+          atMs: 1400,
+          text: 'Phóng to chấm ở giữa — đó là hạt nhân.',
+        },
+        {
+          atMs: 3200,
+          text: 'Bên trong có các prôtôn mang điện dương…',
+        },
+        {
+          atMs: 4000,
+          text: '…và các nơtron không mang điện. Cả hai gọi chung là nuclêôn.',
+        },
+        {
+          atMs: 5000,
+          text: 'Ví dụ ⁷₃Li: Z = 3 prôtôn, N = 4 nơtron, A = 7.',
+        },
+      ],
+    },
     grade: '12',
     chapterNumber: 4,
     chapterTitle: 'Vật lí hạt nhân',
@@ -77,6 +534,402 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
   },
   {
     id: 'ly12-c4-b21',
+    // Vì sao CẢ HAI chiều đều toả năng lượng chỉ sáng tỏ khi nhìn hai mũi tên cùng chỉ vào một
+    // đỉnh trên đồ thị Wlk/A — công thức ΔE = Δm·c² không cho thấy điều đó.
+    animation: {
+      title: 'Đường cong năng lượng liên kết riêng và cái đỉnh ở sắt',
+      description:
+        'Trục ngang là số khối A, trục đứng là năng lượng liên kết riêng Wlk/A tính bằng MeV cho mỗi nuclêôn — con số đo độ bền vững của hạt nhân. Chấm sáng chạy dọc đường cong từ trái sang phải: khởi đầu rất thấp ở đơteri (A = 2, chỉ 1,1 MeV), vọt lên ở heli-4 (7,07 MeV), leo tiếp qua cacbon và oxi, đạt ĐỈNH khoảng 8,8 MeV quanh vùng sắt Fe-56, rồi thoai thoải đi xuống còn 7,6 MeV ở urani-238. Hai mũi tên xuất hiện sau đó chỉ vào cùng một đỉnh từ hai phía: bên trái là nhiệt hạch (hạt nhẹ ghép lại), bên phải là phân hạch (hạt nặng vỡ ra). Đây là kết luận lớn của cả chương mà một câu văn khó làm người học tin: hai quá trình NGƯỢC NHAU lại cùng toả năng lượng, vì cả hai đều đưa hệ tiến về phía đỉnh — nơi mỗi nuclêôn liên kết chặt hơn — và phần chênh lệch ấy được giải phóng.',
+      viewBoxWidth: 450,
+      viewBoxHeight: 280,
+      durationMs: 7000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'line',
+          id: 'truc-x',
+          x1: 55,
+          y1: 210,
+          x2: 425,
+          y2: 210,
+          stroke: 'neutral',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'line',
+          id: 'truc-y',
+          x1: 60,
+          y1: 222,
+          x2: 60,
+          y2: 35,
+          stroke: 'neutral',
+          strokeWidth: 2,
+        },
+        {
+          kind: 'label',
+          id: 'ten-x',
+          x: 425,
+          y: 228,
+          text: 'số khối A',
+          size: 12,
+          anchor: 'end',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'ten-y',
+          x: 66,
+          y: 32,
+          text: 'Wlk/A (MeV/nuclêôn)',
+          size: 12,
+          anchor: 'start',
+          fill: 'muted',
+        },
+        {
+          kind: 'polyline',
+          id: 'duong-cong',
+          points: [
+            [63, 191],
+            [64, 161],
+            [66, 87],
+            [69, 117],
+            [70, 113],
+            [73, 98],
+            [77, 77],
+            [83, 71],
+            [94, 69],
+            [118, 61],
+            [142, 57],
+            [177, 59],
+            [235, 62],
+            [293, 68],
+            [352, 73],
+            [407, 79],
+          ],
+          stroke: 'primary',
+          strokeWidth: 3,
+        },
+        {
+          kind: 'line',
+          id: 'dinh',
+          x1: 142,
+          y1: 210,
+          x2: 142,
+          y2: 57,
+          stroke: 'muted',
+          strokeWidth: 2,
+          dash: '4 3',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-fe',
+          x: 142,
+          y: 226,
+          text: 'Fe-56',
+          size: 12,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-dinh',
+          x: 148,
+          y: 45,
+          text: 'đỉnh ≈ 8,8 MeV — bền vững nhất',
+          size: 12,
+          anchor: 'start',
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2599,
+              opacity: 0,
+            },
+            {
+              atMs: 2900,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-he',
+          x: 70,
+          y: 77,
+          text: 'He-4',
+          size: 11,
+          anchor: 'start',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-u',
+          x: 401,
+          y: 69,
+          text: 'U-238',
+          size: 11,
+          anchor: 'end',
+          fill: 'neutral',
+        },
+        {
+          kind: 'circle',
+          id: 'cham',
+          cx: 63,
+          cy: 191,
+          r: 6,
+          fill: 'accent',
+          keyframes: [
+            {
+              atMs: 0,
+              dx: 0,
+              dy: 0,
+            },
+            {
+              atMs: 400,
+              dx: 0,
+              dy: 0,
+            },
+            {
+              atMs: 600,
+              dx: 1,
+              dy: -30,
+            },
+            {
+              atMs: 800,
+              dx: 3,
+              dy: -104,
+            },
+            {
+              atMs: 1000,
+              dx: 6,
+              dy: -74,
+            },
+            {
+              atMs: 1200,
+              dx: 7,
+              dy: -78,
+            },
+            {
+              atMs: 1400,
+              dx: 10,
+              dy: -93,
+            },
+            {
+              atMs: 1600,
+              dx: 14,
+              dy: -114,
+            },
+            {
+              atMs: 1800,
+              dx: 20,
+              dy: -120,
+            },
+            {
+              atMs: 2000,
+              dx: 31,
+              dy: -122,
+            },
+            {
+              atMs: 2200,
+              dx: 55,
+              dy: -130,
+            },
+            {
+              atMs: 2400,
+              dx: 79,
+              dy: -134,
+            },
+            {
+              atMs: 2600,
+              dx: 114,
+              dy: -132,
+            },
+            {
+              atMs: 2800,
+              dx: 172,
+              dy: -129,
+            },
+            {
+              atMs: 3000,
+              dx: 230,
+              dy: -123,
+            },
+            {
+              atMs: 3200,
+              dx: 289,
+              dy: -118,
+            },
+            {
+              atMs: 3400,
+              dx: 344,
+              dy: -112,
+            },
+            {
+              atMs: 7000,
+              dx: 344,
+              dy: -112,
+            },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'mt-nhiet-hach',
+          x1: 69,
+          y1: 130,
+          x2: 118,
+          y2: 73,
+          stroke: 'correct',
+          strokeWidth: 3,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4199,
+              opacity: 0,
+            },
+            {
+              atMs: 4500,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-nhiet-hach',
+          x: 89,
+          y: 147,
+          text: 'NHIỆT HẠCH: hạt nhẹ ghép lại, leo lên đỉnh',
+          size: 12,
+          anchor: 'middle',
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4199,
+              opacity: 0,
+            },
+            {
+              atMs: 4500,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'arrow',
+          id: 'mt-phan-hach',
+          x1: 395,
+          y1: 90,
+          x2: 235,
+          y2: 68,
+          stroke: 'correct',
+          strokeWidth: 3,
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5399,
+              opacity: 0,
+            },
+            {
+              atMs: 5700,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-phan-hach',
+          x: 315,
+          y: 108,
+          text: 'PHÂN HẠCH: hạt nặng vỡ ra, cũng leo lên đỉnh',
+          size: 12,
+          anchor: 'middle',
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5399,
+              opacity: 0,
+            },
+            {
+              atMs: 5700,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'kl',
+          x: 240,
+          y: 250,
+          text: 'Đi về phía đỉnh theo hướng nào cũng làm năng lượng liên kết riêng TĂNG,',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'kl2',
+          x: 240,
+          y: 266,
+          text: 'phần chênh lệch được toả ra — đó là năng lượng hạt nhân',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+      ],
+      captions: [
+        {
+          atMs: 400,
+          text: 'Chấm chạy theo đường cong Wlk/A từ hạt nhẹ sang hạt nặng.',
+        },
+        {
+          atMs: 2600,
+          text: 'Đỉnh nằm quanh Fe-56 với khoảng 8,8 MeV mỗi nuclêôn.',
+        },
+        {
+          atMs: 4200,
+          text: 'Hạt nhẹ ghép lại (nhiệt hạch) thì leo lên đỉnh → toả năng lượng.',
+        },
+        {
+          atMs: 5400,
+          text: 'Hạt nặng vỡ ra (phân hạch) cũng leo lên đỉnh → cũng toả năng lượng.',
+        },
+      ],
+    },
     grade: '12',
     chapterNumber: 4,
     chapterTitle: 'Vật lí hạt nhân',
@@ -153,6 +1006,511 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
   },
   {
     id: 'ly12-c4-b22',
+    // Phản ứng hạt nhân là quá trình NHIỀU BƯỚC CÓ THỨ TỰ (bắn → hợp phần → vỡ); hai phép đếm
+    // A và Z chỉ có nghĩa khi gắn với từng bước đó.
+    animation: {
+      title: 'Phản ứng hạt nhân: đếm lại A và Z ở hai vế',
+      description:
+        'Một hạt anpha ⁴₂He bay từ trái sang, đâm vào hạt nhân nitơ ¹⁴₇N đứng yên. Hai hạt nhập lại thành một hạt nhân hợp phần rất kém bền (khối đỏ ở giữa), tồn tại chớp nhoáng rồi vỡ ra thành hai mảnh bay theo hai hướng khác nhau: hạt nhân oxi ¹⁷₈O bay chếch lên và một prôtôn ¹₁H bay chếch xuống — đúng thí nghiệm Rutherford năm 1919. Sau đó bốn dòng kiểm tra hiện lần lượt: số khối 4 + 14 = 18 = 17 + 1; điện tích 2 + 7 = 9 = 8 + 1. Hai phép đếm này chính là công cụ để tìm hạt còn thiếu trong mọi phương trình phản ứng hạt nhân. Điều phải nhớ kèm theo, và cũng là chỗ dễ nhầm nhất: phản ứng hạt nhân bảo toàn số nuclêôn A và điện tích Z, nhưng KHÔNG bảo toàn khối lượng nghỉ — phần khối lượng hụt đi đã chuyển thành năng lượng theo ΔE = Δm·c².',
+      viewBoxWidth: 460,
+      viewBoxHeight: 290,
+      durationMs: 7000,
+      loop: true,
+      shapes: [
+        {
+          kind: 'circle',
+          id: 'alpha',
+          cx: 70,
+          cy: 130,
+          r: 16,
+          fill: 'accent',
+          keyframes: [
+            {
+              atMs: 0,
+              dx: 0,
+            },
+            {
+              atMs: 400,
+              dx: 0,
+            },
+            {
+              atMs: 2000,
+              dx: 96,
+            },
+            {
+              atMs: 2400,
+              opacity: 0,
+            },
+            {
+              atMs: 7000,
+              opacity: 0,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-alpha',
+          x: 70,
+          y: 100,
+          text: '⁴₂He',
+          size: 14,
+          anchor: 'middle',
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              dx: 0,
+            },
+            {
+              atMs: 400,
+              dx: 0,
+            },
+            {
+              atMs: 2000,
+              dx: 96,
+            },
+            {
+              atMs: 2400,
+              opacity: 0,
+            },
+            {
+              atMs: 7000,
+              opacity: 0,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'nito',
+          cx: 200,
+          cy: 130,
+          r: 26,
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 1,
+            },
+            {
+              atMs: 2200,
+              opacity: 1,
+            },
+            {
+              atMs: 2500,
+              opacity: 0,
+            },
+            {
+              atMs: 7000,
+              opacity: 0,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-nito',
+          x: 200,
+          y: 92,
+          text: '¹⁴₇N',
+          size: 14,
+          anchor: 'middle',
+          fill: 'neutral',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 1,
+            },
+            {
+              atMs: 2200,
+              opacity: 1,
+            },
+            {
+              atMs: 2500,
+              opacity: 0,
+            },
+            {
+              atMs: 7000,
+              opacity: 0,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'hop-nhan',
+          cx: 200,
+          cy: 130,
+          r: 30,
+          fill: 'danger',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2300,
+              opacity: 0,
+            },
+            {
+              atMs: 2500,
+              opacity: 1,
+            },
+            {
+              atMs: 3200,
+              opacity: 1,
+            },
+            {
+              atMs: 3400,
+              opacity: 0,
+            },
+            {
+              atMs: 7000,
+              opacity: 0,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-hop',
+          x: 200,
+          y: 174,
+          text: 'hạt nhân hợp phần (rất kém bền)',
+          size: 12,
+          anchor: 'middle',
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2300,
+              opacity: 0,
+            },
+            {
+              atMs: 2600,
+              opacity: 1,
+            },
+            {
+              atMs: 3200,
+              opacity: 1,
+            },
+            {
+              atMs: 3400,
+              opacity: 0,
+            },
+            {
+              atMs: 7000,
+              opacity: 0,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'oxi',
+          cx: 200,
+          cy: 130,
+          r: 28,
+          fill: 'correct',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3400,
+              opacity: 0,
+            },
+            {
+              atMs: 3600,
+              opacity: 1,
+            },
+            {
+              atMs: 3600,
+              dx: 0,
+              dy: 0,
+            },
+            {
+              atMs: 5000,
+              dx: 100,
+              dy: -34,
+            },
+            {
+              atMs: 7000,
+              dx: 100,
+              dy: -34,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-oxi',
+          x: 200,
+          y: 130,
+          text: '¹⁷₈O',
+          size: 14,
+          anchor: 'middle',
+          fill: 'surface',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3400,
+              opacity: 0,
+            },
+            {
+              atMs: 3600,
+              opacity: 1,
+            },
+            {
+              atMs: 3600,
+              dx: 0,
+              dy: 0,
+            },
+            {
+              atMs: 5000,
+              dx: 100,
+              dy: -34,
+            },
+            {
+              atMs: 7000,
+              dx: 100,
+              dy: -34,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'proton',
+          cx: 200,
+          cy: 130,
+          r: 11,
+          fill: 'accent',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3400,
+              opacity: 0,
+            },
+            {
+              atMs: 3600,
+              opacity: 1,
+            },
+            {
+              atMs: 3600,
+              dx: 0,
+              dy: 0,
+            },
+            {
+              atMs: 5000,
+              dx: 120,
+              dy: 52,
+            },
+            {
+              atMs: 7000,
+              dx: 120,
+              dy: 52,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-proton',
+          x: 200,
+          y: 162,
+          text: '¹₁H',
+          size: 13,
+          anchor: 'middle',
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3400,
+              opacity: 0,
+            },
+            {
+              atMs: 3600,
+              opacity: 1,
+            },
+            {
+              atMs: 3600,
+              dx: 0,
+              dy: 0,
+            },
+            {
+              atMs: 5000,
+              dx: 120,
+              dy: 52,
+            },
+            {
+              atMs: 7000,
+              dx: 120,
+              dy: 52,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'pt',
+          x: 230,
+          y: 40,
+          text: '⁴₂He + ¹⁴₇N → ¹⁷₈O + ¹₁H',
+          size: 17,
+          anchor: 'middle',
+          fill: 'primary',
+        },
+        {
+          kind: 'label',
+          id: 'bt-a-trai',
+          x: 150,
+          y: 224,
+          text: 'Số khối A: 4 + 14 = 18',
+          size: 13,
+          anchor: 'middle',
+          fill: 'neutral',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5199,
+              opacity: 0,
+            },
+            {
+              atMs: 5500,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'bt-a-phai',
+          x: 340,
+          y: 224,
+          text: '17 + 1 = 18  ✓',
+          size: 13,
+          anchor: 'middle',
+          fill: 'accent',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5599,
+              opacity: 0,
+            },
+            {
+              atMs: 5900,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'bt-z-trai',
+          x: 150,
+          y: 246,
+          text: 'Điện tích Z: 2 + 7 = 9',
+          size: 13,
+          anchor: 'middle',
+          fill: 'neutral',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5999,
+              opacity: 0,
+            },
+            {
+              atMs: 6300,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'bt-z-phai',
+          x: 340,
+          y: 246,
+          text: '8 + 1 = 9  ✓',
+          size: 13,
+          anchor: 'middle',
+          fill: 'accent',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 6399,
+              opacity: 0,
+            },
+            {
+              atMs: 6700,
+              opacity: 1,
+            },
+            {
+              atMs: 7000,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'luu-y',
+          x: 230,
+          y: 274,
+          text: 'Bảo toàn A và Z, KHÔNG bảo toàn khối lượng: phần hụt khối biến thành năng lượng',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+      ],
+      captions: [
+        {
+          atMs: 400,
+          text: 'Hạt anpha ⁴₂He bắn vào hạt nhân nitơ ¹⁴₇N đứng yên.',
+        },
+        {
+          atMs: 2500,
+          text: 'Hai hạt nhập thành hạt nhân hợp phần kém bền.',
+        },
+        {
+          atMs: 3600,
+          text: 'Nó vỡ ra: hạt nhân oxi ¹⁷₈O và một prôtôn ¹₁H bay đi.',
+        },
+        {
+          atMs: 5200,
+          text: 'Đếm số khối: 4 + 14 = 18 = 17 + 1.',
+        },
+        {
+          atMs: 6000,
+          text: 'Đếm điện tích: 2 + 7 = 9 = 8 + 1. Cả hai đều bảo toàn.',
+        },
+      ],
+    },
     grade: '12',
     chapterNumber: 4,
     chapterTitle: 'Vật lí hạt nhân',
@@ -587,6 +1945,737 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
   },
   {
     id: 'ly12-c4-b24',
+    // "Dây chuyền" là khái niệm về THỨ TỰ và SỐ NHÂN theo thế hệ — đọc chữ không thấy được nhịp
+    // 1 → 2 → 4, mà đó lại chính là chỗ phân biệt lò phản ứng với bom.
+    animation: {
+      title: 'Một nơtron khởi đầu, số phân hạch nhân đôi sau mỗi thế hệ',
+      description:
+        'Bên trái, một nơtron chậm bay vào hạt nhân urani-235. Hạt nhân này vỡ ra: hai mảnh trung bình văng ngược chiều nhau mang theo khoảng 200 MeV, và hai nơtron mới được phóng ra (thực tế trung bình 2,5 nơtron mỗi phân hạch; hình lấy 2 cho dễ nhìn). Hai nơtron ấy lại gây hai phân hạch nữa, sinh ra bốn nơtron. Ba cột thế hệ đếm rõ 1 rồi 2 rồi 4, mỗi thế hệ chỉ dài cỡ một phần triệu giây. Đây chính là ý nghĩa của hệ số nhân nơtron k mà hình động làm cho sờ được: k lớn hơn 1 thì chuỗi bùng lên không kiểm soát, đó là bom nguyên tử; muốn lò phản ứng chạy ổn định phải dùng thanh điều khiển hấp thụ bớt nơtron sao cho k đúng bằng 1, tức là mỗi phân hạch chỉ gây ra đúng một phân hạch kế tiếp. Nhiệt hạch đi theo hướng ngược lại: ghép hạt nhân rất nhẹ, khó nhất là nhiệt độ hàng chục triệu độ.',
+      viewBoxWidth: 500,
+      viewBoxHeight: 370,
+      durationMs: 7500,
+      loop: true,
+      shapes: [
+        {
+          kind: 'label',
+          id: 'tieu-de',
+          x: 250,
+          y: 28,
+          text: 'PHÂN HẠCH DÂY CHUYỀN',
+          size: 14,
+          anchor: 'middle',
+          fill: 'primary',
+        },
+        {
+          kind: 'circle',
+          id: 'u0',
+          cx: 120,
+          cy: 150,
+          r: 22,
+          fill: 'primary',
+        },
+        {
+          kind: 'label',
+          id: 'nhan-u0',
+          x: 120,
+          y: 115,
+          text: '²³⁵U',
+          size: 13,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'circle',
+          id: 'n0',
+          cx: 40,
+          cy: 150,
+          r: 7,
+          fill: 'accent',
+          keyframes: [
+            {
+              atMs: 0,
+              dx: 0,
+            },
+            {
+              atMs: 300,
+              dx: 0,
+            },
+            {
+              atMs: 1200,
+              dx: 58,
+            },
+            {
+              atMs: 1400,
+              opacity: 0,
+            },
+            {
+              atMs: 7500,
+              opacity: 0,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-n0',
+          x: 40,
+          y: 132,
+          text: 'n',
+          size: 12,
+          anchor: 'middle',
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              dx: 0,
+            },
+            {
+              atMs: 300,
+              dx: 0,
+            },
+            {
+              atMs: 1200,
+              dx: 58,
+            },
+            {
+              atMs: 1400,
+              opacity: 0,
+            },
+            {
+              atMs: 7500,
+              opacity: 0,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'manh-a',
+          cx: 120,
+          cy: 150,
+          r: 13,
+          fill: 'correct',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1400,
+              dx: 0,
+              dy: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1600,
+              opacity: 1,
+            },
+            {
+              atMs: 2600,
+              dx: 18,
+              dy: -52,
+            },
+            {
+              atMs: 7500,
+              dx: 18,
+              dy: -52,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'manh-b',
+          cx: 120,
+          cy: 150,
+          r: 13,
+          fill: 'correct',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1400,
+              dx: 0,
+              dy: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1600,
+              opacity: 1,
+            },
+            {
+              atMs: 2600,
+              dx: 18,
+              dy: 52,
+            },
+            {
+              atMs: 7500,
+              dx: 18,
+              dy: 52,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhan-manh',
+          x: 148,
+          y: 150,
+          text: 'hai mảnh trung bình + ≈ 200 MeV',
+          size: 12,
+          anchor: 'start',
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1799,
+              opacity: 0,
+            },
+            {
+              atMs: 2100,
+              opacity: 1,
+            },
+            {
+              atMs: 3000,
+              opacity: 1,
+            },
+            {
+              atMs: 3300,
+              opacity: 0,
+            },
+            {
+              atMs: 7500,
+              opacity: 0,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'n1a',
+          cx: 120,
+          cy: 150,
+          r: 7,
+          fill: 'accent',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1500,
+              dx: 0,
+              dy: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1700,
+              opacity: 1,
+            },
+            {
+              atMs: 3000,
+              dx: 120,
+              dy: -70,
+            },
+            {
+              atMs: 7500,
+              dx: 120,
+              dy: -70,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'n1b',
+          cx: 120,
+          cy: 150,
+          r: 7,
+          fill: 'accent',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1500,
+              dx: 0,
+              dy: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 1700,
+              opacity: 1,
+            },
+            {
+              atMs: 3000,
+              dx: 120,
+              dy: 70,
+            },
+            {
+              atMs: 7500,
+              dx: 120,
+              dy: 70,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'u1a',
+          cx: 250,
+          cy: 80,
+          r: 20,
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2399,
+              opacity: 0,
+            },
+            {
+              atMs: 2700,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'u1b',
+          cx: 250,
+          cy: 220,
+          r: 20,
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2399,
+              opacity: 0,
+            },
+            {
+              atMs: 2700,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'n2-0',
+          cx: 250,
+          cy: 80,
+          r: 7,
+          fill: 'accent',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3400,
+              dx: 0,
+              dy: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3700,
+              opacity: 1,
+            },
+            {
+              atMs: 5000,
+              dx: 120,
+              dy: -40,
+            },
+            {
+              atMs: 7500,
+              dx: 120,
+              dy: -40,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'u2-0',
+          cx: 370,
+          cy: 40,
+          r: 18,
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4399,
+              opacity: 0,
+            },
+            {
+              atMs: 4700,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'n2-1',
+          cx: 250,
+          cy: 80,
+          r: 7,
+          fill: 'accent',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3400,
+              dx: 0,
+              dy: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3700,
+              opacity: 1,
+            },
+            {
+              atMs: 5000,
+              dx: 120,
+              dy: 30,
+            },
+            {
+              atMs: 7500,
+              dx: 120,
+              dy: 30,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'u2-1',
+          cx: 370,
+          cy: 110,
+          r: 18,
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4399,
+              opacity: 0,
+            },
+            {
+              atMs: 4700,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'n2-2',
+          cx: 250,
+          cy: 220,
+          r: 7,
+          fill: 'accent',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3400,
+              dx: 0,
+              dy: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3700,
+              opacity: 1,
+            },
+            {
+              atMs: 5000,
+              dx: 120,
+              dy: -30,
+            },
+            {
+              atMs: 7500,
+              dx: 120,
+              dy: -30,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'u2-2',
+          cx: 370,
+          cy: 190,
+          r: 18,
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4399,
+              opacity: 0,
+            },
+            {
+              atMs: 4700,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'n2-3',
+          cx: 250,
+          cy: 220,
+          r: 7,
+          fill: 'accent',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3400,
+              dx: 0,
+              dy: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 3700,
+              opacity: 1,
+            },
+            {
+              atMs: 5000,
+              dx: 120,
+              dy: 40,
+            },
+            {
+              atMs: 7500,
+              dx: 120,
+              dy: 40,
+            },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'u2-3',
+          cx: 370,
+          cy: 260,
+          r: 18,
+          fill: 'primary',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4399,
+              opacity: 0,
+            },
+            {
+              atMs: 4700,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'the-he-0',
+          x: 120,
+          y: 268,
+          text: 'thế hệ 1: 1 phân hạch',
+          size: 12,
+          anchor: 'middle',
+          fill: 'neutral',
+        },
+        {
+          kind: 'label',
+          id: 'the-he-1',
+          x: 250,
+          y: 268,
+          text: 'thế hệ 2: 2',
+          size: 12,
+          anchor: 'middle',
+          fill: 'neutral',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 2399,
+              opacity: 0,
+            },
+            {
+              atMs: 2700,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'the-he-2',
+          x: 375,
+          y: 268,
+          text: 'thế hệ 3: 4 …',
+          size: 12,
+          anchor: 'middle',
+          fill: 'neutral',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 4399,
+              opacity: 0,
+            },
+            {
+              atMs: 4700,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'he-so-k',
+          x: 250,
+          y: 296,
+          text: 'k > 1: số phân hạch nhân đôi mỗi thế hệ → dây chuyền vượt hạn, đây là bom',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 5399,
+              opacity: 0,
+            },
+            {
+              atMs: 5700,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'he-so-k2',
+          x: 250,
+          y: 312,
+          text: 'k = 1: giữ đúng một phân hạch mỗi thế hệ → lò phản ứng chạy ổn định',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+          keyframes: [
+            {
+              atMs: 0,
+              opacity: 0,
+            },
+            {
+              atMs: 6199,
+              opacity: 0,
+            },
+            {
+              atMs: 6500,
+              opacity: 1,
+            },
+            {
+              atMs: 7500,
+              opacity: 1,
+            },
+          ],
+        },
+        {
+          kind: 'label',
+          id: 'nhiet-hach',
+          x: 250,
+          y: 340,
+          text: 'Nhiệt hạch thì ngược lại: các hạt nhân rất nhẹ (²H, ³H) ghép lại,',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+        {
+          kind: 'label',
+          id: 'nhiet-hach-2',
+          x: 250,
+          y: 356,
+          text: 'cần hàng chục triệu độ để thắng lực đẩy Coulomb giữa hai hạt nhân',
+          size: 12,
+          anchor: 'middle',
+          fill: 'muted',
+        },
+      ],
+      captions: [
+        {
+          atMs: 300,
+          text: 'Một nơtron bay vào hạt nhân urani-235.',
+        },
+        {
+          atMs: 1600,
+          text: 'Hạt nhân vỡ: hai mảnh + khoảng 200 MeV + hai nơtron mới.',
+        },
+        {
+          atMs: 3400,
+          text: 'Hai nơtron gây tiếp hai phân hạch ở thế hệ sau.',
+        },
+        {
+          atMs: 4400,
+          text: 'Thế hệ ba đã có bốn phân hạch: 1 → 2 → 4.',
+        },
+        {
+          atMs: 6200,
+          text: 'k = 1 thì lò chạy ổn định; k > 1 thì chuỗi bùng lên mất kiểm soát.',
+        },
+      ],
+    },
     grade: '12',
     chapterNumber: 4,
     chapterTitle: 'Vật lí hạt nhân',
