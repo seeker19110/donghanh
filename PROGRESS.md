@@ -242,6 +242,13 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
 - **Môn Toán thiếu hình học không gian và thống kê** — lớp 10 C5; lớp 11 C3, C4, C8; lớp 12 C2, C3,
   và phương trình đường thẳng trong không gian. Đây là mảng mỏng nhất của cả bốn môn STEM.
 - **Môn Sinh chưa có nhánh bồi dưỡng học sinh giỏi** — đợt 2026-09-13 chỉ làm cho Toán/Lí/Hoá.
+- **Audit chất lượng nội dung 6 môn (2026-09-14)** — báo cáo đầy đủ:
+  `docs/audit/2026-09-14-chat-luong-noi-dung-cac-mon-hoc.md`. 11 phát hiện; hai cái đã có ở
+  trên (Toán thủng 6 chương · Sinh chưa có HSG). Mới và đáng làm ngay: `reviewStatus: 'draft'`
+  của 294 bài STEM KHÔNG được giao diện đọc (người học không biết bài chưa duyệt); 610/699 vòng
+  từ vựng sinh tự động thiếu câu mẫu; cờ `notForKids` không phủ vòng sinh tự động; 23 vòng
+  dưới 5 từ; 6 bài Hoá trùng tiêu đề; 20 giải thích câu hỏi dưới 40 ký tự; 14 bài Lập trình
+  chỉ 1 test-case.
 - **4 trang trụ Career/Work/Startup/Life chưa có chiều B** (0/4 file dùng `direction`) — nợ có
   chủ đích, người dùng chốt "chiều B nợ". Làm khi có người học chiều B thật.
 
