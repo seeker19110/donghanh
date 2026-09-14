@@ -17,6 +17,8 @@ import { TOAN10_C20_LESSONS } from './lessons/toan10c20.js'
 import { TOAN11_C9_LESSONS } from './lessons/toan11c9.js'
 import { TOAN11_C20_LESSONS } from './lessons/toan11c20.js'
 import { TOAN12_C1_LESSONS } from './lessons/toan12c1.js'
+import { TOAN12_C2_LESSONS } from './lessons/toan12c2.js'
+import { TOAN12_C3_LESSONS } from './lessons/toan12c3.js'
 import { TOAN12_C4_LESSONS } from './lessons/toan12c4.js'
 import { TOAN12_C5_LESSONS } from './lessons/toan12c5.js'
 import { TOAN12_C6_LESSONS } from './lessons/toan12c6.js'
@@ -38,6 +40,8 @@ export const MATH_LESSONS: MathLesson[] = [
   ...TOAN11_C7_LESSONS,
   ...TOAN11_C9_LESSONS,
   ...TOAN12_C1_LESSONS,
+  ...TOAN12_C2_LESSONS,
+  ...TOAN12_C3_LESSONS,
   ...TOAN12_C4_LESSONS,
   ...TOAN12_C5_LESSONS,
   ...TOAN12_C6_LESSONS,

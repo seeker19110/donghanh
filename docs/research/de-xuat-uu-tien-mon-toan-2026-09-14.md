@@ -59,3 +59,13 @@ soạn nội dung thật, theo đúng quy ước PR `feat` ở CLAUDE.md mục 1
 
 Việc B (lớp 10 chương 5, lớp 11 chương 3/4/8) và C (nốt phần còn lại) để dành đặc tả riêng sau
 khi lớp 12 đạt cổng.
+
+## 5. Cập nhật (2026-09-14) — chương 2-3 lớp 12 ĐÃ CÓ BÀI (draft)
+
+Đặc tả đã được duyệt "Approved for implementation" và thi hành xong: 7 bài mới trong
+`packages/subject-math/lessons/toan12c2.ts` (4 bài) và `toan12c3.ts` (3 bài), toàn bộ
+`reviewStatus: 'draft'`. Toán 12 nay đủ cả 6 chương (1-6), không còn thủng ở lớp 12.
+
+**Còn treo:** nội dung vẫn ở trạng thái `draft`, cần người có chuyên môn Toán duyệt qua quy trình
+duyệt chuyên môn STEM (PR #904/#905) trước khi coi là chính thức. Lớp 10 (chương 5) và lớp 11
+(chương 3, 4, 8) vẫn thủng — chưa làm trong đợt này.
