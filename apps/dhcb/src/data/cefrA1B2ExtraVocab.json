@@ -1,9 +1,9 @@
 {
   "_note": "SINH TỰ ĐỘNG bởi scripts/gen-a1b2-extra-vocab.ts từ từ điển đã gắn nhãn CEFR. KHÔNG sửa tay — chạy lại script để cập nhật.",
-  "a1WordCount": 643,
-  "a2WordCount": 1181,
-  "b1WordCount": 2283,
-  "b2WordCount": 2738,
+  "a1WordCount": 641,
+  "a2WordCount": 1178,
+  "b1WordCount": 2281,
+  "b2WordCount": 2735,
   "circles": [
     {
       "id": "cefr-a1-health_med-1",
@@ -458,18 +458,6 @@
           "freq": 596,
           "level": "A1",
           "forms": { "plural": "plans" }
-        },
-        {
-          "word": "york",
-          "pos": "n",
-          "vi": "York (tên địa danh)",
-          "ex_en": "I visited New York last year.",
-          "ex_vi": "Tôi đã đến New York năm ngoái.",
-          "ipa_en": "/jɔrk/",
-          "ipa_vi": "/york˧/",
-          "freq": 612,
-          "level": "A1",
-          "forms": { "plural": "yorks" }
         },
         {
           "word": "picture",
@@ -3128,17 +3116,6 @@
           "freq": 7815,
           "level": "A1",
           "forms": { "uncountable": true }
-        },
-        {
-          "word": "des",
-          "pos": "n",
-          "vi": "thường thấy trong tên địa danh (ví dụ Des Moines)",
-          "ex_en": "He lives in Des Moines.",
-          "ex_vi": "Anh ấy sống ở Des Moines.",
-          "ipa_en": "/dɪ/",
-          "ipa_vi": "/tʰɯəŋ˨˩/",
-          "freq": 7953,
-          "level": "A1"
         },
         {
           "word": "favorites",
@@ -10362,17 +10339,6 @@
           "forms": { "plural": "tours" }
         },
         {
-          "word": "angeles",
-          "pos": "n",
-          "vi": "thường thấy trong tên thành phố Los Angeles",
-          "ex_en": "He lives in Los Angeles.",
-          "ex_vi": "Anh ấy sống ở Los Angeles.",
-          "ipa_en": "/ˈænʤəlɪs/",
-          "ipa_vi": "/tʰɯəŋ˨˩/",
-          "freq": 1915,
-          "level": "A2"
-        },
-        {
           "word": "shape",
           "pos": "n",
           "vi": "hình dạng",
@@ -11294,17 +11260,6 @@
           "freq": 2838,
           "level": "A2",
           "forms": { "plural": "bibles" }
-        },
-        {
-          "word": "las",
-          "pos": "n",
-          "vi": "thường thấy trong tên địa danh (ví dụ Las Vegas)",
-          "ex_en": "He visited Las Vegas.",
-          "ex_vi": "Anh ấy đã đến thăm Las Vegas.",
-          "ipa_en": "/ˈɛˈleɪˈɛs/",
-          "ipa_vi": "/tʰɯəŋ˨˩/",
-          "freq": 2843,
-          "level": "A2"
         },
         {
           "word": "noon",
@@ -14340,18 +14295,6 @@
           "level": "A2",
           "freq": 9501,
           "forms": { "plural": "rumours" }
-        },
-        {
-          "word": "costa",
-          "pos": "n",
-          "vi": "thường thấy trong tên riêng (ví dụ Costa Rica)",
-          "ex_en": "They traveled to Costa Rica.",
-          "ex_vi": "Họ đã đi du lịch đến Costa Rica.",
-          "ipa_en": "/ˈkɔstɑ/",
-          "ipa_vi": "/tʰɯəŋ˨˩/",
-          "freq": 9512,
-          "level": "A2",
-          "forms": { "plural": "costas" }
         },
         {
           "word": "longing",
@@ -25794,18 +25737,6 @@
           "forms": { "plural": "objections" }
         },
         {
-          "word": "kong",
-          "pos": "n",
-          "vi": "thường thấy trong tên 'Hong Kong'",
-          "ex_en": "She visited Hong Kong last year.",
-          "ex_vi": "Cô ấy đã đến thăm Hong Kong năm ngoái.",
-          "ipa_en": "/kɔŋg/",
-          "ipa_vi": "/tʰɯəŋ˨˩/",
-          "freq": 2491,
-          "level": "B1",
-          "forms": { "plural": "kongs" }
-        },
-        {
           "word": "cliff",
           "pos": "n",
           "vi": "vách đá",
@@ -26300,18 +26231,6 @@
           "freq": 2851,
           "level": "B1",
           "forms": { "plural": "surfaces" }
-        },
-        {
-          "word": "hong",
-          "pos": "n",
-          "vi": "thường thấy trong tên 'Hong Kong'",
-          "ex_en": "He works in Hong Kong.",
-          "ex_vi": "Anh ấy làm việc tại Hong Kong.",
-          "ipa_en": "/hɔŋ/",
-          "ipa_vi": "/tʰɯəŋ˨˩/",
-          "freq": 2868,
-          "level": "B1",
-          "forms": { "plural": "hongs" }
         },
         {
           "word": "reward",
@@ -68505,16 +68424,6 @@
           "level": "B2"
         },
         {
-          "word": "ios",
-          "pos": "n",
-          "vi": "hệ điều hành iOS",
-          "ex_en": "The app is only available for iOS devices.",
-          "ex_vi": "Ứng dụng này chỉ có sẵn cho thiết bị iOS.",
-          "ipa_en": "/ˈioʊs/",
-          "ipa_vi": "/he˨˩ʔ/",
-          "level": "B2"
-        },
-        {
           "word": "last minute",
           "pos": "n",
           "vi": "phút chót",
@@ -68532,16 +68441,6 @@
           "ex_vi": "Là một người lướt web, anh ấy dành hàng giờ trên mạng mỗi ngày.",
           "ipa_en": "/nɛt ˈsɜrfər/",
           "ipa_vi": "/ŋɯəj˨˩/",
-          "level": "B2"
-        },
-        {
-          "word": "los",
-          "pos": "n",
-          "vi": "thường thấy trong tên địa danh (ví dụ Los Angeles)",
-          "ex_en": "He lives in Los Angeles.",
-          "ex_vi": "Anh ấy sống ở Los Angeles.",
-          "ipa_en": "/lɔs/",
-          "ipa_vi": "/tʰɯəŋ˨˩/",
           "level": "B2"
         },
         {
@@ -68565,17 +68464,6 @@
           "ipa_vi": "/tiɲ˦˥/",
           "level": "B2",
           "forms": { "plural": "mutabilities" }
-        },
-        {
-          "word": "netsurfer",
-          "pos": "n",
-          "vi": "người lướt web/mạng",
-          "ex_en": "As a netsurfer, she spends hours browsing new websites.",
-          "ex_vi": "Là một người lướt mạng, cô ấy dành hàng giờ để duyệt các trang web mới.",
-          "ipa_en": "/ˈnɛtˌsɜrfər/",
-          "ipa_vi": "/ŋɯəi˨˩/",
-          "level": "B2",
-          "forms": { "plural": "netsurfers" }
         },
         {
           "word": "facilities",
