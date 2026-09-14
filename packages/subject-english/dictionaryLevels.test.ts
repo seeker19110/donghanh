@@ -1,0 +1,42 @@
+// Cổng bất biến thang bậc CEFR của từ điển — đọc DỮ LIỆU THẬT trong
+// apps/dhcb/public/data/dictionary/chunk-*.json, không dựng dữ liệu giả.
+// Thêm 2026-09-14 sau đợt rà thang bậc: xem docs/audit/2026-09-14-thang-bac-cefr-tu-dien.md
+import { readdirSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { describe, it, expect } from 'vitest'
+import { findInflectionLevelMismatches, type DictLevelEntry } from './dictionaryLevels.js'
+
+const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
+const DICT_DIR = join(process.cwd(), 'apps', 'dhcb', 'public', 'data', 'dictionary')
+
+function loadDictionary(): DictLevelEntry[] {
+  const files = readdirSync(DICT_DIR)
+    .filter((f) => /^chunk-\d+\.json$/.test(f))
+    .sort()
+  return files.flatMap(
+    (f) => JSON.parse(readFileSync(join(DICT_DIR, f), 'utf8')) as DictLevelEntry[],
+  )
+}
+
+describe('thang bậc CEFR của từ điển', () => {
+  const entries = loadDictionary()
+
+  it('mọi mục từ đều có bậc CEFR hợp lệ', () => {
+    const bad = entries.filter((e) => !e.level || !CEFR.includes(e.level))
+    expect(bad.map((e) => `${e.word} (${e.pos})`)).toEqual([])
+    expect(entries.length).toBeGreaterThan(10_000)
+  })
+
+  it('dạng chia cùng bậc với từ gốc (see A1 ⇒ saw A1, không phải từ mới)', () => {
+    const mismatches = findInflectionLevelMismatches(entries)
+    expect(
+      mismatches.map((m) => `${m.word} (${m.pos}) ${m.level} ≠ ${m.base} ${m.baseLevel}`),
+    ).toEqual([])
+  })
+
+  it('mọi mục biến thể trỏ về một từ gốc CÓ THẬT trong từ điển', () => {
+    const words = new Set(entries.map((e) => e.word.trim().toLowerCase()))
+    const orphans = entries.filter((e) => e.base && !words.has(e.base.trim().toLowerCase()))
+    expect(orphans.map((e) => `${e.word} → ${e.base}`)).toEqual([])
+  })
+})

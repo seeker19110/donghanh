@@ -284,6 +284,17 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
   Ô ⓪.5 **ĐÃ CHỐT trong phiên 2026-09-14**: duyệt **trong `/admin` và ngay trong trang bài học** ·
   AI được sàng lọc vòng 1 nhưng phải làm thật kỹ (5 ràng buộc đo được + ca thử 13 câu) và
   **không bao giờ** được ghi `reviewed`.
+- ✅ **Rà lại thang bậc CEFR của từ điển (2026-09-14, `docs/changelog/0312-*.md`)** — báo cáo:
+  `docs/audit/2026-09-14-thang-bac-cefr-tu-dien.md`. Nhãn KHÔNG bịa (khớp CEFR-J 100,0 % trên
+  8 973 mục, 0 mục thiếu bậc), nhưng **101 dạng biến thể lệch bậc so với từ gốc** (`see` A1 mà
+  `saw` B2, `find` A1 mà `found` B2) vì cả ba tầng gắn nhãn chấm từng dạng mặt chữ độc lập. Đã
+  sửa **49 mục** theo bất biến mới _dạng chia thừa kế bậc của từ gốc_, giữ nguyên 52 ca đã từ
+  vựng hoá (`ground` ≠ `grind`, `rose` ≠ `rise`). Cổng chặn tái phát:
+  `packages/subject-english/dictionaryLevels.test.ts`. **Nợ còn để ngỏ (cần đợt riêng, sửa bằng
+  phán đoán từng từ):** 56 mục rất hiếm nhưng gắn A1/A2 — sai số của CHÍNH NGUỒN (46 từ
+  Words-CEFR-Dataset, 10 từ CEFR-J), nên ưu tiên nhóm `estimated` trước; và `bit`(n) đang trỏ
+  `base: "bite"` là liên kết sai từ nguyên.
+
 - **Audit chất lượng nội dung 6 môn (2026-09-14)** — báo cáo đầy đủ:
   `docs/audit/2026-09-14-chat-luong-noi-dung-cac-mon-hoc.md`. 11 phát hiện; hai cái đã có ở
   trên (Toán thủng 6 chương · Sinh chưa có HSG). Mới và đáng làm ngay: `reviewStatus: 'draft'`
