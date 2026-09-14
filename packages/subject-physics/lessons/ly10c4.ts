@@ -342,7 +342,8 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
           value: donViHienThi(80, '%'),
           unit: '%',
         },
-        explain: 'H = (400 / 500) * 100% = 80%.',
+        explain:
+          'Hiệu suất là tỉ số năng lượng CÓ ÍCH trên năng lượng TOÀN PHẦN: H = (400 / 500) * 100% = 80%. Phần 100 J còn lại biến thành nhiệt do ma sát và điện trở — không mất đi, chỉ chuyển sang dạng không dùng được cho việc bơm nước.',
       },
     ],
     srsCards: [

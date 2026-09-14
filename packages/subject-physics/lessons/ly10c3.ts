@@ -364,7 +364,8 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
           value: 2500,
           unit: 'N',
         },
-        explain: 'Lực F = m * a = 1000 * 2,5 = 2500 N.',
+        explain:
+          'Định luật II Newton: hợp lực bằng khối lượng nhân gia tốc. Đề nói bỏ qua ma sát nên lực kéo của động cơ CHÍNH LÀ hợp lực: F = m * a = 1000 * 2,5 = 2500 N. Có ma sát thì lực kéo phải lớn hơn con số này, vì còn phải thắng thêm lực ma sát.',
       },
     ],
     srsCards: [
@@ -783,7 +784,8 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
           value: 30,
           unit: 'N',
         },
-        explain: 'F_mst = μ_t * N = 0,3 * 100 = 30 N.',
+        explain:
+          'Lực ma sát trượt tỉ lệ với ÁP LỰC vuông góc lên mặt tiếp xúc, không phụ thuộc diện tích tiếp xúc hay tốc độ trượt: F_mst = μ_t * N = 0,3 * 100 = 30 N. Đề đã cho sẵn N = 100 N nên dùng thẳng; nếu đề không cho thì mới tính N = m * g.',
       },
     ],
     srsCards: [
@@ -915,7 +917,8 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
           value: 5,
           unit: 'm/s^2',
         },
-        explain: 'a = g * sin(30°) = 10 * 0,5 = 5 m/s².',
+        explain:
+          'Chiếu định luật II Newton lên phương mặt nghiêng: thành phần trọng lực dọc mặt nghiêng là m * g * sinα, chia cho m thì m triệt tiêu, còn a = g * sin(30°) = 10 * 0,5 = 5 m/s². Khối lượng 5 kg KHÔNG có mặt trong kết quả — khi không ma sát, mọi vật đều trượt với cùng gia tốc.',
       },
       {
         prompt:

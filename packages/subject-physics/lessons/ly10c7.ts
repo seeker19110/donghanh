@@ -61,7 +61,8 @@ export const LY10_C7_LESSONS: PhysicsLesson[] = [
           value: 4,
           unit: 'N',
         },
-        explain: 'F_đh = k * |Δl| = 200 * 0,02 = 4 N.',
+        explain:
+          'Định luật Hooke: độ lớn lực đàn hồi tỉ lệ với ĐỘ BIẾN DẠNG, nén hay giãn đều tính như nhau nên lấy trị tuyệt đối: F_đh = k * |Δl| = 200 * 0,02 = 4 N. Lực này luôn hướng ngược chiều biến dạng — lò xo bị nén thì nó đẩy ra.',
       },
     ],
     srsCards: [

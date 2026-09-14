@@ -205,7 +205,8 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
           value: 2.5,
           unit: 'm/s',
         },
-        explain: 'Tốc độ v = s / t = 0,5 / 0,2 = 2,5 m/s.',
+        explain:
+          'Hai cổng quang điện đo đúng quãng đường s và thời gian t đi hết quãng đó, nên tốc độ v = s / t = 0,5 / 0,2 = 2,5 m/s. Đơn vị mét chia giây ra m/s — đề cho quãng đường bằng cm thì phải đổi sang mét TRƯỚC khi chia.',
       },
     ],
     srsCards: [

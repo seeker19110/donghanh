@@ -212,7 +212,8 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
           value: 0.04,
           unit: 'm',
         },
-        explain: 'λ = v / f = 2 / 50 = 0,04 m = 4 cm.',
+        explain:
+          'Bước sóng là quãng đường sóng truyền được trong ĐÚNG một chu kì: λ = v / f = 2 / 50 = 0,04 m = 4 cm. Tần số do nguồn quyết định, tốc độ do môi trường quyết định — sang môi trường khác thì λ đổi theo v, còn f giữ nguyên.',
       },
       {
         // Câu bẫy: tưởng phần tử môi trường bị sóng cuốn đi theo phương truyền sóng.
@@ -376,7 +377,8 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
           value: 400,
           unit: 'Hz',
         },
-        explain: 'f = 1 / T = 1 / 0,0025 = 400 Hz.',
+        explain:
+          'Tần số và chu kì là hai cách nói cùng một điều, nghịch đảo của nhau: f = 1 / T = 1 / 0,0025 = 400 Hz. Nhớ đổi chu kì về ĐƠN VỊ GIÂY trước khi lấy nghịch đảo — để nguyên mili giây là lệch cả nghìn lần.',
       },
     ],
     srsCards: [
@@ -841,7 +843,8 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
           value: 0.7,
           unit: 'm',
         },
-        explain: 'λ = v / f = 350 / 500 = 0,7 m.',
+        explain:
+          'Áp dụng λ = v / f = 350 / 500 = 0,7 m. Đây là sóng âm trong không khí (v ≈ 350 m/s); cũng tần số ấy truyền trong nước (v ≈ 1500 m/s) sẽ cho bước sóng dài hơn nhiều, vì f không đổi mà v tăng.',
       },
       {
         prompt:

@@ -53,7 +53,8 @@ export const HOA10_C5_LESSONS: ChemLesson[] = [
           'Phản ứng H₂(g) + Cl₂(g) → 2HCl(g) có ΔfH°(HCl) = −92 kJ/mol, ΔfH°(H₂) = ΔfH°(Cl₂) ' +
           '= 0. Tính ΔᵣH° của phản ứng (kJ/mol, chỉ nhập số).',
         answer: { kind: 'numeric', value: -184 },
-        explain: 'ΔᵣH° = 2×(−92) − (0+0) = −184 kJ/mol.',
+        explain:
+          'Biến thiên enthalpy của phản ứng bằng tổng ΔfH° các chất SẢN PHẨM trừ tổng của chất ĐẦU, mỗi chất nhân hệ số cân bằng: ΔᵣH° = 2×(−92) − (0+0) = −184 kJ/mol. Hai bẫy hay gặp: quên nhân hệ số 2 của HCl, và quên rằng đơn chất bền ở điều kiện chuẩn (H₂, Cl₂) có ΔfH° = 0. Dấu âm nghĩa là phản ứng TOẢ nhiệt.',
       },
       {
         // Câu BẪY: quên NHÂN HỆ SỐ cân bằng khi tính ΔᵣH — lỗi sai phổ biến nhất của dạng này.

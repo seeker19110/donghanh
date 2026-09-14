@@ -611,7 +611,8 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
           value: 5,
           unit: 'V',
         },
-        explain: '|etc| = L * |di/dt| = 0.5 * 10 = 5 V.',
+        explain:
+          'Suất điện động tự cảm chỉ sinh ra khi dòng qua ống dây BIẾN THIÊN, và tỉ lệ với tốc độ biến thiên ấy: |e_tc| = L * |di/dt| = 0,5 * 10 = 5 V. Dòng không đổi thì di/dt = 0 nên không có suất điện động tự cảm, dù dòng lớn đến đâu.',
       },
     ],
     srsCards: [
@@ -821,7 +822,8 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
           value: 2,
           unit: 'V',
         },
-        explain: 'etc = L * |di/dt| = 0.1 * 20 = 2 V.',
+        explain:
+          'Cùng công thức tự cảm: e_tc = L * |di/dt| = 0,1 * 20 = 2 V. Dấu trừ trong công thức đầy đủ (định luật Lenz) chỉ nói suất điện động CHỐNG LẠI sự biến thiên của dòng; đề hỏi ĐỘ LỚN nên lấy trị tuyệt đối.',
       },
       {
         prompt:

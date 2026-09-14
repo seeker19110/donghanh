@@ -399,7 +399,8 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
           value: 1,
           unit: 'm/s',
         },
-        explain: 'v_max = ω * A = 10 * 0,1 = 1 m/s.',
+        explain:
+          'Trong dao động điều hoà, vận tốc đạt cực đại tại VỊ TRÍ CÂN BẰNG (li độ bằng 0): v_max = ω * A = 10 * 0,1 = 1 m/s. Ở hai biên thì ngược lại — vận tốc bằng 0 còn gia tốc mới cực đại.',
       },
     ],
     srsCards: [
