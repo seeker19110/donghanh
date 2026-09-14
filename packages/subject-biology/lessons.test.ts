@@ -63,6 +63,15 @@ describe('BIOLOGY_LESSONS registry', () => {
     }
   })
 
+  it('mọi bài đánh dấu reviewStatus (không âm thầm coi là đã duyệt)', () => {
+    // Ba môn kia đã có ca này từ #893; môn Sinh thiếu. Trường reviewStatus là chỗ DUY NHẤT
+    // ghi nhận "nội dung này chưa ai có chuyên môn đọc" — mất nó thì bài nháp lẫn vào bài đã
+    // duyệt mà không cổng nào kêu. Xem TRAPS.md mục 4.
+    for (const lesson of BIOLOGY_LESSONS) {
+      expect(['draft', 'reviewed']).toContain(lesson.reviewStatus)
+    }
+  })
+
   it('mọi checkQuestion tự chấm ĐÚNG với chính đáp án đã khai — dùng engine chấm thật, không AI', () => {
     // Ba môn STEM kia có cổng này từ đầu, môn Sinh thì KHÔNG — dù đặc tả
     // `docs/specs/2026-09-13-hoan-thien-4-mon-stem.md` mục 3.1 lấy chính nó làm biện pháp thay

@@ -237,7 +237,8 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
   mục này ghi "chờ duyệt chuyên môn, không nối khi chưa có người học thật cần". Người dùng chốt
   ngược lại trong phiên 2026-09-13: nối thẳng khi AI viết xong. Thay cho người duyệt, mỗi môn có
   test canh chấm lại TOÀN BỘ đáp án bằng engine chấm thật. Mọi bài vẫn mang `reviewStatus: 'draft'`.
-  **Nợ còn lại:** nội dung chưa ai có chuyên môn đọc lại; chuẩn sư phạm mới rà trên phần bài trọng
+  (Cổng đó lúc đầu là XANH GIẢ và môn Sinh còn không có — đã sửa 2026-09-14, PR #900; xem
+  TRAPS.md mục 4.) **Nợ còn lại:** nội dung chưa ai có chuyên môn đọc lại; chuẩn sư phạm mới rà trên phần bài trọng
   điểm, chưa quét hết 294 bài. Chi tiết: `docs/changelog/0295-2026-09-13-hoan-thien-4-mon-stem.md`.
 - **Môn Toán thiếu hình học không gian và thống kê** — lớp 10 C5; lớp 11 C3, C4, C8; lớp 12 C2, C3,
   và phương trình đường thẳng trong không gian. Đây là mảng mỏng nhất của cả bốn môn STEM.
@@ -252,8 +253,14 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
   `packages/core-grading/selfGrade.ts` với lớp đối chiếu ĐỘC LẬP vào `explain` (nạp thẳng
   `${value} ${unit}` cũng mù, chỉ mù chiều ngược lại — báo oan bài khai chuẩn SI); 9 giá trị
   khai lại bằng `donViHienThi(<số hiển thị>, <đơn vị>)`; môn Sinh được bù cổng còn thiếu.
-  **CÒN NỢ:** 442 câu trắc nghiệm (60% tổng số câu; môn Sinh 169/170) KHÔNG máy nào kiểm được,
-  vẫn cần người có chuyên môn đọc.
+  **CÒN NỢ (đếm lại 2026-09-14 bằng script nạp thẳng registry):** 442 câu trắc nghiệm KHÔNG máy
+  nào kiểm được tính đúng kiến thức, vẫn cần người có chuyên môn đọc. Tỉ lệ là **66,5%** tổng số
+  câu (442/665), không phải 60% như ghi trước đó — phân bổ: Toán 17/105 · Lí 119/208 · Hoá
+  137/182 · **Sinh 169/170 = 99,4%** (môn rủi ro nhất, nên duyệt trước). Và nợ duyệt chuyên môn
+  rộng hơn riêng phần trắc nghiệm: `reviewStatus: 'reviewed'` đang là **0/294 bài**, tức cả 665
+  câu + 294 phần lý thuyết đều chưa ai đọc; 223 câu tự chấm được thì nay đã có cổng thật
+  (`selfGrade.ts`) kiểm đúng/sai số học, nhưng cổng đó không phán được nội dung dạy có đúng
+  chương trình hay không.
 - **Audit chất lượng nội dung 6 môn (2026-09-14)** — báo cáo đầy đủ:
   `docs/audit/2026-09-14-chat-luong-noi-dung-cac-mon-hoc.md`. 11 phát hiện; hai cái đã có ở
   trên (Toán thủng 6 chương · Sinh chưa có HSG). Mới và đáng làm ngay: `reviewStatus: 'draft'`
