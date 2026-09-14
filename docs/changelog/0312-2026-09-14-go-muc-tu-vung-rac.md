@@ -1,6 +1,6 @@
 # 0312 — 2026-09-14 — Gỡ 10 mục "từ vựng" không phải từ tiếng Anh + cổng canh từ điển
 
-**PR:** (điền khi tạo) · **Nhánh:** `claude/zen-hawking-4ck67u`
+**PR:** #914 · **Nhánh:** `claude/zen-hawking-4ck67u`
 **Nguồn gốc:** phát hiện phụ khi làm câu mẫu A2–C2 (`docs/changelog/0311-*.md`), người dùng yêu
 cầu sửa ngay.
 
