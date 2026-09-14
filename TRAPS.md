@@ -47,3 +47,43 @@ không có ngày cập nhật gần đây.
 trong job `audit` của CI khi push lên `main` (xem `.github/workflows/ci.yml`). Hiện ở dạng
 **cảnh báo, chưa chặn CI** — xem `docs/specs/2026-09-12-traps-va-kiem-progress-loi-thoi.md`
 mục Rollout.
+
+## 3. Cổng ở máy XANH GIẢ vì môi trường máy khác môi trường CI
+
+**Ngày/PR:** 2026-09-13, PR #893 (nối 4 môn STEM vào app). **Ba lần CI đỏ liên tiếp**, cả ba
+đều đã chạy đủ cổng ở máy và đều xanh trước khi push.
+
+**Khuôn lỗi:** "chạy đủ cổng ở máy rồi" KHÔNG đồng nghĩa "CI sẽ xanh". Máy lập trình mang theo
+trạng thái mà runner CI không có, và cổng ở máy có khi chạy lệnh KHÁC lệnh CI chạy. Ba biến thể
+đã mắc trong cùng một PR:
+
+| Biến thể             | Máy xanh vì                                                | CI đỏ vì                                                                               |
+| -------------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| **Lockfile lệch**    | `npm install` tự liên kết workspace mới                    | CI chạy `npm ci`, lệnh này TỪ CHỐI khi `package.json` và `package-lock.json` lệch nhau |
+| **Tạo tác build cũ** | còn `packages/*/dist` từ lần build trước để phân giải kiểu | runner checkout sạch, không có `dist` nào                                              |
+| **Lệnh khác nhau**   | `npm test` (không bật coverage)                            | `npm run test:coverage` (có ngưỡng chặn)                                               |
+
+Biến thể "lockfile lệch" nguy hiểm nhất vì nó giết **mọi** job cùng lúc ở bước cài đặt — nhìn
+bảng check thấy toàn đỏ, dễ tưởng nội dung hỏng nặng, trong khi chưa cổng nào kịp chạy.
+
+**Cách rà:** dấu hiệu nhận ra ngay từ bảng check, trước khi đọc log:
+
+- **Mọi job đỏ, mỗi job chỉ sống ~10 giây** → hỏng ở bước cài đặt, gần như chắc chắn là
+  lockfile. Đối chiếu: thêm/xoá thư mục trong `packages/` hay `apps/` ở PR này không?
+- **Job đỏ ở một project TypeScript mình không đụng tới** → thiếu khai báo phân giải. Tái hiện:
+  `rm -rf packages/*/dist && npm run typecheck`.
+- **Chỉ "Unit tests + coverage" đỏ mà test không báo ca nào hỏng** → ngưỡng coverage. Tái hiện:
+  `npm run test:coverage` (KHÔNG phải `npm test`).
+
+**Cổng chốt chặn** — chưa tự động hoá được, nên là QUY ƯỚC làm việc, áp cho mọi PR:
+
+1. **Thêm hoặc xoá một gói trong `packages/`/`apps/` thì PHẢI chạy `npm install` và commit
+   `package-lock.json` kèm theo.** Kiểm nhanh trước khi push: `npm ci` phải trả về 0.
+2. **Trước lần push cuối, xoá tạo tác build rồi chạy lại cổng:** `rm -rf packages/*/dist dist
+dist-server` rồi `npm run typecheck`. Đây là cách duy nhất tái hiện được checkout sạch của
+   CI mà không cần clone lại.
+3. **Đọc `.github/workflows/ci.yml` để chạy ĐÚNG lệnh CI chạy, đừng chạy lệnh gần giống.**
+   Cụ thể: cổng test của CI là `npm run test:coverage`, không phải `npm test`.
+
+Liên quan: CLAUDE.md mục 8 đã cảnh báo "công cụ phải khớp lockfile" cho trường hợp `node_modules`
+cũ; mục này mở rộng khuôn đó sang lockfile, tạo tác build và lệnh chạy.
