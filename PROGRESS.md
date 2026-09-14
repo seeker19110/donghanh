@@ -762,6 +762,13 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   sẽ làm CI đỏ. CSS 18,11 / 20 kB (90,6%; ngưỡng đã nới từ 18 lên 20). Phần mô tả bên dưới là
   số đo CŨ, giữ lại để so sánh xu hướng — đừng đọc nó như trạng thái hiện tại.
 
+  **[Đo lại 2026-09-14, docs/changelog/0304 — phần JS của nợ này ĐÃ ĐÓNG.]** Sửa lỗi cấu hình
+  `manualChunks` (`apps/dhcb/vite.config.ts`): `@marijn/find-cluster-break` rơi nhầm vào
+  `vendor-misc` thay vì `vendor-codemirror`; tách `qrcode`+`dijkstrajs` (chỉ dùng sau route
+  lazy-load) ra chunk riêng không bị preload eager. Kết quả `npx size-limit --json` sau `npm run
+build`: **JS 126,07 / 140 kB = 90,06%** (dư 13,93 kB, gấp gần 3 lần biên độ cũ). CSS không đổi
+  (ngoài phạm vi đợt này, vẫn 90,6%). Coverage vẫn mỏng như mô tả cũ bên dưới — CHƯA đóng.
+
   **[Đo lại 2026-09-01, đợt tối ưu dự án]** Trước đợt: JS 127,36 / 140 kB · CSS **17,00 / 18 kB
   (còn đúng 1 kB — PR #797 thêm keyframes/utility)** · branches **90,19%** (còn 0,19 điểm).
   Sau đợt: JS 127,26 kB (chunk `lessons` 3 MB của môn Lập trình đã tách thành 153 chunk theo
