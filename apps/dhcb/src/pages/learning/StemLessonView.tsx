@@ -19,6 +19,7 @@ import { PageShell } from '@core/PageShell'
 import { buttonClass } from '@core/buttonStyles'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { ChuaDuyetChuyenMon } from '../../components/ChuaDuyetChuyenMon'
+import { LuotDuyetBai } from '../../components/admin/LuotDuyetBai'
 import {
   duongDanDanhSachBai,
   getStemSubject,
@@ -227,6 +228,8 @@ export default function StemLessonView() {
                 </div>
               ))}
             </dl>
+
+            <LuotDuyetBai lessonId={bai.id} mon={subject.id} />
           </article>
         )}
       </PageShell>

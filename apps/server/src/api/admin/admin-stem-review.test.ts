@@ -1,4 +1,8 @@
 // Test /api/admin-stem-review — chặn quyền, validate thân yêu cầu, ghi đè đúng khoá.
+//
+// KHÔNG mock 4 registry môn học: chúng là dữ liệu thuần, và handler PHẢI tự tra bài thật từ đó
+// để tính băm — mock đi là không còn thử được đúng thứ quan trọng nhất (server tự tính băm,
+// không tin client).
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 
 vi.mock('@dhcb/core-db/pgPool', () => ({ getPgPool: vi.fn() }))
@@ -24,10 +28,16 @@ vi.mock('@dhcb/core-auth/adminAuth', () => ({
 import handler from './admin-stem-review.js'
 import { getPgPool } from '@dhcb/core-db/pgPool'
 import { TIEU_CHI_DUYET, PHIEN_BAN_TIEU_CHI } from '@dhcb/core-contracts/lessonReview'
+import { bamNoiDungBaiHoc } from '@dhcb/core-contracts/lessonReviewHash'
+import { BIOLOGY_LESSONS } from '@dhcb/subject-biology/lessons'
 
 const mockedGetPool = vi.mocked(getPgPool)
 const query = vi.fn()
 const tieuChiDat = Object.fromEntries(TIEU_CHI_DUYET.map((k) => [k, true]))
+
+// Bài THẬT trong registry — để chứng minh server tự tra được và tự tính đúng băm.
+const baiThat = BIOLOGY_LESSONS.find((b) => b.id === 'sinh12-c1-b1')!
+const bamThat = bamNoiDungBaiHoc(baiThat)
 
 const thanHopLe = {
   loai: 'nguoi-duyet',
@@ -36,7 +46,6 @@ const thanHopLe = {
   nguoiDuyet: 'Cô Lan',
   phienBanTieuChi: PHIEN_BAN_TIEU_CHI,
   tieuChi: tieuChiDat,
-  bamNoiDung: 'a'.repeat(64),
 }
 
 function req(method: string, body?: unknown, qs = ''): Request {
@@ -92,7 +101,7 @@ describe('chặn quyền', () => {
 })
 
 describe('POST ghi lượt duyệt', () => {
-  it('ghi bản ghi người duyệt hợp lệ, truyền user_id lấy từ TOKEN chứ không từ thân yêu cầu', async () => {
+  it('server TỰ TÍNH băm từ registry thật — thân yêu cầu KHÔNG có bamNoiDung', async () => {
     query.mockResolvedValue({
       rows: [
         {
@@ -102,7 +111,7 @@ describe('POST ghi lượt duyệt', () => {
           nguoi_duyet: 'Cô Lan',
           phien_ban_tieu_chi: PHIEN_BAN_TIEU_CHI,
           tieu_chi: tieuChiDat,
-          bam_noi_dung: 'a'.repeat(64),
+          bam_noi_dung: bamThat,
           ghi_chu: null,
           cap_nhat_luc: new Date('2026-09-14T00:00:00Z'),
         },
@@ -110,11 +119,23 @@ describe('POST ghi lượt duyệt', () => {
     })
     const res = await handler(req('POST', thanHopLe))
     expect(res.status).toBe(200)
-    const body = (await res.json()) as { luotDuyet: { lessonId: string; capNhatLuc: string } }
-    expect(body.luotDuyet.lessonId).toBe('sinh12-c1-b1')
-    expect(body.luotDuyet.capNhatLuc).toBe('2026-09-14T00:00:00.000Z')
+    const body = (await res.json()) as { luotDuyet: { bamNoiDung: string } }
+    expect(body.luotDuyet.bamNoiDung).toBe(bamThat)
     const thamSo = query.mock.calls[0]![1] as unknown[]
+    expect(thamSo[7], 'băm phải khớp băm thật tính từ registry').toBe(bamThat)
     expect(thamSo[4], 'user_id phải lấy từ token').toBe('user-1')
+  })
+
+  it('TỪ CHỐI nếu client CỐ GỬI bamNoiDung — schema strict không cho trường lạ', async () => {
+    const res = await handler(req('POST', { ...thanHopLe, bamNoiDung: 'a'.repeat(64) }))
+    expect(res.status).toBe(400)
+    expect(query).not.toHaveBeenCalled()
+  })
+
+  it('TỪ CHỐI khi lessonId không có trong registry của môn đã khai (dù đúng khuôn id)', async () => {
+    const res = await handler(req('POST', { ...thanHopLe, lessonId: 'sinh10-c9-b99' }))
+    expect(res.status).toBe(404)
+    expect(query).not.toHaveBeenCalled()
   })
 
   it('TỪ CHỐI khi lessonId không thuộc môn đã khai', async () => {
@@ -123,20 +144,14 @@ describe('POST ghi lượt duyệt', () => {
     expect(query).not.toHaveBeenCalled()
   })
 
-  it('TỪ CHỐI bản ghi người duyệt thiếu chữ ký hoặc thiếu băm', async () => {
-    for (const truong of ['nguoiDuyet', 'phienBanTieuChi', 'tieuChi', 'bamNoiDung'] as const) {
+  it('TỪ CHỐI bản ghi người duyệt thiếu chữ ký', async () => {
+    for (const truong of ['nguoiDuyet', 'phienBanTieuChi', 'tieuChi'] as const) {
       const thieu: Record<string, unknown> = { ...thanHopLe }
       delete thieu[truong]
       const res = await handler(req('POST', thieu))
       expect(res.status, `thiếu ${truong} mà vẫn ghi được`).toBe(400)
       expect(query).not.toHaveBeenCalled()
     }
-  })
-
-  it('TỪ CHỐI trường lạ lọt vào thân yêu cầu (schema strict)', async () => {
-    const res = await handler(req('POST', { ...thanHopLe, reviewStatus: 'reviewed' }))
-    expect(res.status).toBe(400)
-    expect(query).not.toHaveBeenCalled()
   })
 
   it('TỪ CHỐI lessonId sai khuôn — không cho chuỗi tuỳ ý vào truy vấn', async () => {
@@ -147,7 +162,7 @@ describe('POST ghi lượt duyệt', () => {
     expect(query).not.toHaveBeenCalled()
   })
 
-  it('bản ghi AI sàng lọc ghi được nhưng KHÔNG mang chữ ký người', async () => {
+  it('bản ghi AI sàng lọc ghi được, KHÔNG tính băm, KHÔNG mang chữ ký người', async () => {
     query.mockResolvedValue({
       rows: [
         {
@@ -175,6 +190,7 @@ describe('POST ghi lượt duyệt', () => {
     const thamSo = query.mock.calls[0]![1] as unknown[]
     expect(thamSo[3], 'máy không ký tên thay người').toBeNull()
     expect(thamSo[6], 'máy không điền bộ tiêu chí').toBeNull()
+    expect(thamSo[7], 'AI sàng lọc không cần băm').toBeNull()
   })
 
   it('TỪ CHỐI bản ghi AI kèm chữ ký người — không cho máy tự phong', async () => {
