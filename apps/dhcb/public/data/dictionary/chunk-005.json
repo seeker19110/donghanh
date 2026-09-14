@@ -1961,16 +1961,6 @@
     "forms": { "plural": "lorries" }
   },
   {
-    "word": "los",
-    "pos": "n",
-    "vi": "thường thấy trong tên địa danh (ví dụ Los Angeles)",
-    "ex_en": "He lives in Los Angeles.",
-    "ex_vi": "Anh ấy sống ở Los Angeles.",
-    "ipa_en": "/lɔs/",
-    "ipa_vi": "/tʰɯəŋ˨˩/",
-    "level": "B2"
-  },
-  {
     "word": "lose",
     "pos": "v",
     "vi": "thua/mất",
@@ -9529,17 +9519,6 @@
     "freq": 3204,
     "level": "B1",
     "forms": { "plural": "nets" }
-  },
-  {
-    "word": "netsurfer",
-    "pos": "n",
-    "vi": "người lướt web/mạng",
-    "ex_en": "As a netsurfer, she spends hours browsing new websites.",
-    "ex_vi": "Là một người lướt mạng, cô ấy dành hàng giờ để duyệt các trang web mới.",
-    "ipa_en": "/ˈnɛtˌsɜrfər/",
-    "ipa_vi": "/ŋɯəi˨˩/",
-    "level": "B2",
-    "forms": { "plural": "netsurfers" }
   },
   {
     "word": "network",

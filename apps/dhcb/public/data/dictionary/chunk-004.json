@@ -2142,18 +2142,6 @@
     "forms": { "plural": "honeymoons" }
   },
   {
-    "word": "hong",
-    "pos": "n",
-    "vi": "thường thấy trong tên 'Hong Kong'",
-    "ex_en": "He works in Hong Kong.",
-    "ex_vi": "Anh ấy làm việc tại Hong Kong.",
-    "ipa_en": "/hɔŋ/",
-    "ipa_vi": "/tʰɯəŋ˨˩/",
-    "freq": 2868,
-    "level": "B1",
-    "forms": { "plural": "hongs" }
-  },
-  {
     "word": "honor",
     "pos": "n",
     "vi": "danh dự, vinh dự",
@@ -8512,16 +8500,6 @@
     "level": "B1"
   },
   {
-    "word": "ios",
-    "pos": "n",
-    "vi": "hệ điều hành iOS",
-    "ex_en": "The app is only available for iOS devices.",
-    "ex_vi": "Ứng dụng này chỉ có sẵn cho thiết bị iOS.",
-    "ipa_en": "/ˈioʊs/",
-    "ipa_vi": "/he˨˩ʔ/",
-    "level": "B2"
-  },
-  {
     "word": "ipo",
     "pos": "n",
     "vi": "phát hành cổ phiếu lần đầu",
@@ -10764,18 +10742,6 @@
     "forms": { "plural": "koalas" }
   },
   {
-    "word": "kong",
-    "pos": "n",
-    "vi": "thường thấy trong tên 'Hong Kong'",
-    "ex_en": "She visited Hong Kong last year.",
-    "ex_vi": "Cô ấy đã đến thăm Hong Kong năm ngoái.",
-    "ipa_en": "/kɔŋg/",
-    "ipa_vi": "/tʰɯəŋ˨˩/",
-    "freq": 2491,
-    "level": "B1",
-    "forms": { "plural": "kongs" }
-  },
-  {
     "word": "korean",
     "pos": "adj",
     "vi": "thuộc Hàn Quốc",
@@ -11355,17 +11321,6 @@
     "freq": 32354,
     "level": "C2",
     "forms": { "plural": "larvas" }
-  },
-  {
-    "word": "las",
-    "pos": "n",
-    "vi": "thường thấy trong tên địa danh (ví dụ Las Vegas)",
-    "ex_en": "He visited Las Vegas.",
-    "ex_vi": "Anh ấy đã đến thăm Las Vegas.",
-    "ipa_en": "/ˈɛˈleɪˈɛs/",
-    "ipa_vi": "/tʰɯəŋ˨˩/",
-    "freq": 2843,
-    "level": "A2"
   },
   {
     "word": "laser",

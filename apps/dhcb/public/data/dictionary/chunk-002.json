@@ -4057,17 +4057,6 @@
     "forms": { "v3s": "derives", "ving": "deriving", "past": "derived" }
   },
   {
-    "word": "des",
-    "pos": "n",
-    "vi": "thường thấy trong tên địa danh (ví dụ Des Moines)",
-    "ex_en": "He lives in Des Moines.",
-    "ex_vi": "Anh ấy sống ở Des Moines.",
-    "ipa_en": "/dɪ/",
-    "ipa_vi": "/tʰɯəŋ˨˩/",
-    "freq": 7953,
-    "level": "A1"
-  },
-  {
     "word": "descend",
     "pos": "v",
     "vi": "đi xuống",

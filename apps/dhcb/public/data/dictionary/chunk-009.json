@@ -12187,18 +12187,6 @@
     "forms": { "plural": "yogurts" }
   },
   {
-    "word": "york",
-    "pos": "n",
-    "vi": "York (tên địa danh)",
-    "ex_en": "I visited New York last year.",
-    "ex_vi": "Tôi đã đến New York năm ngoái.",
-    "ipa_en": "/jɔrk/",
-    "ipa_vi": "/york˧/",
-    "freq": 612,
-    "level": "A1",
-    "forms": { "plural": "yorks" }
-  },
-  {
     "word": "you",
     "pos": "pron",
     "vi": "bạn",

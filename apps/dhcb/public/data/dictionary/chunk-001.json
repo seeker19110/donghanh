@@ -11744,18 +11744,6 @@
     "forms": { "plural": "costs" }
   },
   {
-    "word": "costa",
-    "pos": "n",
-    "vi": "thường thấy trong tên riêng (ví dụ Costa Rica)",
-    "ex_en": "They traveled to Costa Rica.",
-    "ex_vi": "Họ đã đi du lịch đến Costa Rica.",
-    "ipa_en": "/ˈkɔstɑ/",
-    "ipa_vi": "/tʰɯəŋ˨˩/",
-    "freq": 9512,
-    "level": "A2",
-    "forms": { "plural": "costas" }
-  },
-  {
     "word": "costly",
     "pos": "adj",
     "vi": "tốn kém, đắt đỏ",

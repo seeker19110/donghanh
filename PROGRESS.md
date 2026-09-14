@@ -314,13 +314,21 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
 
   **F6 ĐÃ ĐÓNG** — ratchet `TOI_THIEU_PHU_HOAT_ANH` trong `lessons.test.ts` của cả 4 môn chặn CI
   khi độ phủ tụt.
-  - **PR (đợt này) (`docs/changelog/0311-*.md`): F3 ĐÃ ĐÓNG** — 554 vòng A2–C2 (1 662 câu) viết
+  - **PR #913 ĐÃ MERGE (`docs/changelog/0311-*.md`): F3 ĐÃ ĐÓNG** — 554 vòng A2–C2 (1 662 câu) viết
     nốt, **677/677 vòng có câu mẫu** (cefr-\*: 588/588). Không cần key AI: viết tay như đợt 0.
     Kèm hai việc phát sinh do quy mô tăng 17 lần — (1) phải tối ưu `matchedCircleWords` vì test
     bất biến đỏ do **timeout** (đã đối chiếu cũ/mới trên 2 063 câu: 0 ca lệch; 5,4 s → 0,13 s);
     (2) lượt viết đầu ra câu **nhồi từ** sinh tiếng Anh bịa (`miscellaneous-ly`) nên **đã viết
     lại 244 vòng** và thêm bất biến `KHONG_NHOI_TU` chặn CI (trần 4 từ của vòng mỗi câu, mốc lấy
     từ chuẩn A1 đợt 0). Câu nhồi ≥ 5 từ: 445 → **0**.
+  - **PR (đợt này) (`docs/changelog/0312-*.md`): gỡ 10 mục "từ vựng" KHÔNG phải từ tiếng Anh.**
+    Bắt đầu từ `cefr-b2-noun-63` nhưng hoá ra là khuôn lỗi hệ thống: 8 **mảnh tên riêng**
+    (`des`, `york` ở ngay bậc **A1**; `angeles`, `las`, `costa`, `kong`, `hong`, `los`) + biến thể
+    trùng `netsurfer` + tên hệ điều hành `ios`. Gỡ ở **từ điển** (nguồn sinh ra mọi vòng `cefr-*`)
+    chứ không sửa tay trong vòng, vì sửa trong vòng sẽ bị lần sinh lại ghi đè. Cổng mới
+    `apps/dhcb/src/data/vocabQuality.test.ts` chặn CI, bắt theo **lời giải nghĩa** nên rác kiểu mới
+    cũng bị chặn. Còn nợ: `scholasticism`/`mutability`/`RNA` gắn nhãn B2 là **sai bậc** (không phải
+    lỗi dữ liệu) — cần đợt đánh giá lại thang bậc từ điển.
 
 - **[2026-09-14 — ĐÃ QUYẾT, người dùng chốt phương án (a)] Tiêu chí kích thước file chương của
   đặc tả hoạt ảnh đo SAI CHỖ — đã sửa sang đo chunk sau build.** Tiêu chí cũ "file chương ≤ 120 kB

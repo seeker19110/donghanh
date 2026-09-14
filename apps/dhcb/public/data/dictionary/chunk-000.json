@@ -4149,17 +4149,6 @@
     "forms": { "plural": "angels" }
   },
   {
-    "word": "angeles",
-    "pos": "n",
-    "vi": "thường thấy trong tên thành phố Los Angeles",
-    "ex_en": "He lives in Los Angeles.",
-    "ex_vi": "Anh ấy sống ở Los Angeles.",
-    "ipa_en": "/ˈænʤəlɪs/",
-    "ipa_vi": "/tʰɯəŋ˨˩/",
-    "freq": 1915,
-    "level": "A2"
-  },
-  {
     "word": "anger",
     "pos": "n",
     "vi": "sự tức giận",
