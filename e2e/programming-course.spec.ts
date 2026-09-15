@@ -48,7 +48,9 @@ test('bấm vào bài trong khoá dẫn đúng bài học (dùng lại bài p3-u
     .getByRole('button', { name: /Học bài:/ })
     .first()
     .click()
-  await expect(page).toHaveURL(/\/lap-trinh\/bai-hoc\/p3-u10-l1(--[a-z0-9-]+)?$/)
+  // URL bài học mang ngữ cảnh khoá `?khoa=<mã>` (S07, đặc tả §③.2 Q1): một bài có thể nằm
+  // trong nhiều khoá, mở bài xong vẫn phải biết đường về đúng khoá đang học.
+  await expect(page).toHaveURL(/\/lap-trinh\/bai-hoc\/p3-u10-l1(--[a-z0-9-]+)?\?khoa=git$/)
 })
 
 test('trang môn Lập trình có lối vào khoá ngắn', async ({ page }) => {
@@ -84,7 +86,9 @@ test('bấm vào bài trong khoá Hermes dẫn đúng bài đầu chương C1', 
     .getByRole('button', { name: /Học bài:/ })
     .first()
     .click()
-  await expect(page).toHaveURL(/\/lap-trinh\/bai-hoc\/hermes-u1-l1(--[a-z0-9-]+)?$/)
+  // URL bài học mang ngữ cảnh khoá `?khoa=<mã>` (S07, đặc tả §③.2 Q1): một bài có thể nằm
+  // trong nhiều khoá, mở bài xong vẫn phải biết đường về đúng khoá đang học.
+  await expect(page).toHaveURL(/\/lap-trinh\/bai-hoc\/hermes-u1-l1(--[a-z0-9-]+)?\?khoa=hermes$/)
 })
 
 test('trang môn Lập trình có lối vào khoá Hermes', async ({ page }) => {
@@ -119,7 +123,9 @@ test('bấm vào bài trong khoá Vibe Code dẫn đúng bài đầu chương C1
     .getByRole('button', { name: /Học bài:/ })
     .first()
     .click()
-  await expect(page).toHaveURL(/\/lap-trinh\/bai-hoc\/vibe-u1-l1(--[a-z0-9-]+)?$/)
+  // URL bài học mang ngữ cảnh khoá `?khoa=<mã>` (S07, đặc tả §③.2 Q1): một bài có thể nằm
+  // trong nhiều khoá, mở bài xong vẫn phải biết đường về đúng khoá đang học.
+  await expect(page).toHaveURL(/\/lap-trinh\/bai-hoc\/vibe-u1-l1(--[a-z0-9-]+)?\?khoa=vibe$/)
 })
 
 test('trang môn Lập trình có lối vào khoá Vibe Code', async ({ page }) => {
@@ -154,7 +160,11 @@ test('bấm vào bài trong khoá OpenClaw dẫn đúng bài đầu chương C1'
     .getByRole('button', { name: /Học bài:/ })
     .first()
     .click()
-  await expect(page).toHaveURL(/\/lap-trinh\/bai-hoc\/openclaw-u1-l1(--[a-z0-9-]+)?$/)
+  // URL bài học mang ngữ cảnh khoá `?khoa=<mã>` (S07, đặc tả §③.2 Q1): một bài có thể nằm
+  // trong nhiều khoá, mở bài xong vẫn phải biết đường về đúng khoá đang học.
+  await expect(page).toHaveURL(
+    /\/lap-trinh\/bai-hoc\/openclaw-u1-l1(--[a-z0-9-]+)?\?khoa=openclaw$/,
+  )
 })
 
 test('URL cũ /lap-trinh/khoa/:id chuyển hướng sang /lap-trinh/khoa-hoc/:id, giữ mã khoá', async ({
