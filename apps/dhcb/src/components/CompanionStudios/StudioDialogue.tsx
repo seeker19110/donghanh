@@ -22,6 +22,7 @@ import CyberTutorAvatar3D from '../Companion3D/CyberTutorAvatar3D'
 import AvatarEmbodimentSelector, { EmbodimentMode } from '../Companion3D/AvatarEmbodimentSelector'
 import EdgeAiIndicator from '../EdgeAi/EdgeAiIndicator'
 import InteractiveQuestionCard from './InteractiveQuestionCard'
+import ChatProse from './ChatProse'
 import type { ProposedAction } from '@dhcb/core-contracts/proposedAction'
 import type { ContextPackage } from '@dhcb/core-contracts/contextPackage'
 import { ChatMessage, CompanionVoiceState, DOMAIN_OPTIONS, QUICK_PROMPTS } from './studioTypes'
@@ -349,9 +350,18 @@ export default function StudioDialogue({
                       </div>
                     )}
 
-                    <div className="text-sm sm:text-[15px] leading-relaxed whitespace-pre-wrap">
-                      {msg.text}
-                    </div>
+                    {/* [S03-3] CHỈ lượt của Companion đi qua bộ đọc markdown. Lượt của người
+                        dùng giữ nguyên `whitespace-pre-wrap`, có chủ đích: (1) người dùng gõ
+                        chữ thường chứ không viết markdown, nên diễn giải dấu sao của họ là
+                        SỬA lời họ vừa nói; (2) bong bóng người dùng có nền gradient sáng, các
+                        lớp màu `text-zinc-*` của ChatProse không đạt tương phản trên nền đó. */}
+                    {isBot ? (
+                      <ChatProse text={msg.text} />
+                    ) : (
+                      <div className="text-sm sm:text-[15px] leading-relaxed whitespace-pre-wrap">
+                        {msg.text}
+                      </div>
+                    )}
 
                     {/* Câu hỏi tick chọn — trả lời bằng cách bấm thay vì gõ tay */}
                     {isBot && msg.interactiveQuestions && msg.interactiveQuestions.length > 0 && (

@@ -1,6 +1,6 @@
 # Đặc tả nền — nâng trải nghiệm học Đồng Hành
 
-> **Approved for implementation — chỉ S02, sau khi PR đặc tả được merge.** Người dùng đã yêu cầu triển khai kế hoạch tuần tự; agent chính review kỹ thuật S02 ngày 15/09/2026 trên base `45195feb`, chốt giới hạn 2000 ký tự, TTL 30 phút và cách ly nháp theo chủ sở hữu. S03 và S04–S13 vẫn cần review/đặc tả riêng. Tài liệu chưa được merge tại thời điểm tạo PR.
+> **Approved for implementation — S02 và S03 (S03-1/S03-2/S03-3), sau khi PR đặc tả được merge.** Người dùng đã yêu cầu triển khai kế hoạch tuần tự; agent chính review kỹ thuật S02 ngày 15/09/2026 trên base `45195feb`, chốt giới hạn 2000 ký tự, TTL 30 phút và cách ly nháp theo chủ sở hữu. S03-3 đã qua lượt review kỹ thuật bắt buộc của gạch 5 ngày 15/09/2026 (đọc `StudioDialogue.tsx` + `lessonMarkdown.ts`, đo thật đầu ra bộ đọc hiện có trên câu trả lời có rào ```, kiểm `grep dangerouslySetInnerHTML` = 0 và `package.json` không có thư viện markdown/sanitizer): **kết luận KHÔNG cài parser mới** — dùng lại `lib/lessonMarkdown.ts`, thêm đúng khối code rào. Renderer công thức toán (KaTeX) **tách PR/spec riêng**, chưa duyệt. S04–S13 vẫn cần review/đặc tả riêng. Tài liệu chưa được merge tại thời điểm tạo PR.
 >
 > Goal: [GOAL-2026-0915-LEARNING-UX](../goals/2026-09-15-learning-ux.md). Base: `45195feb` (#919), ngày 15/09/2026.
 
@@ -162,4 +162,4 @@ S01 không migration hoặc runtime effect; revert docs an toàn. S02/S03 focuse
 - Tiêu chí ④: chưa nghiệm thu implementation; không có prototype mới.
 - Bất biến ⑤: ghi guardrails; chưa chứng minh regression runtime ở S01.
 - Phạm vi: ba tài liệu, không source/dependencies.
-- Còn mở: merge S01; review kỹ thuật S03 trở đi; nghiệm thu handoff và owner isolation; chính sách zoom; renderer đích; adapter outline từng môn; spec S04–S13; quyền phát hành.
+- Còn mở: merge S01; review kỹ thuật S04 trở đi (S03 đã review xong); nghiệm thu handoff và owner isolation; chính sách zoom; renderer đích; adapter outline từng môn; spec S04–S13; quyền phát hành.

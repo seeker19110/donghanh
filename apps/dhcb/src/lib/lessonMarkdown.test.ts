@@ -13,7 +13,7 @@ import { PROGRAMMING_LESSONS } from '@dhcb/subject-programming/lessons'
 /** Ghép lại toàn bộ chữ của một khối — dùng để kiểm "không mất chữ nào". */
 function chuCuaKhoi(b: LessonBlock): string {
   if (b.kind === 'code') return b.code
-  if (b.kind === 'para') return b.inline.map((n) => n.text).join('')
+  if (b.kind === 'para' || b.kind === 'heading') return b.inline.map((n) => n.text).join('')
   return b.items.map((it) => it.map((n) => n.text).join('')).join('\n')
 }
 
@@ -143,5 +143,83 @@ describe('chạy trên dữ liệu THẬT của mọi bài học', () => {
       // vào nhánh đoạn văn và sẽ bị phân tích markdown — đúng thứ luật cấm.
       expect(b.inline[0]!.text.startsWith(' ')).toBe(false)
     }
+  })
+})
+
+// [S03-3, 2026-09-15] Rào ``` — thêm vì bộ đọc này nay còn phục vụ câu trả lời của Companion,
+// mà LLM viết code bằng rào chứ không thụt lề.
+describe('khối code RÀO ```', () => {
+  it('gom nguyên văn phần thân, kể cả dòng KHÔNG thụt lề', () => {
+    // Trước khi có nhánh rào, đúng chuỗi này vỡ thành 3 đoạn văn + 1 khối code lạc: hai dòng
+    // thụt lề 0 rơi vào nhánh đoạn văn, dòng thụt lề 4 thành khối code riêng.
+    const b = parseLessonMarkdown('Ví dụ:\n```python\ntong = 0\nfor x in ds:\n    tong += x\n```')
+    expect(b).toHaveLength(2)
+    expect(b[0]!.kind).toBe('para')
+    expect(b[1]).toEqual({ kind: 'code', code: 'tong = 0\nfor x in ds:\n    tong += x' })
+  })
+
+  it('không phân tích markdown bên trong rào', () => {
+    const b = parseLessonMarkdown(
+      '```\n- khong phai gach dau dong\n**khong phai dam**\n1. khong phai so\n```',
+    )
+    expect(b).toEqual([
+      { kind: 'code', code: '- khong phai gach dau dong\n**khong phai dam**\n1. khong phai so' },
+    ])
+  })
+
+  it('giữ dòng trống bên trong rào', () => {
+    const b = parseLessonMarkdown('```\na = 1\n\nb = 2\n```')
+    expect(b).toEqual([{ kind: 'code', code: 'a = 1\n\nb = 2' }])
+  })
+
+  it('rào thiếu dấu đóng vẫn ra khối code, không rớt ra chữ', () => {
+    // Ca thật: câu trả lời của LLM bị cắt vì hết token budget giữa khối code.
+    const b = parseLessonMarkdown('Thu xem:\n```\nprint("chua dong")')
+    expect(b[1]).toEqual({ kind: 'code', code: 'print("chua dong")' })
+  })
+
+  it('rào rỗng không sinh ô code trống', () => {
+    expect(parseLessonMarkdown('```\n```')).toEqual([])
+  })
+
+  it('bỏ qua nhãn ngôn ngữ sau rào mở', () => {
+    const b = parseLessonMarkdown('```js\nconst a = 1\n```')
+    expect(b).toEqual([{ kind: 'code', code: 'const a = 1' }])
+  })
+})
+
+describe('tiêu đề ## — TẮT mặc định, chỉ bật cho khung chat', () => {
+  it('mặc định giữ nguyên dấu thăng là chữ (luật của bài học)', () => {
+    const b = parseLessonMarkdown('## Buoc tiep theo')
+    expect(b[0]!.kind).toBe('para')
+    expect(chuCuaKhoi(b[0]!)).toBe('## Buoc tiep theo')
+  })
+
+  it('bật cờ thì ## và ### thành tiêu đề, có phân tích chữ bên trong', () => {
+    const b = parseLessonMarkdown('## Buoc **mot**\n### Chi tiet', { headings: true })
+    expect(b).toEqual([
+      {
+        kind: 'heading',
+        level: 2,
+        inline: [
+          { kind: 'text', text: 'Buoc ' },
+          { kind: 'bold', text: 'mot' },
+        ],
+      },
+      { kind: 'heading', level: 3, inline: [{ kind: 'text', text: 'Chi tiet' }] },
+    ])
+  })
+
+  it('MỘT dấu thăng KHÔNG bao giờ là tiêu đề, kể cả khi bật cờ', () => {
+    // Lớp chặn thứ hai cho 305 dòng comment Python `# ...` trong kho bài học: comment lọt ra
+    // ngoài khối code vẫn phải là chữ, không được biến thành tiêu đề rồi mất dấu thăng.
+    const b = parseLessonMarkdown('# ghi chu python', { headings: true })
+    expect(b[0]!.kind).toBe('para')
+    expect(chuCuaKhoi(b[0]!)).toBe('# ghi chu python')
+  })
+
+  it('dấu thăng không có khoảng trắng theo sau vẫn là chữ (thẻ hashtag)', () => {
+    const b = parseLessonMarkdown('##hashtag', { headings: true })
+    expect(b[0]!.kind).toBe('para')
   })
 })
