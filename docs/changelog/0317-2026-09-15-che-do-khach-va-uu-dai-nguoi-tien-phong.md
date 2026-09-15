@@ -101,6 +101,19 @@ test ✅ — 12.424 test cũ + 63 test mới:
   apps/dhcb/src/lib/guestProgress.test.ts (29) — union không mất dữ liệu; khoá bậc không lỏng hơn
 ```
 
+## Bẫy đã mắc trong chính đợt này (ghi lại, không giấu)
+
+**Cho `user` "luôn tồn tại" làm mọi `if (user)` cũ âm thầm đổi nghĩa.** Việc cấp `User` ảo cho
+khách là quyết định kiến trúc đúng, nhưng nó biến mọi biểu thức `if (user)` đã có trong repo từ
+"đã đăng nhập" thành "trang đã tải xong". `Login.tsx` có đúng một dòng như vậy
+(`if (user) return <Navigate to="/" replace />`) → **không ai vào được trang đăng nhập nữa**.
+
+Lỗi không ném exception, không log đỏ, trang không trắng — nó chỉ _chuyển hướng_. Nên triệu
+chứng hiện ra như **8 lỗi rời rạc ở 3 file spec khác nhau** ("mất nút Microsoft", "mất nút
+VI/EN", "không thấy form email", "`/trang-ca-nhan` không đẩy về `/login`"), trong khi thực chất
+là MỘT lỗi. Sửa: `if (user && !isGuest)`. Đã ghi thành `TRAPS.md` mục 6 kèm lệnh rà
+(`codemap -- callers useAuth` + grep các dạng `if (user)`) và cổng chốt chặn.
+
 ## Rủi ro đã biết
 
 - `getAuthHeader()` là điểm nóng (mọi lời gọi API client). Thay đổi chỉ THÊM header khi **không

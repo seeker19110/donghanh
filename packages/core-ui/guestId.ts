@@ -12,7 +12,11 @@
 // họ. Nó chỉ dùng để (1) gom tiến độ cục bộ của một trình duyệt, (2) đếm lượt dùng thử AI ở
 // server ở mức chặn lạm dụng thô — server còn chặn thêm theo IP.
 
-const GUEST_ID_KEY = 'dhcb_guest_id_v1'
+// Đây là TÊN KHOÁ localStorage, không phải bí mật. gitleaks bắt nhầm vì chuỗi có entropy cao
+// (rule generic-api-key); chú thích `gitleaks:allow` phải nằm NGAY TRÊN CHÍNH DÒNG bị bắt thì
+// mới có tác dụng. Miễn trừ đúng một dòng — cố ý KHÔNG thêm `.gitleaks.toml` với allowlist
+// regex rộng, vì như vậy là nới bộ quét bí mật của cả dự án để đi vòng qua một dòng vô hại.
+const GUEST_ID_KEY = 'dhcb_guest_id_v1' // gitleaks:allow
 
 /** Tiền tố nhận dạng — dùng chung client lẫn server. */
 export const GUEST_ID_PREFIX = 'guest_'

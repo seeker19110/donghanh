@@ -80,7 +80,7 @@ public.grant_founder_if_available(p_user_id uuid, p_limit int) returns boolean
 - [x] Người đang trả tiền VIP có hạn, sau khi nâng lifetime, mọi lần gia hạn/hết hạn về sau
       KHÔNG kéo họ xuống free. Test: `founder.test.ts` mục "không bao giờ bị hạ xuống free".
 - [x] Migration chạy lại lần hai cho cùng kết quả (lũy đẳng theo thiết kế: thứ tự `(created_at,
-    id)` không đổi khi có người đăng ký thêm).
+id)` không đổi khi có người đăng ký thêm).
 
 **Lệnh chứng minh:**
 

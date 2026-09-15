@@ -13,7 +13,8 @@ import { Link } from 'react-router-dom'
 import { X, UserPlus } from 'lucide-react'
 import { useLang } from '../context/useLang'
 
-const DISMISS_KEY = 'dhcb_guest_banner_dismissed_v1'
+// TÊN KHOÁ sessionStorage, không phải bí mật — xem chú thích đầy đủ ở packages/core-ui/guestId.ts.
+const DISMISS_KEY = 'dhcb_guest_banner_dismissed_v1' // gitleaks:allow
 
 function readDismissed(): boolean {
   try {
