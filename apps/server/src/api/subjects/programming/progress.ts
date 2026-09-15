@@ -22,6 +22,8 @@ import { getLesson } from '@dhcb/subject-programming/lessons'
 import { getProjectStep } from '@dhcb/subject-programming/projectSteps'
 import { getSpecStage } from '@dhcb/subject-programming/specializations/registry'
 import { getSpecStageDetail } from '@dhcb/subject-programming/specializations/stageDetails'
+import { withTransaction } from '@dhcb/core-db/transaction'
+import { findReceipt, saveReceipt } from '../../_lib/syncReceipt.js'
 
 const UpdateSchema = z
   .object({
@@ -40,6 +42,33 @@ const UpdateSchema = z
   .strict()
 
 /**
+ * S09-1: dạng BATCH — gửi nhiều bài trong MỘT request (hàng đợi offline flush một lượt thay vì
+ * bắn 40 request và chạm hạn mức 60/phút). `attemptId` là khoá idempotency theo lần gửi.
+ * Dạng cũ `{ lessonId, status }` vẫn hợp lệ (client chưa cập nhật không bị gãy).
+ */
+const MAX_BATCH_ITEMS = 50
+const BatchSchema = z
+  .object({
+    attemptId: z.string().min(8).max(64),
+    items: z
+      .array(
+        z
+          .object({
+            lessonId: UpdateSchema.shape.lessonId,
+            status: z.enum(['in_progress', 'completed']),
+            clientUpdatedAt: z.string().datetime(),
+          })
+          .strict(),
+      )
+      .min(1)
+      .max(MAX_BATCH_ITEMS),
+  })
+  .strict()
+
+/** Một trong hai dạng body; Zod thử `.strict()` từng nhánh nên không nhầm lẫn được. */
+const BodySchema = z.union([BatchSchema, UpdateSchema])
+
+/**
  * Khoá tiến độ của tầng HƯỚNG CHUYÊN SÂU có thật hay không.
  * 'web-s2-m1' → module phải có trong bản đồ chặng; 'web-s2-r3' → tiêu chí phải có trong
  * chi tiết chặng. Kiểm để không ghi khoá rác vào bảng tiến độ.
@@ -56,6 +85,8 @@ interface LessonRow {
   lesson_id: string
   status: 'in_progress' | 'completed'
   completed_at: Date | null
+  /** S09-1: version theo DÒNG, tăng 1 mỗi lần upsert (migration 0082). */
+  version?: number
 }
 
 interface StateRow {
@@ -70,7 +101,12 @@ export default async function handler(req: Request): Promise<Response> {
   const clientIp = getClientIp(req)
   if (!(await checkRateLimit(clientIp, 60, 'programming-progress'))) {
     logSecurityEvent('RATE_LIMIT_EXCEEDED', clientIp, { path: '/api/programming/progress' })
-    return jsonResponse({ error: 'Quá nhiều yêu cầu — thử lại sau 1 phút' }, 429, headers)
+    // S09-1: `Retry-After` để hàng đợi client lùi đúng số giây (đếm lượt vẫn chạy TRƯỚC khi tra
+    // biên nhận — replay không phải đường vòng miễn phí).
+    return jsonResponse({ error: 'Quá nhiều yêu cầu — thử lại sau 1 phút' }, 429, {
+      ...headers,
+      'Retry-After': '60',
+    })
   }
 
   const auth = await validateAuth(req)
@@ -85,7 +121,7 @@ export default async function handler(req: Request): Promise<Response> {
           [auth.userId],
         ),
         pool.query<LessonRow>(
-          'select lesson_id, status, completed_at from programming.lesson_progress where user_id = $1',
+          'select lesson_id, status, completed_at, version from programming.lesson_progress where user_id = $1',
           [auth.userId],
         ),
       ])
@@ -100,6 +136,7 @@ export default async function handler(req: Request): Promise<Response> {
             lessonId: r.lesson_id,
             status: r.status,
             completedAt: r.completed_at ? r.completed_at.getTime() : null,
+            version: r.version ?? 1,
           })),
         },
         200,
@@ -112,33 +149,87 @@ export default async function handler(req: Request): Promise<Response> {
     const parsed = await readJsonBody(req)
     if (!parsed.ok)
       return jsonResponse({ error: parsed.error.message }, parsed.error.status, headers)
-    const validated = validateBody(UpdateSchema, parsed.raw)
+    const validated = validateBody(BodySchema, parsed.raw)
     if (!validated.ok)
       return jsonResponse({ error: validated.error.message }, validated.error.status, headers)
 
-    const { lessonId, status } = validated.data
-    if (!getLesson(lessonId) && !getProjectStep(lessonId) && !isSpecProgressKey(lessonId)) {
-      return jsonResponse({ error: `Bài học "${lessonId}" không tồn tại` }, 400, headers)
+    // Quy về MỘT dạng: batch có `attemptId` + nhiều mục; dạng cũ là batch 1 mục không có attemptId.
+    const body = validated.data
+    const attemptId = 'attemptId' in body ? body.attemptId : null
+    const items =
+      'items' in body
+        ? body.items
+        : [{ lessonId: body.lessonId, status: body.status, clientUpdatedAt: null }]
+
+    // Một mục sai → CẢ BATCH 400 (client không được gửi mục lạ; đơn giản hơn partial success
+    // và không để lọt khoá rác vào bảng tiến độ).
+    for (const item of items) {
+      const id = item.lessonId
+      if (!getLesson(id) && !getProjectStep(id) && !isSpecProgressKey(id)) {
+        return jsonResponse({ error: `Bài học "${id}" không tồn tại` }, 400, headers)
+      }
     }
 
-    // Đảm bảo có learner_state (lần chạm đầu tiên vào môn).
-    await pool.query(
-      `insert into programming.learner_state (user_id) values ($1)
+    // S09-1: tra biên nhận TRƯỚC transaction — lần gửi lại trả đúng response cũ, không upsert.
+    if (attemptId) {
+      const receipt = await findReceipt(pool, auth.userId, attemptId)
+      if (receipt) {
+        if (receipt.endpoint !== 'programming-progress') {
+          return jsonResponse({ error: 'attemptId đã dùng cho endpoint khác' }, 409, headers)
+        }
+        return jsonResponse({ ...receipt.response, replayed: true }, 200, headers)
+      }
+    }
+
+    // Cả batch trong MỘT transaction: hoặc mọi bài cùng vào, hoặc không bài nào (kèm biên nhận).
+    const lessons = await withTransaction(pool, async (client) => {
+      // Đảm bảo có learner_state (lần chạm đầu tiên vào môn).
+      await client.query(
+        `insert into programming.learner_state (user_id) values ($1)
        on conflict (user_id) do nothing`,
-      [auth.userId],
-    )
-    // completed là trạng thái CHỐT: học lại bài không kéo lùi về in_progress.
-    await pool.query(
-      `insert into programming.lesson_progress (user_id, lesson_id, status, completed_at, updated_at)
-       values ($1, $2, $3, case when $3 = 'completed' then now() end, now())
+        [auth.userId],
+      )
+      const written: Array<{
+        lessonId: string
+        status: string
+        completedAt: number | null
+        version: number
+      }> = []
+      for (const item of items) {
+        // completed là trạng thái CHỐT: học lại bài không kéo lùi về in_progress (câu `case when`
+        // giữ NGUYÊN như trước S09 — chỉ thêm version/client_updated_at quanh nó).
+        const { rows } = await client.query<LessonRow>(
+          `insert into programming.lesson_progress
+             (user_id, lesson_id, status, completed_at, updated_at, version, client_updated_at)
+       values ($1, $2, $3, case when $3 = 'completed' then now() end, now(), 1, $4)
        on conflict (user_id, lesson_id) do update
          set status = case when programming.lesson_progress.status = 'completed'
                            then 'completed' else excluded.status end,
              completed_at = coalesce(programming.lesson_progress.completed_at, excluded.completed_at),
-             updated_at = now()`,
-      [auth.userId, lessonId, status],
-    )
-    return jsonResponse({ ok: true }, 200, headers)
+             updated_at = now(),
+             version = programming.lesson_progress.version + 1,
+             client_updated_at = excluded.client_updated_at
+       returning lesson_id, status, completed_at, version`,
+          [auth.userId, item.lessonId, item.status, item.clientUpdatedAt],
+        )
+        const row = rows[0]
+        written.push({
+          lessonId: row?.lesson_id ?? item.lessonId,
+          status: row?.status ?? item.status,
+          completedAt: row?.completed_at ? row.completed_at.getTime() : null,
+          version: row?.version ?? 1,
+        })
+      }
+      if (attemptId) {
+        await saveReceipt(client, auth.userId, attemptId, 'programming-progress', {
+          ok: true,
+          lessons: written,
+        })
+      }
+      return written
+    })
+
+    return jsonResponse({ ok: true, replayed: false, lessons }, 200, headers)
   } catch (err: unknown) {
     return internalErrorResponse(err, headers, 'programming-progress')
   }

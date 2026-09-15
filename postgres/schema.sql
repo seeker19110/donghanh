@@ -159,9 +159,44 @@ create table if not exists english.learning_progress (
   placement      jsonb not null default '{}',
   weekly_goal    jsonb not null default '{}',
   achievements   jsonb not null default '[]',
-  updated_at     timestamptz not null default now()
+  updated_at     timestamptz not null default now(),
+  -- S09: version ĐƠN ĐIỆU do server tăng 1 mỗi lần ghi (migration 0082) — chỉ để biết "có thiết
+  -- bị khác ghi chen vào giữa hay không", KHÔNG dùng để merge.
+  version        integer not null default 1 check (version >= 1),
+  -- Mốc client báo là thay đổi lần cuối — CHỈ để chẩn đoán; mốc quyết định vẫn là now() server.
+  client_updated_at timestamptz
 );
 create or replace view public.learning_progress as select * from english.learning_progress;
+
+-- Biên nhận idempotency theo LẦN GỬI tiến độ (S09, migration 0082). Ghi cùng transaction với
+-- upsert tiến độ nên không có cửa sổ "đã ghi tiến độ mà chưa có biên nhận"; job nền dọn sau 7 ngày.
+create table if not exists public.sync_receipts (
+  user_id    uuid not null references public.users(id) on delete cascade,
+  attempt_id text not null check (char_length(attempt_id) between 8 and 64),
+  endpoint   text not null check (endpoint in ('progress', 'programming-progress')),
+  response   jsonb not null,
+  created_at timestamptz not null default now(),
+  primary key (user_id, attempt_id)
+);
+create index if not exists idx_sync_receipts_created_at on public.sync_receipts (created_at);
+
+-- Xung đột văn bản tự do không tự gộp được (S09-3): giữ CẢ HAI bản, hỏi người học khi mở bài.
+create table if not exists public.sync_conflicts (
+  id              uuid primary key default gen_random_uuid(),
+  user_id         uuid not null references public.users(id) on delete cascade,
+  doc_kind        text not null,
+  doc_id          text not null check (char_length(doc_id) <= 200),
+  field           text not null check (char_length(field) <= 100),
+  base            text,
+  local_doc       jsonb not null,
+  remote_doc      jsonb not null,
+  content_version text,
+  created_at      timestamptz not null default now(),
+  resolved_at     timestamptz,
+  keep            text check (keep in ('local', 'remote'))
+);
+create index if not exists idx_sync_conflicts_user_open
+  on public.sync_conflicts (user_id) where resolved_at is null;
 
 -- Daily Learning Plan: receipt completion append-only do server xác nhận (P1.3a).
 create table if not exists public.daily_plan_completions (
