@@ -2,6 +2,8 @@
 
 **PR:** [#936](https://github.com/seeker19110/donghanh/pull/936)
 
+**Đặc tả:** `docs/specs/2026-09-15-khoa-ai-evals-reliability.md` (Approved for implementation).
+
 ## Đã làm
 
 - Thêm khoá ngắn `airel` vào môn Lập trình: 12 giai đoạn trong 24 tuần, đi từ Python/pytest,
