@@ -8,14 +8,12 @@
 // từ slugify() đều chỉ có MỘT gạch ngang liền nhau, nên "--" không bao giờ lẫn vào trong id
 // hay trong slug, tách lại luôn đúng mà không cần biết trước danh sách id hợp lệ.
 
+import { normalizeVi } from '@dhcb/core-learner/outline/normalizeVi'
+
 /** Bỏ dấu tiếng Việt, hạ chữ thường, thay ký tự không phải chữ/số bằng "-". */
 export function slugify(text: string): string {
-  return text
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '') // bỏ dấu thanh/nguyên âm (normalize NFD tách dấu ra riêng)
-    .replace(/đ/g, 'd')
-    .replace(/Đ/g, 'd')
-    .toLowerCase()
+  // Bước bỏ dấu dùng chung với ô tìm trong mục lục (S07) — một chỗ sửa, hai nơi đúng.
+  return normalizeVi(text)
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
     .slice(0, 80)

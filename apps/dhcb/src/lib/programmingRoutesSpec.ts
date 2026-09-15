@@ -4,7 +4,22 @@
 // gzip). Để chúng ở file dùng chung là mọi trang chỉ cần dựng một URL cũng tải cả registry.
 // Chỉ trang lộ trình (đã dùng registry sẵn) mới import file này.
 import { getSpecialization } from '@dhcb/subject-programming/specializations/registry'
+import { getShortCourse } from '@dhcb/subject-programming/courses/registry'
+import type { ShortCourseId } from '@dhcb/subject-programming/courses/types'
 import { duongDanChangHuong, duongDanHuong } from './programmingRoutes'
+
+/**
+ * Đọc ngữ cảnh khoá ngắn từ query `?khoa=` của URL bài học (xem `duongDanBaiHoc`).
+ * Mã lạ hoặc thiếu → `undefined`: nơi gọi bỏ query và dùng cây bậc, KHÔNG báo lỗi và không
+ * chuyển hướng vòng (đặc tả S07 §③.4 ca lỗi).
+ *
+ * Ở đây (chứ không ở `programmingRoutes.ts`) vì phải tra registry khoá: file kia cố ý giữ
+ * tính chất "không kéo registry nào" để 10 chunk dùng chung nó không nặng thêm.
+ */
+export function maKhoaTuQuery(search: URLSearchParams): ShortCourseId | undefined {
+  const raw = search.get('khoa')
+  return raw ? getShortCourse(raw)?.id : undefined
+}
 
 /**
  * URL của một chặng khi chỉ biết id chặng (ví dụ 'ai-s1' trong bảng lắp ghép của lộ trình).
