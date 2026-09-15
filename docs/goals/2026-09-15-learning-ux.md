@@ -4,7 +4,7 @@
 | ----------------- | -------------------------------------------------------------------------------------------------------------------- |
 | Goal ID           | GOAL-2026-0915-LEARNING-UX                                                                                           |
 | Owner             | Chủ sản phẩm Đồng Hành; agent chính điều phối và review                                                              |
-| Trạng thái        | IMPLEMENT — S02 (#921) và S03-1 (#922)                                                                               |
+| Trạng thái        | IMPLEMENT — S02 (#921) đã merge, S03-1 (#922) chờ CI                                                                 |
 | Bắt đầu           | 2026-09-15                                                                                                           |
 | Target review     | Sau mỗi slice; chưa cam kết ngày phát hành toàn bộ                                                                   |
 | Quyền được cấp    | Triển khai tuần tự, mỗi slice một PR. **15/09: người dùng cho phép merge #921 và #922 khi CI xanh** (main tự deploy) |
@@ -36,23 +36,23 @@
 
 Danh sách sau phản ánh 13 PR trong kế hoạch người dùng đã chọn. S04–S13 cần discovery và đặc tả nhỏ trước implementation; spec nền không biến cả backlog thành READY. Làm tuần tự; mỗi PR giao một subagent và agent chính review diff/gate.
 
-| ID    | Outcome/AC                                 | Dependency          | Spec                                                 | Issue    | PR                                                       | State   | Evidence                        |
-| ----- | ------------------------------------------ | ------------------- | ---------------------------------------------------- | -------- | -------------------------------------------------------- | ------- | ------------------------------- |
-| S01   | Đặc tả, baseline và ma trận nghiệm thu     | main hiện tại       | [Nền](../specs/2026-09-15-learning-ux-foundation.md) | Chưa tạo | [#920](https://github.com/seeker19110/donghanh/pull/920) | SPEC    | Đối chiếu code, chưa triển khai |
-| S02   | Hỏi nhanh trung thực, giữ câu hỏi/ngữ cảnh | S01 merged/approved | Nền §④ A                                             | Chưa tạo | [#921](https://github.com/seeker19110/donghanh/pull/921) | PR      | Cổng đầy đủ trong mô tả PR      |
-| S03-1 | Subjects: lỗi tải nói thật, chống race     | S02                 | Nền §④ B (nhóm 1/3)                                  | Chưa tạo | [#922](https://github.com/seeker19110/donghanh/pull/922) | PR      | 14 E2E + 20 unit, ảnh 3 khổ     |
-| S03-2 | Dialog/bố cục mobile                       | S03-1               | Nền §④ B (nhóm 2/3)                                  | Chưa tạo | —                                                        | BACKLOG | Chưa có                         |
-| S03-3 | Renderer an toàn                           | S03-2               | Nền §④ B (nhóm 3/3) — cần review riêng               | Chưa tạo | —                                                        | BACKLOG | Chưa có                         |
-| S04   | Tokens và thành phần sáu màn mẫu           | S03-3               | Cần spec nhỏ + prototype                             | Chưa tạo | —                                                        | BACKLOG | Chưa có                         |
-| S05   | Bắt đầu theo ý định, thống nhất hub        | S04                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                         |
-| S06   | Hôm nay, điểm học tiếp                     | S05                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                         |
-| S07   | Mục lục môn/khóa độc lập shellbar          | S06                 | Nền §④ C + adapter spec                              | Chưa tạo | —                                                        | BACKLOG | Chưa có                         |
-| S08   | Khung phiên, nháp/resume cùng thiết bị     | S07                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                         |
-| S09   | Đồng bộ version/retry/xung đột             | S08                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                         |
-| S10   | Trợ giảng trong bài, voice thật            | S09                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                         |
-| S11   | Completion evidence và kết quả             | S10                 | Cần spec nhỏ từng hoạt động                          | Chưa tạo | —                                                        | BACKLOG | Chưa có                         |
-| S12   | Ôn lại/sổ lỗi/tiến độ có bằng chứng        | S11                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                         |
-| S13   | Responsive/theme/hiệu năng/rollout         | S12                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                         |
+| ID    | Outcome/AC                                 | Dependency          | Spec                                                 | Issue    | PR                                                       | State   | Evidence                                                                     |
+| ----- | ------------------------------------------ | ------------------- | ---------------------------------------------------- | -------- | -------------------------------------------------------- | ------- | ---------------------------------------------------------------------------- |
+| S01   | Đặc tả, baseline và ma trận nghiệm thu     | main hiện tại       | [Nền](../specs/2026-09-15-learning-ux-foundation.md) | Chưa tạo | [#920](https://github.com/seeker19110/donghanh/pull/920) | MERGED  | Đã vào main tại `46e7b54`                                                    |
+| S02   | Hỏi nhanh trung thực, giữ câu hỏi/ngữ cảnh | S01 merged/approved | Nền §④ A                                             | Chưa tạo | [#921](https://github.com/seeker19110/donghanh/pull/921) | MERGED  | [0319](../changelog/0319-2026-09-15-hoi-nhanh-trung-thuc.md), main `2719790` |
+| S03-1 | Subjects: lỗi tải nói thật, chống race     | S02                 | Nền §④ B (nhóm 1/3)                                  | Chưa tạo | [#922](https://github.com/seeker19110/donghanh/pull/922) | PR      | [0320](../changelog/0320-2026-09-15-danh-muc-mon-hoc-trang-thai-loi.md)      |
+| S03-2 | Dialog/bố cục mobile                       | S03-1               | Nền §④ B (nhóm 2/3)                                  | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S03-3 | Renderer an toàn                           | S03-2               | Nền §④ B (nhóm 3/3) — cần review riêng               | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S04   | Tokens và thành phần sáu màn mẫu           | S03-3               | Cần spec nhỏ + prototype                             | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S05   | Bắt đầu theo ý định, thống nhất hub        | S04                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S06   | Hôm nay, điểm học tiếp                     | S05                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S07   | Mục lục môn/khóa độc lập shellbar          | S06                 | Nền §④ C + adapter spec                              | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S08   | Khung phiên, nháp/resume cùng thiết bị     | S07                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S09   | Đồng bộ version/retry/xung đột             | S08                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S10   | Trợ giảng trong bài, voice thật            | S09                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S11   | Completion evidence và kết quả             | S10                 | Cần spec nhỏ từng hoạt động                          | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S12   | Ôn lại/sổ lỗi/tiến độ có bằng chứng        | S11                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S13   | Responsive/theme/hiệu năng/rollout         | S12                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
 
 ## 4. Risk register
 
@@ -68,7 +68,7 @@ Danh sách sau phản ánh 13 PR trong kế hoạch người dùng đã chọn. 
 ## 5. Current truth
 
 - Commit main đã reconcile: `45195feb` (#919). Guest browsing/local progress/trial AI đã có; không bắt login để đọc/học nội dung.
-- Goal gap hiện tại: mới có spec nền; chưa có prototype sáu màn, source, regression gate hoặc metric mới.
+- Goal gap hiện tại: hai slice nguồn đầu tiên (S02, S03-1) đã có mã thật và cổng canh; chưa có prototype sáu màn, chưa có metric sản phẩm nào được đo.
 - Baseline audit ngày 15/09 ở `80c2b416`: expert review frontend local, auth giả, API lỗi chủ động, Node26; 16 trạng thái không tràn ngang không chứng minh toàn bộ catalog/theme/production.
 - Blocker/câu hỏi mở: technical review spec; handoff guest gắn owner cần nghiệm thu; việc thay chính sách khóa zoom cần ghi quyết định rõ; spec S04–S13 còn thiếu.
 - Next best slice: S03-2 (dialog/bố cục mobile). S02 (#921) và S03-1 (#922) đã có PR; S03 được tách làm ba vì ba nhóm việc của §④ B chạm ba vùng mã khác hẳn nhau, gộp một PR thì không review nổi.
