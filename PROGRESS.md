@@ -222,13 +222,14 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
 
 ### Ưu tiên 1c — GÓC HỌC TẬP (đặc tả `docs/specs/2026-09-15-goc-hoc-tap-architecture.md`)
 
-| Slice | Việc                                                           | Trạng thái                                                                                                                                        |
-| ----- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0S    | Đặc tả + goal                                                  | ✅ đã merge (`docs/changelog/0323-2026-09-15-goc-hoc-tap-spec.md`)                                                                                |
-| 01    | Đổi tên không gian + URL `/goc-hoc-tap` + alias tương thích    | ✅ **ĐÃ THI HÀNH** (`docs/changelog/0324-*.md`)                                                                                                   |
-| 02    | Tiếng Anh thành một MÔN ngang hàng, bỏ entry cấp không gian    | 📝 **ĐẶC TẢ ĐÃ VIẾT, In review** — `docs/specs/2026-09-15-goc-hoc-tap-02-tieng-anh-la-mot-mon.md`; chờ chủ dự án chốt Q1–Q3 (§7) rồi mới thi hành |
-| 03    | Công cụ tiếng Anh nằm trong môn, công cụ chung có ngữ cảnh môn | ⏸ CHƯA READY — cần inventory từng route/component/API/storage                                                                                     |
-| 04    | Nền tảng không mặc định tiếng Anh (`english.isDefault`)        | ⏸ CHƯA READY — cần inventory mọi fallback + hợp đồng ngữ cảnh                                                                                     |
+| Slice | Việc                                                                                    | Trạng thái                                                                                                                                                                |
+| ----- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0S    | Đặc tả + goal                                                                           | ✅ đã merge (`docs/changelog/0323-2026-09-15-goc-hoc-tap-spec.md`)                                                                                                        |
+| 01    | Đổi tên không gian + URL `/goc-hoc-tap` + alias tương thích                             | ✅ **ĐÃ THI HÀNH** (`docs/changelog/0324-*.md`)                                                                                                                           |
+| 02    | Tiếng Anh thành một MÔN ngang hàng, bỏ entry cấp không gian                             | 📝 **ĐẶC TẢ ĐÃ VIẾT, In review** — `docs/specs/2026-09-15-goc-hoc-tap-02-tieng-anh-la-mot-mon.md`; chờ chủ dự án chốt Q1–Q3 (§7) rồi mới thi hành                         |
+| 03    | Công cụ tiếng Anh nằm trong môn, công cụ chung có ngữ cảnh môn                          | ⏸ CHƯA READY — cần inventory từng route/component/API/storage                                                                                                             |
+| 04    | Nền tảng không mặc định tiếng Anh (`english.isDefault`)                                 | ⏸ CHƯA READY — cần inventory mọi fallback + hợp đồng ngữ cảnh                                                                                                             |
+| S07   | Mục lục môn/khoá độc lập shellbar (hợp đồng `OutlineNode` + adapter 3 môn + rail/panel) | 📝 **ĐẶC TẢ ĐÃ VIẾT, In review** — `docs/specs/2026-09-15-goc-hoc-tap-07-muc-luc-mon-khoa.md`; chờ chốt Q1–Q5 (§7). S07-1/S07-2 không đợi 02–04; S07-3 (Tiếng Anh) đợi 03 |
 
 **Ghi trong lúc khảo sát 02 (2026-09-15, `docs/changelog/0325-*.md`) — LỖI THẬT đang chạy:** trên
 host `hoc-tap.`, nút "Vào Không Gian Học Tiếng Anh"/"Vào Lộ Trình Lập Trình" ở danh mục dùng
