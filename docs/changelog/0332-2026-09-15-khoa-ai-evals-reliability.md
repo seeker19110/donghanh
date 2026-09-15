@@ -1,6 +1,6 @@
 # 0332 — 2026-09-15 — Khoá AI Evals & Reliability Engineer
 
-**PR:** (điền khi tạo)
+**PR:** [#936](https://github.com/seeker19110/donghanh/pull/936)
 
 ## Đã làm
 
