@@ -391,18 +391,18 @@ Trả giá: `?khoa=` không được index như trang riêng — chấp nhận. 
 
 ## ⑤ Bất biến không được phá
 
-| Bất biến                                                                         | Test canh                                                                                                                 |
-| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| Không tải nội dung bài để dựng mục lục                                           | spy `loadLesson`/`loadUnitLessons` = 0 trong 3 adapter test; `lessonsLazy.test.ts` (chỉ mục khớp registry)                |
-| `TocRail` giữ nguyên hành vi (3 nơi dùng)                                        | `TocRail.test.tsx` 7 ca; E2E `programming-lesson.spec.ts:491` (P6 mạch)                                                   |
-| Luật khoá không đổi, server là authority (CEFR); client-lock Lập trình không nới | `levelLock.test.ts`, `programmingLevelLock.test.ts`, `cefrUnlock.test.ts`, `ProgrammingLevelPage.test.tsx` (Free P2 khoá) |
-| "Mở bài" không là hoàn thành                                                     | `OutlineTree.test.tsx`, E2E `outline-stem.spec.ts`                                                                        |
-| Không mất nháp/tiến độ khách; không khoá storage mới ngoài `ui_*`                | `guestProgress.test.ts`, snapshot storage E2E (khuôn AC-7 spec 02)                                                        |
-| Modal cũ (20 nơi) không đổi hành vi; 6 hành vi APG                               | `useDialogBehavior.test.tsx`, `Modal.test.tsx` (mới), `e2e/a11y-modals.spec.ts`                                           |
-| Một bài = một URL chuẩn; slug redirect giữ query; không loop                     | `programmingRoutes.test.ts`, `ProgrammingLessonPage.test.tsx`, `route-alias.spec.ts`                                      |
-| Sidebar dừng ở cấp môn; mục lục sống trong vùng nội dung                         | `navTree.test.ts` (không thêm mục con), E2E "sidebar thu gọn" AC-10                                                       |
-| Mobile: lề dưới ≥ bottom nav, CTA bấm được; a11y AA + AAA 5 theme                | `mobile-layout-guards.spec.ts` (+ route STEM), `a11y.spec.ts`, `a11y-aaa.spec.ts`                                         |
-| Ngân sách bundle/coverage không tụt                                              | `npm run budget`, `npm run test:coverage` (ngưỡng 97/93/96/97)                                                            |
+| Bất biến                                                                         | Test canh                                                                                                                                          |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Không tải nội dung bài để dựng mục lục                                           | spy `loadLesson`/`loadUnitLessons` = 0 trong 3 adapter test; `lessonsLazy.test.ts` (chỉ mục khớp registry)                                         |
+| `TocRail` giữ nguyên hành vi (3 nơi dùng)                                        | `TocRail.test.tsx` 7 ca; E2E `programming-lesson.spec.ts:491` (P6 mạch)                                                                            |
+| Luật khoá không đổi, server là authority (CEFR); client-lock Lập trình không nới | `levelLock.test.ts`, `programmingLevelLock.test.ts`, `cefrUnlock.test.ts`, `ProgrammingLevelPage.test.tsx` (Free P2 khoá)                          |
+| "Mở bài" không là hoàn thành                                                     | `OutlineTree.test.tsx`, E2E `outline-stem.spec.ts`                                                                                                 |
+| Không mất nháp/tiến độ khách; không khoá storage mới ngoài `ui_*`                | `guestProgress.test.ts`, snapshot storage E2E (khuôn AC-7 spec 02)                                                                                 |
+| Modal cũ (20 nơi) không đổi hành vi; 6 hành vi APG                               | `useDialogBehavior.test.tsx`, `Modal.test.tsx` (mới), `e2e/a11y-modals.spec.ts`                                                                    |
+| Một bài = một URL chuẩn; slug redirect giữ query; không loop                     | `programmingRoutes.test.ts`, `ProgrammingLessonPage.test.tsx`, `route-alias.spec.ts`                                                               |
+| Sidebar dừng ở cấp môn; mục lục sống trong vùng nội dung                         | `navTree.test.ts` (không thêm mục con), E2E "sidebar thu gọn" AC-10                                                                                |
+| Mobile: lề dưới ≥ bottom nav, CTA bấm được; a11y AA + AAA 5 theme                | `mobile-layout-guards.spec.ts` (+ route STEM), `a11y.spec.ts`, `a11y-aaa.spec.ts`                                                                  |
+| Ngân sách bundle/coverage không tụt                                              | `npm run budget`, `npm run test:coverage` (sàn thật 93/89/93/93 theo `vitest.config.ts` — CLAUDE.md/PROGRESS ghi 97/93/96/97 là lỗi thời, S13 sửa) |
 
 ## ⑥ Quy ước dự án liên quan (bên thi hành không thấy hội thoại)
 
