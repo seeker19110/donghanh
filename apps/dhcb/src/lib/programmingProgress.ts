@@ -2,6 +2,7 @@
 // Nguồn sự thật: server (/api/programming/progress, schema programming.*); localStorage chỉ
 // là bộ đệm hiển thị nhanh/ngoại tuyến — cùng mô hình với sổ tay lỗi sai (mistakes.ts).
 import { getAuthHeader } from '@core/authHeader'
+import { isGuestId } from '@core/guestId'
 
 export interface ProgrammingLessonProgress {
   lessonId: string
@@ -30,6 +31,8 @@ function writeCache(uid: string, lessons: ProgrammingLessonProgress[]): void {
 
 /** Đọc tiến độ: trả cache ngay nếu server lỗi (ngoại tuyến vẫn xem được). */
 export async function fetchProgress(uid: string): Promise<ProgrammingLessonProgress[]> {
+  // Khách vãng lai: localStorage LÀ nguồn sự thật (không có tài khoản để lưu server).
+  if (isGuestId(uid)) return readCache(uid)
   try {
     const res = await fetch('/api/programming/progress', { headers: getAuthHeader() })
     if (!res.ok) return readCache(uid)
@@ -59,6 +62,7 @@ export async function saveLessonProgress(
     lessons.push({ lessonId, status, completedAt: status === 'completed' ? Date.now() : null })
   }
   writeCache(uid, lessons)
+  if (isGuestId(uid)) return // khách: đã ghi localStorage, không có gì để đẩy lên
   try {
     await fetch('/api/programming/progress', {
       method: 'POST',

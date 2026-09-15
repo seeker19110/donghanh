@@ -13,11 +13,12 @@ import {
   getCorsHeaders,
   SECURITY_HEADERS,
   checkRateLimit,
-  validateAuth,
   validateContentType,
   logSecurityEvent,
 } from '@dhcb/core-auth/security'
-import { checkAndConsumeUsage, refundUsage, type UsageMode } from '@dhcb/core-billing/usage'
+import { type UsageMode } from '@dhcb/core-billing/usage'
+import { resolveActor } from '@dhcb/core-auth/guest'
+import { checkAndConsumeActorUsage, refundActorUsage } from '@dhcb/core-auth/actorUsage'
 import { callGemini } from './geminiApi.js'
 import {
   recordAiTokenUsage,
@@ -145,9 +146,11 @@ export default async function handler(req: Request): Promise<Response> {
     )
   }
 
-  // Xác thực người dùng qua Bearer token tự viết (validateAuth)
-  const authResult = await validateAuth(req)
-  if (!authResult) {
+  // Ai đang gọi: tài khoản thật (cookie phiên) hoặc KHÁCH VÃNG LAI (header X-Guest-Id, dùng
+  // thử giới hạn — xem docs/specs/2026-09-15-mo-xem-web-khong-can-dang-nhap.md). Không xác định
+  // được cả hai → 401 y như trước.
+  const actor = await resolveActor(req)
+  if (!actor) {
     logSecurityEvent('AUTH_FAILED', clientIp, { path: '/api/agent' })
     return jsonResponse(
       { error: { message: 'Chưa đăng nhập hoặc phiên hết hạn' } },
@@ -209,10 +212,16 @@ export default async function handler(req: Request): Promise<Response> {
   // mode do client gửi: 'chat' | 'writing' | 'speaking' (mặc định 'chat').
   // Server đếm authoritative trong daily_usage → client không tự vượt giới hạn được.
   const mode = parsedBody.data.mode
-  const gate = await checkAndConsumeUsage(authResult.userId, mode)
+  const gate = await checkAndConsumeActorUsage(actor, mode, clientIp)
   if (!gate.ok) {
     logSecurityEvent('USAGE_LIMIT', clientIp, { path: '/api/agent', mode })
-    return jsonResponse({ error: { message: gate.message } }, 429, allHeaders)
+    // `guestTrialExhausted` để giao diện hiện lời mời ĐĂNG KÝ (khách) thay vì lời nhắn
+    // "mai quay lại" / mời nâng cấp gói (người đã đăng nhập) — hai tình huống khác hẳn nhau.
+    return jsonResponse(
+      { error: { message: gate.message }, guestTrialExhausted: gate.guestTrialExhausted },
+      429,
+      allHeaders,
+    )
   }
 
   // ── Nhánh Groq (ưu tiên — FREE, API tương thích chuẩn OpenAI) ───────────────
@@ -232,7 +241,7 @@ export default async function handler(req: Request): Promise<Response> {
     if (groqResult.kind === 'network_error') {
       log.warn(`Groq lỗi mạng: ${groqResult.message}`)
       if (!canFallback) {
-        await refundUsage(authResult.userId, mode, gate.day)
+        await refundActorUsage(actor, mode, gate.day, clientIp)
         return jsonResponse(
           { error: { message: `Groq lỗi: ${groqResult.message.slice(0, 200)}` } },
           504,
@@ -242,7 +251,7 @@ export default async function handler(req: Request): Promise<Response> {
       log.warn('Groq lỗi — chuyển sang provider dự phòng (Anthropic/Gemini)')
     } else if (groqResult.kind === 'http_error') {
       if (!canFallback) {
-        await refundUsage(authResult.userId, mode, gate.day)
+        await refundActorUsage(actor, mode, gate.day, clientIp)
         return jsonResponse(
           {
             error: {
@@ -258,7 +267,7 @@ export default async function handler(req: Request): Promise<Response> {
       // Groq trả 200 nhưng body hỏng (không phải JSON / thiếu field): người dùng KHÔNG nhận
       // được câu trả lời → phải hoàn lượt giống các nhánh lỗi khác.
       if (!canFallback) {
-        await refundUsage(authResult.userId, mode, gate.day)
+        await refundActorUsage(actor, mode, gate.day, clientIp)
         return jsonResponse({ error: { message: groqResult.message } }, 500, allHeaders)
       }
       log.warn(
@@ -306,7 +315,7 @@ export default async function handler(req: Request): Promise<Response> {
     if (anthropicResult.kind === 'network_error') {
       log.warn(`Anthropic lỗi mạng: ${anthropicResult.message}`)
       if (!canFallback) {
-        await refundUsage(authResult.userId, mode, gate.day)
+        await refundActorUsage(actor, mode, gate.day, clientIp)
         return jsonResponse(
           { error: { message: `Anthropic lỗi: ${anthropicResult.message.slice(0, 200)}` } },
           504,
@@ -326,7 +335,7 @@ export default async function handler(req: Request): Promise<Response> {
       } else {
         // Thành công HOẶC không còn provider dự phòng → forward thẳng status/body gốc, giữ
         // đúng hành vi cũ (kể cả lỗi 4xx/5xx của Anthropic, không bọc lại thành JSON riêng).
-        if (!respOk) await refundUsage(authResult.userId, mode, gate.day)
+        if (!respOk) await refundActorUsage(actor, mode, gate.day, clientIp)
         // Chỉ ghi chi phí khi Anthropic thực sự trả lời (lỗi 4xx/5xx không tính tiền token).
         if (respOk) {
           void recordAiTokenUsage({
@@ -387,7 +396,7 @@ export default async function handler(req: Request): Promise<Response> {
     recordLatency('ai_gemini_ms', Date.now() - geminiStartedAt)
     incrementCounter('ai_gemini_error')
     log.warn(`Gemini lỗi sau ${Date.now() - geminiStartedAt}ms: ${errMsg}`)
-    await refundUsage(authResult.userId, mode, gate.day)
+    await refundActorUsage(actor, mode, gate.day, clientIp)
     // Lỗi timeout (AbortController) → 504, còn lại 502 (lỗi từ nhà cung cấp), không phải 500 của ta.
     const isTimeout = /Hết thời gian chờ/.test(errMsg)
     return jsonResponse(

@@ -2,6 +2,8 @@
 // Giai đoạn B: token tự phát hành (xem api/auth.ts), lưu trong localStorage — thay
 // Supabase access_token trước đây.
 
+import { getGuestHeader } from './guestId.js'
+
 const TOKEN_KEY = 'gsa_session_token_v1'
 
 export function getStoredToken(): string | null {
@@ -33,8 +35,12 @@ export function getAccessToken(): string | undefined {
 }
 
 // Header sẵn sàng spread vào fetch({ headers: { ...getAuthHeader() } }).
-// Rỗng nếu chưa đăng nhập — server sẽ tự trả 401 cho các endpoint bắt buộc auth.
+//
+// [2026-09-15 — chế độ Khách] Chưa đăng nhập thì KHÔNG còn trả về rỗng nữa mà gửi danh tính
+// khách ẩn danh (`X-Guest-Id`). Nhờ vậy 3 endpoint AI/audio có nhánh dùng thử giới hạn nhận
+// diện được "cùng một trình duyệt" mà không cần tài khoản. Mọi endpoint khác vẫn trả 401 y như
+// cũ — chúng không đọc header này. Đường ĐÃ đăng nhập không đổi gì: có token thì chỉ gửi token.
 export function getAuthHeader(): Record<string, string> {
   const token = getStoredToken()
-  return token ? { Authorization: `Bearer ${token}` } : {}
+  return token ? { Authorization: `Bearer ${token}` } : getGuestHeader()
 }

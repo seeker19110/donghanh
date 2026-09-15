@@ -8,6 +8,7 @@
 // Giai đoạn C (rời Supabase): mọi đọc/ghi đi qua /api/history (Postgres tự host),
 // server tự kiểm user từ Bearer token — thay client query Supabase dựa vào RLS trước đây.
 
+import { isGuestId } from '@core/guestId'
 import { getAuthHeader, getStoredToken } from '@core/authHeader'
 import type { ChatSession, WritingSubmission, SpeakingSession, DailyUsage } from '../types'
 
@@ -101,6 +102,8 @@ export function pushLearnDay(_userId: string, day: string, learnCount: number) {
 // ── PULL: kéo toàn bộ dữ liệu của user về ghi vào localStorage ────────────────
 // Gọi khi đăng nhập / mở trang. Lỗi mạng sẽ bị nuốt (vẫn dùng được bản local cũ).
 export async function pullUserData(userId: string): Promise<void> {
+  // Khách vãng lai không có dữ liệu trên server — bỏ qua để khỏi bắn request 401 vô ích.
+  if (isGuestId(userId)) return
   if (!getStoredToken()) return
   let data: {
     chat?: ChatSession[]

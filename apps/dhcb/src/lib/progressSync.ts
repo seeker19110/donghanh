@@ -18,6 +18,7 @@
 // localStorage để gửi — khi đó localStorage đã chắc chắn là bản đã hợp nhất đầy đủ.
 
 import { getAuthHeader } from '@core/authHeader'
+import { isGuestId } from '@core/guestId'
 import { getPendingOfflineReviews, clearPendingOfflineReviews } from './offlineSrsStore'
 import {
   getSettingsUpdatedAt,
@@ -280,6 +281,10 @@ const pullInFlight = new Map<string, Promise<void>>()
 // nơi gọi khác không cần chờ.
 export async function pushProgressAsync(userId: string): Promise<void> {
   if (!userId) return
+  // KHÁCH VÃNG LAI: tiến độ chỉ sống trong localStorage. Gọi lên server chỉ tạo 401 rác và
+  // không bao giờ thành công (không có phiên). Xem lib/guestProgress.ts — tiến độ được hợp
+  // nhất lên tài khoản ĐÚNG MỘT LẦN, ngay lúc đăng nhập/đăng ký.
+  if (isGuestId(userId)) return
   const pulling = pullInFlight.get(userId)
   if (pulling) await pulling.catch(() => undefined)
   await sendProgressSnapshot(userId)
@@ -300,6 +305,7 @@ export function pushProgress(userId: string): void {
 // đúng lúc, không đọc localStorage khi nó còn rỗng/cũ.
 export function pullProgress(userId: string): Promise<void> {
   if (!userId) return Promise.resolve()
+  if (isGuestId(userId)) return Promise.resolve() // khách: không có gì trên server để kéo về
   const existing = pullInFlight.get(userId)
   if (existing) return existing
   const p = doPull(userId).finally(() => {

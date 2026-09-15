@@ -12,6 +12,7 @@ import DesktopSidebar from './components/DesktopSidebar'
 import { SkipLink } from '@core/SkipLink'
 import PromoEndingBanner from './components/PromoEndingBanner'
 import PlanExpiryBanner from './components/PlanExpiryBanner'
+import GuestBanner from './components/GuestBanner'
 import { lazyWithRetry } from './lib/lazyWithRetry'
 import { isSubjectsHost } from './lib/subjectsHost'
 import { refreshAppSettings } from './lib/appSettings'
@@ -134,12 +135,47 @@ function PageLoading() {
   )
 }
 
-// Bảo vệ route: chờ Supabase xác nhận session rồi mới quyết định redirect
-// Nếu chưa onboarding (lần đầu đăng nhập) → chuyển sang /onboarding trước
-function RequireAuth({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth()
+// ── HAI lớp bảo vệ route (tách ra 2026-09-15, chế độ Khách) ───────────────────
+// Trước đây chỉ có MỘT lớp `RequireAuth` bọc gần như mọi route, nên người chưa đăng nhập không
+// xem được gì — tự chặn đúng người mình cần thuyết phục. Nay:
+//
+//   <AllowGuest>      — nội dung học/đọc: KHÁCH VÀO ĐƯỢC, tiến độ lưu localStorage.
+//   <RequireAccount>  — cần tài khoản THẬT: hồ sơ, thanh toán, bạn bè, lịch sử, quản trị,
+//                       và mọi thứ ghi dữ liệu cá nhân lên server.
+//
+// Đặc tả: docs/specs/2026-09-15-mo-xem-web-khong-can-dang-nhap.md
+// LUẬT khi thêm route mới: mặc định là `RequireAccount`. Chỉ chuyển sang `AllowGuest` khi trang
+// đó thật sự không đọc/ghi dữ liệu riêng của một con người cụ thể.
+function AllowGuest({ children }: { children: React.ReactNode }) {
+  const { user, loading, isGuest } = useAuth()
   if (loading) return <PageLoading />
-  if (!user) return <Navigate to="/login" replace />
+  // `user` chỉ còn null trong khoảnh khắc trước lần refresh đầu — AuthProvider luôn cấp user
+  // khách khi không có phiên.
+  if (!user) return <PageLoading />
+  if (!user.onboarded) return <Navigate to="/onboarding" replace />
+  return (
+    <>
+      {/* Khách: nhắc tiến độ đang ở máy này + mời đăng ký. Hai banner kia chỉ có nghĩa với
+          người đã đăng nhập (khuyến mãi, hạn gói) nên khách không thấy. */}
+      {isGuest ? (
+        <GuestBanner />
+      ) : (
+        <>
+          <PromoEndingBanner />
+          <PlanExpiryBanner />
+        </>
+      )}
+      {children}
+    </>
+  )
+}
+
+// Bảo vệ route: chờ xác nhận session rồi mới quyết định redirect.
+// Nếu chưa onboarding (lần đầu đăng nhập) → chuyển sang /onboarding trước.
+function RequireAccount({ children }: { children: React.ReactNode }) {
+  const { user, loading, isGuest } = useAuth()
+  if (loading) return <PageLoading />
+  if (!user || isGuest) return <Navigate to="/login" replace />
   // [2026-09-13] TẮT lớp Intake 5 câu trước /onboarding — người dùng chốt sau khi thấy funnel
   // thật (20 đăng ký/14 ngày, chỉ 4 hoàn thành phiên học đầu): đăng ký xong vào thẳng
   // /onboarding (4 bước, có sẵn giá trị mặc định, bấm "Tiếp theo" là qua) thay vì phải qua thêm
@@ -159,7 +195,7 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
   )
 }
 
-// Bảo vệ route quản trị (/admin-s): ngoài đăng nhập + onboard (RequireAuth), còn cần cờ
+// Bảo vệ route quản trị (/admin-s): ngoài đăng nhập + onboard (RequireAccount), còn cần cờ
 // user.isAdmin (server tính từ ADMIN_EMAILS, trả về ở /api/auth?action=me — xem
 // src/types.ts). Đây CHỈ là lớp che UI cho người dùng thường đỡ thấy khung/tên các mục quản
 // trị nội bộ — không phải lớp bảo mật thật: mọi API admin vẫn TỰ kiểm lại quyền phía server
@@ -304,9 +340,9 @@ export default function App() {
                       <Route
                         path="/trang-ca-nhan"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <Profile />
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       {/* Bảng giá / nâng cấp gói — tách khỏi trang Hồ sơ để so sánh 4 gói
@@ -314,73 +350,73 @@ export default function App() {
                       <Route
                         path="/nang-cap"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <Pricing />
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/on-thi"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <ExamPlan />
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/life-graph"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <LifeGraph />
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/ban-dong-hanh"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <Companion />
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/ban-be"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <Friends />
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/ket-ban/:code"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <AddFriend />
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/nhom-di-chung"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <LiveLocation />
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/nhom-di-chung/:code"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <LiveLocation />
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/tin-nhan"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <ChatPage />
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       {/* V2 Specialized Domain Hubs & Hoc-* Routes */}
@@ -390,9 +426,9 @@ export default function App() {
                       <Route
                         path="/su-nghiep-khoi-nghiep"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <CareerStartup />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
@@ -405,9 +441,9 @@ export default function App() {
                       <Route
                         path="/cong-viec-cuoc-song"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <WorkLife />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
@@ -426,9 +462,9 @@ export default function App() {
                       <Route
                         path="/mon-hoc"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <Subjects />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       {/* Môn Lập trình có không gian riêng (như English) — đặt TRƯỚC
@@ -444,41 +480,41 @@ export default function App() {
                       <Route
                         path="/lap-trinh"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <ProgrammingHome />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/lap-trinh/du-an"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <ProgrammingProjectPage />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/lap-trinh/bai-hoc/:lessonId"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <ProgrammingLessonPage />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/lap-trinh/on-tap"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <ProgrammingReview />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/lap-trinh/chay-thu"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <ProgrammingPlayground />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       {/* Hướng chuyên sâu — đặt TRƯỚC route param :levelId để 'huong'
@@ -486,9 +522,9 @@ export default function App() {
                       <Route
                         path="/lap-trinh/huong"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <ProgrammingSpecializations />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       {/* Chặng của một hướng — route dài hơn nên đặt TRƯỚC ':specId'
@@ -496,17 +532,17 @@ export default function App() {
                       <Route
                         path="/lap-trinh/huong/:specId/:stageId"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <ProgrammingSpecStagePage />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/lap-trinh/huong/:specId"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <ProgrammingSpecializationPage />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       {/* Khoá ngắn (cắt ngang bậc, ví dụ khoá Git) — đặt TRƯỚC ':levelId'
@@ -514,9 +550,9 @@ export default function App() {
                       <Route
                         path="/lap-trinh/khoa-hoc/:courseId"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <ProgrammingCoursePage />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       {/* URL cũ trước 2026-08-31 — chuyển hướng giữ mã khoá. */}
@@ -528,9 +564,9 @@ export default function App() {
                       <Route
                         path="/lap-trinh/lo-trinh/:pathId/chan-doan"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <ProgrammingPathDiagnostic />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       {/* Chặng riêng của lộ trình (đợt 4, P5 "Tầm trưởng") — dài hơn
@@ -538,25 +574,25 @@ export default function App() {
                       <Route
                         path="/lap-trinh/lo-trinh/:pathId/chang/:stageId"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <ProgrammingPathStagePage />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/lap-trinh/lo-trinh/:pathId"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <ProgrammingPathPage />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/lap-trinh/:levelId"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <ProgrammingLevelPage />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       {/* Bài học bốn môn STEM — đặt TRƯỚC route `:subjectId` để đoạn
@@ -564,73 +600,73 @@ export default function App() {
                       <Route
                         path="/mon-hoc/:subjectId/bai-hoc"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <StemLessonList />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/mon-hoc/:subjectId/bai-hoc/:lessonSlug"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <StemLessonView />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/mon-hoc/:subjectId"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <SubjectDetail />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/career/interview"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <CareerInterview />
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/work/kanban"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <WorkKanban />
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/startup/canvas"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <StartupCanvas />
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/action-canvas"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <ActionCanvas />
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/life/wheel"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <LifeWheel />
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/ung-dung-thuc-te"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <AppliedKnowledge />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       {/* Trên host trụ Học tập (hoc-tap.donghanhcungban.org) trang gốc LÀ danh
@@ -642,223 +678,223 @@ export default function App() {
                       <Route
                         path="/"
                         element={
-                          <RequireAuth>{onSubjectsHost ? <Subjects /> : <Home />}</RequireAuth>
+                          <AllowGuest>{onSubjectsHost ? <Subjects /> : <Home />}</AllowGuest>
                         }
                       />
                       {onSubjectsHost && (
                         <Route
                           path="/:subjectId"
                           element={
-                            <RequireAuth>
+                            <AllowGuest>
                               <SubjectDetail />
-                            </RequireAuth>
+                            </AllowGuest>
                           }
                         />
                       )}
                       <Route
                         path="/hoc-tieng-anh"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <EnglishHome />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/tro-truyen"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <FeatureGate featureKey="chat">
                               <Chat />
                             </FeatureGate>
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/luyen-viet"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <FeatureGate featureKey="writing">
                               <Writing />
                             </FeatureGate>
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/luyen-noi"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <FeatureGate featureKey="speaking">
                               <Speaking />
                             </FeatureGate>
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/luyen-tap"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <Practice />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/lo-trinh-hoc"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <FeatureGate featureKey="learning_path">
                               <Learn />
                             </FeatureGate>
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/lo-trinh-hoc/:levelId"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <FeatureGate featureKey="learning_path">
                               <CefrLevelPage />
                             </FeatureGate>
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/tu-dien"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <FeatureGate featureKey="dictionary">
                               <Dictionary />
                             </FeatureGate>
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/bai-hoc"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <FeatureGate featureKey="lessons">
                               <Lessons />
                             </FeatureGate>
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/cau-thong-dung"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <FeatureGate featureKey="phrases">
                               <CommonPhrases />
                             </FeatureGate>
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/luyen-nghe"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <FeatureGate featureKey="listening">
                               <Listening />
                             </FeatureGate>
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/truyen-song-ngu"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <FeatureGate featureKey="listening">
                               <Stories />
                             </FeatureGate>
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/truyen-song-ngu/:id"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <FeatureGate featureKey="listening">
                               <StoryReader />
                             </FeatureGate>
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/lich-su-hoc"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <History />
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/tien-do"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <Dashboard />
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/so-tay-loi-sai"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <FeatureGate featureKey="mistake_bank">
                               <MistakeBank />
                             </FeatureGate>
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/thu-thach"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <FeatureGate featureKey="challenge">
                               <Challenge />
                             </FeatureGate>
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/cai-dat"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <EnglishSettings />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/nhiem-vu"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <FeatureGate featureKey="quests">
                               <Quests />
                             </FeatureGate>
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/gioi-thieu"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <About />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       <Route
                         path="/admin-s"
                         element={
-                          <RequireAuth>
+                          <RequireAccount>
                             <RequireAdmin>
                               <AdminDashboard />
                             </RequireAdmin>
-                          </RequireAuth>
+                          </RequireAccount>
                         }
                       />
                       <Route
                         path="/avatar-demo"
                         element={
-                          <RequireAuth>
+                          <AllowGuest>
                             <AvatarDemo />
-                          </RequireAuth>
+                          </AllowGuest>
                         }
                       />
                       {/* ── Gom URL trùng (Đợt 3, docs/research/nang-tam-du-an-2026-08-24.md §4) ──

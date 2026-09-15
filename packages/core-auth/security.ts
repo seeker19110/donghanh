@@ -306,6 +306,77 @@ export async function checkRateLimit(
   return checkRateLimitInMemory(key, maxPerMin)
 }
 
+// ── Bộ đếm theo NGÀY (dùng cho hạn mức dùng thử của khách vãng lai) ──────────
+// Khác `checkRateLimit` ở chỗ cửa sổ là một NGÀY chứ không phải một phút, và có đường TRẢ LẠI
+// (releaseDailyCounter) khi nhà cung cấp AI lỗi — đúng tinh thần refundUsage() của người đã
+// đăng nhập, để khách không mất lượt vì lỗi của mình.
+//
+// VÌ SAO KHÔNG DÙNG POSTGRES: khách ẩn danh không có hàng nào trong `profiles`, và đặc tả cố ý
+// không thêm migration cho đợt này. Redis là nơi duy nhất đã có sẵn, dùng chung toàn cluster.
+// Redis hỏng → rơi về Map in-memory: bộ đếm hẹp hơn (mỗi tiến trình một bản) nhưng vẫn CHẶN,
+// không fail-open — với lượt AI tốn tiền của người chưa đăng nhập thì chặt hơn là đúng.
+const dailyCounterMap = new Map<string, { count: number; resetAt: number }>()
+const DAY_MS = 24 * 60 * 60 * 1000
+
+const DAILY_COUNTER_LUA = `
+local count = redis.call('INCR', KEYS[1])
+if count == 1 then
+  redis.call('PEXPIRE', KEYS[1], ARGV[1])
+end
+return count
+`
+
+function pruneDailyCounters(now: number): void {
+  // Dọn key hết hạn — Map in-memory không tự hết hạn như Redis, để lâu sẽ phình theo số khách.
+  if (dailyCounterMap.size < 10_000) return
+  for (const [key, entry] of dailyCounterMap) if (now > entry.resetAt) dailyCounterMap.delete(key)
+}
+
+/** Tăng bộ đếm ngày của `key`; trả `true` nếu VẪN trong hạn mức (đã tính lượt vừa dùng). */
+export async function consumeDailyCounter(key: string, limit: number): Promise<boolean> {
+  if (limit <= 0) return false
+  const redis = getRedis()
+  if (redis && redis.status === 'ready') {
+    try {
+      const count = (await redis.eval(DAILY_COUNTER_LUA, 1, key, String(DAY_MS))) as number
+      noteRedisRecovered()
+      return count <= limit
+    } catch (err) {
+      noteRedisDegraded(err)
+    }
+  }
+
+  const now = Date.now()
+  pruneDailyCounters(now)
+  const entry = dailyCounterMap.get(key)
+  if (!entry || now > entry.resetAt) {
+    dailyCounterMap.set(key, { count: 1, resetAt: now + DAY_MS })
+    return true
+  }
+  entry.count += 1
+  return entry.count <= limit
+}
+
+/** Trả lại 1 lượt đã trừ (nhà cung cấp lỗi). Nuốt mọi lỗi — không bao giờ làm vỡ luồng trả lỗi. */
+export async function releaseDailyCounter(key: string): Promise<void> {
+  const redis = getRedis()
+  if (redis && redis.status === 'ready') {
+    try {
+      // Chỉ giảm khi key còn tồn tại: key đã hết hạn mà DECR sẽ tạo ra bộ đếm âm không hạn dùng.
+      await redis.eval(
+        `if redis.call('EXISTS', KEYS[1]) == 1 then redis.call('DECR', KEYS[1]) end`,
+        1,
+        key,
+      )
+      return
+    } catch (err) {
+      noteRedisDegraded(err)
+    }
+  }
+  const entry = dailyCounterMap.get(key)
+  if (entry && entry.count > 0) entry.count -= 1
+}
+
 // Phương án dự phòng: bộ đếm cửa sổ 60s trong bộ nhớ tiến trình (cơ chế cũ, giữ nguyên).
 function checkRateLimitInMemory(key: string, maxPerMin: number): boolean {
   const now = Date.now()

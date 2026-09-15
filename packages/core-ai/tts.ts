@@ -17,9 +17,10 @@
 // này đọc cả câu/đoạn — dùng cho câu ví dụ, cụm từ, hội thoại trong Chat/Speaking.
 //
 // Bảo mật: file audio (bucket/thư mục "tts-cache") bị MÃ HÓA AES-256-GCM trước khi lưu —
-// ai có link cũng không nghe được nếu không có khoá, và khoá chỉ phát cho request có Bearer
-// token hợp lệ. validateAuth() ở dưới đã bắt buộc đăng nhập cho TOÀN BỘ endpoint
-// này (không có chế độ ẩn danh) nên mọi response thành công đều kèm khoá giải mã.
+// ai có link cũng không nghe được nếu không có khoá, và khoá chỉ phát cho request đi qua cửa
+// resolveActor() ở dưới. [2026-09-15] Cửa đó nay nhận THÊM khách vãng lai (header X-Guest-Id,
+// hạn mức dùng thử ở đường tạo audio mới) — vẫn không có đường nào lấy được file thô mà không
+// qua endpoint này, nên mọi response thành công đều kèm khoá giải mã đúng như trước.
 // Chi tiết suy khoá: xem api/_lib/ttsCrypto.ts.
 
 import { z } from 'zod'
@@ -46,12 +47,13 @@ import {
   getCorsHeaders,
   SECURITY_HEADERS,
   checkRateLimit,
-  validateAuth,
   validateContentType,
   logSecurityEvent,
 } from '@dhcb/core-auth/security'
 import { readJsonBody, validateBody } from '@dhcb/core-http/validation'
 import { withConcurrencyLimit } from '@dhcb/core-db/concurrencyLimiter'
+import { resolveActor } from '@dhcb/core-auth/guest'
+import { checkAndConsumeGuestTrial } from '@dhcb/core-auth/guestTrial'
 import { jsonResponse, getClientIp } from '@dhcb/core-http/http'
 
 const VALID_LANGS: Lang[] = ['en-US', 'vi-VN']
@@ -223,10 +225,11 @@ export default async function handler(req: Request): Promise<Response> {
     return jsonResponse({ error: 'Quá nhiều yêu cầu — thử lại sau 1 phút' }, 429, allHeaders)
   }
 
-  // Xác thực người dùng qua Bearer token tự viết (validateAuth) — bắt buộc, vì audio
-  // cache bị mã hóa và khoá giải mã chỉ phát cho người đã đăng nhập.
-  const authResult = await validateAuth(req)
-  if (!authResult) {
+  // Bắt buộc có danh tính: tài khoản thật, hoặc KHÁCH VÃNG LAI
+  // (docs/specs/2026-09-15-mo-xem-web-khong-can-dang-nhap.md). Audio cache bị mã hoá và khoá
+  // giải mã chỉ phát cho request đi qua cửa này — khách cũng vậy, không ai lấy được file thô.
+  const actor = await resolveActor(req)
+  if (!actor) {
     logSecurityEvent('AUTH_FAILED', clientIp, { path: '/api/tts' })
     return jsonResponse({ error: 'Chưa đăng nhập hoặc phiên hết hạn' }, 401, allHeaders)
   }
@@ -243,7 +246,10 @@ export default async function handler(req: Request): Promise<Response> {
   const { text, lang } = parsed.data
   // Không tin voice client gửi lên — hạ về giọng cho phép đúng gói của user (fail-safe,
   // không lỗi cứng: UI đã tự ẩn lựa chọn ngoài quyền, nhánh này chỉ chặn gọi thẳng API).
-  const { plan } = await ensureProfileRow(authResult.userId, '')
+  // Khách chưa có hàng nào trong `profiles` (và KHÔNG được tạo — họ không phải người dùng):
+  // coi như gói 'free', tức chỉ được các giọng miễn phí. Quyền lợi giọng VIP vẫn do server
+  // quyết định hoàn toàn, y như cũ.
+  const plan = actor.kind === 'user' ? (await ensureProfileRow(actor.userId, '')).plan : 'free'
   let voice = await clampVoiceToPlan(parsed.data.voice, plan)
 
   // Studio CHỈ có tiếng Anh (Google không có giọng Studio cho vi-VN) — nếu lỡ nhận Studio
@@ -364,6 +370,21 @@ export default async function handler(req: Request): Promise<Response> {
         429,
         allHeaders,
       )
+    }
+
+    // KHÁCH: hạn mức dùng thử chỉ tính ở ĐÂY — đường TẠO audio mới (tốn tiền Google/ElevenLabs).
+    // Cache HIT đã thoát ở BƯỚC 1 nên khách vẫn nghe thoải mái câu đã có sẵn trong kho: đó là
+    // thứ làm nội dung bài học đọc được mà không tốn thêm một đồng nào.
+    if (actor.kind === 'guest') {
+      const guestGate = await checkAndConsumeGuestTrial(actor.guestKey, clientIp)
+      if (!guestGate.ok) {
+        logSecurityEvent('USAGE_LIMIT', clientIp, { path: '/api/tts', stage: 'generate' })
+        return jsonResponse(
+          { error: guestGate.message, guestTrialExhausted: true },
+          429,
+          allHeaders,
+        )
+      }
     }
 
     // Giọng ElevenLabs (VIP) dùng provider khác hẳn Google — text đọc y nguyên, provider
