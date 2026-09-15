@@ -29,6 +29,7 @@ import type {
 } from '../../components/CompanionStudios/studioTypes'
 import { DOMAIN_OPTIONS, STUDIO_TABS_CONFIG } from '../../components/CompanionStudios/studioTypes'
 import { useDialogBehavior } from '../../components/useDialogBehavior'
+import { readDraft, clearDraft } from '../../lib/learningQuestionDraft'
 import { PageShell } from '@core/PageShell'
 
 // Nạp lười (Lazy-loading) từng Studio để giảm mạnh Initial Bundle Size
@@ -195,6 +196,44 @@ export default function Companion() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
+  // ── Nhận câu hỏi người dùng đã gõ ở Trang chủ (đặc tả §④ A) ─────────────────────────────
+  // Luật cốt lõi: ĐỔ CHỮ VÀO Ô SOẠN, KHÔNG GỬI. Mở trang, tải lại hay bấm Back đều không được
+  // phép tự phát sinh một lượt gọi AI tính phí — người dùng phải tự bấm gửi.
+  const pendingDraftIdRef = useRef<string | null>(null)
+  const draftLoadedRef = useRef(false)
+  // Khi ô soạn ĐÃ có chữ: hỏi thay hay giữ, không ghi đè ngầm chữ người dùng đang viết dở.
+  const [draftOffer, setDraftOffer] = useState<{ id: string; question: string } | null>(null)
+
+  useEffect(() => {
+    // Chỉ chạy một lần cho mỗi tài khoản: StrictMode chạy effect hai lần ở dev.
+    if (draftLoadedRef.current || !user) return
+    draftLoadedRef.current = true
+    const result = readDraft({ kind: 'account', id: user.id })
+    if (result.status !== 'ready') return
+    const { id, question } = result.draft
+    setInput((current) => {
+      if (current.trim()) {
+        setDraftOffer({ id, question })
+        return current
+      }
+      pendingDraftIdRef.current = id
+      return question
+    })
+  }, [user])
+
+  const acceptDraftOffer = useCallback(() => {
+    if (!draftOffer) return
+    pendingDraftIdRef.current = draftOffer.id
+    setInput(draftOffer.question)
+    setDraftOffer(null)
+    inputRef.current?.focus()
+  }, [draftOffer])
+
+  const dismissDraftOffer = useCallback(() => {
+    if (draftOffer) clearDraft(draftOffer.id)
+    setDraftOffer(null)
+  }, [draftOffer])
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -301,7 +340,14 @@ export default function Companion() {
           },
         },
       )
+      // Gửi trót lọt thì nháp hết vai trò. `clearDraft(id)` tự bỏ qua nếu trong lúc chờ đã có
+      // nháp MỚI — không xoá nhầm câu hỏi người dùng vừa gõ tiếp.
+      if (pendingDraftIdRef.current) {
+        clearDraft(pendingDraftIdRef.current)
+        pendingDraftIdRef.current = null
+      }
     } catch (err: unknown) {
+      // Gửi lỗi thì GIỮ nháp: người dùng còn thử lại được, không mất câu hỏi.
       const message = err instanceof Error ? err.message : String(err)
       toast.error(message || 'Lỗi khi gửi yêu cầu tới Companion')
       setMessages((prev) =>
@@ -412,6 +458,31 @@ export default function Companion() {
             )
           })}
         </div>
+
+        {/* Câu hỏi mang từ Trang chủ sang, trong khi ô soạn đã có chữ dở — để người dùng chọn,
+            không ghi đè ngầm (đặc tả §③). */}
+        {draftOffer && (
+          <div className="mb-3 rounded-2xl border border-accent-500/30 bg-accent-500/10 p-3 text-xs text-zinc-200">
+            <p className="mb-1 font-semibold text-accent-300">Câu hỏi bạn gõ ở Trang chủ</p>
+            <p className="mb-2 whitespace-pre-wrap break-words">{draftOffer.question}</p>
+            <div className="flex flex-wrap justify-end gap-2">
+              <button
+                type="button"
+                onClick={dismissDraftOffer}
+                className="tap-44 rounded-xl px-3 py-2 font-medium text-zinc-300 transition hover:bg-zinc-800 hover:text-white"
+              >
+                Giữ chữ đang viết
+              </button>
+              <button
+                type="button"
+                onClick={acceptDraftOffer}
+                className="tap-44 rounded-xl bg-accent-500 px-4 py-2 font-semibold text-[#09090b] transition hover:bg-accent-400"
+              >
+                Thay bằng câu hỏi này
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Dynamic Studio Loading with Suspense */}
         <Suspense fallback={<StudioLoadingSkeleton />}>
