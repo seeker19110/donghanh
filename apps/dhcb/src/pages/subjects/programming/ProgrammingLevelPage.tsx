@@ -24,7 +24,7 @@ import { effectivePlan } from '../../../lib/promo'
 import { getProgrammingLevel, nhomUnitTheoTrack } from '@dhcb/subject-programming/curriculum'
 import { getUnitSummaries } from '@dhcb/subject-programming/lessonsLoader'
 import { buildSlugSegment, idFromSlugSegment } from '@core/slug'
-import { duongDanBac } from '../../../lib/programmingRoutes'
+import { duongDanBac, duongDanBaiHoc } from '../../../lib/programmingRoutes'
 import { PageShell } from '@core/PageShell'
 import { TwoPane } from '@core/TwoPane'
 import { TocRail, type TocItem } from '@core/TocRail'
@@ -304,11 +304,7 @@ export default function ProgrammingLevelPage() {
                               {/* Ngôn ngữ hiện TRƯỚC khi bấm (PR-UX1) — học viên biết sắp viết gì. */}
                               <LangBadge language={lesson.language} />
                               <button
-                                onClick={() =>
-                                  nav(
-                                    `/lap-trinh/bai-hoc/${buildSlugSegment(lesson.id, lesson.title)}`,
-                                  )
-                                }
+                                onClick={() => nav(duongDanBaiHoc(lesson))}
                                 className="tap-44 w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition active:scale-[0.98]"
                               >
                                 <span className="flex items-center gap-2 min-w-0">
