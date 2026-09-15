@@ -6,7 +6,7 @@
 | Spec nền      | [`2026-09-15-learning-ux-foundation.md`](2026-09-15-learning-ux-foundation.md) §④ C (9 yêu cầu bắt buộc) + §③ khung `OutlineNode`               |
 | Goal          | [`learning-ux`](../goals/2026-09-15-learning-ux.md) dòng S07                                                                                    |
 | Base khảo sát | `main` `7c2d81c` (#928, sau slice 02 spec), khảo sát 2026-09-15 bằng 3 lượt đọc mã thật (Lập trình · STEM · Tiếng Anh/dialog), số liệu đếm thật |
-| Trạng thái    | **In review** — chờ chủ dự án chốt 5 quyết định ở §7                                                                                            |
+| Trạng thái    | **Approved for implementation** — chủ dự án chốt TOÀN BỘ câu hỏi §7 theo đề xuất mặc định (2026-09-15)                                          |
 | Người duyệt   | Chủ dự án                                                                                                                                       |
 
 > Không bắt đầu code khi trạng thái chưa là **Approved for implementation**. Luật số 1 của khuôn
@@ -425,6 +425,9 @@ Trả giá: `?khoa=` không được index như trang riêng — chấp nhận. 
 
 ## 7. Quyết định cần chủ dự án chốt trước khi Approved
 
+> **CHỐT 2026-09-15 — chủ dự án:** lấy TOÀN BỘ cột "Đề xuất của AI (mặc định)"
+> làm quyết định cuối cho mọi câu hỏi trong bảng dưới. Không có ý kiến khác.
+
 | #   | Câu hỏi                                                                                                                                                                               | Đề xuất của AI (mặc định nếu không có ý kiến khác)                                                                                                               | Lý do                                                                                                                                                                           |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Q1  | Ngữ cảnh khoá trong URL bài Lập trình: query `?khoa=git` hay route lồng `/lap-trinh/khoa-hoc/git--…/bai-hoc/…`?                                                                       | **Query `?khoa=`.**                                                                                                                                              | Một bài một URL chuẩn; không thêm route/alias server; slug redirect đã giữ query. Route lồng đẹp hơn cho SEO khoá nhưng nhân đôi URL của cùng nội dung.                         |
@@ -461,11 +464,11 @@ query vẫn hợp lệ trước và sau; `sessionStorage ui_outline_*` tự hế
 
 ## 19. Phê duyệt
 
-- [ ] Product outcome và scope (Q1–Q5)
-- [ ] UX/accessibility (5 trạng thái, panel mobile, ≤ 2 thao tác)
-- [ ] Architecture (hợp đồng `OutlineNode`, adapter thuần, `?khoa=`, portal)
-- [ ] Test/rollout/rollback (3 PR)
+- [x] Product outcome và scope (Q1–Q5)
+- [x] UX/accessibility (5 trạng thái, panel mobile, ≤ 2 thao tác)
+- [x] Architecture (hợp đồng `OutlineNode`, adapter thuần, `?khoa=`, portal)
+- [x] Test/rollout/rollback (3 PR)
 
-**Kết luận:** In review  
-**Người duyệt:** —  
-**Ngày:** —
+**Kết luận:** Approved for implementation  
+**Người duyệt:** Chủ dự án  
+**Ngày:** 2026-09-15

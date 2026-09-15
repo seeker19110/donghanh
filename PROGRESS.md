@@ -238,7 +238,7 @@ migration `0082` hai bảng `platform.completion_evidence`/`completion_state`, e
 **Còn lại: S11-2** (nút "Nộp bài tự kiểm tra" ở `StemLessonView`, evidence khách `guest_*`, hàng đợi
 gửi lại) và **S11-3** (màn kết quả `ActivityResult` + mục lục S07 đọc evidence) — S11-3 cần S07-2 merge trước.
 
-**Các slice còn lại của goal learning-ux — ĐẶC TẢ ĐÃ VIẾT 2026-09-15 (`docs/changelog/0328-*.md`), đều In review chờ chủ dự án chốt §7 từng file.** Thứ tự thi hành đã chốt: S07 → S08 → S06 → S05 → S10 → S11 → S09 → S12 → S13. File: `docs/specs/2026-09-15-learning-ux-s{08,06,05,10,11,09,12,13}-*.md`. Migration đã đánh số theo thứ tự: S05 0081 · S11 0082 · S09 0083 · S12 0084.
+**Các slice còn lại của goal learning-ux — ĐẶC TẢ ĐÃ VIẾT 2026-09-15 (`docs/changelog/0328-*.md`), chủ dự án đã chốt §7 theo mặc định nên TẤT CẢ ở trạng thái Approved for implementation (#931, `docs/changelog/0329-*.md`).** Thứ tự thi hành đã chốt: S07 → S08 → S06 → S05 → S10 → S11 → S09 → S12 → S13. File: `docs/specs/2026-09-15-learning-ux-s{08,06,05,10,11,09,12,13}-*.md`. Migration đã đánh số theo thứ tự: S05 0081 · S11 0082 · S09 0083 · S12 0084.
 
 **Ghi trong lúc khảo sát 02 (2026-09-15, `docs/changelog/0325-*.md`) — LỖI THẬT đang chạy:** trên
 host `hoc-tap.`, nút "Vào Không Gian Học Tiếng Anh"/"Vào Lộ Trình Lập Trình" ở danh mục dùng

@@ -7,7 +7,7 @@
 | Spec liên đới | [S07 mục lục](2026-09-15-goc-hoc-tap-07-muc-luc-mon-khoa.md) (ngữ cảnh `subjectId`/`courseId`/`contentId` từ `OutlineNode`) · [khách vãng lai](2026-09-15-mo-xem-web-khong-can-dang-nhap.md) (3 endpoint AI/audio mở cho khách) |
 | Thứ tự chốt   | S07 → S08 → S06 → S05 → **S10** → S11 → S09 → S12 → S13. **S08 CHƯA có spec** (grep `docs/specs` cho `LearningSession` chỉ ra spec S07 và goal) — xem §7 Q1                                                                     |
 | Base khảo sát | `main` `7c2d81c` (#928), khảo sát 2026-09-15 bằng đọc mã thật + `npm run codemap -- impact`; mọi số dòng/số đếm bên dưới là số thật tại base này                                                                                |
-| Trạng thái    | **In review** — chờ chủ dự án chốt 5 quyết định ở §7                                                                                                                                                                            |
+| Trạng thái    | **Approved for implementation** — chủ dự án chốt TOÀN BỘ câu hỏi §7 theo đề xuất mặc định (2026-09-15)                                                                                                                          |
 | Người duyệt   | Chủ dự án                                                                                                                                                                                                                       |
 
 > Không bắt đầu code khi trạng thái chưa là **Approved for implementation**. Luật số 1 của khuôn
@@ -476,6 +476,9 @@ audio.
 
 ## 7. Quyết định cần chủ dự án chốt trước khi Approved
 
+> **CHỐT 2026-09-15 — chủ dự án:** lấy TOÀN BỘ cột "Đề xuất của AI (mặc định)"
+> làm quyết định cuối cho mọi câu hỏi trong bảng dưới. Không có ý kiến khác.
+
 | #   | Câu hỏi                                                                                                                                           | Đề xuất của AI (mặc định nếu không phản hồi)                                                                                                                                                                                                                                      |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Q1  | S08 (`LearningSession`) **chưa có spec**. S10-2 chờ S08 hay nhận ngữ cảnh qua prop từ trang?                                                      | **S10-1 làm ngay, không chờ ai.** S10-2/3 nhận `LessonTutorContext` qua prop (trang tự dựng từ `subjectId`/`courseId`/`contentId` — các trường S07 đã chốt); khi S08 có, chỉ đổi nguồn prop. S10-2 chờ **S07-2 merge** vì cùng sửa 3 trang bài.                                   |
@@ -520,11 +523,11 @@ cục bộ đã có.
 
 ## 19. Phê duyệt
 
-- [ ] Product outcome và scope (Q1–Q5)
-- [ ] UX/accessibility (panel trong bài, sheet mobile, trạng thái mic/lỗi có chữ)
-- [ ] Architecture (contract Zod dùng chung, prompt ở server, actor/hạn mức tái dùng, hook voice)
-- [ ] Test/rollout/rollback (3 PR; eval là việc tay; không provider trả phí trong CI)
+- [x] Product outcome và scope (Q1–Q5)
+- [x] UX/accessibility (panel trong bài, sheet mobile, trạng thái mic/lỗi có chữ)
+- [x] Architecture (contract Zod dùng chung, prompt ở server, actor/hạn mức tái dùng, hook voice)
+- [x] Test/rollout/rollback (3 PR; eval là việc tay; không provider trả phí trong CI)
 
-**Kết luận:** In review  
-**Người duyệt:** —  
-**Ngày:** —
+**Kết luận:** Approved for implementation  
+**Người duyệt:** Chủ dự án  
+**Ngày:** 2026-09-15
