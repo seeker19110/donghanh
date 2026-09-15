@@ -107,8 +107,8 @@ có **một test regression viết TRƯỚC, đỏ trên mã cũ, xanh sau khi s
 - [ ] **AC-11 Trả lời AI KHÔNG ghi completion/mastery/tiến độ.** Handler và client
       `lessonTutorApi.ts` không import `progress`, `guestProgress`, `saveLessonProgress`,
       `dailyLearningPlan`, `srs*`; `grep -rn "progress\|mastery\|completion"
-  apps/server/src/api/learning/lesson-tutor.ts apps/dhcb/src/lib/lessonTutorApi.ts
-  apps/dhcb/src/components/LessonTutorPanel.tsx` = 0 dòng (trừ chú thích). E2E: mở bài STEM,
+apps/server/src/api/learning/lesson-tutor.ts apps/dhcb/src/lib/lessonTutorApi.ts
+apps/dhcb/src/components/LessonTutorPanel.tsx` = 0 dòng (trừ chú thích). E2E: mở bài STEM,
       hỏi trợ giảng 3 lần (route mock) → mục lục S07 vẫn "chưa đo được"; bài Lập trình →
       `programming.lesson_progress` không đổi (kiểm qua `/api/programming/progress` mock không bị
       gọi POST). — `e2e/lesson-tutor.spec.ts` (mới).
