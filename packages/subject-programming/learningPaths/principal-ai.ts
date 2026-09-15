@@ -1,4 +1,4 @@
-// learningPaths/principal-ai.ts — Lộ trình "Kỹ Sư Trưởng AI" (lộ trình mục tiêu đầu tiên).
+// learningPaths/principal-ai.ts — Lộ trình "Kiến trúc sư phần mềm & AI".
 //
 // Đặc tả: `docs/specs/2026-08-31-khoa-hoc-ky-su-truong-ai.md`. Khác hướng `ai` (một trục
 // chuyên môn), đích của lộ trình này là NGƯỜI RA QUYẾT ĐỊNH về hệ AI: nắm nhiều trục kỹ thuật
@@ -9,13 +9,14 @@ import type { LearningPath } from './types.js'
 
 export const PRINCIPAL_AI_PATH: LearningPath = {
   id: 'principal-ai',
-  title: 'Kỹ Sư Trưởng AI',
+  title: 'Kiến trúc sư phần mềm & AI',
   tagline:
-    'Từ nền toán tới hệ AI chạy thật ngoài đời — rồi lên tầm người ra quyết định: đặc tả, đánh giá, vận hành AI và dẫn dắt đội.',
+    'Từ dòng code đầu tiên tới hệ AI chạy production — biết thiết kế, đo chất lượng, vận hành và chịu trách nhiệm cho quyết định kiến trúc.',
   forWho:
-    'Người muốn đi đường dài tới vị trí kỹ sư trưởng/kiến trúc sư AI — chấp nhận học rộng nhiều trục thay vì chỉ giỏi một mảng. Không hợp với người chỉ cần dùng nhanh một công cụ AI cho việc trước mắt.',
+    'Người muốn đi đường dài tới vai trò AI Systems Architect/AI Software Architect. Người mới bắt đầu từ P1; người đã có kinh nghiệm dùng bài chẩn đoán để bỏ qua phần đã vững.',
   prerequisite: 'p4',
-  duration: '18–30 tháng tuỳ xuất phát điểm (chẩn đoán đầu vào sẽ rút ngắn phần bạn đã vững)',
+  duration: '24–36 tháng từ số 0 · 9–20 tháng nếu đã có nền kỹ thuật',
+  foundationLevelIds: ['p1', 'p2', 'p3', 'p4'],
   phases: [
     {
       id: 'principal-ai-p1',

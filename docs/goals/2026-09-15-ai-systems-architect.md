@@ -1,14 +1,14 @@
 # Goal: Khoá Kiến trúc sư phần mềm & AI từ số 0 tới chuyên gia
 
-| Thuộc tính        | Giá trị                                                              |
-| ----------------- | -------------------------------------------------------------------- |
-| Goal ID           | GOAL-2026-ASA                                                        |
-| Owner             | Chủ dự án Đồng Hành                                                  |
-| Trạng thái        | ACTIVE                                                               |
-| Bắt đầu           | 2026-09-15                                                           |
-| Target review     | Sau mỗi lát cắt                                                      |
-| Quyền được cấp    | Research, viết đặc tả, mở PR đặc tả; implementation chờ duyệt đặc tả |
-| Budget/guardrails | 1 outcome/PR; không provider trả phí; không dữ liệu production       |
+| Thuộc tính        | Giá trị                                                                  |
+| ----------------- | ------------------------------------------------------------------------ |
+| Goal ID           | GOAL-2026-ASA                                                            |
+| Owner             | Chủ dự án Đồng Hành                                                      |
+| Trạng thái        | ACTIVE                                                                   |
+| Bắt đầu           | 2026-09-15                                                               |
+| Target review     | Sau mỗi lát cắt                                                          |
+| Quyền được cấp    | Đặc tả đã duyệt; triển khai source từng lát cắt, không deploy production |
+| Budget/guardrails | 1 outcome/PR; không provider trả phí; không dữ liệu production           |
 
 ## 1. Outcome và Definition of Goal Complete
 
@@ -47,16 +47,16 @@
 
 ## 3. Milestones và slices
 
-| ID    | Outcome/AC                                                     | Dependency | Spec                                          | Issue | PR  | State   | Evidence |
-| ----- | -------------------------------------------------------------- | ---------- | --------------------------------------------- | ----- | --- | ------- | -------- |
-| M1/S1 | Đặc tả chương trình, coverage map và kế hoạch phát hành        | —          | `2026-09-15-khoa-kien-truc-su-phan-mem-ai.md` | —     | —   | SPEC    |          |
-| M1/S2 | Manifest mới + chặng xương sống P1–P4 hiện đúng trong UI       | S1 duyệt   | cùng spec                                     | —     | —   | BACKLOG |          |
-| M2/S1 | Nền CS: toán, DSA, OS, concurrency, network, Linux có bài thật | M1         | viết trước slice                              | —     | —   | BACKLOG |          |
-| M3/S1 | Backend, data, distributed systems và reliability hoàn chỉnh   | M2         | viết trước slice                              | —     | —   | BACKLOG |          |
-| M4/S1 | ML/LLM, RAG, evaluation và AI security hoàn chỉnh              | M3         | viết trước slice                              | —     | —   | BACKLOG |          |
-| M5/S1 | Serving, LLMOps, agent runtime, GPU/K8s và observability       | M4         | viết trước slice                              | —     | —   | BACKLOG |          |
-| M6/S1 | Enterprise architecture, governance, FinOps và leadership      | M5         | viết trước slice                              | —     | —   | BACKLOG |          |
-| M7/S1 | Capstone, full audit, ảnh 390/1440 và release evidence         | M2–M6      | viết trước slice                              | —     | —   | BACKLOG |          |
+| ID    | Outcome/AC                                                     | Dependency | Spec                                          | Issue | PR   | State   | Evidence                  |
+| ----- | -------------------------------------------------------------- | ---------- | --------------------------------------------- | ----- | ---- | ------- | ------------------------- |
+| M1/S1 | Đặc tả chương trình, coverage map và kế hoạch phát hành        | —          | `2026-09-15-khoa-kien-truc-su-phan-mem-ai.md` | —     | #938 | DONE    | Spec đã duyệt và merge    |
+| M1/S2 | Manifest mới + chặng xương sống P1–P4 hiện đúng trong UI       | S1 duyệt   | cùng spec                                     | —     | #942 | WAITING | Unit 20 test + E2E 1 test |
+| M2/S1 | Nền CS: toán, DSA, OS, concurrency, network, Linux có bài thật | M1         | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M3/S1 | Backend, data, distributed systems và reliability hoàn chỉnh   | M2         | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M4/S1 | ML/LLM, RAG, evaluation và AI security hoàn chỉnh              | M3         | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M5/S1 | Serving, LLMOps, agent runtime, GPU/K8s và observability       | M4         | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M6/S1 | Enterprise architecture, governance, FinOps và leadership      | M5         | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M7/S1 | Capstone, full audit, ảnh 390/1440 và release evidence         | M2–M6      | viết trước slice                              | —     | —    | BACKLOG |                           |
 
 State hợp lệ: BACKLOG / RESEARCH / SPEC / READY / BUILDING / VERIFYING / WAITING / BLOCKED /
 DONE / DROPPED.
@@ -74,11 +74,12 @@ DONE / DROPPED.
 
 ## 5. Current truth
 
-- Commit `main` đã reconcile: `866c50b4`.
-- Goal gap hiện tại: 14/27 chặng của `principal-ai` chưa có unit; chưa có phần xương sống từ số 0
-  trên trang lộ trình; tên hiện tại nhấn “Kỹ Sư Trưởng AI” nhưng chưa diễn đạt đúng đích kiến trúc.
-- Blocker/câu hỏi mở: không còn blocker thiết kế; merge/deploy vẫn theo quyền riêng từng bước.
-- Next best slice: M1/S2 — manifest + UI foundation journey.
+- Commit `main` chứa đặc tả đã duyệt: `0ae05397` (PR #938).
+- Goal gap hiện tại: M1/S2 đã triển khai trong PR #942 và đang chờ CI/merge; 14/27 chặng chuyên
+  sâu của `principal-ai` vẫn chưa có unit thật.
+- Blocker/câu hỏi mở: không còn blocker thiết kế; M1/S2 đang qua cổng PR; deploy production vẫn
+  ngoài phạm vi được cấp.
+- Next best slice: hoàn tất M1/S2, rồi đặc tả M2/S1 trước khi viết nội dung nền CS.
 - Quyền hoặc quyết định cần thêm: không cần cho M1/S2; deploy production chưa được cấp.
 
 ## 6. Iteration log
@@ -110,6 +111,24 @@ DONE / DROPPED.
 - Blocker: không.
 - Next best slice: M1/S2.
 - Quyền cần thêm: không.
+
+### Iteration 3 — 2026-09-16
+
+- State: WAITING.
+- Slice: M1/S2 — manifest + UI foundation journey.
+- Goal gap trước/sau: trang lộ trình bắt đầu ngầm ở P4 → người mới thấy rõ P1–P4, tiến độ thật và
+  nút đi thẳng vào từng bậc trước khi vào 27 chặng chuyên sâu.
+- Research/spec/issue/PR: đặc tả đã duyệt; PR source #942.
+- Thay đổi: đổi tên hiển thị; thêm `foundationLevelIds`; render P1–P4 và số bài đã hoàn thành;
+  thêm unit/integration test và E2E URL chuẩn.
+- Validation và test count: 20 test mục tiêu xanh; 1 E2E Chromium xanh; typecheck, lint, format,
+  build xanh; đã xem ảnh thật ở 390px và 1440px.
+- Metric/guardrail: giữ id `principal-ai`; chỉ tham chiếu P1–P4, không sao chép bài hoặc tiến độ.
+- Quyết định: tiến độ nền tảng dùng cùng `/api/programming/progress` đang có.
+- Blocker: full `npm test` tại máy WSL/Windows còn 4 lỗi có sẵn ở `scripts/report-status.test.ts`
+  do test gọi nhầm `PROGRESS.md` thật; các test liên quan thay đổi đều xanh.
+- Next best slice: M2/S1 — viết đặc tả lát cắt nội dung nền CS đầu tiên.
+- Quyền cần thêm: không; production deploy vẫn ngoài phạm vi.
 
 ## 7. Final audit
 

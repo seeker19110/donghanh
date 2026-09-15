@@ -12,6 +12,7 @@
 //
 // Dữ liệu là hằng biên dịch, không I/O, không phụ thuộc thời gian — để test kiểm được và để
 // mỗi lần mở app ra cùng một lộ trình.
+import type { ProgrammingLevelId } from '../curriculum.js'
 
 /** Mã lộ trình — ổn định, làm URL `/lap-trinh/lo-trinh/<id>` và khoá tiến độ (đợt 2). */
 export type LearningPathId = 'principal-ai'
@@ -60,6 +61,12 @@ export interface LearningPath {
   prerequisite: 'p3' | 'p4' | 'p5'
   /** Tổng thời lượng ước tính cả lộ trình. */
   duration: string
+  /**
+   * Các bậc xương sống cần đi trước phần chuyên sâu. Chỉ THAM CHIẾU id trong curriculum,
+   * không nhúng unit/bài học — nhờ vậy người mới có một hành trình từ số 0 mà không sinh
+   * bản sao nội dung hay thanh tiến độ thứ hai. Không khai = lộ trình bắt đầu từ phases.
+   */
+  foundationLevelIds?: ProgrammingLevelId[]
   /** Các giai đoạn theo thứ tự — số lượng tuỳ lộ trình, mỗi giai đoạn có artifact riêng. */
   phases: PathPhase[]
   /** Dấu hiệu ĐÃ đạt đích — hành vi quan sát được, không phải "số năm kinh nghiệm". */
