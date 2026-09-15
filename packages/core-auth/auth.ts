@@ -148,7 +148,13 @@ const BodySchema = z.union([
 function authResponse(
   token: string,
   user: { id: string; email: string },
-  profile: { plan: Plan; onboarded: boolean; name: string; planExpiresAt: string | null },
+  profile: {
+    plan: Plan
+    onboarded: boolean
+    name: string
+    planExpiresAt: string | null
+    isFounder?: boolean
+  },
 ) {
   return {
     token,
@@ -159,6 +165,7 @@ function authResponse(
       plan: profile.plan,
       onboarded: profile.onboarded,
       planExpiresAt: profile.planExpiresAt,
+      isFounder: profile.isFounder === true,
       createdAt: Date.now(),
     },
   }
@@ -222,6 +229,8 @@ export default async function handler(req: Request): Promise<Response> {
         plan: profile.plan,
         onboarded: profile.onboarded,
         planExpiresAt: profile.planExpiresAt,
+        // Huy hiệu "Người tiên phong" — chỉ để hiển thị, quyền VIP vẫn theo (plan, hạn dùng).
+        isFounder: profile.isFounder === true,
         // Để UI biết có cần nhắc xác thực email không (xem src/components/EmailVerifySection.tsx).
         emailVerified: await isEmailVerified(auth.userId),
         // Để UI ẩn/hiện link "/admin" — server tự kiểm lại quyền mỗi lần gọi API admin, đây

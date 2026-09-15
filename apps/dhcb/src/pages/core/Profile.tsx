@@ -21,6 +21,7 @@ import {
   Users,
   MessageSquare,
   MessageSquareHeart,
+  Sparkles,
 } from 'lucide-react'
 import Layout from '../../components/Layout'
 import PageHeader from '../../components/PageHeader'
@@ -240,6 +241,15 @@ export default function Profile() {
         >
           {user.plan === 'vip' ? T.planVip : T.planFree}
         </span>
+        {/* Huy hiệu "Người tiên phong" — 2026 tài khoản đầu tiên, VIP vĩnh viễn.
+            Chỉ là ghi nhận hiển thị: quyền VIP do server quyết qua (plan, plan_expires_at),
+            xem packages/core-billing/founder.ts. Màu lấy từ token nhấn theo theme. */}
+        {user.isFounder ? (
+          <span className="t-caption mt-2 inline-flex items-center gap-1.5 rounded-full border border-accent-500/25 bg-accent-500/10 px-2.5 py-1 font-medium text-accent-300 theme-light:text-accent-900">
+            <Sparkles className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+            {isA ? 'Người tiên phong · VIP vĩnh viễn' : 'Founding member · Lifetime VIP'}
+          </span>
+        ) : null}
       </section>
 
       <section className="grid grid-cols-2 gap-3">

@@ -1,11 +1,22 @@
 import { test, expect } from '@playwright/test'
 
-// Smoke tối thiểu: app khởi động, route bảo vệ đẩy về /login, form hiện ra.
+// Smoke tối thiểu: app khởi động, khách xem được nội dung, route cần tài khoản vẫn đẩy về
+// /login, form hiện ra.
 test.describe('Khởi động & trang đăng nhập', () => {
-  test('truy cập / khi chưa đăng nhập → chuyển về /login và hiện form', async ({ page }) => {
+  // [2026-09-15 — chế độ Khách] Kỳ vọng ở đây ĐỔI có chủ ý: trước đây "/" đá thẳng về /login.
+  // Đặc tả: docs/specs/2026-09-15-mo-xem-web-khong-can-dang-nhap.md
+  test('truy cập / khi chưa đăng nhập → XEM ĐƯỢC nội dung, không bị đá về /login', async ({
+    page,
+  }) => {
     await page.goto('/')
+    await expect(page).not.toHaveURL(/\/login$/)
+    // Dải nhắc "đang xem ở chế độ khách" là dấu hiệu chắc chắn nhất app đã vào chế độ này.
+    await expect(page.getByText(/chế độ khách/i)).toBeVisible()
+  })
+
+  test('route CẦN TÀI KHOẢN (/trang-ca-nhan) vẫn đẩy khách về /login', async ({ page }) => {
+    await page.goto('/trang-ca-nhan')
     await expect(page).toHaveURL(/\/login$/)
-    await expect(page.getByRole('heading', { name: 'Đồng Hành Cùng Bạn' })).toBeVisible()
     await expect(page.getByPlaceholder('Email')).toBeVisible()
   })
 
