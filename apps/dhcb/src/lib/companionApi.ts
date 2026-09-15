@@ -168,9 +168,14 @@ export interface CompanionHistoryMessage {
 /**
  * Nạp lại hội thoại đã lưu để mở trang là thấy lại cuộc trò chuyện trước đó.
  */
-export async function fetchCompanionHistory(): Promise<CompanionHistoryMessage[]> {
+export async function fetchCompanionHistory(options?: {
+  signal?: AbortSignal
+}): Promise<CompanionHistoryMessage[]> {
   const headers = await getAuthHeader()
-  const res = await fetch('/api/companion', { headers })
+  const res = await fetch('/api/companion', {
+    headers,
+    ...(options?.signal ? { signal: options.signal } : {}),
+  })
   if (!res.ok) {
     const errorBody = await res.json().catch(() => ({ error: `HTTP error ${res.status}` }))
     throw new Error(errorBody.error || `HTTP error ${res.status}`)

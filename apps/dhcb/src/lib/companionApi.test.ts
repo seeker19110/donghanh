@@ -7,6 +7,7 @@ vi.mock('@core/authHeader', () => ({
 import {
   sendCompanionMessage,
   sendCompanionMessageStream,
+  fetchCompanionHistory,
   listProposedActions,
   confirmProposedAction,
   rejectProposedAction,
@@ -186,5 +187,40 @@ describe('companionApi', () => {
       const result = await rejectProposedAction('action-123', 1, 'Không muốn')
       expect(result.action.status).toBe('rejected')
     })
+  })
+})
+
+// [2026-09-15] `signal` thêm vào để `Companion.tsx` huỷ được lượt nạp lịch sử cũ trong cleanup
+// của effect — thay cho khuôn "ref chặn + cờ cancelled" đã làm lịch sử KHÔNG BAO GIỜ hiện ra
+// dưới StrictMode. Cổng E2E canh hành vi: `e2e/companion-history.spec.ts`.
+describe('fetchCompanionHistory', () => {
+  it('truyền signal xuống fetch khi được cho', async () => {
+    const controller = new AbortController()
+    const fetchMock = vi.fn(async (_url: string, init?: RequestInit) => {
+      expect(init?.signal).toBe(controller.signal)
+      return new Response(JSON.stringify({ messages: [] }), { status: 200 })
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    await fetchCompanionHistory({ signal: controller.signal })
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('không có signal thì KHÔNG gắn khoá signal vào init', async () => {
+    const fetchMock = vi.fn(async (_url: string, init?: RequestInit) => {
+      expect(init && 'signal' in init).toBe(false)
+      return new Response(JSON.stringify({ messages: [] }), { status: 200 })
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    await fetchCompanionHistory()
+  })
+
+  it('payload không phải mảng thì trả mảng rỗng, không ném', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response(JSON.stringify({ messages: null }), { status: 200 })),
+    )
+    await expect(fetchCompanionHistory()).resolves.toEqual([])
   })
 })

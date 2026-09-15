@@ -115,6 +115,8 @@ trước tới nay.
 
 ## 5. Nợ MỚI phát hiện (ghi, KHÔNG sửa trong đợt này)
 
+> **[Cập nhật] ĐÃ TRẢ ngay sau đó — xem `0323-2026-09-15-companion-khoi-phuc-hoi-thoai.md`.**
+
 Lúc dựng ảnh chụp: `Companion.tsx` **không khôi phục được lịch sử hội thoại trong chế độ dev**.
 Effect nạp lịch sử dùng `historyLoadedRef` để chặn chạy lần hai, nhưng dưới `StrictMode` React
 gọi mount → unmount → mount: cleanup của lần MỘT đặt `cancelled = true`, còn lần HAI bị ref chặn
