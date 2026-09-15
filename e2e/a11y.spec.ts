@@ -114,7 +114,7 @@ const AUTHED_ROUTES = [
   // từng bị cổng a11y nào soi — dù CLAUDE.md mục 4.5 ghi cổng là "sàn cứng, dung sai 0,
   // không baseline/ngoại lệ". Đo lần đầu: 41/50 tổ hợp trang×theme vi phạm, có cả mức
   // critical. Đã sửa hết về 0 trước khi thêm vào đây (xem docs/changelog).
-  '/mon-hoc', // hub Môn học — cửa vào trụ Learning cho các môn ngoài Tiếng Anh
+  '/goc-hoc-tap', // hub Môn học — cửa vào trụ Learning cho các môn ngoài Tiếng Anh
   '/su-nghiep-khoi-nghiep', // trụ GỘP Career + Startup
   '/cong-viec-cuoc-song', // trụ Work + Life (hai mục trong một trang)
   '/su-nghiep-khoi-nghiep?muc=khoi-nghiep', // nửa Startup của trụ gộp
@@ -127,8 +127,8 @@ const AUTHED_ROUTES = [
   // [2026-09-13] Bốn môn STEM nối vào app — một khuôn trang dùng chung cho cả bốn môn,
   // nên quét đại diện một môn là đủ, cộng một trang bài CÓ hoạt ảnh (hoạt ảnh là thứ mới
   // nhất về a11y: có chữ trong SVG, có nút tạm dừng, có mô tả thay thế).
-  '/mon-hoc/physics/bai-hoc', // danh sách bài: hai nhánh chuẩn/HSG + chọn lớp
-  '/mon-hoc/physics/bai-hoc/ly10-c2-b10--su-roi-tu-do', // bài CÓ hoạt ảnh
+  '/goc-hoc-tap/physics/bai-hoc', // danh sách bài: hai nhánh chuẩn/HSG + chọn lớp
+  '/goc-hoc-tap/physics/bai-hoc/ly10-c2-b10--su-roi-tu-do', // bài CÓ hoạt ảnh
 ]
 for (const route of AUTHED_ROUTES) {
   for (const theme of THEMES) {
@@ -160,7 +160,7 @@ for (const theme of THEMES) {
   }) => {
     await mockLogin(page, 'vi', theme, { isAdmin: true })
     await mockAdminStemReview(page)
-    await page.goto('/mon-hoc/biology/bai-hoc/sinh12-c1-b1--nhan-doi-adn', {
+    await page.goto('/goc-hoc-tap/biology/bai-hoc/sinh12-c1-b1--nhan-doi-adn', {
       waitUntil: 'domcontentloaded',
     })
     await waitForStableDom(page)
@@ -184,7 +184,7 @@ for (const theme of THEMES) {
 
   test(`a11y: người học THƯỜNG không thấy khối duyệt theme=${theme}`, async ({ page }) => {
     await mockLogin(page, 'vi', theme, { isAdmin: false })
-    await page.goto('/mon-hoc/biology/bai-hoc/sinh12-c1-b1--nhan-doi-adn', {
+    await page.goto('/goc-hoc-tap/biology/bai-hoc/sinh12-c1-b1--nhan-doi-adn', {
       waitUntil: 'domcontentloaded',
     })
     await waitForStableDom(page)

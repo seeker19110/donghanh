@@ -30,7 +30,7 @@ Giữ freeze nội dung mới trong PROGRESS: tái cấu trúc trải nghiệm c
 | Slice | Outcome                                                             | Điều kiện READY                                                                        |
 | ----- | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | 0S    | Spec này + goal đúng main                                           | Review agent chính và merge docs                                                       |
-| 01    | Góc học tập với URL và nhãn thống nhất                              | Spec này được Approved và merge                                                        |
+| 01    | Góc học tập với URL và nhãn thống nhất                              | ✅ **ĐÃ THI HÀNH** — `docs/changelog/0324-2026-09-15-goc-hoc-tap-doi-ten-va-url.md`    |
 | 02    | Tiếng Anh là môn, bỏ entry cấp không gian; tổng quan môn cùng khung | Spec bổ sung route/host English, screen states, test auth/storage được review và merge |
 | 03    | Công cụ tiếng Anh nằm trong môn; công cụ chung có context           | Inventory từng route/component/API/storage và spec adapter được merge                  |
 | 04    | Platform không mặc định tiếng Anh                                   | Inventory mọi fallback + contract context thiếu/hợp lệ/lịch sử, spec được merge        |

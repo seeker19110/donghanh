@@ -182,8 +182,8 @@ export default function Profile() {
       bg: 'bg-indigo-500/10 border-indigo-500/30 hover:border-indigo-500/60',
     },
     {
-      path: '/mon-hoc',
-      title: isA ? 'Phòng học & STEM' : 'Multi-Subject Learning Room',
+      path: '/goc-hoc-tap',
+      title: isA ? 'Góc học tập' : 'Learning Corner',
       desc: isA
         ? 'Toán học, Vật lý, Hóa học, Sinh học & Tiếng Anh'
         : 'Math, Physics, Chemistry, Biology & English',

@@ -55,12 +55,12 @@ export function getStemSubject(subjectId: string | undefined): StemSubject | und
 
 /** Đường dẫn danh sách bài học của một môn. */
 export function duongDanDanhSachBai(subjectId: StemSubjectId): string {
-  return `/mon-hoc/${subjectId}/bai-hoc`
+  return `/goc-hoc-tap/${subjectId}/bai-hoc`
 }
 
 /** Đường dẫn một bài học — mã giữ nguyên, phần slug chỉ để người đọc và máy tìm kiếm hiểu. */
 export function duongDanBaiHoc(subjectId: StemSubjectId, lessonId: string, title: string): string {
-  return `/mon-hoc/${subjectId}/bai-hoc/${buildSlugSegment(lessonId, title)}`
+  return `/goc-hoc-tap/${subjectId}/bai-hoc/${buildSlugSegment(lessonId, title)}`
 }
 
 /** Lấy lại mã bài từ đoạn URL, bỏ qua phần mô tả phía sau `--`. */

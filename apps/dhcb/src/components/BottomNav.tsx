@@ -1,6 +1,6 @@
 // BottomNav — thanh điều hướng dưới cố định, hiện ở màn hình MOBILE/TABLET (<1024px).
 // Từ 1024px trở lên (`lg:`) bị ẩn (`lg:hidden`) — desktop dùng DesktopSidebar.tsx thay thế.
-// 5 Tab lõi: Trang chủ · Phòng Học · Đồng Hành (Agent) · Luyện tập · Profile
+// 5 Tab lõi: Trang chủ · Góc học tập · Đồng Hành (Agent) · Luyện tập · Profile
 import { Link, useLocation } from 'react-router-dom'
 import { Home, GraduationCap, Dumbbell, Sparkles, User, ChevronDown, ChevronUp } from 'lucide-react'
 import { useAuth } from '../context/useAuth'
@@ -90,7 +90,7 @@ export default function BottomNav({ triggerHandlers, isReachabilityOpen }: Props
           <span className="truncate max-w-[4.5rem] tracking-tight">{T.home ?? 'Trang chủ'}</span>
         </Link>
 
-        {/* Tab 2: Phòng Học */}
+        {/* Tab 2: Góc học tập */}
         <SubjectsLink
           ariaCurrent={isLearning ? 'page' : undefined}
           className={`tap-44 relative flex flex-col items-center justify-center gap-1 text-center text-xs font-medium transition-all duration-200 group ${
@@ -110,7 +110,7 @@ export default function BottomNav({ triggerHandlers, isReachabilityOpen }: Props
               className={`w-5 h-5 transition-transform duration-200 ${isLearning ? 'scale-110' : 'group-hover:scale-105'}`}
             />
           </div>
-          <span className="truncate max-w-[4.5rem] tracking-tight">Phòng Học</span>
+          <span className="truncate max-w-[4.5rem] tracking-tight">Góc học tập</span>
         </SubjectsLink>
 
         {/* Tab 3: Agent Bạn Đồng Hành (Nút tâm điểm Orb Glow) */}

@@ -43,13 +43,13 @@ describe('trang bài học STEM', () => {
   }
 
   it('danh sách in số bài lấy từ registry thật, không phải con số gõ tay', () => {
-    hien('/mon-hoc/physics/bai-hoc', '/mon-hoc/:subjectId/bai-hoc', <StemLessonList />)
+    hien('/goc-hoc-tap/physics/bai-hoc', '/goc-hoc-tap/:subjectId/bai-hoc', <StemLessonList />)
     expect(container.textContent).toContain(`${PHYSICS_LOADER.index.length} bài`)
     expect(container.textContent).toContain('Bài học môn Vật lí')
   })
 
   it('danh sách gom bài theo chương và đánh dấu bài có hoạt ảnh', () => {
-    hien('/mon-hoc/physics/bai-hoc', '/mon-hoc/:subjectId/bai-hoc', <StemLessonList />)
+    hien('/goc-hoc-tap/physics/bai-hoc', '/goc-hoc-tap/:subjectId/bai-hoc', <StemLessonList />)
     const baiLop10 = PHYSICS_LOADER.listCoreByGrade('10')
     expect(container.textContent).toContain(`Chương ${baiLop10[0]!.chapterNumber}`)
     expect(container.querySelectorAll('a').length).toBe(baiLop10.length)
@@ -58,7 +58,7 @@ describe('trang bài học STEM', () => {
   })
 
   it('chuyển sang nhánh học sinh giỏi thì hiện chuyên đề kèm cấp', () => {
-    hien('/mon-hoc/physics/bai-hoc', '/mon-hoc/:subjectId/bai-hoc', <StemLessonList />)
+    hien('/goc-hoc-tap/physics/bai-hoc', '/goc-hoc-tap/:subjectId/bai-hoc', <StemLessonList />)
     const nut = [...container.querySelectorAll('button')].find((b) =>
       b.textContent?.includes('Bồi dưỡng học sinh giỏi'),
     )!
@@ -68,14 +68,14 @@ describe('trang bài học STEM', () => {
   })
 
   it('đổi lớp thì danh sách đổi theo', () => {
-    hien('/mon-hoc/physics/bai-hoc', '/mon-hoc/:subjectId/bai-hoc', <StemLessonList />)
+    hien('/goc-hoc-tap/physics/bai-hoc', '/goc-hoc-tap/:subjectId/bai-hoc', <StemLessonList />)
     const nut = [...container.querySelectorAll('button')].find((b) => b.textContent === 'Lớp 12')!
     act(() => nut.click())
     expect(container.querySelectorAll('a').length).toBe(PHYSICS_LOADER.listCoreByGrade('12').length)
   })
 
   it('mã môn lạ thì chuyển hướng chứ không dựng trang rỗng', () => {
-    hien('/mon-hoc/khong-co/bai-hoc', '/mon-hoc/:subjectId/bai-hoc', <StemLessonList />)
+    hien('/goc-hoc-tap/khong-co/bai-hoc', '/goc-hoc-tap/:subjectId/bai-hoc', <StemLessonList />)
     expect(container.textContent).not.toContain('Bài học môn')
   })
 
@@ -85,7 +85,10 @@ describe('trang bài học STEM', () => {
       root.render(
         <MemoryRouter initialEntries={[duongDanBaiHoc('physics', bai.id, bai.title)]}>
           <Routes>
-            <Route path="/mon-hoc/:subjectId/bai-hoc/:lessonSlug" element={<StemLessonView />} />
+            <Route
+              path="/goc-hoc-tap/:subjectId/bai-hoc/:lessonSlug"
+              element={<StemLessonView />}
+            />
           </Routes>
         </MemoryRouter>,
       )
@@ -109,7 +112,10 @@ describe('trang bài học STEM', () => {
       root.render(
         <MemoryRouter initialEntries={[duongDanBaiHoc('physics', bai.id, bai.title)]}>
           <Routes>
-            <Route path="/mon-hoc/:subjectId/bai-hoc/:lessonSlug" element={<StemLessonView />} />
+            <Route
+              path="/goc-hoc-tap/:subjectId/bai-hoc/:lessonSlug"
+              element={<StemLessonView />}
+            />
           </Routes>
         </MemoryRouter>,
       )
@@ -125,9 +131,9 @@ describe('trang bài học STEM', () => {
     expect(nhap, 'ca test mất nghĩa nếu không còn bản nháp nào').toBeGreaterThan(0)
     act(() => {
       root.render(
-        <MemoryRouter initialEntries={['/mon-hoc/physics/bai-hoc']}>
+        <MemoryRouter initialEntries={['/goc-hoc-tap/physics/bai-hoc']}>
           <Routes>
-            <Route path="/mon-hoc/:subjectId/bai-hoc" element={<StemLessonList />} />
+            <Route path="/goc-hoc-tap/:subjectId/bai-hoc" element={<StemLessonList />} />
           </Routes>
         </MemoryRouter>,
       )
@@ -144,7 +150,10 @@ describe('trang bài học STEM', () => {
       root.render(
         <MemoryRouter initialEntries={[duongDanBaiHoc('physics', bai.id, bai.title)]}>
           <Routes>
-            <Route path="/mon-hoc/:subjectId/bai-hoc/:lessonSlug" element={<StemLessonView />} />
+            <Route
+              path="/goc-hoc-tap/:subjectId/bai-hoc/:lessonSlug"
+              element={<StemLessonView />}
+            />
           </Routes>
         </MemoryRouter>,
       )
@@ -164,9 +173,12 @@ describe('trang bài học STEM', () => {
   it('bài không tồn tại thì nói rõ và mời quay lại danh sách', async () => {
     await act(async () => {
       root.render(
-        <MemoryRouter initialEntries={['/mon-hoc/physics/bai-hoc/ly10-c99-b99--khong-co']}>
+        <MemoryRouter initialEntries={['/goc-hoc-tap/physics/bai-hoc/ly10-c99-b99--khong-co']}>
           <Routes>
-            <Route path="/mon-hoc/:subjectId/bai-hoc/:lessonSlug" element={<StemLessonView />} />
+            <Route
+              path="/goc-hoc-tap/:subjectId/bai-hoc/:lessonSlug"
+              element={<StemLessonView />}
+            />
           </Routes>
         </MemoryRouter>,
       )

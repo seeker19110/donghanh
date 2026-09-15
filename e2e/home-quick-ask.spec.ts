@@ -58,7 +58,7 @@ test('câu hỏi Toán chỉ nhận gợi ý nơi học, không nhận lời gi�
   // Chỉ gợi ý thôi thì chưa đi đâu cả.
   await expect(page).toHaveURL(/\/$/)
   await panel.getByRole('button', { name: /^Mở Môn Toán$/ }).click()
-  await expect(page).toHaveURL(/\/mon-hoc\/mathematics/)
+  await expect(page).toHaveURL(/\/goc-hoc-tap\/mathematics/)
 
   expect(aiCalls, `không được gọi AI khi chỉ điều hướng: ${aiCalls.join(', ')}`).toEqual([])
 })

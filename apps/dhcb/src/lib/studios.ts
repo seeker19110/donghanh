@@ -60,9 +60,9 @@ export const STUDIOS: Studio[] = [
   },
   {
     id: 'subjects',
-    title: 'Phòng Học & STEM',
+    title: 'Góc học tập',
     subtitle: 'Toán, Lý, Hóa, Sinh & Simulators',
-    to: '/mon-hoc',
+    to: '/goc-hoc-tap',
     icon: Calculator,
     badge: 'Vision OCR',
     color:

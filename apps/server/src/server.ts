@@ -140,13 +140,16 @@ function staticCacheHeaders(res: express.Response, filePath: string) {
   }
 }
 
-// ── Trụ Học tập ở subdomain riêng: 301 TRƯỚC khi phục vụ static ────────────────────────────
+// ── Góc học tập ở subdomain riêng: chuyển hướng TRƯỚC khi phục vụ static ───────────────────
 // Phải đứng trước static, nếu không `hoc-tap…/tien-do` sẽ được trả index.html (nội dung trùng ở
 // hai host — đúng thứ phương án subdomain sinh ra để tránh). Luật + lý do ở subjectsRouting.ts,
-// có 46 test canh gác. `/api/*` đã xử lý xong phía trên nên không đi qua đây.
+// có test canh gác đầy đủ. `/api/*` đã xử lý xong phía trên nên không đi qua đây.
 const SUBJECT_IDS = listSupportedSubjects().map((s) => s.id)
 
 app.use((req, res, next) => {
+  // Chỉ trang HTML mới có chuyện "URL cũ": POST/PUT… là lời gọi API, chuyển hướng chúng là làm
+  // mất body (trình duyệt đổi sang GET ở 301/302) — đặc tả yêu cầu chỉ đụng GET/HEAD.
+  if (req.method !== 'GET' && req.method !== 'HEAD') return next()
   const decision = decideRedirect({
     hostname: req.hostname,
     pathname: req.path,
@@ -163,8 +166,9 @@ app.use((req, res, next) => {
       : {}),
   })
   if (!decision) return next()
-  // 301 (vĩnh viễn) chứ không 302: gom SEO về một địa chỉ, đúng quyết định của chủ dự án.
-  res.redirect(301, decision.location)
+  // Mã do subjectsRouting quyết: 301 cho luật đã nghiệm thu, 302 cho phần mới của đợt đổi tên
+  // (301 bị trình duyệt nhớ vĩnh viễn — rollback sẽ không gỡ ra được).
+  res.redirect(decision.status, decision.location)
 })
 
 // Hai handler static dựng SẴN một lần (đừng tạo mới mỗi request — express.static giữ cache

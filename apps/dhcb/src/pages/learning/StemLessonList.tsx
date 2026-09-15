@@ -48,7 +48,7 @@ export default function StemLessonList() {
   )
   const baiNangCao = useMemo(() => (subject ? subject.loader.listAdvanced() : []), [subject])
 
-  if (!subject) return <Navigate to="/mon-hoc" replace />
+  if (!subject) return <Navigate to="/goc-hoc-tap" replace />
 
   const chuong = nhomTheoChuong(baiCoBan)
   const nhapCoBan = baiCoBan.filter((b) => b.reviewStatus === 'draft').length

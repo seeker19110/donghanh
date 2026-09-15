@@ -426,7 +426,7 @@ export default function Subjects() {
                         } else if (sub.id === 'programming') {
                           nav('/lap-trinh')
                         } else {
-                          nav(`/mon-hoc/${sub.id}`)
+                          nav(`/goc-hoc-tap/${sub.id}`)
                         }
                       }}
                       className={`w-full tap-44 flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-semibold transition active:scale-[0.98] ${

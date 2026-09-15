@@ -25,7 +25,7 @@ describe('stemLessonRoutes', () => {
 
   it('dựng URL rồi đọc lại ra ĐÚNG mã bài — vòng khép kín', () => {
     const url = duongDanBaiHoc('physics', 'ly10-c2-b10', 'Sự rơi tự do')
-    expect(url).toBe('/mon-hoc/physics/bai-hoc/ly10-c2-b10--su-roi-tu-do')
+    expect(url).toBe('/goc-hoc-tap/physics/bai-hoc/ly10-c2-b10--su-roi-tu-do')
     expect(maBaiTuUrl(url.split('/').pop())).toBe('ly10-c2-b10')
   })
 
@@ -38,7 +38,7 @@ describe('stemLessonRoutes', () => {
   })
 
   it('đường dẫn danh sách bài bám mã môn', () => {
-    expect(duongDanDanhSachBai('chemistry')).toBe('/mon-hoc/chemistry/bai-hoc')
+    expect(duongDanDanhSachBai('chemistry')).toBe('/goc-hoc-tap/chemistry/bai-hoc')
   })
 
   it('tên tiếng Việt của ba cấp học sinh giỏi', () => {

@@ -10,6 +10,7 @@
 
 export const LEARNING_PATHS = [
   '/phong-hoc',
+  '/goc-hoc-tap',
   '/hoc-mon-hoc',
   '/subjects',
   '/mon-hoc',
@@ -81,10 +82,10 @@ export const PROFILE_PATHS = [
 
 // ── Bảng riêng cho từng mục SIDEBAR desktop ─────────────────────────────────────
 // Sidebar có nhiều mục hơn 5 tab mobile (mỗi studio một mục) nên cần tách nhỏ hơn:
-// nếu để cả `LEARNING_PATHS` cho mục "Phòng Học" thì đứng ở `/hoc-tieng-anh` sẽ sáng
+// nếu để cả `LEARNING_PATHS` cho mục "Góc học tập" thì đứng ở `/hoc-tieng-anh` sẽ sáng
 // nhầm mục đó thay vì "Học Tiếng Anh". Thứ tự ưu tiên do `resolveActiveNav` quyết định.
 
-/** Môn Tiếng Anh — tập CON của LEARNING_PATHS, phải xét TRƯỚC nhóm Phòng Học. */
+/** Môn Tiếng Anh — tập CON của LEARNING_PATHS, phải xét TRƯỚC nhóm Góc học tập. */
 export const ENGLISH_PATHS = ['/hoc-tieng-anh', '/tieng-anh', '/english', '/lo-trinh-hoc']
 
 export const CAREER_PATHS = [
