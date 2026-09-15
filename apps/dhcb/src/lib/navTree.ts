@@ -9,7 +9,9 @@
 // phải dựng React.
 import {
   Atom,
+  BookMarked,
   BookOpen,
+  BookText,
   Calculator,
   Code2,
   Dumbbell,
@@ -19,11 +21,14 @@ import {
   Leaf,
   Mic,
   MessagesSquare,
+  NotebookPen,
   PenLine,
+  Quote,
   Route as RouteIcon,
   Swords,
   type LucideIcon,
 } from 'lucide-react'
+import { ENGLISH_PATHS, underPrefix } from './navPaths'
 
 /** Một mục CON trong nhóm đóng/mở được. */
 export interface NavChild {
@@ -36,7 +41,46 @@ export interface NavChild {
   subjectId?: string
   /** Tiền tố đường dẫn làm mục con này sáng. */
   paths: readonly string[]
+  /**
+   * Mục con CẤP 2 (mở/đóng được). [Slice 02] Công cụ của môn Tiếng Anh nằm dưới mục "Tiếng Anh"
+   * trong nhóm Góc học tập — quyết định chủ dự án 2026-09-15: "di chuyển, không xoá".
+   */
+  children?: readonly NavChild[]
 }
+
+/**
+ * Công cụ của môn Tiếng Anh — cấp 2 dưới mục "Tiếng Anh" trong nhóm Góc học tập.
+ *
+ * [Slice 03] Đủ 12 công cụ có trang riêng, theo THỨ TỰ LUỒNG HỌC (lộ trình → bài → 4 kỹ năng →
+ * tra cứu → ôn → thử thách). Trước đây 6 công cụ trong số này nằm dưới "Luyện tập" (đa môn) —
+ * sai ngữ nghĩa và làm đứng ở /tro-truyen sáng nhầm "Luyện tập". Không đưa /placement (một lần),
+ * /cai-dat (cài đặt môn) và /tu-vung/:word (trang con Từ điển) lên sidebar — chúng ở trang tổng
+ * quan/breadcrumb. Xem docs/specs/2026-09-15-goc-hoc-tap-03-04-*.md §2.1.
+ */
+export const ENGLISH_CHILDREN: NavChild[] = [
+  { label: 'Lộ trình CEFR', icon: RouteIcon, to: '/lo-trinh-hoc', paths: ['/lo-trinh-hoc'] },
+  { label: 'Bài học hôm nay', icon: BookOpen, to: '/bai-hoc', paths: ['/bai-hoc'] },
+  { label: 'Trò chuyện', icon: MessagesSquare, to: '/tro-truyen', paths: ['/tro-truyen'] },
+  { label: 'Luyện nói', icon: Mic, to: '/luyen-noi', paths: ['/luyen-noi'] },
+  { label: 'Luyện viết', icon: PenLine, to: '/luyen-viet', paths: ['/luyen-viet'] },
+  { label: 'Luyện nghe', icon: Headphones, to: '/luyen-nghe', paths: ['/luyen-nghe'] },
+  { label: 'Từ điển', icon: BookMarked, to: '/tu-dien', paths: ['/tu-dien', '/tu-vung'] },
+  {
+    label: 'Câu thông dụng',
+    icon: Quote,
+    to: '/cau-thong-dung',
+    paths: ['/cau-thong-dung'],
+  },
+  {
+    label: 'Truyện song ngữ',
+    icon: BookText,
+    to: '/truyen-song-ngu',
+    paths: ['/truyen-song-ngu'],
+  },
+  { label: 'Sổ tay lỗi sai', icon: NotebookPen, to: '/so-tay-loi-sai', paths: ['/so-tay-loi-sai'] },
+  { label: 'Ôn thi', icon: Dumbbell, to: '/on-thi', paths: ['/on-thi'] },
+  { label: 'Thử thách', icon: Swords, to: '/thu-thach', paths: ['/thu-thach'] },
+]
 
 /** Mục con của "Góc học tập" — 6 môn trong `packages/core-learner/subjectRegistry.ts`. */
 export const SUBJECT_CHILDREN: NavChild[] = [
@@ -44,7 +88,8 @@ export const SUBJECT_CHILDREN: NavChild[] = [
     label: 'Tiếng Anh',
     icon: Languages,
     subjectId: 'english',
-    paths: ['/goc-hoc-tap/english', '/english'],
+    paths: ENGLISH_PATHS,
+    children: ENGLISH_CHILDREN,
   },
   {
     label: 'Toán học',
@@ -76,30 +121,6 @@ export const SUBJECT_CHILDREN: NavChild[] = [
     subjectId: 'programming',
     paths: ['/goc-hoc-tap/programming', '/lap-trinh'],
   },
-]
-
-/** Mục con của "Luyện tập" — 4 kỹ năng + tra cứu + thử thách. */
-export const PRACTICE_CHILDREN: NavChild[] = [
-  { label: 'Trò chuyện', icon: MessagesSquare, to: '/tro-truyen', paths: ['/tro-truyen'] },
-  { label: 'Luyện nói', icon: Mic, to: '/luyen-noi', paths: ['/luyen-noi'] },
-  { label: 'Luyện viết', icon: PenLine, to: '/luyen-viet', paths: ['/luyen-viet'] },
-  { label: 'Luyện nghe', icon: Headphones, to: '/luyen-nghe', paths: ['/luyen-nghe'] },
-  { label: 'Từ điển', icon: BookOpen, to: '/tu-dien', paths: ['/tu-dien', '/tu-vung'] },
-  { label: 'Thử thách', icon: Swords, to: '/thu-thach', paths: ['/thu-thach'] },
-]
-
-/** Mục con của "Học Tiếng Anh". */
-export const ENGLISH_CHILDREN: NavChild[] = [
-  { label: 'Lộ trình CEFR', icon: RouteIcon, to: '/lo-trinh-hoc', paths: ['/lo-trinh-hoc'] },
-  { label: 'Bài học hôm nay', icon: BookOpen, to: '/bai-hoc', paths: ['/bai-hoc'] },
-  {
-    label: 'Câu thông dụng',
-    icon: MessagesSquare,
-    to: '/cau-thong-dung',
-    paths: ['/cau-thong-dung'],
-  },
-  { label: 'Sổ tay lỗi sai', icon: PenLine, to: '/so-tay-loi-sai', paths: ['/so-tay-loi-sai'] },
-  { label: 'Ôn thi', icon: Dumbbell, to: '/on-thi', paths: ['/on-thi'] },
 ]
 
 const STORAGE_KEY = 'ui_sidebar_groups'
@@ -138,5 +159,14 @@ export function toggleGroup(open: readonly string[], id: string): string[] {
  * cây, kể cả khi vào thẳng bằng URL.
  */
 export function groupContainsPath(children: readonly NavChild[], pathname: string): boolean {
-  return children.some((c) => c.paths.some((p) => pathname.startsWith(p)))
+  return children.some(
+    (c) =>
+      c.paths.some((p) => underPrefix(pathname, p)) ||
+      (c.children ? groupContainsPath(c.children, pathname) : false),
+  )
+}
+
+/** Mục con này (hoặc một mục cấp 2 của nó) có khớp đường dẫn hiện tại không. */
+export function childIsActive(child: NavChild, pathname: string): boolean {
+  return child.paths.some((p) => underPrefix(pathname, p))
 }

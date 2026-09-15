@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from 'react'
+import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
 import { useSearchParams } from 'react-router-dom'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import { Send, Plus, ChevronDown, Sparkles, Award } from 'lucide-react'
@@ -756,6 +757,7 @@ export default function Chat() {
       style={keyboardOpen ? { height: `${viewportHeight}px` } : undefined}
     >
       <Layout
+        backTo={duongDanMonTiengAnh()}
         subtitle={
           session
             ? `${situationLabel(session.situation, dir)} · ${

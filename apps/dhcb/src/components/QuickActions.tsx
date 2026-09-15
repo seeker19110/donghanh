@@ -18,7 +18,7 @@ import {
 } from '../lib/pushNotif'
 import { getAccessToken } from '@core/authHeader'
 import { useAuth } from '../context/useAuth'
-import { getDirection } from '../lib/storage'
+import { useLang } from '../context/useLang'
 import { useDialogBehavior } from './useDialogBehavior'
 
 // Lưu giờ nhắc (giờ địa phương 0–23) để hiển thị lại lần sau
@@ -39,7 +39,8 @@ export default function QuickActions() {
   const nav = useNavigate()
   const { user } = useAuth()
   const userId = user?.id ?? ''
-  const isA = getDirection() === 'A'
+  // [Slice 04] Chữ giao diện theo ngôn ngữ giao diện, không theo chiều học Tiếng Anh.
+  const isA = useLang().lang === 'vi'
   const supported = isPushSupported()
   const [showShare, setShare] = useState(false)
   // Trạng thái quyền thông báo hiện tại — đọc 1 lần qua lazy initializer

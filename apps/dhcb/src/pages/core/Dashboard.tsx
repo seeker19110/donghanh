@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { duongDanMonTiengAnh } from '../../lib/subjectsHost'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   Flame,
   BookOpen,
@@ -767,6 +768,21 @@ export default function Dashboard() {
           }
         >
           <div className="space-y-6">
+            {/* [Slice 03] Trang này hiện chỉ có số liệu MÔN TIẾNG ANH (từ vựng, SRS, thi CEFR).
+                Nói rõ để người học Toán/Lập trình không tưởng tiến độ của mình bị mất; tiến độ đa
+                môn thật là việc của S12. */}
+            <p className="text-sm text-zinc-300 mb-3">
+              {vi ? 'Môn Tiếng Anh — ' : 'English — '}
+              <Link
+                to={duongDanMonTiengAnh()}
+                className="underline underline-offset-2 text-accent-300 theme-light:text-accent-800 hover:text-white"
+              >
+                {vi ? 'về trang môn' : 'go to subject page'}
+              </Link>
+              {vi
+                ? '. Tiến độ các môn khác xem ở trang từng môn.'
+                : '. Other subjects show progress on their own pages.'}
+            </p>
             <PageHeader
               title={vi ? 'Tiến độ học' : 'Your Progress'}
               subtitle={

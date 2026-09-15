@@ -54,3 +54,14 @@ describe('Layout — chế độ tập trung', () => {
     expect(render(false)).not.toContain('animate-pulse')
   })
 })
+
+// Slice 02: dropdown Studio là data-driven từ STUDIOS — không còn "Học Tiếng Anh" ở cấp nền tảng.
+describe('Layout — bộ chuyển Studio (slice 02)', () => {
+  // Menu chỉ dựng DOM khi mở (renderToStaticMarkup không mở được) — số mục canh ở
+  // `lib/studios.test.ts`; ở đây canh phần header tĩnh không còn dấu vết "không gian" Tiếng Anh.
+  it('header không còn nhắc tới không gian Học Tiếng Anh', () => {
+    const html = render(false)
+    expect(html).not.toContain('Học Tiếng Anh')
+    expect(html).not.toContain('/hoc-tieng-anh')
+  })
+})

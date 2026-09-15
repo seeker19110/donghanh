@@ -2,6 +2,7 @@
 // SearchBar · LessonList · LessonView · InlinePronounce · WordText · hằng dùng chung nay nằm ở
 // `pages/subjects/english/lessons/`, file này chỉ còn TRANG CHÍNH. `InlinePronounce` re-export
 // để `components/CefrLessonViews.tsx` giữ nguyên đường import.
+import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
 import { useState, useEffect, useDeferredValue } from 'react'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import { Play, Loader2 } from 'lucide-react'
@@ -105,7 +106,13 @@ export default function Lessons() {
     return (
       <div className="min-h-dvh bg-zinc-950">
         {/* `focus`: trang ngồi học lâu → ẩn bộ chuyển Studio + huy hiệu streak (xem Layout). */}
-        <Layout back focus title={selectedMeta?.title} subtitle={selectedMeta?.situation} />
+        <Layout
+          backTo={duongDanMonTiengAnh()}
+          back
+          focus
+          title={selectedMeta?.title}
+          subtitle={selectedMeta?.situation}
+        />
         <PageShell width="standard" baseWidth="max-w-3xl">
           <TwoPane
             isDesktop
@@ -174,7 +181,12 @@ export default function Lessons() {
     const c = getColor(selectedMeta.id)
     return (
       <div className="h-[calc(100dvh-var(--bnav-h))] overflow-hidden bg-zinc-950 flex flex-col">
-        <Layout title={selectedMeta.title} subtitle={selectedMeta.situation} back />
+        <Layout
+          backTo={duongDanMonTiengAnh()}
+          title={selectedMeta.title}
+          subtitle={selectedMeta.situation}
+          back
+        />
         {loadingLesson || !lesson ? (
           <div className="flex-1 flex items-center justify-center text-zinc-400">
             <Loader2 className="w-5 h-5 animate-spin mr-2" />
@@ -199,7 +211,7 @@ export default function Lessons() {
   // Desktop (sm+): layout thường, search ở trên
   return (
     <div className="bg-zinc-950 flex flex-col h-[calc(100dvh-var(--bnav-h))] sm:h-auto sm:block sm:min-h-dvh">
-      <Layout back />
+      <Layout backTo={duongDanMonTiengAnh()} back />
 
       {/* <div> chứ không phải <main>: landmark <main> do PageShell render bên trong. */}
       <div className="flex-1 overflow-y-auto sm:overflow-visible sm:flex-none">

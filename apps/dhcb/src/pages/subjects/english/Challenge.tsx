@@ -3,6 +3,7 @@
 // tuần (lib/weeklyGoal.ts). Mỗi ngày quay 1 video ngắn theo chủ đề gợi ý → audio gửi
 // /api/stt nhận diện → AI (prompts/challenge.ts) khen + sửa lỗi + gợi ý câu nâng cấp.
 // Video KHÔNG upload — chỉ lưu trên máy (IndexedDB, lib/challengeVideo.ts).
+import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
 import { useEffect, useRef, useState } from 'react'
 import { Video, Mic, RotateCcw, Send, Square, Type, Trophy, Check, Volume2 } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
@@ -614,7 +615,7 @@ export default function Challenge() {
   if (!challenge) {
     return (
       <div className="min-h-dvh bg-zinc-950">
-        <Layout />
+        <Layout backTo={duongDanMonTiengAnh()} />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] Luồng tuần tự hẹp → width reading. */}
         <PageShell width="reading" baseWidth="max-w-lg">
           <PageHeader
@@ -668,7 +669,7 @@ export default function Challenge() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout />
+      <Layout backTo={duongDanMonTiengAnh()} />
       {celebrateWeek && (
         <Celebration
           icon="🏆"

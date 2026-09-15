@@ -27,13 +27,13 @@ Giữ freeze nội dung mới trong PROGRESS: tái cấu trúc trải nghiệm c
 
 **Không làm trong 01:** di chuyển hoạt động tiếng Anh/lập trình sang URL lồng mới; bỏ entry tiếng Anh; đổi onboarding; migration dữ liệu; thêm parser toán; mục lục toàn khóa; thay DNS hoặc chính sách cookie. Những thay đổi này có slice riêng, không coi đổi nhãn là đã hoàn tất tái cấu trúc.
 
-| Slice | Outcome                                                             | Điều kiện READY                                                                        |
-| ----- | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| 0S    | Spec này + goal đúng main                                           | Review agent chính và merge docs                                                       |
-| 01    | Góc học tập với URL và nhãn thống nhất                              | ✅ **ĐÃ THI HÀNH** — `docs/changelog/0324-2026-09-15-goc-hoc-tap-doi-ten-va-url.md`    |
-| 02    | Tiếng Anh là môn, bỏ entry cấp không gian; tổng quan môn cùng khung | Spec bổ sung route/host English, screen states, test auth/storage được review và merge |
-| 03    | Công cụ tiếng Anh nằm trong môn; công cụ chung có context           | Inventory từng route/component/API/storage và spec adapter được merge                  |
-| 04    | Platform không mặc định tiếng Anh                                   | Inventory mọi fallback + contract context thiếu/hợp lệ/lịch sử, spec được merge        |
+| Slice | Outcome                                                             | Điều kiện READY                                                                     |
+| ----- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| 0S    | Spec này + goal đúng main                                           | Review agent chính và merge docs                                                    |
+| 01    | Góc học tập với URL và nhãn thống nhất                              | ✅ **ĐÃ THI HÀNH** — `docs/changelog/0324-2026-09-15-goc-hoc-tap-doi-ten-va-url.md` |
+| 02    | Tiếng Anh là môn, bỏ entry cấp không gian; tổng quan môn cùng khung | ✅ **ĐÃ THI HÀNH** — `docs/changelog/0326-*.md`                                     |
+| 03    | Công cụ tiếng Anh nằm trong môn; công cụ chung có context           | ✅ **ĐÃ THI HÀNH** — `docs/changelog/0327-*.md`                                     |
+| 04    | Platform không mặc định tiếng Anh                                   | ✅ **ĐÃ THI HÀNH** — `docs/changelog/0327-*.md`                                     |
 
 Sau 04 ưu tiên mục lục độc lập shellbar (S07), rồi resume, Home/onboarding, tutor, completion/sync và ôn tập theo goal. Đặc tả mục lục cần payload catalog và nguồn evidence riêng.
 

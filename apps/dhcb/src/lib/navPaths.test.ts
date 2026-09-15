@@ -12,6 +12,7 @@ import {
   PROGRESS_PATHS,
   matchesNav,
   resolveActiveNav,
+  underPrefix,
 } from './navPaths.js'
 
 // Mọi bảng path phải là mảng khác rỗng — nếu ai đó lỡ xoá sạch nội dung, test này bắt ngay.
@@ -38,7 +39,23 @@ describe('matchesNav', () => {
   })
 
   it('khớp khi pathname là trang con (khớp một phần theo tiền tố)', () => {
-    expect(matchesNav('/luyen-noi/bai-1', PRACTICE_PATHS)).toBe(true)
+    expect(matchesNav('/luyen-tap/bai-1', PRACTICE_PATHS)).toBe(true)
+  })
+
+  // [Slice 03] Công cụ Tiếng Anh thuộc MÔN, không thuộc "Luyện tập" (hub đa môn).
+  it.each([
+    '/tro-truyen',
+    '/luyen-noi',
+    '/luyen-viet',
+    '/tu-dien',
+    '/tu-vung/apple',
+    '/placement',
+    '/cai-dat',
+    '/thu-thach',
+  ])('%s thuộc ENGLISH_PATHS + LEARNING_PATHS, KHÔNG thuộc PRACTICE_PATHS', (p) => {
+    expect(matchesNav(p, ENGLISH_PATHS)).toBe(true)
+    expect(matchesNav(p, LEARNING_PATHS)).toBe(true)
+    expect(matchesNav(p, PRACTICE_PATHS)).toBe(false)
   })
 
   it('không khớp khi pathname không thuộc nhóm', () => {
@@ -52,11 +69,32 @@ describe('matchesNav', () => {
   it('mảng path rỗng thì không bao giờ khớp', () => {
     expect(matchesNav('/tien-do', [])).toBe(false)
   })
+
+  // Slice 02: khớp theo BIÊN đoạn — `/goc-hoc-tap/english-abc` không được làm sáng "Tiếng Anh".
+  it('khớp theo BIÊN đoạn, không phải chuỗi con', () => {
+    expect(matchesNav('/goc-hoc-tap/english-abc', ENGLISH_PATHS)).toBe(false)
+    expect(matchesNav('/goc-hoc-tap/english/x', ENGLISH_PATHS)).toBe(true)
+    expect(matchesNav('/luyen-tapx', PRACTICE_PATHS)).toBe(false)
+  })
+})
+
+describe('underPrefix', () => {
+  it.each([
+    ['/goc-hoc-tap', '/goc-hoc-tap', true],
+    ['/goc-hoc-tap/english', '/goc-hoc-tap', true],
+    ['/goc-hoc-tap-abc', '/goc-hoc-tap', false],
+    ['/goc-hoc-tapabc', '/goc-hoc-tap', false],
+    ['/', '/', true],
+    ['/x', '/', true],
+    ['/x', '', false],
+  ])('%s dưới %s → %s', (pathname, prefix, expected) => {
+    expect(underPrefix(pathname, prefix)).toBe(expected)
+  })
 })
 
 describe('resolveActiveNav', () => {
   it('trả về to của entry khớp ĐẦU TIÊN theo thứ tự (ai đứng trước thắng)', () => {
-    const result = resolveActiveNav('/hoc-tieng-anh', [
+    const result = resolveActiveNav('/goc-hoc-tap/english', [
       { to: '/english', paths: ENGLISH_PATHS },
       { to: '/phong-hoc', paths: LEARNING_PATHS },
     ])
@@ -64,7 +102,7 @@ describe('resolveActiveNav', () => {
   })
 
   it('entry sau vẫn khớp nếu entry trước không khớp', () => {
-    const result = resolveActiveNav('/luyen-noi', [
+    const result = resolveActiveNav('/luyen-tap', [
       { to: '/english', paths: ENGLISH_PATHS },
       { to: '/luyen-tap', paths: PRACTICE_PATHS },
     ])

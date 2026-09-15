@@ -16,6 +16,8 @@
 // CHUYỂN ORIGIN (một lượt tải trang thật) hoặc điều hướng trong app, tuỳ đang đứng ở host nào —
 // và ở localhost/dev thì KHÔNG có subdomain nào cả. Gom một chỗ để không nơi nào đoán sai.
 
+import { isAppHostSubject, subjectHomePath } from '@dhcb/core-learner/subjectHome'
+
 /**
  * Host phục vụ Góc học tập. Khớp `SUBJECTS_HOSTNAME` phía server.
  *
@@ -42,6 +44,18 @@ export const LEGACY_SUBJECTS_PREFIXES = [
   '/hoc-mon-hoc',
 ] as const
 
+/**
+ * Đường dẫn CŨ của trang tổng quan môn Tiếng Anh (thời còn là "không gian" riêng). Slice 02
+ * (`docs/specs/2026-09-15-goc-hoc-tap-02-tieng-anh-la-mot-mon.md`): Tiếng Anh là một môn, trang
+ * tổng quan ở `subjectHomePath('english')` — ba đường này thành alias. Khớp bảng cùng tên ở server.
+ */
+export const LEGACY_ENGLISH_PREFIXES = ['/hoc-tieng-anh', '/tieng-anh', '/english'] as const
+
+/** Trang tổng quan môn Tiếng Anh — MỘT hàm cho mọi nơi dựng link (CLAUDE.md §7, không ghép chuỗi). */
+export function duongDanMonTiengAnh(): string {
+  return subjectHomePath('english')
+}
+
 /** Đang đứng trên chính host của Góc học tập? Luôn `false` khi tính năng chưa bật. */
 export function isSubjectsHost(hostname: string): boolean {
   const configured = subjectsHostname()
@@ -67,7 +81,7 @@ export function usesSubjectsSubdomain(hostname: string): boolean {
  * `subjectsTarget`), còn đường dẫn thì như nhau ở mọi nơi.
  */
 export function subjectsPath(subjectId?: string): string {
-  return subjectId ? `${SUBJECTS_PREFIX}/${subjectId}` : SUBJECTS_PREFIX
+  return subjectId ? subjectHomePath(subjectId) : SUBJECTS_PREFIX
 }
 
 /**
@@ -83,11 +97,16 @@ export function normalizeLegacySubjectsPath(pathname: string): string | null {
       return `${SUBJECTS_PREFIX}${pathname.slice(prefix.length)}`
     }
   }
+  const englishHome = duongDanMonTiengAnh()
+  for (const prefix of LEGACY_ENGLISH_PREFIXES) {
+    if (pathname === prefix) return englishHome
+    if (pathname.startsWith(`${prefix}/`)) return `${englishHome}${pathname.slice(prefix.length)}`
+  }
   return null
 }
 
 /**
- * Nơi cần tới khi người dùng bấm "Góc học tập".
+ * Nơi cần tới khi người dùng bấm "Góc học tập" hoặc một môn.
  *
  * - `kind: 'path'` → điều hướng trong app (React Router), không tải lại trang.
  * - `kind: 'url'`  → ĐỔI ORIGIN, phải `window.location.assign` chứ Router không đi được.
@@ -95,16 +114,40 @@ export function normalizeLegacySubjectsPath(pathname: string): string | null {
  * Trả về kiểu phân biệt thay vì một chuỗi, để nơi gọi KHÔNG THỂ quên mất khác biệt đó — đưa
  * một URL tuyệt đối cho `navigate()` của React Router sẽ hỏng âm thầm (nó coi đó là đường dẫn
  * tương đối và ghép vào sau origin hiện tại).
+ *
+ * Bảng ownership (slice 02, khớp `apps/server/src/subjectsRouting.ts`):
+ *   · danh mục + môn STEM → host Góc học tập;
+ *   · môn có không gian hoạt động riêng (`isAppHostSubject`: Tiếng Anh, Lập trình) → APP host —
+ *     dữ liệu học (token, từ vựng, SRS…) sống ở localStorage của origin app. Trước slice 02
+ *     chiều này KHÔNG tồn tại: đứng ở host Góc học tập bấm "Tiếng Anh" là `navigate()` tại chỗ,
+ *     người đã đăng nhập thành khách với tiến độ 0 (spec 02 §2.3).
  */
 export function subjectsTarget(
   hostname: string,
   subjectId?: string,
 ): { kind: 'path'; value: string } | { kind: 'url'; value: string } {
   const path = subjectsPath(subjectId)
-  if (isSubjectsHost(hostname) || !usesSubjectsSubdomain(hostname)) {
-    return { kind: 'path', value: path }
+  if (!usesSubjectsSubdomain(hostname)) return { kind: 'path', value: path }
+  const toAppHost = subjectId !== undefined && isAppHostSubject(subjectId)
+  if (isSubjectsHost(hostname)) {
+    // Đang ở host Góc học tập: môn thuộc app host phải ĐỔI ORIGIN về host chuẩn.
+    return toAppHost
+      ? { kind: 'url', value: `https://${canonicalHostname()}${path}` }
+      : { kind: 'path', value: path }
   }
-  return { kind: 'url', value: `https://${subjectsHostname()}${path}` }
+  // Đang ở một app host (www, en-vi…): môn thuộc app host ở lại; danh mục/môn STEM sang host kia.
+  return toAppHost
+    ? { kind: 'path', value: path }
+    : { kind: 'url', value: `https://${subjectsHostname()}${path}` }
+}
+
+/**
+ * Host chuẩn của app nền tảng — nơi môn thuộc app host quay về khi đang đứng ở host Góc học tập.
+ * Khớp `DEFAULT_CANONICAL_HOSTNAME` phía server; ghi đè bằng `VITE_CANONICAL_HOSTNAME` khi cần.
+ */
+export function canonicalHostname(): string {
+  const configured = (import.meta.env.VITE_CANONICAL_HOSTNAME as string | undefined) ?? ''
+  return (configured || 'www.donghanhcungban.org').toLowerCase()
 }
 
 /**
@@ -118,6 +161,14 @@ export function goToSubjects(navigate: (path: string) => void, subjectId?: strin
   const target = subjectsTarget(window.location.hostname, subjectId)
   if (target.kind === 'url') window.location.assign(target.value)
   else navigate(target.value)
+}
+
+/**
+ * Đi tới TRANG CHỦ của một môn — cùng cơ chế `goToSubjects` nhưng tên nói rõ ý định. Đây là lối
+ * duy nhất cho nút "Vào môn …" ở danh mục: một chỗ quyết định assign/navigate theo ownership.
+ */
+export function goToSubjectHome(navigate: (path: string) => void, subjectId: string): void {
+  goToSubjects(navigate, subjectId)
 }
 
 /** Địa chỉ dùng cho thẻ liên kết. Xem `subjectsTarget` để biết khi nào là URL tuyệt đối. */

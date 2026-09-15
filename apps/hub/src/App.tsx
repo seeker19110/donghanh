@@ -173,7 +173,9 @@ const SUBJECTS: Subject[] = [
       'Ôn từ vựng ngắt quãng (SRS/FSRS)',
       'Học ngoại tuyến trên web và điện thoại (PWA)',
     ],
-    ctaUrl: `${APP_URL}/hoc-tieng-anh`,
+    // Slice 02: Tiếng Anh là một môn trong Góc học tập. Hub không import gói @dhcb/* (xem
+    // apps/hub/tsconfig.json) nên giữ chuỗi tại chỗ; scripts/hub-links.test.ts canh cho khớp.
+    ctaUrl: `${APP_URL}/goc-hoc-tap/english`,
     ctaLabel: 'Vào học Tiếng Anh',
   },
   {

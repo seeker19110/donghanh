@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect, useRef, useDeferredValue } from 'react'
+import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
 import { Search, X, ChevronRight, Loader2, Play } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import Layout from '../../../components/Layout'
@@ -282,7 +283,7 @@ export default function CommonPhrases() {
     const c = getColor(selected.color)
     return (
       <div className="h-[calc(100dvh-var(--bnav-h))] overflow-hidden bg-zinc-950 flex flex-col">
-        <Layout title={selected.starter} back />
+        <Layout backTo={duongDanMonTiengAnh()} title={selected.starter} back />
         <main className="flex-1 overflow-hidden max-w-3xl mx-auto w-full px-4 py-4 flex flex-col">
           {/* danh sách câu cuộn trong khung cố định, không đẩy trang xuống */}
           <div className="flex-1 overflow-y-auto space-y-2 pr-0.5">
@@ -325,7 +326,7 @@ export default function CommonPhrases() {
 
   return (
     <div className="bg-zinc-950 flex flex-col h-[calc(100dvh-var(--bnav-h))] sm:h-auto sm:block sm:min-h-dvh">
-      <Layout back />
+      <Layout backTo={duongDanMonTiengAnh()} back />
 
       {/* <div> chứ không phải <main>: landmark <main> do PageShell render bên trong. */}
       <div className="flex-1 overflow-y-auto sm:overflow-visible sm:flex-none">

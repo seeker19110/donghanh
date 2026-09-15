@@ -16,6 +16,9 @@ import { track } from '../../lib/analytics'
 import { cacheOnboarding, minutesToSpeed } from '../../lib/onboarding'
 import { setDailySpeed } from '../../lib/curriculum'
 import type { AgeGroup } from '../../types'
+import { listSupportedSubjects } from '@dhcb/core-learner/subjectRegistry'
+import { subjectHomePath } from '@dhcb/core-learner/subjectHome'
+import SubjectIllustration from '../../components/SubjectIllustration'
 
 type OnboardLevel = 'beginner' | 'intermediate' | 'advanced'
 type OnboardGoal = 'daily' | 'travel' | 'work' | 'ielts'
@@ -84,6 +87,13 @@ export default function Onboarding() {
   // Tới từ /placement sau khi làm bài test xếp lớp: đã biết trình độ đề xuất →
   // bỏ qua bước chọn trình độ thủ công (vẫn cho quay lại step 0 nếu muốn đổi ý).
   const presetLevel = (location.state as { presetLevel?: OnboardLevel } | null)?.presetLevel
+  // [Slice 04] Bước CHỌN MÔN trước mọi bước khác: nền tảng có 6 môn, onboarding cũ (trình độ
+  // CEFR, mục tiêu giao tiếp) là của riêng Tiếng Anh. Tới từ /placement (đã làm test xếp lớp
+  // Tiếng Anh) thì môn đã rõ. Chọn môn khác Tiếng Anh: vẫn hỏi NHÓM TUỔI (dùng chung toàn nền
+  // tảng) rồi hoàn tất, các trường Tiếng Anh gửi giá trị mặc định — API không đổi.
+  const [subjectId, setSubjectId] = useState<string>(presetLevel ? 'english' : '')
+  const isEnglish = subjectId === 'english'
+  const totalSteps = isEnglish ? 4 : 1
   const [step, setStep] = useState(presetLevel ? 2 : 0)
   const [ageGroup, setAgeGroup] = useState<AgeGroup>('nguoi_lon')
   const [level, setLevel] = useState<OnboardLevel>(presetLevel ?? 'beginner')
@@ -108,26 +118,59 @@ export default function Onboarding() {
     cacheOnboarding(user.id, { level, goal, dailyMinutes: minutes, ageGroup })
     setDailySpeed(user.id, minutesToSpeed(minutes))
     await refresh()
-    nav('/', { replace: true })
+    // Về đúng trang chủ của MÔN vừa chọn (Tiếng Anh → /goc-hoc-tap/english), không phải Home.
+    nav(subjectHomePath(subjectId || 'english'), { replace: true })
   }
 
   return (
     <div className="min-h-dvh bg-zinc-950 flex flex-col items-center justify-center px-4 py-8">
-      {/* Thanh tiến trình */}
-      <div className="w-full max-w-sm mb-8">
-        <div className="flex gap-1.5">
-          {[0, 1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className={`h-1 flex-1 rounded-full transition-all duration-300 ${i <= step ? 'bg-accent-500' : 'bg-zinc-800'}`}
-            />
-          ))}
+      {/* Bước chọn môn (trước thanh tiến trình — chưa chọn môn thì chưa biết có mấy bước) */}
+      {!subjectId && (
+        <div className="w-full max-w-sm animate-fade-in">
+          <h1 className="text-2xl font-bold text-white mb-1">Bạn muốn học gì?</h1>
+          <p className="text-zinc-400 text-sm mb-4">
+            Chọn một môn để bắt đầu. Sau này đổi hoặc học thêm môn khác bất cứ lúc nào ở Góc học
+            tập.
+          </p>
+          <ul className="grid grid-cols-2 gap-3" aria-label="Chọn môn học">
+            {listSupportedSubjects().map((sub) => (
+              <li key={sub.id}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSubjectId(sub.id)
+                    track('onboarding_step_view', { refCode: `onboarding:subject:${sub.id}` })
+                  }}
+                  className="tap-44 w-full h-full flex flex-col items-center gap-2 p-4 rounded-2xl border bg-zinc-900/80 border-zinc-800 text-zinc-200 hover:border-accent-500/60 hover:text-white transition-all"
+                >
+                  <SubjectIllustration subjectId={sub.id} size="sm" />
+                  <span className="font-semibold text-[15px]">{sub.label}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
-        <p className="text-xs text-zinc-400 mt-2">Bước {step + 1} / 4</p>
-      </div>
+      )}
+
+      {/* Thanh tiến trình */}
+      {subjectId && (
+        <div className="w-full max-w-sm mb-8">
+          <div className="flex gap-1.5">
+            {Array.from({ length: totalSteps }, (_, i) => (
+              <div
+                key={i}
+                className={`h-1 flex-1 rounded-full transition-all duration-300 ${i <= step ? 'bg-accent-500' : 'bg-zinc-800'}`}
+              />
+            ))}
+          </div>
+          <p className="text-xs text-zinc-400 mt-2">
+            Bước {step + 1} / {totalSteps}
+          </p>
+        </div>
+      )}
 
       {/* Bước 0: Nhóm tuổi */}
-      {step === 0 && (
+      {subjectId && step === 0 && (
         <div className="w-full max-w-sm animate-fade-in">
           <h1 className="text-2xl font-bold text-white mb-1">Bạn thuộc nhóm tuổi nào?</h1>
           <p className="text-zinc-400 text-sm mb-4">
@@ -155,10 +198,19 @@ export default function Onboarding() {
             ))}
           </div>
           <button
-            onClick={() => setStep(1)}
-            className="mt-6 w-full bg-accent-500 hover:bg-accent-400 text-black font-semibold py-3 rounded-2xl flex items-center justify-center gap-2 transition"
+            onClick={() => (isEnglish ? setStep(1) : void finish())}
+            disabled={saving}
+            className="mt-6 w-full bg-accent-500 hover:bg-accent-400 disabled:opacity-60 text-black font-semibold py-3 rounded-2xl flex items-center justify-center gap-2 transition"
           >
-            Tiếp theo <ChevronRight className="w-4 h-4" />
+            {isEnglish ? 'Tiếp theo' : saving ? 'Đang lưu...' : 'Bắt đầu học! 🚀'}
+            {isEnglish && <ChevronRight className="w-4 h-4" />}
+          </button>
+          <button
+            type="button"
+            onClick={() => setSubjectId('')}
+            className="mt-3 w-full text-sm text-zinc-400 hover:text-white py-2"
+          >
+            Chọn môn khác
           </button>
         </div>
       )}

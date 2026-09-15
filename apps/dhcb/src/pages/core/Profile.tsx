@@ -40,7 +40,7 @@ import { useAuth } from '../../context/useAuth'
 import { useLang } from '../../context/useLang'
 import { useToast } from '@core/ToastProvider'
 import { useCloudSync } from '../../lib/useCloudSync'
-import { getStreak, getDirection } from '../../lib/storage'
+import { getStreak } from '../../lib/storage'
 import { getLearnedCount } from '../../lib/vocab'
 import {
   checkNewAchievements,
@@ -62,12 +62,12 @@ import { useIsDesktopViewport } from '../../lib/useIsDesktopViewport'
 export default function Profile() {
   const nav = useNavigate()
   const { user, refresh } = useAuth()
-  const { T } = useLang()
+  const { T, lang } = useLang()
   const toast = useToast()
   useCloudSync(user?.id)
 
-  const dir = getDirection()
-  const isA = dir === 'A'
+  // [Slice 04] Chữ giao diện theo ngôn ngữ giao diện, không theo chiều học Tiếng Anh.
+  const isA = lang === 'vi'
 
   const [earned, setEarned] = useState<Set<string>>(() => getEarnedAchievements(user?.id ?? ''))
   const [rewards, setRewards] = useState<AchievementRewardStatus[] | null>(null)

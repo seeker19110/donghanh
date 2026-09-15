@@ -3,6 +3,7 @@
 // Tab Truyện trước đây ở đây đã tách thành trang riêng /stories (2026-08-02, xem Stories.tsx)
 // để dễ phát triển thêm tính năng sau.
 // Xem docs/research/dac-ta-trang-nghe-2026-08-01.md mục 6 + danh-muc-truyen-nghe-2026-08-01.md mục 9.
+import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Play, Square, Eye, EyeOff, ChevronRight } from 'lucide-react'
@@ -53,7 +54,7 @@ export default function Listening() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout back />
+      <Layout backTo={duongDanMonTiengAnh()} back />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Thư viện nghe (2 tab, danh sách) → width standard. */}
       <PageShell width="standard" baseWidth="max-w-3xl">
         <PageHeader title={T.listeningPageTitle} subtitle={T.listeningPageSub} />

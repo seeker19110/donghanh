@@ -23,7 +23,7 @@ import SubjectIllustration from '../../components/SubjectIllustration'
 import LoadError from '../../components/LoadError'
 import { listSubjects, SubjectApiError } from '../../lib/subjectApi'
 import type { SubjectManifest } from '@dhcb/core-contracts/subjectManifest'
-import { goToSubjects } from '../../lib/subjectsHost'
+import { goToSubjects, goToSubjectHome } from '../../lib/subjectsHost'
 
 const SUBJECT_ICONS: Record<string, typeof BookOpen> = {
   english: BookOpen,
@@ -420,15 +420,11 @@ export default function Subjects() {
                   {/* Nút hành động */}
                   <div className="relative px-5 pb-5">
                     <button
-                      onClick={() => {
-                        if (sub.id === 'english') {
-                          nav('/hoc-tieng-anh')
-                        } else if (sub.id === 'programming') {
-                          nav('/lap-trinh')
-                        } else {
-                          nav(`/goc-hoc-tap/${sub.id}`)
-                        }
-                      }}
+                      // MỘT lối cho mọi môn (slice 02): helper quyết định ở lại origin hay đổi
+                      // origin theo bảng ownership. Trước đây `nav('/hoc-tieng-anh')` tại chỗ trên
+                      // host Góc học tập đưa người đã đăng nhập sang một origin có localStorage
+                      // trống — họ thành khách với tiến độ 0 (spec 02 §2.3).
+                      onClick={() => goToSubjectHome(nav, sub.id)}
                       className={`w-full tap-44 flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-semibold transition active:scale-[0.98] ${
                         sub.id === 'english'
                           ? 'bg-emerald-500 hover:bg-emerald-400 text-black shadow-md'
@@ -436,13 +432,8 @@ export default function Subjects() {
                       }`}
                     >
                       <Bot className="w-4 h-4" />
-                      <span>
-                        {sub.id === 'english'
-                          ? 'Vào Không Gian Học Tiếng Anh'
-                          : sub.id === 'programming'
-                            ? 'Vào Lộ Trình Lập Trình'
-                            : 'Vào phòng học & Giải đề AI'}
-                      </span>
+                      {/* Một khuôn nhãn cho cả 6 môn (quyết định chủ dự án 2026-09-15, Q2). */}
+                      <span>{`Vào môn ${sub.label}`}</span>
                       <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>

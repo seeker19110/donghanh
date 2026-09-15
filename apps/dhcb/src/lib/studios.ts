@@ -1,16 +1,13 @@
-// Danh sách 6 "Studio" (không gian nền tảng) dùng CHUNG cho mọi thanh điều hướng:
+// Danh sách 5 "Studio" (không gian nền tảng) dùng CHUNG cho mọi thanh điều hướng.
+//
+// [Slice 02 Góc học tập, 2026-09-15] KHÔNG còn studio `english`: Tiếng Anh là MỘT MÔN ngang hàng
+// trong Góc học tập (`navTree.ts` → SUBJECT_CHILDREN), trang tổng quan ở `/goc-hoc-tap/english`.
+// Thêm lại một mục `english` ở đây là dựng lại đúng thứ đặc tả bỏ đi — `studios.test.ts` canh.
+//
 // dropdown "Studio" ở header (components/Layout.tsx) và sidebar desktop
 // (components/DesktopSidebar.tsx). Trước đây danh sách này nằm riêng trong Layout.tsx;
 // tách ra đây để hai nơi không bao giờ lệch nhau khi thêm/bớt studio.
-import {
-  Sparkles,
-  GraduationCap,
-  Dumbbell,
-  Calculator,
-  Briefcase,
-  Heart,
-  type LucideIcon,
-} from 'lucide-react'
+import { Sparkles, Dumbbell, Calculator, Briefcase, Heart, type LucideIcon } from 'lucide-react'
 
 export interface Studio {
   id: string
@@ -37,16 +34,6 @@ export const STUDIOS: Studio[] = [
     badge: 'Executive',
     color:
       'text-amber-400 theme-light:text-amber-800 bg-amber-500/10 border-amber-500/30 hover:border-amber-500/60',
-  },
-  {
-    id: 'english',
-    title: 'Học Tiếng Anh',
-    subtitle: 'Lộ trình CEFR A1-C2 & 4 Kỹ năng',
-    to: '/hoc-tieng-anh',
-    icon: GraduationCap,
-    badge: 'A1-C2',
-    color:
-      'text-emerald-400 theme-light:text-emerald-800 bg-emerald-500/10 border-emerald-500/30 hover:border-emerald-500/60',
   },
   {
     id: 'practice',
