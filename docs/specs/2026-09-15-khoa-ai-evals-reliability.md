@@ -19,6 +19,8 @@ liên quan và theo dõi tiến độ bằng cơ chế hiện có.
 
 ## Research / spec
 
+- Đặc tả được phê duyệt: `docs/specs/2026-09-15-khoa-ai-evals-reliability.md` — Approved for
+  implementation.
 - Nguồn nội dung: lộ trình 12 giai đoạn do chủ dự án cung cấp trong phiên làm việc ngày
   2026-09-15.
 - Cơ chế thi hành: tầng khóa ngắn tại `packages/subject-programming/courses/`, tái sử dụng bài
