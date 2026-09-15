@@ -135,9 +135,12 @@ contentId)`) + E2E.
       `unknown` rồi cập nhật, **không nhảy layout** (CLS đo bằng Playwright `layout-shift` < 0.1
       trên rail). Lỗi fetch tiến độ → cây vẫn dùng được + dòng "Chưa tải được tiến độ · Thử lại".
       — unit test 3 trạng thái + E2E chặn route API.
-- [ ] **AC-17 Không mất nháp, không vượt khoá.** Đang gõ code ở bài Lập trình, bấm bài khác qua
-      mục lục → quay lại vẫn còn nháp (cơ chế nháp hiện có của `ProgrammingLessonPage`, không đổi
-      khoá storage). Bài trong bậc khoá → không có `<Link>`, chỉ `<span aria-disabled>` + lý do
+- [ ] **AC-17 Không vượt khoá; không tạo cơ chế nháp mới.** Khảo sát S08 (2026-09-15) xác nhận
+      `ProgrammingLessonPage` HIỆN KHÔNG có nháp nào (`code` = `useState(starterCode)`, không
+      storage) — vì vậy S07 KHÔNG hứa "giữ nháp khi đổi bài" và KHÔNG tự thêm storage; nháp/resume
+      là việc của S08 (`learningSession.ts`). S07 chỉ bảo đảm: bấm bài khác qua mục lục khi đang
+      gõ → có hộp xác nhận "Rời bài? Code chưa lưu sẽ mất" (`useBlocker`/`beforeunload` hiện có
+      trong repo? — nếu chưa có thì confirm đơn giản, test canh). Bài trong bậc khoá → không có `<Link>`, chỉ `<span aria-disabled>` + lý do
       từ `loiGiaiThichKhoa`; gõ thẳng URL bài khoá vẫn bị chặn như hiện nay (server/route guard
       hiện hữu, S07 không đổi). — E2E + `ProgrammingLevelPage.test.tsx` ca Free P2 khoá (đang có)
       mở rộng kiểm rail.
