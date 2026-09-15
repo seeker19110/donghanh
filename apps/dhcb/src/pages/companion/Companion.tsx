@@ -80,39 +80,46 @@ export default function Companion() {
       .catch(() => {})
   }, [])
 
-  // Khoá "đã nạp lịch sử": React StrictMode chạy effect HAI LẦN ở môi trường dev, không có khoá
-  // này thì toàn bộ hội thoại cũ bị chèn vào hai lần.
-  const historyLoadedRef = useRef(false)
-
   // Nạp lại hội thoại đã lưu — mở lại trang là thấy tiếp cuộc trò chuyện trước, không phải bắt
   // đầu lại từ đầu. Lỗi mạng thì im lặng giữ nguyên tin chào (không có gì để khôi phục thì thôi).
+  //
+  // [Sửa 2026-09-15] Bản cũ dùng `historyLoadedRef` (khoá "đã chạy") CỘNG một cờ `cancelled`
+  // trong cleanup. Hai thứ đó triệt tiêu nhau dưới `StrictMode`: lượt MỘT bật khoá rồi gọi
+  // fetch, cleanup của nó đặt `cancelled = true`; lượt HAI bị chính cái khoá chặn nên không
+  // gọi lại — response về tới nơi thì bị lượt một bỏ đi. Kết quả: hội thoại cũ KHÔNG BAO GIỜ
+  // hiện ra trong dev (và trong mọi phép đo chạy bằng `npm run dev`, E2E gồm trong đó).
+  //
+  // Nay theo đúng khuôn `Subjects.tsx`/`SubjectDetail.tsx`: `AbortController` huỷ lượt cũ
+  // trong cleanup, lượt mới tự gọi lại. Việc chống chèn hai lần — lý do khoá cũ tồn tại —
+  // chuyển sang chỗ nó thuộc về: lọc theo `id` lúc gộp, nên gộp bao nhiêu lần cũng ra một kết
+  // quả (lũy đẳng), không phụ thuộc vào việc đếm đúng số lần effect chạy.
   useEffect(() => {
-    if (historyLoadedRef.current) return
-    historyLoadedRef.current = true
+    const controller = new AbortController()
 
-    let cancelled = false
-    fetchCompanionHistory()
+    fetchCompanionHistory({ signal: controller.signal })
       .then((history) => {
-        if (cancelled || history.length === 0) return
-        setMessages((prev) => [
-          ...prev,
-          ...history.map((msg) => ({
-            id: `hist-${msg.id}`,
-            sender: msg.role,
-            text: msg.content,
-            timestamp: new Date(msg.createdAt).toLocaleTimeString('vi-VN', {
-              hour: '2-digit',
-              minute: '2-digit',
-            }),
-            ...(msg.domain ? { domain: msg.domain } : {}),
-            ...(msg.intent ? { intent: msg.intent } : {}),
-          })),
-        ])
+        if (controller.signal.aborted || history.length === 0) return
+        setMessages((prev) => {
+          const daCo = new Set(prev.map((m) => m.id))
+          const them = history
+            .map((msg) => ({
+              id: `hist-${msg.id}`,
+              sender: msg.role,
+              text: msg.content,
+              timestamp: new Date(msg.createdAt).toLocaleTimeString('vi-VN', {
+                hour: '2-digit',
+                minute: '2-digit',
+              }),
+              ...(msg.domain ? { domain: msg.domain } : {}),
+              ...(msg.intent ? { intent: msg.intent } : {}),
+            }))
+            .filter((m) => !daCo.has(m.id))
+          return them.length > 0 ? [...prev, ...them] : prev
+        })
       })
       .catch(() => {})
-    return () => {
-      cancelled = true
-    }
+
+    return () => controller.abort()
   }, [])
 
   // ── Chế độ giọng nói: STT → LLM → TTS (KHÔNG "live" — ghi âm xong mới gửi từng bước) ──

@@ -1,4 +1,4 @@
-# 0322 — 2026-09-15 — Renderer câu trả lời Companion (sau review) + trả hai món nợ
+# 0322 — 2026-09-15 — Renderer câu trả lời Companion (sau review) + trả BA món nợ
 
 **PR:** #924 · **Slice:** S03-3 của [GOAL-2026-0915-LEARNING-UX](../goals/2026-09-15-learning-ux.md)
 · **Đặc tả:** [nền §④ B](../specs/2026-09-15-learning-ux-foundation.md) gạch 4–6 · **Base:** `main` sau #923 (S03-2)
@@ -113,11 +113,46 @@ dựng sẵn có đủ đậm · tiêu đề · danh sách đánh số · rào `
 mở trang đều thấy — cũng đã hiện ra `**Bạn Đồng Hành AI**` với nguyên hai cặp dấu sao suốt từ
 trước tới nay.
 
-## 5. Nợ MỚI phát hiện (ghi, KHÔNG sửa trong đợt này)
+## 5. Nợ thứ BA — phát hiện GIỮA đợt, sửa luôn trong đợt
 
-Lúc dựng ảnh chụp: `Companion.tsx` **không khôi phục được lịch sử hội thoại trong chế độ dev**.
-Effect nạp lịch sử dùng `historyLoadedRef` để chặn chạy lần hai, nhưng dưới `StrictMode` React
-gọi mount → unmount → mount: cleanup của lần MỘT đặt `cancelled = true`, còn lần HAI bị ref chặn
-— nên response về tới nơi thì bị bỏ. Bản production không double-invoke effect nên **không cắn
-người dùng thật**, nhưng khuôn "ref chặn + cờ cancelled" là sai về bản chất (effect không lũy
-đẳng). Đã ghi vào `PROGRESS.md`; sửa nó là đợt riêng, không gộp vào đây.
+Lúc dựng ảnh chụp Tầng 8b, câu trả lời mock không chịu hiện ra. Lần theo thì ra một lỗi thật,
+không liên quan gì tới việc đang làm: **`Companion.tsx` không khôi phục được hội thoại cũ dưới
+`StrictMode`** — tức trong `npm run dev`, và trong **mọi phép đo chạy bằng dev server, E2E gồm
+trong đó**.
+
+**Cơ chế.** Effect nạp lịch sử có hai lớp chống-chạy-hai-lần, và chúng triệt tiêu nhau:
+
+```
+useEffect(() => {
+  if (historyLoadedRef.current) return     // ← lượt HAI dừng ở đây
+  historyLoadedRef.current = true
+  let cancelled = false
+  fetchCompanionHistory().then((h) => { if (cancelled) return; … })
+  return () => { cancelled = true }        // ← cleanup lượt MỘT chạy TRƯỚC khi response về
+}, [])
+```
+
+StrictMode gọi mount → unmount → mount. Lượt MỘT bật khoá rồi gọi `fetch`; cleanup của nó đặt
+`cancelled = true`; lượt HAI bị chính cái khoá đó chặn nên không gọi lại. Response về tới nơi
+thì không còn ai nhận. Hội thoại cũ **không bao giờ** hiện ra.
+
+**Vì sao vẫn đáng sửa dù production không cắn.** React chỉ gọi effect hai lần ở chế độ phát
+triển, nên bản build production khôi phục lịch sử bình thường — người dùng thật không mất gì.
+Nhưng: (a) khuôn "ref chặn + cờ cancelled" sai về bản chất — effect phải **lũy đẳng**, không
+được phụ thuộc vào việc đếm đúng số lần nó chạy; (b) nó **giấu một luồng thật khỏi mọi cổng
+E2E** của dự án, vì E2E chạy trên dev server. Một tính năng không đo được là một tính năng
+không ai biết là đã hỏng.
+
+**Sửa.** Bỏ hẳn `historyLoadedRef`, dùng `AbortController` huỷ lượt cũ trong cleanup — đúng
+khuôn `Subjects.tsx`/`SubjectDetail.tsx` của chính đợt này. Việc chống chèn hai lần (lý do cái
+khoá cũ tồn tại) chuyển sang chỗ nó thuộc về: **lọc theo `id` lúc gộp**, nên gộp bao nhiêu lần
+cũng ra một kết quả. `fetchCompanionHistory` nhận thêm `{ signal }`, cùng chữ ký với
+`listSubjects`/`getSubjectDetails`.
+
+**Bằng chứng tái hiện → sửa → xanh.** Viết `e2e/companion-history.spec.ts` TRƯỚC khi sửa: ca
+"mở trang thấy lại hội thoại cũ" **đỏ** trên mã cũ (`element(s) not found`), hai ca còn lại
+(lịch sử rỗng · lỗi 503) xanh. Sau khi sửa: **3/3 xanh**. Cổng này ở tầng E2E chứ không phải
+unit là có chủ đích — unit test render một lần sẽ xanh trong khi trang thật hỏng.
+
+Thêm 3 ca unit cho `fetchCompanionHistory` (truyền signal · không truyền thì không gắn khoá
+`signal` · payload không phải mảng trả mảng rỗng).
