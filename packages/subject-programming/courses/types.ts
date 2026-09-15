@@ -31,6 +31,7 @@ export type ShortCourseId =
   | 'cv1'
   | 'cv2'
   | 'llmagent'
+  | 'airel'
 
 /** Một chương trong khoá — nhóm các bài theo chủ đề, không phải một bài riêng. */
 export interface CourseChapter {
@@ -45,6 +46,11 @@ export interface CourseChapter {
    * riêng khoá này ('git-u2-l1').
    */
   lessonIds: string[]
+  /** Thông tin thực chiến theo giai đoạn; khoá ngắn cũ không cần khai. */
+  weeks?: string
+  focus?: string[]
+  lab?: string
+  deliverable?: string
 }
 
 /** Một khoá ngắn — cắt ngang bậc P1–P6, học được độc lập. */

@@ -14,6 +14,7 @@ import { MLDS_COURSE } from './mlds.js'
 import { CV1_COURSE } from './cv1.js'
 import { CV2_COURSE } from './cv2.js'
 import { LLMAGENT_COURSE } from './llmagent.js'
+import { AIREL_COURSE } from './airel.js'
 
 export const SHORT_COURSES: ShortCourse[] = [
   GIT_COURSE,
@@ -27,6 +28,7 @@ export const SHORT_COURSES: ShortCourse[] = [
   CV1_COURSE,
   CV2_COURSE,
   LLMAGENT_COURSE,
+  AIREL_COURSE,
 ]
 
 const courseMap = new Map(SHORT_COURSES.map((c) => [c.id, c]))
