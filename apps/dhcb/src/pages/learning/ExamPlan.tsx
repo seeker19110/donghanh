@@ -16,6 +16,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { duongDanMonTiengAnh } from '../../lib/subjectsHost'
 import { CalendarClock, Target, BookOpen, RotateCcw, Sparkles } from 'lucide-react'
 import { usePageTitle } from '../../lib/usePageTitle'
 import Layout from '../../components/Layout'
@@ -217,7 +218,7 @@ function TodayTasks({ plan, isA }: { plan: TodayPlan; isA: boolean }) {
       desc: isA
         ? 'Đúng bằng phần chia đều từ nay tới ngày thi.'
         : 'Exactly your share when the work is spread evenly up to exam day.',
-      to: '/hoc-tieng-anh',
+      to: duongDanMonTiengAnh(),
     },
     {
       key: 'speak',

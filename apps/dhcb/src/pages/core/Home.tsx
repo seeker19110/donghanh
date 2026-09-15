@@ -42,7 +42,7 @@ import {
 import { getPassedExamLevels } from '../../lib/cefrExam'
 import { getSRSStats } from '../../lib/srs'
 import { getDailyLearned, getDailyMax } from '../../lib/curriculum'
-import { goToSubjects } from '../../lib/subjectsHost'
+import { goToSubjects, duongDanMonTiengAnh } from '../../lib/subjectsHost'
 import { useIsDesktopViewport } from '../../lib/useIsDesktopViewport'
 import { PageShell } from '@core/PageShell'
 import { TwoPane } from '@core/TwoPane'
@@ -248,7 +248,7 @@ export default function Home() {
       tone: 'bg-emerald-500/15 text-emerald-400 theme-light:text-emerald-900',
       title: 'Tiếng Anh',
       desc: 'Gia sư song ngữ Việt ⇄ Anh: lộ trình CEFR A1–C2, luyện nói, chấm bài viết, từ điển.',
-      go: () => nav('/hoc-tieng-anh'),
+      go: () => nav(duongDanMonTiengAnh()),
       shortcuts: [
         { label: 'Lộ trình CEFR', go: () => nav('/lo-trinh-hoc') },
         { label: 'Luyện nói', go: () => nav('/luyen-noi') },

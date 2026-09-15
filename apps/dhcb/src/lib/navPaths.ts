@@ -85,8 +85,18 @@ export const PROFILE_PATHS = [
 // nếu để cả `LEARNING_PATHS` cho mục "Góc học tập" thì đứng ở `/hoc-tieng-anh` sẽ sáng
 // nhầm mục đó thay vì "Học Tiếng Anh". Thứ tự ưu tiên do `resolveActiveNav` quyết định.
 
-/** Môn Tiếng Anh — tập CON của LEARNING_PATHS, phải xét TRƯỚC nhóm Góc học tập. */
-export const ENGLISH_PATHS = ['/hoc-tieng-anh', '/tieng-anh', '/english', '/lo-trinh-hoc']
+/**
+ * Môn Tiếng Anh — tập CON của LEARNING_PATHS. [Slice 02, 2026-09-15] Không còn mục sidebar riêng
+ * cho Tiếng Anh; bảng này làm sáng mục con "Tiếng Anh" trong nhóm Góc học tập (navTree.ts).
+ * Đường dẫn công cụ (/lo-trinh-hoc…) giữ nguyên ở đây tới khi slice 03 inventory xong.
+ */
+export const ENGLISH_PATHS = [
+  '/goc-hoc-tap/english',
+  '/hoc-tieng-anh',
+  '/tieng-anh',
+  '/english',
+  '/lo-trinh-hoc',
+]
 
 export const CAREER_PATHS = [
   '/su-nghiep-khoi-nghiep',
@@ -116,10 +126,20 @@ export const WORKLIFE_PATHS = [
 /** Trang tiến độ — tách khỏi PROFILE_PATHS để sidebar có mục "Tiến độ" riêng. */
 export const PROGRESS_PATHS = ['/tien-do']
 
-/** Đường dẫn hiện tại có thuộc nhóm tab này không (so khớp theo TIỀN TỐ, như BottomNav
- *  vẫn làm từ trước — trang con `/luyen-noi/xxx` vẫn sáng đúng tab cha). */
+/**
+ * `pathname` có nằm trong nhánh `prefix` không — so theo BIÊN ĐOẠN, không phải chuỗi con:
+ * `/goc-hoc-tap/english` khớp `/goc-hoc-tap/english/x` nhưng KHÔNG khớp `/goc-hoc-tap/english-abc`.
+ * Dùng chung cho nav (BottomNav/DesktopSidebar), breadcrumb và dropdown Studio — một luật khớp.
+ */
+export function underPrefix(pathname: string, prefix: string): boolean {
+  if (prefix === '') return false
+  return pathname === prefix || pathname.startsWith(prefix.endsWith('/') ? prefix : `${prefix}/`)
+}
+
+/** Đường dẫn hiện tại có thuộc nhóm tab này không — trang con `/luyen-noi/xxx` vẫn sáng tab cha,
+ *  nhưng `/luyen-noix` thì không (khớp theo BIÊN đoạn từ slice 02). */
 export function matchesNav(pathname: string, paths: readonly string[]): boolean {
-  return paths.some((p) => pathname.startsWith(p))
+  return paths.some((p) => underPrefix(pathname, p))
 }
 
 /**

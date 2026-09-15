@@ -37,10 +37,38 @@ describe('buildCrumbs', () => {
   it('tiêu đề trang thành đốt cuối khi khác đốt sẵn có', () => {
     expect(buildCrumbs('/lo-trinh-hoc/a1', 'Cấp A1').map((c) => c.label)).toEqual([
       'Trang chủ',
-      'Học Tiếng Anh',
+      'Góc học tập',
+      'Tiếng Anh',
       'Lộ trình CEFR',
       'Cấp A1',
     ])
+  })
+
+  // Slice 02: Tiếng Anh là một MÔN dưới Góc học tập — không còn tầng "Học Tiếng Anh".
+  it('trang tổng quan Tiếng Anh lồng dưới Góc học tập, đốt "Tiếng Anh" trỏ về trang môn', () => {
+    const crumbs = buildCrumbs('/goc-hoc-tap/english', 'Tiếng Anh')
+    expect(crumbs.map((c) => c.label)).toEqual(['Trang chủ', 'Góc học tập', 'Tiếng Anh'])
+    expect(crumbs[1].to).toBe('/goc-hoc-tap')
+    const tool = buildCrumbs('/lo-trinh-hoc')
+    expect(tool.map((c) => c.label)).toEqual([
+      'Trang chủ',
+      'Góc học tập',
+      'Tiếng Anh',
+      'Lộ trình CEFR',
+    ])
+    expect(tool[2].to).toBe('/goc-hoc-tap/english')
+  })
+
+  it('không nút nào còn mang nhãn "Học Tiếng Anh"', () => {
+    for (const p of [
+      '/hoc-tieng-anh',
+      '/goc-hoc-tap/english',
+      '/lo-trinh-hoc',
+      '/bai-hoc',
+      '/on-thi',
+    ]) {
+      expect(buildCrumbs(p).map((c) => c.label)).not.toContain('Học Tiếng Anh')
+    }
   })
 
   it('tiêu đề trùng đốt cuối thì KHÔNG nhân đôi', () => {

@@ -1,4 +1,8 @@
-// apps/dhcb/src/pages/EnglishHome.tsx — Không gian Chuyên Sâu Môn Tiếng Anh (English Studio Hub)
+// EnglishHome.tsx — trang TỔNG QUAN môn Tiếng Anh tại /goc-hoc-tap/english.
+//
+// [Slice 02, 2026-09-15] Tiếng Anh là MỘT MÔN ngang hàng trong Góc học tập, không còn là "không
+// gian" cấp nền tảng — tiêu đề, breadcrumb (Trang chủ › Góc học tập › Tiếng Anh) và đường dẫn
+// theo đó. Đủ 5 công cụ của `ENGLISH_CHILDREN` (navTree.ts) có nút ở trang này (AC-8).
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePageTitle } from '../../../lib/usePageTitle'
@@ -56,7 +60,7 @@ import {
 const RECENT_WORDS_FOR_SPEAKING = 8
 
 export default function EnglishHome() {
-  usePageTitle('Học tiếng Anh | Đồng hành cùng bạn')
+  usePageTitle('Tiếng Anh | Đồng hành cùng bạn')
   const nav = useNavigate()
   const { user } = useAuth()
   const syncVersion = useCloudSync(user?.id)
@@ -133,11 +137,11 @@ export default function EnglishHome() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout title={isA ? 'Không Gian Tiếng Anh' : 'English Studio'} back />
+      <Layout title={isA ? 'Tiếng Anh' : 'English'} back />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Danh sách/lưới nhiều thẻ → width standard. */}
       <PageShell width="standard" baseWidth="max-w-3xl" className="!pt-4 space-y-5">
-        <h1 className="sr-only">{isA ? 'Không Gian Tiếng Anh' : 'English Studio'}</h1>
+        <h1 className="sr-only">{isA ? 'Môn Tiếng Anh' : 'English'}</h1>
 
         {/* ── TIÊU ĐỀ & TIẾP TỤC HỌC CEFR ── */}
         <section
@@ -420,6 +424,24 @@ export default function EnglishHome() {
               <div className="min-w-0 flex-1">
                 <h4 className="font-semibold text-white text-xs truncate">Truyện Song Ngữ</h4>
                 <p className="text-[11px] text-zinc-400 truncate">Karaoke Text</p>
+              </div>
+            </button>
+
+            {/* Ôn thi — công cụ thứ 5 của ENGLISH_CHILDREN, trước đây chỉ có ở sidebar. */}
+            <button
+              onClick={() => nav('/on-thi')}
+              className="p-3 rounded-2xl bg-zinc-900/70 hover:bg-zinc-800/80 border border-zinc-800/80 text-left transition active:scale-95 flex items-center gap-2.5 group"
+            >
+              <div className="w-8 h-8 rounded-lg bg-amber-500/15 text-amber-400 theme-light:text-amber-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+                <Target className="w-4 h-4" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <h4 className="font-semibold text-white text-xs truncate">
+                  {isA ? 'Ôn thi' : 'Exam prep'}
+                </h4>
+                <p className="text-[11px] text-zinc-400 truncate">
+                  {isA ? 'Kế hoạch tới ngày thi' : 'Plan to exam day'}
+                </p>
               </div>
             </button>
 

@@ -3,6 +3,7 @@ import {
   ENGLISH_CHILDREN,
   PRACTICE_CHILDREN,
   SUBJECT_CHILDREN,
+  childIsActive,
   groupContainsPath,
   readOpenGroups,
   toggleGroup,
@@ -29,7 +30,52 @@ describe('navTree — dữ liệu cây điều hướng', () => {
   })
 })
 
+// Slice 02 (quyết định chủ dự án 2026-09-15, Q1): 5 công cụ Tiếng Anh DI CHUYỂN vào nhóm
+// Góc học tập, lồng dưới mục "Tiếng Anh" — không xoá.
+describe('navTree — Tiếng Anh là một môn, công cụ ở cấp 2', () => {
+  it('mục "Tiếng Anh" có đúng 5 công cụ cấp 2 và trỏ tới trang tổng quan môn', () => {
+    const english = SUBJECT_CHILDREN.find((c) => c.subjectId === 'english')!
+    expect(english.children).toBe(ENGLISH_CHILDREN)
+    expect(ENGLISH_CHILDREN.map((c) => c.label)).toEqual([
+      'Lộ trình CEFR',
+      'Bài học hôm nay',
+      'Câu thông dụng',
+      'Sổ tay lỗi sai',
+      'Ôn thi',
+    ])
+    expect(english.paths).toContain('/goc-hoc-tap/english')
+    // Chỉ Tiếng Anh có cấp 2 trong đợt này.
+    expect(SUBJECT_CHILDREN.filter((c) => c.children).map((c) => c.subjectId)).toEqual(['english'])
+  })
+
+  it('mục cấp 2 cũng tuân luật "đúng một cách trỏ đích"', () => {
+    for (const c of ENGLISH_CHILDREN) {
+      expect(Boolean(c.to) !== Boolean(c.subjectId), c.label).toBe(true)
+      expect(c.children).toBeUndefined()
+    }
+  })
+
+  it('childIsActive khớp theo BIÊN đoạn', () => {
+    const english = SUBJECT_CHILDREN.find((c) => c.subjectId === 'english')!
+    expect(childIsActive(english, '/goc-hoc-tap/english')).toBe(true)
+    expect(childIsActive(english, '/goc-hoc-tap/english/x')).toBe(true)
+    expect(childIsActive(english, '/goc-hoc-tap/english-abc')).toBe(false)
+    expect(childIsActive(english, '/goc-hoc-tap/physics')).toBe(false)
+  })
+})
+
 describe('groupContainsPath — tự mở nhóm chứa trang đang xem', () => {
+  it('nhìn xuyên cấp 2: đứng ở công cụ Tiếng Anh thì nhóm Góc học tập mở', () => {
+    expect(groupContainsPath(SUBJECT_CHILDREN, '/lo-trinh-hoc/a1')).toBe(true)
+    expect(groupContainsPath(SUBJECT_CHILDREN, '/on-thi')).toBe(true)
+    expect(groupContainsPath(ENGLISH_CHILDREN, '/cau-thong-dung')).toBe(true)
+    expect(groupContainsPath(ENGLISH_CHILDREN, '/goc-hoc-tap/physics')).toBe(false)
+  })
+
+  it('khớp theo BIÊN đoạn — /goc-hoc-tap/english-abc không mở nhóm', () => {
+    expect(groupContainsPath(SUBJECT_CHILDREN, '/goc-hoc-tap/english-abc')).toBe(false)
+  })
+
   it('khớp theo tiền tố, kể cả trang con', () => {
     expect(groupContainsPath(SUBJECT_CHILDREN, '/goc-hoc-tap/physics')).toBe(true)
     expect(groupContainsPath(SUBJECT_CHILDREN, '/lap-trinh/bai-hoc/p1')).toBe(true)

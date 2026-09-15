@@ -9,6 +9,7 @@ import Breadcrumb from './Breadcrumb'
 import OfflineStatusBanner from './OfflineStatusBanner'
 import { navigateTo } from '../lib/subjectsHost'
 import { STUDIOS } from '../lib/studios'
+import { matchesNav } from '../lib/navPaths'
 import type { Crumb } from '../lib/breadcrumb'
 
 interface Props {
@@ -254,7 +255,9 @@ export default function Layout({
                 <div className="space-y-1" role="menu" aria-label="Không Gian Nền Tảng">
                   {STUDIOS.map((st, i) => {
                     const Icon = st.icon
-                    const isActive = location.pathname.startsWith(st.to)
+                    // Khớp theo BIÊN đoạn (không phải chuỗi con): `/goc-hoc-tap-abc` không
+                    // được làm sáng "Góc học tập" — cùng họ lỗi slice 01 đã chặn ở nav.
+                    const isActive = matchesNav(location.pathname, [st.to])
                     return (
                       <button
                         key={st.id}

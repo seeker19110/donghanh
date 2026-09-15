@@ -73,6 +73,9 @@ describe('trang Chi tiết môn — trạng thái tải/lỗi', () => {
       root.render(
         <MemoryRouter initialEntries={[`/goc-hoc-tap/${subjectId}`]}>
           <Routes>
+            {/* Đích của guard slice 02 — một trang giả để biết đã chuyển hướng tới đâu. */}
+            <Route path="/goc-hoc-tap/english" element={<p>TRANG-TONG-QUAN-TIENG-ANH</p>} />
+            <Route path="/lap-trinh" element={<p>TRANG-LAP-TRINH</p>} />
             <Route path="/goc-hoc-tap/:subjectId" element={<SubjectDetail />} />
           </Routes>
         </MemoryRouter>,
@@ -165,5 +168,16 @@ describe('trang Chi tiết môn — trạng thái tải/lỗi', () => {
     await chay()
     const options = getSubjectDetailsMock.mock.calls[0]![1] as { signal?: AbortSignal } | undefined
     expect(options?.signal).toBeInstanceOf(AbortSignal)
+  })
+
+  // Slice 02: môn có không gian hoạt động riêng KHÔNG có trang manifest — đi thẳng, không fetch.
+  it.each([
+    ['english', 'TRANG-TONG-QUAN-TIENG-ANH'],
+    ['programming', 'TRANG-LAP-TRINH'],
+  ])('%s → chuyển tới trang chủ môn, không gọi API manifest', async (id, marker) => {
+    hien(id)
+    await chay()
+    expect(container.textContent).toContain(marker)
+    expect(getSubjectDetailsMock).not.toHaveBeenCalled()
   })
 })

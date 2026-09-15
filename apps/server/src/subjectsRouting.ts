@@ -25,6 +25,8 @@
 // host. `server.ts` gọi `app.listen()` ngay lúc import nên không test được — bài học từ đợt
 // `apps/hub` bị bỏ quên (changelog 0191).
 
+import { isAppHostSubject, subjectHomePath } from '@dhcb/core-learner/subjectHome'
+
 /**
  * Host phục vụ Góc học tập.
  *
@@ -91,8 +93,14 @@ export function isAssetPath(pathname: string): boolean {
 }
 
 /**
+ * Đường dẫn CŨ của trang tổng quan môn Tiếng Anh (thời còn là "không gian" riêng). Slice 02:
+ * Tiếng Anh là một môn, trang tổng quan ở `/goc-hoc-tap/english` — ba đường này thành alias.
+ */
+export const LEGACY_ENGLISH_PREFIXES = ['/hoc-tieng-anh', '/tieng-anh', '/english'] as const
+
+/**
  * Đổi đường dẫn mang tiền tố CŨ thành dạng chuẩn; `null` nếu không phải tiền tố cũ.
- * So khớp theo BIÊN ĐOẠN — `/mon-hoc-abc` không phải `/mon-hoc`.
+ * So khớp theo BIÊN ĐOẠN — `/mon-hoc-abc` không phải `/mon-hoc`, `/english-x` không phải `/english`.
  */
 export function normalizeLegacySubjectsPath(pathname: string): string | null {
   for (const prefix of LEGACY_SUBJECTS_PREFIXES) {
@@ -101,15 +109,12 @@ export function normalizeLegacySubjectsPath(pathname: string): string | null {
       return `${SUBJECTS_PREFIX}${pathname.slice(prefix.length)}`
     }
   }
+  const englishHome = subjectHomePath('english')
+  for (const prefix of LEGACY_ENGLISH_PREFIXES) {
+    if (pathname === prefix) return englishHome
+    if (pathname.startsWith(`${prefix}/`)) return `${englishHome}${pathname.slice(prefix.length)}`
+  }
   return null
-}
-
-/**
- * Môn đã có không gian riêng trên app nền tảng — mở thẳng chỗ đó thay vì trang chi tiết môn.
- * Giữ khớp với các route tương ứng trong `apps/dhcb/src/App.tsx`.
- */
-const SUBJECTS_WITH_OWN_SPACE: Record<string, string> = {
-  programming: '/lap-trinh',
 }
 
 export interface RedirectDecision {
@@ -125,7 +130,7 @@ export interface RedirectDecision {
 /** Phân loại một đường dẫn ĐÃ chuẩn hoá theo bảng ownership của đặc tả. */
 type Ownership =
   | { kind: 'catalog' } // danh mục + trang môn → host Góc học tập
-  | { kind: 'ownSpace'; path: string } // môn có không gian riêng → app host
+  | { kind: 'ownSpace'; path: string } // môn có không gian hoạt động riêng → app host
   | { kind: 'app' } // bài học STEM + mọi thứ còn lại → app host
 
 function classify(pathname: string, subjectIds: readonly string[]): Ownership {
@@ -138,8 +143,12 @@ function classify(pathname: string, subjectIds: readonly string[]): Ownership {
   const subjectId = segments[0]
   // Mã môn lạ: giữ ở app host để trang "không tìm thấy" hiện ra, đừng đẩy rác sang host kia.
   if (!subjectId || !subjectIds.includes(subjectId)) return { kind: 'app' }
-  const ownSpace = SUBJECTS_WITH_OWN_SPACE[subjectId]
-  if (ownSpace) return { kind: 'ownSpace', path: ownSpace }
+  // Môn có không gian hoạt động riêng (Tiếng Anh, Lập trình — bảng ở @dhcb/core-learner/subjectHome)
+  // thuộc app host: trang chủ môn đi thẳng tới đó. Đường sâu hơn dưới môn đó KHÔNG được gộp về
+  // trang chủ — để nguyên cho app xử lý (route `*`), slice 02 không định nghĩa chúng.
+  if (segments.length === 1 && isAppHostSubject(subjectId)) {
+    return { kind: 'ownSpace', path: subjectHomePath(subjectId) }
+  }
   // `/goc-hoc-tap/:mon` là trang môn (danh mục); sâu hơn (`/bai-hoc/...`) là nội dung bài học.
   return segments.length === 1 ? { kind: 'catalog' } : { kind: 'app' }
 }
@@ -194,7 +203,10 @@ export function decideRedirect(opts: {
 
   // Bước 2 — bảng ownership quyết định host đích, không phụ thuộc host đang đứng.
   const owner = classify(pathname, opts.subjectIds)
-  const targetHost = owner.kind === 'catalog' ? subjectsHost : canonicalHost
+  // Danh mục → host Góc học tập. Phần thuộc app host: đang ở host Góc học tập thì về canonical;
+  // đang ở một app host bất kỳ (www, en-vi…) thì Ở LẠI host đó — host nào cũng phục vụ được app,
+  // không có lý do kéo người dùng sang www chỉ vì họ bấm một môn.
+  const targetHost = owner.kind === 'catalog' ? subjectsHost : onSubjectsHost ? canonicalHost : host
   const targetPath = owner.kind === 'ownSpace' ? owner.path : pathname
 
   // Bước 3 — chỉ chuyển hướng khi thật sự đổi host hoặc đổi đường dẫn.

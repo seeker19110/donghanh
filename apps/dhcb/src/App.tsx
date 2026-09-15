@@ -17,6 +17,8 @@ import { lazyWithRetry } from './lib/lazyWithRetry'
 import {
   isSubjectsHost,
   normalizeLegacySubjectsPath,
+  duongDanMonTiengAnh,
+  LEGACY_ENGLISH_PREFIXES,
   LEGACY_SUBJECTS_PREFIXES,
   SUBJECTS_PREFIX,
 } from './lib/subjectsHost'
@@ -258,7 +260,8 @@ function usePrefetchPages() {
 const APP_SETTINGS_POLL_MS = 60 * 60 * 1000
 
 // Chuyển hướng mọi URL cũ của Góc học tập (`/mon-hoc`, `/subjects`, `/phong-hoc`,
-// `/hoc-mon-hoc`) về đường dẫn chuẩn `/goc-hoc-tap`, GIỮ NGUYÊN phần đuôi + query + hash.
+// `/hoc-mon-hoc`, và alias Tiếng Anh `/hoc-tieng-anh`, `/tieng-anh`, `/english`) về đường dẫn
+// chuẩn, GIỮ NGUYÊN phần đuôi + query + hash.
 //
 // Vì sao đọc `useLocation` thay vì dựng từ `useParams`: alias phải đi THẲNG tới đích cuối dù
 // sâu bao nhiêu đoạn (`/mon-hoc/physics/bai-hoc/ly10-...`), và `?`/`#` là thứ người dùng đang
@@ -616,6 +619,19 @@ export default function App() {
                           </AllowGuest>
                         }
                       />
+                      {/* Trang tổng quan môn Tiếng Anh — Tiếng Anh là MỘT MÔN ngang hàng (slice 02,
+                          docs/specs/2026-09-15-goc-hoc-tap-02-tieng-anh-la-mot-mon.md). Đặt TRƯỚC
+                          `/goc-hoc-tap/:subjectId` cho người đọc thấy ngay; React Router 7 xếp
+                          hạng theo độ cụ thể nên thứ tự không quyết định, nhưng ĐỪNG dời xuống
+                          dưới. Đường dẫn cũ /hoc-tieng-anh, /tieng-anh, /english là alias (dưới). */}
+                      <Route
+                        path={duongDanMonTiengAnh()}
+                        element={
+                          <AllowGuest>
+                            <EnglishHome />
+                          </AllowGuest>
+                        }
+                      />
                       {/* Bài học bốn môn STEM — đặt TRƯỚC route `:subjectId` để đoạn
                           `bai-hoc` không bị nuốt thành một mã môn. */}
                       <Route
@@ -712,14 +728,6 @@ export default function App() {
                       {onSubjectsHost && (
                         <Route path="/:subjectId" element={<SubjectsHostLegacyRedirect />} />
                       )}
-                      <Route
-                        path="/hoc-tieng-anh"
-                        element={
-                          <AllowGuest>
-                            <EnglishHome />
-                          </AllowGuest>
-                        }
-                      />
                       <Route
                         path="/tro-truyen"
                         element={
@@ -989,8 +997,18 @@ export default function App() {
                         path="/simulators"
                         element={<Navigate to="/ung-dung-thuc-te" replace />}
                       />
-                      <Route path="/tieng-anh" element={<Navigate to="/hoc-tieng-anh" replace />} />
-                      <Route path="/english" element={<Navigate to="/hoc-tieng-anh" replace />} />
+                      {/* Tiếng Anh từng là "không gian" riêng ở /hoc-tieng-anh (+ alias /tieng-anh,
+                          /english). Nay là một môn: cả ba về trang tổng quan môn, giữ query/hash. */}
+                      {LEGACY_ENGLISH_PREFIXES.map((prefix) => (
+                        <Route key={prefix} path={prefix} element={<LegacySubjectsRedirect />} />
+                      ))}
+                      {LEGACY_ENGLISH_PREFIXES.map((prefix) => (
+                        <Route
+                          key={`${prefix}-deep`}
+                          path={`${prefix}/*`}
+                          element={<LegacySubjectsRedirect />}
+                        />
+                      ))}
                       {/* Môn Lập trình trước đây THIẾU alias tiếng Anh: mọi trụ/môn khác đều
                           có cặp Việt–Anh (/tieng-anh ↔ /english, /su-nghiep ↔ /career,
                           /khoi-nghiep ↔ /startup…), riêng /programming rơi vào route `*` và bị

@@ -9,6 +9,9 @@ import {
   subjectsLinkTarget,
   navigateTo,
   normalizeLegacySubjectsPath,
+  goToSubjectHome,
+  duongDanMonTiengAnh,
+  canonicalHostname,
   LEGACY_SUBJECTS_PREFIX,
 } from './subjectsHost'
 
@@ -78,6 +81,13 @@ describe('subjectsPath', () => {
     expect(subjectsPath()).toBe('/goc-hoc-tap')
     expect(subjectsPath('mathematics')).toBe('/goc-hoc-tap/mathematics')
   })
+
+  // Slice 02: môn có không gian hoạt động riêng lấy đường dẫn từ @dhcb/core-learner/subjectHome.
+  it('Tiếng Anh dưới tiền tố Góc học tập; Lập trình giữ /lap-trinh', () => {
+    expect(subjectsPath('english')).toBe('/goc-hoc-tap/english')
+    expect(duongDanMonTiengAnh()).toBe('/goc-hoc-tap/english')
+    expect(subjectsPath('programming')).toBe('/lap-trinh')
+  })
 })
 
 describe('normalizeLegacySubjectsPath', () => {
@@ -92,13 +102,25 @@ describe('normalizeLegacySubjectsPath', () => {
     },
   )
 
-  // Khớp theo BIÊN đoạn: tiền tố cũ không được nuốt một route khác chỉ vì trùng đầu chuỗi.
-  it.each(['/mon-hoc-abc', '/subjectsx', '/phong-hoc-nhom', '/goc-hoc-tap', '/tien-do'])(
-    '%s KHÔNG phải tiền tố cũ',
+  it.each(['/hoc-tieng-anh', '/tieng-anh', '/english'])(
+    'alias Tiếng Anh %s → trang tổng quan môn',
     (p) => {
-      expect(normalizeLegacySubjectsPath(p)).toBeNull()
+      expect(normalizeLegacySubjectsPath(p)).toBe('/goc-hoc-tap/english')
+      expect(normalizeLegacySubjectsPath(`${p}/x`)).toBe('/goc-hoc-tap/english/x')
     },
   )
+
+  // Khớp theo BIÊN đoạn: tiền tố cũ không được nuốt một route khác chỉ vì trùng đầu chuỗi.
+  it.each([
+    '/mon-hoc-abc',
+    '/subjectsx',
+    '/phong-hoc-nhom',
+    '/goc-hoc-tap',
+    '/tien-do',
+    '/english-abc',
+  ])('%s KHÔNG phải tiền tố cũ', (p) => {
+    expect(normalizeLegacySubjectsPath(p)).toBeNull()
+  })
 })
 
 describe('subjectsTarget', () => {
@@ -118,6 +140,38 @@ describe('subjectsTarget', () => {
       kind: 'path',
       value: '/goc-hoc-tap/biology',
     })
+  })
+
+  // ── Slice 02: môn thuộc APP host (Tiếng Anh, Lập trình) — chiều NGƯỢC với danh mục ──
+  it('từ www → môn thuộc app host Ở LẠI (path), không sang subdomain', () => {
+    expect(subjectsTarget('www.donghanhcungban.org', 'english')).toEqual({
+      kind: 'path',
+      value: '/goc-hoc-tap/english',
+    })
+    expect(subjectsTarget('www.donghanhcungban.org', 'programming')).toEqual({
+      kind: 'path',
+      value: '/lap-trinh',
+    })
+  })
+
+  it('đang ở host Góc học tập → môn thuộc app host phải ĐỔI ORIGIN về host chuẩn', () => {
+    expect(subjectsTarget(HOC_TAP, 'english')).toEqual({
+      kind: 'url',
+      value: 'https://www.donghanhcungban.org/goc-hoc-tap/english',
+    })
+    expect(subjectsTarget(HOC_TAP, 'programming')).toEqual({
+      kind: 'url',
+      value: 'https://www.donghanhcungban.org/lap-trinh',
+    })
+  })
+
+  it('canonicalHostname: mặc định www, ghi đè được bằng VITE_CANONICAL_HOSTNAME', () => {
+    expect(canonicalHostname()).toBe('www.donghanhcungban.org')
+    vi.stubEnv('VITE_CANONICAL_HOSTNAME', 'App.Example.ORG')
+    expect(canonicalHostname()).toBe('app.example.org')
+    expect(subjectsTarget(HOC_TAP, 'english').value).toBe(
+      'https://app.example.org/goc-hoc-tap/english',
+    )
   })
 
   it('localhost → đường dẫn trong app (dev/E2E chạy được, không cần DNS)', () => {
@@ -142,6 +196,24 @@ describe('goToSubjects / subjectsLinkTarget / navigateTo', () => {
     goToSubjects(navigate, 'chemistry')
     expect(window.location.assign).toHaveBeenCalledWith(`https://${HOC_TAP}/goc-hoc-tap/chemistry`)
     expect(navigate).not.toHaveBeenCalled()
+  })
+
+  // Lỗi thật spec 02 §2.3: trên host Góc học tập bấm "Tiếng Anh" từng navigate() tại chỗ.
+  it('goToSubjectHome trên host Góc học tập → assign về host chuẩn, KHÔNG navigate tại chỗ', () => {
+    setHostname(HOC_TAP)
+    const navigate = vi.fn()
+    goToSubjectHome(navigate, 'english')
+    expect(window.location.assign).toHaveBeenCalledWith(
+      'https://www.donghanhcungban.org/goc-hoc-tap/english',
+    )
+    expect(navigate).not.toHaveBeenCalled()
+  })
+
+  it('goToSubjectHome trên www với môn STEM → assign sang host Góc học tập', () => {
+    setHostname('www.donghanhcungban.org')
+    const navigate = vi.fn()
+    goToSubjectHome(navigate, 'physics')
+    expect(window.location.assign).toHaveBeenCalledWith(`https://${HOC_TAP}/goc-hoc-tap/physics`)
   })
 
   it('goToSubjects ở localhost → navigate trong app, không đổi origin', () => {
@@ -172,6 +244,14 @@ describe('goToSubjects / subjectsLinkTarget / navigateTo', () => {
     const navigate = vi.fn()
     navigateTo(navigate, `${LEGACY_SUBJECTS_PREFIX}/mathematics`)
     expect(navigate).toHaveBeenCalledWith('/goc-hoc-tap/mathematics')
+  })
+
+  it('navigateTo: alias Tiếng Anh cũ → trang tổng quan môn (ở lại app host)', () => {
+    setHostname('www.donghanhcungban.org')
+    const navigate = vi.fn()
+    navigateTo(navigate, '/hoc-tieng-anh')
+    expect(navigate).toHaveBeenCalledWith('/goc-hoc-tap/english')
+    expect(window.location.assign).not.toHaveBeenCalled()
   })
 
   it('navigateTo: path khác không liên quan → navigate thẳng, không qua goToSubjects', () => {

@@ -26,9 +26,9 @@ import {
 import { useAuth } from '../context/useAuth'
 import SubjectsLink from './SubjectsLink'
 import {
-  ENGLISH_CHILDREN,
   PRACTICE_CHILDREN,
   SUBJECT_CHILDREN,
+  childIsActive,
   groupContainsPath,
   readOpenGroups,
   toggleGroup,
@@ -39,7 +39,6 @@ import { STUDIOS, NAV_HIDDEN_PATHS } from '../lib/studios'
 import {
   CAREER_PATHS,
   COMPANION_PATHS,
-  ENGLISH_PATHS,
   LEARNING_PATHS,
   PRACTICE_PATHS,
   PRICING_PATHS,
@@ -96,9 +95,9 @@ const MAIN_NAV: Item[] = [
 ]
 
 // NHÓM 2 — các studio CÒN LẠI (3 studio kia đã lên MAIN_NAV), kèm bảng path riêng để
-// active-state không chồng lấn nhau.
+// active-state không chồng lấn nhau. [Slice 02] Không còn "Học Tiếng Anh" ở đây: Tiếng Anh là một
+// môn trong nhóm Góc học tập, 5 công cụ của nó là mục cấp 2 dưới "Tiếng Anh" (navTree.ts).
 const STUDIO_NAV: Item[] = [
-  studioItem('english', ENGLISH_PATHS, undefined, ENGLISH_CHILDREN),
   studioItem('career', CAREER_PATHS),
   studioItem('worklife', WORKLIFE_PATHS),
 ]
@@ -117,8 +116,7 @@ const CORE_BOTTOM: Item[] = [
 ]
 
 // Thứ tự XÉT active (khác thứ tự HIỂN THỊ): cụ thể nhất trước, bao quát nhất sau — xem
-// `resolveActiveNav`. `ENGLISH_PATHS` ⊂ `LEARNING_PATHS` nên "Học Tiếng Anh" phải đứng trước
-// "Góc học tập"; `PROFILE_PATHS` chứa cả path sự nghiệp/đời sống nên "Hồ sơ" đứng cuối cùng.
+// `resolveActiveNav`. `PROFILE_PATHS` chứa cả path sự nghiệp/đời sống nên "Hồ sơ" đứng cuối cùng.
 const ACTIVE_ORDER: Item[] = [HOME_ITEM, ...STUDIO_NAV, ...MAIN_NAV.slice(1), ...CORE_BOTTOM]
 
 function readCollapsed(): boolean {
@@ -180,9 +178,31 @@ export default function DesktopSidebar() {
     return openGroups.includes(item.to) || groupContainsPath(item.children, location.pathname)
   }
 
+  /**
+   * Cấp 2 đang mở khi người dùng tự mở, HOẶC trang hiện tại là chính mục đó (trang tổng quan
+   * môn → thấy ngay công cụ của môn), HOẶC nằm trong một công cụ cấp 2 (như luật của cấp 1).
+   */
+  function isChildOpen(child: NavChild): boolean {
+    if (!child.children) return false
+    const id = childGroupId(child)
+    return (
+      openGroups.includes(id) ||
+      childIsActive(child, location.pathname) ||
+      groupContainsPath(child.children, location.pathname)
+    )
+  }
+
+  function childGroupId(child: NavChild): string {
+    return `child:${child.subjectId ?? child.to ?? child.label}`
+  }
+
   function renderChild(child: NavChild) {
     const Icon = child.icon
-    const active = child.paths.some((p) => location.pathname.startsWith(p))
+    // Khớp theo BIÊN đoạn: `/goc-hoc-tap/english-abc` không làm sáng "Tiếng Anh".
+    const active = childIsActive(child, location.pathname)
+    const hasChildren = !!child.children?.length
+    const open = hasChildren && isChildOpen(child)
+    const groupId = `nav-sub-${childGroupId(child).replace(/\W+/g, '-')}`
     // Cùng một bộ lớp cho <Link> và <a>: mục con môn học có thể trỏ sang origin khác
     // (trụ Học tập ở subdomain riêng — xem lib/subjectsHost.ts), lúc đó phải là thẻ <a> thật.
     const cls = `flex items-center gap-2.5 rounded-lg pl-3 pr-2 py-2 text-[13px] font-medium transition ${
@@ -195,11 +215,11 @@ export default function DesktopSidebar() {
       </>
     )
     return (
-      <li key={child.label}>
+      <li key={child.label} className={hasChildren ? 'relative' : undefined}>
         {child.subjectId ? (
           <SubjectsLink
             subjectId={child.subjectId}
-            className={cls}
+            className={`${cls} ${hasChildren ? 'pr-10' : ''}`}
             ariaCurrent={active ? 'page' : undefined}
           >
             {inner}
@@ -208,6 +228,32 @@ export default function DesktopSidebar() {
           <Link to={child.to ?? '/'} aria-current={active ? 'page' : undefined} className={cls}>
             {inner}
           </Link>
+        )}
+        {hasChildren && (
+          <>
+            {/* Nút mở/đóng cấp 2 — vùng chạm 44px (tap-44) dù biểu tượng nhỏ. */}
+            <button
+              type="button"
+              onClick={() => toggleGroupOpen(childGroupId(child))}
+              aria-expanded={open}
+              aria-controls={groupId}
+              aria-label={`${open ? 'Thu gọn' : 'Mở rộng'} công cụ ${child.label}`}
+              className="tap-44 absolute right-0 top-0 h-full px-2 flex items-center rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/80 transition"
+            >
+              <ChevronDown
+                className={`w-3.5 h-3.5 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+              />
+            </button>
+            {open && (
+              <ul
+                id={groupId}
+                className="mt-0.5 mb-1 ml-4 pl-2 space-y-0.5 border-l border-zinc-800"
+                aria-label={`Công cụ ${child.label}`}
+              >
+                {child.children?.map((c) => renderChild(c))}
+              </ul>
+            )}
+          </>
         )}
       </li>
     )
