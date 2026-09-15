@@ -4,7 +4,7 @@
 | ----------------- | -------------------------------------------------------------------- |
 | Goal ID           | GOAL-2026-ASA                                                        |
 | Owner             | Chủ dự án Đồng Hành                                                  |
-| Trạng thái        | FRAMING                                                              |
+| Trạng thái        | ACTIVE                                                               |
 | Bắt đầu           | 2026-09-15                                                           |
 | Target review     | Sau mỗi lát cắt                                                      |
 | Quyền được cấp    | Research, viết đặc tả, mở PR đặc tả; implementation chờ duyệt đặc tả |
@@ -77,9 +77,9 @@ DONE / DROPPED.
 - Commit `main` đã reconcile: `866c50b4`.
 - Goal gap hiện tại: 14/27 chặng của `principal-ai` chưa có unit; chưa có phần xương sống từ số 0
   trên trang lộ trình; tên hiện tại nhấn “Kỹ Sư Trưởng AI” nhưng chưa diễn đạt đúng đích kiến trúc.
-- Blocker/câu hỏi mở: chủ dự án cần duyệt đặc tả trước khi sửa source theo `AGENTS.md`.
-- Next best slice: M1/S2 sau khi đặc tả được duyệt và merge.
-- Quyền hoặc quyết định cần thêm: duyệt đặc tả; merge/deploy vẫn theo quyền riêng từng bước.
+- Blocker/câu hỏi mở: không còn blocker thiết kế; merge/deploy vẫn theo quyền riêng từng bước.
+- Next best slice: M1/S2 — manifest + UI foundation journey.
+- Quyền hoặc quyết định cần thêm: không cần cho M1/S2; deploy production chưa được cấp.
 
 ## 6. Iteration log
 
@@ -96,6 +96,20 @@ DONE / DROPPED.
 - Blocker: cần chủ dự án duyệt đặc tả.
 - Next best slice: manifest + UI foundation journey.
 - Quyền cần thêm: phê duyệt dòng trạng thái “Approved for implementation”.
+
+### Iteration 2 — 2026-09-16
+
+- State: READY.
+- Slice: M1/S1.
+- Goal gap trước/sau: đặc tả chờ duyệt → đã được chủ dự án duyệt để triển khai.
+- Research/spec/issue/PR: PR #938.
+- Thay đổi: cập nhật trạng thái đặc tả và goal; chưa đổi runtime trong PR đặc tả.
+- Validation và test count: Prettier + `git diff --check`.
+- Metric/guardrail: giữ `principal-ai`; không tạo khóa trùng.
+- Quyết định: duyệt cả ba quyết định tại mục 10 của đặc tả.
+- Blocker: không.
+- Next best slice: M1/S2.
+- Quyền cần thêm: không.
 
 ## 7. Final audit
 

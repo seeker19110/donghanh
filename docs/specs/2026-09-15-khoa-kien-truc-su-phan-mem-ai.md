@@ -1,6 +1,7 @@
 # Đặc tả: Khoá “Kiến trúc sư phần mềm & AI”
 
-> Ngày: 2026-09-15 · Trạng thái: **CHỜ NGƯỜI DÙNG DUYỆT — chưa thi hành source**  
+> Ngày: 2026-09-15 · Trạng thái: **APPROVED FOR IMPLEMENTATION** (chủ dự án duyệt ngày
+> 2026-09-16)
 > Goal: `docs/goals/2026-09-15-ai-systems-architect.md`  
 > Nâng cấp additive từ lộ trình `principal-ai`; không tạo khoá trùng và không đổi id đã phát hành.
 
