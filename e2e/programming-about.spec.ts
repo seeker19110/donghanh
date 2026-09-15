@@ -33,10 +33,16 @@ test('luật N1: khối trạng thái thật nói CHƯA AI đi hết môn, và s
   await expect(page.getByText(/\d+ bài, cả \d+ bậc đều mở/)).toBeVisible()
 })
 
-test('người CHƯA đăng nhập bấm "Bắt đầu" thì đi qua đăng nhập trước', async ({ page }) => {
+// [2026-09-15 — chế độ Khách] Kỳ vọng ĐỔI có chủ ý: trước đây khách bấm "Bắt đầu" bị chặn ở
+// /login. Nay họ học thật luôn, tiến độ lưu localStorage và được hợp nhất khi đăng ký sau đó.
+// Đặc tả: docs/specs/2026-09-15-mo-xem-web-khong-can-dang-nhap.md
+test('người CHƯA đăng nhập bấm "Bắt đầu" thì vào thẳng bài học, không qua /login', async ({
+  page,
+}) => {
   await page.goto('/lap-trinh/gioi-thieu', { waitUntil: 'domcontentloaded' })
   await page.getByRole('button', { name: 'Bắt đầu bài đầu tiên' }).click()
-  await expect(page).toHaveURL(/\/login$/)
+  await expect(page).not.toHaveURL(/\/login$/)
+  await expect(page).toHaveURL(/\/lap-trinh\/bai-hoc\//)
 })
 
 test('người ĐÃ đăng nhập bấm "Bắt đầu" thì vào thẳng bài đầu tiên', async ({ page }) => {

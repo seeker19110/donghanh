@@ -173,3 +173,39 @@ dòng comment được thêm.
    phiên, không phải của riêng từng tác nhân.
 4. Trước khi commit phần việc của một tác nhân: **đếm khoá** như lệnh rà ở trên. Lệch là dừng,
    khôi phục từ HEAD rồi làm lại — đừng sửa tay.
+
+## 6. Cho một giá trị "luôn tồn tại" → mọi `if (x)` cũ ÂM THẦM đổi nghĩa
+
+**Ngày/PR:** 2026-09-15, PR #919 (chế độ Khách) — 8 test E2E đỏ cùng lúc, xem
+`docs/changelog/0317-*.md`.
+
+**Khuôn lỗi:** đợt việc cho `AuthProvider` cấp một `User` **ảo** khi chưa đăng nhập (khách vãng
+lai), để mọi trang nội dung chạy được mà không phải sửa từng trang. Đổi này đúng ý đồ, nhưng nó
+làm **mọi biểu thức `if (user)` đã có sẵn trong repo đổi nghĩa**: từ "đã đăng nhập" thành "trang
+đã tải xong". `Login.tsx` có dòng `if (user) return <Navigate to="/" replace />` → nay đúng với
+MỌI khách → **không ai vào được trang đăng nhập nữa**.
+
+Điểm nguy hiểm: lỗi KHÔNG ném exception, không có log đỏ, trang không trắng — nó chỉ _chuyển
+hướng_. Triệu chứng ở test hiện ra rất xa nguyên nhân và trông như 8 lỗi rời rạc ở 3 file spec
+khác nhau: "mất nút Microsoft", "mất nút VI/EN", "không thấy form email", "`/trang-ca-nhan`
+không đẩy về `/login`". Rất dễ đi vá từng test một, hoặc kết luận nhầm là "đã lỡ xoá nút OAuth".
+
+**Cách rà:** trước khi cho một giá trị ngữ cảnh dùng chung chuyển từ "có thể null" sang "luôn có
+giá trị", **liệt kê hết nơi đang dùng chính sự tồn tại của nó làm điều kiện**:
+
+```bash
+npm run codemap -- callers apps/dhcb/src/context/useAuth.ts#useAuth
+grep -rn "if (user)\|if (!user)\|user ? \|user &&" apps/dhcb/src --include=*.tsx
+```
+
+Phân loại từng chỗ: dùng `user.id` làm khoá dữ liệu (giữ nguyên — đó chính là cái ta muốn), hay
+dùng `user` để hỏi "đã đăng nhập chưa" (PHẢI đổi sang cờ mới, ở đây là `isGuest`).
+
+**Dấu hiệu nhận ra khi đã lỡ:** nhiều test đỏ ở nhiều file nhưng **tất cả cùng một trang**. Đó
+gần như luôn là MỘT lỗi, không phải N lỗi — tìm nguyên nhân chung trước khi sửa dòng nào.
+
+**Cổng chốt chặn:** `e2e/login-redirect.spec.ts` nay khẳng định thêm `toHaveURL(/\/login$/)`
+(trước chỉ kiểm ô email hiện ra), và `e2e/smoke.spec.ts` có cặp test đối xứng: khách **xem
+được** `/`, nhưng `/trang-ca-nhan` **vẫn** đẩy về `/login`. Quy ước trong `App.tsx`: route mới
+mặc định là `RequireAccount`, chỉ chuyển sang `AllowGuest` khi trang thật sự không đọc/ghi dữ
+liệu riêng của một con người cụ thể.

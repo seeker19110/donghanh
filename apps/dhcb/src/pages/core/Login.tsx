@@ -30,7 +30,7 @@ const FEATURES = [
 
 export default function Login() {
   const nav = useNavigate()
-  const { user, refresh } = useAuth()
+  const { user, refresh, isGuest } = useAuth()
   const { T, lang, setLang } = useLang()
   const toast = useToast()
   const isA = lang === 'vi'
@@ -95,7 +95,10 @@ export default function Login() {
   // KHÔNG gọi nav() ngay trong thân render: đó là side effect trong lúc React đang render,
   // React bỏ qua nên URL vẫn đứng ở /login trong khi component đã `return null` → người dùng
   // thấy TRANG TRẮNG. Dùng <Navigate> (một component, chuyển hướng ở giai đoạn commit).
-  if (user) return <Navigate to="/" replace />
+  // [2026-09-15 — chế độ Khách] PHẢI loại `isGuest` ở đây. `AuthProvider` nay cấp một `User` ảo
+  // cho khách vãng lai, nên điều kiện `user` trần sẽ đúng với MỌI khách và đá họ khỏi chính
+  // trang đăng nhập — tức không ai đăng ký/đăng nhập được nữa.
+  if (user && !isGuest) return <Navigate to="/" replace />
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()

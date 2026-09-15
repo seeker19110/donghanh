@@ -5,7 +5,29 @@ import { preloadBrowseChunks } from '../lib/preloadBrowse'
 import { resetPreload } from '../lib/preloadState'
 import { clearAudioCache } from '../lib/audioCache'
 import { cacheAllowedVoices } from '../lib/voiceTiers'
+import { getGuestId } from '@core/guestId'
+import { mergeGuestProgressInto, hasGuestProgress } from '../lib/guestProgress'
 import type { User } from '../types'
+
+// [2026-09-15 — chế độ Khách] Không có phiên đăng nhập thì app KHÔNG còn chạy với `user: null`
+// nữa: ta cấp một `User` ảo mang id khách (`guest_<uuid>`). Nhờ vậy mọi trang nội dung — vốn đã
+// nhận `uid: string` và lưu localStorage theo uid — chạy nguyên vẹn cho khách mà không phải sửa
+// từng trang. Đặc tả: docs/specs/2026-09-15-mo-xem-web-khong-can-dang-nhap.md
+//
+// `onboarded: true` là CỐ Ý: khách không có bước onboarding nào để làm (nó ghi lên server), bắt
+// họ qua đó chỉ tạo ngõ cụt. `plan: 'free'` để mọi gate theo gói coi khách như người dùng miễn
+// phí — quyền lợi VIP vẫn do server quyết, khách không chạm tới được.
+function buildGuestUser(): User {
+  return {
+    id: getGuestId(),
+    email: '',
+    name: 'Khách',
+    plan: 'free',
+    onboarded: true,
+    isGuest: true,
+    createdAt: Date.now(),
+  }
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
@@ -20,8 +42,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       resetPreload()
       void clearAudioCache()
     }
+    // Vừa có phiên THẬT (đăng ký/đăng nhập bằng bất kỳ đường nào: email, Google, Facebook,
+    // Apple, Microsoft, OAuth redirect) → hợp nhất tiến độ khách vào tài khoản NGAY, trước khi
+    // bất cứ luồng đồng bộ nào kịp ghi đè. Đặt ở đây thay vì trong từng hàm login là có chủ ý:
+    // một chỗ duy nhất, không thể quên đường nào.
+    if (u && !wasLoggedIn.current && hasGuestProgress()) {
+      await mergeGuestProgressInto(u.id).catch((err) => {
+        console.warn('[auth] hợp nhất tiến độ khách thất bại (tiến độ cục bộ vẫn còn):', err)
+      })
+    }
     wasLoggedIn.current = !!u
-    setUser(u)
+    // Không có phiên → chạy ở chế độ Khách thay vì chặn toàn bộ app.
+    setUser(u ?? buildGuestUser())
     // Cache giọng gói thật (Free/VIP) để chế độ "giọng ngẫu nhiên" (lib/tts.ts) chỉ random
     // đúng trong phạm vi được phép — tránh random ra giọng rồi bị server âm thầm hạ xuống.
     if (u) cacheAllowedVoices(u.plan)
@@ -47,7 +79,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // khi browser rảnh. KHÔNG tải từ điển ở đây nữa (nặng ~560KB) — việc đó để trang
   // Học tự lo khi user thật sự vào (xem preloadLearnData trong Learn.tsx), nên người
   // chỉ dùng Chat/Tra từ/Viết không phải tải dữ liệu họ không dùng.
-  const userId = user?.id
+  const userId = user?.isGuest ? undefined : user?.id
   useEffect(() => {
     if (!userId) return
     if ('requestIdleCallback' in window) {
@@ -66,5 +98,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [userId])
 
-  return <AuthContext.Provider value={{ user, loading, refresh }}>{children}</AuthContext.Provider>
+  // `isGuest` tách riêng khỏi `user` để nơi gọi không phải nhớ `user?.isGuest === true`; hai
+  // giá trị luôn khớp nhau vì cùng sinh ra từ một chỗ.
+  return (
+    <AuthContext.Provider value={{ user, loading, refresh, isGuest: user?.isGuest === true }}>
+      {children}
+    </AuthContext.Provider>
+  )
 }

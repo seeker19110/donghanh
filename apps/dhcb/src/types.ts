@@ -72,6 +72,14 @@ export interface User {
   // Chỉ để UI ẩn/hiện link "/admin-s" — server tự kiểm lại quyền thật mỗi lần gọi API admin
   // (xem api/_lib/adminAuth.ts), cờ này không phải nguồn xác thực.
   isAdmin?: boolean
+  // [2026-09-15] `true` = KHÁCH VÃNG LAI (chưa đăng nhập, id dạng `guest_<uuid>`). Dùng để ẩn
+  // các hành động cần tài khoản thật và mời đăng ký. KHÔNG phải cơ chế bảo mật: server tự kiểm
+  // phiên ở mọi endpoint có dữ liệu cá nhân, khách không có phiên nên không qua được.
+  isGuest?: boolean
+  // [2026-09-15] `true` = "Người tiên phong" — một trong 2026 tài khoản đầu tiên, được VIP
+  // vĩnh viễn. CHỈ dùng để hiện huy hiệu: quyền VIP thật vẫn do server quyết qua `plan` +
+  // `plan_expires_at` như mọi người dùng khác (packages/core-billing/founder.ts).
+  isFounder?: boolean
   createdAt: number
 }
 

@@ -89,11 +89,15 @@ describe('getAccessToken', () => {
 })
 
 describe('getAuthHeader', () => {
-  it('chưa đăng nhập → header rỗng', () => {
-    expect(getAuthHeader()).toEqual({})
+  // [2026-09-15 — chế độ Khách] Trước đây kỳ vọng ở đây là header RỖNG. Đổi có chủ ý: chưa
+  // đăng nhập nay gửi danh tính khách ẩn danh để 3 endpoint AI/audio đếm được lượt dùng thử.
+  it('chưa đăng nhập → gửi danh tính khách, KHÔNG có Authorization', () => {
+    const headers = getAuthHeader()
+    expect(headers.Authorization).toBeUndefined()
+    expect(headers['X-Guest-Id']).toMatch(/^guest_/)
   })
 
-  it('đã đăng nhập → header có Authorization Bearer đúng token', () => {
+  it('đã đăng nhập → CHỈ có Authorization Bearer, không kèm id khách', () => {
     setStoredToken('tok-2')
     expect(getAuthHeader()).toEqual({ Authorization: 'Bearer tok-2' })
   })

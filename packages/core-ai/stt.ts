@@ -18,11 +18,11 @@ import {
   getCorsHeaders,
   SECURITY_HEADERS,
   checkRateLimit,
-  validateAuth,
   validateContentType,
   logSecurityEvent,
 } from '@dhcb/core-auth/security'
-import { checkAndConsumeUsage, refundUsage } from '@dhcb/core-billing/usage'
+import { resolveActor } from '@dhcb/core-auth/guest'
+import { checkAndConsumeActorUsage, refundActorUsage } from '@dhcb/core-auth/actorUsage'
 import { readJsonBody, validateBody } from '@dhcb/core-http/validation'
 import { jsonResponse, getClientIp } from '@dhcb/core-http/http'
 import { base64ToBytes } from '@dhcb/core-db/base64'
@@ -80,9 +80,10 @@ export default async function handler(req: Request): Promise<Response> {
     return jsonResponse({ error: 'Quá nhiều yêu cầu — thử lại sau 1 phút' }, 429, allHeaders)
   }
 
-  // Bắt buộc đăng nhập — tránh người lạ lạm dụng API tốn tiền.
-  const authResult = await validateAuth(req)
-  if (!authResult) {
+  // Bắt buộc có danh tính — tài khoản thật, hoặc KHÁCH VÃNG LAI với hạn mức dùng thử rất thấp
+  // (docs/specs/2026-09-15-mo-xem-web-khong-can-dang-nhap.md). Không có cả hai → 401 như cũ.
+  const actor = await resolveActor(req)
+  if (!actor) {
     logSecurityEvent('AUTH_FAILED', clientIp, { path: '/api/stt' })
     return jsonResponse({ error: 'Chưa đăng nhập hoặc phiên hết hạn' }, 401, allHeaders)
   }
@@ -108,10 +109,14 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   // Giới hạn lượt STT ở SERVER (theo gói Free/Pro) — STT tốn tiền API riêng.
-  const gate = await checkAndConsumeUsage(authResult.userId, 'stt')
+  const gate = await checkAndConsumeActorUsage(actor, 'stt', clientIp)
   if (!gate.ok) {
     logSecurityEvent('USAGE_LIMIT', clientIp, { path: '/api/stt' })
-    return jsonResponse({ error: gate.message }, 429, allHeaders)
+    return jsonResponse(
+      { error: gate.message, guestTrialExhausted: gate.guestTrialExhausted },
+      429,
+      allHeaders,
+    )
   }
 
   try {
@@ -119,7 +124,7 @@ export default async function handler(req: Request): Promise<Response> {
     return jsonResponse({ text }, 200, allHeaders)
   } catch (err) {
     // Provider STT lỗi → người dùng không nhận được kết quả: hoàn lại lượt vừa trừ.
-    await refundUsage(authResult.userId, 'stt', gate.day)
+    await refundActorUsage(actor, 'stt', gate.day, clientIp)
     return jsonResponse(
       { error: `Không nhận diện được giọng nói: ${(err as Error).message}` },
       500,

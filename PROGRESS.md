@@ -739,6 +739,13 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   chấp nhận ở đợt đầu: nội dung bài học không phải bí mật, còn tiến độ + hạn mức AI thì server đã
   giữ. Siết ở `api/subjects/programming/progress.ts` (như GĐ2a đã làm cho môn Anh) khi có lý do
   thật, đừng gộp vào PR khác.
+  **[Cập nhật 2026-09-15 — chế độ Khách, `docs/changelog/0317-*.md`]** Nợ này nay có thêm một
+  nhánh **cố ý không đóng được**: khách vãng lai (chưa đăng nhập) không có hàng nào trên server
+  nên luật khoá của họ tính HOÀN TOÀN ở client, theo tiến độ localStorage. Đã cân nhắc và chấp
+  nhận trong `docs/specs/2026-09-15-mo-xem-web-khong-can-dang-nhap.md`: khách không có điểm,
+  tiền hay xếp hạng gắn với danh tính, nên "tự mở khoá bài của chính mình" không lấy được gì —
+  còn thứ TỐN TIỀN (lượt AI) thì server vẫn đếm theo `X-Guest-Id` + IP. Khi siết phần đã đăng
+  nhập thì **không** kéo theo phần khách: hai luồng khác bản chất.
 
 - 🟡 **[2026-09-12 — GĐ1, xem `docs/changelog/0289-*.md`] Kho lượt cửa sổ trượt 7 ngày của gói
   Free nay MỒ CÔI.** GĐ1 bỏ `consume_rolling_credit`/`refund_rolling_credit` khỏi đường enforce

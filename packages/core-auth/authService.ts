@@ -21,6 +21,7 @@ import { OAuth2Client } from 'google-auth-library'
 import { createRemoteJWKSet, jwtVerify } from 'jose'
 import { getPgPool } from '@dhcb/core-db/pgPool'
 import { resolvePlan, type Plan } from '@dhcb/core-billing/plan'
+import { grantFounderIfAvailable } from '@dhcb/core-billing/founder'
 
 // Xuất ra để packages/core-auth/sessionCookie.ts đặt đúng Max-Age cho cookie — PHẢI khớp
 // thời hạn session thật lưu ở bảng `sessions` (dưới), không lệch cookie sống lâu hơn session.
@@ -455,6 +456,10 @@ export interface ProfileInfo {
   // Hạn gói VIP hiện tại (ISO string), null = gói vĩnh viễn HOẶC đang Free. Cần cho UI
   // hiển thị "còn X ngày dùng thử" (banner trial/upsell) — xem src/lib/planExpiry.ts.
   planExpiresAt: string | null
+  // `true` = "Người tiên phong" (một trong 2026 tài khoản đầu tiên, VIP vĩnh viễn) — CHỈ để
+  // hiển thị huy hiệu. Quyền VIP vẫn do cặp (plan, plan_expires_at) quyết định như mọi user
+  // khác; xem packages/core-billing/founder.ts.
+  isFounder: boolean
 }
 
 // Tạo profile nếu chưa có (khớp hành vi trigger handle_new_user cũ của Supabase, nhưng
@@ -480,12 +485,24 @@ export async function ensureProfileRow(userId: string, name: string): Promise<Pr
       [userId],
     )
   }
+  // "Ưu đãi Người tiên phong": 2026 tài khoản ĐẦU TIÊN được VIP vĩnh viễn. Gọi ở đây (chứ
+  // không chỉ trong migration) để nếu lúc migration chạy tổng số tài khoản còn dưới 2026 thì
+  // người đăng ký tiếp theo vẫn được cấp, cho tới khi đủ suất. Hàm SQL tự kiểm hạn ngạch dưới
+  // khoá tư vấn nên gọi lại nhiều lần vô hại.
+  if ((inserted.rowCount ?? 0) > 0) {
+    await grantFounderIfAvailable(userId, pool)
+  }
+
   const { rows } = await pool.query<{
     plan: string
     plan_expires_at: Date | null
     onboarded: boolean
     name: string | null
-  }>('select plan, plan_expires_at, onboarded, name from public.profiles where id = $1', [userId])
+    is_founder: boolean | null
+  }>(
+    'select plan, plan_expires_at, onboarded, name, is_founder from public.profiles where id = $1',
+    [userId],
+  )
   const row = rows[0]
   const plan = resolvePlan(row?.plan, row?.plan_expires_at)
   return {
@@ -496,5 +513,6 @@ export async function ensureProfileRow(userId: string, name: string): Promise<Pr
     // luôn null dù cột DB có giá trị cũ sót lại (tránh hiểu nhầm "Free sắp hết hạn").
     planExpiresAt:
       plan !== 'free' && row?.plan_expires_at ? row.plan_expires_at.toISOString() : null,
+    isFounder: row?.is_founder === true,
   }
 }

@@ -16,6 +16,8 @@ export interface AppUser {
   planExpiresAt?: string | null
   emailVerified?: boolean
   isAdmin?: boolean
+  /** Một trong 2026 tài khoản đầu tiên — VIP vĩnh viễn, chỉ dùng để hiện huy hiệu. */
+  isFounder?: boolean
   createdAt: number
 }
 
@@ -26,6 +28,7 @@ interface AuthApiUser {
   plan: Plan
   onboarded: boolean
   planExpiresAt?: string | null
+  isFounder?: boolean
   createdAt: number
 }
 
@@ -552,6 +555,7 @@ export async function getCurrentUser(): Promise<AppUser | null> {
     planExpiresAt?: string | null
     emailVerified?: boolean
     isAdmin?: boolean
+    isFounder?: boolean
   }
   return { ...profile, createdAt: Date.now() }
 }
