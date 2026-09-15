@@ -1,6 +1,6 @@
 # 0323 — 2026-09-15 — Companion khôi phục lại hội thoại cũ dưới StrictMode
 
-**PR:** (điền khi tạo) · **Loại:** trả nợ kỹ thuật ghi ở [0322 §5](./0322-2026-09-15-renderer-cau-tra-loi-va-don-hai-no.md)
+**PR:** #925 · **Loại:** trả nợ kỹ thuật ghi ở [0322 §5](./0322-2026-09-15-renderer-cau-tra-loi-va-don-hai-no.md)
 · **Base:** `main` sau #924
 
 ## Việc đã làm
