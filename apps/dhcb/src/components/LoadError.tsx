@@ -15,9 +15,17 @@ export type LoadErrorProps = {
   /** Tải lại. Bỏ trống nếu không có cách thử lại. */
   onRetry?: () => void
   retrying?: boolean
+  /**
+   * Câu trấn an dưới thông báo lỗi. Mặc định nói về DỮ LIỆU CỦA NGƯỜI DÙNG, đúng cho 5 trang
+   * trụ cột (Career/Work/Startup/Life/Profile) — nơi mất dữ liệu là nỗi sợ thật. Chỗ nào tải
+   * dữ liệu CHUNG (danh mục môn học…) thì truyền câu khác, vì "dữ liệu của bạn" ở đó vô nghĩa.
+   */
+  hint?: string
 }
 
-export default function LoadError({ message, onRetry, retrying }: LoadErrorProps) {
+const DEFAULT_HINT = 'Dữ liệu của bạn vẫn còn nguyên — đây chỉ là lỗi kết nối.'
+
+export default function LoadError({ message, onRetry, retrying, hint }: LoadErrorProps) {
   return (
     <div
       role="alert"
@@ -27,9 +35,7 @@ export default function LoadError({ message, onRetry, retrying }: LoadErrorProps
       <div>
         <p className="text-sm font-semibold text-zinc-100">Không tải được dữ liệu</p>
         <p className="text-xs text-zinc-300 mt-1">{message}</p>
-        <p className="text-xs text-zinc-400 mt-1">
-          Dữ liệu của bạn vẫn còn nguyên — đây chỉ là lỗi kết nối.
-        </p>
+        <p className="text-xs text-zinc-400 mt-1">{hint ?? DEFAULT_HINT}</p>
       </div>
       {onRetry && (
         <button
