@@ -52,3 +52,33 @@ test('skip link KHÔNG hiện khi chưa có tiêu điểm', async ({ page }) => 
   const box = await link.boundingBox()
   expect(box?.width ?? 99).toBeLessThan(5)
 })
+
+// [Trả nợ S03-2, 2026-09-15] Hai test trên chỉ chạy ở trang có `PageShell` — nơi
+// `MAIN_CONTENT_ID` được đặt sẵn. Các trang TỰ DỰNG `<main>` không đi qua `PageShell`, và
+// `/welcome` + `/learn-vietnamese` đã thiếu `id` suốt: skip link render toàn cục ở `App.tsx`
+// nên nó VẪN hiện ra, người dùng bàn phím vẫn bấm Enter, và không có gì xảy ra — hỏng lặng
+// lẽ, không cổng nào đỏ. Danh sách cố định, cùng lý do với mobile-layout-guards: trang mới
+// tự dựng `<main>` phải được thêm vào đây một cách CÓ Ý THỨC.
+const TRANG_TU_DUNG_MAIN = ['/welcome', '/learn-vietnamese']
+
+for (const route of TRANG_TU_DUNG_MAIN) {
+  test(`${route} — đích của skip link tồn tại và nhận được tiêu điểm`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 })
+    await page.goto(route)
+
+    // 1) Đích phải TỒN TẠI. Thiếu bước này thì mọi thứ dưới đây vẫn xanh một cách vô nghĩa.
+    const main = page.locator('#noi-dung-chinh')
+    await expect(main).toBeAttached()
+    expect(await main.evaluate((el) => el.tagName)).toBe('MAIN')
+
+    // 2) Và phải nhận được tiêu điểm bằng mã (`tabIndex={-1}`): thiếu thuộc tính đó thì bấm
+    //    Enter chỉ CUỘN màn hình còn tiêu điểm vẫn kẹt trên thanh điều hướng, nên phím Tab
+    //    tiếp theo lại quay về đầu menu — đúng cái mà skip link sinh ra để tránh.
+    await page.keyboard.press('Tab')
+    await expect(page.locator(':focus')).toHaveText(
+      /Bỏ qua tới nội dung chính|Skip to main content/,
+    )
+    await page.keyboard.press('Enter')
+    await expect(page.locator(':focus')).toHaveAttribute('id', 'noi-dung-chinh')
+  })
+}
