@@ -115,14 +115,14 @@ export function findInflectionLevelMismatches(
 
 export const RARE_RANK_FLOOR = 30_000
 
-// Ngoại lệ: 10 mục do CHÍNH CEFR-J chấm A1/A2 (giáo trình dạy sớm theo chủ đề — thứ hạng
-// thấp là đặc tính của ngữ liệu viết, không phải của độ khó), + "iii" là chữ số La Mã.
+// Ngoại lệ: 10 mục do CHÍNH CEFR-J chấm A1/A2 — giáo trình dạy sớm theo chủ đề, thứ hạng thấp
+// là đặc tính của ngữ liệu viết chứ không phải của độ khó. (Mục thứ 11 trước đây là "iii" —
+// chữ số La Mã — đã bị XOÁ khỏi từ điển trong đợt vệ sinh dữ liệu 2026-09-15.)
 export const RARE_EASY_ALLOWLIST: readonly string[] = [
   'centimeter::n',
   'footballer::n',
   'grandparent::n',
   'headphone::n',
-  'iii::num',
   'kilogram::n',
   'metre::n',
   'motorway::n',

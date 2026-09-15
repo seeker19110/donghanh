@@ -3933,17 +3933,6 @@
     "forms": { "plural": "iguanas" }
   },
   {
-    "word": "iii",
-    "pos": "num",
-    "vi": "số ba (chữ số La Mã)",
-    "ex_en": "King Henry III ruled England.",
-    "ex_vi": "Vua Henry III đã trị vì nước Anh.",
-    "ipa_en": "/θri/",
-    "ipa_vi": "/so˦˥/",
-    "freq": 55752,
-    "level": "A2"
-  },
-  {
     "word": "ill",
     "pos": "adj",
     "vi": "ốm, bệnh",
@@ -12191,8 +12180,7 @@
     "ipa_en": "/lɛft/",
     "ipa_vi": "/ɓen˧/",
     "freq": 239,
-    "level": "A1",
-    "base": "leave"
+    "level": "A1"
   },
   {
     "word": "left-hand",
