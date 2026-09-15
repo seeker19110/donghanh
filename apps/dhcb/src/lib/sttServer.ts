@@ -34,17 +34,28 @@ function pickMime(): string {
 // Bắt đầu ghi âm. Trả về đối tượng Recorder để dừng (và nhận text) hoặc hủy.
 export async function startRecording(lang: 'en' | 'vi'): Promise<Recorder> {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+  // Tắt micro (nhả đèn ghi âm của trình duyệt). Khai báo TRƯỚC khi dựng MediaRecorder vì
+  // constructor có thể ném (xem ngay dưới).
+  const cleanup = () => stream.getTracks().forEach((t) => t.stop())
+
   const mime = pickMime()
-  const rec = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined)
+  // [S10-1 / AC-4, lỗi L5] `getUserMedia` đã MỞ micro ở dòng trên. Nếu `new MediaRecorder(...)`
+  // ném — mime không được hỗ trợ, thiết bị đang bận — mà ta để lỗi bay thẳng ra ngoài thì các
+  // track không bao giờ được `.stop()`: đèn micro sáng vô hạn cho tới khi người dùng tự đóng
+  // tab. Nhả thiết bị trước, rồi mới ném lại đúng lỗi gốc cho nơi gọi hiển thị.
+  let rec: MediaRecorder
+  try {
+    rec = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined)
+  } catch (e) {
+    cleanup()
+    throw e
+  }
   const chunks: Blob[] = []
 
   rec.ondataavailable = (e) => {
     if (e.data && e.data.size > 0) chunks.push(e.data)
   }
   rec.start()
-
-  // Tắt micro (nhả đèn ghi âm của trình duyệt) khi xong.
-  const cleanup = () => stream.getTracks().forEach((t) => t.stop())
 
   return {
     cancel() {

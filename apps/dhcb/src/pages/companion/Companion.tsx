@@ -74,10 +74,20 @@ export default function Companion() {
   const [embodimentMode, setEmbodimentMode] = useState<EmbodimentMode>('3d_cyber_avatar')
   const [proactiveState, setProactiveState] = useState<ProactiveAgentState | null>(null)
 
+  // [S10-1 / AC-3] Cùng khuôn `AbortController` với effect lịch sử ngay dưới: lượt cũ bị huỷ
+  // trong cleanup, lượt mới tự gọi lại. KHÔNG dùng ref "đã chạy" để chống StrictMode — chính
+  // cách đó từng làm hội thoại cũ không bao giờ hiện (xem ghi chú dài ở effect kế tiếp).
   useEffect(() => {
-    fetchProactiveAgentState()
-      .then((state) => setProactiveState(state))
+    const controller = new AbortController()
+
+    fetchProactiveAgentState(undefined, { signal: controller.signal })
+      .then((state) => {
+        if (controller.signal.aborted) return
+        setProactiveState(state)
+      })
       .catch(() => {})
+
+    return () => controller.abort()
   }, [])
 
   // Nạp lại hội thoại đã lưu — mở lại trang là thấy tiếp cuộc trò chuyện trước, không phải bắt
@@ -132,9 +142,18 @@ export default function Companion() {
   const loadingRef = useRef(false)
   // Bấm "Dừng" phải hủy cả phần TTS sắp phát khi stream LLM về xong SAU đó (fix bug audit).
   const voiceCancelledRef = useRef(false)
+  // Lượt gửi đang bay tới `/api/companion` — giữ để huỷ được khi rời trang (AC-2).
+  const sendAbortRef = useRef<AbortController | null>(null)
 
+  // [S10-1 / AC-1] Rời trang = IM LẶNG. Bản cũ chỉ nhả micro + `stopSpeaking()`, nhưng stream
+  // LLM vẫn bay tới đích và `onDone` của nó gọi `speak(...)` — AI cất tiếng ở TRANG KẾ, giữa
+  // một màn hình chẳng liên quan. Cleanup nay làm đủ ba việc: nhả micro, tắt tiếng đang phát,
+  // và chặn mọi lượt phát SẮP tới (cờ huỷ + abort chính lượt gửi).
   useEffect(
     () => () => {
+      voiceCancelledRef.current = true
+      sendAbortRef.current?.abort()
+      sendAbortRef.current = null
       voiceRecorderRef.current?.cancel()
       stopSpeaking()
     },
@@ -286,6 +305,10 @@ export default function Companion() {
     loadingRef.current = true
     setLoading(true)
 
+    // Một controller cho ĐÚNG lượt gửi này; cleanup unmount abort nó (AC-2).
+    const controller = new AbortController()
+    sendAbortRef.current = controller
+
     try {
       await sendCompanionMessageStream(
         {
@@ -319,6 +342,10 @@ export default function Companion() {
             )
           },
           onDone: (finalResp) => {
+            // Trang đã rời → không chạm state, không đọc. `companionApi` đã chặn `onDone` sau
+            // khi abort, đây là lớp khoá thứ hai (callback có thể về từ lượt đọc ngay trước
+            // lúc abort kịp có hiệu lực).
+            if (controller.signal.aborted) return
             setMessages((prev) =>
               prev.map((m) =>
                 m.id === botMsgId
@@ -346,6 +373,7 @@ export default function Companion() {
             }
           },
         },
+        { signal: controller.signal },
       )
       // Gửi trót lọt thì nháp hết vai trò. `clearDraft(id)` tự bỏ qua nếu trong lúc chờ đã có
       // nháp MỚI — không xoá nhầm câu hỏi người dùng vừa gõ tiếp.
@@ -354,6 +382,10 @@ export default function Companion() {
         pendingDraftIdRef.current = null
       }
     } catch (err: unknown) {
+      // Người dùng chủ động rời trang không phải là LỖI: im lặng, không toast, không đổi
+      // state của một trang đã biến mất. (Lượt AI đã trừ ở server thì KHÔNG hoàn — server
+      // không biết client rời; đúng luật hiện hành, xem đặc tả S10 AC-2.)
+      if (err instanceof Error && err.name === 'AbortError') return
       // Gửi lỗi thì GIỮ nháp: người dùng còn thử lại được, không mất câu hỏi.
       const message = err instanceof Error ? err.message : String(err)
       toast.error(message || 'Lỗi khi gửi yêu cầu tới Companion')
@@ -367,7 +399,10 @@ export default function Companion() {
       if (viaVoice) setVoiceState('idle')
     } finally {
       loadingRef.current = false
-      setLoading(false)
+      if (sendAbortRef.current === controller) sendAbortRef.current = null
+      // Trang đã rời thì không setState nữa (lượt huỷ đã `return` ở nhánh catch, nhưng
+      // `finally` vẫn chạy).
+      if (!controller.signal.aborted) setLoading(false)
     }
   }
 
