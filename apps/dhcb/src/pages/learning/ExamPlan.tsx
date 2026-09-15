@@ -25,7 +25,7 @@ import PageHeader from '../../components/PageHeader'
 import { Skeleton } from '../../components/Skeleton'
 import { useAuth } from '../../context/useAuth'
 import { setExamRetention } from '../../lib/srs'
-import { getDirection } from '../../lib/storage'
+import { useLang } from '../../context/useLang'
 import type { ExamPlan as ExamPlanRecord } from '@dhcb/core-contracts/examPlan'
 import {
   fetchExamPlan,
@@ -267,7 +267,8 @@ function TodayTasks({ plan, isA }: { plan: TodayPlan; isA: boolean }) {
 }
 
 export default function ExamPlanPage() {
-  const isA = getDirection() === 'A'
+  // [Slice 04] Chữ giao diện theo ngôn ngữ giao diện, không theo chiều học Tiếng Anh.
+  const isA = useLang().lang === 'vi'
   usePageTitle(
     isA ? 'Đếm ngược kỳ thi | Đồng hành cùng bạn' : 'Exam countdown | Đồng hành cùng bạn',
   )
@@ -315,7 +316,7 @@ export default function ExamPlanPage() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout />
+      <Layout backTo={duongDanMonTiengAnh()} />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Đồng hồ đếm ngược + 3 việc hôm nay → width reading. */}
       <PageShell width="reading" baseWidth="max-w-2xl" className="!pb-[calc(1.5rem+var(--bnav-h))]">
         <PageHeader

@@ -9,7 +9,8 @@
 // Nhãn lấy lại từ `studios.ts` + `navTree.ts` — một nguồn sự thật, sidebar và breadcrumb
 // không bao giờ gọi cùng một trang bằng hai cái tên khác nhau.
 import { STUDIOS } from './studios'
-import { PRACTICE_CHILDREN, SUBJECT_CHILDREN, type NavChild } from './navTree'
+import { SUBJECT_CHILDREN, type NavChild } from './navTree'
+import { subjectHomePath } from '@dhcb/core-learner/subjectHome'
 import { underPrefix } from './navPaths'
 
 /** Một đốt trong đường đi. `to` rỗng nghĩa là đốt cuối (trang hiện tại, không phải liên kết). */
@@ -58,7 +59,7 @@ function childNodes(children: readonly NavChild[], parent: string): RouteNode[] 
 }
 
 const SUBJECTS = studioPath('subjects')
-const PRACTICE = studioPath('practice')
+const ENGLISH_HOME = subjectHomePath('english')
 const CAREER = studioPath('career')
 const WORKLIFE = studioPath('worklife')
 
@@ -70,9 +71,13 @@ const WORKLIFE = studioPath('worklife')
  */
 const ROUTE_NODES: readonly RouteNode[] = [
   ...STUDIOS.map((st) => ({ path: st.to, label: st.title })),
+  // [Slice 03] Trang Tiếng Anh KHÔNG lên sidebar nhưng vẫn phải có tầng cha đúng. Đặt TRƯỚC
+  // childNodes(SUBJECT_CHILDREN): ENGLISH_PATHS (paths của mục "Tiếng Anh") cũng chứa hai đường
+  // này, mà BY_PATH lấy nút ĐẦU TIÊN — đặt sau là chúng mang nhãn "Tiếng Anh" thay vì nhãn riêng.
+  { path: '/placement', label: 'Xếp lớp', parent: '/lo-trinh-hoc' },
+  { path: '/cai-dat', label: 'Cài đặt môn', parent: ENGLISH_HOME },
   // SUBJECT_CHILDREN đã gồm cấp 2 của Tiếng Anh (ENGLISH_CHILDREN) — không trải lại lần hai.
   ...childNodes(SUBJECT_CHILDREN, SUBJECTS),
-  ...childNodes(PRACTICE_CHILDREN, PRACTICE),
   { path: '/tien-do', label: 'Tiến độ' },
   { path: '/nang-cap', label: 'Nâng cấp' },
   { path: '/trang-ca-nhan', label: 'Hồ sơ' },

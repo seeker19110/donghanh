@@ -1,4 +1,5 @@
 import { useMemo, useState, useRef, useEffect, useDeferredValue } from 'react'
+import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
 import {
   Search,
   X,
@@ -242,7 +243,7 @@ export default function Dictionary() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout />
+      <Layout backTo={duongDanMonTiengAnh()} />
 
       {/* Thẻ bọc này CHỈ để nhóm; landmark <main> do PageShell render bên trong — hai <main>
           lồng nhau là vi phạm a11y (landmark trùng) và cổng e2e/a11y.spec.ts quét đúng trang này. */}

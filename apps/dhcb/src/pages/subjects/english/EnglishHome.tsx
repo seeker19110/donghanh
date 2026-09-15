@@ -445,6 +445,24 @@ export default function EnglishHome() {
               </div>
             </button>
 
+            {/* Cài đặt môn (chiều học, tốc độ, giọng) — chỉ ở đây, không lên sidebar (spec 03 D2). */}
+            <button
+              onClick={() => nav('/cai-dat')}
+              className="p-3 rounded-2xl bg-zinc-900/70 hover:bg-zinc-800/80 border border-zinc-800/80 text-left transition active:scale-95 flex items-center gap-2.5 group"
+            >
+              <div className="w-8 h-8 rounded-lg bg-zinc-500/15 text-zinc-300 theme-light:text-zinc-800 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+                <Sparkles className="w-4 h-4" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <h4 className="font-semibold text-white text-xs truncate">
+                  {isA ? 'Cài đặt môn' : 'Subject settings'}
+                </h4>
+                <p className="text-[11px] text-zinc-400 truncate">
+                  {isA ? 'Chiều học · tốc độ · giọng' : 'Direction · pace · voice'}
+                </p>
+              </div>
+            </button>
+
             {/* Sổ tay lỗi sai */}
             <button
               onClick={() => nav('/so-tay-loi-sai')}

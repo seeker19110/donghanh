@@ -68,15 +68,22 @@ describe('EnglishHome — trang tổng quan môn Tiếng Anh', () => {
     expect(container.textContent).not.toContain('English Studio')
   })
 
-  it('đủ 5 công cụ của ENGLISH_CHILDREN có nút bấm trên trang (AC-8)', async () => {
+  it('đủ 12 công cụ của ENGLISH_CHILDREN + Cài đặt môn có nút bấm trên trang (AC-8 / 03 AC-3.6)', async () => {
     await hien()
     const buttons = Array.from(container.querySelectorAll('button')).map((b) => b.textContent ?? '')
     const expected: Record<string, RegExp> = {
       '/lo-trinh-hoc': /Lộ trình|CEFR/i,
       '/bai-hoc': /Ngữ Pháp|Bài học/i,
+      '/tro-truyen': /Trò chuyện|Chat/i,
+      '/luyen-noi': /Luyện nói|Speaking/i,
+      '/luyen-viet': /Luyện viết|Writing/i,
+      '/luyen-nghe': /Luyện nghe|Listening/i,
+      '/tu-dien': /Từ điển|Dictionary/i,
       '/cau-thong-dung': /Câu thông dụng|Mẫu câu/i,
+      '/truyen-song-ngu': /Truyện/i,
       '/so-tay-loi-sai': /Lỗi sai|Sổ Lỗi/i,
       '/on-thi': /Ôn thi/i,
+      '/thu-thach': /Thử thách|Challenge/i,
     }
     for (const child of ENGLISH_CHILDREN) {
       const re = expected[child.to ?? '']

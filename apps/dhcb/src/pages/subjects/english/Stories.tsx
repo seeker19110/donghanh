@@ -2,6 +2,7 @@
 // để dễ phát triển thêm tính năng sau (vd: chấm kể lại, quiz đọc hiểu...) mà không phải đụng
 // vào 2 tab Câu thông dụng/Hội thoại của /listening. Trước đây là tab "Truyện" trong Listening.tsx.
 // Gom 6 thể loại, lọc bằng chip (thay vì 8 tab — không đủ chỗ trên điện thoại).
+import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePageTitle } from '../../../lib/usePageTitle'
@@ -123,7 +124,7 @@ export default function Stories() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout back />
+      <Layout backTo={duongDanMonTiengAnh()} back />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Lưới thẻ truyện → width standard. */}
       <PageShell width="standard" baseWidth="max-w-3xl">
         <PageHeader

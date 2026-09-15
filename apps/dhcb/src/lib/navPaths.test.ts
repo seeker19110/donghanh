@@ -39,7 +39,23 @@ describe('matchesNav', () => {
   })
 
   it('khớp khi pathname là trang con (khớp một phần theo tiền tố)', () => {
-    expect(matchesNav('/luyen-noi/bai-1', PRACTICE_PATHS)).toBe(true)
+    expect(matchesNav('/luyen-tap/bai-1', PRACTICE_PATHS)).toBe(true)
+  })
+
+  // [Slice 03] Công cụ Tiếng Anh thuộc MÔN, không thuộc "Luyện tập" (hub đa môn).
+  it.each([
+    '/tro-truyen',
+    '/luyen-noi',
+    '/luyen-viet',
+    '/tu-dien',
+    '/tu-vung/apple',
+    '/placement',
+    '/cai-dat',
+    '/thu-thach',
+  ])('%s thuộc ENGLISH_PATHS + LEARNING_PATHS, KHÔNG thuộc PRACTICE_PATHS', (p) => {
+    expect(matchesNav(p, ENGLISH_PATHS)).toBe(true)
+    expect(matchesNav(p, LEARNING_PATHS)).toBe(true)
+    expect(matchesNav(p, PRACTICE_PATHS)).toBe(false)
   })
 
   it('không khớp khi pathname không thuộc nhóm', () => {
@@ -58,7 +74,7 @@ describe('matchesNav', () => {
   it('khớp theo BIÊN đoạn, không phải chuỗi con', () => {
     expect(matchesNav('/goc-hoc-tap/english-abc', ENGLISH_PATHS)).toBe(false)
     expect(matchesNav('/goc-hoc-tap/english/x', ENGLISH_PATHS)).toBe(true)
-    expect(matchesNav('/luyen-noix', PRACTICE_PATHS)).toBe(false)
+    expect(matchesNav('/luyen-tapx', PRACTICE_PATHS)).toBe(false)
   })
 })
 
@@ -86,7 +102,7 @@ describe('resolveActiveNav', () => {
   })
 
   it('entry sau vẫn khớp nếu entry trước không khớp', () => {
-    const result = resolveActiveNav('/luyen-noi', [
+    const result = resolveActiveNav('/luyen-tap', [
       { to: '/english', paths: ENGLISH_PATHS },
       { to: '/luyen-tap', paths: PRACTICE_PATHS },
     ])

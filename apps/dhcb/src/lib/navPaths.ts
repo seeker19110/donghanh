@@ -22,22 +22,27 @@ export const LEARNING_PATHS = [
   '/applied-knowledge',
   '/ung-dung-thuc-te',
   '/mo-phong',
-]
-
-export const PRACTICE_PATHS = [
-  '/phong-luyen-tap',
-  '/luyen-tap',
+  // [Slice 03] Công cụ Tiếng Anh thuộc Góc học tập (tab mobile "Góc học tập" sáng ở đó).
+  '/bai-hoc',
   '/tro-truyen',
   '/luyen-noi',
   '/luyen-viet',
   '/luyen-nghe',
   '/tu-dien',
-  '/truyen-song-ngu',
+  '/tu-vung',
   '/cau-thong-dung',
-  '/bai-hoc',
+  '/truyen-song-ngu',
   '/so-tay-loi-sai',
+  '/on-thi',
   '/thu-thach',
+  '/placement',
+  '/cai-dat',
 ]
+
+// [Slice 03] "Luyện tập" là hub ĐA MÔN: chỉ còn đường của chính nó. Các công cụ Tiếng Anh
+// (/tro-truyen, /luyen-noi, /luyen-viet…) đã dời sang ENGLISH_PATHS — đứng ở đó phải sáng
+// "Góc học tập › Tiếng Anh", không phải "Luyện tập".
+export const PRACTICE_PATHS = ['/phong-luyen-tap', '/luyen-tap']
 
 export const COMPANION_PATHS = [
   '/agent-ban-dong-hanh',
@@ -86,16 +91,31 @@ export const PROFILE_PATHS = [
 // nhầm mục đó thay vì "Học Tiếng Anh". Thứ tự ưu tiên do `resolveActiveNav` quyết định.
 
 /**
- * Môn Tiếng Anh — tập CON của LEARNING_PATHS. [Slice 02, 2026-09-15] Không còn mục sidebar riêng
- * cho Tiếng Anh; bảng này làm sáng mục con "Tiếng Anh" trong nhóm Góc học tập (navTree.ts).
- * Đường dẫn công cụ (/lo-trinh-hoc…) giữ nguyên ở đây tới khi slice 03 inventory xong.
+ * Môn Tiếng Anh — tập CON của LEARNING_PATHS. [Slice 02] Không còn mục sidebar riêng cho Tiếng
+ * Anh; bảng này làm sáng mục con "Tiếng Anh" trong nhóm Góc học tập (navTree.ts). [Slice 03]
+ * Gồm đủ 14 route công cụ theo inventory — mọi công cụ Tiếng Anh thuộc môn, không thuộc "Luyện tập".
  */
 export const ENGLISH_PATHS = [
   '/goc-hoc-tap/english',
   '/hoc-tieng-anh',
   '/tieng-anh',
   '/english',
+  // 14 route công cụ của môn (spec 03 §2.1) — kể cả trang con/một lần không lên sidebar.
   '/lo-trinh-hoc',
+  '/bai-hoc',
+  '/tro-truyen',
+  '/luyen-noi',
+  '/luyen-viet',
+  '/luyen-nghe',
+  '/tu-dien',
+  '/tu-vung',
+  '/cau-thong-dung',
+  '/truyen-song-ngu',
+  '/so-tay-loi-sai',
+  '/on-thi',
+  '/thu-thach',
+  '/placement',
+  '/cai-dat',
 ]
 
 export const CAREER_PATHS = [

@@ -9,7 +9,9 @@
 // phải dựng React.
 import {
   Atom,
+  BookMarked,
   BookOpen,
+  BookText,
   Calculator,
   Code2,
   Dumbbell,
@@ -19,7 +21,9 @@ import {
   Leaf,
   Mic,
   MessagesSquare,
+  NotebookPen,
   PenLine,
+  Quote,
   Route as RouteIcon,
   Swords,
   type LucideIcon,
@@ -44,18 +48,38 @@ export interface NavChild {
   children?: readonly NavChild[]
 }
 
-/** Công cụ của môn Tiếng Anh — cấp 2 dưới mục "Tiếng Anh" trong nhóm Góc học tập (slice 02). */
+/**
+ * Công cụ của môn Tiếng Anh — cấp 2 dưới mục "Tiếng Anh" trong nhóm Góc học tập.
+ *
+ * [Slice 03] Đủ 12 công cụ có trang riêng, theo THỨ TỰ LUỒNG HỌC (lộ trình → bài → 4 kỹ năng →
+ * tra cứu → ôn → thử thách). Trước đây 6 công cụ trong số này nằm dưới "Luyện tập" (đa môn) —
+ * sai ngữ nghĩa và làm đứng ở /tro-truyen sáng nhầm "Luyện tập". Không đưa /placement (một lần),
+ * /cai-dat (cài đặt môn) và /tu-vung/:word (trang con Từ điển) lên sidebar — chúng ở trang tổng
+ * quan/breadcrumb. Xem docs/specs/2026-09-15-goc-hoc-tap-03-04-*.md §2.1.
+ */
 export const ENGLISH_CHILDREN: NavChild[] = [
   { label: 'Lộ trình CEFR', icon: RouteIcon, to: '/lo-trinh-hoc', paths: ['/lo-trinh-hoc'] },
   { label: 'Bài học hôm nay', icon: BookOpen, to: '/bai-hoc', paths: ['/bai-hoc'] },
+  { label: 'Trò chuyện', icon: MessagesSquare, to: '/tro-truyen', paths: ['/tro-truyen'] },
+  { label: 'Luyện nói', icon: Mic, to: '/luyen-noi', paths: ['/luyen-noi'] },
+  { label: 'Luyện viết', icon: PenLine, to: '/luyen-viet', paths: ['/luyen-viet'] },
+  { label: 'Luyện nghe', icon: Headphones, to: '/luyen-nghe', paths: ['/luyen-nghe'] },
+  { label: 'Từ điển', icon: BookMarked, to: '/tu-dien', paths: ['/tu-dien', '/tu-vung'] },
   {
     label: 'Câu thông dụng',
-    icon: MessagesSquare,
+    icon: Quote,
     to: '/cau-thong-dung',
     paths: ['/cau-thong-dung'],
   },
-  { label: 'Sổ tay lỗi sai', icon: PenLine, to: '/so-tay-loi-sai', paths: ['/so-tay-loi-sai'] },
+  {
+    label: 'Truyện song ngữ',
+    icon: BookText,
+    to: '/truyen-song-ngu',
+    paths: ['/truyen-song-ngu'],
+  },
+  { label: 'Sổ tay lỗi sai', icon: NotebookPen, to: '/so-tay-loi-sai', paths: ['/so-tay-loi-sai'] },
   { label: 'Ôn thi', icon: Dumbbell, to: '/on-thi', paths: ['/on-thi'] },
+  { label: 'Thử thách', icon: Swords, to: '/thu-thach', paths: ['/thu-thach'] },
 ]
 
 /** Mục con của "Góc học tập" — 6 môn trong `packages/core-learner/subjectRegistry.ts`. */
@@ -97,16 +121,6 @@ export const SUBJECT_CHILDREN: NavChild[] = [
     subjectId: 'programming',
     paths: ['/goc-hoc-tap/programming', '/lap-trinh'],
   },
-]
-
-/** Mục con của "Luyện tập" — 4 kỹ năng + tra cứu + thử thách. */
-export const PRACTICE_CHILDREN: NavChild[] = [
-  { label: 'Trò chuyện', icon: MessagesSquare, to: '/tro-truyen', paths: ['/tro-truyen'] },
-  { label: 'Luyện nói', icon: Mic, to: '/luyen-noi', paths: ['/luyen-noi'] },
-  { label: 'Luyện viết', icon: PenLine, to: '/luyen-viet', paths: ['/luyen-viet'] },
-  { label: 'Luyện nghe', icon: Headphones, to: '/luyen-nghe', paths: ['/luyen-nghe'] },
-  { label: 'Từ điển', icon: BookOpen, to: '/tu-dien', paths: ['/tu-dien', '/tu-vung'] },
-  { label: 'Thử thách', icon: Swords, to: '/thu-thach', paths: ['/thu-thach'] },
 ]
 
 const STORAGE_KEY = 'ui_sidebar_groups'

@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import {
   ENGLISH_CHILDREN,
-  PRACTICE_CHILDREN,
   SUBJECT_CHILDREN,
   childIsActive,
   groupContainsPath,
@@ -12,7 +11,7 @@ import {
 
 describe('navTree — dữ liệu cây điều hướng', () => {
   it('mỗi mục con có ĐÚNG một cách trỏ đích: đường dẫn hoặc id môn học', () => {
-    for (const c of [...SUBJECT_CHILDREN, ...PRACTICE_CHILDREN, ...ENGLISH_CHILDREN]) {
+    for (const c of [...SUBJECT_CHILDREN, ...ENGLISH_CHILDREN]) {
       expect(Boolean(c.to) !== Boolean(c.subjectId), `mục "${c.label}"`).toBe(true)
       expect(c.paths.length).toBeGreaterThan(0)
     }
@@ -33,15 +32,23 @@ describe('navTree — dữ liệu cây điều hướng', () => {
 // Slice 02 (quyết định chủ dự án 2026-09-15, Q1): 5 công cụ Tiếng Anh DI CHUYỂN vào nhóm
 // Góc học tập, lồng dưới mục "Tiếng Anh" — không xoá.
 describe('navTree — Tiếng Anh là một môn, công cụ ở cấp 2', () => {
-  it('mục "Tiếng Anh" có đúng 5 công cụ cấp 2 và trỏ tới trang tổng quan môn', () => {
+  it('mục "Tiếng Anh" có đúng 12 công cụ cấp 2 và trỏ tới trang tổng quan môn', () => {
     const english = SUBJECT_CHILDREN.find((c) => c.subjectId === 'english')!
     expect(english.children).toBe(ENGLISH_CHILDREN)
+    // [Slice 03] đủ 12 công cụ theo thứ tự luồng học (spec 03 §④ AC-3.1).
     expect(ENGLISH_CHILDREN.map((c) => c.label)).toEqual([
       'Lộ trình CEFR',
       'Bài học hôm nay',
+      'Trò chuyện',
+      'Luyện nói',
+      'Luyện viết',
+      'Luyện nghe',
+      'Từ điển',
       'Câu thông dụng',
+      'Truyện song ngữ',
       'Sổ tay lỗi sai',
       'Ôn thi',
+      'Thử thách',
     ])
     expect(english.paths).toContain('/goc-hoc-tap/english')
     // Chỉ Tiếng Anh có cấp 2 trong đợt này.
@@ -69,6 +76,8 @@ describe('groupContainsPath — tự mở nhóm chứa trang đang xem', () => {
     expect(groupContainsPath(SUBJECT_CHILDREN, '/lo-trinh-hoc/a1')).toBe(true)
     expect(groupContainsPath(SUBJECT_CHILDREN, '/on-thi')).toBe(true)
     expect(groupContainsPath(ENGLISH_CHILDREN, '/cau-thong-dung')).toBe(true)
+    expect(groupContainsPath(ENGLISH_CHILDREN, '/tro-truyen')).toBe(true)
+    expect(groupContainsPath(ENGLISH_CHILDREN, '/tu-vung/apple')).toBe(true)
     expect(groupContainsPath(ENGLISH_CHILDREN, '/goc-hoc-tap/physics')).toBe(false)
   })
 
@@ -79,12 +88,12 @@ describe('groupContainsPath — tự mở nhóm chứa trang đang xem', () => {
   it('khớp theo tiền tố, kể cả trang con', () => {
     expect(groupContainsPath(SUBJECT_CHILDREN, '/goc-hoc-tap/physics')).toBe(true)
     expect(groupContainsPath(SUBJECT_CHILDREN, '/lap-trinh/bai-hoc/p1')).toBe(true)
-    expect(groupContainsPath(PRACTICE_CHILDREN, '/luyen-noi')).toBe(true)
+    expect(groupContainsPath(SUBJECT_CHILDREN, '/luyen-noi')).toBe(true)
   })
 
   it('không khớp trang ngoài nhóm', () => {
     expect(groupContainsPath(SUBJECT_CHILDREN, '/tien-do')).toBe(false)
-    expect(groupContainsPath(PRACTICE_CHILDREN, '/goc-hoc-tap/biology')).toBe(false)
+    expect(groupContainsPath(SUBJECT_CHILDREN, '/luyen-tap')).toBe(false)
   })
 })
 

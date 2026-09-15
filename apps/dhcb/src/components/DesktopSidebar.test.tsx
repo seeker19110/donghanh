@@ -30,15 +30,22 @@ describe('DesktopSidebar — Tiếng Anh là một môn trong Góc học tập',
     expect(html).not.toContain('/hoc-tieng-anh')
   })
 
-  it('đứng ở công cụ Tiếng Anh: nhóm Góc học tập mở, mục Tiếng Anh mở cấp 2 với đủ 5 công cụ', () => {
+  it('đứng ở công cụ Tiếng Anh: nhóm Góc học tập mở, mục Tiếng Anh mở cấp 2 với đủ 12 công cụ', () => {
     const html = render('/lo-trinh-hoc/a1')
     expect(html).toContain('href="/goc-hoc-tap/english"')
     for (const label of [
       'Lộ trình CEFR',
       'Bài học hôm nay',
+      'Trò chuyện',
+      'Luyện nói',
+      'Luyện viết',
+      'Luyện nghe',
+      'Từ điển',
       'Câu thông dụng',
+      'Truyện song ngữ',
       'Sổ tay lỗi sai',
       'Ôn thi',
+      'Thử thách',
     ]) {
       expect(html, label).toContain(label)
     }
@@ -75,5 +82,23 @@ describe('DesktopSidebar — Tiếng Anh là một môn trong Góc học tập',
     for (const label of ['Tiếng Anh', 'Toán học', 'Vật lý', 'Hóa học', 'Sinh học', 'Lập trình']) {
       expect(html, label).toContain(label)
     }
+  })
+
+  // [Slice 03] Công cụ Tiếng Anh sáng "Góc học tập › Tiếng Anh", KHÔNG sáng "Luyện tập".
+  it('đứng ở /tro-truyen: Góc học tập + Tiếng Anh + Trò chuyện sáng; Luyện tập không sáng', () => {
+    const html = render('/tro-truyen')
+    expect(html).toMatch(
+      /<a[^>]*href="\/goc-hoc-tap"[^>]*aria-current="page"|<a[^>]*aria-current="page"[^>]*href="\/goc-hoc-tap"/,
+    )
+    expect(html).toMatch(
+      /<a[^>]*href="\/tro-truyen"[^>]*aria-current="page"|<a[^>]*aria-current="page"[^>]*href="\/tro-truyen"/,
+    )
+    expect(html).not.toMatch(
+      /<a[^>]*href="\/luyen-tap"[^>]*aria-current="page"|<a[^>]*aria-current="page"[^>]*href="\/luyen-tap"/,
+    )
+  })
+
+  it('Luyện tập là mục lá — không có nút mở rộng', () => {
+    expect(render('/luyen-tap')).not.toContain('mục Luyện tập')
   })
 })

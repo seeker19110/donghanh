@@ -26,7 +26,6 @@ import {
 import { useAuth } from '../context/useAuth'
 import SubjectsLink from './SubjectsLink'
 import {
-  PRACTICE_CHILDREN,
   SUBJECT_CHILDREN,
   childIsActive,
   groupContainsPath,
@@ -91,7 +90,8 @@ const MAIN_NAV: Item[] = [
   HOME_ITEM,
   studioItem('subjects', LEARNING_PATHS, 'Góc học tập', SUBJECT_CHILDREN),
   studioItem('companion', COMPANION_PATHS, 'Bạn Đồng Hành'),
-  studioItem('practice', PRACTICE_PATHS, 'Luyện tập', PRACTICE_CHILDREN),
+  // [Slice 03] Luyện tập là hub ĐA MÔN → mục lá; công cụ Tiếng Anh nằm dưới Góc học tập › Tiếng Anh.
+  studioItem('practice', PRACTICE_PATHS, 'Luyện tập'),
 ]
 
 // NHÓM 2 — các studio CÒN LẠI (3 studio kia đã lên MAIN_NAV), kèm bảng path riêng để
