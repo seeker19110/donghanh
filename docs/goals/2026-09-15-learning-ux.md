@@ -4,7 +4,7 @@
 | ----------------- | -------------------------------------------------------------------------------------------------------------------- |
 | Goal ID           | GOAL-2026-0915-LEARNING-UX                                                                                           |
 | Owner             | Chủ sản phẩm Đồng Hành; agent chính điều phối và review                                                              |
-| Trạng thái        | IMPLEMENT — S02 (#921) đã merge, S03-1 (#922) chờ CI                                                                 |
+| Trạng thái        | IMPLEMENT — S02 (#921) và S03-1 (#922) đã merge, S03-2 (#923) chờ CI                                                 |
 | Bắt đầu           | 2026-09-15                                                                                                           |
 | Target review     | Sau mỗi slice; chưa cam kết ngày phát hành toàn bộ                                                                   |
 | Quyền được cấp    | Triển khai tuần tự, mỗi slice một PR. **15/09: người dùng cho phép merge #921 và #922 khi CI xanh** (main tự deploy) |
@@ -40,8 +40,8 @@ Danh sách sau phản ánh 13 PR trong kế hoạch người dùng đã chọn. 
 | ----- | ------------------------------------------ | ------------------- | ---------------------------------------------------- | -------- | -------------------------------------------------------- | ------- | ---------------------------------------------------------------------------- |
 | S01   | Đặc tả, baseline và ma trận nghiệm thu     | main hiện tại       | [Nền](../specs/2026-09-15-learning-ux-foundation.md) | Chưa tạo | [#920](https://github.com/seeker19110/donghanh/pull/920) | MERGED  | Đã vào main tại `46e7b54`                                                    |
 | S02   | Hỏi nhanh trung thực, giữ câu hỏi/ngữ cảnh | S01 merged/approved | Nền §④ A                                             | Chưa tạo | [#921](https://github.com/seeker19110/donghanh/pull/921) | MERGED  | [0319](../changelog/0319-2026-09-15-hoi-nhanh-trung-thuc.md), main `2719790` |
-| S03-1 | Subjects: lỗi tải nói thật, chống race     | S02                 | Nền §④ B (nhóm 1/3)                                  | Chưa tạo | [#922](https://github.com/seeker19110/donghanh/pull/922) | PR      | [0320](../changelog/0320-2026-09-15-danh-muc-mon-hoc-trang-thai-loi.md)      |
-| S03-2 | Dialog/bố cục mobile                       | S03-1               | Nền §④ B (nhóm 2/3)                                  | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S03-1 | Subjects: lỗi tải nói thật, chống race     | S02                 | Nền §④ B (nhóm 1/3)                                  | Chưa tạo | [#922](https://github.com/seeker19110/donghanh/pull/922) | MERGED  | [0320](../changelog/0320-2026-09-15-danh-muc-mon-hoc-trang-thai-loi.md)      |
+| S03-2 | Dialog/bố cục mobile                       | S03-1               | Nền §④ B (nhóm 2/3)                                  | Chưa tạo | [#923](https://github.com/seeker19110/donghanh/pull/923) | PR      | [0321](../changelog/0321-2026-09-15-bo-cuc-mobile-khong-bi-thanh-nav-che.md) |
 | S03-3 | Renderer an toàn                           | S03-2               | Nền §④ B (nhóm 3/3) — cần review riêng               | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
 | S04   | Tokens và thành phần sáu màn mẫu           | S03-3               | Cần spec nhỏ + prototype                             | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
 | S05   | Bắt đầu theo ý định, thống nhất hub        | S04                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
@@ -68,10 +68,10 @@ Danh sách sau phản ánh 13 PR trong kế hoạch người dùng đã chọn. 
 ## 5. Current truth
 
 - Commit main đã reconcile: `45195feb` (#919). Guest browsing/local progress/trial AI đã có; không bắt login để đọc/học nội dung.
-- Goal gap hiện tại: hai slice nguồn đầu tiên (S02, S03-1) đã có mã thật và cổng canh; chưa có prototype sáu màn, chưa có metric sản phẩm nào được đo.
+- Goal gap hiện tại: ba slice nguồn đầu tiên (S02, S03-1, S03-2) đã có mã thật và cổng canh; chưa có prototype sáu màn, chưa có metric sản phẩm nào được đo.
 - Baseline audit ngày 15/09 ở `80c2b416`: expert review frontend local, auth giả, API lỗi chủ động, Node26; 16 trạng thái không tràn ngang không chứng minh toàn bộ catalog/theme/production.
 - Blocker/câu hỏi mở: technical review spec; handoff guest gắn owner cần nghiệm thu; việc thay chính sách khóa zoom cần ghi quyết định rõ; spec S04–S13 còn thiếu.
-- Next best slice: S03-2 (dialog/bố cục mobile). S02 (#921) và S03-1 (#922) đã có PR; S03 được tách làm ba vì ba nhóm việc của §④ B chạm ba vùng mã khác hẳn nhau, gộp một PR thì không review nổi.
+- Next best slice: S03-3 (renderer an toàn) — đặc tả §④ B gạch 5 đòi review dependency/bundle RIÊNG trước khi cài parser mới, nên slice này bắt đầu bằng review chứ không bằng mã.
 - Quyền cần thêm: merge/deploy (main có tự deploy). Không coi yêu cầu tạo PR là đã cho phép phát hành.
 
 ## 6. Iteration log
@@ -110,6 +110,31 @@ Danh sách sau phản ánh 13 PR trong kế hoạch người dùng đã chọn. 
 - Blocker: không có.
 - Next best slice: S03-2.
 - Quyền cần thêm: người dùng đã cho phép merge #921 và #922 khi CI xanh (phiên 15/09).
+
+### Iteration 4 — 2026-09-15
+
+- State: IMPLEMENT.
+- Slice: S03-2 — bố cục mobile không bị thanh điều hướng đáy che (PR #923), sau khi #922 merge.
+- Goal gap trước/sau: AC §④ B gạch 2 (390×844 và 320px) KHÔNG có phép đo nào canh → có cổng
+  `e2e/mobile-layout-guards.spec.ts` (6 test) và 7 file được sửa lề dưới.
+- Thay đổi: 7 file source (mỗi file một lớp CSS + chú thích lý do), 1 file E2E mới. Không schema,
+  migration, dependency, không đụng billing/entitlement/guest limits.
+- Validation: cổng viết trước → 6/6 ĐỎ trên mã cũ, liệt kê đúng 6 mục cần sửa; sau khi sửa 6/6
+  xanh. Ảnh 1440/390/320 trước-sau; ảnh 1440px giống hệt từng điểm ảnh (md5) nên desktop không
+  bị chạm. Chạy lại toàn bộ cổng a11y vì bản sửa tăng lề dưới ở 4 trang trụ — đúng thao tác từng
+  gây 3 vi phạm `target-size` ở Companion.tsx.
+- Metric/guardrail: chưa đo metric sản phẩm. Guardrail: desktop bất biến (bằng chứng md5 ảnh
+  1440px); `--bnav-h` đã bằng 0 từ 1024px nên bản sửa là thay đổi thuần mobile.
+- Quyết định: cổng dùng HAI phép đo (bất biến lề — không phụ thuộc nội dung; bấm được thật —
+  `elementFromPoint`), vì phép đo hành vi một mình đã báo nhầm 4 trang trụ là "sạch" khi dữ liệu
+  mock còn ngắn. `/dong-hanh` là ngoại lệ có chủ đích, ghi lý do đo được ngay trong cổng.
+- Phát hiện ngoài dự kiến: phần lớn AC gạch 1–2 đã đạt sẵn (15 hộp thoại sạch ở cả hai bề rộng,
+  6 hành vi bàn phím có unit test đủ, không còn overlay cũ sau #921) — ghi vào changelog 0321 để
+  đợt sau khỏi đo lại. Lỗi thật nằm ở chỗ không ai ngờ: nút CTA của trang landing.
+- Nợ mới ghi nhận: `Landing.tsx`/`LandingEn.tsx` thiếu `id={MAIN_CONTENT_ID}` nên liên kết "Bỏ
+  qua tới nội dung chính" đứt lặng lẽ ở hai trang đó. Khác họ lỗi, chưa sửa.
+- Blocker: không.
+- Next best slice: S03-3 (renderer an toàn) — bắt đầu bằng review dependency, không bằng mã.
 
 ## 7. Final audit
 
