@@ -1,14 +1,14 @@
 # Goal: Học tập liền mạch, có bằng chứng và giao diện xuất sắc
 
-| Thuộc tính        | Giá trị                                                                                                              |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------- |
-| Goal ID           | GOAL-2026-0915-LEARNING-UX                                                                                           |
-| Owner             | Chủ sản phẩm Đồng Hành; agent chính điều phối và review                                                              |
-| Trạng thái        | IMPLEMENT — S02 (#921) và S03-1 (#922) đã merge, S03-2 (#923) chờ CI                                                 |
-| Bắt đầu           | 2026-09-15                                                                                                           |
-| Target review     | Sau mỗi slice; chưa cam kết ngày phát hành toàn bộ                                                                   |
-| Quyền được cấp    | Triển khai tuần tự, mỗi slice một PR. **15/09: người dùng cho phép merge #921 và #922 khi CI xanh** (main tự deploy) |
-| Budget/guardrails | Một outcome/PR/agent; tối đa 3 lần sửa cùng lỗi; không paid provider, production data hoặc secrets trong test        |
+| Thuộc tính        | Giá trị                                                                                                       |
+| ----------------- | ------------------------------------------------------------------------------------------------------------- |
+| Goal ID           | GOAL-2026-0915-LEARNING-UX                                                                                    |
+| Owner             | Chủ sản phẩm Đồng Hành; agent chính điều phối và review                                                       |
+| Trạng thái        | SPEC — #920–#924 đã merge; ưu tiên kiến trúc Góc học tập (0S)                                                 |
+| Bắt đầu           | 2026-09-15                                                                                                    |
+| Target review     | Sau mỗi slice; chưa cam kết ngày phát hành toàn bộ                                                            |
+| Quyền được cấp    | Triển khai tuần tự, mỗi subagent một PR; người dùng đã cấp quyền auto-merge và deployment khi các check đạt   |
+| Budget/guardrails | Một outcome/PR/agent; tối đa 3 lần sửa cùng lỗi; không paid provider, production data hoặc secrets trong test |
 
 ## 1. Outcome và Definition of Goal Complete
 
@@ -24,6 +24,7 @@
 
 ### In scope
 
+- Góc học tập `/goc-hoc-tap`, tiếng Anh là môn; link và dữ liệu cũ được bảo toàn.
 - Tin cậy hỏi nhanh; lỗi/dialog/renderer; onboarding theo ý định; Hôm nay; mục lục môn và khóa trong vùng nội dung.
 - Phiên học, resume, đồng bộ có version, trợ giảng, kết quả và ôn lại có bằng chứng; nâng thị giác trên token hiện có.
 
@@ -34,45 +35,56 @@
 
 ## 3. Milestones và slices
 
-Danh sách sau phản ánh 13 PR trong kế hoạch người dùng đã chọn. S04–S13 cần discovery và đặc tả nhỏ trước implementation; spec nền không biến cả backlog thành READY. Làm tuần tự; mỗi PR giao một subagent và agent chính review diff/gate.
+Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S → 01–04 → S07 trước S05/S06. S04–S13 cần discovery và đặc tả nhỏ trước implementation; spec nền không biến cả backlog thành READY. Làm tuần tự; mỗi PR giao một subagent và agent chính review diff/gate.
 
 | ID    | Outcome/AC                                 | Dependency          | Spec                                                 | Issue    | PR                                                       | State   | Evidence                                                                     |
 | ----- | ------------------------------------------ | ------------------- | ---------------------------------------------------- | -------- | -------------------------------------------------------- | ------- | ---------------------------------------------------------------------------- |
 | S01   | Đặc tả, baseline và ma trận nghiệm thu     | main hiện tại       | [Nền](../specs/2026-09-15-learning-ux-foundation.md) | Chưa tạo | [#920](https://github.com/seeker19110/donghanh/pull/920) | MERGED  | Đã vào main tại `46e7b54`                                                    |
 | S02   | Hỏi nhanh trung thực, giữ câu hỏi/ngữ cảnh | S01 merged/approved | Nền §④ A                                             | Chưa tạo | [#921](https://github.com/seeker19110/donghanh/pull/921) | MERGED  | [0319](../changelog/0319-2026-09-15-hoi-nhanh-trung-thuc.md), main `2719790` |
 | S03-1 | Subjects: lỗi tải nói thật, chống race     | S02                 | Nền §④ B (nhóm 1/3)                                  | Chưa tạo | [#922](https://github.com/seeker19110/donghanh/pull/922) | MERGED  | [0320](../changelog/0320-2026-09-15-danh-muc-mon-hoc-trang-thai-loi.md)      |
-| S03-2 | Dialog/bố cục mobile                       | S03-1               | Nền §④ B (nhóm 2/3)                                  | Chưa tạo | [#923](https://github.com/seeker19110/donghanh/pull/923) | PR      | [0321](../changelog/0321-2026-09-15-bo-cuc-mobile-khong-bi-thanh-nav-che.md) |
-| S03-3 | Renderer an toàn                           | S03-2               | Nền §④ B (nhóm 3/3) — cần review riêng               | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
-| S04   | Tokens và thành phần sáu màn mẫu           | S03-3               | Cần spec nhỏ + prototype                             | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
-| S05   | Bắt đầu theo ý định, thống nhất hub        | S04                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
-| S06   | Hôm nay, điểm học tiếp                     | S05                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
-| S07   | Mục lục môn/khóa độc lập shellbar          | S06                 | Nền §④ C + adapter spec                              | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S03-2 | Dialog/bố cục mobile                       | S03-1               | Nền §④ B (nhóm 2/3)                                  | Chưa tạo | [#923](https://github.com/seeker19110/donghanh/pull/923) | MERGED  | [0321](../changelog/0321-2026-09-15-bo-cuc-mobile-khong-bi-thanh-nav-che.md) |
+| S03-3 | Markdown/code; toán còn thiếu              | S03-2               | Nền §④ B                                             | Chưa tạo | [#924](https://github.com/seeker19110/donghanh/pull/924) | PARTIAL | main `f5beb7a1`; parser toán cần spec riêng                                  |
+| S04   | Tokens và thành phần sáu màn mẫu           | Đi cùng từng slice  | Cần spec nhỏ + prototype                             | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S05   | Bắt đầu theo ý định, thống nhất hub        | S06 + spec          | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S06   | Hôm nay, điểm học tiếp                     | S08 + spec          | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S07   | Mục lục môn/khóa độc lập shellbar          | 04 + adapter spec   | Nền §④ C + adapter spec                              | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
 | S08   | Khung phiên, nháp/resume cùng thiết bị     | S07                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
-| S09   | Đồng bộ version/retry/xung đột             | S08                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
-| S10   | Trợ giảng trong bài, voice thật            | S09                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
-| S11   | Completion evidence và kết quả             | S10                 | Cần spec nhỏ từng hoạt động                          | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S09   | Đồng bộ version/retry/xung đột             | S11 + sync spec     | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S10   | Trợ giảng trong bài, voice thật            | S08 + tutor spec    | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
+| S11   | Completion evidence và kết quả             | S08 + domain spec   | Cần spec nhỏ từng hoạt động                          | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
 | S12   | Ôn lại/sổ lỗi/tiến độ có bằng chứng        | S11                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
 | S13   | Responsive/theme/hiệu năng/rollout         | S12                 | Cần spec nhỏ                                         | Chưa tạo | —                                                        | BACKLOG | Chưa có                                                                      |
 
+### Chặng tái cấu trúc ưu tiên
+
+| ID  | Outcome                                 | Dependency              | State    | Spec / bằng chứng                                                                      |
+| --- | --------------------------------------- | ----------------------- | -------- | -------------------------------------------------------------------------------------- |
+| 0S  | Đặc tả kiến trúc và reconcile goal      | main f5beb7a1           | REVIEWED | [Spec 0S](../specs/2026-09-15-goc-hoc-tap-architecture.md), root approve 01; chờ merge |
+| 01  | Đổi tên/route Góc học tập               | 0S merge                | WAITING  | Spec 0S Approved chỉ 01                                                                |
+| 02  | English ngang hàng môn, bỏ studio riêng | 01 + spec bổ sung merge | BACKLOG  | Inventory route/host/auth/storage trước source                                         |
+| 03  | Công cụ English trong môn               | 02 + spec bổ sung merge | BACKLOG  | Inventory component/API/context                                                        |
+| 04  | Platform không default English          | 03 + spec bổ sung merge | BACKLOG  | Hợp đồng thiếu context và legacy adapter                                               |
+
 ## 4. Risk register
 
-| Risk                         | Trigger/guardrail                     | Mitigation/rollback                                                            | Owner              | State          |
-| ---------------------------- | ------------------------------------- | ------------------------------------------------------------------------------ | ------------------ | -------------- |
-| Khách bị đưa vào API private | Companion không phải API thử guest    | Giữ câu hỏi qua login hoặc đích hỗ trợ guest; không auto-send                  | Kỹ thuật           | Mở             |
-| Mất bài/ghi đè tiến độ       | Hai tab, timeout sau server commit    | Version/idempotency và test trước S09; rollback UI giữ dữ liệu                 | Kỹ thuật           | Mở             |
-| AI trở thành authority       | Click/AI text tăng completion/mastery | Domain evidence; chưa đo thì ghi chưa đo                                       | Kỹ thuật + môn học | Mở             |
-| Spec cũ không khớp main      | #919 thêm guest sau audit             | Reconcile từng vòng từ main                                                    | Agent chính        | Đang kiểm soát |
-| Merge tự phát hành           | Workflow deploy main                  | 15/09 người dùng cấp quyền merge cho #921 + #922; slice sau vẫn phải hỏi lại   | Agent chính        | Đang kiểm soát |
-| Đẹp nhưng không học tốt      | Chỉ review screenshot                 | Phiên tiếng Anh/Toán, mục lục khóa lập trình, test gián đoạn và thử người dùng | Thiết kế + môn học | Mở             |
+| Risk                         | Trigger/guardrail                     | Mitigation/rollback                                                                       | Owner              | State          |
+| ---------------------------- | ------------------------------------- | ----------------------------------------------------------------------------------------- | ------------------ | -------------- |
+| Khách bị đưa vào API private | Companion không phải API thử guest    | Giữ câu hỏi qua login hoặc đích hỗ trợ guest; không auto-send                             | Kỹ thuật           | Mở             |
+| Mất bài/ghi đè tiến độ       | Hai tab, timeout sau server commit    | Version/idempotency và test trước S09; rollback UI giữ dữ liệu                            | Kỹ thuật           | Mở             |
+| AI trở thành authority       | Click/AI text tăng completion/mastery | Domain evidence; chưa đo thì ghi chưa đo                                                  | Kỹ thuật + môn học | Mở             |
+| Spec cũ không khớp main      | #919 thêm guest sau audit             | Reconcile từng vòng từ main                                                               | Agent chính        | Đang kiểm soát |
+| Merge tự phát hành           | Workflow deploy main                  | Quyền auto-merge/deploy đã cấp; chỉ merge khi review/checks đạt, kiểm tra deploy mỗi vòng | Agent chính        | Đang kiểm soát |
+| Đẹp nhưng không học tốt      | Chỉ review screenshot                 | Phiên tiếng Anh/Toán, mục lục khóa lập trình, test gián đoạn và thử người dùng            | Thiết kế + môn học | Mở             |
 
 ## 5. Current truth
 
-- Commit main đã reconcile: `45195feb` (#919). Guest browsing/local progress/trial AI đã có; không bắt login để đọc/học nội dung.
-- Goal gap hiện tại: ba slice nguồn đầu tiên (S02, S03-1, S03-2) đã có mã thật và cổng canh; chưa có prototype sáu màn, chưa có metric sản phẩm nào được đo.
-- Baseline audit ngày 15/09 ở `80c2b416`: expert review frontend local, auth giả, API lỗi chủ động, Node26; 16 trạng thái không tràn ngang không chứng minh toàn bộ catalog/theme/production.
-- Blocker/câu hỏi mở: technical review spec; handoff guest gắn owner cần nghiệm thu; việc thay chính sách khóa zoom cần ghi quyết định rõ; spec S04–S13 còn thiếu.
-- Next best slice: S03-3 (renderer an toàn) — đặc tả §④ B gạch 5 đòi review dependency/bundle RIÊNG trước khi cài parser mới, nên slice này bắt đầu bằng review chứ không bằng mã.
-- Quyền cần thêm: merge/deploy (main có tự deploy). Không coi yêu cầu tạo PR là đã cho phép phát hành.
+- Main đã đối chiếu: `f5beb7a1d7d044232b686301e1cb2b0010535a65` (#924). #920–#924 đã merge; [deploy thành công](https://github.com/seeker19110/donghanh/actions/runs/34946596471).
+- Markdown/code, lỗi SubjectDetail và skip link landing đã sửa #924. Công thức toán còn thiếu; StrictMode nạp lịch sử Companion và nhãn animation mobile còn mở trong PROGRESS.
+- Quyết định mới: **Góc học tập `/goc-hoc-tap`**, tiếng Anh ngang hàng môn học, không còn là không gian platform; giữ dữ liệu và link cũ. [Spec 0S](../specs/2026-09-15-goc-hoc-tap-architecture.md) đã được root review cho 01, hiệu lực sau merge; 02–04 cần spec bổ sung.
+- Thứ tự: 0S → 01 đổi route/nhãn → 02 tích hợp English → 03 công cụ theo môn → 04 bỏ default English → S07 mục lục (lập trình, STEM, English) → S08 resume → S06/S05 Home/onboarding → S10 tutor/voice (sửa lifecycle trước) → S11 completion → S09 sync → S12 ôn tập → S13 final audit. S04 thiết kế đi cùng từng slice. Renderer toán không bị bỏ khỏi backlog.
+- Next best slice: merge 0S đã review, rồi 01. Không source trước spec Approved và merge.
+- Quyền cần thêm: không cần hỏi lại cho push/auto-merge/deploy trong phạm vi đã cấp. Không có quyền dùng secrets/paid provider/production data trong test hoặc đổi DNS.
+- Goal gap: chưa có mục lục toàn catalog, continuity/evidence chưa hoàn chỉnh, chưa đo metric sản phẩm. Audit ở `80c2b416` chỉ là frontend local mock, không chứng minh production.
 
 ## 6. Iteration log
 
@@ -135,6 +147,14 @@ Danh sách sau phản ánh 13 PR trong kế hoạch người dùng đã chọn. 
   qua tới nội dung chính" đứt lặng lẽ ở hai trang đó. Khác họ lỗi, chưa sửa.
 - Blocker: không.
 - Next best slice: S03-3 (renderer an toàn) — bắt đầu bằng review dependency, không bằng mã.
+
+### Iteration 5 — 2026-09-15 — reconcile và kiến trúc mới
+
+- State: SPEC; slice 0S; base `f5beb7a1`.
+- Cập nhật current truth theo #923/#924; giữ iteration log cũ là lịch sử quyền tại thời điểm đó, không phải yêu cầu xin lại quyền hiện nay.
+- Quyết định: canonical path `/goc-hoc-tap`, host theo cấu hình sẵn; giữ origin hoạt động và key dữ liệu. Không đổi DNS, không gom hoạt động qua origin khi chưa có spec.
+- Bằng chứng: docs-only, validation ghi trong changelog 0323; chưa có test runtime mới hoặc metric mới.
+- Next: 01 sau review/merge spec; 02–04 cần discovery/spec bổ sung.
 
 ## 7. Final audit
 
