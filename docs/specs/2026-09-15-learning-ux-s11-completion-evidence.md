@@ -8,7 +8,7 @@
 | Goal          | [`learning-ux`](../goals/2026-09-15-learning-ux.md) dòng S11 (dependency S08 + domain spec; "cần spec nhỏ từng hoạt động")                                                                                                       |
 | Thứ tự chốt   | S07 → S08 → S06 → S05 → S10 → **S11** → S09 (đồng bộ version/retry/xung đột) → S12 (ôn tập) → S13                                                                                                                                |
 | Base khảo sát | `main` `7c2d81c` (#928), khảo sát 2026-09-15 bằng đọc mã thật + `npm run codemap -- impact` (số liệu đếm thật, ghi kèm đường dẫn/dòng)                                                                                           |
-| Trạng thái    | **In review** — chờ chủ dự án chốt 6 quyết định ở §7                                                                                                                                                                             |
+| Trạng thái    | **Approved for implementation** — chủ dự án chốt TOÀN BỘ câu hỏi §7 theo đề xuất mặc định (2026-09-15)                                                                                                                           |
 | Người duyệt   | Chủ dự án                                                                                                                                                                                                                        |
 
 > Không bắt đầu code khi trạng thái chưa là **Approved for implementation**. Luật số 1 của khuôn
@@ -515,6 +515,9 @@ và lại sau mỗi `submitStemEvidence` thành công (không polling). Khách: 
 
 ## 7. Quyết định cần chủ dự án chốt trước khi Approved
 
+> **CHỐT 2026-09-15 — chủ dự án:** lấy TOÀN BỘ cột "Đề xuất của AI (mặc định)"
+> làm quyết định cuối cho mọi câu hỏi trong bảng dưới. Không có ý kiến khác.
+
 | #   | Câu hỏi                                                                                                                                     | Đề xuất của AI (mặc định nếu không có ý kiến khác)   | Lý do                                                                                                                                                                                                                                                                                  |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Q1  | Ai chấm bài STEM: (a) client chấm bằng `core-grading`, server chỉ lưu; (b) client gửi trả lời THÔ, server chấm lại bằng cùng `gradeAnswer`? | **(b) server chấm lại.**                             | `core-grading/index.ts:7-8` đã hứa đúng điều này; server đã import 4 registry STEM (`admin-stem-review.ts`); `pathQuiz` là tiền lệ. (a) lặp lại nợ "client là authority" của bài Lập trình. Trả giá: server kéo registry STEM (~2 MB, đã có trong bundle server vì admin-stem-review). |
@@ -558,12 +561,12 @@ và lại sau mỗi `submitStemEvidence` thành công (không polling). Khách: 
 
 ## 19. Phê duyệt
 
-- [ ] Product outcome và scope (Q1–Q6; đặc biệt Q2 ngưỡng 0.8 và Q5 khách)
-- [ ] Schema (§③.3 — 2 bảng `platform.*`, migration 0082 (S05 lấy 0081), rollback) — `CLAUDE.md` §12
-- [ ] Architecture (server chấm lại, endpoint chung, idempotency `attemptId`, không đổi endpoint cũ)
-- [ ] UX/accessibility (màn kết quả 5 trạng thái có chữ, nút Nộp ≥ 44px, hàng đợi có `role="status"`)
-- [ ] Test/rollout/rollback (3 PR, migration × 2)
+- [x] Product outcome và scope (Q1–Q6; đặc biệt Q2 ngưỡng 0.8 và Q5 khách)
+- [x] Schema (§③.3 — 2 bảng `platform.*`, migration 0082 (S05 lấy 0081), rollback) — `CLAUDE.md` §12
+- [x] Architecture (server chấm lại, endpoint chung, idempotency `attemptId`, không đổi endpoint cũ)
+- [x] UX/accessibility (màn kết quả 5 trạng thái có chữ, nút Nộp ≥ 44px, hàng đợi có `role="status"`)
+- [x] Test/rollout/rollback (3 PR, migration × 2)
 
-**Kết luận:** In review  
-**Người duyệt:** —  
-**Ngày:** —
+**Kết luận:** Approved for implementation  
+**Người duyệt:** Chủ dự án  
+**Ngày:** 2026-09-15

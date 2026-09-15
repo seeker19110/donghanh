@@ -7,7 +7,7 @@
 | Spec anh em   | S08 khung phiên `LearningSession` (`…-s08-khung-phien-resume.md`, đang viết song song) · S11 `CompletionEvidence` + `POST /api/learning/evidence` (`…-s11-completion-evidence.md`, đang viết song song) — S09 chỉ THAM CHIẾU TÊN, không định nghĩa lại                        |
 | Mẫu cấu trúc  | [`2026-09-15-goc-hoc-tap-07-muc-luc-mon-khoa.md`](2026-09-15-goc-hoc-tap-07-muc-luc-mon-khoa.md)                                                                                                                                                                              |
 | Base khảo sát | `main` `7c2d81c` (#928), khảo sát 2026-09-15 bằng đọc mã thật + `grep` + `npm run codemap -- impact`; mọi số đếm trong spec là số đo thật ở base này                                                                                                                          |
-| Trạng thái    | **In review** — chờ chủ dự án chốt 6 quyết định ở §7                                                                                                                                                                                                                          |
+| Trạng thái    | **Approved for implementation** — chủ dự án chốt TOÀN BỘ câu hỏi §7 theo đề xuất mặc định (2026-09-15)                                                                                                                                                                        |
 | Người duyệt   | Chủ dự án                                                                                                                                                                                                                                                                     |
 
 > Không bắt đầu code khi trạng thái chưa là **Approved for implementation**. Luật số 1 của khuôn
@@ -601,6 +601,9 @@ nếu < 13 dùng `pgcrypto` đã bật? — ghi kết quả vào PR).
 
 ## 7. Quyết định cần chủ dự án chốt trước khi Approved
 
+> **CHỐT 2026-09-15 — chủ dự án:** lấy TOÀN BỘ cột "Đề xuất của AI (mặc định)"
+> làm quyết định cuối cho mọi câu hỏi trong bảng dưới. Không có ý kiến khác.
+
 | #   | Câu hỏi                                                                                                                                            | Đề xuất của AI (mặc định nếu không có ý kiến khác)                                                                                                                                           | Lý do                                                                                                                                                                                                                                                                 |
 | --- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Q1  | Mô hình version: số nguyên đơn điệu theo TÀI LIỆU (1 dòng/user cho môn Anh, 1 dòng/bài cho Lập trình) hay theo từng trường?                        | **Theo tài liệu/dòng, số nguyên `version` server tăng 1 mỗi lần ghi.** Không vector clock, không CRDT (§③.1).                                                                                | Mọi trường đã là bán dàn theo luật domain; version chỉ để biết "có chen ngang" và để client biết bản mình cũ. Theo trường = 11 số cho một dòng, không mua thêm tính đúng.                                                                                             |
@@ -646,11 +649,11 @@ nếu < 13 dùng `pgcrypto` đã bật? — ghi kết quả vào PR).
 
 ## 19. Phê duyệt
 
-- [ ] Product outcome và scope (Q1–Q6; đặc biệt Q5 thứ tự với S08 và Q6 ghi nợ)
-- [ ] UX/accessibility (indicator, trạng thái hết auth, hộp thoại xung đột)
-- [ ] Architecture (version theo tài liệu, receipt Postgres cùng transaction, outbox + Web Locks)
-- [ ] Test/rollout/rollback (3 PR, migration 0083 (S05 0081, S11 0082) lũy đẳng, thứ tự server trước client)
+- [x] Product outcome và scope (Q1–Q6; đặc biệt Q5 thứ tự với S08 và Q6 ghi nợ)
+- [x] UX/accessibility (indicator, trạng thái hết auth, hộp thoại xung đột)
+- [x] Architecture (version theo tài liệu, receipt Postgres cùng transaction, outbox + Web Locks)
+- [x] Test/rollout/rollback (3 PR, migration 0083 (S05 0081, S11 0082) lũy đẳng, thứ tự server trước client)
 
-**Kết luận:** In review  
-**Người duyệt:** —  
-**Ngày:** —
+**Kết luận:** Approved for implementation  
+**Người duyệt:** Chủ dự án  
+**Ngày:** 2026-09-15
