@@ -6,7 +6,7 @@
 | Spec kề       | [`2026-09-15-goc-hoc-tap-07-muc-luc-mon-khoa.md`](2026-09-15-goc-hoc-tap-07-muc-luc-mon-khoa.md) — AC-17 của S07 viện dẫn "cơ chế nháp hiện có của `ProgrammingLessonPage`"; khảo sát S08 cho thấy cơ chế đó **chưa tồn tại** (xem §2 phát hiện #1) — S08 chính là nơi tạo ra nó |
 | Goal          | [`learning-ux`](../goals/2026-09-15-learning-ux.md) dòng S08 (dependency S07); thứ tự chủ dự án chốt: S07 → **S08** → S06 → S05 → S10 → S11 → S09 → S12 → S13                                                                                                                    |
 | Base khảo sát | `main` `7c2d81c` (#928), khảo sát 2026-09-15 bằng đọc mã thật + `npm run codemap -- impact` cho 10 file, số liệu đếm thật                                                                                                                                                        |
-| Trạng thái    | **Approved for implementation** — chủ dự án chốt TOÀN BỘ câu hỏi §7 theo đề xuất mặc định (2026-09-15)                                                                                                                                                                           |
+| Trạng thái    | **Approved for implementation** — chủ dự án chốt TOÀN BỘ câu hỏi §7 theo đề xuất mặc định (2026-09-15); S08-1 đã thi hành (changelog `0331`)                                                                                                                                     |
 | Người duyệt   | Chủ dự án                                                                                                                                                                                                                                                                        |
 
 > Không bắt đầu code khi trạng thái chưa là **Approved for implementation**. Luật số 1 của khuôn
@@ -535,6 +535,6 @@ trang import) — revert theo thứ tự ngược.
 - [x] Architecture (phong bì v1 + payload theo môn, `localStorage` + memory, fingerprint, ranh giới S09)
 - [x] Test/rollout/rollback (3 PR)
 
-**Kết luận:** Approved for implementation  
+**Kết luận:** Approved for implementation (S08-1 đã thi hành)  
 **Người duyệt:** Chủ dự án  
 **Ngày:** 2026-09-15

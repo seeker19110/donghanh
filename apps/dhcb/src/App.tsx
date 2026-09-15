@@ -23,6 +23,7 @@ import {
   SUBJECTS_PREFIX,
 } from './lib/subjectsHost'
 import { refreshAppSettings } from './lib/appSettings'
+import { pruneExpiredSessions } from './lib/learningSession'
 import { refreshPlanFeatures } from './lib/planFeatures'
 import { refreshPlanMarketing } from './lib/planMarketing'
 import FeatureGate from './components/FeatureGate'
@@ -305,6 +306,9 @@ export default function App() {
     void refreshAppSettings()
     void refreshPlanFeatures()
     void refreshPlanMarketing()
+    // Dọn nháp phiên học đã quá hạn (7 ngày) — một lần lúc khởi động, chỉ quét khoá
+    // `dhcb_lsession_v1_*`, không đụng khoá khác. Xem lib/learningSession.ts.
+    pruneExpiredSessions()
     const interval = setInterval(() => {
       void refreshAppSettings()
       void refreshPlanFeatures()

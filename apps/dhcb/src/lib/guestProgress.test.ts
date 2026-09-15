@@ -198,3 +198,64 @@ describe('khoá bậc với tiến độ localStorage của khách', () => {
     expect(map.get('p2')?.locked).toBe(false)
   })
 })
+
+// ── Nháp phiên học đi theo NGƯỜI, không đi theo danh tính khách (đặc tả S08-1 AC-10) ──
+describe('nháp phiên học khi khách đăng nhập', () => {
+  const FP = 'v-abc'
+
+  function nhapKey(ownerKind: string, ownerId: string): string {
+    return `dhcb_lsession_v1_${ownerKind}:${ownerId}_programming_p1-u4-l1`
+  }
+
+  function ghiNhap(
+    ownerKind: 'guest' | 'account',
+    ownerId: string,
+    code: string,
+    updatedAt: number,
+  ) {
+    localStorage.setItem(
+      nhapKey(ownerKind, ownerId),
+      JSON.stringify({
+        version: 1,
+        subjectId: 'programming',
+        contentId: 'p1-u4-l1',
+        contentVersion: FP,
+        owner: { kind: ownerKind, id: ownerId },
+        stepIndex: 4,
+        draft: { code },
+        startedAt: updatedAt,
+        updatedAt,
+      }),
+    )
+  }
+
+  it('dời nháp của khách sang tài khoản và xoá khoá khách', async () => {
+    const guestId = getGuestId()
+    ghiNhap('guest', guestId, 'code-cua-khach', Date.now())
+    await mergeGuestProgressInto('u-1')
+    expect(localStorage.getItem(nhapKey('guest', guestId))).toBeNull()
+    const moved = JSON.parse(localStorage.getItem(nhapKey('account', 'u-1')) ?? '{}')
+    expect(moved.draft).toEqual({ code: 'code-cua-khach' })
+    expect(moved.owner).toEqual({ kind: 'account', id: 'u-1' })
+  })
+
+  it('tài khoản đã có nháp mới hơn → giữ bản của tài khoản', async () => {
+    const guestId = getGuestId()
+    const now = Date.now()
+    ghiNhap('guest', guestId, 'cu-hon', now - 10_000)
+    ghiNhap('account', 'u-1', 'moi-hon', now)
+    await mergeGuestProgressInto('u-1')
+    const kept = JSON.parse(localStorage.getItem(nhapKey('account', 'u-1')) ?? '{}')
+    expect(kept.draft).toEqual({ code: 'moi-hon' })
+    expect(localStorage.getItem(nhapKey('guest', guestId))).toBeNull()
+  })
+
+  it('clearGuestKeys dọn sạch khoá nháp của khách — đăng xuất không lộ', () => {
+    const guestId = getGuestId()
+    ghiNhap('guest', guestId, 'rieng-tu', Date.now())
+    localStorage.setItem('et_learned_u-1', '["hello"]')
+    clearGuestKeys(guestId)
+    expect(localStorage.getItem(nhapKey('guest', guestId))).toBeNull()
+    expect(localStorage.getItem('et_learned_u-1')).toBe('["hello"]')
+  })
+})
