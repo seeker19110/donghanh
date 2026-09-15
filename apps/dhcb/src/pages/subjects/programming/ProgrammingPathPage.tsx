@@ -21,6 +21,7 @@ import {
   Target,
   Sparkles,
   Compass,
+  BookOpen,
 } from 'lucide-react'
 import Layout from '../../../components/Layout'
 import PageHeader from '../../../components/PageHeader'
@@ -47,7 +48,14 @@ import { getSpecStage } from '@dhcb/subject-programming/specializations/registry
 import { unitsOfStage } from '@dhcb/subject-programming/specializations/stageUnits'
 import { getPathStage } from '@dhcb/subject-programming/learningPaths/pathStages'
 import { idFromSlugSegment } from '@core/slug'
+import { PROGRAMMING_LEVELS } from '@dhcb/subject-programming/curriculum'
 import {
+  fetchProgress as fetchLessonProgress,
+  type ProgrammingLessonProgress,
+} from '../../../lib/programmingProgress'
+import { countCompletedByLevel } from '../../../lib/programmingNextLesson'
+import {
+  duongDanBac,
   duongDanChanDoan,
   duongDanChangLoTrinh,
   duongDanLoTrinh,
@@ -63,6 +71,7 @@ export default function ProgrammingPathPage() {
   const { user } = useAuth()
   const [progress, setProgress] = useState<SpecProgressSnapshot>(EMPTY_SPEC_PROGRESS)
   const [pathProgress, setPathProgress] = useState<PathStageProgress[]>([])
+  const [foundationProgress, setFoundationProgress] = useState<ProgrammingLessonProgress[]>([])
 
   const path = getLearningPath(idFromSlugSegment(pathSlugParam ?? ''))
 
@@ -75,6 +84,7 @@ export default function ProgrammingPathPage() {
     if (!user || !path) return
     void fetchSpecProgress(user.id).then(setProgress)
     void fetchPathProgress(user.id, path.id).then(setPathProgress)
+    void fetchLessonProgress(user.id).then(setFoundationProgress)
   }, [user, path])
 
   if (!path) {
@@ -94,6 +104,10 @@ export default function ProgrammingPathPage() {
 
   const allRefs = pathStageRefs(path)
   const doneCount = allRefs.filter((r) => isStageCompleted(progress, r.stageId)).length
+  const foundationLevels = (path.foundationLevelIds ?? []).flatMap((levelId) => {
+    const level = PROGRAMMING_LEVELS.find((candidate) => candidate.id === levelId)
+    return level ? [level] : []
+  })
 
   // Link cũ (chỉ mã) hoặc tiêu đề lộ trình đã đổi → về URL chuẩn.
   const canonicalPath = duongDanLoTrinh(path)
@@ -115,7 +129,8 @@ export default function ProgrammingPathPage() {
           <div className="flex items-center gap-2 flex-wrap">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-zinc-950 border border-zinc-800 text-zinc-300">
               <Lock className="w-3 h-3" aria-hidden="true" />
-              Nên xong bậc {path.prerequisite.toUpperCase()} trước
+              {foundationLevels.length > 0 ? 'Phần chuyên sâu nên xong bậc ' : 'Nên xong bậc '}
+              {path.prerequisite.toUpperCase()} trước
             </span>
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-zinc-950 border border-zinc-800 text-zinc-300">
               <Clock className="w-3 h-3" aria-hidden="true" />
@@ -136,6 +151,61 @@ export default function ProgrammingPathPage() {
             </button>
           )}
         </section>
+
+        {foundationLevels.length > 0 && (
+          <section className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5 space-y-4 shadow-sm">
+            <div className="space-y-1.5">
+              <h2 className="text-base font-bold text-white flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-accent-400 shrink-0" aria-hidden="true" />
+                <span>Chặng nền tảng — bắt đầu từ số 0</span>
+              </h2>
+              <p className="text-sm text-zinc-300 leading-relaxed">
+                Chưa từng lập trình, bạn bắt đầu ở P1. Nếu đã có kinh nghiệm, làm chẩn đoán phía
+                trên để tìm điểm vào phù hợp — không cần học lại điều đã vững.
+              </p>
+            </div>
+            <ol className="grid gap-3 sm:grid-cols-2">
+              {foundationLevels.map((level) => {
+                const levelProgress = countCompletedByLevel(foundationProgress, level.id)
+                const completed =
+                  levelProgress.total > 0 && levelProgress.done === levelProgress.total
+                return (
+                  <li
+                    key={level.id}
+                    className="rounded-2xl bg-zinc-950 border border-zinc-800 p-4 space-y-3"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="text-sm font-semibold text-white">
+                          {level.id.toUpperCase()} · {level.name}
+                        </p>
+                        <p className="text-xs text-zinc-300 leading-relaxed mt-1">{level.canDo}</p>
+                      </div>
+                      {completed && (
+                        <CheckCircle2
+                          className="w-5 h-5 text-emerald-400 theme-light:text-emerald-900 shrink-0"
+                          aria-label="Đã hoàn thành bậc nền tảng"
+                        />
+                      )}
+                    </div>
+                    <div className="flex items-center justify-between gap-3 flex-wrap">
+                      <span className="text-[11px] font-semibold text-zinc-400">
+                        {levelProgress.done}/{levelProgress.total} bài · {level.duration}
+                      </span>
+                      <button
+                        onClick={() => nav(duongDanBac(level))}
+                        className="tap-44 inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-xs transition active:scale-[0.98]"
+                      >
+                        <Play className="w-3.5 h-3.5" aria-hidden="true" />
+                        <span>{completed ? 'Ôn lại bậc này' : 'Học bậc này'}</span>
+                      </button>
+                    </div>
+                  </li>
+                )
+              })}
+            </ol>
+          </section>
+        )}
 
         {/* Các giai đoạn */}
         {path.phases.map((phase, idx) => (

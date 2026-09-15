@@ -103,11 +103,18 @@ describe('lộ trình mục tiêu môn Lập trình', () => {
     for (const path of LEARNING_PATHS) {
       expect(PROGRAMMING_LEVEL_IDS).toContain(path.prerequisite)
       expect(path.outcomes.length).toBeGreaterThanOrEqual(3)
+      const foundations = path.foundationLevelIds ?? []
+      expect(new Set(foundations).size, `${path.id}: bậc nền bị trùng`).toBe(foundations.length)
+      for (const levelId of foundations) expect(PROGRAMMING_LEVEL_IDS).toContain(levelId)
+      const positions = foundations.map((id) => PROGRAMMING_LEVEL_IDS.indexOf(id))
+      expect(positions, `${path.id}: bậc nền phải theo thứ tự curriculum`).toEqual(
+        [...positions].sort((a, b) => a - b),
+      )
     }
   })
 
   it('getLearningPath không phân biệt hoa thường, id lạ trả undefined', () => {
-    expect(getLearningPath('PRINCIPAL-AI')?.title).toBe('Kỹ Sư Trưởng AI')
+    expect(getLearningPath('PRINCIPAL-AI')?.title).toBe('Kiến trúc sư phần mềm & AI')
     expect(getLearningPath(' principal-ai ')?.id).toBe('principal-ai')
     expect(getLearningPath('khong-co')).toBeUndefined()
     expect(getLearningPath('')).toBeUndefined()
@@ -124,6 +131,7 @@ describe('lộ trình mục tiêu môn Lập trình', () => {
 
   it('lộ trình principal-ai: cả 5 giai đoạn đã lắp chặng thật (P5 xong ở đợt 4)', () => {
     const path = getLearningPath('principal-ai')!
+    expect(path.foundationLevelIds).toEqual(['p1', 'p2', 'p3', 'p4'])
     expect(path.phases).toHaveLength(5)
     for (const phase of path.phases) {
       expect(phase.stages.length, `${phase.id} phải có chặng`).toBeGreaterThanOrEqual(4)
