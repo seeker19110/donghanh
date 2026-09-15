@@ -16,7 +16,13 @@ const ALIASES: ReadonlyArray<readonly [alias: string, dich: string]> = [
   ['/startup', '/su-nghiep-khoi-nghiep'],
   ['/profile', '/trang-ca-nhan'],
   ['/companion', '/ban-dong-hanh'],
-  ['/subjects', '/mon-hoc'],
+  // Tiền tố CŨ của Góc học tập — mọi dạng, kể cả đường sâu, phải đi THẲNG tới đích cuối.
+  ['/subjects', '/goc-hoc-tap'],
+  ['/mon-hoc', '/goc-hoc-tap'],
+  ['/phong-hoc', '/goc-hoc-tap'],
+  ['/hoc-mon-hoc', '/goc-hoc-tap'],
+  ['/mon-hoc/physics', '/goc-hoc-tap/physics'],
+  ['/phong-hoc/physics/bai-hoc', '/goc-hoc-tap/physics/bai-hoc'],
   ['/workspace', '/action-canvas'],
   ['/simulators', '/ung-dung-thuc-te'],
 ]
@@ -36,4 +42,22 @@ test('đường dẫn không tồn tại thì về trang chủ', async ({ page }
   await mockLogin(page)
   await page.goto('/duong-dan-khong-ton-tai-abc123')
   await expect(page).toHaveURL(/\/$/)
+})
+
+// Alias phải GIỮ query + hash: chúng là chỗ người dùng đang đứng trong trang, mất là mất
+// đúng thứ họ vừa mở (đặc tả `docs/specs/2026-09-15-goc-hoc-tap-architecture.md` §③).
+test('alias cũ giữ nguyên query và hash', async ({ page }) => {
+  await mockLogin(page)
+  await page.goto('/mon-hoc/physics/bai-hoc?lop=10#noi-dung')
+  await expect(page).toHaveURL(/\/goc-hoc-tap\/physics\/bai-hoc\?lop=10#noi-dung$/)
+})
+
+// Back sau khi qua alias phải quay về trang nguồn, KHÔNG kẹt vòng lặp alias → đích → alias.
+test('Back sau alias không kẹt vòng lặp', async ({ page }) => {
+  await mockLogin(page)
+  await page.goto('/tien-do')
+  await page.goto('/mon-hoc')
+  await expect(page).toHaveURL(/\/goc-hoc-tap$/)
+  await page.goBack()
+  await expect(page).toHaveURL(/\/tien-do$/)
 })

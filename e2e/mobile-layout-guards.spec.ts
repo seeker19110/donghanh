@@ -37,7 +37,7 @@ const VIEWPORTS = [
  */
 const ROUTES = [
   '/',
-  '/mon-hoc',
+  '/goc-hoc-tap',
   '/welcome',
   '/learn-vietnamese',
   '/ket-ban',

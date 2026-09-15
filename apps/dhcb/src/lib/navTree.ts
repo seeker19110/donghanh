@@ -1,7 +1,7 @@
 // navTree — CÂY điều hướng dùng chung: mỗi mục điều hướng có thể có mục con ĐÓNG/MỞ được.
 //
 // Vì sao có file này: trước đây sidebar là danh sách PHẲNG, nên muốn vào môn Toán phải đi
-// hai chặng (bấm "Phòng Học" → chờ trang danh sách tải → bấm thẻ môn). Các môn học là nơi
+// hai chặng (bấm "Góc học tập" → chờ trang danh sách tải → bấm thẻ môn). Các môn học là nơi
 // người dùng ở lâu nhất, mà lại nằm sâu nhất. Nay mục cha mở ra ngay trong thanh điều hướng.
 //
 // Dữ liệu để RIÊNG khỏi component (DesktopSidebar.tsx) vì hai lý do: cây này còn dùng cho
@@ -38,33 +38,43 @@ export interface NavChild {
   paths: readonly string[]
 }
 
-/** Mục con của "Phòng Học" — 6 môn trong `packages/core-learner/subjectRegistry.ts`. */
+/** Mục con của "Góc học tập" — 6 môn trong `packages/core-learner/subjectRegistry.ts`. */
 export const SUBJECT_CHILDREN: NavChild[] = [
   {
     label: 'Tiếng Anh',
     icon: Languages,
     subjectId: 'english',
-    paths: ['/mon-hoc/english', '/english'],
+    paths: ['/goc-hoc-tap/english', '/english'],
   },
   {
     label: 'Toán học',
     icon: Calculator,
     subjectId: 'mathematics',
-    paths: ['/mon-hoc/mathematics', '/mathematics'],
+    paths: ['/goc-hoc-tap/mathematics', '/mathematics'],
   },
-  { label: 'Vật lý', icon: Atom, subjectId: 'physics', paths: ['/mon-hoc/physics', '/physics'] },
+  {
+    label: 'Vật lý',
+    icon: Atom,
+    subjectId: 'physics',
+    paths: ['/goc-hoc-tap/physics', '/physics'],
+  },
   {
     label: 'Hóa học',
     icon: FlaskConical,
     subjectId: 'chemistry',
-    paths: ['/mon-hoc/chemistry', '/chemistry'],
+    paths: ['/goc-hoc-tap/chemistry', '/chemistry'],
   },
-  { label: 'Sinh học', icon: Leaf, subjectId: 'biology', paths: ['/mon-hoc/biology', '/biology'] },
+  {
+    label: 'Sinh học',
+    icon: Leaf,
+    subjectId: 'biology',
+    paths: ['/goc-hoc-tap/biology', '/biology'],
+  },
   {
     label: 'Lập trình',
     icon: Code2,
     subjectId: 'programming',
-    paths: ['/mon-hoc/programming', '/lap-trinh'],
+    paths: ['/goc-hoc-tap/programming', '/lap-trinh'],
   },
 ]
 

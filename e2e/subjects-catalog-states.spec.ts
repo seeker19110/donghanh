@@ -1,6 +1,6 @@
 // e2e/subjects-catalog-states.spec.ts — S03-1: bốn trạng thái của danh mục môn học.
 //
-// VÌ SAO CÓ FILE NÀY: `/mon-hoc` vốn đã nằm trong vòng quét a11y, nhưng CHỈ ở trạng thái
+// VÌ SAO CÓ FILE NÀY: `/goc-hoc-tap` vốn đã nằm trong vòng quét a11y, nhưng CHỈ ở trạng thái
 // thành công. Trạng thái LỖI (mất mạng / 503 / payload sai) trước đây không tồn tại trên
 // giao diện — mọi lỗi đều bị `.catch(() => setSubjects([]))` hoá trang thành màn hình
 // "chưa có môn học nào". Nay nó là một màn hình thật, nên nó phải được gác như mọi màn
@@ -54,7 +54,7 @@ test('503: hiện lỗi thật, KHÔNG giả vờ danh mục trống', async ({ 
     route.fulfill({ status: 503, contentType: 'application/json', body: '{"error":"down"}' }),
   )
 
-  await page.goto('/mon-hoc')
+  await page.goto('/goc-hoc-tap')
 
   const alert = page.getByRole('alert')
   await expect(alert).toBeVisible()
@@ -68,7 +68,7 @@ test('mất mạng: nói là không kết nối được, không đổ tại dan
   await mockLogin(page, 'vi', 'dark-blue')
   await page.route('**/api/subjects*', (route) => route.abort('failed'))
 
-  await page.goto('/mon-hoc')
+  await page.goto('/goc-hoc-tap')
 
   await expect(page.getByRole('alert')).toContainText('máy chủ')
   await expect(page.getByRole('alert')).not.toContainText('503')
@@ -93,7 +93,7 @@ test('"Thử lại" gọi lại API và dựng lại danh sách khi máy chủ k
     })
   })
 
-  await page.goto('/mon-hoc')
+  await page.goto('/goc-hoc-tap')
   await expect(page.getByRole('alert')).toBeVisible()
 
   // Không tự thử lại: đứng yên một lúc thì KHÔNG có lượt gọi nào tự mọc thêm.
@@ -120,7 +120,7 @@ test('danh mục rỗng THẬT nói đúng là bộ lọc rỗng, không hiện 
     }),
   )
 
-  await page.goto('/mon-hoc')
+  await page.goto('/goc-hoc-tap')
 
   await expect(page.getByText('Bộ lọc này hiện chưa có môn học nào')).toBeVisible()
   await expect(page.getByRole('alert')).toHaveCount(0)
@@ -149,13 +149,13 @@ async function scanAaa(page: Page) {
 
 // Trạng thái lỗi là màn hình mới → phải vào cổng a11y như mọi màn hình khác, ở CẢ 5 theme.
 for (const theme of THEMES) {
-  test(`a11y: /mon-hoc trạng thái lỗi theme=${theme} — 0 vi phạm A/AA`, async ({ page }) => {
+  test(`a11y: /goc-hoc-tap trạng thái lỗi theme=${theme} — 0 vi phạm A/AA`, async ({ page }) => {
     await mockLogin(page, 'vi', theme)
     await page.route('**/api/subjects*', (route) =>
       route.fulfill({ status: 503, contentType: 'application/json', body: '{}' }),
     )
 
-    await page.goto('/mon-hoc')
+    await page.goto('/goc-hoc-tap')
     await expect(page.getByRole('alert')).toBeVisible()
     await waitForStableDom(page)
 
@@ -164,13 +164,15 @@ for (const theme of THEMES) {
 }
 
 for (const theme of THEMES) {
-  test(`a11y AAA: /mon-hoc trạng thái lỗi theme=${theme} — nội dung ≥ 7:1`, async ({ page }) => {
+  test(`a11y AAA: /goc-hoc-tap trạng thái lỗi theme=${theme} — nội dung ≥ 7:1`, async ({
+    page,
+  }) => {
     await mockLogin(page, 'vi', theme)
     await page.route('**/api/subjects*', (route) =>
       route.fulfill({ status: 503, contentType: 'application/json', body: '{}' }),
     )
 
-    await page.goto('/mon-hoc')
+    await page.goto('/goc-hoc-tap')
     await expect(page.getByRole('alert')).toBeVisible()
     await waitForStableDom(page)
 

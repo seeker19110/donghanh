@@ -71,9 +71,9 @@ describe('trang Chi tiết môn — trạng thái tải/lỗi', () => {
   function hien(subjectId = 'mathematics') {
     act(() => {
       root.render(
-        <MemoryRouter initialEntries={[`/mon-hoc/${subjectId}`]}>
+        <MemoryRouter initialEntries={[`/goc-hoc-tap/${subjectId}`]}>
           <Routes>
-            <Route path="/mon-hoc/:subjectId" element={<SubjectDetail />} />
+            <Route path="/goc-hoc-tap/:subjectId" element={<SubjectDetail />} />
           </Routes>
         </MemoryRouter>,
       )

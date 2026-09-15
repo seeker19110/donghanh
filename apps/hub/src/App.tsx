@@ -82,13 +82,13 @@ const PILLARS: Pillar[] = [
     icon: GraduationCap,
     tagline: 'Nhiều môn, một lộ trình liền mạch',
     description:
-      'Phòng học đa môn với gia sư AI riêng cho từng môn. Tiến độ, ôn tập ngắt quãng và lượt dùng đều nằm chung một hồ sơ, học môn nào cũng cộng dồn vào đó.',
+      'Góc học tập đa môn với gia sư AI riêng cho từng môn. Tiến độ, ôn tập ngắt quãng và lượt dùng đều nằm chung một hồ sơ, học môn nào cũng cộng dồn vào đó.',
     bullets: [
       'Tiếng Anh: hội thoại 2 chiều, phát âm, viết, lộ trình CEFR A1→C2',
       'Lập trình: Python · JavaScript/TypeScript · SQL, học tới sản phẩm chạy thật',
       'Toán · Lý · Hóa · Sinh đang được xây theo cùng một khuôn',
     ],
-    url: `${APP_URL}/mon-hoc`,
+    url: `${APP_URL}/goc-hoc-tap`,
   },
   {
     id: 'career',
@@ -861,7 +861,7 @@ function SubjectsSection() {
 
       <div className="mt-8 text-center">
         <a
-          href={`${APP_URL}/mon-hoc`}
+          href={`${APP_URL}/goc-hoc-tap`}
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent-300 theme-light:text-accent-800 hover:text-white transition"
         >
           <BookOpen className="w-4 h-4" />
@@ -1207,10 +1207,10 @@ function Footer({ stats }: { stats: HubStats | null }) {
             Bạn Đồng Hành
           </a>
           <a
-            href={`${APP_URL}/mon-hoc`}
+            href={`${APP_URL}/goc-hoc-tap`}
             className="hover:text-accent-300 theme-light:hover:text-accent-800 transition"
           >
-            Phòng học đa môn
+            Góc học tập đa môn
           </a>
           <a
             href={`${APP_URL}/gioi-thieu`}

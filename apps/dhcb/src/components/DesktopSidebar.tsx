@@ -84,13 +84,13 @@ function studioItem(
 
 // NHÓM 1 — 4 điểm đến TƯƠNG ỨNG 4 tab đầu của BottomNav mobile (tab thứ 5 "Profile" nằm ở
 // CORE_BOTTOM). Trước đây desktop chỉ có Trang chủ + Tiến độ + Hồ sơ + danh sách studio, tức
-// NGHÈO HƠN mobile ở đúng những nơi người dùng ở lâu nhất (Phòng Học, Luyện tập, Bạn Đồng
+// NGHÈO HƠN mobile ở đúng những nơi người dùng ở lâu nhất (Góc học tập, Luyện tập, Bạn Đồng
 // Hành). Ba mục studio đó được NHẤC LÊN đây chứ không nhân bản — nhóm "Không Gian Nền Tảng"
 // bên dưới chỉ render phần studio CÒN LẠI, nên không mục nào xuất hiện hai lần.
 const HOME_ITEM: Item = { to: '/', label: 'Trang chủ', icon: Home, exact: true }
 const MAIN_NAV: Item[] = [
   HOME_ITEM,
-  studioItem('subjects', LEARNING_PATHS, 'Phòng Học', SUBJECT_CHILDREN),
+  studioItem('subjects', LEARNING_PATHS, 'Góc học tập', SUBJECT_CHILDREN),
   studioItem('companion', COMPANION_PATHS, 'Bạn Đồng Hành'),
   studioItem('practice', PRACTICE_PATHS, 'Luyện tập', PRACTICE_CHILDREN),
 ]
@@ -118,7 +118,7 @@ const CORE_BOTTOM: Item[] = [
 
 // Thứ tự XÉT active (khác thứ tự HIỂN THỊ): cụ thể nhất trước, bao quát nhất sau — xem
 // `resolveActiveNav`. `ENGLISH_PATHS` ⊂ `LEARNING_PATHS` nên "Học Tiếng Anh" phải đứng trước
-// "Phòng Học"; `PROFILE_PATHS` chứa cả path sự nghiệp/đời sống nên "Hồ sơ" đứng cuối cùng.
+// "Góc học tập"; `PROFILE_PATHS` chứa cả path sự nghiệp/đời sống nên "Hồ sơ" đứng cuối cùng.
 const ACTIVE_ORDER: Item[] = [HOME_ITEM, ...STUDIO_NAV, ...MAIN_NAV.slice(1), ...CORE_BOTTOM]
 
 function readCollapsed(): boolean {

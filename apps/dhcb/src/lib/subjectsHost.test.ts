@@ -8,6 +8,7 @@ import {
   goToSubjects,
   subjectsLinkTarget,
   navigateTo,
+  normalizeLegacySubjectsPath,
   LEGACY_SUBJECTS_PREFIX,
 } from './subjectsHost'
 
@@ -73,38 +74,57 @@ describe('usesSubjectsSubdomain', () => {
 })
 
 describe('subjectsPath', () => {
-  it('trên host Học tập thì BỎ tiền tố /mon-hoc', () => {
-    expect(subjectsPath(HOC_TAP)).toBe('/')
-    expect(subjectsPath(HOC_TAP, 'mathematics')).toBe('/mathematics')
+  it('một đường dẫn chuẩn duy nhất, không phụ thuộc host', () => {
+    expect(subjectsPath()).toBe('/goc-hoc-tap')
+    expect(subjectsPath('mathematics')).toBe('/goc-hoc-tap/mathematics')
   })
+})
 
-  it('ở localhost thì giữ nguyên đường dẫn cũ', () => {
-    expect(subjectsPath('localhost')).toBe('/mon-hoc')
-    expect(subjectsPath('localhost', 'physics')).toBe('/mon-hoc/physics')
-  })
+describe('normalizeLegacySubjectsPath', () => {
+  it.each(['/mon-hoc', '/subjects', '/phong-hoc', '/hoc-mon-hoc'])(
+    '%s → /goc-hoc-tap',
+    (legacy) => {
+      expect(normalizeLegacySubjectsPath(legacy)).toBe('/goc-hoc-tap')
+      expect(normalizeLegacySubjectsPath(`${legacy}/physics`)).toBe('/goc-hoc-tap/physics')
+      expect(normalizeLegacySubjectsPath(`${legacy}/physics/bai-hoc/abc`)).toBe(
+        '/goc-hoc-tap/physics/bai-hoc/abc',
+      )
+    },
+  )
+
+  // Khớp theo BIÊN đoạn: tiền tố cũ không được nuốt một route khác chỉ vì trùng đầu chuỗi.
+  it.each(['/mon-hoc-abc', '/subjectsx', '/phong-hoc-nhom', '/goc-hoc-tap', '/tien-do'])(
+    '%s KHÔNG phải tiền tố cũ',
+    (p) => {
+      expect(normalizeLegacySubjectsPath(p)).toBeNull()
+    },
+  )
 })
 
 describe('subjectsTarget', () => {
   it('từ www → URL TUYỆT ĐỐI sang subdomain (đổi origin, Router không đi được)', () => {
     expect(subjectsTarget('www.donghanhcungban.org')).toEqual({
       kind: 'url',
-      value: `https://${HOC_TAP}/`,
+      value: `https://${HOC_TAP}/goc-hoc-tap`,
     })
     expect(subjectsTarget('www.donghanhcungban.org', 'chemistry')).toEqual({
       kind: 'url',
-      value: `https://${HOC_TAP}/chemistry`,
+      value: `https://${HOC_TAP}/goc-hoc-tap/chemistry`,
     })
   })
 
-  it('đang ở trên host Học tập → điều hướng trong app, không tải lại trang', () => {
-    expect(subjectsTarget(HOC_TAP, 'biology')).toEqual({ kind: 'path', value: '/biology' })
+  it('đang ở trên host Góc học tập → điều hướng trong app, GIỮ nguyên tiền tố', () => {
+    expect(subjectsTarget(HOC_TAP, 'biology')).toEqual({
+      kind: 'path',
+      value: '/goc-hoc-tap/biology',
+    })
   })
 
-  it('localhost → đường dẫn cũ trong app (dev/E2E chạy được, không cần DNS)', () => {
-    expect(subjectsTarget('localhost')).toEqual({ kind: 'path', value: '/mon-hoc' })
+  it('localhost → đường dẫn trong app (dev/E2E chạy được, không cần DNS)', () => {
+    expect(subjectsTarget('localhost')).toEqual({ kind: 'path', value: '/goc-hoc-tap' })
     expect(subjectsTarget('localhost', 'mathematics')).toEqual({
       kind: 'path',
-      value: '/mon-hoc/mathematics',
+      value: '/goc-hoc-tap/mathematics',
     })
   })
 })
@@ -120,7 +140,7 @@ describe('goToSubjects / subjectsLinkTarget / navigateTo', () => {
     setHostname('www.donghanhcungban.org')
     const navigate = vi.fn()
     goToSubjects(navigate, 'chemistry')
-    expect(window.location.assign).toHaveBeenCalledWith(`https://${HOC_TAP}/chemistry`)
+    expect(window.location.assign).toHaveBeenCalledWith(`https://${HOC_TAP}/goc-hoc-tap/chemistry`)
     expect(navigate).not.toHaveBeenCalled()
   })
 
@@ -128,27 +148,30 @@ describe('goToSubjects / subjectsLinkTarget / navigateTo', () => {
     setHostname('localhost')
     const navigate = vi.fn()
     goToSubjects(navigate, 'physics')
-    expect(navigate).toHaveBeenCalledWith('/mon-hoc/physics')
+    expect(navigate).toHaveBeenCalledWith('/goc-hoc-tap/physics')
     expect(window.location.assign).not.toHaveBeenCalled()
   })
 
   it('subjectsLinkTarget dùng đúng hostname hiện tại', () => {
     setHostname(HOC_TAP)
-    expect(subjectsLinkTarget('biology')).toEqual({ kind: 'path', value: '/biology' })
+    expect(subjectsLinkTarget('biology')).toEqual({
+      kind: 'path',
+      value: '/goc-hoc-tap/biology',
+    })
   })
 
   it('navigateTo: path đúng bằng tiền tố cũ → gọi goToSubjects (không tiền tố con)', () => {
     setHostname('localhost')
     const navigate = vi.fn()
     navigateTo(navigate, LEGACY_SUBJECTS_PREFIX)
-    expect(navigate).toHaveBeenCalledWith('/mon-hoc')
+    expect(navigate).toHaveBeenCalledWith('/goc-hoc-tap')
   })
 
   it('navigateTo: path có tiền tố + subjectId → gọi goToSubjects với đúng subjectId', () => {
     setHostname('localhost')
     const navigate = vi.fn()
     navigateTo(navigate, `${LEGACY_SUBJECTS_PREFIX}/mathematics`)
-    expect(navigate).toHaveBeenCalledWith('/mon-hoc/mathematics')
+    expect(navigate).toHaveBeenCalledWith('/goc-hoc-tap/mathematics')
   })
 
   it('navigateTo: path khác không liên quan → navigate thẳng, không qua goToSubjects', () => {
@@ -174,11 +197,14 @@ describe('khi tính năng CHƯA bật', () => {
     expect(isSubjectsHost(HOC_TAP)).toBe(false)
   })
 
-  it('mọi điều hướng giữ nguyên đường dẫn /mon-hoc trong app', () => {
-    expect(subjectsTarget('www.donghanhcungban.org')).toEqual({ kind: 'path', value: '/mon-hoc' })
+  it('mọi điều hướng ở lại origin hiện tại, đường dẫn vẫn là /goc-hoc-tap', () => {
+    expect(subjectsTarget('www.donghanhcungban.org')).toEqual({
+      kind: 'path',
+      value: '/goc-hoc-tap',
+    })
     expect(subjectsTarget('www.donghanhcungban.org', 'physics')).toEqual({
       kind: 'path',
-      value: '/mon-hoc/physics',
+      value: '/goc-hoc-tap/physics',
     })
   })
 })

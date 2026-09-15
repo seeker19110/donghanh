@@ -19,7 +19,7 @@ export interface Crumb {
 
 /** Một nút trong cây route. `parent` là TIỀN TỐ của nút cha, bỏ trống = con trực tiếp của Trang chủ. */
 interface RouteNode {
-  /** Tiền tố đường dẫn. So khớp theo BIÊN đoạn (`/mon-hoc` không nuốt `/mon-hoc-abc`). */
+  /** Tiền tố đường dẫn. So khớp theo BIÊN đoạn (`/goc-hoc-tap` không nuốt `/goc-hoc-tap-abc`). */
   path: string
   label: string
   /** Đích khi bấm vào đốt này — mặc định chính là `path`. */

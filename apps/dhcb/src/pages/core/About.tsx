@@ -46,10 +46,10 @@ interface Pillar {
 const PILLARS: Pillar[] = [
   {
     icon: GraduationCap,
-    path: '/mon-hoc',
+    path: '/goc-hoc-tap',
     titleVi: 'Học tập',
     titleEn: 'Learning',
-    descVi: 'Phòng học đa môn: Tiếng Anh, Lập trình — các môn khác đang được xây cùng một khuôn.',
+    descVi: 'Góc học tập đa môn: Tiếng Anh, Lập trình — các môn khác đang được xây cùng một khuôn.',
     descEn: 'Multi-subject study room: English, Programming — more subjects are being built.',
   },
   {

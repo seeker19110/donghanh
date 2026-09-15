@@ -146,7 +146,7 @@ export default function StemLessonView() {
   const bai = daTaiXong ? ketQua.bai : null
   const trangThai = !daTaiXong ? 'dang-tai' : ketQua.loi ? 'loi' : 'xong'
 
-  if (!subject) return <Navigate to="/mon-hoc" replace />
+  if (!subject) return <Navigate to="/goc-hoc-tap" replace />
 
   const duongDanVe = duongDanDanhSachBai(subject.id)
 

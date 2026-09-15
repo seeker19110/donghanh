@@ -12,10 +12,10 @@ describe('buildCrumbs', () => {
     expect(crumbs[0].to).toBe('/')
   })
 
-  it('môn học lồng dưới Phòng Học', () => {
-    expect(buildCrumbs('/mon-hoc/mathematics').map((c) => c.label)).toEqual([
+  it('môn học lồng dưới Góc học tập', () => {
+    expect(buildCrumbs('/goc-hoc-tap/mathematics').map((c) => c.label)).toEqual([
       'Trang chủ',
-      'Phòng Học & STEM',
+      'Góc học tập',
       'Toán học',
     ])
   })
@@ -23,13 +23,13 @@ describe('buildCrumbs', () => {
   it('trang con sâu vẫn lần đúng về nhánh cha', () => {
     expect(buildCrumbs('/lap-trinh/khoa/pyai').map((c) => c.label)).toEqual([
       'Trang chủ',
-      'Phòng Học & STEM',
+      'Góc học tập',
       'Lập trình',
     ])
   })
 
   it('đốt cuối KHÔNG phải liên kết, các đốt trước thì có', () => {
-    const crumbs = buildCrumbs('/mon-hoc/physics')
+    const crumbs = buildCrumbs('/goc-hoc-tap/physics')
     expect(crumbs[crumbs.length - 1].to).toBe('')
     expect(crumbs.slice(0, -1).every((c) => c.to !== '')).toBe(true)
   })
@@ -47,14 +47,14 @@ describe('buildCrumbs', () => {
     expect(buildCrumbs('/tien-do', 'Tiến độ').map((c) => c.label)).toEqual(['Trang chủ', 'Tiến độ'])
   })
 
-  it('so khớp theo BIÊN đoạn — /mon-hoc không nuốt /mon-hoc-abc', () => {
-    expect(buildCrumbs('/mon-hoc-abc').map((c) => c.label)).toEqual(['Trang chủ'])
+  it('so khớp theo BIÊN đoạn — /goc-hoc-tap không nuốt /goc-hoc-tap-abc', () => {
+    expect(buildCrumbs('/goc-hoc-tap-abc').map((c) => c.label)).toEqual(['Trang chủ'])
   })
 
   it('nhánh tĩnh của môn Lập trình lồng dưới trang môn', () => {
     expect(buildCrumbs('/lap-trinh/huong').map((c) => c.label)).toEqual([
       'Trang chủ',
-      'Phòng Học & STEM',
+      'Góc học tập',
       'Lập trình',
       'Hướng chuyên sâu',
     ])
@@ -66,7 +66,7 @@ describe('buildCrumbs', () => {
     ])
     expect(crumbs.map((c) => c.label)).toEqual([
       'Trang chủ',
-      'Phòng Học & STEM',
+      'Góc học tập',
       'Lập trình',
       'Hướng chuyên sâu',
       'Lập trình Web',
@@ -78,7 +78,7 @@ describe('buildCrumbs', () => {
       buildCrumbs('/lap-trinh/huong', undefined, [
         { label: 'Hướng chuyên sâu', to: '/lap-trinh/huong' },
       ]).map((c) => c.label),
-    ).toEqual(['Trang chủ', 'Phòng Học & STEM', 'Lập trình', 'Hướng chuyên sâu'])
+    ).toEqual(['Trang chủ', 'Góc học tập', 'Lập trình', 'Hướng chuyên sâu'])
   })
 
   it('công cụ của trụ lồng dưới đúng studio, đốt tab giữ tham số ?muc=', () => {

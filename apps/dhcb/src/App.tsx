@@ -14,7 +14,12 @@ import PromoEndingBanner from './components/PromoEndingBanner'
 import PlanExpiryBanner from './components/PlanExpiryBanner'
 import GuestBanner from './components/GuestBanner'
 import { lazyWithRetry } from './lib/lazyWithRetry'
-import { isSubjectsHost } from './lib/subjectsHost'
+import {
+  isSubjectsHost,
+  normalizeLegacySubjectsPath,
+  LEGACY_SUBJECTS_PREFIXES,
+  SUBJECTS_PREFIX,
+} from './lib/subjectsHost'
 import { refreshAppSettings } from './lib/appSettings'
 import { refreshPlanFeatures } from './lib/planFeatures'
 import { refreshPlanMarketing } from './lib/planMarketing'
@@ -48,7 +53,7 @@ const Companion = lazyWithRetry(() => import('./pages/companion/Companion'))
 const ActionCanvas = lazyWithRetry(() => import('./pages/companion/ActionCanvas'))
 const AvatarDemo = lazyWithRetry(() => import('./pages/companion/AvatarDemo'))
 
-// ── 3. Multi-Subject Learning & STEM Studio (Phòng Học & Luyện Tập Đa Môn)
+// ── 3. Multi-Subject Learning & STEM Studio (Góc học tập & Luyện Tập Đa Môn)
 const Subjects = lazyWithRetry(() => import('./pages/learning/Subjects'))
 const SubjectDetail = lazyWithRetry(() => import('./pages/learning/SubjectDetail'))
 const StemLessonList = lazyWithRetry(() => import('./pages/learning/StemLessonList'))
@@ -252,10 +257,26 @@ function usePrefetchPages() {
 // gần như miễn phí và không cần thêm gì ở server.
 const APP_SETTINGS_POLL_MS = 60 * 60 * 1000
 
-// Chuyển hướng URL cũ của trang chi tiết môn học về URL chính thức, GIỮ NGUYÊN mã môn.
-function SubjectRedirect() {
+// Chuyển hướng mọi URL cũ của Góc học tập (`/mon-hoc`, `/subjects`, `/phong-hoc`,
+// `/hoc-mon-hoc`) về đường dẫn chuẩn `/goc-hoc-tap`, GIỮ NGUYÊN phần đuôi + query + hash.
+//
+// Vì sao đọc `useLocation` thay vì dựng từ `useParams`: alias phải đi THẲNG tới đích cuối dù
+// sâu bao nhiêu đoạn (`/mon-hoc/physics/bai-hoc/ly10-...`), và `?`/`#` là thứ người dùng đang
+// mang theo — mất chúng là mất đúng chỗ họ đang đứng. `replace` để nút Back không kẹt vòng lặp
+// giữa URL cũ và URL mới.
+function LegacySubjectsRedirect() {
+  const { pathname, search, hash } = useLocation()
+  const normalized = normalizeLegacySubjectsPath(pathname) ?? SUBJECTS_PREFIX
+  return <Navigate to={`${normalized}${search}${hash}`} replace />
+}
+
+// URL CŨ của chính host Góc học tập: thời tiền tố còn bị bỏ đi, mã môn nằm thẳng ở cấp 1
+// (`hoc-tap…/mathematics`). Đưa về dạng chuẩn `/goc-hoc-tap/<mã môn>` để một nội dung chỉ có
+// một địa chỉ; `replace` để Back không kẹt giữa hai dạng URL.
+function SubjectsHostLegacyRedirect() {
   const { subjectId } = useParams()
-  return <Navigate to={`/mon-hoc/${subjectId ?? ''}`} replace />
+  const { search, hash } = useLocation()
+  return <Navigate to={`${SUBJECTS_PREFIX}/${subjectId ?? ''}${search}${hash}`} replace />
 }
 
 // Chuyển hướng URL cũ của trang khoá ngắn (/lap-trinh/khoa/…) về URL chính thức
@@ -460,7 +481,7 @@ export default function App() {
                       />
                       {/* V2 Multi-Subject Learning Hub & Sub-pages */}
                       <Route
-                        path="/mon-hoc"
+                        path="/goc-hoc-tap"
                         element={
                           <AllowGuest>
                             <Subjects />
@@ -470,7 +491,7 @@ export default function App() {
                       {/* Môn Lập trình có không gian riêng (như English) — đặt TRƯỚC
                           route param :subjectId để 'programming' không rơi vào SubjectDetail */}
                       <Route
-                        path="/mon-hoc/programming"
+                        path="/goc-hoc-tap/programming"
                         element={<Navigate to="/lap-trinh" replace />}
                       />
                       {/* Mô tả khoá học môn Lập trình — CÔNG KHAI, cố ý đặt ngoài RequireAuth
@@ -598,7 +619,7 @@ export default function App() {
                       {/* Bài học bốn môn STEM — đặt TRƯỚC route `:subjectId` để đoạn
                           `bai-hoc` không bị nuốt thành một mã môn. */}
                       <Route
-                        path="/mon-hoc/:subjectId/bai-hoc"
+                        path="/goc-hoc-tap/:subjectId/bai-hoc"
                         element={
                           <AllowGuest>
                             <StemLessonList />
@@ -606,7 +627,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/mon-hoc/:subjectId/bai-hoc/:lessonSlug"
+                        path="/goc-hoc-tap/:subjectId/bai-hoc/:lessonSlug"
                         element={
                           <AllowGuest>
                             <StemLessonView />
@@ -614,7 +635,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/mon-hoc/:subjectId"
+                        path="/goc-hoc-tap/:subjectId"
                         element={
                           <AllowGuest>
                             <SubjectDetail />
@@ -669,27 +690,27 @@ export default function App() {
                           </AllowGuest>
                         }
                       />
-                      {/* Trên host trụ Học tập (hoc-tap.donghanhcungban.org) trang gốc LÀ danh
-                          sách môn, và mã môn nằm thẳng ở cấp 1 (`/mathematics`) — tiền tố
-                          `/mon-hoc` đã bỏ. Ở mọi host khác (kể cả localhost/dev) giữ nguyên như
-                          cũ. Server 301 mọi đường dẫn ngoài trụ Học tập khỏi host này nên
-                          `/:subjectId` không nuốt route nào của app nền tảng.
+                      {/* Trên host Góc học tập (hoc-tap.donghanhcungban.org) KHÔNG có trang chủ
+                          nền tảng: trang gốc đi thẳng tới danh mục `/goc-hoc-tap`. URL cũ của
+                          host này (`/`, `/mathematics` — thời còn bỏ tiền tố) được chuyển về
+                          dạng chuẩn, nên link đã chia sẻ vẫn sống. Server chuyển hướng mọi
+                          đường dẫn ngoài Góc học tập khỏi host này nên `/:subjectId` không nuốt
+                          route nào của app nền tảng.
                           Xem apps/dhcb/src/lib/subjectsHost.ts + apps/server/src/subjectsRouting.ts */}
                       <Route
                         path="/"
                         element={
-                          <AllowGuest>{onSubjectsHost ? <Subjects /> : <Home />}</AllowGuest>
+                          onSubjectsHost ? (
+                            <Navigate to={SUBJECTS_PREFIX} replace />
+                          ) : (
+                            <AllowGuest>
+                              <Home />
+                            </AllowGuest>
+                          )
                         }
                       />
                       {onSubjectsHost && (
-                        <Route
-                          path="/:subjectId"
-                          element={
-                            <AllowGuest>
-                              <SubjectDetail />
-                            </AllowGuest>
-                          }
-                        />
+                        <Route path="/:subjectId" element={<SubjectsHostLegacyRedirect />} />
                       )}
                       <Route
                         path="/hoc-tieng-anh"
@@ -956,9 +977,6 @@ export default function App() {
                         path="/agent-ban-dong-hanh"
                         element={<Navigate to="/ban-dong-hanh" replace />}
                       />
-                      <Route path="/subjects" element={<Navigate to="/mon-hoc" replace />} />
-                      <Route path="/phong-hoc" element={<Navigate to="/mon-hoc" replace />} />
-                      <Route path="/hoc-mon-hoc" element={<Navigate to="/mon-hoc" replace />} />
                       <Route
                         path="/applied-knowledge"
                         element={<Navigate to="/ung-dung-thuc-te" replace />}
@@ -988,11 +1006,23 @@ export default function App() {
                         path="/life/wheel-of-life"
                         element={<Navigate to="/life/wheel" replace />}
                       />
-                      {/* Route có tham số: <Navigate to> không tự thay ":subjectId", phải đọc
-                          params thật rồi dựng đường dẫn đích. */}
-                      <Route path="/subjects/:subjectId" element={<SubjectRedirect />} />
-                      <Route path="/phong-hoc/:subjectId" element={<SubjectRedirect />} />
-                      <Route path="/hoc-mon-hoc/:subjectId" element={<SubjectRedirect />} />
+                      {/* Tiền tố CŨ của Góc học tập — một component lo hết mọi độ sâu, giữ
+                          nguyên query/hash. `/*` để `/mon-hoc/physics/bai-hoc/<bài>` cũng về
+                          đúng bài chứ không rơi xuống route `*` (đá về trang chủ). */}
+                      {LEGACY_SUBJECTS_PREFIXES.map((prefix) => (
+                        <Route
+                          key={prefix}
+                          path={`${prefix}/*`}
+                          element={<LegacySubjectsRedirect />}
+                        />
+                      ))}
+                      {LEGACY_SUBJECTS_PREFIXES.map((prefix) => (
+                        <Route
+                          key={`${prefix}-root`}
+                          path={prefix}
+                          element={<LegacySubjectsRedirect />}
+                        />
+                      ))}
                       <Route path="*" element={<Navigate to="/" replace />} />
                     </Routes>
                   </Suspense>

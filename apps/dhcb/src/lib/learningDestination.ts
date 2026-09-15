@@ -30,7 +30,7 @@ const KEYWORD_ROUTES: { keywords: string[]; destination: Destination }[] = [
   {
     keywords: ['toán', 'đạo hàm', 'tích phân', 'hàm số', 'phương trình', 'cực trị', 'hình học'],
     destination: {
-      route: '/mon-hoc/mathematics',
+      route: '/goc-hoc-tap/mathematics',
       label: 'Môn Toán',
       reason: 'Câu hỏi có từ khoá về Toán.',
       isCompanion: false,
@@ -39,7 +39,7 @@ const KEYWORD_ROUTES: { keywords: string[]; destination: Destination }[] = [
   {
     keywords: ['vật lý', 'con lắc', 'dao động'],
     destination: {
-      route: '/mon-hoc/physics',
+      route: '/goc-hoc-tap/physics',
       label: 'Môn Vật lý',
       reason: 'Câu hỏi có từ khoá về Vật lý.',
       isCompanion: false,
@@ -48,7 +48,7 @@ const KEYWORD_ROUTES: { keywords: string[]; destination: Destination }[] = [
   {
     keywords: ['hóa học', 'phản ứng', 'oxi hóa'],
     destination: {
-      route: '/mon-hoc/chemistry',
+      route: '/goc-hoc-tap/chemistry',
       label: 'Môn Hóa học',
       reason: 'Câu hỏi có từ khoá về Hóa học.',
       isCompanion: false,
@@ -57,7 +57,7 @@ const KEYWORD_ROUTES: { keywords: string[]; destination: Destination }[] = [
   {
     keywords: ['sinh học', 'di truyền', 'adn'],
     destination: {
-      route: '/mon-hoc/biology',
+      route: '/goc-hoc-tap/biology',
       label: 'Môn Sinh học',
       reason: 'Câu hỏi có từ khoá về Sinh học.',
       isCompanion: false,

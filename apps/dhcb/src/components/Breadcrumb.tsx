@@ -1,4 +1,4 @@
-// Breadcrumb — đường đi "Trang chủ › Phòng Học" ở header, CHỈ hiện trên desktop.
+// Breadcrumb — đường đi "Trang chủ › Góc học tập" ở header, CHỈ hiện trên desktop.
 //
 // Vì sao chỉ desktop: mobile đã có nút Back to, dễ chạm, và bề ngang không đủ cho một
 // chuỗi đốt. Trên desktop thì ngược lại — bề ngang dư dả, còn nút Back thì trả lời được

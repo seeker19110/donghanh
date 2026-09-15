@@ -17,7 +17,7 @@ describe('navTree — dữ liệu cây điều hướng', () => {
     }
   })
 
-  it('Phòng Học liệt kê đủ 6 môn của subjectRegistry', () => {
+  it('Góc học tập liệt kê đủ 6 môn của subjectRegistry', () => {
     expect(SUBJECT_CHILDREN.map((c) => c.subjectId)).toEqual([
       'english',
       'mathematics',
@@ -31,14 +31,14 @@ describe('navTree — dữ liệu cây điều hướng', () => {
 
 describe('groupContainsPath — tự mở nhóm chứa trang đang xem', () => {
   it('khớp theo tiền tố, kể cả trang con', () => {
-    expect(groupContainsPath(SUBJECT_CHILDREN, '/mon-hoc/physics')).toBe(true)
+    expect(groupContainsPath(SUBJECT_CHILDREN, '/goc-hoc-tap/physics')).toBe(true)
     expect(groupContainsPath(SUBJECT_CHILDREN, '/lap-trinh/bai-hoc/p1')).toBe(true)
     expect(groupContainsPath(PRACTICE_CHILDREN, '/luyen-noi')).toBe(true)
   })
 
   it('không khớp trang ngoài nhóm', () => {
     expect(groupContainsPath(SUBJECT_CHILDREN, '/tien-do')).toBe(false)
-    expect(groupContainsPath(PRACTICE_CHILDREN, '/mon-hoc/biology')).toBe(false)
+    expect(groupContainsPath(PRACTICE_CHILDREN, '/goc-hoc-tap/biology')).toBe(false)
   })
 })
 
@@ -46,13 +46,13 @@ describe('toggleGroup / lưu trạng thái', () => {
   beforeEach(() => localStorage.clear())
 
   it('bật rồi tắt một nhóm, không đụng nhóm khác', () => {
-    expect(toggleGroup([], '/mon-hoc')).toEqual(['/mon-hoc'])
-    expect(toggleGroup(['/mon-hoc', '/luyen-tap'], '/mon-hoc')).toEqual(['/luyen-tap'])
+    expect(toggleGroup([], '/goc-hoc-tap')).toEqual(['/goc-hoc-tap'])
+    expect(toggleGroup(['/goc-hoc-tap', '/luyen-tap'], '/goc-hoc-tap')).toEqual(['/luyen-tap'])
   })
 
   it('ghi rồi đọc lại được', () => {
-    writeOpenGroups(['/mon-hoc'])
-    expect(readOpenGroups()).toEqual(['/mon-hoc'])
+    writeOpenGroups(['/goc-hoc-tap'])
+    expect(readOpenGroups()).toEqual(['/goc-hoc-tap'])
   })
 
   it('dữ liệu hỏng trong localStorage → coi như chưa mở nhóm nào, không ném lỗi', () => {
@@ -60,7 +60,7 @@ describe('toggleGroup / lưu trạng thái', () => {
     expect(readOpenGroups()).toEqual([])
     localStorage.setItem('ui_sidebar_groups', '{"a":1}')
     expect(readOpenGroups()).toEqual([])
-    localStorage.setItem('ui_sidebar_groups', '["/mon-hoc", 42]')
-    expect(readOpenGroups()).toEqual(['/mon-hoc'])
+    localStorage.setItem('ui_sidebar_groups', '["/goc-hoc-tap", 42]')
+    expect(readOpenGroups()).toEqual(['/goc-hoc-tap'])
   })
 })

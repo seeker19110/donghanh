@@ -96,7 +96,7 @@ afterEach(async () => {
 
 describe('suggestDestination — tìm từ khoá, không phải phân loại bằng AI', () => {
   it('đưa câu hỏi Toán về môn Toán', () => {
-    expect(suggestDestination('Giải phương trình x + 2 = 5').route).toBe('/mon-hoc/mathematics')
+    expect(suggestDestination('Giải phương trình x + 2 = 5').route).toBe('/goc-hoc-tap/mathematics')
   })
 
   it('không khớp từ khoá nào thì về Bạn Đồng Hành', () => {

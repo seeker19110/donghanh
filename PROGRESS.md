@@ -220,6 +220,21 @@ phương án AI sinh đề động mỗi lượt thi. Bốn câu hỏi thiết k
 thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lượt/thời gian chờ) vẫn cần viết đặc tả
 đầy đủ trước khi giao việc.
 
+### Ưu tiên 1c — GÓC HỌC TẬP (đặc tả `docs/specs/2026-09-15-goc-hoc-tap-architecture.md`)
+
+| Slice | Việc                                                           | Trạng thái                                                             |
+| ----- | -------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| 0S    | Đặc tả + goal                                                  | ✅ đã merge (`docs/changelog/0323-2026-09-15-goc-hoc-tap-spec.md`)     |
+| 01    | Đổi tên không gian + URL `/goc-hoc-tap` + alias tương thích    | ✅ **ĐÃ THI HÀNH** (`docs/changelog/0324-*.md`)                        |
+| 02    | Tiếng Anh thành một MÔN ngang hàng, bỏ entry cấp không gian    | ⏸ CHƯA READY — cần spec bổ sung route/host English + test auth/storage |
+| 03    | Công cụ tiếng Anh nằm trong môn, công cụ chung có ngữ cảnh môn | ⏸ CHƯA READY — cần inventory từng route/component/API/storage          |
+| 04    | Nền tảng không mặc định tiếng Anh (`english.isDefault`)        | ⏸ CHƯA READY — cần inventory mọi fallback + hợp đồng ngữ cảnh          |
+
+**Ghi trong lúc làm 01:** luật chuyển hướng cũ có lỗi VÒNG LẶP thật với bài học STEM khi host
+mode bật (`/mon-hoc/:mon/bai-hoc` → host Góc học tập → đá ngược về một đường dẫn không tồn tại).
+Đã sửa bằng bảng ownership theo độ sâu. Lỗi này chưa bao giờ lộ ở localhost/E2E vì ở đó chỉ có
+một host — đó là lý do nó sống sót từ 2026-08-28.
+
 ### Ưu tiên 2 — nợ nội dung của mảng đã ship (đi sâu, không mở rộng)
 
 - ~~Lộ trình "Kỹ Sư Trưởng AI": quiz sau chặng mới soạn 4/22~~ — **SAI, đo lại 2026-09-06:**

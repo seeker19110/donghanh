@@ -62,8 +62,8 @@ const ROUTES = [
   '/lap-trinh/khoa-hoc/git--git-github-thuc-hanh', // khoá ngắn Git & GitHub (PR 3/4 khoá Git) — cắt ngang bậc
   // [2026-09-13] Bốn môn STEM nối vào app. Trang bài học gần như toàn chữ đọc nên AAA là
   // chuẩn đúng cho nó; quét một môn đại diện vì cả bốn dùng chung một khuôn trang.
-  '/mon-hoc/physics/bai-hoc', // danh sách bài
-  '/mon-hoc/physics/bai-hoc/ly10-c2-b10--su-roi-tu-do', // một bài đầy đủ, có hoạt ảnh
+  '/goc-hoc-tap/physics/bai-hoc', // danh sách bài
+  '/goc-hoc-tap/physics/bai-hoc/ly10-c2-b10--su-roi-tu-do', // một bài đầy đủ, có hoạt ảnh
 ] as const
 
 // Đếm số phần tử vi phạm NẰM TRONG phần nội dung/tiêu đề (bỏ phần vỏ giao diện).
@@ -120,7 +120,7 @@ for (const theme of THEMES) {
     await page.route('**/api/admin-stem-review**', (route) =>
       route.fulfill({ status: 200, contentType: 'application/json', body: '{"luotDuyet":[]}' }),
     )
-    await page.goto('/mon-hoc/biology/bai-hoc/sinh12-c1-b1--nhan-doi-adn', {
+    await page.goto('/goc-hoc-tap/biology/bai-hoc/sinh12-c1-b1--nhan-doi-adn', {
       waitUntil: 'domcontentloaded',
     })
     await waitForStableDom(page)
