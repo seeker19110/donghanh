@@ -2499,7 +2499,7 @@
     "ipa_en": "/diˈbəg/",
     "ipa_vi": "/ɣəː˧˥ʔ/",
     "freq": 35750,
-    "level": "A2",
+    "level": "B1",
     "forms": { "v3s": "debugs", "ving": "debuging", "past": "debuged" }
   },
   {
@@ -2511,7 +2511,7 @@
     "ipa_en": "/dəˈbəgər/",
     "ipa_vi": "/koŋ˧/",
     "freq": 52281,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "debuggers" }
   },
   {
@@ -4219,7 +4219,7 @@
     "ipa_en": "/ˌdɛzɪgˈneɪʃən/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 34257,
-    "level": "A2",
+    "level": "B2",
     "forms": { "plural": "designations" }
   },
   {
@@ -6399,7 +6399,7 @@
     "ipa_en": "/dɪsˈhɑrtənd/",
     "ipa_vi": "/naːn˧˩˧/",
     "freq": 54787,
-    "level": "A1"
+    "level": "B2"
   },
   {
     "word": "dishonest",
@@ -8055,7 +8055,7 @@
     "ipa_en": "/ˈdaʊnpɔr/",
     "ipa_vi": "/mɯə˧/",
     "freq": 49763,
-    "level": "A2",
+    "level": "B2",
     "forms": { "plural": "downpours" }
   },
   {
@@ -8079,7 +8079,7 @@
     "ipa_en": "/ˈdaʊnˌsaɪzɪŋ/",
     "ipa_vi": "/viək̚˨˩ʔ/",
     "freq": 31918,
-    "level": "A2",
+    "level": "C1",
     "forms": { "uncountable": true }
   },
   {

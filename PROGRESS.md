@@ -290,10 +290,13 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
   `saw` B2, `find` A1 mà `found` B2) vì cả ba tầng gắn nhãn chấm từng dạng mặt chữ độc lập. Đã
   sửa **49 mục** theo bất biến mới _dạng chia thừa kế bậc của từ gốc_, giữ nguyên 52 ca đã từ
   vựng hoá (`ground` ≠ `grind`, `rose` ≠ `rise`). Cổng chặn tái phát:
-  `packages/subject-english/dictionaryLevels.test.ts`. **Nợ còn để ngỏ (cần đợt riêng, sửa bằng
-  phán đoán từng từ):** 56 mục rất hiếm nhưng gắn A1/A2 — sai số của CHÍNH NGUỒN (46 từ
-  Words-CEFR-Dataset, 10 từ CEFR-J), nên ưu tiên nhóm `estimated` trước; và `bit`(n) đang trỏ
-  `base: "bite"` là liên kết sai từ nguyên.
+  `packages/subject-english/dictionaryLevels.test.ts`. **Đợt 2 ĐÃ TRẢ XONG NỢ CHÍNH (2026-09-15,
+  `docs/changelog/0313-*.md`, báo cáo `docs/audit/2026-09-15-tu-hiem-gan-bac-nhap-mon.md`):**
+  56 mục rất hiếm mà gắn A1/A2 → **sửa 45** (B1 6 · B2 31 · C1 8), **giữ cố ý 10** mục do chính
+  CEFR-J chấm theo chủ đề giáo trình (`grandparent`, `kilogram`, `tablespoon`…). Cổng mới:
+  `RARE_EASY_ALLOWLIST` — danh sách ngoại lệ CÓ TÊN, mục mới rơi vào vùng đó làm CI đỏ.
+  **Nợ nhỏ còn lại:** `bit`(n) trỏ `base: "bite"` là liên kết sai từ nguyên; mục `iii` (chữ số
+  La Mã) nên xem lại có thuộc từ điển học không — cả hai là vệ sinh dữ liệu, không phải thang bậc.
 
 - **Audit chất lượng nội dung 6 môn (2026-09-14)** — báo cáo đầy đủ:
   `docs/audit/2026-09-14-chat-luong-noi-dung-cac-mon-hoc.md`. 11 phát hiện; hai cái đã có ở
