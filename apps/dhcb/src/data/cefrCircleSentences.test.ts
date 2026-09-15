@@ -43,10 +43,16 @@ const GOLDEN_MANUAL_HASH = '180882da5ac9220bc7ce4be677c60f1c1a076152975b9e9704da
 
 /**
  * Số vòng có câu mẫu TỐI THIỂU (chống lùi độ phủ — bất biến #9).
- * 89 vòng thủ công + 588 vòng cefr-* (34 của đợt 0 bậc A1, 554 của đợt 1 bậc A2–C2)
- * = TOÀN BỘ 677 vòng. Hằng số này chỉ được TĂNG.
+ * Mốc cũ là 677 (89 vòng thủ công + 588 vòng cefr-*). Hạ xuống **676** ngày 2026-09-15 vì
+ * TỔNG SỐ VÒNG giảm đúng 1, KHÔNG phải vì mất câu mẫu: đợt sinh lại vòng theo thang bậc đã
+ * sửa gộp 3 vòng A1/A2 bị rút hết từ và thêm 2 vòng mới (B2 + C1) — xem
+ * docs/audit/2026-09-15-sinh-lai-vong-theo-thang-bac.md.
+ *
+ * Kèm theo, bất biến này nay kiểm điều MẠNH HƠN một con số đếm: MỌI vòng đều phải có câu mẫu
+ * (số vòng thiếu câu = 0). Ngưỡng đếm đơn thuần có thể xanh trong khi một vòng mới bị bỏ quên;
+ * đối chiếu với TOÀN BỘ FOUNDATION thì không.
  */
-const MIN_CIRCLES_WITH_SENTENCES = 677
+const MIN_CIRCLES_WITH_SENTENCES = 676
 
 const PUBLIC_JSON = path.resolve(process.cwd(), 'apps/dhcb/public/data/curriculum.json')
 
@@ -179,8 +185,10 @@ describe('Câu mẫu cho vòng từ vựng CEFR', () => {
     expect(createHash('sha256').update(payload).digest('hex')).toBe(GOLDEN_MANUAL_HASH)
   })
 
-  it('KHONG_LUI_DO_PHU — số vòng có câu mẫu chỉ tăng, không giảm', () => {
-    const coCau = FOUNDATION.filter((c) => c.sentences.length > 0).length
+  it('KHONG_LUI_DO_PHU — mọi vòng đều có câu mẫu, và số vòng không tụt dưới mốc', () => {
+    const thieuCau = FOUNDATION.filter((c) => c.sentences.length === 0).map((c) => c.id)
+    expect(thieuCau, `vòng thiếu câu mẫu: ${thieuCau.join(', ')}`).toEqual([])
+    const coCau = FOUNDATION.length - thieuCau.length
     expect(coCau).toBeGreaterThanOrEqual(MIN_CIRCLES_WITH_SENTENCES)
   })
 
