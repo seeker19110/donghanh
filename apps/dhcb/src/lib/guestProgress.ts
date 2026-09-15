@@ -18,6 +18,7 @@
 import { getGuestId, clearGuestId, isGuestId } from '@core/guestId'
 import { pushProgressAsync } from './progressSync'
 import { saveLessonProgress } from './programmingProgress'
+import { LEARNING_SESSION_PREFIX, moveGuestSessionsTo } from './learningSession'
 
 export { getGuestId, isGuestId }
 
@@ -132,13 +133,16 @@ export function hasGuestProgress(guestId: string = getGuestId()): boolean {
 /** Xoá sạch dấu vết của một khách (gọi SAU khi đã hợp nhất xong). */
 export function clearGuestKeys(guestId: string): void {
   for (const prefix of ALL_PREFIXES) removeKey(prefix + guestId)
-  // Lượt dùng trong ngày: khoá có thêm hậu tố ngày (`et_usage_<uid>_<YYYY-MM-DD>`) nên phải
-  // quét — không đoán được ngày nào đã ghi.
+  // Hai họ khoá dưới đây có HẬU TỐ nên không ghép thẳng được, phải quét:
+  //  - `et_usage_<uid>_<YYYY-MM-DD>` (lượt dùng theo ngày)
+  //  - `dhcb_lsession_v1_guest:<uid>_<subject>_<content>` (nháp phiên học — lib/learningSession.ts)
+  const sessionPrefix = `${LEARNING_SESSION_PREFIX}guest:${guestId}_`
   try {
     const stale: string[] = []
     for (let i = 0; i < localStorage.length; i += 1) {
       const key = localStorage.key(i)
-      if (key && key.startsWith(`et_usage_${guestId}`)) stale.push(key)
+      if (!key) continue
+      if (key.startsWith(`et_usage_${guestId}`) || key.startsWith(sessionPrefix)) stale.push(key)
     }
     for (const key of stale) removeKey(key)
   } catch {
@@ -157,7 +161,15 @@ export function clearGuestKeys(guestId: string): void {
 export async function mergeGuestProgressInto(realUid: string): Promise<boolean> {
   if (!realUid || isGuestId(realUid)) return false
   const guestId = getGuestId()
-  if (guestId === realUid || !hasGuestProgress(guestId)) return false
+  if (guestId === realUid) return false
+
+  // ── Nháp phiên học (code/đáp án đang gõ dở — lib/learningSession.ts) ──
+  // Làm TRƯỚC cả cổng `hasGuestProgress`: nháp không phải tiến độ nên không được tính vào cổng
+  // đó, nhưng người vừa đăng nhập vẫn phải thấy lại phần mình đang gõ. Hàm tự xoá khoá khách sau
+  // khi dời, nên đăng xuất không lộ. Truyền `guestId` đã đọc ở trên, không gọi lại `getGuestId()`.
+  moveGuestSessionsTo(guestId, realUid)
+
+  if (!hasGuestProgress(guestId)) return false
 
   // ── Mảng chuỗi: union ──
   for (const prefix of ARRAY_KEYS) {
