@@ -6,7 +6,7 @@
 | Spec kề       | [`2026-09-15-goc-hoc-tap-07-muc-luc-mon-khoa.md`](2026-09-15-goc-hoc-tap-07-muc-luc-mon-khoa.md) — AC-17 của S07 viện dẫn "cơ chế nháp hiện có của `ProgrammingLessonPage`"; khảo sát S08 cho thấy cơ chế đó **chưa tồn tại** (xem §2 phát hiện #1) — S08 chính là nơi tạo ra nó |
 | Goal          | [`learning-ux`](../goals/2026-09-15-learning-ux.md) dòng S08 (dependency S07); thứ tự chủ dự án chốt: S07 → **S08** → S06 → S05 → S10 → S11 → S09 → S12 → S13                                                                                                                    |
 | Base khảo sát | `main` `7c2d81c` (#928), khảo sát 2026-09-15 bằng đọc mã thật + `npm run codemap -- impact` cho 10 file, số liệu đếm thật                                                                                                                                                        |
-| Trạng thái    | **Approved for implementation** — 6 quyết định §7 chốt theo cột "Đề xuất của AI"; S08-1 đã thi hành (changelog `0331`)                                                                                                                                                           |
+| Trạng thái    | **Approved for implementation** — chủ dự án chốt TOÀN BỘ câu hỏi §7 theo đề xuất mặc định (2026-09-15); S08-1 đã thi hành (changelog `0331`)                                                                                                                                     |
 | Người duyệt   | Chủ dự án                                                                                                                                                                                                                                                                        |
 
 > Không bắt đầu code khi trạng thái chưa là **Approved for implementation**. Luật số 1 của khuôn
@@ -485,6 +485,9 @@ hơn thắng, khoá khách xoá).
 
 ## 7. Quyết định cần chủ dự án chốt trước khi Approved
 
+> **CHỐT 2026-09-15 — chủ dự án:** lấy TOÀN BỘ cột "Đề xuất của AI (mặc định)"
+> làm quyết định cuối cho mọi câu hỏi trong bảng dưới. Không có ý kiến khác.
+
 | #   | Câu hỏi                                                                                                                         | Đề xuất của AI (mặc định nếu không có ý kiến khác)                                    | Lý do                                                                                                                                                                                                                                                                           |
 | --- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Q1  | Khung phiên đặt ở `apps/dhcb/src/lib/learningSession.ts` hay `packages/core-learner/session/`?                                  | **`apps/dhcb/src/lib/`** (cùng chỗ với `learningQuestionDraft.ts`, `quizSession.ts`). | `core-learner` là gói phía server (`learnerState.ts:28` import `@dhcb/core-db/pgPool`; tsconfig tham chiếu `core-db`); khung này thuần trình duyệt. Chưa có app thứ hai cần dùng; khi `apps/hub` cần thì dời sang `packages/core-ui` — hàm thuần, dời rẻ.                       |
@@ -527,11 +530,11 @@ trang import) — revert theo thứ tự ngược.
 
 ## 19. Phê duyệt
 
-- [ ] Product outcome và scope (Q1–Q6)
-- [ ] UX/accessibility (hộp stale, dòng báo storage, không nhảy chữ hai tab)
-- [ ] Architecture (phong bì v1 + payload theo môn, `localStorage` + memory, fingerprint, ranh giới S09)
-- [ ] Test/rollout/rollback (3 PR)
+- [x] Product outcome và scope (Q1–Q6)
+- [x] UX/accessibility (hộp stale, dòng báo storage, không nhảy chữ hai tab)
+- [x] Architecture (phong bì v1 + payload theo môn, `localStorage` + memory, fingerprint, ranh giới S09)
+- [x] Test/rollout/rollback (3 PR)
 
 **Kết luận:** Approved for implementation (S08-1 đã thi hành)  
-**Người duyệt:** —  
-**Ngày:** —
+**Người duyệt:** Chủ dự án  
+**Ngày:** 2026-09-15

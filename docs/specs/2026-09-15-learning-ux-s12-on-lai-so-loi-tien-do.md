@@ -6,7 +6,7 @@
 | Phụ thuộc     | **S11** ([`…-s11-completion-evidence.md`](2026-09-15-learning-ux-s11-completion-evidence.md) — In review: `CompletionEvidence` §3.1, migration `0082` (S05 lấy `0081`), `POST                                                                                             | GET /api/learning/evidence`§3.4, màn kết quả chừa`reviewSlot`cho S12 §① KHÔNG LÀM); **S07** (hợp đồng`OutlineNode` + bảng evidence từng môn §③.3 của [`…-07-muc-luc-mon-khoa.md`](2026-09-15-goc-hoc-tap-07-muc-luc-mon-khoa.md)) |
 | Goal          | [`learning-ux`](../goals/2026-09-15-learning-ux.md) dòng S12 (Dependency: S11); S13 đứng sau S12                                                                                                                                                                          |
 | Base khảo sát | `main` `06949af` (sau spec S07/S08; spec S11 viết song song cùng ngày), khảo sát 2026-09-15 bằng grep/sed + `npm run codemap -- impact` trên mã thật; mọi số đếm trong spec là số đo được, có đường dẫn + số dòng                                                         |
-| Trạng thái    | **In review** — chờ chủ dự án chốt 6 quyết định ở §7                                                                                                                                                                                                                      |
+| Trạng thái    | **Approved for implementation** — chủ dự án chốt TOÀN BỘ câu hỏi §7 theo đề xuất mặc định (2026-09-15)                                                                                                                                                                    |
 | Người duyệt   | Chủ dự án                                                                                                                                                                                                                                                                 |
 
 > Không bắt đầu code khi trạng thái chưa là **Approved for implementation**. Luật số 1 của khuôn
@@ -472,6 +472,9 @@ Hiển thị: `measured` → "`completed`/`total` · theo <nhãn nguồn>"; khô
 
 ## 7. Quyết định cần chủ dự án chốt trước khi Approved
 
+> **CHỐT 2026-09-15 — chủ dự án:** lấy TOÀN BỘ cột "Đề xuất của AI (mặc định)"
+> làm quyết định cuối cho mọi câu hỏi trong bảng dưới. Không có ý kiến khác.
+
 | #   | Câu hỏi                                                                                                                                                                                                                              | Đề xuất của AI (mặc định nếu không có ý kiến khác)                                                                                                                                                                    | Lý do                                                                                                                                                                                                                                                                                                    |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Q1  | Sổ lỗi STEM: (a) mở rộng `english.mistakes` thành bảng chung, (b) bảng `learning.mistakes` mới, hay (c) VIEW đọc từ evidence S11 (`items[]`)? Lập trình chưa có câu trả lời từng bước → ghi "chưa có bằng chứng" hay tạo sổ ghi tay? | **(c)** cho STEM; Anh giữ `english.mistakes` + 3 cột evidence nullable; **Lập trình: "chưa có bằng chứng câu sai"**, không sổ ghi tay.                                                                                | Một nguồn sự thật: câu sai đã nằm trong `CompletionEvidence.items` (S11 Q6 chọn nộp theo bài chính vì S12 đọc được từng câu); bảng thứ hai = hai đường ghi phải giữ khớp (bẫy `norm()` client/server ở `mistakes.ts:53`). Sổ ghi tay cho Lập trình = mục không có evidence, trái luật "chỉ từ evidence". |
@@ -518,11 +521,11 @@ hại; không cần dọn.
 
 ## 19. Phê duyệt
 
-- [ ] Product outcome và scope (Q1–Q6)
-- [ ] UX/accessibility (hub rỗng/lỗi, "chưa đo được" là chữ, "Ôn lại" tới đúng bước)
-- [ ] Architecture (`ReviewItem` contract, hàm thuần, không endpoint mới, SRS chỉ đọc + golden)
-- [ ] Test/rollout/rollback (3 PR, migration 0084 lũy đẳng)
+- [x] Product outcome và scope (Q1–Q6)
+- [x] UX/accessibility (hub rỗng/lỗi, "chưa đo được" là chữ, "Ôn lại" tới đúng bước)
+- [x] Architecture (`ReviewItem` contract, hàm thuần, không endpoint mới, SRS chỉ đọc + golden)
+- [x] Test/rollout/rollback (3 PR, migration 0084 lũy đẳng)
 
-**Kết luận:** In review  
-**Người duyệt:** —  
-**Ngày:** —
+**Kết luận:** Approved for implementation  
+**Người duyệt:** Chủ dự án  
+**Ngày:** 2026-09-15

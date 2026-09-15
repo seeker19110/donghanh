@@ -7,7 +7,7 @@
 | Spec mẫu      | [`2026-09-15-goc-hoc-tap-07-muc-luc-mon-khoa.md`](2026-09-15-goc-hoc-tap-07-muc-luc-mon-khoa.md) (cấu trúc + độ chi tiết)                                                                                                                     |
 | Quy trình     | [`docs/framework/QUY-TRINH-AUDIT.md`](../framework/QUY-TRINH-AUDIT.md) — S13 là MỘT LƯỢT AUDIT TOÀN DIỆN theo quy trình đó, phạm vi = mọi slice S02–S12 của goal, thứ tự chạy 1 → 1b → 2 → 2b → 3 → 4 → 5 → 6 → 6b → 8 → 8b → 9 → 10 → 11 → 7 |
 | Base khảo sát | `main` `88778f4` (sau spec S07), khảo sát 2026-09-15 bằng grep/đọc mã thật; mọi số đếm trong file này là số đo, không phải ước lượng                                                                                                          |
-| Trạng thái    | **In review** — chờ chủ sản phẩm chốt 6 quyết định ở §7                                                                                                                                                                                       |
+| Trạng thái    | **Approved for implementation** — chủ dự án chốt TOÀN BỘ câu hỏi §7 theo đề xuất mặc định (2026-09-15)                                                                                                                                        |
 | Người duyệt   | Chủ sản phẩm (goal §1: "Completion approver: chủ sản phẩm sau evidence trên main và kiểm tra trải nghiệm")                                                                                                                                    |
 
 > Không bắt đầu code khi trạng thái chưa là **Approved for implementation**. Luật số 1 của khuôn
@@ -410,6 +410,9 @@ npm run cwv:prod -- [BASE_URL=https://en-vi.donghanhcungban.org] [RUNS=3]
 
 ## 7. Quyết định cần chủ sản phẩm chốt trước khi Approved
 
+> **CHỐT 2026-09-15 — chủ dự án:** lấy TOÀN BỘ cột "Đề xuất của AI (mặc định)"
+> làm quyết định cuối cho mọi câu hỏi trong bảng dưới. Không có ý kiến khác.
+
 | #   | Câu hỏi                                                                                                                 | Đề xuất của AI (mặc định nếu không có ý kiến khác)                                                                                                                                                                                                  | Lý do                                                                                                                                                                                                                                                                                                                                             |
 | --- | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Q1  | Ảnh chụp: script `scripts/shots-learning-ux.ts` xuất ra ngoài repo, hay E2E `toHaveScreenshot` với baseline PNG commit? | **Script + manifest md5/chiều cao, KHÔNG commit PNG.** Cổng tự động chỉ giữ 5 phép đo hình học (AC-3), không so ảnh.                                                                                                                                | 600 ảnh fullPage × mỗi lần đổi UI = repo phình không hồi phục; so ảnh pixel giữa máy dev/CI (font, GPU) là nguồn flake kinh điển; repo đang giữ kỷ luật 0 PNG. Bằng chứng đã dùng thật ở #923 là md5 + số đo, đủ thuyết phục.                                                                                                                     |
@@ -459,14 +462,14 @@ revert ghi trong changelog của slice đó, S13-3 kiểm là có.
 
 ## 19. Phê duyệt
 
-- [ ] Product outcome và scope (Q1–Q6)
-- [ ] UX/accessibility (ma trận 6 × 4 × 5 × 5, bảng chấm 2 người, 18 ảnh bắt buộc)
-- [ ] Architecture (không dependency mới, không job CI mới, không PNG trong repo)
-- [ ] Test/rollout/rollback (3 PR; CWV đo tay; Tầng 9 cần quyền SSH)
+- [x] Product outcome và scope (Q1–Q6)
+- [x] UX/accessibility (ma trận 6 × 4 × 5 × 5, bảng chấm 2 người, 18 ảnh bắt buộc)
+- [x] Architecture (không dependency mới, không job CI mới, không PNG trong repo)
+- [x] Test/rollout/rollback (3 PR; CWV đo tay; Tầng 9 cần quyền SSH)
 
-**Kết luận:** In review  
-**Người duyệt:** —  
-**Ngày:** —
+**Kết luận:** Approved for implementation  
+**Người duyệt:** Chủ dự án  
+**Ngày:** 2026-09-15
 
 ---
 
