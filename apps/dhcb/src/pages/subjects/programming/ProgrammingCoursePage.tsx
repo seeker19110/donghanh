@@ -227,7 +227,7 @@ export default function ProgrammingCoursePage() {
                     {chapter.lab && (
                       <div className="rounded-2xl border border-sky-500/35 bg-sky-500/10 px-4 py-3 flex gap-3">
                         <FlaskConical
-                          className="w-4 h-4 shrink-0 mt-0.5 text-sky-300"
+                          className="w-4 h-4 shrink-0 mt-0.5 text-sky-300 theme-light:text-sky-800"
                           aria-hidden="true"
                         />
                         <p className="text-xs leading-relaxed text-zinc-100">
@@ -238,7 +238,7 @@ export default function ProgrammingCoursePage() {
                     {chapter.deliverable && (
                       <div className="rounded-2xl border border-emerald-500/35 bg-emerald-500/10 px-4 py-3 flex gap-3">
                         <PackageCheck
-                          className="w-4 h-4 shrink-0 mt-0.5 text-emerald-300"
+                          className="w-4 h-4 shrink-0 mt-0.5 text-emerald-300 theme-light:text-emerald-800"
                           aria-hidden="true"
                         />
                         <p className="text-xs leading-relaxed text-zinc-100">
