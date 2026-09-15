@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { OutlineSchema, type Outline, type OutlineNode } from '@dhcb/core-contracts/outline'
 import {
+  ancestorChapterIds,
   childrenOf,
   findLeafByContentId,
   findNode,
@@ -168,5 +169,19 @@ describe('outlineNav', () => {
       prev: expect.objectContaining({ contentId: 'l2' }),
       next: expect.objectContaining({ contentId: 'l4' }),
     })
+  })
+})
+
+describe('ancestorChapterIds — chương phải mở sẵn khi vẽ mục lục', () => {
+  it('mở đúng các tầng CHA của bài đang xem, KHÔNG gồm chính bài đó', () => {
+    expect(ancestorChapterIds(outline, 'l3')).toEqual(new Set(['level:p1', 'chapter:u2']))
+  })
+
+  it('không có bài đang xem (trang bậc/khoá) thì mở sẵn chương ĐẦU, không mở hết', () => {
+    expect(ancestorChapterIds(outline, undefined)).toEqual(new Set(['chapter:u1']))
+  })
+
+  it('mã bài lạ → không mở gì (cây thu gọn hoàn toàn, không ném lỗi)', () => {
+    expect(ancestorChapterIds(outline, 'khong-co')).toEqual(new Set())
   })
 })

@@ -12,7 +12,13 @@ interface Props {
 export default function PageHeader({ title, subtitle, className = '' }: Props) {
   return (
     <div className={`mb-6 ${className}`}>
-      <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
+      {/* `tabIndex={-1}`: KHÔNG thêm điểm dừng Tab mới, nhưng cho phép đưa tiêu điểm tới bằng
+          mã lệnh — panel mục lục trên mobile đóng xong phải focus vào tiêu đề trang mới, nếu
+          không tiêu điểm rơi về <body> và người dùng bàn phím mất chỗ đứng (S07-2 AC-11). */}
+      <h1
+        tabIndex={-1}
+        className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight focus:outline-none"
+      >
         {title}
       </h1>
       {subtitle && (

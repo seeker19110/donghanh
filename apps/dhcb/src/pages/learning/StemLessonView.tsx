@@ -15,17 +15,22 @@ import { gradeAnswer } from '@dhcb/core-grading'
 import type { StemCheckQuestion, StemLessonLike } from '@dhcb/core-contracts/stemLesson'
 import { LessonAnimation } from '@core/LessonAnimation'
 import Layout from '../../components/Layout'
-import { PageShell } from '@core/PageShell'
 import { buttonClass } from '@core/buttonStyles'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { ChuaDuyetChuyenMon } from '../../components/ChuaDuyetChuyenMon'
 import { LuotDuyetBai } from '../../components/admin/LuotDuyetBai'
+import { PageShell } from '@core/PageShell'
+import { TwoPane } from '@core/TwoPane'
 import {
   duongDanDanhSachBai,
   getStemSubject,
   maBaiTuUrl,
   nhanCapHsg,
 } from '../../lib/stemLessonRoutes'
+import { buildStemOutlineForApp } from '../../lib/outline/stemOutlineApp'
+import { useOutlinePane } from '../../components/useOutlinePane'
+import OutlinePrevNext from '../../components/OutlinePrevNext'
+import { useIsDesktopViewport } from '../../lib/useIsDesktopViewport'
 
 function CauHoi({ cau, thuTu }: { cau: StemCheckQuestion; thuTu: number }) {
   const [traLoi, setTraLoi] = useState('')
@@ -146,93 +151,122 @@ export default function StemLessonView() {
   const bai = daTaiXong ? ketQua.bai : null
   const trangThai = !daTaiXong ? 'dang-tai' : ketQua.loi ? 'loi' : 'xong'
 
+  // Mục lục môn (S07-2). Dựng từ CHỈ MỤC (`tomTat`), không chờ nội dung bài tải xong — nhờ
+  // vậy cột trái có ngay từ khung hình đầu và không gây nhảy layout khi bài về.
+  const isDesktop = useIsDesktopViewport()
+  const outline = subject && tomTat ? buildStemOutlineForApp(subject, tomTat.grade) : undefined
+  const { rail, trigger, sheet } = useOutlinePane({
+    outline,
+    activeContentId: lessonId,
+    title: 'Mục lục môn học',
+    storageKey: `${subject?.id ?? 'stem'}:${tomTat?.grade ?? '?'}`,
+    isDesktop,
+  })
+
   if (!subject) return <Navigate to="/goc-hoc-tap" replace />
 
   const duongDanVe = duongDanDanhSachBai(subject.id)
 
   return (
     <>
-      <Layout />
-      <PageShell width="reading">
-        <Link
-          to={duongDanVe}
-          className="inline-flex min-h-[44px] items-center gap-2 text-content-secondary"
-        >
-          <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-          Bài học môn {subject.label}
-        </Link>
-
-        {trangThai === 'dang-tai' && <p className="mt-6 text-content-secondary">Đang tải bài…</p>}
-
-        {trangThai === 'loi' && (
-          <p className="mt-6 text-content">
-            Không tải được nội dung bài. Kiểm tra kết nối mạng rồi tải lại trang.
-          </p>
-        )}
-
-        {trangThai === 'xong' && !bai && (
-          <p className="mt-6 text-content">
-            Không tìm thấy bài học này. Có thể liên kết đã cũ —{' '}
-            <Link to={duongDanVe} className="underline">
-              xem danh sách bài
+      {/* `focus`: trang ngồi học lâu → ẩn bộ chuyển Studio + huy hiệu streak (xem Layout). */}
+      <Layout focus />
+      <PageShell width={isDesktop && rail ? 'standard' : 'reading'}>
+        <TwoPane isDesktop={isDesktop} railSide="left" railLabel="Mục lục môn học" rail={rail}>
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              to={duongDanVe}
+              className="inline-flex min-h-[44px] items-center gap-2 text-content-secondary"
+            >
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+              Bài học môn {subject.label}
             </Link>
-            .
-          </p>
-        )}
+            {trigger}
+          </div>
 
-        {bai && (
-          <article className="mt-4">
-            <p className="text-content-muted">
-              {bai.track === 'advanced'
-                ? `Chuyên đề bồi dưỡng học sinh giỏi · ${nhanCapHsg(bai.advancedTier)}`
-                : `Lớp ${bai.grade} · Chương ${bai.chapterNumber}: ${bai.chapterTitle}`}
+          {trangThai === 'dang-tai' && <p className="mt-6 text-content-secondary">Đang tải bài…</p>}
+
+          {trangThai === 'loi' && (
+            <p className="mt-6 text-content">
+              Không tải được nội dung bài. Kiểm tra kết nối mạng rồi tải lại trang.
             </p>
-            <h1 className="mt-1 text-2xl sm:text-3xl font-extrabold text-content">{bai.title}</h1>
+          )}
 
-            {bai.reviewStatus === 'draft' && <ChuaDuyetChuyenMon />}
+          {trangThai === 'xong' && !bai && (
+            <p className="mt-6 text-content">
+              Không tìm thấy bài học này. Có thể liên kết đã cũ —{' '}
+              <Link to={duongDanVe} className="underline">
+                xem danh sách bài
+              </Link>
+              .
+            </p>
+          )}
 
-            <p className="mt-4 text-content-secondary">{bai.hook}</p>
+          {bai && (
+            <article className="mt-4">
+              <p className="text-content-muted">
+                {bai.track === 'advanced'
+                  ? `Chuyên đề bồi dưỡng học sinh giỏi · ${nhanCapHsg(bai.advancedTier)}`
+                  : `Lớp ${bai.grade} · Chương ${bai.chapterNumber}: ${bai.chapterTitle}`}
+              </p>
+              {/* `tabIndex={-1}`: không thêm điểm dừng Tab, nhưng cho phép đưa tiêu điểm tới
+                bằng mã lệnh — panel mục lục mobile đóng xong sẽ focus đúng vào đây. */}
+              <h1
+                tabIndex={-1}
+                className="mt-1 text-2xl sm:text-3xl font-extrabold text-content focus:outline-none"
+              >
+                {bai.title}
+              </h1>
 
-            <h2 className="mt-8 text-xl font-bold text-content">Lý thuyết</h2>
-            <p className="mt-2 whitespace-pre-line text-content">{bai.theory}</p>
+              {bai.reviewStatus === 'draft' && <ChuaDuyetChuyenMon />}
 
-            {bai.animation && (
-              <>
-                <h2 className="mt-8 text-xl font-bold text-content">Hoạt ảnh minh hoạ</h2>
-                <LessonAnimation spec={bai.animation} className="mt-2" />
-              </>
-            )}
+              <p className="mt-4 text-content-secondary">{bai.hook}</p>
 
-            <h2 className="mt-8 text-xl font-bold text-content">Ví dụ mẫu</h2>
-            <p className="mt-2 text-content">{bai.workedExample.problem}</p>
-            <ol className="mt-3 list-decimal space-y-2 pl-6 text-content">
-              {bai.workedExample.steps.map((buoc, i) => (
-                <li key={i}>{buoc}</li>
-              ))}
-            </ol>
-            <p className="mt-3 font-medium text-content">Đáp số: {bai.workedExample.answer}</p>
+              <h2 className="mt-8 text-xl font-bold text-content">Lý thuyết</h2>
+              <p className="mt-2 whitespace-pre-line text-content">{bai.theory}</p>
 
-            <h2 className="mt-8 text-xl font-bold text-content">Tự kiểm tra</h2>
-            <ul className="mt-3 space-y-4">
-              {bai.checkQuestions.map((cau, i) => (
-                <CauHoi key={i} cau={cau} thuTu={i + 1} />
-              ))}
-            </ul>
+              {bai.animation && (
+                <>
+                  <h2 className="mt-8 text-xl font-bold text-content">Hoạt ảnh minh hoạ</h2>
+                  <LessonAnimation spec={bai.animation} className="mt-2" />
+                </>
+              )}
 
-            <h2 className="mt-8 text-xl font-bold text-content">Thẻ ôn tập</h2>
-            <dl className="mt-3 space-y-3">
-              {bai.srsCards.map((the, i) => (
-                <div key={i} className="rounded-xl border border-line-subtle bg-surface-card p-4">
-                  <dt className="font-medium text-content">{the.hoi}</dt>
-                  <dd className="mt-1 text-content-secondary">{the.dap}</dd>
-                </div>
-              ))}
-            </dl>
+              <h2 className="mt-8 text-xl font-bold text-content">Ví dụ mẫu</h2>
+              <p className="mt-2 text-content">{bai.workedExample.problem}</p>
+              <ol className="mt-3 list-decimal space-y-2 pl-6 text-content">
+                {bai.workedExample.steps.map((buoc, i) => (
+                  <li key={i}>{buoc}</li>
+                ))}
+              </ol>
+              <p className="mt-3 font-medium text-content">Đáp số: {bai.workedExample.answer}</p>
 
-            <LuotDuyetBai lessonId={bai.id} mon={subject.id} />
-          </article>
-        )}
+              <h2 className="mt-8 text-xl font-bold text-content">Tự kiểm tra</h2>
+              <ul className="mt-3 space-y-4">
+                {bai.checkQuestions.map((cau, i) => (
+                  <CauHoi key={i} cau={cau} thuTu={i + 1} />
+                ))}
+              </ul>
+
+              <h2 className="mt-8 text-xl font-bold text-content">Thẻ ôn tập</h2>
+              <dl className="mt-3 space-y-3">
+                {bai.srsCards.map((the, i) => (
+                  <div key={i} className="rounded-xl border border-line-subtle bg-surface-card p-4">
+                    <dt className="font-medium text-content">{the.hoi}</dt>
+                    <dd className="mt-1 text-content-secondary">{the.dap}</dd>
+                  </div>
+                ))}
+              </dl>
+
+              <LuotDuyetBai lessonId={bai.id} mon={subject.id} />
+
+              {/* Bài trước / bài sau theo đúng cây đang mở (AC-14). */}
+              <OutlinePrevNext outline={outline} contentId={lessonId} />
+            </article>
+          )}
+        </TwoPane>
       </PageShell>
+      {sheet}
     </>
   )
 }
