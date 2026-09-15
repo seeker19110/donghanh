@@ -1,6 +1,6 @@
 # 0322 — 2026-09-15 — Renderer câu trả lời Companion (sau review) + trả hai món nợ
 
-**PR:** (điền khi tạo) · **Slice:** S03-3 của [GOAL-2026-0915-LEARNING-UX](../goals/2026-09-15-learning-ux.md)
+**PR:** #924 · **Slice:** S03-3 của [GOAL-2026-0915-LEARNING-UX](../goals/2026-09-15-learning-ux.md)
 · **Đặc tả:** [nền §④ B](../specs/2026-09-15-learning-ux-foundation.md) gạch 4–6 · **Base:** `main` sau #923 (S03-2)
 
 ## 0. Lượt REVIEW trước, mã sau
