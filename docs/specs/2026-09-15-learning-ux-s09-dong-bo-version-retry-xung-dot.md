@@ -34,7 +34,7 @@ AC ghi rõ thuộc PR nào. Ma trận 6 ca bắt buộc của spec nền §④ D
 
 ### S09-1 — server: version đơn điệu + idempotency, KHÔNG đổi luật merge
 
-- [ ] **AC-1 Version đơn điệu cho tài liệu tiến độ môn Anh.** Sau migration `0082` (S11 đã lấy `0081`),
+- [ ] **AC-1 Version đơn điệu cho tài liệu tiến độ môn Anh.** Sau migration `0083` (S05 lấy `0081`, S11 lấy `0082`),
       `GET /api/progress` trả thêm `version: number ≥ 1`; mỗi `POST /api/progress` thành công tăng
       `version` đúng 1 (kể cả khi payload không đổi gì — vì server vẫn ghi `updated_at`); hai POST
       liên tiếp trả `version` = n, n+1. Test đọc lại cột `version` trong câu `insert … on conflict`
@@ -70,7 +70,7 @@ AC ghi rõ thuộc PR nào. Ma trận 6 ca bắt buộc của spec nền §④ D
 replayed }`. Gửi lại cùng `attemptId` → replay, không upsert. Bất biến "completed không kéo
       lùi" giữ nguyên (câu `case when … = 'completed'` không đổi). — `programming/progress.test.ts`
       (8 ca cũ + ≥ 4 ca mới).
-- [ ] **AC-6 Migration lũy đẳng, rollback được.** `postgres/migrations/0082_sync_version_receipts.sql`
+- [ ] **AC-6 Migration lũy đẳng, rollback được.** `postgres/migrations/0083_sync_version_receipts.sql`
       chạy **2 lần liên tiếp** trên DB đã áp `schema.sql` → lần 2 exit 0, không lỗi "already
       exists"; backfill `version = 1` cho mọi dòng hiện có (default), `client_updated_at` NULL; view
       `public.learning_progress` lộ cột mới ở CUỐI (`create or replace view`, khuôn `0077`); đoạn
@@ -192,7 +192,7 @@ npm run codemap -- impact apps/dhcb/src/lib/progressSync.ts   # 75 file — soá
 
 **S09-1 — server (có thể merge độc lập, tương thích client cũ):**
 
-1. Migration `0082_sync_version_receipts.sql` (§③.7): cột `version` + `client_updated_at` cho
+1. Migration `0083_sync_version_receipts.sql` (§③.7): cột `version` + `client_updated_at` cho
    `english.learning_progress` và `programming.lesson_progress`; bảng `public.sync_receipts`;
    bảng `public.sync_conflicts` (tạo sẵn, S09-3 mới ghi). Cập nhật `postgres/schema.sql` cùng
    nội dung (đường cài mới — QUY-TRINH-AUDIT Tầng 11) và bảng ở `postgres/migrations/README.md`.
@@ -295,9 +295,9 @@ default 1 check (version >= 1)` (`0050_life_foundation.sql:17,35`). `createIdemp
 
 | PR  | Việc | Đường dẫn file                                                                     | Ghi chú khảo sát                                                                                                                                             |
 | --- | ---- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1   | Thêm | `postgres/migrations/0082_sync_version_receipts.sql`                               | Số kế tiếp sau `0080_founder_lifetime_vip.sql` (đếm `ls postgres/migrations \| tail`). Khuôn `0077` (`if not exists` + `create or replace view` + ROLLBACK). |
+| 1   | Thêm | `postgres/migrations/0083_sync_version_receipts.sql`                               | Số kế tiếp sau `0080_founder_lifetime_vip.sql` (đếm `ls postgres/migrations \| tail`). Khuôn `0077` (`if not exists` + `create or replace view` + ROLLBACK). |
 | 1   | Sửa  | `postgres/schema.sql`                                                              | Bảng `english.learning_progress` dòng 150–163 thêm 2 cột; thêm 2 bảng mới; `programming.lesson_progress` (migration 0064:26-34).                             |
-| 1   | Sửa  | `postgres/migrations/README.md`                                                    | Thêm dòng `0082` (S11 đã lấy `0081`).                                                                                                                        |
+| 1   | Sửa  | `postgres/migrations/README.md`                                                    | Thêm dòng `0083` (S05 lấy `0081`, S11 lấy `0082`).                                                                                                           |
 | 1   | Sửa  | `apps/server/src/api/core/progress.ts` (+ `progress.test.ts` 30 ca)                | Zod `sync`, receipt, `version`, `Retry-After`. Codemap impact: **3 file** (`routes.ts`, test, `server.ts`).                                                  |
 | 1   | Thêm | `apps/server/src/api/core/progress.concurrency.test.ts`                            | Postgres thật, `describe.skipIf` khi thiếu `DATABASE_URL`.                                                                                                   |
 | 1   | Sửa  | `apps/server/src/api/subjects/programming/progress.ts` (+ test 8 ca)               | Batch + receipt + version. Impact **3 file**.                                                                                                                |
@@ -483,7 +483,7 @@ hỏi. Giới hạn 20 record chưa giải quyết/user (vượt → giữ mới
 - Mọi mốc thời gian server dùng `now()` UTC; `clientUpdatedAt` chỉ để hiển thị/chẩn đoán. Luật
   `mergeByTimestamp` vẫn so chuỗi ISO client (F8) — không đổi trong S09 (Q6).
 
-### 3.7 Migration `0082_sync_version_receipts.sql` (lũy đẳng, chạy 2 lần)
+### 3.7 Migration `0083_sync_version_receipts.sql` (lũy đẳng, chạy 2 lần)
 
 ```sql
 -- version đơn điệu + mốc client cho tài liệu tiến độ môn Anh (1 dòng/user)
@@ -627,7 +627,7 @@ nếu < 13 dùng `pgcrypto` đã bật? — ghi kết quả vào PR).
 ## 9. Kế hoạch thi hành (3 PR, tuần tự; mỗi PR một subagent, agent chính review)
 
 1. **S09-1 `feat(learning): version don dieu + idempotency cho /api/progress va programming`**
-   — migration `0082` (S11 đã lấy `0081`) + `schema.sql` + README; contracts `sync.ts`; `syncReceipt.ts`; 2 handler;
+   — migration `0083` (S05 lấy `0081`, S11 lấy `0082`) + `schema.sql` + README; contracts `sync.ts`; `syncReceipt.ts`; 2 handler;
    `concurrency.test.ts`; job dọn receipt. **Tương thích client cũ 100%** (không có `sync` → đường
    cũ). Có thể merge độc lập, trước S08/S11.
    _Rollback:_ revert PR mã; cột/bảng để lại (mã cũ không đọc); nếu cần xoá hẳn: SQL ROLLBACK §③.7.
@@ -649,7 +649,7 @@ nếu < 13 dùng `pgcrypto` đã bật? — ghi kết quả vào PR).
 - [ ] Product outcome và scope (Q1–Q6; đặc biệt Q5 thứ tự với S08 và Q6 ghi nợ)
 - [ ] UX/accessibility (indicator, trạng thái hết auth, hộp thoại xung đột)
 - [ ] Architecture (version theo tài liệu, receipt Postgres cùng transaction, outbox + Web Locks)
-- [ ] Test/rollout/rollback (3 PR, migration 0082 (S11 lấy 0081) lũy đẳng, thứ tự server trước client)
+- [ ] Test/rollout/rollback (3 PR, migration 0083 (S05 0081, S11 0082) lũy đẳng, thứ tự server trước client)
 
 **Kết luận:** In review  
 **Người duyệt:** —  

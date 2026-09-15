@@ -14,7 +14,7 @@
 > Không bắt đầu code khi trạng thái chưa là **Approved for implementation**. Luật số 1 của khuôn
 > `docs/templates/dac-ta-tinh-nang.md`: tiêu chí chấp nhận (§④) viết TRƯỚC giải pháp.
 >
-> **S11 chạm schema** (bảng mới + migration `0081`) — theo `CLAUDE.md` §12 đây là việc PHẢI hỏi
+> **S11 chạm schema** (bảng mới + migration `0082` (S05 lấy `0081`)) — theo `CLAUDE.md` §12 đây là việc PHẢI hỏi
 > trước; §7 Q3–Q4 là câu hỏi đó. Chưa duyệt thì không có migration.
 
 ## 0. Một câu
@@ -31,7 +31,7 @@ Chia 3 PR con (§9): **S11-1** hợp đồng + schema + API (không UI) · **S11
 evidence + khách + merge · **S11-3** màn kết quả tái dùng + mục lục S07 đọc evidence. AC ghi rõ
 thuộc PR nào.
 
-### S11-1 — hợp đồng `CompletionEvidence`, migration `0081`, `POST /api/learning/evidence`
+### S11-1 — hợp đồng `CompletionEvidence`, migration `0082` (S05 lấy `0081`), `POST /api/learning/evidence`
 
 - [ ] **AC-1 Hợp đồng versioned.** `packages/core-contracts/completionEvidence.ts` export
       `CompletionEvidenceInputSchema` (client → server), `CompletionEvidenceSchema` (server → client,
@@ -39,7 +39,7 @@ thuộc PR nào.
       `versionedObject` có sẵn (`packages/core-contracts/version.ts:19`). Test canh: thiếu
       `attemptId` → lỗi; `activityKind` ngoài enum → lỗi; `answers` > 50 phần tử → lỗi; `version`
       ≠ 1 → lỗi. — `npx vitest run packages/core-contracts/completionEvidence.test.ts`.
-- [ ] **AC-2 Migration lũy đẳng.** `postgres/migrations/0081_completion_evidence.sql` tạo
+- [ ] **AC-2 Migration lũy đẳng.** `postgres/migrations/0082_completion_evidence.sql` tạo
       `platform.completion_evidence` (nhật ký, chỉ thêm) + `platform.completion_state` (trạng thái
       suy ra, 1 dòng/người/nội dung) đúng DDL §③.3; chạy `npm run migrate:pg` **2 lần liên tiếp**
       trên DB test đều exit 0 và `\d platform.completion_evidence` giống nhau; dòng README bảng
@@ -169,7 +169,7 @@ npm run codemap -- impact apps/dhcb/src/lib/guestProgress.ts
    UUID, không có nội dung/bài; khái niệm khác, đừng gộp).
 2. `packages/core-learner/completionRules.ts` (+ test): bảng luật "hoàn thành" từng
    `activityKind` (§③.2) — hàm thuần `decideCompletion(kind, {correct,total})`.
-3. `postgres/migrations/0081_completion_evidence.sql` + dòng README (§③.3).
+3. `postgres/migrations/0082_completion_evidence.sql` + dòng README (§③.3).
 4. `apps/server/src/api/learning/evidence.ts` (+ test) + 1 dòng `routes.ts`:
    `app.all('/api/learning/evidence', wrapEdge(learningEvidenceHandler))`. Chấm lại STEM bằng
    `packages/core-learner/stemEvidenceGrader.ts` (hàm thuần: `(lesson, answers) → {correct,
@@ -218,7 +218,7 @@ progress`, `/api/programming/path-quiz`, `saveLessonProgress`, `markGrammarDone`
 | --- | ---- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1   | Thêm | `packages/core-contracts/completionEvidence.ts` (+ test)                                | Dùng `versionedObject` (`version.ts:19`), `IsoDateTimeSchema`/`UuidSchema` (`shared.ts:17,19`). Gói đã có Zod.                                                                                 |
 | 1   | Thêm | `packages/core-learner/completionRules.ts`, `stemEvidenceGrader.ts` (+ test)            | `core-learner` tsconfig `include: ["**/*.ts"]`, references `core-contracts`/`core-db`/`core-errors` — cần thêm reference `core-grading` (+ `package.json` dependency) để import `gradeAnswer`. |
-| 1   | Thêm | `postgres/migrations/0081_completion_evidence.sql`; sửa `postgres/migrations/README.md` | Migration mới nhất `0080_founder_lifetime_vip.sql`. Khuôn: comment đầu file ghi đặc tả + rollback, `create table if not exists`, `create index if not exists`, `comment on table`.             |
+| 1   | Thêm | `postgres/migrations/0082_completion_evidence.sql`; sửa `postgres/migrations/README.md` | Migration mới nhất `0080_founder_lifetime_vip.sql`. Khuôn: comment đầu file ghi đặc tả + rollback, `create table if not exists`, `create index if not exists`, `comment on table`.             |
 | 1   | Thêm | `apps/server/src/api/learning/evidence.ts` (+ test)                                     | Khuôn `subjects/programming/progress.ts` (145 dòng, 8 test) + `pathQuiz.ts` (server chấm, 6 test). Import 4 registry STEM như `admin-stem-review.ts:33-36`.                                    |
 | 1   | Sửa  | `apps/server/src/routes.ts`                                                             | Thêm 1 import + 1 `app.all`. Bảng route hiện ~100 dòng; đặt cạnh `/api/stem-scratchpad` (dòng 359).                                                                                            |
 | 2   | Thêm | `apps/dhcb/src/lib/stemEvidence.ts` (+ test)                                            | Khuôn `programmingProgress.ts` (79 dòng): cache lạc quan, `isGuestId`, `getAuthHeader`. Thêm hàng đợi chờ gửi.                                                                                 |
@@ -347,10 +347,10 @@ flushPendingEvidence(uid): Promise<{ sent: number; kept: number }>
 `{ supported: false }` để bảng luật là NƠI DUY NHẤT ghi ngưỡng (0.8 STEM · 0.8 quiz · 0.7 thi
 cấp) và test canh chúng không trôi.
 
-### 3.3 Schema (`postgres/migrations/0081_completion_evidence.sql`)
+### 3.3 Schema (`postgres/migrations/0082_completion_evidence.sql`)
 
 ```sql
--- 0081_completion_evidence.sql — Nhật ký bằng chứng hoàn thành + trạng thái suy ra (S11).
+-- 0082_completion_evidence.sql — Nhật ký bằng chứng hoàn thành + trạng thái suy ra (S11).
 -- Đặc tả: docs/specs/2026-09-15-learning-ux-s11-completion-evidence.md §③.3
 -- Idempotent. Rollback:
 --   drop table if exists platform.completion_state;
@@ -540,7 +540,7 @@ và lại sau mỗi `submitStemEvidence` thành công (không polling). Khách: 
 
 ## 9. Kế hoạch thi hành (3 PR, tuần tự; mỗi PR một subagent, agent chính review)
 
-1. **S11-1 `feat(learning): hop dong CompletionEvidence, migration 0081 va POST /api/learning/evidence`**
+1. **S11-1 `feat(learning): hop dong CompletionEvidence, migration 0082 (S05 lấy 0081) va POST /api/learning/evidence`**
    — contracts + `completionRules` + `stemEvidenceGrader` + migration + handler + route + test.
    Không đổi UI. Phụ thuộc: **không** (có thể merge trước S07/S08 vì không chạm file của chúng).
    Rollback: revert PR + chạy 2 lệnh `drop table` trong comment đầu migration (bảng mới, không
@@ -559,7 +559,7 @@ và lại sau mỗi `submitStemEvidence` thành công (không polling). Khách: 
 ## 19. Phê duyệt
 
 - [ ] Product outcome và scope (Q1–Q6; đặc biệt Q2 ngưỡng 0.8 và Q5 khách)
-- [ ] Schema (§③.3 — 2 bảng `platform.*`, migration 0081, rollback) — `CLAUDE.md` §12
+- [ ] Schema (§③.3 — 2 bảng `platform.*`, migration 0082 (S05 lấy 0081), rollback) — `CLAUDE.md` §12
 - [ ] Architecture (server chấm lại, endpoint chung, idempotency `attemptId`, không đổi endpoint cũ)
 - [ ] UX/accessibility (màn kết quả 5 trạng thái có chữ, nút Nộp ≥ 44px, hàng đợi có `role="status"`)
 - [ ] Test/rollout/rollback (3 PR, migration × 2)
