@@ -150,6 +150,14 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
 
 ### Ưu tiên 1 — bằng chứng người dùng thật (trước mọi tính năng mới)
 
+- **[2026-09-15] S05-1 "Bắt đầu theo ý định" — PR nháp, chờ merge tuần tự.** `/bat-dau` nay là
+  luồng ≤ 5 câu chọn MÔN (công khai cho khách), Intake đời sống giữ nguyên mã ở `/bat-dau/doi-song`;
+  hợp đồng `LearnerIntent` + `GET|PUT /api/learner-intent` + migration **`0082`**. Xem
+  `docs/changelog/0334-2026-09-15-s05-1-bat-dau-theo-y-dinh.md`. **Còn lại của slice: S05-2** (một
+  nguồn danh mục môn cho hub và app). Nợ tài liệu mở ra:
+  `docs/research/luong-nguoi-moi-ho-so-nang-luc-an-2026-08-23.md` mà CLAUDE.md §2 dẫn tới KHÔNG tồn
+  tại trong repo — cần một PR `docs` riêng khôi phục hoặc sửa đường dẫn.
+
 - **[2026-09-06] Đóng băng mở rộng phạm vi trong 2–4 tuần** (người dùng quyết): không thêm
   môn/khoá/hướng mới cho tới khi có số đo người học thật. Lý do: 3 tuần qua ~15 đợt việc/ngày,
   hầu hết là mở rộng chiều rộng (14 hướng lập trình, 8 khoá ngắn, 2 bộ chạy ngôn ngữ, 3 môn STEM
