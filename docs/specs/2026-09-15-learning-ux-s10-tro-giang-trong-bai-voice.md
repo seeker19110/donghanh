@@ -26,19 +26,22 @@ StrictMode không gọi đúp**, và câu trả lời AI **không bao giờ** gh
 
 ## ④ Tiêu chí chấp nhận (đo được — mỗi dòng ghi lệnh/bằng chứng)
 
-### Phần 1 — S10-1 sửa lifecycle (fix, bắt buộc trước; không thêm tính năng)
+### Phần 1 — S10-1 sửa lifecycle (fix, bắt buộc trước; không thêm tính năng) — **ĐÃ XONG 2026-09-15**
+
+> AC-1…AC-6 đã thi hành và tick ở PR S10-1; bằng chứng (bảng "test đỏ TRƯỚC / xanh SAU", 8 ca):
+> `docs/changelog/0332-2026-09-15-s10-1-sua-lifecycle-companion.md`.
 
 Sáu lỗi lifecycle **đã tìm thấy thật** tại base `7c2d81c` (bằng chứng file:dòng ở §2.1). Mỗi lỗi
 có **một test regression viết TRƯỚC, đỏ trên mã cũ, xanh sau khi sửa** — dán số ca đỏ/xanh vào PR
 (khuôn PR #922: "trả file về bản `main` → N ca đỏ").
 
-- [ ] **AC-1 Rời trang Companion giữa lúc AI đang trả lời bằng giọng nói → KHÔNG cất tiếng ở
+- [x] **AC-1 Rời trang Companion giữa lúc AI đang trả lời bằng giọng nói → KHÔNG cất tiếng ở
       trang kế.** Cleanup của `Companion.tsx` (dòng 136–142) hiện chỉ gọi `voiceRecorderRef.cancel()` + `stopSpeaking()` mà **không** đặt `voiceCancelledRef.current = true`, nên `onDone`
       (dòng 337–345) của stream còn bay vẫn gọi `speak(finalResp.reply, 'vi-VN')`. Sửa: cleanup
       đặt cờ huỷ + abort stream (AC-2). Test `Companion.voice.test.tsx` (mới): mock
       `sendCompanionMessageStream` trả `onDone` sau khi `unmount()` → `speak` được gọi **0 lần**,
       không có warning `act`/setState sau unmount. — `npx vitest run apps/dhcb/src/pages/companion`.
-- [ ] **AC-2 Stream Companion huỷ được.** `sendCompanionMessageStream(params, callbacks, {signal})`
+- [x] **AC-2 Stream Companion huỷ được.** `sendCompanionMessageStream(params, callbacks, {signal})`
       nhận `AbortSignal` (hiện `companionApi.ts:72–77` không nhận), truyền vào `fetch`, và khi
       abort thì `reader.cancel()`; `Companion.tsx` giữ một `AbortController` cho lượt gửi hiện
       tại, abort trong cleanup unmount. Test `companionApi.test.ts` thêm ≥ 2 ca: abort trước khi
@@ -46,26 +49,26 @@ có **một test regression viết TRƯỚC, đỏ trên mã cũ, xanh sau khi s
       kết quả. `companionApi.test.ts` hiện 9 ca phải xanh nguyên. Server: lượt đã trừ ở
       `checkAndConsumeUsage(auth.userId,'chat')` (`companion.ts:84`) **không hoàn** khi client
       abort — ghi rõ ở UI ("lượt đã dùng") và §③.4; không đổi luật hoàn lượt server.
-- [ ] **AC-3 Mọi effect fetch-khi-mount trong `Companion.tsx` đều huỷ được theo khuôn
+- [x] **AC-3 Mọi effect fetch-khi-mount trong `Companion.tsx` đều huỷ được theo khuôn
       `AbortController` (#925).** `fetchProactiveAgentState()` (dòng 77–81) hiện không có signal
       → StrictMode gọi hai lần và `setProactiveState` sau unmount. Sửa cùng khuôn effect lịch sử
       (dòng 96–128). Test: render dưới `<StrictMode>` → `fetch` mock được gọi với `signal`, lượt
       một bị abort, không setState sau unmount. `e2e/companion-history.spec.ts` (3 test) giữ xanh.
-- [ ] **AC-4 `stopSpeaking()` trong lúc TTS còn đang TẢI thì lượt phát đó không được phát.**
+- [x] **AC-4 `stopSpeaking()` trong lúc TTS còn đang TẢI thì lượt phát đó không được phát.**
       `tts.ts` `speakViaGoogle` (dòng 553–556): `myPlayToken = playToken` chốt **sau**
       `await ensureAudioWithTimeline(...)`, nên `stopSpeaking()` (đổi `playToken`, dòng 309–330) gọi
       trong lúc đang tải — chính là lúc rời trang — không ngăn được lượt phát; audio nổ ở trang
       kế. Sửa: chốt vé **trước** await, sau await nếu `playToken !== vé` thì `return` không phát.
       `tts.test.ts` (69 ca hiện có) thêm ≥ 2 ca: stop giữa lúc tải → `audio.play` 0 lần, promise
       resolve; stop sau khi phát → như cũ. Bất biến `speakBilingual` (dòng 717–736) giữ nguyên.
-- [ ] **AC-5 Micro luôn được nhả.** `sttServer.ts:35–38`: `getUserMedia` xong mới
+- [x] **AC-5 Micro luôn được nhả.** `sttServer.ts:35–38`: `getUserMedia` xong mới
       `new MediaRecorder(stream, …)`; nếu constructor ném (mime không hỗ trợ, thiết bị bận) thì
       `stream.getTracks()` không bao giờ `.stop()` → đèn mic sáng vô hạn. Sửa: `try/catch` quanh
       constructor, catch thì release tracks rồi ném lại. Test `sttServer.test.ts` (mới — hiện
       **không có** test cho file này) ≥ 4 ca: constructor ném → `track.stop()` 1 lần; `cancel()` →
       stop tracks; `stop()` với 0 byte → `EMPTY_RECORDING` + tracks đã stop; `stop()` bình thường
       → gọi `/api/stt` đúng 1 lần với `signal`.
-- [ ] **AC-6 `AiHelpPanel` không rò trạng thái giữa hai bài và không setState sau unmount.**
+- [x] **AC-6 `AiHelpPanel` không rò trạng thái giữa hai bài và không setState sau unmount.**
       `AiHelpPanel.tsx:37–58` không có `useMountedRef`/`AbortController`; `ProgrammingLessonPage`
       là cùng một instance khi `:lessonId` đổi (App.tsx:521 render `<ProgrammingLessonPage />`
       không `key`) nên `level`/`text` của bài A có thể còn nguyên ở bài B, và response trễ của

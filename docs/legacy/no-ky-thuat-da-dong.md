@@ -6,6 +6,16 @@ bỏ). Thứ tự: như thứ tự cũ trong `PROGRESS.md`, mới hơn ở trên
 
 Khi đóng thêm một món nợ: cắt khối đó khỏi `PROGRESS.md`, dán vào ĐẦU danh sách dưới đây.
 
+- ✅ **[2026-09-15 → ĐÓNG 2026-09-15, PR S10-1, `docs/changelog/0332-*.md`] 6 lỗi lifecycle
+  voice/AI** (TTS nổ ở trang kế khi rời Companion giữa stream; stream không huỷ được; `tts.ts`
+  chốt play-token sau await; mic không release khi `MediaRecorder` ném; `AiHelpPanel` rò hint
+  giữa bài) — file:dòng ở spec S10 §②. **Đã trả hết sáu lỗi** (L1–L6), mỗi lỗi một test
+  regression viết TRƯỚC và đỏ trên mã cũ: tổng 8 ca đỏ → 8 ca xanh. Hai file test mới
+  (`sttServer.test.ts`, `AiHelpPanel.test.tsx`) cho hai file trước nay không có test nào.
+  Bài học giữ lại: `stopSpeaking()` chỉ có tác dụng nếu lượt phát chốt "vé" **trước** quãng
+  `await` tải audio — rời trang chính là lúc đang tải, nên chốt vé sau await là vô hiệu hoá
+  đúng ca duy nhất mà nó cần chặn.
+
 - ✅ **[2026-08-28 → ĐÓNG 2026-09-05, audit toàn diện F3] Repo từng có HAI file cấu hình Nginx mô
   tả cùng một server.** `nginx/dhcb.conf` tự nhận là "cấu hình ĐANG CHẠY THẬT trên VPS", trong khi
   `docs/deploy-vps-ubuntu.md`, `docs/cloudflare-setup.md` và `docs/runbook-dung-vps-moi-tu-dau.md`

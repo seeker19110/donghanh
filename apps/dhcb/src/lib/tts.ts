@@ -551,8 +551,21 @@ async function speakViaGoogle(
 ): Promise<number> {
   if (!text.trim()) return playToken
 
+  // [S10-1 / AC-4] Vé chốt TRƯỚC khi tải. Tải audio là quãng chờ dài nhất của một lượt phát,
+  // và rời trang chính là lúc đang tải: cleanup gọi `stopSpeaking()` → `playToken++`. Nếu chỉ
+  // chốt vé SAU khi tải xong (bản cũ) thì lượt phát này không biết mình đã bị huỷ, tải xong
+  // vẫn chiếm thẻ audio và CẤT TIẾNG Ở TRANG KẾ.
+  const veTruocKhiTai = playToken
+
   // Lấy audio (ưu tiên IndexedDB; bộ nạp-trước thường đã tải sẵn câu này)
   const { buffer, voice: actualVoice } = await ensureAudioWithTimeline(text, lang, voice)
+
+  // Có ai đó chiếm vé trong lúc ta đang tải (stopSpeaking, hoặc một lượt phát khác) → BỎ lượt
+  // này. Trả về vé CŨ (đã lạc hậu) chứ không phải `playToken` hiện tại, để nơi gọi —
+  // `speakBilingual` so `playToken !== myToken` — thấy lệch và dừng luôn phần đọc còn lại.
+  // `resolve` chứ không `throw`: `speak()` bắt lỗi là rơi sang Web Speech, tức lại phát thành
+  // tiếng đúng thứ vừa bị huỷ.
+  if (playToken !== veTruocKhiTai) return veTruocKhiTai
   // mimeType theo giọng THẬT server dùng, không phải giọng yêu cầu (xem ensureAudioWithTimeline)
   const blobUrl = bufferToBlobUrl(buffer, blobMimeTypeForVoice(actualVoice))
 
