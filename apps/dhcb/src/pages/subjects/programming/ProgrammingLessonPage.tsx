@@ -4,7 +4,7 @@
 // Code chạy bằng sandbox Pyodide tự host (lib/pythonRunner) — chấm bằng engine thuần
 // (@dhcb/subject-programming/grading), tiến độ lưu server (lib/programmingProgress).
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate, useParams, Navigate } from 'react-router-dom'
+import { useNavigate, useParams, useLocation, Navigate } from 'react-router-dom'
 import {
   BookOpen,
   Play,
@@ -29,7 +29,7 @@ import StepRail from '../../../components/programming/StepRail'
 import { PageShell } from '@core/PageShell'
 import { TwoPane } from '@core/TwoPane'
 import { useIsDesktopViewport } from '../../../lib/useIsDesktopViewport'
-import { duongDanBac } from '../../../lib/programmingRoutes'
+import { duongDanBac, duongDanBaiHoc } from '../../../lib/programmingRoutes'
 import LivePreview from '../../../components/programming/LivePreview'
 import PredictStep from '../../../components/programming/PredictStep'
 import ParsonsStep from '../../../components/programming/ParsonsStep'
@@ -71,6 +71,7 @@ const STEPS: readonly LessonStep[] = [
  */
 export default function ProgrammingLessonPage() {
   const { lessonId: lessonSlugParam } = useParams<{ lessonId: string }>()
+  const { search } = useLocation()
   const lessonId = lessonSlugParam ? idFromSlugSegment(lessonSlugParam) : undefined
   const trangThai = useProgrammingLesson(lessonId)
 
@@ -114,7 +115,9 @@ export default function ProgrammingLessonPage() {
   // nhau (nội dung trùng).
   const canonicalSegment = buildSlugSegment(lesson.id, lesson.title)
   if (lessonSlugParam !== canonicalSegment) {
-    return <Navigate to={`/lap-trinh/bai-hoc/${canonicalSegment}`} replace />
+    // GIỮ NGUYÊN query khi chuyển hướng: `?khoa=<khoá ngắn>` là ngữ cảnh khoá đang học
+    // (xem `duongDanBaiHoc`), mất nó là người học mở link cũ xong lạc khỏi khoá của mình.
+    return <Navigate to={`${duongDanBaiHoc(lesson)}${search}`} replace />
   }
   // key theo id: đổi bài là dựng lại thân trang từ đầu (state bước/code không dính bài cũ).
   return <LessonBody key={lesson.id} lesson={lesson} />

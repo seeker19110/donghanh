@@ -1,13 +1,13 @@
 # Góc học tập — slice S07: Mục lục môn/khoá độc lập shellbar (hợp đồng cây + adapter 3 môn + rail/panel)
 
-| Thuộc tính    | Giá trị                                                                                                                                         |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| Spec cha      | [`2026-09-15-goc-hoc-tap-architecture.md`](2026-09-15-goc-hoc-tap-architecture.md) §① "Sau 04 ưu tiên mục lục độc lập shellbar (S07)"           |
-| Spec nền      | [`2026-09-15-learning-ux-foundation.md`](2026-09-15-learning-ux-foundation.md) §④ C (9 yêu cầu bắt buộc) + §③ khung `OutlineNode`               |
-| Goal          | [`learning-ux`](../goals/2026-09-15-learning-ux.md) dòng S07                                                                                    |
-| Base khảo sát | `main` `7c2d81c` (#928, sau slice 02 spec), khảo sát 2026-09-15 bằng 3 lượt đọc mã thật (Lập trình · STEM · Tiếng Anh/dialog), số liệu đếm thật |
-| Trạng thái    | **Approved for implementation** — chủ dự án chốt TOÀN BỘ câu hỏi §7 theo đề xuất mặc định (2026-09-15)                                          |
-| Người duyệt   | Chủ dự án                                                                                                                                       |
+| Thuộc tính    | Giá trị                                                                                                                                                          |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Spec cha      | [`2026-09-15-goc-hoc-tap-architecture.md`](2026-09-15-goc-hoc-tap-architecture.md) §① "Sau 04 ưu tiên mục lục độc lập shellbar (S07)"                            |
+| Spec nền      | [`2026-09-15-learning-ux-foundation.md`](2026-09-15-learning-ux-foundation.md) §④ C (9 yêu cầu bắt buộc) + §③ khung `OutlineNode`                                |
+| Goal          | [`learning-ux`](../goals/2026-09-15-learning-ux.md) dòng S07                                                                                                     |
+| Base khảo sát | `main` `7c2d81c` (#928, sau slice 02 spec), khảo sát 2026-09-15 bằng 3 lượt đọc mã thật (Lập trình · STEM · Tiếng Anh/dialog), số liệu đếm thật                  |
+| Trạng thái    | **Approved for implementation** — chủ dự án chốt TOÀN BỘ câu hỏi §7 theo đề xuất mặc định (2026-09-15). **S07-1 đã thi hành** (changelog 0330); còn S07-2, S07-3 |
+| Người duyệt   | Chủ dự án                                                                                                                                                        |
 
 > Không bắt đầu code khi trạng thái chưa là **Approved for implementation**. Luật số 1 của khuôn
 > `docs/templates/dac-ta-tinh-nang.md`: tiêu chí chấp nhận (§④) viết TRƯỚC giải pháp.
@@ -29,12 +29,12 @@ và STEM · **S07-3** Tiếng Anh (lộ trình CEFR). AC ghi rõ thuộc PR nào
 
 ### S07-1 — hợp đồng cây + adapter, không đổi giao diện
 
-- [ ] **AC-1 Một kiểu cây dùng chung.** `packages/core-contracts/outline.ts` export `OutlineNode`,
+- [x] **AC-1 Một kiểu cây dùng chung.** `packages/core-contracts/outline.ts` export `OutlineNode`,
       `Outline`, `OutlineProgress`, `OutlineAvailability` đúng §③.1; có schema Zod `OutlineSchema`
       và test `outline.test.ts` canh: `order` duy nhất trong cùng `parentId`, `parentId` phải trỏ
       nút có thật, `kind:'lesson'|'activity'` bắt buộc `href`, `progress:'completed'` bắt buộc
       `evidenceSource`. — `npx vitest run packages/core-contracts/outline.test.ts`.
-- [ ] **AC-2 Adapter Lập trình — bậc.** `buildLevelOutline(levelId, ctx)` trả cây
+- [x] **AC-2 Adapter Lập trình — bậc.** `buildLevelOutline(levelId, ctx)` trả cây
       `level → unit (chapter) → lesson` đúng số unit/bài của `PROGRAMMING_LEVELS` +
       `getUnitSummaries`; P6 có thêm tầng mạch (`UNIT_TRACKS`) — cây P6 có 65 unit gom vào mạch
       như E2E `programming-lesson.spec.ts:491` đang khẳng định. Bài `href` =
@@ -43,13 +43,13 @@ và STEM · **S07-3** Tiếng Anh (lộ trình CEFR). AC ghi rõ thuộc PR nào
       `ProgrammingLessonProgress.status` → `in-progress`/`completed` (`evidenceSource:
 'programming.progress'`), không có bản ghi → `not-started`. Unit chưa có bài → nút chapter
       có `hint` "sắp mở", **không** sinh nút lesson rỗng. — `programmingOutline.test.ts`.
-- [ ] **AC-3 Adapter Lập trình — khoá ngắn.** `buildCourseOutline(courseId, ctx)` trả
+- [x] **AC-3 Adapter Lập trình — khoá ngắn.** `buildCourseOutline(courseId, ctx)` trả
       `course → chapter → lesson`, `courseId` gắn trên MỌI nút, bài `href` =
       `duongDanBaiHoc(lesson, {courseId})` (có `?khoa=<courseId>`). Ca chồng lấn THẬT phải có test:
       `git-c1` chứa `p3-u10-l1` → href mang `?khoa=git`; cùng bài trong `buildLevelOutline('p3')`
       → href KHÔNG có `?khoa=`; `ml` và `mlds` cùng chứa `ml-u1-l1` → hai href khác nhau. Khoá
       ngắn không khoá (`availability:'available'` toàn bộ). — `programmingOutline.test.ts`.
-- [ ] **AC-4 Adapter STEM.** `buildStemOutline(subjectId, grade, ctx)` trả
+- [x] **AC-4 Adapter STEM.** `buildStemOutline(subjectId, grade, ctx)` trả
       `level(lớp) → chapter → lesson` từ `loader.listCoreByGrade(grade)` gom theo `chapterNumber`
       (KHÔNG theo `chapterTitle`, KHÔNG theo `chapterKey` — xem §③.3 bẫy Hoá/Sinh); nhánh HSG
       `listAdvanced()` là một nút `chapter` riêng "Bồi dưỡng học sinh giỏi" (con = bài, `hint` =
@@ -58,7 +58,7 @@ và STEM · **S07-3** Tiếng Anh (lộ trình CEFR). AC ghi rõ thuộc PR nào
       Test chạy trên dữ liệu THẬT bốn loader như `StemLesson.test.tsx` đang làm: tổng số nút
       `lesson` của Toán = 53, Lí = 94, Hoá = 87, Sinh = 84 (bằng `loader.index.length`), và
       **không gọi `loadLesson`** (spy = 0 lần). — `stemOutline.test.ts`.
-- [ ] **AC-5 Adapter Tiếng Anh — cấp CEFR.** `buildCefrOutline(levelId, ctx)` trả
+- [x] **AC-5 Adapter Tiếng Anh — cấp CEFR.** `buildCefrOutline(levelId, ctx)` trả
       `level → chapter(unit) → activity` với đúng 3 hoạt động cố định theo thứ tự ① Từ vựng (mỗi
       vòng một `activity`) ② Ngữ pháp (mỗi `GrammarLesson` một `activity`) ③ Hội thoại; unit không
       có ngữ pháp thì KHÔNG sinh nút ngữ pháp rỗng. Số unit mỗi cấp bằng `cefr.json` thật (A1 15
@@ -68,13 +68,13 @@ và STEM · **S07-3** Tiếng Anh (lộ trình CEFR). AC ghi rõ thuộc PR nào
       (`'english.cefrDialogue'`); dở dang = vòng có ≥ 1 từ thuộc nhưng chưa đủ. Khoá cấp: đọc
       `computeLockedMapFromServer` (server là authority), **không** đọc placement. —
       `cefrOutline.test.ts` với fixture rút từ `cefr.json` (không fetch mạng trong test).
-- [ ] **AC-6 Không tải nội dung bài để dựng cây (bất biến).** Ba adapter chỉ import chỉ mục nhẹ
+- [x] **AC-6 Không tải nội dung bài để dựng cây (bất biến).** Ba adapter chỉ import chỉ mục nhẹ
       (`lessonsLoader`/`lessonIndex`, `StemLessonLoader.index`, `cefr.json` đã có trong bộ nhớ
       của trang). Test canh: `vi.spyOn(loader, 'loadLesson')` / `loadUnitLessons` được gọi **0
       lần** trong mỗi `build*Outline`; `grep` xác nhận `packages/core-learner/outline/*.ts`
       không import `@dhcb/subject-programming/lessons` (registry 3 MB). — 3 file test trên +
       lint rule đã có (packages không import apps).
-- [ ] **AC-7 Một hàm dựng URL bài học Lập trình.** `programmingRoutes.ts` có
+- [x] **AC-7 Một hàm dựng URL bài học Lập trình.** `programmingRoutes.ts` có
       `duongDanBaiHoc(lesson, ctx?: {courseId?} | {levelId?})`; `grep -rn "/lap-trinh/bai-hoc/"
 apps/dhcb/src --include=*.tsx` chỉ còn khớp trong `programmingRoutes.ts` và test
       (hiện tại ≥ 2 trang tự ghép chuỗi). `programmingRoutes.test.ts` thêm ca: có/không
@@ -472,3 +472,9 @@ query vẫn hợp lệ trước và sau; `sessionStorage ui_outline_*` tự hế
 **Kết luận:** Approved for implementation  
 **Người duyệt:** Chủ dự án  
 **Ngày:** 2026-09-15
+
+**Tiến độ thi hành:** S07-1 ✅ (changelog `0330-2026-09-15-s07-1-hop-dong-muc-luc-va-adapter.md`) —
+AC-1…AC-7 đạt. **Lệch có chủ đích so với Q3:** adapter Lập trình và CEFR nằm ở
+`apps/dhcb/src/lib/outline/`, chỉ adapter STEM ở `packages/core-learner/outline/` (để adapter Lập
+trình ở gói sẽ tạo vòng phụ thuộc `core-learner ↔ subject-programming` — xem changelog). S07-2 và
+S07-3 chưa làm.

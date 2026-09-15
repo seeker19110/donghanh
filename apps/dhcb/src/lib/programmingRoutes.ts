@@ -23,6 +23,23 @@ export function duongDanBac(level: Pick<ProgrammingLevel, 'id' | 'name'>): strin
   return `/lap-trinh/${buildSlugSegment(level.id, level.name)}`
 }
 
+/**
+ * Trang MỘT BÀI HỌC, giữ ngữ cảnh khoá ngắn nếu người học đang đi theo một khoá.
+ *
+ * Một bài có thể vừa thuộc xương sống P1–P6 vừa nằm trong nhiều khoá ngắn (`p3-u10-l1` vừa ở
+ * P3 vừa ở khoá Git; 10 bài chung giữa `ml` và `mlds`). URL không nói đang học theo khoá nào
+ * thì mở bài xong người học mất đường về khoá. Chọn QUERY `?khoa=` chứ không phải route lồng:
+ * một bài vẫn chỉ có MỘT URL chuẩn cho SEO/bookmark, khoá chỉ là ngữ cảnh đi kèm (đặc tả S07
+ * §③.2, quyết định Q1). Đọc ngược lại bằng `maKhoaTuQuery` ở `programmingRoutesSpec.ts`.
+ */
+export function duongDanBaiHoc(
+  lesson: { id: string; title: string },
+  ctx?: { courseId?: string },
+): string {
+  const base = `/lap-trinh/bai-hoc/${buildSlugSegment(lesson.id, lesson.title)}`
+  return ctx?.courseId ? `${base}?khoa=${encodeURIComponent(ctx.courseId)}` : base
+}
+
 /** Trang một khoá ngắn. */
 export function duongDanKhoa(course: Pick<ShortCourse, 'id' | 'title'>): string {
   return `/lap-trinh/khoa-hoc/${buildSlugSegment(course.id, course.title)}`

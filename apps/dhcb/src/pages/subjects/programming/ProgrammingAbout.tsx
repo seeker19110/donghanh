@@ -27,7 +27,7 @@ import PageHeader from '../../../components/PageHeader'
 import { useAuth } from '../../../context/useAuth'
 import { PROGRAMMING_LEVELS } from '@dhcb/subject-programming/curriculum'
 import { LESSON_INDEX, getLessonSummary } from '@dhcb/subject-programming/lessonsLoader'
-import { buildSlugSegment } from '@core/slug'
+import { duongDanBaiHoc } from '../../../lib/programmingRoutes'
 import { PROJECT_STAGES } from '@dhcb/subject-programming/projectSteps'
 
 /** Sản phẩm của học viên lớn lên thế nào qua từng chặng (khối 2 của đặc tả §6). */
@@ -290,7 +290,10 @@ export default function ProgrammingAbout() {
             onClick={() =>
               nav(
                 user
-                  ? `/lap-trinh/bai-hoc/${buildSlugSegment('p1-u1-l1', getLessonSummary('p1-u1-l1')?.title ?? '')}`
+                  ? duongDanBaiHoc({
+                      id: 'p1-u1-l1',
+                      title: getLessonSummary('p1-u1-l1')?.title ?? '',
+                    })
                   : '/login',
               )
             }

@@ -25,6 +25,7 @@ import { useActiveSection } from '@core/useActiveSection'
 import { useIsDesktopViewport } from '../../../lib/useIsDesktopViewport'
 import { getLessonSummary } from '@dhcb/subject-programming/lessonsLoader'
 import { buildSlugSegment, idFromSlugSegment } from '@core/slug'
+import { duongDanBaiHoc } from '../../../lib/programmingRoutes'
 
 export default function ProgrammingCoursePage() {
   const nav = useNavigate()
@@ -169,9 +170,7 @@ export default function ProgrammingCoursePage() {
                       <div key={lesson.id} className="space-y-1.5">
                         <LangBadge language={lesson.language} />
                         <button
-                          onClick={() =>
-                            nav(`/lap-trinh/bai-hoc/${buildSlugSegment(lesson.id, lesson.title)}`)
-                          }
+                          onClick={() => nav(duongDanBaiHoc(lesson, { courseId: course.id }))}
                           className="tap-44 w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition active:scale-[0.98]"
                         >
                           <span className="flex items-center gap-2 min-w-0">

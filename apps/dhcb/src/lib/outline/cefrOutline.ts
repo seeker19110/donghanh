@@ -1,0 +1,186 @@
+// cefrOutline — dựng cây mục lục MỘT CẤP CEFR của môn Tiếng Anh (A1 → C2).
+//
+// Đặc tả: docs/specs/2026-09-15-goc-hoc-tap-07-muc-luc-mon-khoa.md §③.2, §③.3 (dòng CEFR), AC-5.
+//
+// Cây: `cấp → unit → hoạt động`, mỗi unit đúng ba loại hoạt động theo THỨ TỰ CỐ ĐỊNH:
+//   ① Từ vựng — mỗi vòng (`vocabCircleIds`) một hoạt động
+//   ② Ngữ pháp — mỗi `GrammarLesson` một hoạt động (unit không có ngữ pháp thì KHÔNG sinh nút
+//      rỗng: B2 có 43 unit nhưng chỉ 14 bài ngữ pháp)
+//   ③ Hội thoại — MỘT hoạt động cho cả unit
+//
+// Ở `apps/` vì dữ liệu cấp (`data/cefrTypes`) và tiến độ (`lib/cefrProgress`) sống trong app;
+// `packages/` không được import `apps/`.
+//
+// KHÔNG FETCH: `cefr.json` và danh sách vòng đã nằm sẵn trong trang (`loadCefr`/`loadFoundation`);
+// adapter chỉ nhận dữ liệu đã có qua `ctx` và là hàm thuần, gọi được trong `useMemo`.
+import type { Outline, OutlineNode } from '@dhcb/core-contracts/outline'
+import type { CefrLevel, CefrUnit } from '../../data/cefrTypes'
+import type { Circle } from '../../data/curriculumTypes'
+import { circleDoneCount } from '../cefrProgress'
+
+const SUBJECT_ID = 'english'
+
+export interface CefrOutlineCtx {
+  /** Từ đã thuộc (`et_learned_<uid>`), chữ thường. */
+  learned: ReadonlySet<string>
+  /** Bài ngữ pháp đã học xong (`et_cefr_grammar_<uid>`, hợp nhất với server). */
+  doneGrammar: ReadonlySet<string>
+  /** Khoá hội thoại đã xem: `dialogueKey(ownerId, titleEn)` (`et_cefr_dialogue_<uid>`). */
+  viewedDialogues: ReadonlySet<string>
+  /** Vòng từ vựng theo id (từ `loadFoundation()`). */
+  circles: ReadonlyMap<string, Circle>
+  /** Khoá cấp — SERVER là nguồn sự thật (`computeLockedMapFromServer`), adapter không tự tính. */
+  lockedMap: ReadonlyMap<CefrLevel['id'], boolean>
+  /** Cấp liền trước, để viết đúng câu giải thích khoá như màn khoá hiện có. */
+  prevLevelId?: CefrLevel['id']
+}
+
+/** Loại hoạt động trong một unit CEFR. */
+export type CefrActivityKind = 'vocab' | 'grammar' | 'dialogue'
+
+/**
+ * URL một hoạt động: trang cấp + ngữ cảnh trên query, vì ba hoạt động này là màn CON của
+ * `CefrLevelPage` (không phải route riêng). Giữ ở ĐÚNG MỘT hàm để giao diện S07-3 đọc lại
+ * bằng cùng một quy ước, không nơi nào tự ghép chuỗi.
+ */
+export function duongDanHoatDongCefr(
+  levelId: CefrLevel['id'],
+  unitId: string,
+  kind: CefrActivityKind,
+  contentId: string,
+): string {
+  const query = new URLSearchParams({ unit: unitId, hd: `${kind}:${contentId}` })
+  return `/lo-trinh-hoc/${levelId.toLowerCase()}?${query.toString()}`
+}
+
+/** Câu giải thích khoá — lấy nguyên văn luật đang hiện ở màn khoá của trang cấp. */
+function lyDoKhoa(prevLevelId: CefrLevel['id'] | undefined): string {
+  return prevLevelId
+    ? `Thi đạt bài kiểm tra cuối cấp ${prevLevelId} (≥70%) để mở khoá.`
+    : 'Cấp này chưa mở.'
+}
+
+/** Cây một cấp CEFR. Cấp khoá vẫn dựng đủ cây (để giao diện hiện lý do), chỉ là không có href. */
+export function buildCefrOutline(level: CefrLevel, ctx: CefrOutlineCtx): Outline {
+  const locked = ctx.lockedMap.get(level.id) === true
+  const lockReason = locked ? lyDoKhoa(ctx.prevLevelId) : undefined
+  const chung = {
+    subjectId: SUBJECT_ID,
+    availability: locked ? ('locked' as const) : ('available' as const),
+    ...(lockReason ? { lockReason } : {}),
+  }
+
+  const rootId = `level:${level.id}`
+  const nodes: OutlineNode[] = [
+    {
+      ...chung,
+      nodeId: rootId,
+      contentId: level.id,
+      kind: 'level',
+      title: `${level.id} · ${level.titleVi}`,
+      hint: `${level.units.length} phần`,
+      order: 0,
+      progress: 'unknown',
+    },
+  ]
+
+  level.units.forEach((unit, unitIndex) => {
+    const unitNodeId = `chapter:${unit.id}`
+    const hoatDong = hoatDongCuaUnit(level, unit, ctx, locked)
+    nodes.push({
+      ...chung,
+      nodeId: unitNodeId,
+      parentId: rootId,
+      contentId: unit.id,
+      kind: 'chapter',
+      title: unit.titleVi,
+      hint: `${hoatDong.length} hoạt động`,
+      order: unitIndex,
+      progress: 'unknown',
+    })
+    hoatDong.forEach((node, i) => {
+      nodes.push({ ...node, parentId: unitNodeId, order: i })
+    })
+  })
+
+  return { rootId, subjectId: SUBJECT_ID, nodes, builtAt: Date.now() }
+}
+
+/** Ba loại hoạt động của MỘT unit, đúng thứ tự ① từ vựng ② ngữ pháp ③ hội thoại. */
+function hoatDongCuaUnit(
+  level: CefrLevel,
+  unit: CefrUnit,
+  ctx: CefrOutlineCtx,
+  locked: boolean,
+): OutlineNode[] {
+  const lockReason = locked ? lyDoKhoa(ctx.prevLevelId) : undefined
+  const nen = (
+    kind: CefrActivityKind,
+    contentId: string,
+    title: string,
+    tienDo: Pick<OutlineNode, 'progress' | 'evidenceSource'>,
+    hint?: string,
+  ): OutlineNode => ({
+    nodeId: `activity:${unit.id}:${kind}:${contentId}`,
+    subjectId: SUBJECT_ID,
+    contentId,
+    kind: 'activity',
+    title,
+    ...(hint ? { hint } : {}),
+    order: 0, // nơi gọi gán lại theo vị trí thật trong unit
+    ...(locked ? {} : { href: duongDanHoatDongCefr(level.id, unit.id, kind, contentId) }),
+    availability: locked ? 'locked' : 'available',
+    ...(lockReason ? { lockReason } : {}),
+    ...tienDo,
+  })
+
+  const nodes: OutlineNode[] = []
+
+  // ① Từ vựng: mỗi vòng một hoạt động. Vòng không có trong dữ liệu đã tải → bỏ qua (không
+  // dựng nút "rỗng" mà bấm vào không có gì).
+  for (const circleId of unit.vocabCircleIds) {
+    const circle = ctx.circles.get(circleId)
+    if (!circle) continue
+    const done = circleDoneCount(circle, ctx.learned as Set<string>)
+    const total = circle.words.length
+    const tienDo: Pick<OutlineNode, 'progress' | 'evidenceSource'> =
+      total > 0 && done === total
+        ? { progress: 'completed', evidenceSource: 'english.vocab' }
+        : done > 0
+          ? { progress: 'in-progress', evidenceSource: 'english.vocab' }
+          : { progress: 'not-started' }
+    nodes.push(nen('vocab', circle.id, `Từ vựng: ${circle.titleVi}`, tienDo, `${done}/${total} từ`))
+  }
+
+  // ② Ngữ pháp: unit không có bài nào thì KHÔNG sinh nút rỗng.
+  for (const grammar of unit.grammar) {
+    const xong = ctx.doneGrammar.has(grammar.id)
+    nodes.push(
+      nen(
+        'grammar',
+        grammar.id,
+        `Ngữ pháp: ${grammar.titleVi}`,
+        xong
+          ? { progress: 'completed', evidenceSource: 'english.cefrGrammar' }
+          : { progress: 'not-started' },
+      ),
+    )
+  }
+
+  // ③ Hội thoại: MỘT hoạt động cho cả unit. Danh sách hội thoại nạp bất đồng bộ nên adapter
+  // không đếm được tổng — "đã xem" là khi có ít nhất một hội thoại của unit được ghi nhận
+  // (khoá có dạng `<unitId>:<titleEn>`).
+  const daXem = [...ctx.viewedDialogues].some((key) => key.startsWith(`${unit.id}:`))
+  nodes.push(
+    nen(
+      'dialogue',
+      unit.id,
+      'Hội thoại',
+      daXem
+        ? { progress: 'completed', evidenceSource: 'english.cefrDialogue' }
+        : { progress: 'not-started' },
+    ),
+  )
+
+  return nodes
+}
