@@ -20,7 +20,8 @@ import Layout from '../../components/Layout'
 import { PageShell } from '@core/PageShell'
 import PageHeader from '../../components/PageHeader'
 import SubjectIllustration from '../../components/SubjectIllustration'
-import { listSubjects } from '../../lib/subjectApi'
+import LoadError from '../../components/LoadError'
+import { listSubjects, SubjectApiError } from '../../lib/subjectApi'
 import type { SubjectManifest } from '@dhcb/core-contracts/subjectManifest'
 import { goToSubjects } from '../../lib/subjectsHost'
 
@@ -68,29 +69,63 @@ const SUBJECT_COLORS: Record<
   },
 }
 
+// [S03-1, 2026-09-15] Ba trạng thái TÁCH BẠCH, không còn gộp "rỗng" với "hỏng".
+// Trước đây trang chỉ có `subjects` + `loading`, và effect bắt mọi lỗi bằng
+// `.catch(() => setSubjects([]))`: mất mạng, 503 hay payload sai đều ra đúng màn hình
+// "Chưa có môn học nào trong mục này" — tức là NÓI DỐI người học rằng catalog trống.
+type CatalogState =
+  | { status: 'loading' }
+  | { status: 'error'; message: string }
+  | { status: 'ready'; subjects: SubjectManifest[] }
+
 export default function Subjects() {
   usePageTitle('Môn học | Đồng hành cùng bạn')
   const nav = useNavigate()
-  const [subjects, setSubjects] = useState<SubjectManifest[]>([])
+  const [catalog, setCatalog] = useState<CatalogState>({ status: 'loading' })
   const [filter, setFilter] = useState<'all' | 'language' | 'stem'>('all')
   const [searchQuery, setSearchQuery] = useState('')
-  const [loading, setLoading] = useState(true)
+  // Chỉ TĂNG khi người dùng bấm "Thử lại". Không retry tự động: một lượt hỏng mà tự gọi
+  // lại vòng quanh thì vừa không sửa được gì, vừa đập thêm vào máy chủ đang quá tải và
+  // ăn ngay rate limit 60 lượt/phút của `/api/subjects`.
+  const [retryToken, setRetryToken] = useState(0)
 
   // Đổi bộ lọc → bật lại spinner NGAY TRONG RENDER (pattern so-sánh-prev, không
-  // setState đồng bộ trong effect); mount đầu đã mặc định loading=true.
+  // setState đồng bộ trong effect); mount đầu đã mặc định status='loading'.
   const [prevFilter, setPrevFilter] = useState(filter)
   if (filter !== prevFilter) {
     setPrevFilter(filter)
-    setLoading(true)
+    setCatalog({ status: 'loading' })
   }
 
   useEffect(() => {
-    listSubjects(filter === 'all' ? undefined : filter)
-      .then(setSubjects)
-      .catch(() => setSubjects([]))
-      .finally(() => setLoading(false))
-  }, [filter])
+    // CHỐNG RACE: đổi bộ lọc nhanh (Tất cả → Ngôn ngữ → STEM) thì response của lượt CŨ
+    // có thể về SAU lượt mới và ghi đè danh sách đang đúng. `AbortController` huỷ request
+    // cũ ngay trong cleanup, còn cờ `aborted` chặn nốt lượt đã bay qua `fetch` rồi. Thiếu
+    // một trong hai đều lọt: huỷ không chặn được `.then` đã lên hàng đợi microtask.
+    const controller = new AbortController()
 
+    listSubjects(filter === 'all' ? undefined : filter, { signal: controller.signal })
+      .then((list) => {
+        if (controller.signal.aborted) return
+        setCatalog({ status: 'ready', subjects: list })
+      })
+      .catch((err: unknown) => {
+        if (controller.signal.aborted) return
+        // Huỷ chủ động không phải lỗi của người dùng — không hiện gì.
+        if (err instanceof DOMException && err.name === 'AbortError') return
+        setCatalog({
+          status: 'error',
+          message:
+            err instanceof SubjectApiError
+              ? err.message
+              : 'Không tải được danh mục môn học. Kiểm tra kết nối rồi thử lại.',
+        })
+      })
+
+    return () => controller.abort()
+  }, [filter, retryToken])
+
+  const subjects = catalog.status === 'ready' ? catalog.subjects : []
   const filteredSubjects = subjects.filter((s) => {
     if (!searchQuery.trim()) return true
     const q = searchQuery.toLowerCase()
@@ -252,21 +287,36 @@ export default function Subjects() {
           <ChevronRight className="w-5 h-5 text-accent-400 theme-light:text-accent-800 group-hover:translate-x-1 transition shrink-0 ml-2" />
         </button>
 
-        {/* Danh sách thẻ môn học */}
-        {loading ? (
-          <div className="text-center py-12 text-zinc-500 text-sm flex items-center justify-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-accent-400 animate-ping" />
+        {/* Danh sách thẻ môn học — BỐN nhánh tách bạch, xem `CatalogState` ở đầu file:
+            đang tải · lỗi tải (thử lại được) · tải xong nhưng bộ lọc không có môn · tìm
+            kiếm không khớp. Trước S03-1 nhánh 2 và 3 bị gộp làm một. */}
+        {catalog.status === 'loading' ? (
+          <div
+            role="status"
+            className="text-center py-12 text-zinc-500 text-sm flex items-center justify-center gap-2"
+          >
+            <span className="w-2 h-2 rounded-full bg-accent-400 animate-ping" aria-hidden="true" />
             <span>Đang tải danh mục môn học…</span>
           </div>
+        ) : catalog.status === 'error' ? (
+          <LoadError
+            message={catalog.message}
+            hint="Đây là lỗi tải danh mục, không phải danh mục trống — các môn vẫn còn nguyên."
+            onRetry={() => setRetryToken((n) => n + 1)}
+          />
         ) : filteredSubjects.length === 0 ? (
           <div className="text-center py-12 text-zinc-400 text-sm bg-zinc-900/60 rounded-3xl border border-zinc-800">
             {/* [Sửa lỗi 2026-09-05] Trước đây câu này luôn đổ tại từ khoá, kể cả khi ô tìm kiếm
                 TRỐNG — lúc đó nó in ra `khớp với từ khóa ""`, vừa vô nghĩa vừa đổ lỗi cho thao
                 tác mà người dùng chưa hề làm. Danh sách rỗng khi không có từ khoá là chuyện
-                khác hẳn (bộ lọc không có môn nào, hoặc tải danh mục hỏng), nên phải nói khác. */}
+                khác hẳn (bộ lọc không có môn nào, hoặc tải danh mục hỏng), nên phải nói khác.
+
+                [S03-1, 2026-09-15] Nhánh "tải danh mục hỏng" nay đã ra khỏi đây hẳn (xem
+                nhánh `status === 'error'` ở trên), nên câu dưới chỉ còn nói đúng MỘT chuyện
+                thật: máy chủ trả về thành công và bộ lọc này không có môn nào. */}
             {searchQuery.trim()
               ? `Không tìm thấy môn học nào khớp với từ khóa "${searchQuery.trim()}".`
-              : 'Chưa có môn học nào trong mục này. Thử chọn "Tất cả môn" hoặc tải lại trang.'}
+              : 'Bộ lọc này hiện chưa có môn học nào. Thử chọn "Tất cả môn".'}
           </div>
         ) : (
           /* Ở 1440px cột nội dung rộng ~1150px, đủ chỗ cho BA thẻ ~360px — sáu môn hiện tại
