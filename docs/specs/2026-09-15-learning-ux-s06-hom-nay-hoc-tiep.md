@@ -8,7 +8,7 @@
 | Goal          | [`learning-ux`](../goals/2026-09-15-learning-ux.md) dòng S06 — "Hôm nay, điểm học tiếp" (Dependency: S08 + spec)                                                                                          |
 | Thứ tự chốt   | S07 → S08 → **S06** → S05 → S10 → S11 → S09 → S12 → S13 (chủ dự án, 2026-09-15)                                                                                                                           |
 | Base khảo sát | `main` `7c2d81c` (#928), khảo sát 2026-09-15 bằng đọc mã thật + `npm run codemap -- impact` (số liệu ở §②)                                                                                                |
-| Trạng thái    | **In review** — chờ chủ dự án chốt 6 quyết định ở §7                                                                                                                                                      |
+| Trạng thái    | **Approved for implementation** — chủ dự án chốt TOÀN BỘ câu hỏi §7 theo đề xuất mặc định (2026-09-15)                                                                                                    |
 | Người duyệt   | Chủ dự án                                                                                                                                                                                                 |
 
 > Không bắt đầu code khi trạng thái chưa là **Approved for implementation**. Luật số 1 của khuôn
@@ -446,6 +446,9 @@ trạng thái; lỗi fetch Lập trình → vẫn gọi `buildTodayPlan` với c
 
 ## 7. Quyết định cần chủ dự án chốt trước khi Approved
 
+> **CHỐT 2026-09-15 — chủ dự án:** lấy TOÀN BỘ cột "Đề xuất của AI (mặc định)"
+> làm quyết định cuối cho mọi câu hỏi trong bảng dưới. Không có ý kiến khác.
+
 | #   | Câu hỏi                                                                                                                                                         | Đề xuất của AI (mặc định nếu không có ý kiến khác)                                                                                                                                                                                                                             | Lý do                                                                                                                                                                                                                                                                                         |
 | --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Q1  | Người học 2+ môn: chọn `primary` theo gì? Có "xoay vòng theo ngày" không?                                                                                       | **Ba bậc, KHÔNG xoay vòng:** (1) phiên S08 `updatedAt` mới nhất → (2) evidence môn mới nhất (`lastEvidenceAt`) → (3) hoà/không có mốc thời gian: thứ tự ổn định `programming → mathematics → physics → chemistry → biology → english` (Anh cuối để không thành mặc định ngầm). | Xoay vòng theo ngày làm CTA đổi khi người học chưa làm gì → mất "quay lại đúng chỗ" (goal metric). Bậc 3 hiếm (chỉ khi không có thời gian nào) nên thứ tự cố định đủ dùng; môn thứ hai luôn có mặt ở mục phụ nên không "mất" môn. Phương án thay thế: cho chọn "Môn ưu tiên" ở Profile (S05). |
@@ -487,12 +490,12 @@ S06-2 trả lại `HomeAiBriefingCard` bản cũ mà không mất dữ liệu ng
 
 ## 19. Phê duyệt
 
-- [ ] Product outcome và scope (Q1–Q6)
-- [ ] UX/accessibility (MỘT CTA, 4 trạng thái, không con số chẩn đoán, ≤ 2 thao tác)
-- [ ] Architecture (hợp đồng `TodayPlan`/`ResumePoint`, resolver thuần trong `core-learner`,
+- [x] Product outcome và scope (Q1–Q6)
+- [x] UX/accessibility (MỘT CTA, 4 trạng thái, không con số chẩn đoán, ≤ 2 thao tác)
+- [x] Architecture (hợp đồng `TodayPlan`/`ResumePoint`, resolver thuần trong `core-learner`,
       adapter trong app, `href` là nguồn điều hướng duy nhất)
-- [ ] Test/rollout/rollback (3 PR)
+- [x] Test/rollout/rollback (3 PR)
 
-**Kết luận:** In review  
-**Người duyệt:** —  
-**Ngày:** —
+**Kết luận:** Approved for implementation  
+**Người duyệt:** Chủ dự án  
+**Ngày:** 2026-09-15
