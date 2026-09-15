@@ -8,7 +8,7 @@
 | Goal          | [`learning-ux`](../goals/2026-09-15-learning-ux.md) dòng S11 (dependency S08 + domain spec; "cần spec nhỏ từng hoạt động")                                                                                                       |
 | Thứ tự chốt   | S07 → S08 → S06 → S05 → S10 → **S11** → S09 (đồng bộ version/retry/xung đột) → S12 (ôn tập) → S13                                                                                                                                |
 | Base khảo sát | `main` `7c2d81c` (#928), khảo sát 2026-09-15 bằng đọc mã thật + `npm run codemap -- impact` (số liệu đếm thật, ghi kèm đường dẫn/dòng)                                                                                           |
-| Trạng thái    | **In review** — chờ chủ dự án chốt 6 quyết định ở §7                                                                                                                                                                             |
+| Trạng thái    | **Approved for implementation** (2026-09-15) — §7 chốt theo cột "Đề xuất của AI"; S11-1 đã thi hành (changelog `0333`), S11-2/S11-3 còn lại                                                                                      |
 | Người duyệt   | Chủ dự án                                                                                                                                                                                                                        |
 
 > Không bắt đầu code khi trạng thái chưa là **Approved for implementation**. Luật số 1 của khuôn
@@ -564,6 +564,6 @@ và lại sau mỗi `submitStemEvidence` thành công (không polling). Khách: 
 - [ ] UX/accessibility (màn kết quả 5 trạng thái có chữ, nút Nộp ≥ 44px, hàng đợi có `role="status"`)
 - [ ] Test/rollout/rollback (3 PR, migration × 2)
 
-**Kết luận:** In review  
-**Người duyệt:** —  
-**Ngày:** —
+**Kết luận:** Approved for implementation (§7 chốt theo cột "Đề xuất của AI")  
+**Người duyệt:** Chủ dự án  
+**Ngày:** 2026-09-15

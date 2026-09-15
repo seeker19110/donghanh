@@ -231,6 +231,13 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
 | 04    | Nền tảng không mặc định tiếng Anh (`english.isDefault`)                                 | ✅ **ĐÃ THI HÀNH** (`docs/changelog/0327-*.md`, cùng đặc tả với 03)                                                                                                               |
 | S07   | Mục lục môn/khoá độc lập shellbar (hợp đồng `OutlineNode` + adapter 3 môn + rail/panel) | 📝 **ĐẶC TẢ ĐÃ VIẾT, In review** — `docs/specs/2026-09-15-goc-hoc-tap-07-muc-luc-mon-khoa.md`; chờ chốt Q1–Q5 (§7). 02–04 đã merge nên cả 3 PR con S07 đều sẵn sàng sau khi duyệt |
 
+**S11 (completion evidence) — ĐÃ DUYỆT và ĐANG THI HÀNH.** S11-1 (nền tảng: hợp đồng
+`packages/core-contracts/completionEvidence.ts`, bảng luật `packages/core-learner/completionRules.ts`,
+migration `0082` hai bảng `platform.completion_evidence`/`completion_state`, endpoint
+`POST | GET /api/learning/evidence` server chấm LẠI trả lời thô) đã làm — `docs/changelog/0333-*.md`.
+**Còn lại: S11-2** (nút "Nộp bài tự kiểm tra" ở `StemLessonView`, evidence khách `guest_*`, hàng đợi
+gửi lại) và **S11-3** (màn kết quả `ActivityResult` + mục lục S07 đọc evidence) — S11-3 cần S07-2 merge trước.
+
 **Các slice còn lại của goal learning-ux — ĐẶC TẢ ĐÃ VIẾT 2026-09-15 (`docs/changelog/0328-*.md`), đều In review chờ chủ dự án chốt §7 từng file.** Thứ tự thi hành đã chốt: S07 → S08 → S06 → S05 → S10 → S11 → S09 → S12 → S13. File: `docs/specs/2026-09-15-learning-ux-s{08,06,05,10,11,09,12,13}-*.md`. Migration đã đánh số theo thứ tự: S05 0081 · S11 0082 · S09 0083 · S12 0084.
 
 **Ghi trong lúc khảo sát 02 (2026-09-15, `docs/changelog/0325-*.md`) — LỖI THẬT đang chạy:** trên
@@ -748,6 +755,8 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 - 🟡 **[2026-09-15 — phát hiện khi viết đặc tả S05/S10/S12, `docs/changelog/0328-*.md`] Ba tài liệu được CLAUDE.md và mã dẫn tới nhưng KHÔNG tồn tại trong repo:** `docs/research/luong-nguoi-moi-ho-so-nang-luc-an-2026-08-23.md` (CLAUDE.md §2 + 4 file mã), `docs/research/eval-tutor-baseline.md` (CLAUDE.md §8 + `scripts/eval-tutor.ts:53`), `docs/research/cai-tien-lo-trinh-hoc.md` (`storage.ts:241`). Cần viết lại hoặc sửa đường dẫn; S05 đã tái dựng luật ngôn ngữ từ mã đang chạy. Cũng lỗi thời: sàn coverage thật là 93/89/93/93 (`vitest.config.ts`), CLAUDE.md §13 và mục nợ coverage ghi 97/93/96/97 — S13 sửa.
 - 🔴 **[2026-09-15 — khảo sát S09] Mất tiến độ Lập trình khi offline:** `programmingProgress.ts:40` `fetchProgress` ghi đè cache bằng bản server; POST lỗi bị nuốt (dòng 72–74) → bài hoàn thành lúc offline biến mất ở lần mở sau, không gửi lại. `offlineStore.ts` là hàng đợi giả (0 caller, flush `async () => true`). Sửa ở S09-2.
 - 🟡 **[2026-09-15 — khảo sát S12] `packages/core-learner/learningReadModelService.ts:68` select cột `stats` không tồn tại trong `english.learning_progress`** → `/api/learning-read-model` trả số không có nguồn hoặc lỗi runtime. S12 cấm dùng làm nguồn tiến độ; cần sửa/xoá riêng.
+- 🟡 **[2026-09-15 — S11-1, `docs/changelog/0333-*.md`] Bài Lập trình và bước dự án vẫn là "client tự khai hoàn thành".** Bảng luật `packages/core-learner/completionRules.ts` nay ghi rõ điều đó: bài Lập trình chấm test case trong worker ở CLIENT rồi POST `status:'completed'` (`ProgrammingLessonPage.tsx:184`), server chỉ kiểm `lessonId` có thật; bước dự án là một cú bấm nút. Đường ra: server chạy lại test case trong sandbox (cần hạ tầng riêng, không thuộc S11) hoặc ký kết quả worker; bước dự án cần rubric/artifact. Bài STEM đã sang mô hình đúng (server chấm lại) làm khuôn.
+- 🟡 **[2026-09-15 — S11-1] Hội thoại CEFR đánh dấu "đã xem" (`markDialogueViewed`) chứ không phải "đã học".** Mục lục phải ghi đúng nhãn `english.cefrDialogue` = đã xem; cần một dạng evidence thật (nói lại/trả lời câu hỏi) ở slice môn Anh sau này.
 - 🟡 **[2026-09-15 — khảo sát S10] 6 lỗi lifecycle voice/AI** (TTS nổ ở trang kế khi rời Companion giữa stream; stream không huỷ được; `tts.ts` chốt play-token sau await; mic không release khi `MediaRecorder` ném; `AiHelpPanel` rò hint giữa bài) — file:dòng ở spec S10 §②; PR S10-1 sửa trước mọi tính năng trợ giảng.
 
 > Mục này CHỈ giữ nợ **đang mở** (🟡/🔴). Nợ đã đóng (🟢) được dời sang
