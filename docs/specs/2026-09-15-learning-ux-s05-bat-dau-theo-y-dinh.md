@@ -7,7 +7,7 @@
 | Spec anh em   | [`S07 mục lục`](2026-09-15-goc-hoc-tap-07-muc-luc-mon-khoa.md) (S05 DÙNG LẠI `Outline` + adapter S07-1 để chọn "một việc"); S06 Hôm nay/học tiếp (`2026-09-15-learning-ux-s06-hom-nay-hoc-tiep.md`, đang viết song song) |
 | Goal          | [`learning-ux`](../goals/2026-09-15-learning-ux.md) dòng S05 (dependency: S06 + spec). Thứ tự chốt: S07 → S08 → S06 → **S05** → S10 → S11 → S09 → S12 → S13                                                              |
 | Base khảo sát | `main` `7c2d81c` (#928), khảo sát 2026-09-15 bằng grep/sed/codemap trên mã thật (Intake · Onboarding · hub · guestProgress · registry), số liệu đếm thật                                                                 |
-| Trạng thái    | **In review** — chờ chủ dự án chốt 6 quyết định ở §7                                                                                                                                                                     |
+| Trạng thái    | **Approved for implementation** — chủ dự án chốt TOÀN BỘ câu hỏi §7 theo đề xuất mặc định (2026-09-15)                                                                                                                   |
 | Người duyệt   | Chủ dự án                                                                                                                                                                                                                |
 
 > Không bắt đầu code khi trạng thái chưa là **Approved for implementation**. Luật số 1 của khuôn
@@ -503,6 +503,9 @@ nhãn danh mục; nhãn ngắn của route STEM giữ cho breadcrumb, không thu
 
 ## 7. Quyết định cần chủ dự án chốt trước khi Approved
 
+> **CHỐT 2026-09-15 — chủ dự án:** lấy TOÀN BỘ cột "Đề xuất của AI (mặc định)"
+> làm quyết định cuối cho mọi câu hỏi trong bảng dưới. Không có ý kiến khác.
+
 | #   | Câu hỏi                                                                                                                                                                                                                                                     | Đề xuất của AI (mặc định nếu không có ý kiến khác)                                                                                        | Lý do                                                                                                                                                                                                                                                       |
 | --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Q1  | Bộ câu và route: dùng lại 5 câu Intake (tuổi · mối bận tâm · thêm 1 giờ · quên thời gian · đà học) hay bộ câu MỚI theo `LearnerIntent` (môn · mục đích · phút/ngày · quen chưa · lớp)? `/bat-dau` cho ai?                                                   | **Bộ câu mới ở `/bat-dau`** (hub đã trỏ 5 chỗ tới đó); Intake cũ giữ nguyên mã tại `/bat-dau/doi-song`, không link từ đâu (như hiện nay). | Intake hỏi về ĐỜI SỐNG (sức khoẻ, tiền bạc) và trả việc đời sống, không trả bài học; nó cần tài khoản (`/api/intake` 401 với khách) nên hub CTA hiện dẫn khách vào ngõ cụt. Trộn hai bộ = 10 câu, vi phạm "≤ 5 câu". Không xoá Intake vì `0095` đang đo nó. |
@@ -546,11 +549,11 @@ tay — không dữ liệu, không migration.
 
 ## 19. Phê duyệt
 
-- [ ] Product outcome và scope (Q1–Q6)
-- [ ] UX/accessibility (≤ 5 màn, bỏ qua được, một nút Bắt đầu, không chẩn đoán, 5 theme, 320px)
-- [ ] Architecture (`LearnerIntent` versioned, endpoint + migration `0081`, khách local + hợp nhất, file sinh cho hub)
-- [ ] Test/rollout/rollback (2 PR, 7 test bất biến ngôn ngữ, test hub chạy thật)
+- [x] Product outcome và scope (Q1–Q6)
+- [x] UX/accessibility (≤ 5 màn, bỏ qua được, một nút Bắt đầu, không chẩn đoán, 5 theme, 320px)
+- [x] Architecture (`LearnerIntent` versioned, endpoint + migration `0081`, khách local + hợp nhất, file sinh cho hub)
+- [x] Test/rollout/rollback (2 PR, 7 test bất biến ngôn ngữ, test hub chạy thật)
 
-**Kết luận:** In review  
-**Người duyệt:** —  
-**Ngày:** —
+**Kết luận:** Approved for implementation  
+**Người duyệt:** Chủ dự án  
+**Ngày:** 2026-09-15
