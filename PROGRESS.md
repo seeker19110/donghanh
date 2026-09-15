@@ -302,10 +302,14 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
   học** — vòng `cefr-*` chép bậc vào JSON nên **43 từ vẫn được dạy ở bậc cũ** (người học A1 vẫn
   gặp `impetus`, `tensely`); đã đồng bộ 43 bậc + sinh lại `curriculum.json`, và thêm cổng
   `apps/dhcb/src/data/vocabLevelSync.test.ts`.
-  **🔸 CẦN NGƯỜI DÙNG QUYẾT:** 43 từ nay đúng bậc nhưng **vẫn nằm trong vòng của bậc cũ**
-  (`impetus` C1 vẫn thuộc vòng `cefr-a1-noun-16`). Chuyển vòng = đổi khoá tiến độ người đang học,
-  nên tôi KHÔNG tự làm. Ba phương án ở mục 4 của báo cáo; đề xuất (b) sinh lại vòng cho khoảng
-  8 vòng bị ảnh hưởng.
+  **✅ ĐÃ XONG — người dùng chốt phương án (b), thi hành 2026-09-15
+  (`docs/changelog/0316-*.md`, báo cáo `docs/audit/2026-09-15-sinh-lai-vong-theo-thang-bac.md`):**
+  sinh lại vòng A1–B2 + C1–C2 rồi sinh lại `curriculum.json` và `public/data/cefr.json` →
+  **0 từ còn nằm trong vòng sai bậc** (trước: 43). Quy mô thật LỚN HƠN ước lượng "khoảng 8 vòng"
+  của tôi: **123 vòng đổi thành phần, 328 từ đổi vòng**; kèm viết tay 22 câu mẫu cho 13 vòng bị
+  hỏng. **Luật rút ra, phải theo lần sau:** hai generator khử trùng qua `curriculum.json` nên
+  **thứ tự chạy 5 bước** (A1B2 → curriculum → C1C2 → curriculum → learn-json) là một phần của
+  lời giải — chạy sai thứ tự thì từ bậc C1 biến mất khỏi lộ trình im lặng.
 
 - **Audit chất lượng nội dung 6 môn (2026-09-14)** — báo cáo đầy đủ:
   `docs/audit/2026-09-14-chat-luong-noi-dung-cac-mon-hoc.md`. 11 phát hiện; hai cái đã có ở
