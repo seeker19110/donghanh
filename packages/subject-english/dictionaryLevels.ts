@@ -20,6 +20,7 @@ export interface DictLevelEntry {
   word: string
   pos: string
   level?: CefrWordLevel
+  freq?: number // THỨ HẠNG tần suất (1 = phổ biến nhất), không phải số lần xuất hiện
   base?: string
   forms?: Record<string, unknown>
 }
@@ -99,4 +100,50 @@ export function findInflectionLevelMismatches(
   }
 
   return out
+}
+
+// ---------------------------------------------------------------------------
+// Bất biến thứ hai: KHÔNG có từ rất hiếm nào nằm ở bậc nhập môn.
+//
+// Đợt rà 2026-09-15 tìm thấy 56 mục hạng ≥ 30 000 mà gắn A1/A2 — "tensely" A1 (hạng
+// 72 439), "impetus" A1, "illegible" A1. Nguyên nhân: Words-CEFR-Dataset gán cho từ PHÁI
+// SINH đúng bậc của từ GỐC ("tense" A1 → "tensely" A1), bỏ qua việc dạng phái sinh hiếm hơn
+// hẳn và khó hơn về hình thái. Đã hạ 45 mục xuống B1/B2/C1 theo độ trong suốt của phái sinh.
+//
+// 11 mục còn lại là NGOẠI LỆ CÓ CHỦ ĐÍCH, liệt kê tên để mọi mục mới rơi vào nhóm này đều
+// phải được xem xét (xem docs/audit/2026-09-15-tu-hiem-gan-bac-nhap-mon.md).
+
+export const RARE_RANK_FLOOR = 30_000
+
+// Ngoại lệ: 10 mục do CHÍNH CEFR-J chấm A1/A2 (giáo trình dạy sớm theo chủ đề — thứ hạng
+// thấp là đặc tính của ngữ liệu viết, không phải của độ khó), + "iii" là chữ số La Mã.
+export const RARE_EASY_ALLOWLIST: readonly string[] = [
+  'centimeter::n',
+  'footballer::n',
+  'grandparent::n',
+  'headphone::n',
+  'iii::num',
+  'kilogram::n',
+  'metre::n',
+  'motorway::n',
+  'schoolchild::n',
+  'superlative::n',
+  'tablespoon::n',
+]
+
+const ENTRY_LEVELS: readonly CefrWordLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
+
+// Mục "rất hiếm mà gắn bậc nhập môn": hạng tần suất ≥ RARE_RANK_FLOOR nhưng bậc ≤ A2.
+// Trả về khoá `word::pos` đã sắp xếp, để test so thẳng với danh sách ngoại lệ.
+export function findRareEasyOutliers(entries: readonly DictLevelEntry[]): string[] {
+  return entries
+    .filter(
+      (e) =>
+        typeof e.freq === 'number' &&
+        e.freq >= RARE_RANK_FLOOR &&
+        e.level !== undefined &&
+        ENTRY_LEVELS.indexOf(e.level) <= 1,
+    )
+    .map((e) => `${e.word.trim().toLowerCase()}::${e.pos}`)
+    .sort()
 }

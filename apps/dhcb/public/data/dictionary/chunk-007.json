@@ -645,7 +645,7 @@
     "ipa_en": "/ræˈtæn/",
     "ipa_vi": "/məj˧/",
     "freq": 47052,
-    "level": "A1",
+    "level": "C1",
     "forms": { "plural": "rattans" }
   },
   {
@@ -1070,7 +1070,7 @@
     "ipa_en": "/ˈriˌbɑr/",
     "ipa_vi": "/kot̚˦˥/",
     "freq": 70138,
-    "level": "A2",
+    "level": "C1",
     "forms": { "plural": "rebars" }
   },
   {
@@ -3134,7 +3134,7 @@
     "ipa_en": "/riˈmɛrɪʤ/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 51204,
-    "level": "A2",
+    "level": "B2",
     "forms": { "plural": "remarriages" }
   },
   {
@@ -3348,7 +3348,7 @@
     "ipa_en": "/riˈnuəbəl/",
     "ipa_vi": "/kɔ˦˥/",
     "freq": 38548,
-    "level": "A1"
+    "level": "B1"
   },
   {
     "word": "renewal",
@@ -7635,7 +7635,7 @@
     "ipa_en": "/ˈsæʧərˌeɪt/",
     "ipa_vi": "/laːm˨˩/",
     "freq": 35320,
-    "level": "A1",
+    "level": "B2",
     "forms": { "v3s": "saturates", "ving": "saturating", "past": "saturated" }
   },
   {
@@ -10715,7 +10715,7 @@
     "ipa_en": "/ˈʃipɪʃ/",
     "ipa_vi": "/ŋɯəŋ˨˩ʔ/",
     "freq": 44166,
-    "level": "A1"
+    "level": "B2"
   },
   {
     "word": "sheer",
@@ -11569,7 +11569,7 @@
     "ipa_en": "/ˈʃaɪli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 38158,
-    "level": "A1"
+    "level": "B2"
   },
   {
     "word": "shyness",

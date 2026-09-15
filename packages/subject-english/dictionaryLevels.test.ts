@@ -4,7 +4,13 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, it, expect } from 'vitest'
-import { findInflectionLevelMismatches, type DictLevelEntry } from './dictionaryLevels.js'
+import {
+  findInflectionLevelMismatches,
+  findRareEasyOutliers,
+  RARE_EASY_ALLOWLIST,
+  RARE_RANK_FLOOR,
+  type DictLevelEntry,
+} from './dictionaryLevels.js'
 
 const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
 const DICT_DIR = join(process.cwd(), 'apps', 'dhcb', 'public', 'data', 'dictionary')
@@ -38,5 +44,9 @@ describe('thang bậc CEFR của từ điển', () => {
     const words = new Set(entries.map((e) => e.word.trim().toLowerCase()))
     const orphans = entries.filter((e) => e.base && !words.has(e.base.trim().toLowerCase()))
     expect(orphans.map((e) => `${e.word} → ${e.base}`)).toEqual([])
+  })
+
+  it(`từ rất hiếm (hạng ≥ ${RARE_RANK_FLOOR}) không được nằm ở bậc A1/A2, trừ ngoại lệ đã ghi`, () => {
+    expect(findRareEasyOutliers(entries)).toEqual([...RARE_EASY_ALLOWLIST].sort())
   })
 })
