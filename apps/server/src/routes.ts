@@ -112,6 +112,7 @@ import meshTelemetryHandler from './api/platform/mesh-telemetry.js'
 import proactiveAgentHandler from './api/personal/proactive-agent.js'
 import debateArenaHandler from './api/learning/debate-arena.js'
 import stemScratchpadHandler from './api/learning/stem-scratchpad.js'
+import learningEvidenceHandler from './api/learning/evidence.js'
 import metacognitiveReflectionHandler from './api/learning/metacognitive-reflection.js'
 import memoryPalaceHandler from './api/learning/memory-palace.js'
 import lifeSynthesisHandler from './api/personal/life-synthesis.js'
@@ -357,6 +358,8 @@ export function registerApiRoutes(app: express.Express): void {
   app.all('/api/debate-arena', wrapEdge(debateArenaHandler))
   // STEM Interactive Scratchpad (Platform V5 Phase 2) — Step-by-step math/chem/physics logic validator.
   app.all('/api/stem-scratchpad', wrapEdge(stemScratchpadHandler))
+  // Bằng chứng hoàn thành hoạt động học (S11) — server chấm LẠI trả lời thô, không tin client.
+  app.all('/api/learning/evidence', wrapEdge(learningEvidenceHandler))
   // Deep Metacognitive Reflection Engine & Socratic Journal (Platform V5 Phase 3) — Peak Metacognition & Bias Detection.
   app.all('/api/metacognitive-reflection', wrapEdge(metacognitiveReflectionHandler))
   // Spatial Multi-Sensory Memory Palace (Platform V5 Phase 3) — Method of Loci & Neural Anchors.

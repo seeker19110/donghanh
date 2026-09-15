@@ -34,6 +34,8 @@ const CUSTOM_PATH: Record<string, string> = {
   pathQuiz: 'programming/path-quiz',
   pathArtifact: 'programming/path-artifact',
   'ts-check': 'programming/ts-check',
+  // Bằng chứng hoàn thành (S11) nằm dưới tiền tố /api/learning/*
+  evidence: 'learning/evidence',
 }
 
 // File trong api/ KHÔNG phải handler HTTP (không cần route). Thêm vào đây nếu có thêm.
