@@ -1345,3 +1345,70 @@ describe('speakViaWebSpeech — Đợt 2 coverage: onboundary hết từ + chọ
     await expect(p).resolves.toEqual(expect.any(Number))
   })
 })
+
+// ── S10-1 / AC-4: stopSpeaking() TRONG LÚC audio còn đang TẢI ───────────────────────────────
+// Lỗi L4 (đặc tả S10 §2.1): `speakViaGoogle` chốt "vé" (`myPlayToken`) SAU khi đã
+// `await ensureAudioWithTimeline(...)`. Rời trang chính là lúc đang tải: cleanup gọi
+// `stopSpeaking()` → `playToken++`, nhưng lượt phát đang tải dở không hề so vé nên tải xong
+// vẫn chiếm thẻ audio và CẤT TIẾNG Ở TRANG KẾ.
+describe('AC-4 — stopSpeaking() trong lúc TTS còn đang TẢI thì lượt phát đó không được phát', () => {
+  class CountingAudio {
+    static playCalls = 0
+    src = ''
+    playbackRate = 1
+    preservesPitch = true
+    currentTime = 0
+    duration = 1
+    onended: (() => void) | null = null
+    onerror: (() => void) | null = null
+    ontimeupdate: (() => void) | null = null
+    onloadedmetadata: (() => void) | null = null
+    preload = ''
+    play(): Promise<void> {
+      CountingAudio.playCalls++
+      // Phát xong ngay để promise của speak() settle (mô phỏng câu rất ngắn).
+      setTimeout(() => this.onended?.(), 0)
+      return Promise.resolve()
+    }
+    pause() {}
+  }
+
+  it('stop giữa lúc tải → audio.play() 0 lần, promise vẫn resolve (không treo)', async () => {
+    vi.resetModules()
+    CountingAudio.playCalls = 0
+    vi.stubGlobal('Audio', CountingAudio)
+
+    const { getAudioEntry } = await import('./audioCache.js')
+    type Entry = Awaited<ReturnType<typeof getAudioEntry>>
+    let release!: (value: Entry) => void
+    const dangTai = new Promise<Entry>((resolve) => {
+      release = resolve
+    })
+    vi.mocked(getAudioEntry).mockReturnValueOnce(dangTai)
+
+    const { speak, stopSpeaking } = await import('./tts')
+    const p = speak('xin chào', 'vi-VN', 'Kore')
+    await new Promise((r) => setTimeout(r, 10)) // lượt phát đang kẹt ở await tải audio
+
+    stopSpeaking() // người dùng rời trang / bấm Tắt tiếng NGAY LÚC ĐANG TẢI
+    release({ buffer: new ArrayBuffer(8), timeline: null }) // audio về sau đó
+
+    await expect(p).resolves.toBeTypeOf('number')
+    expect(CountingAudio.playCalls).toBe(0)
+  })
+
+  it('stop SAU khi đã phát xong → hành vi cũ không đổi (vẫn phát đúng 1 lần)', async () => {
+    vi.resetModules()
+    CountingAudio.playCalls = 0
+    vi.stubGlobal('Audio', CountingAudio)
+
+    const { getAudioEntry } = await import('./audioCache.js')
+    vi.mocked(getAudioEntry).mockResolvedValue({ buffer: new ArrayBuffer(8), timeline: null })
+
+    const { speak, stopSpeaking } = await import('./tts')
+    await speak('xin chào', 'vi-VN', 'Kore')
+    stopSpeaking()
+
+    expect(CountingAudio.playCalls).toBe(1)
+  })
+})

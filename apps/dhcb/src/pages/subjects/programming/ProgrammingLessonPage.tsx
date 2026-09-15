@@ -392,7 +392,17 @@ function LessonBody({ lesson }: { lesson: ProgrammingLesson }) {
                 )}
                 {/* ⑥b AI đồng hành — gợi ý soạn sẵn ở trên vẫn là đường CHÍNH (0đ, tức thì);
                 AI chỉ dùng khi bí thật, và mỗi lượt hỏi tiêu 1 lượt AI trong ngày. */}
-                <AiHelpPanel lessonId={lesson.id} code={code} results={results} passed={passed} />
+                {/* `key` theo mã bài: trang này là CÙNG một instance khi `:lessonId` đổi (App.tsx
+                render `<ProgrammingLessonPage />` không key), nên thiếu key thì panel mang
+                nguyên trạng thái hỏi AI của bài trước sang bài sau. Không đặt key theo
+                `code`/`results` — sửa code rồi chạy lại vẫn là bài đó, phải giữ bậc gợi ý. */}
+                <AiHelpPanel
+                  key={lesson.id}
+                  lessonId={lesson.id}
+                  code={code}
+                  results={results}
+                  passed={passed}
+                />
                 {results && <TestResultList results={results} />}
                 {passed && (
                   <div className="rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-4 text-sm text-zinc-100 flex items-start gap-2">

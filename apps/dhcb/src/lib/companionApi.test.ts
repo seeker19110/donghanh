@@ -224,3 +224,108 @@ describe('fetchCompanionHistory', () => {
     await expect(fetchCompanionHistory()).resolves.toEqual([])
   })
 })
+
+// ── S10-1 / AC-2: stream Companion phải HUỶ ĐƯỢC ────────────────────────────────────────────
+// Lỗi L2 (đặc tả S10 §2.1): `sendCompanionMessageStream` không nhận `AbortSignal`, nên khi
+// người dùng rời trang giữa lúc AI đang trả lời thì vòng đọc SSE vẫn chạy tới hết và `onDone`
+// vẫn bắn — dẫn tới TTS cất tiếng ở trang kế (AC-1).
+describe('sendCompanionMessageStream — huỷ bằng AbortSignal (AC-2)', () => {
+  // Stream SSE do test tự bơm từng mẩu, để abort được ĐÚNG lúc đang đọc dở.
+  function makeManualStream() {
+    let ctrl: ReadableStreamDefaultController<Uint8Array> | null = null
+    const stream = new ReadableStream<Uint8Array>({
+      start(c) {
+        ctrl = c
+      },
+    })
+    return {
+      stream,
+      push(text: string) {
+        try {
+          ctrl?.enqueue(new TextEncoder().encode(text))
+        } catch {
+          /* stream đã đóng/huỷ — đúng điều test muốn chứng minh */
+        }
+      },
+      close() {
+        try {
+          ctrl?.close()
+        } catch {
+          /* đã đóng */
+        }
+      },
+    }
+  }
+
+  const tick = () => new Promise((r) => setTimeout(r, 10))
+
+  it('abort TRƯỚC khi có sự kiện done → reject AbortError và onDone KHÔNG được gọi', async () => {
+    const aborter = new AbortController()
+    const manual = makeManualStream()
+    const fetchMock = vi.fn(async (_url: string, init?: RequestInit) => {
+      // signal phải được truyền xuống tận fetch, không chỉ giữ ở tầng JS.
+      expect(init?.signal).toBe(aborter.signal)
+      return new Response(manual.stream, { status: 200 })
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    const onDone = vi.fn()
+    const onChunk = vi.fn()
+    const promise = sendCompanionMessageStream(
+      { message: 'xin chào' },
+      { onChunk, onDone },
+      { signal: aborter.signal },
+    )
+    // Bắt lỗi ngay để Node không báo "unhandled rejection" trong lúc ta còn chờ.
+    const settled = promise.then(
+      () => ({ ok: true as const }),
+      (e: unknown) => ({ ok: false as const, error: e as Error }),
+    )
+
+    await tick()
+    manual.push('event: chunk\ndata: {"delta":"Xin"}\n\n')
+    await tick()
+    expect(onChunk).toHaveBeenCalledWith('Xin')
+
+    // Người dùng rời trang → cleanup abort.
+    aborter.abort()
+    // Server vẫn bắn nốt sự kiện done (stream còn bay) — client KHÔNG được xử lý nữa.
+    manual.push('event: done\ndata: ' + JSON.stringify(MOCK_COMPANION_RESPONSE) + '\n\n')
+    manual.close()
+
+    const result = await settled
+    expect(result.ok).toBe(false)
+    if (!result.ok) expect(result.error.name).toBe('AbortError')
+    expect(onDone).not.toHaveBeenCalled()
+  })
+
+  it('abort SAU khi done đã về → kết quả không đổi, onDone vẫn đúng 1 lần', async () => {
+    const aborter = new AbortController()
+    const sseBody =
+      'event: chunk\ndata: {"delta":"Xin chào"}\n\n' +
+      'event: done\ndata: ' +
+      JSON.stringify(MOCK_COMPANION_RESPONSE) +
+      '\n\n'
+    const stream = new ReadableStream<Uint8Array>({
+      start(c) {
+        c.enqueue(new TextEncoder().encode(sseBody))
+        c.close()
+      },
+    })
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response(stream, { status: 200 })),
+    )
+
+    const onDone = vi.fn()
+    const res = await sendCompanionMessageStream(
+      { message: 'xin chào' },
+      { onDone },
+      { signal: aborter.signal },
+    )
+    aborter.abort() // rời trang sau khi đã xong — không được đổi gì
+
+    expect(res.reply).toBe(MOCK_COMPANION_RESPONSE.reply)
+    expect(onDone).toHaveBeenCalledTimes(1)
+  })
+})

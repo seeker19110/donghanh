@@ -6,12 +6,17 @@ import type {
   ProactiveAgentState,
 } from '@dhcb/core-contracts/proactiveAgent'
 
-export async function fetchProactiveAgentState(params?: {
-  stressIndex?: number
-  circadianEnergy?: number
-  hasUnfinishedCanvasTask?: boolean
-  streakCount?: number
-}): Promise<ProactiveAgentState> {
+export async function fetchProactiveAgentState(
+  params?: {
+    stressIndex?: number
+    circadianEnergy?: number
+    hasUnfinishedCanvasTask?: boolean
+    streakCount?: number
+  },
+  // [S10-1 / AC-3] Đây là fetch-khi-mount: phải huỷ được theo khuôn `AbortController` (#925),
+  // nếu không thì StrictMode gọi hai lượt và lượt cũ setState sau khi trang đã unmount.
+  options?: { signal?: AbortSignal },
+): Promise<ProactiveAgentState> {
   const token = localStorage.getItem('gsa_session_token_v1')
   const searchParams = new URLSearchParams()
   if (params?.stressIndex !== undefined) searchParams.set('stressIndex', String(params.stressIndex))
@@ -28,6 +33,7 @@ export async function fetchProactiveAgentState(params?: {
     headers: {
       Authorization: token ? `Bearer ${token}` : '',
     },
+    ...(options?.signal ? { signal: options.signal } : {}),
   })
 
   if (!res.ok) {
