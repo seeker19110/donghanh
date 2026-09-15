@@ -73,6 +73,12 @@ CEFR là S07-3.
   tổng bài STEM mỗi môn bằng `loader.index.length`; P6 65 unit gom vào mạch.
 - `npm run codemap -- impact apps/dhcb/src/lib/programmingRoutes.ts` → 20 file, chỉ **thêm** hàm,
   không đổi hàm cũ.
+- E2E: 4 ca trong `e2e/programming-course.spec.ts` khẳng định URL bài học sau khi bấm từ trang khoá
+  — cập nhật kỳ vọng sang `…?khoa=<mã khoá>` (đúng hành vi mới theo Q1, và nay chính 4 ca đó là
+  bằng chứng E2E cho AC-3). `npx playwright test e2e/programming-course.spec.ts` ✅ 13/13;
+  `e2e/programming-lesson.spec.ts` ✅ 32/35 lượt đầu, 3 ca sandbox nặng (vòng lặp vô hạn · SQL ·
+  DOM Worker) đỏ vì hết giờ khi chạy song song rồi xanh khi chạy lại — không đụng URL, không liên
+  quan PR này (CI cũng đánh dấu flaky và retry xanh).
 - Ghi chú CI: `packages/subject-programming/lessonsPython.test.ts > p5-s2` một lần đỏ do hết 5 giây
   khi chạy song song toàn bộ; chạy lại riêng file đó ✅ — không liên quan các file của PR này.
 
