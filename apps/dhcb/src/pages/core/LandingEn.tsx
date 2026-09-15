@@ -84,7 +84,12 @@ export default function LandingEn() {
       {/* [2026-09-02] Tầng desktop — cùng công thức với bản tiếng Việt (`Landing.tsx`): mọi
           thay đổi nằm sau `lg:` nên dưới 1024px không đổi gì; chỗ thừa dùng để đặt cạnh nhau
           những khối vốn phải cuộn mới thấy, không dùng để kéo dài dòng chữ. */}
-      <main className="mx-auto max-w-lg px-4 pb-16 pt-6 sm:max-w-2xl lg:max-w-6xl lg:pt-12">
+      {/* `pb-[calc(4rem+var(--bnav-h))]`: trang này KHÔNG dùng `PageShell` nên phải tự chừa chỗ
+          cho thanh điều hướng đáy. Trước 2026-09-15 ở đây là `pb-16` (64px) trong khi thanh nav
+          cao 97px — nút CTA cuối trang nằm DƯỚI thanh nav và không bấm được ở 390px lẫn 320px.
+          `--bnav-h` bằng 0 từ 1024px (index.css) nên desktop không đổi. Cổng canh:
+          e2e/mobile-layout-guards.spec.ts */}
+      <main className="mx-auto max-w-lg px-4 pb-[calc(4rem+var(--bnav-h))] pt-6 sm:max-w-2xl lg:max-w-6xl lg:pt-12">
         {/* Hero + điểm khác biệt: xếp dọc ở mobile, hai cột ở desktop (lưới CSS, một nhánh DOM). */}
         <div className="lg:grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center lg:gap-12">
           <section className="text-center lg:text-left">

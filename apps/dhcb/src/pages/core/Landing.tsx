@@ -93,7 +93,12 @@ export default function Landing() {
           Nguyên tắc: KHÔNG đổi bất cứ thứ gì dưới 1024px (mọi thay đổi đều nằm sau `lg:`),
           và không kéo dài dòng chữ — chỗ thừa dùng để ĐẶT CẠNH NHAU những khối vốn phải cuộn
           mới thấy, nên người đọc nắm được toàn bộ lời chào hàng trong một màn. */}
-      <main className="mx-auto max-w-lg px-4 pb-16 pt-6 sm:max-w-2xl lg:max-w-6xl lg:pt-12">
+      {/* `pb-[calc(4rem+var(--bnav-h))]`: trang này KHÔNG dùng `PageShell` nên phải tự chừa chỗ
+          cho thanh điều hướng đáy. Trước 2026-09-15 ở đây là `pb-16` (64px) trong khi thanh nav
+          cao 97px — nút CTA cuối trang nằm DƯỚI thanh nav và không bấm được ở 390px lẫn 320px.
+          `--bnav-h` bằng 0 từ 1024px (index.css) nên desktop không đổi. Cổng canh:
+          e2e/mobile-layout-guards.spec.ts */}
+      <main className="mx-auto max-w-lg px-4 pb-[calc(4rem+var(--bnav-h))] pt-6 sm:max-w-2xl lg:max-w-6xl lg:pt-12">
         {/* Hero + điểm khác biệt: xếp dọc ở mobile (giữ nguyên thứ tự cũ), hai cột ở desktop.
             Dùng lưới CSS chứ không dựng hai nhánh DOM — thứ tự đọc và thứ tự Tab vẫn y hệt. */}
         <div className="lg:grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center lg:gap-12">

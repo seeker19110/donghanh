@@ -263,7 +263,10 @@ export default function Startup({ embedded = false }: { embedded?: boolean } = {
     <PageShell
       width="standard"
       baseWidth="max-w-6xl"
-      className="!pt-6 !pb-20 flex flex-1 flex-col space-y-6"
+      // `!pb-[calc(5rem+var(--bnav-h))]`: `!important` ghi đè lề của `PageShell`, nên phải tự
+      // cộng lại `--bnav-h`. Trước 2026-09-15 ở đây là `!pb-20` (80px) < thanh nav 97px — lỗi
+      // TIỀM ẨN, chưa lộ khi dữ liệu còn ngắn. Cổng canh: e2e/mobile-layout-guards.spec.ts
+      className="!pt-6 !pb-[calc(5rem+var(--bnav-h))] flex flex-1 flex-col space-y-6"
     >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800 pb-4">
         {embedded ? (
