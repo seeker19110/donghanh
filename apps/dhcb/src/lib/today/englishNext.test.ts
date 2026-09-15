@@ -1,0 +1,111 @@
+import { describe, it, expect } from 'vitest'
+import { TodayItemSchema } from '@dhcb/core-contracts/todayPlan'
+import type { CefrLevel } from '../../data/cefr'
+import type { Circle } from '../../data/curriculum'
+import { englishNext } from './englishNext'
+
+function circle(id: string, soTu: number): Circle {
+  return {
+    id,
+    titleVi: `Vòng ${id}`,
+    titleEn: `Circle ${id}`,
+    emoji: '🍜',
+    words: Array.from({ length: soTu }, (_, i) => ({
+      word: `w${i}`,
+      pos: 'n',
+      vi: `t${i}`,
+      ex_en: '',
+      ex_vi: '',
+    })),
+    sentences: [],
+  } as unknown as Circle
+}
+
+const levelA1: CefrLevel = {
+  id: 'A1',
+  titleVi: 'Sơ cấp',
+  titleEn: 'Beginner',
+  subtitleVi: 'Người mới',
+  goalVi: '',
+  accent: 'emerald',
+  canDo: [],
+  units: [
+    {
+      id: 'a1-u1',
+      titleVi: 'Chào hỏi',
+      titleEn: 'Greetings',
+      emoji: '👋',
+      grammar: [
+        {
+          id: 'g1',
+          titleVi: 'Thì hiện tại đơn',
+          titleEn: 'Present simple',
+        } as CefrLevel['units'][number]['grammar'][number],
+      ],
+      vocabCircleIds: ['c1'],
+    },
+  ],
+}
+
+const levelA2: CefrLevel = { ...levelA1, id: 'A2', units: [{ ...levelA1.units[0], id: 'a2-u1' }] }
+
+const circleById: Record<string, Circle> = { c1: circle('c1', 10) }
+
+const base = {
+  levels: [levelA1],
+  circleById,
+  learned: new Set<string>(),
+  doneGrammar: new Set<string>(),
+  lockedMap: new Map<CefrLevel['id'], boolean>(),
+  isA: true,
+  srsDue: 0,
+}
+
+describe('englishNext', () => {
+  it('vòng từ vựng chưa đủ → mục next với nhãn đếm từ, href là cấp đang học', () => {
+    const { next } = englishNext(base)
+    expect(TodayItemSchema.parse(next).href).toBe('/lo-trinh-hoc/a1')
+    expect(next?.evidenceSource).toBe('english.vocab')
+    expect(next?.title).toBe('🍜 Vòng c1 (0/10)')
+    expect(next?.contentId).toBe('c1')
+  })
+
+  it('chiều B dùng nhãn tiếng Anh', () => {
+    expect(englishNext({ ...base, isA: false }).next?.title).toContain('Circle c1')
+  })
+
+  it('xong từ vựng → chuyển sang bài ngữ pháp', () => {
+    const learned = new Set(circleById.c1.words.map((w) => w.word))
+    const { next } = englishNext({ ...base, learned })
+    expect(next?.evidenceSource).toBe('english.cefrGrammar')
+    expect(next?.title).toBe('Thì hiện tại đơn')
+    expect(next?.hint).toBe('Ngữ pháp · Cấp A1')
+  })
+
+  it('cấp bị khoá bị bỏ qua, nhảy sang cấp mở tiếp theo', () => {
+    const lockedMap = new Map<CefrLevel['id'], boolean>([['A1', true]])
+    const { next } = englishNext({ ...base, levels: [levelA1, levelA2], lockedMap })
+    expect(next?.href).toBe('/lo-trinh-hoc/a2')
+  })
+
+  it('xong hết mọi cấp → không mục nào (kể cả khi còn thẻ SRS)', () => {
+    const learned = new Set(circleById.c1.words.map((w) => w.word))
+    const doneGrammar = new Set(['g1'])
+    expect(englishNext({ ...base, learned, doneGrammar, srsDue: 12 })).toEqual({})
+  })
+
+  it('có thẻ đến hạn → thêm mục ôn tập trỏ đúng cấp đang học', () => {
+    const { review } = englishNext({ ...base, srsDue: 12 })
+    expect(TodayItemSchema.parse(review).href).toBe('/lo-trinh-hoc/a1?tab=srs')
+    expect(review?.title).toBe('Ôn 12 thẻ đến hạn')
+    expect(review?.evidenceSource).toBe('english.srs')
+  })
+
+  it('không thẻ đến hạn → không mục ôn tập', () => {
+    expect(englishNext(base).review).toBeUndefined()
+  })
+
+  it('không cấp nào (dữ liệu chưa tải) → rỗng, không ném lỗi', () => {
+    expect(englishNext({ ...base, levels: [] })).toEqual({})
+  })
+})
