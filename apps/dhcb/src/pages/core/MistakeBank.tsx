@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
+import { duongDanMonTiengAnh } from '../../lib/subjectsHost'
 import { useNavigate } from 'react-router-dom'
 import { Eye, Check, Trash2, RotateCcw, Sparkles, ArrowRight, BookMarked } from 'lucide-react'
 import Layout from '../../components/Layout'
@@ -6,7 +7,7 @@ import PageHeader from '../../components/PageHeader'
 import KaraokeText from '../../components/KaraokeText'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { useAuth } from '../../context/useAuth'
-import { getDirection } from '../../lib/storage'
+import { useLang } from '../../context/useLang'
 import { useIsDesktopViewport } from '../../lib/useIsDesktopViewport'
 import { PageShell } from '@core/PageShell'
 import {
@@ -188,8 +189,8 @@ function ListRow({
 export default function MistakeBank() {
   const user = useAuth().user! // RequireAuth đảm bảo có user
   const nav = useNavigate()
-  const dir = getDirection()
-  const isA = dir === 'A'
+  // [Slice 04] Chữ giao diện theo ngôn ngữ giao diện, không theo chiều học Tiếng Anh.
+  const isA = useLang().lang === 'vi'
 
   const [tab, setTab] = useState<'review' | 'all'>('review')
   // Tab "Tất cả" có thể rất dài — phân trang kiểu "Xem thêm", desktop nạp nhiều hơn mobile.
@@ -260,7 +261,7 @@ export default function MistakeBank() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout />
+      <Layout backTo={duongDanMonTiengAnh()} />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang danh sách → width="standard". */}
       <PageShell width="standard" baseWidth="max-w-2xl" className="space-y-5">
         <PageHeader

@@ -29,14 +29,15 @@ export async function mockLogin(
   page: Page,
   uiLang: 'vi' | 'en' = 'vi',
   theme?: ThemeName,
-  options?: { isAdmin?: boolean },
+  options?: { isAdmin?: boolean; onboarded?: boolean },
 ): Promise<void> {
   const profile = {
     id: USER_ID,
     email: 'e2e@example.com',
     name: 'E2E User',
     plan: 'free',
-    onboarded: true,
+    // [Slice 04] `onboarded: false` để E2E đi qua luồng onboarding theo môn.
+    onboarded: options?.onboarded ?? true,
     userLevel: 'beginner',
     goal: 'daily',
     dailyMinutes: 10,

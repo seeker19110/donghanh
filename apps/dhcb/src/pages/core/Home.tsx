@@ -57,7 +57,10 @@ import {
 export default function Home() {
   const nav = useNavigate()
   const { user } = useAuth()
-  const { T } = useLang()
+  const { T, lang } = useLang()
+  // [Slice 04] `vi` = ngôn ngữ GIAO DIỆN; `isA` (chiều học Tiếng Anh) chỉ còn dùng cho nhãn NỘI
+  // DUNG của môn (tên vòng từ vựng/bài ngữ pháp có bản Việt/Anh riêng).
+  const vi = lang === 'vi'
   const syncVersion = useCloudSync(user?.id)
   // Desktop ≥1024px: bố cục 2 cột (chính + ngữ cảnh). Quyết định bằng JS chứ không bằng
   // `lg:hidden` để KHÔNG render trùng nội dung ở 2 nơi (xem useIsDesktopViewport.ts).
@@ -124,6 +127,10 @@ export default function Home() {
   const dailyMax = getDailyMax(user.id)
   const isA = dir === 'A'
 
+  // [Slice 04] Có tiến độ MÔN TIẾNG ANH chưa? Chưa thì Home không được ngầm mời "học tiếp A1":
+  // nền tảng có 6 môn, người mới phải được chọn môn trước (spec 03-04 §④ AC-4.4).
+  const hasEnglishProgress = learned.size > 0 || doneGrammar.size > 0 || examPassed.size > 0
+
   let nextLabel = ''
   if (continueLevel) {
     const { next } = continueLevel
@@ -154,12 +161,13 @@ export default function Home() {
       {/* ── TẦNG 1: EXECUTIVE AI COMPANION (Hạt Nhân Điều Phối Trung Tâm) ── */}
       <HomeAiBriefingCard
         userName={user.name || user.email?.split('@')[0]}
-        srsDueCount={srsDue}
+        srsDueCount={hasEnglishProgress ? srsDue : 0}
         dailyLearned={dailyLearned}
         dailyMax={dailyMax}
-        continueLessonLabel={nextLabel}
+        continueLessonLabel={hasEnglishProgress ? nextLabel : ''}
         continueLevelId={continueLevel?.level.id}
         onContinueClick={goToNextStep}
+        hasSubjectProgress={hasEnglishProgress}
       />
 
       {/* ── Universal AI Ask & Voice Bar (Hỏi nhanh đa năng mọi bộ môn & lĩnh vực) ── */}
@@ -174,17 +182,17 @@ export default function Home() {
             </span>
             <div className="flex-1 min-w-0">
               <p className="text-white font-semibold text-sm">
-                {isA ? 'Mừng bạn quay lại!' : 'Welcome back!'}
+                {vi ? 'Mừng bạn quay lại!' : 'Welcome back!'}
               </p>
               <p className="text-xs text-zinc-400 mt-0.5">
-                {isA
+                {vi
                   ? `Đã ${daysAway} ngày rồi — bắt đầu nhẹ nhàng thôi, không cần ôn hết nợ cũ.`
                   : `It's been ${daysAway} days — let's ease back in, no need to clear the backlog.`}
               </p>
             </div>
             <button
               onClick={closeComeback}
-              aria-label={isA ? 'Đóng' : 'Dismiss'}
+              aria-label={vi ? 'Đóng' : 'Dismiss'}
               className="tap-44 shrink-0 text-zinc-400 hover:text-zinc-200 transition"
             >
               <X className="w-4 h-4" />
@@ -201,7 +209,7 @@ export default function Home() {
                 className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 theme-light:text-sky-800 text-sm font-medium transition"
               >
                 <Brain className="w-4 h-4" />
-                {isA
+                {vi
                   ? `Ôn ${Math.min(srsDue, COMEBACK_SRS_CARDS)} thẻ`
                   : `Review ${Math.min(srsDue, COMEBACK_SRS_CARDS)} cards`}
               </button>
@@ -215,7 +223,7 @@ export default function Home() {
               className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-accent-500/15 hover:bg-accent-500/25 text-accent-300 theme-light:text-accent-800 text-sm font-medium transition"
             >
               <Sparkles className="w-4 h-4" />
-              {isA ? `Học ${COMEBACK_NEW_WORDS} từ mới` : `Learn ${COMEBACK_NEW_WORDS} words`}
+              {vi ? `Học ${COMEBACK_NEW_WORDS} từ mới` : `Learn ${COMEBACK_NEW_WORDS} words`}
             </button>
           </div>
         </div>
@@ -226,7 +234,7 @@ export default function Home() {
   // ── Mẹo thưởng & Nhiệm vụ ──
   // DailyQuestsCard + ReferralVipBanner (dữ liệu giả in-memory) đã gỡ 2026-08-23 — hệ nhiệm vụ/
   // giới thiệu THẬT ở /nhiem-vu và /profile (QuestsPanel, ReferralSection)
-  const rewardTip = uid ? <RewardTipBanner uid={uid} isA={isA} /> : null
+  const rewardTip = uid ? <RewardTipBanner uid={uid} isA={vi} /> : null
 
   // ── CÁC BỘ MÔN & KHÔNG GIAN ──
   // [2026-09-03, đợt C] Trước đây là 3 thẻ kiểu landing page (icon gradient + bóng màu, huy hiệu
@@ -351,7 +359,7 @@ export default function Home() {
           <TrendingUp className="w-4 h-4 text-accent-400" />
         </div>
         <span className="text-sm font-semibold text-zinc-300 group-hover:text-white transition flex-1 text-left">
-          {isA ? 'Tiến độ' : 'Progress'}
+          {vi ? 'Tiến độ' : 'Progress'}
         </span>
       </button>
 
@@ -365,7 +373,7 @@ export default function Home() {
           <History className="w-4 h-4 text-zinc-400 group-hover:text-zinc-200" />
         </div>
         <span className="text-sm font-semibold text-zinc-300 group-hover:text-white transition flex-1 text-left">
-          {isA ? 'Lịch sử' : 'History'}
+          {vi ? 'Lịch sử' : 'History'}
         </span>
       </button>
     </div>
@@ -387,7 +395,7 @@ export default function Home() {
             <div className="space-y-5">
               {rewardTip}
               {progressHistory}
-              <PricePromoBanner isA={isA} />
+              <PricePromoBanner isA={vi} />
             </div>
           }
         >
@@ -397,7 +405,7 @@ export default function Home() {
             {!isDesktop && rewardTip}
             {spacesSection}
             {!isDesktop && progressHistory}
-            {!isDesktop && <PricePromoBanner isA={isA} />}
+            {!isDesktop && <PricePromoBanner isA={vi} />}
           </div>
         </TwoPane>
       </PageShell>

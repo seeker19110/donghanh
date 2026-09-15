@@ -1,4 +1,10 @@
-export type DailyPlanActionKind = 'srs_review' | 'continue_learning' | 'discover_path'
+export type DailyPlanActionKind =
+  | 'srs_review'
+  | 'continue_learning'
+  | 'discover_path'
+  // [Slice 04] Người chưa có tiến độ môn nào: việc đầu tiên là CHỌN MÔN, không phải "lộ trình"
+  // (vốn là lộ trình CEFR Tiếng Anh) — nền tảng không ngầm định môn.
+  | 'choose_subject'
 
 export interface DailyPlanAction {
   kind: DailyPlanActionKind
@@ -13,6 +19,12 @@ export interface DailyPlanInput {
   dailyLearned: number
   dailyMax: number
   continueLessonLabel?: string
+  /**
+   * Người dùng đã có tiến độ ở môn đang được lập kế hoạch chưa (hiện là Tiếng Anh: từ đã học,
+   * ngữ pháp đã xong, hoặc đã thi). `false` → không đề xuất ôn/học tiếp của môn đó mà mời chọn
+   * môn. Mặc định `true` để các nơi gọi cũ không đổi hành vi.
+   */
+  hasSubjectProgress?: boolean
 }
 
 /**
@@ -24,6 +36,18 @@ export interface DailyPlanInput {
  */
 export function buildDailyLearningPlan(input: DailyPlanInput): DailyPlanAction[] {
   const candidates: DailyPlanAction[] = []
+  if (input.hasSubjectProgress === false) {
+    return [
+      {
+        kind: 'choose_subject',
+        priority: 50,
+        title: 'Chọn môn để bắt đầu',
+        reason:
+          'Bạn chưa học môn nào — vào Góc học tập chọn Tiếng Anh, Toán, Lý, Hoá, Sinh hay Lập trình.',
+        estimatedMinutes: 1,
+      },
+    ]
+  }
   const srsDue = Math.max(0, Math.floor(input.srsDueCount))
   const dailyMax = Math.max(0, Math.floor(input.dailyMax))
   const dailyLearned = Math.max(0, Math.floor(input.dailyLearned))
@@ -43,7 +67,8 @@ export function buildDailyLearningPlan(input: DailyPlanInput): DailyPlanAction[]
     candidates.push({
       kind: 'continue_learning',
       priority: srsDue > 0 ? 90 : 110,
-      title: input.continueLessonLabel,
+      // Ghi rõ MÔN: nền tảng có nhiều môn, "học tiếp" trần không nói đang tiếp môn nào.
+      title: `Tiếng Anh · ${input.continueLessonLabel}`,
       reason:
         remaining > 0
           ? `Tiếp tục mạch đang học; hôm nay còn ${remaining} từ trong nhịp bạn đã chọn.`

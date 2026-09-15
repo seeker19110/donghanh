@@ -4,6 +4,7 @@
 // P1.1 (2026-09-08): hai việc không còn hard-code thứ tự trong JSX. Planner thuần ở
 // dailyLearningPlan.ts xếp hạng deterministic từ tín hiệu đã có; UI chỉ render kế hoạch.
 // P1.2: đo impression/click theo action kind để biết planner có tạo hành vi thật hay không.
+import { goToSubjects } from '../../lib/subjectsHost'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -16,6 +17,7 @@ import {
   ChevronRight,
   Volume2,
   Clock3,
+  Compass,
 } from 'lucide-react'
 import { fetchProactiveBriefing } from '../../lib/proactiveBriefingApi'
 import { speak } from '../../lib/tts'
@@ -31,6 +33,8 @@ interface Props {
   continueLessonLabel?: string
   continueLevelId?: string
   onContinueClick?: () => void
+  /** [Slice 04] Xem `DailyPlanInput.hasSubjectProgress`. */
+  hasSubjectProgress?: boolean
 }
 
 const FALLBACK_SUMMARY =
@@ -50,6 +54,7 @@ function actionIcon(action: DailyPlanAction) {
   if (action.kind === 'srs_review') return <Brain className="w-4 h-4" aria-hidden="true" />
   if (action.kind === 'continue_learning')
     return <Play className="w-4 h-4 fill-current ml-0.5" aria-hidden="true" />
+  if (action.kind === 'choose_subject') return <Compass className="w-4 h-4" aria-hidden="true" />
   return <Sparkles className="w-4 h-4" aria-hidden="true" />
 }
 
@@ -67,6 +72,7 @@ export default function HomeAiBriefingCard({
   continueLessonLabel,
   continueLevelId,
   onContinueClick,
+  hasSubjectProgress,
 }: Props) {
   const nav = useNavigate()
   const [briefing, setBriefing] = useState<ProactiveBriefing | null>(null)
@@ -78,6 +84,7 @@ export default function HomeAiBriefingCard({
     dailyLearned,
     dailyMax,
     continueLessonLabel,
+    hasSubjectProgress,
   })
   const planKey = plan.map((action) => action.kind).join(',')
 
@@ -123,6 +130,11 @@ export default function HomeAiBriefingCard({
     }
     if (action.kind === 'continue_learning' && onContinueClick) {
       onContinueClick()
+      return
+    }
+    // [Slice 04] Chưa có môn nào → Góc học tập (đúng host theo ownership), không phải lộ trình CEFR.
+    if (action.kind === 'choose_subject') {
+      goToSubjects(nav)
       return
     }
     nav('/lo-trinh-hoc')

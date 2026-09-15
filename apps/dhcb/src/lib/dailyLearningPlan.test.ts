@@ -49,3 +49,35 @@ describe('buildDailyLearningPlan', () => {
     expect(plan[0]?.estimatedMinutes).toBeLessThanOrEqual(12)
   })
 })
+
+// [Slice 04] Nền tảng không ngầm định Tiếng Anh (spec 03-04 §④ AC-4.4).
+describe('buildDailyLearningPlan — chưa có tiến độ môn nào', () => {
+  it('hasSubjectProgress=false → chỉ một việc: chọn môn (không ôn SRS, không học tiếp CEFR)', () => {
+    const plan = buildDailyLearningPlan({
+      srsDueCount: 7,
+      dailyLearned: 0,
+      dailyMax: 20,
+      continueLessonLabel: 'Vòng 1',
+      hasSubjectProgress: false,
+    })
+    expect(plan.map((a) => a.kind)).toEqual(['choose_subject'])
+  })
+
+  it('có tiến độ → việc "học tiếp" ghi rõ tên môn', () => {
+    const plan = buildDailyLearningPlan({
+      srsDueCount: 0,
+      dailyLearned: 0,
+      dailyMax: 20,
+      continueLessonLabel: '🍎 Trái cây (2/10)',
+      hasSubjectProgress: true,
+    })
+    expect(plan.find((a) => a.kind === 'continue_learning')?.title).toBe(
+      'Tiếng Anh · 🍎 Trái cây (2/10)',
+    )
+  })
+
+  it('không truyền hasSubjectProgress → hành vi cũ giữ nguyên', () => {
+    const plan = buildDailyLearningPlan({ srsDueCount: 3, dailyLearned: 0, dailyMax: 20 })
+    expect(plan.map((a) => a.kind)).toEqual(['srs_review', 'discover_path'])
+  })
+})
