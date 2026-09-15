@@ -44,8 +44,12 @@ import { LEARNING_PATHS } from '@dhcb/subject-programming/learningPaths/registry
 import { levelLockMap, seedGrandfather, loiGiaiThichKhoa } from '../../../lib/programmingLevelLock'
 import { effectivePlan } from '../../../lib/promo'
 import { goToSubjects } from '../../../lib/subjectsHost'
-import { buildSlugSegment } from '@core/slug'
-import { duongDanBac, duongDanKhoa, duongDanLoTrinh } from '../../../lib/programmingRoutes'
+import {
+  duongDanBac,
+  duongDanBaiHoc,
+  duongDanKhoa,
+  duongDanLoTrinh,
+} from '../../../lib/programmingRoutes'
 import { PageShell } from '@core/PageShell'
 
 export default function ProgrammingHome() {
@@ -128,10 +132,7 @@ export default function ProgrammingHome() {
               </>
             )}
             <button
-              onClick={() =>
-                next &&
-                nav(`/lap-trinh/bai-hoc/${buildSlugSegment(next.lesson.id, next.lesson.title)}`)
-              }
+              onClick={() => next && nav(duongDanBaiHoc(next.lesson))}
               disabled={!next}
               className="tap-44 w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-accent-500 hover:bg-accent-400 disabled:opacity-50 text-black font-semibold text-sm transition active:scale-[0.98]"
             >
