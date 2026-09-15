@@ -724,6 +724,14 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 > `docs/legacy/no-ky-thuat-da-dong.md` (2026-09-01) để file này chỉ nói trạng thái hiện tại —
 > đúng vai trò ở mục 2 `CLAUDE.md`. Đóng một món nợ = cắt khối đó dán sang file kia, kèm ngày.
 
+- 🟡 **[2026-09-15 — phát hiện khi dựng ảnh Tầng 8b của S03-3, xem `docs/changelog/0322-*.md`]
+  `Companion.tsx` không khôi phục được lịch sử hội thoại trong chế độ DEV.** Effect nạp lịch sử
+  dùng `historyLoadedRef` chặn chạy lần hai, nhưng dưới `StrictMode` React gọi mount → unmount →
+  mount: cleanup của lần MỘT đặt `cancelled = true`, lần HAI bị ref chặn, nên response về tới nơi
+  thì bị bỏ. Bản production không double-invoke effect nên **không cắn người dùng thật** — nhưng
+  khuôn "ref chặn + cờ cancelled" là sai về bản chất (effect không lũy đẳng) và nó che mất một
+  luồng thật khỏi mọi phép đo chạy bằng `npm run dev`, E2E gồm trong đó. Sửa: bỏ ref, dùng
+  `AbortController` như `Subjects.tsx`/`SubjectDetail.tsx` đã làm.
 - **[2026-09-14 — phát hiện khi NHÌN ảnh chụp Tầng 8b, xem `docs/changelog/0309-*.md`] Nhãn chữ
   trong hoạt ảnh khó đọc ở màn hình 390px.** Đo được **29/150 nhãn dài hơn 24 ký tự** ở cỡ chữ
   11–12 trong viewBox rộng 440 — trên điện thoại chúng co lại rất nhỏ. **KHÔNG phải lỗi mới**:

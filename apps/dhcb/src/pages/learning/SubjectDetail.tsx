@@ -21,7 +21,8 @@ import {
 import Layout from '../../components/Layout'
 import { PageShell } from '@core/PageShell'
 import SubjectIllustration from '../../components/SubjectIllustration'
-import { getSubjectDetails } from '../../lib/subjectApi'
+import { getSubjectDetails, SubjectApiError } from '../../lib/subjectApi'
+import LoadError from '../../components/LoadError'
 import { solveProblemImage } from '../../lib/visionSolverApi'
 import { speak } from '../../lib/tts'
 import IntegrationsModal from '../../components/IntegrationsModal'
@@ -38,11 +39,24 @@ interface SolvedStep {
   pitfall?: string
 }
 
+type DetailState =
+  | { status: 'loading' }
+  | { status: 'error'; message: string }
+  | { status: 'ready'; subject: SubjectManifest }
+
 export default function SubjectDetail() {
   const { subjectId } = useParams<{ subjectId: string }>()
   const nav = useNavigate()
   const location = useLocation()
-  const [subject, setSubject] = useState<SubjectManifest | null>(null)
+  // [Trả nợ S03-1, 2026-09-15] Ba trạng thái tách bạch thay cho một biến `subject | null`.
+  // Trước đây effect bắt MỌI lỗi bằng `.catch(() => goToSubjects(nav))`: mất mạng, 503 hay
+  // payload sai đều đá người dùng ngược về danh sách môn, không một lời giải thích — người
+  // học tưởng mình bấm nhầm, hoặc tưởng môn đã bị gỡ, và không có cách nào thử lại ngoài
+  // việc mò lại đúng đường dẫn cũ.
+  const [state, setState] = useState<DetailState>({ status: 'loading' })
+  const subject = state.status === 'ready' ? state.subject : null
+  // Chỉ TĂNG khi người dùng bấm "Thử lại" — không retry tự động, cùng lý do với Subjects.tsx.
+  const [retryToken, setRetryToken] = useState(0)
   const [selectedGrade, setSelectedGrade] = useState<string>('grade_12')
   const [activeTab, setActiveTab] = useState<'solver' | 'curriculum' | 'practice'>('solver')
   const [difficultyFilter, setDifficultyFilter] = useState<
@@ -93,19 +107,46 @@ export default function SubjectDetail() {
     }
   }
 
+  // Đổi môn (Toán → Lý) hoặc bấm "Thử lại" → bật lại trạng thái tải NGAY TRONG RENDER, cùng
+  // khuôn so-sánh-prev đã dùng ở `Subjects.tsx` và ở ngay dưới trong file này. KHÔNG gọi
+  // `setState` đồng bộ trong thân effect: luật `react-hooks/set-state-in-effect` chặn CI, và
+  // lý do nó chặn là cascading render thật.
+  const [prevKey, setPrevKey] = useState(`${subjectId ?? ''}#${retryToken}`)
+  const key = `${subjectId ?? ''}#${retryToken}`
+  if (key !== prevKey) {
+    setPrevKey(key)
+    setState({ status: 'loading' })
+  }
+
   useEffect(() => {
     if (!subjectId) return
-    getSubjectDetails(subjectId)
+    // CHỐNG RACE: điều hướng nhanh giữa hai môn (Toán → Lý) có thể để response của môn CŨ về
+    // sau và ghi đè môn đang xem. Cùng khuôn với `Subjects.tsx`: huỷ request cũ trong cleanup,
+    // và chặn nốt lượt đã bay qua `fetch` bằng chính cờ `aborted` của controller.
+    const controller = new AbortController()
+
+    getSubjectDetails(subjectId, { signal: controller.signal })
       .then((s) => {
-        setSubject(s)
+        if (controller.signal.aborted) return
+        setState({ status: 'ready', subject: s })
         if (s.standardLevels.length > 0) {
           setSelectedGrade(s.standardLevels[0]!)
         }
       })
-      .catch(() => {
-        goToSubjects(nav)
+      .catch((err: unknown) => {
+        if (controller.signal.aborted) return
+        if (err instanceof DOMException && err.name === 'AbortError') return
+        setState({
+          status: 'error',
+          message:
+            err instanceof SubjectApiError
+              ? err.message
+              : 'Không tải được thông tin môn học. Kiểm tra kết nối rồi thử lại.',
+        })
       })
-  }, [subjectId, nav])
+
+    return () => controller.abort()
+  }, [subjectId, retryToken])
 
   // Handle URL query parameters (e.g. ?q=... from Home search) — pattern so-sánh-prev
   // ngay trong render (không setState đồng bộ trong effect), chạy cả lần mount đầu.
@@ -266,7 +307,42 @@ export default function SubjectDetail() {
     setActiveTab('solver')
   }
 
-  if (!subject) return null
+  // Thiếu mã môn trong đường dẫn: chuyện của ĐƯỜNG DẪN, biết ngay lúc render, không cần
+  // (và không được) đi vòng qua effect để dựng ra một trạng thái lỗi.
+  const loi = !subjectId
+    ? 'Đường dẫn thiếu mã môn học.'
+    : state.status === 'error'
+      ? state.message
+      : null
+
+  // [Trả nợ S03-1] Tải và lỗi là HAI màn hình khác nhau, và cả hai đều ở LẠI trang này.
+  // Người dùng còn nguyên đường dẫn môn mình chọn, bấm "Thử lại" là gọi lại đúng môn đó.
+  // `|| !subject` không thừa: `subject` là biến DẪN XUẤT nên TypeScript không tự thu hẹp nó
+  // theo `state.status` ở phần dưới — thiếu vế này là hàng chục chỗ `subject.label` báo lỗi.
+  if (state.status !== 'ready' || !subject) {
+    return (
+      <div className="min-h-dvh bg-zinc-950 text-zinc-100">
+        <Layout onBack={() => goToSubjects(nav)} />
+        <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
+          {loi ? (
+            <LoadError
+              message={loi}
+              hint="Đây là lỗi tải thông tin môn học, không phải môn đã bị gỡ — tiến độ của bạn vẫn còn nguyên."
+              {...(subjectId ? { onRetry: () => setRetryToken((n) => n + 1) } : {})}
+            />
+          ) : (
+            <div
+              role="status"
+              className="text-center py-12 text-zinc-400 text-sm flex items-center justify-center gap-2"
+            >
+              <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+              <span>Đang tải thông tin môn học…</span>
+            </div>
+          )}
+        </PageShell>
+      </div>
+    )
+  }
 
   // Màu chủ đạo theo môn học
   const subjectTheme: Record<

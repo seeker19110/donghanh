@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { MessageCircle, Mic, PenLine, Volume2, Sparkles } from 'lucide-react'
 import { track } from '../../lib/analytics'
 import ThemeToggle from '../../components/ThemeToggle'
+import { MAIN_CONTENT_ID } from '@core/PageShell'
 
 // Trang landing công khai, KHÔNG bọc RequireAuth — dùng làm điểm đến cho link quảng cáo
 // (TikTok/Facebook/SEO). Khác với "/" (đã gắn RequireAuth, đẩy người chưa đăng nhập sang
@@ -98,7 +99,18 @@ export default function Landing() {
           cao 97px — nút CTA cuối trang nằm DƯỚI thanh nav và không bấm được ở 390px lẫn 320px.
           `--bnav-h` bằng 0 từ 1024px (index.css) nên desktop không đổi. Cổng canh:
           e2e/mobile-layout-guards.spec.ts */}
-      <main className="mx-auto max-w-lg px-4 pb-[calc(4rem+var(--bnav-h))] pt-6 sm:max-w-2xl lg:max-w-6xl lg:pt-12">
+      {/* [Trả nợ S03-2, 2026-09-15] `id` + `tabIndex` là ĐÍCH của liên kết "Bỏ qua tới nội
+          dung chính" (`SkipLink` render toàn cục trong App.tsx, WCAG 2.4.1 mức A). Hai trang
+          giới thiệu này tự dựng `<main>` thay vì dùng `PageShell` — nơi duy nhất đặt
+          `MAIN_CONTENT_ID` — nên liên kết trỏ vào `#noi-dung-chinh` KHÔNG TỒN TẠI: người dùng
+          bàn phím bấm Tab lần đầu, thấy liên kết, bấm Enter và KHÔNG có gì xảy ra.
+          `tabIndex={-1}` không thêm điểm dừng Tab mới nhưng cho phép nhận tiêu điểm bằng mã —
+          thiếu nó thì trang chỉ cuộn còn tiêu điểm vẫn kẹt trên thanh điều hướng. */}
+      <main
+        id={MAIN_CONTENT_ID}
+        tabIndex={-1}
+        className="mx-auto max-w-lg px-4 pb-[calc(4rem+var(--bnav-h))] pt-6 focus:outline-none sm:max-w-2xl lg:max-w-6xl lg:pt-12"
+      >
         {/* Hero + điểm khác biệt: xếp dọc ở mobile (giữ nguyên thứ tự cũ), hai cột ở desktop.
             Dùng lưới CSS chứ không dựng hai nhánh DOM — thứ tự đọc và thứ tự Tab vẫn y hệt. */}
         <div className="lg:grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center lg:gap-12">
