@@ -1,4 +1,4 @@
-// breadcrumb — sinh "đường đi" (Trang chủ › Phòng Học › Toán học) TỪ đường dẫn hiện tại.
+// breadcrumb — sinh "đường đi" (Trang chủ › Góc học tập › Toán học) TỪ đường dẫn hiện tại.
 //
 // Vì sao có file này: header desktop trước đây chỉ có nút "Back" trỏ về Trang chủ. Nút đó
 // trả lời được câu "đi đâu tiếp" nhưng KHÔNG trả lời được "tôi đang ở đâu" — lặn sâu vào
@@ -9,7 +9,9 @@
 // Nhãn lấy lại từ `studios.ts` + `navTree.ts` — một nguồn sự thật, sidebar và breadcrumb
 // không bao giờ gọi cùng một trang bằng hai cái tên khác nhau.
 import { STUDIOS } from './studios'
-import { ENGLISH_CHILDREN, PRACTICE_CHILDREN, SUBJECT_CHILDREN, type NavChild } from './navTree'
+import { SUBJECT_CHILDREN, type NavChild } from './navTree'
+import { subjectHomePath } from '@dhcb/core-learner/subjectHome'
+import { underPrefix } from './navPaths'
 
 /** Một đốt trong đường đi. `to` rỗng nghĩa là đốt cuối (trang hiện tại, không phải liên kết). */
 export interface Crumb {
@@ -36,16 +38,28 @@ function studioPath(id: string): string {
   return st.to
 }
 
-/** Trải các mục con của một nhóm thành nút route (mỗi `paths` một nút, cùng nhãn + cùng đích). */
+/**
+ * Trải các mục con của một nhóm thành nút route (mỗi `paths` một nút, cùng nhãn + cùng đích).
+ *
+ * Mục có cấp 2 (Tiếng Anh → 5 công cụ): đường dẫn nào đã thuộc một mục cấp 2 thì KHÔNG dựng nút
+ * ở cấp 1 — nếu không `/lo-trinh-hoc` sẽ mang nhãn "Tiếng Anh" thay vì "Lộ trình CEFR" (nút đầu
+ * tiên thắng trong BY_PATH). Cấp 2 được trải riêng, treo dưới nút đầu của mục cha.
+ */
 function childNodes(children: readonly NavChild[], parent: string): RouteNode[] {
-  return children.flatMap((c) =>
-    c.paths.map((p) => ({ path: p, label: c.label, to: c.to ?? c.paths[0], parent })),
-  )
+  return children.flatMap((c) => {
+    const nested = c.children ?? []
+    const owned = new Set(nested.flatMap((n) => n.paths))
+    const own = c.paths.filter((p) => !owned.has(p))
+    const to = c.to ?? c.paths[0]
+    return [
+      ...own.map((p) => ({ path: p, label: c.label, to, parent })),
+      ...(nested.length && to ? childNodes(nested, to) : []),
+    ]
+  })
 }
 
 const SUBJECTS = studioPath('subjects')
-const PRACTICE = studioPath('practice')
-const ENGLISH = studioPath('english')
+const ENGLISH_HOME = subjectHomePath('english')
 const CAREER = studioPath('career')
 const WORKLIFE = studioPath('worklife')
 
@@ -57,9 +71,13 @@ const WORKLIFE = studioPath('worklife')
  */
 const ROUTE_NODES: readonly RouteNode[] = [
   ...STUDIOS.map((st) => ({ path: st.to, label: st.title })),
+  // [Slice 03] Trang Tiếng Anh KHÔNG lên sidebar nhưng vẫn phải có tầng cha đúng. Đặt TRƯỚC
+  // childNodes(SUBJECT_CHILDREN): ENGLISH_PATHS (paths của mục "Tiếng Anh") cũng chứa hai đường
+  // này, mà BY_PATH lấy nút ĐẦU TIÊN — đặt sau là chúng mang nhãn "Tiếng Anh" thay vì nhãn riêng.
+  { path: '/placement', label: 'Xếp lớp', parent: '/lo-trinh-hoc' },
+  { path: '/cai-dat', label: 'Cài đặt môn', parent: ENGLISH_HOME },
+  // SUBJECT_CHILDREN đã gồm cấp 2 của Tiếng Anh (ENGLISH_CHILDREN) — không trải lại lần hai.
   ...childNodes(SUBJECT_CHILDREN, SUBJECTS),
-  ...childNodes(PRACTICE_CHILDREN, PRACTICE),
-  ...childNodes(ENGLISH_CHILDREN, ENGLISH),
   { path: '/tien-do', label: 'Tiến độ' },
   { path: '/nang-cap', label: 'Nâng cấp' },
   { path: '/trang-ca-nhan', label: 'Hồ sơ' },
@@ -112,11 +130,6 @@ const ROUTE_NODES: readonly RouteNode[] = [
 /** Tra nhanh theo tiền tố. Trùng tiền tố thì mục ĐẦU TIÊN thắng (có test canh). */
 const BY_PATH = new Map<string, RouteNode>()
 for (const node of ROUTE_NODES) if (!BY_PATH.has(node.path)) BY_PATH.set(node.path, node)
-
-/** `pathname` có nằm trong nhánh `prefix` không — so theo BIÊN đoạn, không phải chuỗi con. */
-function underPrefix(pathname: string, prefix: string): boolean {
-  return pathname === prefix || pathname.startsWith(prefix.endsWith('/') ? prefix : `${prefix}/`)
-}
 
 /** Nút khớp SÂU NHẤT với đường dẫn (tiền tố dài nhất thắng). */
 function deepestNode(pathname: string): RouteNode | null {

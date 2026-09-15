@@ -1,4 +1,4 @@
-# 0326 — 2026-09-15 — Đặc tả S07 mục lục môn/khoá + các slice còn lại của goal learning-ux
+# 0328 — 2026-09-15 — Đặc tả S07 mục lục môn/khoá + các slice còn lại của goal learning-ux
 
 **PR:** (điền khi tạo) · **Loại:** docs-only, không source/schema/dependency.
 

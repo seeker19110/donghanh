@@ -74,10 +74,9 @@ test.describe('Gợi ý "Luyện nói với từ vừa học" ở Home', () => {
   }) => {
     await seedLearnedWords(page, ['apple', 'banana', 'cherry'])
     await mockLogin(page, 'vi')
-    // Nút gợi ý này đã dời từ trang chủ hub "/" sang trang riêng môn Tiếng Anh
-    // "/hoc-tieng-anh" (feat(navigation): restructure platform hub and dedicated
-    // english studio routing, commit fd188ef) — xem EnglishHome.tsx.
-    await page.goto('/hoc-tieng-anh', { waitUntil: 'domcontentloaded' })
+    // Nút gợi ý này nằm ở trang tổng quan môn Tiếng Anh "/goc-hoc-tap/english" (slice 02
+    // Góc học tập, 2026-09-15; trước đó là "/hoc-tieng-anh") — xem EnglishHome.tsx.
+    await page.goto('/goc-hoc-tap/english', { waitUntil: 'domcontentloaded' })
     const cta = page.getByRole('button', { name: /Luyện nói với 3 từ vừa học/ })
     await expect(cta).toBeVisible()
     await cta.click()
@@ -86,7 +85,7 @@ test.describe('Gợi ý "Luyện nói với từ vừa học" ở Home', () => {
 
   test('chưa học từ nào → không hiện nút gợi ý', async ({ page }) => {
     await mockLogin(page, 'vi')
-    await page.goto('/hoc-tieng-anh', { waitUntil: 'domcontentloaded' })
+    await page.goto('/goc-hoc-tap/english', { waitUntil: 'domcontentloaded' })
     await expect(page.getByText(/Luyện nói với/)).not.toBeVisible()
   })
 })

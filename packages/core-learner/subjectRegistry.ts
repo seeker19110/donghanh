@@ -23,7 +23,8 @@ export const SUPPORTED_SUBJECTS: SubjectManifest[] = [
       'ielts_writing',
     ],
     evaluationModes: ['rubric_ielts', 'rubric_ai', 'discrete_check'],
-    isDefault: true,
+    // [Slice 04] KHÔNG còn `isDefault: true` — nền tảng không ngầm định người dùng học Tiếng Anh
+    // (docs/specs/2026-09-15-goc-hoc-tap-03-04-*.md). Field vẫn optional trong schema để tương thích.
     schemaVersion: SUBJECT_MANIFEST_SCHEMA_VERSION,
   }),
   SubjectManifestSchema.parse({

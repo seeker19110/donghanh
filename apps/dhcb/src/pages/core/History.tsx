@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { duongDanMonTiengAnh } from '../../lib/subjectsHost'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   MessageCircle,
   PenLine,
@@ -347,6 +348,16 @@ export default function History() {
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang danh sách → width="standard". */}
       <PageShell width="standard" baseWidth="max-w-3xl">
         {/* Tiêu đề trang — ngay dưới AppHeader, cỡ chữ lớn */}
+        {/* [Slice 03] Lịch sử ở đây là của MÔN TIẾNG ANH (Chat / Viết / Nói) — nói rõ ngữ cảnh. */}
+        <p className="text-sm text-zinc-300 mb-3">
+          Môn Tiếng Anh —{' '}
+          <Link
+            to={duongDanMonTiengAnh()}
+            className="underline underline-offset-2 text-accent-300 theme-light:text-accent-800 hover:text-white"
+          >
+            về trang môn
+          </Link>
+        </p>
         <PageHeader title="Lịch sử học" subtitle="Xem lại chat, bài viết và buổi luyện nói" />
 
         {/* Tabs */}

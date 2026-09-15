@@ -14,6 +14,7 @@
 //     (chỉ đổi level, giữ nguyên goal/dailyMinutes đã có) rồi quay lại /profile.
 // ──────────────────────────────────────────────────────────────────────
 
+import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { usePageTitle } from '../../../lib/usePageTitle'
@@ -193,7 +194,7 @@ export default function Placement() {
   if (phase === 'intro') {
     return (
       <div className="min-h-dvh bg-zinc-950">
-        {!fromOnboarding && <Layout />}
+        {!fromOnboarding && <Layout backTo={duongDanMonTiengAnh()} />}
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] Luồng tuần tự hẹp → width reading. */}
         <PageShell
           width="reading"
@@ -270,7 +271,7 @@ export default function Placement() {
   if (phase === 'result' && result) {
     return (
       <div className="min-h-dvh bg-zinc-950">
-        {!fromOnboarding && <Layout />}
+        {!fromOnboarding && <Layout backTo={duongDanMonTiengAnh()} />}
         <PageShell
           width="reading"
           baseWidth="max-w-lg"
@@ -299,7 +300,7 @@ export default function Placement() {
   // ── Màn đang thi (hoặc đang nạp câu hỏi) ─────────────────────────────────
   return (
     <div className="min-h-dvh bg-zinc-950">
-      {!fromOnboarding && <Layout />}
+      {!fromOnboarding && <Layout backTo={duongDanMonTiengAnh()} />}
       <PageShell
         width="reading"
         baseWidth="max-w-lg"

@@ -12,11 +12,12 @@ import UpgradeSection from '../../components/UpgradeSection'
 import PricePromoBanner from '../../components/PricePromoBanner'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { useAuth } from '../../context/useAuth'
-import { getDirection } from '../../lib/storage'
+import { useLang } from '../../context/useLang'
 
 export default function Pricing() {
   const { user } = useAuth()
-  const isA = getDirection() === 'A'
+  // [Slice 04] Chữ giao diện theo ngôn ngữ giao diện, không theo chiều học Tiếng Anh.
+  const isA = useLang().lang === 'vi'
 
   usePageTitle('Nâng cấp VIP | Đồng hành cùng bạn')
 

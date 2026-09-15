@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
 import { PenLine, Send, RotateCcw, ChevronDown, Trophy } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import Layout from '../../../components/Layout'
@@ -223,7 +224,10 @@ function ResultView({
 }) {
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout title={dir === 'A' ? 'Kết quả chấm bài IELTS' : 'Writing Results'} />
+      <Layout
+        backTo={duongDanMonTiengAnh()}
+        title={dir === 'A' ? 'Kết quả chấm bài IELTS' : 'Writing Results'}
+      />
       <main className="max-w-2xl mx-auto px-4 pt-6 pb-[calc(1.5rem+var(--bnav-h))]">
         <ResultPanel feedback={feedback} onReset={onReset} dir={dir} />
       </main>
@@ -534,7 +538,7 @@ export default function Writing() {
   if (isDesktop) {
     return (
       <div className="min-h-dvh bg-zinc-950">
-        <Layout />
+        <Layout backTo={duongDanMonTiengAnh()} />
         <PageShell width="standard" baseWidth="max-w-2xl">
           <TwoPane
             isDesktop
@@ -572,7 +576,7 @@ export default function Writing() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout />
+      <Layout backTo={duongDanMonTiengAnh()} />
       <main className="max-w-2xl mx-auto px-4 pt-6 pb-[calc(1.5rem+var(--bnav-h))] space-y-4 animate-fade-up">
         {composer}
       </main>

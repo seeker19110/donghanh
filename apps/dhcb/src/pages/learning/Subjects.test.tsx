@@ -19,6 +19,12 @@ import { SubjectApiError } from '../../lib/subjectApi'
 vi.mock('../../components/Layout', () => ({ default: () => null }))
 
 const listSubjectsMock = vi.hoisted(() => vi.fn())
+const goToSubjectHomeMock = vi.hoisted(() => vi.fn())
+vi.mock('../../lib/subjectsHost', async () => {
+  const actual =
+    await vi.importActual<typeof import('../../lib/subjectsHost')>('../../lib/subjectsHost')
+  return { ...actual, goToSubjectHome: goToSubjectHomeMock }
+})
 vi.mock('../../lib/subjectApi', async () => {
   const actual =
     await vi.importActual<typeof import('../../lib/subjectApi')>('../../lib/subjectApi')
@@ -223,5 +229,65 @@ describe('trang Môn học — trạng thái tải/lỗi/rỗng', () => {
     expect(signals.length).toBeGreaterThanOrEqual(2)
     expect(signals[0]!.aborted).toBe(true)
     expect(signals[signals.length - 1]!.aborted).toBe(false)
+  })
+})
+
+// Slice 02 (spec §④ AC-6, Q2): nút hành động đi qua MỘT helper biết ownership, nhãn một khuôn.
+describe('trang Môn học — nút "Vào môn …"', () => {
+  let container: HTMLDivElement
+  let root: Root
+
+  beforeEach(() => {
+    listSubjectsMock.mockReset()
+    goToSubjectHomeMock.mockReset()
+    container = document.createElement('div')
+    document.body.appendChild(container)
+    root = createRoot(container)
+  })
+
+  afterEach(() => {
+    act(() => root.unmount())
+    container.remove()
+  })
+
+  async function hienVaChay() {
+    act(() => {
+      root.render(
+        <MemoryRouter>
+          <Subjects />
+        </MemoryRouter>,
+      )
+    })
+    await act(async () => {
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+  }
+
+  it('nhãn "Vào môn <tên>" cho mọi môn, không còn "Không Gian Học Tiếng Anh"', async () => {
+    listSubjectsMock.mockResolvedValue([
+      manifest({ id: 'english', label: 'Tiếng Anh' }),
+      manifest({ id: 'programming', label: 'Lập trình', category: 'stem' }),
+      manifest({ id: 'physics', label: 'Vật lý', category: 'stem' }),
+    ])
+    await hienVaChay()
+    const text = container.textContent ?? ''
+    for (const label of ['Vào môn Tiếng Anh', 'Vào môn Lập trình', 'Vào môn Vật lý']) {
+      expect(text).toContain(label)
+    }
+    expect(text).not.toContain('Không Gian Học Tiếng Anh')
+    expect(text).not.toContain('Vào Lộ Trình Lập Trình')
+  })
+
+  it('bấm nút → goToSubjectHome(nav, id) — không tự ghép chuỗi, không navigate tại chỗ', async () => {
+    listSubjectsMock.mockResolvedValue([manifest({ id: 'english', label: 'Tiếng Anh' })])
+    await hienVaChay()
+    const btn = Array.from(container.querySelectorAll('button')).find((b) =>
+      b.textContent?.includes('Vào môn Tiếng Anh'),
+    )
+    expect(btn).toBeTruthy()
+    act(() => btn!.click())
+    expect(goToSubjectHomeMock).toHaveBeenCalledTimes(1)
+    expect(goToSubjectHomeMock.mock.calls[0]![1]).toBe('english')
   })
 })

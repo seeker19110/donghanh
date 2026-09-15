@@ -1,6 +1,6 @@
 // apps/dhcb/src/pages/SubjectDetail.tsx — Specialized AI STEM Step Solver & Subject Studio
 import { useEffect, useState, useRef } from 'react'
-import { useParams, useNavigate, useLocation, Link } from 'react-router-dom'
+import { Navigate, useParams, useNavigate, useLocation, Link } from 'react-router-dom'
 import {
   Sparkles,
   Send,
@@ -29,6 +29,7 @@ import IntegrationsModal from '../../components/IntegrationsModal'
 import { STEM_CURRICULUM } from '../../data/stemCurriculum'
 import type { SubjectManifest } from '@dhcb/core-contracts/subjectManifest'
 import { goToSubjects } from '../../lib/subjectsHost'
+import { isAppHostSubject, subjectHomePath } from '@dhcb/core-learner/subjectHome'
 import { duongDanDanhSachBai, getStemSubject } from '../../lib/stemLessonRoutes'
 
 interface SolvedStep {
@@ -48,6 +49,10 @@ export default function SubjectDetail() {
   const { subjectId } = useParams<{ subjectId: string }>()
   const nav = useNavigate()
   const location = useLocation()
+  // Môn có không gian hoạt động riêng (Tiếng Anh, Lập trình) KHÔNG có trang manifest: App.tsx
+  // đã đặt route riêng cho chúng, nhánh này chỉ chạm tới khi ai đó dựng URL lạ. Đi thẳng tới
+  // trang chủ môn thay vì fetch manifest rồi vẽ tab "Giải đề"/"Lớp 12" vô nghĩa cho Tiếng Anh.
+  const ownHome = subjectId && isAppHostSubject(subjectId) ? subjectHomePath(subjectId) : null
   // [Trả nợ S03-1, 2026-09-15] Ba trạng thái tách bạch thay cho một biến `subject | null`.
   // Trước đây effect bắt MỌI lỗi bằng `.catch(() => goToSubjects(nav))`: mất mạng, 503 hay
   // payload sai đều đá người dùng ngược về danh sách môn, không một lời giải thích — người
@@ -119,7 +124,8 @@ export default function SubjectDetail() {
   }
 
   useEffect(() => {
-    if (!subjectId) return
+    // Môn thuộc app host (ownHome) đã được chuyển hướng ở render — không gọi API manifest.
+    if (!subjectId || ownHome) return
     // CHỐNG RACE: điều hướng nhanh giữa hai môn (Toán → Lý) có thể để response của môn CŨ về
     // sau và ghi đè môn đang xem. Cùng khuôn với `Subjects.tsx`: huỷ request cũ trong cleanup,
     // và chặn nốt lượt đã bay qua `fetch` bằng chính cờ `aborted` của controller.
@@ -146,7 +152,7 @@ export default function SubjectDetail() {
       })
 
     return () => controller.abort()
-  }, [subjectId, retryToken])
+  }, [subjectId, retryToken, ownHome])
 
   // Handle URL query parameters (e.g. ?q=... from Home search) — pattern so-sánh-prev
   // ngay trong render (không setState đồng bộ trong effect), chạy cả lần mount đầu.
@@ -307,6 +313,9 @@ export default function SubjectDetail() {
     setActiveTab('solver')
   }
 
+  // Môn thuộc app host (Tiếng Anh, Lập trình) — đi thẳng tới trang chủ môn, TRƯỚC màn tải.
+  if (ownHome) return <Navigate to={ownHome} replace />
+
   // Thiếu mã môn trong đường dẫn: chuyện của ĐƯỜNG DẪN, biết ngay lúc render, không cần
   // (và không được) đi vòng qua effect để dựng ra một trạng thái lỗi.
   const loi = !subjectId
@@ -376,13 +385,6 @@ export default function SubjectDetail() {
       to: 'to-red-600/20',
       accent: 'text-rose-400 theme-light:text-rose-900',
       ring: 'ring-rose-500/30',
-    },
-    english: {
-      from: 'from-emerald-600/30',
-      via: 'via-teal-600/15',
-      to: 'to-green-600/20',
-      accent: 'text-emerald-400 theme-light:text-emerald-900',
-      ring: 'ring-emerald-500/30',
     },
     programming: {
       from: 'from-indigo-600/30',

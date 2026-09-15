@@ -89,3 +89,10 @@ describe('subjectRegistry — nhánh biên', () => {
     expect(isValidSubjectLevel('astronomy', 'B2')).toBe(false)
   })
 })
+
+// [Slice 04] Nền tảng không mặc định môn nào — thêm lại `isDefault: true` là dựng lại đúng thứ đặc tả bỏ.
+describe('subjectRegistry — không môn nào là mặc định', () => {
+  it('không manifest nào có isDefault: true', () => {
+    for (const s of listSupportedSubjects()) expect(s.isDefault, s.id).not.toBe(true)
+  })
+})

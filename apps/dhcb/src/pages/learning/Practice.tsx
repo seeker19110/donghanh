@@ -39,13 +39,13 @@ import Layout from '../../components/Layout.js'
 import { PageShell } from '@core/PageShell'
 import PageHeader from '../../components/PageHeader.js'
 import PvPArenaCard from '../../components/PvPArena/PvPArenaCard.js'
-import { getDirection } from '../../lib/storage'
+import { useLang } from '../../context/useLang'
 import { useAuth } from '../../context/useAuth'
 import { loadCurriculum, getLearningPath } from '../../lib/curriculum'
 import { getLearnedWords } from '../../lib/vocab'
 import type { DictEntry } from '../../types'
 import { shuffle } from '@dhcb/core-contracts/shuffle'
-import { goToSubjects } from '../../lib/subjectsHost'
+import { goToSubjects, duongDanMonTiengAnh } from '../../lib/subjectsHost'
 import { SESSION_SIZE } from './practice/shared'
 import { MiniHeader } from './practice/GameChrome'
 import type { Mode } from './practice/shared'
@@ -62,8 +62,8 @@ export default function Practice() {
   usePageTitle('Luyện tập | Đồng hành cùng bạn')
   const nav = useNavigate()
   const { user } = useAuth()
-  const dir = getDirection()
-  const isA = dir === 'A'
+  // [Slice 04] Chữ giao diện theo ngôn ngữ giao diện, không theo chiều học Tiếng Anh.
+  const isA = useLang().lang === 'vi'
   const [mode, setMode] = useState<Mode>('hub')
   const [pool, setPool] = useState<DictEntry[]>([])
 
@@ -343,7 +343,7 @@ export default function Practice() {
 
             {/* Tiếng Anh Song Ngữ */}
             <button
-              onClick={() => nav('/hoc-tieng-anh')}
+              onClick={() => nav(duongDanMonTiengAnh())}
               className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-purple-500/30 hover:border-purple-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex flex-col justify-between"
             >
               <div className="flex items-start gap-3 mb-2">

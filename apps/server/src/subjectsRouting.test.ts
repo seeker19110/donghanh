@@ -83,7 +83,7 @@ describe('decideRedirect — trên host Góc học tập', () => {
     expect(quyet(H, SUBJECTS_PREFIX)).toBeNull()
   })
 
-  it.each(SUBJECT_IDS.filter((id) => id !== 'programming'))(
+  it.each(SUBJECT_IDS.filter((id) => id !== 'programming' && id !== 'english'))(
     '/goc-hoc-tap/%s là trang môn → phục vụ tại chỗ',
     (id) => {
       expect(quyet(H, `${SUBJECTS_PREFIX}/${id}`)).toBeNull()
@@ -233,6 +233,62 @@ describe('decideRedirect — trên app nền tảng (www/en-vi)', () => {
       status: 302,
     })
     expect(quyet('en-vi.donghanhcungban.org', '/tien-do')).toBeNull()
+  })
+})
+
+// ── Slice 02: Tiếng Anh là MỘT MÔN, trang tổng quan `/goc-hoc-tap/english` thuộc APP host ──
+// (`docs/specs/2026-09-15-goc-hoc-tap-02-tieng-anh-la-mot-mon.md` §③, AC-2)
+describe('decideRedirect — môn Tiếng Anh thuộc app host', () => {
+  const ENGLISH_HOME = `${SUBJECTS_PREFIX}/english`
+
+  it('app host: trang tổng quan Tiếng Anh được PHỤC VỤ, không đẩy sang host Góc học tập', () => {
+    expect(quyet(WWW, ENGLISH_HOME)).toBeNull()
+    expect(quyet('en-vi.donghanhcungban.org', ENGLISH_HOME)).toBeNull()
+  })
+
+  it.each(['/hoc-tieng-anh', '/tieng-anh', '/english'])(
+    'app host: alias cũ %s → 302 tới trang tổng quan, GIỮ host và query',
+    (p) => {
+      expect(quyet(WWW, p, '?tab=hom-nay')).toEqual({
+        location: `https://${WWW}${ENGLISH_HOME}?tab=hom-nay`,
+        status: 302,
+      })
+    },
+  )
+
+  it('alias cũ khớp theo BIÊN đoạn — /english-abc không phải Tiếng Anh', () => {
+    expect(quyet(WWW, '/english-abc')).toBeNull()
+    expect(quyet(WWW, '/hoc-tieng-anh-x')).toBeNull()
+  })
+
+  it.each([`${SUBJECTS_PREFIX}/english`, '/english', '/hoc-tieng-anh', '/mon-hoc/english'])(
+    'host Góc học tập: %s → app host /goc-hoc-tap/english (một chặng)',
+    (p) => {
+      expect(quyet(H, p)).toEqual({ location: `https://${WWW}${ENGLISH_HOME}`, status: 302 })
+    },
+  )
+
+  it('đường sâu hơn dưới môn Tiếng Anh KHÔNG bị gộp về trang tổng quan (02 chưa định nghĩa)', () => {
+    // App host: để nguyên cho route `*` của app xử lý.
+    expect(quyet(WWW, `${ENGLISH_HOME}/gi-do`)).toBeNull()
+    // Host Góc học tập: về app host, giữ nguyên đường dẫn.
+    expect(quyet(H, `${ENGLISH_HOME}/gi-do`)).toEqual({
+      location: `https://${WWW}${ENGLISH_HOME}/gi-do`,
+      status: 302,
+    })
+  })
+
+  it('đích của mọi alias Tiếng Anh là điểm dừng (không chuỗi chuyển hướng)', () => {
+    for (const [host, p] of [
+      [WWW, '/hoc-tieng-anh'],
+      [H, '/english'],
+      [H, `${SUBJECTS_PREFIX}/english`],
+    ] as const) {
+      const first = quyet(host, p)
+      expect(first).not.toBeNull()
+      const url = new URL(first!.location)
+      expect(quyet(url.hostname, url.pathname)).toBeNull()
+    }
   })
 })
 

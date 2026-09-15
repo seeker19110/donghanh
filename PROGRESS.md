@@ -222,22 +222,23 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
 
 ### Ưu tiên 1c — GÓC HỌC TẬP (đặc tả `docs/specs/2026-09-15-goc-hoc-tap-architecture.md`)
 
-| Slice | Việc                                                                                    | Trạng thái                                                                                                                                                                |
-| ----- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0S    | Đặc tả + goal                                                                           | ✅ đã merge (`docs/changelog/0323-2026-09-15-goc-hoc-tap-spec.md`)                                                                                                        |
-| 01    | Đổi tên không gian + URL `/goc-hoc-tap` + alias tương thích                             | ✅ **ĐÃ THI HÀNH** (`docs/changelog/0324-*.md`)                                                                                                                           |
-| 02    | Tiếng Anh thành một MÔN ngang hàng, bỏ entry cấp không gian                             | 📝 **ĐẶC TẢ ĐÃ VIẾT, In review** — `docs/specs/2026-09-15-goc-hoc-tap-02-tieng-anh-la-mot-mon.md`; chờ chủ dự án chốt Q1–Q3 (§7) rồi mới thi hành                         |
-| 03    | Công cụ tiếng Anh nằm trong môn, công cụ chung có ngữ cảnh môn                          | ⏸ CHƯA READY — cần inventory từng route/component/API/storage                                                                                                             |
-| 04    | Nền tảng không mặc định tiếng Anh (`english.isDefault`)                                 | ⏸ CHƯA READY — cần inventory mọi fallback + hợp đồng ngữ cảnh                                                                                                             |
-| S07   | Mục lục môn/khoá độc lập shellbar (hợp đồng `OutlineNode` + adapter 3 môn + rail/panel) | 📝 **ĐẶC TẢ ĐÃ VIẾT, In review** — `docs/specs/2026-09-15-goc-hoc-tap-07-muc-luc-mon-khoa.md`; chờ chốt Q1–Q5 (§7). S07-1/S07-2 không đợi 02–04; S07-3 (Tiếng Anh) đợi 03 |
+| Slice | Việc                                                                                    | Trạng thái                                                                                                                                                                        |
+| ----- | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0S    | Đặc tả + goal                                                                           | ✅ đã merge (`docs/changelog/0323-2026-09-15-goc-hoc-tap-spec.md`)                                                                                                                |
+| 01    | Đổi tên không gian + URL `/goc-hoc-tap` + alias tương thích                             | ✅ **ĐÃ THI HÀNH** (`docs/changelog/0324-*.md`)                                                                                                                                   |
+| 02    | Tiếng Anh thành một MÔN ngang hàng, bỏ entry cấp không gian                             | ✅ **ĐÃ THI HÀNH** (`docs/changelog/0326-*.md`; đặc tả `docs/specs/2026-09-15-goc-hoc-tap-02-tieng-anh-la-mot-mon.md`)                                                            |
+| 03    | Công cụ tiếng Anh nằm trong môn, công cụ chung có ngữ cảnh môn                          | ✅ **ĐÃ THI HÀNH** (`docs/changelog/0327-*.md`; đặc tả `docs/specs/2026-09-15-goc-hoc-tap-03-04-cong-cu-theo-mon-va-bo-mac-dinh-english.md`)                                      |
+| 04    | Nền tảng không mặc định tiếng Anh (`english.isDefault`)                                 | ✅ **ĐÃ THI HÀNH** (`docs/changelog/0327-*.md`, cùng đặc tả với 03)                                                                                                               |
+| S07   | Mục lục môn/khoá độc lập shellbar (hợp đồng `OutlineNode` + adapter 3 môn + rail/panel) | 📝 **ĐẶC TẢ ĐÃ VIẾT, In review** — `docs/specs/2026-09-15-goc-hoc-tap-07-muc-luc-mon-khoa.md`; chờ chốt Q1–Q5 (§7). 02–04 đã merge nên cả 3 PR con S07 đều sẵn sàng sau khi duyệt |
 
-**Các slice còn lại của goal learning-ux — ĐẶC TẢ ĐÃ VIẾT 2026-09-15 (`docs/changelog/0326-*.md`), đều In review chờ chủ dự án chốt §7 từng file.** Thứ tự thi hành đã chốt: S07 → S08 → S06 → S05 → S10 → S11 → S09 → S12 → S13. File: `docs/specs/2026-09-15-learning-ux-s{08,06,05,10,11,09,12,13}-*.md`. Migration đã đánh số theo thứ tự: S05 0081 · S11 0082 · S09 0083 · S12 0084.
+**Các slice còn lại của goal learning-ux — ĐẶC TẢ ĐÃ VIẾT 2026-09-15 (`docs/changelog/0328-*.md`), đều In review chờ chủ dự án chốt §7 từng file.** Thứ tự thi hành đã chốt: S07 → S08 → S06 → S05 → S10 → S11 → S09 → S12 → S13. File: `docs/specs/2026-09-15-learning-ux-s{08,06,05,10,11,09,12,13}-*.md`. Migration đã đánh số theo thứ tự: S05 0081 · S11 0082 · S09 0083 · S12 0084.
 
 **Ghi trong lúc khảo sát 02 (2026-09-15, `docs/changelog/0325-*.md`) — LỖI THẬT đang chạy:** trên
 host `hoc-tap.`, nút "Vào Không Gian Học Tiếng Anh"/"Vào Lộ Trình Lập Trình" ở danh mục dùng
 `navigate()` nên KHÔNG đổi origin → người đã đăng nhập thành khách, tiến độ 0, dữ liệu học ghi
-vào origin không ai đọc lại. Slice 02 bịt (AC-6). Dữ liệu đã lỡ ghi ở `hoc-tap.` KHÔNG migrate
-(Q3 chờ chốt) — ghi ở "Nợ kỹ thuật còn mở" khi 02 merge.
+vào origin không ai đọc lại. **Slice 02 đã bịt** (mọi nút "Vào môn …" qua `goToSubjectHome`, `subjectsTarget` biết chiều về app
+host). Dữ liệu đã lỡ ghi ở origin `hoc-tap.` KHÔNG migrate (Q3, chủ dự án uỷ quyền, người dùng còn
+ít) — xem mục nợ tương ứng ở "Nợ kỹ thuật còn mở".
 
 **Ghi trong lúc làm 01:** luật chuyển hướng cũ có lỗi VÒNG LẶP thật với bài học STEM khi host
 mode bật (`/mon-hoc/:mon/bai-hoc` → host Góc học tập → đá ngược về một đường dẫn không tồn tại).
@@ -744,7 +745,7 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 
 ## Nợ kỹ thuật còn mở
 
-- 🟡 **[2026-09-15 — phát hiện khi viết đặc tả S05/S10/S12, `docs/changelog/0326-*.md`] Ba tài liệu được CLAUDE.md và mã dẫn tới nhưng KHÔNG tồn tại trong repo:** `docs/research/luong-nguoi-moi-ho-so-nang-luc-an-2026-08-23.md` (CLAUDE.md §2 + 4 file mã), `docs/research/eval-tutor-baseline.md` (CLAUDE.md §8 + `scripts/eval-tutor.ts:53`), `docs/research/cai-tien-lo-trinh-hoc.md` (`storage.ts:241`). Cần viết lại hoặc sửa đường dẫn; S05 đã tái dựng luật ngôn ngữ từ mã đang chạy. Cũng lỗi thời: sàn coverage thật là 93/89/93/93 (`vitest.config.ts`), CLAUDE.md §13 và mục nợ coverage ghi 97/93/96/97 — S13 sửa.
+- 🟡 **[2026-09-15 — phát hiện khi viết đặc tả S05/S10/S12, `docs/changelog/0328-*.md`] Ba tài liệu được CLAUDE.md và mã dẫn tới nhưng KHÔNG tồn tại trong repo:** `docs/research/luong-nguoi-moi-ho-so-nang-luc-an-2026-08-23.md` (CLAUDE.md §2 + 4 file mã), `docs/research/eval-tutor-baseline.md` (CLAUDE.md §8 + `scripts/eval-tutor.ts:53`), `docs/research/cai-tien-lo-trinh-hoc.md` (`storage.ts:241`). Cần viết lại hoặc sửa đường dẫn; S05 đã tái dựng luật ngôn ngữ từ mã đang chạy. Cũng lỗi thời: sàn coverage thật là 93/89/93/93 (`vitest.config.ts`), CLAUDE.md §13 và mục nợ coverage ghi 97/93/96/97 — S13 sửa.
 - 🔴 **[2026-09-15 — khảo sát S09] Mất tiến độ Lập trình khi offline:** `programmingProgress.ts:40` `fetchProgress` ghi đè cache bằng bản server; POST lỗi bị nuốt (dòng 72–74) → bài hoàn thành lúc offline biến mất ở lần mở sau, không gửi lại. `offlineStore.ts` là hàng đợi giả (0 caller, flush `async () => true`). Sửa ở S09-2.
 - 🟡 **[2026-09-15 — khảo sát S12] `packages/core-learner/learningReadModelService.ts:68` select cột `stats` không tồn tại trong `english.learning_progress`** → `/api/learning-read-model` trả số không có nguồn hoặc lỗi runtime. S12 cấm dùng làm nguồn tiến độ; cần sửa/xoá riêng.
 - 🟡 **[2026-09-15 — khảo sát S10] 6 lỗi lifecycle voice/AI** (TTS nổ ở trang kế khi rời Companion giữa stream; stream không huỷ được; `tts.ts` chốt play-token sau await; mic không release khi `MediaRecorder` ném; `AiHelpPanel` rò hint giữa bài) — file:dòng ở spec S10 §②; PR S10-1 sửa trước mọi tính năng trợ giảng.
@@ -753,6 +754,16 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 > `docs/legacy/no-ky-thuat-da-dong.md` (2026-09-01) để file này chỉ nói trạng thái hiện tại —
 > đúng vai trò ở mục 2 `CLAUDE.md`. Đóng một món nợ = cắt khối đó dán sang file kia, kèm ngày.
 
+- **[2026-09-15 — slice 02 Góc học tập, xem `docs/changelog/0326-*.md`, Q3 chủ dự án uỷ quyền]
+  🟡 Dữ liệu học đã lỡ ghi ở origin `hoc-tap.donghanhcungban.org` KHÔNG được migrate.** Nguyên
+  nhân: trước slice 02, nút "Vào …" ở danh mục trên host Góc học tập `navigate()` tại chỗ nên
+  Tiếng Anh/Lập trình chạy ở origin `hoc-tap.` với `localStorage` riêng (người đã đăng nhập thành
+  khách, tiến độ 0). Nguồn lỗi đã bịt; phần đã ghi ở origin đó vẫn nằm đấy, không ai đọc lại.
+  Không migrate vì: không nhận diện được đáng tin, spec cha cấm chuyển dữ liệu qua
+  query/postMessage, tập người ảnh hưởng nhỏ (chưa có phản ánh). **Cách đo nếu có phản ánh:**
+  mở DevTools trên `hoc-tap.` → Application → Local Storage, đếm khoá `et_learned_*`/`dhcb_*`;
+  nếu có, hướng dẫn người dùng "Đăng nhập lại ở www" — tiến độ trên server (đã đồng bộ trước đó)
+  không mất. Đóng nợ khi host mode được tắt hẳn hoặc sau 60 ngày không phản ánh.
 - **[2026-09-14 — phát hiện khi NHÌN ảnh chụp Tầng 8b, xem `docs/changelog/0309-*.md`] Nhãn chữ
   trong hoạt ảnh khó đọc ở màn hình 390px.** Đo được **29/150 nhãn dài hơn 24 ký tự** ở cỡ chữ
   11–12 trong viewBox rộng 440 — trên điện thoại chúng co lại rất nhỏ. **KHÔNG phải lỗi mới**:

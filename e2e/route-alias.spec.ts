@@ -8,8 +8,10 @@ import { mockLogin } from './helpers/auth'
 // trang môn cũng không phải 404, nên nhìn qua tưởng "app chạy bình thường". Đúng loại
 // lỗi im lặng chỉ lộ ra khi có người đối chiếu từng cặp — bảng dưới đây làm việc đó.
 const ALIASES: ReadonlyArray<readonly [alias: string, dich: string]> = [
-  ['/english', '/hoc-tieng-anh'],
-  ['/tieng-anh', '/hoc-tieng-anh'],
+  // Slice 02: Tiếng Anh là một MÔN — ba đường cũ của "không gian" về trang tổng quan môn.
+  ['/english', '/goc-hoc-tap/english'],
+  ['/tieng-anh', '/goc-hoc-tap/english'],
+  ['/hoc-tieng-anh', '/goc-hoc-tap/english'],
   ['/programming', '/lap-trinh'],
   // Hai trụ gộp thành một trang (2026-08-28) — alias tiếng Anh vào thẳng đúng tab.
   ['/career', '/su-nghiep-khoi-nghiep'],

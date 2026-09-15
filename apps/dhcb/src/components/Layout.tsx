@@ -9,6 +9,7 @@ import Breadcrumb from './Breadcrumb'
 import OfflineStatusBanner from './OfflineStatusBanner'
 import { navigateTo } from '../lib/subjectsHost'
 import { STUDIOS } from '../lib/studios'
+import { matchesNav } from '../lib/navPaths'
 import type { Crumb } from '../lib/breadcrumb'
 
 interface Props {
@@ -22,6 +23,11 @@ interface Props {
   // lùi ĐÚNG 1 BƯỚC theo cấp bậc đó, KỂ CẢ khi người dùng vào "tắt" từ Home (vd nút "Học tiếp"
   // nhảy thẳng vào 1 cấp) — không phụ thuộc lối vào, back luôn nhất quán theo cấu trúc trang.
   onBack?: () => void
+  /**
+   * [Slice 03] Đích của nút Back dạng ĐƯỜNG DẪN — cho trang không có phân cấp riêng nhưng thuộc
+   * một môn (công cụ Tiếng Anh → trang tổng quan môn). `onBack` (hàm) vẫn ưu tiên hơn.
+   */
+  backTo?: string
   // Đốt cha ĐỘNG cho breadcrumb desktop: trang lồng sâu có tên cha mà cây route TĨNH không
   // biết (vd bài học của hướng "Lập trình Web") tự truyền vào đây. Xem lib/breadcrumb.ts.
   crumbs?: readonly Crumb[]
@@ -46,6 +52,7 @@ export default function Layout({
   subtitle,
   back = true,
   onBack,
+  backTo,
   crumbs,
   extra,
   focus = false,
@@ -189,7 +196,7 @@ export default function Layout({
         {/* Back / Logo */}
         {back ? (
           <button
-            onClick={onBack ?? (() => nav('/'))}
+            onClick={onBack ?? (() => nav(backTo ?? '/'))}
             aria-label={T.home}
             // GIỮ hiện ở mọi kích thước — nhiều trang truyền `onBack` riêng để lùi ĐÚNG một
             // bậc theo phân cấp của trang đó (vd bài học Lập trình lùi về đúng chặng, không
@@ -254,7 +261,9 @@ export default function Layout({
                 <div className="space-y-1" role="menu" aria-label="Không Gian Nền Tảng">
                   {STUDIOS.map((st, i) => {
                     const Icon = st.icon
-                    const isActive = location.pathname.startsWith(st.to)
+                    // Khớp theo BIÊN đoạn (không phải chuỗi con): `/goc-hoc-tap-abc` không
+                    // được làm sáng "Góc học tập" — cùng họ lỗi slice 01 đã chặn ở nav.
+                    const isActive = matchesNav(location.pathname, [st.to])
                     return (
                       <button
                         key={st.id}

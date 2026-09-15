@@ -37,10 +37,38 @@ describe('buildCrumbs', () => {
   it('tiêu đề trang thành đốt cuối khi khác đốt sẵn có', () => {
     expect(buildCrumbs('/lo-trinh-hoc/a1', 'Cấp A1').map((c) => c.label)).toEqual([
       'Trang chủ',
-      'Học Tiếng Anh',
+      'Góc học tập',
+      'Tiếng Anh',
       'Lộ trình CEFR',
       'Cấp A1',
     ])
+  })
+
+  // Slice 02: Tiếng Anh là một MÔN dưới Góc học tập — không còn tầng "Học Tiếng Anh".
+  it('trang tổng quan Tiếng Anh lồng dưới Góc học tập, đốt "Tiếng Anh" trỏ về trang môn', () => {
+    const crumbs = buildCrumbs('/goc-hoc-tap/english', 'Tiếng Anh')
+    expect(crumbs.map((c) => c.label)).toEqual(['Trang chủ', 'Góc học tập', 'Tiếng Anh'])
+    expect(crumbs[1].to).toBe('/goc-hoc-tap')
+    const tool = buildCrumbs('/lo-trinh-hoc')
+    expect(tool.map((c) => c.label)).toEqual([
+      'Trang chủ',
+      'Góc học tập',
+      'Tiếng Anh',
+      'Lộ trình CEFR',
+    ])
+    expect(tool[2].to).toBe('/goc-hoc-tap/english')
+  })
+
+  it('không nút nào còn mang nhãn "Học Tiếng Anh"', () => {
+    for (const p of [
+      '/hoc-tieng-anh',
+      '/goc-hoc-tap/english',
+      '/lo-trinh-hoc',
+      '/bai-hoc',
+      '/on-thi',
+    ]) {
+      expect(buildCrumbs(p).map((c) => c.label)).not.toContain('Học Tiếng Anh')
+    }
   })
 
   it('tiêu đề trùng đốt cuối thì KHÔNG nhân đôi', () => {
@@ -112,5 +140,50 @@ describe('buildCrumbs', () => {
 
   it('đường dẫn lạ chỉ còn Trang chủ, không vỡ', () => {
     expect(buildCrumbs('/khong-ton-tai/gi-do').map((c) => c.label)).toEqual(['Trang chủ'])
+  })
+
+  // [Slice 03] Mọi công cụ Tiếng Anh lồng dưới Góc học tập › Tiếng Anh (spec 03 §④ AC-3.3).
+  it.each([
+    ['/tro-truyen', 'Trò chuyện'],
+    ['/luyen-noi', 'Luyện nói'],
+    ['/luyen-viet', 'Luyện viết'],
+    ['/luyen-nghe', 'Luyện nghe'],
+    ['/tu-dien', 'Từ điển'],
+    ['/bai-hoc', 'Bài học hôm nay'],
+    ['/cau-thong-dung', 'Câu thông dụng'],
+    ['/truyen-song-ngu', 'Truyện song ngữ'],
+    ['/truyen-song-ngu/ft-01', 'Truyện song ngữ'],
+    ['/so-tay-loi-sai', 'Sổ tay lỗi sai'],
+    ['/on-thi', 'Ôn thi'],
+    ['/thu-thach', 'Thử thách'],
+    ['/cai-dat', 'Cài đặt môn'],
+  ])('%s → Trang chủ › Góc học tập › Tiếng Anh › %s', (path, label) => {
+    const crumbs = buildCrumbs(path)
+    expect(crumbs.map((c) => c.label)).toEqual(['Trang chủ', 'Góc học tập', 'Tiếng Anh', label])
+    expect(crumbs[2].to).toBe('/goc-hoc-tap/english')
+  })
+
+  it('trang con của công cụ: từ điển › từ, lộ trình › xếp lớp', () => {
+    expect(buildCrumbs('/tu-vung/apple', 'apple').map((c) => c.label)).toEqual([
+      'Trang chủ',
+      'Góc học tập',
+      'Tiếng Anh',
+      'Từ điển',
+      'apple',
+    ])
+    expect(buildCrumbs('/placement').map((c) => c.label)).toEqual([
+      'Trang chủ',
+      'Góc học tập',
+      'Tiếng Anh',
+      'Lộ trình CEFR',
+      'Xếp lớp',
+    ])
+  })
+
+  it('Luyện tập là hub đa môn — không còn công cụ Tiếng Anh nào lồng dưới nó', () => {
+    for (const p of ['/tro-truyen', '/luyen-noi', '/tu-dien', '/thu-thach']) {
+      expect(buildCrumbs(p).map((c) => c.label)).not.toContain('Phòng Luyện Tập')
+    }
+    expect(buildCrumbs('/luyen-tap').map((c) => c.label)).toEqual(['Trang chủ', 'Phòng Luyện Tập'])
   })
 })

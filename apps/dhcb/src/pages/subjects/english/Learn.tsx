@@ -7,6 +7,7 @@
 // 6 cấp (RoadmapTab) để chọn cấp muốn học.
 // ──────────────────────────────────────────────────────────────────────
 
+import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
 import { useState } from 'react'
 import { Target, Brain, Star, ClipboardList } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
@@ -78,7 +79,7 @@ export default function Learn() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout back />
+      <Layout backTo={duongDanMonTiengAnh()} back />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Bản đồ lộ trình → width standard. */}
       <PageShell

@@ -5,7 +5,7 @@
 | Spec cha      | [`2026-09-15-goc-hoc-tap-architecture.md`](2026-09-15-goc-hoc-tap-architecture.md) §① slice 02 |
 | Goal          | [`learning-ux`](../goals/2026-09-15-learning-ux.md)                                            |
 | Base khảo sát | `main` `9193164` (#927, slice 01 đã merge), khảo sát 2026-09-15                                |
-| Trạng thái    | **In review** — chờ chủ dự án duyệt ba quyết định ở §7                                         |
+| Trạng thái    | **Approved for implementation** — chủ dự án chốt Q1–Q3 ngày 2026-09-15 (xem §7)                |
 | Người duyệt   | Chủ dự án                                                                                      |
 
 > Không bắt đầu code khi trạng thái chưa là **Approved for implementation**. Luật số 1 của khuôn
@@ -49,10 +49,12 @@ biến thành khách khi mở Tiếng Anh/Lập trình từ danh mục trên hos
       → Back: khớp 100% (không khoá mới ngoài `ui_*`, không khoá mất). Nút "Luyện nói với 3 từ
       vừa học" (`e2e/comeback.spec.ts`) và `e2e/a11y.spec.ts` ca `/hoc-tieng-anh` chạy ở URL mới
       và vẫn xanh. — E2E mới `e2e/english-subject-home.spec.ts`.
-- [ ] **AC-8 Mọi đích của `ENGLISH_CHILDREN` vẫn tới được trong ≤ 1 lượt bấm** từ
-      `/goc-hoc-tap/english` (Lộ trình CEFR · Bài học hôm nay · Câu thông dụng · Sổ tay lỗi sai ·
-      Ôn thi) — vì sidebar không còn nhóm con "Học Tiếng Anh". — `EnglishHome.test.tsx` (mới, ca
-      "có liên kết tới 5 đích"); E2E bấm thử từng nút.
+- [ ] **AC-8 5 công cụ Tiếng Anh DI CHUYỂN vào nhóm Góc học tập (Q1).** Sidebar desktop: mục con
+      "Tiếng Anh" trong nhóm "Góc học tập" mở ra cấp 2 gồm đúng 5 mục `ENGLISH_CHILDREN`; đứng ở
+      `/lo-trinh-hoc` thì nhóm cha + "Tiếng Anh" + "Lộ trình CEFR" cùng sáng và cấp 2 tự mở; vùng
+      chạm ≥ 44px; `aria-expanded` đúng. Trang tổng quan vẫn có đủ 5 liên kết. — `navTree.test.ts`
+      (cấu trúc + `groupContainsPath` xuyên cấp 2), `DesktopSidebar.test.tsx` (mới), E2E
+      `english-subject-home.spec.ts`.
 - [ ] **AC-9 Đăng nhập không hồi quy.** `RequireAccount`/`AllowGuest` không đổi; Login vẫn về
       Home (đường về bài là việc của 04). Khách vào `/goc-hoc-tap/english` thấy `GuestBanner`. —
       `e2e/login-redirect.spec.ts` + `e2e/smoke.spec.ts` hiện có (khách/đăng nhập) + ca mới trong `english-subject-home.spec.ts`.
@@ -90,9 +92,11 @@ npx playwright test e2e/route-alias.spec.ts e2e/bottomnav.spec.ts e2e/comeback.s
    (chiều ngược với hiện nay). Thêm `goToSubjectHome(navigate, id)` = quyết định assign/navigate.
    `SubjectsLink` dùng cùng helper → mục "Tiếng Anh"/"Lập trình" trong sidebar đúng host.
 6. `Subjects.tsx`: nút hành động gọi `goToSubjectHome(nav, sub.id)` cho MỌI môn — bỏ ba nhánh
-   `if` tự ghép chuỗi. Đổi chữ nút Tiếng Anh: "Vào Không Gian Học Tiếng Anh" → "Vào môn Tiếng Anh".
+   `if` tự ghép chuỗi. Nhãn nút MỘT khuôn cho cả 6 môn: `Vào môn ${sub.label}` (Q2).
 7. `studios.ts`: xoá mục `english`. `DesktopSidebar.tsx`: xoá `studioItem('english', …)`; mục con
-   "Tiếng Anh" của `SUBJECT_CHILDREN` nhận `paths: [...ENGLISH_PATHS, '/goc-hoc-tap/english']`.
+   "Tiếng Anh" của `SUBJECT_CHILDREN` nhận `paths: [...ENGLISH_PATHS, '/goc-hoc-tap/english']` và
+   `children: ENGLISH_CHILDREN` (cấp 2, Q1) — sidebar render cấp 2 thụt vào, mở/đóng riêng, tự mở
+   khi đường dẫn hiện tại nằm trong cấp 2.
    `breadcrumb.ts`: `ENGLISH_CHILDREN` treo dưới một nút mới (path `/goc-hoc-tap/english`, nhãn
    "Tiếng Anh", parent = SUBJECTS). `navPaths.ts`: `ENGLISH_PATHS` thêm `/goc-hoc-tap/english`,
    giữ nguyên các mục cũ (tool paths là việc của 03).
@@ -120,7 +124,7 @@ npx playwright test e2e/route-alias.spec.ts e2e/bottomnav.spec.ts e2e/comeback.s
 - KHÔNG đổi mã môn/bài, khoá `localStorage`/`sessionStorage` (`et_*`, `dhcb_*`, `gsa_session_token_v1`,
   `ui_sidebar_groups`), API, quyền, entitlement, hạn mức khách, trạng thái hoàn thành.
 - KHÔNG bật/tắt host mode, không đổi DNS/chứng chỉ/cookie; không đọc `.env` production.
-- KHÔNG thêm nested-group cho sidebar (mục con có mục con) — nếu 03 cần thì 03 đặc tả.
+
 - KHÔNG đụng anchor `#mon-hoc` của hub.
 
 ## ② Điểm chạm (đã khảo sát thật trên `9193164`)
@@ -133,7 +137,7 @@ npx playwright test e2e/route-alias.spec.ts e2e/bottomnav.spec.ts e2e/comeback.s
 | Sửa  | `apps/dhcb/src/components/SubjectsLink.tsx` (+ test mới)                                        | Dùng `subjectsTarget` mới → `<Link>` khi cùng origin, `<a>` khi đổi origin (cả hai chiều).                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | Sửa  | `apps/dhcb/src/App.tsx`                                                                         | Route mới + `LegacyEnglishRedirect`; xoá 2 `Navigate` cũ. Lazy import `EnglishHome` giữ nguyên.                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | Sửa  | `apps/dhcb/src/lib/studios.ts` (+ `studios.test.ts` mới)                                        | Xoá mục `english`. Test canh: đúng 5 studio, id duy nhất, không id `english`.                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| Sửa  | `apps/dhcb/src/components/DesktopSidebar.tsx`                                                   | Xoá `studioItem('english', …)` khỏi `STUDIO_NAV` và khỏi `ACTIVE_ORDER`; `ENGLISH_CHILDREN` không còn được render ở sidebar (AC-8 bù bằng trang tổng quan).                                                                                                                                                                                                                                                                                                                                                          |
+| Sửa  | `apps/dhcb/src/components/DesktopSidebar.tsx` (+ `DesktopSidebar.test.tsx` mới)                 | Xoá `studioItem('english', …)` khỏi `STUDIO_NAV` và `ACTIVE_ORDER`; render cấp 2 cho mục con có `children` (Q1): thụt vào, nút mở/đóng có `aria-expanded`, tự mở khi đường dẫn thuộc cấp 2, vùng chạm ≥ 44px.                                                                                                                                                                                                                                                                                                        |
 | Sửa  | `apps/dhcb/src/lib/breadcrumb.ts` (+ test)                                                      | Bỏ `const ENGLISH = studioPath('english')` (hiện ném lỗi lúc nạp module nếu xoá registry mà quên chỗ này — spec cha §"Hướng kiến trúc" đã cảnh báo). Nút cha mới cho `ENGLISH_CHILDREN`.                                                                                                                                                                                                                                                                                                                             |
 | Sửa  | `apps/dhcb/src/lib/navTree.ts`, `navPaths.ts` (+ test)                                          | `SUBJECT_CHILDREN[0].paths` mở rộng; `ENGLISH_PATHS` thêm địa chỉ mới.                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | Sửa  | `apps/dhcb/src/components/Layout.tsx` (+ `Layout.test.tsx`)                                     | Dropdown tự co còn 5 mục (data-driven). **Sửa kèm:** `isActive = location.pathname.startsWith(st.to)` là khớp chuỗi trần → đổi sang khớp biên đoạn (export `underPrefix` từ `breadcrumb.ts` và dùng chung), vì `/goc-hoc-tap-abc` sẽ sáng nhầm — cùng họ lỗi 01 đã chặn ở nav.                                                                                                                                                                                                                                       |
@@ -242,11 +246,11 @@ export function duongDanMonTiengAnh(): string // = subjectHomePath('english')
 
 ## 7. Quyết định cần chủ dự án chốt trước khi Approved
 
-| #   | Câu hỏi                                                                                                                               | Đề xuất của AI (mặc định nếu không có ý kiến khác)                                                                                    | Lý do                                                                                                             |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| Q1  | Sau khi bỏ nhóm "Học Tiếng Anh" ở sidebar, 5 mục con (Lộ trình CEFR, Bài học hôm nay, Câu thông dụng, Sổ tay lỗi sai, Ôn thi) đi đâu? | **Không hiển thị ở sidebar trong 02**; đảm bảo có trên trang tổng quan (AC-8). 03 quyết chỗ đứng cuối cùng cùng inventory 14 công cụ. | Thêm nested-group cho sidebar là thay đổi UI có tác động toàn app, vượt phạm vi "bỏ entry cấp không gian".        |
-| Q2  | Nhãn nút danh mục cho Tiếng Anh                                                                                                       | "Vào môn Tiếng Anh" (đồng dạng "Vào Lộ Trình Lập Trình" → cũng đổi thành "Vào môn Lập trình"?)                                        | Ngôn ngữ nhất quán "môn" ở cả 6 thẻ. Nếu chốt, đổi cả hai.                                                        |
-| Q3  | Dữ liệu người dùng đã lỡ ghi ở origin `hoc-tap.` do lỗi §2.3                                                                          | **Không migrate**, ghi nợ có đo được.                                                                                                 | Spec cha cấm chuyển dữ liệu qua query/postMessage; không có cách nhận diện đáng tin; tập người ảnh hưởng chưa đo. |
+| #   | Câu hỏi                                                     | Đề xuất của AI (mặc định nếu không có ý kiến khác)                                                                                                                                                                                                                                                            | Lý do                                                                                |
+| --- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| Q1  | 5 mục con "Học Tiếng Anh" đi đâu sau khi bỏ nhóm ở sidebar? | **CHỐT (chủ dự án): DI CHUYỂN, không xoá** — hiện đủ 5 mục dưới nhãn "Góc học tập", lồng dưới mục con "Tiếng Anh" (cấp 2 mở/đóng được). `NavChild` thêm `children?: NavChild[]`; sidebar render cấp 2 thụt vào, tự mở khi đường dẫn hiện tại thuộc cấp 2 (cùng cơ chế `groupContainsPath`). Mobile không đổi. | Giữ lối tắt 1 bấm; đúng ngữ nghĩa "công cụ của môn".                                 |
+| Q2  | Nhãn nút danh mục                                           | **CHỐT:** `Vào môn ${label}` cho **cả 6 môn** — một khuôn chuỗi, bỏ ba nhánh `if`.                                                                                                                                                                                                                            | Nhất quán toàn bộ.                                                                   |
+| Q3  | Dữ liệu đã lỡ ghi ở origin `hoc-tap.` (lỗi §2.3)            | **CHỐT (uỷ quyền AI, người dùng còn ít): KHÔNG migrate.** Bịt nguồn lỗi (AC-6); ghi nợ có đo được ở `PROGRESS.md`.                                                                                                                                                                                            | Không có cách nhận diện đáng tin; spec cha cấm chuyển dữ liệu qua query/postMessage. |
 
 ## 8. Rủi ro và giảm thiểu
 
@@ -272,11 +276,11 @@ export function duongDanMonTiengAnh(): string // = subjectHomePath('english')
 
 ## 19. Phê duyệt
 
-- [ ] Product outcome và scope (Q1–Q3)
-- [ ] UX/accessibility
-- [ ] Architecture/ownership/helper
-- [ ] Test/rollout/rollback
+- [x] Product outcome và scope (Q1–Q3 đã chốt)
+- [ ] UX/accessibility (nghiệm thu bằng ảnh khi PR)
+- [x] Architecture/ownership/helper
+- [ ] Test/rollout/rollback (nghiệm thu khi PR)
 
-**Kết luận:** In review  
-**Người duyệt:** —  
-**Ngày:** —
+**Kết luận:** Approved for implementation
+**Người duyệt:** Chủ dự án (phiên 2026-09-15)\
+**Ngày:** 2026-09-15
