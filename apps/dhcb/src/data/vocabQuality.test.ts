@@ -33,7 +33,21 @@ const dict: DictRow[] = fs
  * biến thể chính tả trùng với `net surfer` đã có; `ios` là tên hệ điều hành viết
  * thường, không phải từ vựng để học.
  */
-const DA_GO = ['angeles', 'costa', 'des', 'hong', 'kong', 'las', 'los', 'york', 'netsurfer', 'ios']
+const DA_GO = [
+  'angeles',
+  'costa',
+  'des',
+  'hong',
+  'kong',
+  'las',
+  'los',
+  'york',
+  'netsurfer',
+  'ios',
+  // Gỡ 2026-09-15 (đợt vệ sinh dữ liệu sau rà thang bậc): chữ số La Mã duy nhất trong
+  // 41 mục `num`, là ký hiệu đánh số chứ không phải mục từ vựng để học.
+  'iii',
+]
 
 /**
  * Dấu hiệu một mục TỰ NHẬN nó không phải từ tiếng Anh độc lập: phần nghĩa tiếng

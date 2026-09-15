@@ -295,8 +295,17 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
   56 mục rất hiếm mà gắn A1/A2 → **sửa 45** (B1 6 · B2 31 · C1 8), **giữ cố ý 10** mục do chính
   CEFR-J chấm theo chủ đề giáo trình (`grandparent`, `kilogram`, `tablespoon`…). Cổng mới:
   `RARE_EASY_ALLOWLIST` — danh sách ngoại lệ CÓ TÊN, mục mới rơi vào vùng đó làm CI đỏ.
-  **Nợ nhỏ còn lại:** `bit`(n) trỏ `base: "bite"` là liên kết sai từ nguyên; mục `iii` (chữ số
-  La Mã) nên xem lại có thuộc từ điển học không — cả hai là vệ sinh dữ liệu, không phải thang bậc.
+  **Đợt 3 — vệ sinh dữ liệu ĐÃ XONG (2026-09-15, `docs/changelog/0315-*.md`, báo cáo
+  `docs/audit/2026-09-15-ve-sinh-du-lieu-tu-dien.md`):** gỡ **4** liên kết `base` sai từ nguyên
+  (`bit`←bite · `ground`←grind · `rose`←rise · `left`←leave; quét ra thêm 3 ca ngoài ca đã biết),
+  xoá mục `iii`. **Quan trọng hơn cả hai việc đó:** phát hiện hai đợt sửa trước **chưa tới người
+  học** — vòng `cefr-*` chép bậc vào JSON nên **43 từ vẫn được dạy ở bậc cũ** (người học A1 vẫn
+  gặp `impetus`, `tensely`); đã đồng bộ 43 bậc + sinh lại `curriculum.json`, và thêm cổng
+  `apps/dhcb/src/data/vocabLevelSync.test.ts`.
+  **🔸 CẦN NGƯỜI DÙNG QUYẾT:** 43 từ nay đúng bậc nhưng **vẫn nằm trong vòng của bậc cũ**
+  (`impetus` C1 vẫn thuộc vòng `cefr-a1-noun-16`). Chuyển vòng = đổi khoá tiến độ người đang học,
+  nên tôi KHÔNG tự làm. Ba phương án ở mục 4 của báo cáo; đề xuất (b) sinh lại vòng cho khoảng
+  8 vòng bị ảnh hưởng.
 
 - **Audit chất lượng nội dung 6 môn (2026-09-14)** — báo cáo đầy đủ:
   `docs/audit/2026-09-14-chat-luong-noi-dung-cac-mon-hoc.md`. 11 phát hiện; hai cái đã có ở

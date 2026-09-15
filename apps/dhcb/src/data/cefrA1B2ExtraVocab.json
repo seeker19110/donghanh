@@ -3875,7 +3875,7 @@
           "ipa_en": "/ˌəˈnizinəs/",
           "ipa_vi": "/sɯ˨˩ʔ/",
           "freq": 37054,
-          "level": "A1",
+          "level": "B2",
           "forms": { "plural": "uneasinesses" }
         },
         {
@@ -3887,7 +3887,7 @@
           "ipa_en": "/ˈɪmpətəs/",
           "ipa_vi": "/ɗoŋ˨˩ʔ/",
           "freq": 39603,
-          "level": "A1",
+          "level": "C1",
           "forms": { "plural": "impetuses" }
         },
         {
@@ -3899,7 +3899,7 @@
           "ipa_en": "/ˈmɪdˌwik/",
           "ipa_vi": "/zɯə˧˥ʔ/",
           "freq": 41537,
-          "level": "A1",
+          "level": "B2",
           "forms": { "plural": "midweeks" }
         },
         {
@@ -3911,7 +3911,7 @@
           "ipa_en": "/ˈskərtɪŋ/",
           "ipa_vi": "/vaːn˦˥/",
           "freq": 44188,
-          "level": "A1",
+          "level": "C1",
           "forms": { "plural": "skirtings" }
         },
         {
@@ -3923,7 +3923,7 @@
           "ipa_en": "/ræˈtæn/",
           "ipa_vi": "/məj˧/",
           "freq": 47052,
-          "level": "A1",
+          "level": "C1",
           "forms": { "plural": "rattans" }
         },
         {
@@ -3935,7 +3935,7 @@
           "ipa_en": "/ˈlɛgɪŋ/",
           "ipa_vi": "/kwən˨˩/",
           "freq": 56097,
-          "level": "A1",
+          "level": "B1",
           "forms": { "plural": "leggings" }
         },
         {
@@ -3947,7 +3947,7 @@
           "ipa_en": "/ˈtɛnənsi/",
           "ipa_vi": "/kwiən˨˩/",
           "freq": 58224,
-          "level": "A1",
+          "level": "C1",
           "forms": { "plural": "tenancies" }
         },
         {
@@ -3959,7 +3959,7 @@
           "ipa_en": "/mɪdˈfildər/",
           "ipa_vi": "/tiən˨˩/",
           "freq": 67731,
-          "level": "A1",
+          "level": "B1",
           "forms": { "plural": "midfielders" }
         },
         {
@@ -4854,7 +4854,7 @@
           "ipa_en": "/ˈsæʧərˌeɪt/",
           "ipa_vi": "/laːm˨˩/",
           "freq": 35320,
-          "level": "A1",
+          "level": "B2",
           "forms": { "v3s": "saturates", "ving": "saturating", "past": "saturated" }
         },
         {
@@ -6709,7 +6709,7 @@
           "ipa_en": "/ˈnoʊtɪsəbli/",
           "ipa_vi": "/zɔ˧˥ʔ/",
           "freq": 35570,
-          "level": "A1"
+          "level": "B2"
         },
         {
           "word": "habitually",
@@ -6720,7 +6720,7 @@
           "ipa_en": "/həˈbɪʧuəli/",
           "ipa_vi": "/tʰɛw˧/",
           "freq": 36460,
-          "level": "A1"
+          "level": "B2"
         },
         {
           "word": "illegible",
@@ -6731,7 +6731,7 @@
           "ipa_en": "/ˌɪˈlɛʤəbəl/",
           "ipa_vi": "/xɔ˦˥/",
           "freq": 36896,
-          "level": "A1"
+          "level": "B2"
         },
         {
           "word": "shyly",
@@ -6742,7 +6742,7 @@
           "ipa_en": "/ˈʃaɪli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "freq": 38158,
-          "level": "A1"
+          "level": "B2"
         }
       ],
       "sentences": []
@@ -6762,7 +6762,7 @@
           "ipa_en": "/ˈkoʊldli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "freq": 39380,
-          "level": "A1"
+          "level": "B2"
         },
         {
           "word": "sheepish",
@@ -6773,7 +6773,7 @@
           "ipa_en": "/ˈʃipɪʃ/",
           "ipa_vi": "/ŋɯəŋ˨˩ʔ/",
           "freq": 44166,
-          "level": "A1"
+          "level": "B2"
         },
         {
           "word": "disheartened",
@@ -6784,7 +6784,7 @@
           "ipa_en": "/dɪsˈhɑrtənd/",
           "ipa_vi": "/naːn˧˩˧/",
           "freq": 54787,
-          "level": "A1"
+          "level": "B2"
         },
         {
           "word": "tensely",
@@ -6795,7 +6795,7 @@
           "ipa_en": "/ˈtɛnsli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "freq": 72439,
-          "level": "A1"
+          "level": "B2"
         },
         {
           "word": "a.m.",
@@ -8644,7 +8644,7 @@
           "ipa_en": "/ˈʤɔɪfəli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "freq": 36514,
-          "level": "A2"
+          "level": "B2"
         }
       ],
       "sentences": []
@@ -8721,7 +8721,7 @@
           "ipa_en": "/məˈθɑdɪkəli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "freq": 31100,
-          "level": "A2"
+          "level": "B2"
         },
         {
           "word": "postulate",
@@ -8732,7 +8732,7 @@
           "ipa_en": "/ˈpɑsʧəˌleɪt/",
           "ipa_vi": "/ɗɯə˧/",
           "freq": 51008,
-          "level": "A2",
+          "level": "C1",
           "forms": { "v3s": "postulates", "ving": "postulating", "past": "postulated" }
         }
       ],
@@ -15771,7 +15771,7 @@
           "ipa_en": "/ɪkˈspɛndɪʧər/",
           "ipa_vi": "/tɕi˧/",
           "freq": 31249,
-          "level": "A2",
+          "level": "B2",
           "forms": { "plural": "expenditures" }
         },
         {
@@ -15795,7 +15795,7 @@
           "ipa_en": "/ˈdaʊnˌsaɪzɪŋ/",
           "ipa_vi": "/viək̚˨˩ʔ/",
           "freq": 31918,
-          "level": "A2",
+          "level": "C1",
           "forms": { "uncountable": true }
         },
         {
@@ -15807,7 +15807,7 @@
           "ipa_en": "/ˌdɛzɪgˈneɪʃən/",
           "ipa_vi": "/sɯ˨˩ʔ/",
           "freq": 34257,
-          "level": "A2",
+          "level": "B2",
           "forms": { "plural": "designations" }
         },
         {
@@ -15831,7 +15831,7 @@
           "ipa_en": "/ˌɪmpləmɛnˈteɪʃən/",
           "ipa_vi": "/sɯ˨˩ʔ/",
           "freq": 36485,
-          "level": "A2",
+          "level": "B2",
           "forms": { "plural": "implementations" }
         },
         {
@@ -15867,7 +15867,7 @@
           "ipa_en": "/vɑl/",
           "ipa_vi": "/viət̚˦˥/",
           "freq": 39152,
-          "level": "A2",
+          "level": "B2",
           "forms": { "plural": "vols" }
         },
         {
@@ -15891,7 +15891,7 @@
           "ipa_en": "/ˈoʊvərˌkraʊdɪŋ/",
           "ipa_vi": "/sɯ˨˩ʔ/",
           "freq": 41602,
-          "level": "A2",
+          "level": "B2",
           "forms": { "uncountable": true }
         },
         {
@@ -15915,7 +15915,7 @@
           "ipa_en": "/ˈdaʊnpɔr/",
           "ipa_vi": "/mɯə˧/",
           "freq": 49763,
-          "level": "A2",
+          "level": "B2",
           "forms": { "plural": "downpours" }
         },
         {
@@ -15927,7 +15927,7 @@
           "ipa_en": "/riˈmɛrɪʤ/",
           "ipa_vi": "/sɯ˨˩ʔ/",
           "freq": 51204,
-          "level": "A2",
+          "level": "B2",
           "forms": { "plural": "remarriages" }
         },
         {
@@ -15939,7 +15939,7 @@
           "ipa_en": "/dəˈbəgər/",
           "ipa_vi": "/koŋ˧/",
           "freq": 52281,
-          "level": "A2",
+          "level": "B1",
           "forms": { "plural": "debuggers" }
         },
         {
@@ -15953,17 +15953,6 @@
           "freq": 52522,
           "level": "A2",
           "forms": { "plural": "kilograms" }
-        },
-        {
-          "word": "iii",
-          "pos": "num",
-          "vi": "số ba (chữ số La Mã)",
-          "ex_en": "King Henry III ruled England.",
-          "ex_vi": "Vua Henry III đã trị vì nước Anh.",
-          "ipa_en": "/θri/",
-          "ipa_vi": "/so˦˥/",
-          "freq": 55752,
-          "level": "A2"
         },
         {
           "word": "schoolchild",
@@ -15995,7 +15984,7 @@
           "ipa_en": "/ˈriˌbɑr/",
           "ipa_vi": "/kot̚˦˥/",
           "freq": 70138,
-          "level": "A2",
+          "level": "C1",
           "forms": { "plural": "rebars" }
         },
         {
@@ -18299,7 +18288,7 @@
           "ipa_en": "/ˈɪnsəˌleɪt/",
           "ipa_vi": "/kaːc̚˦˥/",
           "freq": 31434,
-          "level": "A2",
+          "level": "B2",
           "forms": { "v3s": "insulates", "ving": "insulating", "past": "insulated" }
         },
         {
@@ -18311,7 +18300,7 @@
           "ipa_en": "/diˈbəg/",
           "ipa_vi": "/ɣəː˧˥ʔ/",
           "freq": 35750,
-          "level": "A2",
+          "level": "B1",
           "forms": { "v3s": "debugs", "ving": "debuging", "past": "debuged" }
         },
         {
@@ -21497,7 +21486,7 @@
           "ipa_en": "/ˈæpləkəbəl/",
           "ipa_vi": "/kɔ˦˥/",
           "freq": 31024,
-          "level": "A2"
+          "level": "B2"
         },
         {
           "word": "informally",
@@ -21508,7 +21497,7 @@
           "ipa_en": "/ˌɪnˈfɔrməli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "freq": 32349,
-          "level": "A2"
+          "level": "B2"
         },
         {
           "word": "thoughtfully",
@@ -21519,7 +21508,7 @@
           "ipa_en": "/ˈθɔtfəli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "freq": 32992,
-          "level": "A2"
+          "level": "B2"
         },
         {
           "word": "systemic",
@@ -21530,7 +21519,7 @@
           "ipa_en": "/sɪˈstɛmɪk/",
           "ipa_vi": "/tʰuək̚˨˩ʔ/",
           "freq": 34414,
-          "level": "A2"
+          "level": "C1"
         },
         {
           "word": "meaningfully",
@@ -21541,7 +21530,7 @@
           "ipa_en": "/ˈminɪŋfəli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "freq": 39669,
-          "level": "A2"
+          "level": "B2"
         },
         {
           "word": "passively",
@@ -21552,7 +21541,7 @@
           "ipa_en": "/ˈpæsɪvli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "freq": 41621,
-          "level": "A2"
+          "level": "B2"
         },
         {
           "word": "uniformly",
@@ -21563,7 +21552,7 @@
           "ipa_en": "/ˈjunəˌfɔrmli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "freq": 42767,
-          "level": "A2"
+          "level": "B2"
         }
       ],
       "sentences": []
@@ -21583,7 +21572,7 @@
           "ipa_en": "/ˈmɑrkɪdli/",
           "ipa_vi": "/zɔ˧˥ʔ/",
           "freq": 50590,
-          "level": "A2"
+          "level": "B2"
         },
         {
           "word": "usefully",
@@ -21594,7 +21583,7 @@
           "ipa_en": "/ˈjusfəli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "freq": 51908,
-          "level": "A2"
+          "level": "B2"
         },
         {
           "word": "greedily",
@@ -21605,7 +21594,7 @@
           "ipa_en": "/ˈgridəli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "freq": 55479,
-          "level": "A2"
+          "level": "B2"
         },
         {
           "word": "good-looking",
