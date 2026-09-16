@@ -11,7 +11,7 @@
 // Khuôn lấy từ `useProgrammingOutlineCtx`, kể cả mẹo GIỮ KHOÁ CHỦ SỞ HỮU trong state: kết quả
 // đang cầm luôn biết nó là của tài khoản/môn nào, nên đổi tài khoản hay đổi môn là bản cũ tự
 // hết hiệu lực mà không cần một effect để dọn.
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { CompletionState } from '@dhcb/core-contracts/completionEvidence'
 import type { StemSubjectId } from '@dhcb/core-contracts/stemLesson'
 import { fetchCompletionState } from './stemEvidence'
@@ -62,9 +62,11 @@ export function useStemCompletionState(subjectId: StemSubjectId | undefined): St
         ? ketQua.status
         : 'loading'
 
-  return {
-    state: daVe ? ketQua.state : RONG,
-    stateStatus,
-    reload: useCallback(() => setLan((n) => n + 1), []),
-  }
+  const reload = useCallback(() => setLan((n) => n + 1), [])
+  const state = daVe ? ketQua.state : RONG
+
+  // GIỮ NGUYÊN THAM CHIẾU khi không có gì đổi. `StemLessonList` đưa thẳng giá trị này vào
+  // `useMemo` dựng cây; trả về một object literal mới mỗi lượt render sẽ làm memo đó vô hiệu,
+  // và dựng lại cây 94 bài cho mỗi lần render là cái giá không ai nhìn thấy mà vẫn phải trả.
+  return useMemo(() => ({ state, stateStatus, reload }), [state, stateStatus, reload])
 }

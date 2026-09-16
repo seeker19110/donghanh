@@ -129,6 +129,16 @@ describe('useStemCompletionState', () => {
     expect(thay.stateStatus).toBe('ready')
   })
 
+  it('giữ nguyên tham chiếu khi không có gì đổi (để useMemo dựng cây còn tác dụng)', async () => {
+    goi.mockResolvedValue({ status: 'ready', state: new Map() })
+    await hien(NGUOI, 'physics')
+    const truoc = thay
+    // Render lại với ĐÚNG cùng đầu vào: không có gì đổi thì kết quả phải là CHÍNH nó.
+    await hien(NGUOI, 'physics')
+    expect(thay).toBe(truoc)
+    expect(goi).toHaveBeenCalledTimes(1)
+  })
+
   it('đổi môn: đọc lại cho môn mới, không dùng lại bản của môn cũ', async () => {
     goi.mockResolvedValue({
       status: 'ready',
