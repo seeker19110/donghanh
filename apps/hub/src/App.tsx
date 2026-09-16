@@ -25,6 +25,7 @@ import {
 } from 'lucide-react'
 import { ThemeToggle } from '@core/ThemeToggle'
 import HubLogin from './pages/HubLogin'
+import { SUBJECT_CATALOG } from './subjectsCatalog.generated'
 
 // Trang chủ hub — nền tảng "Đồng hành cùng bạn" (https://www.donghanhcungban.org)
 //
@@ -86,7 +87,7 @@ const PILLARS: Pillar[] = [
     bullets: [
       'Tiếng Anh: hội thoại 2 chiều, phát âm, viết, lộ trình CEFR A1→C2',
       'Lập trình: Python · JavaScript/TypeScript · SQL, học tới sản phẩm chạy thật',
-      'Toán · Lý · Hóa · Sinh đang được xây theo cùng một khuôn',
+      'Toán · Lý · Hóa · Sinh đang hoàn thiện dần, đã xem trước và học thử được ngay',
     ],
     url: `${APP_URL}/goc-hoc-tap`,
   },
@@ -142,24 +143,31 @@ interface Subject {
   name: string
   emoji: string
   icon: typeof BookOpen
-  status: 'live' | 'building'
+  status: 'live' | 'preview' | 'building'
   tagline: string
   description: string
   highlight: string
   skills: string[]
   ctaUrl?: string
   ctaLabel?: string
+  /** Nút phụ "Bắt đầu với <môn>" — mọi môn 'live'/'preview' (AC-18); 'building' thì không. */
+  startWithUrl?: string
 }
 
-// Môn học trong trụ Học tập. Trạng thái bám theo `subjectRegistry` (core-learner) và
-// route thật: english + programming đã dùng được, 4 môn STEM mới ở mức khai báo.
-const SUBJECTS: Subject[] = [
-  {
-    id: 'english',
-    name: 'Tiếng Anh',
+/** Văn bản tiếp thị theo môn — CHỈ ở hub, không thuộc nguồn chung (spec S05-2 §①: "KHÔNG đưa
+ *  văn bản tiếp thị của hub vào gói"). Id/nhãn/thứ tự/CTA/trạng thái đọc từ `SUBJECT_CATALOG`
+ *  (sinh từ `packages/core-learner/subjectEntry.ts` — một nguồn cho hub và app). Test canh
+ *  `Object.keys(SUBJECT_COPY)` khớp id của `SUBJECT_CATALOG` ở `subjectsCatalog.test.ts`. */
+// Export chỉ để test canh (AC-16), không phải component — theo đúng khuôn
+// packages/core-ui/ToastProvider.tsx:114.
+// eslint-disable-next-line react-refresh/only-export-components
+export const SUBJECT_COPY: Record<
+  string,
+  Pick<Subject, 'emoji' | 'icon' | 'tagline' | 'description' | 'highlight' | 'skills'>
+> = {
+  english: {
     emoji: '🇺🇸',
     icon: Languages,
-    status: 'live',
     tagline: 'Gia sư AI hai chiều Việt ⇄ Anh · lộ trình CEFR A1 → C2',
     description:
       'Môn đầu tiên và chín nhất của nền tảng. AI trò chuyện bằng giọng Anh chuẩn, nhưng chỗ bạn sai thì được giảng lại bằng GIỌNG tiếng Việt — không chỉ hiện chữ.',
@@ -173,17 +181,10 @@ const SUBJECTS: Subject[] = [
       'Ôn từ vựng ngắt quãng (SRS/FSRS)',
       'Học ngoại tuyến trên web và điện thoại (PWA)',
     ],
-    // Slice 02: Tiếng Anh là một môn trong Góc học tập. Hub không import gói @dhcb/* (xem
-    // apps/hub/tsconfig.json) nên giữ chuỗi tại chỗ; scripts/hub-links.test.ts canh cho khớp.
-    ctaUrl: `${APP_URL}/goc-hoc-tap/english`,
-    ctaLabel: 'Vào học Tiếng Anh',
   },
-  {
-    id: 'programming',
-    name: 'Lập trình',
+  programming: {
     emoji: '💻',
     icon: Code2,
-    status: 'live',
     tagline: 'Từ số 0 tới sản phẩm chạy thật · bậc P1 → P6',
     description:
       'Python, JavaScript/TypeScript và SQL, học quanh một dự án xuyên suốt. AI đọc code của bạn rồi hỏi lại để bạn tự tìm ra lỗi, thay vì đưa sẵn lời giải.',
@@ -195,18 +196,13 @@ const SUBJECTS: Subject[] = [
       'Tự viết code và chạy thử ngay trên web',
       'Mốc dự án thật sau mỗi chặng',
     ],
-    ctaUrl: `${APP_URL}/lap-trinh`,
-    ctaLabel: 'Vào học Lập trình',
   },
-  {
-    id: 'mathematics',
-    name: 'Toán học',
+  mathematics: {
     emoji: '📐',
     icon: BookOpen,
-    status: 'building',
     tagline: 'Đại số · Hình học · Giải tích · Xác suất thống kê',
     description:
-      'Đang được xây theo đúng khuôn môn học của nền tảng: hướng dẫn cách nghĩ và từng bước giải, thay vì đưa thẳng đáp án.',
+      'Hàng trăm bài đang ở dạng xem trước, hoàn thiện dần: hướng dẫn cách nghĩ và từng bước giải, thay vì đưa thẳng đáp án.',
     highlight: 'Bài tập bám chương trình phổ thông; phần đại học sẽ mở dần sau.',
     skills: [
       'Giải từng bước kèm lý do cho mỗi bước',
@@ -214,15 +210,12 @@ const SUBJECTS: Subject[] = [
       'Ôn theo dạng bài của kỳ thi',
     ],
   },
-  {
-    id: 'physics',
-    name: 'Vật lý',
+  physics: {
     emoji: '⚛️',
     icon: BookOpen,
-    status: 'building',
     tagline: 'Cơ · Nhiệt · Điện từ · Quang · Vật lý hiện đại',
     description:
-      'Đang được xây: hiểu bản chất hiện tượng trước, rồi mới đến công thức và bài tập định lượng.',
+      'Hàng trăm bài đang ở dạng xem trước, hoàn thiện dần: hiểu bản chất hiện tượng trước, rồi mới đến công thức và bài tập định lượng.',
     highlight: 'Mô phỏng tương tác để nhìn thấy hiện tượng chứ không chỉ đọc công thức.',
     skills: [
       'Mô phỏng thí nghiệm ảo',
@@ -230,15 +223,12 @@ const SUBJECTS: Subject[] = [
       'Đọc và phân tích đồ thị',
     ],
   },
-  {
-    id: 'chemistry',
-    name: 'Hóa học',
+  chemistry: {
     emoji: '🧪',
     icon: BookOpen,
-    status: 'building',
     tagline: 'Vô cơ · Hữu cơ · Oxi hóa khử · Phân tích',
     description:
-      'Đang được xây: viết và cân bằng phương trình, đọc cơ chế phản ứng, giải bài toán hóa học theo lối tư duy.',
+      'Hàng trăm bài đang ở dạng xem trước, hoàn thiện dần: viết và cân bằng phương trình, đọc cơ chế phản ứng, giải bài toán hóa học theo lối tư duy.',
     highlight: 'Trực quan hóa cấu trúc phân tử và chuỗi phản ứng.',
     skills: [
       'Viết và cân bằng phương trình',
@@ -246,19 +236,35 @@ const SUBJECTS: Subject[] = [
       'Bài toán định lượng',
     ],
   },
-  {
-    id: 'biology',
-    name: 'Sinh học',
+  biology: {
     emoji: '🧬',
     icon: BookOpen,
-    status: 'building',
     tagline: 'Di truyền · Tế bào · Tiến hóa · Sinh thái',
     description:
-      'Đang được xây: hệ thống kiến thức theo sơ đồ và cơ chế, kèm bài tập di truyền có hướng dẫn lập luận.',
+      'Hàng trăm bài đang ở dạng xem trước, hoàn thiện dần: hệ thống kiến thức theo sơ đồ và cơ chế, kèm bài tập di truyền có hướng dẫn lập luận.',
     highlight: 'Sơ đồ tư duy và phương pháp giải bài tập di truyền, phả hệ.',
     skills: ['Quy luật di truyền và phả hệ', 'Cơ chế di truyền phân tử', 'Sinh thái và môi trường'],
   },
-]
+}
+
+// Môn học trong trụ Học tập — MỘT NGUỒN với app: id/nhãn/thứ tự/ctaPath/trạng thái đọc từ file
+// sinh `subjectsCatalog.generated.ts` (nguồn thật: packages/core-learner/subjectEntry.ts), ghép
+// với văn bản tiếp thị `SUBJECT_COPY` ở trên (S05-2, Q5: 4 môn STEM nay 'preview' — có bài xem
+// trước thật, không còn 'building' như trước — english/programming 'live').
+const SUBJECTS: Subject[] = SUBJECT_CATALOG.map((entry) => {
+  const copy = SUBJECT_COPY[entry.id]
+  if (!copy) throw new Error(`Thiếu văn bản tiếp thị SUBJECT_COPY cho môn "${entry.id}"`)
+  const isBuilding = entry.status === 'building'
+  return {
+    id: entry.id,
+    name: entry.label,
+    status: entry.status,
+    ...copy,
+    ctaUrl: entry.status === 'live' ? `${APP_URL}${entry.ctaPath}` : undefined,
+    ctaLabel: entry.status === 'live' ? `Vào học ${entry.label}` : undefined,
+    startWithUrl: isBuilding ? undefined : `${APP_URL}/bat-dau?mon=${entry.id}`,
+  }
+})
 
 function formatNumber(n: number): string {
   return n.toLocaleString('vi-VN')
@@ -741,8 +747,8 @@ function SubjectsSection() {
         </h2>
         <p className="text-zinc-200 text-sm sm:text-base">
           Mỗi môn có gia sư AI, lộ trình và cách chấm riêng, nhưng dùng chung hồ sơ, tiến độ và gói
-          tài khoản. Tiếng Anh là môn đầu tiên và chín nhất; Lập trình đã học được; các môn còn lại
-          đang được xây theo đúng khuôn đó.
+          tài khoản. Tiếng Anh là môn đầu tiên và chín nhất; Lập trình đã học được; Toán · Lý · Hóa
+          · Sinh đang hoàn thiện dần, đã xem trước và học thử được ngay.
         </p>
       </div>
 
@@ -778,6 +784,16 @@ function SubjectsSection() {
               >
                 Học được
               </span>
+            ) : s.status === 'preview' ? (
+              <span
+                className={`text-[11px] px-1.5 py-0.5 rounded ${
+                  active === s.id
+                    ? 'bg-zinc-950/15 text-zinc-950'
+                    : 'bg-zinc-800 text-zinc-200 border border-zinc-700'
+                }`}
+              >
+                Xem trước được
+              </span>
             ) : (
               <span
                 className={`text-[11px] px-1.5 py-0.5 rounded ${
@@ -807,6 +823,10 @@ function SubjectsSection() {
           {current.status === 'live' ? (
             <span className="text-xs px-2.5 py-1 rounded-full bg-accent-500/10 text-accent-200 theme-light:text-accent-900 font-semibold border border-accent-500/30">
               Đang học được
+            </span>
+          ) : current.status === 'preview' ? (
+            <span className="text-xs px-2.5 py-1 rounded-full bg-zinc-800 text-zinc-200 border border-zinc-700">
+              Đang hoàn thiện — xem trước được
             </span>
           ) : (
             <span className="text-xs px-2.5 py-1 rounded-full bg-zinc-800 text-zinc-200 border border-zinc-700">
@@ -849,8 +869,30 @@ function SubjectsSection() {
               <span>{current.ctaLabel}</span>
               <ArrowRight className="w-4 h-4" />
             </a>
+            {current.startWithUrl ? (
+              <a
+                href={current.startWithUrl}
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent-300 theme-light:text-accent-800 hover:text-white transition"
+              >
+                <span>Bắt đầu với {current.name}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+            ) : null}
             <span className="text-xs text-zinc-200">
               Có lượt dùng miễn phí mỗi ngày • Không cần thẻ
+            </span>
+          </div>
+        ) : current.startWithUrl ? (
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href={current.startWithUrl}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent-500 hover:bg-accent-400 text-zinc-950 font-bold text-sm sm:text-base transition-all shadow-md shadow-accent-500/20 hover:scale-[1.02]"
+            >
+              <span>Bắt đầu với {current.name}</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
+            <span className="text-xs text-zinc-200">
+              Bài đang hoàn thiện dần — xem trước được ngay, chưa cần trả phí
             </span>
           </div>
         ) : (

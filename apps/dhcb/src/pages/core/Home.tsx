@@ -16,7 +16,12 @@ import {
   Calculator,
   Briefcase,
   GraduationCap,
+  Atom,
+  FlaskConical,
+  Dna,
+  Code2,
 } from 'lucide-react'
+import { SUBJECT_ENTRIES } from '@dhcb/core-learner/subjectEntry'
 import Layout from '../../components/Layout.js'
 import PricePromoBanner from '../../components/PricePromoBanner.js'
 import RewardTipBanner from '../../components/RewardTipBanner.js'
@@ -42,7 +47,6 @@ import {
 import { getPassedExamLevels } from '../../lib/cefrExam'
 import { getSRSStats } from '../../lib/srs'
 import { getDailyLearned, getDailyMax } from '../../lib/curriculum'
-import { goToSubjects, duongDanMonTiengAnh } from '../../lib/subjectsHost'
 import { useIsDesktopViewport } from '../../lib/useIsDesktopViewport'
 import { PageShell } from '@core/PageShell'
 import { TwoPane } from '@core/TwoPane'
@@ -237,10 +241,69 @@ export default function Home() {
   const rewardTip = uid ? <RewardTipBanner uid={uid} isA={vi} /> : null
 
   // ── CÁC BỘ MÔN & KHÔNG GIAN ──
-  // [2026-09-03, đợt C] Trước đây là 3 thẻ kiểu landing page (icon gradient + bóng màu, huy hiệu
-  // huy hiệu quảng cáo kiểu buzzword, lối tắt là thẻ con lồng trong thẻ). Nay là MỘT danh sách phẳng: mỗi
-  // dòng = một không gian, bấm cả dòng để vào, lối tắt là chữ thường bên dưới. Dữ liệu tách ra
-  // mảng để ba dòng luôn cùng khuôn, không viết tay ba lần.
+  // [S05-2] Trước đây môn Anh và 4 môn STEM (gộp chung một dòng "Toán, Lý, Hóa, Sinh") được khai
+  // TAY tại đây, lệch với hub (`apps/hub/src/App.tsx` cũng khai tay 6 môn riêng). Nay phần MÔN
+  // HỌC render từ `SUBJECT_ENTRIES` (một nguồn dùng chung cho hub và app,
+  // `packages/core-learner/subjectEntry.ts`) — đủ 6 môn, đúng nhãn/thứ tự/`ctaPath` của registry;
+  // icon/mô tả/lối tắt là phần TRÌNH BÀY riêng của app, giữ ở đây (không thuộc nguồn chung).
+  // Thẻ Sự nghiệp/Khởi nghiệp & Đời sống GIỮ NGUYÊN (không phải môn học, không tới từ registry).
+  const SUBJECT_ICON: Record<string, typeof GraduationCap> = {
+    english: GraduationCap,
+    programming: Code2,
+    mathematics: Calculator,
+    physics: Atom,
+    chemistry: FlaskConical,
+    biology: Dna,
+  }
+  const SUBJECT_TONE: Record<string, string> = {
+    english: 'bg-emerald-500/15 text-emerald-400 theme-light:text-emerald-900',
+    programming: 'bg-cyan-500/15 text-cyan-400 theme-light:text-cyan-900',
+    mathematics: 'bg-blue-500/15 text-blue-400 theme-light:text-blue-800',
+    physics: 'bg-blue-500/15 text-blue-400 theme-light:text-blue-800',
+    chemistry: 'bg-blue-500/15 text-blue-400 theme-light:text-blue-800',
+    biology: 'bg-blue-500/15 text-blue-400 theme-light:text-blue-800',
+  }
+  const SUBJECT_DESC: Record<string, string> = {
+    english: 'Gia sư song ngữ Việt ⇄ Anh: lộ trình CEFR A1–C2, luyện nói, chấm bài viết, từ điển.',
+    programming: 'Từ số 0 tới sản phẩm chạy thật: Python, JavaScript/TypeScript, SQL — bậc P1–P6.',
+    mathematics: 'Đại số, hình học, giải tích, xác suất — giải từng bước cùng AI.',
+    physics: 'Cơ, nhiệt, điện từ, quang — mô phỏng thí nghiệm trực quan.',
+    chemistry: 'Vô cơ, hữu cơ, phản ứng oxi hóa khử — công thức LaTeX rõ ràng.',
+    biology: 'Di truyền, tế bào, tiến hóa, sinh thái — bài tập có hướng dẫn lập luận.',
+  }
+  const SUBJECT_SHORTCUTS: Record<string, Array<{ label: string; go: () => void }>> = {
+    english: [
+      { label: 'Lộ trình CEFR', go: () => nav('/lo-trinh-hoc') },
+      { label: 'Luyện nói', go: () => nav('/luyen-noi') },
+      { label: 'Từ điển', go: () => nav('/tu-dien') },
+    ],
+  }
+
+  const subjectSpaces = SUBJECT_ENTRIES.map((entry) => ({
+    id: entry.id,
+    icon: SUBJECT_ICON[entry.id] ?? GraduationCap,
+    tone: SUBJECT_TONE[entry.id] ?? 'bg-zinc-500/15 text-zinc-300',
+    title: entry.label,
+    desc: SUBJECT_DESC[entry.id] ?? '',
+    go: () => nav(entry.ctaPath),
+    shortcuts: SUBJECT_SHORTCUTS[entry.id] ?? [],
+  }))
+
+  const careerLifeSpace = {
+    id: 'career-life',
+    icon: Briefcase,
+    tone: 'bg-purple-500/15 text-purple-400 theme-light:text-purple-800',
+    title: 'Sự nghiệp, Khởi nghiệp & Đời sống',
+    desc: 'Phỏng vấn thử, quản lý công việc, Lean Canvas, bánh xe cuộc đời.',
+    go: () => nav('/su-nghiep-khoi-nghiep'),
+    shortcuts: [
+      { label: 'Phỏng vấn thử', go: () => nav('/career/interview') },
+      { label: 'Công việc', go: () => nav('/cong-viec-cuoc-song?muc=cong-viec') },
+      { label: 'Lean Canvas', go: () => nav('/startup/canvas') },
+      { label: 'Đời sống', go: () => nav('/cong-viec-cuoc-song?muc=doi-song') },
+    ],
+  }
+
   const spaces: Array<{
     id: string
     icon: typeof GraduationCap
@@ -249,47 +312,7 @@ export default function Home() {
     desc: string
     go: () => void
     shortcuts: Array<{ label: string; go: () => void }>
-  }> = [
-    {
-      id: 'english',
-      icon: GraduationCap,
-      tone: 'bg-emerald-500/15 text-emerald-400 theme-light:text-emerald-900',
-      title: 'Tiếng Anh',
-      desc: 'Gia sư song ngữ Việt ⇄ Anh: lộ trình CEFR A1–C2, luyện nói, chấm bài viết, từ điển.',
-      go: () => nav(duongDanMonTiengAnh()),
-      shortcuts: [
-        { label: 'Lộ trình CEFR', go: () => nav('/lo-trinh-hoc') },
-        { label: 'Luyện nói', go: () => nav('/luyen-noi') },
-        { label: 'Từ điển', go: () => nav('/tu-dien') },
-      ],
-    },
-    {
-      id: 'stem',
-      icon: Calculator,
-      tone: 'bg-blue-500/15 text-blue-400 theme-light:text-blue-800',
-      title: 'Toán, Lý, Hóa, Sinh',
-      desc: 'Giải từng bước cùng AI, công thức LaTeX, mô phỏng thí nghiệm.',
-      go: () => goToSubjects(nav),
-      shortcuts: [
-        { label: 'Bốn môn', go: () => goToSubjects(nav) },
-        { label: 'Mô phỏng thí nghiệm', go: () => nav('/ung-dung-thuc-te') },
-      ],
-    },
-    {
-      id: 'career-life',
-      icon: Briefcase,
-      tone: 'bg-purple-500/15 text-purple-400 theme-light:text-purple-800',
-      title: 'Sự nghiệp, Khởi nghiệp & Đời sống',
-      desc: 'Phỏng vấn thử, quản lý công việc, Lean Canvas, bánh xe cuộc đời.',
-      go: () => nav('/su-nghiep-khoi-nghiep'),
-      shortcuts: [
-        { label: 'Phỏng vấn thử', go: () => nav('/career/interview') },
-        { label: 'Công việc', go: () => nav('/cong-viec-cuoc-song?muc=cong-viec') },
-        { label: 'Lean Canvas', go: () => nav('/startup/canvas') },
-        { label: 'Đời sống', go: () => nav('/cong-viec-cuoc-song?muc=doi-song') },
-      ],
-    },
-  ]
+  }> = [...subjectSpaces, careerLifeSpace]
 
   const spacesSection = (
     <section aria-labelledby="home-spaces-heading" className="pt-2">
