@@ -63,4 +63,9 @@ describe('cầu nối chặng chuyên sâu → unit bài học', () => {
   it('devops-s1 phủ đủ bốn module theo đúng thứ tự bằng bốn unit thật', () => {
     expect(unitsOfStage('devops-s1')).toEqual(['p6-u154', 'p6-u155', 'p6-u156', 'p6-u157'])
   })
+
+  it('mathforcode-s3 và s4 ánh xạ đúng bốn unit thật', () => {
+    expect(unitsOfStage('mathforcode-s3')).toEqual(['p6-u158', 'p6-u159'])
+    expect(unitsOfStage('mathforcode-s4')).toEqual(['p6-u160', 'p6-u161'])
+  })
 })

@@ -874,6 +874,26 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         title: 'DevOps S1 — 3-2-1, restore drill, RPO và RTO',
         topics: 'Off-site; backup freshness; restore evidence; thời gian phục hồi',
       },
+      {
+        id: 'p6-u158',
+        title: 'Toán S3 — vector và biến đổi',
+        topics: 'Dot, normalize, homogeneous transform và thứ tự',
+      },
+      {
+        id: 'p6-u159',
+        title: 'Toán S3 — khử Gauss và power iteration',
+        topics: 'Pivot, suy biến, probability và delta',
+      },
+      {
+        id: 'p6-u160',
+        title: 'Toán S4 — gradient, loss và hồi quy',
+        topics: 'Sai phân hữu hạn, gradient descent, MSE/MAE',
+      },
+      {
+        id: 'p6-u161',
+        title: 'Toán S4 — chain rule và tối ưu ràng buộc',
+        topics: 'Gradient check, feasible domain và stopping rule',
+      },
       // p6-u66..u68: chặng S1 của hướng Dữ liệu (data-s1, specializations/data.ts, 4 module).
       // p3-u8/p3-u9 đã dạy SELECT/JOIN/GROUP BY/HAVING cơ bản — u66 đi XA HƠN (hàm cửa sổ, CTE)
       // để không dạy trùng. Đăng ký cầu nối ở `specializations/stageUnits.ts`.
