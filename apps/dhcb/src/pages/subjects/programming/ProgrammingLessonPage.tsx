@@ -3,7 +3,7 @@
 // → ⑤Parsons (xếp dòng) → ⑥Tự viết chấm test-case → ⑦ứng dụng về nhà. (⑧ thẻ SRS: PR sau.)
 // Code chạy bằng sandbox Pyodide tự host (lib/pythonRunner) — chấm bằng engine thuần
 // (@dhcb/subject-programming/grading), tiến độ lưu server (lib/programmingProgress).
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams, useLocation, Navigate, Link } from 'react-router-dom'
 import {
   BookOpen,
@@ -44,7 +44,10 @@ import TestResultList from '../../../components/programming/TestResultList'
 import AiHelpPanel from '../../../components/programming/AiHelpPanel'
 import LessonProse from '../../../components/programming/LessonProse'
 import CodeEditor from '../../../components/CodeEditor'
+import Modal from '../../../components/Modal'
 import { useAuth } from '../../../context/useAuth'
+import { clearSession, contentFingerprint, type SessionOwner } from '../../../lib/learningSession'
+import { useLearningSession } from '../../../lib/useLearningSession'
 import { runLessonCode, resetLessonRunners, laBaiDongLenh } from '../../../lib/codeRunner'
 import { saveLessonProgress } from '../../../lib/programmingProgress'
 import { addLessonCardsToSrs } from '../../../lib/programmingSrs'
@@ -52,6 +55,7 @@ import type { ProgrammingLesson } from '@dhcb/subject-programming/lessonTypes'
 import { useProgrammingLesson } from '../../../lib/useProgrammingLesson'
 import { buildSlugSegment, idFromSlugSegment } from '@core/slug'
 import { getLevelIdOfLesson } from '@dhcb/subject-programming/curriculum'
+import { z } from 'zod'
 import {
   gradeTestCase,
   allTestsPassed,
@@ -70,6 +74,41 @@ const STEPS: readonly LessonStep[] = [
   { key: 'make', label: 'Tự viết', icon: PencilLine, graded: true },
   { key: 'done', label: 'Về nhà', icon: Home, startsPhase: 'hoàn tất' },
 ] as const
+
+// --- Nháp phiên học (S08-2) -------------------------------------------------------------
+// Nháp = ĐÚNG những gì người học tự gõ/chọn, không hơn: code, lựa chọn Dự đoán, thứ tự Parsons,
+// số gợi ý đã mở, đã xem code mẫu chưa. KẾT QUẢ CHẤM (`results`/`passed`) KHÔNG phải nháp —
+// mở lại bài phải bấm "Chấm bài" để chấm thật, không tin con số lưu trên máy.
+// Dữ liệu đọc từ localStorage là dữ liệu NGOÀI (sửa được bằng devtools) → luôn qua Zod.
+const MAX_CODE_CHARS = 8000
+const nhapSchema = z.object({
+  code: z.string().max(MAX_CODE_CHARS),
+  predictChoice: z.number().int().nonnegative().nullable(),
+  arranged: z.array(z.string().max(200)).max(12),
+  hintsShown: z.number().int().nonnegative().max(10),
+  sampleViewed: z.boolean(),
+})
+type NhapBaiLapTrinh = z.infer<typeof nhapSchema>
+
+/** Nhãn bước cho thẻ "Học tiếp" (slice S06 đọc qua `listResumableSessions`). */
+function nhanBuoc(i: number): string {
+  return STEPS[i]?.label ?? ''
+}
+
+/**
+ * Vân tay khung bài: đổi phần nào trong đây thì code đã gõ có thể không còn khớp đề nữa, nên
+ * nháp cũ chuyển thành `stale` và trang HỎI người học trước khi đổ lại (không tự prefill).
+ */
+function vanTayBai(lesson: ProgrammingLesson): string {
+  return contentFingerprint([
+    lesson.id,
+    lesson.title,
+    lesson.make.starterCode,
+    lesson.make.testCases.length,
+    lesson.parsons.lines.join('\n'),
+    lesson.predict.choices.length,
+  ])
+}
 
 /**
  * VỎ NGOÀI: đọc URL → nạp lười ĐÚNG unit chứa bài (mỗi unit một chunk, không kéo cả môn) →
@@ -142,25 +181,68 @@ function LessonBody({
   const nav = useNavigate()
   const { user } = useAuth()
 
-  const [step, setStep] = useState(0)
   // ③ Ví dụ mẫu
   const [exampleOutput, setExampleOutput] = useState('')
   // Luật N4: 3 trạng thái rõ ràng, không có ca "chạy xong mà màn hình trống".
   const [exampleState, setExampleState] = useState<RunState>('idle')
-  // ④ Predict
-  const [predictChoice, setPredictChoice] = useState<number | null>(null)
-  const [predictRevealed, setPredictRevealed] = useState(false)
-  // ⑤ Parsons
   const shuffledLines = useMemo(() => parsonsShuffle(lesson.parsons.lines, lesson.id), [lesson])
-  const [arranged, setArranged] = useState<string[]>([])
-  const [parsonsResult, setParsonsResult] = useState<'correct' | 'wrong' | null>(null)
-  // ⑥ Make
-  const [code, setCode] = useState(lesson.make.starterCode)
   const [grading, setGrading] = useState(false)
+  // KẾT QUẢ CHẤM không nằm trong nháp: mở lại bài là phải bấm "Chấm bài" để chấm THẬT.
   const [results, setResults] = useState<TestCaseResult[] | null>(null)
-  const [hintsShown, setHintsShown] = useState(0)
-  const [sampleViewed, setSampleViewed] = useState(false)
+  // Đã bấm "Kiểm tra thứ tự" chưa — cũng không lưu: kết quả Parsons được TÍNH LẠI bằng hàm
+  // thuần `checkParsonsOrder`, không có con số đúng/sai nào được cất trên máy.
+  const [parsonsChecked, setParsonsChecked] = useState(false)
   const passed = results !== null && allTestsPassed(results)
+
+  // --- Phiên học: bước + nháp sống qua reload, CÙNG THIẾT BỊ (S08-2) ---------------------
+  // Đặc tả: docs/specs/2026-09-15-learning-ux-s08-khung-phien-resume.md
+  // Nháp KHÔNG phải tiến độ: nó không gọi API, không đổi "đã hoàn thành hay chưa" — việc đó
+  // vẫn chỉ do server quyết (`saveLessonProgress` bên dưới, giữ nguyên).
+  const owner = useMemo<SessionOwner | null>(
+    () => (user ? { kind: user.isGuest ? 'guest' : 'account', id: user.id } : null),
+    [user],
+  )
+  const contentVersion = useMemo(() => vanTayBai(lesson), [lesson])
+  const macDinh = useCallback(
+    () => ({
+      stepIndex: 0,
+      draft: {
+        code: lesson.make.starterCode,
+        predictChoice: null,
+        arranged: [],
+        hintsShown: 0,
+        sampleViewed: false,
+      } as NhapBaiLapTrinh,
+    }),
+    [lesson],
+  )
+  const phien = useLearningSession<NhapBaiLapTrinh>({
+    owner,
+    subjectId: 'programming',
+    contentId: lesson.id,
+    contentVersion,
+    draftSchema: nhapSchema,
+    initial: macDinh,
+    stepLabel: nhanBuoc,
+    // Đạt hết test → nháp đã bị xoá, đừng ghi lại (xem §7 Q6: mở lại bài đã xong là bắt đầu sạch).
+    paused: passed,
+    ...(courseId ? { courseId } : {}),
+  })
+  const step = phien.stepIndex
+  const setStep = phien.setStep
+  const { code, predictChoice, arranged, hintsShown, sampleViewed } = phien.draft
+  const suaNhap = phien.setDraft
+  const setCode = useCallback(
+    (giaTri: string) => suaNhap((d) => ({ ...d, code: giaTri })),
+    [suaNhap],
+  )
+  // Suy ra, không lưu: đã chọn đáp án Dự đoán nghĩa là đã lật giải thích.
+  const predictRevealed = predictChoice !== null
+  const parsonsResult: 'correct' | 'wrong' | null = !parsonsChecked
+    ? null
+    : checkParsonsOrder(arranged, lesson.parsons.lines)
+      ? 'correct'
+      : 'wrong'
 
   // Ghi "đang học" khi vào bài; rời trang huỷ mọi worker chạy code (Python/JavaScript).
   useEffect(() => {
@@ -198,6 +280,11 @@ function LessonBody({
       setResults([...out])
     }
     setGrading(false)
+    if (allTestsPassed(out) && owner) {
+      // Bài xong thì nháp hết nghĩa ("resume" là cho việc DỞ) — xoá ngay, và `paused` ở trên
+      // giữ cho nó không bị ghi lại khi người học bấm tiếp sang bước "Về nhà".
+      clearSession({ owner, subjectId: 'programming', contentId: lesson.id })
+    }
     if (allTestsPassed(out) && user) {
       void saveLessonProgress(user.id, lesson.id, 'completed')
       // ⑧ Thẻ SRS vào vòng ôn NGAY khi đạt bài (PR-L10): đó là lúc học viên vừa hiểu, nên
@@ -295,6 +382,18 @@ function LessonBody({
                 )}
               </div>
 
+              {/* Trình duyệt chặn lưu (Safari riêng tư, chặn site data…): NÓI THẬT ngay từ đầu
+                thay vì để người học gõ nửa tiếng rồi mất trắng khi reload. Là CHỮ (role=status)
+                chứ không phải mỗi biểu tượng — người dùng trình đọc màn hình cũng phải nghe được. */}
+              {phien.storageMode === 'memory' && (
+                <p
+                  role="status"
+                  className="read-body rounded-2xl border border-line-subtle bg-surface-card p-4 text-content-secondary"
+                >
+                  Trình duyệt đang chặn lưu nháp — rời trang là mất phần đang gõ.
+                </p>
+              )}
+
               {/* Bài chỉ thuộc khoá ngắn, mở không kèm ngữ cảnh khoá → không có cây nào để vẽ.
                 Chỉ đường về khoá chứa nó thay vì để người học đứng giữa trời (§3.4). */}
               {khoaChuaBai.length > 0 && (
@@ -363,10 +462,7 @@ function LessonBody({
                   predict={lesson.predict}
                   choice={predictChoice}
                   revealed={predictRevealed}
-                  onChoose={(i) => {
-                    setPredictChoice(i)
-                    setPredictRevealed(true)
-                  }}
+                  onChoose={(i) => suaNhap((d) => ({ ...d, predictChoice: i }))}
                 />
               )}
 
@@ -378,14 +474,10 @@ function LessonBody({
                   arranged={arranged}
                   result={parsonsResult}
                   onArrangedChange={(lines) => {
-                    setArranged(lines)
-                    setParsonsResult(null)
+                    setParsonsChecked(false)
+                    suaNhap((d) => ({ ...d, arranged: lines }))
                   }}
-                  onCheck={() =>
-                    setParsonsResult(
-                      checkParsonsOrder(arranged, lesson.parsons.lines) ? 'correct' : 'wrong',
-                    )
-                  }
+                  onCheck={() => setParsonsChecked(true)}
                 />
               )}
 
@@ -408,6 +500,14 @@ function LessonBody({
                         : 'Ô soạn code bài tự viết'
                     }
                   />
+                  {/* Khôi phục nháp đưa người học về đúng bước "Tự viết" nhưng KHÔNG khôi phục
+                    kết quả chấm (kết quả không phải nháp) — nói rõ để không ai tưởng bài chấm
+                    của mình biến mất. */}
+                  {phien.status === 'restored' && code !== lesson.make.starterCode && (
+                    <p role="status" className="read-body text-content-secondary">
+                      Đã khôi phục code bạn gõ — bấm "Chấm bài" để chấm lại.
+                    </p>
+                  )}
                   <LivePreview language={lesson.language} domHtml={lesson.domHtml} code={code} />
                   <div className="flex items-center gap-2 flex-wrap">
                     <button
@@ -424,7 +524,7 @@ function LessonBody({
                     </button>
                     {hintsShown < lesson.make.hints.length && (
                       <button
-                        onClick={() => setHintsShown(hintsShown + 1)}
+                        onClick={() => suaNhap((d) => ({ ...d, hintsShown: d.hintsShown + 1 }))}
                         className="tap-44 inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 text-zinc-200 font-semibold text-sm transition"
                       >
                         <Lightbulb className="w-4 h-4 text-amber-400 theme-light:text-amber-900" />
@@ -437,8 +537,11 @@ function LessonBody({
                       <button
                         onClick={() => {
                           // "Phao": xem code mẫu — không phạt, chỉ ghi nhận để Companion kèm sát hơn.
-                          setSampleViewed(true)
-                          setCode(lesson.make.sampleSolution)
+                          suaNhap((d) => ({
+                            ...d,
+                            sampleViewed: true,
+                            code: lesson.make.sampleSolution,
+                          }))
                         }}
                         className="tap-44 inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 text-zinc-300 font-semibold text-sm transition"
                       >
@@ -551,6 +654,43 @@ function LessonBody({
           </TwoPane>
         </TwoPane>
       </PageShell>
+
+      {/* Bài đã được cập nhật kể từ lần trước: HỎI, không tự đổ nháp cũ đè lên đề mới.
+          Chưa trả lời thì trang đang chạy bằng `starterCode` mới và bước 0 — đúng như đang thấy. */}
+      {phien.staleSession && (
+        <Modal
+          title="Bài này đã được cập nhật"
+          onClose={phien.discardStale}
+          closeLabel="Bắt đầu mới"
+          maxWidth="max-w-md"
+        >
+          {/* `pt-6`: tiêu đề DÍNH của `Modal` bị kéo lên bằng `-mt-6`, nên phần tử ngay sau nó
+              bị che đúng 24px — dòng ĐẦU của đoạn văn biến mất. Đo bằng ảnh chụp Tầng 8b ngày
+              2026-09-16 (chữ "Nội dung bài đã đổi…" mất hẳn dòng đầu ở 1440/390/320), cùng
+              khuôn bù đã ghi ở `useOutlinePane.tsx`. */}
+          <div className="pt-6">
+            <p className="read-body text-content-secondary">
+              Nội dung bài đã đổi kể từ lần bạn học dở. Dùng lại code bạn đã gõ hay bắt đầu mới?
+            </p>
+          </div>
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={phien.adoptStale}
+              className="tap-44 inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition"
+            >
+              Dùng lại code đã gõ
+            </button>
+            <button
+              type="button"
+              onClick={phien.discardStale}
+              className="tap-44 inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 text-zinc-200 font-semibold text-sm transition"
+            >
+              Bắt đầu mới
+            </button>
+          </div>
+        </Modal>
+      )}
       {sheet}
     </div>
   )
