@@ -30,10 +30,11 @@ describe('Home.tsx — trình bày tập trung (đợt C)', () => {
     expect(src.match(/\/ban-dong-hanh/g) ?? []).toHaveLength(0)
   })
 
-  it('ba không gian bộ môn dựng từ một mảng dữ liệu, không viết tay ba thẻ', () => {
+  it('không gian bộ môn dựng từ SUBJECT_ENTRIES (một nguồn với hub, S05-2), không viết tay từng thẻ môn', () => {
     expect(src).toContain('spaces.map(')
-    expect(src).toContain("id: 'english'")
-    expect(src).toContain("id: 'stem'")
+    expect(src).toContain("from '@dhcb/core-learner/subjectEntry'")
+    expect(src).toContain('SUBJECT_ENTRIES.map(')
+    // Thẻ Sự nghiệp/Khởi nghiệp & Đời sống KHÔNG phải môn học — vẫn khai tay, giữ nguyên.
     expect(src).toContain("id: 'career-life'")
   })
 })

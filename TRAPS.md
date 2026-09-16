@@ -209,3 +209,50 @@ gần như luôn là MỘT lỗi, không phải N lỗi — tìm nguyên nhân c
 được** `/`, nhưng `/trang-ca-nhan` **vẫn** đẩy về `/login`. Quy ước trong `App.tsx`: route mới
 mặc định là `RequireAccount`, chỉ chuyển sang `AllowGuest` khi trang thật sự không đọc/ghi dữ
 liệu riêng của một con người cụ thể.
+
+## 7. Test chỉ đỏ dưới tải full suite — "Test timed out in 5000ms" (BỐN LẦN trong một buổi)
+
+**Ngày/PR:** 2026-09-15/16, bốn lần liên tiếp: `lessonsPython.test.ts` (#937,
+`docs/changelog/0334-*.md`), `seed-all.test.ts` (#949, `docs/changelog/0338-2026-09-16-sua-comment-timeout.md`),
+`apps/dhcb/src/lib/programmingSrs.test.ts` + `packages/core-auth/authService.test.ts` (PR này —
+`authService` phát hiện thêm bởi S05-2 khi chạy full suite).
+
+**Khuôn lỗi:** ca test **CHẠY RIÊNG FILE LUÔN XANH** (thường vài chục–vài trăm ms tới ~2s), chỉ
+**đỏ dưới tải `npm run test:coverage` full suite** (hàng trăm file test chạy song song tranh
+CPU) với đúng thông báo `Test timed out in 5000ms` — ngưỡng mặc định của Vitest. Không phải lỗi
+logic: bản thân việc test làm (build dữ liệu lớn, spawn `python3`, băm bcrypt thật) vốn đã tốn
+thời gian gần sát ngưỡng 5s trên máy rảnh; dưới tải CPU của full suite, thời gian thật đó co
+giãn thêm và vượt ngưỡng. Một lượt chạy xanh (kể cả `test:coverage` một lần) KHÔNG đủ để kết
+luận hết flaky — phải đo dưới tải hoặc lặp lại nhiều lần.
+
+**Hai nguyên nhân khác nhau đứng sau CÙNG một triệu chứng — phải phân biệt trước khi sửa:**
+
+1. **Việc test làm THẬT SỰ THỪA** (ví dụ `programmingSrs.test.ts`: nạp cả 381 bài/~1184 thẻ vào
+   SRS trong khi chỉ cần vài thẻ để kiểm hành vi limit — `addLessonCardsToSrs()` gọi `save()`
+   toàn bộ dữ liệu cho MỖI thẻ nên đó là O(n²)) → **sửa cho nhanh lên**, không nới ngưỡng.
+2. **Việc test làm là chi phí THẬT của production, không thừa** (`authService.test.ts`: bcrypt
+   12 vòng THẬT — đúng cấu hình bảo mật production; `lessonsPython.test.ts`: spawn `python3`
+   thật; `seed-all.test.ts`: build tác vụ TTS thật) → **nới `timeout` đúng ca/describe đó** theo
+   khuôn `describe('...', { timeout: N }, () => {...})`, KHÔNG nới cho cả file, kèm comment tiếng
+   Việt ghi số đo thật làm căn cứ.
+
+**Cách rà (làm trước khi kết luận "đã hết flaky"):**
+
+```bash
+# 1. Đo thời gian thật của từng ca trong MỘT file nghi ngờ
+npx vitest run <file>.test.ts --reporter=verbose
+
+# 2. Rà toàn repo: ca nào có thời gian thật ≥ 60% ngưỡng của nó (mặc định 5000ms, hoặc ngưỡng
+#    đã override) là ứng viên rủi ro, kể cả khi lượt đó chưa đỏ
+npx vitest run --reporter=verbose > /tmp/full.log
+grep -oE "✓.*[0-9]{4,}ms" /tmp/full.log
+```
+
+Không được dừng lại ở "chạy riêng file thì xanh" — đó chính xác là dấu hiệu của khuôn lỗi này,
+không phải bằng chứng đã hết bệnh.
+
+**Cổng chốt chặn:** chưa có cổng CI tự động phát hiện ca "sát ngưỡng" (mới dừng ở quy trình tay
+— đo bằng `--reporter=verbose` trước khi đóng nợ). Ba PR (#937, #949, PR này) đã xử lý bốn file
+biết flaky; còn file nào khác lộ ra theo cùng khuôn (`Test timed out in 5000ms` chỉ ở
+`test:coverage` full, xanh khi chạy riêng) thì áp đúng quy trình hai bước ở trên — đo trước,
+phân loại nguyên nhân, rồi mới chọn sửa nhanh hay nới ngưỡng.
