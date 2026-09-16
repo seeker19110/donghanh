@@ -150,11 +150,14 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
 
 ### Ưu tiên 1 — bằng chứng người dùng thật (trước mọi tính năng mới)
 
-- **[2026-09-15] S05-1 "Bắt đầu theo ý định" — PR nháp, chờ merge tuần tự.** `/bat-dau` nay là
-  luồng ≤ 5 câu chọn MÔN (công khai cho khách), Intake đời sống giữ nguyên mã ở `/bat-dau/doi-song`;
+- **[2026-09-15] S05-1 "Bắt đầu theo ý định" — ✅ ĐÃ MERGE (#939).** `/bat-dau` nay là luồng
+  ≤ 5 câu chọn MÔN (công khai cho khách), Intake đời sống giữ nguyên mã ở `/bat-dau/doi-song`;
   hợp đồng `LearnerIntent` + `GET|PUT /api/learner-intent` + migration **`0082`**. Xem
-  `docs/changelog/0334-2026-09-15-s05-1-bat-dau-theo-y-dinh.md`. **Còn lại của slice: S05-2** (một
-  nguồn danh mục môn cho hub và app). Nợ tài liệu mở ra:
+  `docs/changelog/0334-2026-09-15-s05-1-bat-dau-theo-y-dinh.md`. **[2026-09-16] S05-2 "một nguồn
+  danh mục môn cho hub và app" — PR mở, chờ CI.** `packages/core-learner/subjectEntry.ts` +
+  `scripts/gen-subject-catalog.ts` sinh `apps/hub/src/subjectsCatalog.generated.ts`; hub và
+  `Home.tsx` cùng đọc một nguồn (6 môn, đúng thứ tự registry). Xem
+  `docs/changelog/0342-2026-09-16-s05-2-mot-nguon-danh-muc-mon.md`. Nợ tài liệu mở ra:
   `docs/research/luong-nguoi-moi-ho-so-nang-luc-an-2026-08-23.md` mà CLAUDE.md §2 dẫn tới KHÔNG tồn
   tại trong repo — cần một PR `docs` riêng khôi phục hoặc sửa đường dẫn.
 
@@ -792,9 +795,14 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   11–12 trong viewBox rộng 440 — trên điện thoại chúng co lại rất nhỏ. **KHÔNG phải lỗi mới**:
   bài `ly11-c2-b8` đã như vậy từ trước. Sửa tận gốc phải đụng `packages/core-ui/LessonAnimation.tsx`
   (codemap: 5 file ảnh hưởng) hoặc đặt luật độ dài nhãn cho toàn bộ hoạt ảnh — cần một đợt riêng.
-- **[2026-09-14] Test flaky có sẵn của môn Lập trình:** `apps/dhcb/src/lib/programmingSrs.test.ts`
-  ca "limit cắt đúng số thẻ cho một phiên ôn" đỏ khi chạy cả `apps/dhcb/src` nhưng chạy riêng file
-  thì 9/9 xanh. Dùng `vi.setSystemTime`, nghi phụ thuộc thời gian/thứ tự chạy. Chưa sửa.
+- ✅ **[2026-09-14 — ĐÃ TRẢ 2026-09-16, xem changelog trả nợ flaky] Test flaky có sẵn của môn
+  Lập trình đã sửa.** Nguyên nhân thật KHÔNG phải `vi.setSystemTime` mà là ca "limit cắt đúng số
+  thẻ cho một phiên ôn" nạp cả 381 bài (~1184 thẻ) vào SRS — `addLessonCardsToSrs()` gọi `save()`
+  (stringify + ghi localStorage toàn bộ) cho MỖI thẻ nên đó là O(n²), đo thật ~1,7s trên máy rảnh,
+  vượt ngưỡng 5s dưới tải full suite. Sửa cho nhanh (chỉ nạp đủ bài để vượt limit) thay vì nới
+  ngưỡng. Cùng đợt: nới timeout 4 describe bcrypt thật (12 vòng) ở `packages/core-auth/authService.test.ts`
+  — cùng khuôn lỗi, phát hiện khi chạy full suite (S05-2). Xem `TRAPS.md` mục khuôn lỗi timeout
+  5s dưới tải.
 - 🟡 **[2026-09-12 — GĐ3, xem `docs/changelog/0291-*.md`] Khoá bậc môn Lập trình mới cưỡng chế ở
   CLIENT.** Luật "Free học tuần tự P1→P6" tính ở trình duyệt (`lib/programmingLevelLock.ts`), và
   grandfather nằm ở localStorage chứ không phải cột DB như môn Anh (migration 0077). Người sửa
