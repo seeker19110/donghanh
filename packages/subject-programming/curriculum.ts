@@ -808,6 +808,28 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         title: 'Thuật toán S1 — oracle, ca biên và differential test có seed',
         topics: 'Ca biên; oracle đơn giản; random.Random(seed); negative control',
       },
+      // p6-u146…u149: chặng S1 "Bộ nhớ và C" của hướng Hệ thống. Các bài dùng Python để
+      // mô phỏng minh bạch vì runtime chưa có lane C; artifact C thật vẫn ở rubric ngoài sandbox.
+      {
+        id: 'p6-u146',
+        title: 'Hệ thống S1 — vùng nhớ, lifetime, byte và căn chỉnh',
+        topics: 'Text/data/stack/heap; dangling pointer; endianness; ABI đồ chơi',
+      },
+      {
+        id: 'p6-u147',
+        title: 'Hệ thống S1 — ownership, cấp phát và chuỗi kết thúc NUL',
+        topics: 'Alloc/free ledger; leak/double-free; bytearray và copy có giới hạn',
+      },
+      {
+        id: 'p6-u148',
+        title: 'Hệ thống S1 — debug và sanitizer qua mô phỏng có cấu trúc',
+        topics: 'Call stack, breakpoint, backtrace; OOB, UAF, double-free và leak',
+      },
+      {
+        id: 'p6-u149',
+        title: 'Hệ thống S1 — build, link và assembly đồ chơi',
+        topics: 'Pipeline biên dịch; symbol/dependency graph; ISA LOAD/ADD/MUL/RET',
+      },
       // p6-u66..u68: chặng S1 của hướng Dữ liệu (data-s1, specializations/data.ts, 4 module).
       // p3-u8/p3-u9 đã dạy SELECT/JOIN/GROUP BY/HAVING cơ bản — u66 đi XA HƠN (hàm cửa sổ, CTE)
       // để không dạy trùng. Đăng ký cầu nối ở `specializations/stageUnits.ts`.
