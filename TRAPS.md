@@ -256,3 +256,43 @@ không phải bằng chứng đã hết bệnh.
 biết flaky; còn file nào khác lộ ra theo cùng khuôn (`Test timed out in 5000ms` chỉ ở
 `test:coverage` full, xanh khi chạy riêng) thì áp đúng quy trình hai bước ở trên — đo trước,
 phân loại nguyên nhân, rồi mới chọn sửa nhanh hay nới ngưỡng.
+
+## 8. Ký tự điều khiển gõ THẲNG vào mã nguồn → `git diff` thành nhị phân, file trượt khỏi review
+
+**Ngày/PR:** file vào `main` ở #932 (2026-09-15), phát hiện + trả nợ ở PR #964
+(`docs/changelog/0349-2026-09-16-bo-ky-tu-nul-content-fingerprint.md`).
+
+**Khuôn lỗi:** `apps/dhcb/src/lib/learningSession.ts` dùng **ký tự NUL gõ thẳng** làm dấu ngăn
+trong `contentFingerprint`. Mã CHẠY ĐÚNG, mọi cổng xanh, không test nào đỏ — nhưng `file(1)`
+xếp file là `data` và **`git diff` coi cả file là nhị phân**, in `Bin` thay vì nội dung. Hậu quả
+không phải lỗi runtime mà là **mất khả năng review**: từ đó về sau mọi thay đổi trong file đó đi
+qua PR mà không ai nhìn thấy dòng nào. Đây là kiểu hỏng IM LẶNG — không có gì đỏ để lần ra.
+
+Rất dễ tái phát vì **chính công cụ sinh file cũng mắc**: khi viết cổng canh cho bẫy này, file
+test mới tự nó dính NUL hai lần (chuỗi escape trong nội dung được ghi ra thành ký tự thật). Nên
+đừng tin "mình gõ escape là xong" — phải KIỂM bằng `file`.
+
+**Cách rà:**
+
+```bash
+# File nào git coi là nhị phân trong diff
+git diff --stat | grep Bin
+
+# Quét toàn repo (chính xác hơn file(1), không phụ thuộc heuristic)
+npx vitest run scripts/no-control-chars.test.ts
+
+# Kiểm một file sau khi sửa — phải ra "... text", KHÔNG được ra "data"
+file apps/dhcb/src/lib/learningSession.ts
+```
+
+**Cách sửa:** thay ký tự thật bằng **escape trong chuỗi** (sáu ký tự: gạch chéo ngược + `u0000`
+cho NUL; `t` sau gạch chéo ngược cho tab). Giá trị chuỗi lúc chạy KHÔNG đổi.
+**Bắt buộc chứng minh giá trị không đổi bằng số đo**, đừng nói suông — với
+`contentFingerprint` thì hash nằm trong khoá đọc nháp lưu trên máy người học, đổi hash = mọi
+nháp đang gõ dở bỗng bị coi là stale. Cách gọn: tính hàm cho vài bộ đầu vào TRƯỚC và SAU rồi
+`diff`, và ghim luôn giá trị vào một test (`learningSession.test.ts` — ca "ghim giá trị").
+
+**Cổng chốt chặn:** `scripts/no-control-chars.test.ts` chạy trong CI mọi PR, quét mọi file nguồn
+`git` theo dõi và báo rõ `file:dòng — byte×số lần`. Cổng này đã được tự kiểm là KHÔNG xanh giả
+(chèn lại NUL thì đỏ đúng chỗ). `CLAUDE.md` mục 8 đã có câu cảnh báo bằng chữ từ trước — nó
+không đủ, vì cảnh báo bằng chữ thì người ta quên.
