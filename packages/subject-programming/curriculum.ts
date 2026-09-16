@@ -935,6 +935,26 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         topics: 'Rotation; expiry; revocation; recovery rate limit; authn vs authz',
       },
       {
+        id: 'p6-u190',
+        title: 'Architecture S4 — NFR quality gate',
+        topics: 'Latency; availability; error; cost; measurable threshold fail closed',
+      },
+      {
+        id: 'p6-u191',
+        title: 'Architecture S4 — strangler migration',
+        topics: 'Feature flag; shadow compare; dual write; compatibility; rollback',
+      },
+      {
+        id: 'p6-u192',
+        title: 'Architecture S4 — architecture health',
+        topics: 'Dependency cycle; hotspot; debt impact/interest; violation',
+      },
+      {
+        id: 'p6-u193',
+        title: 'Architecture S4 — executable ADR handoff',
+        topics: 'Context; decision; alternatives; owner; acceptance; revisit; boundary',
+      },
+      {
         id: 'p6-u166',
         title: 'AI S2 — time split, baseline và leakage',
         topics: 'Past-only split; holdout; leakage fail closed; baseline comparison',
