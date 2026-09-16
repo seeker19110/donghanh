@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { OutlineSchema, type Outline, type OutlineNode } from '@dhcb/core-contracts/outline'
 import {
   ancestorChapterIds,
+  ancestorChapterIdsOfNode,
   childrenOf,
   findLeafByContentId,
   findNode,
@@ -183,5 +184,44 @@ describe('ancestorChapterIds — chương phải mở sẵn khi vẽ mục lục
 
   it('mã bài lạ → không mở gì (cây thu gọn hoàn toàn, không ném lỗi)', () => {
     expect(ancestorChapterIds(outline, 'khong-co')).toEqual(new Set())
+  })
+})
+
+describe('ancestorChapterIdsOfNode — tra theo nodeId (mã nội dung có thể TRÙNG)', () => {
+  it('mở đúng các tầng cha của chính lá được chỉ đích danh', () => {
+    expect(ancestorChapterIdsOfNode(outline, 'lesson:l3')).toEqual(
+      new Set(['level:p1', 'chapter:u2']),
+    )
+  })
+
+  it('hai lá TRÙNG mã nội dung: nodeId chọn đúng lá thứ hai, `contentId` thì không', () => {
+    // Ca có thật: cấp B2 của Tiếng Anh dùng vòng từ vựng `it` ở hai unit khác nhau.
+    const cayTrung: Outline = {
+      ...outline,
+      nodes: [
+        ...outline.nodes,
+        {
+          nodeId: 'lesson:u2-l1',
+          parentId: 'chapter:u2',
+          subjectId: 'programming',
+          contentId: 'l1',
+          kind: 'lesson',
+          title: 'Bài l1 lần hai',
+          href: '/bai/l1-b',
+          order: 9,
+          availability: 'available',
+          progress: 'not-started',
+        },
+      ],
+    }
+    expect(ancestorChapterIdsOfNode(cayTrung, 'lesson:u2-l1')).toEqual(
+      new Set(['level:p1', 'chapter:u2']),
+    )
+    // Tra theo mã nội dung luôn ra lá ĐẦU — đúng lý do vì sao cần bản theo nodeId.
+    expect(ancestorChapterIds(cayTrung, 'l1')).toEqual(new Set(['level:p1', 'chapter:u1']))
+  })
+
+  it('nodeId lạ → tập rỗng, không ném lỗi', () => {
+    expect(ancestorChapterIdsOfNode(outline, 'khong-co')).toEqual(new Set())
   })
 })

@@ -18,7 +18,12 @@
 import { useId, useMemo, useState, type KeyboardEvent, type ReactNode } from 'react'
 import type { Outline, OutlineNode } from '@dhcb/core-contracts/outline'
 import { isOutlineLeaf } from '@dhcb/core-contracts/outline'
-import { ancestorChapterIds, childrenOf, pathTo } from '@dhcb/core-learner/outline/outlineNav'
+import {
+  ancestorChapterIds,
+  ancestorChapterIdsOfNode,
+  childrenOf,
+  pathTo,
+} from '@dhcb/core-learner/outline/outlineNav'
 import { normalizeVi } from '@dhcb/core-learner/outline/normalizeVi'
 
 /** Nhãn CHỮ của 5 trạng thái — đọc được bằng trình đọc màn hình, không phụ thuộc màu. */
@@ -51,6 +56,13 @@ export interface OutlineTreeProps {
   outline: Outline
   /** Mã nội dung đang mở trên URL (lessonId…) — quyết định `aria-current` và chương tự mở. */
   activeContentId?: string
+  /**
+   * `nodeId` của lá đang mở — dùng THAY `activeContentId` khi mã nội dung không duy nhất trong
+   * cây. Ca có thật: cấp B2 của Tiếng Anh dùng vòng từ vựng `it` ở hai unit, tra theo mã nội
+   * dung sẽ gắn `aria-current="page"` cho cả hai lá. `nodeId` thì duy nhất theo hợp đồng.
+   * Truyền cả hai thì `activeNodeId` thắng.
+   */
+  activeNodeId?: string
   /** Dựng liên kết cho lá. App truyền `<Link>` của react-router. */
   renderLink: (props: OutlineTreeLinkProps) => ReactNode
   /** Tiêu đề mục lục — cũng là tên vùng `<nav aria-label>`. */
@@ -77,6 +89,7 @@ export interface OutlineTreeProps {
 export function OutlineTree({
   outline,
   activeContentId,
+  activeNodeId,
   renderLink,
   title = 'Mục lục',
   searchable = true,
@@ -90,8 +103,15 @@ export function OutlineTree({
   const [query, setQuery] = useState('')
   // Trạng thái mở/thu: nhận từ ngoài (OutlinePane lưu sessionStorage) hoặc tự giữ.
   const [openTrong, setOpenTrong] = useState<ReadonlySet<string>>(() =>
-    ancestorChapterIds(outline, activeContentId),
+    activeNodeId === undefined
+      ? ancestorChapterIds(outline, activeContentId)
+      : ancestorChapterIdsOfNode(outline, activeNodeId),
   )
+  // Lá nào đang mở: `nodeId` (duy nhất) ưu tiên hơn mã nội dung (có thể trùng).
+  const dangMoLa = (node: OutlineNode) =>
+    activeNodeId === undefined
+      ? node.contentId !== undefined && node.contentId === activeContentId
+      : node.nodeId === activeNodeId
   const dangMo = openIds ?? openTrong
   const toggle = (nodeId: string) => {
     if (onToggleOpen) {
@@ -153,12 +173,7 @@ export function OutlineTree({
       )}
 
       {ketQuaTim ? (
-        <KetQuaTim
-          ketQua={ketQuaTim}
-          activeContentId={activeContentId}
-          renderLink={renderLink}
-          onSelect={chon}
-        />
+        <KetQuaTim ketQua={ketQuaTim} dangMoLa={dangMoLa} renderLink={renderLink} onSelect={chon} />
       ) : (
         <DanhSachCon
           outline={outline}
@@ -166,7 +181,7 @@ export function OutlineTree({
           depth={0}
           dangMo={dangMo}
           toggle={toggle}
-          activeContentId={activeContentId}
+          dangMoLa={dangMoLa}
           renderLink={renderLink}
           onSelect={chon}
           baseId={baseId}
@@ -181,12 +196,12 @@ export function OutlineTree({
 /** Kết quả tìm: danh sách LÁ phẳng kèm đường dẫn chương ("Lớp 10 › Chương 2: Động học"). */
 function KetQuaTim({
   ketQua,
-  activeContentId,
+  dangMoLa,
   renderLink,
   onSelect,
 }: {
   ketQua: ReadonlyArray<{ node: OutlineNode; duongDan: OutlineNode[] }>
-  activeContentId?: string
+  dangMoLa: (node: OutlineNode) => boolean
   renderLink: OutlineTreeProps['renderLink']
   onSelect: () => void
 }) {
@@ -203,7 +218,7 @@ function KetQuaTim({
         <li key={node.nodeId}>
           <NutLa
             node={node}
-            isActive={node.contentId === activeContentId}
+            isActive={dangMoLa(node)}
             renderLink={renderLink}
             onSelect={onSelect}
             duongDan={duongDan.map((n) => n.title).join(' › ')}
@@ -220,7 +235,7 @@ function DanhSachCon({
   depth,
   dangMo,
   toggle,
-  activeContentId,
+  dangMoLa,
   renderLink,
   onSelect,
   baseId,
@@ -230,7 +245,7 @@ function DanhSachCon({
   depth: number
   dangMo: ReadonlySet<string>
   toggle: (nodeId: string) => void
-  activeContentId?: string
+  dangMoLa: (node: OutlineNode) => boolean
   renderLink: OutlineTreeProps['renderLink']
   onSelect: () => void
   baseId: string
@@ -246,7 +261,7 @@ function DanhSachCon({
             <li key={node.nodeId}>
               <NutLa
                 node={node}
-                isActive={node.contentId === activeContentId}
+                isActive={dangMoLa(node)}
                 renderLink={renderLink}
                 onSelect={onSelect}
               />
@@ -267,7 +282,7 @@ function DanhSachCon({
                 depth={depth + 1}
                 dangMo={dangMo}
                 toggle={toggle}
-                activeContentId={activeContentId}
+                dangMoLa={dangMoLa}
                 renderLink={renderLink}
                 onSelect={onSelect}
                 baseId={baseId}

@@ -154,13 +154,13 @@ contentId)`) + E2E.
 
 ### S07-3 — Tiếng Anh: lộ trình CEFR
 
-- [ ] **AC-20** `/lo-trinh-hoc/:levelId` (hoặc URL mới nếu slice 03 đã dời — §7 Q2) thay
+- [x] **AC-20** (S07-3, changelog 0342) `/lo-trinh-hoc/:levelId` (hoặc URL mới nếu slice 03 đã dời — §7 Q2) thay
       `masterList` (cột trái hiện tại, không có neo) bằng `OutlineTree` từ `buildCefrOutline`;
       unit đang học tự mở; hoạt động đã xong ✓; cấp khoá hiện đúng lý do server; mobile có nút
       "Mục lục cấp học" mở panel. `CefrLevelPage` KHÔNG đổi 5 tab học, `?tab=`/`?cap=` giữ nguyên
       (`session-cap.spec.ts`, `listening.spec.ts`, `quiz-*.spec.ts` xanh). — E2E
       `outline-english.spec.ts`; `a11y` route `/lo-trinh-hoc/a1`, `/c1` đã có sẵn.
-- [ ] **AC-21** `/bai-hoc` (350 bài phẳng) và `/cau-thong-dung` **không** đổi trong S07 (chỉ có
+- [x] **AC-21** (S07-3, changelog 0342 — giữ nguyên, không đụng) `/bai-hoc` (350 bài phẳng) và `/cau-thong-dung` **không** đổi trong S07 (chỉ có
       "đã xem" `et_viewed_*`, không phải evidence) — ghi rõ ở §① KHÔNG LÀM; nếu chủ dự án muốn
       cây theo `category` cho câu thông dụng thì tách slice.
 
@@ -455,7 +455,9 @@ Trả giá: `?khoa=` không được index như trang riêng — chấp nhận. 
    Có thể merge dù 02 chưa xong.
 2. **S07-2 `feat(learning): muc luc mon/khoa trong vung hoc Lap trinh va STEM`** — `OutlineTree`,
    `Modal sheet+portal`, `OutlinePane`, 5 trang, prev/next, breadcrumb khoá, E2E, ảnh, a11y.
-3. **S07-3 `feat(learning): muc luc cap CEFR mon Tieng Anh`** — sau slice 03 merge (Q2).
+3. **S07-3 `feat(learning): muc luc cap CEFR mon Tieng Anh`** — sau slice 03 merge (Q2). ✅ ĐÃ
+   THI HÀNH (changelog 0342): mục lục trỏ `?unit=&hd=` để lá là liên kết thật; `OutlineTree`
+   thêm `activeNodeId` vì mã nội dung trùng ở cấp B2.
 4. Mỗi PR: changelog `docs/changelog/03xx-*.md`, `PROGRESS.md` bảng slice, goal bảng S07 (Issue/PR/
    State/Evidence), đổi trạng thái ở spec này.
 
