@@ -8,7 +8,7 @@
 | Goal          | [`learning-ux`](../goals/2026-09-15-learning-ux.md) dòng S11 (dependency S08 + domain spec; "cần spec nhỏ từng hoạt động")                                                                                                       |
 | Thứ tự chốt   | S07 → S08 → S06 → S05 → S10 → **S11** → S09 (đồng bộ version/retry/xung đột) → S12 (ôn tập) → S13                                                                                                                                |
 | Base khảo sát | `main` `7c2d81c` (#928), khảo sát 2026-09-15 bằng đọc mã thật + `npm run codemap -- impact` (số liệu đếm thật, ghi kèm đường dẫn/dòng)                                                                                           |
-| Trạng thái    | **Approved for implementation** — chủ dự án chốt TOÀN BỘ câu hỏi §7 theo đề xuất mặc định (2026-09-15). **S11-1 đã thi hành** (changelog `0333`); S11-2/S11-3 còn lại                                                            |
+| Trạng thái    | **Approved for implementation** — chủ dự án chốt TOÀN BỘ câu hỏi §7 theo đề xuất mặc định (2026-09-15). **S11-1 đã thi hành** (changelog `0333`), **S11-2 đã thi hành** (changelog `0348`); S11-3 còn lại                        |
 | Người duyệt   | Chủ dự án                                                                                                                                                                                                                        |
 
 > Không bắt đầu code khi trạng thái chưa là **Approved for implementation**. Luật số 1 của khuôn

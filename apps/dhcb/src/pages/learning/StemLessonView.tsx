@@ -13,7 +13,12 @@ import { Link, Navigate, useParams } from 'react-router-dom'
 import { ArrowLeft, Check, X } from 'lucide-react'
 import { z } from 'zod'
 import { gradeAnswer } from '@dhcb/core-grading'
-import type { StemCheckQuestion, StemLessonLike } from '@dhcb/core-contracts/stemLesson'
+import type {
+  StemCheckQuestion,
+  StemLessonLike,
+  StemSubjectId,
+} from '@dhcb/core-contracts/stemLesson'
+import { STEM_CHECK_PASS_RATIO } from '@dhcb/core-learner/completionRules'
 import { LessonAnimation } from '@core/LessonAnimation'
 import Layout from '../../components/Layout'
 import { buttonClass } from '@core/buttonStyles'
@@ -35,6 +40,12 @@ import { buildStemOutlineForApp } from '../../lib/outline/stemOutlineApp'
 import { useOutlinePane } from '../../components/useOutlinePane'
 import OutlinePrevNext from '../../components/OutlinePrevNext'
 import { useIsDesktopViewport } from '../../lib/useIsDesktopViewport'
+import {
+  submitStemEvidence,
+  flushPendingEvidence,
+  hasPendingEvidence,
+  type SubmitEvidenceResult,
+} from '../../lib/stemEvidence'
 
 // Nháp phần "Tự kiểm tra": CHỈ chữ người học gõ + danh sách câu đã bấm chấm.
 // KHÔNG lưu kết quả đúng/sai — nó được TÍNH LẠI bằng `gradeAnswer` (hàm thuần, offline) mỗi lần
@@ -141,7 +152,7 @@ function CauHoi({
  * Ranh giới: đây chỉ là NHÁP trên cùng thiết bị. Bài STEM vẫn KHÔNG có tiến độ/evidence —
  * không khoá localStorage nào khác, không endpoint, không cột DB (đặc tả S08 §① KHÔNG LÀM).
  */
-function TuKiemTra({ bai, subjectId }: { bai: StemLessonLike; subjectId: string }) {
+function TuKiemTra({ bai, subjectId }: { bai: StemLessonLike; subjectId: StemSubjectId }) {
   const { user, loading, isGuest } = useAuth()
   // Owner `null` khi AuthProvider chưa xong → hook ở trạng thái `loading`, tuyệt đối không ghi.
   const owner = useMemo(
@@ -210,6 +221,50 @@ function TuKiemTra({ bai, subjectId }: { bai: StemLessonLike; subjectId: string 
     [setDraft],
   )
 
+  // ── Nộp bài: MỘT lượt cho cả bài, và người phán "đạt hay chưa" là SERVER (S11-2) ──
+  const [dangNop, setDangNop] = useState(false)
+  const [ketQuaNop, setKetQuaNop] = useState<SubmitEvidenceResult | null>(null)
+
+  const uid = owner?.id ?? ''
+  const soCau = bai.checkQuestions.length
+  const daTraLoiHet =
+    soCau > 0 &&
+    bai.checkQuestions.every((_, i) => (draft.answers[String(i)] ?? '').trim().length > 0)
+
+  // Gửi lại những lượt nộp đang kẹt trên máy này (mất mạng / server lỗi / hết phiên lúc nộp).
+  // CÓ ĐIỀU KIỆN `hasPendingEvidence`: hàng đợi rỗng thì KHÔNG có request nào rời trình duyệt,
+  // nên "mở bài" vẫn là không-gửi-gì (AC-13).
+  useEffect(() => {
+    if (!uid || owner?.kind !== 'account') return
+    const gui = () => {
+      if (hasPendingEvidence(uid)) void flushPendingEvidence(uid)
+    }
+    gui()
+    window.addEventListener('online', gui)
+    return () => window.removeEventListener('online', gui)
+  }, [uid, owner?.kind])
+
+  const nop = useCallback(async () => {
+    if (!uid || dangNop) return
+    setDangNop(true)
+    // Nộp rồi thì mọi câu đều phải hiện đúng/sai — kể cả câu tự luận chưa bấm "Kiểm tra".
+    setDraft((prev) => ({ ...prev, checked: bai.checkQuestions.map((_, i) => String(i)) }))
+    const answers = bai.checkQuestions
+      .map((_, i) => ({ questionIndex: i, raw: (draft.answers[String(i)] ?? '').trim() }))
+      .filter((a) => a.raw.length > 0)
+    try {
+      setKetQuaNop(
+        await submitStemEvidence(
+          uid,
+          { subjectId, contentId: bai.id, activityKind: 'stem_lesson_check', answers },
+          bai,
+        ),
+      )
+    } finally {
+      setDangNop(false)
+    }
+  }, [uid, dangNop, setDraft, bai, subjectId, draft.answers])
+
   return (
     <>
       <h2 className="mt-8 text-xl font-bold text-content">Tự kiểm tra</h2>
@@ -232,7 +287,63 @@ function TuKiemTra({ bai, subjectId }: { bai: StemLessonLike; subjectId: string 
           />
         ))}
       </ul>
+
+      {soCau > 0 && (
+        <div className="mt-4">
+          <button
+            type="button"
+            onClick={() => void nop()}
+            disabled={!daTraLoiHet || dangNop || !uid}
+            className={`${buttonClass({ variant: 'primary' })} min-h-[44px] disabled:opacity-60`}
+          >
+            {dangNop ? 'Đang nộp…' : 'Nộp bài tự kiểm tra'}
+          </button>
+          {!daTraLoiHet && (
+            <p className="mt-2 text-content-secondary">Trả lời đủ {soCau} câu rồi mới nộp được.</p>
+          )}
+          {ketQuaNop && <KetQuaNop ketQua={ketQuaNop} />}
+        </div>
+      )}
     </>
+  )
+}
+
+/**
+ * Dòng kết quả sau khi nộp — bản TẠM của S11-2; S11-3 thay bằng `ActivityResult` dùng chung
+ * (đặc tả §① mục 6). Năm trạng thái đều có CHỮ, không chỉ dựa vào màu.
+ *
+ * Quy tắc bất di bất dịch: chữ "hoàn thành" CHỈ xuất hiện khi SERVER trả `passed: true`. Bản
+ * chấm ở máy (khách, hoặc lúc đang chờ gửi lại) nói rõ nó mới là kết quả cục bộ.
+ */
+function KetQuaNop({ ketQua }: { ketQua: SubmitEvidenceResult }) {
+  if (ketQua.kind === 'rejected') {
+    return (
+      <p className="mt-3 text-content" role="status">
+        Không gửi được kết quả: {ketQua.error}. Phần đúng/sai từng câu ở trên vẫn xem được.
+      </p>
+    )
+  }
+
+  const { correct, total, passed } = ketQua.evidence
+  const diem = `Đúng ${correct}/${total} câu.`
+  const nguong = `Cần đúng từ ${Math.round(STEM_CHECK_PASS_RATIO * 100)}% số câu trở lên.`
+
+  return (
+    <div className="mt-3" role="status">
+      <p className="font-medium text-content">
+        {ketQua.kind === 'server' &&
+          (passed ? `${diem} Đã hoàn thành bài này.` : `${diem} Chưa đạt.`)}
+        {ketQua.kind === 'local' &&
+          (passed
+            ? `${diem} Đạt — kết quả ghi trên máy này, đăng nhập để lưu vào tài khoản.`
+            : `${diem} Chưa đạt — kết quả ghi trên máy này.`)}
+        {ketQua.kind === 'queued' &&
+          (ketQua.reason === 'auth'
+            ? `${diem} Đăng nhập lại để lưu kết quả — bài làm đang giữ trên máy này.`
+            : `${diem} Đã lưu trên máy này, sẽ gửi lại.`)}
+      </p>
+      {!passed && <p className="mt-1 text-content-secondary">{nguong}</p>}
+    </div>
   )
 }
 
