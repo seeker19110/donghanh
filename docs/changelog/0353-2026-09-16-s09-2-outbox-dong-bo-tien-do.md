@@ -1,7 +1,7 @@
 # 0353 — S09-2: hàng đợi gửi lại tiến độ học (outbox) ở client
 
 - **Ngày:** 2026-09-16
-- **PR:** #PR_NUMBER
+- **PR:** #984
 - **Nhánh:** `feat/s09-2-sync-outbox`
 - **Đặc tả:** [`docs/specs/2026-09-15-learning-ux-s09-dong-bo-version-retry-xung-dot.md`](../specs/2026-09-15-learning-ux-s09-dong-bo-version-retry-xung-dot.md) §① mục 6–11, AC-8 → AC-17 (Approved for implementation)
 - **Goal:** [`learning-ux`](../goals/2026-09-15-learning-ux.md) dòng S09-2
