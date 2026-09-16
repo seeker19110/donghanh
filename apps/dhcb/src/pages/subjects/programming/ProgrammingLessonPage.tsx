@@ -664,15 +664,9 @@ function LessonBody({
           closeLabel="Bắt đầu mới"
           maxWidth="max-w-md"
         >
-          {/* `pt-6`: tiêu đề DÍNH của `Modal` bị kéo lên bằng `-mt-6`, nên phần tử ngay sau nó
-              bị che đúng 24px — dòng ĐẦU của đoạn văn biến mất. Đo bằng ảnh chụp Tầng 8b ngày
-              2026-09-16 (chữ "Nội dung bài đã đổi…" mất hẳn dòng đầu ở 1440/390/320), cùng
-              khuôn bù đã ghi ở `useOutlinePane.tsx`. */}
-          <div className="pt-6">
-            <p className="read-body text-content-secondary">
-              Nội dung bài đã đổi kể từ lần bạn học dở. Dùng lại code bạn đã gõ hay bắt đầu mới?
-            </p>
-          </div>
+          <p className="read-body text-content-secondary">
+            Nội dung bài đã đổi kể từ lần bạn học dở. Dùng lại code bạn đã gõ hay bắt đầu mới?
+          </p>
           <div className="mt-4 flex flex-wrap items-center gap-2">
             <button
               type="button"

@@ -181,16 +181,10 @@ export function useOutlinePane({
     sheet:
       moPanel && !isDesktop ? (
         <Modal title={title} variant="sheet" onClose={() => setMoPanel(false)}>
-          {/* `pt-6`: tiêu đề DÍNH của `Modal` được kéo lên bằng `-mt-6` nên nó chiếm ít chỗ
-              hơn 24px so với chiều cao thật, và phần tử ngay sau nó bị che đúng 24px đó (đo
-              2026-09-15: mép trên cây ở 211,6px trong khi đáy tiêu đề ở 235,6px). Bù lại ở
-              ĐÂY chứ không sửa `Modal`: 20 hộp thoại khác đang dựa vào khoảng đệm hiện tại. */}
-          <div className="pt-6">
-            {tree(() => {
-              setMoPanel(false)
-              dieuTieuDiemVeTieuDe()
-            }, true)}
-          </div>
+          {tree(() => {
+            setMoPanel(false)
+            dieuTieuDiemVeTieuDe()
+          }, true)}
         </Modal>
       ) : null,
   }

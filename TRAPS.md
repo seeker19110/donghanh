@@ -296,3 +296,48 @@ nháp đang gõ dở bỗng bị coi là stale. Cách gọn: tính hàm cho vài
 `git` theo dõi và báo rõ `file:dòng — byte×số lần`. Cổng này đã được tự kiểm là KHÔNG xanh giả
 (chèn lại NUL thì đỏ đúng chỗ). `CLAUDE.md` mục 8 đã có câu cảnh báo bằng chữ từ trước — nó
 không đủ, vì cảnh báo bằng chữ thì người ta quên.
+
+## 9. Margin âm trên phần tử DÍNH → che mất dòng đầu của phần tử sau, và KHÔNG cổng nào bắt được
+
+**Ngày/PR:** mắc từ khi có `Modal` sticky header; vá cục bộ hai lần — S07-2 (#944, panel Mục lục)
+và S08-2 (#961, hộp thoại "Bài này đã được cập nhật"); sửa tận gốc ở PR #973
+(`docs/changelog/0350-2026-09-16-modal-khong-che-dong-dau.md`).
+
+**Khuôn lỗi:** `apps/dhcb/src/components/Modal.tsx` kéo header dính lên bằng `-mt-6` để dải nền
+chạm mép khung (khung có `p-6`). Margin âm làm phần tử chiếm trong **LUỒNG** ít hơn chiều cao
+thật đúng 24px, nên phần tử ngay sau nó bị header phủ lên 24px — **dòng đầu của nội dung biến
+mất**. Đo thật: chồng lấn đúng 24px ở cả 8 tổ hợp `center`/`sheet` × 1440/390/320.
+
+**Vì sao không cổng nào bắt được — và đây mới là phần đáng nhớ:**
+
+- DOM **có đủ chữ** → mọi test tìm theo text (`getByText`, `toContainText`) đều xanh.
+- `toBeVisible()` của Playwright **vẫn đúng**: phần tử không `display:none`, không `opacity:0`,
+  vẫn nằm trong khung nhìn. "Bị một phần tử khác vẽ đè lên" không phải là "không visible".
+- `getBoundingClientRect()` trả **chiều cao đúng** — nó không biết gì về việc bị che.
+- axe/a11y không có luật nào về "phần tử này bị phần tử khác phủ".
+
+Tức là toàn bộ bộ cổng của dự án mù với loại lỗi này. **Chỉ NHÌN ẢNH mới thấy** — đúng lý do
+Tầng 8b tồn tại. Hậu quả thật: ba nhãn ô nhập của trụ Sự nghiệp (`Chức danh / Mục tiêu`,
+`Công ty`, `Vai trò / Chức danh`) bị che HOÀN TOÀN suốt thời gian dài, không ai phát hiện.
+
+**Cách rà:**
+
+```bash
+# Cổng tự động (đã có): so đáy header dính với đỉnh nội dung ngay sau nó
+npx playwright test e2e/modal-sticky-header.spec.ts
+
+# Rà tay khuôn tương tự ở chỗ khác: margin âm ĐỨNG trên phần tử sticky/absolute
+grep -rn -- "-mt-\|-my-" --include=*.tsx apps/dhcb/src packages | grep -i "sticky\|fixed"
+```
+
+**Cách sửa (khuôn chung, không riêng `Modal`):** muốn nền của header dính chạm mép một khung có
+padding thì **bỏ padding ở CẠNH ĐÓ của khung** và cho header tự mang padding của mình —
+`px-6 pb-6` cho khung + `pt-6` cho header, thay vì `p-6` cho khung + `-mt-6 pt-6` cho header.
+Trông y hệt, mà không có margin âm nào để người sau vấp phải. Margin âm NGANG (`-mx-6 px-6`) thì
+vô hại: nó không đổi chỗ đứng của phần tử kế tiếp trong luồng dọc.
+
+**Cổng chốt chặn:** `e2e/modal-sticky-header.spec.ts` — so `header.bottom` với `noiDung.top` ở
+trạng thái CHƯA cuộn (cuộn rồi thì che là đúng, đó là điểm của sticky), 3 bề rộng × dáng
+`center` + dáng `sheet`, cộng một ca canh header vẫn dính sau khi cuộn để bản sửa không âm thầm
+giết tính năng cũ. Test phải là **E2E**: lỗi này không tồn tại trong jsdom vì jsdom không có bố
+cục. Đã tự kiểm là không xanh giả (đặt lại `-mt-6` thì đỏ với `Received: 24`).

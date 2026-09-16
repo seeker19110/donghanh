@@ -64,16 +64,26 @@ export default function Modal({
         className={
           laSheet
             ? // Tấm đáy: bo góc trên, cao tối đa 85dvh, chừa lề an toàn của máy có thanh gạt.
-              'bg-zinc-900 border-t border-zinc-800 rounded-t-2xl w-full p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-2xl max-h-[85dvh] overflow-y-auto focus:outline-none'
-            : `bg-zinc-900 border border-zinc-800 rounded-2xl w-full ${maxWidth} p-6 shadow-2xl max-h-[90dvh] overflow-y-auto focus:outline-none`
+              'bg-zinc-900 border-t border-zinc-800 rounded-t-2xl w-full px-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-2xl max-h-[85dvh] overflow-y-auto focus:outline-none'
+            : `bg-zinc-900 border border-zinc-800 rounded-2xl w-full ${maxWidth} px-6 pb-6 shadow-2xl max-h-[90dvh] overflow-y-auto focus:outline-none`
         }
       >
         {/*
           Header dính (sticky) ở mép trên vùng cuộn: nội dung dài cuộn xuống thì tiêu đề
-          và nút đóng vẫn còn trên màn hình. `-mx-6 -mt-6 px-6 pt-6` kéo dải nền ra sát
-          mép khung (khung có p-6) để chữ cuộn qua không bị lộ ra sau lưng header.
+          và nút đóng vẫn còn trên màn hình. `-mx-6 px-6` kéo dải NỀN ra sát hai mép khung
+          để chữ cuộn qua không lộ ra sau lưng header.
+
+          KHÔNG dùng `-mt-6` để kéo nền lên mép trên (cách cũ, đã gỡ 2026-09-16): margin âm
+          làm header chiếm trong LUỒNG ít hơn chiều cao thật đúng 24px, nên phần tử ngay sau
+          nó bị header che mất 24px — dòng đầu của nội dung biến mất. Không cổng nào bắt được
+          (DOM đủ chữ, `getBoundingClientRect` trả chiều cao đúng, không cuộn), và đã phải vá
+          cục bộ bằng `pt-6` hai lần (S07-2 #944, S08-2 #961) trước khi sửa tận gốc.
+
+          Cách làm đúng: khung BỎ padding trên (`px-6 pb-6` thay cho `p-6`), header tự mang
+          khoảng trên của mình bằng `pt-6`. Nhìn y hệt cũ, mà không có margin âm nào.
+          Test canh: `e2e/modal-sticky-header.spec.ts`.
         */}
-        <div className="sticky top-0 z-10 -mx-6 -mt-6 px-6 pt-6 pb-4 bg-zinc-900 flex items-center justify-between gap-3">
+        <div className="sticky top-0 z-10 -mx-6 px-6 pt-6 pb-4 bg-zinc-900 flex items-center justify-between gap-3">
           <h2 id={titleId} className="text-lg font-bold text-zinc-100">
             {title}
           </h2>
