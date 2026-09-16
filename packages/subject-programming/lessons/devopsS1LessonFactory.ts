@@ -48,7 +48,8 @@ export function devopsSimulation(input: LessonInput): ProgrammingLesson {
       prompt: input.makePrompt,
       // Đáp án mẫu tự đọc stdin; không đọc sẵn để không nuốt input của ca ẩn.
       starterCode: '# MÔ PHỎNG thuần Python; không gọi lệnh hay host thật.\n',
-      testCases: input.testCases,
+      // Runner Python hiển thị lại stdin; chấm phần state trace thay vì coi echo input là output logic.
+      testCases: input.testCases.map((testCase) => ({ ...testCase, match: 'contains' })),
       hints: [
         'Ghi state tối thiểu cần để quyết định, rồi xử lý từng lệnh.',
         'Ca thiếu bằng chứng hoặc trái policy phải fail closed.',
