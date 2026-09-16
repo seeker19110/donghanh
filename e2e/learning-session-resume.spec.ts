@@ -117,3 +117,75 @@ test('Lập trình: trình duyệt chặn lưu nháp → vẫn học được v�
   await page.getByRole('button', { name: 'Tự viết' }).click()
   await expect(oCode(page)).not.toContainText(DAU_AN)
 })
+
+// ── Trang CẤP CEFR (AC-18) ──────────────────────────────────────────────────────────────
+// Thứ được nhớ ở đây KHÔNG phải nội dung bài mà là VỊ TRÍ đang học: đang ở tab nào, đang mở
+// hoạt động nào. Chỉ E2E mới thấy được — reload thật, localStorage thật, router thật.
+const CAP = '/lo-trinh-hoc/a1'
+
+/** Chờ khung phiên đã ghi xuống localStorage (debounce 500 ms) — chờ theo TRẠNG THÁI. */
+async function choGhiPhien(page: Page) {
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        Object.keys(localStorage).some(
+          (k) => k.startsWith('dhcb_lsession_v1_') && k.includes('cefr-level'),
+        ),
+      ),
+    )
+    .toBe(true)
+}
+
+function nutTab(page: Page, ten: string) {
+  return page.getByRole('button', { name: new RegExp(ten) }).first()
+}
+
+test('CEFR: đổi tab rồi reload (URL không có ?tab=) thì vẫn ở đúng tab', async ({ page }) => {
+  await mockLogin(page, 'vi', 'dark-blue')
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto(CAP, { waitUntil: 'domcontentloaded' })
+
+  await nutTab(page, 'Hôm nay').click()
+  await expect(nutTab(page, 'Hôm nay')).toHaveAttribute('aria-pressed', 'true')
+  await choGhiPhien(page)
+
+  await page.reload({ waitUntil: 'domcontentloaded' })
+
+  await expect(nutTab(page, 'Hôm nay')).toHaveAttribute('aria-pressed', 'true')
+  await expect(nutTab(page, 'Bài học')).toHaveAttribute('aria-pressed', 'false')
+})
+
+test('CEFR: URL thắng nháp — ?tab=quiz mở bài kiểm tra dù nháp ghi tab khác', async ({ page }) => {
+  await mockLogin(page, 'vi', 'dark-blue')
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto(CAP, { waitUntil: 'domcontentloaded' })
+  await nutTab(page, 'Hôm nay').click()
+  await choGhiPhien(page)
+
+  await page.goto(`${CAP}?tab=quiz`, { waitUntil: 'domcontentloaded' })
+
+  await expect(nutTab(page, 'Kiểm tra')).toHaveAttribute('aria-pressed', 'true')
+  await expect(nutTab(page, 'Hôm nay')).toHaveAttribute('aria-pressed', 'false')
+})
+
+test('CEFR: đang mở một bài ngữ pháp, reload thì vẫn mở đúng bài đó', async ({ page }) => {
+  await mockLogin(page, 'vi', 'dark-blue')
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto(CAP, { waitUntil: 'domcontentloaded' })
+
+  // Mở từ DANH SÁCH trong trang (đường này KHÔNG ghi URL) — đúng ca mà reload trước đây làm mất.
+  await page
+    .getByRole('button', { name: /^Bài 1\b/ })
+    .first()
+    .click()
+  const tieuDe = page.getByRole('heading', { level: 3 }).first()
+  const chu = (await tieuDe.textContent()) ?? ''
+  expect(chu.length).toBeGreaterThan(0)
+  await choGhiPhien(page)
+
+  // Mở lại trang cấp TRẦN (không ngữ cảnh trên URL): chỉ nháp mới đưa được về đúng bài.
+  await page.goto(CAP, { waitUntil: 'domcontentloaded' })
+
+  await expect(page.getByRole('heading', { level: 3 }).first()).toHaveText(chu)
+  await expect(page).toHaveURL(/hd=grammar/)
+})

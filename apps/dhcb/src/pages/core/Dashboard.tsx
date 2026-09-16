@@ -20,6 +20,7 @@ import Layout from '../../components/Layout'
 import PageHeader from '../../components/PageHeader'
 import QuickActions from '../../components/QuickActions'
 import ActivityCalendarCard from '../../components/ActivityCalendarCard'
+import SubjectProgressSection from '../../components/SubjectProgressSection'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { useIsDesktopViewport, useMediaQuery } from '../../lib/useIsDesktopViewport'
 import { PageShell } from '@core/PageShell'
@@ -768,11 +769,13 @@ export default function Dashboard() {
           }
         >
           <div className="space-y-6">
-            {/* [Slice 03] Trang này hiện chỉ có số liệu MÔN TIẾNG ANH (từ vựng, SRS, thi CEFR).
-                Nói rõ để người học Toán/Lập trình không tưởng tiến độ của mình bị mất; tiến độ đa
-                môn thật là việc của S12. */}
+            {/* [S12-3] Khối "Tiến độ theo môn" ở ngay dưới tiêu đề đã nói tiến độ đa môn; câu
+                dưới đây nay chỉ còn nhiệm vụ giải thích rằng CÁC KHỐI SỐ LIỆU CÒN LẠI của trang
+                (từ vựng, SRS, thi CEFR) là của riêng môn Tiếng Anh. */}
             <p className="text-sm text-zinc-300 mb-3">
-              {vi ? 'Môn Tiếng Anh — ' : 'English — '}
+              {vi
+                ? 'Các khối số liệu bên dưới là của môn Tiếng Anh — '
+                : 'The stats below cover English — '}
               <Link
                 to={duongDanMonTiengAnh()}
                 className="underline underline-offset-2 text-accent-300 theme-light:text-accent-800 hover:text-white"
@@ -780,8 +783,8 @@ export default function Dashboard() {
                 {vi ? 'về trang môn' : 'go to subject page'}
               </Link>
               {vi
-                ? '. Tiến độ các môn khác xem ở trang từng môn.'
-                : '. Other subjects show progress on their own pages.'}
+                ? '. Tiến độ của các môn khác nằm ở khối “Tiến độ theo môn”.'
+                : '. Other subjects appear in the “Tiến độ theo môn” block.'}
             </p>
             <PageHeader
               title={vi ? 'Tiến độ học' : 'Your Progress'}
@@ -791,6 +794,9 @@ export default function Dashboard() {
                   : 'Streak, today’s goal and roadmap progress'
               }
             />
+            {/* [S12-3] Khối tiến độ đa môn đứng ĐẦU nội dung (quyết định Q6: THÊM, không thay
+                các StatCard tiếng Anh cũ — chúng vẫn là bằng chứng hợp lệ của môn Anh). */}
+            <SubjectProgressSection uid={user.id} plan={effectivePlan(user.plan)} />
             {!isDesktop && streakSection}
             {!isDesktop && weeklyGoalSection}
             {restSections}
