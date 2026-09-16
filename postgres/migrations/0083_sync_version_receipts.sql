@@ -1,4 +1,4 @@
--- Migration 0082: version đơn điệu + biên nhận idempotency cho đồng bộ tiến độ (slice S09-1).
+-- Migration 0083: version đơn điệu + biên nhận idempotency cho đồng bộ tiến độ (slice S09-1).
 --
 -- Đặc tả: docs/specs/2026-09-15-learning-ux-s09-dong-bo-version-retry-xung-dot.md §③.7
 --

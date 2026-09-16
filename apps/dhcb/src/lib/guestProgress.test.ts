@@ -259,3 +259,81 @@ describe('nháp phiên học khi khách đăng nhập', () => {
     expect(localStorage.getItem('et_learned_u-1')).toBe('["hello"]')
   })
 })
+
+// ── Ý ĐỊNH HỌC của khách (slice S05, §③.4) ─────────────────────────────────
+const INTENT = {
+  schemaVersion: 1,
+  subjectIds: ['programming'],
+  purpose: 'so_thich',
+  createdAt: 1_700_000_000_000,
+  updatedAt: 1_700_000_000_000,
+}
+
+function mockFetchIntent(server: unknown, onPut?: (body: unknown) => void) {
+  return vi.fn(async (url: string, init?: RequestInit) => {
+    if (String(url).includes('/api/learner-intent')) {
+      if (init?.method === 'PUT') {
+        onPut?.(JSON.parse(String(init.body)))
+        return new Response(JSON.stringify({ ok: true }), { status: 200 })
+      }
+      return new Response(JSON.stringify({ intent: server }), { status: 200 })
+    }
+    return new Response('{}', { status: 200 })
+  })
+}
+
+describe('hợp nhất Ý ĐỊNH của khách', () => {
+  it('khách MỚI chỉ trả lời ý định cũng tính là có tiến độ (quyết định Q4)', () => {
+    localStorage.setItem(`dhcb_intent_${getGuestId()}`, JSON.stringify(INTENT))
+    expect(hasGuestProgress(getGuestId())).toBe(true)
+  })
+
+  it('tài khoản CHƯA có ý định → đẩy bản của khách lên server, giữ createdAt của khách', async () => {
+    const guest = getGuestId()
+    localStorage.setItem(`dhcb_intent_${guest}`, JSON.stringify(INTENT))
+    let sent: unknown = null
+    vi.stubGlobal(
+      'fetch',
+      mockFetchIntent(null, (b) => (sent = b)),
+    )
+
+    await mergeGuestProgressInto('u-1')
+
+    expect((sent as { intent: { createdAt: number } }).intent.createdAt).toBe(INTENT.createdAt)
+    expect(localStorage.getItem(`dhcb_intent_${guest}`)).toBeNull()
+    expect(JSON.parse(localStorage.getItem('dhcb_intent_u-1') ?? 'null')).toMatchObject({
+      subjectIds: ['programming'],
+    })
+    vi.unstubAllGlobals()
+  })
+
+  it('tài khoản ĐÃ có ý định → giữ bản server, KHÔNG PUT, xoá bản khách', async () => {
+    const guest = getGuestId()
+    localStorage.setItem(`dhcb_intent_${guest}`, JSON.stringify(INTENT))
+    const server = { ...INTENT, subjectIds: ['english'] }
+    const f = mockFetchIntent(server)
+    vi.stubGlobal('fetch', f)
+
+    await mergeGuestProgressInto('u-2')
+
+    const puts = f.mock.calls.filter((c) => (c[1] as RequestInit | undefined)?.method === 'PUT')
+    expect(puts).toHaveLength(0)
+    expect(JSON.parse(localStorage.getItem('dhcb_intent_u-2') ?? 'null')).toMatchObject({
+      subjectIds: ['english'],
+    })
+    expect(localStorage.getItem(`dhcb_intent_${guest}`)).toBeNull()
+    vi.unstubAllGlobals()
+  })
+
+  it('gọi lần hai là no-op (không PUT thêm lần nào)', async () => {
+    localStorage.setItem(`dhcb_intent_${getGuestId()}`, JSON.stringify(INTENT))
+    const f = mockFetchIntent(null)
+    vi.stubGlobal('fetch', f)
+
+    await mergeGuestProgressInto('u-3')
+    const soLanDau = f.mock.calls.length
+    await mergeGuestProgressInto('u-3')
+    expect(f.mock.calls.length).toBe(soLanDau)
+    vi.unstubAllGlobals()
+  })
+})

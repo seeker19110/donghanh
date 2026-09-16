@@ -160,7 +160,7 @@ create table if not exists english.learning_progress (
   weekly_goal    jsonb not null default '{}',
   achievements   jsonb not null default '[]',
   updated_at     timestamptz not null default now(),
-  -- S09: version ĐƠN ĐIỆU do server tăng 1 mỗi lần ghi (migration 0082) — chỉ để biết "có thiết
+  -- S09: version ĐƠN ĐIỆU do server tăng 1 mỗi lần ghi (migration 0083) — chỉ để biết "có thiết
   -- bị khác ghi chen vào giữa hay không", KHÔNG dùng để merge.
   version        integer not null default 1 check (version >= 1),
   -- Mốc client báo là thay đổi lần cuối — CHỈ để chẩn đoán; mốc quyết định vẫn là now() server.
@@ -168,7 +168,7 @@ create table if not exists english.learning_progress (
 );
 create or replace view public.learning_progress as select * from english.learning_progress;
 
--- Biên nhận idempotency theo LẦN GỬI tiến độ (S09, migration 0082). Ghi cùng transaction với
+-- Biên nhận idempotency theo LẦN GỬI tiến độ (S09, migration 0083). Ghi cùng transaction với
 -- upsert tiến độ nên không có cửa sổ "đã ghi tiến độ mà chưa có biên nhận"; job nền dọn sau 7 ngày.
 create table if not exists public.sync_receipts (
   user_id    uuid not null references public.users(id) on delete cascade,

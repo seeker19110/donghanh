@@ -1,4 +1,7 @@
-// e2e/a11y-intake.spec.ts — Cổng a11y cho luồng NGƯỜI MỚI (/bat-dau, 5 câu + màn gợi ý).
+// e2e/a11y-intake.spec.ts — Cổng a11y cho luồng ĐỜI SỐNG (/bat-dau/doi-song, 5 câu + màn gợi ý).
+//
+// [S05] Route đổi từ `/bat-dau` sang `/bat-dau/doi-song`: `/bat-dau` nay là luồng "bắt đầu theo
+// ý định" (công khai, chọn môn học). Mã của Intake.tsx KHÔNG đổi một dòng nào.
 //
 // Đây là màn hình ĐẦU TIÊN mọi người dùng mới nhìn thấy, nên nó phải sạch ở cả 5 theme. Cũng như
 // `a11y-2fa.spec.ts`: `e2e/a11y.spec.ts` không quét route này.
@@ -46,28 +49,28 @@ async function mockApi(page: Page) {
 }
 
 for (const theme of THEMES) {
-  test(`a11y: /bat-dau câu 1 (nhóm tuổi) theme=${theme}`, async ({ page }) => {
+  test(`a11y: /bat-dau/doi-song câu 1 (nhóm tuổi) theme=${theme}`, async ({ page }) => {
     await mockLogin(page, 'vi', theme)
     await mockApi(page)
-    await page.goto('/bat-dau', { waitUntil: 'domcontentloaded' })
+    await page.goto('/bat-dau/doi-song', { waitUntil: 'domcontentloaded' })
     await expect(page.getByText('Bạn bao nhiêu tuổi rồi?')).toBeVisible()
     expect(await scan(page)).toEqual([])
   })
 
-  test(`a11y: /bat-dau câu tự do (ô nhập) theme=${theme}`, async ({ page }) => {
+  test(`a11y: /bat-dau/doi-song câu tự do (ô nhập) theme=${theme}`, async ({ page }) => {
     await mockLogin(page, 'vi', theme)
     await mockApi(page)
-    await page.goto('/bat-dau', { waitUntil: 'domcontentloaded' })
+    await page.goto('/bat-dau/doi-song', { waitUntil: 'domcontentloaded' })
     await page.getByRole('button', { name: /10–15/ }).click()
     await page.getByRole('button', { name: 'Học hành, thi cử' }).click()
     await expect(page.getByLabel(/thêm một giờ/)).toBeVisible()
     expect(await scan(page)).toEqual([])
   })
 
-  test(`a11y: /bat-dau màn GỢI Ý theme=${theme}`, async ({ page }) => {
+  test(`a11y: /bat-dau/doi-song màn GỢI Ý theme=${theme}`, async ({ page }) => {
     await mockLogin(page, 'vi', theme)
     await mockApi(page)
-    await page.goto('/bat-dau', { waitUntil: 'domcontentloaded' })
+    await page.goto('/bat-dau/doi-song', { waitUntil: 'domcontentloaded' })
     await page.getByRole('button', { name: /10–15/ }).click()
     await page.getByRole('button', { name: 'Học hành, thi cử' }).click()
     await page.getByRole('button', { name: 'Bỏ qua' }).click()
@@ -82,7 +85,7 @@ for (const theme of THEMES) {
 test('màn gợi ý KHÔNG hiện điểm số, thang bậc hay so sánh', async ({ page }) => {
   await mockLogin(page, 'vi', 'dark-blue')
   await mockApi(page)
-  await page.goto('/bat-dau', { waitUntil: 'domcontentloaded' })
+  await page.goto('/bat-dau/doi-song', { waitUntil: 'domcontentloaded' })
   await page.getByRole('button', { name: /Từ 23/ }).click()
   await page.getByRole('button', { name: 'Công việc' }).click()
   await page.getByRole('button', { name: 'Bỏ qua' }).click()

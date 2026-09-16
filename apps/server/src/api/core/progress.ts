@@ -74,7 +74,7 @@ interface ProgressRow {
   achievements: string[]
   settings: Record<string, unknown>
   streak_freeze_dates: string[]
-  /** S09-1: version đơn điệu do server tăng mỗi lần ghi (migration 0082, mặc định 1). */
+  /** S09-1: version đơn điệu do server tăng mỗi lần ghi (migration 0083, mặc định 1). */
   version: number
 }
 
@@ -208,7 +208,7 @@ export default async function handler(req: Request): Promise<Response> {
         achievements: row.achievements ?? [],
         settings: row.settings ?? {},
         streakFreezeDates: row.streak_freeze_dates ?? [],
-        // Dòng có từ trước migration 0082 vẫn là 1 nhờ `default 1`; `?? 1` chỉ phòng driver/mock.
+        // Dòng có từ trước migration 0083 vẫn là 1 nhờ `default 1`; `?? 1` chỉ phòng driver/mock.
         version: row.version ?? 1,
       },
       200,

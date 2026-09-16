@@ -85,7 +85,7 @@ interface LessonRow {
   lesson_id: string
   status: 'in_progress' | 'completed'
   completed_at: Date | null
-  /** S09-1: version theo DÒNG, tăng 1 mỗi lần upsert (migration 0082). */
+  /** S09-1: version theo DÒNG, tăng 1 mỗi lần upsert (migration 0083). */
   version?: number
 }
 

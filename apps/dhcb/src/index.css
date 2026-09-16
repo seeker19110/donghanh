@@ -448,3 +448,48 @@ html[data-sidebar='collapsed'] {
     animation-delay: 400ms;
   }
 }
+@keyframes course-flow-travel {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(calc(100vw - 6rem));
+    opacity: 0;
+  }
+}
+
+.course-flow-beam {
+  animation: course-flow-travel 7s ease-in-out infinite;
+}
+
+@media (min-width: 640px) {
+  @keyframes course-flow-travel {
+    0% {
+      transform: translateX(0);
+      opacity: 0;
+    }
+    8% {
+      opacity: 1;
+    }
+    92% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(42rem);
+      opacity: 0;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .course-flow-beam {
+    animation: none;
+  }
+}

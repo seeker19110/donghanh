@@ -10,32 +10,40 @@
 | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- |
 | Hợp đồng `SyncEnvelope` / `SyncResult` / `ConflictRecord`                | `packages/core-contracts/sync.ts` (+ test, 13 ca)                                     |
 | Biên nhận idempotency dùng chung + job dọn 7 ngày                        | `apps/server/src/api/_lib/syncReceipt.ts` (+ test, 6 ca), `apps/server/src/server.ts` |
-| Migration lũy đẳng: 2 cột × 2 bảng + `sync_receipts` + `sync_conflicts`  | `postgres/migrations/0082_sync_version_receipts.sql` + `schema.sql` + dòng README     |
+| Migration lũy đẳng: 2 cột × 2 bảng + `sync_receipts` + `sync_conflicts`  | `postgres/migrations/0083_sync_version_receipts.sql` + `schema.sql` + dòng README     |
 | `/api/progress`: `sync` tuỳ chọn, version, conflict, replay, Retry-After | `apps/server/src/api/core/progress.ts` (+ test, 36 → 44 ca)                           |
 | Test tích hợp hai request đồng thời trên Postgres THẬT                   | `apps/server/src/api/core/progress.concurrency.test.ts` (mới, 2 ca)                   |
 | `/api/programming/progress`: batch ≤ 50 mục, version theo dòng, replay   | `apps/server/src/api/subjects/programming/progress.ts` (+ test, 8 → 14 ca)            |
 
 ## Quyết định khi thi hành
 
-1. **Số migration là `0082`, không phải `0083` như đặc tả dự tính.** Đặc tả viết lúc S05 chưa
-   merge và giả định "S05 lấy 0081, S11 lấy 0082"; thực tế `main` chỉ mới có tới `0081`
-   (S11 — `completion_evidence`). Theo quyết định của chủ dự án 2026-09-15: **số cấp theo thứ tự
-   MERGE thật, không đặt trước**. Kiểm lại `git ls-tree origin/main postgres/migrations/` ngay
-   trước khi merge; bị PR song song chiếm thì đổi tên file + sửa mọi chỗ nhắc số + chạy lại
-   `migrate:pg` ×2.
-2. **Biên nhận ghi TRONG cùng transaction với upsert tiến độ** (Q2 của đặc tả). Có test canh thứ
+1. **Số migration `0083` được cấp theo thứ tự MERGE thật — đã đổi một lần giữa chừng.** Đặc tả
+   đoán trước "S05 lấy 0081, S11 lấy 0082, S09 lấy 0083"; thực tế S11 lấy `0081`. Lúc mở PR,
+   `main` mới có tới `0081` nên nhánh này lấy `0082`. Sau đó **PR #939 (S05-1) merge trước và
+   chiếm `0082`** (`0082_personal_learner_intent.sql`), nên nhánh này đổi sang `0083` — đúng
+   quyết định của chủ dự án 2026-09-15: **số cấp theo thứ tự MERGE thật, không đặt trước**, và
+   cổng `scripts/migrations-readme-coverage.test.ts` cấm nhảy số. Cách làm khi bị chiếm:
+   `git ls-tree origin/main postgres/migrations/` lấy số trống thật → `git mv` → sửa MỌI chỗ nhắc
+   số cũ (SQL, `schema.sql`, README, changelog, `PROGRESS.md`, goal, mô tả PR) → **chạy lại
+   `migrate:pg` ×2 trên DB sạch**, vì bằng chứng cũ in tên file cũ nên không còn khớp.
+2. **Số changelog `0334` TRÙNG với đợt khác — cố ý, không phải nhầm.** `0334-2026-09-15-on-dinh-test-python3.md`
+   (PR #937) và đợt của S05-1 cũng mang số này. `scripts/changelog.test.ts` có ca riêng khẳng định
+   **số trùng là hợp lệ** (kèm quy tắc phá hoà: ngày mới hơn đứng trước, rồi tới tên file) — luật
+   "tăng nghiêm ngặt" cũ từng làm PR #703 đỏ BỐN lượt CI vì đúng tình huống hai PR song song này.
+   Tên file khác slug nên git không xung đột; **không đổi số**.
+3. **Biên nhận ghi TRONG cùng transaction với upsert tiến độ** (Q2 của đặc tả). Có test canh thứ
    tự call: chỉ số của câu `insert into public.sync_receipts` phải nhỏ hơn chỉ số `commit`. Không
    có cửa sổ "đã merge nhưng chưa có biên nhận" — đúng chỗ phát hiện F2 đã khoanh.
-3. **`version` tăng TRONG câu SQL** (`version = english.learning_progress.version + 1`), không
+4. **`version` tăng TRONG câu SQL** (`version = english.learning_progress.version + 1`), không
    tính ở tầng ứng dụng: hai tiến trình PM2 song song không bao giờ ghi trùng số.
-4. **Biên nhận KHÔNG lưu `merged`** (để dòng receipt nhỏ). Lần gửi lại chỉ cần `version` +
+5. **Biên nhận KHÔNG lưu `merged`** (để dòng receipt nhỏ). Lần gửi lại chỉ cần `version` +
    `cefrUnlocked`; bản gộp đầy đủ lấy bằng `pullProgress` như thường lệ.
-5. **`attemptId` trùng nhưng khác `endpoint` → 409** (ca hiếm, chỉ do bug client) — đúng bảng ca
+6. **`attemptId` trùng nhưng khác `endpoint` → 409** (ca hiếm, chỉ do bug client) — đúng bảng ca
    lỗi §③.8.
-6. **Dạng body cũ của `/api/programming/progress` vẫn hợp lệ** nhưng nay chạy trong
+7. **Dạng body cũ của `/api/programming/progress` vẫn hợp lệ** nhưng nay chạy trong
    `withTransaction` (trước là 2 `pool.query` rời). Đổi này khiến 2 test cũ phải cập nhật cách
    đếm call (bỏ qua `begin`/`commit`) — không đổi hành vi.
-7. **Test AC-4 bỏ qua khi thiếu `DATABASE_URL`**: job `unit` của CI không có service Postgres
+8. **Test AC-4 bỏ qua khi thiếu `DATABASE_URL`**: job `unit` của CI không có service Postgres
    (đọc `.github/workflows/ci.yml`, không có khối `services`). Bằng chứng chạy thật ở dưới.
 
 ## Bất biến KHÔNG bị phá (kiểm bằng lệnh)
@@ -62,12 +70,13 @@ Migration trên DB sạch (Postgres 16.13 local, `initdb` mới):
 
 ```
 # lần 1
-[migrate:pg] → 0082_sync_version_receipts.sql ... xong
-[migrate:pg] ✅ Hoàn tất — đã áp dụng 85 migration lẻ mới.
+[migrate:pg] → 0082_personal_learner_intent.sql ... xong
+[migrate:pg] → 0083_sync_version_receipts.sql ... xong
+[migrate:pg] ✅ Hoàn tất — đã áp dụng 86 migration lẻ mới.
 # lần 2 (lũy đẳng)
 [migrate:pg] Áp postgres/schema.sql (idempotent) ...
 [migrate:pg] ✅ schema.sql xong.
-[migrate:pg] Đã áp dụng đủ 85 migration lẻ — không có gì mới.
+[migrate:pg] Đã áp dụng đủ 86 migration lẻ — không có gì mới.
 EXIT=0
 ```
 

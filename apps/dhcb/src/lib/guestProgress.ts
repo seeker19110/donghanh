@@ -19,6 +19,14 @@ import { getGuestId, clearGuestId, isGuestId } from '@core/guestId'
 import { pushProgressAsync } from './progressSync'
 import { saveLessonProgress } from './programmingProgress'
 import { LEARNING_SESSION_PREFIX, moveGuestSessionsTo } from './learningSession'
+import {
+  INTENT_KEY_PREFIX,
+  readLocalIntent,
+  writeLocalIntent,
+  clearLocalIntent,
+  fetchServerIntent,
+  saveServerIntent,
+} from './intent/learnerIntentStore'
 
 export { getGuestId, isGuestId }
 
@@ -58,6 +66,10 @@ const ALL_PREFIXES: readonly string[] = [
   'et_chat_',
   'et_writing_',
   'et_speaking_',
+  // Ý định học của khách (slice S05). Đăng ký ở đây để nó vừa được DỌN sau khi hợp nhất, vừa
+  // tính là "khách đã có gì đó" — nếu không, ý định sẽ mất đúng lúc người ta đăng ký tài khoản
+  // (quyết định Q4 của đặc tả S05).
+  INTENT_KEY_PREFIX,
 ]
 
 function readJson<T>(key: string): T | null {
@@ -205,6 +217,8 @@ export async function mergeGuestProgressInto(realUid: string): Promise<boolean> 
     }
   }
 
+  await mergeGuestIntentInto(guestId, realUid)
+
   clearGuestKeys(guestId)
   // Danh tính khách đã hết vai trò — xoá để lần đăng xuất sau bắt đầu bằng khách MỚI, không
   // kéo theo tiến độ vừa gán cho tài khoản này.
@@ -214,4 +228,29 @@ export async function mergeGuestProgressInto(realUid: string): Promise<boolean> 
   // khoản không mất, tiến độ khách được cộng vào.
   await pushProgressAsync(realUid)
   return true
+}
+
+/**
+ * Hợp nhất Ý ĐỊNH HỌC của khách vào tài khoản (slice S05, §③.4).
+ *
+ * Luật: tài khoản CHƯA có ý định ⇒ đẩy bản của khách lên server (giữ `createdAt` của khách);
+ * tài khoản ĐÃ có ⇒ giữ bản server, bỏ bản khách. Bản thắng được ghi lại thành bộ đệm dưới khoá
+ * của tài khoản để màn `/bat-dau` không phải hỏi lại ngay sau khi đăng nhập.
+ *
+ * Lỗi mạng không được chặn phần còn lại của việc hợp nhất — bản local vẫn còn nguyên.
+ */
+export async function mergeGuestIntentInto(guestId: string, realUid: string): Promise<void> {
+  const guestIntent = readLocalIntent(guestId)
+  if (!guestIntent) return
+  const serverIntent = await fetchServerIntent()
+  if (serverIntent) {
+    writeLocalIntent(realUid, serverIntent)
+    clearLocalIntent(guestId)
+    return
+  }
+  // Ghi bộ đệm của tài khoản TRƯỚC khi gọi mạng: đẩy lên hỏng thì ý định vẫn còn trên máy này
+  // (khoá của khách sắp bị `clearGuestKeys` dọn), nên không ai mất câu trả lời vừa cho.
+  writeLocalIntent(realUid, guestIntent)
+  await saveServerIntent({ ...guestIntent, updatedAt: Date.now() })
+  clearLocalIntent(guestId)
 }

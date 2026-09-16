@@ -11,7 +11,7 @@
 // "biến mất" đúng lúc cần nhất; ghi cùng transaction cũng loại bỏ cửa sổ "đã ghi tiến độ mà
 // chưa có biên nhận".
 //
-// Bảng: public.sync_receipts (migration 0082), khoá chính `(user_id, attempt_id)`.
+// Bảng: public.sync_receipts (migration 0083), khoá chính `(user_id, attempt_id)`.
 
 import type { Pool, PoolClient } from 'pg'
 
