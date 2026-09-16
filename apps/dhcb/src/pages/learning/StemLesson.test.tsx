@@ -245,10 +245,17 @@ describe('trang bài học STEM', () => {
     )!
     expect(nutSauReload.getAttribute('aria-pressed')).toBe('true')
     expect(container.textContent).toContain('Đúng rồi.')
-    // Đúng MỘT khoá mới, và là khoá của khung phiên học (AC-17: STEM không sinh tiến độ).
+    // Đúng MỘT khoá NHÁP, và MỞ BÀI KHÔNG SINH BẰNG CHỨNG NÀO (S08 AC-17 + S11 §⑤).
+    //
+    // [S11-3] Trước đây ca này chốt `khoa).toHaveLength(1)`. Từ khi mục lục đọc trạng thái
+    // hoàn thành (AC-15), trang có một lượt GET `/api/learning/evidence` lúc mở — mà tầng
+    // `getAuthHeader` thì đúc danh tính khách (`dhcb_guest_id_v1`) cho mọi request không có
+    // token, kể cả ở test này. Đếm TỔNG số khoá vì thế trở thành phép đo sai chỗ: nó bắt cả
+    // hạ tầng gửi request, không phải điều cần canh. Điều CẦN canh — không có khoá bằng chứng
+    // nào ra đời khi chỉ mở bài — được viết thẳng ra dưới đây.
     const khoa = Object.keys(localStorage)
     expect(khoa.filter((k) => k.startsWith(LEARNING_SESSION_PREFIX))).toHaveLength(1)
-    expect(khoa).toHaveLength(1)
+    expect(khoa.filter((k) => k.startsWith('dhcb_evidence_'))).toHaveLength(0)
   })
 
   it('câu tự luận giữ chữ đã gõ nhưng CHƯA chấm cho tới khi bấm Kiểm tra', async () => {
@@ -355,6 +362,21 @@ describe('trang bài học STEM', () => {
     )
   }
 
+  /**
+   * Số lượt NỘP đã rời trình duyệt.
+   *
+   * Chỉ đếm POST: từ S11-3 trang còn GỌI GET `/api/learning/evidence` để đọc trạng thái hoàn
+   * thành cho mục lục (AC-15) — đọc thì không tạo ra bằng chứng nào. Bất biến của §⑤ là "mở
+   * bài / click / AI KHÔNG SINH evidence", và evidence chỉ sinh ra bởi POST.
+   */
+  function soLuotNop(f: { mock: { calls: unknown[][] } }): number {
+    return f.mock.calls.filter(
+      (c) =>
+        String(c[0]).includes('/api/learning/evidence') &&
+        (c[1] as { method?: string } | undefined)?.method === 'POST',
+    ).length
+  }
+
   /** Giả server: mọi lời gọi `/api/learning/evidence` trả `phanHoi`; các đường khác 404. */
   function gaServer(status: number, body?: unknown) {
     const f = vi.fn(async (url: string) =>
@@ -396,18 +418,14 @@ describe('trang bài học STEM', () => {
       const bai = (await PHYSICS_LOADER.loadLesson('ly10-c2-b10'))!
       await moBai(NGUOI_HOC, duongDanBaiHoc('physics', bai.id, bai.title))
 
-      expect(
-        f.mock.calls.filter((c) => String(c[0]).includes('/api/learning/evidence')),
-      ).toHaveLength(0)
+      expect(soLuotNop(f)).toBe(0)
       expect(nutNop()!.hasAttribute('disabled')).toBe(true)
       expect(container.textContent).toContain(`Trả lời đủ ${bai.checkQuestions.length} câu`)
 
       traLoiHetCauHoi()
       expect(nutNop()!.hasAttribute('disabled')).toBe(false)
-      // Trả lời/chấm tại chỗ vẫn KHÔNG phải là bằng chứng — chưa bấm Nộp thì chưa gửi gì.
-      expect(
-        f.mock.calls.filter((c) => String(c[0]).includes('/api/learning/evidence')),
-      ).toHaveLength(0)
+      // Trả lời/chấm tại chỗ vẫn KHÔNG phải là bằng chứng — chưa bấm Nộp thì chưa nộp gì.
+      expect(soLuotNop(f)).toBe(0)
     } finally {
       vi.unstubAllGlobals()
     }
@@ -483,11 +501,42 @@ describe('trang bài học STEM', () => {
       traLoiHetCauHoi()
       await act(async () => nutNop()!.click())
 
-      expect(
-        f.mock.calls.filter((c) => String(c[0]).includes('/api/learning/evidence')),
-      ).toHaveLength(0)
+      expect(soLuotNop(f)).toBe(0)
       expect(container.textContent).toContain('trên máy này')
       expect(localStorage.getItem('dhcb_evidence_guest_abc-123')).not.toBeNull()
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
+
+  it('[S11-3] màn kết quả dùng chung: chỉ rõ từng câu, lý do sai và lối đi tiếp', async () => {
+    localStorage.clear()
+    __resetSessionMemory()
+    const bai = (await PHYSICS_LOADER.loadLesson('ly10-c2-b10'))!
+    gaServer(200, {
+      ...phanHoi(false, 1, bai.checkQuestions.length),
+      items: bai.checkQuestions.map((_, i) => ({
+        questionIndex: i,
+        correct: i === 0,
+        reason: i === 0 ? 'CORRECT' : 'MISSING_UNIT',
+      })),
+    })
+    try {
+      await moBai(NGUOI_HOC, duongDanBaiHoc('physics', bai.id, bai.title))
+      traLoiHetCauHoi()
+      await act(async () => nutNop()!.click())
+
+      const khung = container.querySelector('section[aria-label="Kết quả lượt nộp"]')!
+      const chu = khung.textContent ?? ''
+      expect(chu).toContain('Chưa đạt')
+      expect(chu).toContain('Cần đúng từ 80% số câu trở lên')
+      // Lý do sai nói bằng tiếng Việt, lấy từ engine chấm — KHÔNG gọi AI.
+      expect(chu).toContain('Thiếu đơn vị')
+      expect(chu).toContain(bai.checkQuestions[1]!.prompt)
+      // "Làm lại" dọn màn kết quả để lượt sau sinh attemptId MỚI.
+      const lamLai = [...khung.querySelectorAll('button')].find((b) => b.textContent === 'Làm lại')!
+      act(() => lamLai.click())
+      expect(container.querySelector('section[aria-label="Kết quả lượt nộp"]')).toBeNull()
     } finally {
       vi.unstubAllGlobals()
     }

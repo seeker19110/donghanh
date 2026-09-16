@@ -492,3 +492,69 @@ for (const theme of THEMES) {
     expect(all).toEqual([])
   })
 }
+
+// ── [S11-3] Màn KẾT QUẢ sau khi nộp bài tự kiểm tra STEM ────────────────────────────
+// Chỉ hiện SAU một lượt POST nên vòng quét theo route ở trên không bao giờ thấy nó. Quét
+// trạng thái "nộp KHÔNG đạt" vì đó là trạng thái vẽ ra NHIỀU thứ nhất: câu tổng kết, dòng
+// ngưỡng, danh sách từng câu kèm lý do sai và lời giảng, nút "Làm lại", liên kết "Bài tiếp theo".
+const BAI_STEM = '/goc-hoc-tap/physics/bai-hoc/ly10-c2-b10--su-roi-tu-do'
+
+/** Server chấm lại và trả "chưa đạt" — chữ trên màn hình là chữ của SERVER (S11 §⑤). */
+async function mockNopChuaDat(page: Page) {
+  await page.route('**/api/learning/evidence*', (route) => {
+    if (route.request().method() !== 'POST') {
+      return route.fulfill({ status: 200, contentType: 'application/json', body: '{"state":[]}' })
+    }
+    return route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        schemaVersion: 1,
+        subjectId: 'physics',
+        contentId: 'ly10-c2-b10',
+        activityKind: 'stem_lesson_check',
+        attemptId: 'attempt-0123456789abcd',
+        clientAt: '2026-09-16T00:00:00.000Z',
+        ownerId: 'u-1',
+        evidenceKind: 'server_graded',
+        correct: 1,
+        total: 4,
+        ratio: 0.25,
+        passed: false,
+        serverAt: '2026-09-16T00:00:01.000Z',
+        items: [
+          { questionIndex: 0, correct: true, reason: 'CORRECT' },
+          { questionIndex: 1, correct: false, reason: 'MISSING_UNIT' },
+          { questionIndex: 2, correct: false, reason: 'WRONG_VALUE' },
+          { questionIndex: 3, correct: false, reason: 'EMPTY' },
+        ],
+      }),
+    })
+  })
+}
+
+/** Trả lời hết mọi câu rồi nộp, chờ màn kết quả hiện ra theo TRẠNG THÁI (không theo thời gian). */
+async function nopBaiStem(page: Page) {
+  const cauHoi = page.locator('h2:has-text("Tự kiểm tra") + ul > li')
+  await expect(cauHoi.first()).toBeVisible()
+  for (let i = 0; i < (await cauHoi.count()); i += 1) {
+    const li = cauHoi.nth(i)
+    const o = li.locator('input[id^="tra-loi-"]')
+    if ((await o.count()) > 0) await o.fill('20 m/s')
+    else await li.getByRole('button').first().click()
+  }
+  await page.getByRole('button', { name: 'Nộp bài tự kiểm tra' }).click()
+  await expect(page.getByRole('region', { name: 'Kết quả lượt nộp' })).toBeVisible()
+}
+
+for (const theme of THEMES) {
+  test(`a11y: màn kết quả bài STEM (đã nộp) theme=${theme} — 0 vi phạm A/AA`, async ({ page }) => {
+    await mockNopChuaDat(page)
+    await mockLogin(page, 'vi', theme)
+    await page.goto(BAI_STEM, { waitUntil: 'domcontentloaded' })
+    await waitForStableDom(page)
+    await nopBaiStem(page)
+    const { all } = await scan(page)
+    expect(all).toEqual([])
+  })
+}

@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { OutlineSchema, type OutlineNode } from '@dhcb/core-contracts/outline'
 import type { StemLessonLike, StemSubjectId } from '@dhcb/core-contracts/stemLesson'
+import type { CompletionState } from '@dhcb/core-contracts/completionEvidence'
 import { MATH_LOADER } from '@dhcb/subject-math/lessonsLoader'
 import { PHYSICS_LOADER } from '@dhcb/subject-physics/lessonsLoader'
 import { CHEM_LOADER } from '@dhcb/subject-chemistry/lessonsLoader'
@@ -108,5 +109,103 @@ describe('buildStemOutline — dữ liệu thật bốn môn', () => {
     for (const node of la(outline.nodes)) {
       expect(node.href).toBe(`/goc-hoc-tap/mathematics/bai-hoc/${node.contentId}`)
     }
+  })
+})
+
+// ——— [S11-3] Lớp TIẾN ĐỘ đắp lên cây từ bằng chứng hoàn thành (AC-15, AC-16) ———
+
+describe('buildStemOutline — tiến độ từ completion_state', () => {
+  const physics = MON[1]!
+  const baiDau = physics.loader.listCoreByGrade('10')[0]!
+  const baiHai = physics.loader.listCoreByGrade('10')[1]!
+
+  const trangThai = (
+    contentId: string,
+    status: 'in_progress' | 'completed',
+    source: 'server' | 'local',
+  ): CompletionState => ({
+    subjectId: 'physics',
+    contentId,
+    status,
+    bestRatio: status === 'completed' ? 1 : 0.5,
+    lastRatio: 0.5,
+    attempts: 1,
+    completedAt: status === 'completed' ? '2026-09-16T00:00:00.000Z' : null,
+    updatedAt: '2026-09-16T00:00:00.000Z',
+    source,
+  })
+
+  const cayVoi = (
+    state: ReadonlyMap<string, CompletionState>,
+    stateStatus: 'loading' | 'ready' | 'error',
+  ) => buildStemOutline('physics', '10', { ...ctxCua(physics), state, stateStatus })!
+
+  const tienDoCua = (outline: ReturnType<typeof cayVoi>, id: string) =>
+    la(outline.nodes).find((n) => n.contentId === id)!
+
+  it('ready + có bằng chứng → "đã xong"/"đang học dở", kèm nguồn bằng chứng', () => {
+    const cay = cayVoi(
+      new Map([
+        [baiDau.id, trangThai(baiDau.id, 'completed', 'server')],
+        [baiHai.id, trangThai(baiHai.id, 'in_progress', 'server')],
+      ]),
+      'ready',
+    )
+    expect(tienDoCua(cay, baiDau.id).progress).toBe('completed')
+    expect(tienDoCua(cay, baiDau.id).evidenceSource).toBe('stem.evidence')
+    expect(tienDoCua(cay, baiHai.id).progress).toBe('in-progress')
+    expect(tienDoCua(cay, baiHai.id).evidenceSource).toBe('stem.evidence')
+    // Cây vẫn hợp lệ theo hợp đồng (evidenceSource là BẮT BUỘC khi khác 'not-started'/'unknown').
+    OutlineSchema.parse(cay)
+  })
+
+  it('khách: nguồn bằng chứng nói rõ kết quả mới nằm trên máy này', () => {
+    const cay = cayVoi(new Map([[baiDau.id, trangThai(baiDau.id, 'completed', 'local')]]), 'ready')
+    expect(tienDoCua(cay, baiDau.id).evidenceSource).toBe('stem.evidence.local')
+  })
+
+  it('ready + KHÔNG có bằng chứng → "chưa học" (AC-16: mở bài không làm bài thành đang học dở)', () => {
+    const cay = cayVoi(new Map(), 'ready')
+    for (const node of la(cay.nodes)) {
+      expect(node.progress).toBe('not-started')
+      expect(node.evidenceSource).toBeUndefined()
+    }
+  })
+
+  it('loading/error → "chưa đo được", KHÔNG phải "chưa học"', () => {
+    // Khác nhau một trời một vực: "chưa học" là một sự thật về người học, còn "chưa đo được"
+    // là một sự thật về HỆ THỐNG. Nói nhầm cái này thành cái kia là nói dối người học.
+    for (const status of ['loading', 'error'] as const) {
+      const cay = cayVoi(
+        new Map([[baiDau.id, trangThai(baiDau.id, 'completed', 'server')]]),
+        status,
+      )
+      for (const node of la(cay.nodes)) expect(node.progress).toBe('unknown')
+    }
+  })
+
+  it('bằng chứng của bài KHÔNG có trong lớp này không rò sang bài khác', () => {
+    const cay = cayVoi(
+      new Map([
+        ['mot-bai-khong-co-that', trangThai('mot-bai-khong-co-that', 'completed', 'server')],
+      ]),
+      'ready',
+    )
+    for (const node of la(cay.nodes)) expect(node.progress).toBe('not-started')
+  })
+
+  it('đắp tiến độ vẫn KHÔNG nạp nội dung bài nào (bất biến AC-6 giữ nguyên)', () => {
+    const spy = vi.spyOn(physics.loader, 'loadLesson')
+    cayVoi(new Map([[baiDau.id, trangThai(baiDau.id, 'completed', 'server')]]), 'ready')
+    expect(spy).not.toHaveBeenCalled()
+    spy.mockRestore()
+  })
+
+  it('nhánh HSG cũng đọc bằng chứng như bài chuẩn', () => {
+    const hsg = physics.loader.listAdvanced()[0]!
+    const cay = cayVoi(new Map([[hsg.id, trangThai(hsg.id, 'completed', 'server')]]), 'ready')
+    expect(tienDoCua(cay, hsg.id).progress).toBe('completed')
+    // Nhãn cấp HSG (`hint`) không bị lớp tiến độ ghi đè mất.
+    expect(tienDoCua(cay, hsg.id).hint).toBeDefined()
   })
 })
