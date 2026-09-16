@@ -1,48 +1,32 @@
 // apps/dhcb/src/components/Home/HomeAiBriefingCard.tsx — Thẻ "Bạn Đồng Hành AI" mở đầu trang chủ:
-// lời chào + bản tin ngắn + ĐÚNG HAI việc nên làm tiếp.
+// lời chào + bản tin ngắn (giọng Companion). Việc học ở TodayCard.
 //
-// P1.1 (2026-09-08): hai việc không còn hard-code thứ tự trong JSX. Planner thuần ở
-// dailyLearningPlan.ts xếp hạng deterministic từ tín hiệu đã có; UI chỉ render kế hoạch.
-// P1.2: đo impression/click theo action kind để biết planner có tạo hành vi thật hay không.
-import { goToSubjects } from '../../lib/subjectsHost'
+// [S06-2, 2026-09-16] Thẻ này KHÔNG còn quyết định việc học. Trước đây nó tự dựng "Kế hoạch hôm
+// nay" từ tín hiệu môn Tiếng Anh, nên người chỉ học Lập trình vẫn bị mời vào `/lo-trinh-hoc` —
+// đúng cái "mặc định tiếng Anh" mà nền tảng cấm. Việc học nay ở `TodayCard` (một CTA, nguồn bằng
+// chứng rõ, mọi môn). Ở đây chỉ còn giọng Companion: lời chào + bản tin.
+// Đặc tả: docs/specs/2026-09-15-learning-ux-s06-hom-nay-hoc-tiep.md §④ AC-14, §7 Q5.
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {
-  ArrowRight,
-  Bot,
-  Brain,
-  Play,
-  Sparkles,
-  CheckCircle2,
-  ChevronRight,
-  Volume2,
-  Clock3,
-  Compass,
-} from 'lucide-react'
+import { Bot, CheckCircle2, ChevronRight, Volume2 } from 'lucide-react'
 import { fetchProactiveBriefing } from '../../lib/proactiveBriefingApi'
 import { speak } from '../../lib/tts'
-import { track } from '../../lib/analytics'
 import type { ProactiveBriefing } from '@dhcb/core-contracts/proactiveBriefing'
-import { buildDailyLearningPlan, type DailyPlanAction } from '../../lib/dailyLearningPlan'
 
 interface Props {
   userName?: string
-  srsDueCount?: number
   dailyLearned?: number
   dailyMax?: number
-  continueLessonLabel?: string
-  continueLevelId?: string
-  onContinueClick?: () => void
-  /** [Slice 04] Xem `DailyPlanInput.hasSubjectProgress`. */
-  hasSubjectProgress?: boolean
+  /**
+   * Dòng "Hôm nay đã học x/y từ" là kế toán của RIÊNG môn Tiếng Anh (`getDailyLearned`), nên chỉ
+   * hiện khi người học thật sự đang học môn đó — hiện với người chỉ học Lập trình chính là mặc
+   * định tiếng Anh trá hình (§7 Q5).
+   */
+  showDailyWords?: boolean
 }
 
 const FALLBACK_SUMMARY =
   'Hôm nay hãy bắt đầu bằng việc quan trọng nhất trước, rồi giữ một bước nhỏ tiếp theo để duy trì nhịp học.'
-const DAILY_PLAN_VERSION = 'p1.1'
-
-const ACTION_BUTTON =
-  'tap-44 flex items-start justify-between gap-2 p-3 rounded-2xl bg-zinc-800/60 hover:bg-zinc-800 text-left transition-colors duration-200 active:scale-[0.98] group'
 
 function timeOfDayGreeting(hour: number): string {
   if (hour >= 5 && hour < 12) return 'Chào buổi sáng'
@@ -50,43 +34,17 @@ function timeOfDayGreeting(hour: number): string {
   return 'Chào buổi tối'
 }
 
-function actionIcon(action: DailyPlanAction) {
-  if (action.kind === 'srs_review') return <Brain className="w-4 h-4" aria-hidden="true" />
-  if (action.kind === 'continue_learning')
-    return <Play className="w-4 h-4 fill-current ml-0.5" aria-hidden="true" />
-  if (action.kind === 'choose_subject') return <Compass className="w-4 h-4" aria-hidden="true" />
-  return <Sparkles className="w-4 h-4" aria-hidden="true" />
-}
-
-function actionTone(action: DailyPlanAction): string {
-  if (action.kind === 'srs_review') return 'bg-sky-500/15 text-sky-400 theme-light:text-sky-900'
-  if (action.kind === 'continue_learning') return 'bg-accent-500/15 text-accent-400'
-  return 'bg-lime-500/15 text-lime-400 theme-light:text-lime-900'
-}
-
 export default function HomeAiBriefingCard({
   userName,
-  srsDueCount = 0,
   dailyLearned = 0,
   dailyMax = 20,
-  continueLessonLabel,
-  continueLevelId,
-  onContinueClick,
-  hasSubjectProgress,
+  showDailyWords = false,
 }: Props) {
   const nav = useNavigate()
   const [briefing, setBriefing] = useState<ProactiveBriefing | null>(null)
   const [loading, setLoading] = useState(true)
 
   const greeting = timeOfDayGreeting(new Date().getHours())
-  const plan = buildDailyLearningPlan({
-    srsDueCount,
-    dailyLearned,
-    dailyMax,
-    continueLessonLabel,
-    hasSubjectProgress,
-  })
-  const planKey = plan.map((action) => action.kind).join(',')
 
   useEffect(() => {
     let isMounted = true
@@ -105,40 +63,8 @@ export default function HomeAiBriefingCard({
     }
   }, [])
 
-  useEffect(() => {
-    // Một impression cho mỗi action thực sự được render. `planKey` chỉ đổi khi tập action đổi,
-    // nên các re-render do briefing/loading không bắn lặp dữ liệu.
-    for (const action of plan) {
-      track('daily_plan_impression', { refCode: action.kind, utmSource: DAILY_PLAN_VERSION })
-    }
-    // `plan` được dựng lại mỗi render; dependency dùng key ổn định để tránh impression trùng.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [planKey])
-
   const summary = briefing?.summary ?? FALLBACK_SUMMARY
   const insight = briefing?.insights?.[0]
-
-  function runAction(action: DailyPlanAction) {
-    track('daily_plan_click', { refCode: action.kind, utmSource: DAILY_PLAN_VERSION })
-    if (action.kind === 'srs_review') {
-      nav(
-        continueLevelId
-          ? `/lo-trinh-hoc/${continueLevelId.toLowerCase()}?tab=srs`
-          : '/lo-trinh-hoc?tab=srs',
-      )
-      return
-    }
-    if (action.kind === 'continue_learning' && onContinueClick) {
-      onContinueClick()
-      return
-    }
-    // [Slice 04] Chưa có môn nào → Góc học tập (đúng host theo ownership), không phải lộ trình CEFR.
-    if (action.kind === 'choose_subject') {
-      goToSubjects(nav)
-      return
-    }
-    nav('/lo-trinh-hoc')
-  }
 
   return (
     <section
@@ -188,51 +114,18 @@ export default function HomeAiBriefingCard({
         )}
       </div>
 
-      <div className="mt-4">
-        <div className="flex items-center justify-between gap-3 mb-2.5">
-          <h3 className="text-sm font-semibold text-white">Kế hoạch hôm nay</h3>
-          <span className="text-xs text-zinc-400">ưu tiên tự động · không dùng AI</span>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          {plan.map((action, index) => (
-            <button key={action.kind} onClick={() => runAction(action)} className={ACTION_BUTTON}>
-              <div className="flex items-start gap-3 min-w-0">
-                <div
-                  className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${actionTone(action)}`}
-                >
-                  {actionIcon(action)}
-                </div>
-                <div className="min-w-0">
-                  <span className="text-xs text-zinc-400 font-medium">
-                    {index === 0 ? 'Ưu tiên 1' : 'Tiếp theo'}
-                  </span>
-                  <p className="text-sm font-semibold text-white truncate mt-0.5">{action.title}</p>
-                  <p className="text-xs text-zinc-400 leading-snug mt-1 line-clamp-2">
-                    {action.reason}
-                  </p>
-                  <span className="mt-1.5 inline-flex items-center gap-1 text-[11px] text-zinc-500">
-                    <Clock3 className="w-3 h-3" aria-hidden="true" />
-                    khoảng {action.estimatedMinutes} phút
-                  </span>
-                </div>
-              </div>
-              <ArrowRight
-                className="w-4 h-4 text-zinc-400 group-hover:text-white group-hover:translate-x-1 transition-transform shrink-0 mt-3"
-                aria-hidden="true"
-              />
-            </button>
-          ))}
-        </div>
-      </div>
-
       <div className="flex items-center justify-between flex-wrap gap-2 mt-4 pt-3 border-t border-zinc-800 text-sm text-zinc-400">
-        <span>
-          Hôm nay đã học{' '}
-          <strong className="text-zinc-200 font-semibold">
-            {dailyLearned}/{dailyMax}
-          </strong>{' '}
-          từ
-        </span>
+        {showDailyWords ? (
+          <span>
+            Hôm nay đã học{' '}
+            <strong className="text-zinc-200 font-semibold">
+              {dailyLearned}/{dailyMax}
+            </strong>{' '}
+            từ
+          </span>
+        ) : (
+          <span>Tiến độ của bạn được lưu theo từng môn</span>
+        )}
         <button
           onClick={() => nav('/tien-do')}
           className="tap-44-y text-sm text-accent-400 theme-light:text-accent-800 hover:text-accent-300 font-medium flex items-center gap-1 transition"

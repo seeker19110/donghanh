@@ -19,7 +19,7 @@ import { computeLockedMapFromServer, getDoneGrammar } from '../cefrProgress'
 import { getPassedExamLevels } from '../cefrExam'
 import { getSRSStats } from '../srs'
 import { isGuestId } from '@core/guestId'
-import { fetchProgress, type ProgrammingLessonProgress } from '../programmingProgress'
+import { fetchProgressWithStatus, type ProgrammingLessonProgress } from '../programmingProgress'
 import { listResumableSessions, type SessionOwner } from '../learningSession'
 import { getDirection } from '../storage'
 import { englishNext, ENGLISH_SUBJECT_ID } from './englishNext'
@@ -100,12 +100,13 @@ export function useTodayPlan(uid: string): UseTodayPlanResult {
     if (!uid) return
     let alive = true
     const key = `${uid}#${reloadKey}`
-    fetchProgress(uid)
-      .then((rows) => {
-        if (alive) setProgressData({ key, rows, state: 'ready' })
+    fetchProgressWithStatus(uid)
+      .then(({ lessons, fromCache }) => {
+        // Rơi về cache = server không trả lời được. Vẫn dựng kế hoạch từ dữ liệu cục bộ, nhưng
+        // PHẢI nói thật là chưa tải được tiến độ — im lặng hiện số cũ là nói dối người học.
+        if (alive) setProgressData({ key, rows: lessons, state: fromCache ? 'error' : 'ready' })
       })
       .catch(() => {
-        // `fetchProgress` đã tự rơi về cache; tới đây là lỗi thật sự → nói với người dùng.
         if (alive) setProgressData({ key, rows: [], state: 'error' })
       })
     return () => {
@@ -125,6 +126,16 @@ export function useTodayPlan(uid: string): UseTodayPlanResult {
     const examPassed = getPassedExamLevels(uid)
     const lockedMap = computeLockedMapFromServer(uid, [...levels], examPassed)
 
+    // BẰNG CHỨNG TRƯỚC, GỢI Ý SAU (S06-2, bất biến AC-3/AC-8/AC-12c).
+    //
+    // `findNextStep` và `pickNextLesson` luôn trả về "bài đầu tiên" cho người chưa học gì — đó là
+    // đúng khi đang Ở TRONG một môn, nhưng ở Trang chủ nó biến thành "bịa tiến độ": người mới mở
+    // app lần đầu sẽ bị mời học tiếp một bài họ chưa từng mở, và môn nào đứng trước trong thứ tự
+    // phá hoà thì thắng. Vì vậy một môn chỉ được góp tín hiệu khi có dấu vết THẬT của người học:
+    // phiên dở (xử lý riêng bên dưới, luôn được tính) hoặc tiến độ đã ghi. Không có gì → `pick`.
+    const coBangChungAnh = learned.size > 0 || doneGrammar.size > 0 || examPassed.size > 0
+    const coBangChungLapTrinh = progress.length > 0
+
     const english = englishNext({
       levels,
       circleById,
@@ -134,7 +145,9 @@ export function useTodayPlan(uid: string): UseTodayPlanResult {
       isA: getDirection() === 'A',
       srsDue: getSRSStats(uid).due,
     })
-    const programming = programmingNext({ progress })
+    const programming: ReturnType<typeof programmingNext> = coBangChungLapTrinh
+      ? programmingNext({ progress })
+      : {}
 
     const byId = new Map<string, SubjectSignal>()
     function signalOf(subjectId: string): SubjectSignal {
@@ -148,7 +161,7 @@ export function useTodayPlan(uid: string): UseTodayPlanResult {
       return created
     }
 
-    if (english.next) Object.assign(signalOf(ENGLISH_SUBJECT_ID), english)
+    if (coBangChungAnh && english.next) Object.assign(signalOf(ENGLISH_SUBJECT_ID), english)
     if (programming.next || programming.lastEvidenceAt !== undefined) {
       Object.assign(signalOf(PROGRAMMING_SUBJECT_ID), programming)
     }
