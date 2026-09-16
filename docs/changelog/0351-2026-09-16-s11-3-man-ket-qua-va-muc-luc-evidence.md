@@ -36,7 +36,8 @@
 ## Bằng chứng kiểm chứng
 
 - `npm run typecheck` ✅ · `npm run lint` ✅ 0 cảnh báo · `npx prettier --check .` ✅
-- `npm run test:coverage` ✅ — 13.665 test xanh; 94,29 / 90,18 / 94,79 / 94,80 (sàn 93/89/93/93).
+- `npm run test:coverage` ✅ — **13.752 test xanh** (sau khi gộp `main` có #966/#967); 94,29 /
+  90,18 / 94,80 / 94,80 (sàn 93/89/93/93).
   File mới: `stemResultView.ts` 100/94,4/100/100 · `useStemCompletionState.ts` 100/95,5/100/100
   · `stemOutline.ts` 100/90,9/100/100.
 - E2E `stem-evidence.spec.ts` 4/4 ✅ · `outline-stem.spec.ts` 7/7 ✅ (kể cả ca "MỞ BÀI KHÔNG
