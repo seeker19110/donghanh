@@ -935,6 +935,26 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         topics: 'Rotation; expiry; revocation; recovery rate limit; authn vs authz',
       },
       {
+        id: 'p6-u178',
+        title: 'DevOps S2 — delivery policy và change control',
+        topics: 'Approval; change window; rollback; fail closed',
+      },
+      {
+        id: 'p6-u179',
+        title: 'DevOps S2 — incident triage và evidence',
+        topics: 'Bounded signals; severity; owner; remediation',
+      },
+      {
+        id: 'p6-u180',
+        title: 'DevOps S2 — infrastructure plan policy',
+        topics: 'Plan review; drift classification; non-destructive apply deny',
+      },
+      {
+        id: 'p6-u181',
+        title: 'DevOps S2 — IAM và cost guardrail',
+        topics: 'Least privilege; budget threshold; deny unknown policy',
+      },
+      {
         id: 'p6-u166',
         title: 'AI S2 — time split, baseline và leakage',
         topics: 'Past-only split; holdout; leakage fail closed; baseline comparison',

@@ -68,6 +68,10 @@ describe('cầu nối chặng chuyên sâu → unit bài học', () => {
     expect(unitsOfStage('devops-s1')).toEqual(['p6-u154', 'p6-u155', 'p6-u156', 'p6-u157'])
   })
 
+  it('devops-s2 phủ đủ bốn unit policy vận hành thật', () => {
+    expect(unitsOfStage('devops-s2')).toEqual(['p6-u178', 'p6-u179', 'p6-u180', 'p6-u181'])
+  })
+
   it('security-s1 phủ đủ bốn unit policy phòng thủ thật', () => {
     expect(unitsOfStage('security-s1')).toEqual(['p6-u182', 'p6-u183', 'p6-u184', 'p6-u185'])
   })
