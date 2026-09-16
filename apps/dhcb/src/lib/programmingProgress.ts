@@ -74,6 +74,34 @@ export async function saveLessonProgress(
   }
 }
 
-export function isLessonCompleted(lessons: ProgrammingLessonProgress[], lessonId: string): boolean {
+/**
+ * Như `fetchProgress`, nhưng NÓI RÕ lần đọc này có tới được server không.
+ *
+ * Vì sao cần: `fetchProgress` cố tình nuốt lỗi và trả cache — đúng cho danh sách bài (thà
+ * hiện số cũ còn hơn trắng trang). Nhưng mục lục phải phân biệt "chưa học" với "CHƯA ĐO
+ * ĐƯỢC": vẽ một dãy ○ "chưa học" trong khi thật ra vừa mất mạng là nói dối người học. Nơi
+ * gọi lấy `state:'error'` để chuyển mọi lá về `unknown` và hiện dòng "Thử lại".
+ *
+ * Khách vãng lai luôn `ready`: localStorage LÀ nguồn sự thật của họ, không có gì để hỏng.
+ */
+export async function fetchProgressWithState(
+  uid: string,
+): Promise<{ lessons: ProgrammingLessonProgress[]; state: 'ready' | 'error' }> {
+  if (isGuestId(uid)) return { lessons: readCache(uid), state: 'ready' }
+  try {
+    const res = await fetch('/api/programming/progress', { headers: getAuthHeader() })
+    if (!res.ok) return { lessons: readCache(uid), state: 'error' }
+    const body = (await res.json()) as { lessons: ProgrammingLessonProgress[] }
+    writeCache(uid, body.lessons)
+    return { lessons: body.lessons, state: 'ready' }
+  } catch {
+    return { lessons: readCache(uid), state: 'error' }
+  }
+}
+
+export function isLessonCompleted(
+  lessons: readonly ProgrammingLessonProgress[],
+  lessonId: string,
+): boolean {
   return lessons.some((l) => l.lessonId === lessonId && l.status === 'completed')
 }

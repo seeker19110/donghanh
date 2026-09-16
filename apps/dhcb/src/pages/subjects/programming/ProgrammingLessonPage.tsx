@@ -4,7 +4,7 @@
 // Code chạy bằng sandbox Pyodide tự host (lib/pythonRunner) — chấm bằng engine thuần
 // (@dhcb/subject-programming/grading), tiến độ lưu server (lib/programmingProgress).
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate, useParams, useLocation, Navigate } from 'react-router-dom'
+import { useNavigate, useParams, useLocation, Navigate, Link } from 'react-router-dom'
 import {
   BookOpen,
   Play,
@@ -28,8 +28,15 @@ import StepBar, { type LessonStep } from '../../../components/programming/StepBa
 import StepRail from '../../../components/programming/StepRail'
 import { PageShell } from '@core/PageShell'
 import { TwoPane } from '@core/TwoPane'
-import { useIsDesktopViewport } from '../../../lib/useIsDesktopViewport'
-import { duongDanBac, duongDanBaiHoc } from '../../../lib/programmingRoutes'
+import { useIsDesktopViewport, useMediaQuery } from '../../../lib/useIsDesktopViewport'
+import { duongDanBaiHoc, duongDanKhoa } from '../../../lib/programmingRoutes'
+import { maKhoaTuQuery } from '../../../lib/programmingRoutesSpec'
+import { lessonOutlineContext } from '../../../lib/outline/lessonOutlineContext'
+import { useProgrammingOutlineCtx } from '../../../lib/useProgrammingOutlineCtx'
+import { LoiTienDo } from '../../../components/OutlinePane'
+import { useOutlinePane } from '../../../components/useOutlinePane'
+import OutlinePrevNext from '../../../components/OutlinePrevNext'
+import type { ShortCourseId } from '@dhcb/subject-programming/courses/types'
 import LivePreview from '../../../components/programming/LivePreview'
 import PredictStep from '../../../components/programming/PredictStep'
 import ParsonsStep from '../../../components/programming/ParsonsStep'
@@ -44,7 +51,7 @@ import { addLessonCardsToSrs } from '../../../lib/programmingSrs'
 import type { ProgrammingLesson } from '@dhcb/subject-programming/lessonTypes'
 import { useProgrammingLesson } from '../../../lib/useProgrammingLesson'
 import { buildSlugSegment, idFromSlugSegment } from '@core/slug'
-import { getLevelIdOfLesson, getProgrammingLevel } from '@dhcb/subject-programming/curriculum'
+import { getLevelIdOfLesson } from '@dhcb/subject-programming/curriculum'
 import {
   gradeTestCase,
   allTestsPassed,
@@ -74,6 +81,8 @@ export default function ProgrammingLessonPage() {
   const { search } = useLocation()
   const lessonId = lessonSlugParam ? idFromSlugSegment(lessonSlugParam) : undefined
   const trangThai = useProgrammingLesson(lessonId)
+  // Ngữ cảnh khoá ngắn (`?khoa=git`) — mã lạ trả `undefined`, trang lặng lẽ dùng cây bậc.
+  const courseId = maKhoaTuQuery(new URLSearchParams(search))
 
   if (trangThai.status === 'loading') {
     return (
@@ -120,10 +129,16 @@ export default function ProgrammingLessonPage() {
     return <Navigate to={`${duongDanBaiHoc(lesson)}${search}`} replace />
   }
   // key theo id: đổi bài là dựng lại thân trang từ đầu (state bước/code không dính bài cũ).
-  return <LessonBody key={lesson.id} lesson={lesson} />
+  return <LessonBody key={lesson.id} lesson={lesson} courseId={courseId} />
 }
 
-function LessonBody({ lesson }: { lesson: ProgrammingLesson }) {
+function LessonBody({
+  lesson,
+  courseId,
+}: {
+  lesson: ProgrammingLesson
+  courseId: ShortCourseId | undefined
+}) {
   const nav = useNavigate()
   const { user } = useAuth()
 
@@ -202,279 +217,341 @@ function LessonBody({ lesson }: { lesson: ProgrammingLesson }) {
   const current = STEPS[step]!
   const isDesktop = useIsDesktopViewport()
   const levelId = getLevelIdOfLesson(lesson.id)
-  const backTo = levelId ? `/lap-trinh/${levelId}` : '/lap-trinh'
-  // Đốt cha ĐỘNG cho breadcrumb: bậc học chứa bài này (cây route tĩnh chỉ tới "Lập trình").
-  // Dựng URL qua `duongDanBac` để có đúng dạng `<mã>--<tiêu đề>` như mọi nơi khác.
-  const level = levelId ? getProgrammingLevel(levelId) : undefined
-  const crumbs = level ? [{ label: level.name, to: duongDanBac(level) }] : []
+
+  // --- Mục lục môn/khoá (S07-2) ---------------------------------------------------------
+  // Bốn thứ phải khớp nhau (cây · breadcrumb · nút quay lại · bài trước/sau) nên chúng được
+  // quyết CÙNG MỘT CHỖ, ở hàm thuần `lessonOutlineContext` — xem chú thích tại file đó.
+  // NGƯỠNG RIÊNG 1440px cho cột mục lục ở TRANG BÀI (các trang khác vẫn là 1024px).
+  //
+  // Trang này đã có một cột phụ — thanh bước bài học. Thêm cột mục lục nữa là BA cột cạnh
+  // sidebar, và ở 1280px cột giữa tụt xuống ~380px: đo được bằng cổng a11y, ô soạn code
+  // (CodeMirror) sinh thanh cuộn ngang và rớt `scrollable-region-focusable` ở cả 5 theme.
+  // Dưới 1440px, mục lục vẫn tới được đầy đủ qua nút "Mục lục môn học" + panel — không mất
+  // tính năng, chỉ đổi cách mở. Đây là ngoại lệ có chủ đích so với AC-10 (ghi ở changelog).
+  const coCotMucLuc = useMediaQuery('(min-width: 1440px)')
+  const outlineCtx = useProgrammingOutlineCtx()
+  const nguCanh = lessonOutlineContext(lesson.id, courseId, outlineCtx)
+  const { outline, course: courseChuaBai, backTo, crumbs, khoaChuaBai, tenMucLuc } = nguCanh
+  const { rail, trigger, sheet } = useOutlinePane({
+    outline,
+    activeContentId: lesson.id,
+    title: tenMucLuc,
+    storageKey: nguCanh.storageKey,
+    isDesktop: coCotMucLuc,
+    ...(outlineCtx.progressState === 'error'
+      ? { footer: <LoiTienDo onRetry={outlineCtx.reload} /> }
+      : {}),
+  })
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
       {/* Quay lại ĐÚNG bậc của bài đang học (PR-UX1). Trước đây ghi cứng '/lap-trinh/p1' nên
           học xong bài P5 bấm quay lại là rơi về bậc P1. Mã bài lạ → lùi về trang môn. */}
       {/* `focus`: trang ngồi học lâu → ẩn bộ chuyển Studio + huy hiệu streak (xem Layout). */}
-      <Layout onBack={() => nav(backTo)} crumbs={crumbs} focus />
+      {/* Đốt CUỐI phải là TÊN BÀI: `Breadcrumb` cố tình cắt bỏ đốt cuối (trang hiện tại thì
+          bấm vào chính mình là vô nghĩa). Trước đợt này trang chỉ truyền đốt "bậc học", nên
+          chính nó bị cắt và breadcrumb dừng ở "Lập trình" — thấy rõ trên ảnh chụp Tầng 8b.
+          Thêm tên bài vào cuối là đốt bậc/khoá hiện ra đúng như đặc tả AC-13. */}
+      <Layout
+        onBack={() => nav(backTo)}
+        crumbs={[...crumbs, { label: lesson.title, to: '' }]}
+        focus
+      />
 
       {/* [2026-09-02, đợt 1 thiết kế lại desktop] Trước đây trang này là MỘT cột `max-w-4xl`
           căn giữa ở mọi bề rộng màn hình: trên màn 1440px học viên thấy một cột chữ hẹp và
           gần một phần ba màn hình bỏ trống bên phải, lại không có gì cho biết mình đang ở
           bước nào trong bài. Nay ở desktop, chỗ trống đó thành cột điều hướng bước (StepRail),
           còn cột chữ giữ đúng khoảng đọc dễ chịu — "chiều sâu thay vì chiều rộng". */}
-      <PageShell width="standard" baseWidth="max-w-4xl">
-        <TwoPane
-          isDesktop={isDesktop}
-          railLabel="Các bước bài học"
-          rail={<StepRail steps={STEPS} current={step} isDone={stepDone} onGo={setStep} />}
-        >
-          <div className="space-y-5">
-            <PageHeader
-              title={lesson.title}
-              subtitle={`Bài học unit ${lesson.unitId.toUpperCase()}`}
-            />
+      <PageShell width={coCotMucLuc && rail ? 'wide' : 'standard'} baseWidth="max-w-4xl">
+        {/* HAI cột phụ ở desktop: mục lục môn/khoá bên TRÁI (danh sách để chọn — mắt đọc từ
+            trái sang), các bước bài học bên PHẢI (ngữ cảnh của việc đang làm). `TwoPane` chỉ
+            mang một cột phụ mỗi lần nên lồng hai lớp, thay vì nới hợp đồng của nó. */}
+        <TwoPane isDesktop={coCotMucLuc} railSide="left" railLabel={tenMucLuc} rail={rail}>
+          <TwoPane
+            isDesktop={isDesktop}
+            railLabel="Các bước bài học"
+            rail={<StepRail steps={STEPS} current={step} isDone={stepDone} onGo={setStep} />}
+          >
+            <div className="space-y-5">
+              <PageHeader
+                title={lesson.title}
+                subtitle={`Bài học unit ${lesson.unitId.toUpperCase()}`}
+              />
 
-            {/* Ngôn ngữ của bài + lối về đúng bậc (PR-UX1). */}
-            <div className="flex items-center gap-2 flex-wrap -mt-3">
-              <LangBadge language={lesson.language} />
-              {levelId && (
-                <button
-                  onClick={() => nav(backTo)}
-                  className="tap-44 text-[11px] font-semibold text-zinc-400 hover:text-white underline underline-offset-2 transition"
-                >
-                  Bậc {levelId.toUpperCase()}
-                </button>
+              {/* Ngôn ngữ của bài + nút mở mục lục (mobile) + lối về đúng bậc/khoá (PR-UX1). */}
+              <div className="flex items-center gap-2 flex-wrap -mt-3">
+                <LangBadge language={lesson.language} />
+                {trigger}
+                {(levelId || courseChuaBai) && (
+                  <button
+                    onClick={() => nav(backTo)}
+                    className="tap-44 text-[11px] font-semibold text-zinc-400 hover:text-white underline underline-offset-2 transition"
+                  >
+                    {courseChuaBai
+                      ? `Khoá ${courseChuaBai.title}`
+                      : `Bậc ${levelId?.toUpperCase()}`}
+                  </button>
+                )}
+              </div>
+
+              {/* Bài chỉ thuộc khoá ngắn, mở không kèm ngữ cảnh khoá → không có cây nào để vẽ.
+                Chỉ đường về khoá chứa nó thay vì để người học đứng giữa trời (§3.4). */}
+              {khoaChuaBai.length > 0 && (
+                <p className="read-body rounded-2xl border border-line-subtle bg-surface-card p-4 text-content-secondary">
+                  Bài này thuộc khoá:{' '}
+                  {khoaChuaBai.map((c, i) => (
+                    <span key={c.id}>
+                      {i > 0 && ', '}
+                      <Link to={duongDanKhoa(c)} className="underline underline-offset-2">
+                        {c.title}
+                      </Link>
+                    </span>
+                  ))}
+                  .
+                </p>
               )}
-            </div>
 
-            {/* Ở desktop thanh bước NGANG được thay hẳn bằng cột dọc bên phải. Dựng đúng một
+              {/* Ở desktop thanh bước NGANG được thay hẳn bằng cột dọc bên phải. Dựng đúng một
                 trong hai (không `lg:hidden`) để DOM không chứa hai danh sách bước trùng nhau —
                 trình đọc màn hình sẽ đọc hai lần và Playwright báo strict-mode violation. */}
-            {!isDesktop && (
-              <StepBar steps={STEPS} current={step} isDone={stepDone} onGo={setStep} />
-            )}
+              {!isDesktop && (
+                <StepBar steps={STEPS} current={step} isDone={stepDone} onGo={setStep} />
+              )}
 
-            {/* ①② Móc thực tế + khái niệm */}
-            {current.key === 'concept' && (
-              <section className="space-y-4">
-                <div className="bg-accent-500/10 border border-accent-500/30 rounded-3xl p-5">
-                  <p className="read-body read-measure text-zinc-100">{lesson.hook}</p>
-                </div>
-                <div className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5">
-                  <LessonProse text={lesson.theory} />
-                </div>
-              </section>
-            )}
+              {/* ①② Móc thực tế + khái niệm */}
+              {current.key === 'concept' && (
+                <section className="space-y-4">
+                  <div className="bg-accent-500/10 border border-accent-500/30 rounded-3xl p-5">
+                    <p className="read-body read-measure text-zinc-100">{lesson.hook}</p>
+                  </div>
+                  <div className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5">
+                    <LessonProse text={lesson.theory} />
+                  </div>
+                </section>
+              )}
 
-            {/* ③ Ví dụ mẫu chạy được */}
-            {current.key === 'example' && (
-              <section className="space-y-3">
-                <p className="read-body read-measure text-zinc-300">
-                  Đọc từng dòng (chú thích tiếng Việt trong code) rồi bấm chạy để thấy kết quả thật:
-                </p>
-                <CodeSurface code={lesson.workedExample.code} />
-                <button
-                  onClick={() => void runExample()}
-                  disabled={exampleState === 'running'}
-                  className="tap-44 inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-accent-500 hover:bg-accent-400 disabled:opacity-50 text-black font-semibold text-sm transition"
-                >
-                  {exampleState === 'running' ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <Play className="w-4 h-4" />
-                  )}
-                  <span>{laBaiDongLenh(lesson.language) ? 'Chạy thử các lệnh' : 'Chạy ví dụ'}</span>
-                </button>
-                <RunOutput state={exampleState} output={exampleOutput} />
-              </section>
-            )}
-
-            {/* ④ Predict — dự đoán TRƯỚC khi chạy */}
-            {current.key === 'predict' && (
-              <PredictStep
-                predict={lesson.predict}
-                choice={predictChoice}
-                revealed={predictRevealed}
-                onChoose={(i) => {
-                  setPredictChoice(i)
-                  setPredictRevealed(true)
-                }}
-              />
-            )}
-
-            {/* ⑤ Parsons — bấm dòng để xếp thứ tự */}
-            {current.key === 'parsons' && (
-              <ParsonsStep
-                prompt={lesson.parsons.prompt}
-                shuffledLines={shuffledLines}
-                arranged={arranged}
-                result={parsonsResult}
-                onArrangedChange={(lines) => {
-                  setArranged(lines)
-                  setParsonsResult(null)
-                }}
-                onCheck={() =>
-                  setParsonsResult(
-                    checkParsonsOrder(arranged, lesson.parsons.lines) ? 'correct' : 'wrong',
-                  )
-                }
-              />
-            )}
-
-            {/* ⑥ Make — tự viết, chấm test-case */}
-            {current.key === 'make' && (
-              <section className="space-y-3">
-                <div className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5">
-                  <p className="read-body read-measure text-zinc-200 whitespace-pre-line">
-                    {lesson.make.prompt}
+              {/* ③ Ví dụ mẫu chạy được */}
+              {current.key === 'example' && (
+                <section className="space-y-3">
+                  <p className="read-body read-measure text-zinc-300">
+                    Đọc từng dòng (chú thích tiếng Việt trong code) rồi bấm chạy để thấy kết quả
+                    thật:
                   </p>
-                </div>
-                <CodeEditor
-                  value={code}
-                  onChange={setCode}
-                  // Bài Git/dòng lệnh: học viên gõ LỆNH chứ không phải code — nhãn phải nói đúng
-                  // thứ đang làm, nhất là với người dùng trình đọc màn hình.
-                  ariaLabel={
-                    laBaiDongLenh(lesson.language)
-                      ? 'Ô gõ lệnh bài tự viết'
-                      : 'Ô soạn code bài tự viết'
-                  }
-                />
-                <LivePreview language={lesson.language} domHtml={lesson.domHtml} code={code} />
-                <div className="flex items-center gap-2 flex-wrap">
+                  <CodeSurface code={lesson.workedExample.code} />
                   <button
-                    onClick={() => void gradeMake()}
-                    disabled={grading || !code.trim()}
+                    onClick={() => void runExample()}
+                    disabled={exampleState === 'running'}
                     className="tap-44 inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-accent-500 hover:bg-accent-400 disabled:opacity-50 text-black font-semibold text-sm transition"
                   >
-                    {grading ? (
+                    {exampleState === 'running' ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
                     ) : (
                       <Play className="w-4 h-4" />
                     )}
-                    <span>{grading ? 'Đang chấm…' : 'Chấm bài'}</span>
+                    <span>
+                      {laBaiDongLenh(lesson.language) ? 'Chạy thử các lệnh' : 'Chạy ví dụ'}
+                    </span>
                   </button>
-                  {hintsShown < lesson.make.hints.length && (
+                  <RunOutput state={exampleState} output={exampleOutput} />
+                </section>
+              )}
+
+              {/* ④ Predict — dự đoán TRƯỚC khi chạy */}
+              {current.key === 'predict' && (
+                <PredictStep
+                  predict={lesson.predict}
+                  choice={predictChoice}
+                  revealed={predictRevealed}
+                  onChoose={(i) => {
+                    setPredictChoice(i)
+                    setPredictRevealed(true)
+                  }}
+                />
+              )}
+
+              {/* ⑤ Parsons — bấm dòng để xếp thứ tự */}
+              {current.key === 'parsons' && (
+                <ParsonsStep
+                  prompt={lesson.parsons.prompt}
+                  shuffledLines={shuffledLines}
+                  arranged={arranged}
+                  result={parsonsResult}
+                  onArrangedChange={(lines) => {
+                    setArranged(lines)
+                    setParsonsResult(null)
+                  }}
+                  onCheck={() =>
+                    setParsonsResult(
+                      checkParsonsOrder(arranged, lesson.parsons.lines) ? 'correct' : 'wrong',
+                    )
+                  }
+                />
+              )}
+
+              {/* ⑥ Make — tự viết, chấm test-case */}
+              {current.key === 'make' && (
+                <section className="space-y-3">
+                  <div className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5">
+                    <p className="read-body read-measure text-zinc-200 whitespace-pre-line">
+                      {lesson.make.prompt}
+                    </p>
+                  </div>
+                  <CodeEditor
+                    value={code}
+                    onChange={setCode}
+                    // Bài Git/dòng lệnh: học viên gõ LỆNH chứ không phải code — nhãn phải nói đúng
+                    // thứ đang làm, nhất là với người dùng trình đọc màn hình.
+                    ariaLabel={
+                      laBaiDongLenh(lesson.language)
+                        ? 'Ô gõ lệnh bài tự viết'
+                        : 'Ô soạn code bài tự viết'
+                    }
+                  />
+                  <LivePreview language={lesson.language} domHtml={lesson.domHtml} code={code} />
+                  <div className="flex items-center gap-2 flex-wrap">
                     <button
-                      onClick={() => setHintsShown(hintsShown + 1)}
-                      className="tap-44 inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 text-zinc-200 font-semibold text-sm transition"
+                      onClick={() => void gradeMake()}
+                      disabled={grading || !code.trim()}
+                      className="tap-44 inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-accent-500 hover:bg-accent-400 disabled:opacity-50 text-black font-semibold text-sm transition"
                     >
-                      <Lightbulb className="w-4 h-4 text-amber-400 theme-light:text-amber-900" />
-                      <span>
-                        Gợi ý ({hintsShown}/{lesson.make.hints.length})
-                      </span>
+                      {grading ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <Play className="w-4 h-4" />
+                      )}
+                      <span>{grading ? 'Đang chấm…' : 'Chấm bài'}</span>
                     </button>
-                  )}
-                  {!sampleViewed && (
-                    <button
-                      onClick={() => {
-                        // "Phao": xem code mẫu — không phạt, chỉ ghi nhận để Companion kèm sát hơn.
-                        setSampleViewed(true)
-                        setCode(lesson.make.sampleSolution)
-                      }}
-                      className="tap-44 inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 text-zinc-300 font-semibold text-sm transition"
-                    >
-                      <Eye className="w-4 h-4" />
-                      <span>Xem code mẫu</span>
-                    </button>
-                  )}
-                </div>
-                {hintsShown > 0 && (
-                  <ul className="space-y-2">
-                    {lesson.make.hints.slice(0, hintsShown).map((hint, i) => (
-                      <li
-                        key={i}
-                        className="flex items-start gap-2 rounded-2xl border border-amber-500/25 bg-amber-500/10 p-3 text-sm text-zinc-100"
+                    {hintsShown < lesson.make.hints.length && (
+                      <button
+                        onClick={() => setHintsShown(hintsShown + 1)}
+                        className="tap-44 inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 text-zinc-200 font-semibold text-sm transition"
                       >
-                        <Lightbulb className="w-4 h-4 shrink-0 mt-0.5 text-amber-400 theme-light:text-amber-900" />
-                        <span>{hint}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                {/* ⑥b AI đồng hành — gợi ý soạn sẵn ở trên vẫn là đường CHÍNH (0đ, tức thì);
+                        <Lightbulb className="w-4 h-4 text-amber-400 theme-light:text-amber-900" />
+                        <span>
+                          Gợi ý ({hintsShown}/{lesson.make.hints.length})
+                        </span>
+                      </button>
+                    )}
+                    {!sampleViewed && (
+                      <button
+                        onClick={() => {
+                          // "Phao": xem code mẫu — không phạt, chỉ ghi nhận để Companion kèm sát hơn.
+                          setSampleViewed(true)
+                          setCode(lesson.make.sampleSolution)
+                        }}
+                        className="tap-44 inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 text-zinc-300 font-semibold text-sm transition"
+                      >
+                        <Eye className="w-4 h-4" />
+                        <span>Xem code mẫu</span>
+                      </button>
+                    )}
+                  </div>
+                  {hintsShown > 0 && (
+                    <ul className="space-y-2">
+                      {lesson.make.hints.slice(0, hintsShown).map((hint, i) => (
+                        <li
+                          key={i}
+                          className="flex items-start gap-2 rounded-2xl border border-amber-500/25 bg-amber-500/10 p-3 text-sm text-zinc-100"
+                        >
+                          <Lightbulb className="w-4 h-4 shrink-0 mt-0.5 text-amber-400 theme-light:text-amber-900" />
+                          <span>{hint}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {/* ⑥b AI đồng hành — gợi ý soạn sẵn ở trên vẫn là đường CHÍNH (0đ, tức thì);
                 AI chỉ dùng khi bí thật, và mỗi lượt hỏi tiêu 1 lượt AI trong ngày. */}
-                {/* `key` theo mã bài: trang này là CÙNG một instance khi `:lessonId` đổi (App.tsx
+                  {/* `key` theo mã bài: trang này là CÙNG một instance khi `:lessonId` đổi (App.tsx
                 render `<ProgrammingLessonPage />` không key), nên thiếu key thì panel mang
                 nguyên trạng thái hỏi AI của bài trước sang bài sau. Không đặt key theo
                 `code`/`results` — sửa code rồi chạy lại vẫn là bài đó, phải giữ bậc gợi ý. */}
-                <AiHelpPanel
-                  key={lesson.id}
-                  lessonId={lesson.id}
-                  code={code}
-                  results={results}
-                  passed={passed}
-                />
-                {results && <TestResultList results={results} />}
-                {passed && (
-                  <div className="rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-4 text-sm text-zinc-100 flex items-start gap-2">
-                    <Trophy className="w-5 h-5 text-emerald-400 theme-light:text-emerald-900 shrink-0" />
-                    <p>
-                      <strong>Đạt toàn bộ test!</strong> Bài được ghi nhận hoàn thành
-                      {sampleViewed ? ' (bạn có xem code mẫu — thử tự viết lại lần nữa nhé)' : ''}.
-                      Sang bước "Về nhà" để chốt bài.
-                    </p>
-                  </div>
-                )}
-              </section>
-            )}
-
-            {/* ⑦ Ứng dụng về nhà */}
-            {current.key === 'done' && (
-              <section className="space-y-4">
-                <div className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5">
-                  <h2 className="text-sm font-bold text-white mb-2 flex items-center gap-2">
-                    <Home className="w-4 h-4 text-accent-400" />
-                    <span>Ứng dụng vào đời thật</span>
-                  </h2>
-                  <p className="read-body read-measure text-zinc-200">{lesson.homework}</p>
-                </div>
-                <div
-                  className={`rounded-3xl border p-5 text-sm ${
-                    passed
-                      ? 'border-emerald-500/40 bg-emerald-500/10 text-zinc-100'
-                      : 'border-zinc-800 bg-zinc-900/80 text-zinc-300'
-                  }`}
-                >
-                  {passed
-                    ? 'Bài học đã hoàn thành — tiến độ đã được lưu. 🎉'
-                    : 'Bạn chưa đạt hết test ở bước "Tự viết" — quay lại chấm bài để hoàn thành bài học.'}
-                </div>
-                <button
-                  onClick={() => nav(backTo)}
-                  className="tap-44 inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition"
-                >
-                  <span>{levelId ? `Về trang bậc ${levelId.toUpperCase()}` : 'Về trang môn'}</span>
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </section>
-            )}
-
-            {/* Điều hướng trước / sau */}
-            <div className="flex items-center justify-between pt-2">
-              <button
-                onClick={() => setStep(Math.max(0, step - 1))}
-                disabled={step === 0}
-                className="tap-44 inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-zinc-900 border border-zinc-800 disabled:opacity-40 text-zinc-200 font-semibold text-sm transition"
-              >
-                <ChevronLeft className="w-4 h-4" />
-                <span>Bước trước</span>
-              </button>
-              {step < STEPS.length - 1 && (
-                <button
-                  onClick={() => setStep(step + 1)}
-                  className={`tap-44 inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl font-semibold text-sm transition ${
-                    stepDone(step)
-                      ? 'bg-accent-500 hover:bg-accent-400 text-black'
-                      : 'bg-zinc-900 border border-zinc-800 text-zinc-200'
-                  }`}
-                >
-                  <span>Bước tiếp</span>
-                  <ChevronRight className="w-4 h-4" />
-                </button>
+                  <AiHelpPanel
+                    key={lesson.id}
+                    lessonId={lesson.id}
+                    code={code}
+                    results={results}
+                    passed={passed}
+                  />
+                  {results && <TestResultList results={results} />}
+                  {passed && (
+                    <div className="rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-4 text-sm text-zinc-100 flex items-start gap-2">
+                      <Trophy className="w-5 h-5 text-emerald-400 theme-light:text-emerald-900 shrink-0" />
+                      <p>
+                        <strong>Đạt toàn bộ test!</strong> Bài được ghi nhận hoàn thành
+                        {sampleViewed ? ' (bạn có xem code mẫu — thử tự viết lại lần nữa nhé)' : ''}
+                        . Sang bước "Về nhà" để chốt bài.
+                      </p>
+                    </div>
+                  )}
+                </section>
               )}
+
+              {/* ⑦ Ứng dụng về nhà */}
+              {current.key === 'done' && (
+                <section className="space-y-4">
+                  <div className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5">
+                    <h2 className="text-sm font-bold text-white mb-2 flex items-center gap-2">
+                      <Home className="w-4 h-4 text-accent-400" />
+                      <span>Ứng dụng vào đời thật</span>
+                    </h2>
+                    <p className="read-body read-measure text-zinc-200">{lesson.homework}</p>
+                  </div>
+                  <div
+                    className={`rounded-3xl border p-5 text-sm ${
+                      passed
+                        ? 'border-emerald-500/40 bg-emerald-500/10 text-zinc-100'
+                        : 'border-zinc-800 bg-zinc-900/80 text-zinc-300'
+                    }`}
+                  >
+                    {passed
+                      ? 'Bài học đã hoàn thành — tiến độ đã được lưu. 🎉'
+                      : 'Bạn chưa đạt hết test ở bước "Tự viết" — quay lại chấm bài để hoàn thành bài học.'}
+                  </div>
+                  <button
+                    onClick={() => nav(backTo)}
+                    className="tap-44 inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition"
+                  >
+                    <span>
+                      {levelId ? `Về trang bậc ${levelId.toUpperCase()}` : 'Về trang môn'}
+                    </span>
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </section>
+              )}
+
+              {/* Điều hướng trước / sau */}
+              <div className="flex items-center justify-between pt-2">
+                <button
+                  onClick={() => setStep(Math.max(0, step - 1))}
+                  disabled={step === 0}
+                  className="tap-44 inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-zinc-900 border border-zinc-800 disabled:opacity-40 text-zinc-200 font-semibold text-sm transition"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  <span>Bước trước</span>
+                </button>
+                {step < STEPS.length - 1 && (
+                  <button
+                    onClick={() => setStep(step + 1)}
+                    className={`tap-44 inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl font-semibold text-sm transition ${
+                      stepDone(step)
+                        ? 'bg-accent-500 hover:bg-accent-400 text-black'
+                        : 'bg-zinc-900 border border-zinc-800 text-zinc-200'
+                    }`}
+                  >
+                    <span>Bước tiếp</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+
+              {/* Bài trước / bài sau theo ĐÚNG cây đang mở (giữ `?khoa=` nếu đang học theo khoá). */}
+              <OutlinePrevNext outline={outline} contentId={lesson.id} />
             </div>
-          </div>
+          </TwoPane>
         </TwoPane>
       </PageShell>
+      {sheet}
     </div>
   )
 }
