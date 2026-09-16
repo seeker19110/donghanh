@@ -86,6 +86,7 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   'mathforcode-s1': ['p6-u134', 'p6-u135', 'p6-u136', 'p6-u137'],
   'mathforcode-s2': ['p6-u138', 'p6-u139', 'p6-u140', 'p6-u141'],
   'algo-s1': ['p6-u142', 'p6-u143', 'p6-u144', 'p6-u145'],
+  'systems-s1': ['p6-u146', 'p6-u147', 'p6-u148', 'p6-u149'],
 }
 
 /** Unit của một chặng; mảng RỖNG nghĩa là chặng chưa có bài (giao diện phải nói rõ điều đó). */
