@@ -80,6 +80,10 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // nên chưa cổng CI nào chứng minh bộ mô phỏng chấm đúng — nguyên lý dạy là nguyên lý chung
   // cho cả Android lẫn iOS. Đặc tả: `docs/specs/2026-08-31-bai-hoc-chang-s1-huong-di-dong.md`.
   'mobile-s1': ['p6-u131', 'p6-u132', 'p6-u133'],
+  // Hướng Toán học cho Lập trình, chặng S1 — bốn module tách thành bốn unit để mỗi cơ chế
+  // có ca biên và bằng chứng chạy thật riêng. Đặc tả:
+  // `docs/specs/2026-09-16-mathforcode-s1-bai-hoc-that.md`.
+  'mathforcode-s1': ['p6-u134', 'p6-u135', 'p6-u136', 'p6-u137'],
 }
 
 /** Unit của một chặng; mảng RỖNG nghĩa là chặng chưa có bài (giao diện phải nói rõ điều đó). */

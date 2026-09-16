@@ -7,7 +7,7 @@
 //      đang đăng nhập (không bao giờ nhận userId từ query).
 //
 // Đặc tả: docs/specs/2026-09-15-learning-ux-s11-completion-evidence.md §③.4
-// Bảng: platform.completion_evidence + platform.completion_state (migration 0082).
+// Bảng: platform.completion_evidence + platform.completion_state (migration 0081).
 //
 // NGUYÊN TẮC: client KHÔNG gửi được đúng/sai/điểm (schema `.strict()` không có field đó), và
 // server không tin gì ngoài `answers` thô + registry bài học trong mã nguồn.

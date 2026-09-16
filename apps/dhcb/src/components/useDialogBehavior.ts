@@ -64,7 +64,12 @@ export function useDialogBehavior(onClose: () => void, open = true): UseDialogBe
     // hộp thoại (nó có tabIndex={-1}) để trình đọc màn hình đọc tiêu đề.
     const panel = panelRef.current
     const first = panel?.querySelector<HTMLElement>(FOCUSABLE)
-    ;(first ?? panel)?.focus()
+    // `preventScroll`: hộp thoại vừa mở đã ở đúng đầu nội dung, nhưng trình duyệt vẫn "cuộn
+    // phần tử vừa nhận tiêu điểm vào tầm nhìn" — với hộp thoại có HEADER DÍNH thì cú cuộn đó
+    // đẩy chính phần tử đầu tiên xuống dưới header và nó bị che mất một phần. Thấy được ở
+    // panel "Mục lục" trên mobile (ảnh chụp Tầng 8b, S07-2). Tiêu điểm VẪN vào đúng chỗ —
+    // chỉ bỏ cú cuộn thừa, nên 6 hành vi APG không đổi.
+    ;(first ?? panel)?.focus({ preventScroll: true })
 
     // Khoá cuộn nền: nếu không, cuộn chuột trên hộp thoại sẽ kéo trang phía sau.
     const prevOverflow = document.body.style.overflow

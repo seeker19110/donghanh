@@ -135,6 +135,10 @@ import { P6U128_LESSONS } from './lessons/p6u128.js'
 import { P6U131_LESSONS } from './lessons/p6u131.js'
 import { P6U132_LESSONS } from './lessons/p6u132.js'
 import { P6U133_LESSONS } from './lessons/p6u133.js'
+import { P6U134_LESSONS } from './lessons/p6u134.js'
+import { P6U135_LESSONS } from './lessons/p6u135.js'
+import { P6U136_LESSONS } from './lessons/p6u136.js'
+import { P6U137_LESSONS } from './lessons/p6u137.js'
 import { GIT_U2_LESSONS } from './lessons/gitu2.js'
 import { GIT_U3_LESSONS } from './lessons/gitu3.js'
 import { GIT_U4_LESSONS } from './lessons/gitu4.js'
@@ -296,6 +300,10 @@ export const PROGRAMMING_LESSONS: ProgrammingLesson[] = [
   ...P6U131_LESSONS,
   ...P6U132_LESSONS,
   ...P6U133_LESSONS,
+  ...P6U134_LESSONS,
+  ...P6U135_LESSONS,
+  ...P6U136_LESSONS,
+  ...P6U137_LESSONS,
   ...GIT_U2_LESSONS,
   ...GIT_U3_LESSONS,
   ...GIT_U4_LESSONS,

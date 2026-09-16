@@ -5,45 +5,46 @@
 // liệt kê bài trực tiếp qua `chapter.lessonIds` (tham chiếu — có thể là bài thuộc xương sống
 // P1–P6, không nhất thiết bài "của riêng" khoá). Cố ý theo đúng bố cục ProgrammingLevelPage để
 // người dùng thấy quen tay: tiêu đề + can-do → dải tiến độ → danh sách chương/bài.
-import { useEffect, useState } from 'react'
 import { useNavigate, useParams, Navigate } from 'react-router-dom'
 import { BookOpen, CheckCircle2, FlaskConical, PackageCheck, Play } from 'lucide-react'
 import Layout from '../../../components/Layout'
 import PageHeader from '../../../components/PageHeader'
 import LangBadge from '../../../components/programming/LangBadge'
-import { useAuth } from '../../../context/useAuth'
-import {
-  fetchProgress,
-  isLessonCompleted,
-  type ProgrammingLessonProgress,
-} from '../../../lib/programmingProgress'
+import { isLessonCompleted } from '../../../lib/programmingProgress'
 import { getShortCourse } from '@dhcb/subject-programming/courses/registry'
 import { PageShell } from '@core/PageShell'
 import { TwoPane } from '@core/TwoPane'
-import { TocRail, type TocItem } from '@core/TocRail'
-import { useActiveSection } from '@core/useActiveSection'
 import { useIsDesktopViewport } from '../../../lib/useIsDesktopViewport'
 import { getLessonSummary } from '@dhcb/subject-programming/lessonsLoader'
 import { buildSlugSegment, idFromSlugSegment } from '@core/slug'
 import { duongDanBaiHoc } from '../../../lib/programmingRoutes'
+import { buildCourseOutline } from '../../../lib/outline/programmingOutline'
+import { useProgrammingOutlineCtx } from '../../../lib/useProgrammingOutlineCtx'
+import { LoiTienDo } from '../../../components/OutlinePane'
+import { useOutlinePane } from '../../../components/useOutlinePane'
+
+const TEN_MUC_LUC = 'Mục lục khoá học'
 
 export default function ProgrammingCoursePage() {
   const nav = useNavigate()
-  const { user } = useAuth()
   // URL là `<mã khoá>--<tiêu đề đã slug hoá>`; mã khoá đứng đầu nên link cũ (chỉ mã) vẫn tra
   // ra đúng khoá, rồi được chuyển hướng về URL chuẩn ngay bên dưới.
   const { courseId: courseSlugParam } = useParams<{ courseId: string }>()
   const course = courseSlugParam ? getShortCourse(idFromSlugSegment(courseSlugParam)) : undefined
-  const [progress, setProgress] = useState<ProgrammingLessonProgress[]>([])
   const isDesktop = useIsDesktopViewport()
-  // Hook phải chạy TRƯỚC mọi nhánh return sớm (luật hook của React), nên danh sách mã chương
-  // tính ngay tại đây — mã khoá lạ thì là mảng rỗng, hook vẫn được gọi đúng số lần.
-  const activeChapter = useActiveSection(course?.chapters.map((ch) => `chuong-${ch.id}`) ?? [])
-
-  useEffect(() => {
-    if (!user) return
-    void fetchProgress(user.id).then(setProgress)
-  }, [user])
+  // Hook phải chạy TRƯỚC mọi nhánh return sớm (luật hook của React).
+  const outlineCtx = useProgrammingOutlineCtx()
+  const progress = outlineCtx.progress
+  const outline = course ? buildCourseOutline(course.id, outlineCtx) : undefined
+  const { rail, trigger, sheet } = useOutlinePane({
+    outline,
+    title: TEN_MUC_LUC,
+    storageKey: `khoa:${course?.id ?? 'none'}`,
+    isDesktop,
+    ...(outlineCtx.progressState === 'error'
+      ? { footer: <LoiTienDo onRetry={outlineCtx.reload} /> }
+      : {}),
+  })
 
   // Mã khoá lạ → về trang tổng quan môn, không render trang rỗng.
   if (!course) return <Navigate to="/lap-trinh" replace />
@@ -61,18 +62,6 @@ export default function ProgrammingCoursePage() {
   const lessonCount = allLessons.length
   const completedCount = allLessons.filter((l) => isLessonCompleted(progress, l.id)).length
 
-  /* Mục lục chương — khoá dài nhất hiện có 4 chương/17 bài, cuộn hết mới thấy chương cuối. */
-  const tocItems: TocItem[] = course.chapters.map((ch) => {
-    const lessons = ch.lessonIds.map((id) => getLessonSummary(id)).filter((l) => l !== undefined)
-    return {
-      id: `chuong-${ch.id}`,
-      label: ch.title,
-      // Số bài, KHÔNG phải "C1/C2" — số thứ tự đã nằm ở cột trái của mục lục rồi.
-      hint: `${lessons.length} bài`,
-      done: lessons.length > 0 && lessons.every((l) => isLessonCompleted(progress, l.id)),
-    }
-  })
-
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
       <Layout onBack={() => nav('/lap-trinh')} />
@@ -80,15 +69,13 @@ export default function ProgrammingCoursePage() {
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl">
         {/* Mục lục đứng BÊN TRÁI: nó là danh sách để CHỌN, mà mắt đọc từ trái sang — thứ
-            "chọn trước rồi mới xem" phải đứng trước thứ được chọn (xem TwoPane.tsx). */}
-        <TwoPane
-          isDesktop={isDesktop}
-          railSide="left"
-          railLabel="Mục lục khoá học"
-          rail={<TocRail items={tocItems} activeId={activeChapter} title="Mục lục chương" />}
-        >
+            "chọn trước rồi mới xem" phải đứng trước thứ được chọn (xem TwoPane.tsx).
+            [S07-2] Mục lục NEO trong trang (`TocRail`) đổi thành CÂY bài học: từ đây bấm
+            thẳng vào một bài, không phải cuộn xuống rồi mới bấm. */}
+        <TwoPane isDesktop={isDesktop} railSide="left" railLabel={TEN_MUC_LUC} rail={rail}>
           <div className="space-y-6">
             <PageHeader title={course.title} subtitle={course.canDo} />
+            {trigger}
 
             <section className="bg-zinc-900/80 border border-accent-500/30 rounded-3xl p-5 space-y-2 shadow-sm">
               <p className="text-xs text-zinc-300 leading-relaxed">
@@ -270,6 +257,7 @@ export default function ProgrammingCoursePage() {
           </div>
         </TwoPane>
       </PageShell>
+      {sheet}
     </div>
   )
 }

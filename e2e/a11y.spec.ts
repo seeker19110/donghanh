@@ -109,6 +109,9 @@ const AUTHED_ROUTES = [
   '/lap-trinh/huong/architecture--kien-truc-he-thong-dac-ta-cho-ai-thi-hanh', // hướng kiến trúc — trang chi tiết dài nhất, nhiều danh sách chữ
   '/lap-trinh/huong/web--lap-trinh-web/web-s2--full-stack-co-backend-cua-minh', // trang CHẶNG: mục tiêu, tự kiểm, rubric, đặc tả 6 ô
   '/lap-trinh/khoa-hoc/git--git-github-thuc-hanh', // khoá ngắn Git & GitHub (PR 3/4 khoá Git) — cắt ngang bậc
+  // [S07-2] Trang bài mở TRONG NGỮ CẢNH KHOÁ: mục lục đổi sang cây khoá, breadcrumb thêm một
+  // đốt. Khác cây bậc đủ nhiều để phải quét riêng — cùng một bài nhưng khác hẳn thứ được vẽ.
+  '/lap-trinh/bai-hoc/p3-u10-l1?khoa=git',
   // [2026-08-27] MỞ CỔNG SANG 4 TRỤ CÒN LẠI. Trước đây danh sách này chỉ có trụ Learning
   // (Tiếng Anh + Lập trình), nên Career/Work/Startup/Life/Companion và hub Môn học chưa
   // từng bị cổng a11y nào soi — dù CLAUDE.md mục 4.5 ghi cổng là "sàn cứng, dung sai 0,

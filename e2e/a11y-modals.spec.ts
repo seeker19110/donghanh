@@ -109,3 +109,28 @@ for (const pg of PAGES) {
     })
   }
 }
+
+// ── PANEL "MỤC LỤC" TRÊN MOBILE (S07-2) ────────────────────────────────────────
+//
+// Đây là hộp thoại dáng SHEET đầu tiên của dự án (neo đáy, cao 85dvh, cuộn trong panel) và là
+// hộp thoại đầu tiên render qua `createPortal`. Hai điều đó đủ mới để phải có cổng riêng —
+// nhất là vì nội dung của nó là một danh sách dài liên kết, đúng loại nội dung dễ rớt
+// `target-size` và tương phản.
+for (const theme of THEMES) {
+  test(`a11y hộp thoại: panel Mục lục @390 theme=${theme} — 0 vi phạm A/AA`, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await mockLogin(page, 'vi', theme)
+    await page.goto('/goc-hoc-tap/physics/bai-hoc/ly10-c2-b10--su-roi-tu-do', {
+      waitUntil: 'domcontentloaded',
+    })
+    await page.getByRole('button', { name: 'Mục lục môn học' }).click()
+
+    const dialog = page.getByRole('dialog')
+    await expect(dialog).toBeVisible()
+    await expect(dialog).toHaveAccessibleName('Mục lục môn học')
+    expect(await scan(page)).toEqual([])
+
+    await page.keyboard.press('Escape')
+    await expect(dialog).toBeHidden()
+  })
+}

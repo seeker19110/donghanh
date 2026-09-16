@@ -627,5 +627,9 @@ test('quay lại từ bài học về ĐÚNG bậc của bài, không phải P1'
   await expect(page.getByText('· mô phỏng').first()).toBeVisible()
 
   await page.getByRole('button', { name: 'Trang chủ' }).click()
-  await expect(page).toHaveURL(/\/lap-trinh\/p3$/)
+  // [S07-2] Lối về nay dựng bằng `duongDanBac` nên là URL CHUẨN `<mã>--<tên đã slug hoá>`,
+  // thay cho chuỗi ghép tay `/lap-trinh/p3` (URL cũ vẫn vào được, nhưng bị chuyển hướng ngay
+  // — dẫn thẳng tới URL chuẩn thì bớt một lượt điều hướng). Điều cần canh vẫn y nguyên: đúng
+  // BẬC P3, không rơi về P1.
+  await expect(page).toHaveURL(/\/lap-trinh\/p3(--[a-z0-9-]+)?$/)
 })

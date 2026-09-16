@@ -66,3 +66,27 @@ export function prevNext(
   const next = leaves.slice(index + 1).find((n) => n.availability === 'available')
   return { ...(prev ? { prev } : {}), ...(next ? { next } : {}) }
 }
+
+/**
+ * Mã các nút CHA của lá đang mở (chương, mạch, gốc) — tập "phải mở sẵn" của mục lục.
+ *
+ * Không có lá nào đang mở (trang bậc/khoá/danh sách) thì mở sẵn chương ĐẦU TIÊN, để cây
+ * không hiện ra như một danh sách câm chỉ toàn tiêu đề thu gọn.
+ */
+export function ancestorChapterIds(
+  outline: Outline,
+  activeContentId: string | undefined,
+): Set<string> {
+  if (activeContentId === undefined) {
+    const first = outline.nodes.find((n) => n.kind === 'chapter')
+    return new Set(first ? [first.nodeId] : [])
+  }
+  const leaf = findLeafByContentId(outline, activeContentId)
+  if (!leaf) return new Set()
+  // Bỏ chính lá ra, chỉ giữ các tầng cha.
+  return new Set(
+    pathTo(outline, leaf.nodeId)
+      .slice(0, -1)
+      .map((n) => n.nodeId),
+  )
+}
