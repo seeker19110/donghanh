@@ -52,9 +52,10 @@
 | M1/S1  | Đặc tả chương trình, coverage map và kế hoạch phát hành      | —          | `2026-09-15-khoa-kien-truc-su-phan-mem-ai.md` | —     | #938 | DONE      | Spec đã duyệt và merge    |
 | M1/S2  | Manifest mới + chặng xương sống P1–P4 hiện đúng trong UI     | S1 duyệt   | cùng spec                                     | —     | #942 | DONE      | CI xanh, merge `9491afb7` |
 | M2/S1a | `mathforcode-s1`: số, logic, modulo, Big-O có bài thật       | M1         | `2026-09-16-mathforcode-s1-bai-hoc-that.md`   | —     | #945 | DONE      | CI xanh, merge `598df501` |
-| M2/S1b | `mathforcode-s2`: tổ hợp, xác suất, thống kê có bài thật     | S1a        | `2026-09-16-mathforcode-s2-bai-hoc-that.md`   | —     | —    | VERIFYING | 8 bài đang qua full gates |
+| M2/S1b | `mathforcode-s2`: tổ hợp, xác suất, thống kê có bài thật     | S1a        | `2026-09-16-mathforcode-s2-bai-hoc-that.md`   | —     | #950 | DONE      | CI xanh, merge `0e8df605` |
 | M2/S1f | `mathforcode-s3..s4`: tuyến tính, giải tích có bài thật      | S1b        | viết trước slice                              | —     | —    | BACKLOG   |                           |
-| M2/S1c | `algo-s1..s2`: DSA và complexity có bài thật                 | S1a        | viết trước slice                              | —     | —    | BACKLOG   |                           |
+| M2/S1c | `algo-s1`: nền tảng DSA và complexity có bài thật            | S1a        | `2026-09-16-algo-s1-bai-hoc-that.md`          | —     | —    | VERIFYING | 8 bài đang qua full gates |
+| M2/S1g | `algo-s2`: đệ quy, cây, đồ thị và chiến lược có bài thật     | S1c        | viết trước slice                              | —     | —    | BACKLOG   |                           |
 | M2/S1d | `systems-s1..s2`: OS, concurrency, network có bài thật       | S1c        | viết trước slice                              | —     | —    | BACKLOG   |                           |
 | M2/S1e | `devops-s1` + Runtime Lab Linux                              | S1d        | viết trước slice                              | —     | —    | BACKLOG   |                           |
 | M3/S1  | Backend, data, distributed systems và reliability hoàn chỉnh | M2         | viết trước slice                              | —     | —    | BACKLOG   |                           |
@@ -80,11 +81,11 @@ DONE / DROPPED.
 ## 5. Current truth
 
 - `main` đã có M1/S2 qua PR #942, merge commit `9491afb7`; CI bắt buộc xanh.
-- Goal gap hiện tại: `mathforcode-s1` đã merge; `mathforcode-s2` có bài trên nhánh source; còn
-  12/27 chặng chuyên sâu chưa có unit thật sau khi lát cắt này merge.
+- Goal gap hiện tại: `mathforcode-s1..s2` đã merge; `algo-s1` có tám bài trên nhánh source; còn
+  11/27 chặng chuyên sâu chưa có unit thật sau khi lát cắt này merge.
 - Blocker/câu hỏi mở: không; production deploy vẫn ngoài phạm vi được cấp.
-- Next best slice: M2/S1b — đặc tả xác suất, đại số tuyến tính và giải tích sau khi #945 merge.
-- Quyền hoặc quyết định cần thêm: không cho M2/S1a.
+- Next best slice: M2/S1d — đưa bốn module hệ điều hành, đồng thời và mạng của `systems-s1` vào bài thật.
+- Quyền hoặc quyết định cần thêm: không cho M2/S1c.
 
 ## 6. Iteration log
 
