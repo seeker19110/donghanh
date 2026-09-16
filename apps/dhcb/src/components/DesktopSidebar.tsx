@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
   BookOpen,
+  Brain,
   ChevronDown,
   Crown,
   Home,
@@ -39,6 +40,7 @@ import {
   CAREER_PATHS,
   COMPANION_PATHS,
   LEARNING_PATHS,
+  REVIEW_PATHS,
   PRACTICE_PATHS,
   PRICING_PATHS,
   PROFILE_PATHS,
@@ -86,9 +88,18 @@ function studioItem(
 // Hành). Ba mục studio đó được NHẤC LÊN đây chứ không nhân bản — nhóm "Không Gian Nền Tảng"
 // bên dưới chỉ render phần studio CÒN LẠI, nên không mục nào xuất hiện hai lần.
 const HOME_ITEM: Item = { to: '/', label: 'Trang chủ', icon: Home, exact: true }
+const REVIEW_ITEM: Item = {
+  to: '/goc-hoc-tap/on-tap',
+  label: 'Ôn tập',
+  icon: Brain,
+  paths: REVIEW_PATHS,
+}
 const MAIN_NAV: Item[] = [
   HOME_ITEM,
   studioItem('subjects', LEARNING_PATHS, 'Góc học tập', SUBJECT_CHILDREN),
+  // [S12-1] "Ôn tập" là mục CẤP NỀN TẢNG, không phải của riêng môn nào: hàng đợi gộp mọi môn.
+  // Không có mục con — sidebar dừng ở cấp môn (spec cha Góc học tập §③).
+  REVIEW_ITEM,
   studioItem('companion', COMPANION_PATHS, 'Bạn Đồng Hành'),
   // [Slice 03] Luyện tập là hub ĐA MÔN → mục lá; công cụ Tiếng Anh nằm dưới Góc học tập › Tiếng Anh.
   studioItem('practice', PRACTICE_PATHS, 'Luyện tập'),
@@ -117,7 +128,15 @@ const CORE_BOTTOM: Item[] = [
 
 // Thứ tự XÉT active (khác thứ tự HIỂN THỊ): cụ thể nhất trước, bao quát nhất sau — xem
 // `resolveActiveNav`. `PROFILE_PATHS` chứa cả path sự nghiệp/đời sống nên "Hồ sơ" đứng cuối cùng.
-const ACTIVE_ORDER: Item[] = [HOME_ITEM, ...STUDIO_NAV, ...MAIN_NAV.slice(1), ...CORE_BOTTOM]
+const ACTIVE_ORDER: Item[] = [
+  HOME_ITEM,
+  // Cụ thể nhất trước: `/goc-hoc-tap/on-tap` nằm TRONG `LEARNING_PATHS`, nên nếu xét sau thì
+  // đứng ở hub lại sáng mục "Góc học tập".
+  REVIEW_ITEM,
+  ...STUDIO_NAV,
+  ...MAIN_NAV.slice(1),
+  ...CORE_BOTTOM,
+]
 
 function readCollapsed(): boolean {
   try {

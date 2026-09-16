@@ -41,6 +41,14 @@ export interface UseLearningSessionArgs<T> {
   /** Giá trị mặc định khi không có gì để khôi phục. */
   initial: () => { stepIndex: number; draft: T }
   stepLabel?: (stepIndex: number) => string
+  /**
+   * Tạm NGỪNG ghi nháp (vẫn giữ nguyên state đang hiện trên màn hình).
+   *
+   * Dùng khi phiên học không còn gì để "học tiếp": bài Lập trình đã đạt hết test thì nháp bị
+   * xoá (§7 Q6 của đặc tả S08) — nếu hook vẫn ghi tiếp thì chỉ một lần bấm "Bước tiếp" là nháp
+   * của bài ĐÃ XONG sống lại, và lần sau mở bài người học lại thấy code cũ ở bước "Tự viết".
+   */
+  paused?: boolean
 }
 
 export interface UseLearningSessionResult<T> {
@@ -133,7 +141,7 @@ export function useLearningSession<T>(
     if (!dirtyRef.current) return
     const snapshot = stateRef.current
     const now = argsRef.current
-    if (!now.owner || snapshot.status === 'loading') return
+    if (!now.owner || now.paused || snapshot.status === 'loading') return
     dirtyRef.current = false
     const result = saveSession(
       { owner: now.owner, subjectId: now.subjectId, contentId: now.contentId },

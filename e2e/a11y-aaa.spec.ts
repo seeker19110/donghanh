@@ -54,6 +54,8 @@ const ROUTES = [
   '/lap-trinh/bai-hoc/p1-u4-l1', // bài học 8 bước (PR-L3)
   '/lap-trinh/du-an', // dự án trục chặng P1 (PR-L3b)
   '/lap-trinh/on-tap', // ôn thẻ SRS môn Lập trình (PR-L10) — màn rỗng khi chưa có thẻ
+  '/goc-hoc-tap/on-tap', // hub ôn tập xuyên môn (S12-1) — màn rỗng khi chưa có gì đến hạn
+  '/goc-hoc-tap/physics/on-tap', // ôn thẻ một môn STEM (S12-1) — bốn môn dùng chung layout
   '/lap-trinh/gioi-thieu', // mô tả khoá học & mục tiêu (PR-UX3) — trang gần như toàn chữ đọc
   '/lap-trinh/huong', // danh sách 13 hướng chuyên sâu (PR-L-SPEC)
   '/lap-trinh/huong/web--lap-trinh-web', // chi tiết một hướng — trang chữ dài, nhiều tương phản

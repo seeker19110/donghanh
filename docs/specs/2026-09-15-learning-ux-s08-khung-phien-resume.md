@@ -515,7 +515,8 @@ hơn thắng, khoá khách xoá).
 1. **S08-1 `feat(learning): khung phien hoc LearningSession + hook resume cung thiet bi`** —
    `learningSession.ts` + `useLearningSession.ts` + test + `guestProgress.ts` (dời/dọn) +
    `App.tsx` (prune). 0 thay đổi giao diện. Có thể merge **trước** S07-2/S07-3.
-2. **S08-2 `feat(learning): nhap code va buoc dang hoc song qua reload o bai Lap trinh`** — sau
+2. **S08-2 `feat(learning): nhap code va buoc dang hoc song qua reload o bai Lap trinh`** — ✅
+   ĐÃ THI HÀNH (changelog `0343-2026-09-16-s08-2-nhap-bai-lap-trinh.md`). Sau
    S07-2 merge (cùng file). Hộp stale, dòng memory-only, E2E, ảnh.
 3. **S08-3 `feat(learning): resume dap an tu kiem tra STEM va tab hoc CEFR`** — sau S07-3 nếu
    S07-3 đổi `CefrLevelPage`; STEM có thể tách PR riêng nếu S07-3 kẹt (Q2 của S07).

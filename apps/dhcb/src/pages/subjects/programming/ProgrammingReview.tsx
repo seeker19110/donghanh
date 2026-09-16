@@ -9,7 +9,7 @@
 // thì học viên chỉ đọc lướt và tưởng mình nhớ.
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Brain, Eye, CheckCircle2, Trophy, BookOpen } from 'lucide-react'
+import { Brain, CheckCircle2, BookOpen } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import Layout from '../../../components/Layout'
 import PageHeader from '../../../components/PageHeader'
@@ -25,22 +25,12 @@ import {
 } from '../../../lib/programmingSrs'
 import { SRS_SESSION_CAP, type Rating } from '../../../lib/srs'
 import { duongDanBaiHoc } from '../../../lib/programmingRoutes'
-
-/** 4 mức tự đánh giá — nhãn nói bằng lời người học, không dùng thuật ngữ FSRS. */
-const MUC: { rating: Rating; nhan: string; mau: string }[] = [
-  { rating: 'again', nhan: 'Quên rồi', mau: 'border-rose-500/40 hover:border-rose-400' },
-  { rating: 'hard', nhan: 'Khó nhớ', mau: 'border-amber-500/40 hover:border-amber-400' },
-  { rating: 'good', nhan: 'Nhớ được', mau: 'border-emerald-500/40 hover:border-emerald-400' },
-  { rating: 'easy', nhan: 'Quá dễ', mau: 'border-sky-500/40 hover:border-sky-400' },
-]
+import FlashcardReview, { type FlashcardItem } from '../../../components/FlashcardReview'
 
 export default function ProgrammingReview() {
   usePageTitle('Ôn tập | Môn Lập trình · Đồng hành cùng bạn')
   const nav = useNavigate()
   const { user } = useAuth()
-  const [viTri, setViTri] = useState(0)
-  const [hienDap, setHienDap] = useState(false)
-  const [daOn, setDaOn] = useState(0)
 
   const tongThe = useMemo(() => countProgCards(), [])
 
@@ -72,14 +62,16 @@ export default function ProgrammingReview() {
     }
   }, [hangDoiRef, lanThu])
 
-  const the = hangDoi !== null && hangDoi !== 'error' ? hangDoi[viTri] : undefined
+  const cards: FlashcardItem[] =
+    hangDoi !== null && hangDoi !== 'error'
+      ? hangDoi.map((c) => ({ key: c.key, hoi: c.hoi, dap: c.dap, lessonTitle: c.lessonTitle }))
+      : []
 
-  const cham = (rating: Rating) => {
-    if (!user || !the) return
-    reviewProgCard(user.id, the.key, rating)
-    setDaOn((n) => n + 1)
-    setHienDap(false)
-    setViTri((i) => i + 1)
+  // Chấm đi đúng hàm ghi CŨ của môn (reviewProgCard → reviewWord → pushProgress) — S12 không
+  // mở đường ghi mới nào vào kho SRS.
+  const cham = (key: string, rating: Rating) => {
+    if (!user) return
+    reviewProgCard(user.id, key, rating)
   }
 
   return (
@@ -140,70 +132,25 @@ export default function ProgrammingReview() {
           </div>
         )}
 
-        {hangDoi !== null && hangDoi !== 'error' && hangDoi.length > 0 && !the && (
-          <div className="rounded-3xl border border-emerald-500/40 bg-emerald-500/10 p-5 flex items-start gap-3">
-            <Trophy className="w-6 h-6 text-emerald-400 theme-light:text-emerald-900 shrink-0" />
-            <div>
-              <p className="font-bold text-white">Xong phiên ôn — {daOn} thẻ! 🎉</p>
-              <p className="mt-1 text-sm text-zinc-100 leading-relaxed">
-                Thẻ bạn nhớ được sẽ giãn ra xa hơn, thẻ còn lấn cấn quay lại sớm. Cứ đều đặn vậy
-                thôi, không cần học thuộc.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {the && (
-          <section className="space-y-4">
-            <p className="text-xs text-zinc-400" aria-live="polite">
-              Thẻ {viTri + 1}/{hangDoi !== null && hangDoi !== 'error' ? hangDoi.length : 0} · từ
-              bài “{the.lessonTitle}”
-            </p>
-
-            <div className="rounded-3xl border border-accent-500/30 bg-zinc-900/80 p-6">
-              <p className="text-base font-semibold text-white leading-relaxed whitespace-pre-line">
-                {the.hoi}
-              </p>
-              {hienDap && (
-                <p className="mt-4 pt-4 border-t border-zinc-800 text-sm text-zinc-200 leading-relaxed whitespace-pre-line">
-                  {the.dap}
-                </p>
-              )}
-            </div>
-
-            {!hienDap ? (
+        {cards.length > 0 && (
+          <FlashcardReview
+            cards={cards}
+            onRate={cham}
+            duoiThe={(the) => (
               <button
-                onClick={() => setHienDap(true)}
-                className="tap-44 w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition"
+                type="button"
+                onClick={() => {
+                  const goc = hangDoi !== null && hangDoi !== 'error' ? hangDoi : []
+                  const cu = goc.find((c) => c.key === the.key)
+                  if (cu) nav(duongDanBaiHoc({ id: cu.lessonId, title: cu.lessonTitle }))
+                }}
+                className="tap-44 inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 text-content-secondary text-sm transition"
               >
-                <Eye className="w-4 h-4" />
-                <span>Xem đáp án</span>
+                <Brain className="w-4 h-4" aria-hidden="true" />
+                <span>Mở lại bài này</span>
               </button>
-            ) : (
-              <div className="space-y-2">
-                <p className="text-xs text-zinc-400">Bạn nhớ tới đâu?</p>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  {MUC.map((m) => (
-                    <button
-                      key={m.rating}
-                      onClick={() => cham(m.rating)}
-                      className={`tap-44 px-3 py-2.5 rounded-2xl bg-zinc-900 border text-zinc-100 font-semibold text-sm transition ${m.mau}`}
-                    >
-                      {m.nhan}
-                    </button>
-                  ))}
-                </div>
-              </div>
             )}
-
-            <button
-              onClick={() => nav(duongDanBaiHoc({ id: the.lessonId, title: the.lessonTitle }))}
-              className="tap-44 inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 text-zinc-300 text-sm transition"
-            >
-              <Brain className="w-4 h-4" />
-              <span>Mở lại bài này</span>
-            </button>
-          </section>
+          />
         )}
       </PageShell>
     </div>

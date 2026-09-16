@@ -61,6 +61,8 @@ const AvatarDemo = lazyWithRetry(() => import('./pages/companion/AvatarDemo'))
 const Subjects = lazyWithRetry(() => import('./pages/learning/Subjects'))
 const SubjectDetail = lazyWithRetry(() => import('./pages/learning/SubjectDetail'))
 const StemLessonList = lazyWithRetry(() => import('./pages/learning/StemLessonList'))
+const ReviewHub = lazyWithRetry(() => import('./pages/learning/ReviewHub'))
+const StemReview = lazyWithRetry(() => import('./pages/learning/StemReview'))
 const StemLessonView = lazyWithRetry(() => import('./pages/learning/StemLessonView'))
 const Practice = lazyWithRetry(() => import('./pages/learning/Practice'))
 const AppliedKnowledge = lazyWithRetry(() => import('./pages/learning/AppliedKnowledge'))
@@ -638,6 +640,26 @@ export default function App() {
                           <AllowGuest>
                             <EnglishHome />
                           </AllowGuest>
+                        }
+                      />
+                      {/* Hub ôn tập xuyên môn (S12-1) — đặt TRƯỚC `/goc-hoc-tap/:subjectId`
+                          để đoạn `on-tap` không bị hiểu thành một mã môn. Cần tài khoản: hàng
+                          đợi là dữ liệu học của một người cụ thể. */}
+                      <Route
+                        path="/goc-hoc-tap/on-tap"
+                        element={
+                          <RequireAccount>
+                            <ReviewHub />
+                          </RequireAccount>
+                        }
+                      />
+                      {/* Ôn thẻ của một môn STEM — dùng chung màn lật thẻ với môn Lập trình. */}
+                      <Route
+                        path="/goc-hoc-tap/:subjectId/on-tap"
+                        element={
+                          <RequireAccount>
+                            <StemReview />
+                          </RequireAccount>
                         }
                       />
                       {/* Bài học bốn môn STEM — đặt TRƯỚC route `:subjectId` để đoạn
