@@ -8,7 +8,7 @@
 | Goal          | [`learning-ux`](../goals/2026-09-15-learning-ux.md) dòng S06 — "Hôm nay, điểm học tiếp" (Dependency: S08 + spec)                                                                                          |
 | Thứ tự chốt   | S07 → S08 → **S06** → S05 → S10 → S11 → S09 → S12 → S13 (chủ dự án, 2026-09-15)                                                                                                                           |
 | Base khảo sát | `main` `7c2d81c` (#928), khảo sát 2026-09-15 bằng đọc mã thật + `npm run codemap -- impact` (số liệu ở §②)                                                                                                |
-| Trạng thái    | **Approved for implementation** — chủ dự án chốt TOÀN BỘ câu hỏi §7 theo đề xuất mặc định (2026-09-15)                                                                                                    |
+| Trạng thái    | **Approved for implementation** — chủ dự án chốt TOÀN BỘ câu hỏi §7 theo đề xuất mặc định (2026-09-15). **ĐÃ THI HÀNH XONG cả 3 PR con: S06-1 #941 · S06-2 #952 · S06-3 #963**                            |
 | Người duyệt   | Chủ dự án                                                                                                                                                                                                 |
 
 > Không bắt đầu code khi trạng thái chưa là **Approved for implementation**. Luật số 1 của khuôn
@@ -141,13 +141,13 @@ thuộc PR nào.
 
 ### S06-3 — trang môn dùng chung resolver + E2E đa môn
 
-- [ ] **AC-18 Một logic "học tiếp", ba nơi hiển thị.** `EnglishHome.tsx:88–131` và
+- [x] **AC-18 Một logic "học tiếp", ba nơi hiển thị.** `EnglishHome.tsx:88–131` và
       `Home.tsx:104–118` (hai bản chép `continueLevel` giống nhau) đều gọi `englishNext`;
       `ProgrammingHome.tsx:74,133` gọi `programmingNext` + `duongDanBaiHoc`. `grep -rn
 "findNextStep(" apps/dhcb/src/pages` chỉ còn khớp trong adapter (hiện 2 trang). E2E
       `e2e/programming-home.spec.ts` 4/4 xanh (ca "đang học dở → về ĐÚNG bài dở" dòng 36 là bất
       biến). — `EnglishHome.test.tsx` (spec 02 tạo) + `programming-home.spec.ts`.
-- [ ] **AC-19 Đa môn: chọn theo phiên gần nhất, không xoay vòng ngầm.** Seed phiên S08 môn Anh
+- [x] **AC-19 Đa môn: chọn theo phiên gần nhất, không xoay vòng ngầm.** Seed phiên S08 môn Anh
       `updatedAt = T` và môn Lập trình `updatedAt = T + 1h` → `primary` là Lập trình; mục phụ đầu
       là "Học tiếp môn Tiếng Anh: <bài>" (`kind:'next'`, môn thứ hai). Đổi thứ tự `updatedAt` →
       đổi `primary`. Không có phiên nào, có evidence hai môn → thứ tự theo §7 Q1. — E2E
