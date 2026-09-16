@@ -35,7 +35,9 @@ export function dongNguon(item: TodayItem, bayGio: number): string | undefined {
  * bỏ đuôi "để bắt đầu" vì nhãn nút đã nói điều đó rồi.
  */
 function tachLoiMoi(title: string): { viec: string; dan?: string } {
-  const [truoc, sau] = title.split(' — ')
+  const phan = title.split(' — ')
+  const truoc = phan[0] ?? title
+  const sau = phan.length > 1 ? phan[phan.length - 1] : undefined
   const viec = (sau ?? truoc).replace(/\s*để bắt đầu$/i, '')
   const hoa = viec.charAt(0).toUpperCase() + viec.slice(1)
   return sau ? { viec: hoa, dan: truoc } : { viec: hoa }
