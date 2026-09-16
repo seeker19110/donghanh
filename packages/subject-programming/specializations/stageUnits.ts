@@ -94,6 +94,7 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   'devops-s1': ['p6-u154', 'p6-u155', 'p6-u156', 'p6-u157'],
   'mathforcode-s3': ['p6-u158', 'p6-u159'],
   'mathforcode-s4': ['p6-u160', 'p6-u161'],
+  'security-s1': ['p6-u182', 'p6-u183', 'p6-u184', 'p6-u185'],
 }
 
 /** Unit của một chặng; mảng RỖNG nghĩa là chặng chưa có bài (giao diện phải nói rõ điều đó). */
