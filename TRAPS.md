@@ -300,7 +300,7 @@ không đủ, vì cảnh báo bằng chữ thì người ta quên.
 ## 9. Margin âm trên phần tử DÍNH → che mất dòng đầu của phần tử sau, và KHÔNG cổng nào bắt được
 
 **Ngày/PR:** mắc từ khi có `Modal` sticky header; vá cục bộ hai lần — S07-2 (#944, panel Mục lục)
-và S08-2 (#961, hộp thoại "Bài này đã được cập nhật"); sửa tận gốc ở PR #967
+và S08-2 (#961, hộp thoại "Bài này đã được cập nhật"); sửa tận gốc ở PR #973
 (`docs/changelog/0350-2026-09-16-modal-khong-che-dong-dau.md`).
 
 **Khuôn lỗi:** `apps/dhcb/src/components/Modal.tsx` kéo header dính lên bằng `-mt-6` để dải nền
