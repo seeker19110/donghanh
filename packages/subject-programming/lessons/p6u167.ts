@@ -51,11 +51,11 @@ const makeLesson = (
     'Lập bảng TP, FP, TN, FN cho một tình huống thật và ghi chi phí của mỗi loại lỗi trước khi chọn metric.',
   srsCards: [
     {
-      hoi: 'Precision có mẫu số nào và khi nào undefined?',
+      hoi: `Precision trong ${id} có mẫu số nào và khi nào undefined?`,
       dap: 'Precision bằng TP chia TP cộng FP; nó undefined khi không có dự đoán dương nên mẫu số TP cộng FP bằng không.',
     },
     {
-      hoi: 'Vì sao class imbalance phải được báo tường minh?',
+      hoi: `Vì sao class imbalance trong ${id} phải được báo tường minh?`,
       dap: 'Khi dương hiếm, accuracy đơn lẻ có thể gây hiểu sai; số lượng dương thật và các lỗi FN, FP mới cho biết metric có ý nghĩa hay không.',
     },
   ],

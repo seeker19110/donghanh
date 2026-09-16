@@ -55,11 +55,11 @@ const driftLesson = (
     'Đề xuất SLO phản hồi nhãn, owner alert và hành động khi quality unknown kéo dài; nêu rõ dữ liệu nào còn thiếu.',
   srsCards: [
     {
-      hoi: 'Vì sao quality unknown không được gắn nhãn healthy?',
+      hoi: `Vì sao quality unknown trong ${id} không được gắn nhãn healthy?`,
       dap: 'Feedback delay có thể khiến không có label mới để đo chất lượng, nên healthy sẽ là một khẳng định không có bằng chứng và có thể che giấu suy giảm.',
     },
     {
-      hoi: 'Drift alert cần được diễn giải thế nào?',
+      hoi: `Drift alert trong ${id} cần được diễn giải thế nào?`,
       dap: 'Drift là tín hiệu điều tra trên phân phối hoặc metric bounded; nó không tự chứng minh nguyên nhân, mức hại hay quyết định retrain cho production.',
     },
   ],

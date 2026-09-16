@@ -23,7 +23,7 @@ const riskLesson = (
     'MÔ PHỎNG này phân loại risk theo các cờ do người dùng nhập trong miền nhỏ. Nó hỗ trợ tạo audit trail, không phải tư vấn pháp lý hay quyết định compliance.',
   workedExample: { code: 'pii = True\nprint("human-review" if pii else "record")', stdinLines: [] },
   predict: {
-    code: 'harm = "high"\nprint(harm == "high")',
+    code: 'harm = "high"\nprint("no" if harm == "high" else "yes")',
     question: 'Risk harm high có thể tự động approve không?',
     choices: ['yes', 'no', 'only at night', 'unknown'],
     answerIndex: 1,
@@ -54,11 +54,11 @@ const riskLesson = (
     'Soạn incident record có owner, thời điểm, dữ liệu liên quan, tác động, biện pháp containment và điều kiện đóng sự cố.',
   srsCards: [
     {
-      hoi: 'Khi nào high risk cần human review?',
+      hoi: `Khi nào high risk trong ${id} cần human review?`,
       dap: 'Khi harm được đánh dấu high, có PII chưa được xử lý hoặc license không rõ, quyết định phải chuyển người chịu trách nhiệm xem xét và lưu audit trail.',
     },
     {
-      hoi: 'Audit trail hữu ích gì trong incident?',
+      hoi: `Audit trail trong ${id} hữu ích gì cho incident?`,
       dap: 'Audit trail ghi input, policy version, người quyết định và hành động để có thể điều tra, chứng minh trách nhiệm và cải thiện guardrail mà không phỏng đoán lại sự kiện.',
     },
   ],

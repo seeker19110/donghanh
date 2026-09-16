@@ -20,9 +20,9 @@ const lesson = (
     stdinLines: [],
   },
   predict: {
-    code: 'a=(80,10,2); b=(80,10,2)\nprint(a == b)',
+    code: 'a=(80,10,2); b=(80,10,2)\nprint("no" if a == b else "yes")',
     question: 'Hai option giống hệt nhau có dominated nghiêm ngặt không?',
-    choices: ['Có, cả hai', 'Không, không có chỉ số tốt hơn', 'Chỉ a', 'error'],
+    choices: ['yes', 'no', 'only-a', 'error'],
     answerIndex: 1,
     explain: 'Dominated đòi ít nhất một chỉ số tốt hơn nghiêm ngặt.',
   },
@@ -49,11 +49,11 @@ const lesson = (
     'Viết ADR gồm workload, metric, percentile latency, cost unit, policy constraint và rule rollback nếu benchmark mới xấu hơn.',
   srsCards: [
     {
-      hoi: 'Khi nào một option bị dominated?',
+      hoi: `Khi nào một option trong ${id} bị dominated?`,
       dap: 'Khi một option khác không kém quality, latency, cost và tốt hơn nghiêm ngặt ít nhất một chỉ số trong cùng bảng so sánh.',
     },
     {
-      hoi: 'Vì sao filter constraint phải đứng trước chọn winner?',
+      hoi: `Vì sao ${id} filter constraint trước khi chọn winner?`,
       dap: 'Option quality cao nhưng vượt latency hoặc cost policy không phải ứng viên hợp lệ nên không được thắng chỉ vì một metric đơn lẻ.',
     },
   ],

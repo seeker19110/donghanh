@@ -45,11 +45,11 @@ const lesson = (
     'Viết model card ngắn nêu phạm vi dữ liệu, điều không thể kết luận và điểm cần human review trước khi đưa chỉ số vào quyết định.',
   srsCards: [
     {
-      hoi: 'Contribution tuyến tính có chứng minh feature gây ra kết quả không?',
+      hoi: `Contribution tuyến tính trong ${id} có chứng minh feature gây ra kết quả không?`,
       dap: 'Không; nó chỉ mô tả phần cộng trong công thức và dữ liệu đang xét, không chứng minh quan hệ nhân quả hay tính công bằng.',
     },
     {
-      hoi: 'Vì sao group rỗng phải báo undefined?',
+      hoi: `Vì sao group rỗng trong ${id} phải báo undefined?`,
       dap: 'Không có quan sát làm mẫu số nên không thể ước lượng error rate; gán số 0 sẽ tạo kết luận sai về chất lượng hoặc fairness.',
     },
   ],

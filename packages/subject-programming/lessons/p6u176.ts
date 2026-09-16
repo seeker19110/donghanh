@@ -58,11 +58,11 @@ const toolLesson = (
     'Vẽ state machine cho một tool loop thật, gồm pending, approved, running, cancelled và compensation cho thao tác không idempotent.',
   srsCards: [
     {
-      hoi: 'Allow-list trong tool loop bảo vệ điều gì?',
+      hoi: `Allow-list trong ${id} bảo vệ điều gì?`,
       dap: 'Allow-list giới hạn agent vào tập tool đã được xét duyệt và schema dự kiến, nhờ đó prompt hoặc output lạ không tự mở rộng quyền thực thi.',
     },
     {
-      hoi: 'Idempotency key có vai trò gì với cost budget?',
+      hoi: `Idempotency key trong ${id} có vai trò gì với cost budget?`,
       dap: 'Nó nhận diện yêu cầu lặp lại để simulator hay service không chạy lại thao tác và không tính chi phí lần hai khi client retry hoặc loop bị lặp.',
     },
   ],
