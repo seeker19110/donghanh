@@ -8,6 +8,7 @@ import {
   isLessonCompleted,
   type ProgrammingLessonProgress,
 } from './programmingProgress'
+import { flush as flushSync, pending } from './syncOutbox'
 
 const UID = 'u1'
 const CACHE_KEY = `dhcb_prog_progress_${UID}`
@@ -55,13 +56,38 @@ describe('programmingProgress — đọc tiến độ', () => {
 })
 
 describe('programmingProgress — ghi tiến độ', () => {
-  it('bài mới → thêm vào cache + gọi POST đúng thân yêu cầu', async () => {
-    const fn = mockFetch(() => okJson({ ok: true }))
+  // S09-2: không POST thẳng nữa — ghi cache rồi XẾP HÀNG (`syncOutbox`), hàng đợi gộp nhiều bài
+  // thành MỘT batch khi gửi. Nhờ vậy hoàn thành bài lúc mất mạng không còn bị nuốt (phát hiện F4).
+  it('bài mới → thêm vào cache + xếp hàng đợi, gửi batch đúng thân yêu cầu', async () => {
+    const fn = mockFetch(() => okJson({ ok: true, replayed: false, lessons: [] }))
     await saveLessonProgress(UID, 'p1-u4-l1', 'in_progress')
     const cache = JSON.parse(localStorage.getItem(CACHE_KEY)!) as ProgrammingLessonProgress[]
     expect(cache).toEqual([{ lessonId: 'p1-u4-l1', status: 'in_progress', completedAt: null }])
-    const body = JSON.parse(String((fn.mock.calls[0]?.[1] as RequestInit).body))
-    expect(body).toEqual({ lessonId: 'p1-u4-l1', status: 'in_progress' })
+    expect(fn).not.toHaveBeenCalled() // chưa gửi ngay — chờ gộp
+    expect(pending(UID)).toBe(1)
+
+    await flushSync(UID)
+    const body = JSON.parse(String((fn.mock.calls[0]?.[1] as RequestInit).body)) as {
+      attemptId: string
+      items: { lessonId: string; status: string }[]
+    }
+    expect(typeof body.attemptId).toBe('string')
+    expect(body.items).toEqual([
+      { lessonId: 'p1-u4-l1', status: 'in_progress', clientUpdatedAt: expect.any(String) },
+    ])
+    expect(pending(UID)).toBe(0)
+  })
+
+  it('hai bài hoàn thành liên tiếp → MỘT request batch, không phải hai (AC-9)', async () => {
+    const fn = mockFetch(() => okJson({ ok: true, replayed: false, lessons: [] }))
+    await saveLessonProgress(UID, 'p1-u4-l1', 'completed')
+    await saveLessonProgress(UID, 'p1-u4-l2', 'completed')
+    await flushSync(UID)
+    expect(fn).toHaveBeenCalledTimes(1)
+    const body = JSON.parse(String((fn.mock.calls[0]?.[1] as RequestInit).body)) as {
+      items: { lessonId: string }[]
+    }
+    expect(body.items.map((i) => i.lessonId)).toEqual(['p1-u4-l1', 'p1-u4-l2'])
   })
 
   it('hoàn thành → có completedAt; học lại KHÔNG kéo lùi về in_progress (bất biến)', async () => {
@@ -106,5 +132,34 @@ describe('isLessonCompleted', () => {
     expect(isLessonCompleted(lessons, 'b')).toBe(false)
     expect(isLessonCompleted(lessons, 'không-có')).toBe(false)
     expect(isLessonCompleted([], 'a')).toBe(false)
+  })
+})
+
+// ── AC-15: hoàn thành bài lúc mất mạng KHÔNG còn biến mất khi fetch về ──
+// Trước S09-2, `fetchProgress` ghi đè thẳng cache bằng bản server (chưa có bài vừa học offline)
+// nên bài đó mất hẳn và không bao giờ được gửi lại (phát hiện F4 của đặc tả).
+describe('programmingProgress — mục còn chờ gửi được phủ lên bản server (AC-15)', () => {
+  it('offline → hoàn thành bài → đọc lại (server chưa có bài) → bài VẪN hoàn thành', async () => {
+    mockFetch(() => okJson({ ok: true, replayed: false, lessons: [] }))
+    await saveLessonProgress(UID, 'p1-u4-l9', 'completed')
+    // Server trả về bản CHƯA có bài vừa học (mục còn nằm trong hàng đợi).
+    mockFetch(() =>
+      okJson({ lessons: [{ lessonId: 'p1-u4-l1', status: 'completed', completedAt: 1 }] }),
+    )
+    const lessons = await fetchProgress(UID)
+    expect(isLessonCompleted(lessons, 'p1-u4-l9')).toBe(true)
+    expect(isLessonCompleted(lessons, 'p1-u4-l1')).toBe(true)
+    // Cache cũng phải giữ bài đó, nếu không lần mở sau lại mất.
+    const cache = JSON.parse(localStorage.getItem(CACHE_KEY)!) as ProgrammingLessonProgress[]
+    expect(cache.some((l) => l.lessonId === 'p1-u4-l9' && l.status === 'completed')).toBe(true)
+  })
+
+  it('gửi xong (hàng đợi rỗng) → không phủ gì thêm, bản server là nguồn sự thật', async () => {
+    mockFetch(() => okJson({ ok: true, replayed: false, lessons: [] }))
+    await saveLessonProgress(UID, 'p1-u4-l9', 'completed')
+    await flushSync(UID)
+    expect(pending(UID)).toBe(0)
+    mockFetch(() => okJson({ lessons: [] }))
+    expect(await fetchProgress(UID)).toEqual([])
   })
 })

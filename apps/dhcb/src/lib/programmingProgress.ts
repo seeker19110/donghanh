@@ -3,6 +3,56 @@
 // là bộ đệm hiển thị nhanh/ngoại tuyến — cùng mô hình với sổ tay lỗi sai (mistakes.ts).
 import { getAuthHeader } from '@core/authHeader'
 import { isGuestId } from '@core/guestId'
+import {
+  enqueue as enqueueSync,
+  pendingProgrammingItems,
+  registerKindHandler,
+  type ProgrammingItem,
+} from './syncOutbox'
+
+// Đăng ký cách gửi tiến độ bài Lập trình cho hàng đợi dùng chung (S09-2).
+// Server nhận DẠNG BATCH `{ attemptId, items }` từ S09-1 — nhiều bài hoàn thành lúc mất mạng đi
+// chung MỘT request khi có mạng lại, thay vì mỗi bài một POST (hạn mức 60/phút).
+registerKindHandler('programming', {
+  buildRequest: (_uid, entry) => {
+    const items = Array.isArray(entry.payload) ? (entry.payload as ProgrammingItem[]) : []
+    if (items.length === 0) return null
+    return {
+      url: '/api/programming/progress',
+      body: { attemptId: entry.attemptId, items },
+    }
+  },
+})
+
+/**
+ * Phủ các mục CÒN CHỜ GỬI lên bản server.
+ *
+ * Vì sao bắt buộc: trước S09-2, `fetchProgress` ghi đè thẳng cache bằng bản server, nên bài hoàn
+ * thành lúc mất mạng (chưa kịp lên server) BIẾN MẤT ở lần mở sau và không bao giờ được gửi lại
+ * (phát hiện F4 của đặc tả). Luật phủ giống hệt server: `completed` không bao giờ bị kéo lùi.
+ */
+function overlayPending(
+  uid: string,
+  serverLessons: ProgrammingLessonProgress[],
+): ProgrammingLessonProgress[] {
+  const items = pendingProgrammingItems(uid)
+  if (items.length === 0) return serverLessons
+  const out = serverLessons.map((l) => ({ ...l }))
+  for (const item of items) {
+    const existing = out.find((l) => l.lessonId === item.lessonId)
+    if (!existing) {
+      out.push({
+        lessonId: item.lessonId,
+        status: item.status,
+        completedAt: item.status === 'completed' ? Date.parse(item.clientUpdatedAt) || null : null,
+      })
+    } else if (existing.status !== 'completed' && item.status === 'completed') {
+      existing.status = 'completed'
+      existing.completedAt = Date.parse(item.clientUpdatedAt) || Date.now()
+    }
+  }
+  return out
+}
 
 export interface ProgrammingLessonProgress {
   lessonId: string
@@ -49,8 +99,9 @@ export async function fetchProgressWithStatus(uid: string): Promise<ProgressRead
     const res = await fetch('/api/programming/progress', { headers: getAuthHeader() })
     if (!res.ok) return { lessons: readCache(uid), fromCache: true }
     const body = (await res.json()) as { lessons: ProgrammingLessonProgress[] }
-    writeCache(uid, body.lessons)
-    return { lessons: body.lessons, fromCache: false }
+    const lessons = overlayPending(uid, body.lessons ?? [])
+    writeCache(uid, lessons)
+    return { lessons, fromCache: false }
   } catch {
     return { lessons: readCache(uid), fromCache: true }
   }
@@ -80,15 +131,9 @@ export async function saveLessonProgress(
   }
   writeCache(uid, lessons)
   if (isGuestId(uid)) return // khách: đã ghi localStorage, không có gì để đẩy lên
-  try {
-    await fetch('/api/programming/progress', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', ...getAuthHeader() },
-      body: JSON.stringify({ lessonId, status }),
-    })
-  } catch {
-    // Ngoại tuyến: cache đã ghi, lần fetchProgress sau server sẽ là nguồn sự thật.
-  }
+  // S09-2: xếp hàng thay vì POST thẳng. Mất mạng thì mục nằm lại hàng đợi (theo chủ sở hữu) và
+  // tự gửi khi có mạng/mở lại app — không còn bị nuốt lỗi rồi mất như trước.
+  enqueueSync(uid, 'programming', [{ lessonId, status, clientUpdatedAt: new Date().toISOString() }])
 }
 
 /**
@@ -109,8 +154,9 @@ export async function fetchProgressWithState(
     const res = await fetch('/api/programming/progress', { headers: getAuthHeader() })
     if (!res.ok) return { lessons: readCache(uid), state: 'error' }
     const body = (await res.json()) as { lessons: ProgrammingLessonProgress[] }
-    writeCache(uid, body.lessons)
-    return { lessons: body.lessons, state: 'ready' }
+    const lessons = overlayPending(uid, body.lessons ?? [])
+    writeCache(uid, lessons)
+    return { lessons, state: 'ready' }
   } catch {
     return { lessons: readCache(uid), state: 'error' }
   }
