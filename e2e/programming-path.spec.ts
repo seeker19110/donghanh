@@ -34,6 +34,11 @@ test('lộ trình kiến trúc sư AI mở từ P1 và dùng URL chuẩn mới',
     .filter({ hasText: 'Nền tảng rời rạc cho lập trình viên' })
   await expect(discreteMathStage.getByRole('button', { name: 'Vào học chặng này' })).toBeVisible()
 
+  const probabilityStage = page
+    .getByRole('listitem')
+    .filter({ hasText: 'Tổ hợp và xác suất cho lập trình viên' })
+  await expect(probabilityStage.getByRole('button', { name: 'Vào học chặng này' })).toBeVisible()
+
   if (process.env.CAPTURE_PATH_JOURNEY === '1') {
     for (const viewport of [
       { width: 390, height: 844 },
