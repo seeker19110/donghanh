@@ -68,6 +68,10 @@ const ROUTES = [
   // chuẩn đúng cho nó; quét một môn đại diện vì cả bốn dùng chung một khuôn trang.
   '/goc-hoc-tap/physics/bai-hoc', // danh sách bài
   '/goc-hoc-tap/physics/bai-hoc/ly10-c2-b10--su-roi-tu-do', // một bài đầy đủ, có hoạt ảnh
+  // [S13-1] Màn trợ giảng — một trong sáu màn mẫu của goal learning-ux
+  // (`e2e/helpers/learningUxScreens.ts`, màn `tutor`). Đã có ở cổng AA nhưng thiếu ở
+  // AAA: đây là màn ĐỌC (lời giải thích của trợ giảng) nên AAA là chuẩn đúng cho nó.
+  '/ban-dong-hanh',
 ] as const
 
 // Đếm số phần tử vi phạm NẰM TRONG phần nội dung/tiêu đề (bỏ phần vỏ giao diện).
