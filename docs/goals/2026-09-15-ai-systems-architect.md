@@ -58,7 +58,7 @@
 | M2/S1g | `algo-s2`: đệ quy, cây, đồ thị và chiến lược có bài thật     | S1c        | viết trước slice                              | —     | —    | BACKLOG |                           |
 | M2/S1d | `systems-s1`: bộ nhớ, C, debug và build có bài thật          | S1c        | `2026-09-16-systems-s1-bai-hoc-that.md`       | —     | #955 | DONE    | CI xanh, merge `3f3447f5` |
 | M2/S1h | `systems-s2`: OS, tiến trình và syscall có bài thật          | S1d        | `2026-09-16-systems-s2-bai-hoc-that.md`       | —     | #957 | DONE    | CI xanh, merge `0130e577` |
-| M2/S1e | `devops-s1` + Runtime Lab Linux                              | S1d        | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M2/S1e | `devops-s1` + Runtime Lab Linux                              | S1d        | `2026-09-16-devops-s1-bai-hoc-that.md`        | —     | —    | SPEC    | Chờ source sau spec merge |
 | M3/S1  | Backend, data, distributed systems và reliability hoàn chỉnh | M2         | viết trước slice                              | —     | —    | BACKLOG |                           |
 | M4/S1  | ML/LLM, RAG, evaluation và AI security hoàn chỉnh            | M3         | viết trước slice                              | —     | —    | BACKLOG |                           |
 | M5/S1  | Serving, LLMOps, agent runtime, GPU/K8s và observability     | M4         | viết trước slice                              | —     | —    | BACKLOG |                           |
@@ -82,10 +82,10 @@ DONE / DROPPED.
 ## 5. Current truth
 
 - `main` đã có M1/S2 qua PR #942, merge commit `9491afb7`; CI bắt buộc xanh.
-- Goal gap hiện tại: `mathforcode-s1..s2`, `algo-s1` và `systems-s1..s2` đã merge; còn 9/27
-  chặng chuyên sâu chưa có unit thật.
+- Goal gap hiện tại: `mathforcode-s1..s2`, `algo-s1`, `systems-s1..s2` đã merge và `devops-s1`
+  đã có đặc tả; còn 9/27 chặng chuyên sâu chưa có unit thật.
 - Blocker/câu hỏi mở: không; production deploy vẫn ngoài phạm vi được cấp.
-- Next best slice: đặc tả M2/S1e `devops-s1` và Runtime Lab Linux.
+- Next best slice: merge đặc tả rồi triển khai M2/S1e `devops-s1` và Runtime Lab Linux.
 - Quyền hoặc quyết định cần thêm: không cho M2/S1h.
 
 ## 6. Iteration log
