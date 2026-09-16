@@ -108,7 +108,9 @@ describe('parsePronunciationKey', () => {
   })
 })
 
-describe('loadPatternTasks — truyện cổ tích/ngụ ngôn (stories)', () => {
+// Đo thời gian thật: file test tổng chạy ~4.92s ở máy rảnh, sắp tới ngưỡng mặc định 5s
+// Dưới tải CI (nhiều file test song song) dễ vượt quá. Nới thành 10s để an toàn.
+describe('loadPatternTasks — truyện cổ tích/ngụ ngôn (stories)', { timeout: 10000 }, () => {
   it('tạo đủ tác vụ truyện cổ tích/ngụ ngôn với giọng Gemini tương ứng', async () => {
     const { loadPatternTasks } = await import('./seed-all')
     const patternTasks = loadPatternTasks()
