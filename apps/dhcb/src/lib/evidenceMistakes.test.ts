@@ -42,8 +42,8 @@ describe('mistakesFromEvidence', () => {
   it('đúng hết → không có mục nào', () => {
     const e = luot({
       items: [
-        { questionIndex: 0, correct: true, reason: 'exact' },
-        { questionIndex: 1, correct: true, reason: 'exact' },
+        { questionIndex: 0, correct: true, reason: 'CORRECT' },
+        { questionIndex: 1, correct: true, reason: 'CORRECT' },
       ],
     })
     expect(mistakesFromEvidence([e])).toEqual([])
@@ -53,8 +53,8 @@ describe('mistakesFromEvidence', () => {
     const ra = mistakesFromEvidence([
       luot({
         items: [
-          { questionIndex: 0, correct: true, reason: 'exact' },
-          { questionIndex: 1, correct: false, reason: 'wrong-value' },
+          { questionIndex: 0, correct: true, reason: 'CORRECT' },
+          { questionIndex: 1, correct: false, reason: 'WRONG_VALUE' },
         ],
       }),
     ])
@@ -66,7 +66,7 @@ describe('mistakesFromEvidence', () => {
       questionIndex: 1,
       attemptId: 'aaaaaaaabbbbcccc',
       evidenceKind: 'server_graded',
-      reason: 'wrong-value',
+      reason: 'WRONG_VALUE',
       count: 1,
       lastReviewedAt: null,
     })
@@ -79,16 +79,20 @@ describe('mistakesFromEvidence', () => {
       luot({
         attemptId: 'cu-cu-cu-cu-cu-cu',
         serverAt: '2026-09-10T08:00:00.000Z',
-        items: [{ questionIndex: 0, correct: false, reason: 'lan-1' }],
+        items: [{ questionIndex: 0, correct: false, reason: 'WRONG_VALUE' }],
       }),
       luot({
         attemptId: 'moi-moi-moi-moi-moi',
         serverAt: '2026-09-12T08:00:00.000Z',
-        items: [{ questionIndex: 0, correct: false, reason: 'lan-2' }],
+        items: [{ questionIndex: 0, correct: false, reason: 'MISSING_UNIT' }],
       }),
     ])
     expect(ra).toHaveLength(1)
-    expect(ra[0]).toMatchObject({ count: 2, attemptId: 'moi-moi-moi-moi-moi', reason: 'lan-2' })
+    expect(ra[0]).toMatchObject({
+      count: 2,
+      attemptId: 'moi-moi-moi-moi-moi',
+      reason: 'MISSING_UNIT',
+    })
     expect(ra[0]!.lastWrongAt).toBe(Date.parse('2026-09-12T08:00:00.000Z'))
   })
 
@@ -97,12 +101,12 @@ describe('mistakesFromEvidence', () => {
       luot({
         attemptId: 'sai-sai-sai-sai-sai',
         serverAt: '2026-09-10T08:00:00.000Z',
-        items: [{ questionIndex: 0, correct: false, reason: 'wrong-value' }],
+        items: [{ questionIndex: 0, correct: false, reason: 'WRONG_VALUE' }],
       }),
       luot({
         attemptId: 'dung-dung-dung-dung',
         serverAt: '2026-09-12T08:00:00.000Z',
-        items: [{ questionIndex: 0, correct: true, reason: 'exact' }],
+        items: [{ questionIndex: 0, correct: true, reason: 'CORRECT' }],
       }),
     ])
     expect(ra).toEqual([])
@@ -112,12 +116,12 @@ describe('mistakesFromEvidence', () => {
     const sai = luot({
       attemptId: 'sai-sai-sai-sai-sai',
       serverAt: '2026-09-10T08:00:00.000Z',
-      items: [{ questionIndex: 0, correct: false, reason: 'wrong-value' }],
+      items: [{ questionIndex: 0, correct: false, reason: 'WRONG_VALUE' }],
     })
     const dung = luot({
       attemptId: 'dung-dung-dung-dung',
       serverAt: '2026-09-12T08:00:00.000Z',
-      items: [{ questionIndex: 0, correct: true, reason: 'exact' }],
+      items: [{ questionIndex: 0, correct: true, reason: 'CORRECT' }],
     })
     expect(mistakesFromEvidence([dung, sai])).toEqual([])
   })
@@ -126,7 +130,7 @@ describe('mistakesFromEvidence', () => {
     const hong = { subjectId: 'physics' } as unknown as CompletionEvidence
     const ra = mistakesFromEvidence([
       hong,
-      luot({ items: [{ questionIndex: 3, correct: false, reason: 'wrong-value' }] }),
+      luot({ items: [{ questionIndex: 3, correct: false, reason: 'WRONG_VALUE' }] }),
     ])
     expect(ra).toHaveLength(1)
     expect(ra[0]!.questionIndex).toBe(3)
@@ -137,7 +141,7 @@ describe('mistakesFromEvidence', () => {
       luot({
         evidenceKind: 'local_graded',
         serverAt: undefined,
-        items: [{ questionIndex: 0, correct: false, reason: 'wrong-value' }],
+        items: [{ questionIndex: 0, correct: false, reason: 'WRONG_VALUE' }],
       }),
     ])
     expect(ra[0]!.evidenceKind).toBe('local_graded')

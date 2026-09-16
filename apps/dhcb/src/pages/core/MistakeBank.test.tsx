@@ -53,7 +53,7 @@ function luotSai(over: Partial<CompletionEvidence> = {}): CompletionEvidence {
     total: 1,
     ratio: 0,
     passed: false,
-    items: [{ questionIndex: 1, correct: false, reason: 'wrong-value' }],
+    items: [{ questionIndex: 1, correct: false, reason: 'WRONG_VALUE' }],
     ...over,
   }
 }

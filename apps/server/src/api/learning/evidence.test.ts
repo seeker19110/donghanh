@@ -286,8 +286,8 @@ describe('/api/learning/evidence — GET', () => {
           client_at: new Date('2026-09-15T08:00:00.000Z'),
           server_at: new Date('2026-09-15T08:00:01.000Z'),
           answers: [
-            { questionIndex: 0, correct: true, reason: 'exact', raw: 'bí mật của người học' },
-            { questionIndex: 1, correct: false, reason: 'wrong-value', raw: 'sai' },
+            { questionIndex: 0, correct: true, reason: 'CORRECT', raw: 'bí mật của người học' },
+            { questionIndex: 1, correct: false, reason: 'WRONG_VALUE', raw: 'sai' },
           ],
         },
       ],
@@ -310,8 +310,8 @@ describe('/api/learning/evidence — GET', () => {
       evidenceKind: 'server_graded',
       ratio: 0.5,
       items: [
-        { questionIndex: 0, correct: true, reason: 'exact' },
-        { questionIndex: 1, correct: false, reason: 'wrong-value' },
+        { questionIndex: 0, correct: true, reason: 'CORRECT' },
+        { questionIndex: 1, correct: false, reason: 'WRONG_VALUE' },
       ],
     })
     // `raw` (chữ người học gõ) ở lại trong DB — sổ lỗi không cần, nên không phát tán.

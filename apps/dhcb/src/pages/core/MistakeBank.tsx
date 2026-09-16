@@ -37,6 +37,7 @@ import {
   type MistakeEntry,
 } from '../../lib/evidenceMistakes'
 import { fetchEvidenceAttempts } from '../../lib/stemEvidence'
+import { nhanLyDo } from '../../lib/gradeReasonLabel'
 import { STEM_SUBJECTS } from '../../lib/stemLessonRoutes'
 import type { StemSubjectId } from '@dhcb/core-contracts/stemLesson'
 
@@ -279,6 +280,8 @@ function StemMistakeRow({ entry }: { entry: MistakeEntry }) {
   // Tiêu đề lấy ĐỒNG BỘ từ chỉ mục nhẹ (không nạp nội dung bài): đủ để người học nhận ra bài,
   // và để URL mang tiêu đề theo quy ước `<mã>--<slug>`.
   const tieuDe = STEM_SUBJECTS[entry.subjectId].loader.getSummary(entry.contentId)?.title ?? ''
+  // Mã lạ (server mới hơn) → ẩn dòng lý do thay vì in mã máy ra cho người học đọc.
+  const lyDo = nhanLyDo(entry.reason)
   return (
     <li className="rounded-xl border border-zinc-800/80 bg-zinc-900/80 px-3 py-2.5">
       <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
@@ -297,9 +300,11 @@ function StemMistakeRow({ entry }: { entry: MistakeEntry }) {
       <p className="text-sm text-content break-words">
         {tieuDe || entry.contentId} · câu {entry.questionIndex + 1}
       </p>
-      <p className="text-[11px] text-content-secondary break-words mt-0.5">
-        Kết quả chấm: {entry.reason}
-      </p>
+      {lyDo && (
+        <p className="text-[11px] text-content-secondary break-words mt-0.5">
+          Kết quả chấm: {lyDo}
+        </p>
+      )}
       <Link
         to={duongDanCauSaiStem(entry.subjectId, entry.contentId, entry.questionIndex, tieuDe)}
         className="tap-44 mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-accent-300 theme-light:text-accent-800 hover:underline"
