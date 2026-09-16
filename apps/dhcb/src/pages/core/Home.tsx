@@ -37,12 +37,12 @@ import type { Circle } from '../../data/curriculum'
 import { loadCefr } from '../../data/cefrLoader'
 import { loadFoundation } from '../../data/curriculumLoader'
 import { getLearnedWords } from '../../lib/vocab'
-import { getDoneGrammar, computeLockedMapFromServer, findNextStep } from '../../lib/cefrProgress'
+import { getDoneGrammar, computeLockedMapFromServer } from '../../lib/cefrProgress'
 import { getPassedExamLevels } from '../../lib/cefrExam'
 import { getSRSStats } from '../../lib/srs'
 import { getDailyLearned, getDailyMax } from '../../lib/curriculum'
 import { useTodayPlan } from '../../lib/today/useTodayPlan'
-import { ENGLISH_SUBJECT_ID } from '../../lib/today/englishNext'
+import { ENGLISH_SUBJECT_ID, englishNext, duongDanCapCefr } from '../../lib/today/englishNext'
 import { useIsDesktopViewport } from '../../lib/useIsDesktopViewport'
 import { PageShell } from '@core/PageShell'
 import { TwoPane } from '@core/TwoPane'
@@ -109,17 +109,20 @@ export default function Home() {
   // Người này có đang học môn Tiếng Anh không — quyết định dòng kế toán "x/y từ" (§7 Q5).
   const hocTiengAnh = todayPlan?.subjectsSeen.includes(ENGLISH_SUBJECT_ID) ?? false
 
-  // Không bọc useMemo: phép tính thuần, rẻ (≤6 cấp) — tính lại mỗi render, compiler tự memo.
-  const continueLevel = (() => {
-    for (const lv of cefrLevels) {
-      if (lockedMap.get(lv.id)) continue
-      const next = findNextStep(lv, circleById, learned, doneGrammar)
-      if (next) return { level: lv, next }
-    }
-    return null
-  })()
+  // [S06-3] Cấp CEFR "đang đi tới" của luồng quay lại lấy từ ĐÚNG adapter mà thẻ "Hôm nay" dùng
+  // (`englishNext` bọc `findNextStep`), thay cho bản chép vòng lặp từng nằm ở đây và ở
+  // `EnglishHome`. Không bọc useMemo: phép tính thuần, rẻ (≤6 cấp) — compiler tự memo.
+  const { levelId: continueLevelId } = englishNext({
+    levels: cefrLevels,
+    circleById,
+    learned,
+    doneGrammar,
+    lockedMap,
+    isA: vi,
+  })
+  const continueHref = continueLevelId ? duongDanCapCefr(continueLevelId) : ''
 
-  const showComeback = !comebackClosed && !!continueLevel && shouldShowComeback(uid)
+  const showComeback = !comebackClosed && !!continueLevelId && shouldShowComeback(uid)
   const daysAway = showComeback ? comebackDaysAway(uid) : 0
   function closeComeback() {
     dismissComebackToday(uid)
@@ -154,7 +157,7 @@ export default function Home() {
       <HomeUniversalAiBar />
 
       {/* ── Luồng "quay lại sau khi bỏ bẵng" ── */}
-      {showComeback && continueLevel && (
+      {showComeback && continueLevelId && (
         <div className="glass rounded-2xl p-4 border border-accent-500/30 animate-fade-in">
           <div className="flex items-start gap-3">
             <span className="text-2xl shrink-0" aria-hidden="true">
@@ -193,11 +196,7 @@ export default function Home() {
               </button>
             )}
             <button
-              onClick={() =>
-                nav(
-                  `/lo-trinh-hoc/${continueLevel.level.id.toLowerCase()}?tab=today&cap=${COMEBACK_NEW_WORDS}`,
-                )
-              }
+              onClick={() => nav(`${continueHref}?tab=today&cap=${COMEBACK_NEW_WORDS}`)}
               className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-accent-500/15 hover:bg-accent-500/25 text-accent-300 theme-light:text-accent-800 text-sm font-medium transition"
             >
               <Sparkles className="w-4 h-4" />

@@ -108,4 +108,37 @@ describe('englishNext', () => {
   it('không cấp nào (dữ liệu chưa tải) → rỗng, không ném lỗi', () => {
     expect(englishNext({ ...base, levels: [] })).toEqual({})
   })
+
+  // ── [S06-3] `levelId` — cấp "đang đi tới" mà Trang chủ và trang môn dùng cho luồng quay lại.
+  it('levelId là cấp MỞ đầu tiên còn bước chưa xong, không phải cấp đầu danh sách', () => {
+    const lockedMap = new Map<CefrLevel['id'], boolean>([['A1', true]])
+    expect(englishNext({ ...base, levels: [levelA1, levelA2], lockedMap }).levelId).toBe('A2')
+  })
+
+  it('xong hết → không levelId (luồng quay lại tắt, y như bản chép cũ)', () => {
+    const learned = new Set(circleById.c1.words.map((w) => w.word))
+    expect(englishNext({ ...base, learned, doneGrammar: new Set(['g1']) }).levelId).toBeUndefined()
+  })
+
+  // Bất biến giữ nguyên hành vi cũ: `levelId` được chốt ở cấp ĐẦU TIÊN mà `findNextStep` trả về
+  // một bước, đúng như vòng lặp `continueLevel` từng nằm trong `Home.tsx`/`EnglishHome.tsx` —
+  // kể cả khi cấp đó không dựng nổi mục `next`. Nhờ vậy luồng "Mừng bạn quay lại" không đổi.
+  it('levelId chốt ở cấp đầu tiên có bước, không chạy tiếp xuống cấp sau', () => {
+    const a1XongHet: CefrLevel = {
+      ...levelA1,
+      units: [{ ...levelA1.units[0], grammar: [], vocabCircleIds: ['c1'] }],
+    }
+    const a2 = { ...levelA2, id: 'A2' as CefrLevel['id'] }
+    const ket = englishNext({ ...base, levels: [a1XongHet, a2] })
+    expect(ket.levelId).toBe('A1')
+    expect(ket.next?.href).toBe('/lo-trinh-hoc/a1')
+  })
+
+  it('srsDue là tuỳ chọn — trang môn gọi không truyền thì không có mục ôn', () => {
+    const khongSrs: Omit<typeof base, 'srsDue'> & { srsDue?: number } = { ...base }
+    delete khongSrs.srsDue
+    const ket = englishNext(khongSrs)
+    expect(ket.review).toBeUndefined()
+    expect(ket.next?.title).toBe('🍜 Vòng c1 (0/10)')
+  })
 })

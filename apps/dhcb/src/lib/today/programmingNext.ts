@@ -13,7 +13,7 @@ import { todayItemId, type TodayItem } from '@dhcb/core-contracts/todayPlan'
 import type { Outline, OutlineNode } from '@dhcb/core-contracts/outline'
 import { findLeafByContentId, prevNext } from '@dhcb/core-learner/outline/outlineNav'
 import type { ProgrammingLessonProgress } from '../programmingProgress'
-import { pickNextLesson } from '../programmingNextLesson'
+import { pickNextLesson, type NextLesson } from '../programmingNextLesson'
 import { duongDanBaiHoc } from '../programmingRoutes'
 
 export const PROGRAMMING_SUBJECT_ID = 'programming'
@@ -56,11 +56,22 @@ function mucTuLaMucLuc(node: OutlineNode): TodayItem | undefined {
   }
 }
 
-/** Bài kế tiếp + mốc bằng chứng của môn Lập trình. */
-export function programmingNext(ctx: ProgrammingNextCtx): {
+export interface ProgrammingNextResult {
   next?: TodayItem
   lastEvidenceAt?: number
-} {
+  /**
+   * Kết quả thô của `pickNextLesson` — bậc, tên bậc, ngôn ngữ, cờ `resuming`.
+   *
+   * [S06-3] TRANG MÔN cần những thứ này (huy hiệu ngôn ngữ, chặng dự án đang ở, cột mốc bậc) mà
+   * `TodayItem` cố ý không mang (hợp đồng chung không biết khái niệm "bậc" của riêng môn Lập
+   * trình). Trả kèm ở đây để trang KHÔNG phải gọi `pickNextLesson` lần nữa: luật "học tiếp bài
+   * nào" chạy đúng MỘT lần, ở đúng MỘT nơi. Chỉ có ở nhánh (2); nhánh mục lục không dùng bậc.
+   */
+  picked?: NextLesson
+}
+
+/** Bài kế tiếp + mốc bằng chứng của môn Lập trình. */
+export function programmingNext(ctx: ProgrammingNextCtx): ProgrammingNextResult {
   const lastEvidenceAt = mocBangChung(ctx.progress)
   const moc = lastEvidenceAt === undefined ? {} : { lastEvidenceAt }
 
@@ -85,5 +96,5 @@ export function programmingNext(ctx: ProgrammingNextCtx): {
     href: duongDanBaiHoc(picked.lesson),
     evidenceSource: 'programming.progress',
   }
-  return { next: item, ...moc }
+  return { next: item, picked, ...moc }
 }
