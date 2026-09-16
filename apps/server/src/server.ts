@@ -36,6 +36,8 @@ import { attachCoLearningWebSocketServer } from '@dhcb/core-ai/wsCoLearningHandl
 import { attachGeminiLiveWebSocketServer } from '@dhcb/core-ai/wsGeminiLiveHandler'
 import { sendReminders } from './api/core/push.js'
 import { downgradeExpiredPlans } from './api/_lib/planExpiry.js'
+import { purgeOldSyncReceipts } from './api/_lib/syncReceipt.js'
+import { getPgPool } from '@dhcb/core-db/pgPool'
 import { sendEmailReminders } from './api/_lib/emailReminders.js'
 import { sendWeeklyReports } from './api/_lib/weeklyReportService.js'
 
@@ -300,6 +302,27 @@ function startPlanExpiryScheduler() {
   }, 60_000) // kiểm tra mỗi phút, chạy 1 lần khi sang ngày mới (UTC)
 }
 
+// ── Dọn biên nhận đồng bộ quá 7 ngày (1 lần/ngày) ───────────────────────────
+// Mỗi lần gửi tiến độ có `attemptId` ghi 1 dòng `public.sync_receipts`. Biên nhận chỉ cần sống
+// đủ lâu để một thiết bị offline vài ngày gửi lại mà không bị tính hai lần — giữ lâu hơn chỉ
+// làm bảng phình. Xem apps/server/src/api/_lib/syncReceipt.ts (slice S09-1).
+function startSyncReceiptCleanup() {
+  let lastDayRun = new Date().getUTCDate()
+  setInterval(() => {
+    const day = new Date().getUTCDate()
+    if (day === lastDayRun) return
+    lastDayRun = day
+    void purgeOldSyncReceipts(getPgPool())
+      .then((r) => {
+        if (r.deleted > 0) console.log(`[sync-receipts] Đã dọn ${r.deleted} biên nhận quá hạn`)
+      })
+      .catch((err) => {
+        console.error('[sync-receipts] lỗi dọn biên nhận:', err)
+        captureServerException(err, { context: 'sync-receipt-cleanup' })
+      })
+  }, 60_000) // kiểm tra mỗi phút, chạy 1 lần khi sang ngày mới (UTC)
+}
+
 // ── Dọn vị trí của chuyến "Đi chung" đã hết hạn (mỗi 15 phút) ───────────────
 // Vị trí là dữ liệu nhạy cảm nhất trong app: chuyến hết hạn/kết thúc thì toạ độ phải biến mất
 // mà không cần ai bấm nút. Xem packages/core-location/locationService.ts#purgeExpiredPositions.
@@ -329,6 +352,7 @@ const server = app.listen(PORT, () => {
   if (pm2Instance === undefined || pm2Instance === '0') {
     startReminderScheduler()
     startPlanExpiryScheduler()
+    startSyncReceiptCleanup()
     startLocationPurgeScheduler()
     startWeeklyReportScheduler()
     // Kiểm Redis CHỈ ở instance 0: cấu hình REDIS_URL giống hệt nhau ở mọi instance nên một
