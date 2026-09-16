@@ -787,6 +787,27 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         title: 'Toán cho Lập trình S2 — thống kê đo hiệu năng',
         topics: 'Trung bình, trung vị, phương sai và p50/p95/p99',
       },
+      // p6-u142…u145: chặng S1 "Nền tảng và độ phức tạp" của hướng Thuật toán.
+      {
+        id: 'p6-u142',
+        title: 'Thuật toán S1 — độ phức tạp và chi phí khấu hao',
+        topics: 'Đọc ràng buộc; đếm phép tính; Big-O; mảng động tăng gấp đôi',
+      },
+      {
+        id: 'p6-u143',
+        title: 'Thuật toán S1 — cấu trúc dữ liệu tuyến tính và bảng băm',
+        topics: 'Stack, queue, deque; chaining và va chạm bảng băm',
+      },
+      {
+        id: 'p6-u144',
+        title: 'Thuật toán S1 — hai con trỏ, cửa sổ, prefix và tìm kiếm nhị phân',
+        topics: 'Vét cạn–tối ưu; tổng đoạn; hàm khả thi đơn điệu và lỗi biên',
+      },
+      {
+        id: 'p6-u145',
+        title: 'Thuật toán S1 — oracle, ca biên và differential test có seed',
+        topics: 'Ca biên; oracle đơn giản; random.Random(seed); negative control',
+      },
       // p6-u66..u68: chặng S1 của hướng Dữ liệu (data-s1, specializations/data.ts, 4 module).
       // p3-u8/p3-u9 đã dạy SELECT/JOIN/GROUP BY/HAVING cơ bản — u66 đi XA HƠN (hàm cửa sổ, CTE)
       // để không dạy trùng. Đăng ký cầu nối ở `specializations/stageUnits.ts`.
