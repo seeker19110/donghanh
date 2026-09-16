@@ -47,23 +47,23 @@
 
 ## 3. Milestones và slices
 
-| ID     | Outcome/AC                                                   | Dependency | Spec                                          | Issue | PR   | State     | Evidence                  |
-| ------ | ------------------------------------------------------------ | ---------- | --------------------------------------------- | ----- | ---- | --------- | ------------------------- |
-| M1/S1  | Đặc tả chương trình, coverage map và kế hoạch phát hành      | —          | `2026-09-15-khoa-kien-truc-su-phan-mem-ai.md` | —     | #938 | DONE      | Spec đã duyệt và merge    |
-| M1/S2  | Manifest mới + chặng xương sống P1–P4 hiện đúng trong UI     | S1 duyệt   | cùng spec                                     | —     | #942 | DONE      | CI xanh, merge `9491afb7` |
-| M2/S1a | `mathforcode-s1`: số, logic, modulo, Big-O có bài thật       | M1         | `2026-09-16-mathforcode-s1-bai-hoc-that.md`   | —     | #945 | DONE      | CI xanh, merge `598df501` |
-| M2/S1b | `mathforcode-s2`: tổ hợp, xác suất, thống kê có bài thật     | S1a        | `2026-09-16-mathforcode-s2-bai-hoc-that.md`   | —     | #950 | DONE      | CI xanh, merge `0e8df605` |
-| M2/S1f | `mathforcode-s3..s4`: tuyến tính, giải tích có bài thật      | S1b        | viết trước slice                              | —     | —    | BACKLOG   |                           |
-| M2/S1c | `algo-s1`: nền tảng DSA và complexity có bài thật            | S1a        | `2026-09-16-algo-s1-bai-hoc-that.md`          | —     | #954 | DONE      | CI xanh, merge `3dfd889d` |
-| M2/S1g | `algo-s2`: đệ quy, cây, đồ thị và chiến lược có bài thật     | S1c        | viết trước slice                              | —     | —    | BACKLOG   |                           |
-| M2/S1d | `systems-s1`: bộ nhớ, C, debug và build có bài thật          | S1c        | `2026-09-16-systems-s1-bai-hoc-that.md`       | —     | #955 | DONE      | CI xanh, merge `3f3447f5` |
-| M2/S1h | `systems-s2`: OS, tiến trình và syscall có bài thật          | S1d        | `2026-09-16-systems-s2-bai-hoc-that.md`       | —     | —    | VERIFYING | 8 bài đang qua full gates |
-| M2/S1e | `devops-s1` + Runtime Lab Linux                              | S1d        | viết trước slice                              | —     | —    | BACKLOG   |                           |
-| M3/S1  | Backend, data, distributed systems và reliability hoàn chỉnh | M2         | viết trước slice                              | —     | —    | BACKLOG   |                           |
-| M4/S1  | ML/LLM, RAG, evaluation và AI security hoàn chỉnh            | M3         | viết trước slice                              | —     | —    | BACKLOG   |                           |
-| M5/S1  | Serving, LLMOps, agent runtime, GPU/K8s và observability     | M4         | viết trước slice                              | —     | —    | BACKLOG   |                           |
-| M6/S1  | Enterprise architecture, governance, FinOps và leadership    | M5         | viết trước slice                              | —     | —    | BACKLOG   |                           |
-| M7/S1  | Capstone, full audit, ảnh 390/1440 và release evidence       | M2–M6      | viết trước slice                              | —     | —    | BACKLOG   |                           |
+| ID     | Outcome/AC                                                   | Dependency | Spec                                          | Issue | PR   | State   | Evidence                  |
+| ------ | ------------------------------------------------------------ | ---------- | --------------------------------------------- | ----- | ---- | ------- | ------------------------- |
+| M1/S1  | Đặc tả chương trình, coverage map và kế hoạch phát hành      | —          | `2026-09-15-khoa-kien-truc-su-phan-mem-ai.md` | —     | #938 | DONE    | Spec đã duyệt và merge    |
+| M1/S2  | Manifest mới + chặng xương sống P1–P4 hiện đúng trong UI     | S1 duyệt   | cùng spec                                     | —     | #942 | DONE    | CI xanh, merge `9491afb7` |
+| M2/S1a | `mathforcode-s1`: số, logic, modulo, Big-O có bài thật       | M1         | `2026-09-16-mathforcode-s1-bai-hoc-that.md`   | —     | #945 | DONE    | CI xanh, merge `598df501` |
+| M2/S1b | `mathforcode-s2`: tổ hợp, xác suất, thống kê có bài thật     | S1a        | `2026-09-16-mathforcode-s2-bai-hoc-that.md`   | —     | #950 | DONE    | CI xanh, merge `0e8df605` |
+| M2/S1f | `mathforcode-s3..s4`: tuyến tính, giải tích có bài thật      | S1b        | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M2/S1c | `algo-s1`: nền tảng DSA và complexity có bài thật            | S1a        | `2026-09-16-algo-s1-bai-hoc-that.md`          | —     | #954 | DONE    | CI xanh, merge `3dfd889d` |
+| M2/S1g | `algo-s2`: đệ quy, cây, đồ thị và chiến lược có bài thật     | S1c        | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M2/S1d | `systems-s1`: bộ nhớ, C, debug và build có bài thật          | S1c        | `2026-09-16-systems-s1-bai-hoc-that.md`       | —     | #955 | DONE    | CI xanh, merge `3f3447f5` |
+| M2/S1h | `systems-s2`: OS, tiến trình và syscall có bài thật          | S1d        | `2026-09-16-systems-s2-bai-hoc-that.md`       | —     | #957 | DONE    | CI xanh, merge `0130e577` |
+| M2/S1e | `devops-s1` + Runtime Lab Linux                              | S1d        | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M3/S1  | Backend, data, distributed systems và reliability hoàn chỉnh | M2         | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M4/S1  | ML/LLM, RAG, evaluation và AI security hoàn chỉnh            | M3         | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M5/S1  | Serving, LLMOps, agent runtime, GPU/K8s và observability     | M4         | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M6/S1  | Enterprise architecture, governance, FinOps và leadership    | M5         | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M7/S1  | Capstone, full audit, ảnh 390/1440 và release evidence       | M2–M6      | viết trước slice                              | —     | —    | BACKLOG |                           |
 
 State hợp lệ: BACKLOG / RESEARCH / SPEC / READY / BUILDING / VERIFYING / WAITING / BLOCKED /
 DONE / DROPPED.
@@ -82,10 +82,10 @@ DONE / DROPPED.
 ## 5. Current truth
 
 - `main` đã có M1/S2 qua PR #942, merge commit `9491afb7`; CI bắt buộc xanh.
-- Goal gap hiện tại: `mathforcode-s1..s2`, `algo-s1` và `systems-s1` đã merge; `systems-s2` có
-  tám bài trên nhánh source; còn 9/27 chặng chuyên sâu chưa có unit thật sau khi lát cắt này merge.
+- Goal gap hiện tại: `mathforcode-s1..s2`, `algo-s1` và `systems-s1..s2` đã merge; còn 9/27
+  chặng chuyên sâu chưa có unit thật.
 - Blocker/câu hỏi mở: không; production deploy vẫn ngoài phạm vi được cấp.
-- Next best slice: hoàn tất full gates và merge M2/S1h; sau đó đặc tả M2/S1e `devops-s1`.
+- Next best slice: đặc tả M2/S1e `devops-s1` và Runtime Lab Linux.
 - Quyền hoặc quyết định cần thêm: không cho M2/S1h.
 
 ## 6. Iteration log
