@@ -142,6 +142,7 @@ const ALLOWED_PULSE_COUNT: Record<string, number> = {
   'components/DecisionLedger/OutcomeCalibrationCard.tsx': 1, // skeleton tải
   'components/Home/HomeAiBriefingCard.tsx': 2, // skeleton tải (2 dòng); P1.1 đã bỏ comment chứa tên class
   'components/Home/HomeUniversalAiBar.tsx': 1, // đang lắng nghe (ghi âm)
+  'components/Home/TodayCard.tsx': 2, // skeleton "đang tìm việc học hôm nay" (nút + dòng phụ)
   'components/Layout.tsx': 1, // CHỈ LÀ CHÚ THÍCH ghi lại lý do đã gỡ, không phải mã thật
   'components/LifeGraph/CrossDomainSynergyCard.tsx': 1, // skeleton tải
   'components/ProactiveBriefingCard.tsx': 1, // mục ưu tiên "khẩn" (urgent) — màu ngữ nghĩa
