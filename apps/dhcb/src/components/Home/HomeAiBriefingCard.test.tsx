@@ -64,23 +64,39 @@ describe('HomeAiBriefingCard — thẻ AI tập trung (đợt C)', () => {
 
   it('đã tải: không còn animate-pulse nào (pulse chỉ dành cho skeleton — luật 6 mục 9)', async () => {
     fetchBriefing.mockResolvedValue({ summary: 'Bản tin thử.', insights: ['Đã ôn 3 thẻ'] })
-    const el = await render({ srsDueCount: 4, continueLessonLabel: 'Bài 1', continueLevelId: 'A1' })
+    const el = await render({ showDailyWords: true, dailyLearned: 3, dailyMax: 20 })
     const html = el.innerHTML
     expect(html).toContain('Bản tin thử.')
     expect(html).toContain('Đã ôn 3 thẻ')
     expect(html).not.toContain('animate-pulse')
     for (const cls of FORBIDDEN) expect(html).not.toContain(cls)
-    // Đúng HAI việc tiếp theo: học tiếp + ôn SRS.
-    expect(html).toContain('Bài 1')
-    expect(html).toContain('Ôn 4 thẻ đến hạn')
+    expect(el.textContent).toContain('3/20')
   })
 
   it('API lỗi: vẫn có câu dự phòng, không vỡ thẻ', async () => {
     fetchBriefing.mockRejectedValue(new Error('down'))
     const el = await render({})
     expect(el.textContent).toContain('Hôm nay hãy bắt đầu bằng việc quan trọng nhất trước')
-    expect(el.textContent).toContain('Chọn bước tiếp theo trong lộ trình')
     expect(el.innerHTML).not.toContain('animate-pulse')
     expect(el.textContent).not.toContain('chuỗi học tập rất tốt')
+  })
+
+  // [S06-2] Bất biến MỚI: thẻ chào KHÔNG được quyết định việc học nữa. Bản cũ tự dựng "Kế hoạch
+  // hôm nay" từ tín hiệu môn Anh và điều hướng về `/lo-trinh-hoc` — đúng cái "mặc định tiếng
+  // Anh" mà nền tảng cấm. Việc học nay ở TodayCard.
+  it('không còn khối kế hoạch/việc học nào trong thẻ chào', async () => {
+    fetchBriefing.mockResolvedValue({ summary: 'Bản tin thử.', insights: [] })
+    const el = await render({ userName: 'An' })
+    expect(el.textContent).not.toContain('Kế hoạch hôm nay')
+    expect(el.textContent).not.toContain('Ưu tiên 1')
+    expect(el.innerHTML).not.toContain('/lo-trinh-hoc')
+  })
+
+  // §7 Q5: dòng "x/y từ" là kế toán RIÊNG môn Anh — người chỉ học Lập trình không được thấy.
+  it('không học tiếng Anh: không hiện dòng đếm từ của môn Anh', async () => {
+    fetchBriefing.mockResolvedValue({ summary: 'Bản tin thử.', insights: [] })
+    const el = await render({ dailyLearned: 0, dailyMax: 50 })
+    expect(el.textContent).not.toContain('Hôm nay đã học')
+    expect(el.textContent).not.toContain('0/50')
   })
 })
