@@ -13,6 +13,9 @@
 - `packages/core-contracts/reviewItem.ts` — hợp đồng `ReviewItem`/`ReviewQueue` + Zod: `href` phải
   là route nội bộ, `courseId` kéo theo `?khoa=`, `kind:'mistake'` bắt buộc `mistakeId`,
   `evidenceSource` trong allowlist 5 nguồn.
+- `apps/dhcb/src/lib/reviewRoutes.ts` — module LÁ giữ các hàm dựng URL ôn tập + đọc `?cap=`, tách
+  khỏi `reviewQueue.ts`: trang chỉ cần một đường dẫn (Trang chủ, trang cấp CEFR) không được kéo
+  theo bộ dựng hàng đợi — nó import bảng bốn môn STEM và sổ lỗi.
 - `apps/dhcb/src/lib/reviewQueue.ts` — `buildReviewQueue` **thuần, đồng bộ**: khử trùng theo
   `subjectId+contentId` (lỗi thắng thẻ) → `dueAt` tăng dần → lỗi trước thẻ → `difficulty` giảm dần
   → cắt cap. Kèm `docCapTuQuery` dùng chung; `CefrLevelPage` gọi lại đúng hàm này (hành vi `?cap=`
@@ -43,15 +46,29 @@
 - `REVIEW_SPACING_MS` được `lib/mistakes.ts` xuất ra thay vì khai lại trong `reviewQueue.ts`, để
   hàng đợi và sổ lỗi không thể lệch nhau.
 
+## Sửa trong lúc gộp `main` (#944 #945 #950 #952)
+
+- **Khử trùng suýt xoá mất thẻ.** Bản đầu gộp theo `subjectId+contentId`, nên HAI thẻ khác nhau
+  của cùng một bài bị gộp làm một — đúng thứ làm nên SRS (mỗi thẻ một lịch ôn riêng) bị xoá mất.
+  Nay: mục lỗi vẫn thắng thẻ của cùng nội dung, nhưng các thẻ khác nhau đều được giữ; chỉ CÙNG
+  một `srsKey` lọt hai lần mới giữ bản đến hạn sớm hơn. Hai ca test canh.
+- Ca test "dây nối S11-3": bài STEM ĐẠT → thêm thẻ → thẻ đến hạn → hàng đợi có nhóm môn đó
+  (`stemSrs.test.ts`). Ngày S11-3 gọi `addStemLessonCardsToSrs`, nếu tên hàm/khuôn khoá lệch thì
+  ca này đỏ ngay thay vì phải phát hiện bằng mắt trên giao diện.
+
 ## Kiểm chứng
 
 - `npm run typecheck` (sau `rm -rf packages/*/dist dist dist-server`) ✅ · `npm run lint`
   (0 cảnh báo) ✅ · `npm run format` ✅ · `npm run build` ✅.
-- `npm run test:coverage`: 649 file, **13172 test xanh** (2 skip) — statements 94.09%, branches
-  90.08%, functions 94.35%, lines 94.61%.
-- Test mới: `reviewItem.test.ts` 11 ca · `reviewQueue.test.ts` 23 ca · `stemSrs.test.ts` 11 ca ·
-  `FlashcardReview.test.tsx` 8 ca · `srs.golden.test.ts` 3 snapshot.
-- E2E: `review-hub.spec.ts` 4/4 · `session-cap.spec.ts` + `comeback.spec.ts` xanh y nguyên ·
+- `npm run test:coverage` trên cây ĐÃ GỘP `main`: 655 file, **13310 test xanh** (2 skip) —
+  statements 94.09%, branches 90.05%, functions 94.45%, lines 94.61%.
+- Test mới: `reviewItem.test.ts` 11 ca · `reviewQueue.test.ts` 18 ca · `reviewRoutes.test.ts` 5 ca ·
+  `stemSrs.test.ts` 13 ca · `FlashcardReview.test.tsx` 8 ca · `srs.golden.test.ts` 3 snapshot.
+- Golden snapshot SRS chạy lại SAU mỗi lần gộp `main` — không đổi, tức công thức FSRS nguyên vẹn.
+- E2E: `review-hub.spec.ts` 4/4 · `session-cap.spec.ts` xanh ·
+  `comeback.spec.ts` xanh khi dev server đã ấm; ca "vắng 5 ngày" **đỏ ngẫu nhiên khi chạy nguội** —
+  tái hiện y hệt với `Home.tsx` NGUYÊN BẢN của `main`, nên là flaky sẵn có của `main` (banner chờ
+  giáo trình nạp xong, hết 5s), không phải do slice này ·
   `programming-lesson.spec.ts` ca thẻ SRS xanh (bằng chứng tách `FlashcardReview` không đổi hành
   vi) · `a11y.spec.ts` 25/25 nhóm `goc-hoc-tap` · `a11y-aaa.spec.ts` 15/15 các route ôn tập.
 - Ảnh Tầng 8b 1440/390/320px cho hub (rỗng + có hàng đợi) và màn ôn thẻ STEM: đã nhìn thật, không

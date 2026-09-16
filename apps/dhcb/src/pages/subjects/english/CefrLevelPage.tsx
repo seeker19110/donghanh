@@ -90,7 +90,7 @@ import {
 import { getExamMap } from '../../../lib/cefrExam'
 import CefrExam from '../../../components/CefrExam'
 import { useOnboarding } from '../../../lib/onboarding'
-import { docCapTuQueryTuyChon } from '../../../lib/reviewQueue'
+import { docCapTuQueryTuyChon } from '../../../lib/reviewRoutes'
 import { PageShell } from '@core/PageShell'
 import { TwoPane } from '@core/TwoPane'
 import { countBadgeClass, badgeCount } from '@core/badgeStyles'

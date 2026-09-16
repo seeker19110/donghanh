@@ -3,15 +3,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 // Chặn đồng bộ cloud: reviewQueue kéo theo srs.ts/mistakes.ts, test phải chạy offline.
 vi.mock('./progressSync.js', () => ({ pushProgress: vi.fn() }))
 
-import {
-  buildReviewQueue,
-  docCapTuQuery,
-  docCapTuQueryTuyChon,
-  duongDanHubOnTap,
-  duongDanOnTapStem,
-  nhanMon,
-  type ReviewSources,
-} from './reviewQueue'
+import { buildReviewQueue, nhanMon, type ReviewSources } from './reviewQueue'
 import { ReviewQueueSchema } from '@dhcb/core-contracts/reviewItem'
 import { SRS_SESSION_CAP, type SRSCard } from './srs'
 import { REVIEW_SPACING_MS, type Mistake } from './mistakes'
@@ -220,7 +212,7 @@ describe('buildReviewQueue', () => {
     expect(q.items[0]!.kind).toBe('mistake')
   })
 
-  it('trùng mục cùng loại: giữ mục đến hạn SỚM hơn', () => {
+  it('hai THẺ KHÁC NHAU của cùng một bài đều được giữ (mỗi thẻ một lịch ôn riêng)', () => {
     const q = buildReviewQueue(
       nguon({
         stemDueCards: [
@@ -246,8 +238,27 @@ describe('buildReviewQueue', () => {
       }),
       { now: NOW },
     )
+    expect(q.items).toHaveLength(2)
+    // Quá hạn lâu hơn đứng trước.
+    expect(q.items.map((i) => i.srsKey)).toEqual(['stem:physics:l1:1', 'stem:physics:l1:0'])
+  })
+
+  it('CÙNG một thẻ lọt vào hai lần: giữ bản đến hạn sớm hơn', () => {
+    const the1 = {
+      key: 'stem:physics:l1:0',
+      subjectId: 'physics' as const,
+      lessonId: 'l1',
+      lessonTitle: 'Bài 1',
+      index: 0,
+    }
+    const q = buildReviewQueue(
+      nguon({
+        stemDueCards: [the1, { ...the1 }],
+        srsCards: { 'stem:physics:l1:0': the(NOW - 100) },
+      }),
+      { now: NOW },
+    )
     expect(q.items).toHaveLength(1)
-    expect(q.items[0]!.srsKey).toBe('stem:physics:l1:1')
   })
 
   it('thứ tự: quá hạn lâu nhất trước; cùng hạn thì lỗi trước thẻ; rồi khó nhất trước', () => {
@@ -323,42 +334,8 @@ describe('buildReviewQueue', () => {
   })
 })
 
-describe('docCapTuQuery', () => {
-  const cap = (q: string) => docCapTuQuery(new URLSearchParams(q))
-
-  it('?cap=5 → 5', () => {
-    expect(cap('cap=5')).toBe(5)
-  })
-
-  it('thiếu / 0 / chữ / âm / thập phân → mặc định SRS_SESSION_CAP', () => {
-    for (const q of ['', 'cap=0', 'cap=abc', 'cap=-3', 'cap=2.5']) {
-      expect(cap(q)).toBe(SRS_SESSION_CAP)
-    }
-  })
-
-  it('?cap=999 → kẹp về trần phiên, không cho phiên ôn dài vô hạn', () => {
-    expect(cap('cap=999')).toBe(SRS_SESSION_CAP)
-  })
-
-  it('fallback truyền vào được dùng khi thiếu ?cap=', () => {
-    expect(docCapTuQuery(new URLSearchParams(''), 5)).toBe(5)
-  })
-
-  it('bản tuỳ chọn giữ nguyên hành vi trang cấp CEFR: thiếu ?cap= → undefined', () => {
-    expect(docCapTuQueryTuyChon(new URLSearchParams(''))).toBeUndefined()
-    expect(docCapTuQueryTuyChon(new URLSearchParams('cap=3'))).toBe(3)
-    expect(docCapTuQueryTuyChon(new URLSearchParams('cap=abc'))).toBeUndefined()
-  })
-})
-
-describe('đường dẫn và nhãn dùng chung', () => {
-  it('dựng URL hub và URL ôn STEM ở một chỗ', () => {
-    expect(duongDanHubOnTap()).toBe('/goc-hoc-tap/on-tap')
-    expect(duongDanHubOnTap(5)).toBe('/goc-hoc-tap/on-tap?cap=5')
-    expect(duongDanOnTapStem('physics')).toBe('/goc-hoc-tap/physics/on-tap')
-  })
-
-  it('nhãn môn: hai môn riêng + bốn môn STEM lấy từ bảng chung', () => {
+describe('nhãn môn', () => {
+  it('hai môn riêng + bốn môn STEM lấy từ bảng chung, mã lạ giữ nguyên', () => {
     expect(nhanMon('english')).toBe('Tiếng Anh')
     expect(nhanMon('programming')).toBe('Lập trình')
     expect(nhanMon('physics')).toBe('Vật lí')

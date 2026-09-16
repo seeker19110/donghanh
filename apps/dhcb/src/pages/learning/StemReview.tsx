@@ -22,7 +22,7 @@ import {
   type StemSrsCard,
   type StemSrsCardRef,
 } from '../../lib/stemSrs'
-import { docCapTuQuery } from '../../lib/reviewQueue'
+import { docCapTuQuery } from '../../lib/reviewRoutes'
 import { getStemSubject, duongDanDanhSachBai } from '../../lib/stemLessonRoutes'
 import { type Rating } from '../../lib/srs'
 

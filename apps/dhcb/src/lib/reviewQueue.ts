@@ -21,6 +21,7 @@ import { REVIEW_SPACING_MS, type Mistake } from './mistakes'
 import type { ProgSrsCardRef } from './programmingSrs'
 import type { StemSrsCardRef } from './stemSrs'
 import { STEM_SUBJECTS } from './stemLessonRoutes'
+import { duongDanOnTapStem } from './reviewRoutes'
 
 /**
  * Một mục lỗi đọc từ bằng chứng hoàn thành (S11) — khai theo HÌNH DẠNG ở đây để S12-1 không
@@ -227,55 +228,29 @@ export function buildReviewQueue(
   }
 }
 
-/** Đường dẫn màn ôn thẻ của một môn STEM — dựng ở MỘT chỗ. */
-export function duongDanOnTapStem(subjectId: string, cap?: number): string {
-  const goc = `/goc-hoc-tap/${subjectId}/on-tap`
-  return cap == null ? goc : `${goc}?cap=${cap}`
-}
-
-/** Đường dẫn hub ôn tập xuyên môn — dựng ở MỘT chỗ (Home, comeback, sidebar đều gọi hàm này). */
-export function duongDanHubOnTap(cap?: number): string {
-  return cap == null ? '/goc-hoc-tap/on-tap' : `/goc-hoc-tap/on-tap?cap=${cap}`
-}
-
 /**
- * Một nội dung chỉ được xuất hiện MỘT lần trong hàng đợi: mục lỗi thắng thẻ (lỗi cụ thể hơn),
- * cùng loại thì giữ mục đến hạn sớm hơn. Nếu không, bài ngữ pháp vừa sai sẽ hiện hai lần và
- * số ở hub lệch số ở tab "Ôn SRS".
+ * Khử trùng theo NỘI DUNG: một mục lỗi và một thẻ của cùng nội dung là CÙNG một việc phải làm,
+ * nên chỉ giữ mục lỗi (cụ thể hơn: nó nói rõ sai ở đâu). Nếu không, bài ngữ pháp vừa sai sẽ hiện
+ * hai lần và số ở hub lệch số ở tab "Ôn SRS".
+ *
+ * NHƯNG nhiều THẺ của cùng một bài thì GIỮ NGUYÊN tất cả: mỗi thẻ có lịch ôn riêng — gộp chúng
+ * lại là xoá mất chính thứ làm nên SRS. Chỉ khi cùng một thẻ (cùng `srsKey`) xuất hiện hai lần
+ * mới giữ bản đến hạn sớm hơn.
  */
 function khuTrung(items: readonly ReviewItem[]): ReviewItem[] {
-  const theoNoiDung = new Map<string, ReviewItem>()
+  const khoaNoiDung = (it: ReviewItem) => `${it.subjectId}:${it.contentId.toLowerCase()}`
+  const coLoi = new Set(items.filter((it) => it.kind === 'mistake').map(khoaNoiDung))
+
+  const giu = new Map<string, ReviewItem>()
   for (const it of items) {
-    const khoa = `${it.subjectId}:${it.contentId.toLowerCase()}`
-    const cu = theoNoiDung.get(khoa)
-    if (!cu) {
-      theoNoiDung.set(khoa, it)
-      continue
-    }
-    if (cu.kind !== 'mistake' && it.kind === 'mistake') theoNoiDung.set(khoa, it)
-    else if (cu.kind === it.kind && it.dueAt < cu.dueAt) theoNoiDung.set(khoa, it)
+    // Nội dung đã có mục lỗi thì các thẻ của nội dung đó nhường chỗ.
+    if (it.kind !== 'mistake' && coLoi.has(khoaNoiDung(it))) continue
+    // Thẻ phân biệt tới từng thẻ (`srsKey`); mục lỗi phân biệt theo nội dung.
+    const khoa = it.kind === 'mistake' ? khoaNoiDung(it) : (it.srsKey ?? it.itemId)
+    const cu = giu.get(khoa)
+    if (!cu || it.dueAt < cu.dueAt) giu.set(khoa, it)
   }
-  return [...theoNoiDung.values()]
-}
-
-/**
- * Đọc `?cap=` của URL: số nguyên trong khoảng 1..`SRS_SESSION_CAP`, sai hoặc thiếu thì dùng
- * `fallback`. Rút từ `CefrLevelPage` để hai nơi không có hai cách hiểu khác nhau về cùng một
- * tham số URL (trang cấp dùng bản `docCapTuQueryTuyChon` — thiếu `?cap=` là "theo tốc độ đã lưu").
- */
-export function docCapTuQuery(search: URLSearchParams, fallback: number = SRS_SESSION_CAP): number {
-  const n = docCapTuQueryTuyChon(search)
-  if (n == null || !Number.isInteger(n)) return fallback
-  return Math.min(n, SRS_SESSION_CAP)
-}
-
-/**
- * Bản trả `undefined` khi không có `?cap=` hợp lệ — GIỮ NGUYÊN hành vi sẵn có của trang cấp
- * CEFR (`?cap=` vắng nghĩa là "theo tốc độ đã lưu", không phải cap mặc định).
- */
-export function docCapTuQueryTuyChon(search: URLSearchParams): number | undefined {
-  const n = Number(search.get('cap'))
-  return Number.isFinite(n) && n > 0 ? n : undefined
+  return [...giu.values()]
 }
 
 /** Nhãn môn để hiện trong hub — bốn môn STEM lấy từ bảng chung, hai môn kia khai ở đây. */

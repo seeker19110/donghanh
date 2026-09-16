@@ -49,7 +49,7 @@ import {
   COMEBACK_SRS_CARDS,
   COMEBACK_NEW_WORDS,
 } from '../../lib/comeback'
-import { duongDanHubOnTap } from '../../lib/reviewQueue'
+import { duongDanHubOnTap } from '../../lib/reviewRoutes'
 
 export default function Home() {
   const nav = useNavigate()

@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
 vi.mock('./progressSync.js', () => ({ pushProgress: vi.fn() }))
 
+import { buildReviewQueue } from './reviewQueue'
 import {
   stemCardKey,
   parseStemCardKey,
@@ -13,7 +14,13 @@ import {
   duongDanBaiCuaThe,
 } from './stemSrs'
 import { STEM_SUBJECTS } from './stemLessonRoutes'
-import { _resetSrsMemCacheForTests, getSRSStats, getSrsKeysByPrefix, addToSRS } from './srs'
+import {
+  _resetSrsMemCacheForTests,
+  getSRSStats,
+  getSrsKeysByPrefix,
+  getSrsSnapshot,
+  addToSRS,
+} from './srs'
 import type { StemLessonLike } from '@dhcb/core-contracts/stemLesson'
 
 const BAI = (id: string, soThe: number): StemLessonLike =>
@@ -148,5 +155,56 @@ describe('stemSrs', () => {
     vi.advanceTimersByTime(5 * 3_600_000)
     const [the] = getDueStemCards('u1')
     expect(duongDanBaiCuaThe(the!)).toBe('/goc-hoc-tap/physics/bai-hoc/l1--bai-l1')
+  })
+
+  // CÂU HỎI CỦA REVIEWER (S12-1): hub hiện chưa có thẻ STEM vì S11-3 (màn kết quả) chưa gọi
+  // `addStemLessonCardsToSrs`. Ca dưới đây là DÂY NỐI: nó đi đúng con đường thật — bài ĐẠT →
+  // thêm thẻ → thẻ đến hạn → hàng đợi của hub có nhóm môn đó. Ngày S11-3 nối vào, nếu tên hàm
+  // hay khuôn khoá lệch thì ca này đỏ NGAY, không phải chờ phát hiện bằng mắt trên giao diện.
+  it('bài STEM đạt → thẻ vào kho → hàng đợi của hub có nhóm môn đó', async () => {
+    gaLoader('physics', { l1: BAI('l1', 2) })
+    await addStemLessonCardsToSrs('u1', 'physics', 'l1')
+    vi.advanceTimersByTime(5 * 3_600_000)
+
+    const q = buildReviewQueue({
+      uid: 'u1',
+      englishDueWords: [],
+      englishDueGrammarIds: [],
+      programmingDueCards: [],
+      stemDueCards: getDueStemCards('u1'),
+      englishMistakesDue: [],
+      srsCards: getSrsSnapshot('u1'),
+      sourcesState: {
+        'english.srs': 'ready',
+        'programming.srs': 'ready',
+        'stem.srs': 'ready',
+        'english.mistakes': 'ready',
+        'learning.evidence': 'unavailable',
+      },
+    })
+    expect(q.bySubject.physics).toBe(2)
+    expect(q.items[0]!.href).toContain('/goc-hoc-tap/physics/on-tap')
+    expect(q.items[0]!.evidenceSource).toBe('stem.srs')
+  })
+
+  it('CHƯA đạt bài nào → hàng đợi không có nhóm STEM (không hiện nhóm rỗng giả)', () => {
+    const q = buildReviewQueue({
+      uid: 'u1',
+      englishDueWords: [],
+      englishDueGrammarIds: [],
+      programmingDueCards: [],
+      stemDueCards: getDueStemCards('u1'),
+      englishMistakesDue: [],
+      srsCards: getSrsSnapshot('u1'),
+      sourcesState: {
+        'english.srs': 'ready',
+        'programming.srs': 'ready',
+        'stem.srs': 'ready',
+        'english.mistakes': 'ready',
+        'learning.evidence': 'unavailable',
+      },
+    })
+    expect(q.bySubject.physics).toBeUndefined()
+    expect(q.totalDue).toBe(0)
   })
 })

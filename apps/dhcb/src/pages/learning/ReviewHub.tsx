@@ -25,7 +25,8 @@ import { getSrsSnapshot } from '../../lib/srs'
 import { getDueProgCards } from '../../lib/programmingSrs'
 import { getDueStemCards } from '../../lib/stemSrs'
 import { getDueMistakes } from '../../lib/mistakes'
-import { buildReviewQueue, docCapTuQuery, nhanMon, type ReviewSources } from '../../lib/reviewQueue'
+import { buildReviewQueue, nhanMon, type ReviewSources } from '../../lib/reviewQueue'
+import { docCapTuQuery } from '../../lib/reviewRoutes'
 import type { ReviewQueue } from '@dhcb/core-contracts/reviewItem'
 
 /** Mã cấp CEFR — mã bài ngữ pháp luôn mở đầu bằng cấp (`a1-be`), đó là manh mối rẻ nhất. */
