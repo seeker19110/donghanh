@@ -1,7 +1,7 @@
 # 0351 — S11-3: màn kết quả `ActivityResult` và mục lục STEM đọc evidence
 
 - **Ngày:** 2026-09-16
-- **PR:** #PR_PLACEHOLDER
+- **PR:** #969
 - **Đặc tả:** [`docs/specs/2026-09-15-learning-ux-s11-completion-evidence.md`](../specs/2026-09-15-learning-ux-s11-completion-evidence.md) §9 mục 3 (AC-14 → AC-18)
 - **Slice:** S11-3 — slice CUỐI của S11 (S11-1 `0333`, S11-2 `0348`)
 
