@@ -24,6 +24,9 @@ export default defineConfig({
       'apps/dhcb/src/**/*.test.{ts,tsx}',
       // Cả `api/**` lẫn test nằm thẳng trong `apps/server/src/` (vd staticApps.test.ts).
       'apps/server/src/**/*.test.ts',
+      // apps/hub trước đây KHÔNG được quét — 0 test nào của hub chạy trong CI dù có (AC-17,
+      // S05-2). Thêm vào đây để test hub được chạy thật, không phải "viết ra rồi mồ côi".
+      'apps/hub/src/**/*.test.{ts,tsx}',
       'packages/**/*.test.{ts,tsx}',
       'scripts/**/*.test.ts',
     ],
