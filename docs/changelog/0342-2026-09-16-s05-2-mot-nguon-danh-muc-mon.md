@@ -7,7 +7,7 @@
 ## Việc đã làm
 
 1. **`packages/core-learner/subjectEntry.ts`** (mới) — export `SUBJECT_ENTRIES: readonly
-   SubjectEntry[]`, suy trực tiếp từ `SUPPORTED_SUBJECTS` (giữ nguyên id/nhãn/thứ tự của
+SubjectEntry[]`, suy trực tiếp từ `SUPPORTED_SUBJECTS` (giữ nguyên id/nhãn/thứ tự của
    registry: english · mathematics · physics · chemistry · biology · programming), cộng
    `ctaPath` (dùng lại `subjectHomePath` đã có ở `subjectHome.ts`) và `status`
    (`'live' | 'preview' | 'building'`). Q5: english/programming `'live'`, 4 môn STEM `'preview'`
