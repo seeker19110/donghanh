@@ -29,19 +29,36 @@ function writeCache(uid: string, lessons: ProgrammingLessonProgress[]): void {
   }
 }
 
-/** Đọc tiến độ: trả cache ngay nếu server lỗi (ngoại tuyến vẫn xem được). */
-export async function fetchProgress(uid: string): Promise<ProgrammingLessonProgress[]> {
+export interface ProgressReadResult {
+  lessons: ProgrammingLessonProgress[]
+  /**
+   * Dữ liệu này lấy từ cache vì server KHÔNG trả lời được (mạng hỏng, 401/5xx). Khách vãng lai
+   * KHÔNG tính là lỗi: với họ localStorage vốn là nguồn sự thật.
+   *
+   * Có cờ này thì giao diện mới nói thật được ("Chưa tải được tiến độ · Thử lại") thay vì im lặng
+   * hiển thị số cũ như thể vừa đồng bộ xong.
+   */
+  fromCache: boolean
+}
+
+/** Đọc tiến độ kèm việc CÓ PHẢI rơi về cache hay không (S06-2: thẻ "Hôm nay" cần biết để báo lỗi). */
+export async function fetchProgressWithStatus(uid: string): Promise<ProgressReadResult> {
   // Khách vãng lai: localStorage LÀ nguồn sự thật (không có tài khoản để lưu server).
-  if (isGuestId(uid)) return readCache(uid)
+  if (isGuestId(uid)) return { lessons: readCache(uid), fromCache: false }
   try {
     const res = await fetch('/api/programming/progress', { headers: getAuthHeader() })
-    if (!res.ok) return readCache(uid)
+    if (!res.ok) return { lessons: readCache(uid), fromCache: true }
     const body = (await res.json()) as { lessons: ProgrammingLessonProgress[] }
     writeCache(uid, body.lessons)
-    return body.lessons
+    return { lessons: body.lessons, fromCache: false }
   } catch {
-    return readCache(uid)
+    return { lessons: readCache(uid), fromCache: true }
   }
+}
+
+/** Đọc tiến độ: trả cache ngay nếu server lỗi (ngoại tuyến vẫn xem được). */
+export async function fetchProgress(uid: string): Promise<ProgrammingLessonProgress[]> {
+  return (await fetchProgressWithStatus(uid)).lessons
 }
 
 /** Ghi tiến độ 1 bài: cập nhật cache lạc quan rồi đẩy server (lỗi mạng không chặn UI). */
