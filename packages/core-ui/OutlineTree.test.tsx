@@ -275,4 +275,47 @@ describe('OutlineTree', () => {
     expect(daBam).toEqual(['chapter:c2'])
     expect(nutChuong('Chương 2').getAttribute('aria-expanded')).toBe('true')
   })
+
+  // ── activeNodeId (S07-3) ──────────────────────────────────────────────
+  // Mã nội dung KHÔNG duy nhất trong mọi cây: cấp B2 của Tiếng Anh dùng vòng từ vựng `it` ở
+  // hai unit. Nếu đánh dấu "đang mở" theo mã nội dung thì CẢ HAI lá mang `aria-current="page"`
+  // — sai với người dùng bàn phím và trình đọc màn hình, và mở nhầm chương.
+  const CAY_TRUNG_MA: Outline = {
+    ...CAY,
+    nodes: [
+      ...CAY.nodes,
+      nut({
+        nodeId: 'lesson:c2-b1',
+        parentId: 'chapter:c2',
+        contentId: 'b1',
+        kind: 'lesson',
+        title: 'Sự rơi tự do (nhắc lại)',
+        href: '/bai/c2-b1',
+        order: 2,
+      }),
+    ],
+  }
+
+  it('activeNodeId: đúng MỘT lá aria-current dù hai lá trùng mã nội dung', () => {
+    hien({ outline: CAY_TRUNG_MA, activeNodeId: 'lesson:c2-b1' })
+    const dangMo = [...container.querySelectorAll('[aria-current="page"]')]
+    expect(dangMo).toHaveLength(1)
+    expect(dangMo[0]?.getAttribute('href')).toBe('/bai/c2-b1')
+    // …và chương chứa ĐÚNG lá đó được mở sẵn.
+    expect(nutChuong('Chương 2').getAttribute('aria-expanded')).toBe('true')
+    expect(nutChuong('Chương 1').getAttribute('aria-expanded')).toBe('false')
+  })
+
+  it('activeContentId (không có nodeId) đánh dấu cả hai lá trùng mã — lý do có activeNodeId', () => {
+    hien({ outline: CAY_TRUNG_MA, activeContentId: 'b1' })
+    expect(container.querySelectorAll('[aria-current="page"]').length).toBeGreaterThan(1)
+  })
+
+  it('activeNodeId cũng đúng trong kết quả tìm kiếm', () => {
+    hien({ outline: CAY_TRUNG_MA, activeNodeId: 'lesson:c2-b1' })
+    go('roi tu do')
+    const dangMo = [...container.querySelectorAll('[aria-current="page"]')]
+    expect(dangMo).toHaveLength(1)
+    expect(dangMo[0]?.getAttribute('href')).toBe('/bai/c2-b1')
+  })
 })

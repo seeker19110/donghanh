@@ -6,8 +6,9 @@
 // phiên đọc storage lúc mount, reload thật mới chứng minh được chữ quay lại đúng ô. Unit test
 // dựng lại cây React, còn đây là trình duyệt thật tải lại trang thật.
 //
-// File tách riêng khỏi `learning-session-resume.spec.ts` (ca bài Lập trình, PR S08-2 làm song
-// song) để hai PR không đụng cùng một file mới.
+// File tách riêng khỏi `learning-session-resume.spec.ts` (ca bài Lập trình, PR S08-2 #961) vì
+// lúc PR này mở thì #961 CHƯA vào `main` — hai PR cùng THÊM một đường dẫn mới là xung đột
+// add/add chắc chắn. Khi #961 đã vào `main`, gộp ba ca dưới đây vào file đó và xoá file này.
 import { test, expect } from '@playwright/test'
 
 const BAI = '/goc-hoc-tap/physics/bai-hoc/ly10-c2-b10--su-roi-tu-do'

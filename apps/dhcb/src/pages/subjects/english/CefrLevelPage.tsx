@@ -18,7 +18,7 @@
 //   ẩn thanh tab.
 // ──────────────────────────────────────────────────────────────────────
 
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams, useNavigate, useSearchParams, Navigate } from 'react-router-dom'
 import {
   ChevronLeft,
@@ -90,6 +90,12 @@ import {
 import { getExamMap } from '../../../lib/cefrExam'
 import CefrExam from '../../../components/CefrExam'
 import { useOnboarding } from '../../../lib/onboarding'
+import { useOutlinePane } from '../../../components/useOutlinePane'
+import {
+  buildCefrOutline,
+  docHoatDongTuQuery,
+  nodeIdHoatDong,
+} from '../../../lib/outline/cefrOutline'
 import { PageShell } from '@core/PageShell'
 import { TwoPane } from '@core/TwoPane'
 import { countBadgeClass, badgeCount } from '@core/badgeStyles'
@@ -102,15 +108,18 @@ const pct = (done: number, total: number) => (total > 0 ? Math.round((done / tot
 type StudyTab = 'lessons' | 'today' | 'srs' | 'hard' | 'quiz' | 'listening'
 const STUDY_TABS: StudyTab[] = ['lessons', 'today', 'srs', 'hard', 'quiz', 'listening']
 
+// Tên mục lục — cũng là nhãn nút mở panel trên mobile (S07-3 AC-20).
+const TEN_MUC_LUC = 'Mục lục cấp học'
+
 export default function CefrLevelPage() {
   const { levelId } = useParams<{ levelId: string }>()
   const nav = useNavigate()
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const { user } = useAuth()
   const isA = getDirection() === 'A'
   // Master–detail ở desktop (≥1024px): khi mở 1 màn con, hiện thêm cột trái là danh sách
-  // unit rút gọn (xem `masterList`/`shell`) — bấm mục khác đổi luôn cột phải, không cần
-  // rời trang rồi mở lại. Dưới ngưỡng này giữ nguyên hành vi cũ (màn con chiếm toàn màn hình).
+  // MỤC LỤC CÂY của cấp (xem `mucLuc`/`shell`) — bấm mục khác đổi luôn cột phải, không cần
+  // rời trang rồi mở lại. Dưới ngưỡng này: nút "Mục lục cấp học" + panel (S07-3).
   const isDesktop = useIsDesktopViewport()
 
   const [levels, setLevels] = useState<CefrLevel[]>([])
@@ -312,6 +321,108 @@ export default function CefrLevelPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uid, grammarQuizPool, refresh])
 
+  // ── Mục lục CÂY của cấp (S07-3, AC-20) ────────────────────────────────
+  // Thay danh sách unit rút gọn ở cột trái bằng cây `Outline` dùng chung ba môn: cùng một cách
+  // hiển thị trạng thái (đã xong ✓ · đang học dở ◐ · chưa học ○ · khoá 🔒), cùng ô tìm không
+  // dấu, và trên MOBILE có panel — trước đây mở một màn con trên điện thoại là mất hẳn lối
+  // nhảy sang mục khác, phải bấm "Quay lại" rồi cuộn tìm.
+  const circleMap = useMemo(() => new Map(Object.entries(circleById)), [circleById])
+  const chiSoCap = level ? levels.findIndex((l) => l.id === level.id) : -1
+  const maCapTruoc = chiSoCap > 0 ? levels[chiSoCap - 1]?.id : undefined
+  const outline = useMemo(
+    () =>
+      level
+        ? buildCefrOutline(level, {
+            learned,
+            doneGrammar,
+            viewedDialogues,
+            circles: circleMap,
+            lockedMap,
+            ...(maCapTruoc ? { prevLevelId: maCapTruoc } : {}),
+          })
+        : undefined,
+    [level, learned, doneGrammar, viewedDialogues, circleMap, lockedMap, maCapTruoc],
+  )
+
+  // Hoạt động được chỉ đích danh trên URL (`?unit=…&hd=…`) — đây là thứ mục lục liên kết tới.
+  const hoatDongUrl = useMemo(() => docHoatDongTuQuery(searchParams), [searchParams])
+
+  // Lá "đang mở" của mục lục. Ưu tiên URL; nếu màn con được mở bằng cách bấm trong danh sách
+  // chính (hoặc thẻ "Học tiếp") thì URL không đổi, nên suy từ state để mục lục vẫn mở đúng
+  // phần đang học — không thì cây luôn bung phần 1 dù người học đang ở phần 12.
+  const maNutDangMo = useMemo(() => {
+    if (hoatDongUrl) return nodeIdHoatDong(hoatDongUrl)
+    const maNoiDung = circle?.id ?? lesson?.id
+    if (!outline || maNoiDung === undefined) return undefined
+    return outline.nodes.find((n) => n.kind === 'activity' && n.contentId === maNoiDung)?.nodeId
+  }, [hoatDongUrl, outline, circle, lesson])
+
+  const { rail, trigger, sheet } = useOutlinePane({
+    outline,
+    ...(maNutDangMo ? { activeNodeId: maNutDangMo } : {}),
+    title: TEN_MUC_LUC,
+    // Khoá lưu RIÊNG từng cấp: mở "Phần 3" ở A1 không được kéo theo B1.
+    storageKey: `cefr:${level?.id ?? 'none'}`,
+    isDesktop,
+  })
+
+  // URL mở màn con: ba hoạt động của một unit là màn CON của trang này (không phải route
+  // riêng), nên mục lục trỏ tới `?unit=&hd=` và trang tự mở đúng màn. Nhờ vậy Back/Forward và
+  // tải lại trang đều đúng, và một liên kết mục lục là liên kết THẬT (mở tab mới được).
+  //
+  // Đồng bộ NGAY TRONG LÚC RENDER (không phải trong `useEffect`): đây là "điều chỉnh state khi
+  // đầu vào đổi" — React khuyến nghị làm ở render để không vẽ một lượt bằng dữ liệu cũ rồi mới
+  // sửa. Cùng khuôn với `useOutlinePane`. Hội thoại phải nạp bất đồng bộ nên nằm ở effect dưới.
+  //
+  // Khoá so sánh gồm CẢ cấp và unit, không riêng `hd`: cùng một vòng từ vựng có thể nằm ở hai
+  // unit (cấp B2 có vòng `it` ở hai phần), và lúc render đầu tiên `level` chưa tải xong nên
+  // phải đồng bộ lại một lần nữa khi dữ liệu về.
+  const khoaManCon = `${level?.id ?? ''}|${searchParams.get('unit') ?? ''}|${hoatDongUrl ? `${hoatDongUrl.kind}:${hoatDongUrl.contentId}` : ''}`
+  const [khoaDaXuLy, setKhoaDaXuLy] = useState<string | null>(null)
+  if (khoaDaXuLy !== khoaManCon) {
+    setKhoaDaXuLy(khoaManCon)
+    const unit = level?.units.find((u) => u.id === hoatDongUrl?.unitId)
+    // Đang mở một màn con mà chọn màn khác trong mục lục thì màn cũ phải nhường chỗ: thứ tự
+    // ưu tiên khi vẽ là hội thoại → từ vựng → ngữ pháp, nên chỉ đặt cái mới là chưa đủ.
+    const vong = hoatDongUrl?.kind === 'vocab' ? (circleById[hoatDongUrl.contentId] ?? null) : null
+    const bai =
+      hoatDongUrl?.kind === 'grammar'
+        ? (unit?.grammar.find((g) => g.id === hoatDongUrl.contentId) ?? null)
+        : null
+    setCircle(vong)
+    setLesson(bai)
+    setDialogue(null)
+  }
+
+  // Hội thoại: danh sách nạp bất đồng bộ; mở bài đầu của unit (cây chỉ có MỘT nút hội thoại
+  // cho cả unit — xem `cefrOutline.ts`).
+  useEffect(() => {
+    if (!level || hoatDongUrl?.kind !== 'dialogue') return
+    const unit = level.units.find((u) => u.id === hoatDongUrl.unitId)
+    if (!unit) return // unit lạ → bỏ qua, trang hiện như bình thường
+    let conHieuLuc = true
+    void getDialogues(unit.id).then((ds) => {
+      const d = ds[0]
+      if (!conHieuLuc || !d) return
+      if (uid) markDialogueViewed(uid, unit.id, d.titleEn)
+      setRefresh((k) => k + 1)
+      setDialogue(d)
+    })
+    return () => {
+      conHieuLuc = false
+    }
+  }, [level, hoatDongUrl, uid])
+
+  // Đóng màn con: xoá luôn `?unit=&hd=` khỏi URL, nếu không lần render sau lại mở đúng màn vừa
+  // đóng (URL là nguồn sự thật). `replace` để nút Back không phải bấm hai lần.
+  const xoaNguCanhHoatDong = useCallback(() => {
+    if (!searchParams.has('unit') && !searchParams.has('hd')) return
+    const sau = new URLSearchParams(searchParams)
+    sau.delete('unit')
+    sau.delete('hd')
+    setSearchParams(sau, { replace: true })
+  }, [searchParams, setSearchParams])
+
   if (!user) return null
   // Dữ liệu đã tải mà không tìm thấy cấp (URL sai kiểu /lo-trinh-hoc/c9) → về lộ trình.
   if (ready && !level) return <Navigate to="/lo-trinh-hoc" replace />
@@ -323,7 +434,7 @@ export default function CefrLevelPage() {
     user.plan === 'vip' && !locked && !!level && (freeRuleLockedMap.get(level.id) ?? false)
 
   // Đánh số bài ngữ pháp liên tục trong cả cấp (Bài 1, Bài 2, …) — cần TRƯỚC các early-return
-  // màn con bên dưới vì `masterList` (cột trái desktop, xem `shell`) dùng lại số này.
+  // màn con bên dưới vì danh sách unit của cột phải dùng lại số này.
   const unitLessonStarts: number[] = []
   let lessonStartAcc = 0
   if (level) {
@@ -340,32 +451,11 @@ export default function CefrLevelPage() {
     setDialogue(d)
   }
 
-  // Cột trái "master" ở desktop (≥1024px) khi đang xem 1 màn con (từ vựng/ngữ pháp/hội
-  // thoại) — danh sách unit rút gọn, bấm mục khác đổi luôn màn phải mà KHÔNG rời trang
-  // (giống bấm trong danh sách chính, chỉ khác là gọn hơn để nhường chỗ cho nội dung).
+  // Cột trái ở desktop (≥1024px) khi đang xem 1 màn con (từ vựng/ngữ pháp/hội thoại):
+  // MỤC LỤC CÂY của cả cấp (S07-3). Trước đây là danh sách unit đầy đủ dựng bằng `UnitSection`
+  // — mỗi phần một thẻ cao gần bằng màn hình, nên "nhảy sang mục khác" vẫn phải cuộn rất xa.
   // KHÔNG hiện khi thi cuối cấp (màn thi cố tình toàn màn hình) hay khi cấp bị khóa.
-  const masterList =
-    level && !locked ? (
-      <div className="space-y-3">
-        {level.units.map((unit, ui) => (
-          <UnitSection
-            key={unit.id}
-            unit={unit}
-            index={ui}
-            isA={isA}
-            accent={accent}
-            circleById={circleById}
-            learned={learned}
-            doneGrammar={doneGrammar}
-            viewedDialogues={viewedDialogues}
-            lessonStartIndex={unitLessonStarts[ui] ?? 0}
-            onOpenLesson={setLesson}
-            onOpenCircle={setCircle}
-            onOpenDialogue={openDialogue}
-          />
-        ))}
-      </div>
-    ) : null
+  const mucLuc = level && !locked ? rail : null
 
   // ── Khung trang chung ──────────────────────────────────────────────────
   // headerBack: đích của nút back trên THANH HEADER trên cùng (khác nút "Quay lại"/"Back" bên
@@ -374,7 +464,7 @@ export default function CefrLevelPage() {
   // như Layout mặc định: từ màn con (hội thoại/từ vựng/ngữ pháp/thi) → về trang cấp; từ trang
   // cấp (không mở màn con nào) → về danh sách cấp /lo-trinh-hoc.
   //
-  // `master`: cột trái desktop (xem `masterList` ở trên) — CHỈ hiện khi có + `isDesktop` true.
+  // `master`: cột trái desktop (xem `mucLuc` ở trên) — CHỈ hiện khi có + `isDesktop` true.
   // Gate bằng JS (`useIsDesktopViewport`), không phải class Tailwind: bài học ở đợt thiết kế
   // desktop trước (changelog 0199) là ẩn-bằng-CSS vẫn để nội dung trùng trong DOM.
   function shell(children: React.ReactNode, headerBack?: () => void, master?: React.ReactNode) {
@@ -398,7 +488,25 @@ export default function CefrLevelPage() {
             {children}
           </TwoPane>
         </PageShell>
+        {/* Panel mục lục của mobile — tự `createPortal` ra `<body>`, đặt đâu cũng được. */}
+        {sheet}
       </div>
+    )
+  }
+
+  /**
+   * Khung của một MÀN CON (từ vựng · ngữ pháp · hội thoại): thêm nút mở mục lục cho mobile
+   * ngay trên đầu nội dung. Trên desktop `trigger` là `null` (đã có cột trái), nên chỗ này
+   * KHÔNG sinh ra hai bản mục lục trong DOM.
+   */
+  function manCon(children: React.ReactNode, headerBack: () => void) {
+    return shell(
+      <>
+        {trigger && <div className="mb-3">{trigger}</div>}
+        {children}
+      </>,
+      headerBack,
+      mucLuc,
     )
   }
 
@@ -430,47 +538,60 @@ export default function CefrLevelPage() {
   }
 
   // ── Màn con: hội thoại / flashcard / bài ngữ pháp ─────────────────────
+  // Đóng hội thoại: hội thoại ĐÈ LÊN màn từ vựng (xem chú thích ở khai báo state), nên chỉ
+  // xoá ngữ cảnh trên URL khi bên dưới không còn màn con nào — nếu không, đóng hội thoại mở
+  // từ trong một vòng từ vựng sẽ làm URL quên mất vòng đang học.
+  const dongHoiThoai = () => {
+    setDialogue(null)
+    if (!circle && !lesson) xoaNguCanhHoatDong()
+  }
+  const dongVongTuVung = () => {
+    setCircle(null)
+    xoaNguCanhHoatDong()
+  }
+  const dongNguPhap = () => {
+    setLesson(null)
+    xoaNguCanhHoatDong()
+  }
+
   if (dialogue) {
-    return shell(
+    return manCon(
       <DialogueView
         dialogue={dialogue}
         isA={isA}
         accent={accent}
         plan={user?.plan ?? 'free'}
         userId={uid}
-        onBack={() => setDialogue(null)}
+        onBack={dongHoiThoai}
       />,
-      () => setDialogue(null),
-      masterList,
+      dongHoiThoai,
     )
   }
   if (circle) {
-    return shell(
+    return manCon(
       <VocabFlash
         circle={circle}
         isA={isA}
         uid={uid}
         pool={studyPool}
         onProgress={bump}
-        onBack={() => setCircle(null)}
+        onBack={dongVongTuVung}
         onOpenDialogue={(d) => openDialogue(circle.id, d)}
       />,
-      () => setCircle(null),
-      masterList,
+      dongVongTuVung,
     )
   }
   if (lesson) {
-    return shell(
+    return manCon(
       <GrammarDetail
         lesson={lesson}
         isA={isA}
         uid={uid}
         accent={accent}
-        onBack={() => setLesson(null)}
+        onBack={dongNguPhap}
         onDoneChange={bump}
       />,
-      () => setLesson(null),
-      masterList,
+      dongNguPhap,
     )
   }
   if (examing) {
