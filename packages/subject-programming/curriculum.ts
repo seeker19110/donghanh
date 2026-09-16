@@ -934,6 +934,66 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         title: 'Security S1 — identity và session lifecycle',
         topics: 'Rotation; expiry; revocation; recovery rate limit; authn vs authz',
       },
+      {
+        id: 'p6-u166',
+        title: 'AI S2 — time split, baseline và leakage',
+        topics: 'Past-only split; holdout; leakage fail closed; baseline comparison',
+      },
+      {
+        id: 'p6-u167',
+        title: 'AI S2 — confusion, threshold và mất cân bằng lớp',
+        topics: 'Precision/recall; denominator; threshold; class imbalance',
+      },
+      {
+        id: 'p6-u168',
+        title: 'AI S2 — feature contribution và group error',
+        topics: 'Bounded contribution; group error; empty/sensitive group boundary',
+      },
+      {
+        id: 'p6-u169',
+        title: 'AI S2 — chọn model theo quality, latency và cost',
+        topics: 'Dominated option; deterministic tie-break; bounded trade-off',
+      },
+      {
+        id: 'p6-u170',
+        title: 'AI S3 — loss, gradient và checkpoint',
+        topics: 'Finite difference; epsilon/lr; non-finite and divergence gate',
+      },
+      {
+        id: 'p6-u171',
+        title: 'AI S3 — attention bounded và mask invariant',
+        topics: 'Short sequence; shape/mask; softmax denominator; context',
+      },
+      {
+        id: 'p6-u172',
+        title: 'AI S3 — label agreement và distribution shift',
+        topics: 'Agreement; bounded histogram; empty group; invalid count',
+      },
+      {
+        id: 'p6-u173',
+        title: 'AI S3 — prompt, fine-tune và quantization decision',
+        topics: 'Eval/latency table; explicit trade-off; no production benchmark claim',
+      },
+      {
+        id: 'p6-u174',
+        title: 'AI S4 — version tuple và model release gate',
+        topics: 'Code/data/model version; approval; eval; rollback fail closed',
+      },
+      {
+        id: 'p6-u175',
+        title: 'AI S4 — drift, feedback delay và alert',
+        topics: 'Unknown quality; threshold; measured feedback; investigate',
+      },
+      {
+        id: 'p6-u176',
+        title: 'AI S4 — tool loop có budget và cancellation',
+        topics: 'Allow-list; schema; idempotency; step/cost budget',
+      },
+      {
+        id: 'p6-u177',
+        title: 'AI S4 — harm, privacy và incident decision',
+        topics: 'PII; license; human review; audit trail',
+      },
       // p6-u66..u68: chặng S1 của hướng Dữ liệu (data-s1, specializations/data.ts, 4 module).
       // p3-u8/p3-u9 đã dạy SELECT/JOIN/GROUP BY/HAVING cơ bản — u66 đi XA HƠN (hàm cửa sổ, CTE)
       // để không dạy trùng. Đăng ký cầu nối ở `specializations/stageUnits.ts`.
