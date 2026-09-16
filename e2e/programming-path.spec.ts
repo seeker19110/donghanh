@@ -46,6 +46,12 @@ test('lộ trình kiến trúc sư AI mở từ P1 và dùng URL chuẩn mới',
   await page.goto('/lap-trinh/huong/systems', { waitUntil: 'domcontentloaded' })
   const systemsStage = page.getByRole('listitem').filter({ hasText: 'Bộ nhớ và C' })
   await expect(systemsStage.getByRole('button', { name: 'Vào học chặng này' })).toBeVisible()
+  const operatingSystemsStage = page
+    .getByRole('listitem')
+    .filter({ hasText: 'Hệ điều hành nhìn từ chương trình' })
+  await expect(
+    operatingSystemsStage.getByRole('button', { name: 'Vào học chặng này' }),
+  ).toBeVisible()
 
   if (process.env.CAPTURE_PATH_JOURNEY === '1') {
     for (const viewport of [
