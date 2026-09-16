@@ -934,6 +934,26 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         title: 'Security S1 — identity và session lifecycle',
         topics: 'Rotation; expiry; revocation; recovery rate limit; authn vs authz',
       },
+      {
+        id: 'p6-u186',
+        title: 'Security S2 — authorized assessment scope',
+        topics: 'Consent; scope; window; test account; non-destructive refuse',
+      },
+      {
+        id: 'p6-u187',
+        title: 'Security S2 — web/API finding triage',
+        topics: 'Redacted fixture; authz; input validation; insufficient evidence',
+      },
+      {
+        id: 'p6-u188',
+        title: 'Security S2 — exposure và secret triage',
+        topics: 'Bounded inventory; true/false positive; rotate/revoke recommendation',
+      },
+      {
+        id: 'p6-u189',
+        title: 'Security S2 — responsible disclosure',
+        topics: 'Severity; remediation; owner/timeline; embargo before public disclosure',
+      },
       // p6-u66..u68: chặng S1 của hướng Dữ liệu (data-s1, specializations/data.ts, 4 module).
       // p3-u8/p3-u9 đã dạy SELECT/JOIN/GROUP BY/HAVING cơ bản — u66 đi XA HƠN (hàm cửa sổ, CTE)
       // để không dạy trùng. Đăng ký cầu nối ở `specializations/stageUnits.ts`.
