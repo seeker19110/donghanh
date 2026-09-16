@@ -7,6 +7,9 @@
 // POST /api/mistakes  body { mistakes: Mistake[] } → hợp nhất cả hai phía, trả về sổ SAU hợp nhất.
 // DELETE /api/mistakes?id=<uuid> → xoá một thẻ lỗi.
 //
+// [S12-2] Mỗi thẻ có thể mang BẰNG CHỨNG (attemptId/contentId — migration 0084). Ba field đó
+// tuỳ chọn và không tham gia `dedupe_key`: lỗi trùng vẫn gộp một dòng, bằng chứng giữ bản mới.
+//
 // Quy tắc hợp nhất (client và server có thể đã lệch nhau khi dùng nhiều máy):
 //  * Gộp theo (user_id, dedupe_key) — cùng khoá thì lấy `count` LỚN HƠN (không cộng dồn, vì
 //    client gửi lên tổng tích luỹ của máy đó chứ không phải phần tăng thêm; cộng dồn sẽ thổi
@@ -45,6 +48,14 @@ const MistakeSchema = z
     count: z.number().int().positive().max(100_000),
     lastReviewedAt: z.number().int().nonnegative().nullable().default(null),
     reviewCount: z.number().int().nonnegative().max(100_000).default(0),
+    // [S12-2] Bằng chứng, đều TUỲ CHỌN: sổ lỗi cũ (và mọi lỗi từ Chat/Viết/Nói hôm nay) không
+    // có lượt nộp nào để trỏ tới, và giao diện phải nói thẳng "ghi tay" thay vì giả bằng chứng.
+    attemptId: z
+      .string()
+      .regex(/^[A-Za-z0-9-]{16,64}$/)
+      .optional(),
+    contentId: z.string().min(1).max(64).optional(),
+    subjectId: z.literal('english').optional(),
   })
   .strict()
 
@@ -70,6 +81,19 @@ interface MistakeRow {
   count: number
   last_reviewed_at: Date | null
   review_count: number
+  attempt_id: string | null
+  content_id: string | null
+  subject_id: string
+}
+
+/**
+ * Cột `attempt_id` là `uuid` (migration 0084). `AttemptIdSchema` của S11 cố ý RỘNG hơn uuid vì
+ * `crypto.randomUUID` vắng mặt trên WebView cũ nên client có nhánh dự phòng. Giá trị không phải
+ * uuid mà bind thẳng vào SQL sẽ làm CẢ mẻ đồng bộ đổ 500 — nên ở đây nó rơi về `null` (mất móc
+ * bằng chứng của đúng thẻ đó, giữ nguyên phần còn lại của sổ) thay vì làm hỏng lần đồng bộ.
+ */
+function uuidHoacNull(v: string | undefined): string | null {
+  return v && z.uuid().safeParse(v).success ? v : null
 }
 
 // Hàng DB → đúng hình dạng client mong đợi (thời gian là mili-giây epoch).
@@ -85,11 +109,16 @@ function rowToMistake(r: MistakeRow) {
     count: r.count,
     lastReviewedAt: r.last_reviewed_at ? r.last_reviewed_at.getTime() : null,
     reviewCount: r.review_count,
+    // Field vắng thay vì `null`: kiểu client khai chúng `?:`, và `undefined` là cách nói
+    // "không có bằng chứng" mà giao diện đã hiểu sẵn.
+    ...(r.attempt_id ? { attemptId: r.attempt_id } : {}),
+    ...(r.content_id ? { contentId: r.content_id } : {}),
+    subjectId: r.subject_id,
   }
 }
 
 const SELECT_ALL = `select id, wrong, corrected, explanation, source, dir, created_at, count,
-                           last_reviewed_at, review_count
+                           last_reviewed_at, review_count, attempt_id, content_id, subject_id
                       from english.mistakes
                      where user_id = $1
                      order by count desc, created_at desc
@@ -140,9 +169,10 @@ export default async function handler(req: Request): Promise<Response> {
     await pool.query(
       `insert into english.mistakes
          (id, user_id, dedupe_key, wrong, corrected, explanation, source, dir, count,
-          created_at, last_reviewed_at, review_count)
+          created_at, last_reviewed_at, review_count, attempt_id, content_id, subject_id)
        values ($1, $2, $3, $4, $5, $6, $7, $8, $9, to_timestamp($10 / 1000.0),
-               case when $11::bigint is null then null else to_timestamp($11 / 1000.0) end, $12)
+               case when $11::bigint is null then null else to_timestamp($11 / 1000.0) end, $12,
+               $13::uuid, $14::text, coalesce($15::text, 'english'))
        on conflict (user_id, dedupe_key) do update set
          count            = greatest(english.mistakes.count, excluded.count),
          created_at       = greatest(english.mistakes.created_at, excluded.created_at),
@@ -154,6 +184,11 @@ export default async function handler(req: Request): Promise<Response> {
                                  else english.mistakes.explanation end,
          source           = excluded.source,
          dir              = excluded.dir,
+         -- Bằng chứng MỚI thắng, nhưng NULL KHÔNG xoá bằng chứng đã có: một máy cũ đồng bộ
+         -- lên (không biết field này) không được làm mất móc bằng chứng của máy khác.
+         attempt_id       = coalesce(excluded.attempt_id, english.mistakes.attempt_id),
+         content_id       = coalesce(excluded.content_id, english.mistakes.content_id),
+         subject_id       = coalesce(excluded.subject_id, english.mistakes.subject_id),
          updated_at       = now()`,
       [
         m.id,
@@ -168,6 +203,9 @@ export default async function handler(req: Request): Promise<Response> {
         m.createdAt,
         m.lastReviewedAt,
         m.reviewCount,
+        uuidHoacNull(m.attemptId),
+        m.contentId ?? null,
+        m.subjectId ?? null,
       ],
     )
   }

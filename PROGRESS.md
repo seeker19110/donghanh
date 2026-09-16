@@ -266,8 +266,14 @@ comeback trỏ hub `?cap=5` — `docs/changelog/0341-2026-09-16-s12-1-hang-doi-o
 có golden snapshot canh (`apps/dhcb/src/lib/srs.golden.test.ts`, chụp ở commit đầu của PR). Nhóm thẻ STEM
 còn rỗng: S11-3 cố ý KHÔNG gọi `addStemLessonCardsToSrs` (đặc tả S11 §① "KHÔNG ghi thẻ SRS — S12"), chỉ
 chừa prop `reviewSlot` của `ActivityResult`; việc nối dây là của S12 và chỉ khi
-`ketQua.kind === 'server' && evidence.passed`. Còn lại: **S12-2** (sổ lỗi có bằng
-chứng + migration) và **S12-3** (tiến độ theo môn).
+`ketQua.kind === 'server' && evidence.passed`. Còn lại: **S12-3** (tiến độ theo môn).
+
+**S12-2 (sổ lỗi có bằng chứng) — ĐANG MỞ PR [#981](https://github.com/seeker19110/donghanh/pull/981)** (`docs/changelog/0352-2026-09-16-s12-2-so-loi-co-bang-chung.md`).
+Migration **`0084_mistakes_evidence.sql`** (3 cột nullable trên `english.mistakes`, lũy đẳng, không
+đổi `unique (user_id, dedupe_key)`); `GET /api/learning/evidence?include=attempts`; sổ lỗi STEM là
+**hàm thuần đọc từ evidence S11**, KHÔNG có bảng lỗi thứ hai; `MistakeBank` có bộ lọc môn + nhãn "có
+bằng chứng"/"ghi tay" + "Ôn lại lỗi này"; hub ôn tập nối nguồn `learning.evidence`. Môn Lập trình ghi
+thẳng "chưa có bằng chứng câu sai" (không sổ ghi tay).
 
 **Các slice còn lại của goal learning-ux — ĐẶC TẢ ĐÃ VIẾT 2026-09-15 (`docs/changelog/0328-*.md`), tất cả đã `Approved for implementation` từ 2026-09-15 (chủ dự án chốt toàn bộ §7 theo đề xuất mặc định — `docs/changelog/0329-*.md`).** Thứ tự thi hành đã chốt: S07 → S08 → S06 → S05 → S10 → S11 → S09 → S12 → S13. File: `docs/specs/2026-09-15-learning-ux-s{08,06,05,10,11,09,12,13}-*.md`. **Số migration cấp theo thứ tự MERGE thật, KHÔNG đặt trước (chủ dự án chốt 2026-09-15, PR #935):** cổng `scripts/migrations-readme-coverage.test.ts` cấm nhảy số, nên PR nào merge trước thì lấy số kế tiếp còn trống. S11-1 merge trước nên lấy `0081`; S05/S09/S12 lấy số còn trống tại thời điểm PR của chúng merge. Kế hoạch đánh số trước (S05 0081 · S11 0082 · S09 0083 · S12 0084) đã BỎ.
 

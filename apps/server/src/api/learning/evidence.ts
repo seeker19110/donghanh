@@ -5,6 +5,9 @@
 //        trả CompletionEvidence.
 // GET  /api/learning/evidence?subjectId=physics → { state: CompletionState[] } của CHÍNH người
 //      đang đăng nhập (không bao giờ nhận userId từ query).
+// GET  …&include=attempts → thêm { attempts: CompletionEvidence[] } — 200 lượt nộp MỚI NHẤT của
+//      môn đó, kèm `items` (đúng/sai từng câu). Sổ lỗi STEM (S12-2) dựng từ đây chứ KHÔNG có
+//      bảng lỗi thứ hai; `answers.raw` (chữ người học gõ) KHÔNG trả về — sổ lỗi không cần nó.
 //
 // Đặc tả: docs/specs/2026-09-15-learning-ux-s11-completion-evidence.md §③.4
 // Bảng: platform.completion_evidence + platform.completion_state (migration 0081).
@@ -49,7 +52,18 @@ const TRA_BAI: Record<EvidenceSubject, (id: string) => BaiStem | undefined> = {
   biology: getBiologyLesson,
 }
 
-const GetQuerySchema = z.object({ subjectId: EvidenceSubjectSchema })
+// Tham số truy vấn là dữ liệu từ client → validate hết, `.strict()` để tham số lạ bị từ chối
+// thay vì âm thầm bỏ qua.
+const GetQuerySchema = z
+  .object({
+    subjectId: EvidenceSubjectSchema,
+    /** Chỉ một giá trị được phép; vắng = chỉ trả trạng thái như trước S12-2. */
+    include: z.literal('attempts').optional(),
+  })
+  .strict()
+
+/** Trần số lượt nộp trả về mỗi môn — sổ lỗi chỉ cần các lượt gần đây (đặc tả §②). */
+const MAX_ATTEMPTS = 200
 
 interface StateRow {
   subject_id: string
@@ -60,6 +74,23 @@ interface StateRow {
   attempts: number
   completed_at: Date | null
   updated_at: Date
+}
+
+interface AttemptRow {
+  subject_id: string
+  content_id: string
+  course_id: string | null
+  activity_kind: string
+  attempt_id: string
+  evidence_kind: string
+  correct: number
+  total: number
+  ratio: string
+  passed: boolean
+  content_version: string | null
+  client_at: Date
+  server_at: Date
+  answers: { questionIndex: number; correct: boolean; reason: string }[]
 }
 
 interface EvidenceRow {
@@ -88,6 +119,37 @@ function toState(r: StateRow): CompletionState {
   }
 }
 
+/**
+ * Hàng nhật ký → `CompletionEvidence`. `ownerId` lấy từ TOKEN (tham số `userId`), không bao giờ
+ * từ hàng dữ liệu: truy vấn đã lọc `user_id = $1` nên hai chỗ luôn khớp, và nếu mai này ai đó
+ * nới câu lệnh thì chỗ này vẫn không phát tán id của người khác.
+ */
+function toAttempt(r: AttemptRow, userId: string): CompletionEvidence {
+  return {
+    schemaVersion: 1,
+    subjectId: r.subject_id as EvidenceSubject,
+    contentId: r.content_id,
+    ...(r.course_id ? { courseId: r.course_id } : {}),
+    activityKind: r.activity_kind as CompletionEvidence['activityKind'],
+    attemptId: r.attempt_id,
+    clientAt: r.client_at.toISOString(),
+    ownerId: userId,
+    evidenceKind: r.evidence_kind === 'local_graded' ? 'local_graded' : 'server_graded',
+    correct: r.correct,
+    total: r.total,
+    ratio: Number(r.ratio),
+    passed: r.passed,
+    ...(r.content_version ? { contentVersion: r.content_version } : {}),
+    serverAt: r.server_at.toISOString(),
+    // Chỉ kết quả chấm; `raw` (chữ người học gõ) ở lại trong DB.
+    items: (Array.isArray(r.answers) ? r.answers : []).map((a) => ({
+      questionIndex: a.questionIndex,
+      correct: a.correct,
+      reason: a.reason,
+    })),
+  }
+}
+
 export default async function handler(req: Request): Promise<Response> {
   const headers = { ...getCorsHeaders(req), ...SECURITY_HEADERS }
   if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers })
@@ -104,11 +166,17 @@ export default async function handler(req: Request): Promise<Response> {
   const pool = getPgPool()
   try {
     if (req.method === 'GET') {
+      const searchParams = new URL(req.url).searchParams
       const parsedQuery = GetQuerySchema.safeParse({
-        subjectId: new URL(req.url).searchParams.get('subjectId') ?? undefined,
+        subjectId: searchParams.get('subjectId') ?? undefined,
+        ...(searchParams.has('include') ? { include: searchParams.get('include') } : {}),
       })
       if (!parsedQuery.success) {
-        return jsonResponse({ error: 'subjectId không hợp lệ', code: 'BAD_SUBJECT' }, 400, headers)
+        return jsonResponse(
+          { error: 'Tham số truy vấn không hợp lệ', code: 'BAD_QUERY' },
+          400,
+          headers,
+        )
       }
       const res = await pool.query<StateRow>(
         `select subject_id, content_id, status, best_ratio, last_ratio, attempts, completed_at, updated_at
@@ -116,7 +184,27 @@ export default async function handler(req: Request): Promise<Response> {
           where user_id = $1 and subject_id = $2`,
         [auth.userId, parsedQuery.data.subjectId],
       )
-      return jsonResponse({ state: res.rows.map(toState) }, 200, headers)
+      if (parsedQuery.data.include !== 'attempts') {
+        return jsonResponse({ state: res.rows.map(toState) }, 200, headers)
+      }
+      // `user_id = $1` lấy từ token đã xác thực — không có đường nào đọc nhật ký của người khác.
+      const nhatKy = await pool.query<AttemptRow>(
+        `select subject_id, content_id, course_id, activity_kind, attempt_id, evidence_kind,
+                correct, total, ratio, passed, content_version, client_at, server_at, answers
+           from platform.completion_evidence
+          where user_id = $1 and subject_id = $2
+          order by server_at desc
+          limit ${MAX_ATTEMPTS}`,
+        [auth.userId, parsedQuery.data.subjectId],
+      )
+      return jsonResponse(
+        {
+          state: res.rows.map(toState),
+          attempts: nhatKy.rows.map((r) => toAttempt(r, auth.userId)),
+        },
+        200,
+        headers,
+      )
     }
 
     if (req.method !== 'POST') return jsonResponse({ error: 'Method not allowed' }, 405, headers)
