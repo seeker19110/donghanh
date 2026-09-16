@@ -53,6 +53,7 @@ import {
   COMEBACK_SRS_CARDS,
   COMEBACK_NEW_WORDS,
 } from '../../lib/comeback'
+import { duongDanHubOnTap } from '../../lib/reviewQueue'
 
 export default function Home() {
   const nav = useNavigate()
@@ -201,11 +202,9 @@ export default function Home() {
           <div className="flex gap-2 mt-3">
             {srsDue > 0 && (
               <button
-                onClick={() =>
-                  nav(
-                    `/lo-trinh-hoc/${continueLevel.level.id.toLowerCase()}?tab=srs&cap=${COMEBACK_SRS_CARDS}`,
-                  )
-                }
+                // [S12-1] Trỏ tới HUB ôn tập xuyên môn thay vì chỉ SRS môn Anh: người bỏ bẵng
+                // vài ngày thường nợ ôn ở nhiều môn, gom vào một phiên nhẹ 5 mục.
+                onClick={() => nav(duongDanHubOnTap(COMEBACK_SRS_CARDS))}
                 className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 theme-light:text-sky-800 text-sm font-medium transition"
               >
                 <Brain className="w-4 h-4" />

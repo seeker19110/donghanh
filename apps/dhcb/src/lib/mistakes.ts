@@ -47,7 +47,9 @@ const MAX_MISTAKES = 200
 // Độ dài tối đa mỗi trường (tránh lưu nguyên bài viết dài vào 1 thẻ lỗi).
 const MAX_FIELD_LEN = 500
 // Giãn cách ôn tối thiểu: đã ôn trong vòng 2 ngày thì tạm chưa cần ôn lại.
-const REVIEW_SPACING_MS = 2 * 86_400_000
+// Xuất ra ngoài (S12-1) để hàng đợi ôn xuyên môn tính hạn CÙNG một con số với sổ lỗi —
+// khai lại ở nơi khác là mở đường cho hai chỗ lệch nhau mà không ai biết.
+export const REVIEW_SPACING_MS = 2 * 86_400_000
 
 function read(uid: string): Mistake[] {
   try {

@@ -292,7 +292,7 @@ export function getLeechWords(uid: string, words: DictEntry[]): DictEntry[] {
 // notification hiện "N từ cần ôn" bị phồng lên tới 78 (số bài ngữ pháp), lệch với tab
 // "Ôn SRS" (vốn đã lọc đúng theo `allWordsPool`) — audit toàn diện 2026-08-23.
 /** Tiền tố khoá của các loại thẻ KHÔNG phải từ vựng tiếng Anh (xem getSRSStats). */
-const NAMESPACE_KHONG_PHAI_TU_VUNG = ['grammar:', 'prog:']
+const NAMESPACE_KHONG_PHAI_TU_VUNG = ['grammar:', 'prog:', 'stem:']
 
 export function getSRSStats(uid: string): { total: number; due: number } {
   const data = load(uid)
@@ -308,6 +308,30 @@ export function getSRSStats(uid: string): { total: number; due: number } {
     total: entries.length,
     due: entries.filter((c) => c.due <= now).length,
   }
+}
+
+/**
+ * Các KHOÁ trong kho SRS bắt đầu bằng `tienTo` (đã hạ chữ thường).
+ *
+ * Vì sao cần (S12-1): thẻ môn Lập trình biết trước mình có bao nhiêu thẻ nhờ chỉ mục bài học,
+ * còn thẻ STEM thì KHÔNG (chỉ mục STEM không có `srsCardCount`, và thẻ chỉ tồn tại sau khi
+ * học viên hoàn thành bài). Nơi duy nhất biết "học viên đang có những thẻ STEM nào" chính là
+ * kho này. Hàm chỉ ĐỌC, không đụng lịch ôn — đọc qua `load()` để luôn thấy bản mới nhất của
+ * phiên (memCache), thay vì để chỗ khác tự mở `localStorage` rồi đọc phải bản cũ.
+ */
+export function getSrsKeysByPrefix(uid: string, tienTo: string): string[] {
+  const tt = tienTo.toLowerCase()
+  return Object.keys(getSrsSnapshot(uid)).filter((k) => k.startsWith(tt))
+}
+
+/**
+ * Bản chụp CHỈ ĐỌC của kho SRS — dùng để DỰNG hàng đợi ôn (S12-1), không dùng để ghi.
+ *
+ * Trả về chính bản trong bộ nhớ, đóng kiểu `Readonly` để nơi gọi không sửa nhầm; mọi thay đổi
+ * lịch ôn vẫn phải đi qua `reviewWord`/`addToSRS` như cũ.
+ */
+export function getSrsSnapshot(uid: string): Readonly<Record<string, SRSCard>> {
+  return load(uid)
 }
 
 // Ngày ôn tiếp theo của 1 từ (null nếu chưa trong SRS)
