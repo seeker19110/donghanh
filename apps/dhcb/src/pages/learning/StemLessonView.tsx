@@ -8,15 +8,19 @@
 //     nhét thẳng vào bundle là mọi trang đều phải gánh.
 //  2. Chấm câu hỏi bằng `gradeAnswer` của @dhcb/core-grading — hàm thuần, tất định, chạy
 //     offline. KHÔNG có AI trong luồng phán đúng/sai (nguyên tắc bất di bất dịch của engine).
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { ArrowLeft, Check, X } from 'lucide-react'
+import { z } from 'zod'
 import { gradeAnswer } from '@dhcb/core-grading'
 import type { StemCheckQuestion, StemLessonLike } from '@dhcb/core-contracts/stemLesson'
 import { LessonAnimation } from '@core/LessonAnimation'
 import Layout from '../../components/Layout'
 import { buttonClass } from '@core/buttonStyles'
 import { usePageTitle } from '../../lib/usePageTitle'
+import { useAuth } from '../../context/useAuth'
+import { contentFingerprint } from '../../lib/learningSession'
+import { useLearningSession } from '../../lib/useLearningSession'
 import { ChuaDuyetChuyenMon } from '../../components/ChuaDuyetChuyenMon'
 import { LuotDuyetBai } from '../../components/admin/LuotDuyetBai'
 import { PageShell } from '@core/PageShell'
@@ -32,14 +36,37 @@ import { useOutlinePane } from '../../components/useOutlinePane'
 import OutlinePrevNext from '../../components/OutlinePrevNext'
 import { useIsDesktopViewport } from '../../lib/useIsDesktopViewport'
 
-function CauHoi({ cau, thuTu }: { cau: StemCheckQuestion; thuTu: number }) {
-  const [traLoi, setTraLoi] = useState('')
-  const [ketQua, setKetQua] = useState<'dung' | 'sai' | null>(null)
+// Nháp phần "Tự kiểm tra": CHỈ chữ người học gõ + danh sách câu đã bấm chấm.
+// KHÔNG lưu kết quả đúng/sai — nó được TÍNH LẠI bằng `gradeAnswer` (hàm thuần, offline) mỗi lần
+// dựng trang. Một nguồn sự thật cho việc chấm, và nháp không bao giờ là bằng chứng hoàn thành.
+const stemDraftSchema = z.object({
+  answers: z.record(z.string(), z.string()),
+  checked: z.array(z.string()),
+})
+type StemDraft = z.infer<typeof stemDraftSchema>
 
-  function cham(giaTri: string) {
-    if (!giaTri.trim()) return
-    setKetQua(gradeAnswer(giaTri, cau.answer).correct ? 'dung' : 'sai')
-  }
+const NHAP_RONG: StemDraft = { answers: {}, checked: [] }
+
+function CauHoi({
+  cau,
+  thuTu,
+  traLoi,
+  daCham,
+  onChon,
+  onGo,
+  onKiemTra,
+}: {
+  cau: StemCheckQuestion
+  thuTu: number
+  traLoi: string
+  daCham: boolean
+  onChon: (giaTri: string) => void
+  onGo: (giaTri: string) => void
+  onKiemTra: () => void
+}) {
+  // Kết quả SUY RA, không lưu: có bấm chấm và có chữ thì mới có đúng/sai.
+  const ketQua: 'dung' | 'sai' | null =
+    daCham && traLoi.trim() ? (gradeAnswer(traLoi, cau.answer).correct ? 'dung' : 'sai') : null
 
   return (
     <li className="rounded-xl border border-line-subtle bg-surface-card p-4">
@@ -53,10 +80,7 @@ function CauHoi({ cau, thuTu }: { cau: StemCheckQuestion; thuTu: number }) {
             <li key={c.id}>
               <button
                 type="button"
-                onClick={() => {
-                  setTraLoi(c.id)
-                  cham(c.id)
-                }}
+                onClick={() => onChon(c.id)}
                 aria-pressed={traLoi === c.id}
                 className={`w-full min-h-[44px] rounded-lg border px-4 py-2 text-left text-content ${
                   traLoi === c.id ? 'border-accent-500' : 'border-line-strong'
@@ -75,18 +99,11 @@ function CauHoi({ cau, thuTu }: { cau: StemCheckQuestion; thuTu: number }) {
           <input
             id={`tra-loi-${thuTu}`}
             value={traLoi}
-            onChange={(e) => {
-              setTraLoi(e.target.value)
-              setKetQua(null)
-            }}
+            onChange={(e) => onGo(e.target.value)}
             className="min-h-[44px] flex-1 rounded-lg border border-line-strong bg-surface-base px-3 text-content"
             placeholder="Nhập câu trả lời"
           />
-          <button
-            type="button"
-            onClick={() => cham(traLoi)}
-            className={buttonClass({ variant: 'primary' })}
-          >
+          <button type="button" onClick={onKiemTra} className={buttonClass({ variant: 'primary' })}>
             Kiểm tra
           </button>
         </div>
@@ -111,6 +128,111 @@ function CauHoi({ cau, thuTu }: { cau: StemCheckQuestion; thuTu: number }) {
         </div>
       )}
     </li>
+  )
+}
+
+/**
+ * Phần "Tự kiểm tra" — MỘT nguồn ghi cho đáp án của mọi câu, để nháp sống qua reload.
+ *
+ * Vì sao tách thành component riêng: hook phiên học cần `bai` đã tải xong, mà bài STEM nạp lười
+ * nên lúc `StemLessonView` mount thì chưa có `bai.id`/`bai.checkQuestions` — hook thì không được
+ * gọi có điều kiện. Trang dựng nó với `key={bai.id}` nên đổi bài là dựng lại sạch.
+ *
+ * Ranh giới: đây chỉ là NHÁP trên cùng thiết bị. Bài STEM vẫn KHÔNG có tiến độ/evidence —
+ * không khoá localStorage nào khác, không endpoint, không cột DB (đặc tả S08 §① KHÔNG LÀM).
+ */
+function TuKiemTra({ bai, subjectId }: { bai: StemLessonLike; subjectId: string }) {
+  const { user, loading, isGuest } = useAuth()
+  // Owner `null` khi AuthProvider chưa xong → hook ở trạng thái `loading`, tuyệt đối không ghi.
+  const owner = useMemo(
+    () =>
+      loading || !user
+        ? null
+        : { kind: isGuest ? ('guest' as const) : ('account' as const), id: user.id },
+    [loading, user, isGuest],
+  )
+
+  // Vân tay khung bài: đổi đề thì nháp cũ thành `stale` và bị bỏ IM LẶNG (§3.5 của đặc tả) —
+  // nháp STEM chỉ là chữ/chỉ số nên không đáng làm phiền người học bằng một hộp hỏi.
+  const contentVersion = useMemo(
+    () =>
+      contentFingerprint([
+        bai.id,
+        bai.title,
+        bai.checkQuestions.length,
+        ...bai.checkQuestions.map((c) => c.prompt),
+      ]),
+    [bai],
+  )
+
+  const initial = useCallback(() => ({ stepIndex: 0, draft: NHAP_RONG }), [])
+  const stepLabel = useCallback(() => 'Tự kiểm tra', [])
+
+  const phien = useLearningSession<StemDraft>({
+    owner,
+    subjectId,
+    contentId: bai.id,
+    contentVersion,
+    draftSchema: stemDraftSchema,
+    initial,
+    stepLabel,
+  })
+
+  const { draft, setDraft } = phien
+
+  // Trắc nghiệm: bấm là chọn VÀ chấm luôn (giữ đúng hành vi đang có).
+  const chon = useCallback(
+    (i: number, giaTri: string) =>
+      setDraft((prev) => ({
+        answers: { ...prev.answers, [i]: giaTri },
+        checked: prev.checked.includes(String(i)) ? prev.checked : [...prev.checked, String(i)],
+      })),
+    [setDraft],
+  )
+
+  // Tự luận: gõ là bỏ kết quả cũ, chỉ chấm khi bấm "Kiểm tra" (hành vi hiện có, giữ nguyên).
+  const go = useCallback(
+    (i: number, giaTri: string) =>
+      setDraft((prev) => ({
+        answers: { ...prev.answers, [i]: giaTri },
+        checked: prev.checked.filter((k) => k !== String(i)),
+      })),
+    [setDraft],
+  )
+
+  const kiemTra = useCallback(
+    (i: number) =>
+      setDraft((prev) =>
+        !(prev.answers[String(i)] ?? '').trim() || prev.checked.includes(String(i))
+          ? prev
+          : { ...prev, checked: [...prev.checked, String(i)] },
+      ),
+    [setDraft],
+  )
+
+  return (
+    <>
+      <h2 className="mt-8 text-xl font-bold text-content">Tự kiểm tra</h2>
+      {phien.storageMode === 'memory' && (
+        <p className="mt-2 text-content-secondary" role="status">
+          Trình duyệt đang chặn lưu nháp — rời trang là mất phần đang gõ.
+        </p>
+      )}
+      <ul className="mt-3 space-y-4">
+        {bai.checkQuestions.map((cau, i) => (
+          <CauHoi
+            key={i}
+            cau={cau}
+            thuTu={i + 1}
+            traLoi={draft.answers[String(i)] ?? ''}
+            daCham={draft.checked.includes(String(i))}
+            onChon={(giaTri) => chon(i, giaTri)}
+            onGo={(giaTri) => go(i, giaTri)}
+            onKiemTra={() => kiemTra(i)}
+          />
+        ))}
+      </ul>
+    </>
   )
 }
 
@@ -241,12 +363,7 @@ export default function StemLessonView() {
               </ol>
               <p className="mt-3 font-medium text-content">Đáp số: {bai.workedExample.answer}</p>
 
-              <h2 className="mt-8 text-xl font-bold text-content">Tự kiểm tra</h2>
-              <ul className="mt-3 space-y-4">
-                {bai.checkQuestions.map((cau, i) => (
-                  <CauHoi key={i} cau={cau} thuTu={i + 1} />
-                ))}
-              </ul>
+              <TuKiemTra key={bai.id} bai={bai} subjectId={subject.id} />
 
               <h2 className="mt-8 text-xl font-bold text-content">Thẻ ôn tập</h2>
               <dl className="mt-3 space-y-3">

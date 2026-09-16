@@ -520,6 +520,9 @@ hơn thắng, khoá khách xoá).
    S07-2 merge (cùng file). Hộp stale, dòng memory-only, E2E, ảnh.
 3. **S08-3 `feat(learning): resume dap an tu kiem tra STEM va tab hoc CEFR`** — sau S07-3 nếu
    S07-3 đổi `CefrLevelPage`; STEM có thể tách PR riêng nếu S07-3 kẹt (Q2 của S07).
+   **[2026-09-16] Đã tách thật:** phần STEM (AC-16, AC-17) thi hành ở changelog `0347`; phần
+   tab học CEFR (AC-18, AC-19) chờ S07-3 merge — nhánh S07-3 đổi 207 dòng đúng vùng khai báo
+   `tab`/màn con của `CefrLevelPage.tsx`.
 4. Mỗi PR: changelog `docs/changelog/03xx-*.md`, `PROGRESS.md` bảng slice, goal bảng S08
    (Issue/PR/State/Evidence), đổi trạng thái ở spec này; S08-3 xong thì ghi vào goal dòng S06
    "nguồn Học tiếp: `listResumableSessions`".
