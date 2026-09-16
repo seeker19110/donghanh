@@ -139,6 +139,22 @@ import { P6U134_LESSONS } from './lessons/p6u134.js'
 import { P6U135_LESSONS } from './lessons/p6u135.js'
 import { P6U136_LESSONS } from './lessons/p6u136.js'
 import { P6U137_LESSONS } from './lessons/p6u137.js'
+import { P6U138_LESSONS } from './lessons/p6u138.js'
+import { P6U139_LESSONS } from './lessons/p6u139.js'
+import { P6U140_LESSONS } from './lessons/p6u140.js'
+import { P6U141_LESSONS } from './lessons/p6u141.js'
+import { P6U142_LESSONS } from './lessons/p6u142.js'
+import { P6U143_LESSONS } from './lessons/p6u143.js'
+import { P6U144_LESSONS } from './lessons/p6u144.js'
+import { P6U145_LESSONS } from './lessons/p6u145.js'
+import { P6U146_LESSONS } from './lessons/p6u146.js'
+import { P6U147_LESSONS } from './lessons/p6u147.js'
+import { P6U148_LESSONS } from './lessons/p6u148.js'
+import { P6U149_LESSONS } from './lessons/p6u149.js'
+import { P6U150_LESSONS } from './lessons/p6u150.js'
+import { P6U151_LESSONS } from './lessons/p6u151.js'
+import { P6U152_LESSONS } from './lessons/p6u152.js'
+import { P6U153_LESSONS } from './lessons/p6u153.js'
 import { GIT_U2_LESSONS } from './lessons/gitu2.js'
 import { GIT_U3_LESSONS } from './lessons/gitu3.js'
 import { GIT_U4_LESSONS } from './lessons/gitu4.js'
@@ -304,6 +320,22 @@ export const PROGRAMMING_LESSONS: ProgrammingLesson[] = [
   ...P6U135_LESSONS,
   ...P6U136_LESSONS,
   ...P6U137_LESSONS,
+  ...P6U138_LESSONS,
+  ...P6U139_LESSONS,
+  ...P6U140_LESSONS,
+  ...P6U141_LESSONS,
+  ...P6U142_LESSONS,
+  ...P6U143_LESSONS,
+  ...P6U144_LESSONS,
+  ...P6U145_LESSONS,
+  ...P6U146_LESSONS,
+  ...P6U147_LESSONS,
+  ...P6U148_LESSONS,
+  ...P6U149_LESSONS,
+  ...P6U150_LESSONS,
+  ...P6U151_LESSONS,
+  ...P6U152_LESSONS,
+  ...P6U153_LESSONS,
   ...GIT_U2_LESSONS,
   ...GIT_U3_LESSONS,
   ...GIT_U4_LESSONS,

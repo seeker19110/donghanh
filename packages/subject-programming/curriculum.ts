@@ -766,6 +766,92 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         title: 'Toán cho Lập trình S1 — đếm phép tính và Big-O bằng số đo',
         topics: 'Tổng tam giác, chia đôi logarit; đối chiếu công thức với bộ đếm thật',
       },
+      // p6-u138…u141: chặng S2 "Tổ hợp và xác suất cho lập trình viên".
+      {
+        id: 'p6-u138',
+        title: 'Toán cho Lập trình S2 — phép đếm, hoán vị và tổ hợp',
+        topics: 'Quy tắc cộng/nhân; kích thước vét cạn; tổ hợp Pascal',
+      },
+      {
+        id: 'p6-u139',
+        title: 'Toán cho Lập trình S2 — xác suất, kỳ vọng và A/B',
+        topics: 'Xác suất có điều kiện; va chạm; kỳ vọng và nhiễu lấy mẫu',
+      },
+      {
+        id: 'p6-u140',
+        title: 'Toán cho Lập trình S2 — giả ngẫu nhiên có thể tái hiện',
+        topics: 'LCG, seed, chu kỳ và Fisher–Yates không thiên lệch',
+      },
+      {
+        id: 'p6-u141',
+        title: 'Toán cho Lập trình S2 — thống kê đo hiệu năng',
+        topics: 'Trung bình, trung vị, phương sai và p50/p95/p99',
+      },
+      // p6-u142…u145: chặng S1 "Nền tảng và độ phức tạp" của hướng Thuật toán.
+      {
+        id: 'p6-u142',
+        title: 'Thuật toán S1 — độ phức tạp và chi phí khấu hao',
+        topics: 'Đọc ràng buộc; đếm phép tính; Big-O; mảng động tăng gấp đôi',
+      },
+      {
+        id: 'p6-u143',
+        title: 'Thuật toán S1 — cấu trúc dữ liệu tuyến tính và bảng băm',
+        topics: 'Stack, queue, deque; chaining và va chạm bảng băm',
+      },
+      {
+        id: 'p6-u144',
+        title: 'Thuật toán S1 — hai con trỏ, cửa sổ, prefix và tìm kiếm nhị phân',
+        topics: 'Vét cạn–tối ưu; tổng đoạn; hàm khả thi đơn điệu và lỗi biên',
+      },
+      {
+        id: 'p6-u145',
+        title: 'Thuật toán S1 — oracle, ca biên và differential test có seed',
+        topics: 'Ca biên; oracle đơn giản; random.Random(seed); negative control',
+      },
+      // p6-u146…u149: chặng S1 "Bộ nhớ và C" của hướng Hệ thống. Các bài dùng Python để
+      // mô phỏng minh bạch vì runtime chưa có lane C; artifact C thật vẫn ở rubric ngoài sandbox.
+      {
+        id: 'p6-u146',
+        title: 'Hệ thống S1 — vùng nhớ, lifetime, byte và căn chỉnh',
+        topics: 'Text/data/stack/heap; dangling pointer; endianness; ABI đồ chơi',
+      },
+      {
+        id: 'p6-u147',
+        title: 'Hệ thống S1 — ownership, cấp phát và chuỗi kết thúc NUL',
+        topics: 'Alloc/free ledger; leak/double-free; bytearray và copy có giới hạn',
+      },
+      {
+        id: 'p6-u148',
+        title: 'Hệ thống S1 — debug và sanitizer qua mô phỏng có cấu trúc',
+        topics: 'Call stack, breakpoint, backtrace; OOB, UAF, double-free và leak',
+      },
+      {
+        id: 'p6-u149',
+        title: 'Hệ thống S1 — build, link và assembly đồ chơi',
+        topics: 'Pipeline biên dịch; symbol/dependency graph; ISA LOAD/ADD/MUL/RET',
+      },
+      // p6-u150…u153: chặng S2 "Hệ điều hành nhìn từ chương trình". Python chỉ mô phỏng
+      // state machine; project shell, socket và Rust thật vẫn được nghiệm thu ngoài sandbox.
+      {
+        id: 'p6-u150',
+        title: 'Hệ thống S2 — tiến trình, luồng và đồng bộ',
+        topics: 'fork/exec/wait; zombie; race, mutex, condition và deadlock',
+      },
+      {
+        id: 'p6-u151',
+        title: 'Hệ thống S2 — file descriptor, pipe và độ bền dữ liệu',
+        topics: 'Redirect, EOF, partial I/O; fsync, rename, mmap và page',
+      },
+      {
+        id: 'p6-u152',
+        title: 'Hệ thống S2 — TCP framing và event loop',
+        topics: 'Length-prefix; non-blocking readiness, fairness và backpressure',
+      },
+      {
+        id: 'p6-u153',
+        title: 'Hệ thống S2 — ownership và safety contract của Rust',
+        topics: 'Move, borrow, lifetime; Option/Result và ranh giới unsafe',
+      },
       // p6-u66..u68: chặng S1 của hướng Dữ liệu (data-s1, specializations/data.ts, 4 module).
       // p3-u8/p3-u9 đã dạy SELECT/JOIN/GROUP BY/HAVING cơ bản — u66 đi XA HƠN (hàm cửa sổ, CTE)
       // để không dạy trùng. Đăng ký cầu nối ở `specializations/stageUnits.ts`.

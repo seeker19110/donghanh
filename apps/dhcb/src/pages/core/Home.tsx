@@ -21,10 +21,9 @@ import Layout from '../../components/Layout.js'
 import PricePromoBanner from '../../components/PricePromoBanner.js'
 import RewardTipBanner from '../../components/RewardTipBanner.js'
 import HomeAiBriefingCard from '../../components/Home/HomeAiBriefingCard.js'
+import TodayCard from '../../components/Home/TodayCard.js'
 import HomeUniversalAiBar from '../../components/Home/HomeUniversalAiBar.js'
 import { usePageTitle } from '../../lib/usePageTitle'
-import { getDirection } from '../../lib/storage'
-import type { Direction } from '../../types'
 import { useLang } from '../../context/useLang'
 import { useAuth } from '../../context/useAuth'
 import { useCloudSync } from '../../lib/useCloudSync'
@@ -33,15 +32,12 @@ import type { Circle } from '../../data/curriculum'
 import { loadCefr } from '../../data/cefrLoader'
 import { loadFoundation } from '../../data/curriculumLoader'
 import { getLearnedWords } from '../../lib/vocab'
-import {
-  getDoneGrammar,
-  computeLockedMapFromServer,
-  findNextStep,
-  circleDoneCount,
-} from '../../lib/cefrProgress'
+import { getDoneGrammar, computeLockedMapFromServer, findNextStep } from '../../lib/cefrProgress'
 import { getPassedExamLevels } from '../../lib/cefrExam'
 import { getSRSStats } from '../../lib/srs'
 import { getDailyLearned, getDailyMax } from '../../lib/curriculum'
+import { useTodayPlan } from '../../lib/today/useTodayPlan'
+import { ENGLISH_SUBJECT_ID } from '../../lib/today/englishNext'
 import { goToSubjects, duongDanMonTiengAnh } from '../../lib/subjectsHost'
 import { useIsDesktopViewport } from '../../lib/useIsDesktopViewport'
 import { PageShell } from '@core/PageShell'
@@ -66,7 +62,6 @@ export default function Home() {
   // `lg:hidden` để KHÔNG render trùng nội dung ở 2 nơi (xem useIsDesktopViewport.ts).
   const isDesktop = useIsDesktopViewport()
 
-  const dir: Direction = getDirection()
   const [comebackClosed, setComebackClosed] = useState(false)
 
   const [cefrLevels, setCefrLevels] = useState<CefrLevel[]>([])
@@ -103,6 +98,12 @@ export default function Home() {
     [uid, cefrLevels, examPassed],
   )
 
+  // "Hôm nay": mọi luật chọn việc nằm ở `useTodayPlan` + `buildTodayPlan` (thuần, test bảng).
+  // Home chỉ lắp ráp — gọi hook TRƯỚC mọi `return` sớm để thứ tự hook không đổi giữa các lần vẽ.
+  const { plan: todayPlan, state: todayState, retry: todayRetry } = useTodayPlan(uid)
+  // Người này có đang học môn Tiếng Anh không — quyết định dòng kế toán "x/y từ" (§7 Q5).
+  const hocTiengAnh = todayPlan?.subjectsSeen.includes(ENGLISH_SUBJECT_ID) ?? false
+
   // Không bọc useMemo: phép tính thuần, rẻ (≤6 cấp) — tính lại mỗi render, compiler tự memo.
   const continueLevel = (() => {
     for (const lv of cefrLevels) {
@@ -125,31 +126,6 @@ export default function Home() {
   const srsDue = getSRSStats(user.id).due
   const dailyLearned = getDailyLearned(user.id)
   const dailyMax = getDailyMax(user.id)
-  const isA = dir === 'A'
-
-  // [Slice 04] Có tiến độ MÔN TIẾNG ANH chưa? Chưa thì Home không được ngầm mời "học tiếp A1":
-  // nền tảng có 6 môn, người mới phải được chọn môn trước (spec 03-04 §④ AC-4.4).
-  const hasEnglishProgress = learned.size > 0 || doneGrammar.size > 0 || examPassed.size > 0
-
-  let nextLabel = ''
-  if (continueLevel) {
-    const { next } = continueLevel
-    if (next.kind === 'vocab' && next.circleId) {
-      const c = circleById[next.circleId]
-      if (c) {
-        const done = circleDoneCount(c, learned)
-        nextLabel = `${c.emoji} ${isA ? c.titleVi : c.titleEn} (${done}/${c.words.length})`
-      }
-    } else if (next.kind === 'grammar' && next.lessonId) {
-      const g = next.unit.grammar.find((x) => x.id === next.lessonId)
-      if (g) nextLabel = isA ? g.titleVi : g.titleEn
-    }
-  }
-
-  function goToNextStep() {
-    if (!continueLevel) return
-    nav(`/lo-trinh-hoc/${continueLevel.level.id.toLowerCase()}`)
-  }
 
   // ── Các khối nội dung tách riêng để LẮP LẠI theo 2 bố cục (mobile 1 cột / desktop 2 cột).
   // Mỗi khối chỉ render MỘT lần trong cây DOM, không nhân bản rồi ẩn bằng CSS.
@@ -158,17 +134,16 @@ export default function Home() {
       {/* Việc đầu tiên chọn ở luồng người mới — tự ẩn khi đã xong hoặc chưa chọn */}
       <FirstTaskCard />
 
-      {/* ── TẦNG 1: EXECUTIVE AI COMPANION (Hạt Nhân Điều Phối Trung Tâm) ── */}
+      {/* ── TẦNG 1: EXECUTIVE AI COMPANION — CHỈ lời chào + bản tin (S06-2). ── */}
       <HomeAiBriefingCard
         userName={user.name || user.email?.split('@')[0]}
-        srsDueCount={hasEnglishProgress ? srsDue : 0}
         dailyLearned={dailyLearned}
         dailyMax={dailyMax}
-        continueLessonLabel={hasEnglishProgress ? nextLabel : ''}
-        continueLevelId={continueLevel?.level.id}
-        onContinueClick={goToNextStep}
-        hasSubjectProgress={hasEnglishProgress}
+        showDailyWords={hocTiengAnh}
       />
+
+      {/* ── "Hôm nay": ĐÚNG MỘT việc học tiếp, mọi môn, không mặc định tiếng Anh (S06-2). ── */}
+      <TodayCard plan={todayPlan} state={todayState} onRetry={todayRetry} />
 
       {/* ── Universal AI Ask & Voice Bar (Hỏi nhanh đa năng mọi bộ môn & lĩnh vực) ── */}
       <HomeUniversalAiBar />
