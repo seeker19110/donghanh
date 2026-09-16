@@ -20,7 +20,6 @@
 //     (S09-1) nhận ra "đã lưu rồi" và không cộng thưởng hai lần.
 
 import { isGuestId } from '@core/guestId'
-import { getAuthHeader } from '@core/authHeader'
 
 export type OutboxKind = 'english' | 'programming' | 'evidence'
 
@@ -79,7 +78,7 @@ export const MAX_TRIES = 6
 /** Trần số mục giữ lại — vượt thì gộp/cắt bớt mục cũ nhất để localStorage không phình vô hạn. */
 export const MAX_ENTRIES = 200
 
-const handlers = new Map<OutboxKind, KindHandler>()
+export const handlers = new Map<OutboxKind, KindHandler>()
 const subscribers = new Set<(uid: string) => void>()
 const debounceTimers = new Map<string, ReturnType<typeof setTimeout>>()
 const inFlight = new Map<string, Promise<FlushResult>>()
@@ -96,7 +95,7 @@ export function registerKindHandler(kind: OutboxKind, handler: KindHandler): voi
 const memoryQueues = new Map<string, OutboxEntry[]>()
 
 // ── Lưu trữ ────────────────────────────────────────────────────────────────────────────────
-function readEntries(uid: string): OutboxEntry[] {
+export function readEntries(uid: string): OutboxEntry[] {
   const inMemory = memoryQueues.get(uid)
   if (inMemory) return inMemory.map((e) => ({ ...e }))
   try {
@@ -114,7 +113,7 @@ function readEntries(uid: string): OutboxEntry[] {
   }
 }
 
-function writeEntries(uid: string, entries: OutboxEntry[]): void {
+export function writeEntries(uid: string, entries: OutboxEntry[]): void {
   const kept = entries.slice(-MAX_ENTRIES)
   try {
     if (kept.length === 0) localStorage.removeItem(OUTBOX_KEY(uid))
@@ -326,6 +325,12 @@ function scheduleFlush(uid: string): void {
  *
  * An toàn khi gọi chồng: lượt đang chạy được trả lại thay vì mở lượt thứ hai.
  */
+/** 2s → 4s → 8s → 16s → 32s (trần 32s); 429 tôn trọng `Retry-After`. */
+export function backoffMs(tries: number, retryAfterMs?: number): number {
+  if (retryAfterMs !== undefined) return retryAfterMs
+  return Math.min(2 ** Math.max(1, tries), 32) * 1000
+}
+
 export function flush(uid: string, opts: { resetBackoff?: boolean } = {}): Promise<FlushResult> {
   if (!uid || isGuestId(uid)) return Promise.resolve({ sent: 0, remaining: 0 })
   const timer = debounceTimers.get(uid)
@@ -358,139 +363,11 @@ async function runFlush(uid: string, resetBackoff: boolean): Promise<FlushResult
   if (readEntries(uid).length === 0) return { sent: 0, remaining: 0 }
   // Mất mạng: KHÔNG gọi fetch (tránh rác lỗi + tốn pin); sự kiện `online` sẽ gọi lại.
   if (!isOnline()) return { sent: 0, remaining: pending(uid), blocked: 'offline' }
+  // Nạp LƯỜI phần gửi: `sendDueEntries`/`postEntry`/`withLock` chỉ cần khi THẬT SỰ tới lúc gửi,
+  // còn đường xếp hàng (`enqueue`) thì phải luôn sẵn trong chunk khởi động. Tách ra giữ ngân sách
+  // `Initial JS` dưới trần 140 kB (đo 2026-09-16: để tĩnh thì vượt trần).
+  const { withLock, sendDueEntries } = await import('./syncOutboxSender.js')
   return withLock(uid, () => sendDueEntries(uid))
-}
-
-/**
- * Chỉ MỘT tab được gửi tại một thời điểm (Web Locks) — hai tab cùng chủ gửi cùng lúc sẽ tạo hai
- * request tranh nhau (AC-12). Trình duyệt không có Web Locks thì mỗi tab tự gửi: server merge
- * theo luật bán dàn nên không mất dữ liệu, chỉ tốn thêm một request.
- */
-async function withLock(uid: string, fn: () => Promise<FlushResult>): Promise<FlushResult> {
-  const locks = (navigator as Navigator & { locks?: LockManager }).locks
-  if (!locks || typeof locks.request !== 'function') return fn()
-  const result = await locks.request(`dhcb-sync-${uid}`, { ifAvailable: true }, async (lock) =>
-    lock ? fn() : null,
-  )
-  return result ?? { sent: 0, remaining: pending(uid), blocked: 'locked' }
-}
-
-async function sendDueEntries(uid: string): Promise<FlushResult> {
-  let sent = 0
-  let blocked: FlushResult['blocked']
-
-  // Chụp danh sách id tới hạn TRƯỚC vòng lặp; mỗi lượt đọc lại hàng đợi từ localStorage để
-  // không ghi đè thay đổi mà tab/luồng khác vừa xếp thêm trong lúc đang gửi.
-  const due = readEntries(uid)
-    .filter((e) => e.nextAt <= Date.now())
-    .map((e) => e.attemptId)
-
-  for (const attemptId of due) {
-    const entries = readEntries(uid)
-    const entry = entries.find((e) => e.attemptId === attemptId)
-    if (!entry) continue
-    const handler = handlers.get(entry.kind)
-    if (handler?.beforeSend) await handler.beforeSend(uid).catch(() => undefined)
-    const request = handler?.buildRequest(uid, entry)
-    if (!handler || !request) {
-      // Không ai xử lý loại này (mã cũ/đăng ký thiếu) — bỏ mục, đừng giữ rác mãi mãi.
-      writeEntries(
-        uid,
-        entries.filter((e) => e.attemptId !== attemptId),
-      )
-      continue
-    }
-
-    const outcome = await postEntry(request.url, request.body)
-    if (outcome.kind === 'ok') {
-      writeEntries(
-        uid,
-        readEntries(uid).filter((e) => e.attemptId !== attemptId),
-      )
-      sent++
-      try {
-        await handler.onSuccess?.(uid, entry, outcome.body)
-      } catch {
-        /* xử lý response lỗi KHÔNG được làm mục đã gửi thành công quay lại hàng đợi */
-      }
-      continue
-    }
-
-    if (outcome.kind === 'drop') {
-      // 400/403/404/413…: gửi lại bao nhiêu lần cũng vẫn hỏng — bỏ mục, ghi lại để còn lần ra.
-      console.warn(
-        `[sync] bỏ mục ${entry.kind} (attemptId ${entry.attemptId}): HTTP ${outcome.status}`,
-      )
-      writeEntries(
-        uid,
-        readEntries(uid).filter((e) => e.attemptId !== attemptId),
-      )
-      continue
-    }
-
-    // Còn lại là "thử lại sau": giữ mục, tăng `tries`, lùi theo cấp số nhân có trần.
-    const fresh = readEntries(uid)
-    const target = fresh.find((e) => e.attemptId === attemptId)
-    if (target) {
-      target.tries += 1
-      target.lastError = outcome.reason
-      target.nextAt =
-        outcome.reason === 'http_401'
-          ? Number.MAX_SAFE_INTEGER // chờ token mới, không lùi vô ích
-          : target.tries >= MAX_TRIES
-            ? Number.MAX_SAFE_INTEGER // hết lượt tự động: chờ `online`/mở lại app/flush tay
-            : Date.now() + backoffMs(target.tries, outcome.retryAfterMs)
-      writeEntries(uid, fresh)
-    }
-    if (outcome.reason === 'http_401') {
-      blocked = 'auth'
-      break // hết phiên: các mục sau cũng 401, đừng bắn thêm request vô ích
-    }
-  }
-
-  return { sent, remaining: pending(uid), blocked }
-}
-
-/** 2s → 4s → 8s → 16s → 32s (trần 32s); 429 tôn trọng `Retry-After`. */
-export function backoffMs(tries: number, retryAfterMs?: number): number {
-  if (retryAfterMs !== undefined) return retryAfterMs
-  return Math.min(2 ** Math.max(1, tries), 32) * 1000
-}
-
-type SendOutcome =
-  | { kind: 'ok'; body: unknown }
-  | { kind: 'drop'; status: number }
-  | { kind: 'retry'; reason: NonNullable<OutboxEntry['lastError']>; retryAfterMs?: number }
-
-async function postEntry(url: string, body: unknown): Promise<SendOutcome> {
-  let resp: Response
-  try {
-    resp = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
-      body: JSON.stringify(body),
-    })
-  } catch {
-    return { kind: 'retry', reason: 'network' }
-  }
-  if (resp.ok) {
-    let parsed: unknown = null
-    try {
-      parsed = await resp.json()
-    } catch {
-      /* response không phải JSON — vẫn tính là đã gửi xong */
-    }
-    return { kind: 'ok', body: parsed }
-  }
-  if (resp.status === 401) return { kind: 'retry', reason: 'http_401' }
-  if (resp.status === 408) return { kind: 'retry', reason: 'timeout' }
-  if (resp.status === 429) {
-    const header = Number(resp.headers.get('Retry-After'))
-    const retryAfterMs = Number.isFinite(header) && header > 0 ? header * 1000 : 60_000
-    return { kind: 'retry', reason: 'http_429', retryAfterMs }
-  }
-  if (resp.status >= 500) return { kind: 'retry', reason: 'http_5xx' }
-  return { kind: 'drop', status: resp.status }
 }
 
 // ── Kích hoạt gửi lại ──────────────────────────────────────────────────────────────────────

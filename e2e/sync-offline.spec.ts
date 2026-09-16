@@ -89,6 +89,11 @@ test('học lúc mất mạng → tải lại trang vẫn còn → có mạng l�
   // đồng bộ. Thay vào đó: cho trang tải bình thường, CHẶN riêng đường POST (server chưa nhận
   // được gì) và để GET trả về bản server THẬT SỰ CHƯA CÓ bài vừa học — đúng ca làm mất dữ liệu.
   await context.setOffline(false)
+  // Playwright's `setOffline` resolves trước khi trạng thái mạng của renderer THẬT SỰ đổi
+  // (độ trễ CDP) — gọi `reload()` ngay sau đó thỉnh thoảng bị `net::ERR_ABORTED` vì điều hướng
+  // khởi động lúc trang vẫn còn coi là offline. Đo được: flaky ~50% (2/4 lượt) trước khi chờ
+  // `navigator.onLine` thật sự lật lại true. Không phải cổng 5179 dùng chung (đã chạy cổng riêng).
+  await page.waitForFunction(() => navigator.onLine === true)
   await page.route('**/api/programming/progress', (route) =>
     route.request().method() === 'POST'
       ? route.abort('internetdisconnected')

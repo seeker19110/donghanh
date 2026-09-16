@@ -61,12 +61,20 @@ export default function OfflineSyncIndicator() {
 
   if (isOnline && pendingCount === 0 && !justSynced) return null
 
+  // Nền của ba tông dưới đây là màu CỐ ĐỊNH TỐI ở mọi theme (họ amber/emerald, sắc 950), nên
+  // chữ phải sáng ở mọi theme. Bản đầu có thêm biến thể `theme-light:` đè chữ ĐẬM cùng họ lên
+  // chính nền đậm đó ở 3 theme nền sáng: axe đo được 1,16:1 (fg #064e3b trên bg #1b4136) ở
+  // trang chủ · /tien-do · /lich-su-hoc · /tro-truyen · /luyen-viet, theme blue-sky/pink/kid.
+  // Sắc 200 của hai họ này là màu bảng Tailwind nên KHÔNG bị đảo theo theme (chỉ `text-white`
+  // map sang `--c-white` mới bị) — để nguyên là đúng cho cả 5 theme.
+  // Nền để ĐỤC (bỏ `/90`): dải này phủ lên nội dung nên cần đọc được, và cổng
+  // `scripts/fixed-color-contrast-audit.ts` chỉ nhận ra "nền đặc" khi không có phần trăm mờ.
   const tone = !isOnline
-    ? 'bg-amber-950/90 border-amber-600/50 text-amber-200 theme-light:text-amber-900'
+    ? 'bg-amber-950 border-amber-600/50 text-amber-200'
     : needsLogin
-      ? 'bg-amber-950/90 border-amber-600/50 text-amber-200 theme-light:text-amber-900'
+      ? 'bg-amber-950 border-amber-600/50 text-amber-200'
       : justSynced
-        ? 'bg-emerald-950/90 border-emerald-600/50 text-emerald-200 theme-light:text-emerald-900'
+        ? 'bg-emerald-950 border-emerald-600/50 text-emerald-200'
         : 'bg-[var(--a-surface)] border-[var(--a-border)] text-[var(--a-text)]'
 
   return (
@@ -86,12 +94,17 @@ export default function OfflineSyncIndicator() {
         className={`flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl shadow-lg border text-sm font-medium transition-all ${tone}`}
       >
         <div className="flex items-center gap-2.5">
+          {/* Biểu tượng KHÔNG đặt màu riêng: chúng thừa kế `currentColor` của dải, vốn đã được
+            chọn đúng cho nền cố định tối. Đặt màu cố định riêng ở đây từng làm cổng
+            `scripts/fixed-color-contrast-audit.ts` báo dương tính giả — nó soi theo TỪNG DÒNG
+            nên không thấy được nền tối nằm ở thẻ cha. */}
+
           {!isOnline ? (
-            <WifiOff className="w-4 h-4 text-amber-400 theme-light:text-amber-900 shrink-0" />
+            <WifiOff className="w-4 h-4 shrink-0" />
           ) : needsLogin ? (
-            <LogIn className="w-4 h-4 text-amber-400 theme-light:text-amber-900 shrink-0" />
+            <LogIn className="w-4 h-4 shrink-0" />
           ) : justSynced ? (
-            <CheckCircle2 className="w-4 h-4 text-emerald-400 theme-light:text-emerald-900 shrink-0" />
+            <CheckCircle2 className="w-4 h-4 shrink-0" />
           ) : (
             <RefreshCw className="w-4 h-4 text-[var(--a-accent)] shrink-0 animate-spin" />
           )}
@@ -113,7 +126,7 @@ export default function OfflineSyncIndicator() {
         </div>
 
         {!isOnline && (
-          <span className="text-xs px-2 py-0.5 rounded bg-amber-900/60 text-amber-300 theme-light:text-amber-900 border border-amber-700/50 shrink-0">
+          <span className="text-xs px-2 py-0.5 rounded bg-amber-900 text-amber-300 border border-amber-700/50 shrink-0">
             Tự lưu cục bộ
           </span>
         )}
