@@ -10,7 +10,7 @@
 import { useCallback, useState, type ReactNode } from 'react'
 import { ListTree } from 'lucide-react'
 import type { Outline } from '@dhcb/core-contracts/outline'
-import { ancestorChapterIds } from '@dhcb/core-learner/outline/outlineNav'
+import { ancestorChapterIds, ancestorChapterIdsOfNode } from '@dhcb/core-learner/outline/outlineNav'
 import Modal from './Modal'
 import { OutlineTreeLinked } from './OutlinePane'
 
@@ -67,11 +67,27 @@ function dieuTieuDiemVeTieuDe(): void {
   requestAnimationFrame(thu)
 }
 
+/** Tập chương phải mở sẵn — ưu tiên `nodeId` (duy nhất) hơn mã nội dung. */
+function chuongDangMo(
+  outline: Outline,
+  activeContentId: string | undefined,
+  activeNodeId: string | undefined,
+): ReadonlySet<string> {
+  return activeNodeId === undefined
+    ? ancestorChapterIds(outline, activeContentId)
+    : ancestorChapterIdsOfNode(outline, activeNodeId)
+}
+
 export interface UseOutlinePaneOptions {
   /** Cây đã dựng sẵn; `undefined` (mã lạ, môn chưa có bài) → không vẽ mảnh nào. */
   outline: Outline | undefined
   /** Mã nội dung đang mở (lessonId). Trang danh sách/bậc/khoá thì bỏ trống. */
   activeContentId?: string
+  /**
+   * `nodeId` của lá đang mở — dùng thay `activeContentId` khi mã nội dung có thể trùng trong
+   * cùng một cây (Tiếng Anh: một vòng từ vựng xuất hiện ở hai unit của cấp B2).
+   */
+  activeNodeId?: string
   /** Tiêu đề mục lục — cũng là nhãn nút mở trên mobile. */
   title: string
   /**
@@ -96,6 +112,7 @@ export interface OutlinePaneParts {
 export function useOutlinePane({
   outline,
   activeContentId,
+  activeNodeId,
   title,
   storageKey,
   isDesktop,
@@ -121,7 +138,7 @@ export function useOutlinePane({
         // nếu không thì chương của bài đang mở sẽ đột ngột đóng lại khi bấm chương khác.
         const goc =
           (truoc.key === storageKey ? truoc.ids : undefined) ??
-          (outline ? ancestorChapterIds(outline, activeContentId) : new Set<string>())
+          (outline ? chuongDangMo(outline, activeContentId, activeNodeId) : new Set<string>())
         const sau = new Set(goc)
         if (sau.has(nodeId)) sau.delete(nodeId)
         else sau.add(nodeId)
@@ -129,7 +146,7 @@ export function useOutlinePane({
         return { key: storageKey, ids: sau }
       })
     },
-    [outline, activeContentId, storageKey],
+    [outline, activeContentId, activeNodeId, storageKey],
   )
 
   if (!outline) return { rail: null, trigger: null, sheet: null }
@@ -140,6 +157,7 @@ export function useOutlinePane({
       headingHidden={trongPanel}
       outline={outline}
       {...(activeContentId ? { activeContentId } : {})}
+      {...(activeNodeId ? { activeNodeId } : {})}
       title={title}
       {...(chuongMo ? { openIds: chuongMo } : {})}
       onToggleOpen={toggleChuong}

@@ -4,7 +4,13 @@ import { loadCefr } from '../../data/cefrLoader'
 import { loadFoundation } from '../../data/curriculumLoader'
 import type { CefrLevel } from '../../data/cefrTypes'
 import type { Circle } from '../../data/curriculumTypes'
-import { buildCefrOutline, duongDanHoatDongCefr, type CefrOutlineCtx } from './cefrOutline'
+import {
+  buildCefrOutline,
+  docHoatDongTuQuery,
+  duongDanHoatDongCefr,
+  nodeIdHoatDong,
+  type CefrOutlineCtx,
+} from './cefrOutline'
 
 // Dữ liệu THẬT: vitest.setup.ts chặn fetch('/data/…') và đọc thẳng public/ — không ra mạng.
 let levels: CefrLevel[] = []
@@ -129,6 +135,44 @@ describe('buildCefrOutline — dữ liệu cefr.json thật', () => {
     expect(duongDanHoatDongCefr('B1', 'b1-u3', 'grammar', 'g-1')).toBe(
       '/lo-trinh-hoc/b1?unit=b1-u3&hd=grammar%3Ag-1',
     )
+  })
+
+  // S07-3: trang cấp đọc NGƯỢC query để biết phải mở màn con nào. Hai hàm phải khớp nhau,
+  // nếu không mục lục trỏ tới một URL mà trang không hiểu (bấm vào không có gì xảy ra).
+  it('docHoatDongTuQuery là hàm ĐỐI của duongDanHoatDongCefr — đi vòng tròn không mất mát', () => {
+    for (const kind of ['vocab', 'grammar', 'dialogue'] as const) {
+      const url = new URL(duongDanHoatDongCefr('A1', 'a1-u1', kind, 'x:1'), 'https://x.test')
+      expect(docHoatDongTuQuery(url.searchParams)).toEqual({
+        unitId: 'a1-u1',
+        kind,
+        contentId: 'x:1', // mã chứa dấu hai chấm: chỉ tách ở dấu ĐẦU TIÊN
+      })
+    }
+  })
+
+  it('docHoatDongTuQuery bỏ qua query hỏng thay vì ném lỗi', () => {
+    const q = (s: string) => docHoatDongTuQuery(new URLSearchParams(s))
+    expect(q('')).toBeUndefined()
+    expect(q('unit=a1-u1')).toBeUndefined() // thiếu hd
+    expect(q('hd=vocab:c1')).toBeUndefined() // thiếu unit
+    expect(q('unit=a1-u1&hd=vocab')).toBeUndefined() // không có dấu hai chấm
+    expect(q('unit=a1-u1&hd=:c1')).toBeUndefined() // thiếu loại
+    expect(q('unit=a1-u1&hd=vocab:')).toBeUndefined() // thiếu mã
+    expect(q('unit=a1-u1&hd=nhac:c1')).toBeUndefined() // loại lạ
+  })
+
+  it('nodeIdHoatDong trỏ đúng nút trong cây thật (mã trùng ở B2 vẫn phân biệt được)', () => {
+    const level = levels.find((l) => l.id === 'B2')!
+    const outline = buildCefrOutline(level, ctxRong())
+    // `it` là vòng từ vựng xuất hiện ở HAI unit của B2 — mỗi nút một nodeId riêng.
+    const trung = outline.nodes.filter((n) => n.kind === 'activity' && n.contentId === 'it')
+    expect(trung.length).toBeGreaterThan(1)
+    expect(new Set(trung.map((n) => n.nodeId)).size).toBe(trung.length)
+    for (const n of trung) {
+      const url = new URL(n.href!, 'https://x.test')
+      const ref = docHoatDongTuQuery(url.searchParams)!
+      expect(nodeIdHoatDong(ref)).toBe(n.nodeId)
+    }
   })
 
   // Ý ĐỊNH của phép đo này: adapter phải TUYẾN TÍNH theo số unit — cây C2 (44 unit) là cây
