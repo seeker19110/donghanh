@@ -10,6 +10,9 @@ import { PHYSICS_LOADER } from '@dhcb/subject-physics/lessonsLoader'
 import StemLessonList from './StemLessonList'
 import StemLessonView from './StemLessonView'
 import { duongDanBaiHoc } from '../../lib/stemLessonRoutes'
+import { AuthContext } from '../../context/authContext'
+import { __resetSessionMemory, LEARNING_SESSION_PREFIX } from '../../lib/learningSession'
+import type { User } from '../../types'
 
 ;(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
 
@@ -170,6 +173,157 @@ describe('trang bài học STEM', () => {
 
     expect(container.textContent).toContain('Chưa đúng.')
     expect(container.textContent).toContain(cau.explain)
+  })
+
+  // ——— [S08-3] Nháp phần "Tự kiểm tra" sống qua reload (cùng thiết bị) ———
+  //
+  // Ba ca dưới đây canh đúng hợp đồng của đặc tả S08 §3.4: nháp CHỈ chứa chữ người học gõ +
+  // danh sách câu đã bấm chấm; kết quả đúng/sai được TÍNH LẠI bằng `gradeAnswer`, không lưu.
+
+  const NGUOI_HOC: User = {
+    id: 'u-42',
+    email: 'a@b.c',
+    name: 'Học viên',
+    plan: 'free',
+    onboarded: true,
+  }
+
+  function boc(nguoi: User | null, duongDan: string, isGuest = false) {
+    return (
+      <AuthContext.Provider
+        value={{ user: nguoi, loading: false, isGuest, refresh: async () => {} }}
+      >
+        <MemoryRouter initialEntries={[duongDan]}>
+          <Routes>
+            <Route
+              path="/goc-hoc-tap/:subjectId/bai-hoc/:lessonSlug"
+              element={<StemLessonView />}
+            />
+          </Routes>
+        </MemoryRouter>
+      </AuthContext.Provider>
+    )
+  }
+
+  async function moBai(nguoi: User | null, duongDan: string, isGuest = false) {
+    await act(async () => {
+      root.render(boc(nguoi, duongDan, isGuest))
+    })
+  }
+
+  /** Ghi xuống storage NGAY, không chờ hết debounce 500 ms — đúng đường `pagehide` của hook. */
+  function roiTrang() {
+    act(() => {
+      window.dispatchEvent(new Event('pagehide'))
+    })
+  }
+
+  it('đáp án tự kiểm tra sống qua reload, kết quả đúng/sai được tính lại', async () => {
+    localStorage.clear()
+    __resetSessionMemory()
+    const bai = (await PHYSICS_LOADER.loadLesson('ly10-c2-b10'))!
+    const chiSoTracNghiem = bai.checkQuestions.findIndex((q) => q.answer.kind === 'choice')
+    const cau = bai.checkQuestions[chiSoTracNghiem]!
+    const dapAnDung = cau.answer.kind === 'choice' ? cau.answer.correctIds[0] : ''
+    const duongDan = duongDanBaiHoc('physics', bai.id, bai.title)
+
+    await moBai(NGUOI_HOC, duongDan)
+    const nut = [...container.querySelectorAll('button')].find(
+      (b) => b.textContent === cau.choices!.find((c) => c.id === dapAnDung)!.label,
+    )!
+    act(() => nut.click())
+    expect(container.textContent).toContain('Đúng rồi.')
+    roiTrang()
+
+    // "Reload" = dựng lại trang từ đầu trên cùng storage.
+    await act(async () => root.unmount())
+    root = createRoot(container)
+    await moBai(NGUOI_HOC, duongDan)
+
+    const nutSauReload = [...container.querySelectorAll('button')].find(
+      (b) => b.textContent === cau.choices!.find((c) => c.id === dapAnDung)!.label,
+    )!
+    expect(nutSauReload.getAttribute('aria-pressed')).toBe('true')
+    expect(container.textContent).toContain('Đúng rồi.')
+    // Đúng MỘT khoá mới, và là khoá của khung phiên học (AC-17: STEM không sinh tiến độ).
+    const khoa = Object.keys(localStorage)
+    expect(khoa.filter((k) => k.startsWith(LEARNING_SESSION_PREFIX))).toHaveLength(1)
+    expect(khoa).toHaveLength(1)
+  })
+
+  it('câu tự luận giữ chữ đã gõ nhưng CHƯA chấm cho tới khi bấm Kiểm tra', async () => {
+    localStorage.clear()
+    __resetSessionMemory()
+    const bai = (await PHYSICS_LOADER.loadLesson('ly10-c2-b10'))!
+    expect(
+      bai.checkQuestions.some((q) => !q.choices),
+      'ca test mất nghĩa nếu bài mẫu không còn câu tự luận',
+    ).toBe(true)
+    const duongDan = duongDanBaiHoc('physics', bai.id, bai.title)
+
+    await moBai(NGUOI_HOC, duongDan)
+    const o = container.querySelector<HTMLInputElement>('input[id^="tra-loi-"]')!
+    act(() => {
+      const setter = Object.getOwnPropertyDescriptor(
+        window.HTMLInputElement.prototype,
+        'value',
+      )!.set!
+      setter.call(o, '20 m/s')
+      o.dispatchEvent(new Event('input', { bubbles: true }))
+    })
+    expect(container.querySelector<HTMLInputElement>('input[id^="tra-loi-"]')!.value).toBe('20 m/s')
+    roiTrang()
+
+    await act(async () => root.unmount())
+    root = createRoot(container)
+    await moBai(NGUOI_HOC, duongDan)
+
+    expect(container.querySelector<HTMLInputElement>('input[id^="tra-loi-"]')!.value).toBe('20 m/s')
+    // Chưa bấm "Kiểm tra" thì không có phán đúng/sai nào — kể cả sau khi khôi phục nháp.
+    expect(container.textContent).not.toContain('Đúng rồi.')
+    expect(container.textContent).not.toContain('Chưa đúng.')
+  })
+
+  it('người khác mở cùng bài trên cùng máy thì không thấy dấu vết nháp của người trước', async () => {
+    localStorage.clear()
+    __resetSessionMemory()
+    const bai = (await PHYSICS_LOADER.loadLesson('ly10-c2-b10'))!
+    const cau = bai.checkQuestions.find((q) => q.answer.kind === 'choice')!
+    const duongDan = duongDanBaiHoc('physics', bai.id, bai.title)
+
+    await moBai(NGUOI_HOC, duongDan)
+    const nut = [...container.querySelectorAll('button')].find(
+      (b) => b.textContent === cau.choices![0]!.label,
+    )!
+    act(() => nut.click())
+    roiTrang()
+
+    await act(async () => root.unmount())
+    root = createRoot(container)
+    await moBai({ ...NGUOI_HOC, id: 'u-99' }, duongDan)
+
+    const nutCuaNguoiKhac = [...container.querySelectorAll('button')].filter(
+      (b) => b.getAttribute('aria-pressed') === 'true',
+    )
+    expect(nutCuaNguoiKhac).toHaveLength(0)
+    expect(container.textContent).not.toContain('Đúng rồi.')
+    expect(container.textContent).not.toContain('Chưa đúng.')
+  })
+
+  it('trình duyệt chặn lưu nháp thì trang NÓI RA, không im lặng mất bài', async () => {
+    localStorage.clear()
+    __resetSessionMemory()
+    // Safari chế độ riêng tư cho ĐỌC nhưng ném lúc GHI — đúng ca mà probe của khung phiên dò.
+    const chan = vi.spyOn(globalThis.localStorage, 'setItem').mockImplementation(() => {
+      throw new Error('SecurityError: storage bị chặn')
+    })
+    try {
+      const bai = (await PHYSICS_LOADER.loadLesson('ly10-c2-b10'))!
+      await moBai(NGUOI_HOC, duongDanBaiHoc('physics', bai.id, bai.title))
+      expect(container.textContent).toContain('Trình duyệt đang chặn lưu nháp')
+    } finally {
+      chan.mockRestore()
+    }
   })
 
   it('bài không tồn tại thì nói rõ và mời quay lại danh sách', async () => {
