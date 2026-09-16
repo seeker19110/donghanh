@@ -14,8 +14,17 @@
 //   5. Bấm ra nền (backdrop) để đóng
 //   6. Khoá cuộn trang nền khi hộp thoại đang mở
 import type { ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import { X } from 'lucide-react'
 import { useDialogBehavior } from './useDialogBehavior'
+
+/**
+ * Hai dáng hộp thoại:
+ * · `center` — khung giữa màn hình (mặc định, y hệt mọi hộp thoại đang có, KHÔNG đổi CSS).
+ * · `sheet`  — tấm trượt từ ĐÁY, dành cho panel chọn trên mobile (mục lục môn/khoá): ngón
+ *   cái với tới mép dưới dễ hơn giữa màn hình, và tấm cao 85dvh chứa được danh sách dài.
+ */
+export type ModalVariant = 'center' | 'sheet'
 
 export type ModalProps = {
   /** Tiêu đề hộp thoại — cũng là tên có thể truy cập (accessible name). */
@@ -27,6 +36,8 @@ export type ModalProps = {
   maxWidth?: string
   /** Nhãn cho nút đóng — đổi khi cần bản tiếng Anh (chiều B). */
   closeLabel?: string
+  /** Dáng hộp thoại. Mặc định `center` — giữ nguyên mọi nơi đang dùng. */
+  variant?: ModalVariant
 }
 
 export default function Modal({
@@ -35,18 +46,27 @@ export default function Modal({
   children,
   maxWidth = 'max-w-lg',
   closeLabel = 'Đóng',
+  variant = 'center',
 }: ModalProps) {
   const { dialogProps, titleId, backdropProps } = useDialogBehavior(onClose)
+  const laSheet = variant === 'sheet'
 
-  return (
+  const noiDung = (
     // Lớp nền: bấm vào ĐÚNG lớp này (không phải phần tử con) thì đóng.
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+      className={`fixed inset-0 z-50 flex bg-black/70 backdrop-blur-sm ${
+        laSheet ? 'items-end justify-center p-0' : 'items-center justify-center p-4'
+      }`}
       {...backdropProps}
     >
       <div
         {...dialogProps}
-        className={`bg-zinc-900 border border-zinc-800 rounded-2xl w-full ${maxWidth} p-6 shadow-2xl max-h-[90dvh] overflow-y-auto focus:outline-none`}
+        className={
+          laSheet
+            ? // Tấm đáy: bo góc trên, cao tối đa 85dvh, chừa lề an toàn của máy có thanh gạt.
+              'bg-zinc-900 border-t border-zinc-800 rounded-t-2xl w-full p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-2xl max-h-[85dvh] overflow-y-auto focus:outline-none'
+            : `bg-zinc-900 border border-zinc-800 rounded-2xl w-full ${maxWidth} p-6 shadow-2xl max-h-[90dvh] overflow-y-auto focus:outline-none`
+        }
       >
         {/*
           Header dính (sticky) ở mép trên vùng cuộn: nội dung dài cuộn xuống thì tiêu đề
@@ -70,4 +90,13 @@ export default function Modal({
       </div>
     </div>
   )
+
+  // PORTAL ra thẳng <body> cho CẢ HAI dáng: hộp thoại mở từ bên trong một vùng có `overflow`
+  // (cột phụ của `TwoPane` cuộn riêng, thẻ `rounded-2xl overflow-hidden`…) sẽ bị CẮT nếu render
+  // tại chỗ — `position: fixed` không cứu được khi tổ tiên tạo containing block mới
+  // (`transform`, `filter`, `contain`). Đổi vị trí DOM không đổi hành vi a11y: `role="dialog"`
+  // + `aria-modal` vẫn thế, và test nên tìm bằng vai trò (`getByRole`) chứ không bằng
+  // `container.querySelector` — xem `Modal.test.tsx`.
+  // `document.body` chắc chắn có ở mọi nơi component này chạy (trình duyệt + jsdom).
+  return createPortal(noiDung, document.body)
 }

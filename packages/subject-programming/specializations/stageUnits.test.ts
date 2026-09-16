@@ -43,4 +43,8 @@ describe('cầu nối chặng chuyên sâu → unit bài học', () => {
   it('mathforcode-s1 phủ đủ bốn module theo đúng thứ tự bằng bốn unit thật', () => {
     expect(unitsOfStage('mathforcode-s1')).toEqual(['p6-u134', 'p6-u135', 'p6-u136', 'p6-u137'])
   })
+
+  it('mathforcode-s2 phủ đủ bốn module theo đúng thứ tự bằng bốn unit thật', () => {
+    expect(unitsOfStage('mathforcode-s2')).toEqual(['p6-u138', 'p6-u139', 'p6-u140', 'p6-u141'])
+  })
 })

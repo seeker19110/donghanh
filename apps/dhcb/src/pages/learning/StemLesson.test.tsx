@@ -53,8 +53,10 @@ describe('trang bài học STEM', () => {
     const baiLop10 = PHYSICS_LOADER.listCoreByGrade('10')
     expect(container.textContent).toContain(`Chương ${baiLop10[0]!.chapterNumber}`)
     expect(container.querySelectorAll('a').length).toBe(baiLop10.length)
+    // [S07-2] Danh sách nay là `OutlineTree`: dấu "có hoạt ảnh" chuyển từ biểu tượng + chữ
+    // ẩn sang chữ phụ hiện thẳng trên dòng bài — vẫn là CHỮ, vẫn đếm được.
     const soHoatAnh = baiLop10.filter((b) => b.hasAnimation).length
-    expect(container.querySelectorAll('.sr-only').length).toBe(soHoatAnh)
+    expect(container.textContent?.split('Có hoạt ảnh').length).toBe(soHoatAnh + 1)
   })
 
   it('chuyển sang nhánh học sinh giỏi thì hiện chuyên đề kèm cấp', () => {
