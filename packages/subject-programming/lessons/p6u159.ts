@@ -78,7 +78,10 @@ export const P6U159_LESSONS: ProgrammingLesson[] = [
         hoi: 'Partial pivot làm gì?',
         dap: 'Chọn hàng có phần tử tuyệt đối lớn nhất ở cột pivot rồi đổi hàng trước khi khử.',
       },
-      { hoi: 'Hàng 0=4 nghĩa là gì?', dap: 'Hệ vô nghiệm.' },
+      {
+        hoi: 'Hàng 0=4 nghĩa là gì?',
+        dap: 'Hệ vô nghiệm vì một hàng có toàn hệ số bằng 0 nhưng vế phải khác 0, tạo mâu thuẫn.',
+      },
       { hoi: 'Khi nào vô số nghiệm?', dap: 'Hệ nhất quán nhưng rank hệ số nhỏ hơn số ẩn.' },
     ],
   },

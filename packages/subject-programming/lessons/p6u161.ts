@@ -121,7 +121,7 @@ print(best)`,
       code: `budget, unit_cost, demand = 10, 3, 4
 print("feasible" if unit_cost * demand <= budget else "infeasible")`,
       question: 'Một ứng viên cost 12 với budget 10 được phân loại thế nào?',
-      choices: ['infeasible', 'feasible', 'optimal', 'diverged'],
+      choices: ['infeasible', 'đạt ràng buộc', 'optimal', 'diverged'],
       answerIndex: 0,
       explain: 'Do 3*4 lớn hơn budget 10, ứng viên bị loại trước khi so doanh thu.',
     },

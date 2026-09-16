@@ -82,7 +82,10 @@ export const P6U158_LESSONS: ProgrammingLesson[] = [
     homework:
       'Dùng NumPy ngoài sandbox để đối chiếu 10 vector; lưu script và sai số. Simulator không thay phép kiểm chứng đó.',
     srsCards: [
-      { hoi: 'Khi nào dot product hợp lệ?', dap: 'Khi hai vector cùng dimension.' },
+      {
+        hoi: 'Khi nào dot product hợp lệ?',
+        dap: 'Chỉ hợp lệ khi hai vector có cùng dimension, để từng phần tử được ghép đúng vị trí.',
+      },
       {
         hoi: 'Vì sao không chuẩn hoá vector 0?',
         dap: 'Độ dài bằng 0 nên phép chia không xác định.',
@@ -160,7 +163,10 @@ export const P6U158_LESSONS: ProgrammingLesson[] = [
         hoi: 'Vì sao dùng homogeneous coordinates?',
         dap: 'Để tịnh tiến và quay đều là phép nhân ma trận.',
       },
-      { hoi: 'Áp A rồi B cho vector cột compose thế nào?', dap: 'B @ A @ p.' },
+      {
+        hoi: 'Áp A rồi B cho vector cột compose thế nào?',
+        dap: 'Dùng B @ A @ p: A nằm gần vector p hơn nên được áp trước, rồi mới tới B.',
+      },
       {
         hoi: 'Có thể tự đổi thứ tự transform không?',
         dap: 'Không; phép nhân ma trận nói chung không giao hoán.',
