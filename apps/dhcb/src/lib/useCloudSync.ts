@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { pullUserData } from './cloud'
-import { pullProgress } from './progressSync'
+import { onProgressApplied, pullProgress } from './progressSync'
+import { flush as flushSync, setActiveUid } from './syncOutbox'
 
 // Đồng bộ lại mỗi 1 GIỜ dù không có gì đặc biệt xảy ra — phòng trường hợp máy có mạng
 // liên tục nhưng server từng sập một lúc rồi tự hồi phục (tab không tắt/mở lại nên không
@@ -38,6 +39,8 @@ export function useCloudSync(userId: string | undefined): number {
       Promise.all([pullUserData(uid), pullProgress(uid)])
         .then(() => {
           if (alive) setVersion((v) => v + 1)
+          // Kéo xong mới gửi: hàng đợi chụp localStorage lúc gửi nên phải là bản ĐÃ hợp nhất.
+          return flushSync(uid, { resetBackoff: true })
         })
         .catch((err) => {
           console.warn(
@@ -47,13 +50,32 @@ export function useCloudSync(userId: string | undefined): number {
         })
     }
 
+    // Báo hàng đợi đồng bộ biết ai đang đăng nhập — mọi sự kiện toàn cục (`online`,
+    // `visibilitychange`, `storage` từ tab khác) sẽ gửi hàng đợi của ĐÚNG chủ này (S09-2).
+    setActiveUid(uid)
+
+    // Server vừa trả bản gộp (thiết bị khác ghi chen vào giữa) → localStorage đã đổi, phải tăng
+    // `version` để mọi `useMemo` đọc localStorage tính lại, nếu không giao diện vẫn vẽ số cũ.
+    const unsubscribe = onProgressApplied(() => {
+      if (alive) setVersion((v) => v + 1)
+    })
+
+    // Quay lại tab sau khi đi chỗ khác: vừa kéo bản mới, vừa gửi nốt hàng đợi còn tồn. Mất mạng
+    // lúc học rồi khoá máy là ca rất thường gặp mà sự kiện 'online' KHÔNG bắn ra.
+    function onVisible() {
+      if (document.visibilityState === 'visible') sync()
+    }
+
     sync()
     window.addEventListener('online', sync)
+    document.addEventListener('visibilitychange', onVisible)
     const intervalId = window.setInterval(sync, RESYNC_INTERVAL_MS)
 
     return () => {
       alive = false
+      unsubscribe()
       window.removeEventListener('online', sync)
+      document.removeEventListener('visibilitychange', onVisible)
       window.clearInterval(intervalId)
     }
   }, [userId])

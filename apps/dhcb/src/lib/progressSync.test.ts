@@ -5,6 +5,7 @@ vi.mock('@core/authHeader', () => ({
 }))
 
 import { pushProgressAsync, pushProgress, pullProgress } from './progressSync'
+import { pending, getSyncVersion } from './syncOutbox'
 
 beforeEach(() => {
   localStorage.clear()
@@ -61,16 +62,18 @@ describe('pushProgressAsync', () => {
     await expect(pushProgressAsync('u1')).resolves.toBeUndefined()
   })
 
-  it('HTTP lỗi → chỉ console.warn, không ném lỗi', async () => {
+  // S09-2: lỗi tạm thời KHÔNG còn bị nuốt bằng console.warn nữa — mục nằm lại hàng đợi để gửi
+  // lại. Đây chính là phát hiện F1 của đặc tả (dữ liệu học lúc server/mạng lỗi bị mất im lặng).
+  it('HTTP 5xx → không ném lỗi, GIỮ mục trong hàng đợi để gửi lại', async () => {
     vi.stubGlobal(
       'fetch',
       vi.fn(async () => new Response('err', { status: 500 })),
     )
     await expect(pushProgressAsync('u1')).resolves.toBeUndefined()
-    expect(console.warn).toHaveBeenCalled()
+    expect(pending('u1')).toBe(1)
   })
 
-  it('fetch reject (mất mạng) → chỉ console.warn, không ném lỗi', async () => {
+  it('fetch reject (mất mạng) → không ném lỗi, GIỮ mục trong hàng đợi để gửi lại', async () => {
     vi.stubGlobal(
       'fetch',
       vi.fn(async () => {
@@ -78,7 +81,7 @@ describe('pushProgressAsync', () => {
       }),
     )
     await expect(pushProgressAsync('u1')).resolves.toBeUndefined()
-    expect(console.warn).toHaveBeenCalled()
+    expect(pending('u1')).toBe(1)
   })
 
   it('CHỜ pullProgress đang chạy xong rồi mới đọc localStorage để gửi (chống mất dữ liệu race — xem đầu file progressSync.ts)', async () => {
@@ -620,5 +623,45 @@ describe('progressSync — hàng chờ review offline sau khi đẩy thành côn
     await pushProgressAsync('u5')
     await flush()
     expect(clearPending).toHaveBeenCalledWith('u5', [11])
+  })
+})
+
+// ── AC-14: thiết bị cũ gửi muộn → giao diện KHÔNG BAO GIỜ "nhảy lùi" ──
+describe('progressSync — server báo xung đột và trả bản gộp (S09-1 conflict/merged)', () => {
+  it('conflict:true → áp bản gộp xuống localStorage, số từ chỉ TĂNG, không bao giờ ít đi', async () => {
+    localStorage.setItem('et_learned_u9', JSON.stringify(['a', 'b', 'c', 'd', 'e']))
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(
+        async () =>
+          new Response(
+            JSON.stringify({
+              ok: true,
+              version: 12,
+              conflict: true,
+              replayed: false,
+              cefrUnlocked: ['A1'],
+              merged: { learned: ['a', 'b', 'c', 'd', 'e', 'f', 'g'], version: 12 },
+            }),
+            { status: 200 },
+          ),
+      ),
+    )
+    await pushProgressAsync('u9')
+    const learned = JSON.parse(localStorage.getItem('et_learned_u9')!) as string[]
+    expect(learned).toHaveLength(7)
+    expect(learned).toEqual(expect.arrayContaining(['a', 'e', 'f', 'g']))
+    // Version server được ghi lại để lần gửi sau gửi đúng `baseVersion`.
+    expect(getSyncVersion('u9')).toBe(12)
+  })
+
+  it('server CŨ (không có trường version) → vẫn coi là gửi thành công, không kẹt hàng đợi', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response('{"ok":true,"cefrUnlocked":[]}', { status: 200 })),
+    )
+    await pushProgressAsync('u9')
+    expect(pending('u9')).toBe(0)
+    expect(getSyncVersion('u9')).toBe(0)
   })
 })

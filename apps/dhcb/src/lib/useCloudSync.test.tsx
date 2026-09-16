@@ -8,7 +8,15 @@ import { useCloudSync } from './useCloudSync'
 ;(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
 
 vi.mock('./cloud.js', () => ({ pullUserData: vi.fn(async () => undefined) }))
-vi.mock('./progressSync.js', () => ({ pullProgress: vi.fn(async () => undefined) }))
+vi.mock('./progressSync.js', () => ({
+  pullProgress: vi.fn(async () => undefined),
+  onProgressApplied: vi.fn(() => () => undefined),
+}))
+// Hàng đợi đồng bộ (S09-2) là hệ thống ngoài với hook này — giả lập để test chỉ đo lịch KÉO.
+vi.mock('./syncOutbox.js', () => ({
+  flush: vi.fn(async () => ({ sent: 0, remaining: 0 })),
+  setActiveUid: vi.fn(),
+}))
 
 import { pullUserData } from './cloud'
 import { pullProgress } from './progressSync'

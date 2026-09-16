@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from 'react'
+import { Suspense, lazy, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useParams } from 'react-router-dom'
 import { LangProvider } from './context/LangProvider'
 import { AppThemeProvider as ThemeProvider } from './context/AppThemeProvider'
@@ -27,7 +27,11 @@ import { pruneExpiredSessions } from './lib/learningSession'
 import { refreshPlanFeatures } from './lib/planFeatures'
 import { refreshPlanMarketing } from './lib/planMarketing'
 import FeatureGate from './components/FeatureGate'
-import OfflineSyncIndicator from './components/OfflineSyncIndicator'
+// Dải báo đồng bộ hầu như luôn `return null` (chỉ hiện khi mất mạng / còn mục chờ / vừa gửi
+// xong), nên nó KHÔNG đáng nằm trong chunk khởi động — nạp lười để giữ ngân sách Initial JS
+// dưới trần 140 kB. Không bọc Suspense: khi chưa nạp xong, `lazy` render null, đúng bằng
+// trạng thái thường trực của chính nó.
+const OfflineSyncIndicator = lazy(() => import('./components/OfflineSyncIndicator'))
 import { useOneHandedDrag } from './lib/useOneHandedDrag'
 // Dùng lazyWithRetry thay cho React.lazy: tự tải lại 1 lần khi chunk lỗi
 // ── 1. Core Platform & Shared Pages (Nền tảng dùng chung)
@@ -1082,7 +1086,9 @@ export default function App() {
                   cao 3.5rem vẫn được cộng vào --bnav-h ở index.css để mọi trang tự
                   chừa đủ padding-bottom, không bị trigger che/chặn tap nội dung
                   cuối trang. */}
-              <OfflineSyncIndicator />
+              <Suspense fallback={null}>
+                <OfflineSyncIndicator />
+              </Suspense>
               <BottomNav
                 triggerHandlers={oneHandedDrag.triggerHandlers}
                 isReachabilityOpen={oneHandedDrag.isOpen}

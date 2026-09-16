@@ -21,6 +21,13 @@ import { getAuthHeader } from '@core/authHeader'
 import { isGuestId } from '@core/guestId'
 import { getPendingOfflineReviews, clearPendingOfflineReviews } from './offlineSrsStore'
 import {
+  enqueue as enqueueSync,
+  flush as flushSync,
+  getSyncVersion,
+  setSyncVersion,
+  registerKindHandler,
+} from './syncOutbox'
+import {
   getSettingsUpdatedAt,
   setSettingsUpdatedAt,
   getStreakFreezeDatesForSync,
@@ -223,51 +230,106 @@ function readObj(key: string): Record<string, SRSLike> {
   }
 }
 
-// Đọc localStorage HIỆN TẠI rồi gửi thẳng lên server — KHÔNG chờ pull nào cả. Chỉ tự gọi
-// nội bộ từ pullProgress() (sau khi đã ghi bản hợp nhất xuống localStorage) để tránh vòng chờ
-// chính nó. Nơi khác dùng pushProgress()/pushProgressAsync() ở dưới (có chờ chống mất dữ liệu).
-async function sendProgressSnapshot(userId: string): Promise<void> {
-  try {
-    const resp = await fetch('/api/progress', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
-      body: JSON.stringify({
-        learned: readArr(LEARNED(userId)),
-        hard: readArr(HARD(userId)),
-        srs: readObj(SRS(userId)),
-        cefrGrammar: readArr(CEFR_GRAMMAR(userId)),
-        cefrDialogues: readArr(CEFR_DIALOGUE(userId)),
-        // CỐ Ý KHÔNG gửi `cefrUnlocked`: server tự tính quyền mở cấp (GĐ2a) và bỏ qua nếu có.
-        cefrExams: readExamMap(CEFR_EXAMS(userId)),
-        placement: readPlacement(PLACEMENT(userId)) ?? {},
-        weeklyGoal: readWeeklyGoal(WEEKLY_GOAL(userId)) ?? {},
-        achievements: readArr(ACHIEVEMENTS(userId)),
-        settings: readSettingsBlob(),
-        streakFreezeDates: getStreakFreezeDatesForSync(userId),
-      }),
-    })
-    if (!resp.ok) {
-      console.warn('[progress] đẩy tiến độ lỗi: HTTP', resp.status)
-    } else {
-      // Server trả kèm danh sách cấp nó vừa tính → cập nhật bộ đệm NGAY, để vừa thi đạt là cấp
-      // sau mở ra mà không phải chờ lượt pullProgress kế tiếp.
-      try {
-        const body = (await resp.clone().json()) as { cefrUnlocked?: unknown }
-        if (Array.isArray(body.cefrUnlocked))
-          localStorage.setItem(CEFR_UNLOCKED(userId), JSON.stringify(body.cefrUnlocked))
-      } catch {
-        /* response không phải JSON / hết dung lượng — bỏ qua, lượt pull sau sẽ đồng bộ lại */
-      }
-      // Đẩy thành công → xoá hàng chờ review offline
-      void getPendingOfflineReviews(userId).then((pending) => {
-        const ids = pending.map((p) => p.id!).filter(Boolean)
-        if (ids.length > 0) void clearPendingOfflineReviews(userId, ids)
-      })
-    }
-  } catch (err) {
-    console.warn('[progress] đẩy tiến độ lỗi:', err)
+// Đọc localStorage HIỆN TẠI và dựng THÂN REQUEST gửi lên server.
+//
+// S09-2: việc GỬI không còn nằm ở đây nữa — nó đi qua hàng đợi `syncOutbox` (debounce 1,5 giây,
+// gộp nhiều thay đổi thành một request, gửi lại có backoff khi mạng/server lỗi). Hàm này chỉ
+// CHỤP localStorage ĐÚNG LÚC GỬI (không phải lúc xếp hàng) — đúng tinh thần guard `pullInFlight`:
+// bản gửi đi luôn là bản đã hợp nhất mới nhất, không bao giờ là bản rỗng lúc app vừa mở.
+function buildProgressBody(userId: string, attemptId: string): Record<string, unknown> {
+  return {
+    learned: readArr(LEARNED(userId)),
+    hard: readArr(HARD(userId)),
+    srs: readObj(SRS(userId)),
+    cefrGrammar: readArr(CEFR_GRAMMAR(userId)),
+    cefrDialogues: readArr(CEFR_DIALOGUE(userId)),
+    // CỐ Ý KHÔNG gửi `cefrUnlocked`: server tự tính quyền mở cấp (GĐ2a) và bỏ qua nếu có.
+    cefrExams: readExamMap(CEFR_EXAMS(userId)),
+    placement: readPlacement(PLACEMENT(userId)) ?? {},
+    weeklyGoal: readWeeklyGoal(WEEKLY_GOAL(userId)) ?? {},
+    achievements: readArr(ACHIEVEMENTS(userId)),
+    settings: readSettingsBlob(),
+    streakFreezeDates: getStreakFreezeDatesForSync(userId),
+    // Phong bì đồng bộ S09-1: `attemptId` để server nhận ra lần gửi lại (không cộng thưởng hai
+    // lần), `baseVersion` để server biết có thiết bị khác ghi chen vào giữa hay không.
+    sync: {
+      attemptId,
+      baseVersion: getSyncVersion(userId),
+      clientUpdatedAt: new Date().toISOString(),
+    },
   }
 }
+
+// Response của POST /api/progress sau S09-1.
+interface ProgressPostResult {
+  cefrUnlocked?: unknown
+  version?: unknown
+  conflict?: unknown
+  replayed?: unknown
+  merged?: CloudProgressDoc
+}
+
+// Xử lý response khi server đã nhận bản chụp.
+async function onProgressPushed(userId: string, body: unknown): Promise<void> {
+  const res = (body ?? {}) as ProgressPostResult
+  // Server trả kèm danh sách cấp nó vừa tính → cập nhật bộ đệm NGAY, để vừa thi đạt là cấp
+  // sau mở ra mà không phải chờ lượt pullProgress kế tiếp.
+  try {
+    if (Array.isArray(res.cefrUnlocked))
+      localStorage.setItem(CEFR_UNLOCKED(userId), JSON.stringify(res.cefrUnlocked))
+  } catch {
+    /* response không phải JSON / hết dung lượng — bỏ qua, lượt pull sau sẽ đồng bộ lại */
+  }
+  // Thiết bị khác đã ghi chen vào giữa: server trả BẢN GỘP đầy đủ. Áp bản đó xuống localStorage
+  // bằng ĐÚNG đường hợp nhất của `doPull` (không viết luật merge thứ hai ở client) — vì mọi
+  // trường đều là union/"tốt hơn thắng" nên giao diện chỉ có thể NHIỀU THÊM, không bao giờ lùi.
+  if (res.conflict === true && res.merged && typeof res.merged === 'object') {
+    applyCloudProgress(userId, res.merged)
+    notifyProgressApplied()
+  }
+  // Server cũ (chưa deploy S09-1) không trả `version` → coi như "không hỗ trợ version", vẫn tính
+  // là gửi thành công, chỉ không ghi version (client tiếp tục gửi baseVersion cũ).
+  if (typeof res.version === 'number') setSyncVersion(userId, res.version)
+  // Đẩy thành công → xoá hàng chờ review offline
+  const pendingReviews = await getPendingOfflineReviews(userId)
+  const ids = pendingReviews.map((r) => r.id!).filter(Boolean)
+  if (ids.length > 0) await clearPendingOfflineReviews(userId, ids)
+}
+
+// Người nghe "vừa áp bản gộp từ server" — `useCloudSync` đăng ký để tăng `version` của nó, nhờ
+// vậy mọi `useMemo` đọc localStorage tính lại (nếu không, giao diện vẫn vẽ số cũ).
+const appliedListeners = new Set<() => void>()
+
+export function onProgressApplied(cb: () => void): () => void {
+  appliedListeners.add(cb)
+  return () => {
+    appliedListeners.delete(cb)
+  }
+}
+
+function notifyProgressApplied(): void {
+  for (const cb of appliedListeners) {
+    try {
+      cb()
+    } catch {
+      /* một người nghe lỗi không chặn người còn lại */
+    }
+  }
+}
+
+// Đăng ký cách gửi tài liệu tiến độ môn Anh cho hàng đợi dùng chung.
+registerKindHandler('english', {
+  // Chờ lượt pull đang chạy xong rồi mới chụp localStorage (chống ghi đè bản rỗng — xem đầu file).
+  beforeSend: async (uid) => {
+    const pulling = pullInFlight.get(uid)
+    if (pulling) await pulling.catch(() => undefined)
+  },
+  buildRequest: (uid, entry) => ({
+    url: '/api/progress',
+    body: buildProgressBody(uid, entry.attemptId),
+  }),
+  onSuccess: (uid, _entry, body) => onProgressPushed(uid, body),
+})
 
 // Lượt pullProgress() ĐANG CHẠY cho từng user (nếu có) — pushProgressAsync() phải chờ lượt
 // này xong rồi mới đọc localStorage để gửi, tránh gửi bản CŨ/RỖNG đè lên dữ liệu thật vừa
@@ -285,16 +347,20 @@ export async function pushProgressAsync(userId: string): Promise<void> {
   // không bao giờ thành công (không có phiên). Xem lib/guestProgress.ts — tiến độ được hợp
   // nhất lên tài khoản ĐÚNG MỘT LẦN, ngay lúc đăng nhập/đăng ký.
   if (isGuestId(userId)) return
-  const pulling = pullInFlight.get(userId)
-  if (pulling) await pulling.catch(() => undefined)
-  await sendProgressSnapshot(userId)
+  enqueueSync(userId, 'english')
+  // `flush` tay BỎ QUA debounce và chỉ resolve sau khi server đã nhận — `CefrExam.tsx` claim
+  // nhiệm vụ "thi đạt cấp" ngay sau đó nên bắt buộc phải chờ thật.
+  await flushSync(userId)
 }
 
 // Đẩy toàn bộ tiến độ hiện tại lên server (bắn rồi quên — không chặn giao diện).
+// S09-2: chỉ XẾP HÀNG; hàng đợi gộp mọi thay đổi trong 1,5 giây kế tiếp thành MỘT request. Một
+// phiên ôn 40 thẻ SRS vì vậy tốn ≤ 2 request thay vì 40 (và không còn chạm hạn mức 30/phút).
 // Giai đoạn C: gọi POST /api/progress thay Supabase client trực tiếp (không còn RLS
 // bảo vệ sau khi cutover khỏi Supabase Auth ở Giai đoạn B).
 export function pushProgress(userId: string): void {
-  void pushProgressAsync(userId)
+  if (!userId || isGuestId(userId)) return
+  enqueueSync(userId, 'english')
 }
 
 // Kéo tiến độ từ server → HỢP NHẤT với bản local → ghi lại localStorage → đẩy bản
@@ -308,9 +374,15 @@ export function pullProgress(userId: string): Promise<void> {
   if (isGuestId(userId)) return Promise.resolve() // khách: không có gì trên server để kéo về
   const existing = pullInFlight.get(userId)
   if (existing) return existing
-  const p = doPull(userId).finally(() => {
-    pullInFlight.delete(userId)
-  })
+  const p = doPull(userId)
+    .finally(() => {
+      pullInFlight.delete(userId)
+    })
+    // Gửi bản đã hợp nhất lên (để mọi máy hội tụ) SAU KHI lượt pull đã kết thúc — nếu gọi trong
+    // `doPull` thì hàng đợi sẽ chờ chính lượt pull này (`beforeSend`) và treo mãi.
+    .then(() => {
+      void flushSync(userId)
+    })
   pullInFlight.set(userId, p)
   return p
 }
@@ -326,21 +398,40 @@ async function doPull(userId: string): Promise<void> {
   }
   if (!data) return
 
-  const cloud = data as {
-    learned?: string[]
-    hard?: string[]
-    srs?: Record<string, SRSLike>
-    cefrGrammar?: string[]
-    cefrDialogues?: string[]
-    cefrUnlocked?: string[]
-    cefrExams?: Record<string, ExamResultLike>
-    placement?: PlacementLike
-    weeklyGoal?: WeeklyGoalLike
-    achievements?: string[]
-    settings?: SettingsBlob
-    streakFreezeDates?: string[]
-  }
+  const cloud = data as CloudProgressDoc
+  // Ghi nhớ version server để lần POST sau gửi kèm `baseVersion` đúng (S09-1). GET của server cũ
+  // không có trường này — bỏ qua, client vẫn chạy như trước.
+  if (typeof cloud.version === 'number') setSyncVersion(userId, cloud.version)
 
+  applyCloudProgress(userId, cloud)
+}
+
+/** Hình dạng tài liệu tiến độ server trả về (GET, và `merged` khi xung đột). */
+export interface CloudProgressDoc {
+  learned?: string[]
+  hard?: string[]
+  srs?: Record<string, SRSLike>
+  cefrGrammar?: string[]
+  cefrDialogues?: string[]
+  cefrUnlocked?: string[]
+  cefrExams?: Record<string, ExamResultLike>
+  placement?: PlacementLike
+  weeklyGoal?: WeeklyGoalLike
+  achievements?: string[]
+  settings?: SettingsBlob
+  streakFreezeDates?: string[]
+  version?: number
+}
+
+/**
+ * Hợp nhất bản server vào localStorage theo luật domain đã chốt (union / "tốt hơn thắng" /
+ * "mốc mới hơn thắng") rồi ghi xuống.
+ *
+ * Dùng chung cho HAI đường: lượt kéo định kỳ (`doPull`) và bản gộp `merged` server trả về khi
+ * phát hiện thiết bị khác đã ghi chen vào giữa (S09-1 `conflict: true`). Chỉ có MỘT nơi viết
+ * luật hợp nhất ở client — thêm nơi thứ hai là mở đường cho hai bên lệch nhau.
+ */
+function applyCloudProgress(userId: string, cloud: CloudProgressDoc): void {
   // learned/hard/cefr_*: dữ liệu chỉ tăng dần → lấy hợp của local và cloud
   const learned = new Set<string>([...readArr(LEARNED(userId)), ...(cloud.learned ?? [])])
   const hard = new Set<string>([...readArr(HARD(userId)), ...(cloud.hard ?? [])])
@@ -413,6 +504,7 @@ async function doPull(userId: string): Promise<void> {
     /* hết dung lượng — bỏ qua */
   }
 
-  void sendProgressSnapshot(userId) // đẩy bản hợp nhất để cloud cập nhật (không qua guard —
-  // guard là để CHỜ pull này, tự chờ chính mình sẽ treo mãi)
+  // Xếp bản đã hợp nhất vào hàng đợi để mọi máy hội tụ. KHÔNG gửi ngay tại đây: `pullProgress`
+  // gọi `flush` sau khi lượt pull kết thúc (hàng đợi chờ chính lượt pull này trong `beforeSend`).
+  enqueueSync(userId, 'english')
 }

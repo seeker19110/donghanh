@@ -17,6 +17,7 @@
 
 import { getGuestId, clearGuestId, isGuestId } from '@core/guestId'
 import { pushProgressAsync } from './progressSync'
+import { flush as flushSync } from './syncOutbox'
 import { saveLessonProgress } from './programmingProgress'
 import { LEARNING_SESSION_PREFIX, moveGuestSessionsTo } from './learningSession'
 import {
@@ -223,10 +224,13 @@ export async function mergeGuestProgressInto(realUid: string): Promise<boolean> 
   if (Array.isArray(guestLessons) && guestLessons.length > 0) {
     const mine = readJson<LessonProgressLike[]>(PROGRAMMING_PROGRESS_PREFIX + realUid) ?? []
     writeJson(PROGRAMMING_PROGRESS_PREFIX + realUid, mergeLessonProgress(mine, guestLessons))
+    // S09-2: xếp CẢ LOẠT vào hàng đợi rồi gửi MỘT batch, thay vì mỗi bài một POST (khách học
+    // nhiều bài trước khi đăng nhập là ca thường gặp — 30 bài từng là 30 request nối đuôi).
     for (const row of guestLessons) {
-      // Lỗi mạng ở một bài không được chặn phần còn lại của việc hợp nhất.
       await saveLessonProgress(realUid, row.lessonId, row.status).catch(() => undefined)
     }
+    // Lỗi mạng ở đây không được chặn phần còn lại của việc hợp nhất — hàng đợi tự gửi lại sau.
+    await flushSync(realUid).catch(() => undefined)
   }
 
   // ── Bằng chứng hoàn thành bài STEM (S11-2) ──
