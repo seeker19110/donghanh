@@ -326,6 +326,173 @@ describe('trang bài học STEM', () => {
     }
   })
 
+  // ——— [S11-2] Nộp bài tự kiểm tra: SERVER là người nói "đã hoàn thành" ———
+
+  /** Trả lời TẤT CẢ các câu: trắc nghiệm bấm lựa chọn đầu, tự luận gõ một chuỗi bất kỳ. */
+  function traLoiHetCauHoi() {
+    const khoi = [...container.querySelectorAll('h2 + ul > li')]
+    for (const li of khoi) {
+      const o = li.querySelector<HTMLInputElement>('input[id^="tra-loi-"]')
+      if (o) {
+        act(() => {
+          const setter = Object.getOwnPropertyDescriptor(
+            window.HTMLInputElement.prototype,
+            'value',
+          )!.set!
+          setter.call(o, '20 m/s')
+          o.dispatchEvent(new Event('input', { bubbles: true }))
+        })
+        continue
+      }
+      const nut = li.querySelector('button')
+      if (nut) act(() => nut.click())
+    }
+  }
+
+  function nutNop() {
+    return [...container.querySelectorAll('button')].find((b) =>
+      b.textContent?.includes('Nộp bài tự kiểm tra'),
+    )
+  }
+
+  /** Giả server: mọi lời gọi `/api/learning/evidence` trả `phanHoi`; các đường khác 404. */
+  function gaServer(status: number, body?: unknown) {
+    const f = vi.fn(async (url: string) =>
+      String(url).startsWith('/api/learning/evidence')
+        ? new Response(body === undefined ? null : JSON.stringify(body), {
+            status,
+            headers: { 'content-type': 'application/json' },
+          })
+        : new Response('{}', { status: 404 }),
+    )
+    vi.stubGlobal('fetch', f)
+    return f
+  }
+
+  function phanHoi(passed: boolean, correct: number, total: number) {
+    return {
+      schemaVersion: 1,
+      subjectId: 'physics',
+      contentId: 'ly10-c2-b10',
+      activityKind: 'stem_lesson_check',
+      attemptId: 'attempt-0123456789abcd',
+      clientAt: '2026-09-16T00:00:00.000Z',
+      ownerId: 'u-42',
+      evidenceKind: 'server_graded',
+      correct,
+      total,
+      ratio: correct / total,
+      passed,
+      serverAt: '2026-09-16T00:00:01.000Z',
+      items: [],
+    }
+  }
+
+  it('mở bài KHÔNG gửi bằng chứng nào, và nút Nộp khoá tới khi trả lời đủ', async () => {
+    localStorage.clear()
+    __resetSessionMemory()
+    const f = gaServer(200, phanHoi(true, 2, 2))
+    try {
+      const bai = (await PHYSICS_LOADER.loadLesson('ly10-c2-b10'))!
+      await moBai(NGUOI_HOC, duongDanBaiHoc('physics', bai.id, bai.title))
+
+      expect(
+        f.mock.calls.filter((c) => String(c[0]).includes('/api/learning/evidence')),
+      ).toHaveLength(0)
+      expect(nutNop()!.hasAttribute('disabled')).toBe(true)
+      expect(container.textContent).toContain(`Trả lời đủ ${bai.checkQuestions.length} câu`)
+
+      traLoiHetCauHoi()
+      expect(nutNop()!.hasAttribute('disabled')).toBe(false)
+      // Trả lời/chấm tại chỗ vẫn KHÔNG phải là bằng chứng — chưa bấm Nộp thì chưa gửi gì.
+      expect(
+        f.mock.calls.filter((c) => String(c[0]).includes('/api/learning/evidence')),
+      ).toHaveLength(0)
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
+
+  it('server trả passed:true → mới hiện "Đã hoàn thành"', async () => {
+    localStorage.clear()
+    __resetSessionMemory()
+    gaServer(200, phanHoi(true, 2, 2))
+    try {
+      const bai = (await PHYSICS_LOADER.loadLesson('ly10-c2-b10'))!
+      await moBai(NGUOI_HOC, duongDanBaiHoc('physics', bai.id, bai.title))
+      traLoiHetCauHoi()
+      await act(async () => nutNop()!.click())
+
+      expect(container.textContent).toContain('Đã hoàn thành bài này')
+      expect(container.textContent).toContain('Đúng 2/2 câu')
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
+
+  it('server trả passed:false → KHÔNG có chữ "hoàn thành", vẫn thấy đúng/sai từng câu', async () => {
+    localStorage.clear()
+    __resetSessionMemory()
+    gaServer(200, phanHoi(false, 1, 4))
+    try {
+      const bai = (await PHYSICS_LOADER.loadLesson('ly10-c2-b10'))!
+      await moBai(NGUOI_HOC, duongDanBaiHoc('physics', bai.id, bai.title))
+      traLoiHetCauHoi()
+      await act(async () => nutNop()!.click())
+
+      expect(container.textContent).not.toContain('hoàn thành')
+      expect(container.textContent).toContain('Chưa đạt')
+      // Con số hiện ra là con số của SERVER (1/4), không phải bản chấm ở máy.
+      expect(container.textContent).toContain('Đúng 1/4 câu')
+      expect(container.textContent).toMatch(/Đúng rồi\.|Chưa đúng\./)
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
+
+  it('server lỗi → giữ bài làm trên máy và NÓI RA, đúng/sai từng câu vẫn xem được', async () => {
+    localStorage.clear()
+    __resetSessionMemory()
+    gaServer(503, { error: 'bận' })
+    try {
+      const bai = (await PHYSICS_LOADER.loadLesson('ly10-c2-b10'))!
+      await moBai(NGUOI_HOC, duongDanBaiHoc('physics', bai.id, bai.title))
+      traLoiHetCauHoi()
+      await act(async () => nutNop()!.click())
+
+      expect(container.textContent).toContain('Đã lưu trên máy này, sẽ gửi lại')
+      expect(container.textContent).not.toContain('Đã hoàn thành')
+      expect(container.textContent).toMatch(/Đúng rồi\.|Chưa đúng\./)
+      expect(localStorage.getItem('dhcb_evidence_pending_u-42')).not.toBeNull()
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
+
+  it('khách nộp thì KHÔNG gọi server và kết quả ghi rõ là cục bộ', async () => {
+    localStorage.clear()
+    __resetSessionMemory()
+    const f = gaServer(200, phanHoi(true, 2, 2))
+    try {
+      const bai = (await PHYSICS_LOADER.loadLesson('ly10-c2-b10'))!
+      await moBai(
+        { ...NGUOI_HOC, id: 'guest_abc-123' },
+        duongDanBaiHoc('physics', bai.id, bai.title),
+        true,
+      )
+      traLoiHetCauHoi()
+      await act(async () => nutNop()!.click())
+
+      expect(
+        f.mock.calls.filter((c) => String(c[0]).includes('/api/learning/evidence')),
+      ).toHaveLength(0)
+      expect(container.textContent).toContain('trên máy này')
+      expect(localStorage.getItem('dhcb_evidence_guest_abc-123')).not.toBeNull()
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
+
   it('bài không tồn tại thì nói rõ và mời quay lại danh sách', async () => {
     await act(async () => {
       root.render(

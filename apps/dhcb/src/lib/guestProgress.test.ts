@@ -337,3 +337,128 @@ describe('hợp nhất Ý ĐỊNH của khách', () => {
     vi.unstubAllGlobals()
   })
 })
+
+// ——— [S11-2] Bằng chứng hoàn thành bài STEM của khách ———
+//
+// Bất biến: khách KHÔNG gửi gì lên server trước khi đăng nhập; lúc đăng nhập thì thứ được gửi là
+// TRẢ LỜI THÔ (server chấm lại), không phải cờ `passed` nằm trong localStorage của khách.
+describe('evidence STEM của khách', () => {
+  const NHAT_KY = 'dhcb_evidence_'
+  const TRANG_THAI = 'dhcb_evidence_state_'
+  const HANG_DOI = 'dhcb_evidence_pending_'
+
+  function banGhiKhach(guest: string) {
+    return [
+      {
+        input: {
+          schemaVersion: 1,
+          subjectId: 'physics',
+          contentId: 'ly10-c2-b10',
+          activityKind: 'stem_lesson_check',
+          attemptId: 'attempt-0123456789abcd',
+          clientAt: '2026-09-16T00:00:00.000Z',
+          answers: [{ questionIndex: 0, raw: 'a' }],
+        },
+        evidence: {
+          schemaVersion: 1,
+          subjectId: 'physics',
+          contentId: 'ly10-c2-b10',
+          activityKind: 'stem_lesson_check',
+          attemptId: 'attempt-0123456789abcd',
+          clientAt: '2026-09-16T00:00:00.000Z',
+          ownerId: guest,
+          evidenceKind: 'local_graded',
+          // Khách tự sửa localStorage thành "đúng hết" — merge KHÔNG được tin con số này.
+          correct: 99,
+          total: 1,
+          ratio: 1,
+          passed: true,
+          items: [],
+        },
+      },
+    ]
+  }
+
+  it('chỉ có evidence STEM cũng tính là khách đã học (hasGuestProgress)', () => {
+    const guest = getGuestId()
+    localStorage.setItem(NHAT_KY + guest, JSON.stringify(banGhiKhach(guest)))
+    expect(hasGuestProgress(guest)).toBe(true)
+  })
+
+  it('clearGuestKeys xoá cả ba khoá evidence — khách sau không kế thừa của khách trước', () => {
+    const guest = getGuestId()
+    localStorage.setItem(NHAT_KY + guest, JSON.stringify(banGhiKhach(guest)))
+    localStorage.setItem(TRANG_THAI + guest, JSON.stringify({ 'physics:ly10-c2-b10': {} }))
+    localStorage.setItem(HANG_DOI + guest, JSON.stringify([]))
+
+    clearGuestKeys(guest)
+
+    expect(localStorage.getItem(NHAT_KY + guest)).toBeNull()
+    expect(localStorage.getItem(TRANG_THAI + guest)).toBeNull()
+    expect(localStorage.getItem(HANG_DOI + guest)).toBeNull()
+  })
+
+  it('đăng nhập → đẩy TRẢ LỜI THÔ lên server, server là người chấm', async () => {
+    const guest = getGuestId()
+    localStorage.setItem(NHAT_KY + guest, JSON.stringify(banGhiKhach(guest)))
+    const f = vi.fn(async (url: string) =>
+      url.startsWith('/api/learning/evidence')
+        ? new Response(
+            JSON.stringify({
+              schemaVersion: 1,
+              subjectId: 'physics',
+              contentId: 'ly10-c2-b10',
+              activityKind: 'stem_lesson_check',
+              attemptId: 'attempt-0123456789abcd',
+              clientAt: '2026-09-16T00:00:00.000Z',
+              ownerId: 'u-9',
+              evidenceKind: 'server_graded',
+              correct: 0,
+              total: 1,
+              ratio: 0,
+              passed: false,
+              serverAt: '2026-09-16T00:00:01.000Z',
+              items: [],
+            }),
+            { status: 200, headers: { 'content-type': 'application/json' } },
+          )
+        : new Response('{}', { status: 200, headers: { 'content-type': 'application/json' } }),
+    )
+    vi.stubGlobal('fetch', f)
+
+    expect(await mergeGuestProgressInto('u-9')).toBe(true)
+
+    const goi = f.mock.calls.filter((c) => String(c[0]).startsWith('/api/learning/evidence'))
+    expect(goi).toHaveLength(1)
+    const body = JSON.parse(String((goi[0]![1] as RequestInit).body)) as Record<string, unknown>
+    expect(body).not.toHaveProperty('passed')
+    expect(body).not.toHaveProperty('correct')
+    expect(body.answers).toEqual([{ questionIndex: 0, raw: 'a' }])
+    // Trạng thái của TÀI KHOẢN lấy từ phản hồi server (0/1, chưa đạt), không phải 99/1 của khách.
+    const state = JSON.parse(localStorage.getItem(`${TRANG_THAI}u-9`) ?? '{}') as Record<
+      string,
+      { status: string; source: string }
+    >
+    expect(state['physics:ly10-c2-b10']).toMatchObject({ status: 'in_progress', source: 'server' })
+    expect(localStorage.getItem(NHAT_KY + guest)).toBeNull()
+    vi.unstubAllGlobals()
+  })
+
+  it('server lỗi lúc đẩy evidence KHÔNG chặn phần còn lại của việc hợp nhất', async () => {
+    const guest = getGuestId()
+    localStorage.setItem(NHAT_KY + guest, JSON.stringify(banGhiKhach(guest)))
+    localStorage.setItem(`et_learned_${guest}`, JSON.stringify(['cat']))
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => {
+        throw new TypeError('Failed to fetch')
+      }),
+    )
+
+    expect(await mergeGuestProgressInto('u-10')).toBe(true)
+
+    expect(JSON.parse(localStorage.getItem('et_learned_u-10') ?? '[]')).toEqual(['cat'])
+    expect(pushProgressAsync).toHaveBeenCalledWith('u-10')
+    vi.unstubAllGlobals()
+  })
+})
