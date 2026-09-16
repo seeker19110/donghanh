@@ -26,6 +26,10 @@ vi.mock('../../../lib/programmingPathProgress', async (importOriginal) => {
 vi.mock('../../../lib/programmingPathArtifacts', () => ({
   fetchPathArtifacts: async () => [],
 }))
+vi.mock('../../../lib/programmingProgress', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../../lib/programmingProgress')>()
+  return { ...actual, fetchProgress: async () => [] }
+})
 
 // URL thật là `<mã lộ trình>--<tiêu đề đã slug hoá>` (đổi 2026-08-31).
 function render(pathId: string) {
@@ -53,6 +57,15 @@ describe('ProgrammingPathPage — trang lộ trình mục tiêu', () => {
     for (const ref of pathStageRefs(path)) {
       expect(html, `thiếu chặng ${ref.stageId}`).toContain(ref.stageId.toUpperCase())
     }
+  })
+
+  it('hiện đúng P1–P4 trước phần chuyên sâu để người mới có đường đi từ số 0', () => {
+    const html = render('principal-ai')
+    expect(html).toContain('Chặng nền tảng — bắt đầu từ số 0')
+    for (const levelId of ['P1', 'P2', 'P3', 'P4']) expect(html).toContain(`${levelId} ·`)
+    expect(html).not.toContain('P5 ·')
+    expect(html).not.toContain('P6 ·')
+    expect(html.split('Học bậc này').length - 1).toBe(4)
   })
 
   it('nút "Vào học" hiện ĐÚNG bằng số chặng đã có bài thật — không hứa suông', () => {
