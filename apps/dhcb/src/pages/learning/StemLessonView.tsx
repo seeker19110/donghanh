@@ -261,6 +261,14 @@ function TuKiemTra({
     return () => window.removeEventListener('online', gui)
   }, [uid, owner?.kind])
 
+  // Nạp TRƯỚC phần chấm điểm STEM (đợi lười, xem lib/stemEvidence.ts) ngay khi vào bài — lúc này
+  // người học còn đang trả lời, còn thời gian để trình duyệt tải xong trước khi bấm Nộp. Không
+  // await kết quả: nộp bài vẫn hoạt động đúng nếu preload chưa xong, chỉ là submitStemEvidence tự
+  // await import() của chính nó lần nữa (cache module, gần như không tốn thêm gì).
+  useEffect(() => {
+    void import('@dhcb/core-learner/stemGrading.js')
+  }, [])
+
   const nop = useCallback(async () => {
     if (!uid || dangNop) return
     setDangNop(true)

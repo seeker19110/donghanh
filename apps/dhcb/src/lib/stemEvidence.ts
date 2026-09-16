@@ -30,8 +30,7 @@ import {
   type CompletionState,
   type EvidenceSubject,
 } from '@dhcb/core-contracts/completionEvidence'
-import { decideCompletion } from '@dhcb/core-learner/completionRules'
-import { gradeStemEvidence, type StemLessonLike } from '@dhcb/core-learner/stemEvidenceGrader'
+import type { StemLessonLike } from '@dhcb/core-learner/stemEvidenceGrader'
 
 export const EVIDENCE_LOG_PREFIX = 'dhcb_evidence_'
 export const EVIDENCE_STATE_PREFIX = 'dhcb_evidence_state_'
@@ -306,6 +305,12 @@ export async function submitStemEvidence(
     clientAt: new Date().toISOString(),
   }
 
+  // Nạp LƯỜI phần CHẤM ĐIỂM: `gradeStemEvidence`/`decideCompletion` (và `core-grading` mà chúng
+  // kéo theo — chemistry/expression/number/tolerance/units) chỉ cần khi THẬT SỰ có người nộp bài
+  // STEM (từ trang bài học, vốn đã lazy). File này còn được `guestProgress.ts` import EAGER cho
+  // `pushGuestEvidence` (không đụng chấm điểm), nên trước đây cả module — gồm cả phần chấm điểm —
+  // bị kéo vào chunk khởi động. Đo 2026-09-16: đây là phần lớn nhất còn lại có thể nạp lười.
+  const { gradeStemEvidence, decideCompletion } = await import('@dhcb/core-learner/stemGrading.js')
   const cham = gradeStemEvidence(lessonForLocal, input.answers)
   const quyetDinh = decideCompletion(input.activityKind, cham)
   const local: CompletionEvidence = {

@@ -362,6 +362,18 @@ describe('trang bài học STEM', () => {
     )
   }
 
+  // Bấm Nộp rồi CHỜ ĐỦ: `nop()` await `submitStemEvidence`, hàm này giờ `await import()`
+  // lười phần chấm điểm (lib/stemEvidence.ts, 2026-09-16) trước khi gọi máy chấm — thêm một
+  // bước microtask/macrotask mà `act(async () => click())` một lượt không flush hết, vì
+  // `onClick={() => void nop()}` không trả promise cho act() theo. Đợi thêm một macrotask
+  // (setTimeout 0) sau click để chắc chắn `import()` đã giải quyết xong trước khi assert.
+  async function napBaiVaCho() {
+    await act(async () => {
+      nutNop()!.click()
+      await new Promise((r) => setTimeout(r, 0))
+    })
+  }
+
   /**
    * Số lượt NỘP đã rời trình duyệt.
    *
@@ -439,7 +451,7 @@ describe('trang bài học STEM', () => {
       const bai = (await PHYSICS_LOADER.loadLesson('ly10-c2-b10'))!
       await moBai(NGUOI_HOC, duongDanBaiHoc('physics', bai.id, bai.title))
       traLoiHetCauHoi()
-      await act(async () => nutNop()!.click())
+      await napBaiVaCho()
 
       expect(container.textContent).toContain('Đã hoàn thành bài này')
       expect(container.textContent).toContain('Đúng 2/2 câu')
@@ -456,7 +468,7 @@ describe('trang bài học STEM', () => {
       const bai = (await PHYSICS_LOADER.loadLesson('ly10-c2-b10'))!
       await moBai(NGUOI_HOC, duongDanBaiHoc('physics', bai.id, bai.title))
       traLoiHetCauHoi()
-      await act(async () => nutNop()!.click())
+      await napBaiVaCho()
 
       expect(container.textContent).not.toContain('hoàn thành')
       expect(container.textContent).toContain('Chưa đạt')
@@ -476,7 +488,7 @@ describe('trang bài học STEM', () => {
       const bai = (await PHYSICS_LOADER.loadLesson('ly10-c2-b10'))!
       await moBai(NGUOI_HOC, duongDanBaiHoc('physics', bai.id, bai.title))
       traLoiHetCauHoi()
-      await act(async () => nutNop()!.click())
+      await napBaiVaCho()
 
       expect(container.textContent).toContain('Đã lưu trên máy này, sẽ gửi lại')
       expect(container.textContent).not.toContain('Đã hoàn thành')
@@ -499,7 +511,7 @@ describe('trang bài học STEM', () => {
         true,
       )
       traLoiHetCauHoi()
-      await act(async () => nutNop()!.click())
+      await napBaiVaCho()
 
       expect(soLuotNop(f)).toBe(0)
       expect(container.textContent).toContain('trên máy này')
@@ -524,7 +536,7 @@ describe('trang bài học STEM', () => {
     try {
       await moBai(NGUOI_HOC, duongDanBaiHoc('physics', bai.id, bai.title))
       traLoiHetCauHoi()
-      await act(async () => nutNop()!.click())
+      await napBaiVaCho()
 
       const khung = container.querySelector('section[aria-label="Kết quả lượt nộp"]')!
       const chu = khung.textContent ?? ''
