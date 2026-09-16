@@ -766,6 +766,27 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         title: 'Toán cho Lập trình S1 — đếm phép tính và Big-O bằng số đo',
         topics: 'Tổng tam giác, chia đôi logarit; đối chiếu công thức với bộ đếm thật',
       },
+      // p6-u138…u141: chặng S2 "Tổ hợp và xác suất cho lập trình viên".
+      {
+        id: 'p6-u138',
+        title: 'Toán cho Lập trình S2 — phép đếm, hoán vị và tổ hợp',
+        topics: 'Quy tắc cộng/nhân; kích thước vét cạn; tổ hợp Pascal',
+      },
+      {
+        id: 'p6-u139',
+        title: 'Toán cho Lập trình S2 — xác suất, kỳ vọng và A/B',
+        topics: 'Xác suất có điều kiện; va chạm; kỳ vọng và nhiễu lấy mẫu',
+      },
+      {
+        id: 'p6-u140',
+        title: 'Toán cho Lập trình S2 — giả ngẫu nhiên có thể tái hiện',
+        topics: 'LCG, seed, chu kỳ và Fisher–Yates không thiên lệch',
+      },
+      {
+        id: 'p6-u141',
+        title: 'Toán cho Lập trình S2 — thống kê đo hiệu năng',
+        topics: 'Trung bình, trung vị, phương sai và p50/p95/p99',
+      },
       // p6-u66..u68: chặng S1 của hướng Dữ liệu (data-s1, specializations/data.ts, 4 module).
       // p3-u8/p3-u9 đã dạy SELECT/JOIN/GROUP BY/HAVING cơ bản — u66 đi XA HƠN (hàm cửa sổ, CTE)
       // để không dạy trùng. Đăng ký cầu nối ở `specializations/stageUnits.ts`.

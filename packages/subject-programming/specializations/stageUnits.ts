@@ -84,6 +84,7 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // có ca biên và bằng chứng chạy thật riêng. Đặc tả:
   // `docs/specs/2026-09-16-mathforcode-s1-bai-hoc-that.md`.
   'mathforcode-s1': ['p6-u134', 'p6-u135', 'p6-u136', 'p6-u137'],
+  'mathforcode-s2': ['p6-u138', 'p6-u139', 'p6-u140', 'p6-u141'],
 }
 
 /** Unit của một chặng; mảng RỖNG nghĩa là chặng chưa có bài (giao diện phải nói rõ điều đó). */
