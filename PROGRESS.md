@@ -267,7 +267,13 @@ có golden snapshot canh (`apps/dhcb/src/lib/srs.golden.test.ts`, chụp ở com
 còn rỗng: S11-3 cố ý KHÔNG gọi `addStemLessonCardsToSrs` (đặc tả S11 §① "KHÔNG ghi thẻ SRS — S12"), chỉ
 chừa prop `reviewSlot` của `ActivityResult`; việc nối dây là của S12 và chỉ khi
 `ketQua.kind === 'server' && evidence.passed`. Còn lại: **S12-2** (sổ lỗi có bằng
-chứng + migration) và **S12-3** (tiến độ theo môn).
+chứng + migration, PR #981).
+
+**S12-3 (tiến độ theo môn) — ĐANG MỞ PR #983** (`docs/changelog/0352-*.md`): `/tien-do` có khối
+"Tiến độ theo môn" đứng đầu nội dung, số đếm CHỈ từ cây mục lục S07 qua
+`apps/dhcb/src/lib/progressSummary.ts` (thuần) và `apps/dhcb/src/lib/subjectProgressBoard.ts`
+(dựng cây 6 môn bằng `import()` động). Môn chưa có bằng chứng hiện CHỮ "chưa đo được", không
+quy về 0. StatCard tiếng Anh cũ giữ nguyên (quyết định Q6: THÊM, không thay). Không migration.
 
 **Các slice còn lại của goal learning-ux — ĐẶC TẢ ĐÃ VIẾT 2026-09-15 (`docs/changelog/0328-*.md`), tất cả đã `Approved for implementation` từ 2026-09-15 (chủ dự án chốt toàn bộ §7 theo đề xuất mặc định — `docs/changelog/0329-*.md`).** Thứ tự thi hành đã chốt: S07 → S08 → S06 → S05 → S10 → S11 → S09 → S12 → S13. File: `docs/specs/2026-09-15-learning-ux-s{08,06,05,10,11,09,12,13}-*.md`. **Số migration cấp theo thứ tự MERGE thật, KHÔNG đặt trước (chủ dự án chốt 2026-09-15, PR #935):** cổng `scripts/migrations-readme-coverage.test.ts` cấm nhảy số, nên PR nào merge trước thì lấy số kế tiếp còn trống. S11-1 merge trước nên lấy `0081`; S05/S09/S12 lấy số còn trống tại thời điểm PR của chúng merge. Kế hoạch đánh số trước (S05 0081 · S11 0082 · S09 0083 · S12 0084) đã BỎ.
 

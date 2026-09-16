@@ -134,14 +134,14 @@ tiến độ có bằng chứng. AC ghi rõ thuộc PR nào.
 
 ### S12-3 — tiến độ có bằng chứng
 
-- [ ] **AC-13 Số tiến độ theo môn chỉ từ evidence, qua Outline S07.** `apps/dhcb/src/lib/progressSummary.ts`
+- [x] **AC-13 Số tiến độ theo môn chỉ từ evidence, qua Outline S07.** `apps/dhcb/src/lib/progressSummary.ts`
       export `summarizeOutline(outline: Outline): SubjectProgressSummary` (§③.5): đếm lá
       `kind:'lesson'|'activity'` theo `progress` (`completed`/`in-progress`/`not-started`/`unknown`);
       `measured = false` khi **mọi** lá là `unknown` → UI ghi "chưa đo được". Không có nhánh nào
       suy `completed` từ "đã xem"/"đã mở". — `progressSummary.test.ts` ≥ 8 ca trên cây thật của
       3 adapter S07 (Lí 94 bài toàn `unknown` → `measured:false`; P1 với 2 bản ghi `completed` →
       `2/n`).
-- [ ] **AC-14 Trang `/tien-do` có khối "Tiến độ theo môn", không có điểm chẩn đoán.**
+- [x] **AC-14 Trang `/tien-do` có khối "Tiến độ theo môn", không có điểm chẩn đoán.**
       `Dashboard.tsx` (787 dòng) thêm section dùng `summarizeOutline` cho Anh (cấp hiện tại),
       Lập trình (bậc hiện tại), 4 môn STEM; mỗi thẻ: `<n>/<tổng>` + nhãn nguồn ("theo bài đã đạt
       test", "theo vòng từ đã thuộc") hoặc "chưa đo được". **Không** hiện `placement`, band ước
@@ -149,17 +149,17 @@ tiến độ có bằng chứng. AC ghi rõ thuộc PR nào.
       Các StatCard cũ (dòng 514–535) giữ nguyên. Khối cần `RequireAccount` như trang hiện có. —
       `Dashboard.test.tsx` (mới, ≥ 5 ca gồm ca "toàn `unknown` → chữ 'chưa đo được'"), E2E
       `a11y.spec.ts`/`a11y-aaa.spec.ts` route `/tien-do` đã có → 0 vi phạm.
-- [ ] **AC-15 Không dùng `learningReadModelService` làm nguồn tiến độ.** `grep -rn
+- [x] **AC-15 Không dùng `learningReadModelService` làm nguồn tiến độ.** `grep -rn
 "learning-read-model\|getLearningReadModel" apps/dhcb/src` = 0 sau S12 (hiện = 0; giữ). Lý
       do: service đọc cột `english.learning_progress.stats` (`learningReadModelService.ts:68`)
       **không tồn tại** trong `postgres/schema.sql:150–175` lẫn mọi migration (grep `stats` trong
       `postgres/` chỉ ra `tts_cache_stats`) — `masterySummary` là số không có nguồn. Ghi nợ ở §8,
       không sửa trong S12.
-- [ ] **AC-16 Thẻ tiến độ ở Home/`ShareProgress` không đổi con số cũ.** `ShareProgress.tsx:16–17`
+- [x] **AC-16 Thẻ tiến độ ở Home/`ShareProgress` không đổi con số cũ.** `ShareProgress.tsx:16–17`
       (`getStreak`, `getLearnedCount`) và thẻ "lộ trình %" Dashboard giữ nguyên nguồn (đó là
       evidence Anh hợp lệ: từ đã thuộc, vòng đã xong). Snapshot test render `ShareProgress` không
       đổi. — `npx vitest run apps/dhcb/src/components/ShareProgress.test.tsx` (tạo nếu chưa có).
-- [ ] **AC-17 Nhìn bằng mắt (Tầng 8b) + a11y + ngân sách.** Ảnh 1440/768/390/320px TRƯỚC/SAU: hub
+- [x] **AC-17 Nhìn bằng mắt (Tầng 8b) + a11y + ngân sách.** Ảnh 1440/768/390/320px TRƯỚC/SAU: hub
       ôn (rỗng + có 3 nguồn), sổ lỗi có bộ lọc môn, `/tien-do` khối tiến độ theo môn (có ít nhất
       một thẻ "chưa đo được"), ôn thẻ STEM; 5 theme; `e2e/a11y*.spec.ts` 0 vi phạm; `npm run
 budget` sau build: chunk `Dashboard` và chunk hub tăng ≤ 6 kB gzip mỗi chunk so với `main`
