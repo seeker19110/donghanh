@@ -55,7 +55,7 @@
 | M2/S1b | `mathforcode-s2`: tổ hợp, xác suất, thống kê có bài thật     | S1a        | `2026-09-16-mathforcode-s2-bai-hoc-that.md`   | —     | #950 | DONE    | CI xanh, merge `0e8df605` |
 | M2/S1f | `mathforcode-s3..s4`: tuyến tính, giải tích có bài thật      | S1b        | `2026-09-16-mathforcode-s3-s4-bai-hoc-that.md` | —     | #974 | DONE | CI xanh, merge `fc1e6b60` |
 | M2/S1c | `algo-s1`: nền tảng DSA và complexity có bài thật            | S1a        | `2026-09-16-algo-s1-bai-hoc-that.md`          | —     | #954 | DONE    | CI xanh, merge `3dfd889d` |
-| M2/S1g | `algo-s2`: đệ quy, cây, đồ thị và chiến lược có bài thật     | S1c        | `2026-09-16-algo-s2-bai-hoc-that.md`          | —     | #975 | DONE | CI xanh, merge `c86c84d2` |
+| M2/S1g | `algo-s2`: đệ quy, cây, đồ thị và chiến lược có bài thật     | S1c        | `2026-09-16-algo-s2-bai-hoc-that.md`          | —     | #975 | DONE | CI xanh, merge `b995df8d` |
 | M2/S1d | `systems-s1`: bộ nhớ, C, debug và build có bài thật          | S1c        | `2026-09-16-systems-s1-bai-hoc-that.md`       | —     | #955 | DONE    | CI xanh, merge `3f3447f5` |
 | M2/S1h | `systems-s2`: OS, tiến trình và syscall có bài thật          | S1d        | `2026-09-16-systems-s2-bai-hoc-that.md`       | —     | #957 | DONE    | CI xanh, merge `0130e577` |
 | M2/S1e | `devops-s1` + Runtime Lab Linux                              | S1d        | `2026-09-16-devops-s1-bai-hoc-that.md`        | —     | #967 | DONE    | CI xanh, merge `a2077f5f` |
