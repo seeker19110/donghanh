@@ -38,7 +38,11 @@ import {
 } from '../../lib/stemLessonRoutes'
 import { buildStemOutlineForApp } from '../../lib/outline/stemOutlineApp'
 import { useOutlinePane } from '../../components/useOutlinePane'
+import { LoiTienDo } from '../../components/OutlinePane'
 import OutlinePrevNext from '../../components/OutlinePrevNext'
+import ActivityResult from '../../components/learning/ActivityResult'
+import { ketQuaSangManHinh } from '../../lib/stemResultView'
+import { useStemCompletionState } from '../../lib/useStemCompletionState'
 import { useIsDesktopViewport } from '../../lib/useIsDesktopViewport'
 import {
   submitStemEvidence,
@@ -46,6 +50,7 @@ import {
   hasPendingEvidence,
   type SubmitEvidenceResult,
 } from '../../lib/stemEvidence'
+import { prevNext } from '@dhcb/core-learner/outline/outlineNav'
 
 // Nháp phần "Tự kiểm tra": CHỈ chữ người học gõ + danh sách câu đã bấm chấm.
 // KHÔNG lưu kết quả đúng/sai — nó được TÍNH LẠI bằng `gradeAnswer` (hàm thuần, offline) mỗi lần
@@ -152,7 +157,19 @@ function CauHoi({
  * Ranh giới: đây chỉ là NHÁP trên cùng thiết bị. Bài STEM vẫn KHÔNG có tiến độ/evidence —
  * không khoá localStorage nào khác, không endpoint, không cột DB (đặc tả S08 §① KHÔNG LÀM).
  */
-function TuKiemTra({ bai, subjectId }: { bai: StemLessonLike; subjectId: StemSubjectId }) {
+function TuKiemTra({
+  bai,
+  subjectId,
+  nextHref,
+  onSubmitted,
+}: {
+  bai: StemLessonLike
+  subjectId: StemSubjectId
+  /** Bài kế tiếp theo cây mục lục — màn kết quả mời đi tiếp thay vì bỏ người học ở đó. */
+  nextHref?: string
+  /** Nộp xong (bất kể đạt hay chưa) thì mục lục phải đọc lại trạng thái từ nguồn sự thật. */
+  onSubmitted?: () => void
+}) {
   const { user, loading, isGuest } = useAuth()
   // Owner `null` khi AuthProvider chưa xong → hook ở trạng thái `loading`, tuyệt đối không ghi.
   const owner = useMemo(
@@ -260,10 +277,11 @@ function TuKiemTra({ bai, subjectId }: { bai: StemLessonLike; subjectId: StemSub
           bai,
         ),
       )
+      onSubmitted?.()
     } finally {
       setDangNop(false)
     }
-  }, [uid, dangNop, setDraft, bai, subjectId, draft.answers])
+  }, [uid, dangNop, setDraft, bai, subjectId, draft.answers, onSubmitted])
 
   return (
     <>
@@ -301,49 +319,17 @@ function TuKiemTra({ bai, subjectId }: { bai: StemLessonLike; subjectId: StemSub
           {!daTraLoiHet && (
             <p className="mt-2 text-content-secondary">Trả lời đủ {soCau} câu rồi mới nộp được.</p>
           )}
-          {ketQuaNop && <KetQuaNop ketQua={ketQuaNop} />}
+          {ketQuaNop && (
+            <ActivityResult
+              {...ketQuaSangManHinh(ketQuaNop, bai, draft.answers)}
+              passRatio={STEM_CHECK_PASS_RATIO}
+              onRetry={() => setKetQuaNop(null)}
+              {...(nextHref ? { nextHref } : {})}
+            />
+          )}
         </div>
       )}
     </>
-  )
-}
-
-/**
- * Dòng kết quả sau khi nộp — bản TẠM của S11-2; S11-3 thay bằng `ActivityResult` dùng chung
- * (đặc tả §① mục 6). Năm trạng thái đều có CHỮ, không chỉ dựa vào màu.
- *
- * Quy tắc bất di bất dịch: chữ "hoàn thành" CHỈ xuất hiện khi SERVER trả `passed: true`. Bản
- * chấm ở máy (khách, hoặc lúc đang chờ gửi lại) nói rõ nó mới là kết quả cục bộ.
- */
-function KetQuaNop({ ketQua }: { ketQua: SubmitEvidenceResult }) {
-  if (ketQua.kind === 'rejected') {
-    return (
-      <p className="mt-3 text-content" role="status">
-        Không gửi được kết quả: {ketQua.error}. Phần đúng/sai từng câu ở trên vẫn xem được.
-      </p>
-    )
-  }
-
-  const { correct, total, passed } = ketQua.evidence
-  const diem = `Đúng ${correct}/${total} câu.`
-  const nguong = `Cần đúng từ ${Math.round(STEM_CHECK_PASS_RATIO * 100)}% số câu trở lên.`
-
-  return (
-    <div className="mt-3" role="status">
-      <p className="font-medium text-content">
-        {ketQua.kind === 'server' &&
-          (passed ? `${diem} Đã hoàn thành bài này.` : `${diem} Chưa đạt.`)}
-        {ketQua.kind === 'local' &&
-          (passed
-            ? `${diem} Đạt — kết quả ghi trên máy này, đăng nhập để lưu vào tài khoản.`
-            : `${diem} Chưa đạt — kết quả ghi trên máy này.`)}
-        {ketQua.kind === 'queued' &&
-          (ketQua.reason === 'auth'
-            ? `${diem} Đăng nhập lại để lưu kết quả — bài làm đang giữ trên máy này.`
-            : `${diem} Đã lưu trên máy này, sẽ gửi lại.`)}
-      </p>
-      {!passed && <p className="mt-1 text-content-secondary">{nguong}</p>}
-    </div>
   )
 }
 
@@ -387,14 +373,21 @@ export default function StemLessonView() {
   // Mục lục môn (S07-2). Dựng từ CHỈ MỤC (`tomTat`), không chờ nội dung bài tải xong — nhờ
   // vậy cột trái có ngay từ khung hình đầu và không gây nhảy layout khi bài về.
   const isDesktop = useIsDesktopViewport()
-  const outline = subject && tomTat ? buildStemOutlineForApp(subject, tomTat.grade) : undefined
+  // [S11-3] Lớp tiến độ: đọc `completion_state` MỘT LẦN khi mở, và lại sau mỗi lượt nộp
+  // thành công (`reload` truyền xuống `TuKiemTra`). Không polling — mở bài không bao giờ ghi.
+  const tienDo = useStemCompletionState(subject?.id)
+  const outline =
+    subject && tomTat ? buildStemOutlineForApp(subject, tomTat.grade, tienDo) : undefined
   const { rail, trigger, sheet } = useOutlinePane({
     outline,
     activeContentId: lessonId,
     title: 'Mục lục môn học',
     storageKey: `${subject?.id ?? 'stem'}:${tomTat?.grade ?? '?'}`,
     isDesktop,
+    ...(tienDo.stateStatus === 'error' ? { footer: <LoiTienDo onRetry={tienDo.reload} /> } : {}),
   })
+  // Bài kế tiếp theo ĐÚNG cây đang mở — cùng nguồn với hai nút "Bài trước / Bài sau" bên dưới.
+  const baiSau = outline ? prevNext(outline, lessonId).next?.href : undefined
 
   if (!subject) return <Navigate to="/goc-hoc-tap" replace />
 
@@ -474,7 +467,13 @@ export default function StemLessonView() {
               </ol>
               <p className="mt-3 font-medium text-content">Đáp số: {bai.workedExample.answer}</p>
 
-              <TuKiemTra key={bai.id} bai={bai} subjectId={subject.id} />
+              <TuKiemTra
+                key={bai.id}
+                bai={bai}
+                subjectId={subject.id}
+                onSubmitted={tienDo.reload}
+                {...(baiSau ? { nextHref: baiSau } : {})}
+              />
 
               <h2 className="mt-8 text-xl font-bold text-content">Thẻ ôn tập</h2>
               <dl className="mt-3 space-y-3">

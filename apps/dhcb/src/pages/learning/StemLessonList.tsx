@@ -11,9 +11,10 @@ import { PageShell } from '@core/PageShell'
 import { buttonClass } from '@core/buttonStyles'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { TomTatChuaDuyet } from '../../components/ChuaDuyetChuyenMon'
-import { OutlineTreeLinked } from '../../components/OutlinePane'
+import { OutlineTreeLinked, LoiTienDo } from '../../components/OutlinePane'
 import { getStemSubject } from '../../lib/stemLessonRoutes'
 import { buildStemOutlineForApp, locNhanh } from '../../lib/outline/stemOutlineApp'
+import { useStemCompletionState } from '../../lib/useStemCompletionState'
 
 export default function StemLessonList() {
   const { subjectId } = useParams<{ subjectId: string }>()
@@ -30,9 +31,13 @@ export default function StemLessonList() {
   const baiNangCao = useMemo(() => (subject ? subject.loader.listAdvanced() : []), [subject])
   // MỘT cây cho cả trang (S07-2, Q4): danh sách bài không còn là `<ol>` riêng của trang này
   // mà là đúng `OutlineTree` mà trang bài học dùng — một mã nguồn, một cách đánh dấu tiến độ.
+  // [S11-3] Lớp tiến độ đọc từ bằng chứng hoàn thành. Cấu trúc cây vẫn dựng đồng bộ từ chỉ
+  // mục nên danh sách có ngay; tiến độ đắp lên sau, và mọi lá là "Chưa đo được" cho tới khi
+  // lớp đó tải xong — không bao giờ hiện "Chưa học" trong lúc còn đang tải.
+  const tienDo = useStemCompletionState(subject?.id)
   const outline = useMemo(
-    () => (subject ? buildStemOutlineForApp(subject, grade) : undefined),
-    [subject, grade],
+    () => (subject ? buildStemOutlineForApp(subject, grade, tienDo) : undefined),
+    [subject, grade, tienDo],
   )
 
   if (!subject) return <Navigate to="/goc-hoc-tap" replace />
@@ -101,6 +106,7 @@ export default function StemLessonList() {
             ) : (
               <div className="mt-6">
                 <OutlineTreeLinked outline={cay} title={`Mục lục lớp ${grade}`} />
+                {tienDo.stateStatus === 'error' && <LoiTienDo onRetry={tienDo.reload} />}
               </div>
             )}
           </>
@@ -113,6 +119,7 @@ export default function StemLessonList() {
             <TomTatChuaDuyet soChuaDuyet={nhapNangCao} tong={baiNangCao.length} />
             <div className="mt-6">
               <OutlineTreeLinked outline={cay} title="Mục lục chuyên đề bồi dưỡng" />
+              {tienDo.stateStatus === 'error' && <LoiTienDo onRetry={tienDo.reload} />}
             </div>
           </>
         )}

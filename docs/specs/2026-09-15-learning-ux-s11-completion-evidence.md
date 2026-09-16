@@ -567,6 +567,6 @@ và lại sau mỗi `submitStemEvidence` thành công (không polling). Khách: 
 - [x] UX/accessibility (màn kết quả 5 trạng thái có chữ, nút Nộp ≥ 44px, hàng đợi có `role="status"`)
 - [x] Test/rollout/rollback (3 PR, migration × 2)
 
-**Kết luận:** Approved for implementation  
+**Kết luận:** Approved for implementation — **ĐÃ THI HÀNH ĐỦ 3 PR CON** (S11-1 changelog `0333` · S11-2 `0348` PR #964 · S11-3 `0351`)  
 **Người duyệt:** Chủ dự án  
 **Ngày:** 2026-09-15

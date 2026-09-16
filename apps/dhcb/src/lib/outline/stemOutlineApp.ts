@@ -6,16 +6,34 @@
 // hai cây khác nhau cho cùng một môn.
 import type { Outline } from '@dhcb/core-contracts/outline'
 import type { StemSubjectId } from '@dhcb/core-contracts/stemLesson'
+import type { CompletionState } from '@dhcb/core-contracts/completionEvidence'
 import { buildStemOutline } from '@dhcb/core-learner/outline/stemOutline'
 import { duongDanBaiHoc, nhanCapHsg, type StemSubject } from '../stemLessonRoutes'
 
+/**
+ * [S11-3] Lớp TIẾN ĐỘ đắp lên cây — tách hẳn khỏi cấu trúc cây.
+ *
+ * Cấu trúc dựng đồng bộ từ chỉ mục nên có ngay từ khung hình đầu; tiến độ đến từ mạng nên có
+ * thể đến muộn hoặc không đến. Giữ hai thứ rời nhau là lý do mục lục vẫn bấm được khi mạng
+ * chập chờn, và là lý do `stateStatus` phải đi kèm `state` chứ không suy ra từ map rỗng.
+ */
+export interface StemTienDoCtx {
+  state: ReadonlyMap<string, CompletionState>
+  stateStatus: 'loading' | 'ready' | 'error'
+}
+
 /** Cây một lớp của một môn STEM, đã gắn URL thật và nhãn tiếng Việt của cấp HSG. */
-export function buildStemOutlineForApp(subject: StemSubject, grade: string): Outline | undefined {
+export function buildStemOutlineForApp(
+  subject: StemSubject,
+  grade: string,
+  tienDo?: StemTienDoCtx,
+): Outline | undefined {
   const outline = buildStemOutline(subject.id, grade, {
     loader: subject.loader,
     subjectLabel: subject.label,
     buildHref: (lesson) => duongDanBaiHoc(subject.id, lesson.id, lesson.title),
     tierLabel: nhanCapHsg,
+    ...(tienDo ?? {}),
   })
   if (!outline) return undefined
 

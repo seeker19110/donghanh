@@ -75,3 +75,43 @@ describe('locNhanh — tách hai tab "chuẩn" và "bồi dưỡng HSG" từ M�
     expect(locNhanh(undefined, 'physics', 'core')).toBeUndefined()
   })
 })
+
+// ——— [S11-3] Lớp tiến độ đi XUYÊN chỗ ghép, không bị nuốt mất ———
+
+describe('buildStemOutlineForApp — lớp tiến độ', () => {
+  const bai = PHYSICS_LOADER.listCoreByGrade('10')[0]!
+
+  it('truyền tiến độ xuống adapter và vẫn giữ nguyên dấu "Có hoạt ảnh" của app', () => {
+    const cay = buildStemOutlineForApp(LY, '10', {
+      stateStatus: 'ready',
+      state: new Map([
+        [
+          bai.id,
+          {
+            subjectId: 'physics' as const,
+            contentId: bai.id,
+            status: 'completed' as const,
+            bestRatio: 1,
+            lastRatio: 1,
+            attempts: 2,
+            completedAt: '2026-09-16T00:00:00.000Z',
+            updatedAt: '2026-09-16T00:00:00.000Z',
+            source: 'server' as const,
+          },
+        ],
+      ]),
+    })!
+    const nut = cay.nodes.find((n) => n.contentId === bai.id)!
+    expect(nut.progress).toBe('completed')
+    expect(nut.evidenceSource).toBe('stem.evidence')
+    expect(() => OutlineSchema.parse(cay)).not.toThrow()
+    // Dấu "Có hoạt ảnh" do app đắp thêm — lớp tiến độ không được ghi đè mất nó.
+    const coHoatAnh = PHYSICS_LOADER.listCoreByGrade('10').filter((b) => b.hasAnimation).length
+    expect(cay.nodes.filter((n) => n.hint?.includes('Có hoạt ảnh') === true).length).toBe(coHoatAnh)
+  })
+
+  it('không truyền gì thì giữ nguyên hành vi S07: mọi bài "chưa đo được"', () => {
+    const cay = buildStemOutlineForApp(LY, '10')!
+    for (const n of cay.nodes.filter((x) => x.kind === 'lesson')) expect(n.progress).toBe('unknown')
+  })
+})

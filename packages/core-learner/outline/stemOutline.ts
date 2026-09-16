@@ -13,10 +13,12 @@
 // BẤT BIẾN: chỉ đọc CHỈ MỤC NHẸ (`loader.index`, `listCoreByGrade`, `listAdvanced`). Không gọi
 // `loadLesson` — dựng mục lục mà tải nội dung bài là kéo cả megabyte cho một danh sách chữ.
 //
-// TIẾN ĐỘ: bốn môn STEM chưa có bằng chứng hoàn thành nào (không khoá lưu, không API) nên MỌI
-// bài là `unknown` = "chưa đo được". Cố tình KHÔNG bịa evidence tạm bằng localStorage: "đã mở
-// trang" không bao giờ là "đã học xong" (spec nền), và bằng chứng thật là việc của slice S11.
-import type { Outline, OutlineNode } from '@dhcb/core-contracts/outline'
+// TIẾN ĐỘ [S11-3]: nguồn bằng chứng DUY NHẤT là `platform.completion_state` — kết quả NỘP bài
+// tự kiểm tra, do server chấm lại (khách: chấm cục bộ, và nói ra tính cục bộ đó). Nơi gọi đưa
+// vào qua `ctx.state`/`ctx.stateStatus`; KHÔNG có thì mọi lá giữ `unknown` = "chưa đo được"
+// đúng như S07. Vẫn tuyệt đối KHÔNG suy ra tiến độ từ "đã mở trang" (spec nền §④ D).
+import type { Outline, OutlineNode, OutlineProgress } from '@dhcb/core-contracts/outline'
+import type { CompletionState } from '@dhcb/core-contracts/completionEvidence'
 import type {
   StemLessonLike,
   StemLessonSummary,
@@ -33,6 +35,38 @@ export interface StemOutlineCtx {
   buildHref: (lesson: StemLessonSummary) => string
   /** Nhãn cấp chuyên đề HSG ("Cấp tỉnh") — cũng sống ở app cùng bảng tên tiếng Việt. */
   tierLabel?: (tier: string | undefined) => string
+  /**
+   * [S11-3] Trạng thái hoàn thành theo MÃ BÀI, lấy từ `fetchCompletionState` (server cho tài
+   * khoản, localStorage cho khách). Vắng = chưa có lớp tiến độ nào.
+   */
+  state?: ReadonlyMap<string, CompletionState>
+  /**
+   * Lớp tiến độ đã tải xong chưa. Chỉ `'ready'` mới được phép nói "chưa học" — `'loading'` và
+   * `'error'` đều là CHƯA ĐO ĐƯỢC, và giao diện phải nói ra sự khác nhau đó bằng chữ.
+   */
+  stateStatus?: 'loading' | 'ready' | 'error'
+}
+
+/**
+ * Tiến độ của MỘT bài, suy ra từ lớp evidence.
+ *
+ * Bảng quyết định (đặc tả S11 §③.5) — bốn dòng, không có dòng thứ năm:
+ *   ctx vắng | stateStatus ≠ 'ready'  → 'unknown'      (giữ nguyên hành vi S07)
+ *   ready, không có bản ghi           → 'not-started'
+ *   ready, 'in_progress'              → 'in-progress'  + nguồn bằng chứng
+ *   ready, 'completed'                → 'completed'    + nguồn bằng chứng
+ */
+export function tienDoBaiStem(
+  ctx: Pick<StemOutlineCtx, 'state' | 'stateStatus'>,
+  lessonId: string,
+): { progress: OutlineProgress; evidenceSource?: string } {
+  if (ctx.stateStatus !== 'ready' || !ctx.state) return { progress: 'unknown' }
+  const row = ctx.state.get(lessonId)
+  if (!row) return { progress: 'not-started' }
+  // Khách phải được nhìn thấy đúng tính CỤC BỘ của kết quả mình có: nó chưa nằm ở đâu ngoài
+  // cái máy này, và server chưa từng xác nhận nó.
+  const evidenceSource = row.source === 'local' ? 'stem.evidence.local' : 'stem.evidence'
+  return { progress: row.status === 'completed' ? 'completed' : 'in-progress', evidenceSource }
 }
 
 const demBai = (n: number): string => `${n} bài`
@@ -137,7 +171,6 @@ function nutBai(
     order,
     href: ctx.buildHref(lesson),
     availability: 'available',
-    // Chưa có bằng chứng hoàn thành cho STEM — xem ghi chú đầu file.
-    progress: 'unknown',
+    ...tienDoBaiStem(ctx, lesson.id),
   }
 }
