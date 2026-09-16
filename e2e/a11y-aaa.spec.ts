@@ -53,6 +53,7 @@ const ROUTES = [
   '/lap-trinh/chay-thu', // sandbox chạy Python (PR-L2)
   '/lap-trinh/bai-hoc/p1-u4-l1', // bài học 8 bước (PR-L3)
   '/lap-trinh/du-an', // dự án trục chặng P1 (PR-L3b)
+  '/so-tay-loi-sai', // sổ lỗi: bộ lọc môn + nhãn bằng chứng + nút "Ôn lại" (S12-2)
   '/lap-trinh/on-tap', // ôn thẻ SRS môn Lập trình (PR-L10) — màn rỗng khi chưa có thẻ
   '/goc-hoc-tap/on-tap', // hub ôn tập xuyên môn (S12-1) — màn rỗng khi chưa có gì đến hạn
   '/goc-hoc-tap/physics/on-tap', // ôn thẻ một môn STEM (S12-1) — bốn môn dùng chung layout

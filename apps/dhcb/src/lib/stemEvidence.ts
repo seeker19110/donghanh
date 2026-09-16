@@ -391,6 +391,64 @@ export async function fetchCompletionState(
 }
 
 /**
+ * Các môn STEM người này ĐÃ TỪNG nộp bài trên thiết bị này (đọc bộ đệm trạng thái, đồng bộ).
+ *
+ * Dùng để hub ôn tập biết phải hỏi nhật ký của môn NÀO: hỏi cả bốn môn cho người chưa từng học
+ * STEM là bốn request thừa mỗi lần mở hub. Bộ đệm có thể vắng trên máy mới — khi đó hub đơn
+ * giản là chưa có lỗi STEM cho tới lần mở mục lục môn đầu tiên, chứ không hiện số sai.
+ */
+export function monStemDaHocTrenMay(uid: string): EvidenceSubject[] {
+  const ra = new Set<EvidenceSubject>()
+  for (const row of Object.values(readStateMap(uid))) ra.add(row.subjectId)
+  return [...ra]
+}
+
+/**
+ * Nhật ký LƯỢT NỘP của một môn — thứ sổ lỗi STEM (S12-2) dựng `MistakeEntry` từ đó.
+ *
+ * Vì sao cần riêng, không dùng `fetchCompletionState`: trạng thái chỉ nói "bài này đạt chưa",
+ * còn sổ lỗi cần ĐÚNG CÂU nào sai — tức `items[]` của từng lượt, chỉ có ở `?include=attempts`.
+ *
+ * Mạng/máy chủ hỏng thì rơi về nhật ký cục bộ (`dhcb_evidence_<uid>`, vốn chỉ có bản của khách)
+ * và NÓI RA bằng `status: 'error'`: sổ lỗi rỗng vì chưa tải được KHÁC hẳn sổ lỗi rỗng vì không
+ * còn lỗi nào, giao diện phải phân biệt được hai điều đó.
+ */
+export async function fetchEvidenceAttempts(
+  uid: string,
+  subjectId: EvidenceSubject,
+): Promise<{ status: 'ready' | 'error'; attempts: CompletionEvidence[] }> {
+  const tuBoDem = (): CompletionEvidence[] =>
+    readEvidenceLog(uid)
+      .map((r) => r.evidence)
+      .filter((e) => e.subjectId === subjectId)
+
+  // Khách: localStorage LÀ nguồn sự thật, đọc đồng bộ nên `ready` ngay.
+  if (!uid || isGuestId(uid)) return { status: 'ready', attempts: tuBoDem() }
+
+  try {
+    const res = await fetch(`${API}?subjectId=${encodeURIComponent(subjectId)}&include=attempts`, {
+      headers: getAuthHeader(),
+    })
+    if (!res.ok) return { status: 'error', attempts: tuBoDem() }
+    const parsed = z.object({ attempts: z.array(z.unknown()) }).safeParse(await res.json())
+    if (!parsed.success) return { status: 'error', attempts: tuBoDem() }
+    // Validate TỪNG mục: một lượt nộp định dạng lạ (bản ghi cũ, môn mới) bị bỏ chứ không làm
+    // hỏng cả sổ lỗi (đặc tả §③.4).
+    const attempts: CompletionEvidence[] = []
+    let boQua = 0
+    for (const row of parsed.data.attempts) {
+      const ok = CompletionEvidenceSchema.safeParse(row)
+      if (ok.success) attempts.push(ok.data)
+      else boQua += 1
+    }
+    if (boQua > 0) console.warn(`[evidence] bỏ ${boQua} lượt nộp không khớp hợp đồng`)
+    return { status: 'ready', attempts }
+  } catch {
+    return { status: 'error', attempts: tuBoDem() }
+  }
+}
+
+/**
  * Gửi lại các lượt nộp đang chờ (mở app lần sau, hoặc sự kiện `online`).
  *
  * Gửi THEO THỨ TỰ và DỪNG ngay khi gặp lỗi còn có thể thử lại — gửi tiếp lúc mạng đang hỏng chỉ

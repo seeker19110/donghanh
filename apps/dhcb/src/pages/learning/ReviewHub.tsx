@@ -12,7 +12,7 @@
 // Vì sao không nạp từ điển: số từ vựng đến hạn đọc thẳng từ kho SRS (khoá không mang tiền tố
 // namespace nào), nên hub không kéo theo cả từ điển (~nặng) chỉ để đếm — đúng cảnh báo §8 của
 // đặc tả.
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSearchParams } from 'react-router-dom'
 import { Brain, ArrowRight, Sparkles } from 'lucide-react'
@@ -25,7 +25,19 @@ import { getSrsSnapshot } from '../../lib/srs'
 import { getDueProgCards } from '../../lib/programmingSrs'
 import { getDueStemCards } from '../../lib/stemSrs'
 import { getDueMistakes } from '../../lib/mistakes'
-import { buildReviewQueue, nhanMon, type ReviewSources } from '../../lib/reviewQueue'
+import {
+  buildReviewQueue,
+  nhanMon,
+  type EvidenceMistakeDue,
+  type ReviewSources,
+} from '../../lib/reviewQueue'
+import { fetchEvidenceAttempts, monStemDaHocTrenMay } from '../../lib/stemEvidence'
+import {
+  mistakesFromEvidence,
+  getDueEvidenceMistakes,
+  hanOnCuaMuc,
+} from '../../lib/evidenceMistakes'
+import { STEM_SUBJECTS } from '../../lib/stemLessonRoutes'
 import { docCapTuQuery } from '../../lib/reviewRoutes'
 import type { ReviewQueue } from '@dhcb/core-contracts/reviewItem'
 
@@ -70,9 +82,49 @@ export default function ReviewHub() {
   // dưới chân người học (và lint react-hooks/purity cấm gọi Date.now() khi render).
   const [now] = useState(() => Date.now())
 
-  // Mọi nguồn đều đọc ĐỒNG BỘ từ thiết bị (localStorage) nên không cần trạng thái tải: hàng đợi
-  // dựng ngay trong render. Nguồn `learning.evidence` (câu sai bài STEM) chưa có ở slice này —
-  // khai 'unavailable' để giao diện nói rõ chứ không im lặng coi là 0 lỗi.
+  // ── Câu sai của bài STEM (S12-2) ───────────────────────────────────────────────────────────
+  //
+  // Nguồn duy nhất là nhật ký bằng chứng (S11) — phải đi mạng, nên đây là nguồn DUY NHẤT trong
+  // hub không đọc được đồng bộ. Chỉ hỏi những môn người này đã từng nộp bài trên máy: người
+  // chưa học STEM thì hub không phát sinh request nào.
+  const [loiStem, setLoiStem] = useState<{
+    status: 'ready' | 'error'
+    items: EvidenceMistakeDue[]
+  } | null>(null)
+  useEffect(() => {
+    if (!user) return
+    // Danh sách rỗng đi qua ĐÚNG đường dẫn bất đồng bộ này luôn (Promise.all([]) giải ngay):
+    // đặt state thẳng trong thân effect là một lượt render dây chuyền, lint chặn có lý.
+    const mon = monStemDaHocTrenMay(user.id)
+    let cancelled = false
+    void Promise.all(mon.map((m) => fetchEvidenceAttempts(user.id, m))).then((ketQua) => {
+      if (cancelled) return
+      const attempts = ketQua.flatMap((r) => r.attempts)
+      const items = getDueEvidenceMistakes(mistakesFromEvidence(attempts), now).map((e) => ({
+        entryId: e.entryId,
+        subjectId: e.subjectId,
+        contentId: e.contentId,
+        questionIndex: e.questionIndex,
+        dueAt: hanOnCuaMuc(e),
+        href: '/so-tay-loi-sai',
+        title: `${STEM_SUBJECTS[e.subjectId].loader.getSummary(e.contentId)?.title ?? e.contentId} · câu ${e.questionIndex + 1}`,
+      }))
+      // Một môn hỏng là cả nguồn 'error': hub phải nói "chưa tải được", KHÔNG được im lặng
+      // hiện phần đọc được như thể đó là toàn bộ.
+      setLoiStem({
+        status: ketQua.some((r) => r.status === 'error') ? 'error' : 'ready',
+        items,
+      })
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [user, now])
+
+  // Bốn nguồn đọc ĐỒNG BỘ từ thiết bị (localStorage) nên hàng đợi dựng ngay trong render và
+  // hiện được ngay. Nguồn thứ năm — `learning.evidence` (câu sai bài STEM, S12-2) — phải đi
+  // mạng nên tới sau và làm hàng đợi dựng lại một lần; trong lúc chờ nó là 'unavailable'
+  // (CHƯA BIẾT), tải hỏng là 'error' — cả hai đều khác "không có lỗi nào".
   const queue: ReviewQueue | null = useMemo(() => {
     if (!user) return null
     const { words, grammarIds, kho } = nguonAnh(user.id, now)
@@ -83,6 +135,7 @@ export default function ReviewHub() {
       programmingDueCards: getDueProgCards(user.id),
       stemDueCards: getDueStemCards(user.id),
       englishMistakesDue: getDueMistakes(user.id, now),
+      evidenceMistakesDue: loiStem?.items ?? [],
       srsCards: kho,
       englishLevelId: capCefrTuBaiNguPhap(grammarIds),
       sourcesState: {
@@ -90,11 +143,13 @@ export default function ReviewHub() {
         'programming.srs': 'ready',
         'stem.srs': 'ready',
         'english.mistakes': 'ready',
-        'learning.evidence': 'unavailable',
+        // Chưa tải xong thì 'unavailable' (chưa biết), tải hỏng thì 'error' — hai điều khác
+        // nhau, và cả hai đều KHÁC "không có lỗi nào".
+        'learning.evidence': loiStem == null ? 'unavailable' : loiStem.status,
       },
     }
     return buildReviewQueue(sources, { cap, now })
-  }, [user, cap, now])
+  }, [user, cap, now, loiStem])
 
   // Nhóm theo MÔN và theo LOẠI (thẻ / lỗi đã mắc): hai loại đó ôn ở hai màn khác nhau, gộp
   // chung một dòng thì nút "Ôn ngay" chỉ dẫn đúng được một nửa. Số đếm là số mục CỦA PHIÊN NÀY
@@ -131,6 +186,15 @@ export default function ReviewHub() {
           title="Ôn tập hôm nay"
           subtitle="Mọi thứ đến hạn ôn trên tất cả các môn, gộp vào một chỗ. Bấm vào một môn để ôn ngay trong màn quen thuộc của môn đó."
         />
+
+        {queue?.sourcesState['learning.evidence'] === 'error' && (
+          <p className="text-sm text-content-secondary" role="status">
+            Chưa tải được lỗi từ bài STEM — số dưới đây chưa gồm chúng.{' '}
+            <Link to="/so-tay-loi-sai" className="underline font-semibold">
+              Mở sổ lỗi để thử lại
+            </Link>
+          </p>
+        )}
 
         {queue && queue.totalDue === 0 && (
           <div

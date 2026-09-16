@@ -266,6 +266,96 @@ describe('/api/learning/evidence — GET', () => {
     expect(query.mock.calls[0]?.[1]).toEqual(['user-1', 'physics'])
   })
 
+  // ── ĐỌC nhật ký lượt nộp cho sổ lỗi (S12-2, §7 Q2) ───────────────────────────────────────
+  it('include=attempts trả nhật ký lượt nộp của CHÍNH người đăng nhập, kèm items', async () => {
+    query.mockResolvedValueOnce({ rows: [] }) // state
+    query.mockResolvedValueOnce({
+      rows: [
+        {
+          subject_id: 'physics',
+          content_id: LESSON_ID,
+          course_id: null,
+          activity_kind: 'stem_lesson_check',
+          attempt_id: '0123456789abcdef',
+          evidence_kind: 'server_graded',
+          correct: 1,
+          total: 2,
+          ratio: '0.500',
+          passed: false,
+          content_version: null,
+          client_at: new Date('2026-09-15T08:00:00.000Z'),
+          server_at: new Date('2026-09-15T08:00:01.000Z'),
+          answers: [
+            { questionIndex: 0, correct: true, reason: 'exact', raw: 'bí mật của người học' },
+            { questionIndex: 1, correct: false, reason: 'wrong-value', raw: 'sai' },
+          ],
+        },
+      ],
+    })
+    const res = await handler(
+      req(
+        'GET',
+        undefined,
+        'http://localhost/api/learning/evidence?subjectId=physics&include=attempts',
+      ),
+    )
+    expect(res.status).toBe(200)
+    const j = await res.json()
+    expect(j.attempts).toHaveLength(1)
+    expect(j.attempts[0]).toMatchObject({
+      subjectId: 'physics',
+      contentId: LESSON_ID,
+      attemptId: '0123456789abcdef',
+      ownerId: 'user-1',
+      evidenceKind: 'server_graded',
+      ratio: 0.5,
+      items: [
+        { questionIndex: 0, correct: true, reason: 'exact' },
+        { questionIndex: 1, correct: false, reason: 'wrong-value' },
+      ],
+    })
+    // `raw` (chữ người học gõ) ở lại trong DB — sổ lỗi không cần, nên không phát tán.
+    expect(JSON.stringify(j.attempts)).not.toContain('bí mật của người học')
+    // Nhật ký LUÔN lọc theo user_id của token, không bao giờ theo tham số client.
+    expect(query.mock.calls[1]?.[1]).toEqual(['user-1', 'physics'])
+    expect(query.mock.calls[1]?.[0]).toContain('where user_id = $1 and subject_id = $2')
+  })
+
+  it('không có include → KHÔNG đọc nhật ký (giữ nguyên hành vi trước S12-2)', async () => {
+    query.mockResolvedValue({ rows: [] })
+    const res = await handler(
+      req('GET', undefined, 'http://localhost/api/learning/evidence?subjectId=physics'),
+    )
+    const j = await res.json()
+    expect('attempts' in j).toBe(false)
+    expect(query).toHaveBeenCalledTimes(1)
+  })
+
+  it('include lạ → 400, không query (tham số client luôn được validate)', async () => {
+    const res = await handler(
+      req(
+        'GET',
+        undefined,
+        'http://localhost/api/learning/evidence?subjectId=physics&include=tat-ca',
+      ),
+    )
+    expect(res.status).toBe(400)
+    expect(query).not.toHaveBeenCalled()
+  })
+
+  it('chưa đăng nhập thì include=attempts cũng 401 — không có đường đọc nhật ký ẩn danh', async () => {
+    authState.user = null
+    const res = await handler(
+      req(
+        'GET',
+        undefined,
+        'http://localhost/api/learning/evidence?subjectId=physics&include=attempts',
+      ),
+    )
+    expect(res.status).toBe(401)
+    expect(query).not.toHaveBeenCalled()
+  })
+
   it('thiếu / sai subjectId → 400, không query', async () => {
     expect((await handler(req('GET'))).status).toBe(400)
     expect(
