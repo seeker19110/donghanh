@@ -250,8 +250,10 @@ thi lại nhiều lần, người đang thi dở lúc deploy, giới hạn lư�
 `packages/core-contracts/completionEvidence.ts`, bảng luật `packages/core-learner/completionRules.ts`,
 migration `0081` hai bảng `platform.completion_evidence`/`completion_state`, endpoint
 `POST | GET /api/learning/evidence` server chấm LẠI trả lời thô) đã làm — `docs/changelog/0333-*.md`.
-**Còn lại: S11-2** (nút "Nộp bài tự kiểm tra" ở `StemLessonView`, evidence khách `guest_*`, hàng đợi
-gửi lại) và **S11-3** (màn kết quả `ActivityResult` + mục lục S07 đọc evidence) — S11-3 cần S07-2 merge trước.
+**S11-2 ĐÃ THI HÀNH** (`docs/changelog/0348-*.md`, PR [#963](https://github.com/seeker19110/donghanh/pull/963)):
+nút "Nộp bài tự kiểm tra" ở `StemLessonView`, `apps/dhcb/src/lib/stemEvidence.ts`, evidence khách
+`guest_*` + merge khi đăng nhập (server chấm lại từ trả lời thô), hàng đợi gửi lại cùng thiết bị.
+**Còn lại: S11-3** (màn kết quả `ActivityResult` + mục lục S07 đọc evidence) — cần S07-2 merge trước.
 
 **S12-1 (hàng đợi ôn xuyên môn) — ĐANG MỞ PR.** Hợp đồng `ReviewItem`, `buildReviewQueue` thuần,
 namespace SRS `stem:`, tách `FlashcardReview`, hub `/goc-hoc-tap/on-tap` + `/goc-hoc-tap/:subjectId/on-tap`,
