@@ -20,7 +20,7 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Check, X } from 'lucide-react'
-import type { ReasonCode } from '@dhcb/core-grading/index'
+import { nhanLyDo } from '../../lib/gradeReasonLabel'
 import { buttonClass } from '@core/buttonStyles'
 
 /** Năm trạng thái của một lượt nộp — xem ghi chú 1 ở đầu file. */
@@ -68,27 +68,6 @@ export interface ActivityResultProps {
   onRetry?: () => void
   /** Chỗ cắm "Hẹn ôn" cho slice S12. S11 KHÔNG ghi thẻ ôn nào. */
   reviewSlot?: ReactNode
-}
-
-/** Mã lý do của engine chấm → chữ người học đọc được. */
-const NHAN_LY_DO: Record<ReasonCode, string> = {
-  CORRECT: 'Đúng',
-  CORRECT_LOOSE: 'Đúng, nhưng lệch nhẹ do làm tròn',
-  WRONG_VALUE: 'Sai giá trị',
-  WRONG_UNIT: 'Sai đơn vị',
-  MISSING_UNIT: 'Thiếu đơn vị',
-  WRONG_DIMENSION: 'Sai loại đại lượng',
-  NOT_SIMPLIFIED: 'Chưa tối giản',
-  SIGN_ERROR: 'Sai dấu',
-  UNBALANCED_ATOMS: 'Phương trình chưa cân bằng số nguyên tử',
-  UNBALANCED_CHARGE: 'Phương trình chưa cân bằng điện tích',
-  WRONG_SUBSTANCES: 'Sai chất trong phương trình',
-  PARSE_ERROR: 'Chưa đọc được câu trả lời',
-  EMPTY: 'Chưa trả lời',
-}
-
-function nhanLyDo(reason: string | undefined): string | undefined {
-  return reason === undefined ? undefined : NHAN_LY_DO[reason as ReasonCode]
 }
 
 /** Câu tổng kết của từng trạng thái. Đây là nơi DUY NHẤT quyết định người học đọc được gì. */

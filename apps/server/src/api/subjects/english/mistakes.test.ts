@@ -164,6 +164,78 @@ describe('api/mistakes', () => {
     expect(query).not.toHaveBeenCalled()
   })
 
+  // ── Bằng chứng (S12-2, migration 0084) ──────────────────────────────────────────────────
+  it('GET trả attemptId/contentId khi hàng DB có, và vắng hẳn khi không có', async () => {
+    query.mockResolvedValueOnce({
+      rows: [
+        {
+          ...ROW,
+          attempt_id: '33333333-3333-4333-8333-333333333333',
+          content_id: 'ly10-c2-b10',
+          subject_id: 'english',
+        },
+      ],
+    })
+    const j = await (await handler(req('GET'))).json()
+    expect(j.mistakes[0].attemptId).toBe('33333333-3333-4333-8333-333333333333')
+    expect(j.mistakes[0].contentId).toBe('ly10-c2-b10')
+
+    query.mockResolvedValueOnce({ rows: [{ ...ROW, attempt_id: null, content_id: null }] })
+    const k = await (await handler(req('GET'))).json()
+    expect('attemptId' in k.mistakes[0]).toBe(false)
+    expect('contentId' in k.mistakes[0]).toBe(false)
+  })
+
+  it('POST ghi bằng chứng vào 3 cột mới; thiếu thì là null', async () => {
+    await handler(
+      req('POST', '', {
+        mistakes: [
+          {
+            ...SAMPLE,
+            attemptId: '33333333-3333-4333-8333-333333333333',
+            contentId: 'ly10-c2-b10',
+          },
+        ],
+      }),
+    )
+    const params = query.mock.calls[0]![1]!
+    expect(params[12]).toBe('33333333-3333-4333-8333-333333333333')
+    expect(params[13]).toBe('ly10-c2-b10')
+
+    vi.clearAllMocks()
+    query.mockResolvedValue({ rows: [] })
+    await handler(req('POST', '', { mistakes: [SAMPLE] }))
+    expect(query.mock.calls[0]![1]![12]).toBeNull()
+    expect(query.mock.calls[0]![1]![13]).toBeNull()
+  })
+
+  it('attemptId KHÔNG phải uuid (nhánh dự phòng của WebView cũ) → null, KHÔNG làm đổ cả mẻ', async () => {
+    const res = await handler(
+      req('POST', '', { mistakes: [{ ...SAMPLE, attemptId: 'khong-phai-uuid-nhung-dung-khuon' }] }),
+    )
+    expect(res.status).toBe(200)
+    expect(query.mock.calls[0]![1]![12]).toBeNull()
+  })
+
+  it('bằng chứng MỚI thắng nhưng NULL không xoá bằng chứng cũ (coalesce)', async () => {
+    await handler(req('POST', '', { mistakes: [SAMPLE] }))
+    const sql = query.mock.calls[0]![0] as string
+    expect(sql).toContain(
+      'attempt_id       = coalesce(excluded.attempt_id, english.mistakes.attempt_id)',
+    )
+    expect(sql).toContain(
+      'content_id       = coalesce(excluded.content_id, english.mistakes.content_id)',
+    )
+  })
+
+  it('field bằng chứng lạ vẫn bị .strict() chặn (client không tự thêm cột)', async () => {
+    const res = await handler(
+      req('POST', '', { mistakes: [{ ...SAMPLE, evidenceKind: 'server_graded' }] }),
+    )
+    expect(res.status).toBe(400)
+    expect(query).not.toHaveBeenCalled()
+  })
+
   it('405 for PUT', async () => {
     expect((await handler(req('PUT'))).status).toBe(405)
   })

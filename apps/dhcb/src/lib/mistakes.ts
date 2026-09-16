@@ -29,6 +29,13 @@ export interface Mistake {
   count: number // số lần mắc lỗi giống nhau (gộp) — lỗi lặp nhiều được ưu tiên ôn
   lastReviewedAt: number | null // lần ôn gần nhất (null = chưa ôn bao giờ)
   reviewCount: number // tổng số lần đã ôn
+  // ── Bằng chứng (S12-2, migration 0084) — đều TUỲ CHỌN ─────────────────────────────────────
+  // Thẻ có `attemptId` là lỗi mắc trong một lượt làm bài CỤ THỂ, nên "Ôn lại lỗi này" quay về
+  // được đúng chỗ và giao diện ghi "có bằng chứng". Thẻ không có thì ghi "ghi tay" — KHÔNG giả
+  // bằng chứng. Ba field này KHÔNG tham gia khoá gộp (`norm(wrong)→norm(corrected)`).
+  attemptId?: string // lượt nộp trong platform.completion_evidence
+  contentId?: string // bài học đã sinh ra lỗi
+  subjectId?: 'english' // bảng này là sổ lỗi môn Anh
 }
 
 // Dữ liệu tối thiểu để thêm 1 lỗi — phần còn lại (id, thời gian, đếm) do addMistake tự điền.
@@ -38,6 +45,10 @@ export interface MistakeInput {
   explanation: string
   source: MistakeSource
   dir: Direction
+  /** Lượt nộp đã sinh ra lỗi, khi nơi gọi có (S12-2). Không có thì bỏ trống. */
+  attemptId?: string
+  /** Bài học đã sinh ra lỗi, khi nơi gọi có (S12-2). */
+  contentId?: string
 }
 
 const KEY = (uid: string) => `et_mistakes_${uid}`
@@ -116,6 +127,10 @@ export function addMistake(userId: string, input: MistakeInput): void {
         lastReviewedAt: null, // lỗi lặp lại → cần ôn lại
         // Giữ giải thích mới nhất nếu có (đôi khi AI diễn đạt rõ hơn ở lần sau)
         explanation: clip(input.explanation) || existing.explanation,
+        // Bằng chứng: bản MỚI thắng, nhưng thiếu thì KHÔNG xoá móc cũ (cùng luật `coalesce`
+        // của server ở api/subjects/english/mistakes.ts).
+        ...(input.attemptId ? { attemptId: input.attemptId } : {}),
+        ...(input.contentId ? { contentId: input.contentId } : {}),
       }
     } else {
       list.unshift({
@@ -129,6 +144,8 @@ export function addMistake(userId: string, input: MistakeInput): void {
         count: 1,
         lastReviewedAt: null,
         reviewCount: 0,
+        ...(input.attemptId ? { attemptId: input.attemptId } : {}),
+        ...(input.contentId ? { contentId: input.contentId } : {}),
       })
     }
     // Cắt bớt nếu vượt trần: bỏ các thẻ CŨ nhất & ít lặp nhất trước.
@@ -212,6 +229,9 @@ function mergeMistakeLists(base: Mistake[], extra: Mistake[]): Mistake[] {
           ? null
           : Math.max(ex.lastReviewedAt, m.lastReviewedAt),
       explanation: ex.explanation || m.explanation,
+      // Bằng chứng không bao giờ bị `undefined` của phía kia xoá mất.
+      ...((ex.attemptId ?? m.attemptId) ? { attemptId: ex.attemptId ?? m.attemptId } : {}),
+      ...((ex.contentId ?? m.contentId) ? { contentId: ex.contentId ?? m.contentId } : {}),
     })
   }
   const merged = [...byKey.values()].sort((a, b) => b.createdAt - a.createdAt)

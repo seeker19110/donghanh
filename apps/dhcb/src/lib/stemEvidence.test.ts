@@ -19,6 +19,8 @@ import {
   hasPendingEvidence,
   mergeCompletionState,
   newAttemptId,
+  fetchEvidenceAttempts,
+  monStemDaHocTrenMay,
   MAX_PENDING_EVIDENCE,
   EVIDENCE_PENDING_PREFIX,
   EVIDENCE_STATE_PREFIX,
@@ -283,6 +285,56 @@ describe('fetchCompletionState', () => {
     expect(kq.status).toBe('ready')
     expect([...kq.state.keys()]).toEqual(['ly10-c3-b1'])
     expect(localStorage.getItem(EVIDENCE_STATE_PREFIX + NGUOI)).not.toContain('ly10-c2-b10')
+  })
+})
+
+// ── Nhật ký lượt nộp cho sổ lỗi STEM (S12-2) ────────────────────────────────────────────────
+describe('fetchEvidenceAttempts', () => {
+  it('gọi đúng endpoint đọc mở rộng và trả các lượt nộp đã validate', async () => {
+    const f = mockFetch(() => ({ status: 200, body: { attempts: [serverTra()] } }))
+    const kq = await fetchEvidenceAttempts(NGUOI, 'physics')
+    expect(kq.status).toBe('ready')
+    expect(kq.attempts).toHaveLength(1)
+    expect(String(f.mock.calls[0]![0])).toContain('include=attempts')
+    expect(String(f.mock.calls[0]![0])).toContain('subjectId=physics')
+  })
+
+  it('một lượt nộp hỏng bị BỎ, các lượt còn lại vẫn về (không trắng cả sổ lỗi)', async () => {
+    mockFetch(() => ({ status: 200, body: { attempts: [{ subjectId: 'physics' }, serverTra()] } }))
+    const kq = await fetchEvidenceAttempts(NGUOI, 'physics')
+    expect(kq.status).toBe('ready')
+    expect(kq.attempts).toHaveLength(1)
+  })
+
+  it('server hỏng → status error (KHÔNG phải "không còn lỗi nào")', async () => {
+    mockFetch(() => ({ status: 500 }))
+    const kq = await fetchEvidenceAttempts(NGUOI, 'physics')
+    expect(kq.status).toBe('error')
+    expect(kq.attempts).toEqual([])
+  })
+
+  it('khách đọc nhật ký cục bộ của chính mình, không gọi mạng', async () => {
+    const f = mockFetch(() => ({ status: 200, body: {} }))
+    await nop(KHACH, ['a', 'x'])
+    f.mockClear()
+    const kq = await fetchEvidenceAttempts(KHACH, 'physics')
+    expect(f).not.toHaveBeenCalled()
+    expect(kq.status).toBe('ready')
+    expect(kq.attempts).toHaveLength(1)
+    expect(kq.attempts[0]!.evidenceKind).toBe('local_graded')
+  })
+})
+
+describe('monStemDaHocTrenMay', () => {
+  it('chưa học môn STEM nào → mảng rỗng (hub không phát sinh request thừa)', () => {
+    expect(monStemDaHocTrenMay(NGUOI)).toEqual([])
+  })
+
+  it('đã nộp bài một môn → chỉ môn đó, không trùng lặp', async () => {
+    mockFetch(() => ({ status: 200, body: serverTra() }))
+    await nop(NGUOI, ['a', 'x'])
+    await nop(NGUOI, ['a', 'x'])
+    expect(monStemDaHocTrenMay(NGUOI)).toEqual(['physics'])
   })
 })
 
