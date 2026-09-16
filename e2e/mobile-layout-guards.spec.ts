@@ -37,6 +37,9 @@ const VIEWPORTS = [
  */
 const ROUTES = [
   '/',
+  // [S05] Màn gợi ý của /bat-dau có CTA "Bắt đầu" ở cuối — trang tự khai `<main>` (không dùng
+  // PageShell) nên phải đo riêng ở đây, và nó KHÔNG nằm trong NAV_HIDDEN_PATHS.
+  '/bat-dau',
   '/goc-hoc-tap',
   '/welcome',
   '/learn-vietnamese',

@@ -42,6 +42,7 @@ const Profile = lazyWithRetry(() => import('./pages/core/Profile'))
 const Pricing = lazyWithRetry(() => import('./pages/core/Pricing'))
 const Onboarding = lazyWithRetry(() => import('./pages/core/Onboarding'))
 const Intake = lazyWithRetry(() => import('./pages/core/Intake'))
+const StartByIntent = lazyWithRetry(() => import('./pages/core/StartByIntent'))
 const MistakeBank = lazyWithRetry(() => import('./pages/core/MistakeBank'))
 const ExamPlan = lazyWithRetry(() => import('./pages/learning/ExamPlan'))
 const Quests = lazyWithRetry(() => import('./pages/core/Quests'))
@@ -187,8 +188,8 @@ function RequireAccount({ children }: { children: React.ReactNode }) {
   // [2026-09-13] TẮT lớp Intake 5 câu trước /onboarding — người dùng chốt sau khi thấy funnel
   // thật (20 đăng ký/14 ngày, chỉ 4 hoàn thành phiên học đầu): đăng ký xong vào thẳng
   // /onboarding (4 bước, có sẵn giá trị mặc định, bấm "Tiếp theo" là qua) thay vì phải qua thêm
-  // 5 câu hỏi ở /bat-dau trước đó. Trang /bat-dau (Intake.tsx) + API intakeApi vẫn giữ nguyên,
-  // không xoá — chỉ không còn route nào điều hướng người dùng mới tới đó nữa.
+  // 5 câu hỏi ở /bat-dau trước đó. Trang Intake.tsx (nay ở /bat-dau/doi-song) + API intakeApi
+  // vẫn giữ nguyên, không xoá — chỉ không còn route nào điều hướng người dùng mới tới đó nữa.
   // Người đã onboarded từ trước KHÔNG bị chạm tới — họ không bao giờ vào nhánh này.
   if (!user.onboarded) return <Navigate to="/onboarding" replace />
   return (
@@ -362,7 +363,10 @@ export default function App() {
                       <Route path="/learn-vietnamese" element={<LandingEn />} />
                       <Route path="/tu-vung/:word" element={<WordDetail />} />
                       <Route path="/reset-password" element={<ResetPassword />} />
-                      <Route path="/bat-dau" element={<Intake />} />
+                      {/* [S05] /bat-dau nay la luong "bat dau theo y dinh" (cong khai, cho ca khach).
+                          Luong Intake doi song cu GIU NGUYEN ma, chi doi sang route rieng. */}
+                      <Route path="/bat-dau" element={<StartByIntent />} />
+                      <Route path="/bat-dau/doi-song" element={<Intake />} />
                       <Route path="/onboarding" element={<Onboarding />} />
                       <Route path="/placement" element={<Placement />} />
                       <Route
