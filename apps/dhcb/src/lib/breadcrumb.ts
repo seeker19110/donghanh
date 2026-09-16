@@ -78,6 +78,9 @@ const ROUTE_NODES: readonly RouteNode[] = [
   { path: '/cai-dat', label: 'Cài đặt môn', parent: ENGLISH_HOME },
   // SUBJECT_CHILDREN đã gồm cấp 2 của Tiếng Anh (ENGLISH_CHILDREN) — không trải lại lần hai.
   ...childNodes(SUBJECT_CHILDREN, SUBJECTS),
+  // [S12-1] Hub ôn tập xuyên môn: đứng NGANG các môn dưới Góc học tập (nó gộp mọi môn), nên
+  // đốt cha là Góc học tập chứ không phải một môn cụ thể.
+  { path: '/goc-hoc-tap/on-tap', label: 'Ôn tập', parent: SUBJECTS },
   { path: '/tien-do', label: 'Tiến độ' },
   { path: '/nang-cap', label: 'Nâng cấp' },
   { path: '/trang-ca-nhan', label: 'Hồ sơ' },

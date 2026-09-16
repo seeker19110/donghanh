@@ -90,6 +90,7 @@ import {
 import { getExamMap } from '../../../lib/cefrExam'
 import CefrExam from '../../../components/CefrExam'
 import { useOnboarding } from '../../../lib/onboarding'
+import { docCapTuQueryTuyChon } from '../../../lib/reviewRoutes'
 import { useOutlinePane } from '../../../components/useOutlinePane'
 import {
   buildCefrOutline,
@@ -135,10 +136,10 @@ export default function CefrLevelPage() {
   // Giới hạn phiên RIÊNG cho tab đang mở qua URL `?cap=` — dùng cho luồng "quay
   // lại sau khi bỏ bẵng" (② M4, lib/comeback.ts): Home trỏ tới `?tab=today&cap=3`
   // hoặc `?tab=srs&cap=5` để phiên đầu nhẹ nhàng hơn, không đổi tốc độ đã lưu.
-  const sessionCap = useMemo(() => {
-    const n = Number(searchParams.get('cap'))
-    return Number.isFinite(n) && n > 0 ? n : undefined
-  }, [searchParams])
+  // Đọc qua hàm DÙNG CHUNG (lib/reviewQueue.ts) để hub ôn tập và trang cấp không có hai cách
+  // hiểu khác nhau về cùng một tham số URL. Hành vi của trang này KHÔNG đổi: thiếu `?cap=`
+  // nghĩa là "theo tốc độ đã lưu", không phải cap mặc định.
+  const sessionCap = useMemo(() => docCapTuQueryTuyChon(searchParams), [searchParams])
   // Các tab học cần TOÀN BỘ từ điển (nạp động, nặng hơn cefr+foundation) —
   // gate riêng để tab "Bài học" vẫn hiện ngay không phải chờ.
   const [dictReady, setDictReady] = useState(isCurriculumReady())

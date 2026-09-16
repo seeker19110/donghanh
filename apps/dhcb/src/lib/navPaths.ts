@@ -147,6 +147,12 @@ export const WORKLIFE_PATHS = [
 export const PROGRESS_PATHS = ['/tien-do']
 
 /**
+ * Hub ôn tập xuyên môn (S12-1). Tách khỏi LEARNING_PATHS và xét TRƯỚC nhóm "Góc học tập" trong
+ * `ACTIVE_ORDER`, nếu không đứng ở `/goc-hoc-tap/on-tap` sẽ sáng nhầm mục Góc học tập.
+ */
+export const REVIEW_PATHS = ['/goc-hoc-tap/on-tap']
+
+/**
  * `pathname` có nằm trong nhánh `prefix` không — so theo BIÊN ĐOẠN, không phải chuỗi con:
  * `/goc-hoc-tap/english` khớp `/goc-hoc-tap/english/x` nhưng KHÔNG khớp `/goc-hoc-tap/english-abc`.
  * Dùng chung cho nav (BottomNav/DesktopSidebar), breadcrumb và dropdown Studio — một luật khớp.
