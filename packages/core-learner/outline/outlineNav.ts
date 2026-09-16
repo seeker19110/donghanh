@@ -77,16 +77,30 @@ export function ancestorChapterIds(
   outline: Outline,
   activeContentId: string | undefined,
 ): Set<string> {
-  if (activeContentId === undefined) {
-    const first = outline.nodes.find((n) => n.kind === 'chapter')
-    return new Set(first ? [first.nodeId] : [])
-  }
+  if (activeContentId === undefined) return chuongDauTien(outline)
   const leaf = findLeafByContentId(outline, activeContentId)
   if (!leaf) return new Set()
+  return ancestorChapterIdsOfNode(outline, leaf.nodeId)
+}
+
+/**
+ * Như `ancestorChapterIds` nhưng nhận thẳng `nodeId` của lá.
+ *
+ * Vì sao cần bản này: mã nội dung KHÔNG phải lúc nào cũng duy nhất trong một cây. Đo trên
+ * `cefr.json` (2026-09-16): cấp B2 dùng vòng từ vựng `it` ở HAI unit khác nhau, nên tra theo
+ * `contentId` sẽ luôn ra unit đầu — mở nhầm chương, và hai lá cùng mang `aria-current="page"`.
+ * `nodeId` thì duy nhất theo hợp đồng `OutlineNode`, nên nơi gọi biết chính xác lá nào đang mở
+ * (Tiếng Anh: unit + loại hoạt động + mã) thì truyền `nodeId`.
+ */
+export function ancestorChapterIdsOfNode(outline: Outline, nodeId: string): Set<string> {
+  const duongDan = pathTo(outline, nodeId)
+  if (duongDan.length === 0) return new Set()
   // Bỏ chính lá ra, chỉ giữ các tầng cha.
-  return new Set(
-    pathTo(outline, leaf.nodeId)
-      .slice(0, -1)
-      .map((n) => n.nodeId),
-  )
+  return new Set(duongDan.slice(0, -1).map((n) => n.nodeId))
+}
+
+/** Không có lá nào đang mở → mở sẵn chương đầu tiên. */
+function chuongDauTien(outline: Outline): Set<string> {
+  const first = outline.nodes.find((n) => n.kind === 'chapter')
+  return new Set(first ? [first.nodeId] : [])
 }

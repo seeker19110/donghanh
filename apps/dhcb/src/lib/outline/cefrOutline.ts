@@ -53,6 +53,43 @@ export function duongDanHoatDongCefr(
   return `/lo-trinh-hoc/${levelId.toLowerCase()}?${query.toString()}`
 }
 
+/** Một hoạt động đã được chỉ đích danh trên URL (`?unit=…&hd=<loại>:<mã>`). */
+export interface CefrActivityRef {
+  unitId: string
+  kind: CefrActivityKind
+  contentId: string
+}
+
+const CAC_LOAI: readonly CefrActivityKind[] = ['vocab', 'grammar', 'dialogue']
+
+/**
+ * Đọc ngược `?unit=…&hd=…` thành hoạt động cụ thể — hàm ĐỐI của `duongDanHoatDongCefr`.
+ *
+ * Tham số thiếu, loại lạ, hay `hd` không đúng khuôn `<loại>:<mã>` đều trả `undefined`: trang
+ * cấp khi đó hiện như bình thường, KHÔNG báo lỗi (người dùng sửa tay URL không phải là lỗi của
+ * họ). Mã nội dung có thể chứa dấu `:` nên chỉ tách ở dấu hai chấm ĐẦU TIÊN.
+ */
+export function docHoatDongTuQuery(search: URLSearchParams): CefrActivityRef | undefined {
+  const unitId = search.get('unit')
+  const hd = search.get('hd')
+  if (!unitId || !hd) return undefined
+  const viTri = hd.indexOf(':')
+  if (viTri <= 0) return undefined
+  const kind = hd.slice(0, viTri)
+  const contentId = hd.slice(viTri + 1)
+  if (contentId === '') return undefined
+  if (!CAC_LOAI.includes(kind as CefrActivityKind)) return undefined
+  return { unitId, kind: kind as CefrActivityKind, contentId }
+}
+
+/**
+ * `nodeId` của một hoạt động — DUY NHẤT trong cây (mã nội dung thì không: cấp B2 dùng vòng từ
+ * vựng `it` ở hai unit). Giao diện dùng nó để biết lá nào đang mở.
+ */
+export function nodeIdHoatDong(ref: CefrActivityRef): string {
+  return `activity:${ref.unitId}:${ref.kind}:${ref.contentId}`
+}
+
 /** Câu giải thích khoá — lấy nguyên văn luật đang hiện ở màn khoá của trang cấp. */
 function lyDoKhoa(prevLevelId: CefrLevel['id'] | undefined): string {
   return prevLevelId
@@ -121,7 +158,7 @@ function hoatDongCuaUnit(
     tienDo: Pick<OutlineNode, 'progress' | 'evidenceSource'>,
     hint?: string,
   ): OutlineNode => ({
-    nodeId: `activity:${unit.id}:${kind}:${contentId}`,
+    nodeId: nodeIdHoatDong({ unitId: unit.id, kind, contentId }),
     subjectId: SUBJECT_ID,
     contentId,
     kind: 'activity',
