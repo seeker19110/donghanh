@@ -40,6 +40,13 @@
 - **Hub chỉ fetch nhật ký của môn đã học trên máy** (`monStemDaHocTrenMay`, đọc bộ đệm trạng
   thái đồng bộ). Người chưa học STEM thì hub không phát sinh request nào — giữ đúng cảnh báo
   §8 của đặc tả về việc hub phải nhẹ.
+- **Thêm `/so-tay-loi-sai` vào cổng a11y làm lộ một khiếm khuyết CÓ THẬT.** Trang này chưa từng
+  được quét. Axe chỉ đúng phần tử và số đo: `<p class="text-xs text-zinc-500 …>` của màn "chưa
+  có lỗi nào" chỉ đạt **5.94:1** (fg `#8092aa` / bg `#0a1023`), cần ≥ 7:1 — hỏng ở CẢ 5 theme vì
+  `text-zinc-*` là màu CỨNG của Tailwind, không đi qua token nên không đổi theo theme. Sửa theo
+  CLAUDE.md §4.5: mọi `<p>` nội dung của trang chuyển sang token `text-content` /
+  `text-content-secondary`. KHÔNG đụng token dùng chung (không token nào sai), KHÔNG gỡ route
+  khỏi spec. Đo lại: `-g "so-tay-loi-sai"` trên cả hai bộ a11y → **10/10 xanh** (5 theme × 2 bộ).
 - **Không sửa `learningReadModelService.ts`** (nợ cột `stats`): S12 không dùng service này làm
   nguồn, nợ vẫn mở như đặc tả §8 ghi.
 
