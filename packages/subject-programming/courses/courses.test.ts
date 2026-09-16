@@ -6,6 +6,7 @@
 import { describe, expect, it } from 'vitest'
 import { SHORT_COURSES, getShortCourse } from './registry.js'
 import { GIT_COURSE } from './git.js'
+import { AIREL_COURSE } from './airel.js'
 import { getLesson, getLessonsByUnit } from '../lessons.js'
 
 describe('tầng khoá ngắn', () => {
@@ -42,6 +43,23 @@ describe('tầng khoá ngắn', () => {
 
   it('không có bài trước — vào thẳng khoá Git học được ngay (prerequisites rỗng)', () => {
     expect(GIT_COURSE.prerequisites).toEqual([])
+  })
+})
+
+describe('khoá AI Evals & Reliability Engineer', () => {
+  it('bao quát đủ 24 tuần qua đúng 12 giai đoạn thực chiến', () => {
+    expect(AIREL_COURSE.chapters).toHaveLength(12)
+    expect(AIREL_COURSE.chapters[0]?.weeks).toBe('Tuần 1–2')
+    expect(AIREL_COURSE.chapters[11]?.weeks).toBe('Tuần 24')
+  })
+
+  it('mỗi giai đoạn có kiến thức, lab, đầu ra và ít nhất một bài chạy được', () => {
+    for (const stage of AIREL_COURSE.chapters) {
+      expect(stage.focus?.length).toBeGreaterThanOrEqual(4)
+      expect(stage.lab).toBeTruthy()
+      expect(stage.deliverable).toBeTruthy()
+      expect(stage.lessonIds.length).toBeGreaterThan(0)
+    }
   })
 })
 

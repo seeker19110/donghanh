@@ -7,7 +7,7 @@
 // người dùng thấy quen tay: tiêu đề + can-do → dải tiến độ → danh sách chương/bài.
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, Navigate } from 'react-router-dom'
-import { BookOpen, CheckCircle2, Play } from 'lucide-react'
+import { BookOpen, CheckCircle2, FlaskConical, PackageCheck, Play } from 'lucide-react'
 import Layout from '../../../components/Layout'
 import PageHeader from '../../../components/PageHeader'
 import LangBadge from '../../../components/programming/LangBadge'
@@ -107,6 +107,41 @@ export default function ProgrammingCoursePage() {
               </p>
             </section>
 
+            {course.chapters.some((chapter) => chapter.weeks) && (
+              <section
+                className="course-flow bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5 space-y-4 overflow-hidden"
+                aria-labelledby="course-flow-title"
+              >
+                <div className="flex items-end justify-between gap-3 flex-wrap">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent-300">
+                      Bản đồ năng lực
+                    </p>
+                    <h2 id="course-flow-title" className="text-base font-bold text-white mt-1">
+                      Từ test đầu tiên tới hệ AI vận hành bền
+                    </h2>
+                  </div>
+                  <p className="text-xs text-zinc-300">
+                    Mỗi chấm sáng là một giai đoạn có sản phẩm bàn giao.
+                  </p>
+                </div>
+                <div className="relative grid grid-cols-6 sm:grid-cols-12 gap-2" aria-hidden="true">
+                  <div className="absolute top-3 left-3 right-3 h-px bg-zinc-700" />
+                  <div className="course-flow-beam absolute top-[10px] left-2 w-2 h-2 rounded-full bg-accent-300 shadow-[0_0_14px_currentColor]" />
+                  {course.chapters.map((chapter, index) => (
+                    <div key={chapter.id} className="relative flex flex-col items-center gap-2">
+                      <span className="relative z-10 grid place-items-center w-6 h-6 rounded-full border border-accent-500/60 bg-zinc-950 text-[11px] font-bold text-accent-200">
+                        {index + 1}
+                      </span>
+                      <span className="text-[11px] text-zinc-300 text-center leading-tight">
+                        {chapter.weeks}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
             <section className="space-y-3">
               <div className="flex items-baseline justify-between gap-3 flex-wrap">
                 <h2 className="text-base font-bold text-white">
@@ -152,10 +187,17 @@ export default function ProgrammingCoursePage() {
                     className="scroll-mt-20 bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5 space-y-2.5"
                   >
                     <div className="flex items-start justify-between gap-3">
-                      <p className="text-sm font-bold text-white">
-                        <span className="text-zinc-500 mr-2">Chương {idx + 1}</span>
-                        {chapter.title}
-                      </p>
+                      <div>
+                        {chapter.weeks && (
+                          <p className="text-xs font-semibold text-accent-300 mb-1">
+                            Giai đoạn {idx + 1} · {chapter.weeks}
+                          </p>
+                        )}
+                        <p className="text-sm font-bold text-white">
+                          <span className="text-zinc-500 mr-2">Chương {idx + 1}</span>
+                          {chapter.title}
+                        </p>
+                      </div>
                       {chapterCompleted && (
                         <span className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-[11px] font-semibold text-emerald-300 theme-light:text-emerald-800">
                           <CheckCircle2 className="w-3 h-3" /> Hoàn thành
@@ -166,6 +208,44 @@ export default function ProgrammingCoursePage() {
                       <BookOpen className="w-3.5 h-3.5 shrink-0 mt-0.5 text-zinc-500" />
                       <span>{chapter.summary}</span>
                     </p>
+                    {chapter.focus && (
+                      <div
+                        className="grid sm:grid-cols-2 gap-2 pt-1"
+                        aria-label="Kiến thức trọng tâm"
+                      >
+                        {chapter.focus.map((item) => (
+                          <p
+                            key={item}
+                            className="text-xs leading-relaxed text-zinc-200 rounded-xl border border-zinc-700 bg-zinc-950/60 px-3 py-2"
+                          >
+                            <span className="text-accent-300 mr-1.5">◆</span>
+                            {item}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+                    {chapter.lab && (
+                      <div className="rounded-2xl border border-sky-500/35 bg-sky-500/10 px-4 py-3 flex gap-3">
+                        <FlaskConical
+                          className="w-4 h-4 shrink-0 mt-0.5 text-sky-300 theme-light:text-sky-800"
+                          aria-hidden="true"
+                        />
+                        <p className="text-xs leading-relaxed text-zinc-100">
+                          <strong>Hands-on Lab:</strong> {chapter.lab}
+                        </p>
+                      </div>
+                    )}
+                    {chapter.deliverable && (
+                      <div className="rounded-2xl border border-emerald-500/35 bg-emerald-500/10 px-4 py-3 flex gap-3">
+                        <PackageCheck
+                          className="w-4 h-4 shrink-0 mt-0.5 text-emerald-300 theme-light:text-emerald-800"
+                          aria-hidden="true"
+                        />
+                        <p className="text-xs leading-relaxed text-zinc-100">
+                          <strong>Đầu ra:</strong> {chapter.deliverable}
+                        </p>
+                      </div>
+                    )}
                     {lessons.map((lesson) => (
                       <div key={lesson.id} className="space-y-1.5">
                         <LangBadge language={lesson.language} />

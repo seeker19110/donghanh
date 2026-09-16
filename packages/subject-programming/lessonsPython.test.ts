@@ -150,6 +150,15 @@ function describeFailures(results: ReturnType<typeof gradeAll>): string {
 // hoàn toàn không sai (audit 2026-08-28, F8). Nới lên 30s: đủ rộng để tải máy không quyết định
 // kết quả, vẫn đủ chặt để một bài treo thật thì lộ ra. Sửa TEST chứ không sửa code sản phẩm —
 // bản thân bộ chạy không có gì sai.
+//
+// 2026-09-15 — VÌ SAO PHẢI ÁP CHO *MỌI* KHỐI: hằng số này trước đây chỉ được truyền cho 2 trong
+// 4 khối `it.each`; hai khối còn lại (Predict, milestone check) vẫn dùng mặc định 5s. Đo thật
+// lúc máy rảnh (chạy riêng file này): bài chậm nhất của khối có timeout là `p5-u6-l1` 1.866ms
+// (dư 16x so với 30s), còn bài chậm nhất của khối KHÔNG có timeout là `p5-s2` 1.604ms — chỉ dư
+// 3,1x so với 5s. Khi chạy TOÀN BỘ suite song song, 3,1x không đủ và `p5-s2` đỏ oan vì hết giờ
+// (đo ở đợt S10-1: 5 lượt `test:coverage` thì 2 lượt đỏ, chạy riêng file thì 577/577 xanh).
+// Vậy nên hằng số nay được truyền cho CẢ BỐN khối — không khối nào chạy python3 mà còn dùng
+// mặc định 5s nữa. KHÔNG bỏ bớt/skip ca nào: số ca chạy giữ nguyên.
 const PYTHON_TEST_TIMEOUT_MS = 30_000
 
 describe.skipIf(!hasPython)('nội dung môn Lập trình chạy THẬT bằng python3', () => {
@@ -190,23 +199,27 @@ describe.skipIf(!hasPython)('nội dung môn Lập trình chạy THẬT bằng p
     PYTHON_TEST_TIMEOUT_MS,
   )
 
-  it.each(PYTHON_LESSONS)('$id — đáp án Predict khớp output thật', async (lesson) => {
-    const r = chayTheoLan(lesson.language as PythonLane, lesson.predict.code, [])
-    expect(r.error, `Bài ${lesson.id} code Predict lỗi: ${r.error}`).toBeUndefined()
-    const answer = lesson.predict.choices[lesson.predict.answerIndex]!
-    // Lựa chọn đúng phải xuất hiện trong output thật; các lựa chọn SAI thì không được
-    // trùng khớp (tránh soạn nhầm 2 đáp án cùng đúng).
-    const output = chuanHoaXuongDong(r.output)
-    expect(
-      output.includes(answer),
-      `Bài ${lesson.id}: đáp án "${answer}" KHÔNG có trong output thật "${output.trim()}"`,
-    ).toBe(true)
-    const wrongMatches = lesson.predict.choices.filter(
-      (c, i) => i !== lesson.predict.answerIndex && output.includes(c),
-    )
-    expect(wrongMatches, `Bài ${lesson.id}: lựa chọn sai lại khớp output`).toEqual([])
-    await nhuongEventLoop()
-  })
+  it.each(PYTHON_LESSONS)(
+    '$id — đáp án Predict khớp output thật',
+    async (lesson) => {
+      const r = chayTheoLan(lesson.language as PythonLane, lesson.predict.code, [])
+      expect(r.error, `Bài ${lesson.id} code Predict lỗi: ${r.error}`).toBeUndefined()
+      const answer = lesson.predict.choices[lesson.predict.answerIndex]!
+      // Lựa chọn đúng phải xuất hiện trong output thật; các lựa chọn SAI thì không được
+      // trùng khớp (tránh soạn nhầm 2 đáp án cùng đúng).
+      const output = chuanHoaXuongDong(r.output)
+      expect(
+        output.includes(answer),
+        `Bài ${lesson.id}: đáp án "${answer}" KHÔNG có trong output thật "${output.trim()}"`,
+      ).toBe(true)
+      const wrongMatches = lesson.predict.choices.filter(
+        (c, i) => i !== lesson.predict.answerIndex && output.includes(c),
+      )
+      expect(wrongMatches, `Bài ${lesson.id}: lựa chọn sai lại khớp output`).toEqual([])
+      await nhuongEventLoop()
+    },
+    PYTHON_TEST_TIMEOUT_MS,
+  )
 
   // Bước dự án THUẦN PYTHON của mọi chặng đã mở. Bước nhiều file (milestone P2) được dựng
   // thành thư mục thật rồi chạy: `referenceFiles` ghi ra đĩa, entry là `probeCode` nếu bước
@@ -222,23 +235,27 @@ describe.skipIf(!hasPython)('nội dung môn Lập trình chạy THẬT bằng p
     laLanPython(getStepLanguage(s)),
   )
 
-  it.each(ALL_STEPS)('$id — code tham chiếu đạt HẾT milestone check', async (step) => {
-    const lane = getStepLanguage(step) as PythonLane
-    const dir = mkdtempSync(join(tmpdir(), `dhcb-step-${step.id}-`))
-    for (const [name, content] of Object.entries(fileCuaLan(lane))) {
-      const dich = join(dir, name)
-      mkdirSync(dirname(dich), { recursive: true })
-      writeFileSync(dich, content, 'utf8')
-    }
-    for (const [path, content] of Object.entries(step.referenceFiles ?? {})) {
-      writeFileSync(join(dir, path), content, 'utf8')
-    }
-    const mainFile = step.files?.[0] ?? 'cua_hang.py'
-    writeFileSync(join(dir, mainFile), step.referenceCode, 'utf8')
+  it.each(ALL_STEPS)(
+    '$id — code tham chiếu đạt HẾT milestone check',
+    async (step) => {
+      const lane = getStepLanguage(step) as PythonLane
+      const dir = mkdtempSync(join(tmpdir(), `dhcb-step-${step.id}-`))
+      for (const [name, content] of Object.entries(fileCuaLan(lane))) {
+        const dich = join(dir, name)
+        mkdirSync(dirname(dich), { recursive: true })
+        writeFileSync(dich, content, 'utf8')
+      }
+      for (const [path, content] of Object.entries(step.referenceFiles ?? {})) {
+        writeFileSync(join(dir, path), content, 'utf8')
+      }
+      const mainFile = step.files?.[0] ?? 'cua_hang.py'
+      writeFileSync(join(dir, mainFile), step.referenceCode, 'utf8')
 
-    const entry = noiCodeTheoLan(lane, step.probeCode ?? step.referenceCode)
-    const results = gradeAll(entry, step.checks, dir)
-    expect(allTestsPassed(results), `Bước ${step.id}: ${describeFailures(results)}`).toBe(true)
-    await nhuongEventLoop()
-  })
+      const entry = noiCodeTheoLan(lane, step.probeCode ?? step.referenceCode)
+      const results = gradeAll(entry, step.checks, dir)
+      expect(allTestsPassed(results), `Bước ${step.id}: ${describeFailures(results)}`).toBe(true)
+      await nhuongEventLoop()
+    },
+    PYTHON_TEST_TIMEOUT_MS,
+  )
 })
