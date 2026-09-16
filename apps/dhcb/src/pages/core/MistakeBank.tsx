@@ -142,7 +142,9 @@ function ReviewCard({
       </div>
 
       {/* Câu sai */}
-      <p className="text-[11px] text-zinc-500 mb-1">{isA ? 'Câu bạn đã viết' : 'What you wrote'}</p>
+      <p className="text-[11px] text-content-secondary mb-1">
+        {isA ? 'Câu bạn đã viết' : 'What you wrote'}
+      </p>
       <div className="bg-red-500/8 border border-red-500/20 rounded-xl px-3 py-2.5 mb-3">
         <KaraokeText
           text={mistake.wrong}
@@ -153,7 +155,7 @@ function ReviewCard({
 
       {!revealed ? (
         <>
-          <p className="text-xs text-zinc-500 text-center mb-3">
+          <p className="text-xs text-content-secondary text-center mb-3">
             {isA ? 'Bạn thử tự sửa trong đầu, rồi xem đáp án nhé.' : 'Try to fix it, then reveal.'}
           </p>
           <button
@@ -168,7 +170,9 @@ function ReviewCard({
         <div className="animate-fade-in space-y-3">
           {mistake.corrected && (
             <div>
-              <p className="text-[11px] text-zinc-500 mb-1">{isA ? 'Câu đúng' : 'Corrected'}</p>
+              <p className="text-[11px] text-content-secondary mb-1">
+                {isA ? 'Câu đúng' : 'Corrected'}
+              </p>
               <div className="bg-accent-500/8 border border-accent-500/25 rounded-xl px-3 py-2.5">
                 <KaraokeText
                   text={mistake.corrected}
@@ -180,7 +184,9 @@ function ReviewCard({
           )}
           {mistake.explanation && (
             <div>
-              <p className="text-[11px] text-zinc-500 mb-1">{isA ? 'Giải thích' : 'Explanation'}</p>
+              <p className="text-[11px] text-content-secondary mb-1">
+                {isA ? 'Giải thích' : 'Explanation'}
+              </p>
               <div className="bg-amber-500/8 border border-amber-500/20 rounded-xl px-3 py-2.5">
                 <KaraokeText
                   text={mistake.explanation}
@@ -259,7 +265,7 @@ function ListRow({
         </p>
       )}
       {mistake.explanation && (
-        <p className="text-[11px] text-zinc-400 break-words mt-1">{mistake.explanation}</p>
+        <p className="text-[11px] text-content-secondary break-words mt-1">{mistake.explanation}</p>
       )}
       <Link
         to={duongDanOnLaiLoiAnh(mistake.source)}
@@ -466,10 +472,10 @@ export default function MistakeBank() {
               <div className="w-14 h-14 rounded-2xl bg-accent-500/10 flex items-center justify-center mx-auto mb-4">
                 <BookMarked className="w-7 h-7 text-accent-400" />
               </div>
-              <p className="text-sm text-zinc-300 mb-1 font-medium">
+              <p className="text-sm text-content mb-1 font-medium">
                 {isA ? 'Chưa có lỗi nào được ghi' : 'No mistakes recorded yet'}
               </p>
-              <p className="text-xs text-zinc-500 mb-5 max-w-xs mx-auto">
+              <p className="text-xs text-content-secondary mb-5 max-w-xs mx-auto">
                 {isA
                   ? 'Khi bạn luyện Chat, Viết hoặc Nói và AI sửa lỗi, lỗi đó sẽ tự động vào đây để ôn lại.'
                   : 'When you practise Chat, Writing or Speaking and the AI corrects you, the mistake lands here to review.'}
@@ -521,7 +527,7 @@ export default function MistakeBank() {
               {tab === 'review' ? (
                 current ? (
                   <>
-                    <p className="text-center text-xs text-zinc-500">
+                    <p className="text-center text-xs text-content-secondary">
                       {pos + 1} / {totalDue}
                     </p>
                     <ReviewCard
@@ -539,7 +545,7 @@ export default function MistakeBank() {
                     <div className="w-14 h-14 rounded-2xl bg-accent-500/10 flex items-center justify-center mx-auto mb-4">
                       <Sparkles className="w-7 h-7 text-accent-400" />
                     </div>
-                    <p className="text-sm text-zinc-200 font-medium mb-1">
+                    <p className="text-sm text-content font-medium mb-1">
                       {totalDue > 0
                         ? isA
                           ? 'Xong rồi! Bạn đã ôn hết lỗi hôm nay 🎉'
@@ -548,7 +554,7 @@ export default function MistakeBank() {
                           ? 'Không có lỗi nào cần ôn hôm nay'
                           : 'No mistakes due today'}
                     </p>
-                    <p className="text-xs text-zinc-500 mb-5">
+                    <p className="text-xs text-content-secondary mb-5">
                       {isA
                         ? 'Lỗi đã ôn sẽ quay lại sau vài ngày để nhớ lâu hơn.'
                         : 'Reviewed mistakes come back in a few days to strengthen memory.'}
