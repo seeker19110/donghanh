@@ -43,7 +43,16 @@ function mockPool(queryImpl: (sql: string, params?: unknown[]) => Promise<{ rows
   return { query: vi.fn(queryImpl) } as unknown as ReturnType<typeof getPgPool>
 }
 
-describe('hashPassword / verifyPassword', () => {
+// Bốn describe dưới đây (hashPassword/verifyPassword, createUserWithPassword,
+// verifyUserPassword, createUserWithPassword — nhánh thành công) đều gọi bcrypt.hash/compare
+// THẬT với BCRYPT_ROUNDS=12 (không mock) — cố ý, vì đây chính là chi phí bảo mật thật của
+// production, không phải việc test dựng thừa. Đo thật 2026-09-16, chạy riêng file: mỗi lượt
+// hash/compare 12 vòng dao động 400ms–1.75s TRÊN MÁY RẢNH. Dưới tải CI (nhiều file test song
+// song, cùng nhóm với `programmingSrs`/`seed-all`/`lessonsPython` đã trả nợ ở #937/#949/PR
+// này), cùng khuôn "Test timed out in 5000ms" đã xảy ra thật (S05-2, full suite). Nới ngưỡng
+// từng describe lên 10s thay vì giảm BCRYPT_ROUNDS — giảm số vòng sẽ làm test không còn đo
+// đúng hành vi production.
+describe('hashPassword / verifyPassword', { timeout: 10000 }, () => {
   it('băm rồi so khớp đúng mật khẩu gốc', async () => {
     const hash = await hashPassword('MatKhau123')
     expect(hash).not.toBe('MatKhau123')
@@ -132,7 +141,9 @@ describe('revokeSession', () => {
   })
 })
 
-describe('createUserWithPassword', () => {
+// Cùng lý do nới timeout ghi ở describe 'hashPassword / verifyPassword' — createUserWithPassword
+// tự gọi hashPassword() bên trong (bcrypt 12 vòng THẬT).
+describe('createUserWithPassword', { timeout: 10000 }, () => {
   beforeEach(() => vi.restoreAllMocks())
 
   it('email TRÙNG (unique_violation code 23505) → trả null, không throw', async () => {
@@ -159,7 +170,9 @@ describe('createUserWithPassword', () => {
   })
 })
 
-describe('verifyUserPassword', () => {
+// Cùng lý do nới timeout ghi ở describe 'hashPassword / verifyPassword' — hai ca "đúng mật
+// khẩu"/"sai mật khẩu" ở đây tự gọi hashPassword() để dựng dữ liệu (bcrypt 12 vòng THẬT).
+describe('verifyUserPassword', { timeout: 10000 }, () => {
   beforeEach(() => vi.restoreAllMocks())
 
   it('email KHÔNG tồn tại → null (không phân biệt với sai mật khẩu)', async () => {
@@ -584,23 +597,29 @@ describe('hashSessionToken (Đợt 2 coverage 2026-09-05)', () => {
   })
 })
 
-describe('createUserWithPassword — nhánh thành công (Đợt 2 coverage 2026-09-05)', () => {
-  beforeEach(() => vi.restoreAllMocks())
+// Cùng lý do nới timeout ghi ở describe 'hashPassword / verifyPassword' — createUserWithPassword
+// tự gọi hashPassword() bên trong (bcrypt 12 vòng THẬT).
+describe(
+  'createUserWithPassword — nhánh thành công (Đợt 2 coverage 2026-09-05)',
+  { timeout: 10000 },
+  () => {
+    beforeEach(() => vi.restoreAllMocks())
 
-  it('email CHƯA tồn tại → insert thành công, trả đúng user vừa tạo', async () => {
-    mockedGetPool.mockReturnValue(
-      mockPool(async () => ({ rows: [{ id: 'u9', email: 'moi@example.com' }] })),
-    )
-    const result = await createUserWithPassword('moi@example.com', 'MatKhau123')
-    expect(result).toEqual({ id: 'u9', email: 'moi@example.com' })
-  })
+    it('email CHƯA tồn tại → insert thành công, trả đúng user vừa tạo', async () => {
+      mockedGetPool.mockReturnValue(
+        mockPool(async () => ({ rows: [{ id: 'u9', email: 'moi@example.com' }] })),
+      )
+      const result = await createUserWithPassword('moi@example.com', 'MatKhau123')
+      expect(result).toEqual({ id: 'u9', email: 'moi@example.com' })
+    })
 
-  it('insert không lỗi nhưng không trả dòng nào (phòng thủ, hiếm vì insert không có ON CONFLICT) → null', async () => {
-    mockedGetPool.mockReturnValue(mockPool(async () => ({ rows: [] })))
-    const result = await createUserWithPassword('la@example.com', 'MatKhau123')
-    expect(result).toBeNull()
-  })
-})
+    it('insert không lỗi nhưng không trả dòng nào (phòng thủ, hiếm vì insert không có ON CONFLICT) → null', async () => {
+      mockedGetPool.mockReturnValue(mockPool(async () => ({ rows: [] })))
+      const result = await createUserWithPassword('la@example.com', 'MatKhau123')
+      expect(result).toBeNull()
+    })
+  },
+)
 
 describe('verifyGoogleIdToken — nhánh còn thiếu (Đợt 2 coverage 2026-09-05)', () => {
   const OLD = process.env.GOOGLE_CLIENT_ID
