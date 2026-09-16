@@ -86,6 +86,10 @@ export default defineConfig({
         'apps/dhcb/src/lib/useApiThrottle.ts',
         'apps/dhcb/src/lib/useChat.ts',
         'apps/dhcb/src/lib/useMountedRef.ts',
+        // Hook gom tiến độ + bản đồ khoá cho mục lục (S07-2): chỉ là vỏ `useEffect` quanh
+        // `fetchProgressWithState` (đã có test) — logic THẬT của cây nằm ở
+        // lib/outline/*.ts và đã được test riêng.
+        'apps/dhcb/src/lib/useProgrammingOutlineCtx.ts',
         'apps/dhcb/src/lib/useRealtimeVoice.ts',
         'apps/dhcb/src/lib/edgeAi/useEdgeAi.ts',
         // Worker & lưu trữ nhị phân trình duyệt (OPFS/IndexedDB).

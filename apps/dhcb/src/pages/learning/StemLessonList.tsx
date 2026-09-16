@@ -4,35 +4,16 @@
 // Trang chỉ đọc CHỈ MỤC NHẸ (`loader.index`), không nạp nội dung bài nào — nội dung chỉ tải
 // khi người học mở đúng bài (xem StemLessonView).
 import { useMemo, useState } from 'react'
-import { Link, useParams, Navigate } from 'react-router-dom'
-import { GraduationCap, Trophy, Play } from 'lucide-react'
+import { useParams, Navigate } from 'react-router-dom'
+import { GraduationCap, Trophy } from 'lucide-react'
 import Layout from '../../components/Layout'
 import { PageShell } from '@core/PageShell'
 import { buttonClass } from '@core/buttonStyles'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { TomTatChuaDuyet } from '../../components/ChuaDuyetChuyenMon'
-import {
-  duongDanBaiHoc,
-  getStemSubject,
-  nhanCapHsg,
-  type StemSubject,
-} from '../../lib/stemLessonRoutes'
-
-/** Nhóm bài theo chương để danh sách đọc được như mục lục sách, không phải một dãy phẳng. */
-function nhomTheoChuong(
-  bai: ReturnType<StemSubject['loader']['listCoreByGrade']>,
-): Array<{ so: number; tieuDe: string; bai: typeof bai }> {
-  const nhom = new Map<number, { so: number; tieuDe: string; bai: typeof bai }>()
-  for (const b of bai) {
-    let g = nhom.get(b.chapterNumber)
-    if (!g) {
-      g = { so: b.chapterNumber, tieuDe: b.chapterTitle, bai: [] }
-      nhom.set(b.chapterNumber, g)
-    }
-    g.bai.push(b)
-  }
-  return [...nhom.values()]
-}
+import { OutlineTreeLinked } from '../../components/OutlinePane'
+import { getStemSubject } from '../../lib/stemLessonRoutes'
+import { buildStemOutlineForApp, locNhanh } from '../../lib/outline/stemOutlineApp'
 
 export default function StemLessonList() {
   const { subjectId } = useParams<{ subjectId: string }>()
@@ -47,10 +28,16 @@ export default function StemLessonList() {
     [subject, grade],
   )
   const baiNangCao = useMemo(() => (subject ? subject.loader.listAdvanced() : []), [subject])
+  // MỘT cây cho cả trang (S07-2, Q4): danh sách bài không còn là `<ol>` riêng của trang này
+  // mà là đúng `OutlineTree` mà trang bài học dùng — một mã nguồn, một cách đánh dấu tiến độ.
+  const outline = useMemo(
+    () => (subject ? buildStemOutlineForApp(subject, grade) : undefined),
+    [subject, grade],
+  )
 
   if (!subject) return <Navigate to="/goc-hoc-tap" replace />
 
-  const chuong = nhomTheoChuong(baiCoBan)
+  const cay = locNhanh(outline, subject.id, nhanh)
   const nhapCoBan = baiCoBan.filter((b) => b.reviewStatus === 'draft').length
   const nhapNangCao = baiNangCao.filter((b) => b.reviewStatus === 'draft').length
 
@@ -107,64 +94,26 @@ export default function StemLessonList() {
 
             <TomTatChuaDuyet soChuaDuyet={nhapCoBan} tong={baiCoBan.length} />
 
-            {chuong.length === 0 ? (
+            {cay === undefined ? (
               <p className="mt-8 text-content-secondary">
                 Lớp {grade} của môn {subject.label} chưa có bài học nào. Hãy chọn lớp khác.
               </p>
             ) : (
-              <ol className="mt-6 space-y-8">
-                {chuong.map((c) => (
-                  <li key={c.so}>
-                    <h2 className="text-lg font-bold text-content">
-                      Chương {c.so}: {c.tieuDe}
-                    </h2>
-                    <ul className="mt-3 space-y-2">
-                      {c.bai.map((b) => (
-                        <li key={b.id}>
-                          <Link
-                            to={duongDanBaiHoc(subject.id, b.id, b.title)}
-                            className="flex min-h-[44px] items-center justify-between gap-3 rounded-xl border border-line-subtle bg-surface-card px-4 py-3 text-content"
-                          >
-                            <span>
-                              Bài {b.lessonNumber}. {b.title}
-                            </span>
-                            {b.hasAnimation && (
-                              <span className="shrink-0 text-content-muted">
-                                <Play className="h-4 w-4" aria-hidden="true" />
-                                <span className="sr-only">Bài này có hoạt ảnh minh hoạ</span>
-                              </span>
-                            )}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
-                ))}
-              </ol>
+              <div className="mt-6">
+                <OutlineTreeLinked outline={cay} title={`Mục lục lớp ${grade}`} />
+              </div>
             )}
           </>
-        ) : baiNangCao.length === 0 ? (
+        ) : cay === undefined ? (
           <p className="mt-8 text-content-secondary">
             Môn {subject.label} chưa có chuyên đề bồi dưỡng học sinh giỏi.
           </p>
         ) : (
           <>
             <TomTatChuaDuyet soChuaDuyet={nhapNangCao} tong={baiNangCao.length} />
-            <ul className="mt-6 space-y-2">
-              {baiNangCao.map((b) => (
-                <li key={b.id}>
-                  <Link
-                    to={duongDanBaiHoc(subject.id, b.id, b.title)}
-                    className="flex min-h-[44px] flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border border-line-subtle bg-surface-card px-4 py-3 text-content"
-                  >
-                    <span className="rounded-lg border border-line-strong px-2 py-0.5 text-content-muted">
-                      {nhanCapHsg(b.advancedTier)}
-                    </span>
-                    <span>{b.title}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <div className="mt-6">
+              <OutlineTreeLinked outline={cay} title="Mục lục chuyên đề bồi dưỡng" />
+            </div>
           </>
         )}
       </PageShell>

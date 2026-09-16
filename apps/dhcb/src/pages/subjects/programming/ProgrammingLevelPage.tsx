@@ -2,34 +2,26 @@
 // làn LUYỆN (kiến thức) + làn DỰ ÁN (bước xây tiếp dự án trục). PR-L3: unit ĐÃ CÓ bài học
 // (khuôn 8 bước) hiện nút "Học bài" + trạng thái hoàn thành từ server; unit chưa soạn
 // vẫn là "Sắp mở" (nội dung hàng loạt vào PR-L4).
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useNavigate, useParams, Navigate } from 'react-router-dom'
 import { BookOpen, Hammer, Trophy, Lock, CheckCircle2, Play } from 'lucide-react'
 import Layout from '../../../components/Layout'
 import PageHeader from '../../../components/PageHeader'
 import LangBadge from '../../../components/programming/LangBadge'
 import { useAuth } from '../../../context/useAuth'
-import {
-  fetchProgress,
-  isLessonCompleted,
-  type ProgrammingLessonProgress,
-} from '../../../lib/programmingProgress'
-import {
-  levelLockMap,
-  seedGrandfather,
-  markLevelEntered,
-  loiGiaiThichKhoa,
-} from '../../../lib/programmingLevelLock'
-import { effectivePlan } from '../../../lib/promo'
+import { isLessonCompleted } from '../../../lib/programmingProgress'
+import { markLevelEntered, loiGiaiThichKhoa } from '../../../lib/programmingLevelLock'
 import { getProgrammingLevel, nhomUnitTheoTrack } from '@dhcb/subject-programming/curriculum'
 import { getUnitSummaries } from '@dhcb/subject-programming/lessonsLoader'
 import { buildSlugSegment, idFromSlugSegment } from '@core/slug'
 import { duongDanBac, duongDanBaiHoc } from '../../../lib/programmingRoutes'
 import { PageShell } from '@core/PageShell'
 import { TwoPane } from '@core/TwoPane'
-import { TocRail, type TocItem } from '@core/TocRail'
-import { useActiveSection } from '@core/useActiveSection'
 import { useIsDesktopViewport } from '../../../lib/useIsDesktopViewport'
+import { buildLevelOutline } from '../../../lib/outline/programmingOutline'
+import { useProgrammingOutlineCtx } from '../../../lib/useProgrammingOutlineCtx'
+import { LoiTienDo } from '../../../components/OutlinePane'
+import { useOutlinePane } from '../../../components/useOutlinePane'
 
 export default function ProgrammingLevelPage() {
   const nav = useNavigate()
@@ -38,7 +30,10 @@ export default function ProgrammingLevelPage() {
   // đúng bậc rồi được chuyển hướng về URL chuẩn.
   const { levelId: levelSlugParam } = useParams<{ levelId: string }>()
   const level = levelSlugParam ? getProgrammingLevel(idFromSlugSegment(levelSlugParam)) : undefined
-  const [progress, setProgress] = useState<ProgrammingLessonProgress[]>([])
+  // Tiến độ + bản đồ khoá: MỘT hook dùng chung với trang bài và trang khoá ngắn (S07-2), để
+  // ba trang không lệch nhau về luật chống hồi tố và về cách phân biệt lỗi mạng với chưa học.
+  const outlineCtx = useProgrammingOutlineCtx()
+  const progress = outlineCtx.progress
   // Phải gọi TRƯỚC mọi `return` sớm bên dưới: hook gọi có điều kiện là vi phạm Rules of Hooks
   // (React khớp hook theo THỨ TỰ gọi, nên một lần render bỏ qua hook này sẽ làm lệch toàn bộ
   // state của component).
@@ -48,30 +43,33 @@ export default function ProgrammingLevelPage() {
   // Chỉ P6 (65 unit, 4 mạch khác hẳn nhau) mới thật sự được chia nhóm.
   const nhomUnit = nhomUnitTheoTrack(level?.units ?? [])
   const coNhom = nhomUnit.length > 1
-  // Cùng lý do: mã mục tính ngay ở đây (mảng rỗng khi id bậc lạ) để hook luôn được gọi.
-  // Có chia nhóm thì mục lục trỏ tới NHÓM (4 mục dễ quét) thay vì 65 unit liền một dải.
-  const idMucLuc = coNhom
-    ? nhomUnit.map((n) => `track-${n.track.id}`)
-    : (level?.units ?? []).map((u) => `unit-${u.id}`)
-  const activeUnit = useActiveSection(idMucLuc)
+  const fetched = outlineCtx.progressState !== 'loading'
 
-  const [fetched, setFetched] = useState(false)
-
-  useEffect(() => {
-    if (!user) return
-    void fetchProgress(user.id).then((p) => {
-      // Chống hồi tố (đặc tả §①.3) — xem lib/programmingLevelLock.ts.
-      seedGrandfather(user.id, p)
-      setProgress(p)
-      setFetched(true)
-    })
-  }, [user])
-
-  // Khoá bậc (GĐ3): Free học tuần tự, VIP học tự do. Không bọc useMemo — React Compiler đã ghi
-  // nhớ hộ, còn useMemo tay ở đây bị nó từ chối tối ưu cả component (lint react-hooks).
-  const plan = user ? effectivePlan(user.plan) : 'free'
-  const lockInfo = level ? levelLockMap(user?.id, progress, plan).get(level.id) : undefined
+  // Khoá bậc (GĐ3): Free học tuần tự, VIP học tự do.
+  const lockInfo = level ? outlineCtx.lockMap.get(level.id) : undefined
   const biKhoa = lockInfo?.locked === true
+
+  // Mục lục CÂY thay cho mục lục neo (S07-2): từ cột trái bấm thẳng vào một bài. Tiêu đề giữ
+  // nguyên cách đếm cũ ("Mục lục 4 mạch" / "Mục lục 10 unit") — E2E P6 đang canh chuỗi đó.
+  const tenMucLuc = level
+    ? coNhom
+      ? `Mục lục ${nhomUnit.length} mạch`
+      : `Mục lục ${level.units.length} unit`
+    : 'Mục lục môn học'
+  const outline = level ? buildLevelOutline(level.id, outlineCtx) : undefined
+  const {
+    rail: mucLuc,
+    trigger,
+    sheet,
+  } = useOutlinePane({
+    outline,
+    title: tenMucLuc,
+    storageKey: level?.id ?? 'lap-trinh',
+    isDesktop,
+    ...(outlineCtx.progressState === 'error'
+      ? { footer: <LoiTienDo onRetry={outlineCtx.reload} /> }
+      : {}),
+  })
 
   // Đã vào được bậc này thì ghi nhớ — luật khoá có siết sau này cũng không lấy lại quyền đã có.
   useEffect(() => {
@@ -112,39 +110,12 @@ export default function ProgrammingLevelPage() {
       </div>
     ) : null
 
-  /* Mục lục unit — thứ học viên quét mắt nhiều nhất ở trang này. Mã mục dùng tiền tố `unit-`
-     để không đụng id nào khác trên trang. */
-  const tocItems: TocItem[] = coNhom
-    ? nhomUnit.map((nhom) => {
-        const bai = nhom.units.flatMap((u) => getUnitSummaries(u.id))
-        return {
-          id: `track-${nhom.track.id}`,
-          label: nhom.track.title,
-          hint: `${nhom.units.length} unit`,
-          done: bai.length > 0 && bai.every((l) => isLessonCompleted(progress, l.id)),
-        }
-      })
-    : level.units.map((unit) => {
-        const lessons = getUnitSummaries(unit.id)
-        return {
-          id: `unit-${unit.id}`,
-          label: unit.title,
-          // Số bài, KHÔNG phải "U1/U2" — số thứ tự đã nằm ở cột trái của mục lục rồi.
-          hint: lessons.length > 0 ? `${lessons.length} bài` : 'sắp mở',
-          done: lessons.length > 0 && lessons.every((l) => isLessonCompleted(progress, l.id)),
-        }
-      })
-
-  /* Cột phải ở desktop: tóm tắt bậc — đích đến (chặng dự án) và mình đang ở đâu (tiến độ).
-     Đưa hai khối này ra khỏi luồng dọc giúp danh sách unit — thứ học viên thật sự cần quét
-     mắt — bắt đầu ngay đầu trang thay vì bị đẩy xuống dưới hai thẻ. */
+  /* Cột TRÁI ở desktop: mục lục cây + tóm tắt bậc — đích đến (chặng dự án) và mình đang ở đâu
+     (tiến độ). Đưa hai thẻ này ra khỏi luồng dọc giúp danh sách unit — thứ học viên thật sự
+     cần quét mắt — bắt đầu ngay đầu trang thay vì bị đẩy xuống dưới hai thẻ. */
   const rail = (
     <div className="space-y-4">
-      <TocRail
-        items={tocItems}
-        activeId={activeUnit}
-        title={coNhom ? `Mục lục ${nhomUnit.length} mạch` : `Mục lục ${level.units.length} unit`}
-      />
+      {mucLuc}
       {lessonCount > 0 && (
         <section className="rounded-2xl border border-line-subtle bg-surface-card p-4">
           <h2 className="t-label text-content">Tiến độ bậc</h2>
@@ -173,12 +144,15 @@ export default function ProgrammingLevelPage() {
 
       {/* [2026-09-02, đợt 1 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl">
-        <TwoPane isDesktop={isDesktop} railLabel="Tóm tắt bậc học" rail={rail}>
+        {/* [S07-2] Cột phụ đổi sang BÊN TRÁI vì nó nay là danh sách để CHỌN (cây bài học),
+            không còn chỉ là tóm tắt — xem luật `railSide` ở TwoPane.tsx. */}
+        <TwoPane isDesktop={isDesktop} railSide="left" railLabel={tenMucLuc} rail={rail}>
           <div className="space-y-6">
             <PageHeader
               title={`Bậc ${level.id.toUpperCase()} — ${level.name}`}
               subtitle={level.canDo}
             />
+            {trigger}
 
             {/* Bậc đang khoá (Free học tuần tự — GĐ3). Đề cương vẫn hiện để người học biết mình
             đang tiến tới cái gì; chỉ nút "Học bài" là chưa mở. */}
@@ -326,6 +300,7 @@ export default function ProgrammingLevelPage() {
           </div>
         </TwoPane>
       </PageShell>
+      {sheet}
     </div>
   )
 }
