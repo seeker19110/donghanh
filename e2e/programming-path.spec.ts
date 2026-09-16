@@ -53,6 +53,12 @@ test('lộ trình kiến trúc sư AI mở từ P1 và dùng URL chuẩn mới',
     operatingSystemsStage.getByRole('button', { name: 'Vào học chặng này' }),
   ).toBeVisible()
 
+  await page.goto('/lap-trinh/huong/devops', { waitUntil: 'domcontentloaded' })
+  const devopsStage = page
+    .getByRole('listitem')
+    .filter({ hasText: 'Linux, mạng và tự động hoá cơ bản' })
+  await expect(devopsStage.getByRole('button', { name: 'Vào học chặng này' })).toBeVisible()
+
   if (process.env.CAPTURE_PATH_JOURNEY === '1') {
     for (const viewport of [
       { width: 390, height: 844 },
