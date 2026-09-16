@@ -1,4 +1,4 @@
-# 0335 · 2026-09-15 · S06-1 — hợp đồng `TodayPlan`/`ResumePoint` + resolver "Hôm nay"
+# 0337 · 2026-09-16 · S06-1 — hợp đồng `TodayPlan`/`ResumePoint` + resolver "Hôm nay"
 
 - **PR:** #TBD (nháp, merge tuần tự cùng S07-2 · S05-1 · S09-1)
 - **Đặc tả:** `docs/specs/2026-09-15-learning-ux-s06-hom-nay-hoc-tiep.md` §9 mục 1 (Approved for
