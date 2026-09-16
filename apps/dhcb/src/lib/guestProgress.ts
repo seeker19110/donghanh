@@ -20,6 +20,12 @@ import { pushProgressAsync } from './progressSync'
 import { saveLessonProgress } from './programmingProgress'
 import { LEARNING_SESSION_PREFIX, moveGuestSessionsTo } from './learningSession'
 import {
+  EVIDENCE_LOG_PREFIX,
+  EVIDENCE_PENDING_PREFIX,
+  EVIDENCE_STATE_PREFIX,
+  pushGuestEvidence,
+} from './stemEvidence'
+import {
   INTENT_KEY_PREFIX,
   readLocalIntent,
   writeLocalIntent,
@@ -66,6 +72,12 @@ const ALL_PREFIXES: readonly string[] = [
   'et_chat_',
   'et_writing_',
   'et_speaking_',
+  // Bằng chứng hoàn thành bài STEM của khách (slice S11-2): nhật ký, trạng thái suy ra và hàng
+  // đợi chờ gửi lại. Đăng ký đủ CẢ BA ở đây vì `clearGuestKeys` chỉ xoá những tiền tố có trong
+  // danh sách này — bỏ sót một cái là khách SAU kế thừa kết quả của khách TRƯỚC trên cùng máy.
+  EVIDENCE_LOG_PREFIX,
+  EVIDENCE_STATE_PREFIX,
+  EVIDENCE_PENDING_PREFIX,
   // Ý định học của khách (slice S05). Đăng ký ở đây để nó vừa được DỌN sau khi hợp nhất, vừa
   // tính là "khách đã có gì đó" — nếu không, ý định sẽ mất đúng lúc người ta đăng ký tài khoản
   // (quyết định Q4 của đặc tả S05).
@@ -216,6 +228,12 @@ export async function mergeGuestProgressInto(realUid: string): Promise<boolean> 
       await saveLessonProgress(realUid, row.lessonId, row.status).catch(() => undefined)
     }
   }
+
+  // ── Bằng chứng hoàn thành bài STEM (S11-2) ──
+  // KHÔNG chép `passed` của khách sang tài khoản: gửi TRẢ LỜI THÔ kèm `attemptId` cũ để SERVER
+  // chấm lại. Nhờ vậy khách sửa localStorage thành `passed: true` cũng không thành hoàn thành,
+  // và gọi lại lần hai không sinh dòng nhật ký thứ hai (idempotent theo `attemptId`).
+  await pushGuestEvidence(guestId, realUid).catch(() => undefined)
 
   await mergeGuestIntentInto(guestId, realUid)
 
