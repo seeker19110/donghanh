@@ -138,6 +138,8 @@ describe('GET /api/progress — đọc tiến độ học', () => {
       achievements: ['first_word'],
       settings: {},
       streakFreezeDates: [],
+      // S09-1: GET trả thêm `version`; mock không có cột → mặc định 1.
+      version: 1,
     })
   })
 })
@@ -547,6 +549,8 @@ describe('Ca biên: cột DB trả NULL và chưa có bản ghi nào', () => {
       achievements: [],
       settings: {},
       streakFreezeDates: [],
+      // S09-1: GET trả thêm `version` (dòng cũ chưa có cột → 1).
+      version: 1,
     })
   })
 
@@ -598,6 +602,115 @@ describe('Ca biên: cột DB trả NULL và chưa có bản ghi nào', () => {
       }),
     )
     expect(resp.status).toBe(400)
+    expect(query).not.toHaveBeenCalled()
+  })
+})
+
+// ── S09-1: version đơn điệu + idempotency theo lần gửi ───────────────────────
+// Đặc tả: docs/specs/2026-09-15-learning-ux-s09-dong-bo-version-retry-xung-dot.md AC-1..AC-3, AC-7.
+describe('POST /api/progress — version, xung đột, replay (S09-1)', () => {
+  const ATTEMPT = 'attempt-0000-1111'
+  function envelope(baseVersion: number) {
+    return { attemptId: ATTEMPT, baseVersion, clientUpdatedAt: '2026-09-15T08:00:00.000Z' }
+  }
+
+  /** Mock `pg` theo NỘI DUNG câu SQL (thứ tự call đổi khi có/không có phong bì `sync`). */
+  function mockDb(options: {
+    existing?: Record<string, unknown>
+    nextVersion?: number
+    receipt?: { endpoint: string; response: Record<string, unknown> } | null
+  }) {
+    query.mockImplementation(async (sql: string) => {
+      const text = String(sql)
+      if (text.includes('select endpoint, response'))
+        return { rows: options.receipt ? [options.receipt] : [] }
+      if (text.includes('from public.profiles')) return { rows: [{ plan: 'free' }] }
+      if (text.includes('for update'))
+        return { rows: options.existing ? [{ ...EMPTY_PROGRESS_ROW, ...options.existing }] : [] }
+      if (text.includes('insert into english.learning_progress'))
+        return { rows: [{ version: options.nextVersion ?? 1 }] }
+      return { rows: [] }
+    })
+  }
+
+  it('AC-1 mỗi POST thành công tăng version đúng 1 và trả về version mới', async () => {
+    mockDb({ existing: { version: 4 }, nextVersion: 5 })
+    const resp = await handler(makeRequest({ learned: ['apple'], sync: envelope(4) }))
+    expect(resp.status).toBe(200)
+    const json = await resp.json()
+    expect(json).toMatchObject({ ok: true, version: 5, conflict: false, replayed: false })
+    // Bất biến: version tăng TRONG câu SQL, không tính ở tầng ứng dụng.
+    const upsert = findCall('insert into english.learning_progress')
+    expect(String(upsert?.[0])).toContain('version = english.learning_progress.version + 1')
+    expect(String(upsert?.[0])).toContain('returning version')
+  })
+
+  it('AC-1b không có phong bì `sync` (client cũ) → đường cũ y nguyên, response vẫn có version', async () => {
+    mockDb({ existing: { version: 2 }, nextVersion: 3 })
+    const resp = await handler(makeRequest({ learned: ['apple'] }))
+    const json = await resp.json()
+    expect(json).toMatchObject({ ok: true, version: 3, conflict: false })
+    // Không gửi phong bì thì KHÔNG tra và KHÔNG ghi biên nhận.
+    expect(findCall('sync_receipts')).toBeUndefined()
+  })
+
+  it('AC-2 baseVersion khớp → conflict false, KHÔNG kèm merged', async () => {
+    mockDb({ existing: { version: 3 }, nextVersion: 4 })
+    const json = (await (await handler(makeRequest({ sync: envelope(3) }))).json()) as {
+      conflict: boolean
+      merged?: unknown
+    }
+    expect(json.conflict).toBe(false)
+    expect(json.merged).toBeUndefined()
+  })
+
+  it('AC-2b baseVersion lệch → conflict true + merged là BẢN GỘP (union, không kéo lùi)', async () => {
+    mockDb({ existing: { version: 9, learned: ['cat'] }, nextVersion: 10 })
+    const json = (await (
+      await handler(makeRequest({ learned: ['dog'], sync: envelope(3) }))
+    ).json()) as {
+      version: number
+      conflict: boolean
+      merged: { learned: string[] }
+    }
+    expect(json).toMatchObject({ version: 10, conflict: true })
+    // Merge vẫn là luật domain cũ: union — cả hai từ đều còn.
+    expect([...json.merged.learned].sort()).toEqual(['cat', 'dog'])
+  })
+
+  it('AC-3 gửi trùng attemptId → replay: không merge, không thưởng, không ghi daily_plan', async () => {
+    mockDb({
+      receipt: { endpoint: 'progress', response: { ok: true, version: 7, conflict: false } },
+    })
+    const resp = await handler(makeRequest({ learned: ['apple'], sync: envelope(6) }))
+    expect(resp.status).toBe(200)
+    expect(await resp.json()).toEqual({ ok: true, version: 7, conflict: false, replayed: true })
+    expect(findCall('insert into english.learning_progress')).toBeUndefined()
+    expect(findCall('grant_daily_bonus_rolling')).toBeUndefined()
+    expect(findCall('daily_plan_completions')).toBeUndefined()
+  })
+
+  it('AC-3b biên nhận của endpoint KHÁC → 409, không ghi gì', async () => {
+    mockDb({ receipt: { endpoint: 'programming-progress', response: { ok: true } } })
+    const resp = await handler(makeRequest({ sync: envelope(1) }))
+    expect(resp.status).toBe(409)
+    expect(findCall('insert into english.learning_progress')).toBeUndefined()
+  })
+
+  it('biên nhận ghi TRONG cùng transaction với upsert (trước commit)', async () => {
+    mockDb({ existing: { version: 1 }, nextVersion: 2 })
+    await handler(makeRequest({ learned: ['apple'], sync: envelope(1) }))
+    const order = query.mock.calls.map(([s]) => String(s).trim().toLowerCase())
+    const receiptIdx = order.findIndex((s) => s.includes('insert into public.sync_receipts'))
+    expect(receiptIdx).toBeGreaterThan(-1)
+    expect(receiptIdx).toBeLessThan(order.lastIndexOf('commit'))
+  })
+
+  it('AC-7 429 mang header Retry-After: 60; đếm lượt chạy TRƯỚC khi tra biên nhận', async () => {
+    vi.mocked(checkRateLimit).mockResolvedValueOnce(false)
+    const resp = await handler(makeRequest({ sync: envelope(1) }))
+    expect(resp.status).toBe(429)
+    expect(resp.headers.get('Retry-After')).toBe('60')
     expect(query).not.toHaveBeenCalled()
   })
 })

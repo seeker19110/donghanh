@@ -47,16 +47,20 @@
 
 ## 3. Milestones và slices
 
-| ID    | Outcome/AC                                                     | Dependency | Spec                                          | Issue | PR   | State   | Evidence                  |
-| ----- | -------------------------------------------------------------- | ---------- | --------------------------------------------- | ----- | ---- | ------- | ------------------------- |
-| M1/S1 | Đặc tả chương trình, coverage map và kế hoạch phát hành        | —          | `2026-09-15-khoa-kien-truc-su-phan-mem-ai.md` | —     | #938 | DONE    | Spec đã duyệt và merge    |
-| M1/S2 | Manifest mới + chặng xương sống P1–P4 hiện đúng trong UI       | S1 duyệt   | cùng spec                                     | —     | #942 | WAITING | Unit 20 test + E2E 1 test |
-| M2/S1 | Nền CS: toán, DSA, OS, concurrency, network, Linux có bài thật | M1         | viết trước slice                              | —     | —    | BACKLOG |                           |
-| M3/S1 | Backend, data, distributed systems và reliability hoàn chỉnh   | M2         | viết trước slice                              | —     | —    | BACKLOG |                           |
-| M4/S1 | ML/LLM, RAG, evaluation và AI security hoàn chỉnh              | M3         | viết trước slice                              | —     | —    | BACKLOG |                           |
-| M5/S1 | Serving, LLMOps, agent runtime, GPU/K8s và observability       | M4         | viết trước slice                              | —     | —    | BACKLOG |                           |
-| M6/S1 | Enterprise architecture, governance, FinOps và leadership      | M5         | viết trước slice                              | —     | —    | BACKLOG |                           |
-| M7/S1 | Capstone, full audit, ảnh 390/1440 và release evidence         | M2–M6      | viết trước slice                              | —     | —    | BACKLOG |                           |
+| ID     | Outcome/AC                                                   | Dependency | Spec                                          | Issue | PR   | State   | Evidence                  |
+| ------ | ------------------------------------------------------------ | ---------- | --------------------------------------------- | ----- | ---- | ------- | ------------------------- |
+| M1/S1  | Đặc tả chương trình, coverage map và kế hoạch phát hành      | —          | `2026-09-15-khoa-kien-truc-su-phan-mem-ai.md` | —     | #938 | DONE    | Spec đã duyệt và merge    |
+| M1/S2  | Manifest mới + chặng xương sống P1–P4 hiện đúng trong UI     | S1 duyệt   | cùng spec                                     | —     | #942 | DONE    | CI xanh, merge `9491afb7` |
+| M2/S1a | `mathforcode-s1`: số, logic, modulo, Big-O có bài thật       | M1         | `2026-09-16-mathforcode-s1-bai-hoc-that.md`   | —     | #945 | WAITING | Source chờ CI/review      |
+| M2/S1b | `mathforcode-s2..s4`: xác suất, tuyến tính, giải tích        | S1a        | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M2/S1c | `algo-s1..s2`: DSA và complexity có bài thật                 | S1a        | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M2/S1d | `systems-s1..s2`: OS, concurrency, network có bài thật       | S1c        | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M2/S1e | `devops-s1` + Runtime Lab Linux                              | S1d        | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M3/S1  | Backend, data, distributed systems và reliability hoàn chỉnh | M2         | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M4/S1  | ML/LLM, RAG, evaluation và AI security hoàn chỉnh            | M3         | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M5/S1  | Serving, LLMOps, agent runtime, GPU/K8s và observability     | M4         | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M6/S1  | Enterprise architecture, governance, FinOps và leadership    | M5         | viết trước slice                              | —     | —    | BACKLOG |                           |
+| M7/S1  | Capstone, full audit, ảnh 390/1440 và release evidence       | M2–M6      | viết trước slice                              | —     | —    | BACKLOG |                           |
 
 State hợp lệ: BACKLOG / RESEARCH / SPEC / READY / BUILDING / VERIFYING / WAITING / BLOCKED /
 DONE / DROPPED.
@@ -74,13 +78,12 @@ DONE / DROPPED.
 
 ## 5. Current truth
 
-- Commit `main` chứa đặc tả đã duyệt: `0ae05397` (PR #938).
-- Goal gap hiện tại: M1/S2 đã triển khai trong PR #942 và đang chờ CI/merge; 14/27 chặng chuyên
-  sâu của `principal-ai` vẫn chưa có unit thật.
-- Blocker/câu hỏi mở: không còn blocker thiết kế; M1/S2 đang qua cổng PR; deploy production vẫn
-  ngoài phạm vi được cấp.
-- Next best slice: hoàn tất M1/S2, rồi đặc tả M2/S1 trước khi viết nội dung nền CS.
-- Quyền hoặc quyết định cần thêm: không cần cho M1/S2; deploy production chưa được cấp.
+- `main` đã có M1/S2 qua PR #942, merge commit `9491afb7`; CI bắt buộc xanh.
+- Goal gap hiện tại: `mathforcode-s1` đã có bài trên nhánh source; còn 13/27 chặng chuyên sâu
+  của `principal-ai` chưa có unit thật.
+- Blocker/câu hỏi mở: không; production deploy vẫn ngoài phạm vi được cấp.
+- Next best slice: M2/S1b — đặc tả xác suất, đại số tuyến tính và giải tích sau khi #945 merge.
+- Quyền hoặc quyết định cần thêm: không cho M2/S1a.
 
 ## 6. Iteration log
 
@@ -129,6 +132,39 @@ DONE / DROPPED.
   do test gọi nhầm `PROGRESS.md` thật; các test liên quan thay đổi đều xanh.
 - Next best slice: M2/S1 — viết đặc tả lát cắt nội dung nền CS đầu tiên.
 - Quyền cần thêm: không; production deploy vẫn ngoài phạm vi.
+
+### Iteration 4 — 2026-09-16
+
+- State: SPEC.
+- Slice: M2/S1a — bài học thật cho `mathforcode-s1`.
+- Goal gap trước/sau: M1/S2 chờ merge → đã merge; milestone nền CS quá rộng → năm lát cắt nhỏ,
+  trong đó lát đầu có hợp đồng bốn unit/tám lesson đo được.
+- Research/spec/issue/PR: `docs/specs/2026-09-16-mathforcode-s1-bai-hoc-that.md`; PR #943.
+- Thay đổi: tài liệu và goal; chưa đổi runtime.
+- Validation và test count: Prettier + `git diff --check` trước PR.
+- Metric/guardrail: giữ mọi id đã phát hành; chỉ khai stage có bài sau khi code/test thật tồn tại.
+- Quyết định: một module = một unit = hai lesson; Python thuần và tất định.
+- Blocker: không.
+- Next best slice: implement `p6-u134..p6-u137` sau khi PR đặc tả merge.
+- Quyền cần thêm: không.
+
+### Iteration 5 — 2026-09-16
+
+- State: WAITING.
+- Slice: M2/S1a — thi hành `mathforcode-s1`.
+- Goal gap trước/sau: 14/27 chặng chuyên sâu rỗng → còn 13/27; chặng đầu nền CS có bốn unit và
+  tám bài tương tác chạy Python thật.
+- Research/spec/issue/PR: spec PR #943 đã merge; source PR #945 đang chờ CI/review.
+- Thay đổi: `p6-u134..u137`, registry/curriculum/stage mapping/lazy index, E2E và sửa generator
+  URL đa nền tảng.
+- Validation và test count: 24 lượt Python mục tiêu và 2.929 test schema/nội dung liên quan
+  xanh; typecheck/lint/format/build xanh; full suite 13.078 xanh, 5 lỗi môi trường có sẵn và một
+  timeout Swift đã chạy riêng xanh 44/44; E2E Chromium cùng ảnh 390px/1440px đạt.
+- Metric/guardrail: mọi id cũ giữ nguyên; stage chỉ mở sau khi unit/bài/test thật tồn tại.
+- Quyết định: bốn module tách bốn unit, mỗi unit hai lesson; Make có ca hiện và ca ẩn.
+- Blocker: không.
+- Next best slice: theo dõi #945 đến khi merge, sau đó đặc tả M2/S1b.
+- Quyền cần thêm: không; production deploy ngoài phạm vi.
 
 ## 7. Final audit
 

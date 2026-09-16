@@ -743,6 +743,29 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         title: 'Hướng Di động S1 — điều hướng & lưu trữ: ngăn xếp màn, deep link, migration',
         topics: 'push/pop/replace/popToRoot, deep link dựng lại cả ngăn xếp; migration từng bậc',
       },
+      // p6-u134…u137: chặng S1 "Nền tảng rời rạc cho lập trình viên" của hướng Toán học
+      // cho Lập trình (mathforcode-s1). Mỗi unit phủ đúng một module vì bốn cơ chế có ca biên
+      // và bằng chứng độc lập; đặc tả: docs/specs/2026-09-16-mathforcode-s1-bai-hoc-that.md.
+      {
+        id: 'p6-u134',
+        title: 'Toán cho Lập trình S1 — số trong máy: nhị phân, bù 2 và sai số dấu phẩy động',
+        topics: 'Biểu diễn có số bit tường minh; miền số có dấu; epsilon và math.isclose',
+      },
+      {
+        id: 'p6-u135',
+        title: 'Toán cho Lập trình S1 — logic Boolean: De Morgan, ngắn mạch và bit mask',
+        topics: 'Bảng chân trị chứng minh tương đương; bật/tắt/kiểm cờ không phá cờ khác',
+      },
+      {
+        id: 'p6-u136',
+        title: 'Toán cho Lập trình S1 — modulo: chỉ số vòng và mã kiểm tra',
+        topics: 'Wrap-around với bước âm; buffer vòng; Luhn và phát hiện lỗi nhập liệu',
+      },
+      {
+        id: 'p6-u137',
+        title: 'Toán cho Lập trình S1 — đếm phép tính và Big-O bằng số đo',
+        topics: 'Tổng tam giác, chia đôi logarit; đối chiếu công thức với bộ đếm thật',
+      },
       // p6-u66..u68: chặng S1 của hướng Dữ liệu (data-s1, specializations/data.ts, 4 module).
       // p3-u8/p3-u9 đã dạy SELECT/JOIN/GROUP BY/HAVING cơ bản — u66 đi XA HƠN (hàm cửa sổ, CTE)
       // để không dạy trùng. Đăng ký cầu nối ở `specializations/stageUnits.ts`.
