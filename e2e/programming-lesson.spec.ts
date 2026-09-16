@@ -624,7 +624,13 @@ test('quay lại từ bài học về ĐÚNG bậc của bài, không phải P1'
 
   // Huy hiệu ngôn ngữ của bài hiện ngay đầu trang (PR-UX1, vá V7). Bài Git chạy trên bộ mô
   // phỏng nên phải tự khai điều đó.
-  await expect(page.getByText('· mô phỏng').first()).toBeVisible()
+  //
+  // Trên dev server NGUỘI, expect đầu tiên sau `goto` phải chờ Vite dịch lần đầu chunk trang
+  // bài học + component mô phỏng — đo thật (`playwright.config.cold.ts` tạm, cổng riêng,
+  // `reuseExistingServer: false`, 2026-09-16, 1 worker): ~3,0s một mình, đã ~60% ngưỡng mặc
+  // định 5000ms; chạy song song với spec khác (CPU tranh chấp) thì giãn thêm và có thể vượt
+  // ngưỡng — đúng khuôn "chạy riêng xanh, chạy song song đỏ" đã báo. Nới đúng expect này.
+  await expect(page.getByText('· mô phỏng').first()).toBeVisible({ timeout: 30_000 })
 
   await page.getByRole('button', { name: 'Trang chủ' }).click()
   // [S07-2] Lối về nay dựng bằng `duongDanBac` nên là URL CHUẨN `<mã>--<tên đã slug hoá>`,

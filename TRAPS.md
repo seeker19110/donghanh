@@ -257,6 +257,25 @@ biết flaky; còn file nào khác lộ ra theo cùng khuôn (`Test timed out in
 `test:coverage` full, xanh khi chạy riêng) thì áp đúng quy trình hai bước ở trên — đo trước,
 phân loại nguyên nhân, rồi mới chọn sửa nhanh hay nới ngưỡng.
 
+**Biến thể E2E — "dev server NGUỘI" (2026-09-16, trả nợ ba ca flaky báo cáo tay):** cùng khuôn
+timeout-5s nhưng ở tầng E2E (Playwright) thay vì Vitest, và nguyên nhân khác: KHÔNG phải CPU
+tranh chấp giữa các test, mà là **Vite dev server chưa transform module lần nào** phải dịch cả
+chunk trang (React mount + fetch dữ liệu tĩnh lớn qua `/public/data/*.json` — `cefr.json` 228KB,
+`curriculum.json` 3,6MB) ngay trong lượt gọi `expect()` ĐẦU TIÊN sau `page.goto()`. Ca này CHỈ lộ
+ra khi server thật sự nguội (container mới khởi, hoặc file bị Vite invalidate) — `npm run dev`
+đã chạy sẵn (ấm) thì luôn xanh, khiến kiểm tra "chạy lại thử xem" ở máy dev bình thường không
+bắt được. Ba ca: `e2e/comeback.spec.ts` ("vắng 5 ngày"), `e2e/listening.spec.ts` (cả ba ca, tab
+Nghe ở trang cấp CEFR), `e2e/programming-lesson.spec.ts` ("quay lại từ bài học về ĐÚNG bậc").
+Đo thật bằng `playwright.config.ts` tạm đổi cổng riêng (ví dụ 5381) + `reuseExistingServer:
+false` để CHẮC CHẮN server là mới khởi (cổng 5179 mặc định `reuseExistingServer:
+!process.env.CI` nên dễ nối nhầm vào dev server ấm của worktree khác — xem mục "Cổng 5179 dùng
+chung" trong đặc tả giao việc): expect đầu tiên sau `goto` một mình mất 2,6–3,3s (≈55–65%
+ngưỡng), chạy song song 2 worker có lượt lên 6,8s tổng thời gian ca — đủ để vượt ngưỡng mặc định
+5000ms dưới tải CPU nặng hơn của suite đầy đủ. Sửa: nới `timeout` CỦA ĐÚNG expect đầu tiên sau
+mỗi `goto` (không nới cả file/cả suite), kèm comment số đo. Xác nhận hết flaky: 5 lượt liên tiếp
+trên server nguội, 2 worker, chạy chung nhiều spec — 25/25 ca xanh (`docs/changelog/` đợt việc
+này có số PR + log đầy đủ).
+
 ## 8. Ký tự điều khiển gõ THẲNG vào mã nguồn → `git diff` thành nhị phân, file trượt khỏi review
 
 **Ngày/PR:** file vào `main` ở #932 (2026-09-15), phát hiện + trả nợ ở PR #964
