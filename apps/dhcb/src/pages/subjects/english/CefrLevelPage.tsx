@@ -18,7 +18,8 @@
 //   ẩn thanh tab.
 // ──────────────────────────────────────────────────────────────────────
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { z } from 'zod'
 import { useParams, useNavigate, useSearchParams, Navigate } from 'react-router-dom'
 import {
   ChevronLeft,
@@ -95,8 +96,11 @@ import { useOutlinePane } from '../../../components/useOutlinePane'
 import {
   buildCefrOutline,
   docHoatDongTuQuery,
+  duongDanHoatDongCefr,
   nodeIdHoatDong,
+  type CefrActivityRef,
 } from '../../../lib/outline/cefrOutline'
+import { useLearningSession } from '../../../lib/useLearningSession'
 import { PageShell } from '@core/PageShell'
 import { TwoPane } from '@core/TwoPane'
 import { countBadgeClass, badgeCount } from '@core/badgeStyles'
@@ -106,8 +110,56 @@ const pct = (done: number, total: number) => (total > 0 ? Math.round((done / tot
 
 // Tab trên trang cấp: 'lessons' = danh sách bài; 5 tab còn lại là tab học theo cấp
 // ('listening' = luyện nghe, ③ N3 — thêm 2026-07-16).
-type StudyTab = 'lessons' | 'today' | 'srs' | 'hard' | 'quiz' | 'listening'
-const STUDY_TABS: StudyTab[] = ['lessons', 'today', 'srs', 'hard', 'quiz', 'listening']
+const STUDY_TABS = ['lessons', 'today', 'srs', 'hard', 'quiz', 'listening'] as const
+type StudyTab = (typeof STUDY_TABS)[number]
+
+// ── Phiên học của TRANG CẤP (khung phiên S08, lib/learningSession.ts) ──────────────────
+// Nháp ở đây KHÔNG phải nội dung bài: chỉ là VỊ TRÍ đang học (tab nào, đang mở hoạt động nào)
+// để reload/đóng tab xong quay lại đúng chỗ. Không chạm tiến độ, không gọi API.
+const MON = 'english'
+// Nội dung của trang không "hết hạn" theo cách nháp code hết hạn: thứ khôi phục là MÃ hoạt
+// động, và mã nào không còn trong dữ liệu cấp thì bị bỏ qua (xem `coHoatDong`). Vì vậy phiên
+// bản nội dung ở đây là hằng — đổi nó chỉ khi khuôn nháp bên dưới đổi.
+const PHIEN_BAN_NHAP_CAP = 'cefr-level-v1'
+
+const nhapCapSchema = z.object({
+  tab: z.enum(STUDY_TABS),
+  /** Hoạt động đang mở (từ vựng/ngữ pháp/hội thoại) — `null` là đang ở màn danh sách. */
+  hd: z
+    .object({
+      unitId: z.string().min(1),
+      kind: z.enum(['vocab', 'grammar', 'dialogue']),
+      contentId: z.string().min(1),
+    })
+    .nullable(),
+})
+type NhapCap = z.infer<typeof nhapCapSchema>
+
+const NHAN_TAB: Record<StudyTab, string> = {
+  lessons: 'Bài học',
+  today: 'Hôm nay',
+  srs: 'Ôn SRS',
+  hard: 'Từ khó',
+  quiz: 'Kiểm tra',
+  listening: 'Nghe',
+}
+
+/** Khoá so sánh một hoạt động (dùng cho dependency của effect — chuỗi, không phải object). */
+const khoaHoatDong = (hd: CefrActivityRef | null): string =>
+  hd ? `${hd.unitId}|${hd.kind}|${hd.contentId}` : ''
+
+/**
+ * Mã trong nháp còn tồn tại trong dữ liệu cấp không. Bài bị gỡ/đổi mã thì KHÔNG mở lại — thà
+ * hiện màn danh sách còn hơn đưa người học tới một màn con rỗng.
+ */
+function coHoatDong(level: CefrLevel, hd: CefrActivityRef): boolean {
+  const unit = level.units.find((u) => u.id === hd.unitId)
+  if (!unit) return false
+  if (hd.kind === 'grammar') return unit.grammar.some((g) => g.id === hd.contentId)
+  if (hd.kind === 'vocab') return unit.vocabCircleIds.includes(hd.contentId)
+  // Hội thoại: MỘT hoạt động cho cả unit (cefrOutline.ts), mã nội dung chính là mã unit.
+  return hd.contentId === unit.id
+}
 
 // Tên mục lục — cũng là nhãn nút mở panel trên mobile (S07-3 AC-20).
 const TEN_MUC_LUC = 'Mục lục cấp học'
@@ -116,7 +168,7 @@ export default function CefrLevelPage() {
   const { levelId } = useParams<{ levelId: string }>()
   const nav = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
-  const { user } = useAuth()
+  const { user, loading: dangTaiDanhTinh, isGuest } = useAuth()
   const isA = getDirection() === 'A'
   // Master–detail ở desktop (≥1024px): khi mở 1 màn con, hiện thêm cột trái là danh sách
   // MỤC LỤC CÂY của cấp (xem `mucLuc`/`shell`) — bấm mục khác đổi luôn cột phải, không cần
@@ -129,10 +181,58 @@ export default function CefrLevelPage() {
 
   // Tab đang mở — cho phép mở thẳng qua URL `?tab=` (vd link "Học tiếp" ở Home),
   // mặc định danh sách bài của cấp nếu không có/param không hợp lệ.
-  const [tab, setTab] = useState<StudyTab>(() => {
+  //
+  // URL THẮNG NHÁP (AC-18 của đặc tả S08): còn `?tab=` trên URL thì tab đó thắng, để link
+  // "Học tiếp" ở Trang chủ và `?tab=&cap=` của `comeback.ts` không bị nháp cũ đè lên.
+  const tabTuUrl = useMemo<StudyTab | null>(() => {
     const t = searchParams.get('tab')
-    return (STUDY_TABS as string[]).includes(t ?? '') ? (t as StudyTab) : 'lessons'
+    return (STUDY_TABS as readonly string[]).includes(t ?? '') ? (t as StudyTab) : null
+  }, [searchParams])
+
+  // Owner `null` khi AuthProvider chưa xong → hook ở trạng thái `loading`, tuyệt đối không ghi.
+  const owner = useMemo(
+    () =>
+      dangTaiDanhTinh || !user
+        ? null
+        : { kind: isGuest ? ('guest' as const) : ('account' as const), id: user.id },
+    [dangTaiDanhTinh, user, isGuest],
+  )
+  const maCap = (levelId ?? '').toUpperCase()
+  const nhapBanDau = useCallback(
+    () => ({
+      stepIndex: tabTuUrl ? STUDY_TABS.indexOf(tabTuUrl) : 0,
+      draft: { tab: tabTuUrl ?? 'lessons', hd: null } as NhapCap,
+    }),
+    [tabTuUrl],
+  )
+  const nhanBuoc = useCallback((i: number) => NHAN_TAB[STUDY_TABS[i] ?? 'lessons'], [])
+  const phien = useLearningSession<NhapCap>({
+    owner,
+    subjectId: MON,
+    // Phiên gắn với CẤP, không phải với một bài — thứ nó nhớ là vị trí trong trang cấp.
+    contentId: `cefr-level:${maCap || 'none'}`,
+    contentVersion: PHIEN_BAN_NHAP_CAP,
+    draftSchema: nhapCapSchema,
+    initial: nhapBanDau,
+    stepLabel: nhanBuoc,
   })
+  const { setDraft: datNhapPhien, setStep: datBuocPhien } = phien
+  const tab: StudyTab = tabTuUrl ?? phien.draft.tab
+  const setTab = useCallback(
+    (k: StudyTab) => {
+      datNhapPhien((d) => ({ ...d, tab: k }))
+      datBuocPhien(STUDY_TABS.indexOf(k))
+      // Người học tự bấm tab → bỏ chỉ định `?tab=` trên URL, nếu không mọi cú bấm sau đều bị
+      // tham số cũ đè lên (URL chỉ thắng lúc MỞ trang). Giữ nguyên `?cap=`: hành vi giới hạn
+      // phiên không đổi so với trước.
+      if (searchParams.has('tab')) {
+        const sau = new URLSearchParams(searchParams)
+        sau.delete('tab')
+        setSearchParams(sau, { replace: true })
+      }
+    },
+    [datNhapPhien, datBuocPhien, searchParams, setSearchParams],
+  )
   // Giới hạn phiên RIÊNG cho tab đang mở qua URL `?cap=` — dùng cho luồng "quay
   // lại sau khi bỏ bẵng" (② M4, lib/comeback.ts): Home trỏ tới `?tab=today&cap=3`
   // hoặc `?tab=srs&cap=5` để phiên đầu nhẹ nhàng hơn, không đổi tốc độ đã lưu.
@@ -423,6 +523,47 @@ export default function CefrLevelPage() {
     sau.delete('hd')
     setSearchParams(sau, { replace: true })
   }, [searchParams, setSearchParams])
+
+  // ── Khôi phục vị trí đang học (AC-18) ─────────────────────────────────
+  // Hoạt động đang mở, suy từ URL trước (nguồn sự thật), rồi mới tới state màn con khi người
+  // học bấm thẳng trong danh sách (đường đó không ghi URL). Hội thoại ĐÈ LÊN màn từ vựng nên
+  // cố tình không ghi vào nháp: mở lại trang thì về đúng vòng từ vựng bên dưới.
+  const hdHienTai = useMemo<CefrActivityRef | null>(() => {
+    if (hoatDongUrl) return hoatDongUrl
+    if (!level) return null
+    if (lesson) {
+      const u = level.units.find((x) => x.grammar.some((g) => g.id === lesson.id))
+      return u ? { unitId: u.id, kind: 'grammar', contentId: lesson.id } : null
+    }
+    if (circle) {
+      const u = level.units.find((x) => x.vocabCircleIds.includes(circle.id))
+      return u ? { unitId: u.id, kind: 'vocab', contentId: circle.id } : null
+    }
+    return null
+  }, [hoatDongUrl, level, lesson, circle])
+  const khoaHdHienTai = khoaHoatDong(hdHienTai)
+
+  // Mở lại màn con của lần trước — ĐÚNG MỘT LẦN, ngay khi biết danh tính + dữ liệu cấp.
+  // Cách mở là ĐIỀU HƯỚNG tới `?unit=&hd=` (hàm dựng URL dùng chung), để Back/Forward, mục lục
+  // và màn con vẫn chỉ có một nguồn sự thật thay vì hai đường mở khác nhau.
+  const daKhoiPhucRef = useRef(false)
+  useEffect(() => {
+    if (daKhoiPhucRef.current) return
+    if (!level || phien.status === 'loading') return
+    daKhoiPhucRef.current = true
+    const hd = phien.draft.hd
+    // URL đã chỉ đích danh (hoạt động hoặc tab) thì URL thắng — không mở đè lên.
+    if (!hd || hoatDongUrl || tabTuUrl) return
+    if (!coHoatDong(level, hd)) return
+    nav(duongDanHoatDongCefr(level.id, hd.unitId, hd.kind, hd.contentId), { replace: true })
+  }, [level, phien.status, phien.draft.hd, hoatDongUrl, tabTuUrl, nav])
+
+  // Ghi vị trí đang học xuống nháp (hook tự gộp + trì hoãn 500 ms). Chỉ chạy SAU lượt khôi
+  // phục ở trên, nếu không lần ghi đầu tiên sẽ xoá mất cái vừa định mở.
+  useEffect(() => {
+    if (!daKhoiPhucRef.current) return
+    datNhapPhien((d) => (khoaHoatDong(d.hd) === khoaHdHienTai ? d : { ...d, hd: hdHienTai }))
+  }, [khoaHdHienTai, hdHienTai, datNhapPhien])
 
   if (!user) return null
   // Dữ liệu đã tải mà không tìm thấy cấp (URL sai kiểu /lo-trinh-hoc/c9) → về lộ trình.
@@ -746,6 +887,9 @@ export default function CefrLevelPage() {
             <button
               key={key}
               onClick={() => setTab(key)}
+              // Nút chuyển trạng thái (không phải tablist ARIA đầy đủ) → `aria-pressed` là cách
+              // đúng để trình đọc màn hình biết tab nào đang bật; trước đây chỉ có màu sắc.
+              aria-pressed={activeTab === key}
               className={`relative flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-xl text-xs font-medium transition ${activeTab === key ? active : inactive}`}
             >
               <Icon className="w-4 h-4" />
