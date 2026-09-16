@@ -28,12 +28,14 @@ import { FREE_WEEKLY_BONUS_PER_DAY } from '@dhcb/core-billing/usage'
 import { withTransaction } from '@dhcb/core-db/transaction'
 import { resolvePlan } from '@dhcb/core-billing/plan'
 import { computeUnlockedLevels } from '@dhcb/core-learner/cefrUnlock'
+import { SyncEnvelopeSchema } from '@dhcb/core-contracts/sync'
 import {
   mergeSrsMap,
   mergeExamMap,
   mergeByTimestamp,
   mergeArrayUnion,
 } from '../_lib/progressMerge.js'
+import { findReceipt, saveReceipt } from '../_lib/syncReceipt.js'
 
 // Giới hạn kích thước hợp lý — chặn payload bất thường (DoS/lỗi client) mà vẫn đủ rộng
 // cho người học nhiều năm (từ điển app hiện ~12.000 từ).
@@ -52,6 +54,9 @@ const ProgressSchema = z.object({
   achievements: z.array(z.string()).max(MAX_ARR).default([]),
   settings: z.record(z.string(), z.unknown()).default({}),
   streakFreezeDates: z.array(z.string()).max(MAX_ARR).default([]),
+  // S09-1: phong bì đồng bộ TUỲ CHỌN — client cũ không gửi thì đi đúng đường cũ, chỉ mất
+  // idempotency/phát hiện xung đột chứ không đổi hành vi merge.
+  sync: SyncEnvelopeSchema.optional(),
 })
 
 interface ProgressRow {
@@ -69,6 +74,24 @@ interface ProgressRow {
   achievements: string[]
   settings: Record<string, unknown>
   streak_freeze_dates: string[]
+  /** S09-1: version đơn điệu do server tăng mỗi lần ghi (migration 0083, mặc định 1). */
+  version: number
+}
+
+/** Tài liệu tiến độ camelCase — đúng hình dạng GET trả về, dùng lại cho `merged` khi xung đột. */
+interface ProgressDoc {
+  learned: string[]
+  hard: string[]
+  srs: Record<string, unknown>
+  cefrGrammar: string[]
+  cefrDialogues: string[]
+  cefrUnlocked: string[]
+  cefrExams: Record<string, unknown>
+  placement: Record<string, unknown>
+  weeklyGoal: Record<string, unknown>
+  achievements: string[]
+  settings: Record<string, unknown>
+  streakFreezeDates: string[]
 }
 
 const DAILY_PLAN_VERSION = 'p1.1'
@@ -141,7 +164,12 @@ export default async function handler(req: Request): Promise<Response> {
   const clientIp = getClientIp(req)
   if (!(await checkRateLimit(clientIp, 30, 'progress'))) {
     logSecurityEvent('RATE_LIMIT_EXCEEDED', clientIp, { path: '/api/progress' })
-    return jsonResponse({ error: 'Quá nhiều yêu cầu — thử lại sau 1 phút' }, 429, allHeaders)
+    // S09-1: nói rõ phải chờ bao lâu để hàng đợi client lùi ĐÚNG số giây thay vì đoán.
+    // Lưu ý: đếm lượt chạy TRƯỚC khi tra biên nhận — không ai dùng replay để dò receipt miễn phí.
+    return jsonResponse({ error: 'Quá nhiều yêu cầu — thử lại sau 1 phút' }, 429, {
+      ...allHeaders,
+      'Retry-After': '60',
+    })
   }
 
   const auth = await validateAuth(req)
@@ -153,7 +181,7 @@ export default async function handler(req: Request): Promise<Response> {
     const { rows } = await pool.query<ProgressRow>(
       `select learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked,
               cefr_unlocked_grandfathered, cefr_exams,
-              placement, weekly_goal, achievements, settings, streak_freeze_dates
+              placement, weekly_goal, achievements, settings, streak_freeze_dates, version
          from english.learning_progress where user_id = $1`,
       [auth.userId],
     )
@@ -180,6 +208,8 @@ export default async function handler(req: Request): Promise<Response> {
         achievements: row.achievements ?? [],
         settings: row.settings ?? {},
         streakFreezeDates: row.streak_freeze_dates ?? [],
+        // Dòng có từ trước migration 0083 vẫn là 1 nhờ `default 1`; `?? 1` chỉ phòng driver/mock.
+        version: row.version ?? 1,
       },
       200,
       allHeaders,
@@ -198,6 +228,21 @@ export default async function handler(req: Request): Promise<Response> {
     return jsonResponse({ error: result.error.message }, result.error.status, allHeaders)
 
   const d = result.data
+  const sync = d.sync
+
+  // S09-1 bước 2 — TRA BIÊN NHẬN TRƯỚC TRANSACTION. Có biên nhận nghĩa là request này đã được
+  // xử lý trọn vẹn ở lần gửi trước (server commit rồi mới rớt mạng): trả lại ĐÚNG response cũ,
+  // KHÔNG merge lại, KHÔNG cộng thưởng lại, KHÔNG ghi `daily_plan_completions` lại.
+  if (sync) {
+    const receipt = await findReceipt(pool, auth.userId, sync.attemptId)
+    if (receipt) {
+      if (receipt.endpoint !== 'progress') {
+        // Ca hiếm, chỉ do bug client: cùng attemptId dùng cho hai endpoint khác nhau.
+        return jsonResponse({ error: 'attemptId đã dùng cho endpoint khác' }, 409, allHeaders)
+      }
+      return jsonResponse({ ...receipt.response, replayed: true }, 200, allHeaders)
+    }
+  }
 
   // Quyết định 2026-07-26 (đổi cơ chế trượt 2026-07-27): gói Free tích lượt AI — +5 lượt
   // mỗi ngày người dùng THỰC SỰ học (không bắt buộc dùng lượt AI), tính theo cửa sổ TRƯỢT
@@ -222,66 +267,73 @@ export default async function handler(req: Request): Promise<Response> {
   // row lock của learning_progress và giữ vùng khoá gọn nhất có thể.
   const plan = await readEffectivePlan(pool, auth.userId)
 
-  const { didGrowLearning: grewLearning, cefrUnlocked } = await withTransaction(
-    pool,
-    async (client) => {
-      // Khoá state hiện tại để hai thiết bị không cùng suy completion từ một bản trước merge.
-      const { rows: existingRows } = await client.query<ProgressRow>(
-        `select learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked,
+  const {
+    didGrowLearning: grewLearning,
+    cefrUnlocked,
+    version: newVersion,
+    conflict,
+    merged: mergedDoc,
+  } = await withTransaction(pool, async (client) => {
+    // Khoá state hiện tại để hai thiết bị không cùng suy completion từ một bản trước merge.
+    const { rows: existingRows } = await client.query<ProgressRow>(
+      `select learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked,
               cefr_unlocked_grandfathered, cefr_exams,
-              placement, weekly_goal, achievements, settings, streak_freeze_dates
+              placement, weekly_goal, achievements, settings, streak_freeze_dates, version
          from english.learning_progress where user_id = $1 for update`,
-        [auth.userId],
-      )
-      const existing = existingRows[0]
-      // Kết quả thi sau hợp nhất là ĐẦU VÀO của luật mở cấp → tính trước để dùng ở cả hai chỗ.
-      const mergedExams = mergeExamMap(existing?.cefr_exams ?? {}, d.cefrExams)
-      const merged = {
-        learned: mergeArrayUnion(existing?.learned ?? [], d.learned),
-        hard: d.hard,
-        srs: mergeSrsMap(existing?.srs ?? {}, d.srs),
-        cefrGrammar: mergeArrayUnion(existing?.cefr_grammar ?? [], d.cefrGrammar),
-        cefrDialogues: mergeArrayUnion(existing?.cefr_dialogues ?? [], d.cefrDialogues),
-        // KHÔNG merge từ client nữa (GĐ2a): server TÍNH LẠI từ gói + kết quả thi + grandfather.
-        // Cột `cefr_unlocked` từ đây chỉ là bản chụp kết quả tính, không phải lời khai của client.
-        cefrUnlocked: computeUnlockedLevels({
-          plan,
-          exams: mergedExams,
-          grandfathered: existing?.cefr_unlocked_grandfathered ?? [],
-        }),
-        cefrExams: mergedExams,
-        placement: mergeByTimestamp(existing?.placement ?? {}, d.placement, 'lastAt'),
-        weeklyGoal: mergeByTimestamp(existing?.weekly_goal ?? {}, d.weeklyGoal, 'updatedAt'),
-        achievements: mergeArrayUnion(existing?.achievements ?? [], d.achievements),
-        // settings: "lựa chọn hiện tại" (ngôn ngữ giao diện, chiều học, âm thanh, giọng đọc) —
-        // không phải tiến độ "chỉ tăng", nên hợp nhất theo mốc updatedAt MỚI HƠN thắng, giống
-        // placement/weeklyGoal.
-        settings: mergeByTimestamp(existing?.settings ?? {}, d.settings, 'updatedAt'),
-        // streakFreezeDates: vé nghỉ streak ĐÃ DÙNG là sự kiện đã xảy ra — chỉ tăng, union như
-        // learned/achievements (không bao giờ mất vé đã ghi nhận ở máy khác).
-        streakFreezeDates: mergeArrayUnion(
-          existing?.streak_freeze_dates ?? [],
-          d.streakFreezeDates,
-        ),
-      }
+      [auth.userId],
+    )
+    const existing = existingRows[0]
+    // S09-1: `for update` ở trên là thứ giữ hai request cùng user TUẦN TỰ — đừng bỏ dòng đó,
+    // nếu không hai bên cùng đọc version n rồi cùng ghi n+1 (mất dữ liệu, version trùng).
+    const existingVersion = existing?.version ?? 0
+    // Xung đột = có thiết bị khác ghi chen vào giữa lúc client đọc và lúc gửi. KHÔNG đổi luật
+    // merge: vẫn gộp bằng đúng 4 hàm domain, chỉ báo cho client biết bản cục bộ đã cũ.
+    const conflict = sync ? sync.baseVersion !== existingVersion : false
+    // Kết quả thi sau hợp nhất là ĐẦU VÀO của luật mở cấp → tính trước để dùng ở cả hai chỗ.
+    const mergedExams = mergeExamMap(existing?.cefr_exams ?? {}, d.cefrExams)
+    const merged = {
+      learned: mergeArrayUnion(existing?.learned ?? [], d.learned),
+      hard: d.hard,
+      srs: mergeSrsMap(existing?.srs ?? {}, d.srs),
+      cefrGrammar: mergeArrayUnion(existing?.cefr_grammar ?? [], d.cefrGrammar),
+      cefrDialogues: mergeArrayUnion(existing?.cefr_dialogues ?? [], d.cefrDialogues),
+      // KHÔNG merge từ client nữa (GĐ2a): server TÍNH LẠI từ gói + kết quả thi + grandfather.
+      // Cột `cefr_unlocked` từ đây chỉ là bản chụp kết quả tính, không phải lời khai của client.
+      cefrUnlocked: computeUnlockedLevels({
+        plan,
+        exams: mergedExams,
+        grandfathered: existing?.cefr_unlocked_grandfathered ?? [],
+      }),
+      cefrExams: mergedExams,
+      placement: mergeByTimestamp(existing?.placement ?? {}, d.placement, 'lastAt'),
+      weeklyGoal: mergeByTimestamp(existing?.weekly_goal ?? {}, d.weeklyGoal, 'updatedAt'),
+      achievements: mergeArrayUnion(existing?.achievements ?? [], d.achievements),
+      // settings: "lựa chọn hiện tại" (ngôn ngữ giao diện, chiều học, âm thanh, giọng đọc) —
+      // không phải tiến độ "chỉ tăng", nên hợp nhất theo mốc updatedAt MỚI HƠN thắng, giống
+      // placement/weeklyGoal.
+      settings: mergeByTimestamp(existing?.settings ?? {}, d.settings, 'updatedAt'),
+      // streakFreezeDates: vé nghỉ streak ĐÃ DÙNG là sự kiện đã xảy ra — chỉ tăng, union như
+      // learned/achievements (không bao giờ mất vé đã ghi nhận ở máy khác).
+      streakFreezeDates: mergeArrayUnion(existing?.streak_freeze_dates ?? [], d.streakFreezeDates),
+    }
 
-      // KHÔNG tính `hard`: đây chỉ là nhãn lọc. Ba tín hiệu sau là hoạt động học thật.
-      const didGrowLearning =
-        !existing ||
-        d.learned.length > (existing.learned ?? []).length ||
-        d.cefrGrammar.length > (existing.cefr_grammar ?? []).length ||
-        d.cefrDialogues.length > (existing.cefr_dialogues ?? []).length
-      const nowMs = Date.now()
-      const reviewedCardCount = existing
-        ? countCompletedDueVocabularyCards(existing.srs ?? {}, merged.srs, nowMs)
-        : 0
+    // KHÔNG tính `hard`: đây chỉ là nhãn lọc. Ba tín hiệu sau là hoạt động học thật.
+    const didGrowLearning =
+      !existing ||
+      d.learned.length > (existing.learned ?? []).length ||
+      d.cefrGrammar.length > (existing.cefr_grammar ?? []).length ||
+      d.cefrDialogues.length > (existing.cefr_dialogues ?? []).length
+    const nowMs = Date.now()
+    const reviewedCardCount = existing
+      ? countCompletedDueVocabularyCards(existing.srs ?? {}, merged.srs, nowMs)
+      : 0
 
-      await client.query(
-        `insert into english.learning_progress
+    const { rows: upsertRows } = await client.query<{ version: number }>(
+      `insert into english.learning_progress
        (user_id, learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked,
         cefr_exams, placement, weekly_goal, achievements, settings, streak_freeze_dates,
-        updated_at)
-     values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, now())
+        updated_at, version, client_updated_at)
+     values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, now(), 1, $14)
      on conflict (user_id) do update set
        learned = excluded.learned,
        hard = excluded.hard,
@@ -295,38 +347,81 @@ export default async function handler(req: Request): Promise<Response> {
        achievements = excluded.achievements,
        settings = excluded.settings,
        streak_freeze_dates = excluded.streak_freeze_dates,
-       updated_at = now()`,
-        [
-          auth.userId,
-          JSON.stringify(merged.learned),
-          JSON.stringify(merged.hard),
-          JSON.stringify(merged.srs),
-          JSON.stringify(merged.cefrGrammar),
-          JSON.stringify(merged.cefrDialogues),
-          JSON.stringify(merged.cefrUnlocked),
-          JSON.stringify(merged.cefrExams),
-          JSON.stringify(merged.placement),
-          JSON.stringify(merged.weeklyGoal),
-          JSON.stringify(merged.achievements),
-          JSON.stringify(merged.settings),
-          JSON.stringify(merged.streakFreezeDates),
-        ],
-      )
+       updated_at = now(),
+       -- version ĐƠN ĐIỆU: tăng đúng 1 mỗi lần ghi, kể cả khi payload không đổi gì (server
+       -- vẫn ghi updated_at). Tính trong CÂU LỆNH chứ không ở tầng ứng dụng để hai tiến trình
+       -- PM2 không bao giờ ghi trùng số.
+       version = english.learning_progress.version + 1,
+       client_updated_at = excluded.client_updated_at
+     returning version`,
+      [
+        auth.userId,
+        JSON.stringify(merged.learned),
+        JSON.stringify(merged.hard),
+        JSON.stringify(merged.srs),
+        JSON.stringify(merged.cefrGrammar),
+        JSON.stringify(merged.cefrDialogues),
+        JSON.stringify(merged.cefrUnlocked),
+        JSON.stringify(merged.cefrExams),
+        JSON.stringify(merged.placement),
+        JSON.stringify(merged.weeklyGoal),
+        JSON.stringify(merged.achievements),
+        JSON.stringify(merged.settings),
+        JSON.stringify(merged.streakFreezeDates),
+        sync?.clientUpdatedAt ?? null,
+      ],
+    )
+    // Dòng mới thì `version` là 1; dòng cũ thì là existingVersion + 1. `?? existingVersion + 1`
+    // chỉ để chịu được mock test không trả `returning`.
+    const newVersion = upsertRows[0]?.version ?? existingVersion + 1
 
-      if (reviewedCardCount > 0) {
-        await client.query(
-          `insert into public.daily_plan_completions
+    if (reviewedCardCount > 0) {
+      await client.query(
+        `insert into public.daily_plan_completions
            (user_id, action_kind, planner_version, source, evidence)
          values ($1, 'srs_review', $2, 'progress_merge', $3::jsonb)
          on conflict do nothing`,
-          [auth.userId, DAILY_PLAN_VERSION, JSON.stringify({ reviewedCardCount })],
-        )
-      }
-      // Trả kèm danh sách cấp server VỪA tính để client cập nhật ngay (vừa thi đạt là mở cấp sau,
-      // không phải chờ lượt pullProgress kế tiếp).
-      return { didGrowLearning, cefrUnlocked: merged.cefrUnlocked }
-    },
-  )
+        [auth.userId, DAILY_PLAN_VERSION, JSON.stringify({ reviewedCardCount })],
+      )
+    }
+    // Biên nhận ghi TRONG CÙNG transaction: hoặc cả tiến độ lẫn biên nhận cùng vào, hoặc
+    // không cái nào — không có cửa sổ "đã merge nhưng chưa có biên nhận" (F2 của đặc tả).
+    // Cố ý KHÔNG lưu `merged` vào biên nhận để dòng receipt nhỏ; lần gửi lại chỉ cần biết
+    // version/cefrUnlocked, còn bản gộp đầy đủ lấy bằng `pullProgress` như thường lệ.
+    if (sync) {
+      await saveReceipt(client, auth.userId, sync.attemptId, 'progress', {
+        ok: true,
+        cefrUnlocked: merged.cefrUnlocked,
+        version: newVersion,
+        conflict,
+      })
+    }
+    // Trả kèm danh sách cấp server VỪA tính để client cập nhật ngay (vừa thi đạt là mở cấp sau,
+    // không phải chờ lượt pullProgress kế tiếp).
+    return {
+      didGrowLearning,
+      cefrUnlocked: merged.cefrUnlocked,
+      version: newVersion,
+      conflict,
+      // Chỉ dựng `merged` khi thật sự xung đột — client cần thay bản cục bộ đã cũ bằng bản gộp.
+      merged: conflict
+        ? ({
+            learned: merged.learned,
+            hard: merged.hard,
+            srs: merged.srs,
+            cefrGrammar: merged.cefrGrammar,
+            cefrDialogues: merged.cefrDialogues,
+            cefrUnlocked: merged.cefrUnlocked,
+            cefrExams: merged.cefrExams,
+            placement: merged.placement,
+            weeklyGoal: merged.weeklyGoal,
+            achievements: merged.achievements,
+            settings: merged.settings,
+            streakFreezeDates: merged.streakFreezeDates,
+          } satisfies ProgressDoc)
+        : undefined,
+    }
+  })
 
   if (grewLearning) {
     try {
@@ -341,5 +436,16 @@ export default async function handler(req: Request): Promise<Response> {
       console.warn('[progress] cộng thưởng lượt lỗi → bỏ qua:', err)
     }
   }
-  return jsonResponse({ ok: true, cefrUnlocked }, 200, allHeaders)
+  return jsonResponse(
+    {
+      ok: true,
+      cefrUnlocked,
+      version: newVersion,
+      conflict,
+      replayed: false,
+      ...(mergedDoc ? { merged: mergedDoc } : {}),
+    },
+    200,
+    allHeaders,
+  )
 }
