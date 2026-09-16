@@ -304,6 +304,16 @@ describe('vân tay nội dung (contentFingerprint)', () => {
     expect(contentFingerprint(['ab', 'c'])).not.toBe(contentFingerprint(['a', 'bc'])) // ghép khác
   })
 
+  // Vân tay này nằm trong khoá đọc nháp đã lưu trên MÁY NGƯỜI HỌC. Đổi thuật toán (kể cả đổi
+  // dấu ngăn) = mọi nháp đang lưu bỗng bị coi là "bài đã cập nhật", người học mất code đang gõ.
+  // Nên ghim GIÁ TRỊ THẬT, không chỉ so tương đối: ca dưới đây đỏ ngay nếu ai đó "dọn" dấu ngăn.
+  it('ghim giá trị: dấu ngăn là NUL, thuật toán FNV-1a 32-bit — không được đổi', () => {
+    expect(contentFingerprint(['ab', 'c'])).toBe('ef850b27')
+    expect(contentFingerprint(['a', 'bc'])).toBe('609747a3')
+    expect(contentFingerprint([])).toBe('811c9dc5') // rỗng = giá trị khởi tạo FNV
+    expect(contentFingerprint(['ly10-c2-b10', 3, 'v1'])).toBe('37875ca5')
+  })
+
   it('contentVersion khác → stale và VẪN trả bản ghi để UI mời dùng lại', () => {
     saveSession(parts, { contentVersion: FP, stepIndex: 2, draft: { code: 'cu' } }, T0)
     const read = readSession(parts, 'v-moi', T0)
