@@ -26,7 +26,7 @@ type Api = ReturnType<typeof useLearningSession<Draft>>
 const hook: { api: Api | null } = { api: null }
 const latest = () => hook.api
 
-function Probe({ owner }: { owner: SessionOwner | null }) {
+function Probe({ owner, paused }: { owner: SessionOwner | null; paused?: boolean }) {
   const api = useLearningSession<Draft>({
     owner,
     subjectId: 'programming',
@@ -34,6 +34,7 @@ function Probe({ owner }: { owner: SessionOwner | null }) {
     contentVersion: 'v1',
     draftSchema,
     initial: () => ({ stepIndex: 0, draft: { code: 'starter' } }),
+    ...(paused === undefined ? {} : { paused }),
   })
   // Ghi ra ô nhớ trong EFFECT, không phải lúc render (luật react-hooks).
   useEffect(() => {
@@ -45,8 +46,8 @@ function Probe({ owner }: { owner: SessionOwner | null }) {
 let container: HTMLDivElement
 let root: Root
 
-function mount(owner: SessionOwner | null = account) {
-  act(() => root.render(<Probe owner={owner} />))
+function mount(owner: SessionOwner | null = account, paused?: boolean) {
+  act(() => root.render(<Probe owner={owner} {...(paused === undefined ? {} : { paused })} />))
 }
 
 /** Bản ghi do "tab khác" ghi thẳng vào localStorage. */
@@ -157,6 +158,21 @@ describe('useLearningSession', () => {
     act(() => latest()?.adoptStale())
     expect(latest()?.draft).toEqual({ code: 'nhap-cu' })
     expect(latest()?.staleSession).toBeNull()
+  })
+
+  it('paused: state vẫn đổi trên màn hình nhưng KHÔNG ghi xuống storage', () => {
+    // Dùng khi bài đã xong (§7 Q6): nháp vừa bị xoá thì đừng để một lần bấm "Bước tiếp" làm
+    // nó sống lại.
+    mount(account, true)
+    act(() => latest()?.setDraft({ code: 'go-sau-khi-da-xong' }))
+    act(() => vi.advanceTimersByTime(SESSION_SAVE_DEBOUNCE_MS + 10))
+    expect(latest()?.draft).toEqual({ code: 'go-sau-khi-da-xong' })
+    expect(localStorage.getItem(KEY)).toBeNull()
+    // Rời trang cũng không ghi.
+    act(() => {
+      window.dispatchEvent(new Event('pagehide'))
+    })
+    expect(localStorage.getItem(KEY)).toBeNull()
   })
 
   it('clear() xoá nháp và trả state về mặc định', () => {
