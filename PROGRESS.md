@@ -254,13 +254,19 @@ migration `0081` hai bảng `platform.completion_evidence`/`completion_state`, e
 **S11-2 ĐÃ THI HÀNH** (`docs/changelog/0348-*.md`, PR [#964](https://github.com/seeker19110/donghanh/pull/964)):
 nút "Nộp bài tự kiểm tra" ở `StemLessonView`, `apps/dhcb/src/lib/stemEvidence.ts`, evidence khách
 `guest_*` + merge khi đăng nhập (server chấm lại từ trả lời thô), hàng đợi gửi lại cùng thiết bị.
-**Còn lại: S11-3** (màn kết quả `ActivityResult` + mục lục S07 đọc evidence) — cần S07-2 merge trước.
+**S11-3 ĐÃ THI HÀNH — S11 KHÉP LẠI ĐỦ BA SLICE** (`docs/changelog/0351-*.md`): màn kết quả dùng chung
+`apps/dhcb/src/components/learning/ActivityResult.tsx` (5 trạng thái đều có CHỮ, lý do sai dịch từ
+`ReasonCode` sang tiếng Việt, "Làm lại" + "Bài tiếp theo", chừa `reviewSlot` cho S12); `stemOutline`
+nhận `state`/`stateStatus` tuỳ chọn nên mục lục STEM hết "chưa đo được" khi đã có bằng chứng;
+`apps/dhcb/src/lib/useStemCompletionState.ts` đọc `completion_state` một lần khi mở + sau mỗi lượt nộp.
 
 **S12-1 (hàng đợi ôn xuyên môn) — ĐANG MỞ PR.** Hợp đồng `ReviewItem`, `buildReviewQueue` thuần,
 namespace SRS `stem:`, tách `FlashcardReview`, hub `/goc-hoc-tap/on-tap` + `/goc-hoc-tap/:subjectId/on-tap`,
 comeback trỏ hub `?cap=5` — `docs/changelog/0341-2026-09-16-s12-1-hang-doi-on-xuyen-mon.md`. Công thức SRS
 có golden snapshot canh (`apps/dhcb/src/lib/srs.golden.test.ts`, chụp ở commit đầu của PR). Nhóm thẻ STEM
-còn rỗng tới khi S11-3 gọi `addStemLessonCardsToSrs` từ màn kết quả. Còn lại: **S12-2** (sổ lỗi có bằng
+còn rỗng: S11-3 cố ý KHÔNG gọi `addStemLessonCardsToSrs` (đặc tả S11 §① "KHÔNG ghi thẻ SRS — S12"), chỉ
+chừa prop `reviewSlot` của `ActivityResult`; việc nối dây là của S12 và chỉ khi
+`ketQua.kind === 'server' && evidence.passed`. Còn lại: **S12-2** (sổ lỗi có bằng
 chứng + migration) và **S12-3** (tiến độ theo môn).
 
 **Các slice còn lại của goal learning-ux — ĐẶC TẢ ĐÃ VIẾT 2026-09-15 (`docs/changelog/0328-*.md`), tất cả đã `Approved for implementation` từ 2026-09-15 (chủ dự án chốt toàn bộ §7 theo đề xuất mặc định — `docs/changelog/0329-*.md`).** Thứ tự thi hành đã chốt: S07 → S08 → S06 → S05 → S10 → S11 → S09 → S12 → S13. File: `docs/specs/2026-09-15-learning-ux-s{08,06,05,10,11,09,12,13}-*.md`. **Số migration cấp theo thứ tự MERGE thật, KHÔNG đặt trước (chủ dự án chốt 2026-09-15, PR #935):** cổng `scripts/migrations-readme-coverage.test.ts` cấm nhảy số, nên PR nào merge trước thì lấy số kế tiếp còn trống. S11-1 merge trước nên lấy `0081`; S05/S09/S12 lấy số còn trống tại thời điểm PR của chúng merge. Kế hoạch đánh số trước (S05 0081 · S11 0082 · S09 0083 · S12 0084) đã BỎ.
