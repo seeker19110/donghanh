@@ -13,7 +13,7 @@
 //   npm run gen:lesson-index
 import { readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import prettier from 'prettier'
 import { PROGRAMMING_LESSONS } from '@dhcb/subject-programming/lessons'
 import { buildLessonIndex } from '@dhcb/subject-programming/lessonIndex'
@@ -37,10 +37,10 @@ async function main(): Promise<void> {
   // không giả định — gom theo unit để nếu sau này một unit tách hai file vẫn đúng).
   const filesOfUnit = new Map<string, { exportName: string; file: string }[]>()
   for (const entry of imports) {
-    const mod = (await import(path.join(pkgDir, 'lessons', `${entry.file}.ts`))) as Record<
-      string,
-      { unitId: string }[]
-    >
+    // ESM import cần URL hợp lệ: đường dẫn Windows `C:\\...` bị hiểu nhầm `c:` là URL scheme.
+    // Đổi bằng API chuẩn để lệnh sinh chạy giống nhau trên Windows, WSL interop và Linux CI.
+    const moduleUrl = pathToFileURL(path.join(pkgDir, 'lessons', `${entry.file}.ts`)).href
+    const mod = (await import(moduleUrl)) as Record<string, { unitId: string }[]>
     const lessons = mod[entry.exportName]
     if (!lessons) throw new Error(`${entry.file}.ts không export ${entry.exportName}`)
     for (const unitId of new Set(lessons.map((l) => l.unitId))) {
