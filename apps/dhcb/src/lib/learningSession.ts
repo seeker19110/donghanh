@@ -356,8 +356,8 @@ export function moveGuestSessionsTo(guestId: string, accountId: string): number 
  * có trường version/hash, thêm trường là sửa hàng trăm file — xem §7 Q4 của đặc tả.
  */
 export function contentFingerprint(parts: readonly (string | number)[]): string {
-  // Ký tự NUL (' ') làm dấu ngăn: ['ab','c'] và ['a','bc'] phải ra hai vân tay khác nhau.
-  const text = parts.map((p) => String(p)).join(' ')
+  // Ký tự NUL ('\u0000') làm dấu ngăn: ['ab','c'] và ['a','bc'] phải ra hai vân tay khác nhau.
+  const text = parts.map((p) => String(p)).join('\u0000')
   let hash = 0x811c9dc5
   for (let i = 0; i < text.length; i += 1) {
     hash ^= text.charCodeAt(i)
