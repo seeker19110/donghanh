@@ -266,7 +266,14 @@ comeback trỏ hub `?cap=5` — `docs/changelog/0341-2026-09-16-s12-1-hang-doi-o
 có golden snapshot canh (`apps/dhcb/src/lib/srs.golden.test.ts`, chụp ở commit đầu của PR). Nhóm thẻ STEM
 còn rỗng: S11-3 cố ý KHÔNG gọi `addStemLessonCardsToSrs` (đặc tả S11 §① "KHÔNG ghi thẻ SRS — S12"), chỉ
 chừa prop `reviewSlot` của `ActivityResult`; việc nối dây là của S12 và chỉ khi
-`ketQua.kind === 'server' && evidence.passed`. Còn lại: **S12-3** (tiến độ theo môn).
+`ketQua.kind === 'server' && evidence.passed`.
+
+**S12-3 (tiến độ theo môn) — ĐANG MỞ PR [#983](https://github.com/seeker19110/donghanh/pull/983)**
+(`docs/changelog/0353-2026-09-16-s12-3-tien-do-theo-mon.md`): `/tien-do` có khối "Tiến độ theo môn"
+đứng đầu nội dung, số đếm CHỈ từ cây mục lục S07 qua `apps/dhcb/src/lib/progressSummary.ts` (thuần)
+và `apps/dhcb/src/lib/subjectProgressBoard.ts` (dựng cây 6 môn bằng `import()` động). Môn chưa có
+bằng chứng hiện CHỮ "chưa đo được", không quy về 0. StatCard tiếng Anh cũ giữ nguyên (quyết định Q6:
+THÊM, không thay). Không migration. **S12 khép lại đủ ba slice.**
 
 **S12-2 (sổ lỗi có bằng chứng) — ĐANG MỞ PR [#981](https://github.com/seeker19110/donghanh/pull/981)** (`docs/changelog/0352-2026-09-16-s12-2-so-loi-co-bang-chung.md`).
 Migration **`0084_mistakes_evidence.sql`** (3 cột nullable trên `english.mistakes`, lũy đẳng, không
