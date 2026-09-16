@@ -55,4 +55,8 @@ describe('cầu nối chặng chuyên sâu → unit bài học', () => {
   it('systems-s1 phủ đủ bốn module theo đúng thứ tự bằng bốn unit thật', () => {
     expect(unitsOfStage('systems-s1')).toEqual(['p6-u146', 'p6-u147', 'p6-u148', 'p6-u149'])
   })
+
+  it('systems-s2 phủ đủ bốn module theo đúng thứ tự bằng bốn unit thật', () => {
+    expect(unitsOfStage('systems-s2')).toEqual(['p6-u150', 'p6-u151', 'p6-u152', 'p6-u153'])
+  })
 })

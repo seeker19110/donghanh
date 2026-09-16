@@ -830,6 +830,28 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         title: 'Hệ thống S1 — build, link và assembly đồ chơi',
         topics: 'Pipeline biên dịch; symbol/dependency graph; ISA LOAD/ADD/MUL/RET',
       },
+      // p6-u150…u153: chặng S2 "Hệ điều hành nhìn từ chương trình". Python chỉ mô phỏng
+      // state machine; project shell, socket và Rust thật vẫn được nghiệm thu ngoài sandbox.
+      {
+        id: 'p6-u150',
+        title: 'Hệ thống S2 — tiến trình, luồng và đồng bộ',
+        topics: 'fork/exec/wait; zombie; race, mutex, condition và deadlock',
+      },
+      {
+        id: 'p6-u151',
+        title: 'Hệ thống S2 — file descriptor, pipe và độ bền dữ liệu',
+        topics: 'Redirect, EOF, partial I/O; fsync, rename, mmap và page',
+      },
+      {
+        id: 'p6-u152',
+        title: 'Hệ thống S2 — TCP framing và event loop',
+        topics: 'Length-prefix; non-blocking readiness, fairness và backpressure',
+      },
+      {
+        id: 'p6-u153',
+        title: 'Hệ thống S2 — ownership và safety contract của Rust',
+        topics: 'Move, borrow, lifetime; Option/Result và ranh giới unsafe',
+      },
       // p6-u66..u68: chặng S1 của hướng Dữ liệu (data-s1, specializations/data.ts, 4 module).
       // p3-u8/p3-u9 đã dạy SELECT/JOIN/GROUP BY/HAVING cơ bản — u66 đi XA HƠN (hàm cửa sổ, CTE)
       // để không dạy trùng. Đăng ký cầu nối ở `specializations/stageUnits.ts`.
