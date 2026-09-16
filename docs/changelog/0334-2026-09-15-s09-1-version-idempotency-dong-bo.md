@@ -58,13 +58,22 @@
 
 ## Bằng chứng kiểm chứng
 
+Chạy lại TOÀN BỘ trên cây **đã gộp `main`** (merge có xung đột → bắt buộc theo CLAUDE.md mục 9):
+
 ```
-npm run typecheck   ✅ 0 lỗi
+npm ci              ✅ lockfile khớp sau khi gộp
+rm -rf packages/*/dist dist dist-server && npm run typecheck   ✅ 0 lỗi
 npm run lint        ✅ 0 cảnh báo
 npm run format      ✅
 npm run build       ✅ dist/assets/index-*.js 217,35 kB (gzip 66,45 kB)
-npm run test:coverage ✅ 12 898 pass | 2 skip (634 file), ngưỡng coverage đạt
+npm run test:coverage ✅ 12 964 pass | 2 skip (639 file)
+   Statements 94,31% · Branches 90,29% · Functions 94,7% · Lines 94,81%  (ngưỡng 93/89/93/93)
 ```
+
+**Flaky đã biết:** lượt `test:coverage` ĐẦU sau khi gộp có 1 file đỏ; hai lượt chạy lại ngay sau
+đó xanh sạch (638 file pass). Cùng họ với nợ đã ghi ở cuối `PROGRESS.md` (`lessonsPython.test.ts`
+spawn `python3` quá timeout dưới tải, và perf test `cefrOutline` so mốc thời gian thực) — không
+liên quan diff của PR này, vốn chỉ chạm server + migration.
 
 Migration trên DB sạch (Postgres 16.13 local, `initdb` mới):
 
