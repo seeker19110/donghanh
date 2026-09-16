@@ -894,6 +894,26 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         title: 'Toán S4 — chain rule và tối ưu ràng buộc',
         topics: 'Gradient check, feasible domain và stopping rule',
       },
+      {
+        id: 'p6-u162',
+        title: 'Thuật toán S2 — recursion, termination và backtracking',
+        topics: 'Base case; termination measure; bounded search; pruning và oracle',
+      },
+      {
+        id: 'p6-u163',
+        title: 'Thuật toán S2 — BST, trie và priority queue',
+        topics: 'BST degeneration; trie prefix; heap top-k; ordering tất định',
+      },
+      {
+        id: 'p6-u164',
+        title: 'Thuật toán S2 — đồ thị, topo và đường đi ngắn',
+        topics: 'Topological sort; cycle; Dijkstra không âm; đường đi không tồn tại',
+      },
+      {
+        id: 'p6-u165',
+        title: 'Thuật toán S2 — greedy, exchange và phản ví dụ',
+        topics: 'Interval scheduling; bounded oracle; coin greedy; counterexample',
+      },
       // p6-u66..u68: chặng S1 của hướng Dữ liệu (data-s1, specializations/data.ts, 4 module).
       // p3-u8/p3-u9 đã dạy SELECT/JOIN/GROUP BY/HAVING cơ bản — u66 đi XA HƠN (hàm cửa sổ, CTE)
       // để không dạy trùng. Đăng ký cầu nối ở `specializations/stageUnits.ts`.

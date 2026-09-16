@@ -86,6 +86,7 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   'mathforcode-s1': ['p6-u134', 'p6-u135', 'p6-u136', 'p6-u137'],
   'mathforcode-s2': ['p6-u138', 'p6-u139', 'p6-u140', 'p6-u141'],
   'algo-s1': ['p6-u142', 'p6-u143', 'p6-u144', 'p6-u145'],
+  'algo-s2': ['p6-u162', 'p6-u163', 'p6-u164', 'p6-u165'],
   'systems-s1': ['p6-u146', 'p6-u147', 'p6-u148', 'p6-u149'],
   'systems-s2': ['p6-u150', 'p6-u151', 'p6-u152', 'p6-u153'],
   // DevOps S1 — bốn module được tách để mỗi policy vận hành có ca âm riêng. Mô phỏng Python
