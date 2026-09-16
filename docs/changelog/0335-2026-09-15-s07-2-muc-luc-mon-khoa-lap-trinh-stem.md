@@ -77,8 +77,15 @@ breadcrumb "… › Lập trình › Khoá Git & GitHub thực hành"; @320 khô
 
 ## Bằng chứng kiểm chứng
 
-- `npm run typecheck` · `npm run lint` (0 cảnh báo) · `npm run format` · `npm run build` ·
-  `npm run test:coverage` — xem mô tả PR.
+- `npm run typecheck` (trên checkout sạch) · `npm run lint` (0 cảnh báo) · `npm run format` ·
+  `npm run build` · `npm run test:coverage`: **12.909/12.909 test xanh** (635 file), coverage
+  **94,41 / 90,31 / 94,96 / 94,90** so với sàn 93 / 89 / 93 / 93.
+- `npm run budget`: Initial JS 130,32 kB / 140 kB · Initial CSS 18,28 kB / 20 kB — còn biên độ.
+- Chunk từng trang (gzip), đo trước/sau bằng hai lần build thật: `ProgrammingLessonPage`
+  7.203 → 7.963 B (**+760 B**) · `ProgrammingLevelPage` 2.899 → 2.860 (**−39**) ·
+  `ProgrammingCoursePage` 2.717 → 2.810 (**+93**) · `StemLessonView` 10.455 → 10.768 (**+313**) ·
+  `StemLessonList` 1.659 → 1.245 (**−414**). Lớn nhất +0,76 kB, xa ngưỡng 6 kB của AC-19; kích
+  thước tuyệt đối ≤ 11 kB cũng tự chứng minh không registry nào (3 MB / ~2 MB) bị kéo vào.
 - E2E mới: `e2e/outline-programming.spec.ts` (11 ca) + `e2e/outline-stem.spec.ts` (7 ca) — đều
   xanh; gồm ca "sidebar thu gọn mục lục vẫn hiện", "mở bài STEM không thành đã xong",
   "chặn `/api/programming/progress` → cây vẫn bấm được + Thử lại", panel @390, @320 không tràn.
