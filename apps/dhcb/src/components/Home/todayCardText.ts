@@ -17,10 +17,16 @@ export function khoangThoiGian(tuLuc: number, bayGio: number): string {
  *
  * Phiên dở là nguồn DUY NHẤT tự dựng chữ ở đây (nó cần mốc thời gian tương đối, mà resolver thuần
  * thì không được gọi `Date.now()`); các nguồn khác đã có `hint` do adapter môn viết.
+ *
+ * [S06-3] Mục phụ của MÔN THỨ HAI mang `hint` = "Môn thứ hai: <tên môn>". Trước đây nhánh phiên
+ * dở nuốt mất `hint` đó, nên hai phiên của hai môn khác nhau hiện y hệt nhau ("Phiên đang dở · …")
+ * — người học không có cách nào biết mục phụ dẫn sang môn khác. Nay tên môn đứng TRƯỚC mốc thời
+ * gian. Việc chính không bị ảnh hưởng: resolver không gắn `hint` cho mục phiên chính.
  */
 export function dongNguon(item: TodayItem, bayGio: number): string | undefined {
   if (item.evidenceSource === 'session.resume' && item.resume) {
-    return `Phiên đang dở · ${khoangThoiGian(item.resume.updatedAt, bayGio)}`
+    const moc = `Phiên đang dở · ${khoangThoiGian(item.resume.updatedAt, bayGio)}`
+    return item.hint ? `${item.hint} · ${moc}` : moc
   }
   if (item.kind === 'pick') return tachLoiMoi(item.title).dan ?? item.hint
   return item.hint

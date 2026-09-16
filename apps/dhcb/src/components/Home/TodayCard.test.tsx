@@ -194,6 +194,43 @@ describe('TodayCard — hàm chữ nghĩa thuần', () => {
     expect(nhanChinh(item({ kind: 'pick', evidenceSource: 'none' }))).toMatch(/^Bắt đầu: /)
   })
 
+  // [S06-3] Mục phụ của môn thứ hai PHẢI nói tên môn, kể cả khi nó là một phiên dở.
+  it('dongNguon: phiên dở của môn thứ hai nói tên môn TRƯỚC mốc thời gian', () => {
+    const phienMonKhac = {
+      ...item(),
+      evidenceSource: 'session.resume' as const,
+      hint: 'Môn thứ hai: Tiếng Anh',
+      resume: {
+        sessionId: 's1',
+        subjectId: 'english',
+        contentId: 'greetings',
+        step: 1,
+        hasDraft: false,
+        updatedAt: NOW - 3_600_000,
+      },
+    }
+    expect(dongNguon(phienMonKhac, NOW)).toBe(
+      'Môn thứ hai: Tiếng Anh · Phiên đang dở · 1 giờ trước',
+    )
+  })
+
+  it('dongNguon: phiên dở KHÔNG có hint (việc chính) giữ nguyên một vế', () => {
+    const phienChinh = {
+      ...item(),
+      evidenceSource: 'session.resume' as const,
+      hint: undefined,
+      resume: {
+        sessionId: 's1',
+        subjectId: 'programming',
+        contentId: 'p3-u10-l1',
+        step: 2,
+        hasDraft: true,
+        updatedAt: NOW - 60_000,
+      },
+    }
+    expect(dongNguon(phienChinh, NOW)).toBe('Phiên đang dở · 1 phút trước')
+  })
+
   it('dongNguon: nguồn không phải phiên thì dùng hint của adapter', () => {
     expect(dongNguon(item(), NOW)).toBe('Bài kế tiếp trong mục lục')
   })

@@ -39,12 +39,8 @@ import type { Circle } from '../../../data/curriculum'
 import { loadCefr } from '../../../data/cefrLoader'
 import { loadFoundation } from '../../../data/curriculumLoader'
 import { getLearnedWords, getRecentlyLearnedWords } from '../../../lib/vocab'
-import {
-  getDoneGrammar,
-  computeLockedMapFromServer,
-  findNextStep,
-  circleDoneCount,
-} from '../../../lib/cefrProgress'
+import { getDoneGrammar, computeLockedMapFromServer } from '../../../lib/cefrProgress'
+import { englishNext, duongDanCapCefr } from '../../../lib/today/englishNext'
 import { getPassedExamLevels } from '../../../lib/cefrExam'
 import { getSRSStats } from '../../../lib/srs'
 import { getDailyLearned, getDailyMax } from '../../../lib/curriculum'
@@ -89,16 +85,24 @@ export default function EnglishHome() {
   // Quyền mở cấp do SERVER cấp (GĐ2a) — client chỉ đọc danh sách server trả về.
   const lockedMap = computeLockedMapFromServer(uid, cefrLevels, examPassed)
 
-  const continueLevel = (() => {
-    for (const lv of cefrLevels) {
-      if (lockedMap.get(lv.id)) continue
-      const next = findNextStep(lv, circleById, learned, doneGrammar)
-      if (next) return { level: lv, next }
-    }
-    return null
-  })()
+  const isA = dir === 'A'
 
-  const showComeback = !comebackClosed && !!continueLevel && shouldShowComeback(uid)
+  // [S06-3] MỘT luật "học tiếp" cho cả ba nơi hiển thị (Trang chủ · thẻ "Hôm nay" · trang môn
+  // này): adapter `englishNext` bọc `findNextStep`. Trước đây trang chép lại nguyên vòng lặp
+  // chọn cấp + đoạn dựng nhãn của `Home.tsx`, nên mỗi lần sửa luật là phải nhớ sửa hai chỗ.
+  // Không truyền `srsDue`: trang đã có nút "N thẻ đến hạn" riêng, không cần mục ôn của adapter.
+  const { next: nextItem, levelId: continueLevelId } = englishNext({
+    levels: cefrLevels,
+    circleById,
+    learned,
+    doneGrammar,
+    lockedMap,
+    isA,
+  })
+  const nextLabel = nextItem?.title ?? ''
+  const continueHref = continueLevelId ? duongDanCapCefr(continueLevelId) : ''
+
+  const showComeback = !comebackClosed && !!continueLevelId && shouldShowComeback(uid)
   const daysAway = showComeback ? comebackDaysAway(uid) : 0
   function closeComeback() {
     dismissComebackToday(uid)
@@ -107,23 +111,6 @@ export default function EnglishHome() {
 
   const recentWords = getRecentlyLearnedWords(uid, RECENT_WORDS_FOR_SPEAKING)
 
-  const isA = dir === 'A'
-
-  let nextLabel = ''
-  if (continueLevel) {
-    const { next } = continueLevel
-    if (next.kind === 'vocab' && next.circleId) {
-      const c = circleById[next.circleId]
-      if (c) {
-        const done = circleDoneCount(c, learned)
-        nextLabel = `${c.emoji} ${isA ? c.titleVi : c.titleEn} (${done}/${c.words.length})`
-      }
-    } else if (next.kind === 'grammar' && next.lessonId) {
-      const g = next.unit.grammar.find((x) => x.id === next.lessonId)
-      if (g) nextLabel = isA ? g.titleVi : g.titleEn
-    }
-  }
-
   if (!user) return null
 
   const srsDue = getSRSStats(user.id).due
@@ -131,8 +118,7 @@ export default function EnglishHome() {
   const dailyMax = getDailyMax(user.id)
 
   function goToNextStep() {
-    if (!continueLevel) return
-    nav(`/lo-trinh-hoc/${continueLevel.level.id.toLowerCase()}`)
+    if (continueHref) nav(continueHref)
   }
 
   return (
@@ -180,7 +166,7 @@ export default function EnglishHome() {
             )}
           </div>
 
-          {continueLevel && (
+          {continueLevelId && (
             <div className="pt-2 border-t border-zinc-800/80 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
               <div className="min-w-0 flex-1">
                 <p className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">
@@ -202,7 +188,7 @@ export default function EnglishHome() {
         </section>
 
         {/* ── Luồng "quay lại sau khi bỏ bẵng" ── */}
-        {showComeback && continueLevel && (
+        {showComeback && continueLevelId && (
           <div className="glass rounded-2xl p-4 border border-accent-500/30 animate-fade-in">
             <div className="flex items-start gap-3">
               <span className="text-2xl shrink-0" aria-hidden="true">
@@ -229,11 +215,7 @@ export default function EnglishHome() {
             <div className="flex gap-2 mt-3">
               {srsDue > 0 && (
                 <button
-                  onClick={() =>
-                    nav(
-                      `/lo-trinh-hoc/${continueLevel.level.id.toLowerCase()}?tab=srs&cap=${COMEBACK_SRS_CARDS}`,
-                    )
-                  }
+                  onClick={() => nav(`${continueHref}?tab=srs&cap=${COMEBACK_SRS_CARDS}`)}
                   className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 theme-light:text-sky-900 text-sm font-medium transition"
                 >
                   <Brain className="w-4 h-4" />
@@ -243,11 +225,7 @@ export default function EnglishHome() {
                 </button>
               )}
               <button
-                onClick={() =>
-                  nav(
-                    `/lo-trinh-hoc/${continueLevel.level.id.toLowerCase()}?tab=today&cap=${COMEBACK_NEW_WORDS}`,
-                  )
-                }
+                onClick={() => nav(`${continueHref}?tab=today&cap=${COMEBACK_NEW_WORDS}`)}
                 className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-accent-500/15 hover:bg-accent-500/25 text-accent-300 text-sm font-medium transition"
               >
                 <Sparkles className="w-4 h-4" />

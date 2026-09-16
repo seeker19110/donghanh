@@ -30,11 +30,8 @@ import LangBadge from '../../../components/programming/LangBadge'
 import LevelMilestones from '../../../components/programming/LevelMilestones'
 import { useAuth } from '../../../context/useAuth'
 import { fetchProgress, type ProgrammingLessonProgress } from '../../../lib/programmingProgress'
-import {
-  pickNextLesson,
-  countCompleted,
-  countCompletedByLevel,
-} from '../../../lib/programmingNextLesson'
+import { countCompleted, countCompletedByLevel } from '../../../lib/programmingNextLesson'
+import { programmingNext } from '../../../lib/today/programmingNext'
 import { PROGRAMMING_LEVELS } from '@dhcb/subject-programming/curriculum'
 import { UNLOCK_PCT } from '@dhcb/subject-programming/levelLock'
 import { PROJECT_STAGES } from '@dhcb/subject-programming/projectSteps'
@@ -44,12 +41,7 @@ import { LEARNING_PATHS } from '@dhcb/subject-programming/learningPaths/registry
 import { levelLockMap, seedGrandfather, loiGiaiThichKhoa } from '../../../lib/programmingLevelLock'
 import { effectivePlan } from '../../../lib/promo'
 import { goToSubjects } from '../../../lib/subjectsHost'
-import {
-  duongDanBac,
-  duongDanBaiHoc,
-  duongDanKhoa,
-  duongDanLoTrinh,
-} from '../../../lib/programmingRoutes'
+import { duongDanBac, duongDanKhoa, duongDanLoTrinh } from '../../../lib/programmingRoutes'
 import { PageShell } from '@core/PageShell'
 
 export default function ProgrammingHome() {
@@ -75,9 +67,12 @@ export default function ProgrammingHome() {
     })
   }, [user])
 
-  const next = pickNextLesson(progress)
+  // [S06-3] Một luật "học tiếp", ba nơi hiển thị: Trang chủ, trang môn này và thẻ "Hôm nay" đều
+  // đi qua adapter `programmingNext`. Trang lấy `item` (tên bài + đường dẫn đã dựng sẵn) để
+  // hiển thị, và `picked` (bậc, ngôn ngữ, cờ đang dở) cho những khối chỉ môn này mới có.
+  const { next: item, picked } = programmingNext({ progress })
   const { done, total } = countCompleted(progress)
-  const xongMon = loaded && next === null
+  const xongMon = loaded && picked === undefined
 
   // Khoá bậc (GĐ3): Free đi tuần tự P1→P6, VIP vào bậc nào cũng được. Tính ở client CHỈ để
   // hiển thị — tiến độ thật vẫn do server giữ, và nội dung bài học không phải bí mật.
@@ -86,7 +81,7 @@ export default function ProgrammingHome() {
 
   // Chặng dự án đang ở = chặng của bậc chứa bài học tiếp; xong môn thì là chặng cuối.
   const changDangO =
-    PROJECT_STAGES.find((s) => s.level === next?.levelId) ??
+    PROJECT_STAGES.find((s) => s.level === picked?.levelId) ??
     PROJECT_STAGES[PROJECT_STAGES.length - 1]
 
   const nutPhu =
@@ -118,26 +113,28 @@ export default function ProgrammingHome() {
         ) : (
           <section className="rounded-3xl border border-accent-500/40 bg-zinc-900 p-5 space-y-3 shadow-md">
             <p className="text-xs font-semibold text-zinc-300 uppercase tracking-wide">
-              {next?.resuming ? 'Đang học dở' : 'Học tiếp'}
+              {picked?.resuming ? 'Đang học dở' : 'Học tiếp'}
             </p>
-            {next && (
+            {item && picked && (
               <>
-                <h2 className="text-lg font-bold text-white leading-snug">{next.lesson.title}</h2>
+                <h2 className="text-lg font-bold text-white leading-snug">{item.title}</h2>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <LangBadge language={next.lesson.language} />
+                  <LangBadge language={picked.lesson.language} />
                   <span className="text-[11px] font-semibold text-zinc-400">
-                    Bậc {next.levelId.toUpperCase()} — {next.levelName}
+                    Bậc {picked.levelId.toUpperCase()} — {picked.levelName}
                   </span>
                 </div>
               </>
             )}
             <button
-              onClick={() => next && nav(duongDanBaiHoc(next.lesson))}
-              disabled={!next}
+              onClick={() => item && nav(item.href)}
+              disabled={!item}
               className="tap-44 w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-accent-500 hover:bg-accent-400 disabled:opacity-50 text-black font-semibold text-sm transition active:scale-[0.98]"
             >
               <Play className="w-4 h-4" />
-              <span>{!loaded ? 'Đang tải…' : next?.resuming ? 'Học tiếp' : 'Bắt đầu bài này'}</span>
+              <span>
+                {!loaded ? 'Đang tải…' : picked?.resuming ? 'Học tiếp' : 'Bắt đầu bài này'}
+              </span>
             </button>
             {done === 0 && loaded && (
               <button
@@ -305,7 +302,7 @@ export default function ProgrammingHome() {
             levels={PROGRAMMING_LEVELS}
             progressOf={(levelId) => countCompletedByLevel(progress, levelId)}
             onOpen={(level) => nav(duongDanBac(level))}
-            currentLevelId={next?.levelId}
+            currentLevelId={picked?.levelId}
             lockOf={(levelId) => lockMap.get(levelId)}
             lockHint={loiGiaiThichKhoa}
           />

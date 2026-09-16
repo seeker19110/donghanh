@@ -22,12 +22,31 @@ export interface EnglishNextCtx {
   lockedMap: ReadonlyMap<CefrLevel['id'], boolean>
   /** Chiều A (người Việt học tiếng Anh) → nhãn nội dung tiếng Việt. */
   isA: boolean
-  /** `getSRSStats(uid).due` — số thẻ từ vựng đến hạn. */
-  srsDue: number
+  /**
+   * `getSRSStats(uid).due` — số thẻ từ vựng đến hạn.
+   *
+   * Tuỳ chọn vì hai TRANG MÔN (S06-3) chỉ cần bài kế tiếp: chúng đã có nút ôn riêng, truyền số
+   * thẻ vào chỉ để rồi bỏ mục `review` đi là mời gọi hai chỗ đếm lệch nhau.
+   */
+  srsDue?: number
+}
+
+export interface EnglishNextResult {
+  next?: TodayItem
+  review?: TodayItem
+  /**
+   * Cấp CEFR người học đang đi tới — cấp MỞ đầu tiên còn bước chưa xong.
+   *
+   * [S06-3] Có mặt để `Home` và `EnglishHome` bỏ được bản chép vòng lặp `continueLevel`. Nó bám
+   * đúng ngữ nghĩa cũ: cấp đầu tiên `findNextStep` trả về một bước, KỂ CẢ khi không dựng nổi
+   * nhãn cho bước đó (vòng từ vựng vắng trong `circleById`) — nhờ vậy luồng "quay lại" và nút
+   * "Tiếp tục học ngay" giữ nguyên hành vi, chỉ còn một nơi định nghĩa luật.
+   */
+  levelId?: CefrLevel['id']
 }
 
 /** Đường dẫn cấp CEFR — mã cấp viết thường theo route `/lo-trinh-hoc/:levelId`. */
-function duongDanCap(levelId: CefrLevel['id']): string {
+export function duongDanCapCefr(levelId: CefrLevel['id']): string {
   return `/lo-trinh-hoc/${levelId.toLowerCase()}`
 }
 
@@ -37,13 +56,16 @@ function duongDanCap(levelId: CefrLevel['id']): string {
  * Ôn SRS chỉ xuất hiện khi người học ĐANG học tiếng Anh (có bài kế tiếp): kho SRS hiện chỉ chứa
  * từ vựng Anh, hiện nó với người chỉ học Lập trình chính là "mặc định tiếng Anh" trá hình.
  */
-export function englishNext(ctx: EnglishNextCtx): { next?: TodayItem; review?: TodayItem } {
+export function englishNext(ctx: EnglishNextCtx): EnglishNextResult {
+  const srsDue = ctx.srsDue ?? 0
+  let levelId: CefrLevel['id'] | undefined
   for (const level of ctx.levels) {
     if (ctx.lockedMap.get(level.id)) continue
     const step = findNextStep(level, ctx.circleById, ctx.learned, ctx.doneGrammar)
     if (!step) continue
+    levelId ??= level.id
 
-    const href = duongDanCap(level.id)
+    const href = duongDanCapCefr(level.id)
     let next: TodayItem | undefined
     if (step.kind === 'vocab' && step.circleId) {
       const circle = ctx.circleById[step.circleId]
@@ -79,20 +101,20 @@ export function englishNext(ctx: EnglishNextCtx): { next?: TodayItem; review?: T
     }
     if (!next) continue
 
-    if (ctx.srsDue > 0) {
+    if (srsDue > 0) {
       const review: TodayItem = {
         id: todayItemId('review', ENGLISH_SUBJECT_ID, 'srs'),
         kind: 'review',
         subjectId: ENGLISH_SUBJECT_ID,
         contentId: 'srs',
-        title: `Ôn ${ctx.srsDue} thẻ đến hạn`,
+        title: `Ôn ${srsDue} thẻ đến hạn`,
         hint: 'Ôn tập từ vựng',
         href: `${href}?tab=srs`,
         evidenceSource: 'english.srs',
       }
-      return { next, review }
+      return { next, review, levelId }
     }
-    return { next }
+    return { next, levelId }
   }
-  return {}
+  return levelId === undefined ? {} : { levelId }
 }

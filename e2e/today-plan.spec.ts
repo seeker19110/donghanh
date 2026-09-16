@@ -46,6 +46,37 @@ async function seedPhienLapTrinh(page: Page) {
   }, USER_ID)
 }
 
+/**
+ * [S06-3 · AC-19] Phiên học dở môn Tiếng Anh ở vòng từ vựng `greetings` (A1 · Chào hỏi & giới
+ * thiệu bản thân — có thật trong `public/data/cefr.json`, nên `resumeTarget` tra ra `/lo-trinh-hoc/a1`).
+ * `phutTruoc` để đặt phiên này trước/sau phiên Lập trình mà không phụ thuộc đồng hồ máy chạy test.
+ */
+async function seedPhienTiengAnh(page: Page, phutTruoc: number) {
+  await page.addInitScript(
+    (arg) => {
+      localStorage.setItem(
+        `dhcb_lsession_v1_account:${arg.uid}_english_greetings`,
+        JSON.stringify({
+          version: 1,
+          subjectId: 'english',
+          contentId: 'greetings',
+          contentVersion: 'v1',
+          owner: { kind: 'account', id: arg.uid },
+          stepIndex: 1,
+          stepLabel: 'Tu vung',
+          // `draft` là khoá BẮT BUỘC của `LearningSessionSchema` (z.unknown() vẫn đòi có mặt):
+          // thiếu nó thì `parseSession` trả `invalid` và phiên bị bỏ IM LẶNG — test sẽ đỏ ở
+          // chỗ khác hẳn nguyên nhân. Phiên chưa có nháp thì để `null`.
+          draft: null,
+          startedAt: Date.now() - arg.phutTruoc * 60_000 - 60_000,
+          updatedAt: Date.now() - arg.phutTruoc * 60_000,
+        }),
+      )
+    },
+    { uid: USER_ID, phutTruoc },
+  )
+}
+
 /** Vài từ đã thuộc = tín hiệu môn Tiếng Anh (khoá `et_learned_<uid>`, src/lib/vocab.ts). */
 async function seedTiengAnh(page: Page) {
   await page.addInitScript((uid) => {
@@ -150,4 +181,41 @@ test('khách (chưa đăng nhập): vẫn thấy thẻ Hôm nay, 0 lượt gọi
 
   await expect(ctaChinh(page)).toHaveCount(1)
   expect(aiCalls).toEqual([])
+})
+
+// ── [S06-3 · AC-19] Hai môn cùng có phiên dở: chọn theo phiên GẦN NHẤT, không xoay vòng ngầm.
+//
+// Đây là ca duy nhất chứng minh được "không mặc định tiếng Anh" ở mức mạnh nhất: cả hai môn đều
+// có dấu vết thật, nên thứ tự phá hoà không cứu được — chỉ mốc thời gian mới quyết định đúng.
+
+test('2 môn có phiên dở → phiên MỚI NHẤT làm việc chính, môn kia xuống mục phụ', async ({
+  page,
+}) => {
+  await seedPhienLapTrinh(page) // updatedAt = now − 5 phút
+  await seedPhienTiengAnh(page, 120) // updatedAt = now − 120 phút
+  await gioLapTiendo(page)
+  await mockLogin(page, 'vi')
+  await moTrangChu(page)
+
+  const cta = ctaChinh(page)
+  await expect(cta).toHaveCount(1)
+  await expect(cta).toContainText('Git')
+
+  // Môn thứ hai vẫn có lối vào, nhưng là mục PHỤ và nói rõ nó thuộc môn nào.
+  const phu = theHomNay(page).getByRole('listitem').filter({ hasText: 'Môn thứ hai: Tiếng Anh' })
+  await expect(phu).toHaveCount(1)
+  await expect(phu.getByRole('link')).toHaveAttribute('href', '/lo-trinh-hoc/a1')
+})
+
+test('đổi thứ tự thời gian → đổi việc chính (không phải môn nào cứng thắng)', async ({ page }) => {
+  await seedPhienLapTrinh(page) // updatedAt = now − 5 phút
+  await seedPhienTiengAnh(page, 1) // updatedAt = now − 1 phút → MỚI HƠN
+  await gioLapTiendo(page)
+  await mockLogin(page, 'vi')
+  await moTrangChu(page)
+
+  const cta = ctaChinh(page)
+  await expect(cta).toHaveCount(1)
+  await expect(cta).toHaveAttribute('href', '/lo-trinh-hoc/a1')
+  await expect(cta).toContainText('Chào hỏi')
 })

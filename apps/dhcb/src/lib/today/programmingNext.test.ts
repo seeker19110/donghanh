@@ -105,6 +105,28 @@ describe('programmingNext — luật cũ pickNextLesson', () => {
     expect(programmingNext({ progress: dang }).lastEvidenceAt).toBeUndefined()
   })
 
+  // ── [S06-3] `picked` — chi tiết bậc/ngôn ngữ mà TRANG MÔN cần, để nó không gọi lại
+  // `pickNextLesson` và tự sinh ra bản chép thứ hai của luật "học tiếp bài nào".
+  it('trả kèm picked khớp đúng bài của mục next', () => {
+    const dang: ProgrammingLessonProgress[] = [
+      { lessonId: 'p1-u2-l1', status: 'in_progress', completedAt: null },
+    ]
+    const { next, picked } = programmingNext({ progress: dang })
+    expect(picked?.lesson.id).toBe('p1-u2-l1')
+    expect(picked?.resuming).toBe(true)
+    expect(next?.contentId).toBe(picked?.lesson.id)
+    expect(picked?.levelId).toBe('p1')
+  })
+
+  it('nhánh mục lục không dựng picked (mục lục không biết khái niệm bậc)', () => {
+    const { picked } = programmingNext({
+      progress: tienDo,
+      outline: outline([la('l1', 0), la('l2', 1)]),
+      activeContentId: 'l1',
+    })
+    expect(picked).toBeUndefined()
+  })
+
   it('không nạp nội dung bài (chỉ dùng chỉ mục nhẹ)', async () => {
     const loader = await import('@dhcb/subject-programming/lessonsLoader')
     const spy = vi.spyOn(loader, 'loadLesson')
