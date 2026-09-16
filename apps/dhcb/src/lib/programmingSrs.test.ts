@@ -97,7 +97,27 @@ describe('programmingSrs', () => {
   })
 
   it('limit cắt đúng số thẻ cho một phiên ôn', () => {
-    for (const l of PROGRAMMING_LESSONS.filter((x) => x.srsCards)) addLessonCardsToSrs(UID, l.id)
+    // Chỉ cần NHIỀU HƠN limit (3) một chút để kiểm tra hành vi cắt — không cần nạp cả
+    // 381 bài (~1184 thẻ) của môn. addLessonCardsToSrs() gọi save() (JSON.stringify +
+    // localStorage.setItem TOÀN BỘ dữ liệu) cho MỖI thẻ, nên nạp cả môn là O(n²): đo thật
+    // 2026-09-16, chạy riêng file này ca đó mất ~1.7s — dưới tải cùng full suite thì vượt
+    // ngưỡng timeout mặc định 5s (đỏ giả 2/3 lượt full suite, TRAPS.md dạng đã trả ở PR
+    // #937/#949). Lấy đúng số bài đầu tiên có thẻ để tổng thẻ vượt limit là đủ, không đánh
+    // đổi độ tin cậy: vẫn dùng dữ liệu bài học thật, vẫn kiểm đúng hành vi limit.
+    // Type predicate để TypeScript tự thu hẹp kiểu — không dùng `!` để khẳng định kiểu.
+    const baiCoThe = PROGRAMMING_LESSONS.filter(
+      (l): l is typeof l & { srsCards: NonNullable<typeof l.srsCards> } =>
+        (l.srsCards?.length ?? 0) > 0,
+    )
+    let tongThe = 0
+    for (const l of baiCoThe) {
+      if (tongThe > 3) break
+      addLessonCardsToSrs(UID, l.id)
+      tongThe += l.srsCards.length
+    }
+    // Phải vượt limit (3) thật sự, không chỉ vừa khớp — nếu không thì test không còn
+    // chứng minh được hành vi "cắt", vì trả đủ 3 có thể chỉ vì tổng thẻ đúng bằng 3.
+    expect(tongThe).toBeGreaterThan(3)
     vi.useFakeTimers()
     vi.setSystemTime(Date.now() + 30 * 24 * 3_600_000)
     expect(getDueProgCards(UID, 3)).toHaveLength(3)
