@@ -46,8 +46,8 @@ export function devopsSimulation(input: LessonInput): ProgrammingLesson {
     },
     make: {
       prompt: input.makePrompt,
-      starterCode:
-        '# MÔ PHỎNG thuần Python; không gọi lệnh hay host thật.\nlenh = input().strip()\n',
+      // Đáp án mẫu tự đọc stdin; không đọc sẵn để không nuốt input của ca ẩn.
+      starterCode: '# MÔ PHỎNG thuần Python; không gọi lệnh hay host thật.\n',
       testCases: input.testCases,
       hints: [
         'Ghi state tối thiểu cần để quyết định, rồi xử lý từng lệnh.',
