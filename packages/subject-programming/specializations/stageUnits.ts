@@ -88,6 +88,9 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   'algo-s1': ['p6-u142', 'p6-u143', 'p6-u144', 'p6-u145'],
   'systems-s1': ['p6-u146', 'p6-u147', 'p6-u148', 'p6-u149'],
   'systems-s2': ['p6-u150', 'p6-u151', 'p6-u152', 'p6-u153'],
+  // DevOps S1 — bốn module được tách để mỗi policy vận hành có ca âm riêng. Mô phỏng Python
+  // chỉ chuẩn bị quyết định; rubric Linux/VPS thật vẫn nằm ở `details/devops-s1.ts`.
+  'devops-s1': ['p6-u154', 'p6-u155', 'p6-u156', 'p6-u157'],
 }
 
 /** Unit của một chặng; mảng RỖNG nghĩa là chặng chưa có bài (giao diện phải nói rõ điều đó). */

@@ -852,6 +852,28 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         title: 'Hệ thống S2 — ownership và safety contract của Rust',
         topics: 'Move, borrow, lifetime; Option/Result và ranh giới unsafe',
       },
+      // p6-u154…u157: DevOps S1. Python chỉ mô phỏng policy/state machine; Linux/VPS,
+      // TLS và backup/restore thật vẫn là artifact có evidence ngoài sandbox.
+      {
+        id: 'p6-u154',
+        title: 'DevOps S1 — service Linux, journal và triage tài nguyên',
+        topics: 'Restart policy; journal; CPU/RAM/disk/file descriptor; least privilege',
+      },
+      {
+        id: 'p6-u155',
+        title: 'DevOps S1 — DNS, TLS, proxy và cổng public',
+        topics: 'Diagnostic ladder; firewall allow-list; reverse proxy; hạn chứng chỉ',
+      },
+      {
+        id: 'p6-u156',
+        title: 'DevOps S1 — automation fail-fast và desired state',
+        topics: 'Config bắt buộc; nonzero exit; idempotency; secret policy/history',
+      },
+      {
+        id: 'p6-u157',
+        title: 'DevOps S1 — 3-2-1, restore drill, RPO và RTO',
+        topics: 'Off-site; backup freshness; restore evidence; thời gian phục hồi',
+      },
       // p6-u66..u68: chặng S1 của hướng Dữ liệu (data-s1, specializations/data.ts, 4 module).
       // p3-u8/p3-u9 đã dạy SELECT/JOIN/GROUP BY/HAVING cơ bản — u66 đi XA HƠN (hàm cửa sổ, CTE)
       // để không dạy trùng. Đăng ký cầu nối ở `specializations/stageUnits.ts`.
