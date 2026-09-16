@@ -95,6 +95,18 @@ npm run test:coverage  → 94,13 / 90,03 / 94,51 / 94,65 (sàn 93/89/93/93) — 
 npm run codemap -- cycles                               → không có chu trình import
 ```
 
+**Thời gian mảnh E2E (AC-6) — ĐO THẬT trên CI, không ước lượng.** Luật §11.1 chỉ cho
+tăng số mảnh khi mảnh chậm nhất tăng > 20%; đo hai run CI thật:
+
+|                                            | mảnh chậm nhất | 1/6 | 2/6 | 3/6 | 4/6 | 5/6 | 6/6 |
+| ------------------------------------------ | -------------- | --- | --- | --- | --- | --- | --- |
+| Trước (main `82ed2e88`, run `35123227258`) | **5,2 ph**     | 4,2 | 4,5 | 4,7 | 4,1 | 4,4 | 5,2 |
+| Sau (PR #987, run `35137470879`)           | **5,2 ph**     | 4,0 | 4,0 | 5,2 | 4,1 | 4,5 | —   |
+
+Thay đổi mảnh chậm nhất: **−1,0%** (ngưỡng +20%) dù thêm 100 test. → **GIỮ 6 mảnh**,
+không tăng lên 7. Các job khác: Unit+coverage 4,5 ph · Type/Lint/Format 2,9 ph ·
+Build+budget+boot 2,4 ph · npm audit + chu trình import 0,7 ph.
+
 **Cổng bắt được lỗi thật (AC-3):** chèn tạm `<h1>` thứ hai vào
 `components/PageHeader.tsx` → đúng 4 ca của màn `tutor` (4 bề rộng) đỏ với thông điệp
 `số <h1> hiển thị = 2, phải đúng 1`. Đã hoàn nguyên.
