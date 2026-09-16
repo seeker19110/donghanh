@@ -914,6 +914,26 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         title: 'Thuật toán S2 — greedy, exchange và phản ví dụ',
         topics: 'Interval scheduling; bounded oracle; coin greedy; counterexample',
       },
+      {
+        id: 'p6-u182',
+        title: 'Security S1 — threat boundary và least privilege',
+        topics: 'Asset owner; trust boundary; unknown risk; actor-resource-action deny',
+      },
+      {
+        id: 'p6-u183',
+        title: 'Security S1 — crypto choice, salt và rotation',
+        topics: 'Hash/encryption/signature; primitive policy; salt; key rotation',
+      },
+      {
+        id: 'p6-u184',
+        title: 'Security S1 — defensive API authorization',
+        topics: 'Allow-list; contextual encoding; server-side object authorization',
+      },
+      {
+        id: 'p6-u185',
+        title: 'Security S1 — identity và session lifecycle',
+        topics: 'Rotation; expiry; revocation; recovery rate limit; authn vs authz',
+      },
       // p6-u66..u68: chặng S1 của hướng Dữ liệu (data-s1, specializations/data.ts, 4 module).
       // p3-u8/p3-u9 đã dạy SELECT/JOIN/GROUP BY/HAVING cơ bản — u66 đi XA HƠN (hàm cửa sổ, CTE)
       // để không dạy trùng. Đăng ký cầu nối ở `specializations/stageUnits.ts`.
