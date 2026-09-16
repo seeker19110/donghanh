@@ -32,7 +32,15 @@ test.describe('Luồng quay lại sau khi bỏ bẵng (② M4)', () => {
     await seedActivity(page, 5)
     await mockLogin(page, 'vi')
     await page.goto('/', { waitUntil: 'domcontentloaded' })
-    await expect(page.getByText(/Mừng bạn quay lại/)).toBeVisible()
+    // Banner chỉ hiện sau khi `Home.tsx` tải xong `cefr.json` (228KB) + `curriculum.json`
+    // (3,6MB qua fetch()) VÀ khi dev server còn NGUỘI, Vite phải transform lần đầu toàn bộ
+    // module graph của trang trước khi phục vụ — đo thật trên server nguội (script
+    // `playwright.config.cold.ts` tạm, cổng riêng, 2026-09-16): 4 lượt liên tiếp 4.3s/4.3s/
+    // 4.8s/7.4s, và một lượt đo dưới tải nặng hơn (chạy chung tiến trình a11y) chạm 16,0s —
+    // ngưỡng 5000ms mặc định SAI cho expect ĐẦU TIÊN sau `goto` trên tải nguội, không phải
+    // test flaky. 30s bao đủ chi phí tải nguội thật đo được; trang thật sự hỏng thì hỏng ngay
+    // (không bao giờ mất 20s rồi mới hiện), nên ngưỡng rộng ở đây không che lỗi thật.
+    await expect(page.getByText(/Mừng bạn quay lại/)).toBeVisible({ timeout: 30_000 })
     await expect(page.getByText(/Đã 5 ngày rồi/)).toBeVisible()
     await expect(page.getByRole('button', { name: /Học 3 từ mới/ })).toBeVisible()
   })
