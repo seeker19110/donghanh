@@ -150,11 +150,14 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
 
 ### Ưu tiên 1 — bằng chứng người dùng thật (trước mọi tính năng mới)
 
-- **[2026-09-15] S05-1 "Bắt đầu theo ý định" — PR nháp, chờ merge tuần tự.** `/bat-dau` nay là
-  luồng ≤ 5 câu chọn MÔN (công khai cho khách), Intake đời sống giữ nguyên mã ở `/bat-dau/doi-song`;
+- **[2026-09-15] S05-1 "Bắt đầu theo ý định" — ✅ ĐÃ MERGE (#939).** `/bat-dau` nay là luồng
+  ≤ 5 câu chọn MÔN (công khai cho khách), Intake đời sống giữ nguyên mã ở `/bat-dau/doi-song`;
   hợp đồng `LearnerIntent` + `GET|PUT /api/learner-intent` + migration **`0082`**. Xem
-  `docs/changelog/0334-2026-09-15-s05-1-bat-dau-theo-y-dinh.md`. **Còn lại của slice: S05-2** (một
-  nguồn danh mục môn cho hub và app). Nợ tài liệu mở ra:
+  `docs/changelog/0334-2026-09-15-s05-1-bat-dau-theo-y-dinh.md`. **[2026-09-16] S05-2 "một nguồn
+  danh mục môn cho hub và app" — PR mở, chờ CI.** `packages/core-learner/subjectEntry.ts` +
+  `scripts/gen-subject-catalog.ts` sinh `apps/hub/src/subjectsCatalog.generated.ts`; hub và
+  `Home.tsx` cùng đọc một nguồn (6 môn, đúng thứ tự registry). Xem
+  `docs/changelog/0342-2026-09-16-s05-2-mot-nguon-danh-muc-mon.md`. Nợ tài liệu mở ra:
   `docs/research/luong-nguoi-moi-ho-so-nang-luc-an-2026-08-23.md` mà CLAUDE.md §2 dẫn tới KHÔNG tồn
   tại trong repo — cần một PR `docs` riêng khôi phục hoặc sửa đường dẫn.
 
