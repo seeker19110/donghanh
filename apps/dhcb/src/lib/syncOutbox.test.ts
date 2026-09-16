@@ -109,11 +109,21 @@ describe('AC-9 — gộp nhiều thay đổi thành một request', () => {
   it('xếp hàng KHÔNG gửi ngay; chỉ gửi sau debounce hoặc khi flush tay', async () => {
     vi.useFakeTimers()
     const fn = mockFetch(() => new Response('{}', { status: 200 }))
-    enqueue(UID, 'english')
-    expect(fn).not.toHaveBeenCalled()
-    await vi.advanceTimersByTimeAsync(DEBOUNCE_MS + 10)
+    try {
+      enqueue(UID, 'english')
+      expect(fn).not.toHaveBeenCalled()
+      await vi.advanceTimersByTimeAsync(DEBOUNCE_MS + 10)
+    } finally {
+      // `scheduleFlush` bắn `void flush(uid)` không được chờ — bản thân `flush()` giờ `await
+      // import()` lười phần gửi (lib/syncOutbox.ts, 2026-09-16), và dynamic import cần I/O THẬT
+      // (transform module) mà `advanceTimersByTimeAsync` không thay thế được. Chuyển về timer
+      // THẬT rồi `await flush(uid)` lại — `flush` trả ĐÚNG promise đang dở (khoá qua `inFlight`)
+      // nên đây là chờ đúng lượt gửi đã bắt đầu, không phải bắn thêm request thứ hai. Đặt trong
+      // `finally` để timer thật luôn được khôi phục dù assertion phía trên có rớt.
+      vi.useRealTimers()
+      await flush(UID)
+    }
     expect(fn).toHaveBeenCalledTimes(1)
-    vi.useRealTimers()
   })
 
   it('programming: nhiều bài gộp vào MỘT batch theo lessonId, completed không kéo lùi', async () => {

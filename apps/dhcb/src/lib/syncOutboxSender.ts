@@ -5,7 +5,8 @@
 // Để cả hai chung một module thì `Initial JS` vượt trần 140 kB (đo thật ở CI, PR #984). `flush()`
 // nạp module này bằng `import()` động nên nó thành chunk riêng.
 //
-// Module này KHÔNG giữ trạng thái riêng — mọi thứ vẫn đọc/ghi qua `syncOutbox.ts`.
+// Module này KHÔNG giữ trạng thái riêng — mọi thứ vẫn đọc/ghi qua `syncOutboxStorage.ts` (module
+// lá dùng chung với `syncOutbox.ts`, xem file đó để biết lý do KHÔNG import thẳng từ nhau).
 import { getAuthHeader } from '@core/authHeader'
 import {
   MAX_TRIES,
@@ -16,7 +17,7 @@ import {
   writeEntries,
   type FlushResult,
   type OutboxEntry,
-} from './syncOutbox.js'
+} from './syncOutboxStorage.js'
 
 /**
  * Chỉ MỘT tab được gửi tại một thời điểm (Web Locks) — hai tab cùng chủ gửi cùng lúc sẽ tạo hai

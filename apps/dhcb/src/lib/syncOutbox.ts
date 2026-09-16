@@ -12,6 +12,13 @@
 // CHỈ CÓ MỘT chính sách gửi lại (debounce · gộp · backoff · Web Locks · 401) cho cả ba loại, và
 // module này không import ngược lên `progressSync`/`programmingProgress` (tránh vòng import).
 //
+// **Đây là mặt ngoài công khai** — mọi nơi khác trong app vẫn `import ... from './syncOutbox'`
+// như trước. Kiểu + hàm lưu trữ THẬT nằm ở `syncOutboxStorage.ts` (module lá, xem file đó để
+// biết lý do tách); phần GỬI (chỉ chạy khi tới hạn) nằm ở `syncOutboxSender.ts`, nạp bằng
+// `import()` động trong `runFlush` — giữ ngân sách `Initial JS` (đo 2026-09-16, PR #984) VÀ
+// tránh chu trình import mà cổng `npm run codemap -- cycles` chặn (cả hai module kia chỉ đọc
+// từ `syncOutboxStorage.ts`, không đọc lẫn nhau).
+//
 // Bất biến quan trọng:
 //   • Khách vãng lai (`isGuestId`) KHÔNG BAO GIỜ vào hàng đợi — họ không có phiên để gửi.
 //   • Hàng đợi tách theo `uid` (`dhcb_sync_outbox_<uid>`): đổi tài khoản không gửi chéo dữ liệu,
@@ -20,166 +27,45 @@
 //     (S09-1) nhận ra "đã lưu rồi" và không cộng thưởng hai lần.
 
 import { isGuestId } from '@core/guestId'
+// Kiểu + hàm CHỈ dùng lại nguyên (không có logic riêng ở file này) — re-export thẳng, không
+// tạo biến cục bộ, để nơi khác trong app tiếp tục `import ... from './syncOutbox'` như trước,
+// không cần biết có `syncOutboxStorage.ts` tồn tại.
+export type { OutboxKind, OutboxEntry, FlushResult, KindHandler } from './syncOutboxStorage.js'
+export {
+  OUTBOX_KEY,
+  VERSION_KEY,
+  MAX_TRIES,
+  handlers,
+  registerKindHandler,
+  isBlockedByAuth,
+  subscribe,
+  getSyncVersion,
+  setSyncVersion,
+  backoffMs,
+} from './syncOutboxStorage.js'
 
-export type OutboxKind = 'english' | 'programming' | 'evidence'
+// Tên CÓ dùng lại ở logic của chính file này — import thường.
+import {
+  DEBOUNCE_MS,
+  __resetOutboxStorageForTests,
+  hashPayload,
+  isOnline,
+  newAttemptId,
+  notify,
+  pending,
+  readEntries,
+  writeEntries,
+  type FlushResult,
+  type OutboxEntry,
+  type OutboxKind,
+} from './syncOutboxStorage.js'
+// `pending`/`newAttemptId` được LOGIC của file này dùng (runFlush/onStorage/enqueue) NÊN import
+// thường ở trên — vẫn phải re-export để nơi khác (và test) tiếp tục `import { pending,
+// newAttemptId } from './syncOutbox'` như trước khi tách module.
+export { pending, newAttemptId }
 
-export interface OutboxEntry {
-  /** Khoá idempotency theo LẦN GỬI (server S09-1 tra `public.sync_receipts`). */
-  attemptId: string
-  kind: OutboxKind
-  uid: string
-  /**
-   * Dữ liệu cần gửi. `english` luôn là `null`: bản chụp tiến độ được ĐỌC TỪ localStorage LÚC
-   * GỬI, không phải lúc xếp hàng — giữ đúng tinh thần guard `pullInFlight` của `progressSync`
-   * (gửi bản đã hợp nhất mới nhất, không phải bản cũ đã chụp sẵn).
-   */
-  payload: unknown
-  /** Băm của payload — payload đổi thì `attemptId` phải đổi (đặc tả AC-11). */
-  payloadHash: string
-  createdAt: string
-  tries: number
-  /** Mốc epoch ms sớm nhất được thử lại; 0 = gửi ngay. */
-  nextAt: number
-  lastError?: 'network' | 'http_5xx' | 'http_401' | 'http_429' | 'timeout'
-}
-
-export interface FlushResult {
-  sent: number
-  remaining: number
-  /**
-   * Vì sao còn mục chưa gửi: hết phiên đăng nhập · mất mạng · tab khác đang giữ khoá gửi.
-   * Không có nghĩa là mất dữ liệu — mục vẫn nằm trong hàng đợi.
-   */
-  blocked?: 'auth' | 'offline' | 'locked'
-}
-
-export interface KindHandler {
-  /**
-   * Chạy TRƯỚC khi dựng request (ví dụ chờ lượt `pullProgress` đang chạy xong để bản chụp đọc
-   * ra là bản ĐÃ hợp nhất, không phải bản rỗng lúc app vừa mở). Lỗi ở đây bị bỏ qua.
-   */
-  beforeSend?(uid: string): Promise<void>
-  /**
-   * Dựng request LÚC GỬI. Trả `null` = không có gì để gửi nữa (mục bị bỏ, coi như xong).
-   * `attemptId` của mục phải được gắn vào thân request (phong bì `sync` hoặc trường `attemptId`).
-   */
-  buildRequest(uid: string, entry: OutboxEntry): { url: string; body: unknown } | null
-  /** Xử lý response 2xx (áp `merged`, ghi `version`, dọn hàng chờ phụ…). Lỗi ở đây KHÔNG chặn. */
-  onSuccess?(uid: string, entry: OutboxEntry, body: unknown): void | Promise<void>
-}
-
-export const OUTBOX_KEY = (uid: string) => `dhcb_sync_outbox_${uid}`
-export const VERSION_KEY = (uid: string) => `dhcb_sync_version_${uid}`
-
-/** Chờ 1,5 giây gộp nhiều thay đổi liên tiếp thành MỘT request (AC-9). */
-export const DEBOUNCE_MS = 1500
-/** Số lần thử lại tự động tối đa trong một phiên tab; hết thì chờ `online`/mở lại app. */
-export const MAX_TRIES = 6
-/** Trần số mục giữ lại — vượt thì gộp/cắt bớt mục cũ nhất để localStorage không phình vô hạn. */
-export const MAX_ENTRIES = 200
-
-export const handlers = new Map<OutboxKind, KindHandler>()
-const subscribers = new Set<(uid: string) => void>()
 const debounceTimers = new Map<string, ReturnType<typeof setTimeout>>()
 const inFlight = new Map<string, Promise<FlushResult>>()
-
-export function registerKindHandler(kind: OutboxKind, handler: KindHandler): void {
-  handlers.set(kind, handler)
-}
-
-/**
- * Bản sao trong BỘ NHỚ khi localStorage không ghi được (hết dung lượng, chế độ ẩn danh nghiêm
- * ngặt). Không bền qua lần tải trang, nhưng còn hơn im lặng đánh rơi thay đổi ngay tại chỗ —
- * phiên hiện tại vẫn gửi được lên server.
- */
-const memoryQueues = new Map<string, OutboxEntry[]>()
-
-// ── Lưu trữ ────────────────────────────────────────────────────────────────────────────────
-export function readEntries(uid: string): OutboxEntry[] {
-  const inMemory = memoryQueues.get(uid)
-  if (inMemory) return inMemory.map((e) => ({ ...e }))
-  try {
-    const raw = localStorage.getItem(OUTBOX_KEY(uid))
-    if (!raw) return []
-    const arr = JSON.parse(raw) as unknown
-    if (!Array.isArray(arr)) return []
-    // Lọc mục hỏng (người dùng/phiên bản cũ ghi lẫn) — thà bỏ còn hơn kẹt cả hàng đợi.
-    return arr.filter(
-      (e): e is OutboxEntry =>
-        !!e && typeof e === 'object' && typeof (e as OutboxEntry).attemptId === 'string',
-    )
-  } catch {
-    return []
-  }
-}
-
-export function writeEntries(uid: string, entries: OutboxEntry[]): void {
-  const kept = entries.slice(-MAX_ENTRIES)
-  try {
-    if (kept.length === 0) localStorage.removeItem(OUTBOX_KEY(uid))
-    else localStorage.setItem(OUTBOX_KEY(uid), JSON.stringify(kept))
-    memoryQueues.delete(uid)
-  } catch {
-    // Không ghi được xuống đĩa → giữ trong bộ nhớ để phiên này vẫn gửi được.
-    if (kept.length === 0) memoryQueues.delete(uid)
-    else memoryQueues.set(uid, kept)
-  }
-  notify(uid)
-}
-
-function notify(uid: string): void {
-  for (const cb of subscribers) {
-    try {
-      cb(uid)
-    } catch {
-      /* một người nghe lỗi không được chặn những người còn lại */
-    }
-  }
-}
-
-/** Version server mà client tin là đang có (gửi kèm `baseVersion`); 0 = chưa từng biết. */
-export function getSyncVersion(uid: string): number {
-  try {
-    const v = Number(localStorage.getItem(VERSION_KEY(uid)))
-    return Number.isFinite(v) && v > 0 ? v : 0
-  } catch {
-    return 0
-  }
-}
-
-export function setSyncVersion(uid: string, version: number): void {
-  if (!Number.isFinite(version) || version <= 0) return
-  try {
-    localStorage.setItem(VERSION_KEY(uid), String(version))
-  } catch {
-    /* ignore */
-  }
-}
-
-// ── Tiện ích ───────────────────────────────────────────────────────────────────────────────
-export function newAttemptId(): string {
-  const c = globalThis.crypto as { randomUUID?: () => string } | undefined
-  if (c && typeof c.randomUUID === 'function') return c.randomUUID()
-  // Trình duyệt cũ / ngữ cảnh không bảo mật: id chỉ cần DUY NHẤT theo (user, lần gửi).
-  return `a-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 12)}`
-}
-
-/** Băm djb2 — chỉ để so "payload có đổi không", không dùng cho bảo mật. */
-function hashPayload(kind: OutboxKind, payload: unknown): string {
-  let str: string
-  try {
-    str = kind + ':' + JSON.stringify(payload ?? null)
-  } catch {
-    return kind + ':unhashable-' + Date.now()
-  }
-  let h = 5381
-  for (let i = 0; i < str.length; i++) h = ((h << 5) + h + str.charCodeAt(i)) | 0
-  return kind + ':' + (h >>> 0).toString(36)
-}
-
-function isOnline(): boolean {
-  return typeof navigator === 'undefined' || navigator.onLine !== false
-}
 
 // ── Xếp hàng ───────────────────────────────────────────────────────────────────────────────
 /**
@@ -288,24 +174,6 @@ export function pendingProgrammingItems(uid: string): ProgrammingItem[] {
   return items
 }
 
-export function pending(uid: string): number {
-  if (!uid) return 0
-  return readEntries(uid).length
-}
-
-/** `true` khi có mục đang bị chặn vì hết phiên đăng nhập (giao diện nói "đăng nhập lại"). */
-export function isBlockedByAuth(uid: string): boolean {
-  if (!uid) return false
-  return readEntries(uid).some((e) => e.lastError === 'http_401')
-}
-
-export function subscribe(cb: (uid: string) => void): () => void {
-  subscribers.add(cb)
-  return () => {
-    subscribers.delete(cb)
-  }
-}
-
 function scheduleFlush(uid: string): void {
   const existing = debounceTimers.get(uid)
   if (existing) clearTimeout(existing)
@@ -325,12 +193,6 @@ function scheduleFlush(uid: string): void {
  *
  * An toàn khi gọi chồng: lượt đang chạy được trả lại thay vì mở lượt thứ hai.
  */
-/** 2s → 4s → 8s → 16s → 32s (trần 32s); 429 tôn trọng `Retry-After`. */
-export function backoffMs(tries: number, retryAfterMs?: number): number {
-  if (retryAfterMs !== undefined) return retryAfterMs
-  return Math.min(2 ** Math.max(1, tries), 32) * 1000
-}
-
 export function flush(uid: string, opts: { resetBackoff?: boolean } = {}): Promise<FlushResult> {
   if (!uid || isGuestId(uid)) return Promise.resolve({ sent: 0, remaining: 0 })
   const timer = debounceTimers.get(uid)
@@ -364,8 +226,9 @@ async function runFlush(uid: string, resetBackoff: boolean): Promise<FlushResult
   // Mất mạng: KHÔNG gọi fetch (tránh rác lỗi + tốn pin); sự kiện `online` sẽ gọi lại.
   if (!isOnline()) return { sent: 0, remaining: pending(uid), blocked: 'offline' }
   // Nạp LƯỜI phần gửi: `sendDueEntries`/`postEntry`/`withLock` chỉ cần khi THẬT SỰ tới lúc gửi,
-  // còn đường xếp hàng (`enqueue`) thì phải luôn sẵn trong chunk khởi động. Tách ra giữ ngân sách
-  // `Initial JS` dưới trần 140 kB (đo 2026-09-16: để tĩnh thì vượt trần).
+  // còn đường xếp hàng (`enqueue`) thì phải luôn sẵn trong chunk khởi động. `syncOutboxSender.ts`
+  // chỉ đọc từ `syncOutboxStorage.ts` (không đọc từ file này) — tránh chu trình import mà
+  // `npm run codemap -- cycles` chặn (đã dính ở PR #984).
   const { withLock, sendDueEntries } = await import('./syncOutboxSender.js')
   return withLock(uid, () => sendDueEntries(uid))
 }
@@ -413,15 +276,13 @@ export function bindOutboxListeners(): void {
   if (typeof document !== 'undefined') document.addEventListener('visibilitychange', onVisible)
 }
 
-/** Chỉ dùng trong test: gỡ toàn bộ trạng thái trong bộ nhớ của module. */
+/** Chỉ dùng trong test: gỡ toàn bộ trạng thái trong bộ nhớ của module (và của lớp lưu trữ). */
 export function __resetOutboxForTests(): void {
   for (const t of debounceTimers.values()) clearTimeout(t)
   debounceTimers.clear()
   inFlight.clear()
-  subscribers.clear()
-  handlers.clear()
-  memoryQueues.clear()
   activeUid = null
+  __resetOutboxStorageForTests()
 }
 
 bindOutboxListeners()
