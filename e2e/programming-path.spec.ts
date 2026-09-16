@@ -29,6 +29,11 @@ test('lộ trình kiến trúc sư AI mở từ P1 và dùng URL chuẩn mới',
   await expect(page.getByText('P4 · Lập trình có cấu trúc lớn')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Học bậc này' })).toHaveCount(4)
 
+  const discreteMathStage = page
+    .getByRole('listitem')
+    .filter({ hasText: 'Nền tảng rời rạc cho lập trình viên' })
+  await expect(discreteMathStage.getByRole('button', { name: 'Vào học chặng này' })).toBeVisible()
+
   if (process.env.CAPTURE_PATH_JOURNEY === '1') {
     for (const viewport of [
       { width: 390, height: 844 },

@@ -39,4 +39,8 @@ describe('cầu nối chặng chuyên sâu → unit bài học', () => {
     expect(specHasLessons('web')).toBe(true)
     expect(specHasLessons('game')).toBe(false)
   })
+
+  it('mathforcode-s1 phủ đủ bốn module theo đúng thứ tự bằng bốn unit thật', () => {
+    expect(unitsOfStage('mathforcode-s1')).toEqual(['p6-u134', 'p6-u135', 'p6-u136', 'p6-u137'])
+  })
 })
