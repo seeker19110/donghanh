@@ -55,6 +55,7 @@ describe('file nguồn không chứa ký tự điều khiển', () => {
     expect(files.length).toBeGreaterThan(1000)
   })
 
+  // Quét toàn bộ source có thể vượt default 5s khi suite coverage chạy song song trên CI.
   it('không file nào có NUL hay ký tự điều khiển khác', () => {
     const viPham: string[] = []
     for (const f of files) {
@@ -73,5 +74,5 @@ describe('file nguồn không chứa ký tự điều khiển', () => {
     }
     // In thẳng danh sách: người sửa thấy ngay file nào, dòng nào, byte nào.
     expect(viPham).toEqual([])
-  })
+  }, 30_000)
 })
