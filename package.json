@@ -35,6 +35,8 @@
     "format:check": "prettier --check .",
     "preview": "vite preview --config apps/dhcb/vite.config.ts",
     "codemap": "tsx scripts/codemap.ts",
+    "shots:learning-ux": "tsx scripts/shots-learning-ux.ts",
+    "cwv:prod": "bash scripts/lighthouse-cwv.sh",
     "audit:lessons": "tsx scripts/audit-lessons.ts",
     "changelog": "tsx scripts/changelog.ts",
     "eval:tutor": "npx tsx scripts/eval-tutor.ts",
