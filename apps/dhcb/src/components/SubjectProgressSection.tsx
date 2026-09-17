@@ -120,7 +120,7 @@ export function SubjectProgressView({ cards, trangThai, onRetry }: SubjectProgre
               </li>
             ))}
           </ul>
-          <p className="t-caption mt-3 text-content-secondary">
+          <p className="t-caption mt-3 text-content-secondary read-measure">
             Số ở đây chỉ đếm những mục đã có bằng chứng hoàn thành. Mục chưa có bằng chứng được ghi
             là “chưa đo được”, không tính thành 0.
           </p>

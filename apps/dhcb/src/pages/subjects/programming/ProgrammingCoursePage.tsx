@@ -74,14 +74,18 @@ export default function ProgrammingCoursePage() {
             thẳng vào một bài, không phải cuộn xuống rồi mới bấm. */}
         <TwoPane isDesktop={isDesktop} railSide="left" railLabel={TEN_MUC_LUC} rail={rail}>
           <div className="space-y-6">
-            <PageHeader title={course.title} subtitle={course.canDo} />
+            <PageHeader
+              title={course.title}
+              subtitle={course.canDo}
+              subtitleClassName="read-measure"
+            />
             {trigger}
 
             <section className="bg-zinc-900/80 border border-accent-500/30 rounded-3xl p-5 space-y-2 shadow-sm">
-              <p className="text-xs text-zinc-300 leading-relaxed">
+              <p className="text-xs text-zinc-300 leading-relaxed read-measure">
                 <strong>Thời lượng:</strong> {course.duration}
               </p>
-              <p className="text-xs text-zinc-300 leading-relaxed">
+              <p className="text-xs text-zinc-300 leading-relaxed read-measure">
                 {course.prerequisites.length === 0 ? (
                   <>
                     <strong>Cần biết trước:</strong> không — vào thẳng học được.
@@ -191,7 +195,7 @@ export default function ProgrammingCoursePage() {
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-zinc-400 leading-relaxed flex items-start gap-1.5">
+                    <p className="text-xs text-zinc-400 leading-relaxed read-measure flex items-start gap-1.5">
                       <BookOpen className="w-3.5 h-3.5 shrink-0 mt-0.5 text-zinc-500" />
                       <span>{chapter.summary}</span>
                     </p>
