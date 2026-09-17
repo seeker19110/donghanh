@@ -49,11 +49,11 @@ describe('màu Tailwind cố định dùng làm màu chữ', () => {
     ) as never
     const hits = auditLine('x.tsx', 1, '<p className="text-amber-300">chào</p>', themes)
     expect(hits.length).toBeGreaterThan(0)
-    expect(hits.every((h) => ['blue-sky', 'pink', 'kid'].includes(h.theme))).toBe(true)
+    expect(hits.every((h) => ['blue-sky', 'kid'].includes(h.theme))).toBe(true)
   })
 
   // Khuôn lỗi PR #981: `text-zinc-*` là token theo theme nên cổng cũ bỏ qua, nhưng ba bậc tối
-  // nhất rớt AA ở CẢ 5 theme (hỏng ĐỀU — đúng dấu hiệu đã thấy trên `/so-tay-loi-sai`).
+  // nhất rớt AA ở CẢ 3 theme (hỏng ĐỀU — đúng dấu hiệu đã thấy trên `/so-tay-loi-sai`).
   it('bắt được thang zinc bậc tối (600/700/800) rớt AA ở mọi theme', () => {
     const themes = parseThemeTokens(
       readFileSync(`${ROOT}/packages/core-ui/theme.css`, 'utf-8'),
@@ -61,7 +61,7 @@ describe('màu Tailwind cố định dùng làm màu chữ', () => {
     for (const step of ['600', '700', '800']) {
       const hits = auditLine('x.tsx', 1, `<p className="text-zinc-${step}">chào</p>`, themes)
       expect(hits.length, `text-zinc-${step} phải bị bắt`).toBeGreaterThan(0)
-      expect(new Set(hits.map((h) => h.theme)).size, 'phải hỏng ở đủ 5 theme').toBe(5)
+      expect(new Set(hits.map((h) => h.theme)).size, 'phải hỏng ở đủ 3 theme').toBe(3)
     }
   })
 

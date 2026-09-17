@@ -144,16 +144,13 @@ export default {
     },
   },
   plugins: [
-    // Biến thể `theme-light:` áp dụng cho các theme NỀN SÁNG (Blue sky, Pink, Nhi đồng).
+    // Biến thể `theme-light:` áp dụng cho các theme NỀN SÁNG (Blue sky, Nhi đồng).
     // Dùng để chọn SẮC ĐỘ ĐẬM HƠN cho các màu cố định của Tailwind (amber/sky/teal…)
     // — màu -300/-400 vốn sáng (đọc tốt trên nền tối) nhưng rớt AA trên nền sáng.
-    // Theme tối (Xanh đêm, Rực rỡ) không bị ảnh hưởng (không thêm CSS).
+    // Theme tối (Xanh đêm) không bị ảnh hưởng (không thêm CSS). Pink/Rực rỡ đã bị
+    // xoá khỏi sản phẩm (chốt 2026-09-17).
     plugin(({ addVariant }) => {
-      addVariant('theme-light', [
-        '[data-theme="blue-sky"] &',
-        '[data-theme="pink"] &',
-        '[data-theme="kid"] &',
-      ])
+      addVariant('theme-light', ['[data-theme="blue-sky"] &', '[data-theme="kid"] &'])
     }),
   ],
 }

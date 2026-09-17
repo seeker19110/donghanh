@@ -17,7 +17,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { mockLogin, type ThemeName } from './helpers/auth'
 import { freezeAnimations } from './helpers/axe'
 
-const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'pink', 'vibrant', 'kid']
+const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'kid']
 const SECTION = '#companion-link-section'
 
 async function mockApi(page: Page) {
@@ -86,7 +86,7 @@ test('a11y AAA: chữ nội dung trong khối đạt tương phản ≥ 7:1', as
   expect(await scanSection(page, ['wcag2aaa'])).toEqual([])
 })
 
-const DIRECTION_B_THEMES: ThemeName[] = ['blue-sky', 'pink']
+const DIRECTION_B_THEMES: ThemeName[] = ['blue-sky']
 
 for (const theme of DIRECTION_B_THEMES) {
   test(`a11y: khối Follow along (chiều B) theme=${theme} — 0 vi phạm A/AA`, async ({ page }) => {

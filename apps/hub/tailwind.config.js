@@ -41,11 +41,7 @@ export default {
   },
   plugins: [
     plugin(({ addVariant }) => {
-      addVariant('theme-light', [
-        '[data-theme="blue-sky"] &',
-        '[data-theme="pink"] &',
-        '[data-theme="kid"] &',
-      ])
+      addVariant('theme-light', ['[data-theme="blue-sky"] &', '[data-theme="kid"] &'])
     }),
   ],
 }
