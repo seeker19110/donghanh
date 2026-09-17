@@ -12,6 +12,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { X, UserPlus } from 'lucide-react'
 import { useLang } from '../context/useLang'
+import { hasAnyGuestSession } from '../lib/guestActivity'
 
 // TÊN KHOÁ sessionStorage, không phải bí mật — xem chú thích đầy đủ ở packages/core-ui/guestId.ts.
 const DISMISS_KEY = 'dhcb_guest_banner_dismissed_v1' // gitleaks:allow
@@ -29,7 +30,9 @@ export default function GuestBanner() {
   const isVi = lang === 'vi'
   const [dismissed, setDismissed] = useState(readDismissed)
 
-  if (dismissed) return null
+  // [P0-3] Khách VỪA MỞ trang, CHƯA làm gì thì banner chỉ gây phiền — chỉ hiện SAU KHI đã có ít
+  // nhất một dấu vết học thật trên máy này (xem lib/guestActivity.ts).
+  if (dismissed || !hasAnyGuestSession()) return null
 
   const handleDismiss = () => {
     try {
