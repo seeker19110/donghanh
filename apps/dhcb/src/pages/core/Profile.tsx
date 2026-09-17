@@ -25,6 +25,7 @@ import {
 } from 'lucide-react'
 import Layout from '../../components/Layout'
 import PageHeader from '../../components/PageHeader'
+import ThemeToggle from '../../components/ThemeToggle'
 import LoadError from '../../components/LoadError'
 import { Skeleton } from '../../components/Skeleton'
 import ReferralSection from '../../components/ReferralSection'
@@ -58,6 +59,7 @@ import { navigateTo } from '../../lib/subjectsHost'
 import { PageShell } from '@core/PageShell'
 import { TwoPane } from '@core/TwoPane'
 import { useIsDesktopViewport } from '../../lib/useIsDesktopViewport'
+import { STUDIOS } from '../../lib/studios'
 
 export default function Profile() {
   const nav = useNavigate()
@@ -353,6 +355,39 @@ export default function Profile() {
             )}
 
             {/* ── CÁC KHÔNG GIAN CHUYÊN BIỆT (Specialized Spaces & Hubs) ───────── */}
+            {/* ── KHÔNG GIAN (bộ chuyển Studio) ────────────────────────────────
+                [P0-4, 2026-09-17] Bộ chuyển Studio ("⌘K") bị ẩn khỏi header dưới
+                1024px (xem `components/Layout.tsx`) — nội dung của nó chuyển hẳn
+                về đây để người dùng mobile vẫn có đường sang 5 Studio nền tảng. */}
+            <section className="space-y-3 animate-fade-in">
+              <h2 className="text-sm font-semibold text-white">{isA ? 'Không gian' : 'Spaces'}</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {STUDIOS.map((st) => {
+                  const Icon = st.icon
+                  return (
+                    <button
+                      key={st.id}
+                      onClick={() => navigateTo(nav, st.to)}
+                      className={`tap-44 flex items-start gap-3.5 p-4 rounded-2xl border text-left transition group active:scale-[0.99] ${st.color}`}
+                    >
+                      <div className="w-10 h-10 rounded-xl bg-zinc-950/60 flex items-center justify-center shrink-0 border border-zinc-800/80 group-hover:scale-105 transition-transform">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-white text-sm group-hover:text-accent-300 transition-colors">
+                          {st.title}
+                        </p>
+                        <p className="text-xs text-zinc-400 mt-0.5 leading-relaxed line-clamp-1">
+                          {st.subtitle}
+                        </p>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-zinc-500 group-hover:text-zinc-300 group-hover:translate-x-0.5 transition shrink-0 mt-2.5" />
+                    </button>
+                  )
+                })}
+              </div>
+            </section>
+
             <section className="space-y-3 animate-fade-in">
               <div className="flex items-center justify-between">
                 <h2 className="text-sm font-semibold text-white">
@@ -393,6 +428,23 @@ export default function Profile() {
               <h2 className="text-sm font-semibold text-white">
                 {isA ? 'Cài đặt & Tiện ích' : 'Settings & Utilities'}
               </h2>
+
+              {/* Đổi giao diện — dưới 1024px, header ẩn nút này (P0-4); đây là nơi thay thế
+                  trên mobile, cạnh Hồ sơ đã có sẵn. */}
+              <div className="w-full bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 flex items-center gap-4">
+                <div className="w-11 h-11 rounded-xl bg-zinc-800 flex items-center justify-center shrink-0">
+                  <Sparkles className="w-5 h-5 text-accent-400" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-white text-[15px]">
+                    {isA ? 'Giao diện' : 'Theme'}
+                  </p>
+                  <p className="text-xs text-zinc-400 truncate mt-0.5">
+                    {isA ? 'Xanh đêm · Blue sky' : 'Night blue · Blue sky'}
+                  </p>
+                </div>
+                <ThemeToggle className="tap-44 flex items-center justify-center text-zinc-400 hover:text-white transition p-2 rounded-xl bg-zinc-800/60 border border-zinc-700/60 hover:bg-zinc-700/60 shrink-0" />
+              </div>
 
               {/* Nút sang Cài đặt học Tiếng Anh */}
               <button

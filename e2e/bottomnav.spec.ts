@@ -88,4 +88,15 @@ test.describe('BottomNav (U-5)', () => {
     await historyBtn.click()
     await expect(page).toHaveURL(/\/lich-su-hoc$/)
   })
+
+  // [P0-4, 2026-09-17, AC-3] Chế độ tập trung (`Layout focus`) ẩn hẳn BottomNav — trang ngồi
+  // học lâu (bài Lập trình) không còn thanh điều hướng đáy mời rời đi; Trang chủ vẫn giữ.
+  test('trang chủ THẤY BottomNav, trang bài học Lập trình (focus) KHÔNG THẤY', async ({ page }) => {
+    await mockLogin(page, 'vi')
+    await page.goto('/')
+    await expect(page.locator('nav[aria-label="Điều hướng chính"]')).toBeVisible()
+
+    await page.goto('/lap-trinh/bai-hoc/p1-u4-l1', { waitUntil: 'domcontentloaded' })
+    await expect(page.locator('nav[aria-label="Điều hướng chính"]')).toBeHidden()
+  })
 })
