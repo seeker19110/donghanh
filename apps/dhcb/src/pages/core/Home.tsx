@@ -6,28 +6,14 @@
 import { useEffect, useMemo, useState } from 'react'
 import FirstTaskCard from '../../components/FirstTaskCard'
 import { useNavigate } from 'react-router-dom'
-import {
-  ChevronRight,
-  History,
-  TrendingUp,
-  Brain,
-  X,
-  Sparkles,
-  Calculator,
-  Briefcase,
-  GraduationCap,
-  Atom,
-  FlaskConical,
-  Dna,
-  Code2,
-} from 'lucide-react'
-import { SUBJECT_ENTRIES } from '@dhcb/core-learner/subjectEntry'
+import { ChevronRight, History, TrendingUp, Brain, X, Sparkles, Briefcase } from 'lucide-react'
 import Layout from '../../components/Layout.js'
 import PricePromoBanner from '../../components/PricePromoBanner.js'
 import RewardTipBanner from '../../components/RewardTipBanner.js'
 import HomeAiBriefingCard from '../../components/Home/HomeAiBriefingCard.js'
 import TodayCard from '../../components/Home/TodayCard.js'
 import HomeUniversalAiBar from '../../components/Home/HomeUniversalAiBar.js'
+import SubjectSpaceList from '../../components/Home/SubjectSpaceList.js'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { useLang } from '../../context/useLang'
 import { useAuth } from '../../context/useAuth'
@@ -214,58 +200,12 @@ export default function Home() {
   const rewardTip = uid ? <RewardTipBanner uid={uid} isA={vi} /> : null
 
   // ── CÁC BỘ MÔN & KHÔNG GIAN ──
-  // [S05-2] Trước đây môn Anh và 4 môn STEM (gộp chung một dòng "Toán, Lý, Hóa, Sinh") được khai
-  // TAY tại đây, lệch với hub (`apps/hub/src/App.tsx` cũng khai tay 6 môn riêng). Nay phần MÔN
-  // HỌC render từ `SUBJECT_ENTRIES` (một nguồn dùng chung cho hub và app,
-  // `packages/core-learner/subjectEntry.ts`) — đủ 6 môn, đúng nhãn/thứ tự/`ctaPath` của registry;
-  // icon/mô tả/lối tắt là phần TRÌNH BÀY riêng của app, giữ ở đây (không thuộc nguồn chung).
-  // Thẻ Sự nghiệp/Khởi nghiệp & Đời sống GIỮ NGUYÊN (không phải môn học, không tới từ registry).
-  const SUBJECT_ICON: Record<string, typeof GraduationCap> = {
-    english: GraduationCap,
-    programming: Code2,
-    mathematics: Calculator,
-    physics: Atom,
-    chemistry: FlaskConical,
-    biology: Dna,
-  }
-  const SUBJECT_TONE: Record<string, string> = {
-    english: 'bg-emerald-500/15 text-emerald-400 theme-light:text-emerald-900',
-    programming: 'bg-cyan-500/15 text-cyan-400 theme-light:text-cyan-900',
-    mathematics: 'bg-blue-500/15 text-blue-400 theme-light:text-blue-800',
-    physics: 'bg-blue-500/15 text-blue-400 theme-light:text-blue-800',
-    chemistry: 'bg-blue-500/15 text-blue-400 theme-light:text-blue-800',
-    biology: 'bg-blue-500/15 text-blue-400 theme-light:text-blue-800',
-  }
-  const SUBJECT_DESC: Record<string, string> = {
-    english: 'Gia sư song ngữ Việt ⇄ Anh: lộ trình CEFR A1–C2, luyện nói, chấm bài viết, từ điển.',
-    programming: 'Từ số 0 tới sản phẩm chạy thật: Python, JavaScript/TypeScript, SQL — bậc P1–P6.',
-    mathematics: 'Đại số, hình học, giải tích, xác suất — giải từng bước cùng AI.',
-    physics: 'Cơ, nhiệt, điện từ, quang — mô phỏng thí nghiệm trực quan.',
-    chemistry: 'Vô cơ, hữu cơ, phản ứng oxi hóa khử — công thức LaTeX rõ ràng.',
-    biology: 'Di truyền, tế bào, tiến hóa, sinh thái — bài tập có hướng dẫn lập luận.',
-  }
-  const SUBJECT_SHORTCUTS: Record<string, Array<{ label: string; go: () => void }>> = {
-    english: [
-      { label: 'Lộ trình CEFR', go: () => nav('/lo-trinh-hoc') },
-      { label: 'Luyện nói', go: () => nav('/luyen-noi') },
-      { label: 'Từ điển', go: () => nav('/tu-dien') },
-    ],
-  }
-
-  const subjectSpaces = SUBJECT_ENTRIES.map((entry) => ({
-    id: entry.id,
-    icon: SUBJECT_ICON[entry.id] ?? GraduationCap,
-    tone: SUBJECT_TONE[entry.id] ?? 'bg-zinc-500/15 text-zinc-300',
-    title: entry.label,
-    desc: SUBJECT_DESC[entry.id] ?? '',
-    go: () => nav(entry.ctaPath),
-    shortcuts: SUBJECT_SHORTCUTS[entry.id] ?? [],
-  }))
-
+  // [P1-8] Phần MÔN HỌC (icon/mô tả/lối tắt/sắp môn đang học lên đầu/trạng thái bằng chữ) tách
+  // sang `SubjectSpaceList` (components/Home/SubjectSpaceList.tsx) — thuần hơn để test, dùng
+  // chung `orderSubjects` (lib/home/orderSubjects.ts). Thẻ Sự nghiệp/Khởi nghiệp & Đời sống GIỮ
+  // NGUYÊN tại đây (không phải môn học, không tới từ `SUBJECT_ENTRIES`, không tham gia sắp xếp).
   const careerLifeSpace = {
     id: 'career-life',
-    icon: Briefcase,
-    tone: 'bg-purple-500/15 text-purple-400 theme-light:text-purple-800',
     title: 'Sự nghiệp, Khởi nghiệp & Đời sống',
     desc: 'Phỏng vấn thử, quản lý công việc, Lean Canvas, bánh xe cuộc đời.',
     go: () => nav('/su-nghiep-khoi-nghiep'),
@@ -277,64 +217,48 @@ export default function Home() {
     ],
   }
 
-  const spaces: Array<{
-    id: string
-    icon: typeof GraduationCap
-    tone: string
-    title: string
-    desc: string
-    go: () => void
-    shortcuts: Array<{ label: string; go: () => void }>
-  }> = [...subjectSpaces, careerLifeSpace]
-
   const spacesSection = (
     <section aria-labelledby="home-spaces-heading" className="pt-2">
       {/* Khoảng TRÊN tiêu đề (pt-2 + mt của section) lớn hơn khoảng dưới (mb-2) — luật 2 mục 9. */}
       <h2 id="home-spaces-heading" className="text-base font-bold text-white mb-2 px-1">
         Bộ môn & không gian
       </h2>
-      <ul className="divide-y divide-zinc-800 rounded-3xl border border-zinc-800 bg-zinc-900/90">
-        {spaces.map((s) => {
-          const Icon = s.icon
-          return (
-            <li key={s.id} className="p-4">
+      <SubjectSpaceList plan={todayPlan} isDesktop={isDesktop} />
+      <ul className="mt-3 divide-y divide-zinc-800 rounded-3xl border border-zinc-800 bg-zinc-900/90">
+        <li className="p-4">
+          <button
+            onClick={careerLifeSpace.go}
+            className="w-full flex items-start gap-3.5 text-left group"
+            aria-label={`Vào không gian ${careerLifeSpace.title}`}
+          >
+            <div className="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 bg-purple-500/15 text-purple-400 theme-light:text-purple-800">
+              <Briefcase className="w-5 h-5" aria-hidden="true" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-white text-base flex items-center gap-1.5">
+                <span>{careerLifeSpace.title}</span>
+                <ChevronRight
+                  className="w-4 h-4 text-zinc-500 group-hover:text-white group-hover:translate-x-0.5 transition-transform"
+                  aria-hidden="true"
+                />
+              </h3>
+              <p className="text-sm text-zinc-400 leading-relaxed mt-0.5 read-measure">
+                {careerLifeSpace.desc}
+              </p>
+            </div>
+          </button>
+          <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 pl-[3.625rem]">
+            {careerLifeSpace.shortcuts.map((sc) => (
               <button
-                onClick={s.go}
-                className="w-full flex items-start gap-3.5 text-left group"
-                aria-label={`Vào không gian ${s.title}`}
+                key={sc.label}
+                onClick={sc.go}
+                className="tap-44-y text-sm font-medium text-zinc-400 hover:text-white underline-offset-4 hover:underline transition"
               >
-                <div
-                  className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 ${s.tone}`}
-                >
-                  <Icon className="w-5 h-5" aria-hidden="true" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-white text-base flex items-center gap-1.5">
-                    <span>{s.title}</span>
-                    <ChevronRight
-                      className="w-4 h-4 text-zinc-500 group-hover:text-white group-hover:translate-x-0.5 transition-transform"
-                      aria-hidden="true"
-                    />
-                  </h3>
-                  <p className="text-sm text-zinc-400 leading-relaxed mt-0.5 read-measure">
-                    {s.desc}
-                  </p>
-                </div>
+                {sc.label}
               </button>
-              <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 pl-[3.625rem]">
-                {s.shortcuts.map((sc) => (
-                  <button
-                    key={sc.label}
-                    onClick={sc.go}
-                    className="tap-44-y text-sm font-medium text-zinc-400 hover:text-white underline-offset-4 hover:underline transition"
-                  >
-                    {sc.label}
-                  </button>
-                ))}
-              </div>
-            </li>
-          )
-        })}
+            ))}
+          </div>
+        </li>
       </ul>
     </section>
   )
