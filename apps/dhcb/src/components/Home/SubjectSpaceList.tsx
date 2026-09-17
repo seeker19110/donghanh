@@ -148,7 +148,7 @@ export default function SubjectSpaceList({
                 {isEmptyState && (
                   <button
                     onClick={() => nav(entry.ctaPath)}
-                    className="tap-44-y text-sm font-semibold text-accent-400 hover:text-accent-300 underline-offset-4 hover:underline transition"
+                    className="tap-44-y text-sm font-semibold text-accent-400 theme-light:text-accent-800 hover:text-accent-300 theme-light:hover:text-accent-900 underline-offset-4 hover:underline transition"
                   >
                     Thử 5 phút
                   </button>
