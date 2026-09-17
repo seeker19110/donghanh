@@ -38,7 +38,9 @@ export default function BottomNav({ triggerHandlers, isReachabilityOpen }: Props
 
   return (
     <nav
-      className="lg:hidden fixed bottom-0 inset-x-0 z-40 min-h-[5.25rem] pb-safe bg-zinc-950/90 backdrop-blur-xl border-t border-zinc-800/80 shadow-2xl shadow-black/40"
+      // [P0-4, 2026-09-17] Class `bottom-nav` KHÔNG mang style riêng — nó là móc để
+      // `index.css` ẩn thanh này khi `[data-focus='1']` (chế độ tập trung, xem Layout.tsx).
+      className="bottom-nav lg:hidden fixed bottom-0 inset-x-0 z-40 min-h-[5.25rem] pb-safe bg-zinc-950/90 backdrop-blur-xl border-t border-zinc-800/80 shadow-2xl shadow-black/40"
       aria-label="Điều hướng chính"
     >
       {/* Viền sáng gradient đa sắc tinh tế ở đỉnh thanh điều hướng */}

@@ -167,3 +167,23 @@ for (const vp of VIEWPORTS) {
     })
   }
 }
+
+// [P0-4, 2026-09-17, AC-4] Header mobile chỉ còn 4 khe — không nút nào bị cắt chữ
+// (`scrollWidth > clientWidth` là dấu hiệu `truncate` ăn mất nội dung mà không co lại được).
+test('header mobile 360×740: không phần tử nào bị cắt chữ (truncate)', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 740 })
+  await mockLogin(page, 'vi', 'dark-blue')
+  await page.goto('/tro-truyen', { waitUntil: 'domcontentloaded' })
+  await page.waitForSelector('header')
+
+  const cacDoTran = await page.evaluate(() => {
+    const header = document.querySelector('header')
+    if (!header) return []
+    const els = Array.from(header.querySelectorAll<HTMLElement>('button, a'))
+    return els
+      .filter((el) => el.scrollWidth > el.clientWidth + 1) // +1: sai số dựng chữ (subpixel)
+      .map((el) => (el.getAttribute('aria-label') || el.textContent || '').trim().slice(0, 40))
+  })
+
+  expect(cacDoTran, `Phần tử header bị cắt chữ: ${cacDoTran.join(', ')}`).toEqual([])
+})

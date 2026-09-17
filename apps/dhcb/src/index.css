@@ -68,6 +68,14 @@ html[data-sidebar='collapsed'] {
   --sidebar-w: 4.5rem;
 }
 
+/* [P0-4, 2026-09-17] CHẾ ĐỘ TẬP TRUNG (`Layout.tsx` prop `focus`) — ẩn hẳn BottomNav trên
+   trang ngồi học lâu, cùng cơ chế `data-sidebar` ở trên: cờ đặt lên <html>
+   (`document.documentElement.dataset.focus`), không phải prop truyền xuống, để BottomNav
+   (dựng ở App.tsx, không nhận prop `focus` của trang) tự biết mà ẩn. */
+html[data-focus='1'] nav.bottom-nav {
+  display: none;
+}
+
 @layer base {
   html {
     /* Chặn iOS/Safari tự phóng to chữ khi xoay ngang màn hình */
