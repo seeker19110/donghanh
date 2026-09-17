@@ -190,3 +190,63 @@ describe('Nhấp nháy chỉ còn khi có thứ đang thay đổi thật (đợt
     expect(actual).toEqual(ALLOWED_PING_COUNT)
   })
 })
+
+// ── P2-13 (2026-09-17) — `prefers-reduced-motion` phải phủ MỌI keyframe ─────────────────
+//
+// VÌ SAO CẦN: đặc tả P2-13 (`docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md`) yêu cầu
+// AC-2 "test tự chứng minh bằng ca giả": thêm keyframe mới mà quên phủ trong rule reduced-motion
+// thì test này phải đỏ. Rule THẬT ở `apps/dhcb/src/index.css` (khối bắt đầu bằng chú thích
+// "TÔN TRỌNG "GIẢM CHUYỂN ĐỘNG" TRÊN TOÀN APP", thêm ở đợt S13-2 2026-09-16) dùng selector
+// UNIVERSAL `*, *::before, *::after` — khác cách đặc tả gợi ý (liệt kê tường minh từng
+// `.animate-*`) nhưng MẠNH HƠN: mọi class animate-* hiện có VÀ mọi class sinh từ keyframe
+// thêm sau này đều tự động khớp, không cần sửa CSS mỗi lần thêm keyframe.
+const INDEX_CSS_PATH = join(SRC_DIR, 'index.css')
+const TAILWIND_CONFIG_PATH = join(SRC_DIR, '../tailwind.config.js')
+
+/** Selector rule reduced-motion có phủ MỌI class animate-* không (kể cả tên chưa từng tồn tại)? */
+function isCoveredByUniversalReducedMotionRule(cssSource: string): boolean {
+  // Chỉ đúng khi có MỘT khối `@media (prefers-reduced-motion: reduce)` chứa rule
+  // `*, *::before, *::after { … animation-duration: 0s !important … }` — selector universal
+  // không phân biệt tên class nên tự động phủ mọi keyframe, không cần liệt kê tay.
+  return /@media \(prefers-reduced-motion: reduce\) \{\s*\*,\s*\*::before,\s*\*::after \{[^}]*animation-duration:\s*0s\s*!important/s.test(
+    cssSource,
+  )
+}
+
+describe('AC-2 (P2-13): rule prefers-reduced-motion phủ MỌI keyframe, kể cả keyframe mới thêm', () => {
+  it('mọi keyframe khai trong tailwind.config.js đều tồn tại thật (canh hàm quét không lặng lẽ rỗng)', () => {
+    const tailwindConfig = readFileSync(TAILWIND_CONFIG_PATH, 'utf8')
+    const keyframeNames = Array.from(
+      tailwindConfig.matchAll(/^\s{8}(?:'([\w-]+)'|(\w[\w-]*)):\s*\{/gm),
+    )
+      .map((m) => m[1] ?? m[2])
+      .filter((name): name is string => Boolean(name))
+    expect(keyframeNames.length).toBeGreaterThanOrEqual(10)
+    // Vài keyframe tiêu biểu phải có mặt — chống hàm quét đọc nhầm khối khác trong file.
+    expect(keyframeNames).toEqual(expect.arrayContaining(['fade-in', 'pop-correct', 'shake']))
+  })
+
+  it('rule thật trong index.css hiện phủ mọi keyframe (selector universal)', () => {
+    const indexCss = readFileSync(INDEX_CSS_PATH, 'utf8')
+    expect(isCoveredByUniversalReducedMotionRule(indexCss)).toBe(true)
+  })
+
+  it('CA GIẢ — rule bị thu hẹp thành liệt kê tường minh và quên một keyframe mới → phải báo KHÔNG phủ', () => {
+    // Mô phỏng lỗi thật có thể xảy ra: ai đó đổi rule chung sang liệt kê tay từng class thay vì
+    // dùng `*`, rồi quên thêm class ứng với keyframe MỚI (`animate-fake-future-anim`, chưa từng
+    // tồn tại — đảm bảo đây đúng là ca giả).
+    const scopedRuleMissingNewKeyframe = `
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in, .animate-fade-up, .animate-scale-in {
+    animation-duration: 0s !important;
+  }
+}`
+    expect(isCoveredByUniversalReducedMotionRule(scopedRuleMissingNewKeyframe)).toBe(false)
+  })
+
+  it('CA GIẢ — không có khối prefers-reduced-motion nào cả → phải báo KHÔNG phủ', () => {
+    expect(
+      isCoveredByUniversalReducedMotionRule('.animate-fade-in { animation: fade-in 1s; }'),
+    ).toBe(false)
+  })
+})
