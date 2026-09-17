@@ -47,24 +47,25 @@
 
 ## 3. Milestones và slices
 
-| ID     | Outcome/AC                                                      | Dependency | Spec                                           | Issue | PR   | State     | Evidence                  |
-| ------ | --------------------------------------------------------------- | ---------- | ---------------------------------------------- | ----- | ---- | --------- | ------------------------- |
-| M1/S1  | Đặc tả chương trình, coverage map và kế hoạch phát hành         | —          | `2026-09-15-khoa-kien-truc-su-phan-mem-ai.md`  | —     | #938 | DONE      | Spec đã duyệt và merge    |
-| M1/S2  | Manifest mới + chặng xương sống P1–P4 hiện đúng trong UI        | S1 duyệt   | cùng spec                                      | —     | #942 | DONE      | CI xanh, merge `9491afb7` |
-| M2/S1a | `mathforcode-s1`: số, logic, modulo, Big-O có bài thật          | M1         | `2026-09-16-mathforcode-s1-bai-hoc-that.md`    | —     | #945 | DONE      | CI xanh, merge `598df501` |
-| M2/S1b | `mathforcode-s2`: tổ hợp, xác suất, thống kê có bài thật        | S1a        | `2026-09-16-mathforcode-s2-bai-hoc-that.md`    | —     | #950 | DONE      | CI xanh, merge `0e8df605` |
-| M2/S1f | `mathforcode-s3..s4`: tuyến tính, giải tích có bài thật         | S1b        | `2026-09-16-mathforcode-s3-s4-bai-hoc-that.md` | —     | #974 | DONE      | CI xanh, merge `fc1e6b60` |
-| M2/S1c | `algo-s1`: nền tảng DSA và complexity có bài thật               | S1a        | `2026-09-16-algo-s1-bai-hoc-that.md`           | —     | #954 | DONE      | CI xanh, merge `3dfd889d` |
-| M2/S1g | `algo-s2`: đệ quy, cây, đồ thị và chiến lược có bài thật        | S1c        | `2026-09-16-algo-s2-bai-hoc-that.md`           | —     | #975 | DONE      | CI xanh, merge `b995df8d` |
-| M2/S1d | `systems-s1`: bộ nhớ, C, debug và build có bài thật             | S1c        | `2026-09-16-systems-s1-bai-hoc-that.md`        | —     | #955 | DONE      | CI xanh, merge `3f3447f5` |
-| M2/S1h | `systems-s2`: OS, tiến trình và syscall có bài thật             | S1d        | `2026-09-16-systems-s2-bai-hoc-that.md`        | —     | #957 | DONE      | CI xanh, merge `0130e577` |
-| M2/S1e | `devops-s1` + Runtime Lab Linux                                 | S1d        | `2026-09-16-devops-s1-bai-hoc-that.md`         | —     | #967 | DONE      | CI xanh, merge `a2077f5f` |
-| M2/S1i | `security-s1`: threat model, crypto, API và session có bài thật | M2         | `2026-09-16-security-s1-bai-hoc-that.md`       | —     | —    | BUILDING  | 4 unit/8 lesson, chờ PR   |
-| M3/S1  | Backend, data, distributed systems và reliability hoàn chỉnh    | M2         | viết trước slice                               | —     | —    | BACKLOG   |                           |
-| M4/S1  | ML/LLM, RAG, evaluation và AI security hoàn chỉnh               | M3         | `2026-09-16-ai-s2-s4-bai-hoc-that.md`          | —     | #976 | VERIFYING | Đặc tả chờ CI             |
-| M5/S1  | Serving, LLMOps, agent runtime, GPU/K8s và observability        | M4         | viết trước slice                               | —     | —    | BACKLOG   |                           |
-| M6/S1  | Enterprise architecture, governance, FinOps và leadership       | M5         | viết trước slice                               | —     | —    | BACKLOG   |                           |
-| M7/S1  | Capstone, full audit, ảnh 390/1440 và release evidence          | M2–M6      | viết trước slice                               | —     | —    | BACKLOG   |                           |
+| ID     | Outcome/AC                                                        | Dependency | Spec                                           | Issue | PR   | State     | Evidence                  |
+| ------ | ----------------------------------------------------------------- | ---------- | ---------------------------------------------- | ----- | ---- | --------- | ------------------------- |
+| M1/S1  | Đặc tả chương trình, coverage map và kế hoạch phát hành           | —          | `2026-09-15-khoa-kien-truc-su-phan-mem-ai.md`  | —     | #938 | DONE      | Spec đã duyệt và merge    |
+| M1/S2  | Manifest mới + chặng xương sống P1–P4 hiện đúng trong UI          | S1 duyệt   | cùng spec                                      | —     | #942 | DONE      | CI xanh, merge `9491afb7` |
+| M2/S1a | `mathforcode-s1`: số, logic, modulo, Big-O có bài thật            | M1         | `2026-09-16-mathforcode-s1-bai-hoc-that.md`    | —     | #945 | DONE      | CI xanh, merge `598df501` |
+| M2/S1b | `mathforcode-s2`: tổ hợp, xác suất, thống kê có bài thật          | S1a        | `2026-09-16-mathforcode-s2-bai-hoc-that.md`    | —     | #950 | DONE      | CI xanh, merge `0e8df605` |
+| M2/S1f | `mathforcode-s3..s4`: tuyến tính, giải tích có bài thật           | S1b        | `2026-09-16-mathforcode-s3-s4-bai-hoc-that.md` | —     | #974 | DONE      | CI xanh, merge `fc1e6b60` |
+| M2/S1c | `algo-s1`: nền tảng DSA và complexity có bài thật                 | S1a        | `2026-09-16-algo-s1-bai-hoc-that.md`           | —     | #954 | DONE      | CI xanh, merge `3dfd889d` |
+| M2/S1g | `algo-s2`: đệ quy, cây, đồ thị và chiến lược có bài thật          | S1c        | `2026-09-16-algo-s2-bai-hoc-that.md`           | —     | #975 | DONE      | CI xanh, merge `b995df8d` |
+| M2/S1d | `systems-s1`: bộ nhớ, C, debug và build có bài thật               | S1c        | `2026-09-16-systems-s1-bai-hoc-that.md`        | —     | #955 | DONE      | CI xanh, merge `3f3447f5` |
+| M2/S1h | `systems-s2`: OS, tiến trình và syscall có bài thật               | S1d        | `2026-09-16-systems-s2-bai-hoc-that.md`        | —     | #957 | DONE      | CI xanh, merge `0130e577` |
+| M2/S1e | `devops-s1` + Runtime Lab Linux                                   | S1d        | `2026-09-16-devops-s1-bai-hoc-that.md`         | —     | #967 | DONE      | CI xanh, merge `a2077f5f` |
+| M2/S1i | `security-s1`: threat model, crypto, API và session có bài thật   | M2         | `2026-09-16-security-s1-bai-hoc-that.md`       | —     | #986 | DONE      | CI xanh, merge `65419ed7` |
+| M2/S1j | `security-s2`: assessment scope, triage và disclosure có bài thật | M2         | `2026-09-16-security-s2-bai-hoc-that.md`       | —     | —    | BUILDING  | 4 unit/8 lesson, chờ PR   |
+| M3/S1  | Backend, data, distributed systems và reliability hoàn chỉnh      | M2         | viết trước slice                               | —     | —    | BACKLOG   |                           |
+| M4/S1  | ML/LLM, RAG, evaluation và AI security hoàn chỉnh                 | M3         | `2026-09-16-ai-s2-s4-bai-hoc-that.md`          | —     | #976 | VERIFYING | Đặc tả chờ CI             |
+| M5/S1  | Serving, LLMOps, agent runtime, GPU/K8s và observability          | M4         | viết trước slice                               | —     | —    | BACKLOG   |                           |
+| M6/S1  | Enterprise architecture, governance, FinOps và leadership         | M5         | viết trước slice                               | —     | —    | BACKLOG   |                           |
+| M7/S1  | Capstone, full audit, ảnh 390/1440 và release evidence            | M2–M6      | viết trước slice                               | —     | —    | BACKLOG   |                           |
 
 State hợp lệ: BACKLOG / RESEARCH / SPEC / READY / BUILDING / VERIFYING / WAITING / BLOCKED /
 DONE / DROPPED.
@@ -168,6 +169,27 @@ DONE / DROPPED.
 - Quyết định: bốn module tách bốn unit, mỗi unit hai lesson; Make có ca hiện và ca ẩn.
 - Blocker: không.
 - Next best slice: theo dõi #945 đến khi merge, sau đó đặc tả M2/S1b.
+- Quyền cần thêm: không; production deploy ngoài phạm vi.
+
+### Iteration 7 — 2026-09-17
+
+- State: BUILDING.
+- Slice: M2/S1j — thi hành `security-s2`.
+- Goal gap trước/sau: Security S2 chỉ có bản đồ 4 module → có bốn unit `p6-u186..u189`, tám bài
+  Python mô phỏng và stage mapping để learner mở nội dung thật.
+- Research/spec/issue/PR: `docs/specs/2026-09-16-security-s2-bai-hoc-that.md`; source PR sẽ tạo
+  sau lượt này.
+- Thay đổi: authorized scope, web/API finding triage, exposure/secret triage và responsible
+  disclosure; curriculum, registry, lazy index và semantic gate được cập nhật.
+- Validation và test count: `gen:lesson-index` sinh 453 bài/198 unit; semantic/stage/lazy tests
+  xanh 25/25. Cổng đầy đủ sẽ chạy trong CI.
+- Metric/guardrail: fixture synthetic/redacted, contract consent và fail closed; không scan,
+  payload, network, filesystem, subprocess hoặc secret output.
+- Quyết định: mọi action assessment chỉ được mô phỏng sau consent, scope, time window, test account
+  và non-destructive mode; disclosure public-before-fix bị block.
+- Blocker: không.
+- Next best slice: theo dõi PR source đến khi merge, sau đó thi hành Architecture S4 theo đặc tả
+  đã duyệt.
 - Quyền cần thêm: không; production deploy ngoài phạm vi.
 
 ### Iteration 6 — 2026-09-17

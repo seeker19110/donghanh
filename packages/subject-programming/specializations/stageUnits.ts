@@ -98,6 +98,7 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   'ai-s3': ['p6-u170', 'p6-u171', 'p6-u172', 'p6-u173'],
   'ai-s4': ['p6-u174', 'p6-u175', 'p6-u176', 'p6-u177'],
   'security-s1': ['p6-u182', 'p6-u183', 'p6-u184', 'p6-u185'],
+  'security-s2': ['p6-u186', 'p6-u187', 'p6-u188', 'p6-u189'],
 }
 
 /** Unit của một chặng; mảng RỖNG nghĩa là chặng chưa có bài (giao diện phải nói rõ điều đó). */
