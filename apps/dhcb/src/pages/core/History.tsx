@@ -388,7 +388,7 @@ export default function History() {
         {/* Danh sách */}
         {isEmpty ? (
           <div className="flex flex-col items-center justify-center py-20 text-center animate-fade-in">
-            <Clock className="w-12 h-12 text-zinc-600 mb-3" />
+            <Clock className="w-12 h-12 text-content-muted mb-3" />
             <p className="text-zinc-400 text-sm">Chưa có lịch sử nào.</p>
             <p className="text-zinc-400 text-xs mt-1 mb-4">Bắt đầu luyện tập để xem lại ở đây!</p>
             <button

@@ -597,7 +597,7 @@ export default function Career({ embedded = false }: { embedded?: boolean } = {}
                           <div className="text-xs text-zinc-400 flex items-center gap-1.5 mt-0.5 font-medium">
                             <Building className="w-3.5 h-3.5 text-zinc-500" />
                             {exp.company}
-                            <span className="text-zinc-600">•</span>
+                            <span className="text-content-muted">•</span>
                             <span>
                               {exp.startDate} {exp.endDate ? `→ ${exp.endDate}` : '→ Nay'}
                             </span>

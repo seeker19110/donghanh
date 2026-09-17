@@ -432,7 +432,7 @@ export default function CommonPhrases() {
                     <span className="text-[11px] text-zinc-400">
                       {subj.count} {T.phrasesSentences}
                     </span>
-                    <ChevronRight className="w-3.5 h-3.5 text-zinc-700 group-hover:text-zinc-400 transition" />
+                    <ChevronRight className="w-3.5 h-3.5 text-content-muted group-hover:text-zinc-400 transition" />
                   </div>
                 </button>
               )

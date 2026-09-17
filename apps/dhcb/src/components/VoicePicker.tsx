@@ -203,7 +203,7 @@ export default function VoicePicker({ plan, isA }: Props) {
                       ? 'bg-accent-500/20 border-accent-500/60 text-accent-300 theme-light:text-accent-800'
                       : isAllowed
                         ? 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-700'
-                        : 'bg-zinc-900/50 border-zinc-800/60 text-zinc-600 hover:border-amber-500/50 hover:text-amber-400 cursor-pointer'
+                        : 'bg-zinc-900/50 border-zinc-800/60 text-content-muted hover:border-amber-500/50 hover:text-amber-400 cursor-pointer'
                   }`}
                 >
                   {!isAllowed && <Lock className="w-3 h-3 shrink-0" />}

@@ -37,7 +37,7 @@ export default function StoryCard({ story, isA, onClick }: Props) {
           <Headphones className="w-3 h-3" />
           {isA ? `~${minutes} phút` : `~${minutes} min`}
         </span>
-        <ChevronRight className="w-3.5 h-3.5 text-zinc-700 group-hover:text-zinc-400 transition" />
+        <ChevronRight className="w-3.5 h-3.5 text-content-muted group-hover:text-zinc-400 transition" />
       </div>
     </button>
   )
