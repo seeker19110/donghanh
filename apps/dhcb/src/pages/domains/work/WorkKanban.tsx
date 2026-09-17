@@ -204,7 +204,7 @@ export default function WorkKanban() {
               {/* Danh sách task trong cột */}
               <div className="space-y-2.5 flex-1 min-h-[150px]">
                 {todoTasks.length === 0 ? (
-                  <div className="text-center py-8 text-xs text-zinc-600">
+                  <div className="text-center py-8 text-xs text-content-muted">
                     Không có việc cần làm
                   </div>
                 ) : (
@@ -260,7 +260,7 @@ export default function WorkKanban() {
               {/* Danh sách task hoàn thành */}
               <div className="space-y-2.5 flex-1 min-h-[150px]">
                 {doneTasks.length === 0 ? (
-                  <div className="text-center py-8 text-xs text-zinc-600">
+                  <div className="text-center py-8 text-xs text-content-muted">
                     Chưa có việc nào hoàn thành
                   </div>
                 ) : (

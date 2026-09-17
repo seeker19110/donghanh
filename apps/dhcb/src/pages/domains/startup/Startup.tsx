@@ -326,7 +326,7 @@ export default function Startup({ embedded = false }: { embedded?: boolean } = {
         </div>
       ) : ventures.length === 0 ? (
         <div className="text-center py-20 bg-zinc-900/40 border border-zinc-800 rounded-2xl mt-6">
-          <Rocket className="w-12 h-12 text-zinc-600 mx-auto mb-4" />
+          <Rocket className="w-12 h-12 text-content-muted mx-auto mb-4" />
           <h3 className="text-lg font-bold text-zinc-200">Chưa có dự án khởi nghiệp nào</h3>
           <p className="text-zinc-400 text-sm mt-1 mb-6">
             Bắt đầu hiện thực hóa ý tưởng khởi nghiệp của bạn với Lean Canvas và AI Companion!

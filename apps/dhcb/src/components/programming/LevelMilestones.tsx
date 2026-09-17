@@ -155,7 +155,10 @@ export default function LevelMilestones({
                   </span>
                 </div>
               </div>
-              <ChevronRight className="w-5 h-5 text-zinc-600 shrink-0 mt-1" aria-hidden="true" />
+              <ChevronRight
+                className="w-5 h-5 text-content-muted shrink-0 mt-1"
+                aria-hidden="true"
+              />
             </button>
           </li>
         )

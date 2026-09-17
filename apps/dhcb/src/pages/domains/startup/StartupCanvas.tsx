@@ -179,7 +179,7 @@ export default function StartupCanvas() {
                     <span>• {pt}</span>
                     <button
                       onClick={() => handleRemovePoint('problem', i)}
-                      className="text-zinc-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                      className="text-content-muted hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
                     >
                       <Trash2 className="w-3 h-3" />
                     </button>
@@ -214,7 +214,7 @@ export default function StartupCanvas() {
                       <span>• {pt}</span>
                       <button
                         onClick={() => handleRemovePoint('solution', i)}
-                        className="text-zinc-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                        className="text-content-muted hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
                       >
                         <Trash2 className="w-3 h-3" />
                       </button>
@@ -247,7 +247,7 @@ export default function StartupCanvas() {
                       <span>• {pt}</span>
                       <button
                         onClick={() => handleRemovePoint('keyMetrics', i)}
-                        className="text-zinc-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                        className="text-content-muted hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
                       >
                         <Trash2 className="w-3 h-3" />
                       </button>
@@ -282,7 +282,7 @@ export default function StartupCanvas() {
                     <span>• {pt}</span>
                     <button
                       onClick={() => handleRemovePoint('uniqueValue', i)}
-                      className="text-zinc-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                      className="text-content-muted hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
                     >
                       <Trash2 className="w-3 h-3" />
                     </button>
@@ -317,7 +317,7 @@ export default function StartupCanvas() {
                       <span>• {pt}</span>
                       <button
                         onClick={() => handleRemovePoint('unfairAdvantage', i)}
-                        className="text-zinc-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                        className="text-content-muted hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
                       >
                         <Trash2 className="w-3 h-3" />
                       </button>
@@ -350,7 +350,7 @@ export default function StartupCanvas() {
                       <span>• {pt}</span>
                       <button
                         onClick={() => handleRemovePoint('channels', i)}
-                        className="text-zinc-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                        className="text-content-muted hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
                       >
                         <Trash2 className="w-3 h-3" />
                       </button>
@@ -385,7 +385,7 @@ export default function StartupCanvas() {
                     <span>• {pt}</span>
                     <button
                       onClick={() => handleRemovePoint('customerSegments', i)}
-                      className="text-zinc-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                      className="text-content-muted hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
                     >
                       <Trash2 className="w-3 h-3" />
                     </button>
@@ -423,7 +423,7 @@ export default function StartupCanvas() {
                     <span>• {pt}</span>
                     <button
                       onClick={() => handleRemovePoint('cost', i)}
-                      className="text-zinc-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                      className="text-content-muted hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
                     >
                       <Trash2 className="w-3 h-3" />
                     </button>
@@ -456,7 +456,7 @@ export default function StartupCanvas() {
                     <span>• {pt}</span>
                     <button
                       onClick={() => handleRemovePoint('revenue', i)}
-                      className="text-zinc-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                      className="text-content-muted hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
                     >
                       <Trash2 className="w-3 h-3" />
                     </button>
