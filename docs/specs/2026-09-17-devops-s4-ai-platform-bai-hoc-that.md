@@ -1,6 +1,6 @@
 # Đặc tả — `devops-s4`: nền tảng nội bộ, chuỗi cung ứng, phục vụ mô hình và văn hoá vận hành
 
-> Ngày: 2026-09-17 · Trạng thái: **CHỜ CHỦ DỰ ÁN DUYỆT**
+> Ngày: 2026-09-17 · Trạng thái: **APPROVED FOR IMPLEMENTATION** (chủ dự án duyệt ngày 2026-09-17)
 > Goal: `docs/goals/2026-09-15-ai-systems-architect.md` — lát cắt `M5/S1`.
 > Khuôn: `docs/templates/dac-ta-tinh-nang.md`.
 
@@ -133,12 +133,12 @@ không tái dùng id. Rủi ro lớn nhất: người học tưởng ước lư�
 Ba lớp chặn: nhãn MÔ PHỎNG, gate cấm cụm từ benchmark/cam kết, và bài tập về nhà bắt buộc đo trên
 hạ tầng thật NGOÀI sandbox rồi so với ước lượng.
 
-## ⑧ Câu hỏi duyệt
+## ⑧ Quyết định đã duyệt (chủ dự án, 2026-09-17)
 
-1. Đồng ý cấp dải `p6-u198…p6-u201`?
-2. Đồng ý cách chia ở mục 1 — `devops-s4` giữ bốn module nền tảng, lấy phục vụ mô hình làm lab, và
-   **không** soạn lại agent runtime vì `ai-s4` đã phủ?
-3. Đồng ý thêm `devops-s4` vào `principal-ai-p4` (lộ trình lên 29 chặng)?
+1. ✅ Cấp dải `p6-u198…p6-u201`.
+2. ✅ Cách chia ở mục 1 — `devops-s4` giữ bốn module nền tảng, lấy phục vụ mô hình làm lab, và
+   **không** soạn lại agent runtime vì `ai-s4` đã phủ.
+3. ✅ Thêm `devops-s4` vào `principal-ai-p4`.
 
 ---
 

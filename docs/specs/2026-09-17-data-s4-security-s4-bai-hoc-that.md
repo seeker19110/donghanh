@@ -1,6 +1,6 @@
 # Đặc tả — `data-s4` + `security-s4`: nền tảng dữ liệu, quản trị, an toàn và tuân thủ
 
-> Ngày: 2026-09-17 · Trạng thái: **CHỜ CHỦ DỰ ÁN DUYỆT**
+> Ngày: 2026-09-17 · Trạng thái: **APPROVED FOR IMPLEMENTATION** (chủ dự án duyệt ngày 2026-09-17)
 > Goal: `docs/goals/2026-09-15-ai-systems-architect.md` — lát cắt `M6/S1a` (`data-s4`) và
 > `M6/S1b` (`security-s4`).
 > Khuôn: `docs/templates/dac-ta-tinh-nang.md`.
@@ -11,20 +11,16 @@ Lấp hai chặng rỗng cuối của Giai đoạn 6 (Enterprise AI Architecture
 `data-s4` và `security-s4`, mỗi chặng bốn unit / tám bài Python MÔ PHỎNG, để người học ra được
 quyết định cấp tổ chức về độ tin cậy số liệu, định nghĩa chỉ số, kiến trúc an toàn và quản trị rủi ro.
 
-## 1. Phạm vi milestone M6 và chặng bị loại
+## 1. Phạm vi milestone M6
 
 Giai đoạn 6 theo đặc tả chương trình §4 gồm `architecture-s3..s4`, `data-s4`, `security-s4`,
 `principal-s3..s4`. Bốn trong sáu đã có bài (`architecture-s3` = `p6-u123…u125`, `architecture-s4` =
 `p6-u190…u193`, `principal-s3` = `p6-u98/u99`, `principal-s4` = `p6-u100/u101`). Lát cắt này làm nốt
 hai chặng còn lại.
 
-**`security-s3` cố ý NẰM NGOÀI khoá này và ngoài mọi milestone.** Chặng đó là bảo mật tấn công
-chuyên sâu — dịch ngược, khai thác bộ nhớ, ROP, fuzzing tìm lỗ hổng thật. Nó mâu thuẫn trực tiếp với
-ranh giới an toàn đã chốt ở `security-s1`/`security-s2` (không dò quét, không khai thác, không tạo
-payload) và không phục vụ chuẩn đầu ra nào trong tám năng lực ở §3 của đặc tả chương trình. Chặng
-vẫn tồn tại trong bản đồ hướng `security` cho người đi hướng đó, nhưng lộ trình `principal-ai`
-không tham chiếu tới nó. **Phải ghi rõ điều này khi đóng goal**, để lần audit sau không đọc
-"security-s3 rỗng" thành nợ chưa trả.
+**`security-s3` được GIỮ trong khoá** (chủ dự án chốt 2026-09-17, bác đề xuất loại ban đầu). Chặng
+đó có đặc tả riêng: `docs/specs/2026-09-17-security-s3-bai-hoc-that.md`, lát cắt `M6/S1c`, dải
+`p6-u210…p6-u213`. Nó nằm ở `principal-ai-p4` ngay sau `security-s2`, không nằm trong lát cắt này.
 
 ## ① Phạm vi
 
@@ -39,7 +35,7 @@ không tham chiếu tới nó. **Phải ghi rõ điều này khi đóng goal**, 
 
 **KHÔNG LÀM:**
 
-- Không `security-s3` (lý do ở mục 1).
+- Không `security-s3` — nó có lát cắt và đặc tả riêng (mục 1).
 - Không dò quét, khai thác, tạo payload, brute-force, phân tích mã độc, dịch ngược — kể cả mô phỏng.
   `security-s4` là chặng PHÒNG THỦ: phân loại, quyết định, quy trình.
 - Không dữ liệu cá nhân thật, không dữ liệu production, không log thật. Mọi fixture là tổng hợp và
@@ -155,16 +151,14 @@ npm run typecheck && npm run lint && npm run format:check && npm run test:covera
 
 Hai PR, `data-s4` trước. Rollback = revert từng PR + sinh lại chỉ mục; không xoá tiến độ/artifact,
 không tái dùng id. Hai rủi ro lớn nhất: (1) bài bảo mật trượt thành hướng dẫn tấn công — chặn bằng
-danh sách từ vựng cấm trong gate và bằng việc loại hẳn `security-s3`; (2) bài pháp lý bị đọc như tư
+danh sách từ vựng cấm trong gate, `security-s4` chỉ dạy phòng thủ; (2) bài pháp lý bị đọc như tư
 vấn pháp luật — chặn bằng câu miễn trừ bắt buộc có test canh.
 
-## ⑧ Câu hỏi duyệt
+## ⑧ Quyết định đã duyệt (chủ dự án, 2026-09-17)
 
-1. Đồng ý cấp dải `p6-u202…p6-u209`?
-2. **Đồng ý loại hẳn `security-s3` khỏi khoá** và ghi thành quyết định đóng goal, thay vì để nó nằm
-   như nợ chưa trả?
-3. Đồng ý đặt `data-s4` và `security-s4` vào `principal-ai-p5` trước `principal-s3` (lộ trình lên 31
-   chặng)?
+1. ✅ Cấp dải `p6-u202…p6-u209`.
+2. ✅ **Giữ `security-s3` trong khoá** — bác đề xuất loại; chặng có đặc tả riêng `M6/S1c`.
+3. ✅ Đặt `data-s4` và `security-s4` vào `principal-ai-p5` trước `principal-s3`.
 
 ---
 

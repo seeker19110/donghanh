@@ -1,6 +1,6 @@
 # Đặc tả — Capstone, audit toàn khoá và bằng chứng phát hành
 
-> Ngày: 2026-09-17 · Trạng thái: **CHỜ CHỦ DỰ ÁN DUYỆT**
+> Ngày: 2026-09-17 · Trạng thái: **APPROVED FOR IMPLEMENTATION** (chủ dự án duyệt ngày 2026-09-17)
 > Goal: `docs/goals/2026-09-15-ai-systems-architect.md` — lát cắt `M7/S1`, lát cắt ĐÓNG GOAL.
 > Phụ thuộc: M3/S2, M5/S1, M6/S1a, M6/S1b đã merge. Khuôn: `docs/templates/dac-ta-tinh-nang.md`.
 
@@ -208,12 +208,12 @@ revert chỉ làm panel biến mất, không mất dữ liệu phía máy chủ.
 Sau khi merge: tick mục 7 của goal, đổi **Kết luận** thành COMPLETE, ghi người xác nhận và ngày —
 việc này do **chủ dự án** làm, không phải AI tự tick.
 
-## ⑨ Câu hỏi duyệt
+## ⑨ Quyết định đã duyệt (chủ dự án, 2026-09-17)
 
-1. Đồng ý capstone dùng lại `phaseId = 'principal-ai-p5'` để không phải migration?
-2. Đồng ý tự chấm rubric lưu ở trình duyệt (không đồng bộ nhiều thiết bị) cho đợt này, ghi thành nợ
-   nếu sau này cần đồng bộ?
-3. Đồng ý `passTotal` = **70**, kèm luật ba hạng mục sàn cứng ≥ 50%?
+1. ✅ Capstone dùng lại `phaseId = 'principal-ai-p5'` để không phải migration.
+2. ✅ Tự chấm rubric lưu ở trình duyệt (không đồng bộ nhiều thiết bị) cho đợt này; ghi thành nợ nếu
+   sau này cần đồng bộ.
+3. ✅ `passTotal` = **70**, kèm luật ba hạng mục sàn cứng ≥ 50%.
 
 ---
 

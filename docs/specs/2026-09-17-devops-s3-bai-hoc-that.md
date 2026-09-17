@@ -1,6 +1,6 @@
 # Đặc tả — `devops-s3`: Kubernetes, GitOps, quan sát và độ tin cậy
 
-> Ngày: 2026-09-17 · Trạng thái: **CHỜ CHỦ DỰ ÁN DUYỆT**
+> Ngày: 2026-09-17 · Trạng thái: **APPROVED FOR IMPLEMENTATION** (chủ dự án duyệt ngày 2026-09-17)
 > Goal: `docs/goals/2026-09-15-ai-systems-architect.md` — lát cắt `M3/S2` (phần còn lại của M3;
 > `M3/S1` = `devops-s2` đã merge ở PR #989).
 > Khuôn: `docs/templates/dac-ta-tinh-nang.md`.
@@ -145,11 +145,11 @@ KHÔNG xoá tiến độ/artifact của người học và KHÔNG tái sử dụ
 người học nhầm simulator với cluster thật — nhãn MÔ PHỎNG, semantic gate và rubric bài tập về nhà
 (yêu cầu dựng cluster thật NGOÀI sandbox) là ba lớp chặn.
 
-## ⑧ Câu hỏi duyệt
+## ⑧ Quyết định đã duyệt (chủ dự án, 2026-09-17)
 
-1. Đồng ý cấp dải `p6-u194…p6-u197` cho `devops-s3`?
-2. Đồng ý **thêm `devops-s3` vào `principal-ai-p4`** (lộ trình đi từ 27 lên 28 chặng)? Thay đổi là
-   cộng thêm, không đổi id cũ, nhưng mẫu số tiến độ hiển thị sẽ đổi.
+1. ✅ Cấp dải `p6-u194…p6-u197` cho `devops-s3`.
+2. ✅ Thêm `devops-s3` vào `principal-ai-p4`. Chỉ cộng thêm, không đổi id cũ; mẫu số tiến độ hiển
+   thị sẽ đổi. Sau cả năm lát cắt, lộ trình đi từ 27 lên **32 chặng**.
 
 ---
 
