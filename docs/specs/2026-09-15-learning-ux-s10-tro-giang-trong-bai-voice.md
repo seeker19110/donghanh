@@ -1,5 +1,10 @@
 # Học tập liền mạch — slice S10: Trợ giảng trong bài + voice thật (sửa lifecycle trước)
 
+> **Ghi chú lỗi thời (2026-09-17):** các tham chiếu tới `apps/dhcb/src/lib/dailyLearningPlan.ts`/
+> `dailyLearningPlan.test.ts` (AC-11, bảng bất biến §⑤) đã LỖI THỜI ngay từ ngày viết — Home đã
+> chuyển sang `curriculum.ts` từ PR #929 (2026-09-15). File mồ côi đã bị XOÁ ở PR dọn dẹp
+> 2026-09-17; bất biến "AI không ghi completion" vẫn đúng, chỉ nguồn dữ liệu tham chiếu đổi.
+
 | Thuộc tính    | Giá trị                                                                                                                                                                                                                         |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Spec nền      | [`2026-09-15-learning-ux-foundation.md`](2026-09-15-learning-ux-foundation.md) §④ D ("trợ giảng theo bài", "gợi ý tăng dần, phản hồi chỉ lỗi") + §⑤ "Không cho AI mutate billing/permissions/mastery"                           |
