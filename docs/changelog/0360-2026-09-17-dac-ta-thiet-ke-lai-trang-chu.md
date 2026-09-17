@@ -25,6 +25,10 @@ không mặc định tiếng Anh, một CTA, a11y AAA/AA.
 - Bổ sung mục F4 "URL của các màn hình mới": chỉ 2 route thật thêm (`/thu-ngay/*` cho demo
   guest), còn lại dùng lại URL sẵn có (`/` cho cả guest, `?xong=1` cho màn sau phiên,
   `/ban-dong-hanh?hoi=`), theo quy ước slug/`<mã>--<slug>` của `CLAUDE.md` mục 7.
+- **Một khuôn URL cho Góc học tập:** `/goc-hoc-tap/<môn>/...` và `/goc-hoc-tap/<môn>/khoa-hoc/...`
+  (mục F5). `<môn>` = mã registry. STEM đã đúng; Lập trình (`/lap-trinh/*`, 13 route) và 12 công
+  cụ Tiếng Anh ở gốc sẽ chuyển sang khuôn này ở P1, URL cũ giữ và redirect. Bảng ánh xạ đầy đủ +
+  đốt bảo lưu (`on-tap`) + 3 PR thi hành ghi trong tài liệu.
 
 ## Quyết định chờ chủ dự án
 

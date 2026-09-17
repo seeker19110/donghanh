@@ -529,6 +529,78 @@ route mới nào cho những gì đã có đường**; chỉ thêm 2 route thậ
 Hàm dựng link mới đặt ở `apps/dhcb/src/lib/homeRoutes.ts` (`duongDanThuNgay(demoId)`,
 `duongDanHoiDongHanh(cau)`, `duongDanXongPhien(urlBai)`), cùng mẫu với `programmingRoutes.ts`.
 
+### F5. QUYẾT ĐỊNH: một khuôn URL cho toàn bộ Góc học tập (chủ dự án chốt 2026-09-17)
+
+**Khuôn duy nhất:**
+
+```
+/goc-hoc-tap/<môn>/...              trang tổng quan + mọi công cụ/bài học của môn
+/goc-hoc-tap/<môn>/khoa-hoc/...     khoá học của môn
+```
+
+**`<môn>` là mã trong registry** (`english` · `programming` · `mathematics` · `physics` ·
+`chemistry` · `biology` — `packages/core-learner/subjectEntry.ts`), đúng như STEM và trang tổng
+quan Tiếng Anh đang dùng (`/goc-hoc-tap/mathematics`, `/goc-hoc-tap/english`). Lý do không đổi
+sang slug tiếng Việt (`tieng-anh`, `lap-trinh`): mã đã là khoá của tiến độ, host routing
+(`subjectHome.ts`) và sitemap; đổi mã là đổi ba nơi cùng lúc mà không thêm giá trị SEO nào đáng
+kể (tên môn đã nằm trong `<title>` và phần `--<slug>` của mỗi bài).
+
+**Hiện trạng ba môn, ba kiểu** (đọc `apps/dhcb/src/App.tsx`):
+
+| Môn       | Hiện tại                                                                                                                                                                                                                                            | Khớp khuôn?      |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| STEM (4)  | `/goc-hoc-tap/:subjectId` · `/bai-hoc/:lessonSlug` · `/on-tap`                                                                                                                                                                                      | ✅ đã đúng       |
+| Tiếng Anh | tổng quan `/goc-hoc-tap/english`, nhưng 12 công cụ ở GỐC: `/lo-trinh-hoc`, `/tro-truyen`, `/luyen-noi`, `/luyen-viet`, `/luyen-nghe`, `/tu-dien`, `/on-thi`, `/bai-hoc`, `/truyen-song-ngu`, `/cau-thong-dung`, `/so-tay-loi-sai`, `/tu-vung/:word` | ❌ nửa vời       |
+| Lập trình | trọn bộ ở `/lap-trinh/*` (13 route), `SUBJECTS_ON_APP_HOST.programming = '/lap-trinh'`                                                                                                                                                              | ❌ tiền tố riêng |
+
+**Bảng ánh xạ cũ → mới** (URL cũ GIỮ, tự `<Navigate replace>` sang mới — luật "không phá link đã
+chia sẻ", `CLAUDE.md` mục 7):
+
+| Cũ                                                           | Mới                                                                                 |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| `/lap-trinh`                                                 | `/goc-hoc-tap/programming`                                                          |
+| `/lap-trinh/gioi-thieu`                                      | `/goc-hoc-tap/programming/gioi-thieu`                                               |
+| `/lap-trinh/:levelId`                                        | `/goc-hoc-tap/programming/bac/:levelId` (thêm đốt `bac` để không đụng các đốt tĩnh) |
+| `/lap-trinh/bai-hoc/:lessonId`                               | `/goc-hoc-tap/programming/bai-hoc/:lessonId` (cùng khuôn STEM)                      |
+| `/lap-trinh/khoa-hoc/:courseId` · `/khoa/`                   | `/goc-hoc-tap/programming/khoa-hoc/:courseId`                                       |
+| `/lap-trinh/huong[/:specId[/:stageId]]`                      | `/goc-hoc-tap/programming/huong[/:specId[/:stageId]]`                               |
+| `/lap-trinh/lo-trinh/:pathId[/chan-doan · /chang/:stageId]`  | `/goc-hoc-tap/programming/lo-trinh/:pathId[/…]`                                     |
+| `/lap-trinh/du-an` · `/on-tap` · `/chay-thu`                 | `/goc-hoc-tap/programming/du-an` · `/on-tap` · `/chay-thu`                          |
+| `/lo-trinh-hoc[/:levelId]`                                   | `/goc-hoc-tap/english/lo-trinh[/:levelId]`                                          |
+| `/bai-hoc`                                                   | `/goc-hoc-tap/english/bai-hoc`                                                      |
+| `/tro-truyen` · `/luyen-noi` · `/luyen-viet` · `/luyen-nghe` | `/goc-hoc-tap/english/tro-truyen` · `/luyen-noi` · `/luyen-viet` · `/luyen-nghe`    |
+| `/tu-dien` · `/tu-vung/:word`                                | `/goc-hoc-tap/english/tu-dien` · `/tu-dien/:word`                                   |
+| `/on-thi` · `/cau-thong-dung` · `/so-tay-loi-sai`            | `/goc-hoc-tap/english/on-thi` · `/cau-thong-dung` · `/so-tay-loi-sai`               |
+| `/truyen-song-ngu[/:id]`                                     | `/goc-hoc-tap/english/truyen[/:id]`                                                 |
+| `/goc-hoc-tap/programming` (alias cũ)                        | trở thành trang thật (hết alias)                                                    |
+
+**Đốt tĩnh cấp nền tảng được BẢO LƯU** — không mã môn nào được trùng: `on-tap` (hàng đợi xuyên
+môn `/goc-hoc-tap/on-tap`), và trong tương lai `tim-kiem`, `moi`. Router đặt route tĩnh TRƯỚC
+`:subjectId` (đã đúng thứ tự hôm nay); thêm test canh
+`scripts/subject-route-reserved.test.ts` để mã môn mới không trùng đốt bảo lưu.
+
+**Đốt con chuẩn dùng chung mọi môn** (môn nào không có thì không khai, nhưng có thì PHẢI dùng
+đúng tên): `bai-hoc` · `khoa-hoc` · `lo-trinh` · `on-tap` · `du-an` · `gioi-thieu`. Đốt riêng
+của môn (`huong`, `bac`, `tro-truyen`, `tu-dien`…) đặt sau mã môn, không đặt ở gốc.
+
+**Cách thi hành (P1, tách thành 3 PR, mỗi PR một môn, làm SAU các lát P0 của trang chủ):**
+
+1. **Lập trình:** đổi MỘT hằng tiền tố trong `apps/dhcb/src/lib/programmingRoutes.ts`
+   (`/lap-trinh` → `/goc-hoc-tap/programming`), sửa `SUBJECTS_ON_APP_HOST.programming`, thêm 13
+   `<Route path="/lap-trinh/…" element={<Navigate replace …/>}>`, cập nhật `navPaths.ts`,
+   `navTree.ts`, sitemap, E2E (`programming-lesson.spec.ts`…).
+2. **Tiếng Anh:** tạo `apps/dhcb/src/lib/englishRoutes.ts` (hiện chưa có — link đang ghép tay ở
+   `Home.tsx` `SUBJECT_SHORTCUTS`, `navTree.ts`, `englishNext.ts`…), gom mọi nơi về hàm; 12
+   redirect; cập nhật `navPaths.ts` (`PRACTICE_PATHS`, `LEARNING_PATHS`), E2E
+   `english-tools-context.spec.ts`.
+3. **Server/SEO:** `apps/server/src/subjectsRouting.ts` (ownership host không đổi: Anh và Lập
+   trình vẫn app host), sitemap sinh URL mới, nginx 301 cho tiền tố `/lap-trinh` nếu có cache
+   ngoài; đo lại Google Search Console sau 2 tuần.
+
+Mỗi PR chạy `npm run codemap -- impact` cho file route bị sửa; cổng chấp nhận: mọi URL cũ trong
+bảng trên vẫn mở đúng trang (E2E lặp qua bảng), không một link nội bộ nào còn trỏ URL cũ
+(`grep -rn "'/lap-trinh" apps/dhcb/src` = 0 ngoài bảng redirect).
+
 ### F3. Ưu tiên triển khai
 
 **P0 — thay đổi cảm nhận lớn nhất, rủi ro thấp nhất (2–3 PR nhỏ):**
@@ -545,13 +617,14 @@ Hàm dựng link mới đặt ở `apps/dhcb/src/lib/homeRoutes.ts` (`duongDanTh
 6. `SessionDone` gộp 3 celebration (C5).
 7. Sidebar 10 → 7 mục + nhãn bottom nav đồng bộ (cập nhật test sidebar/layout/E2E).
 8. `SubjectSpaceList` sắp môn đang học lên đầu.
+9. Thống nhất URL Góc học tập theo F5 (3 PR: Lập trình · Tiếng Anh · server/SEO).
 
 **P2 — chiều sâu:**
 
-9. `buildProgressStory` + cột "Tiến bộ kể chuyện" desktop + dùng lại ở `/tien-do`.
-10. Companion inline trong phiên (C4) cho môn Anh trước, Lập trình sau.
-11. Chip gợi ý Ask bar theo ngữ cảnh; 2 demo 30 giây cho guest.
-12. Rà `prefers-reduced-motion` toàn app.
+10. `buildProgressStory` + cột "Tiến bộ kể chuyện" desktop + dùng lại ở `/tien-do`.
+11. Companion inline trong phiên (C4) cho môn Anh trước, Lập trình sau.
+12. Chip gợi ý Ask bar theo ngữ cảnh; 2 demo 30 giây cho guest.
+13. Rà `prefers-reduced-motion` toàn app.
 
 **Cổng nghiệm thu chung cho mọi lát (theo `docs/framework/QUY-TRINH-AUDIT.md` Tầng 8b):** ảnh
 chụp 1440px + 390px trước/sau ở 3 theme; `npm run shots:learning-ux`; a11y AA+AAA xanh; bundle
