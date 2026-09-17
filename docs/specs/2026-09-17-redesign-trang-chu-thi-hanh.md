@@ -36,20 +36,46 @@ chấm tuần chứ không bằng phần trăm; và mọi màn của Góc học 
 | Huy hiệu "rải ở 3 nơi"                      | Có `lib/achievements.ts` + `achievementRewards.ts` (đã có test). Nguồn sự thật đã tồn tại.                                                                                                | P1-5 đọc từ đó, không tạo bảng mới.                                         |
 | Chấm tuần "mới"                             | `lib/weeklyGoal.ts` đã có `getWeekDays(uid): DayActivity[]` (T2→hôm nay) + `getWeeklyProgress`.                                                                                           | P1-5 tái dùng, thêm phần "ngày chưa tới".                                   |
 
-## 2. Thứ tự và phụ thuộc
+## 2. THỨ TỰ THI HÀNH DUY NHẤT (đã sắp — chủ dự án ra lệnh theo số thứ tự này)
+
+Mười lăm lệnh, mỗi lệnh = MỘT PR. Thứ tự sắp theo bốn tiêu chí, ưu tiên từ trên xuống: (a) lát
+sau phụ thuộc lát trước; (b) rủi ro thấp trước để đo phản ứng thật sớm; (c) thứ làm nền cho
+nhiều lát (token, reduced-motion) phải xong trước khi lát khác chồng thêm; (d) đổi route
+(đụng nhiều E2E) dồn về sau, khi giao diện đã ổn định.
+
+| Lệnh | Lát   | Tên ngắn                                    | Phụ thuộc | Vì sao ở vị trí này                                                            |
+| ---- | ----- | ------------------------------------------- | --------- | ------------------------------------------------------------------------------ |
+| 1    | P0-1  | Sắp lại trang chủ + một banner phụ          | —         | Chỉ đụng `Home.tsx`, thấy ngay Today là tâm điểm; đo baseline click.           |
+| 2    | P0-2  | Token ấm + `CompanionAvatar`/`Bubble`       | —         | Nền cho lệnh 3, 8, 15; phải qua cổng tương phản trước khi ai dùng.             |
+| 3    | P2-13 | `prefers-reduced-motion` toàn app           | 2         | Chốt luật animation NGAY sau khi lệnh 2 thêm keyframe, trước khi 7/8 thêm nữa. |
+| 4    | P0-3  | `GuestHome`                                 | 2         | Cần avatar/bubble; là lát đổi funnel khách — đo sớm.                           |
+| 5    | P0-4  | Header mobile 4 khe + `focus` ẩn bottom nav | —         | Độc lập, nhỏ; làm sau 4 để ảnh chụp guest/home mobile chụp một lần.            |
+| 6    | P1-8  | `SubjectSpaceList`                          | —         | Độc lập, nhỏ, hoàn tất bố cục trang chủ trước khi thêm khối mới.               |
+| 7    | P1-5  | `WeekRhythm`                                | 6         | Khối mới cuối cùng của trang chủ; cần chỗ đã ổn định từ 1/6.                   |
+| 8    | P1-6  | `SessionDone`                               | 2, 7      | Dùng avatar `cheer` + `WeekRhythm` thu gọn.                                    |
+| 9    | P1-7  | Sidebar 7 mục + bottom nav                  | —         | Đổi điều hướng sau khi nội dung trang đã chốt; chuẩn bị `hasNote` cho 15.      |
+| 10   | P1-9a | URL Lập trình → `/goc-hoc-tap/programming`  | 9         | Đổi route đầu tiên: bộ helper `programmingRoutes.ts` đã có, ít rủi ro nhất.    |
+| 11   | P1-9b | URL Tiếng Anh → `/goc-hoc-tap/english`      | 10        | Cần khuôn redirect từ 10; tạo `englishRoutes.ts` mới.                          |
+| 12   | P1-9c | Server routing + nginx 301 + SEO            | 10, 11    | Chỉ có nghĩa khi cả hai prefix đã đổi.                                         |
+| 13   | P2-10 | `buildProgressStory`                        | 7         | Cần dữ liệu tuần đã hiển thị ổn; đặt ở cột phải + `/tien-do`.                  |
+| 14   | P2-12 | Chip gợi ý + 2 demo 30 giây                 | 4, 8, 11  | Demo dùng `SessionDone` và URL Tiếng Anh mới; sinh `homeRoutes.ts`.            |
+| 15   | P2-11 | Companion inline trong phiên                | 2, 9, 14  | Phức tạp nhất, dùng `hasNote` (9) và `duongDanHoiDongHanh` (14).               |
 
 ```
-P0-1 sắp lại trang chủ ──┐
-P0-2 token ấm + Companion ┼──► P0-3 GuestHome ──► P2-12 demo 30s + chip gợi ý
-P0-4 header mobile ──────┘
-P1-5 WeekRhythm ──► P1-6 SessionDone ──► P2-10 buildProgressStory
-P1-7 sidebar/bottom nav ──► P1-9 URL Góc học tập (3 PR)
-P1-8 SubjectSpaceList (độc lập)
-P2-11 Companion inline (cần P0-2)     P2-13 reduced-motion (độc lập, làm bất kỳ lúc)
+1 ─► 2 ─► 3
+     2 ─► 4 ─► 5 ─► 6 ─► 7 ─► 8
+                              9 ─► 10 ─► 11 ─► 12
+                         7 ─► 13
+                   4,8,11 ─► 14 ─► 15
 ```
 
-Mỗi lát = MỘT PR (P1-9 = ba PR). Không gộp hai lát vào một PR: E2E ảnh chụp (Tầng 8b) phải quy
-được cho đúng một thay đổi.
+**Luật khi ra lệnh:** lệnh N chỉ được thi hành khi mọi lát nó phụ thuộc đã MERGE vào `main`.
+Được phép thi hành song song hai lệnh không phụ thuộc nhau (ví dụ 5 và 6) trên hai nhánh khác
+nhau. Không gộp hai lệnh vào một PR: E2E ảnh chụp (Tầng 8b) phải quy được cho đúng một thay đổi.
+
+**Cách ra lệnh:** "thi hành lệnh N" (hoặc "lát P1-5"). Bên thi hành sẽ: đọc lát đó + §3 + spec
+nền; mở nhánh; tạo `docs/changelog/`; chạy đủ cổng; tạo PR `feat`/`refactor` theo đúng loại; bật
+auto-merge; điền §8 nghiệm thu bằng output thật.
 
 ## 3. Quy ước dùng chung cho mọi lát (ô ⑥ chung — lát nào có thêm thì ghi riêng)
 
@@ -77,7 +103,7 @@ npm run build`; trước push cuối `rm -rf packages/*/dist dist dist-server` r
 
 # P0 — bốn lát đầu
 
-## P0-1 · Sắp lại thứ tự trang chủ + một banner phụ duy nhất
+## P0-1 · Sắp lại thứ tự trang chủ + một banner phụ duy nhất (lệnh 1)
 
 ### ① Phạm vi
 
@@ -164,7 +190,7 @@ khi `hasRewardTip` → `null`. Khách (`isGuest`): chỉ `pricePromo` hoặc `nu
 
 ---
 
-## P0-2 · Token ấm `--w-*` + `CompanionAvatar` + `CompanionBubble` + thay vỏ lời chào
+## P0-2 · Token ấm `--w-*` + `CompanionAvatar` + `CompanionBubble` + thay vỏ lời chào (lệnh 2)
 
 ### ① Phạm vi
 
@@ -301,7 +327,7 @@ quản bằng `setTimeout`, dọn khi unmount); `hasNote` chấm nhỏ `warm-500
 
 ---
 
-## P0-3 · `GuestHome` — trang chủ cho khách
+## P0-3 · `GuestHome` — trang chủ cho khách (lệnh 4)
 
 ### ① Phạm vi
 
@@ -385,7 +411,7 @@ vẫn render đầy đủ (không phụ thuộc storage).
 
 ---
 
-## P0-4 · Header mobile 4 khe + `focus` ẩn bottom nav
+## P0-4 · Header mobile 4 khe + `focus` ẩn bottom nav (lệnh 5)
 
 ### ① Phạm vi
 
@@ -454,11 +480,16 @@ không đổi prop → không cần sửa trang nào). `impact BottomNav.tsx` �
 | Reachability (kéo màn) vẫn hoạt động ở trang không focus | `e2e/mobile-layout-guards.spec.ts`                                |
 | Desktop header không đổi                                 | ảnh chụp 1440 trước/sau giống nhau (diff pixel = 0)               |
 
+### ⑥ Quy ước riêng
+
+- `useIsDesktopViewport()` để KHÔNG render trùng phần tử ở hai bề rộng (không dùng `lg:hidden` cho phần tử tương tác có `aria`).
+- `dataset.focus` dọn khi unmount (giống `dataset.sidebar` ở `DesktopSidebar`).
+
 ---
 
 # P1 — nhịp học, sau phiên, điều hướng, URL
 
-## P1-5 · `WeekRhythm` — 7 chấm tuần + nhiệm vụ + huy hiệu mới nhất
+## P1-5 · `WeekRhythm` — 7 chấm tuần + nhiệm vụ + huy hiệu mới nhất (lệnh 7)
 
 ### ① Phạm vi
 
@@ -536,9 +567,14 @@ export function buildWeekRhythm(input: {
 | Không con số chẩn đoán trên trang chủ                                                                   | AC-3                          |
 | `getWeekDays` không đổi chữ ký                                                                          | `weeklyGoal.test.ts` (có sẵn) |
 
+### ⑥ Quy ước riêng
+
+- Ngày/tuần tính theo giờ Việt Nam qua `lib/date.ts` (`vnDayOfWeek`, `vnDateStr`), KHÔNG dùng `Date.getDay()`.
+- Chữ trạng thái AAA (`text-content`); chấm dùng `bg-accent-500`/`bg-line-strong`, không hex.
+
 ---
 
-## P1-6 · `SessionDone` — một màn kết gộp ba celebration
+## P1-6 · `SessionDone` — một màn kết gộp ba celebration (lệnh 8)
 
 ### ① Phạm vi
 
@@ -630,9 +666,15 @@ export interface SessionDoneProps {
 | Chỉ ăn mừng thành tựu thật (`Celebration` nguyên tắc) | AC-5                                                            |
 | Phiên S08 vẫn đóng đúng (S11)                         | `e2e/learning-session-resume.spec.ts`                           |
 
+### ⑥ Quy ước riêng
+
+- Overlay dùng `useDialogBehavior` (focus trap, Esc, trả focus) như `Modal.tsx`.
+- Sự kiện `session_done_view`/`session_done_more` thêm vào union `AnalyticsEvent`.
+- Confetti chỉ qua `lib/confetti.ts` (lazy, tôn trọng reduce).
+
 ---
 
-## P1-7 · Sidebar 10 → 7 mục + nhãn bottom nav đồng bộ
+## P1-7 · Sidebar 10 → 7 mục + nhãn bottom nav đồng bộ (lệnh 9)
 
 ### ① Phạm vi
 
@@ -704,9 +746,15 @@ interface Props {
 | `/goc-hoc-tap/on-tap` sáng "Ôn tập", không sáng "Góc học tập" | test có sẵn (S12-1), giữ           |
 | Mọi route trong `LEARNING_PATHS` vẫn làm sáng đúng một mục    | `navPaths.test.ts`                 |
 
+### ⑥ Quy ước riêng
+
+- Đọc `lib/navPaths.ts` đầu file: thứ tự XÉT active khác thứ tự HIỂN THỊ (`resolveActiveNav`).
+- `NAV_HIDDEN_PATHS` và cơ chế `dataset.sidebar`/`--sidebar-w` không đổi.
+- PR loại `refactor(nav)`.
+
 ---
 
-## P1-8 · `SubjectSpaceList` — môn đang học lên đầu, trạng thái bằng chữ
+## P1-8 · `SubjectSpaceList` — môn đang học lên đầu, trạng thái bằng chữ (lệnh 6)
 
 ### ① Phạm vi
 
@@ -757,110 +805,259 @@ export interface SubjectSpaceListProps {
 | Không mặc định tiếng Anh: `seen=[]` không đưa `english` lên | `orderSubjects.test.ts`       |
 | Thẻ trỏ đúng `entry.ctaPath` (host routing S02)             | `Home.test.tsx` (có sẵn, giữ) |
 
+### ⑥ Quy ước riêng
+
+- `SUBJECT_ENTRIES` là nguồn dùng chung hub + app (`packages/core-learner/subjectEntry.ts`); không khai môn tay.
+- Mở/đóng "Xem tất cả" là state cục bộ, không lưu storage.
+
 ---
 
-## P1-9 · Một khuôn URL Góc học tập — ba PR
+## P1-9a · URL Lập trình → `/goc-hoc-tap/programming/*` (lệnh 10)
 
-Bảng ánh xạ đầy đủ: spec nền §F5. Dưới đây là phần thi hành.
+### ① Phạm vi
 
-### P1-9a · Lập trình → `/goc-hoc-tap/programming/*`
+**LÀM:**
 
-**① LÀM:** đổi hằng `PROGRAMMING_PREFIX` (thêm nếu chưa có) trong `lib/programmingRoutes.ts` =
-`/goc-hoc-tap/programming`; mọi `duongDan*` dựng từ hằng; bậc dùng đốt `bac`
-(`duongDanBac` → `${PREFIX}/bac/${slug}`); thêm `<Route path="/lap-trinh/*">` → component
-`LegacyProgrammingRedirect` ánh xạ 13 mẫu cũ sang mới bằng `<Navigate replace>` (giữ query
-`?khoa=`); `SUBJECTS_ON_APP_HOST.programming = '/goc-hoc-tap/programming'`; cập nhật
-`navPaths.ts` (`LEARNING_PATHS` thêm prefix mới, giữ `/lap-trinh` để redirect vẫn sáng mục),
-`navTree.ts`, `breadcrumb.ts`, sitemap (nếu có script), `e2e/programming-*.spec.ts`,
-`route-alias.spec.ts`.
-**KHÔNG:** không đổi `lessonId`/`courseId`/`specId`; không đổi khoá tiến độ; không đổi server
-ownership (Lập trình vẫn app host — kiểm `subjectsRouting.ts` `decideRedirect` với path mới không
-đẩy sang host hoc-tap).
+- Thêm hằng `PROGRAMMING_PREFIX = '/goc-hoc-tap/programming'` ở `lib/programmingRoutes.ts`; mọi
+  `duongDan*` dựng từ hằng. Bậc dùng đốt `bac`: `duongDanBac` → `${PREFIX}/bac/${slug}`.
+- Route mới trong `App.tsx` dưới tiền tố mới, cùng element cũ (13 route). Route cũ `/lap-trinh/*`
+  → một component `LegacyProgrammingRedirect` gọi `legacyProgrammingPath()` và `<Navigate replace>`
+  (giữ `search`).
+- `SUBJECTS_ON_APP_HOST.programming = '/goc-hoc-tap/programming'` (`packages/core-learner/subjectHome.ts`).
+- `navPaths.ts`: `LEARNING_PATHS` thêm prefix mới (giữ `/lap-trinh` để trang redirect vẫn sáng mục).
+  `navTree.ts`, `breadcrumb.ts`: đường dẫn con môn Lập trình dùng helper.
+- Cập nhật mọi E2E `programming-*.spec.ts`, `outline-programming.spec.ts`, `route-alias.spec.ts`,
+  `learning-session-resume.spec.ts` (URL kỳ vọng).
 
-**③** `export const PROGRAMMING_PREFIX = '/goc-hoc-tap/programming'`;
-`export function legacyProgrammingPath(pathname: string, search: string): string | null` (thuần,
-test bảng 13 ca + 3 ca không khớp → null).
+**KHÔNG LÀM:**
 
-**④ AC:**
+- Không đổi `lessonId`/`courseId`/`specId`/`pathId`; không đổi khoá tiến độ localStorage/DB.
+- Không đổi ownership host (Lập trình vẫn app host); không đụng `LEGACY_SUBJECTS_PREFIXES`.
+- Không đổi nội dung bài, không chạy `gen:lesson-index`.
 
-- [ ] `legacyProgrammingPath` bảng đủ 13 dòng ánh xạ §F5 + giữ `?khoa=` — test.
-- [ ] `grep -rn "'/lap-trinh" apps/dhcb/src --include=*.ts --include=*.tsx` chỉ còn trong file
-      redirect + `navPaths.ts` — ghi output vào PR.
-- [ ] E2E lặp qua 13 URL cũ: mỗi URL cuối cùng `page.url()` là URL mới và trang render đúng
-      tiêu đề — `e2e/route-alias.spec.ts`.
-- [ ] `decideRedirect({ pathname: '/goc-hoc-tap/programming/bai-hoc/x', host: subjects })` → về
-      app host (test `subjectsRouting.test.ts`).
-- [ ] Toàn bộ `e2e/programming-*.spec.ts` xanh sau khi đổi selector URL.
+### ② Điểm chạm
 
-**⑤ Bất biến:** khoá tiến độ Lập trình không đổi (`programmingProgress.test.ts`); `?khoa=` giữ
-qua redirect (S07 AC-7); `lessonsLazy.test.ts` không đổi.
+| Việc | Đường dẫn file                                                                                      | Ghi chú                         |
+| ---- | --------------------------------------------------------------------------------------------------- | ------------------------------- |
+| Sửa  | `apps/dhcb/src/lib/programmingRoutes.ts` + `.test.ts`                                               | hằng prefix, đốt `bac`          |
+| Thêm | `apps/dhcb/src/lib/legacyProgrammingPath.ts` + `.test.ts`                                           | thuần                           |
+| Thêm | `apps/dhcb/src/components/LegacyProgrammingRedirect.tsx`                                            |                                 |
+| Sửa  | `apps/dhcb/src/App.tsx`                                                                             | 13 route mới + 1 route redirect |
+| Sửa  | `packages/core-learner/subjectHome.ts` + test                                                       |                                 |
+| Sửa  | `lib/navPaths.ts`, `lib/navTree.ts`, `lib/breadcrumb.ts` (+test)                                    |                                 |
+| Sửa  | `apps/server/src/subjectsRouting.test.ts`                                                           | ca prefix mới thuộc app host    |
+| Sửa  | 8 file `e2e/programming-*.spec.ts`, `outline-programming`, `route-alias`, `learning-session-resume` |                                 |
 
-### P1-9b · Tiếng Anh → `/goc-hoc-tap/english/*`
+**Ảnh hưởng lan ra:** `npm run codemap -- impact apps/dhcb/src/lib/programmingRoutes.ts` (dán
+danh sách vào PR — dự kiến ~25 file gọi `duongDan*`, không cần sửa vì gọi hàm).
 
-**① LÀM:** tạo `lib/englishRoutes.ts` với `ENGLISH_PREFIX = '/goc-hoc-tap/english'` và hàm
-`duongDanLoTrinh(levelId?)`, `duongDanTroTruyen()`, `duongDanLuyenNoi()`, `duongDanLuyenViet()`,
-`duongDanLuyenNghe()`, `duongDanTuDien(word?)`, `duongDanOnThi()`, `duongDanBaiHoc()`,
-`duongDanTruyen(id?)`, `duongDanCauThongDung()`, `duongDanSoTayLoiSai()`, `duongDanThuThach()`;
-thay MỌI chuỗi cứng (`Home.tsx SUBJECT_SHORTCUTS`, `navTree.ts:61-82`, `today/englishNext.ts
-duongDanCapCefr`, `comeback`, `Layout`…) bằng hàm; 12 redirect `<Route path="/<cũ>/*">`;
-`navPaths.ts` thêm prefix mới; `e2e/english-*.spec.ts`, `outline-english.spec.ts`,
-`route-alias.spec.ts`.
-**KHÔNG:** không đổi `levelId` CEFR (`/lo-trinh/A2` giữ mã), không đổi `/tu-vung/:word` thành
-khuôn `--` (ngoại lệ đã chốt ở CLAUDE.md §7 — chỉ dời prefix).
+### ③ Hợp đồng dữ liệu
 
-**③** `legacyEnglishPath(pathname, search): string | null` thuần, bảng 12 + ca `/tu-vung/hello` →
-`/goc-hoc-tap/english/tu-dien/hello`.
+```ts
+export const PROGRAMMING_PREFIX = '/goc-hoc-tap/programming'
+/** Ánh xạ URL cũ → mới; null nếu không phải URL Lập trình cũ. Giữ nguyên `search`. */
+export function legacyProgrammingPath(pathname: string, search: string): string | null
+// Bảng 13 dòng (spec nền §F5): /lap-trinh → PREFIX · /gioi-thieu · /:levelId → /bac/:levelId ·
+// /bai-hoc/:id · /khoa-hoc/:id · /khoa/:id → /khoa-hoc/:id · /huong[/:spec[/:stage]] ·
+// /lo-trinh/:path[/chan-doan|/chang/:stage] · /du-an · /on-tap · /chay-thu
+```
 
-**④ AC:**
+**Ca lỗi:** `/lap-trinh/khong-ton-tai` → `null` → rơi vào route `*` (trang không tìm thấy), không
+redirect vòng.
 
-- [ ] `grep -rnE "'/(lo-trinh-hoc|tro-truyen|luyen-noi|luyen-viet|luyen-nghe|tu-dien|tu-vung|on-thi|bai-hoc|truyen-song-ngu|cau-thong-dung|so-tay-loi-sai|thu-thach)" apps/dhcb/src` chỉ còn file redirect + `navPaths.ts`.
-- [ ] `englishNext` trả `href` bắt đầu bằng `/goc-hoc-tap/english/lo-trinh/` — cập nhật
-      `englishNext.test.ts`.
-- [ ] S06 AC-3 đổi grep: `grep -rn "english/lo-trinh" packages/core-learner/today/` = 0 dòng.
-- [ ] E2E 12 URL cũ → mới; `english-tools-context.spec.ts` nhãn Back vẫn "Tiếng Anh".
-- [ ] Golden snapshot prompt KHÔNG đổi (`golden.test.ts` xanh không `-u`) — URL không nằm trong
-      prompt.
+### ④ Tiêu chí chấp nhận
 
-**⑤ Bất biến:** không mặc định tiếng Anh (S06 AC-3, grep đổi như trên); `SUBJECTS_ON_APP_HOST.english`
-giữ `/goc-hoc-tap/english`.
+- [ ] **AC-1** `legacyProgrammingPath` bảng 13 ca đúng + 3 ca `null` + 1 ca giữ `?khoa=git` —
+      `npx vitest run apps/dhcb/src/lib/legacyProgrammingPath.test.ts`.
+- [ ] **AC-2** `grep -rn "'/lap-trinh" apps/dhcb/src --include=*.ts --include=*.tsx` chỉ còn
+      trong `legacyProgrammingPath.ts`, `LegacyProgrammingRedirect.tsx`, `navPaths.ts` — dán output.
+- [ ] **AC-3** E2E lặp bảng 13 URL cũ: `page.url()` cuối = URL mới, `h1` đúng — `route-alias.spec.ts`.
+- [ ] **AC-4** `decideRedirect` với `/goc-hoc-tap/programming/bai-hoc/x` trên host hoc-tap → về
+      app host — `subjectsRouting.test.ts`.
+- [ ] **AC-5** Tất cả `e2e/programming-*.spec.ts` xanh; `lessonsLazy.test.ts` không đổi.
+- [ ] **AC-6** Không redirect vòng: `page.goto('/lap-trinh/xyz')` kết thúc ở trang 404 trong ≤ 1
+      chuyển hướng — E2E.
 
-### P1-9c · Server, sitemap, SEO
+### ⑤ Bất biến
 
-**① LÀM:** `apps/server/src/subjectsRouting.ts`: thêm test khẳng định 2 prefix mới thuộc app host
-(ownership theo độ sâu đã có); nginx: thêm `location ^~ /lap-trinh/ { return 301 … }` vào
-`docs/deploy-vps-ubuntu.md` (việc TAY — ghi vào `PROGRESS.md` mục việc tay) — client redirect đã
-đủ cho người dùng, 301 chỉ để bot; sitemap (nếu có script sinh) dùng URL mới; thêm dòng vào
-`PROGRESS.md`: "đo Google Search Console sau 14 ngày".
-**KHÔNG:** không đổi hostname, không đổi `LEGACY_SUBJECTS_PREFIXES`.
+| Bất biến                                                 | Test canh                                   |
+| -------------------------------------------------------- | ------------------------------------------- |
+| Khoá tiến độ Lập trình không đổi                         | `lib/programmingProgress*.test.ts` (có sẵn) |
+| `?khoa=` giữ qua redirect (S07 AC-7)                     | AC-1, `e2e/programming-course.spec.ts`      |
+| `TodayPlan.href` cho Lập trình dựng qua `duongDanBaiHoc` | `buildTodayPlan.test.ts` (cập nhật kỳ vọng) |
 
-**④ AC:** `subjectsRouting.test.ts` thêm ≥ 4 ca; `docs/deploy-vps-ubuntu.md` có khối nginx;
-`PROGRESS.md` có việc tay.
+### ⑥ Quy ước riêng
+
+- Khuôn `<mã>--<slug>` giữ nguyên qua `buildSlugSegment`/`idFromSlugSegment` (`packages/core-ui/slug.ts`).
+- Route tĩnh (`/goc-hoc-tap/on-tap`, `/goc-hoc-tap/programming/du-an`…) đặt TRƯỚC route động
+  trong `App.tsx`.
+
+---
+
+## P1-9b · URL Tiếng Anh → `/goc-hoc-tap/english/*` (lệnh 11)
+
+### ① Phạm vi
+
+**LÀM:**
+
+- Tạo `lib/englishRoutes.ts`: `ENGLISH_PREFIX = '/goc-hoc-tap/english'` + 12 hàm `duongDan*`
+  (§③). Thay MỌI chuỗi cứng bằng hàm: `Home.tsx` `SUBJECT_SHORTCUTS`, `navTree.ts:61-82`,
+  `today/englishNext.ts` (`duongDanCapCefr` dời sang đây), `lib/comeback.ts`, `Layout.tsx`,
+  `pages/subjects/english/*`, `components/studyTabs/*`.
+- Route mới + 12 redirect `<Route path="/<cũ>/*">` qua `LegacyEnglishRedirect`.
+- `navPaths.ts`: `LEARNING_PATHS` thêm prefix mới, giữ 12 đường cũ.
+- Cập nhật E2E: `english-subject-home`, `english-tools-context`, `outline-english`, `chat`,
+  `listening`, `mistake-bank`, `comeback`, `today-plan`, `route-alias`, `a11y*` (danh sách 15 trang).
+
+**KHÔNG LÀM:**
+
+- Không đổi mã CEFR trong URL (`/lo-trinh/A2` giữ `A2`); `/tu-vung/:word` chỉ dời prefix thành
+  `/tu-dien/:word`, không thêm `--`.
+- Không đổi `SUBJECTS_ON_APP_HOST.english` (đã đúng).
+- Không đụng prompt AI (URL không nằm trong prompt — kiểm bằng golden snapshot không đổi).
+
+### ② Điểm chạm
+
+| Việc | Đường dẫn file                                                                                                                                       |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Thêm | `apps/dhcb/src/lib/englishRoutes.ts` + `.test.ts`                                                                                                    |
+| Thêm | `apps/dhcb/src/lib/legacyEnglishPath.ts` + `.test.ts`, `components/LegacyEnglishRedirect.tsx`                                                        |
+| Sửa  | `App.tsx`, `Home.tsx`, `lib/navTree.ts`, `lib/navPaths.ts`, `lib/breadcrumb.ts`, `lib/today/englishNext.ts` (+test), `lib/comeback.ts`, `Layout.tsx` |
+| Sửa  | `pages/subjects/english/*.tsx`, `components/studyTabs/*.tsx` (nơi có `nav('/…')`)                                                                    |
+| Sửa  | ~10 file E2E nêu trên                                                                                                                                |
+
+**Ảnh hưởng lan ra:** `npm run codemap -- impact apps/dhcb/src/lib/today/englishNext.ts` và
+`grep -rnE "'/(lo-trinh-hoc|tro-truyen|…)" apps/dhcb/src` — dán số dòng trước/sau vào PR.
+
+### ③ Hợp đồng dữ liệu
+
+```ts
+export const ENGLISH_PREFIX = '/goc-hoc-tap/english'
+export function duongDanLoTrinh(levelId?: CefrLevel['id']): string // /lo-trinh[/A2]
+export function duongDanBaiHocAnh(): string // /bai-hoc
+export function duongDanTroTruyen(): string
+export function duongDanLuyenNoi(): string
+export function duongDanLuyenViet(): string
+export function duongDanLuyenNghe(): string
+export function duongDanTuDien(word?: string): string // /tu-dien[/:word] — encodeURIComponent
+export function duongDanOnThi(): string
+export function duongDanTruyen(id?: string): string // /truyen[/:id]
+export function duongDanCauThongDung(): string
+export function duongDanSoTayLoiSai(): string
+export function duongDanThuThach(): string
+export function legacyEnglishPath(pathname: string, search: string): string | null // 12 mẫu + /tu-vung/:word
+```
+
+**Ca lỗi:** `word` chứa `/` hoặc `?` → `encodeURIComponent`; `legacyEnglishPath('/tu-vung/')` (rỗng)
+→ `/goc-hoc-tap/english/tu-dien`.
+
+### ④ Tiêu chí chấp nhận
+
+- [ ] **AC-1** `englishRoutes.test.ts` mỗi hàm ≥ 1 ca; `legacyEnglishPath` 13 ca + 3 `null`.
+- [ ] **AC-2** grep 13 đường cũ trong `apps/dhcb/src` chỉ còn file redirect + `navPaths.ts` — dán output.
+- [ ] **AC-3** `englishNext` trả `href` bắt đầu `/goc-hoc-tap/english/lo-trinh/` — `englishNext.test.ts`.
+- [ ] **AC-4** S06 AC-3 đổi grep thành `grep -rn "english/lo-trinh" packages/core-learner/today/` = 0.
+- [ ] **AC-5** E2E 13 URL cũ → mới; `english-tools-context.spec.ts` nhãn Back vẫn "Tiếng Anh".
+- [ ] **AC-6** `golden.test.ts` xanh KHÔNG dùng `-u`.
+- [ ] **AC-7** a11y 15 trang × 3 theme xanh với URL mới.
+
+### ⑤ Bất biến
+
+| Bất biến                                 | Test canh                                |
+| ---------------------------------------- | ---------------------------------------- |
+| Không mặc định tiếng Anh                 | `buildTodayPlan.test.ts` (grep đổi AC-4) |
+| `SUBJECTS_ON_APP_HOST.english` không đổi | `subjectHome.test.ts`                    |
+| Chiều B (`direction`) không đổi hành vi  | `e2e/chat.spec.ts` ca chiều B (có sẵn)   |
+
+### ⑥ Quy ước riêng
+
+- Ngoại lệ đã chốt (CLAUDE.md §7): `/tu-dien/:word` và `/lo-trinh/:levelId` KHÔNG dùng khuôn `--`.
+
+---
+
+## P1-9c · Server routing, nginx 301, sitemap, SEO (lệnh 12)
+
+### ① Phạm vi
+
+**LÀM:**
+
+- `apps/server/src/subjectsRouting.ts`: bảng ownership theo độ sâu — thêm test khẳng định
+  `/goc-hoc-tap/programming/**` và `/goc-hoc-tap/english/**` (mọi độ sâu) thuộc app host; nếu
+  logic hiện tại đã đúng thì chỉ thêm test.
+- `docs/deploy-vps-ubuntu.md`: khối nginx `location ^~ /lap-trinh/ { return 301 https://$host/goc-hoc-tap/programming$request_uri_sau_tien_to; }`
+  và 12 `location = /<cũ>` → 301 (dùng `rewrite` với regex, ghi rõ). Đây là **việc TAY** trên VPS
+  → thêm vào `PROGRESS.md` mục "việc cần làm tay" kèm lệnh kiểm `curl -I`.
+- Sitemap: nếu có script sinh (`grep -rn sitemap scripts apps/server`), đổi sang URL mới; nếu
+  không có → ghi nợ "chưa có sitemap" vào `PROGRESS.md`.
+- `PROGRESS.md`: việc tay "đo Google Search Console sau 14 ngày (2026-10-01)".
+
+**KHÔNG LÀM:** không đổi hostname; không đổi `LEGACY_SUBJECTS_PREFIXES`; không tự sửa nginx trên
+VPS từ phiên AI.
+
+### ② Điểm chạm
+
+| Việc | Đường dẫn file                                              |
+| ---- | ----------------------------------------------------------- |
+| Sửa  | `apps/server/src/subjectsRouting.test.ts` (+ `.ts` nếu cần) |
+| Sửa  | `docs/deploy-vps-ubuntu.md`, `PROGRESS.md`                  |
+
+### ③ Hợp đồng dữ liệu
+
+Không đổi hợp đồng; `RedirectDecision` giữ nguyên.
+
+### ④ Tiêu chí chấp nhận
+
+- [ ] **AC-1** `subjectsRouting.test.ts` thêm ≥ 6 ca (2 prefix × 3 độ sâu) xanh.
+- [ ] **AC-2** `docs/deploy-vps-ubuntu.md` có khối nginx + lệnh kiểm `curl -I https://www.donghanhcungban.org/lap-trinh` kỳ vọng `301`.
+- [ ] **AC-3** `PROGRESS.md` có 2 việc tay (nginx, Search Console) kèm ngày; `scripts/check-progress-freshness.sh` không thêm cảnh báo mới.
+
+### ⑤ Bất biến
+
+| Bất biến                             | Test canh                          |
+| ------------------------------------ | ---------------------------------- |
+| Bài STEM vẫn về app host theo độ sâu | `subjectsRouting.test.ts` (có sẵn) |
+
+### ⑥ Quy ước riêng
+
+- PR loại `chore(server)`/`docs`; không phải `feat`.
 
 ---
 
 # P2 — chiều sâu
 
-## P2-10 · `buildProgressStory` — ba câu "Bạn đã…"
+## P2-10 · `buildProgressStory` — ba câu "Bạn đã…" (lệnh 13)
 
 ### ① Phạm vi
 
-**LÀM:** hàm thuần từ dữ liệu 7 ngày (`getActivityCalendar(uid, 7)`, SRS stats, số bài xong theo
-môn từ `TodayPlan`/evidence cache) → ≤ 3 câu; component `ProgressStory` ở cột phải desktop trang
-chủ và đầu trang `/tien-do`; mobile trang chủ ẩn (chỉ ở `/tien-do`).
-**KHÔNG:** không gọi AI; không câu nào chứa %, band, bậc; không so sánh với người khác.
+**LÀM:**
+
+- Hàm thuần `buildProgressStory(input): StoryLine[]` (≤ 3 câu) từ dữ liệu 7 ngày.
+- Component `ProgressStory` ở cột phải desktop trang chủ (dưới `WeekRhythm`) và đầu trang
+  `/tien-do` (`pages/core/Dashboard.tsx`), trước biểu đồ. Mobile trang chủ KHÔNG render.
+- Nguồn: `getActivityCalendar(uid, 7)` (`lib/stats.ts`), `getSRSStats` (đếm ôn 7 ngày — nếu chưa có
+  số 7 ngày thì thêm hàm thuần đếm từ lịch sử SRS sẵn có), `todayPlan.subjectsSeen` + evidence cache.
+
+**KHÔNG LÀM:** không gọi AI; không câu nào chứa %, band, bậc; không so sánh với người khác; không
+thêm cột DB.
 
 ### ② Điểm chạm
 
-`lib/progress/buildProgressStory.ts` (+test) · `components/ProgressStory.tsx` (+test) ·
-`pages/core/Home.tsx` (cột phải) · `pages/core/Dashboard.tsx` (`/tien-do`) · E2E ảnh chụp.
+| Việc | Đường dẫn file                                                                          |
+| ---- | --------------------------------------------------------------------------------------- |
+| Thêm | `apps/dhcb/src/lib/progress/buildProgressStory.ts` + `.test.ts`                         |
+| Thêm | `apps/dhcb/src/components/ProgressStory.tsx` + `.test.tsx`                              |
+| Sửa  | `pages/core/Home.tsx` (cột phải desktop), `pages/core/Dashboard.tsx`                    |
+| Sửa  | `Home.design.test.ts`, `e2e/learning-ux-layout.spec.ts`, `scripts/shots-learning-ux.ts` |
 
-### ③ Hợp đồng
+**Ảnh hưởng lan ra:** `codemap -- impact lib/stats.ts` nếu phải thêm hàm đếm; nếu chỉ đọc thì không.
+
+### ③ Hợp đồng dữ liệu
 
 ```ts
 export interface StoryInput {
-  days7: DayActivity[] // cũ → mới
+  days7: DayActivity[] // cũ → mới, length ≤ 7
   srs: { reviewed7d: number; correct7d: number }
-  lessonsDone7d: Array<{ subjectId: string; count: number }>
+  lessonsDone7d: Array<{ subjectId: string; label: string; count: number }>
   newWords7d: number
   streak: number
 }
@@ -868,37 +1065,66 @@ export interface StoryLine {
   text: string
   icon: 'calendar' | 'brain' | 'book' | 'flame'
 }
-export function buildProgressStory(i: StoryInput): StoryLine[] // 0..3, ưu tiên: streak → bài xong → ôn đúng → ngày học
+export function buildProgressStory(i: StoryInput): StoryLine[] // 0..3, thứ tự: flame → book → brain → calendar
 ```
 
-Khuôn câu (cố định, test snapshot chuỗi): "Bạn học 4 ngày trong 7 ngày qua." · "Bạn ôn đúng 18/24
-thẻ tuần này." · "Bạn xong 3 bài Lập trình." · "Chuỗi 5 ngày — cứ đều thế." Con số ở đây là
-**đếm việc đã làm**, không phải điểm năng lực (được phép theo luật 1).
+Khuôn câu cố định: "Chuỗi 5 ngày — cứ đều thế." · "Bạn xong 3 bài Lập trình." · "Bạn ôn đúng 18/24
+thẻ tuần này." · "Bạn học 4 ngày trong 7 ngày qua." Con số = đếm việc đã làm (được phép), không
+phải điểm năng lực.
 
-### ④ AC
+**Ca lỗi:** mọi số 0 → bỏ câu đó; input rỗng → `[]` (component không render).
 
-- [ ] Bảng ≥ 10 ca; input rỗng → `[]`; không chuỗi nào khớp `/%|band|trình độ|\b[ABC][12]\b/`.
-- [ ] Snapshot chuỗi (`toMatchInlineSnapshot`) để đổi chữ là có chủ đích.
-- [ ] `Home` mobile không render `ProgressStory`; desktop có — `Home.design.test.ts`.
-- [ ] `/tien-do` render `ProgressStory` trên cùng, trước biểu đồ.
+### ④ Tiêu chí chấp nhận
 
-### ⑤ Bất biến: chẩn đoán không phải màn hình chính (AC regex); `getActivityCalendar` chữ ký giữ.
+- [ ] **AC-1** Bảng ≥ 10 ca; input rỗng → `[]`; không chuỗi khớp `/%|band|trình độ|\b[ABC][12]\b|\bP[1-6]\b/`.
+- [ ] **AC-2** `toMatchInlineSnapshot` cho 4 khuôn câu (đổi chữ là có chủ đích).
+- [ ] **AC-3** `Home` mobile không render `ProgressStory`; desktop có — `Home.design.test.ts`.
+- [ ] **AC-4** `/tien-do`: `ProgressStory` là con đầu của `<main>` — test Dashboard.
+- [ ] **AC-5** a11y + ảnh chụp 1440 (trang chủ, `/tien-do`) × 3 theme; size-limit ≤ +1 kB.
 
-## P2-11 · Companion inline trong phiên học
+### ⑤ Bất biến
+
+| Bất biến                               | Test canh                            |
+| -------------------------------------- | ------------------------------------ |
+| Chẩn đoán không phải màn hình chính    | AC-1 regex                           |
+| `getActivityCalendar` chữ ký không đổi | `lib/stats.test.ts` (có sẵn)         |
+| `/tien-do` biểu đồ hiện có không đổi   | `e2e/subject-progress-board.spec.ts` |
+
+### ⑥ Quy ước riêng
+
+- Câu hiển thị AAA (`text-content`); icon `aria-hidden`.
+
+---
+
+## P2-11 · Companion inline trong phiên học (lệnh 15)
 
 ### ① Phạm vi
 
-**LÀM:** `CompanionInline` (bong bóng đáy, `CompanionBubble variant="inline"`, `CompanionAvatar
-size=32`) gắn vào `Layout focus` qua prop mới `companionNote?: { lead: string; detail?: string } | null`;
-nguồn nội dung lát này = **gợi ý tất định** từ bài (STEM: `hint` của câu đang làm; Lập trình:
-`feedbackPrompt` kết quả đã có; Anh: câu sửa lỗi TTS đã có) — KHÔNG gọi AI thêm; vuốt xuống/✕ ẩn
-(nhớ theo phiên `sessionStorage`); bấm avatar → `/ban-dong-hanh?hoi=<ngữ cảnh>`; Orb bottom nav
-nhận `companionHasNote` (P1-7) = có note chưa đọc.
-Thứ tự môn: Tiếng Anh (luyện nói/viết đã có dữ liệu sửa lỗi) → Lập trình → STEM.
-**KHÔNG:** không mở WebSocket/voice; không tự phát tiếng; không chặn nội dung (bong bóng
-`position: sticky bottom` trên CTA đáy, chiều cao ≤ 96px).
+**LÀM:**
 
-### ③ Hợp đồng
+- `CompanionInline` = `CompanionAvatar size=32` + `CompanionBubble variant="inline"`, dán đáy
+  (`position: sticky; bottom`) NGAY TRÊN CTA đáy của trang học, cao ≤ 96px ở 390px.
+- `Layout` prop mới `companionNote?: CompanionNote | null`; chỉ render khi `focus && note && !isRead(note.id)`.
+- Nguồn nội dung lát này là **tất định, có sẵn**, KHÔNG gọi AI thêm: Tiếng Anh luyện nói/viết →
+  câu sửa lỗi đã có (đang TTS); Lập trình → dòng đầu của phản hồi `feedbackPrompt` đã nhận;
+  STEM → `hint` của câu đang làm. Thứ tự nối: Anh → Lập trình → STEM (3 commit trong một PR, hoặc
+  tách PR nếu > 400 dòng).
+- Ẩn: vuốt xuống hoặc ✕ → `markRead(id)` (sessionStorage). Bấm avatar → `duongDanHoiDongHanh(note.askContext)`.
+- `BottomNav companionHasNote` (từ lệnh 9) = có note chưa đọc ở trang hiện tại.
+
+**KHÔNG LÀM:** không WebSocket/voice; không tự phát tiếng; không che nội dung; không tăng lượt AI.
+
+### ② Điểm chạm
+
+| Việc | Đường dẫn file                                                                                                               |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Thêm | `packages/core-ui/CompanionInline.tsx` + `.test.tsx`                                                                         |
+| Thêm | `apps/dhcb/src/lib/companion/noteStore.ts` + `.test.ts`                                                                      |
+| Sửa  | `components/Layout.tsx` (+test), `components/BottomNav.tsx`, `App.tsx` (truyền `hasNote`)                                    |
+| Sửa  | `pages/subjects/english/Speaking*.tsx`, `Writing*.tsx`; `pages/programming/Lesson*.tsx`; `pages/learning/StemLessonView.tsx` |
+| Sửa  | `e2e/programming-lesson.spec.ts`, `e2e/stem-evidence.spec.ts`, `e2e/chat.spec.ts`, `a11y-modals.spec.ts`                     |
+
+### ③ Hợp đồng dữ liệu
 
 ```ts
 export interface CompanionNote {
@@ -907,79 +1133,153 @@ export interface CompanionNote {
   detail?: string
   askContext?: string
 }
-// Layout prop: companionNote?: CompanionNote | null
-// lib/companion/noteStore.ts: markRead(id), isRead(id) — sessionStorage, try/catch
+// lib/companion/noteStore.ts (sessionStorage, try/catch → coi như chưa đọc)
+export function isRead(id: string): boolean
+export function markRead(id: string): void
+// id = `${subjectId}:${contentId}:${stepOrAttempt}` — đổi bước là note mới.
 ```
 
-### ④ AC
+**Ca lỗi:** note `lead` rỗng → không render; `askContext` > 500 ký tự → cắt ở 500 trước khi encode.
 
-- [ ] Bong bóng chỉ render khi `focus && companionNote && !isRead(id)` — `Layout.test.tsx`.
-- [ ] Chiều cao bong bóng ≤ 96px ở 390 (Playwright `boundingBox`).
-- [ ] Không phần tử nào của nội dung bài bị che: CTA đáy vẫn `visible` và click được khi bong
-      bóng hiện — E2E.
-- [ ] Ẩn rồi reload: vẫn ẩn trong phiên; tab mới: hiện lại — E2E.
-- [ ] `grep` không có `fetch('/api/agent` trong `CompanionInline` — lát này không gọi AI.
-- [ ] a11y: bong bóng `role="status"` `aria-live="polite"`, nút ✕ `aria-label`.
+### ④ Tiêu chí chấp nhận
 
-### ⑤ Bất biến: `focus` vẫn ẩn Studio/streak/bottom nav (P0-4 test); đếm lượt AI không tăng (không gọi AI).
+- [ ] **AC-1** `Layout` render bong bóng chỉ khi `focus && note && !isRead` — 4 ca test.
+- [ ] **AC-2** Playwright 390: `boundingBox().height ≤ 96`; CTA đáy vẫn `visible` và click được khi
+      bong bóng hiện.
+- [ ] **AC-3** Ẩn rồi reload: vẫn ẩn trong phiên; context mới (tab mới) hiện lại — E2E.
+- [ ] **AC-4** `grep -rn "api/agent" packages/core-ui/CompanionInline.tsx apps/dhcb/src/lib/companion/` = 0.
+- [ ] **AC-5** `role="status" aria-live="polite"`, nút ✕ có `aria-label`; a11y xanh.
+- [ ] **AC-6** Orb bottom nav có chấm khi có note chưa đọc, mất khi đã đọc — E2E.
+- [ ] **AC-7** Số request `/api/tts`/`/api/stt`/`/api/agent` trong một phiên luyện nói KHÔNG tăng
+      so với trước lát này (đếm trong E2E, dán số).
 
-## P2-12 · Chip gợi ý Ask bar + hai demo 30 giây cho khách
+### ⑤ Bất biến
+
+| Bất biến                                | Test canh                       |
+| --------------------------------------- | ------------------------------- |
+| `focus` vẫn ẩn Studio/streak/bottom nav | `Layout.test.tsx` (lệnh 5)      |
+| Đếm lượt AI không đổi                   | AC-7, `e2e/session-cap.spec.ts` |
+| Nội dung bài không bị che               | AC-2                            |
+
+### ⑥ Quy ước riêng
+
+- Giọng viết: ngôi "mình – bạn", ≤ 20 từ/câu, luôn có một sự thật; không "Tuyệt vời!" một mình.
+
+---
+
+## P2-12 · Chip gợi ý Ask bar + hai demo 30 giây cho khách (lệnh 14)
 
 ### ① Phạm vi
 
-**LÀM:** (a) `HomeUniversalAiBar` nhận `suggestions: string[]` (≤ 3) dựng bởi
-`buildAskChips(plan: TodayPlan | null): string[]` thuần ("Giải thích bài đang dở" khi có `resume`;
-"Tôi có 10 phút, học gì?" luôn; "Tạo lịch tuần này" khi có ≥ 2 môn); bấm chip →
-`duongDanHoiDongHanh(cau)` = `/ban-dong-hanh?hoi=<encodeURIComponent>`; trang Bạn Đồng Hành đọc
-`hoi` điền sẵn ô nhập (không tự gửi). (b) Hai route công khai `/thu-ngay/noi-mot-cau` (một câu
-tiếng Anh, STT + TTS sửa lỗi — dùng `/api/stt` + `/api/tts` với hạn mức khách sẵn có) và
-`/thu-ngay/chay-mot-dong` (một ô `CodeEditor` chạy `print("Xin chào")` bằng runner sẵn có của
-`/lap-trinh/chay-thu`); mỗi demo ≤ 30 giây, kết thúc bằng `SessionDone` rút gọn + lời mời đăng
-ký; `GuestHome` thêm 2 chip "thử ngay".
-**KHÔNG:** không tạo API mới; không tăng hạn mức khách; không lưu gì ngoài `hasAnyGuestSession`.
+**LÀM:**
+
+- `lib/homeRoutes.ts`: `duongDanHoiDongHanh(cau)`, `duongDanThuNgay(demoId)`.
+- `buildAskChips(plan: TodayPlan | null): string[]` (≤ 3): "Giải thích bài đang dở" khi `primary.kind==='resume'`;
+  "Tôi có 10 phút, học gì?" luôn; "Tạo lịch tuần này" khi `subjectsSeen.length ≥ 2`.
+- `HomeUniversalAiBar` nhận `suggestions`; bấm chip → `/ban-dong-hanh?hoi=…`; trang Bạn Đồng Hành
+  đọc `hoi` điền sẵn ô nhập, KHÔNG tự gửi.
+- Hai trang `AllowGuest`, lazy: `/thu-ngay/noi-mot-cau` (STT + TTS sửa 1 câu, dùng `/api/stt`,
+  `/api/tts` với hạn mức khách sẵn có) và `/thu-ngay/chay-mot-dong` (`CodeEditor` + runner của
+  `/lap-trinh/chay-thu`). Kết thúc bằng `SessionDone` (`steps=1`) + lời mời đăng ký; đánh dấu
+  `hasAnyGuestSession()` = true.
+- `GuestHome` thêm 2 chip "thử ngay".
+
+**KHÔNG LÀM:** không API mới; không nới hạn mức khách; không lưu gì ngoài cờ phiên khách.
 
 ### ② Điểm chạm
 
-`lib/home/askChips.ts` (+test) · `lib/homeRoutes.ts` (`duongDanHoiDongHanh`, `duongDanThuNgay`) ·
-`HomeUniversalAiBar.tsx` · `pages/companion/*` (đọc `hoi`) · `pages/core/TryNow*.tsx` (2 trang,
-`AllowGuest`) · `App.tsx` routes · `GuestHome.tsx` · `e2e/guest-home.spec.ts`, `home-quick-ask.spec.ts`.
+| Việc | Đường dẫn file                                                                                      |
+| ---- | --------------------------------------------------------------------------------------------------- |
+| Thêm | `lib/homeRoutes.ts` (+test), `lib/home/askChips.ts` (+test)                                         |
+| Thêm | `pages/core/TryNowSpeak.tsx`, `pages/core/TryNowCode.tsx` (+test)                                   |
+| Sửa  | `HomeUniversalAiBar.tsx` (+test), `pages/companion/*` (đọc `hoi`), `App.tsx`, `GuestHome.tsx`       |
+| Sửa  | `e2e/guest-home.spec.ts`, `home-quick-ask.spec.ts`, `login-redirect.spec.ts`, `session-cap.spec.ts` |
 
-### ④ AC
+### ③ Hợp đồng dữ liệu
 
-- [ ] `buildAskChips` bảng 6 ca; kết quả ≤ 3, không trùng.
-- [ ] Bấm chip → URL `/ban-dong-hanh?hoi=…`; ô nhập có sẵn chữ; KHÔNG có request `/api/agent`
-      cho tới khi bấm gửi — E2E network assert.
-- [ ] `/thu-ngay/*` mở được khi khách; sau khi xong → `hasAnyGuestSession()===true` → về `/` thấy
-      `GuestBanner`.
-- [ ] Demo nói: nếu `/api/stt` trả lỗi hạn mức → màn lỗi có nút "Đăng ký để có 30 lượt/ngày",
-      không crash — E2E mock 429.
-- [ ] Route mới trong `AllowGuest`; `e2e/login-redirect.spec.ts` thêm 2 URL.
-- [ ] a11y + ảnh chụp.
+```ts
+export type DemoId = 'noi-mot-cau' | 'chay-mot-dong'
+export function duongDanThuNgay(id: DemoId): string // /thu-ngay/<id>
+export function duongDanHoiDongHanh(cau: string): string // /ban-dong-hanh?hoi=<encodeURIComponent(cau.slice(0,500))>
+export function buildAskChips(plan: TodayPlan | null): string[]
+```
 
-### ⑤ Bất biến: đếm lượt AI server-side vẫn áp cho khách (`session-cap.spec.ts`); `/` chính là
+**Ca lỗi:** `/api/stt` 429 → màn "Hết lượt thử — Đăng ký để có 30 lượt/ngày" (nút → `/login`),
+không crash; mic bị từ chối → hướng dẫn + nút "Thử gõ thay vì nói".
 
-`homeRoutes.ts` dựng, không ghép chuỗi (grep `'/ban-dong-hanh?hoi'` = 0 ngoài file đó).
+### ④ Tiêu chí chấp nhận
 
-## P2-13 · Rà `prefers-reduced-motion` toàn app
+- [ ] **AC-1** `buildAskChips` 6 ca; ≤ 3, không trùng; `plan=null` → 1 chip.
+- [ ] **AC-2** Bấm chip → URL `/ban-dong-hanh?hoi=…`; ô nhập có chữ; KHÔNG có request `/api/agent`
+      cho tới khi bấm gửi — E2E `page.waitForRequest` phủ định.
+- [ ] **AC-3** `/thu-ngay/*` mở khi khách; xong → `hasAnyGuestSession()===true` → `/` thấy `GuestBanner`.
+- [ ] **AC-4** Mock 429 → màn mời đăng ký — E2E.
+- [ ] **AC-5** Hai trang là chunk lazy (không xuất hiện trong initial JS — `npx size-limit` không đổi > 0,5 kB).
+- [ ] **AC-6** `login-redirect.spec.ts` thêm 2 URL vào danh sách công khai.
+- [ ] **AC-7** a11y + ảnh chụp 2 trang demo × 3 theme × 2 bề rộng.
+
+### ⑤ Bất biến
+
+| Bất biến                                          | Test canh                           |
+| ------------------------------------------------- | ----------------------------------- |
+| Hạn mức AI khách áp ở server                      | `e2e/session-cap.spec.ts`           |
+| `'/ban-dong-hanh?hoi'` chỉ dựng ở `homeRoutes.ts` | grep = 0 ngoài file đó (ghi vào PR) |
+| Luật `AllowGuest` (spec mở xem web) không đổi     | `login-redirect.spec.ts`            |
+
+### ⑥ Quy ước riêng
+
+- Route mới KHÔNG dùng khuôn `--` (param tự mô tả, ngoại lệ CLAUDE.md §7).
+
+---
+
+## P2-13 · Rà `prefers-reduced-motion` toàn app (lệnh 3)
 
 ### ① Phạm vi
 
-**LÀM:** một rule chung trong `index.css` `@media (prefers-reduced-motion: reduce) { .animate-*,
-[class*="animate-"] { animation: none !important; transition-duration: 0.01ms !important } }`
-(giữ đổi màu); rà `grep -rn "animate-\|transition-transform" apps/dhcb/src packages/core-ui` và
-`confetti.ts`, `LessonAnimation.tsx`, `Celebration.tsx` (đã có) — bảng kết quả trong PR; test E2E
-bật `reducedMotion: 'reduce'` chụp 5 trang, `getComputedStyle().animationName === 'none'` cho
-mọi phần tử có class `animate-`.
-**KHÔNG:** không xoá animation cho người không bật giảm chuyển động; không đụng `pop-correct`/`shake`
-semantics (chúng vẫn chạy khi không reduce).
+**LÀM:**
 
-### ④ AC
+- `index.css`: một rule chung
+  `@media (prefers-reduced-motion: reduce) { .animate-*… { animation: none !important; } * { transition-duration: 0.01ms !important; scroll-behavior: auto !important } }`
+  (liệt kê tường minh các class `animate-*` khai trong `tailwind.config.js`; giữ đổi màu).
+- Rà `grep -rn "animate-\|transition-transform\|requestAnimationFrame" apps/dhcb/src packages/core-ui`
+  → bảng kết quả (file · loại · đã phủ?) vào PR; JS animation (`confetti.ts`, `LessonAnimation.tsx`,
+  `Celebration.tsx`, `AvatarSpeaking.tsx`) phải đọc `matchMedia('(prefers-reduced-motion: reduce)')`.
+- Mở rộng `UiNoise.design.test.ts`: mọi keyframe trong `tailwind.config.js` phải có tên trong
+  danh sách rule chung.
+- E2E `reducedMotion: 'reduce'` trên 5 trang.
 
-- [ ] E2E `reducedMotion:'reduce'`: 0 phần tử `animate-*` có `animationName !== 'none'` trên `/`,
-      bài Lập trình, bài STEM, luyện nói, `/tien-do`.
-- [ ] `UiNoise.design.test.ts` mở rộng: mọi keyframe mới trong `tailwind.config.js` từ P0-2 trở
-      đi phải có tên trong danh sách được rule chung phủ.
-- [ ] Không thay đổi ảnh chụp ở chế độ bình thường (diff pixel = 0 trên 3 trang mẫu).
+**KHÔNG LÀM:** không xoá animation ở chế độ thường; không đổi ngữ nghĩa `pop-correct`/`shake`.
+
+### ② Điểm chạm
+
+| Việc | Đường dẫn file                                                                                                       |
+| ---- | -------------------------------------------------------------------------------------------------------------------- |
+| Sửa  | `apps/dhcb/src/index.css`, `apps/dhcb/tailwind.config.js` (chỉ đọc danh sách)                                        |
+| Sửa  | `lib/confetti.ts`, `packages/core-ui/LessonAnimation.tsx`, `components/AvatarSpeaking.tsx` (nếu chưa đọc matchMedia) |
+| Sửa  | `pages/core/UiNoise.design.test.ts`; thêm `e2e/reduced-motion.spec.ts`                                               |
+
+### ③ Hợp đồng dữ liệu
+
+Không có; là quy tắc CSS + test canh.
+
+### ④ Tiêu chí chấp nhận
+
+- [ ] **AC-1** E2E `reducedMotion:'reduce'`: 0 phần tử có class `animate-*` mà `getComputedStyle().animationName !== 'none'`
+      trên `/`, một bài Lập trình, một bài STEM, `/luyen-noi` (URL theo lệnh 11 nếu đã merge), `/tien-do`.
+- [ ] **AC-2** `UiNoise.design.test.ts` đỏ khi thêm keyframe mới mà không thêm vào rule chung (test tự chứng minh bằng ca giả).
+- [ ] **AC-3** Ảnh chụp chế độ thường 3 trang mẫu: diff pixel = 0 so với trước.
+- [ ] **AC-4** `confetti.ts` không chạy khi reduce (test unit mock `matchMedia`).
+
+### ⑤ Bất biến
+
+| Bất biến                                      | Test canh                   |
+| --------------------------------------------- | --------------------------- |
+| Phản hồi đúng/sai quiz vẫn có ở chế độ thường | `e2e/quiz-keyboard.spec.ts` |
+| a11y không đổi                                | `e2e/a11y*.spec.ts`         |
+
+### ⑥ Quy ước riêng
+
+- Từ lệnh này trở đi: mọi keyframe mới PHẢI thêm vào rule chung (test AC-2 canh) — ghi vào CLAUDE.md §4.7 một dòng.
 
 ---
 
@@ -1030,25 +1330,42 @@ Tổng P0+P1 ≤ +9 kB → 144,4 kB, dưới trần 150 kB, trên mốc cảnh b
 
 ## 8. Nghiệm thu (điền SAU mỗi lát)
 
-| Lát  | PR  | Lệnh + kết quả thật | AC chưa đạt & lý do | Bất biến phá? | Ngoài phạm vi? | Còn ngỏ |
-| ---- | --- | ------------------- | ------------------- | ------------- | -------------- | ------- |
-| P0-1 |     |                     |                     |               |                |         |
-| …    |     |                     |                     |               |                |         |
+| Lát        | PR  | Lệnh + kết quả thật | AC chưa đạt & lý do | Bất biến phá? | Ngoài phạm vi? | Còn ngỏ |
+| ---------- | --- | ------------------- | ------------------- | ------------- | -------------- | ------- |
+| 1 · P0-1   |     |                     |                     |               |                |         |
+| 2 · P0-2   |     |                     |                     |               |                |         |
+| 3 · P2-13  |     |                     |                     |               |                |         |
+| 4 · P0-3   |     |                     |                     |               |                |         |
+| 5 · P0-4   |     |                     |                     |               |                |         |
+| 6 · P1-8   |     |                     |                     |               |                |         |
+| 7 · P1-5   |     |                     |                     |               |                |         |
+| 8 · P1-6   |     |                     |                     |               |                |         |
+| 9 · P1-7   |     |                     |                     |               |                |         |
+| 10 · P1-9a |     |                     |                     |               |                |         |
+| 11 · P1-9b |     |                     |                     |               |                |         |
+| 12 · P1-9c |     |                     |                     |               |                |         |
+| 13 · P2-10 |     |                     |                     |               |                |         |
+| 14 · P2-12 |     |                     |                     |               |                |         |
+| 15 · P2-11 |     |                     |                     |               |                |         |
 
-## 9. Bảng duyệt từng lát (chủ dự án điền)
+## 9. Bảng lệnh thi hành (chủ dự án ra lệnh theo số; bên thi hành điền cột còn lại)
 
-| Lát       | Approved for implementation? | Ngày | Ghi chú |
-| --------- | ---------------------------- | ---- | ------- |
-| P0-1      |                              |      |         |
-| P0-2      |                              |      |         |
-| P0-3      |                              |      |         |
-| P0-4      |                              |      |         |
-| P1-5      |                              |      |         |
-| P1-6      |                              |      |         |
-| P1-7      |                              |      |         |
-| P1-8      |                              |      |         |
-| P1-9a/b/c |                              |      |         |
-| P2-10     |                              |      |         |
-| P2-11     |                              |      |         |
-| P2-12     |                              |      |         |
-| P2-13     |                              |      |         |
+Lệnh "thi hành lệnh N" = "Approved for implementation" cho lát đó. Không có lệnh = không code.
+
+| Lệnh | Lát   | Ngày ra lệnh | PR  | Merge | Ghi chú |
+| ---- | ----- | ------------ | --- | ----- | ------- |
+| 1    | P0-1  |              |     |       |         |
+| 2    | P0-2  |              |     |       |         |
+| 3    | P2-13 |              |     |       |         |
+| 4    | P0-3  |              |     |       |         |
+| 5    | P0-4  |              |     |       |         |
+| 6    | P1-8  |              |     |       |         |
+| 7    | P1-5  |              |     |       |         |
+| 8    | P1-6  |              |     |       |         |
+| 9    | P1-7  |              |     |       |         |
+| 10   | P1-9a |              |     |       |         |
+| 11   | P1-9b |              |     |       |         |
+| 12   | P1-9c |              |     |       |         |
+| 13   | P2-10 |              |     |       |         |
+| 14   | P2-12 |              |     |       |         |
+| 15   | P2-11 |              |     |       |         |
