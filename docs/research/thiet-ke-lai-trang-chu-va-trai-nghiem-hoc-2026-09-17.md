@@ -1,7 +1,8 @@
 # Thiết kế lại Trang chủ & trải nghiệm học cốt lõi — "Đồng Hành Cùng Bạn"
 
 **Ngày:** 2026-09-17 · **Loại:** đặc tả thiết kế UI/UX (research) · **Trạng thái:** bản đề xuất,
-chờ chủ dự án duyệt từng lát (P0 → P1 → P2). **Chưa** "Approved for implementation".
+chờ chủ dự án duyệt từng lát (P0 → P1 → P2). **Chưa** "Approved for implementation". **Đặc tả thi
+hành (6 ô/lát, 13 lát): `docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md`.**
 
 > Tài liệu này viết cho cả Designer lẫn Developer. Mọi đề xuất đều đối chiếu với mã THẬT đang
 > chạy (đường dẫn file ghi kèm) để lát nào cũng thi hành được bằng React 18 + Tailwind 3 hiện
@@ -9,16 +10,16 @@ chờ chủ dự án duyệt từng lát (P0 → P1 → P2). **Chưa** "Approved
 
 ## 0. Hiện trạng đã đọc (căn cứ của mọi đề xuất)
 
-| Vùng                         | Mã hiện tại                                                                                                                                                                                                              | Nhận xét                                                                                                                                                                                       |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Trang chủ                    | `apps/dhcb/src/pages/core/Home.tsx`: `FirstTaskCard` → `HomeAiBriefingCard` → `TodayCard` → `HomeUniversalAiBar` → thẻ "quay lại" → `RewardTipBanner` → danh sách 6 môn + 2 trụ (`SUBJECT_ENTRIES`)                      | Nền tảng ĐÃ tốt: một CTA (`TodayCard` ba luật), không mặc định tiếng Anh. Vấn đề: 4 khối xếp dọc cùng trọng lượng, mắt không biết dừng ở đâu; "Hôm nay" nằm ở khối thứ 3 chứ không phải thứ 1. |
-| Lời chào AI                  | `components/Home/HomeAiBriefingCard.tsx` — icon `Bot`, chữ "Chào buổi sáng", bản tin từ `/api/proactive-briefing`                                                                                                        | Giọng có nhưng HÌNH không có: Companion là một icon robot trong thẻ xám, không có danh tính, không có "trạng thái".                                                                            |
-| Sidebar desktop              | `components/DesktopSidebar.tsx`: 5 mục chính (Trang chủ · Góc học tập ▾ · Ôn tập · Bạn Đồng Hành · Luyện tập) + 2 studio (Sự nghiệp · Công việc & Đời sống) + 3 đáy (Tiến độ · Nâng cấp · Hồ sơ) = **10 mục + nhóm con** | Nhiều hơn 7±2; "Nâng cấp" màu amber nổi hơn cả "Góc học tập"; "Ôn tập" và "Luyện tập" cạnh nhau gây nhầm.                                                                                      |
-| Bottom nav mobile            | `components/BottomNav.tsx`: 5 tab, tab giữa là Orb "Đồng Hành" nhô lên                                                                                                                                                   | Cấu trúc đúng; giữ. Cần đồng bộ nhãn với sidebar và bớt hiệu ứng scale.                                                                                                                        |
-| Header                       | `components/Layout.tsx`: 8 khe trong 56px (Back · Studio · breadcrumb¹ · title · streak · extra · AI · theme · avatar); cờ `focus` ẩn 2 khe                                                                              | Trên 390px là chật thật. ¹ Breadcrumb vừa gỡ ở changelog 0359.                                                                                                                                 |
-| Khách vãng lai               | `components/GuestBanner.tsx` dải mỏng + `/bat-dau` (`StartByIntent`) 5 câu ≤ 90 giây                                                                                                                                     | Luồng 5 câu tốt; vấn đề là trang chủ khách KHÔNG chỉ vào nó đủ mạnh, và `Home` trả `null` khi `!user`.                                                                                         |
-| Streak / nhiệm vụ / huy hiệu | streak: huy hiệu nhỏ ở header (`getStreak`); nhiệm vụ: `/nhiem-vu` (`QuestsPanel`); mừng: `StreakCelebration`, `WeeklyGoalCelebration`, `Celebration`                                                                    | Rải ở 3 nơi, không có "bảng điều khiển nhịp học" nào trên trang chủ.                                                                                                                           |
-| Theme & token                | `packages/core-ui/theme.ts`: `blue-sky` (mặc định) · `dark-blue` · `kid`; token `--a-*` (accent) · `--z-*` (nền/chữ); font Inter Variable; bo góc `--r-*`                                                                | Giữ nguyên hệ token, chỉ THÊM 1 nhóm token "ấm" cho Companion (mục A2).                                                                                                                        |
+| Vùng                         | Mã hiện tại                                                                                                                                                                                                              | Nhận xét                                                                                                                                                                                              |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Trang chủ                    | `apps/dhcb/src/pages/core/Home.tsx`: `FirstTaskCard` → `HomeAiBriefingCard` → `TodayCard` → `HomeUniversalAiBar` → thẻ "quay lại" → `RewardTipBanner` → danh sách 6 môn + 2 trụ (`SUBJECT_ENTRIES`)                      | Nền tảng ĐÃ tốt: một CTA (`TodayCard` ba luật), không mặc định tiếng Anh. Vấn đề: 4 khối xếp dọc cùng trọng lượng, mắt không biết dừng ở đâu; "Hôm nay" nằm ở khối thứ 3 chứ không phải thứ 1.        |
+| Lời chào AI                  | `components/Home/HomeAiBriefingCard.tsx` — icon `Bot`, chữ "Chào buổi sáng", bản tin từ `/api/proactive-briefing`                                                                                                        | Giọng có nhưng HÌNH không có: Companion là một icon robot trong thẻ xám, không có danh tính, không có "trạng thái".                                                                                   |
+| Sidebar desktop              | `components/DesktopSidebar.tsx`: 5 mục chính (Trang chủ · Góc học tập ▾ · Ôn tập · Bạn Đồng Hành · Luyện tập) + 2 studio (Sự nghiệp · Công việc & Đời sống) + 3 đáy (Tiến độ · Nâng cấp · Hồ sơ) = **10 mục + nhóm con** | Nhiều hơn 7±2; "Nâng cấp" màu amber nổi hơn cả "Góc học tập"; "Ôn tập" và "Luyện tập" cạnh nhau gây nhầm.                                                                                             |
+| Bottom nav mobile            | `components/BottomNav.tsx`: 5 tab, tab giữa là Orb "Đồng Hành" nhô lên                                                                                                                                                   | Cấu trúc đúng; giữ. Cần đồng bộ nhãn với sidebar và bớt hiệu ứng scale.                                                                                                                               |
+| Header                       | `components/Layout.tsx`: 8 khe trong 56px (Back · Studio · breadcrumb¹ · title · streak · extra · AI · theme · avatar); cờ `focus` ẩn 2 khe                                                                              | Trên 390px là chật thật. ¹ Breadcrumb vừa gỡ ở changelog 0359.                                                                                                                                        |
+| Khách vãng lai               | `components/GuestBanner.tsx` dải mỏng + `/bat-dau` (`StartByIntent`) 5 câu ≤ 90 giây                                                                                                                                     | Luồng 5 câu tốt; vấn đề là trang chủ khách KHÔNG chỉ vào nó đủ mạnh. (Đính chính 2026-09-17: route `/` đã bọc `AllowGuest`, khách có user ảo `isGuest` và thấy Home đầy đủ — xem đặc tả thi hành §1.) |
+| Streak / nhiệm vụ / huy hiệu | streak: huy hiệu nhỏ ở header (`getStreak`); nhiệm vụ: `/nhiem-vu` (`QuestsPanel`); mừng: `StreakCelebration`, `WeeklyGoalCelebration`, `Celebration`                                                                    | Rải ở 3 nơi, không có "bảng điều khiển nhịp học" nào trên trang chủ.                                                                                                                                  |
+| Theme & token                | `packages/core-ui/theme.ts`: `blue-sky` (mặc định) · `dark-blue` · `kid`; token `--a-*` (accent) · `--z-*` (nền/chữ); font Inter Variable; bo góc `--r-*`                                                                | Giữ nguyên hệ token, chỉ THÊM 1 nhóm token "ấm" cho Companion (mục A2).                                                                                                                               |
 
 **Luật sản phẩm KHÔNG được vi phạm** (từ `CLAUDE.md` + `docs/research/luong-nguoi-moi-ho-so-nang-luc-an-2026-08-23.md`):
 
@@ -267,8 +268,7 @@ Hồ sơ  (Nâng cấp chuyển thành dòng nhỏ dưới avatar: "Free · Nân
 
 ### C1. Guest (chưa đăng nhập)
 
-Hiện `Home` trả `null` khi `!user`, khách được chuyển sang landing. Đề xuất: **trang chủ khách là
-một màn hình riêng, 3 khối, đọc xong trong 10 giây:**
+Hiện khách (`isGuest`, route `/` bọc `AllowGuest`) thấy nguyên bố cục của người đã đăng nhập kèm `GuestBanner` — nhiều khối không có nghĩa với họ. Đề xuất: **trang chủ khách là một nhánh riêng trong `Home`, 3 khối, đọc xong trong 10 giây:**
 
 ```
 ┌──────────────────────────────────────┐
@@ -608,7 +608,7 @@ bảng trên vẫn mở đúng trang (E2E lặp qua bảng), không một link n
 1. Sắp lại thứ tự trang chủ (Today lên vị trí 2) + `pickHomeBanner` — chỉ đụng `Home.tsx`.
 2. `CompanionAvatar` + `CompanionBubble` + token `--w-*` + thay vỏ `HomeAiBriefingCard`; gộp thẻ
    "quay lại" vào câu chào. Cổng: a11y 3 theme, golden snapshot nếu đổi prompt.
-3. `GuestHome` (C1) thay `return null`, kèm E2E "guest chạm CTA".
+3. `GuestHome` (C1) nhánh `isGuest` trong `Home`, kèm E2E "guest chạm CTA".
 4. Header mobile 4 khe (E1) + `focus` ẩn bottom nav.
 
 **P1 — nhịp học & sau phiên:**
