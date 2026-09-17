@@ -93,6 +93,7 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // DevOps S1 — bốn module được tách để mỗi policy vận hành có ca âm riêng. Mô phỏng Python
   // chỉ chuẩn bị quyết định; rubric Linux/VPS thật vẫn nằm ở `details/devops-s1.ts`.
   'devops-s1': ['p6-u154', 'p6-u155', 'p6-u156', 'p6-u157'],
+  'devops-s2': ['p6-u178', 'p6-u179', 'p6-u180', 'p6-u181'],
   'mathforcode-s3': ['p6-u158', 'p6-u159'],
   'mathforcode-s4': ['p6-u160', 'p6-u161'],
   'ai-s2': ['p6-u166', 'p6-u167', 'p6-u168', 'p6-u169'],

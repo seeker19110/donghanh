@@ -12,7 +12,12 @@ type LessonInput = {
   predictAnswer: number
   predictExplain: string
   makePrompt: string
-  testCases: ProgrammingLesson['make']['testCases']
+  /** Factories normalize this to `contains`, so callers cannot accidentally use runner-unsafe exact matching. */
+  testCases: Array<
+    Omit<ProgrammingLesson['make']['testCases'][number], 'match'> & {
+      match?: ProgrammingLesson['make']['testCases'][number]['match']
+    }
+  >
   sampleSolution: string
   homework: string
   cards: NonNullable<ProgrammingLesson['srsCards']>

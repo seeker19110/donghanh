@@ -31,7 +31,7 @@ describe('cầu nối chặng chuyên sâu → unit bài học', () => {
   })
 
   it('chặng chưa soạn bài trả về mảng rỗng, không đoán bừa', () => {
-    expect(unitsOfStage('devops-s2')).toEqual([])
+    expect(unitsOfStage('security-s3')).toEqual([])
     expect(unitsOfStage('khong-co-huong-nay-s1')).toEqual([])
   })
 
@@ -66,6 +66,10 @@ describe('cầu nối chặng chuyên sâu → unit bài học', () => {
 
   it('devops-s1 phủ đủ bốn module theo đúng thứ tự bằng bốn unit thật', () => {
     expect(unitsOfStage('devops-s1')).toEqual(['p6-u154', 'p6-u155', 'p6-u156', 'p6-u157'])
+  })
+
+  it('devops-s2 phủ đủ bốn unit policy vận hành thật', () => {
+    expect(unitsOfStage('devops-s2')).toEqual(['p6-u178', 'p6-u179', 'p6-u180', 'p6-u181'])
   })
 
   it('security-s1 phủ đủ bốn unit policy phòng thủ thật', () => {
