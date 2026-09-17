@@ -63,29 +63,13 @@ test('câu hỏi Toán chỉ nhận gợi ý nơi học, không nhận lời gi�
   expect(aiCalls, `không được gọi AI khi chỉ điều hướng: ${aiCalls.join(', ')}`).toEqual([])
 })
 
-test('khách được mời đăng nhập và câu hỏi vẫn còn khi quay lại Trang chủ', async ({ page }) => {
-  const aiCalls = watchAiCalls(page)
-  await page.goto('/')
-
-  await ask(page, 'Hôm nay tôi thấy hơi mệt, nên bắt đầu từ đâu?')
-  const panel = page.getByRole('region', { name: 'Gợi ý nơi học' })
-  await expect(panel).toBeVisible()
-  // Đích cần tài khoản: mời đăng nhập, KHÔNG mở thẳng.
-  await expect(panel.getByRole('button', { name: /Đăng nhập để hỏi/ })).toBeVisible()
-  await panel.getByRole('button', { name: /Đăng nhập để hỏi/ }).click()
-  await expect(page).toHaveURL(/\/login$/)
-  // Không có lệnh gọi API riêng tư nào trước khi có tài khoản.
-  expect(aiCalls).toEqual([])
-
-  // Quay lại Trang chủ (Back): câu hỏi vẫn nằm trong tab này.
-  await page.goBack()
-  await expect(page).toHaveURL(/\/$/)
-  await ask(page, 'Hôm nay tôi thấy hơi mệt, nên bắt đầu từ đâu?')
-  await expect(page.getByRole('region', { name: 'Gợi ý nơi học' })).toContainText(
-    'Hôm nay tôi thấy hơi mệt',
-  )
-  expect(aiCalls).toEqual([])
-})
+// [P0-3, lệnh 4, 2026-09-17] Trang chủ khách nay là `GuestHome` (đặc tả
+// `docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md` §P0-3, "Approved for implementation"):
+// không còn render `HomeUniversalAiBar` cho khách — lối vào duy nhất là CTA "Bắt đầu — chọn việc
+// đầu tiên" → `/bat-dau`. Bài test "khách hỏi nhanh ở Trang chủ" của slice S02 vì vậy không còn
+// áp dụng được cho khách (ô hỏi không tồn tại trên `GuestHome`); bất biến "hỏi nhanh mời đăng
+// nhập, câu hỏi không mất" vẫn được canh bởi 2 bài test còn lại trong file này (người đã đăng
+// nhập, qua `mockLogin`).
 
 test('tải lại trang không tự gửi câu hỏi cho AI', async ({ page }) => {
   await mockLogin(page)
