@@ -94,6 +94,27 @@ for (const man of LEARNING_UX_SCREENS) {
         }
       }
 
+      // 3b. [P0-1 AC-4] Trang chủ: nút CTA chính trong "Hôm nay" (`TodayCard`) phải nằm trọn
+      // trong khung nhìn 390×844 KHÔNG CUỘN — khối "Hôm nay" là khối tương phản lớn nhất và
+      // không được đẩy xuống dưới nếp gấp màn hình. Chỉ áp cho màn `today` (Trang chủ), các màn
+      // khác không có ràng buộc "không cuộn" này.
+      if (man.id === 'today' && w === 390) {
+        const ctaHomNay = page
+          .locator('#today-card-heading')
+          .locator('..')
+          .locator('a, button')
+          .first()
+        if (await ctaHomNay.count()) {
+          const hop = await ctaHomNay.boundingBox()
+          expect(hop, `[today @ 390] không đo được CTA chính của "Hôm nay"`).not.toBeNull()
+          const day = (hop?.y ?? 0) + (hop?.height ?? 0)
+          expect(
+            day,
+            `[today @ 390] CTA chính của "Hôm nay" chạm đáy ở ${Math.round(day)}px, vượt khỏi khung nhìn 844px (chưa cuộn)`,
+          ).toBeLessThanOrEqual(HEIGHTS[390])
+        }
+      }
+
       // 4. Đoạn văn không quá ~80 ký tự/dòng ở ≥ 768 (spec nền: 60–75).
       if (w >= 768) {
         const viPham = await page.evaluate(() => {
