@@ -174,12 +174,15 @@ test('lỗi tải tiến độ → vẫn có CTA từ dữ liệu cục bộ + d
   await expect(page.getByRole('button', { name: 'Thử lại' })).toBeVisible()
 })
 
-test('khách (chưa đăng nhập): vẫn thấy thẻ Hôm nay, 0 lượt gọi AI', async ({ page }) => {
+test('khách (chưa đăng nhập): thấy CTA của GuestHome, 0 lượt gọi AI', async ({ page }) => {
+  // [P0-3, lệnh 4, 2026-09-17] Khách nay thấy `GuestHome` thay cho thẻ "Hôm nay" (không có tài
+  // khoản để tính tiến độ) — chỉ Companion giới thiệu + ĐÚNG MỘT CTA vào `/bat-dau`. Bất biến gốc
+  // của test này ("0 lượt gọi AI khi mở Trang chủ") vẫn còn nguyên giá trị, chỉ đổi cách kiểm.
   await gioLapTiendo(page)
   const aiCalls = watchAiCalls(page)
-  await moTrangChu(page)
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
 
-  await expect(ctaChinh(page)).toHaveCount(1)
+  await expect(page.getByRole('link', { name: 'Bắt đầu — chọn việc đầu tiên' })).toBeVisible()
   expect(aiCalls).toEqual([])
 })
 
