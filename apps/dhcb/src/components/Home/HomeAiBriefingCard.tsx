@@ -119,7 +119,7 @@ export default function HomeAiBriefingCard({
                   <button
                     type="button"
                     onClick={comeback.onReview}
-                    className="tap-44-y text-sm font-medium text-accent-500 hover:underline"
+                    className="tap-44-y text-sm font-medium text-warm-700 hover:underline"
                   >
                     {comeback.reviewLabel}
                   </button>
@@ -127,7 +127,7 @@ export default function HomeAiBriefingCard({
                 <button
                   type="button"
                   onClick={comeback.onLearnNew}
-                  className="tap-44-y text-sm font-medium text-accent-500 hover:underline"
+                  className="tap-44-y text-sm font-medium text-warm-700 hover:underline"
                 >
                   {comeback.learnLabel}
                 </button>
