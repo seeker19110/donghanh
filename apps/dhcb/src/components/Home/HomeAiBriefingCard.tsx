@@ -6,12 +6,31 @@
 // đúng cái "mặc định tiếng Anh" mà nền tảng cấm. Việc học nay ở `TodayCard` (một CTA, nguồn bằng
 // chứng rõ, mọi môn). Ở đây chỉ còn giọng Companion: lời chào + bản tin.
 // Đặc tả: docs/specs/2026-09-15-learning-ux-s06-hom-nay-hoc-tiep.md §④ AC-14, §7 Q5.
+//
+// [P0-2, 2026-09-17] Thay icon `Bot` (lucide) + thẻ xám bằng `CompanionAvatar`/`CompanionBubble`
+// (packages/core-ui) và gộp thẻ "quay lại sau bỏ bẵng" (`Home.tsx` cũ, một `.glass` card riêng)
+// vào dòng thứ hai của bong bóng + 2 link chữ nhỏ dưới bong bóng. Đặc tả:
+// docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md §P0-2.
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Bot, CheckCircle2, ChevronRight, Volume2 } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
+import { CompanionAvatar, type CompanionMood } from '@dhcb/core-ui/CompanionAvatar'
+import { CompanionBubble } from '@dhcb/core-ui/CompanionBubble'
 import { fetchProactiveBriefing } from '../../lib/proactiveBriefingApi'
 import { speak } from '../../lib/tts'
+import { loiChaoTheoGio, cauQuayLai } from '../../prompts/companionVoice'
 import type { ProactiveBriefing } from '@dhcb/core-contracts/proactiveBriefing'
+
+/** Nội dung luồng "quay lại sau khi bỏ bẵng" — gộp vào bong bóng Companion (P0-2), không còn
+ *  là card riêng. `reviewLabel` là `null` khi không có thẻ SRS nào tới hạn (không hiện link đó). */
+export interface HomeComeback {
+  daysAway: number
+  reviewLabel: string | null
+  onReview: () => void
+  learnLabel: string
+  onLearnNew: () => void
+  onDismiss: () => void
+}
 
 interface Props {
   userName?: string
@@ -23,28 +42,25 @@ interface Props {
    * định tiếng Anh trá hình (§7 Q5).
    */
   showDailyWords?: boolean
+  /** Có mặt khi người dùng đã vắng ≥3 ngày (`shouldShowComeback`) — xem `lib/comeback.ts`. */
+  comeback?: HomeComeback
 }
 
 const FALLBACK_SUMMARY =
   'Hôm nay hãy bắt đầu bằng việc quan trọng nhất trước, rồi giữ một bước nhỏ tiếp theo để duy trì nhịp học.'
-
-function timeOfDayGreeting(hour: number): string {
-  if (hour >= 5 && hour < 12) return 'Chào buổi sáng'
-  if (hour >= 12 && hour < 18) return 'Chào buổi chiều'
-  return 'Chào buổi tối'
-}
 
 export default function HomeAiBriefingCard({
   userName,
   dailyLearned = 0,
   dailyMax = 20,
   showDailyWords = false,
+  comeback,
 }: Props) {
   const nav = useNavigate()
   const [briefing, setBriefing] = useState<ProactiveBriefing | null>(null)
   const [loading, setLoading] = useState(true)
 
-  const greeting = timeOfDayGreeting(new Date().getHours())
+  const greeting = loiChaoTheoGio(new Date().getHours(), userName)
 
   useEffect(() => {
     let isMounted = true
@@ -65,6 +81,7 @@ export default function HomeAiBriefingCard({
 
   const summary = briefing?.summary ?? FALLBACK_SUMMARY
   const insight = briefing?.insights?.[0]
+  const mood: CompanionMood = loading ? 'thinking' : comeback ? 'hasNote' : 'idle'
 
   return (
     <section
@@ -72,16 +89,12 @@ export default function HomeAiBriefingCard({
       className="rounded-3xl border border-zinc-800 bg-zinc-900/90 p-5 sm:p-6 animate-fade-up"
     >
       <div className="flex items-center gap-3">
-        <div className="w-11 h-11 rounded-2xl bg-accent-500/15 text-accent-400 flex items-center justify-center shrink-0">
-          <Bot className="w-6 h-6" aria-hidden="true" />
-        </div>
+        <CompanionAvatar mood={mood} size={48} />
         <div className="min-w-0">
           <h2 className="text-base sm:text-lg font-bold text-white tracking-tight">
             Bạn Đồng Hành AI
           </h2>
-          <p className="text-sm text-zinc-400 mt-0.5">
-            {userName ? `${greeting}, ${userName}!` : `${greeting}, bạn!`}
-          </p>
+          <p className="text-sm text-zinc-400 mt-0.5">{greeting}</p>
         </div>
       </div>
 
@@ -92,25 +105,35 @@ export default function HomeAiBriefingCard({
             <div className="h-3.5 rounded bg-zinc-800 animate-pulse w-2/3" />
           </div>
         ) : (
-          <>
-            <div className="flex items-start justify-between gap-2">
-              <p className="text-sm text-zinc-200 leading-relaxed read-measure">{summary}</p>
-              <button
-                onClick={() => void speak(summary, 'vi-VN')}
-                aria-label="Nghe giọng đọc bản tin"
-                title="Nghe giọng đọc AI"
-                className="tap-44 p-1.5 rounded-lg text-zinc-400 hover:text-accent-300 hover:bg-zinc-800 transition active:scale-95 shrink-0"
-              >
-                <Volume2 className="w-4 h-4" />
-              </button>
-            </div>
-            {insight && (
-              <p className="mt-2 flex items-center gap-2 text-sm text-emerald-400 theme-light:text-emerald-900">
-                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                <span className="truncate">{insight}</span>
-              </p>
+          <CompanionBubble
+            variant="home"
+            lead={summary}
+            detail={comeback ? cauQuayLai(comeback.daysAway) : undefined}
+            onSpeak={() => void speak(summary, 'vi-VN')}
+            onDismiss={comeback?.onDismiss}
+          >
+            {insight && <span className="text-sm text-content-secondary">{insight}</span>}
+            {comeback && (
+              <>
+                {comeback.reviewLabel && (
+                  <button
+                    type="button"
+                    onClick={comeback.onReview}
+                    className="tap-44-y text-sm font-medium text-accent-500 hover:underline"
+                  >
+                    {comeback.reviewLabel}
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={comeback.onLearnNew}
+                  className="tap-44-y text-sm font-medium text-accent-500 hover:underline"
+                >
+                  {comeback.learnLabel}
+                </button>
+              </>
             )}
-          </>
+          </CompanionBubble>
         )}
       </div>
 

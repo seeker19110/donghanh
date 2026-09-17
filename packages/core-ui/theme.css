@@ -76,6 +76,13 @@
   --r-xl: 0.5rem;
   --r-2xl: 0.75rem;
   --r-3xl: 1rem;
+  /* Token ẤM cho Companion "Bạn Đồng Hành" (P0-2, 2026-09-17) — TÁCH khỏi accent cyan lạnh:
+     avatar/bong bóng chào cần cảm giác gần gũi, không phải màu thương hiệu HUD. w-500/700
+     đo đạt AA trên nền trang ở theme này (đo bằng scripts/fixed-color-contrast-audit.ts). */
+  --w-50: 45 36 18;
+  --w-100: 69 52 20;
+  --w-500: 251 191 36;
+  --w-700: 253 224 71;
 }
 
 /* ☀️ Blue sky — nền sáng tông xanh + nhấn xanh da trời (sky) */
@@ -108,6 +115,11 @@
   --a-900: 12 74 110;
   --glow-accent: 0.35;
   --theme-color: #f0f9ff;
+  /* Token ấm Companion (P0-2) — xem giải thích ở khối dark-blue phía trên. */
+  --w-50: 255 251 235;
+  --w-100: 254 243 199;
+  --w-500: 217 119 6;
+  --w-700: 146 64 14;
 }
 
 /* Pink và Rực rỡ (vibrant) đã bị XOÁ khỏi sản phẩm (chốt 2026-09-17, chủ dự án) —
@@ -143,6 +155,12 @@
   --a-900: 124 45 18;
   --glow-accent: 0.5;
   --theme-color: #fffbeb;
+  /* Token ấm Companion (P0-2) — CHỌN HỒNG ĐẬM, khác cam của accent theme này (đính chính §1
+     spec thi hành: accent `kid` đã là cam, màu ấm Companion phải TÁCH khỏi nó). */
+  --w-50: 253 242 248;
+  --w-100: 252 231 243;
+  --w-500: 190 24 93;
+  --w-700: 131 24 67;
 }
 
 /* ===== TOKEN NGỮ NGHĨA — BỀ MẶT & MÀU CHỮ (dùng chung cho CẢ 5 THEME) =====
