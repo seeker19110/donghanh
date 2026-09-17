@@ -44,9 +44,13 @@ export function CompanionBubble({
     >
       <div className="flex items-start gap-2">
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-semibold text-content line-clamp-2 leading-relaxed">{lead}</p>
+          <p className="text-sm font-semibold text-content line-clamp-2 leading-relaxed read-measure">
+            {lead}
+          </p>
           {detail && (
-            <p className="mt-1 text-sm text-content line-clamp-2 leading-relaxed">{detail}</p>
+            <p className="mt-1 text-sm text-content line-clamp-2 leading-relaxed read-measure">
+              {detail}
+            </p>
           )}
         </div>
         {onSpeak && (
