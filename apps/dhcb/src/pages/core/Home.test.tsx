@@ -2,6 +2,11 @@
 // (packages/core-learner/subjectEntry.ts, một nguồn dùng chung với hub) thay vì khai tay 3 dòng
 // (english / stem gộp / career-life). Mock mọi con nặng ký (AI briefing, banner…) để cô lập
 // đúng phần đang canh: số thẻ MÔN = SUBJECT_ENTRIES.length, nhãn khớp registry.
+//
+// [P1-8] `useIsDesktopViewport` mock `false` (mobile) → `SubjectSpaceList` chỉ hiện 3 thẻ đầu +
+// nút "Xem tất cả" (đặc tả §P1-8 AC-2); bấm nút đó trước khi đếm thẻ để giữ nguyên bất biến của
+// test này (đủ SUBJECT_ENTRIES.length thẻ, đúng thứ tự registry vì không mock `useTodayPlan` nên
+// `todayPlan` là null/`seen=[]`).
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
@@ -55,6 +60,14 @@ describe('Home — khối Bộ môn & không gian dùng SUBJECT_ENTRIES (AC-19)'
         </MemoryRouter>,
       )
     })
+    // Mobile (mock isDesktop=false): SubjectSpaceList chỉ hiện 3 thẻ đầu — bấm "Xem tất cả" để
+    // các test dưới đây vẫn đếm được đủ SUBJECT_ENTRIES.length thẻ như trước P1-8.
+    const xemTatCa = Array.from(container.querySelectorAll('button')).find((b) =>
+      b.textContent?.startsWith('Xem tất cả'),
+    )
+    if (xemTatCa) {
+      act(() => xemTatCa.click())
+    }
   }
 
   it('tài khoản: số thẻ môn = SUBJECT_ENTRIES.length (6), nhãn khớp registry, đúng thứ tự', async () => {
