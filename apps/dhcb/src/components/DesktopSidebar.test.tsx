@@ -102,3 +102,54 @@ describe('DesktopSidebar — Tiếng Anh là một môn trong Góc học tập',
     expect(render('/luyen-tap')).not.toContain('mục Luyện tập')
   })
 })
+
+// [P1-7, lệnh 9] Sidebar 10 → 7 mục cấp 1: Trang chủ · Góc học tập · Ôn tập · Bạn Đồng Hành ·
+// Sự nghiệp & Đời sống (gộp career+worklife) · Tiến độ · Hồ sơ. "Luyện tập" gỡ khỏi sidebar,
+// "Nâng cấp" thành dòng nhỏ dưới danh sách (không còn <a> cấp 1 riêng).
+describe('DesktopSidebar — P1-7: 10 → 7 mục cấp 1', () => {
+  function countTopLevelLinks(html: string): number {
+    // Cấp 1 = <li> con trực tiếp của <ul> đầu tiên (MAIN_NAV) + <ul> CORE_BOTTOM — đơn giản
+    // hơn: đếm theo các href cấp 1 đã biết, vì DOM tĩnh không phân biệt lồng cấp bằng regex dễ.
+    const topHrefs = [
+      '/',
+      '/goc-hoc-tap',
+      '/goc-hoc-tap/on-tap',
+      '/ban-dong-hanh',
+      '/su-nghiep-khoi-nghiep',
+      '/tien-do',
+      '/trang-ca-nhan',
+    ]
+    return topHrefs.filter((href) => html.includes(`href="${href}"`)).length
+  }
+
+  it('AC-1: đúng 7 mục cấp 1 khi mọi nhóm đóng', () => {
+    const html = render('/tien-do')
+    expect(countTopLevelLinks(html)).toBe(7)
+  })
+
+  it('AC-2: "Sự Nghiệp & Khởi Nghiệp"/"Công Việc & Đời Sống" chỉ còn ở cấp 2, không còn mục cấp 1 riêng', () => {
+    const html = render('/su-nghiep-khoi-nghiep')
+    // Nhóm cấp 1 mới.
+    expect(html).toContain('Sự nghiệp &amp; Đời sống')
+    // Nhãn hai studio cũ chỉ xuất hiện ĐÚNG MỘT LẦN mỗi cái — không còn bản sao ở "Không Gian
+    // Nền Tảng" (đã xoá) lẫn ở nhóm mới.
+    expect(html.match(/Sự Nghiệp &amp; Khởi Nghiệp/g)).toHaveLength(1)
+    expect(html.match(/Công Việc &amp; Đời Sống/g)).toHaveLength(1)
+    expect(html).not.toContain('Không Gian Nền Tảng')
+    expect(html).not.toContain('Luyện tập')
+  })
+
+  it('AC-3: /su-nghiep, /cong-viec, /cuoc-song sáng "Sự nghiệp & Đời sống"; /luyen-tap sáng "Góc học tập"', () => {
+    for (const path of ['/su-nghiep', '/cong-viec', '/cuoc-song']) {
+      const html = render(path)
+      expect(html, path).toMatch(
+        /<a[^>]*href="\/su-nghiep-khoi-nghiep"[^>]*aria-current="page"|<a[^>]*aria-current="page"[^>]*href="\/su-nghiep-khoi-nghiep"/,
+      )
+    }
+  })
+
+  it('AC-6: link "Nâng cấp" vẫn tồn tại (href="/nang-cap")', () => {
+    const html = render('/tien-do')
+    expect(html).toContain('href="/nang-cap"')
+  })
+})

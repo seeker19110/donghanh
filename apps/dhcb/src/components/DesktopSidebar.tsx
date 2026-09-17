@@ -15,8 +15,8 @@ import { Link, useLocation } from 'react-router-dom'
 import {
   BookOpen,
   Brain,
+  Briefcase,
   ChevronDown,
-  Crown,
   Home,
   PanelLeftClose,
   PanelLeftOpen,
@@ -37,12 +37,11 @@ import {
 } from '../lib/navTree'
 import { STUDIOS, NAV_HIDDEN_PATHS } from '../lib/studios'
 import {
+  CAREER_LIFE_PATHS,
   CAREER_PATHS,
   COMPANION_PATHS,
   LEARNING_PATHS,
   REVIEW_PATHS,
-  PRACTICE_PATHS,
-  PRICING_PATHS,
   PROFILE_PATHS,
   PROGRESS_PATHS,
   WORKLIFE_PATHS,
@@ -82,11 +81,10 @@ function studioItem(
   return { to: st.to, label: label ?? st.title, icon: st.icon, color: st.color, paths, children }
 }
 
-// NHÓM 1 — 4 điểm đến TƯƠNG ỨNG 4 tab đầu của BottomNav mobile (tab thứ 5 "Profile" nằm ở
-// CORE_BOTTOM). Trước đây desktop chỉ có Trang chủ + Tiến độ + Hồ sơ + danh sách studio, tức
-// NGHÈO HƠN mobile ở đúng những nơi người dùng ở lâu nhất (Góc học tập, Luyện tập, Bạn Đồng
-// Hành). Ba mục studio đó được NHẤC LÊN đây chứ không nhân bản — nhóm "Không Gian Nền Tảng"
-// bên dưới chỉ render phần studio CÒN LẠI, nên không mục nào xuất hiện hai lần.
+// NHÓM 1 — 7 điểm đến CẤP 1 của sidebar (P1-7, lệnh 9: rút 10 → 7 mục). "Luyện tập" đã gỡ khỏi
+// đây — route `/luyen-tap` vẫn sống, chỉ không còn mục riêng (vào từ mục con môn/hub). "Sự
+// nghiệp & Đời sống" GỘP hai studio `career` + `worklife` cũ thành MỘT nhóm mở/đóng được, mục
+// con là chính hai studio đó — không mục nào xuất hiện hai lần.
 const HOME_ITEM: Item = { to: '/', label: 'Trang chủ', icon: Home, exact: true }
 const REVIEW_ITEM: Item = {
   to: '/goc-hoc-tap/on-tap',
@@ -94,6 +92,22 @@ const REVIEW_ITEM: Item = {
   icon: Brain,
   paths: REVIEW_PATHS,
 }
+
+/** Nhóm gộp 2 studio "Sự Nghiệp & Khởi Nghiệp" + "Công Việc & Đời Sống" thành 1 mục cấp 1. */
+function careerLifeChild(id: 'career' | 'worklife', paths: readonly string[]): NavChild {
+  const st = studio(id)
+  return { label: st.title, icon: st.icon, to: st.to, paths }
+}
+
+const CAREER_LIFE_ITEM: Item = {
+  to: studio('career').to,
+  label: 'Sự nghiệp & Đời sống',
+  icon: Briefcase,
+  color: 'text-purple-400 theme-light:text-purple-800 bg-purple-500/10 border-purple-500/30',
+  paths: CAREER_LIFE_PATHS,
+  children: [careerLifeChild('career', CAREER_PATHS), careerLifeChild('worklife', WORKLIFE_PATHS)],
+}
+
 const MAIN_NAV: Item[] = [
   HOME_ITEM,
   studioItem('subjects', LEARNING_PATHS, 'Góc học tập', SUBJECT_CHILDREN),
@@ -101,28 +115,11 @@ const MAIN_NAV: Item[] = [
   // Không có mục con — sidebar dừng ở cấp môn (spec cha Góc học tập §③).
   REVIEW_ITEM,
   studioItem('companion', COMPANION_PATHS, 'Bạn Đồng Hành'),
-  // [Slice 03] Luyện tập là hub ĐA MÔN → mục lá; công cụ Tiếng Anh nằm dưới Góc học tập › Tiếng Anh.
-  studioItem('practice', PRACTICE_PATHS, 'Luyện tập'),
-]
-
-// NHÓM 2 — các studio CÒN LẠI (3 studio kia đã lên MAIN_NAV), kèm bảng path riêng để
-// active-state không chồng lấn nhau. [Slice 02] Không còn "Học Tiếng Anh" ở đây: Tiếng Anh là một
-// môn trong nhóm Góc học tập, 5 công cụ của nó là mục cấp 2 dưới "Tiếng Anh" (navTree.ts).
-const STUDIO_NAV: Item[] = [
-  studioItem('career', CAREER_PATHS),
-  studioItem('worklife', WORKLIFE_PATHS),
+  CAREER_LIFE_ITEM,
 ]
 
 const CORE_BOTTOM: Item[] = [
   { to: '/tien-do', label: 'Tiến độ', icon: TrendingUp, paths: PROGRESS_PATHS },
-  // Bảng giá tách khỏi trang Hồ sơ (audit 2026-08-31 mục B9) nên cần lối vào riêng.
-  {
-    to: '/nang-cap',
-    label: 'Nâng cấp',
-    icon: Crown,
-    color: 'text-amber-400 theme-light:text-amber-900 bg-amber-500/10 border-amber-500/30',
-    paths: PRICING_PATHS,
-  },
   { to: '/trang-ca-nhan', label: 'Hồ sơ', icon: User, paths: PROFILE_PATHS },
 ]
 
@@ -133,7 +130,6 @@ const ACTIVE_ORDER: Item[] = [
   // Cụ thể nhất trước: `/goc-hoc-tap/on-tap` nằm TRONG `LEARNING_PATHS`, nên nếu xét sau thì
   // đứng ở hub lại sáng mục "Góc học tập".
   REVIEW_ITEM,
-  ...STUDIO_NAV,
   ...MAIN_NAV.slice(1),
   ...CORE_BOTTOM,
 ]
@@ -376,19 +372,21 @@ export default function DesktopSidebar() {
       <nav className="flex-1 overflow-y-auto px-2 py-3">
         <ul className="space-y-1">{MAIN_NAV.map(renderItem)}</ul>
 
-        {!collapsed && (
-          <p className="px-3 pt-4 pb-1.5 text-[11px] font-bold uppercase tracking-wider text-zinc-400">
-            Không Gian Nền Tảng
-          </p>
-        )}
-        <ul className={`space-y-1 ${collapsed ? 'mt-3 pt-3 border-t border-zinc-800/80' : ''}`}>
-          {STUDIO_NAV.map(renderItem)}
-        </ul>
-
         <ul className="space-y-1 mt-3 pt-3 border-t border-zinc-800/80">
           {CORE_BOTTOM.map(renderItem)}
         </ul>
       </nav>
+
+      {/* Bảng giá tách khỏi trang Hồ sơ (audit 2026-08-31 mục B9) nên vẫn cần lối vào riêng —
+          nay chỉ là dòng chữ nhỏ, không còn mục cấp 1 riêng (P1-7, rút 10 → 7 mục). */}
+      <Link
+        to="/nang-cap"
+        className={`px-3 py-2 text-xs text-content-muted hover:text-content transition ${
+          collapsed ? 'text-center' : ''
+        }`}
+      >
+        {collapsed ? 'VIP' : 'Free · Nâng cấp'}
+      </Link>
 
       {collapsed && (
         <div className="p-2 border-t border-zinc-800/80 flex justify-center">

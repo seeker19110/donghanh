@@ -21,31 +21,30 @@ test.describe('BottomNav (U-5)', () => {
     const nav = page.locator('nav[aria-label]')
     await expect(nav).toBeVisible()
     await expect(page.getByRole('link', { name: /Trang chủ/ })).toBeVisible()
-    // Tab 2: Góc học tập (/goc-hoc-tap)
-    await expect(page.getByRole('link', { name: /Góc học tập/ })).toBeVisible()
-    await expect(page.getByRole('link', { name: /Luyện tập/ })).toBeVisible()
+    // Tab 2: Góc học tập (/goc-hoc-tap), nhãn rút gọn "Học" (P1-7 lệnh 9)
+    await expect(page.getByRole('link', { name: /^Học$/ })).toBeVisible()
+    // Tab 4: Ôn tập (trước đây "Luyện tập", đổi ở P1-7 lệnh 9)
+    await expect(page.getByRole('link', { name: /Ôn tập/ })).toBeVisible()
     // Tab 3: Agent Bạn Đồng Hành (nút tâm điểm Orb Glow)
     await expect(page.getByRole('link', { name: /Đồng Hành/ })).toBeVisible()
-    // Tab 5: Profile (dẫn tới /profile)
-    await expect(page.getByRole('link', { name: /Profile|Cá nhân/ })).toBeVisible()
+    // Tab 5: Tôi (dẫn tới /trang-ca-nhan)
+    await expect(page.getByRole('link', { name: /^Tôi$/ })).toBeVisible()
 
     await page.goto('/login')
     await expect(page.locator('nav[aria-label]')).toHaveCount(0)
   })
 
-  test('tab Luyện tập: luôn vào trang hub /luyen-tap, kể cả khi vừa ở /luyen-noi', async ({
-    page,
-  }) => {
+  test('tab Ôn tập: vào /goc-hoc-tap/on-tap, kể cả khi vừa ở /luyen-noi', async ({ page }) => {
     await mockLogin(page, 'vi')
     await page.goto('/')
-    await page.getByRole('link', { name: /Luyện tập/ }).click()
-    await expect(page).toHaveURL(/\/luyen-tap$/)
+    await page.getByRole('link', { name: /Ôn tập/ }).click()
+    await expect(page).toHaveURL(/\/goc-hoc-tap\/on-tap$/)
 
     await page.goto('/luyen-noi')
     await expect(page.getByRole('heading', { name: /Luyện nói song ngữ/ }).first()).toBeVisible()
     await page.goto('/')
-    await page.getByRole('link', { name: /Luyện tập/ }).click()
-    await expect(page).toHaveURL(/\/luyen-tap$/)
+    await page.getByRole('link', { name: /Ôn tập/ }).click()
+    await expect(page).toHaveURL(/\/goc-hoc-tap\/on-tap$/)
   })
 
   test('Chat: input không bị BottomNav che (nằm trên đường viền nav)', async ({ page }) => {

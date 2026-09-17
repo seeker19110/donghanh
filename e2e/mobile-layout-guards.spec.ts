@@ -187,3 +187,22 @@ test('header mobile 360×740: không phần tử nào bị cắt chữ (truncate
 
   expect(cacDoTran, `Phần tử header bị cắt chữ: ${cacDoTran.join(', ')}`).toEqual([])
 })
+
+// [P1-7, lệnh 9, AC-5] BottomNav 5 tab ở 360px — nhãn rút gọn (Học/Ôn tập/Tôi) không được cắt.
+test('BottomNav 360×740: không nhãn tab nào bị cắt chữ (truncate)', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 740 })
+  await mockLogin(page, 'vi', 'dark-blue')
+  await page.goto('/', { waitUntil: 'domcontentloaded' })
+  await page.waitForSelector('nav[aria-label="Điều hướng chính"]')
+
+  const cacDoTran = await page.evaluate(() => {
+    const nav = document.querySelector('nav[aria-label="Điều hướng chính"]')
+    if (!nav) return []
+    const els = Array.from(nav.querySelectorAll<HTMLElement>('span'))
+    return els
+      .filter((el) => el.scrollWidth > el.clientWidth + 1) // +1: sai số dựng chữ (subpixel)
+      .map((el) => (el.textContent || '').trim().slice(0, 40))
+  })
+
+  expect(cacDoTran, `Nhãn BottomNav bị cắt chữ: ${cacDoTran.join(', ')}`).toEqual([])
+})

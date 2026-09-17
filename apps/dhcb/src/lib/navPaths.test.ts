@@ -9,6 +9,7 @@ import {
   ENGLISH_PATHS,
   CAREER_PATHS,
   WORKLIFE_PATHS,
+  CAREER_LIFE_PATHS,
   PROGRESS_PATHS,
   matchesNav,
   resolveActiveNav,
@@ -26,10 +27,21 @@ describe('các bảng hằng path', () => {
     ['ENGLISH_PATHS', ENGLISH_PATHS],
     ['CAREER_PATHS', CAREER_PATHS],
     ['WORKLIFE_PATHS', WORKLIFE_PATHS],
+    ['CAREER_LIFE_PATHS', CAREER_LIFE_PATHS],
     ['PROGRESS_PATHS', PROGRESS_PATHS],
   ])('%s không rỗng và mọi phần tử bắt đầu bằng "/"', (_name, paths) => {
     expect(paths.length).toBeGreaterThan(0)
     for (const p of paths) expect(p.startsWith('/')).toBe(true)
+  })
+})
+
+// [P1-7, lệnh 9] CAREER_LIFE_PATHS là HỢP của 2 bảng cũ — sidebar gộp 2 studio thành 1 mục.
+describe('CAREER_LIFE_PATHS', () => {
+  it('là hợp của CAREER_PATHS và WORKLIFE_PATHS, không thiếu phần tử nào', () => {
+    for (const p of [...CAREER_PATHS, ...WORKLIFE_PATHS]) {
+      expect(CAREER_LIFE_PATHS).toContain(p)
+    }
+    expect(CAREER_LIFE_PATHS.length).toBe(CAREER_PATHS.length + WORKLIFE_PATHS.length)
   })
 })
 

@@ -1,8 +1,8 @@
 // BottomNav — thanh điều hướng dưới cố định, hiện ở màn hình MOBILE/TABLET (<1024px).
 // Từ 1024px trở lên (`lg:`) bị ẩn (`lg:hidden`) — desktop dùng DesktopSidebar.tsx thay thế.
-// 5 Tab lõi: Trang chủ · Góc học tập · Đồng Hành (Agent) · Luyện tập · Profile
+// 5 Tab lõi (P1-7, lệnh 9): Trang chủ · Học · Đồng Hành (Agent) · Ôn tập · Tôi
 import { Link, useLocation } from 'react-router-dom'
-import { Home, GraduationCap, Dumbbell, Sparkles, User, ChevronDown, ChevronUp } from 'lucide-react'
+import { Home, GraduationCap, Brain, Sparkles, User, ChevronDown, ChevronUp } from 'lucide-react'
 import { useAuth } from '../context/useAuth'
 import { useLang } from '../context/useLang'
 import type { useOneHandedDrag } from '../lib/useOneHandedDrag'
@@ -10,8 +10,8 @@ import SubjectsLink from './SubjectsLink'
 // Bảng tiền tố đường dẫn dùng CHUNG với DesktopSidebar — xem lib/navPaths.ts
 import {
   LEARNING_PATHS,
-  PRACTICE_PATHS,
   COMPANION_PATHS,
+  REVIEW_PATHS,
   PROFILE_PATHS,
   matchesNav,
 } from '../lib/navPaths'
@@ -21,9 +21,15 @@ const HIDDEN_PATHS = ['/login', '/onboarding']
 interface Props {
   triggerHandlers?: ReturnType<typeof useOneHandedDrag>['triggerHandlers']
   isReachabilityOpen?: boolean
+  /** Đồng Hành có ghi chú mới chưa xem — chấm báo nhỏ trên Orb. Nguồn dữ liệu thật nối ở P2-11. */
+  companionHasNote?: boolean
 }
 
-export default function BottomNav({ triggerHandlers, isReachabilityOpen }: Props) {
+export default function BottomNav({
+  triggerHandlers,
+  isReachabilityOpen,
+  companionHasNote = false,
+}: Props) {
   const { user } = useAuth()
   const { T } = useLang()
   const location = useLocation()
@@ -31,9 +37,11 @@ export default function BottomNav({ triggerHandlers, isReachabilityOpen }: Props
   if (!user || HIDDEN_PATHS.includes(location.pathname)) return null
 
   const isHome = location.pathname === '/'
-  const isLearning = matchesNav(location.pathname, LEARNING_PATHS)
+  // `/goc-hoc-tap/on-tap` nằm TRONG `LEARNING_PATHS` (tiền tố `/goc-hoc-tap`) nên phải xét
+  // Ôn tập TRƯỚC rồi loại khỏi Góc học tập, không thì cả hai tab cùng sáng.
+  const isReview = matchesNav(location.pathname, REVIEW_PATHS)
+  const isLearning = !isReview && matchesNav(location.pathname, LEARNING_PATHS)
   const isCompanion = matchesNav(location.pathname, COMPANION_PATHS)
-  const isPractice = matchesNav(location.pathname, PRACTICE_PATHS)
   const isProfile = matchesNav(location.pathname, PROFILE_PATHS)
 
   return (
@@ -81,18 +89,16 @@ export default function BottomNav({ triggerHandlers, isReachabilityOpen }: Props
           <div
             className={`flex items-center justify-center py-1 px-2.5 rounded-xl transition-all duration-200 ${
               isHome
-                ? 'bg-accent-500/15 text-accent-400 theme-light:text-accent-800 shadow-sm shadow-accent-500/20 scale-105'
+                ? 'bg-accent-500/15 text-accent-400 theme-light:text-accent-800 shadow-sm shadow-accent-500/20'
                 : 'group-hover:bg-zinc-800/40 group-active:scale-95'
             }`}
           >
-            <Home
-              className={`w-5 h-5 transition-transform duration-200 ${isHome ? 'scale-110' : 'group-hover:scale-105'}`}
-            />
+            <Home className="w-5 h-5 transition-transform duration-200 group-hover:scale-105" />
           </div>
           <span className="truncate max-w-[4.5rem] tracking-tight">{T.home ?? 'Trang chủ'}</span>
         </Link>
 
-        {/* Tab 2: Góc học tập */}
+        {/* Tab 2: Góc học tập — nhãn rút gọn "Học" (≤ 8 ký tự, P1-7 lệnh 9). */}
         <SubjectsLink
           ariaCurrent={isLearning ? 'page' : undefined}
           className={`tap-44 relative flex flex-col items-center justify-center gap-1 text-center text-xs font-medium transition-all duration-200 group ${
@@ -104,15 +110,13 @@ export default function BottomNav({ triggerHandlers, isReachabilityOpen }: Props
           <div
             className={`flex items-center justify-center py-1 px-2.5 rounded-xl transition-all duration-200 ${
               isLearning
-                ? 'bg-emerald-500/15 text-emerald-400 theme-light:text-emerald-800 shadow-sm shadow-emerald-500/20 scale-105'
+                ? 'bg-emerald-500/15 text-emerald-400 theme-light:text-emerald-800 shadow-sm shadow-emerald-500/20'
                 : 'group-hover:bg-zinc-800/40 group-active:scale-95'
             }`}
           >
-            <GraduationCap
-              className={`w-5 h-5 transition-transform duration-200 ${isLearning ? 'scale-110' : 'group-hover:scale-105'}`}
-            />
+            <GraduationCap className="w-5 h-5 transition-transform duration-200 group-hover:scale-105" />
           </div>
-          <span className="truncate max-w-[4.5rem] tracking-tight">Góc học tập</span>
+          <span className="truncate max-w-[4.5rem] tracking-tight">Học</span>
         </SubjectsLink>
 
         {/* Tab 3: Agent Bạn Đồng Hành (Nút tâm điểm Orb Glow) */}
@@ -124,12 +128,18 @@ export default function BottomNav({ triggerHandlers, isReachabilityOpen }: Props
         >
           <div
             className={`relative flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-tr from-accent-600 via-accent-500 to-indigo-500 text-zinc-950 shadow-lg transition-all duration-200 group-hover:scale-110 group-active:scale-95 ${
-              isCompanion
-                ? 'ring-2 ring-accent-400 ring-offset-2 ring-offset-zinc-950 scale-105'
-                : ''
+              isCompanion ? 'ring-2 ring-accent-400 ring-offset-2 ring-offset-zinc-950' : ''
             }`}
           >
             <Sparkles className="w-6 h-6 text-zinc-950" />
+            {/* Chấm báo "có ghi chú mới" — nguồn dữ liệu thật nối ở P2-11, đây chỉ render khi
+                prop bật. */}
+            {companionHasNote && (
+              <span
+                aria-hidden="true"
+                className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-rose-500 ring-2 ring-zinc-950"
+              />
+            )}
           </div>
           <span
             className={`truncate max-w-[5.25rem] tracking-tight mt-0.5 text-[11px] font-bold ${
@@ -143,38 +153,38 @@ export default function BottomNav({ triggerHandlers, isReachabilityOpen }: Props
                 đủ vẫn còn ở thuộc tính `title` cho người dùng chuột. */}
             Đồng Hành
           </span>
+          {companionHasNote && <span className="sr-only">Có ghi chú mới</span>}
         </Link>
 
-        {/* Tab 4: Hub Luyện tập */}
+        {/* Tab 4: Ôn tập — trước đây "Luyện tập" (đổi ở P1-7 lệnh 9): hàng đợi ôn tập xuyên
+            môn (S12-1) hữu ích hơn hub luyện tập ở vị trí tab chính; `/luyen-tap` vẫn vào
+            được từ mục con môn/hub. */}
         <Link
-          to="/luyen-tap"
-          aria-current={isPractice ? 'page' : undefined}
+          to="/goc-hoc-tap/on-tap"
+          aria-current={isReview ? 'page' : undefined}
           className={`tap-44 relative flex flex-col items-center justify-center gap-1 text-center text-xs font-medium transition-all duration-200 group ${
-            isPractice
+            isReview
               ? 'text-sky-400 theme-light:text-sky-800 font-semibold'
               : 'text-zinc-400 hover:text-zinc-200'
           }`}
         >
           <div
             className={`flex items-center justify-center py-1 px-2.5 rounded-xl transition-all duration-200 ${
-              isPractice
-                ? 'bg-sky-500/15 text-sky-400 theme-light:text-sky-800 shadow-sm shadow-sky-500/20 scale-105'
+              isReview
+                ? 'bg-sky-500/15 text-sky-400 theme-light:text-sky-800 shadow-sm shadow-sky-500/20'
                 : 'group-hover:bg-zinc-800/40 group-active:scale-95'
             }`}
           >
-            <Dumbbell
-              className={`w-5 h-5 transition-transform duration-200 ${isPractice ? 'scale-110' : 'group-hover:scale-105'}`}
-            />
+            <Brain className="w-5 h-5 transition-transform duration-200 group-hover:scale-105" />
           </div>
-          <span className="truncate max-w-[4.5rem] tracking-tight">
-            {T.navPractice ?? 'Luyện tập'}
-          </span>
+          <span className="truncate max-w-[4.5rem] tracking-tight">Ôn tập</span>
         </Link>
 
-        {/* Tab 5: Profile */}
+        {/* Tab 5: Hồ sơ cá nhân — nhãn rút gọn "Tôi" (≤ 8 ký tự, P1-7 lệnh 9). */}
         <Link
           to="/trang-ca-nhan"
           aria-current={isProfile ? 'page' : undefined}
+          title="Hồ sơ cá nhân"
           className={`tap-44 relative flex flex-col items-center justify-center gap-1 text-center text-xs font-medium transition-all duration-200 group ${
             isProfile
               ? 'text-accent-400 theme-light:text-accent-800 font-semibold'
@@ -184,15 +194,13 @@ export default function BottomNav({ triggerHandlers, isReachabilityOpen }: Props
           <div
             className={`flex items-center justify-center py-1 px-2.5 rounded-xl transition-all duration-200 ${
               isProfile
-                ? 'bg-accent-500/15 text-accent-400 theme-light:text-accent-800 shadow-sm shadow-accent-500/20 scale-105'
+                ? 'bg-accent-500/15 text-accent-400 theme-light:text-accent-800 shadow-sm shadow-accent-500/20'
                 : 'group-hover:bg-zinc-800/40 group-active:scale-95'
             }`}
           >
-            <User
-              className={`w-5 h-5 transition-transform duration-200 ${isProfile ? 'scale-110' : 'group-hover:scale-105'}`}
-            />
+            <User className="w-5 h-5 transition-transform duration-200 group-hover:scale-105" />
           </div>
-          <span className="truncate max-w-[4.5rem] tracking-tight">Profile</span>
+          <span className="truncate max-w-[4.5rem] tracking-tight">Tôi</span>
         </Link>
       </div>
     </nav>
