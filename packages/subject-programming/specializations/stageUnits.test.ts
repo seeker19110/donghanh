@@ -31,7 +31,7 @@ describe('cầu nối chặng chuyên sâu → unit bài học', () => {
   })
 
   it('chặng chưa soạn bài trả về mảng rỗng, không đoán bừa', () => {
-    expect(unitsOfStage('architecture-s4')).toEqual([])
+    expect(unitsOfStage('security-s3')).toEqual([])
     expect(unitsOfStage('khong-co-huong-nay-s1')).toEqual([])
   })
 
@@ -74,6 +74,10 @@ describe('cầu nối chặng chuyên sâu → unit bài học', () => {
 
   it('security-s1 phủ đủ bốn unit policy phòng thủ thật', () => {
     expect(unitsOfStage('security-s1')).toEqual(['p6-u182', 'p6-u183', 'p6-u184', 'p6-u185'])
+  })
+
+  it('architecture-s4 phủ đủ bốn unit enterprise có evidence', () => {
+    expect(unitsOfStage('architecture-s4')).toEqual(['p6-u190', 'p6-u191', 'p6-u192', 'p6-u193'])
   })
 
   it('security-s2 phủ đủ bốn unit assessment và disclosure có trách nhiệm', () => {

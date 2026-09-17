@@ -71,6 +71,7 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // quyết định ADR — cả hai cùng trả lời "giữ đúng kết quả code mình không tự gõ", một ở
   // lượt này, một qua các lượt sau). Đúng tiền lệ web-s1/backend-s3 gộp module khi hợp lý.
   'architecture-s3': ['p6-u123', 'p6-u124', 'p6-u125'],
+  'architecture-s4': ['p6-u190', 'p6-u191', 'p6-u192', 'p6-u193'],
   // Hướng DI ĐỘNG, chặng S1 — soạn 2026-08-31 (3 unit, 4 module). Đây là chặng ĐẦU TIÊN của
   // hướng Di động có bài học thật, nên không có tiền lệ `mobile-*` nào để theo; cách gộp lấy
   // theo tiền lệ chung của các hướng khác: p6-u131 = m1 (chọn nền tảng & vòng đời app),

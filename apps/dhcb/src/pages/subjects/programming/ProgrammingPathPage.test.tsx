@@ -15,6 +15,18 @@ import ProgrammingPathPage from './ProgrammingPathPage'
 vi.mock('../../../components/Layout', () => ({ default: () => null }))
 const authMock = vi.hoisted(() => ({ user: null as { id: string } | null }))
 vi.mock('../../../context/useAuth', () => ({ useAuth: () => ({ user: authMock.user }) }))
+// Ép rỗng MỘT chặng thật để canh nhánh "đang soạn" — không gán cứng vào một stageId cụ thể của
+// manifest, vì mọi chặng của principal-ai nay đều đã có bài (milestone nội dung, xem PROGRESS.md).
+const forcedEmptyStage = vi.hoisted(() => ({ stageId: null as string | null }))
+vi.mock('@dhcb/subject-programming/specializations/stageUnits', async (importOriginal) => {
+  const actual =
+    await importOriginal<typeof import('@dhcb/subject-programming/specializations/stageUnits')>()
+  return {
+    ...actual,
+    unitsOfStage: (stageId: string) =>
+      stageId === forcedEmptyStage.stageId ? [] : actual.unitsOfStage(stageId),
+  }
+})
 vi.mock('../../../lib/programmingSpecProgress', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../../lib/programmingSpecProgress')>()
   return { ...actual, fetchSpecProgress: async () => actual.EMPTY_SPEC_PROGRESS }
@@ -76,9 +88,16 @@ describe('ProgrammingPathPage — trang lộ trình mục tiêu', () => {
     expect(html.split(NHAN_VAO_HOC).length - 1).toBe(soChangCoBai)
   })
 
-  it('giai đoạn stages rỗng phải nói rõ "đang soạn", không giấu', () => {
-    // Manifest đợt 1 chốt P5 đang soạn — learningPaths.test.ts canh điều đó ở tầng dữ liệu.
-    expect(render('principal-ai')).toContain('đang soạn')
+  it('chặng chưa có bài phải nói rõ "đang soạn", không giấu', () => {
+    // Mọi chặng thật của principal-ai nay đều đã có bài (milestone nội dung) — ép rỗng một
+    // chặng thật để canh nhánh "đang soạn" của TRANG vẫn hoạt động đúng khi dữ liệu về sau
+    // có chặng chưa soạn xong, thay vì phụ thuộc một chặng cụ thể đang trống hôm nay.
+    forcedEmptyStage.stageId = 'devops-s2'
+    try {
+      expect(render('principal-ai')).toContain('đang soạn')
+    } finally {
+      forcedEmptyStage.stageId = null
+    }
   })
 
   it('id lộ trình lạ: nói không biết, không đoán bừa', () => {
