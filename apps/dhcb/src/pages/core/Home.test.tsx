@@ -31,7 +31,9 @@ vi.mock('../../context/useLang', () => ({
 }))
 
 function mockAuth(user: { id: string; name: string; email: string; isGuest?: boolean }) {
-  vi.doMock('../../context/useAuth', () => ({ useAuth: () => ({ user }) }))
+  vi.doMock('../../context/useAuth', () => ({
+    useAuth: () => ({ user, isGuest: user.isGuest === true }),
+  }))
 }
 
 describe('Home — khối Bộ môn & không gian dùng SUBJECT_ENTRIES (AC-19)', () => {
@@ -86,13 +88,20 @@ describe('Home — khối Bộ môn & không gian dùng SUBJECT_ENTRIES (AC-19)'
     expect(titles).toContain('Sự nghiệp, Khởi nghiệp & Đời sống')
   })
 
-  it('khách (isGuest): vẫn thấy đủ 6 thẻ môn — Home không chặn khách', async () => {
+  it('khách (isGuest): thấy đủ dải môn (chip) qua GuestHome — Home không chặn khách', async () => {
     mockAuth({ id: 'guest_1', name: 'Khách', email: '', isGuest: true })
     await hien()
-    const titles = Array.from(container.querySelectorAll('h3')).map((h) => h.textContent ?? '')
     for (const label of SUBJECT_ENTRIES.map((e) => e.label)) {
-      expect(titles, `thiếu thẻ môn "${label}" (khách)`).toContain(label)
+      expect(container.textContent, `thiếu môn "${label}" (khách)`).toContain(label)
     }
+  })
+
+  // [P0-3] AC-1: khách thấy GuestHome, KHÔNG thấy khối "Hôm nay"/ô tìm kiếm/FirstTaskCard —
+  // những khối đó cần tài khoản để tính (streak, todayPlan theo uid thật…).
+  it('khách (isGuest): KHÔNG render #today-card-heading', async () => {
+    mockAuth({ id: 'guest_1', name: 'Khách', email: '', isGuest: true })
+    await hien()
+    expect(container.querySelector('#today-card-heading')).toBeNull()
   })
 })
 
@@ -170,5 +179,40 @@ describe('Home — banner phụ (P0-1)', () => {
     vi.doMock('../../lib/rewardTip', () => ({ shouldShowRewardTip: () => false }))
     await hienVoiBanner()
     expect(container.querySelectorAll('[data-home-banner]')).toHaveLength(0)
+  })
+})
+
+// [P1-5, lệnh 7] AC-4: khách không có dữ liệu cá nhân để vẽ 7 chấm → `WeekRhythm` không render.
+describe('Home — WeekRhythm ẩn với khách (AC-4)', () => {
+  let container: HTMLDivElement
+  let root: Root
+
+  beforeEach(() => {
+    vi.resetModules()
+    localStorage.clear()
+    container = document.createElement('div')
+    document.body.appendChild(container)
+  })
+
+  afterEach(() => {
+    act(() => root.unmount())
+    container.remove()
+    vi.doUnmock('../../context/useAuth')
+  })
+
+  it('khách (isGuest) → không có [data-dot] nào trên trang chủ', async () => {
+    vi.doMock('../../context/useAuth', () => ({
+      useAuth: () => ({ user: { id: 'guest_2', name: 'Khách', email: '', isGuest: true } }),
+    }))
+    const { default: HomeAfterMock } = await import('./Home')
+    root = createRoot(container)
+    act(() => {
+      root.render(
+        <MemoryRouter initialEntries={['/']}>
+          <HomeAfterMock />
+        </MemoryRouter>,
+      )
+    })
+    expect(container.querySelectorAll('[data-dot]')).toHaveLength(0)
   })
 })

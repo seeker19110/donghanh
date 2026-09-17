@@ -10,8 +10,11 @@ test.describe('Khởi động & trang đăng nhập', () => {
   }) => {
     await page.goto('/')
     await expect(page).not.toHaveURL(/\/login$/)
-    // Dải nhắc "đang xem ở chế độ khách" là dấu hiệu chắc chắn nhất app đã vào chế độ này.
-    await expect(page.getByText(/chế độ khách/i)).toBeVisible()
+    // [P0-3, lệnh 4, 2026-09-17] Khách nay thấy `GuestHome` — dải nhắc "chế độ khách" của
+    // `GuestBanner` chỉ hiện SAU KHI khách đã có dấu vết học thật (không còn hiện ngay lúc mới
+    // mở trang). CTA duy nhất của `GuestHome` là dấu hiệu chắc chắn nhất app đã vào chế độ này
+    // ngay từ lần mở đầu tiên.
+    await expect(page.getByRole('link', { name: 'Bắt đầu — chọn việc đầu tiên' })).toBeVisible()
   })
 
   test('route CẦN TÀI KHOẢN (/trang-ca-nhan) vẫn đẩy khách về /login', async ({ page }) => {

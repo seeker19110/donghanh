@@ -4,7 +4,12 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 vi.mock('./progressSync.js', () => ({ pushProgress: vi.fn() }))
 
 import { pushProgress } from './progressSync'
-import { checkNewAchievements, getEarnedAchievements, achievementMessage } from './achievements'
+import {
+  checkNewAchievements,
+  getEarnedAchievements,
+  achievementMessage,
+  latestUnlocked,
+} from './achievements'
 import { ACHIEVEMENTS } from '../data/achievements'
 import { vnDateStr } from './date'
 import { saveExamAttempt } from './cefrExam'
@@ -237,5 +242,25 @@ describe('achievementMessage', () => {
     const def = ACHIEVEMENTS.find((a) => a.id === 'streak_7')!
     expect(achievementMessage(def, true)).toContain(def.nameVi)
     expect(achievementMessage(def, false)).toContain(def.nameEn)
+  })
+})
+
+// [P1-5, lệnh 7] `latestUnlocked` — dùng cho `WeekRhythm` ở trang chủ.
+describe('latestUnlocked', () => {
+  beforeEach(() => localStorage.clear())
+
+  it('chưa có huy hiệu nào → null', () => {
+    expect(latestUnlocked('u1', true)).toBeNull()
+  })
+
+  it('có huy hiệu → trả về huy hiệu MỞ KHOÁ GẦN NHẤT (phần tử cuối), đúng ngôn ngữ', () => {
+    seedStreak('u1', 7)
+    checkNewAchievements('u1') // đạt streak_7
+    seedVocab('u1', 100)
+    checkNewAchievements('u1') // đạt thêm vocab_100 — mới nhất
+    const badge = latestUnlocked('u1', true)
+    expect(badge).toEqual({ id: 'vocab_100', label: '100 từ đã thuộc' })
+    const badgeEn = latestUnlocked('u1', false)
+    expect(badgeEn?.id).toBe('vocab_100')
   })
 })

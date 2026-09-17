@@ -95,6 +95,12 @@ test('sidebar desktop: mục "Tiếng Anh" trong Góc học tập mở cấp 2 v
 test('khách (chưa đăng nhập) vào được trang tổng quan môn và thấy GuestBanner', async ({
   page,
 }) => {
+  // [P0-3, lệnh 4] GuestBanner chỉ hiện SAU KHI khách đã có ít nhất một dấu vết học thật trên
+  // máy này (`hasAnyGuestSession()`) — seed một khoá phiên học giả trước khi mở trang, khớp luật
+  // mới thay vì luật cũ "hiện ngay khi khách vừa mở trang".
+  await page.addInitScript(() => {
+    localStorage.setItem('dhcb_lsession_v1_guest:e2e-fake_english_demo', '{}')
+  })
   await page.goto(ENGLISH_HOME)
   await expect(page).toHaveURL(/\/goc-hoc-tap\/english$/)
   await expect(page.getByRole('status').filter({ hasText: 'Đăng ký miễn phí' })).toBeVisible()
