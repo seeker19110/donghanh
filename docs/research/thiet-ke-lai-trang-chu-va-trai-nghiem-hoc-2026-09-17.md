@@ -507,6 +507,28 @@ Mở app (đã đăng nhập)
 
 Mục tiêu đo: thời gian từ mở app tới vào phiên ≤ 5 giây; tỉ lệ nhận lời "thêm 3 phút".
 
+### F4. URL của các màn hình mới
+
+Theo quy ước URL của dự án (`CLAUDE.md` mục 7): slug tiếng Việt không dấu, route có id nội dung
+có tiêu đề dùng khuôn `<mã>--<slug>`, và mọi link dựng qua đúng MỘT hàm dùng chung. **Không thêm
+route mới nào cho những gì đã có đường**; chỉ thêm 2 route thật.
+
+| Màn hình                      | URL                                                 | Ghi chú                                                                                                                                                                          |
+| ----------------------------- | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Trang chủ (C2/C3)             | `/`                                                 | Giữ. Đã đăng nhập.                                                                                                                                                               |
+| Trang chủ khách (C1)          | `/`                                                 | CÙNG URL, render `GuestHome` khi `!user` — khách và người dùng thấy cùng một địa chỉ, không redirect sang `/welcome` nữa. `/welcome` và `/learn-vietnamese` giữ làm landing SEO. |
+| Bắt đầu theo ý định           | `/bat-dau`                                          | Giữ (`StartByIntent`).                                                                                                                                                           |
+| Demo 30 giây (guest)          | `/thu-ngay/noi-mot-cau` · `/thu-ngay/chay-mot-dong` | MỚI (P2). Param tự mô tả nội dung, không có mã → không cần khuôn `--`.                                                                                                           |
+| Trong phiên (C4)              | URL của bài đang học, KHÔNG đổi                     | ví dụ `/lap-trinh/bai-hoc/p1-u1-l1--bien-va-kieu-du-lieu`, `/lo-trinh-hoc/A2`. Chế độ focus là cờ của `Layout`, không phải route.                                                |
+| Sau phiên (C5)                | `<URL bài>?xong=1`                                  | Không route riêng: `SessionDone` là overlay trên chính trang bài, query để F5/Back không mất màn kết. `returnTo` lấy từ `TodayCard`.                                             |
+| Nhịp học chi tiết             | `/nhiem-vu`                                         | Giữ.                                                                                                                                                                             |
+| Tiến độ đầy đủ                | `/tien-do`                                          | Giữ.                                                                                                                                                                             |
+| Hỏi Bạn Đồng Hành             | `/ban-dong-hanh?hoi=<câu>`                          | Giữ route, thêm query `hoi` để chip gợi ý điền sẵn câu hỏi.                                                                                                                      |
+| Ôn tập xuyên môn (tab mobile) | `/goc-hoc-tap/on-tap`                               | Giữ (đã dùng chung sidebar).                                                                                                                                                     |
+
+Hàm dựng link mới đặt ở `apps/dhcb/src/lib/homeRoutes.ts` (`duongDanThuNgay(demoId)`,
+`duongDanHoiDongHanh(cau)`, `duongDanXongPhien(urlBai)`), cùng mẫu với `programmingRoutes.ts`.
+
 ### F3. Ưu tiên triển khai
 
 **P0 — thay đổi cảm nhận lớn nhất, rủi ro thấp nhất (2–3 PR nhỏ):**
@@ -533,14 +555,15 @@ Mục tiêu đo: thời gian từ mở app tới vào phiên ≤ 5 giây; tỉ l
 
 **Cổng nghiệm thu chung cho mọi lát (theo `docs/framework/QUY-TRINH-AUDIT.md` Tầng 8b):** ảnh
 chụp 1440px + 390px trước/sau ở 3 theme; `npm run shots:learning-ux`; a11y AA+AAA xanh; bundle
-không vượt trần 140 kB (đang 135,4 kB — lát 2 phải đo, SVG avatar inline nhỏ hơn PNG).
+không vượt trần 150 kB (đang 135,4 kB — lát 2 phải đo, SVG avatar inline nhỏ hơn PNG).
 
 ---
 
 ## G. Rủi ro & điều cần chủ dự án quyết
 
-1. **Ngân sách bundle mỏng (135,4/140 kB).** Avatar SVG + 2 component mới ước ~2–3 kB gzip. Nếu
-   vượt, tách `GuestHome` thành chunk lazy (guest và user không cùng lúc cần cả hai).
+1. **Ngân sách bundle — ĐÃ NỚI 140 → 150 kB (chủ dự án chốt 2026-09-17, cùng đợt này).** Đang
+   135,4 kB, dư ~14,6 kB; mốc cảnh báo 95% = 142,5 kB. Avatar SVG + 2 component mới ước ~2–3 kB
+   brotli. Vẫn tách `GuestHome` thành chunk lazy (guest và user không cùng lúc cần cả hai).
 2. **Đổi nhãn/route điều hướng (P1-7)** chạm nhiều E2E. Đề xuất làm PR riêng, không gộp với P0.
 3. **"Nâng cấp" hạ khỏi nhóm chính** có thể giảm chuyển đổi VIP ngắn hạn; đổi lại Companion và CTA
    không bị màu amber cạnh tranh. Cần chủ dự án xác nhận đánh đổi này.

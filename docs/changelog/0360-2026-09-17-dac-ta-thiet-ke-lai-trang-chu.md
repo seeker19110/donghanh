@@ -17,12 +17,21 @@ Mọi đề xuất đối chiếu mã thật: `Home.tsx`, `TodayCard.tsx`, `Home
 `packages/core-ui/theme.ts`. Giữ nguyên các luật bất biến: chẩn đoán không phải màn hình chính,
 không mặc định tiếng Anh, một CTA, a11y AAA/AA.
 
+## Quyết định đã chốt trong đợt (chủ dự án, 2026-09-17)
+
+- **Nới trần Initial JS 140 → 150 kB** (`.size-limit.json`) để có chỗ cho các lát P0 (avatar +
+  bong bóng Companion, màn guest). Đang 135,4 kB → dư ~14,6 kB; mốc cảnh báo 95% = 142,5 kB. Cập
+  nhật dòng trạng thái `PROGRESS.md` và mục G của tài liệu. CSS giữ 20 kB.
+- Bổ sung mục F4 "URL của các màn hình mới": chỉ 2 route thật thêm (`/thu-ngay/*` cho demo
+  guest), còn lại dùng lại URL sẵn có (`/` cho cả guest, `?xong=1` cho màn sau phiên,
+  `/ban-dong-hanh?hoi=`), theo quy ước slug/`<mã>--<slug>` của `CLAUDE.md` mục 7.
+
 ## Quyết định chờ chủ dự án
 
-Tài liệu là bản đề xuất, CHƯA "Approved for implementation". Bốn điểm cần quyết ở mục G của tài
-liệu: ngân sách bundle mỏng, đổi nhãn/route điều hướng làm PR riêng, hạ "Nâng cấp" khỏi nhóm chính
+Tài liệu là bản đề xuất, CHƯA "Approved for implementation". Ba điểm cần quyết ở mục G của tài
+liệu: đổi nhãn/route điều hướng làm PR riêng, hạ "Nâng cấp" khỏi nhóm chính
 sidebar, màu ấm cho theme `kid`.
 
 ## Kiểm chứng
 
-Chỉ thêm tài liệu: `npx prettier --check` hai file mới + `npx vitest run scripts/changelog.test.ts`.
+Tài liệu + `.size-limit.json`: `npx prettier --check` các file sửa + `npx vitest run scripts/changelog.test.ts`.

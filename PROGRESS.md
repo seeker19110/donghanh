@@ -39,7 +39,7 @@ sâu + khoá ngắn + lộ trình mục tiêu; 4 trụ Career/Work/Startup/Life 
 (Toán/Lí/Hoá/Sinh) ĐÃ NỐI VÀO APP 2026-09-13** — 294 bài, 55 bài có hoạt ảnh minh hoạ, 24 chuyên
 đề bồi dưỡng học sinh giỏi ba cấp, chấm câu hỏi tất định bằng `@dhcb/core-grading`
 (`docs/changelog/0295-2026-09-13-hoan-thien-4-mon-stem.md`). Cổng chất lượng đo thật 2026-09-13:
-typecheck ✅ · 586 file / 12.269 unit test ✅ · a11y AA+AAA ✅ · bundle 135,09/140 kB.
+typecheck ✅ · 586 file / 12.269 unit test ✅ · a11y AA+AAA ✅ · bundle 135,4/150 kB (trần nới 140 → 150 kB ngày 2026-09-17, changelog 0360).
 
 **PR #890 (2026-09-12, đã merge) — `TRAPS.md` + cổng kiểm `PROGRESS.md` lỗi thời.** Mượn ý
 tưởng từ repo khung `seeker19110/project-template`: `TRAPS.md` ở gốc repo (sổ bẫy đã mắc thật,
