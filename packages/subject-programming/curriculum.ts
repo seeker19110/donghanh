@@ -955,6 +955,26 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         topics: 'Context; decision; alternatives; owner; acceptance; revisit; boundary',
       },
       {
+        id: 'p6-u194',
+        title: 'DevOps S3 — workload contract và scheduling',
+        topics: 'Request; limit; readiness probe; autoscale clamp; disruption budget',
+      },
+      {
+        id: 'p6-u195',
+        title: 'DevOps S3 — cấu hình, bí mật và GitOps',
+        topics: 'Desired state; drift; reconcile bounded; overlay; secret reference',
+      },
+      {
+        id: 'p6-u196',
+        title: 'DevOps S3 — metric, log, trace và cảnh báo',
+        topics: 'RED/USE; cardinality; PII redact; symptom alert; trace span',
+      },
+      {
+        id: 'p6-u197',
+        title: 'DevOps S3 — SLI/SLO, error budget và chaos',
+        topics: 'SLI/SLO; burn rate; release freeze; blast radius; abort condition',
+      },
+      {
         id: 'p6-u178',
         title: 'DevOps S2 — delivery policy và change control',
         topics: 'Approval; change window; rollback; fail closed',

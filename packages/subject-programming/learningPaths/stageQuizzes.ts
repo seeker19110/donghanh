@@ -1179,6 +1179,76 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
         'Giới hạn quyền ở mức tối thiểu cần thiết làm giảm bán kính thiệt hại nếu tài khoản/dịch vụ đó bị lộ hoặc bị lạm dụng — một nguyên tắc bảo mật nền tảng.',
     },
   ],
+  'devops-s3': [
+    {
+      id: 'devops-s3-q1',
+      prompt:
+        'Vì sao Kubernetes có hai loại thăm dò (probe) tách biệt — sẵn sàng (readiness) và sống (liveness)?',
+      choices: [
+        'Vì cần chạy hai probe để giảm rủi ro nếu một trong hai bị lỗi cấu hình',
+        'Readiness quyết định pod có được NHẬN traffic không; liveness quyết định pod có cần khởi động lại không — nhầm hai khái niệm khiến pod đang bận vẫn nhận traffic hoặc bị giết oan',
+        'Cả hai làm cùng một việc, chỉ khác tên để tương thích ngược',
+        'Chỉ probe nào chạy trước mới có hiệu lực',
+      ],
+      answerIndex: 1,
+      explain:
+        'Readiness kiểm "pod đã sẵn sàng phục vụ chưa" — chưa sẵn sàng thì bị rút khỏi Service, không nhận traffic. Liveness kiểm "pod còn sống không" — chết thì bị khởi động lại. Gộp chung hai câu hỏi khác nhau này là lỗi thường gặp.',
+    },
+    {
+      id: 'devops-s3-q2',
+      prompt:
+        'Trong GitOps, vì sao thay đổi cấu hình cụm phải đi qua Git thay vì `kubectl apply` trực tiếp?',
+      choices: [
+        'Vì `kubectl` không hỗ trợ một số tài nguyên mới',
+        'Git là NGUỒN SỰ THẬT DUY NHẤT cho trạng thái mong muốn — mọi thay đổi tay ngoài Git là TRÔI (drift) so với nguồn đó, và bộ điều khiển GitOps có thể tự động kéo cụm về lại đúng Git',
+        'Vì `kubectl apply` chạy chậm hơn commit Git',
+        'Chỉ để có lịch sử commit đẹp, không ảnh hưởng vận hành thật',
+      ],
+      answerIndex: 1,
+      explain:
+        'GitOps coi Git là nguồn sự thật; bộ điều khiển (Argo CD/Flux…) liên tục so trạng thái thật của cụm với Git và tự đưa về khớp. Sửa tay ngoài Git tạo ra "trôi" — bị hệ thống ghi đè hoặc gắn cờ.',
+    },
+    {
+      id: 'devops-s3-q3',
+      prompt:
+        'Vì sao nên đặt cảnh báo theo TRIỆU CHỨNG người dùng cảm nhận được (ví dụ tỉ lệ lỗi, độ trễ) hơn là theo NGUYÊN NHÂN kỹ thuật (ví dụ CPU cao)?',
+      choices: [
+        'Vì đo CPU tốn tài nguyên hơn đo tỉ lệ lỗi',
+        'CPU cao không nhất thiết ảnh hưởng người dùng — cảnh báo theo nguyên nhân kỹ thuật dễ sinh nhiễu (đội trực bị đánh thức mà không có tác động thật), còn cảnh báo theo triệu chứng luôn gắn với thứ người dùng thấy',
+        'Vì công cụ giám sát không đo được nguyên nhân kỹ thuật',
+        'Hai cách này luôn cho cùng kết quả, chỉ khác tên gọi',
+      ],
+      answerIndex: 1,
+      explain:
+        'Một hệ thống có thể CPU cao nhưng vẫn phục vụ người dùng tốt (đã tính toán dư tải), hoặc CPU thấp nhưng người dùng đang gặp lỗi (do phụ thuộc ngoài chậm). Cảnh báo theo triệu chứng tránh đánh thức đội trực vì những thứ không thật sự ảnh hưởng ai.',
+    },
+    {
+      id: 'devops-s3-q4',
+      prompt: 'Error budget (ngân sách lỗi) trong SLO dùng để làm gì?',
+      choices: [
+        'Để tính tiền phạt hợp đồng với khách hàng',
+        'Là phần "cho phép không đạt SLO" trong một cửa sổ thời gian — còn ngân sách thì có thể mạo hiểm phát hành nhanh, cạn ngân sách thì phải ưu tiên độ tin cậy và tạm dừng phát hành mới',
+        'Là số tiền tối đa được chi cho hạ tầng mỗi tháng',
+        'Chỉ có ý nghĩa báo cáo, không ảnh hưởng quyết định phát hành',
+      ],
+      answerIndex: 1,
+      explain:
+        'SLO = 100% là bất khả thi và lãng phí. Error budget là khoảng "được phép lỗi" giữa SLO và 100% — dùng nó để QUYẾT ĐỊNH: còn ngân sách thì đẩy nhanh tính năng mới, cạn ngân sách thì đóng băng phát hành để bảo vệ độ tin cậy.',
+    },
+    {
+      id: 'devops-s3-q5',
+      prompt: 'Một thí nghiệm chaos engineering có kiểm soát cần những gì TRƯỚC khi chạy?',
+      choices: [
+        'Không cần chuẩn bị gì, chaos đúng nghĩa là ngẫu nhiên và bất ngờ',
+        'Giả thuyết về trạng thái ổn định, bán kính ảnh hưởng được giới hạn trước và điều kiện dừng rõ ràng — nếu không có ba thứ này thì đó là phá hoại, không phải thí nghiệm',
+        'Chỉ cần thông báo cho khách hàng sau khi chạy xong',
+        'Chạy trực tiếp trên production mà không cần môi trường thử trước bất kể quy mô hệ thống',
+      ],
+      answerIndex: 1,
+      explain:
+        'Chaos engineering có kiểm soát luôn có giả thuyết đo được ("hệ thống vẫn phục vụ đúng khi mất node X"), giới hạn bán kính ảnh hưởng (ví dụ chỉ 1 node, ngoài giờ cao điểm) và điều kiện dừng ngay khi vượt ngưỡng — thiếu một trong ba là gây sự cố thật, không phải học được gì có kiểm soát.',
+    },
+  ],
   'security-s1': [
     {
       id: 'security-s1-q1',
