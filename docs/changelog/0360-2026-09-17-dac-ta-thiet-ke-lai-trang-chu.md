@@ -29,6 +29,13 @@ không mặc định tiếng Anh, một CTA, a11y AAA/AA.
   (mục F5). `<môn>` = mã registry. STEM đã đúng; Lập trình (`/lap-trinh/*`, 13 route) và 12 công
   cụ Tiếng Anh ở gốc sẽ chuyển sang khuôn này ở P1, URL cũ giữ và redirect. Bảng ánh xạ đầy đủ +
   đốt bảo lưu (`on-tap`) + 3 PR thi hành ghi trong tài liệu.
+- **Đặc tả THI HÀNH** `docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md`: 13 lát (P0-1…P2-13),
+  mỗi lát đủ 6 ô theo `docs/templates/dac-ta-tinh-nang.md` (phạm vi + KHÔNG làm · điểm chạm ·
+  hợp đồng TS · AC đo được kèm lệnh · bất biến + test canh · quy ước). Kèm §1 đính chính spec nền
+  (route `/` đã `AllowGuest` → `GuestHome` là nhánh `isGuest`, không phải trang mới; theme `kid`
+  accent đã cam nên màu ấm chọn hồng đậm), §2 đồ thị phụ thuộc, §5 ngân sách JS từng lát, §7 sáu
+  câu hỏi có đề xuất mặc định, §9 bảng duyệt từng lát. Trạng thái: chờ "Approved for
+  implementation" từng lát.
 
 ## Quyết định chờ chủ dự án
 
