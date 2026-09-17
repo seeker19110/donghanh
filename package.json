@@ -98,7 +98,7 @@
     "ioredis": "^6.0.0",
     "jose": "^6.2.12",
     "linkedom": "^0.18.13",
-    "lucide-react": "^1.42.0",
+    "lucide-react": "^1.44.0",
     "nodemailer": "^9.0.5",
     "pg": "^8.22.0",
     "qrcode": "^1.5.4",
