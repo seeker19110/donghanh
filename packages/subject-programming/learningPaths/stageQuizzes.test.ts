@@ -23,6 +23,7 @@ const QUIZZED_STAGES = [
   'devops-s1',
   'devops-s2',
   'devops-s3',
+  'devops-s4',
   'security-s1',
   'security-s2',
   'architecture-s1',
