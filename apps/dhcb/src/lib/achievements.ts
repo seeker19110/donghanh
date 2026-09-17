@@ -45,6 +45,20 @@ export function getEarnedAchievements(uid: string): Set<string> {
   return readEarned(uid)
 }
 
+// Huy hiệu mở khoá GẦN NHẤT — dùng cho `WeekRhythm` ở trang chủ (P1-5, lệnh 7).
+// App KHÔNG lưu mốc thời gian mở khoá riêng (chỉ lưu tập id, xem `writeEarned`), nhưng
+// `checkNewAchievements` luôn CỘNG THÊM vào cuối mảng khi có huy hiệu mới (Set giữ thứ tự
+// chèn) — nên phần tử CUỐI của mảng đã lưu chính là huy hiệu mở khoá gần nhất. Không cần
+// thêm tracking mới (đúng nguyên tắc đầu file).
+export function latestUnlocked(uid: string, isA: boolean): { id: string; label: string } | null {
+  const earned = [...readEarned(uid)]
+  const lastId = earned[earned.length - 1]
+  if (!lastId) return null
+  const def = ACHIEVEMENTS.find((a) => a.id === lastId)
+  if (!def) return null
+  return { id: def.id, label: isA ? def.nameVi : def.nameEn }
+}
+
 interface AchievementStats {
   streak: number
   vocab: number
