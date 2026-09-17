@@ -32,6 +32,8 @@ const EVENT_TYPES = [
   'daily_plan_impression',
   'daily_plan_click',
   'onboarding_step_view',
+  'session_done_view',
+  'session_done_more',
 ] as const
 
 const AnalyticsSchema = z.object({

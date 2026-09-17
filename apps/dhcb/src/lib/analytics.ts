@@ -16,6 +16,9 @@ export type AnalyticsEvent =
   | 'daily_plan_impression'
   | 'daily_plan_click'
   | 'onboarding_step_view'
+  // [2026-09-17, P1-6] SessionDone (lệnh 8): xem/mở CTA phụ của màn kết phiên gộp.
+  | 'session_done_view'
+  | 'session_done_more'
 
 export interface AnalyticsExtra {
   refCode?: string

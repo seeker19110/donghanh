@@ -1,11 +1,14 @@
-// ── Khoảnh khắc STREAK — "đỉnh" cảm xúc của ngày học ─────────────────────────
-// (V-2, docs/research/cai-tien-trai-nghiem-hoc-2026-07-11.md — E2)
-// Hiện 1 LẦN/NGÀY sau khi hoàn thành batch đầu tiên (gate: shouldCelebrateStreak
-// ở nơi gọi). Nội dung: 🔥 streak + hàng 7 chấm tuần + câu động viên theo mốc.
-// Trung thực: hàng chấm tuần hiện ĐÚNG ngày có học/nghỉ (ngày được vé-nghỉ bắc
-// cầu vẫn hiện là chấm rỗng — không vẽ ✓ giả).
+// ── Khối nội dung STREAK — tầng (2) của SessionDone ──────────────────────────
+// (V-2, docs/research/cai-tien-trai-nghiem-hoc-2026-07-11.md — E2; gộp vào SessionDone ở
+// P1-6/lệnh 8, docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md).
+//
+// [2026-09-17, P1-6] KHÔNG còn tự bật overlay riêng (từng bọc `Celebration`) — nội dung này
+// giờ là MỘT sub-block bên trong overlay duy nhất `SessionDone`. Gate `shouldCelebrateStreak`
+// + `markStreakCelebrated` vẫn do NƠI GỌI xử lý (giữ nguyên hành vi "chỉ mừng 1 lần/ngày").
+//
+// Trung thực: hàng chấm tuần hiện ĐÚNG ngày có học/nghỉ (ngày được vé-nghỉ bắc cầu vẫn hiện là
+// chấm rỗng — không vẽ ✓ giả).
 
-import Celebration from './Celebration'
 import { getStreak } from '../lib/storage'
 import { getActivity7Days } from '../lib/stats'
 
@@ -48,29 +51,25 @@ function subtitleFor(streak: number, isA: boolean): string {
     : 'A little every day beats cramming!'
 }
 
-export default function StreakCelebration({
-  uid,
-  isA,
-  onDone,
-}: {
+export interface StreakCelebrationContentProps {
   uid: string
   isA: boolean
-  onDone: () => void
-}) {
+}
+
+/** Nội dung streak (tiêu đề + hàng chấm tuần) — dùng làm sub-block bên trong `SessionDone`. */
+export function StreakCelebrationContent({ uid, isA }: StreakCelebrationContentProps) {
   const streak = getStreak(uid)
   const week = getActivity7Days(uid) // cũ → mới, phần tử cuối = hôm nay
   const dowLabels = isA ? DOW_VI : DOW_EN
 
   return (
-    <Celebration
-      icon="🔥"
-      title={isA ? `Chuỗi ${streak} ngày!` : `${streak}-day streak!`}
-      subtitle={subtitleFor(streak, isA)}
-      ctaLabel={isA ? 'Tiếp tục' : 'Continue'}
-      onDone={onDone}
-    >
+    <div className="text-center">
+      <p className="text-lg font-bold text-content">
+        {isA ? `🔥 Chuỗi ${streak} ngày!` : `🔥 ${streak}-day streak!`}
+      </p>
+      <p className="text-sm text-content-secondary mt-0.5">{subtitleFor(streak, isA)}</p>
       {/* Hàng 7 chấm tuần — chấm hôm nay (cuối) pop nổi bật */}
-      <div className="flex justify-center gap-2.5" aria-hidden="true">
+      <div className="flex justify-center gap-2.5 mt-3" aria-hidden="true">
         {week.map((d, i) => {
           const isToday = i === week.length - 1
           return (
@@ -93,6 +92,8 @@ export default function StreakCelebration({
           )
         })}
       </div>
-    </Celebration>
+    </div>
   )
 }
+
+export default StreakCelebrationContent
