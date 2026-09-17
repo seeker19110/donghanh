@@ -400,8 +400,9 @@ test.describe('Platform V2 Specialized Domain Hubs & Companion E2E', () => {
     await page.goto('/ban-dong-hanh')
     await expect(page.getByText('Bạn Đồng Hành Đa Lĩnh Vực')).toBeVisible()
 
-    // Chọn Domain Sự nghiệp
-    await page.getByRole('button', { name: 'Sự nghiệp' }).click()
+    // Chọn Domain Sự nghiệp. `exact: true` vì sidebar desktop (P1-7) nay có nút
+    // 'Mở rộng mục Sự nghiệp & Đời sống' chứa chuỗi con "Sự nghiệp" trùng lặp.
+    await page.getByRole('button', { name: 'Sự nghiệp', exact: true }).click()
 
     // Gửi tin nhắn
     const input = page.getByPlaceholder(/Nhắn tin cho Bạn Đồng Hành AI/)

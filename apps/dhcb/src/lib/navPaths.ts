@@ -143,6 +143,12 @@ export const WORKLIFE_PATHS = [
   '/life',
 ]
 
+/**
+ * Nhóm sidebar "Sự nghiệp & Đời sống" (P1-7, lệnh 9) gộp 2 studio `career` + `worklife` cũ
+ * thành MỘT mục cấp 1 — hợp của hai bảng path, không trùng lặp phần tử.
+ */
+export const CAREER_LIFE_PATHS: readonly string[] = [...CAREER_PATHS, ...WORKLIFE_PATHS]
+
 /** Trang tiến độ — tách khỏi PROFILE_PATHS để sidebar có mục "Tiến độ" riêng. */
 export const PROGRESS_PATHS = ['/tien-do']
 
