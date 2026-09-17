@@ -300,7 +300,7 @@ một host — đó là lý do nó sống sót từ 2026-08-28.
 ### Ưu tiên 1d — REDESIGN TRANG CHỦ & TRẢI NGHIỆM HỌC CỐT LÕI (đặc tả `docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md`)
 
 **[2026-09-17] Đặc tả 15 lệnh đã chốt (§2), chủ dự án ra lệnh thi hành từng lát.** Trạng thái
-sau đợt 1 (4/15 lệnh, chạy song song bằng subagent Sonnet, đã merge):
+sau đợt 1 + đợt 2 (7/15 lệnh, chạy song song bằng subagent Sonnet, đã merge):
 
 - **Lệnh 1 · P0-1 — ✅ ĐÃ MERGE (#1005).** `pickHomeBanner` (hàm thuần chọn ĐÚNG MỘT banner phụ),
   `Home.tsx` sắp lại thứ tự khối (TodayCard là tâm điểm).
@@ -313,19 +313,31 @@ sau đợt 1 (4/15 lệnh, chạy song song bằng subagent Sonnet, đã merge):
   `Home.tsx`: môn có bằng chứng học lên đầu (không mặc định tiếng Anh), trạng thái bằng CHỮ
   ("đang học · …" / "chưa bắt đầu", không %), mobile 3 thẻ + "Xem tất cả", empty state "Thử 5
   phút".
+- **Lệnh 3 · P2-13 — ✅ ĐÃ MERGE (#1010).** Rule `prefers-reduced-motion` chung đã có sẵn từ
+  S13-2 (2026-09-16, universal `*` mạnh hơn đề xuất của đặc tả) — phạm vi thực tế chỉ thêm 3 lớp
+  test canh gác (E2E 5 trang, ca giả trong `UiNoise.design.test.ts`, unit cho `confetti.ts`).
+- **Lệnh 4 · P0-3 — ✅ ĐÃ MERGE (#1011).** `GuestHome` (Companion giới thiệu + ĐÚNG MỘT CTA
+  "Bắt đầu — chọn việc đầu tiên" + dải môn) thay bố cục đầy đủ cho khách; `GuestBanner` đổi điều
+  kiện — chỉ hiện SAU KHI khách có dấu vết học thật (`hasAnyGuestSession()`), không còn hiện ngay
+  lúc mở trang. Nợ mở: AC-8 (ảnh chụp guest 3 theme × 2 bề rộng) cần mở rộng hệ thống 6-màn-mẫu
+  (`ScreenId` khoá cứng 6 giá trị dùng chung 3 file) — để lát riêng.
+- **Lệnh 7 · P1-5 — ✅ ĐÃ MERGE (#1012).** `WeekRhythm` (7 chấm T2→CN + nhiệm vụ + huy hiệu mới
+  nhất, ẩn với khách/tuần rỗng+streak=0) + `latestUnlocked()` mới trong `lib/achievements.ts`.
 
-Cả 4 PR đều dính lỗi CI nhỏ do 4 slice cùng đụng `Home.tsx`/pattern `theme-light:` — đã tự sửa
-hết trước khi merge (chi tiết: đặc tả §8 "Nghiệm thu"): 1 lỗi format, 1 lỗi mô tả PR (cụm
-"Approved for implementation" bị ngắt dòng), 2 lỗi thiếu biến thể `theme-light:` cho màu accent
-trên nền `bg-zinc-900`/`bg-warm-50` (nền tự đảo sáng ở theme `blue-sky`/`kid` vì `zinc` map qua
-CSS variable theo theme — bài học chung cho các lệnh sau: MỌI `text-accent-*` mới thêm phải kèm
-`theme-light:` nếu nền không phải fixed-dark thật), 2 lần merge conflict trên `Home.tsx` (lệnh 2
-tạo PR trước khi lệnh 1/6 merge), 1 selector e2e lỗi thời (`e2e/a11y.spec.ts` còn tìm text cũ
-"Mừng bạn quay lại" sau khi lệnh 2 đổi text).
+Đợt 1 (4 PR đầu) đều dính lỗi CI nhỏ do nhiều slice cùng đụng `Home.tsx`/pattern `theme-light:` —
+đã tự sửa hết trước khi merge (chi tiết: đặc tả §8 "Nghiệm thu"): 1 lỗi format, 1 lỗi mô tả PR
+(cụm "Approved for implementation" bị ngắt dòng), 2 lỗi thiếu biến thể `theme-light:` cho màu
+accent trên nền `bg-zinc-900`/`bg-warm-50` (nền tự đảo sáng ở theme `blue-sky`/`kid` vì `zinc`
+map qua CSS variable theo theme — bài học chung: MỌI `text-accent-*` mới thêm phải kèm
+`theme-light:` nếu nền không phải fixed-dark thật), 2 lần merge conflict trên `Home.tsx`, 1
+selector e2e lỗi thời. Đợt 2: lệnh 3 và lệnh 7 xanh ngay; lệnh 4 (GuestHome) dính nhiều vòng CI
+đỏ nhất — xung đột merge `Home.tsx` với lệnh 7 (giữ cả nhánh `isGuest` lẫn khối `WeekRhythm`), 1
+eslint-disable thừa, và **4 test e2e cũ giả định hành vi khách cũ** (`english-subject-home`,
+`home-quick-ask`, `smoke`, `today-plan` — banner hiện ngay lúc mở trang / có ô hỏi nhanh / có thẻ
+"Hôm nay" cho khách) bị phá bởi luật `GuestHome`/`GuestBanner` mới, đã cập nhật theo luật mới.
 
-**Tiếp theo:** lệnh 3 (P2-13, `prefers-reduced-motion` — có thể phần lớn đã có sẵn từ S13-2,
-2026-09-16, cần RÀ SOÁT trước khi viết mới), lệnh 4 (P0-3, `GuestHome`), lệnh 7 (P1-5,
-`WeekRhythm`) — theo đồ thị phụ thuộc ở đặc tả §2, chờ chủ dự án ra lệnh tiếp.
+**Tiếp theo:** lệnh 8 (P1-6, `SessionDone`) phụ thuộc lệnh 1/2 ✅ đã merge — dispatch được ngay.
+Lệnh 9–15 chờ đồ thị phụ thuộc ở đặc tả §2 và lệnh thi hành tiếp theo của chủ dự án.
 
 ### Ưu tiên 2 — nợ nội dung của mảng đã ship (đi sâu, không mở rộng)
 
