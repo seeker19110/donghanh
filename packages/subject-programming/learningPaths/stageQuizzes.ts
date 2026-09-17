@@ -1249,6 +1249,77 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
         'Chaos engineering có kiểm soát luôn có giả thuyết đo được ("hệ thống vẫn phục vụ đúng khi mất node X"), giới hạn bán kính ảnh hưởng (ví dụ chỉ 1 node, ngoài giờ cao điểm) và điều kiện dừng ngay khi vượt ngưỡng — thiếu một trong ba là gây sự cố thật, không phải học được gì có kiểm soát.',
     },
   ],
+  'devops-s4': [
+    {
+      id: 'devops-s4-q1',
+      prompt:
+        'Vì sao "lối đi lát sẵn" (golden path) của nền tảng nội bộ phải là lối DỄ NHẤT chứ không chỉ là lối đúng nhất?',
+      choices: [
+        'Vì khuôn mẫu chạy nhanh hơn code tự viết',
+        'Vì nếu làm đúng khó hơn đi tắt thì các đội sẽ đi tắt — nền tảng chỉ áp được chuẩn khi tuân thủ RẺ hơn né tránh, nên cổng bắt buộc phải nằm sẵn trong khuôn mẫu',
+        'Vì tổ chức nào cũng bắt buộc dùng một khuôn mẫu duy nhất',
+        'Vì lối đi lát sẵn loại bỏ hoàn toàn nhu cầu xem xét mã nguồn',
+      ],
+      answerIndex: 1,
+      explain:
+        'Nền tảng nội bộ không có quyền ép; nó thắng bằng trải nghiệm. Khi khuôn mẫu đã cắm sẵn kiểm thử, quét phụ thuộc, ký tạo tác và sổ tay vận hành, đội sản phẩm chọn nó vì tiện — và nhận luôn các cổng bắt buộc.',
+    },
+    {
+      id: 'devops-s4-q2',
+      prompt:
+        'Khi tính chỉ số DORA mà mẫu dữ liệu nhỏ hơn ngưỡng có nghĩa, vì sao phải trả "chưa xác định" thay vì quy về 0?',
+      choices: [
+        'Vì số 0 khó hiển thị trên biểu đồ',
+        'Vì 0 đọc như "chưa từng hỏng" — một kết luận sai từ dữ liệu trống — còn "chưa xác định" nói đúng rằng chưa đủ bằng chứng; hai thông điệp này dẫn tới hai quyết định trái ngược',
+        'Vì DORA chỉ định nghĩa cho mẫu lớn hơn 1000 bản ghi',
+        'Vì quy về 0 làm chậm quá trình tính toán',
+      ],
+      answerIndex: 1,
+      explain:
+        'Thay dữ liệu thiếu bằng một giá trị "đẹp" là cách phổ biến nhất để báo cáo độ tin cậy tự lừa mình. Tương tự, sự cố CHƯA khôi phục xong cũng chưa có thời gian khôi phục, không được cộng vào.',
+    },
+    {
+      id: 'devops-s4-q3',
+      prompt:
+        'Một tạo tác phát hành (kể cả mô hình và tập dữ liệu) cần kèm SBOM, chữ ký, xuất xứ build và digest. Digest giải quyết vấn đề gì mà chữ ký không giải quyết?',
+      choices: [
+        'Digest mã hoá nội dung tạo tác để người ngoài không đọc được',
+        'Digest là băm của chính nội dung nên cho một tham chiếu BẤT BIẾN — thẻ phiên bản có thể bị trỏ lại sang nội dung khác, còn ghim theo digest thì thứ bạn chạy đúng là thứ đã được ký',
+        'Digest chứng minh ai là người tạo ra tạo tác',
+        'Digest liệt kê mọi thư viện phụ thuộc bên trong tạo tác',
+      ],
+      answerIndex: 1,
+      explain:
+        'Chữ ký trả lời "ai tạo ra", SBOM trả lời "gồm những gì", xuất xứ trả lời "quy trình nào sinh ra", còn digest trả lời "có đúng nội dung đó không". Digest khai báo lệch digest đo lại nghĩa là tạo tác đã bị thay giữa đường.',
+    },
+    {
+      id: 'devops-s4-q4',
+      prompt:
+        'Ước lượng bộ nhớ GPU để phục vụ một mô hình: vì sao KV cache tăng theo số luồng song song còn trọng số thì không?',
+      choices: [
+        'Vì trọng số luôn được nén, còn KV cache thì không',
+        'Trọng số nạp một lần và dùng chung cho mọi luồng, còn KV cache là trạng thái RIÊNG của từng chuỗi đang sinh nên cộng dồn theo số luồng (và theo độ dài ngữ cảnh)',
+        'Vì KV cache nằm trên RAM hệ thống chứ không nằm trên GPU',
+        'Vì trọng số chỉ chiếm chỗ khi có yêu cầu đang xử lý',
+      ],
+      answerIndex: 1,
+      explain:
+        'Đây là lý do gấp đôi độ dài ngữ cảnh làm gấp đôi KV cache, và vì sao muốn phục vụ thêm luồng song song thì thường phải giảm ngữ cảnh, giảm độ rộng lượng tử hoá hoặc thêm bộ nhớ — chứ không phải "mua mô hình nhỏ hơn".',
+    },
+    {
+      id: 'devops-s4-q5',
+      prompt: 'Vì sao thước đo FinOps đúng cho một luồng AI là chi phí trên mỗi lần THÀNH CÔNG?',
+      choices: [
+        'Vì nhà cung cấp chỉ tính tiền cho các lượt gọi thành công',
+        'Vì lượt hỏng vẫn tiêu tài nguyên và vẫn phải thử lại — chi phí theo mỗi lượt gọi giấu mất phần tiền trả cho những lần không mang lại kết quả nào',
+        'Vì chi phí mỗi lượt gọi không thể tính được trong thực tế',
+        'Vì chỉ số này luôn bằng chi phí mỗi lượt gọi nhân với hai',
+      ],
+      answerIndex: 1,
+      explain:
+        'Định tuyến thác nhỏ→lớn và chuỗi dự phòng làm số lượt gọi tăng lên; chỉ chi phí trên mỗi lần thành công mới nói được cấu hình nào thật sự rẻ. Lưu ý mẫu thành công bằng 0 thì không chia được — phải trả "chưa xác định" chứ không ném lỗi.',
+    },
+  ],
   'security-s1': [
     {
       id: 'security-s1-q1',

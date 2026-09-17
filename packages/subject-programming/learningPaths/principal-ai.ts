@@ -145,6 +145,11 @@ export const PRINCIPAL_AI_PATH: LearningPath = {
           requires: ['devops-s2'],
         },
         {
+          stageId: 'devops-s4',
+          why: 'Nền tảng nội bộ, chuỗi cung ứng tạo tác và sức chứa–chi phí phục vụ mô hình — để đội khác phát hành hệ AI an toàn mà không cần bạn đứng cạnh.',
+          requires: ['devops-s3'],
+        },
+        {
           stageId: 'security-s1',
           why: 'Bảo mật căn bản — hệ AI mở thêm bề mặt tấn công mới (prompt injection, rò dữ liệu).',
         },
