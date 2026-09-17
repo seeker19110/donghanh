@@ -207,7 +207,7 @@ export default function FeedbackModal({ isOpen, onClose, initialCategory = 'feat
                       className={`w-6 h-6 transition-transform group-hover:scale-110 ${
                         star <= rating
                           ? 'text-amber-400 theme-light:text-amber-900 fill-amber-400'
-                          : 'text-zinc-600 group-hover:text-zinc-400'
+                          : 'text-content-muted group-hover:text-zinc-400'
                       }`}
                     />
                   </button>

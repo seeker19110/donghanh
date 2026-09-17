@@ -142,7 +142,7 @@ function PhrasesTab({ isA, T }: { isA: boolean; T: Lang }) {
             <p className="text-xs text-zinc-400 truncate">{meta.category}</p>
             <p className="font-semibold text-white truncate">{meta.starter}</p>
           </div>
-          <ChevronRight className="w-4 h-4 text-zinc-600 shrink-0" />
+          <ChevronRight className="w-4 h-4 text-content-muted shrink-0" />
         </button>
       ))}
     </div>
@@ -261,7 +261,7 @@ function DialogueGroups({
                   <span className="font-medium text-white text-sm truncate">
                     {isA ? entry.dialogue.titleVi : entry.dialogue.titleEn}
                   </span>
-                  <ChevronRight className="w-4 h-4 text-zinc-600 shrink-0" />
+                  <ChevronRight className="w-4 h-4 text-content-muted shrink-0" />
                 </button>
               ))}
             </div>
