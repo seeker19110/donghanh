@@ -8,7 +8,7 @@
 
 1. **`apps/dhcb/src/lib/home/pickHomeBanner.ts`** (mới) — hàm THUẦN chọn ĐÚNG MỘT banner phụ
    cho trang chủ theo ưu tiên `planExpiry (≤7 ngày) > promoEnding (≤3 ngày) > pricePromo >
-   rewardTip`; khách (`isGuest`) chỉ có thể nhận `pricePromo` hoặc `null`. Test bảng 17 ca ở
+rewardTip`; khách (`isGuest`) chỉ có thể nhận `pricePromo` hoặc `null`. Test bảng 17 ca ở
    `pickHomeBanner.test.ts` (yêu cầu spec: ≥ 10 ca).
 2. **`Home.tsx`**:
    - Gọi `pickHomeBanner` với dữ liệu THẬT sẵn có, không thêm request mới:
