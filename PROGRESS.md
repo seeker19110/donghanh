@@ -300,7 +300,7 @@ một host — đó là lý do nó sống sót từ 2026-08-28.
 ### Ưu tiên 1d — REDESIGN TRANG CHỦ & TRẢI NGHIỆM HỌC CỐT LÕI (đặc tả `docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md`)
 
 **[2026-09-17] Đặc tả 15 lệnh đã chốt (§2), chủ dự án ra lệnh thi hành từng lát.** Trạng thái
-sau đợt 1 + đợt 2 + lệnh 8 (8/15 lệnh, chạy bằng subagent Sonnet, đã merge):
+sau đợt 1 + đợt 2 + lệnh 8/9 (9/15 lệnh, chạy bằng subagent Sonnet, đã merge):
 
 - **Lệnh 1 · P0-1 — ✅ ĐÃ MERGE (#1005).** `pickHomeBanner` (hàm thuần chọn ĐÚNG MỘT banner phụ),
   `Home.tsx` sắp lại thứ tự khối (TodayCard là tâm điểm).
@@ -333,6 +333,14 @@ sau đợt 1 + đợt 2 + lệnh 8 (8/15 lệnh, chạy bằng subagent Sonnet, 
   chưa thêm vì phiên thi hành không có Playwright — để CI thật xác nhận, đã xanh; `Challenge.tsx`/
   `Lesson*.tsx` (Lập trình)/`StemLessonView.tsx` CHƯA nối `SessionDone` (hiện các trang này không
   gọi celebration cũ nên không hồi quy, nhưng cũng chưa có overlay mới) — để lát riêng.
+- **Lệnh 9 · P1-7 — ✅ ĐÃ MERGE (#1016).** `DesktopSidebar` 10→7 mục cấp 1: gộp `career` +
+  `worklife` thành nhóm "Sự nghiệp & Đời sống ▾", gỡ "Luyện tập" khỏi menu chính (route
+  `/luyen-tap` vẫn sống), "Nâng cấp" thành dòng nhỏ dưới avatar. `BottomNav` tab 4 đổi "Luyện
+  tập"→"Ôn tập" (`/goc-hoc-tap/on-tap`), bỏ hiệu ứng phóng to khi active, thêm prop
+  `companionHasNote?` (mặc định false, nối dữ liệu thật ở lệnh 15). `CAREER_LIFE_PATHS` mới
+  trong `navPaths.ts`. CI đỏ 1 vòng: `e2e/english-tools-context.spec.ts` AC-3.2 còn dùng nhãn tab
+  "Luyện tập" cũ — sửa theo nhãn mới ("Học"/"Ôn tập"), xanh. Nợ mở: ảnh chụp 1440/390 trước/sau +
+  a11y AAA đủ 15 trang × 5 theme chưa chạy trong phiên thi hành, để CI thật xác nhận.
 
 Đợt 1 (4 PR đầu) đều dính lỗi CI nhỏ do nhiều slice cùng đụng `Home.tsx`/pattern `theme-light:` —
 đã tự sửa hết trước khi merge (chi tiết: đặc tả §8 "Nghiệm thu"): 1 lỗi format, 1 lỗi mô tả PR
@@ -346,9 +354,11 @@ eslint-disable thừa, và **4 test e2e cũ giả định hành vi khách cũ** 
 `home-quick-ask`, `smoke`, `today-plan` — banner hiện ngay lúc mở trang / có ô hỏi nhanh / có thẻ
 "Hôm nay" cho khách) bị phá bởi luật `GuestHome`/`GuestBanner` mới, đã cập nhật theo luật mới.
 
-**Tiếp theo:** lệnh 9 (P1-7, sidebar 10→7 mục) không phụ thuộc lệnh nào chưa merge — dispatch
-được ngay khi có lệnh. Lệnh 10–15 chờ đồ thị phụ thuộc ở đặc tả §2 và lệnh thi hành tiếp theo của
-chủ dự án.
+**Tiếp theo:** lệnh 10 (P1-9a, URL Lập trình → `/goc-hoc-tap/programming`, dùng
+`programmingRoutes.ts` có sẵn) phụ thuộc lệnh 9 ✅ đã merge — dispatch được ngay khi có lệnh.
+Lệnh 11–15 chờ đồ thị phụ thuộc ở đặc tả §2 (lệnh 11 cần lệnh 10 xong trước, đổi route thật nên
+rủi ro E2E cao hơn — cân nhắc không chạy song song với lệnh khác cùng lúc) và lệnh thi hành tiếp
+theo của chủ dự án.
 
 ### Ưu tiên 2 — nợ nội dung của mảng đã ship (đi sâu, không mở rộng)
 
