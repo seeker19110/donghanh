@@ -42,10 +42,10 @@ export default function RewardTipBanner({ uid, isA }: { uid: string; isA: boolea
           <Gift className="w-4 h-4 text-amber-300 theme-light:text-amber-900" aria-hidden="true" />
         </span>
         <div className="flex-1 min-w-0">
-          <p className="text-white font-semibold text-sm">
+          <p className="text-white font-semibold text-sm read-measure">
             {isA ? 'Mẹo kiếm huy hiệu & thưởng nhanh nhất' : 'Fastest way to earn achievements'}
           </p>
-          <p className="text-xs text-zinc-400 mt-0.5">
+          <p className="text-xs text-zinc-400 mt-0.5 read-measure">
             {isA
               ? 'Giữ streak học mỗi ngày + làm challenge 1 phút đều đặn — 2 việc tốn ít thời gian nhất nhưng cộng dồn huy hiệu nhanh nhất. Xem đủ danh sách ở mục Nhiệm vụ trong Hồ sơ.'
               : 'Keep a daily streak + do the 1-minute challenge daily — the two lowest-effort habits that rack up achievements fastest. See the full list in the Quests section of your Profile.'}

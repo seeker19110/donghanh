@@ -28,18 +28,13 @@ const TI_LE_CHIEU_CAO_TOI_DA = 4
 // BÁO ĐỎ để buộc hạ baseline (nếu không, bảng này mục ruỗng trong im lặng).
 //
 // Mỗi dòng dưới đây là MỘT mục việc của S13-2. Xoá dòng = đã sửa xong.
-const BASELINE_KY_TU: Record<string, number> = {
-  'today@768': 10,
-  'today@1440': 8,
-  'outline@768': 8,
-  'outline@1440': 8,
-  'lesson@768': 12,
-  'lesson@1440': 12,
-  'result@768': 27,
-  'result@1440': 27,
-  'progress@768': 8,
-  'progress@1440': 6,
-}
+//
+// ĐÃ SỬA HẾT — S13-2 (2026-09-16): **126 → 3** vi phạm trên toàn bộ 10 ô. Cách sửa là
+// bó khoảng đọc `.read-measure` (`index.css`, hiệu chuẩn 66ch → 63ch) lên đúng những
+// đoạn CHỮ ĐỂ ĐỌC, không phải nới ngưỡng. Số đo còn lại, đều dưới mức
+// `TOI_DA_VI_PHAM_MOI_MAN`: `today@768` 1 · `tutor@1440` 1 · `progress@768` 1; mọi ô
+// khác về 0. Bảng để RỖNG chứ không xoá, vì nó là chỗ ghi nợ cho đợt sau.
+const BASELINE_KY_TU: Record<string, number> = {}
 
 // Hiện KHÔNG màn nào lệch khỏi "đúng 1 `<h1>`" — bảng để rỗng chứ không xoá, vì
 // nó là chỗ ghi nợ khi S13-2 gặp ca không sửa ngay được.
@@ -142,4 +137,39 @@ for (const man of LEARNING_UX_SCREENS) {
       }
     })
   }
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// AC-12 — "GIẢM CHUYỂN ĐỘNG" PHẢI ĐƯỢC TÔN TRỌNG THẬT.
+//
+// Cổng này sinh ra vì đọc mã KHÔNG đủ: spec S13 khẳng định đã có khối reduced-motion
+// toàn cục, mà đo ra thì Trang chủ vẫn chạy 8 hoạt ảnh, Tiến độ 11. Khối toàn cục
+// nay nằm ở cuối `apps/dhcb/src/index.css`; test này là thứ giữ nó khỏi bị gỡ nhầm.
+//
+// Đo `animationDuration` đã TÍNH TOÁN (không phải class Tailwind) nên nó bắt được cả
+// hoạt ảnh viết tay trong CSS lẫn hoạt ảnh đặt bằng style nội tuyến.
+// ──────────────────────────────────────────────────────────────────────────────
+for (const man of LEARNING_UX_SCREENS) {
+  test(`giảm chuyển động ${man.id}`, async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.setViewportSize({ width: 1440, height: HEIGHTS[1440] })
+    const mo = await moManHinh(page, man, 'data')
+    expect(mo, `màn ${man.id} không có trạng thái "data"`).toBe(true)
+
+    const conChay = await page.evaluate(() =>
+      [...document.querySelectorAll('*')]
+        .filter((el) => {
+          const cs = getComputedStyle(el)
+          return cs.animationDuration.split(',').some((x) => (Number.parseFloat(x) || 0) > 0)
+        })
+        .slice(0, 10)
+        .map(
+          (el) => `${el.tagName.toLowerCase()}[${(el.getAttribute('class') ?? '').slice(0, 60)}]`,
+        ),
+    )
+    expect(
+      conChay,
+      `[${man.id}] còn phần tử chạy hoạt ảnh dù người dùng đã bật "giảm chuyển động"`,
+    ).toEqual([])
+  })
 }

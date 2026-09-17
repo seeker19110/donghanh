@@ -331,9 +331,15 @@ html[data-sidebar='collapsed'] {
      chỗ người học ngồi lâu nhất.
 
      `max-width` chứ không phải `width`: màn hẹp hơn khoảng đọc thì khối vẫn co theo bình
-     thường, không sinh cuộn ngang. */
+     thường, không sinh cuộn ngang.
+
+     HIỆU CHUẨN LẠI 2026-09-16 (S13-2, cổng `e2e/learning-ux-layout.spec.ts` phép đo 4):
+     66ch → 63ch. Lý do là SỐ ĐO, không phải thẩm mỹ: đơn vị `ch` là bề rộng chữ số `0`,
+     mà `0` rộng hơn chữ thường trung bình, nên 66ch cho ra ~83 ký tự/dòng theo phép đo
+     `clientWidth / (font-size × 0,5)` của cổng — vượt ngưỡng 80. 63ch đo lại được ~79,
+     vẫn nằm trong khoảng 60–75 ký tự thật mà spec nền chốt. */
   .read-measure {
-    max-width: 66ch;
+    max-width: 63ch;
   }
 
   /* Thân bài dài: cỡ chữ + giãn dòng của NỘI DUNG ĐỂ ĐỌC, tách khỏi cỡ chữ giao diện.
@@ -491,5 +497,34 @@ html[data-sidebar='collapsed'] {
 @media (prefers-reduced-motion: reduce) {
   .course-flow-beam {
     animation: none;
+  }
+}
+
+/* ── TÔN TRỌNG "GIẢM CHUYỂN ĐỘNG" TRÊN TOÀN APP (WCAG 2.3.3) ───────────────────
+   Thêm 2026-09-16 (S13-2, AC-12). Spec S13 nói khối này ĐÃ CÓ SẴN ở `index.css:370`
+   — KHÔNG ĐÚNG: trước đợt này repo chỉ tắt hoạt ảnh cho ĐÚNG HAI thứ (`.glass`,
+   `.course-flow-beam`). Đo thật bằng `page.emulateMedia({ reducedMotion: 'reduce' })`
+   trên sáu màn mẫu ở 1440px: vẫn còn **8 phần tử** chạy hoạt ảnh ở Trang chủ, **11**
+   ở Tiến độ, **6** ở Trợ giảng (`fade-in`, `fade-up`, `ping`, `bounce`, `pulse`).
+   Người đã bật "giảm chuyển động" ở hệ điều hành vì chóng mặt/tiền đình vẫn thấy đủ.
+
+   Vì sao `0s` chứ không phải `none`: mọi hoạt ảnh của dự án khai báo `fill-mode: both`
+   (`tailwind.config.js`), nên duration 0 làm phần tử NHẢY THẲNG tới khung hình cuối —
+   tức trạng thái hiển thị đầy đủ. `animation: none` thì phần tử rơi về style gốc, dễ
+   sinh ca nội dung biến mất. Với hoạt ảnh lặp vô hạn, `iteration-count: 1` chặn luôn
+   vòng lặp.
+
+   Chỉ áp trong `prefers-reduced-motion: reduce` → người dùng mặc định KHÔNG thấy gì
+   thay đổi. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
   }
 }

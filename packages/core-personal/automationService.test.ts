@@ -22,9 +22,15 @@ import {
 const PERSON = '11111111-1111-4111-8111-111111111111'
 const GRANT_ID = '22222222-2222-4222-8222-222222222222'
 const RECEIPT_ID = '33333333-3333-4333-8333-333333333333'
-const NOW = new Date('2026-08-17T00:00:00Z')
-const FUTURE = new Date('2026-09-17T00:00:00Z')
-const PAST = new Date('2026-07-17T00:00:00Z')
+// BOM HẸN GIỜ ĐÃ NỔ (sửa 2026-09-17, S13-2): ba mốc này từng là ngày TUYỆT ĐỐI
+// (`NOW` 2026-08-17 · `FUTURE` 2026-09-17 · `PAST` 2026-07-17). `executeAutomatedAction`
+// so `grant.reviewAt` với `new Date()` THẬT, nên đúng ngày 2026-09-17 thì "FUTURE" hoá
+// quá khứ: 5 ca đỏ trên `main`, không PR nào liên quan mà mọi PR đều tắc.
+// Mốc tương đối thì không bao giờ hết hạn.
+const NGAY = 24 * 60 * 60 * 1000
+const NOW = new Date(Date.now() - 31 * NGAY)
+const FUTURE = new Date(Date.now() + 31 * NGAY)
+const PAST = new Date(Date.now() - 62 * NGAY)
 
 const policies = vi.hoisted(() => ({
   resolveAuthority: vi.fn(),

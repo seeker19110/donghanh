@@ -22,7 +22,12 @@ export default function PageHeader({ title, subtitle, className = '' }: Props) {
         {title}
       </h1>
       {subtitle && (
-        <p className="text-sm text-zinc-400 mt-1.5 leading-relaxed font-normal">{subtitle}</p>
+        // `read-measure`: câu mô tả dưới tiêu đề là CHỮ ĐỂ ĐỌC, không phải nhãn — không bó
+        // khoảng đọc thì ở 1440px nó kéo dài 111–160 ký tự/dòng (đo 2026-09-16, cổng AC-3
+        // trên `/ban-dong-hanh`, `/tien-do`, mục lục khoá).
+        <p className="text-sm text-zinc-400 mt-1.5 leading-relaxed font-normal read-measure">
+          {subtitle}
+        </p>
       )}
     </div>
   )

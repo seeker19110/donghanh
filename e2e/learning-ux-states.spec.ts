@@ -24,31 +24,19 @@ const BE_RONG = [
   { w: 1440, h: 900 },
 ] as const
 
-// ── NỢ ĐÃ ĐO, chờ S13-2 sửa ──────────────────────────────────────────────────
+// ── KHÔNG CÒN NỢ AA NÀO ──────────────────────────────────────────────────────
 //
-// Cổng này TÌM RA MỘT VI PHẠM AA THẬT ngay lượt chạy đầu — đúng thứ nó sinh ra để
-// tìm (trạng thái "đang tải"/"rỗng" chưa từng được axe nhìn thấy, vì
-// `a11y.spec.ts` chỉ mở route rồi quét, tức luôn quét trạng thái mặc định):
+// Cổng này TÌM RA MỘT VI PHẠM AA THẬT ngay lượt chạy đầu (S13-1) — đúng thứ nó sinh
+// ra để tìm, vì `a11y.spec.ts` chỉ quét trạng thái mặc định nên chưa bao giờ nhìn
+// thấy màn "đang tải"/"rỗng": `aria-prohibited-attr` (serious) trên màn `today`,
+// gốc ở `components/Home/TodayCard.tsx` — `<div aria-busy aria-live aria-label=…>`;
+// `aria-label` BỊ CẤM trên phần tử role ngầm `generic`, nên nhãn đó không được trình
+// đọc màn hình đọc lên.
 //
-//   `aria-prohibited-attr` (serious) trên màn `today`, ở nhiều trạng thái, số phần
-//   tử thay đổi theo bề rộng (1 ở 390, 2 ở 1440). Gốc:
-//   `components/Home/TodayCard.tsx:74` —
-//   `<div aria-busy aria-live aria-label="Đang tìm việc học hôm nay">`. `aria-label`
-//   BỊ CẤM trên phần tử không có role (role ngầm `generic`); phải thêm
-//   `role="status"` thì nhãn mới hợp lệ VÀ mới được trình đọc màn hình đọc lên.
-//
-// S13-1 là PR CÔNG CỤ, không sửa giao diện (spec §9: sửa là việc của S13-2), nên ô
-// này được ghi lại kèm ĐÚNG MÃ LUẬT — đây KHÔNG phải tắt cổng: mọi mã luật KHÁC vẫn
-// làm test đỏ ở mọi màn, mọi trạng thái, mọi theme, mọi bề rộng.
-//
-// Ghi theo MÃ LUẬT chứ không theo chuỗi có số phần tử, vì số phần tử phụ thuộc bề
-// rộng — ghi chuỗi cứng thì cổng đỏ giả ở bề rộng khác.
-//
-// ĐIỀU KIỆN GỠ: `TodayCard.tsx:74` có role hợp lệ → xoá nguyên khối `NO_AA` này
-// (S13-2 phải chạy lại spec này để chứng minh 0 vi phạm, không còn ngoại lệ nào).
-const NO_AA: Record<string, readonly string[]> = {
-  today: ['aria-prohibited-attr'],
-}
+// ĐÃ SỬA ở S13-2 (2026-09-16): thẻ đó nay có `role="status"`. Bảng dưới đây RỖNG —
+// cổng chạy ở mức TUYỆT ĐỐI, 0 vi phạm AA, không còn ngoại lệ nào. Thêm dòng vào đây
+// là ghi nợ mới và phải kèm số đo + điều kiện gỡ, không phải cách làm cổng xanh.
+const NO_AA: Record<string, readonly string[]> = {}
 
 for (const man of LEARNING_UX_SCREENS) {
   for (const state of TRANG_THAI) {

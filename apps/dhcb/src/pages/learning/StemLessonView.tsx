@@ -437,7 +437,10 @@ export default function StemLessonView() {
           )}
 
           {bai && (
-            <article className="mt-4">
+            // `read-measure` (index.css): bó CẢ cột bài học vào khoảng đọc, thay vì rắc lên
+            // từng thẻ `<p>`. Đo bằng cổng AC-3 trước khi sửa (2026-09-16): 92 ký tự/dòng ở
+            // 768px và 97 ở 1440px — gần gấp rưỡi khoảng 60–75 mà spec nền chốt.
+            <article className="mt-4 read-measure">
               <p className="text-content-muted">
                 {bai.track === 'advanced'
                   ? `Chuyên đề bồi dưỡng học sinh giỏi · ${nhanCapHsg(bai.advancedTier)}`
