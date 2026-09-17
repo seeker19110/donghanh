@@ -47,25 +47,27 @@
 
 ## 3. Milestones và slices
 
-| ID     | Outcome/AC                                                        | Dependency | Spec                                           | Issue | PR   | State     | Evidence                  |
-| ------ | ----------------------------------------------------------------- | ---------- | ---------------------------------------------- | ----- | ---- | --------- | ------------------------- |
-| M1/S1  | Đặc tả chương trình, coverage map và kế hoạch phát hành           | —          | `2026-09-15-khoa-kien-truc-su-phan-mem-ai.md`  | —     | #938 | DONE      | Spec đã duyệt và merge    |
-| M1/S2  | Manifest mới + chặng xương sống P1–P4 hiện đúng trong UI          | S1 duyệt   | cùng spec                                      | —     | #942 | DONE      | CI xanh, merge `9491afb7` |
-| M2/S1a | `mathforcode-s1`: số, logic, modulo, Big-O có bài thật            | M1         | `2026-09-16-mathforcode-s1-bai-hoc-that.md`    | —     | #945 | DONE      | CI xanh, merge `598df501` |
-| M2/S1b | `mathforcode-s2`: tổ hợp, xác suất, thống kê có bài thật          | S1a        | `2026-09-16-mathforcode-s2-bai-hoc-that.md`    | —     | #950 | DONE      | CI xanh, merge `0e8df605` |
-| M2/S1f | `mathforcode-s3..s4`: tuyến tính, giải tích có bài thật           | S1b        | `2026-09-16-mathforcode-s3-s4-bai-hoc-that.md` | —     | #974 | DONE      | CI xanh, merge `fc1e6b60` |
-| M2/S1c | `algo-s1`: nền tảng DSA và complexity có bài thật                 | S1a        | `2026-09-16-algo-s1-bai-hoc-that.md`           | —     | #954 | DONE      | CI xanh, merge `3dfd889d` |
-| M2/S1g | `algo-s2`: đệ quy, cây, đồ thị và chiến lược có bài thật          | S1c        | `2026-09-16-algo-s2-bai-hoc-that.md`           | —     | #975 | DONE      | CI xanh, merge `b995df8d` |
-| M2/S1d | `systems-s1`: bộ nhớ, C, debug và build có bài thật               | S1c        | `2026-09-16-systems-s1-bai-hoc-that.md`        | —     | #955 | DONE      | CI xanh, merge `3f3447f5` |
-| M2/S1h | `systems-s2`: OS, tiến trình và syscall có bài thật               | S1d        | `2026-09-16-systems-s2-bai-hoc-that.md`        | —     | #957 | DONE      | CI xanh, merge `0130e577` |
-| M2/S1e | `devops-s1` + Runtime Lab Linux                                   | S1d        | `2026-09-16-devops-s1-bai-hoc-that.md`         | —     | #967 | DONE      | CI xanh, merge `a2077f5f` |
-| M2/S1i | `security-s1`: threat model, crypto, API và session có bài thật   | M2         | `2026-09-16-security-s1-bai-hoc-that.md`       | —     | #986 | DONE      | CI xanh, merge `65419ed7` |
-| M2/S1j | `security-s2`: assessment scope, triage và disclosure có bài thật | M2         | `2026-09-16-security-s2-bai-hoc-that.md`       | —     | —    | BUILDING  | 4 unit/8 lesson, chờ PR   |
-| M3/S1  | Backend, data, distributed systems và reliability hoàn chỉnh      | M2         | viết trước slice                               | —     | —    | BACKLOG   |                           |
-| M4/S1  | ML/LLM, RAG, evaluation và AI security hoàn chỉnh                 | M3         | `2026-09-16-ai-s2-s4-bai-hoc-that.md`          | —     | #976 | VERIFYING | Đặc tả chờ CI             |
-| M5/S1  | Serving, LLMOps, agent runtime, GPU/K8s và observability          | M4         | viết trước slice                               | —     | —    | BACKLOG   |                           |
-| M6/S1  | Enterprise architecture, governance, FinOps và leadership         | M5         | viết trước slice                               | —     | —    | BACKLOG   |                           |
-| M7/S1  | Capstone, full audit, ảnh 390/1440 và release evidence            | M2–M6      | viết trước slice                               | —     | —    | BACKLOG   |                           |
+| ID     | Outcome/AC                                                        | Dependency | Spec                                               | Issue | PR   | State     | Evidence                  |
+| ------ | ----------------------------------------------------------------- | ---------- | -------------------------------------------------- | ----- | ---- | --------- | ------------------------- |
+| M1/S1  | Đặc tả chương trình, coverage map và kế hoạch phát hành           | —          | `2026-09-15-khoa-kien-truc-su-phan-mem-ai.md`      | —     | #938 | DONE      | Spec đã duyệt và merge    |
+| M1/S2  | Manifest mới + chặng xương sống P1–P4 hiện đúng trong UI          | S1 duyệt   | cùng spec                                          | —     | #942 | DONE      | CI xanh, merge `9491afb7` |
+| M2/S1a | `mathforcode-s1`: số, logic, modulo, Big-O có bài thật            | M1         | `2026-09-16-mathforcode-s1-bai-hoc-that.md`        | —     | #945 | DONE      | CI xanh, merge `598df501` |
+| M2/S1b | `mathforcode-s2`: tổ hợp, xác suất, thống kê có bài thật          | S1a        | `2026-09-16-mathforcode-s2-bai-hoc-that.md`        | —     | #950 | DONE      | CI xanh, merge `0e8df605` |
+| M2/S1f | `mathforcode-s3..s4`: tuyến tính, giải tích có bài thật           | S1b        | `2026-09-16-mathforcode-s3-s4-bai-hoc-that.md`     | —     | #974 | DONE      | CI xanh, merge `fc1e6b60` |
+| M2/S1c | `algo-s1`: nền tảng DSA và complexity có bài thật                 | S1a        | `2026-09-16-algo-s1-bai-hoc-that.md`               | —     | #954 | DONE      | CI xanh, merge `3dfd889d` |
+| M2/S1g | `algo-s2`: đệ quy, cây, đồ thị và chiến lược có bài thật          | S1c        | `2026-09-16-algo-s2-bai-hoc-that.md`               | —     | #975 | DONE      | CI xanh, merge `b995df8d` |
+| M2/S1d | `systems-s1`: bộ nhớ, C, debug và build có bài thật               | S1c        | `2026-09-16-systems-s1-bai-hoc-that.md`            | —     | #955 | DONE      | CI xanh, merge `3f3447f5` |
+| M2/S1h | `systems-s2`: OS, tiến trình và syscall có bài thật               | S1d        | `2026-09-16-systems-s2-bai-hoc-that.md`            | —     | #957 | DONE      | CI xanh, merge `0130e577` |
+| M2/S1e | `devops-s1` + Runtime Lab Linux                                   | S1d        | `2026-09-16-devops-s1-bai-hoc-that.md`             | —     | #967 | DONE      | CI xanh, merge `a2077f5f` |
+| M2/S1i | `security-s1`: threat model, crypto, API và session có bài thật   | M2         | `2026-09-16-security-s1-bai-hoc-that.md`           | —     | #986 | DONE      | CI xanh, merge `65419ed7` |
+| M2/S1j | `security-s2`: assessment scope, triage và disclosure có bài thật | M2         | `2026-09-16-security-s2-bai-hoc-that.md`           | —     | —    | BUILDING  | 4 unit/8 lesson, chờ PR   |
+| M3/S1  | `devops-s2`: container, CI release, IaC và cloud policy           | M2         | `2026-09-16-devops-s2-bai-hoc-that.md`             | —     | #989 | DONE      | CI xanh, merge `209b110`  |
+| M3/S2  | `devops-s3`: Kubernetes, GitOps, quan sát và độ tin cậy           | M3/S1      | `2026-09-17-devops-s3-bai-hoc-that.md`             | —     | —    | SPEC      | Đặc tả chờ duyệt          |
+| M4/S1  | ML/LLM, RAG, evaluation và AI security hoàn chỉnh                 | M3         | `2026-09-16-ai-s2-s4-bai-hoc-that.md`              | —     | #976 | VERIFYING | Đặc tả chờ CI             |
+| M5/S1  | `devops-s4`: nền tảng nội bộ, chuỗi cung ứng, phục vụ mô hình     | M4         | `2026-09-17-devops-s4-ai-platform-bai-hoc-that.md` | —     | —    | SPEC      | Đặc tả chờ duyệt          |
+| M6/S1a | `data-s4`: nền tảng dữ liệu, độ tin cậy số liệu và quản trị       | M5         | `2026-09-17-data-s4-security-s4-bai-hoc-that.md`   | —     | —    | SPEC      | Đặc tả chờ duyệt          |
+| M6/S1b | `security-s4`: kiến trúc an toàn, ứng cứu, điều tra, tuân thủ     | M6/S1a     | `2026-09-17-data-s4-security-s4-bai-hoc-that.md`   | —     | —    | SPEC      | Đặc tả chờ duyệt          |
+| M7/S1  | Capstone, full audit, ảnh 390/1440 và release evidence            | M2–M6      | `2026-09-17-capstone-va-audit-toan-khoa.md`        | —     | —    | SPEC      | Đặc tả chờ duyệt          |
 
 State hợp lệ: BACKLOG / RESEARCH / SPEC / READY / BUILDING / VERIFYING / WAITING / BLOCKED /
 DONE / DROPPED.
@@ -83,12 +85,20 @@ DONE / DROPPED.
 
 ## 5. Current truth
 
-- `main` đã có M1/S2 qua PR #942, merge commit `9491afb7`; CI bắt buộc xanh.
-- Goal gap hiện tại: toàn bộ P1 có bài thật; P2 đã có các chặng data/backend đang dùng. Các khoảng
-  trống còn lại ưu tiên theo dependency là AI S2–S4, DevOps S2, Security S1–S2 và Architecture S4.
-- Blocker/câu hỏi mở: không; production deploy vẫn ngoài phạm vi được cấp.
-- Next best slice: theo dõi PR #976, sau đó triển khai source AI S2–S4 theo unit trên nhánh riêng.
-- Quyền hoặc quyết định cần thêm: không.
+- `main` đã tới `3e92a78` (Architecture S4, PR #991). Đếm lại ngày 2026-09-17 từ
+  `specializations/stageUnits.ts`: **cả 27 chặng mà `principal-ai` đang tham chiếu đều đã có unit
+  thật** — baseline "13/27" ở mục 1 đã lỗi thời.
+- Goal gap hiện tại KHÔNG còn nằm ở 27 chặng đó, mà ở bốn chặng đặc tả chương trình §4 đòi nhưng lộ
+  trình CHƯA tham chiếu và bản đồ hướng còn rỗng: `devops-s3`, `devops-s4`, `data-s4`, `security-s4`.
+  Mỗi chặng cần vừa soạn bài vừa nối vào `principal-ai` (27 → 31 chặng, chỉ cộng thêm, không đổi id).
+- `security-s3` (bảo mật tấn công chuyên sâu: dịch ngược, khai thác bộ nhớ, fuzzing) được **đề nghị
+  loại hẳn** khỏi khoá — mâu thuẫn ranh giới an toàn của `security-s1/s2` và không phục vụ chuẩn đầu
+  ra nào ở §3. Cần chủ dự án chốt để lần audit sau không đọc nhầm thành nợ chưa trả.
+- Bốn đặc tả còn thiếu đã viết xong ngày 2026-09-17 và đang chờ duyệt (xem cột Spec).
+- Blocker/câu hỏi mở: ba câu hỏi duyệt ở cuối mỗi đặc tả; production deploy vẫn ngoài phạm vi.
+- Next best slice: duyệt bốn đặc tả, rồi thi hành theo thứ tự M3/S2 → M5/S1 → M6/S1a → M6/S1b →
+  M7/S1. M7 phải là lát cuối vì cổng bất biến của nó sẽ đỏ cho tới khi bốn chặng kia có bài.
+- Quyền hoặc quyết định cần thêm: chốt loại `security-s3`; chốt việc nối bốn chặng mới vào lộ trình.
 
 ## 6. Iteration log
 
@@ -213,6 +223,28 @@ DONE / DROPPED.
 - Blocker: không; lỗi test môi trường được để tách PR riêng.
 - Next best slice: theo dõi PR source đến khi merge, rồi thi hành `security-s2` theo đặc tả đã duyệt.
 - Quyền cần thêm: không; production deploy ngoài phạm vi.
+
+### Iteration 8 — 2026-09-17
+
+- State: SPEC.
+- Slice: M3/S2, M5/S1, M6/S1a, M6/S1b, M7/S1 — viết nốt đặc tả cho toàn bộ milestone còn BACKLOG.
+- Goal gap trước/sau: bốn milestone ghi "viết trước slice" và không ai biết chính xác còn thiếu gì
+  → đếm lại từ `stageUnits.ts`, xác định đúng bốn chặng rỗng và viết bốn đặc tả kín cho chúng.
+- Research/spec/issue/PR: `2026-09-17-devops-s3-bai-hoc-that.md`,
+  `2026-09-17-devops-s4-ai-platform-bai-hoc-that.md`,
+  `2026-09-17-data-s4-security-s4-bai-hoc-that.md`, `2026-09-17-capstone-va-audit-toan-khoa.md`.
+- Thay đổi: chỉ tài liệu; chưa sửa source.
+- Validation và test count: chưa có test mới; đặc tả đối chiếu trực tiếp với
+  `specializations/stageUnits.ts`, `devops.ts`, `data.ts`, `security.ts` và
+  `learningPaths/principal-ai.ts` ở commit `3e92a78`.
+- Metric/guardrail: dải unit mới `p6-u194…p6-u209` không đè lên id đã cấp (cao nhất hiện tại là
+  `p6-u193`); mọi thay đổi lộ trình là cộng thêm.
+- Quyết định đề xuất (chờ duyệt): loại `security-s3` khỏi khoá; `devops-s4` lấy phục vụ mô hình làm
+  lab thay vì soạn lại agent runtime đã có ở `ai-s4`; capstone dùng lại `phaseId principal-ai-p5`
+  để không phải migration.
+- Blocker: cần chủ dự án duyệt bốn đặc tả trước khi thi hành source.
+- Next best slice: M3/S2 — thi hành `devops-s3`.
+- Quyền cần thêm: không.
 
 ## 7. Final audit
 
