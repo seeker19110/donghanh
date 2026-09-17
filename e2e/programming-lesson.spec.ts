@@ -632,7 +632,10 @@ test('quay lại từ bài học về ĐÚNG bậc của bài, không phải P1'
   // ngưỡng — đúng khuôn "chạy riêng xanh, chạy song song đỏ" đã báo. Nới đúng expect này.
   await expect(page.getByText('· mô phỏng').first()).toBeVisible({ timeout: 30_000 })
 
-  await page.getByRole('button', { name: 'Trang chủ' }).click()
+  // [2026-09-17] Nhãn nút Back nay lấy đúng đốt cha thật (`Layout.tsx` — `backLabel`) thay vì
+  // chữ cứng "Trang chủ" (vốn sai: nút này không hề về Trang chủ). Với bài p3-u10-l1, đốt cha
+  // là tên bậc P3 trong `curriculum.ts` ("Làm được việc thật").
+  await page.getByRole('button', { name: 'Làm được việc thật' }).click()
   // [S07-2] Lối về nay dựng bằng `duongDanBac` nên là URL CHUẨN `<mã>--<tên đã slug hoá>`,
   // thay cho chuỗi ghép tay `/lap-trinh/p3` (URL cũ vẫn vào được, nhưng bị chuyển hướng ngay
   // — dẫn thẳng tới URL chuẩn thì bớt một lượt điều hướng). Điều cần canh vẫn y nguyên: đúng
