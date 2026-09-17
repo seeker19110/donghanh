@@ -38,8 +38,13 @@ import {
 } from '../../lib/storage'
 import { haptics, vibrate } from '../../lib/haptics'
 import { sound } from '../../lib/sound'
-import StreakCelebration from '../StreakCelebration'
-import WeeklyGoalCelebration from '../WeeklyGoalCelebration'
+import SessionDone from '../SessionDone'
+import {
+  markSessionDoneOpenInUrl,
+  clearSessionDoneOpenInUrl,
+  isSessionDoneOpenInUrl,
+} from '../../lib/session/sessionDoneUrl'
+import type { SessionOutcome } from '../../lib/session/sessionFact'
 import { shouldCelebrateWeeklyGoal, markWeeklyGoalCelebrated } from '../../lib/weeklyGoal'
 import { checkNewAchievements, achievementMessage } from '../../lib/achievements'
 import { useToast } from '@core/ToastProvider'
@@ -301,6 +306,7 @@ export function TodayLesson({
   // vẫn dùng tốc độ bình thường.
   sessionCap?: number
 }) {
+  const navigate = useNavigate()
   const dailyMax = getDailyMax(uid)
   const speed = getDailySpeed(uid)
   const initialBatchSize = sessionCap ?? speed
@@ -328,12 +334,14 @@ export function TodayLesson({
   // Từ trả lời sai trong mini-quiz — ôn lại flashcard TRƯỚC KHI cho làm lại quiz.
   const [wrongWords, setWrongWords] = useState<DictEntry[]>([])
   const [reviewIdx, setReviewIdx] = useState(0)
-  // Khoảnh khắc streak — "đỉnh" cảm xúc, bắn 1 lần/ngày khi xong batch đầu tiên
-  // (V-2, docs/research/cai-tien-trai-nghiem-hoc-2026-07-11.md).
-  const [celebrating, setCelebrating] = useState(false)
-  // Khoảnh khắc ĐẠT MỤC TIÊU TUẦN — 1 lần/tuần, hiện SAU màn streak nếu trùng ngày
-  // (② M1, docs/research/dac-ta-nang-cap-su-pham-2026-07-15.md).
-  const [weekCelebrating, setWeekCelebrating] = useState(false)
+  // [P1-6, lệnh 8] Màn kết phiên gộp `SessionDone` — hiện khi xong batch. `streakJustChanged`/
+  // `weeklyGoalJustReached` chỉ báo có vừa đổi (gate + mark vẫn ở lib gốc), CẢ HAI có thể true
+  // cùng lúc (trùng ngày) nhưng vẫn CHỈ MỘT overlay (AC-3).
+  // Reload/Back với `?xong=1` trong URL → mở lại overlay (nội dung streak/tuần không phục
+  // hồi được sau reload nên chỉ mở lại tầng (1)+(3), coi như đã qua tầng (2) lần trước).
+  const [sessionDoneOpen, setSessionDoneOpen] = useState(() => isSessionDoneOpenInUrl())
+  const [streakJustChanged, setStreakJustChanged] = useState(false)
+  const [weeklyGoalJustReached, setWeeklyGoalJustReached] = useState(false)
 
   // Tiến độ CỦA CẤP này (pool đã lọc theo cấp ở trang cha) — trước đây dùng
   // getPathProgress (cả lộ trình, ~10.000 từ) gây khó hiểu khi đang xem 1 cấp.
@@ -364,19 +372,21 @@ export function TodayLesson({
       const totalToday = getDailyLearned(uid) // đã bump rồi
       if (totalToday >= dailyMax) setPhase('daily-max')
       else setPhase('batch-done')
-      // Lần ĐẦU hoàn thành bài trong ngày → màn "🔥 Chuỗi N ngày" (1 lần/ngày).
-      // Đánh dấu đã ăn mừng NGAY (không đợi onDone) — rời trang giữa chừng vẫn
-      // không hiện lại màn này trong cùng ngày.
+      // Lần ĐẦU hoàn thành bài trong ngày → tầng (2) "🔥 Chuỗi N ngày" của SessionDone.
+      // Đánh dấu đã ăn mừng NGAY (không đợi đóng overlay) — rời trang giữa chừng vẫn
+      // không hiện lại tầng này trong cùng ngày.
       if (shouldCelebrateStreak(uid)) {
         markStreakCelebrated(uid)
-        setCelebrating(true)
+        setStreakJustChanged(true)
       }
       // Hôm nay vừa thành "ngày có học" → có thể vừa chạm mục tiêu tuần.
-      // Đánh dấu NGAY (không đợi onDone) để rời trang giữa chừng không bắn lặp.
+      // Đánh dấu NGAY (không đợi đóng overlay) để rời trang giữa chừng không bắn lặp.
       if (shouldCelebrateWeeklyGoal(uid)) {
         markWeeklyGoalCelebrated(uid)
-        setWeekCelebrating(true)
+        setWeeklyGoalJustReached(true)
       }
+      setSessionDoneOpen(true)
+      markSessionDoneOpenInUrl()
     } else {
       setIdx(nextIdx)
     }
@@ -493,27 +503,34 @@ export function TodayLesson({
     )
   }
 
-  // ── Khoảnh khắc streak (overlay toàn màn, 1 lần/ngày) — hiện TRƯỚC màn xong bài
-  if (celebrating) {
+  // ── Màn kết phiên gộp (P1-6, lệnh 8) — hiện TRƯỚC màn xong bài, gộp streak + tuần
+  // thành CÙNG MỘT overlay (AC-3) thay vì hai màn nối tiếp như trước.
+  if (sessionDoneOpen) {
+    const sessionOutcome: SessionOutcome = {
+      subjectId: 'english',
+      contentId: `batch-${dailyStart}`,
+      kind: 'lesson',
+      steps: batch.length,
+      durationSec: 0,
+    }
+    const closeSessionDone = () => {
+      setSessionDoneOpen(false)
+      setStreakJustChanged(false)
+      setWeeklyGoalJustReached(false)
+      clearSessionDoneOpenInUrl()
+    }
     return (
-      <StreakCelebration
+      <SessionDone
+        outcome={sessionOutcome}
         uid={uid}
         isA={isA}
-        onDone={() => {
-          setCelebrating(false)
-        }}
-      />
-    )
-  }
-
-  // ── Khoảnh khắc mục tiêu tuần (1 lần/tuần) — hiện SAU màn streak (nếu có)
-  if (weekCelebrating) {
-    return (
-      <WeeklyGoalCelebration
-        uid={uid}
-        isA={isA}
-        onDone={() => {
-          setWeekCelebrating(false)
+        srsDue={getDueWords(uid, pool).length}
+        streakJustChanged={streakJustChanged}
+        weeklyGoalJustReached={weeklyGoalJustReached}
+        onClose={closeSessionDone}
+        onMore={() => {
+          closeSessionDone()
+          navigate('/goc-hoc-tap/on-tap')
         }}
       />
     )
