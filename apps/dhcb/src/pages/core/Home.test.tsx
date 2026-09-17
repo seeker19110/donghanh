@@ -19,6 +19,8 @@ vi.mock('../../components/Home/HomeUniversalAiBar.js', () => ({ default: () => n
 vi.mock('../../lib/useCloudSync', () => ({ useCloudSync: () => 0 }))
 vi.mock('../../lib/usePageTitle', () => ({ usePageTitle: () => undefined }))
 vi.mock('../../lib/useIsDesktopViewport', () => ({ useIsDesktopViewport: () => false }))
+vi.mock('../../lib/appSettings', () => ({ getAppSettings: () => ({ promoUntil: null }) }))
+vi.mock('../../lib/rewardTip', () => ({ shouldShowRewardTip: () => false }))
 vi.mock('../../context/useLang', () => ({
   useLang: () => ({ T: { greeting: 'Xin chào' }, lang: 'vi' as const }),
 }))
@@ -78,5 +80,82 @@ describe('Home — khối Bộ môn & không gian dùng SUBJECT_ENTRIES (AC-19)'
     for (const label of SUBJECT_ENTRIES.map((e) => e.label)) {
       expect(titles, `thiếu thẻ môn "${label}" (khách)`).toContain(label)
     }
+  })
+})
+
+// [P0-1] AC-2 + AC-3: `pickHomeBanner` chọn ĐÚNG MỘT banner phụ, và khối "Hôm nay" đứng TRƯỚC
+// mọi banner phụ trong DOM.
+describe('Home — banner phụ (P0-1)', () => {
+  let container: HTMLDivElement
+  let root: Root
+
+  beforeEach(() => {
+    vi.resetModules()
+    container = document.createElement('div')
+    document.body.appendChild(container)
+  })
+
+  afterEach(() => {
+    act(() => root.unmount())
+    container.remove()
+    vi.doUnmock('../../context/useAuth')
+    vi.doUnmock('../../lib/appSettings')
+    vi.doUnmock('../../lib/rewardTip')
+  })
+
+  async function hienVoiBanner() {
+    const { default: HomeAfterMock } = await import('./Home')
+    root = createRoot(container)
+    act(() => {
+      root.render(
+        <MemoryRouter initialEntries={['/']}>
+          <HomeAfterMock />
+        </MemoryRouter>,
+      )
+    })
+  }
+
+  it('AC-2: có cả khuyến mãi giá (còn nhiều ngày) LẪN mẹo thưởng → chỉ MỘT [data-home-banner], đúng kind pricePromo (ưu tiên cao hơn)', async () => {
+    vi.doMock('../../context/useAuth', () => ({
+      useAuth: () => ({ user: { id: 'u2', name: 'Bình', email: 'binh@vd.vn', plan: 'free' } }),
+    }))
+    // Khuyến mãi giá còn 20 ngày (không "sắp hết" — chỉ đủ điều kiện `pricePromo`, không phải
+    // `promoEnding`) VÀ có mẹo thưởng chưa xem cùng lúc.
+    vi.doMock('../../lib/appSettings', () => ({
+      getAppSettings: () => ({ promoUntil: new Date(Date.now() + 20 * 86400000).toISOString() }),
+    }))
+    vi.doMock('../../lib/rewardTip', () => ({ shouldShowRewardTip: () => true }))
+    await hienVoiBanner()
+    const banners = container.querySelectorAll('[data-home-banner]')
+    expect(banners).toHaveLength(1)
+    expect(banners[0].getAttribute('data-home-banner-kind')).toBe('pricePromo')
+  })
+
+  it('AC-3: tiêu đề "Hôm nay" (#today-card-heading) đứng TRƯỚC banner phụ trong DOM', async () => {
+    vi.doMock('../../context/useAuth', () => ({
+      useAuth: () => ({ user: { id: 'u3', name: 'Chi', email: 'chi@vd.vn', plan: 'free' } }),
+    }))
+    vi.doMock('../../lib/appSettings', () => ({
+      getAppSettings: () => ({ promoUntil: new Date(Date.now() + 20 * 86400000).toISOString() }),
+    }))
+    vi.doMock('../../lib/rewardTip', () => ({ shouldShowRewardTip: () => false }))
+    await hienVoiBanner()
+    const heading = container.querySelector('#today-card-heading')
+    const banner = container.querySelector('[data-home-banner]')
+    expect(heading).not.toBeNull()
+    expect(banner).not.toBeNull()
+    // DOCUMENT_POSITION_FOLLOWING (4): `banner` đứng SAU `heading` trong cây DOM.
+    const viTri = heading!.compareDocumentPosition(banner!)
+    expect(viTri & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  })
+
+  it('không có khuyến mãi lẫn mẹo thưởng → không có banner phụ nào', async () => {
+    vi.doMock('../../context/useAuth', () => ({
+      useAuth: () => ({ user: { id: 'u4', name: 'Dung', email: 'dung@vd.vn', plan: 'free' } }),
+    }))
+    vi.doMock('../../lib/appSettings', () => ({ getAppSettings: () => ({ promoUntil: null }) }))
+    vi.doMock('../../lib/rewardTip', () => ({ shouldShowRewardTip: () => false }))
+    await hienVoiBanner()
+    expect(container.querySelectorAll('[data-home-banner]')).toHaveLength(0)
   })
 })

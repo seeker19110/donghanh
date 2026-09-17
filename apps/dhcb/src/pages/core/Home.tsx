@@ -54,6 +54,11 @@ import {
   COMEBACK_NEW_WORDS,
 } from '../../lib/comeback'
 import { duongDanHubOnTap } from '../../lib/reviewRoutes'
+import { pickHomeBanner } from '../../lib/home/pickHomeBanner'
+import { daysUntilPlanExpires } from '../../lib/planExpiryBanner'
+import { daysUntilPromoEnds } from '../../lib/promoEndingBanner'
+import { getAppSettings } from '../../lib/appSettings'
+import { shouldShowRewardTip } from '../../lib/rewardTip'
 
 export default function Home() {
   const nav = useNavigate()
@@ -137,8 +142,10 @@ export default function Home() {
 
   // ── Các khối nội dung tách riêng để LẮP LẠI theo 2 bố cục (mobile 1 cột / desktop 2 cột).
   // Mỗi khối chỉ render MỘT lần trong cây DOM, không nhân bản rồi ẩn bằng CSS.
+  // [P0-1] `space-y-3` riêng (tách khỏi `space-y-5` của khung ngoài) để nhóm "Hôm nay" là khối
+  // tương phản lớn nhất, gọn trong khung nhìn di động 390×844 không cần cuộn (AC-4).
   const topBlocks = (
-    <>
+    <div className="space-y-3">
       {/* Việc đầu tiên chọn ở luồng người mới — tự ẩn khi đã xong hoặc chưa chọn */}
       <FirstTaskCard />
 
@@ -205,13 +212,39 @@ export default function Home() {
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 
-  // ── Mẹo thưởng & Nhiệm vụ ──
-  // DailyQuestsCard + ReferralVipBanner (dữ liệu giả in-memory) đã gỡ 2026-08-23 — hệ nhiệm vụ/
-  // giới thiệu THẬT ở /nhiem-vu và /profile (QuestsPanel, ReferralSection)
-  const rewardTip = uid ? <RewardTipBanner uid={uid} isA={vi} /> : null
+  // [P0-1] ĐÚNG MỘT banner phụ cho trang chủ (thay vì hiện cả mẹo thưởng lẫn khuyến mãi giá
+  // cùng lúc như trước) — luật ưu tiên thuần ở `pickHomeBanner` (test bảng riêng). `planExpiry`/
+  // `promoEnding` đã có bản TOÀN CỤC ở App.tsx (`PlanExpiryBanner`/`PromoEndingBanner`, hiện ở
+  // mọi trang kể cả trang chủ) — khi luật chọn 1 trong 2 kind đó, trang chủ NHƯỜNG chỗ, không vẽ
+  // thêm bản riêng đè lên; chỉ `pricePromo`/`rewardTip` mới có bản "của trang chủ" (2 banner này
+  // vốn chỉ hiện ở Home/Profile, không có bản toàn cục).
+  const isGuestUser = user.isGuest === true
+  const planExpiresInDays =
+    !isGuestUser && user.plan !== 'free' && user.planExpiresAt
+      ? daysUntilPlanExpires(user.planExpiresAt, new Date())
+      : null
+  const { promoUntil } = getAppSettings()
+  const promoEndsInDays = promoUntil ? daysUntilPromoEnds(promoUntil, new Date()) : null
+  const hasRewardTip = !isGuestUser && !!uid && shouldShowRewardTip(uid)
+  const homeBanner = pickHomeBanner({
+    isGuest: isGuestUser,
+    planExpiresInDays,
+    promoEndsInDays,
+    hasRewardTip,
+  })
+  const homeBannerNode =
+    homeBanner?.kind === 'pricePromo' ? (
+      <div data-home-banner data-home-banner-kind="pricePromo">
+        <PricePromoBanner isA={vi} />
+      </div>
+    ) : homeBanner?.kind === 'rewardTip' ? (
+      <div data-home-banner data-home-banner-kind="rewardTip">
+        <RewardTipBanner uid={uid} isA={vi} />
+      </div>
+    ) : null
 
   // ── CÁC BỘ MÔN & KHÔNG GIAN ──
   // [S05-2] Trước đây môn Anh và 4 môn STEM (gộp chung một dòng "Toán, Lý, Hóa, Sinh") được khai
@@ -382,28 +415,29 @@ export default function Home() {
       <Layout title={T.greeting} back={false} />
 
       {/* [2026-09-02, đợt 2] Cột trái = luồng thao tác chính (AI, hành động nhanh, không gian bộ
-          môn); cột phải = ngữ cảnh phụ (mẹo thưởng, tiến độ/lịch sử, khuyến mãi). Bố cục này
-          trước đây viết tay tại chỗ — nay dùng chung `PageShell` + `TwoPane`. Ở mobile thứ tự
-          nội dung khác (ngữ cảnh phụ xen vào luồng chính) nên vẫn giữ nhánh riêng. */}
+          môn); cột phải = ngữ cảnh phụ (tiến độ/lịch sử, ĐÚNG MỘT banner phụ). Bố cục này trước
+          đây viết tay tại chỗ — nay dùng chung `PageShell` + `TwoPane`. Ở mobile thứ tự nội dung
+          khác (ngữ cảnh phụ xen vào luồng chính) nên vẫn giữ nhánh riêng.
+          [P0-1] Mọi banner phụ (progress/lịch sử KHÔNG tính) nay đứng SAU khối "Bộ môn & không
+          gian" — trước đây mẹo thưởng đứng ngay dưới "Hôm nay", cạnh tranh sự chú ý với CTA
+          chính (xem docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md §P0-1). */}
       <PageShell width="standard" baseWidth="max-w-3xl">
         <TwoPane
           isDesktop={isDesktop}
           railLabel="Gợi ý và tiến độ"
           rail={
             <div className="space-y-5">
-              {rewardTip}
               {progressHistory}
-              <PricePromoBanner isA={vi} />
+              {homeBannerNode}
             </div>
           }
         >
           <div className="space-y-5">
             <h1 className="sr-only">{T.greeting}</h1>
             {topBlocks}
-            {!isDesktop && rewardTip}
             {spacesSection}
             {!isDesktop && progressHistory}
-            {!isDesktop && <PricePromoBanner isA={vi} />}
+            {!isDesktop && homeBannerNode}
           </div>
         </TwoPane>
       </PageShell>
