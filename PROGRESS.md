@@ -300,7 +300,7 @@ một host — đó là lý do nó sống sót từ 2026-08-28.
 ### Ưu tiên 1d — REDESIGN TRANG CHỦ & TRẢI NGHIỆM HỌC CỐT LÕI (đặc tả `docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md`)
 
 **[2026-09-17] Đặc tả 15 lệnh đã chốt (§2), chủ dự án ra lệnh thi hành từng lát.** Trạng thái
-sau đợt 1 + đợt 2 (7/15 lệnh, chạy song song bằng subagent Sonnet, đã merge):
+sau đợt 1 + đợt 2 + lệnh 8 (8/15 lệnh, chạy bằng subagent Sonnet, đã merge):
 
 - **Lệnh 1 · P0-1 — ✅ ĐÃ MERGE (#1005).** `pickHomeBanner` (hàm thuần chọn ĐÚNG MỘT banner phụ),
   `Home.tsx` sắp lại thứ tự khối (TodayCard là tâm điểm).
@@ -323,6 +323,16 @@ sau đợt 1 + đợt 2 (7/15 lệnh, chạy song song bằng subagent Sonnet, �
   (`ScreenId` khoá cứng 6 giá trị dùng chung 3 file) — để lát riêng.
 - **Lệnh 7 · P1-5 — ✅ ĐÃ MERGE (#1012).** `WeekRhythm` (7 chấm T2→CN + nhiệm vụ + huy hiệu mới
   nhất, ẩn với khách/tuần rỗng+streak=0) + `latestUnlocked()` mới trong `lib/achievements.ts`.
+- **Lệnh 8 · P1-6 — ✅ ĐÃ MERGE (#1014).** `SessionDone` gộp `StreakCelebration` +
+  `WeeklyGoalCelebration` thành sub-block trong ĐÚNG MỘT overlay (thay vì tự bật riêng từng cái);
+  `buildSessionFact` (thuần, ≥ 12 ca) sinh câu "sự thật" luôn có số đếm, cấm "%"/"band"/"trình
+  độ"/"Tuyệt vời!" trơ; `?xong=1` đồng bộ URL qua `history.replaceState`; nối vào
+  `TodayLesson.tsx` (điểm gọi duy nhất của 2 celebration cũ, xác nhận bằng grep toàn repo). Nợ
+  mở: AC-3 (một dialog duy nhất khi trùng streak+tuần) mới có test unit dựng trực tiếp, chưa lắp
+  ráp qua `TodayLesson` thật; AC-4 (e2e `?xong=1` giữ khi reload) và AC-7 (a11y-modals + ảnh chụp)
+  chưa thêm vì phiên thi hành không có Playwright — để CI thật xác nhận, đã xanh; `Challenge.tsx`/
+  `Lesson*.tsx` (Lập trình)/`StemLessonView.tsx` CHƯA nối `SessionDone` (hiện các trang này không
+  gọi celebration cũ nên không hồi quy, nhưng cũng chưa có overlay mới) — để lát riêng.
 
 Đợt 1 (4 PR đầu) đều dính lỗi CI nhỏ do nhiều slice cùng đụng `Home.tsx`/pattern `theme-light:` —
 đã tự sửa hết trước khi merge (chi tiết: đặc tả §8 "Nghiệm thu"): 1 lỗi format, 1 lỗi mô tả PR
@@ -336,8 +346,9 @@ eslint-disable thừa, và **4 test e2e cũ giả định hành vi khách cũ** 
 `home-quick-ask`, `smoke`, `today-plan` — banner hiện ngay lúc mở trang / có ô hỏi nhanh / có thẻ
 "Hôm nay" cho khách) bị phá bởi luật `GuestHome`/`GuestBanner` mới, đã cập nhật theo luật mới.
 
-**Tiếp theo:** lệnh 8 (P1-6, `SessionDone`) phụ thuộc lệnh 1/2 ✅ đã merge — dispatch được ngay.
-Lệnh 9–15 chờ đồ thị phụ thuộc ở đặc tả §2 và lệnh thi hành tiếp theo của chủ dự án.
+**Tiếp theo:** lệnh 9 (P1-7, sidebar 10→7 mục) không phụ thuộc lệnh nào chưa merge — dispatch
+được ngay khi có lệnh. Lệnh 10–15 chờ đồ thị phụ thuộc ở đặc tả §2 và lệnh thi hành tiếp theo của
+chủ dự án.
 
 ### Ưu tiên 2 — nợ nội dung của mảng đã ship (đi sâu, không mở rộng)
 
