@@ -409,7 +409,7 @@ for (const theme of THEMES) {
     await seedOldActivity(page, 5)
     await mockLogin(page, 'vi', theme)
     await page.goto('/', { waitUntil: 'domcontentloaded' })
-    await expect(page.getByText(/Mừng bạn quay lại/)).toBeVisible()
+    await expect(page.getByText(/Đã 5 ngày rồi/)).toBeVisible()
     const { all } = await scan(page)
     expect(all).toEqual([])
   })

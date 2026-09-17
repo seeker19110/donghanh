@@ -15,7 +15,15 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import colors from 'tailwindcss/colors'
-import { AA, contrastRatio, parseThemeTokens, type Rgb } from './lib/contrast.js'
+import {
+  AA,
+  AAA,
+  checkPairs,
+  contrastRatio,
+  parseThemeTokens,
+  type ContrastCheck,
+  type Rgb,
+} from './lib/contrast.js'
 
 /** Các họ màu Tailwind GỐC (hex cố định). Cố ý KHÔNG gồm `zinc` — dự án đã ánh xạ zinc sang
  *  biến CSS trong `tailwind.config.js`, nên `text-zinc-*` là token chứ không phải màu cứng.
@@ -234,6 +242,25 @@ export function auditRepo(root: string): Finding[] {
   return out.filter((f) => !isAllowed(f))
 }
 
+/**
+ * Đo tương phản của các CẶP TOKEN ẤM `--w-*` (P0-2, 2026-09-17) — bong bóng Companion dùng
+ * `bg-warm-50` + chữ `text-content` (AAA), avatar dùng viền/mắt `warm-500`/`warm-700` trên nền
+ * `warm-100` (AA, không phải chữ). In ra để dán vào PR AC-1 — đo TRÊN CẢ 3 THEME, không đoán.
+ */
+export function auditWarmTokenPairs(root: string): ContrastCheck[] {
+  const css = readFileSync(join(root, 'packages', 'core-ui', 'theme.css'), 'utf-8')
+  const themes = parseThemeTokens(css)
+  // `text-content` (class Tailwind) = biến `--text-primary` = LUÔN bí danh của `--z-100` ở cả 3
+  // theme (xem khối "TOKEN NGỮ NGHĨA" trong theme.css: `--text-primary: var(--z-100)`) — dùng
+  // thẳng `z-100` vì `parseThemeTokens` chỉ đọc được RGB LITERAL, không theo được `var(...)`.
+  return checkPairs(themes, [
+    { text: 'z-100', surface: 'w-50' }, // bong bóng: text-content trên bg-warm-50 (AAA)
+    { text: 'z-100', surface: 'w-100' }, // đề phòng viền/nền phụ dùng warm-100
+    { text: 'w-700', surface: 'w-50' }, // mắt/miệng avatar (warm-700) trên nền bong bóng
+    { text: 'w-700', surface: 'w-100' }, // mắt/miệng avatar trên nền tròn avatar (warm-100)
+  ])
+}
+
 if (process.argv[1]?.endsWith('fixed-color-contrast-audit.ts')) {
   const findings = auditRepo(process.cwd())
   const byClass = new Map<string, Finding[]>()
@@ -249,5 +276,15 @@ if (process.argv[1]?.endsWith('fixed-color-contrast-audit.ts')) {
     )
     for (const p of places.slice(0, 3)) console.log(`    ${p}`)
     if (places.length > 3) console.log(`    … và ${places.length - 3} chỗ nữa`)
+  }
+
+  console.log('\n── Token ấm --w-* (P0-2) — text × surface × theme ──')
+  for (const c of auditWarmTokenPairs(process.cwd())) {
+    const threshold = c.text === 'z-100' ? AAA : AA
+    const label = c.text === 'z-100' ? 'text-content (z-100)' : c.text
+    const status = c.ratio >= threshold ? 'OK' : 'RỚT'
+    console.log(
+      `${c.theme.padEnd(10)} ${label.padEnd(22)} bg-${c.surface.padEnd(6)} ${c.ratio.toFixed(2)}:1  ngưỡng ${threshold}:1  ${status}`,
+    )
   }
 }

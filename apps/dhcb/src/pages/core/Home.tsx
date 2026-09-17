@@ -6,11 +6,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import FirstTaskCard from '../../components/FirstTaskCard'
 import { useNavigate } from 'react-router-dom'
-import { ChevronRight, History, TrendingUp, Brain, X, Sparkles, Briefcase } from 'lucide-react'
+import { ChevronRight, History, TrendingUp, Briefcase } from 'lucide-react'
 import Layout from '../../components/Layout.js'
 import PricePromoBanner from '../../components/PricePromoBanner.js'
 import RewardTipBanner from '../../components/RewardTipBanner.js'
-import HomeAiBriefingCard from '../../components/Home/HomeAiBriefingCard.js'
+import HomeAiBriefingCard, { type HomeComeback } from '../../components/Home/HomeAiBriefingCard.js'
 import TodayCard from '../../components/Home/TodayCard.js'
 import HomeUniversalAiBar from '../../components/Home/HomeUniversalAiBar.js'
 import SubjectSpaceList from '../../components/Home/SubjectSpaceList.js'
@@ -126,6 +126,20 @@ export default function Home() {
   const dailyLearned = getDailyLearned(user.id)
   const dailyMax = getDailyMax(user.id)
 
+  // [P0-2] Luồng "quay lại sau bỏ bẵng" gộp vào bong bóng Companion (`HomeAiBriefingCard`),
+  // không còn là `.glass` card riêng — xem docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md.
+  const comeback: HomeComeback | undefined =
+    showComeback && continueLevelId
+      ? {
+          daysAway,
+          reviewLabel: srsDue > 0 ? `Ôn ${Math.min(srsDue, COMEBACK_SRS_CARDS)} thẻ` : null,
+          onReview: () => nav(duongDanHubOnTap(COMEBACK_SRS_CARDS)),
+          learnLabel: `Học ${COMEBACK_NEW_WORDS} từ mới`,
+          onLearnNew: () => nav(`${continueHref}?tab=today&cap=${COMEBACK_NEW_WORDS}`),
+          onDismiss: closeComeback,
+        }
+      : undefined
+
   // ── Các khối nội dung tách riêng để LẮP LẠI theo 2 bố cục (mobile 1 cột / desktop 2 cột).
   // Mỗi khối chỉ render MỘT lần trong cây DOM, không nhân bản rồi ẩn bằng CSS.
   // [P0-1] `space-y-3` riêng (tách khỏi `space-y-5` của khung ngoài) để nhóm "Hôm nay" là khối
@@ -135,12 +149,13 @@ export default function Home() {
       {/* Việc đầu tiên chọn ở luồng người mới — tự ẩn khi đã xong hoặc chưa chọn */}
       <FirstTaskCard />
 
-      {/* ── TẦNG 1: EXECUTIVE AI COMPANION — CHỈ lời chào + bản tin (S06-2). ── */}
+      {/* ── TẦNG 1: EXECUTIVE AI COMPANION — lời chào + bản tin + luồng "quay lại" (S06-2, P0-2). ── */}
       <HomeAiBriefingCard
         userName={user.name || user.email?.split('@')[0]}
         dailyLearned={dailyLearned}
         dailyMax={dailyMax}
         showDailyWords={hocTiengAnh}
+        comeback={comeback}
       />
 
       {/* ── "Hôm nay": ĐÚNG MỘT việc học tiếp, mọi môn, không mặc định tiếng Anh (S06-2). ── */}
@@ -148,56 +163,6 @@ export default function Home() {
 
       {/* ── Universal AI Ask & Voice Bar (Hỏi nhanh đa năng mọi bộ môn & lĩnh vực) ── */}
       <HomeUniversalAiBar />
-
-      {/* ── Luồng "quay lại sau khi bỏ bẵng" ── */}
-      {showComeback && continueLevelId && (
-        <div className="glass rounded-2xl p-4 border border-accent-500/30 animate-fade-in">
-          <div className="flex items-start gap-3">
-            <span className="text-2xl shrink-0" aria-hidden="true">
-              👋
-            </span>
-            <div className="flex-1 min-w-0">
-              <p className="text-white font-semibold text-sm">
-                {vi ? 'Mừng bạn quay lại!' : 'Welcome back!'}
-              </p>
-              <p className="text-xs text-zinc-400 mt-0.5">
-                {vi
-                  ? `Đã ${daysAway} ngày rồi — bắt đầu nhẹ nhàng thôi, không cần ôn hết nợ cũ.`
-                  : `It's been ${daysAway} days — let's ease back in, no need to clear the backlog.`}
-              </p>
-            </div>
-            <button
-              onClick={closeComeback}
-              aria-label={vi ? 'Đóng' : 'Dismiss'}
-              className="tap-44 shrink-0 text-zinc-400 hover:text-zinc-200 transition"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-          <div className="flex gap-2 mt-3">
-            {srsDue > 0 && (
-              <button
-                // [S12-1] Trỏ tới HUB ôn tập xuyên môn thay vì chỉ SRS môn Anh: người bỏ bẵng
-                // vài ngày thường nợ ôn ở nhiều môn, gom vào một phiên nhẹ 5 mục.
-                onClick={() => nav(duongDanHubOnTap(COMEBACK_SRS_CARDS))}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 theme-light:text-sky-800 text-sm font-medium transition"
-              >
-                <Brain className="w-4 h-4" />
-                {vi
-                  ? `Ôn ${Math.min(srsDue, COMEBACK_SRS_CARDS)} thẻ`
-                  : `Review ${Math.min(srsDue, COMEBACK_SRS_CARDS)} cards`}
-              </button>
-            )}
-            <button
-              onClick={() => nav(`${continueHref}?tab=today&cap=${COMEBACK_NEW_WORDS}`)}
-              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-accent-500/15 hover:bg-accent-500/25 text-accent-300 theme-light:text-accent-800 text-sm font-medium transition"
-            >
-              <Sparkles className="w-4 h-4" />
-              {vi ? `Học ${COMEBACK_NEW_WORDS} từ mới` : `Learn ${COMEBACK_NEW_WORDS} words`}
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   )
 
