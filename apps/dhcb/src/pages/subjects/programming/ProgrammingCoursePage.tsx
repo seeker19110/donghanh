@@ -74,7 +74,11 @@ export default function ProgrammingCoursePage() {
             thẳng vào một bài, không phải cuộn xuống rồi mới bấm. */}
         <TwoPane isDesktop={isDesktop} railSide="left" railLabel={TEN_MUC_LUC} rail={rail}>
           <div className="space-y-6">
-            <PageHeader title={course.title} subtitle={course.canDo} />
+            <PageHeader
+              title={course.title}
+              subtitle={course.canDo}
+              subtitleClassName="read-measure"
+            />
             {trigger}
 
             <section className="bg-zinc-900/80 border border-accent-500/30 rounded-3xl p-5 space-y-2 shadow-sm">

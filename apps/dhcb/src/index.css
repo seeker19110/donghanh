@@ -336,10 +336,15 @@ html[data-sidebar='collapsed'] {
      HIỆU CHUẨN LẠI 2026-09-16 (S13-2, cổng `e2e/learning-ux-layout.spec.ts` phép đo 4):
      66ch → 63ch. Lý do là SỐ ĐO, không phải thẩm mỹ: đơn vị `ch` là bề rộng chữ số `0`,
      mà `0` rộng hơn chữ thường trung bình, nên 66ch cho ra ~83 ký tự/dòng theo phép đo
-     `clientWidth / (font-size × 0,5)` của cổng — vượt ngưỡng 80. 63ch đo lại được ~79,
-     vẫn nằm trong khoảng 60–75 ký tự thật mà spec nền chốt. */
+     `clientWidth / (font-size × 0,5)` của cổng — vượt ngưỡng 80.
+
+     HIỆU CHUẨN LẦN 2 (2026-09-17, sửa PR #995): 63ch đo được ~79 trên MÁY DEV (font hệ
+     thống fallback do lỗi cấu hình cục bộ, không phải Inter thật), nhưng CI thật (Inter
+     nạp đúng qua Fontsource) đo ra 81–84 — biên chỉ 1 ký tự nên vỡ ngay khi đổi font.
+     63ch → 60ch để có biên an toàn thật (đo trên CI: dưới 78, cách ngưỡng 80 ≥ 2 ký tự),
+     vẫn nằm trong khoảng 60–75 ký tự mà spec nền chốt. */
   .read-measure {
-    max-width: 63ch;
+    max-width: 60ch;
   }
 
   /* Thân bài dài: cỡ chữ + giãn dòng của NỘI DUNG ĐỂ ĐỌC, tách khỏi cỡ chữ giao diện.
