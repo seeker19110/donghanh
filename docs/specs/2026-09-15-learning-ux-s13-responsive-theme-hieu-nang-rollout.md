@@ -95,26 +95,26 @@ hồi quy audit tìm ra (có thể rỗng) · **S13-3** báo cáo audit + cập 
       lý do trỏ vào ảnh cụ thể** (`<screen>--data--dark-blue--1440.png`…). Ô nào < 4 ở BẤT KỲ
       người chấm nào → là một mục việc của S13-2 (sửa) hoặc nợ ghi PROGRESS có số đo. Điểm cuối =
       điểm của chủ sản phẩm. — bảng nằm trong báo cáo audit (AC-14).
-- [ ] **AC-9 320px không vỡ, 5 theme không lộ màu ghi cứng.** Ảnh `*--320.png` của 6 màn: không
+- [x] **AC-9 320px không vỡ, 5 theme không lộ màu ghi cứng.** Ảnh `*--320.png` của 6 màn: không
       cuộn ngang (AC-3 đã canh), chữ nội dung không bị cắt (`line-clamp`/`break-words` — nhìn
       ảnh). Ở 5 theme: `grep -rnE "bg-(zinc|slate|gray)-(900|950)|text-white" <file 6 màn>` — mọi
       kết quả phải là nền cố định tối có chủ đích (`text-[#fff]`) hoặc token; ghi số dòng khớp và
       lý do từng dòng vào changelog. Màu chữ chỉ từ token `--a-*`/`--z-*`
       (`packages/core-ui/theme.css`: 10 token `--a-*`, 11 token `--z-*`, 5 khối `[data-theme]`
       dòng 23/82/114/146/178).
-- [ ] **AC-10 Ngân sách bundle/coverage sau S07–S12 vẫn trong đệm.** `npm run build && npm run
+- [x] **AC-10 Ngân sách bundle/coverage sau S07–S12 vẫn trong đệm.** `npm run build && npm run
 test:coverage && npm run budget`: JS < 95% của 140 kB (mốc cảnh báo Tầng 1; đo 2026-09-14
       sau changelog 0304: **126,07 / 140 kB = 90,06%**), CSS < 95% của 20 kB (đo: **18,11 / 20 kB =
       90,6%**), 4 chỉ số coverage dư ≥ 1 điểm so với sàn THẬT ở `vitest.config.ts:138–143`
       (**93 / 89 / 93 / 93**). Vượt mốc → S13-2 xử lý bằng tách chunk/nạp lười (mẫu: sửa
       `manualChunks` ở changelog 0304), **không nới ngưỡng** — nới ngưỡng là quyết định của chủ
       sản phẩm (§7 Q4).
-- [ ] **AC-11 Test không flaky trong phạm vi goal.** Chạy `npm run test:coverage` **3 lượt liên
+- [x] **AC-11 Test không flaky trong phạm vi goal.** Chạy `npm run test:coverage` **3 lượt liên
       tiếp** (Tầng 1b) và `npx playwright test <6 file E2E của S07–S13>` **3 lượt**: 3/3 xanh cùng
       số test. Lượt đỏ → chạy riêng file ≥ 5 lượt, ghi cơ chế + tỉ lệ; flake có sẵn đã biết
       (`apps/dhcb/src/lib/programmingSrs.test.ts`, PROGRESS "Nợ kỹ thuật") **không tính là hồi
       quy của goal** nhưng phải ghi vào báo cáo.
-- [ ] **AC-12 Reduced-motion và không thêm `transition-all`.** Với các file 6 màn chạm tới ở
+- [x] **AC-12 Reduced-motion và không thêm `transition-all`.** Với các file 6 màn chạm tới ở
       S04–S12: `grep -rln "transition-all" <danh sách file>` = **0 file mới** so với `main` trước
       S04 (toàn repo hiện có 75 file `.tsx` dùng `transition-all` — nợ cũ, KHÔNG dọn trong S13);
       chạy `page.emulateMedia({ reducedMotion: 'reduce' })` trên 6 màn trong
