@@ -793,6 +793,7 @@ export default function Dashboard() {
                   ? 'Chuỗi ngày, mục tiêu hôm nay và tiến độ lộ trình'
                   : 'Streak, today’s goal and roadmap progress'
               }
+              subtitleClassName="read-measure"
             />
             {/* [S12-3] Khối tiến độ đa môn đứng ĐẦU nội dung (quyết định Q6: THÊM, không thay
                 các StatCard tiếng Anh cũ — chúng vẫn là bằng chứng hợp lệ của môn Anh). */}
