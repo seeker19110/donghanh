@@ -1,9 +1,17 @@
-// E2E: phiên học sống qua RELOAD ở bài Lập trình (slice S08-2).
+// E2E: phiên học sống qua RELOAD — CÙNG thiết bị, gộp CẢ BA môn dùng chung khung
+// `LearningSession` (Lập trình · cấp CEFR môn Anh · STEM).
 //
-// Đặc tả: docs/specs/2026-09-15-learning-ux-s08-khung-phien-resume.md (AC-11, AC-12, AC-14, AC-15).
+// Đặc tả: docs/specs/2026-09-15-learning-ux-s08-khung-phien-resume.md
+// (AC-11, AC-12, AC-14, AC-15 — Lập trình; AC-16, AC-17 — STEM; AC-18 — cấp CEFR).
 //
 // Vì sao phải là E2E chứ không chỉ unit test: thứ hỏng ở đây là phần LẮP RÁP — localStorage
-// thật, một lần tải trang thật, CodeMirror thật. Unit test không thấy được ca "reload".
+// thật, một lần tải trang thật, CodeMirror thật/bài nạp lười thật. Unit test dựng lại cây
+// React, còn đây là trình duyệt thật tải lại trang thật.
+//
+// Lịch sử gộp (2026-09-17, #NNNN): ca STEM từng ở file riêng `learning-session-resume-stem.spec.ts`
+// (PR S08-3 #962) vì lúc đó PR Lập trình S08-2 #961 CHƯA vào `main` — hai PR cùng THÊM một
+// đường dẫn mới là xung đột add/add chắc chắn. #961 đã vào `main` nên gộp về đây theo đúng
+// ghi chú để lại trong file cũ, xoá file đó.
 import { test, expect, type Page } from '@playwright/test'
 import { mockLogin } from './helpers/auth'
 
@@ -188,4 +196,75 @@ test('CEFR: đang mở một bài ngữ pháp, reload thì vẫn mở đúng bà
 
   await expect(page.getByRole('heading', { level: 3 }).first()).toHaveText(chu)
   await expect(page).toHaveURL(/hd=grammar/)
+})
+
+// ── Bài STEM (AC-16, AC-17) ─────────────────────────────────────────────────────────────
+// Thứ được nhớ ở đây là đáp án phần "Tự kiểm tra" của bài STEM — bài nạp lười, hook phiên
+// đọc storage lúc mount.
+const BAI_STEM = '/goc-hoc-tap/physics/bai-hoc/ly10-c2-b10--su-roi-tu-do'
+const TIEN_TO_PHIEN_STEM = 'dhcb_lsession_v1_'
+
+/** Khối câu hỏi của mục "Tự kiểm tra" — bám theo tiêu đề, không bám thứ tự `ul` trong trang. */
+function khungCauHoiStem(page: Page) {
+  return page.locator('h2:has-text("Tự kiểm tra") + ul')
+}
+
+test('STEM: trả lời tự kiểm tra rồi reload thì đáp án còn, kết quả được chấm lại', async ({
+  page,
+}) => {
+  await page.goto(BAI_STEM)
+  const khung = khungCauHoiStem(page)
+  await expect(khung).toBeVisible()
+
+  // Câu 1 là trắc nghiệm: bấm một lựa chọn = vừa chọn vừa chấm.
+  const luaChon = khung.locator('> li').first().getByRole('button').first()
+  const nhanLuaChon = (await luaChon.textContent())?.trim() ?? ''
+  await luaChon.click()
+  await expect(luaChon).toHaveAttribute('aria-pressed', 'true')
+  // Có phán đúng/sai ngay tại chỗ (một trong hai, tuỳ lựa chọn có đúng không).
+  await expect(khung.locator('> li').first().locator('[role="status"]')).toBeVisible()
+
+  // Câu tự luận: gõ chữ nhưng KHÔNG bấm "Kiểm tra".
+  const oTuLuan = page.locator('input[id^="tra-loi-"]').first()
+  await oTuLuan.fill('20 m/s')
+
+  // Chờ quá debounce 500 ms của hook để chắc chắn nháp đã xuống storage.
+  await page.waitForTimeout(900)
+  await page.reload()
+
+  const khungMoi = khungCauHoiStem(page)
+  await expect(khungMoi).toBeVisible()
+  const luaChonMoi = khungMoi.locator('> li').first().getByRole('button', { name: nhanLuaChon })
+  await expect(luaChonMoi).toHaveAttribute('aria-pressed', 'true')
+  await expect(khungMoi.locator('> li').first().locator('[role="status"]')).toBeVisible()
+  await expect(page.locator('input[id^="tra-loi-"]').first()).toHaveValue('20 m/s')
+})
+
+test('STEM: câu tự luận chưa bấm Kiểm tra thì sau reload vẫn CHƯA được chấm', async ({ page }) => {
+  await page.goto(BAI_STEM)
+  await expect(khungCauHoiStem(page)).toBeVisible()
+
+  const oTuLuan = page.locator('input[id^="tra-loi-"]').first()
+  await oTuLuan.fill('20 m/s')
+  await page.waitForTimeout(900)
+  await page.reload()
+
+  await expect(page.locator('input[id^="tra-loi-"]').first()).toHaveValue('20 m/s')
+  // Ô tự luận nằm ở câu 2 — khối của nó không được có phán đúng/sai nào.
+  const khoiTuLuan = khungCauHoiStem(page).locator('> li').filter({ has: oTuLuan })
+  await expect(khoiTuLuan.locator('[role="status"]')).toHaveCount(0)
+})
+
+test('STEM: bài chỉ thêm ĐÚNG MỘT khoá phiên học, không sinh tiến độ', async ({ page }) => {
+  await page.goto(BAI_STEM)
+  await expect(khungCauHoiStem(page)).toBeVisible()
+  const truoc = await page.evaluate(() => Object.keys(localStorage))
+
+  await khungCauHoiStem(page).locator('> li').first().getByRole('button').first().click()
+  await page.waitForTimeout(900)
+
+  const sau = await page.evaluate(() => Object.keys(localStorage))
+  const them = sau.filter((k) => !truoc.includes(k))
+  expect(them).toHaveLength(1)
+  expect(them[0]!.startsWith(TIEN_TO_PHIEN_STEM)).toBe(true)
 })
