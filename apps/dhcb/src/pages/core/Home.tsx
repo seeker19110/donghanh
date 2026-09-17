@@ -14,6 +14,7 @@ import HomeAiBriefingCard, { type HomeComeback } from '../../components/Home/Hom
 import TodayCard from '../../components/Home/TodayCard.js'
 import HomeUniversalAiBar from '../../components/Home/HomeUniversalAiBar.js'
 import SubjectSpaceList from '../../components/Home/SubjectSpaceList.js'
+import GuestHome from '../../components/Home/GuestHome.js'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { useLang } from '../../context/useLang'
 import { useAuth } from '../../context/useAuth'
@@ -48,7 +49,7 @@ import { shouldShowRewardTip } from '../../lib/rewardTip'
 
 export default function Home() {
   const nav = useNavigate()
-  const { user } = useAuth()
+  const { user, isGuest } = useAuth()
   const { T, lang } = useLang()
   // [Slice 04] `vi` = ngôn ngữ GIAO DIỆN; `isA` (chiều học Tiếng Anh) chỉ còn dùng cho nhãn NỘI
   // DUNG của môn (tên vòng từ vựng/bài ngữ pháp có bản Việt/Anh riêng).
@@ -121,6 +122,20 @@ export default function Home() {
   }
 
   if (!user) return null
+
+  // [P0-3] Khách (chưa đăng nhập) có trang chủ RIÊNG, đơn giản hơn hẳn: không "Hôm nay"/streak/
+  // lịch sử (những thứ đó cần tài khoản để tính) — chỉ Companion giới thiệu + ĐÚNG MỘT CTA vào
+  // `/bat-dau` + dải môn. Trả sớm TRƯỚC khi tính mọi state chỉ người đã đăng nhập mới cần.
+  if (isGuest) {
+    return (
+      <div className="min-h-dvh bg-zinc-950 text-zinc-100">
+        <Layout title={T.greeting} back={false} />
+        <PageShell width="standard" baseWidth="max-w-3xl">
+          <GuestHome />
+        </PageShell>
+      </div>
+    )
+  }
 
   const srsDue = getSRSStats(user.id).due
   const dailyLearned = getDailyLearned(user.id)
