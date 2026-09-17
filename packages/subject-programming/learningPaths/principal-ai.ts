@@ -140,6 +140,11 @@ export const PRINCIPAL_AI_PATH: LearningPath = {
           requires: ['devops-s1'],
         },
         {
+          stageId: 'devops-s3',
+          why: 'Kubernetes, GitOps và error budget — khi hệ AI đã có mắt nhìn, bạn cần luật để quyết định lúc nào còn được phát hành và lúc nào phải dừng.',
+          requires: ['devops-s2'],
+        },
+        {
           stageId: 'security-s1',
           why: 'Bảo mật căn bản — hệ AI mở thêm bề mặt tấn công mới (prompt injection, rò dữ liệu).',
         },
