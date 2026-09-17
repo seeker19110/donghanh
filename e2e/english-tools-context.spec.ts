@@ -11,7 +11,11 @@ test.describe('Back của công cụ Tiếng Anh về trang tổng quan môn (AC
     test(`${path} → Back → ${ENGLISH_HOME}`, async ({ page }) => {
       await mockLogin(page)
       await page.goto(path)
-      await page.getByRole('button', { name: 'Trang chủ' }).first().click()
+      // [2026-09-17] Nhãn nút Back nay lấy đúng đốt cha thật ("Tiếng Anh") thay vì chữ cứng
+      // "Trang chủ" (vốn sai: nút này về trang môn Tiếng Anh, không phải Trang chủ tuyệt đối).
+      // `exact: true` — không thì khớp nhầm nút sidebar "Thu gọn công cụ Tiếng Anh" (chứa
+      // chuỗi con "Tiếng Anh"), đứng trước trong DOM nên `.first()` từng chọn nhầm nút đó.
+      await page.getByRole('button', { name: 'Tiếng Anh', exact: true }).click()
       await expect(page).toHaveURL(new RegExp(`${ENGLISH_HOME.replace(/\//g, '\\/')}$`))
     })
   }

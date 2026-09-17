@@ -5,12 +5,11 @@ import { useLang } from '../context/useLang'
 import { useAuth } from '../context/useAuth'
 import { getStreak } from '../lib/storage'
 import ThemeToggle from './ThemeToggle'
-import Breadcrumb from './Breadcrumb'
 import OfflineStatusBanner from './OfflineStatusBanner'
 import { navigateTo } from '../lib/subjectsHost'
 import { STUDIOS } from '../lib/studios'
 import { matchesNav } from '../lib/navPaths'
-import type { Crumb } from '../lib/breadcrumb'
+import { buildCrumbs, type Crumb } from '../lib/breadcrumb'
 
 interface Props {
   // title/subtitle KHÔNG bắt buộc: nhiều trang nay hiển thị tiêu đề LỚN ngay dưới header
@@ -71,6 +70,14 @@ export default function Layout({
   // Streak tự lấy ở ĐÂY (không nhận qua prop nữa) — áp dụng TOÀN CỤC, hiện trên MỌI
   // trang có Layout, không cần từng trang tự truyền vào (trước đây dễ quên).
   const streak = user && !focus ? getStreak(user.id) : 0
+
+  // [2026-09-17] Nhãn nút Back lấy từ ĐÚNG đốt cha mà `onBack`/`backTo` sẽ đưa tới — dùng
+  // chung nguồn `buildCrumbs` (trước đây Breadcrumb desktop dùng riêng) thay vì nhãn CỨNG
+  // "Trang chủ": nút Back nhiều trang không hề về Trang chủ (vd bài học Lập trình lùi về
+  // đúng bậc P3), nên nhãn cứng vừa sai vừa lặp chữ với đốt "Trang chủ" của Breadcrumb ngay
+  // bên dưới — bỏ luôn Breadcrumb, một nút Back với NHÃN ĐÚNG đã trả lời đủ "đi đâu tiếp".
+  const ancestors = buildCrumbs(location.pathname, title, crumbs).slice(0, -1)
+  const backLabel = ancestors[ancestors.length - 1]?.label ?? T.home
 
   // Đóng menu VÀ trả focus về nút kích hoạt (bắt buộc theo WAI-ARIA APG — nếu không,
   // người dùng bàn phím bị "rơi" về đầu tài liệu và phải Tab mò lại từ đầu).
@@ -197,16 +204,15 @@ export default function Layout({
         {back ? (
           <button
             onClick={onBack ?? (() => nav(backTo ?? '/'))}
-            aria-label={T.home}
+            aria-label={backLabel}
             // GIỮ hiện ở mọi kích thước — nhiều trang truyền `onBack` riêng để lùi ĐÚNG một
             // bậc theo phân cấp của trang đó (vd bài học Lập trình lùi về đúng chặng, không
-            // phải P1). Breadcrumb chỉ biết cây route TĨNH nên không thay được logic đó; nó
-            // là phần BỔ SUNG bên cạnh Back, không phải thay thế (đã thử thay hẳn — vỡ
-            // `e2e/programming-lesson.spec.ts` vì nút "Trang chủ" biến mất trên desktop).
+            // phải P1). `backLabel` tính từ cùng cây route TĨNH của `buildCrumbs` nên khớp
+            // đúng đích đó, thay vì nhãn cứng "Trang chủ" (sai khi đích không phải Trang chủ).
             className="flex items-center gap-1.5 text-zinc-400 hover:text-white transition shrink-0 -ml-1 p-2.5 rounded-xl hover:bg-zinc-800/60 active:scale-95"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span className="text-sm font-medium hidden sm:inline">{T.home}</span>
+            <span className="text-sm font-medium hidden sm:inline">{backLabel}</span>
           </button>
         ) : (
           // Logo "Đồng Hành" — bấm vào xem trang giới thiệu tính năng
@@ -309,16 +315,10 @@ export default function Layout({
           </div>
         )}
 
-        {/* Title/subtitle — như cũ, hiện ở MỌI kích thước (Back/logo vẫn là đường lùi chính,
-            xem lý do giữ Back ở trên). Breadcrumb desktop là dòng NHỎ phía trên, chỉ vẽ khi
-            có tầng cha thật sự (rỗng ở Trang chủ — Breadcrumb tự ẩn, xem lib/breadcrumb.ts). */}
+        {/* Title/subtitle — như cũ, hiện ở MỌI kích thước. Không còn Breadcrumb riêng: nhãn
+            nút Back ở trên đã lấy đúng đốt cha (xem `backLabel`), vẽ thêm breadcrumb là lặp
+            chữ với chính nhãn đó (bài học 2026-09-17). */}
         <div className="flex-1 min-w-0">
-          <Breadcrumb
-            pathname={location.pathname}
-            currentLabel={title}
-            crumbs={crumbs}
-            className="hidden lg:block mb-0.5"
-          />
           {title && <p className="font-semibold text-[15px] truncate text-white">{title}</p>}
           {subtitle && <p className="text-xs text-zinc-400 truncate">{subtitle}</p>}
         </div>
