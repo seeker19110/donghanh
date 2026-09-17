@@ -3,7 +3,7 @@
 // VÌ SAO CẦN: thang `zinc`/`accent`/`content` của dự án là biến CSS nên tự đổi theo theme
 // (`packages/core-ui/theme.css`). Nhưng giao diện còn dùng RẤT NHIỀU màu Tailwind gốc
 // (amber, emerald, rose, purple, cyan…) — những màu này là hex CỐ ĐỊNH, KHÔNG đổi theo theme.
-// Ba theme nền sáng (blue-sky, pink, kid) vì thế là chỗ dễ rớt tương phản nhất: một màu chữ
+// Hai theme nền sáng (blue-sky, kid) vì thế là chỗ dễ rớt tương phản nhất: một màu chữ
 // chọn cho nền tối sẽ nằm trên nền SÁNG mà không ai đổi nó.
 //
 // Dự án đã có cách vá đúng — biến thể `theme-light:text-<màu>-800` — nhưng chỉ vá tay ở một
@@ -18,7 +18,8 @@ import colors from 'tailwindcss/colors'
 import { AA, contrastRatio, parseThemeTokens, type Rgb } from './lib/contrast.js'
 
 /** Các họ màu Tailwind GỐC (hex cố định). Cố ý KHÔNG gồm `zinc` — dự án đã ánh xạ zinc sang
- *  biến CSS trong `tailwind.config.js`, nên `text-zinc-*` là token chứ không phải màu cứng. */
+ *  biến CSS trong `tailwind.config.js`, nên `text-zinc-*` là token chứ không phải màu cứng.
+ *  `zinc` được soi RIÊNG bên dưới (mục "thang zinc"), bằng giá trị token thật của từng theme. */
 const FIXED_FAMILIES = [
   'slate',
   'gray',
@@ -43,10 +44,10 @@ const FIXED_FAMILIES = [
   'cyan',
 ] as const
 
-/** Ba theme nền sáng — đúng danh sách mà biến thể `theme-light:` áp dụng
+/** Hai theme nền sáng — đúng danh sách mà biến thể `theme-light:` áp dụng
  *  (xem `addVariant('theme-light', …)` trong `apps/dhcb/tailwind.config.js`). */
-const LIGHT_THEMES = ['blue-sky', 'pink', 'kid'] as const
-const DARK_THEMES = ['dark-blue', 'vibrant'] as const
+const LIGHT_THEMES = ['blue-sky', 'kid'] as const
+const DARK_THEMES = ['dark-blue'] as const
 
 /** Ba bề mặt thật của dự án, theo đúng bảng ở `scripts/contrast-audit.ts`. */
 const SURFACES = [
@@ -103,6 +104,25 @@ const FAMILY_RE = new RegExp(
 const OPAQUE_BG_RE = new RegExp(
   `(^|[\\s"'\`{(])bg-(${FIXED_FAMILIES.join('|')})-[0-9]{2,3}(?![0-9/])`,
 )
+// ── THANG ZINC (token theo theme) ────────────────────────────────────────────────────────
+// `text-zinc-*` KHÔNG phải màu cứng — nó là `rgb(var(--z-<bậc>))`, đổi theo theme. Nhưng
+// "đổi theo theme" không có nghĩa là "luôn đủ tương phản": ba bậc tối nhất của thang nằm
+// SÁT các bề mặt nền ở CẢ 5 theme. Đo thật (2026-09-16): z-600 cao nhất chỉ 3.25:1, z-700
+// 1.83:1, z-800 1.27:1 — rớt AA ở mọi theme, mọi bề mặt. Đây chính là khuôn lỗi PR #981:
+// màu cứng-theo-nghĩa-khác, hỏng ĐỀU cả 5 theme, mà cổng cũ không soi vì bỏ qua họ `zinc`.
+//
+// CỐ Ý chỉ soi 600/700/800. Các bậc tối hơn (900/950) là thành ngữ "chữ tối trên chip nhấn
+// sáng" (`bg-accent-500 text-zinc-950`) và nền đó thường nằm ở thẻ CHA — một script đọc theo
+// DÒNG không phán được, nên soi chúng sẽ chỉ sinh dương tính giả. Các bậc sáng hơn (≤ 500)
+// đã đo là đạt AA trên cả 5 theme.
+const ZINC_DARK_STEPS = ['600', '700', '800'] as const
+const ZINC_RE = new RegExp(
+  `(^|[\\s"'\`{(])text-zinc-(${ZINC_DARK_STEPS.join('|')})(?![\\w/-])`,
+  'g',
+)
+// Nền nhấn thương hiệu / dải màu cũng là nền ĐẶC — chữ trên nó không đo theo nền trang.
+const ACCENT_BG_RE = /(^|[\s"'`{(])(bg-accent-[0-9]{2,3}(?![0-9/])|bg-gradient-to-)/
+
 const LIGHT_OVERRIDE_RE = new RegExp(
   `theme-light:text-(${FIXED_FAMILIES.join('|')})-([0-9]{2,3})\\b`,
 )
@@ -115,7 +135,28 @@ export function auditLine(
   themes: Record<string, Record<string, Rgb>>,
 ): Finding[] {
   const found: Finding[] = []
-  if (OPAQUE_BG_RE.test(text)) return found
+  if (OPAQUE_BG_RE.test(text) || ACCENT_BG_RE.test(text)) return found
+
+  // Thang zinc: màu chữ lấy thẳng token `z-<bậc>` của chính theme đang xét.
+  ZINC_RE.lastIndex = 0
+  let z: RegExpExecArray | null
+  while ((z = ZINC_RE.exec(text)) !== null) {
+    const step = z[2] as string
+    for (const theme of [...DARK_THEMES, ...LIGHT_THEMES]) {
+      const tokens = themes[theme]
+      const fg = tokens?.[`z-${step}`]
+      if (!tokens || !fg) continue
+      for (const surface of SURFACES) {
+        const bg = tokens[surface.token]
+        if (!bg) continue
+        const ratio = contrastRatio(fg, bg)
+        if (ratio < AA) {
+          found.push({ file, line, cls: `text-zinc-${step}`, theme, surface: surface.name, ratio })
+        }
+      }
+    }
+  }
+
   const override = LIGHT_OVERRIDE_RE.exec(text)
   FAMILY_RE.lastIndex = 0
   let m: RegExpExecArray | null

@@ -71,7 +71,10 @@ export default function TodayCard({ plan, state, onRetry }: TodayCardProps) {
     // bên dưới khi dữ liệu về. Đây là chỗ DUY NHẤT của thẻ được phép nhấp nháy (luật đợt D3).
     return (
       <Khung>
-        <div aria-busy="true" aria-live="polite" aria-label="Đang tìm việc học hôm nay">
+        {/* `role="status"` là BẮT BUỘC, không phải trang trí: `aria-label` bị CẤM trên phần tử
+            role ngầm `generic` (axe `aria-prohibited-attr`, serious) — thiếu role thì nhãn này
+            KHÔNG được trình đọc màn hình đọc lên. `role="status"` đã ngầm `aria-live="polite"`. */}
+        <div role="status" aria-busy="true" aria-label="Đang tìm việc học hôm nay">
           <div className="h-[68px] rounded-2xl bg-zinc-800 animate-pulse" />
           <div className="h-4 w-2/5 mt-3 rounded bg-zinc-800 animate-pulse" />
         </div>

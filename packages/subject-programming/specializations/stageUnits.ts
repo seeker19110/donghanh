@@ -94,6 +94,9 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   'devops-s1': ['p6-u154', 'p6-u155', 'p6-u156', 'p6-u157'],
   'mathforcode-s3': ['p6-u158', 'p6-u159'],
   'mathforcode-s4': ['p6-u160', 'p6-u161'],
+  'ai-s2': ['p6-u166', 'p6-u167', 'p6-u168', 'p6-u169'],
+  'ai-s3': ['p6-u170', 'p6-u171', 'p6-u172', 'p6-u173'],
+  'ai-s4': ['p6-u174', 'p6-u175', 'p6-u176', 'p6-u177'],
   'security-s1': ['p6-u182', 'p6-u183', 'p6-u184', 'p6-u185'],
   'security-s2': ['p6-u186', 'p6-u187', 'p6-u188', 'p6-u189'],
 }

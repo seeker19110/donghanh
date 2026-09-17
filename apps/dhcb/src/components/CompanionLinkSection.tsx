@@ -168,7 +168,7 @@ export default function CompanionLinkSection({ isA }: { isA: boolean }) {
             </summary>
             <div className="mt-2 grid gap-3 sm:grid-cols-2">
               <div>
-                <p className="text-xs font-semibold text-emerald-300 theme-light:text-emerald-800 mb-1">
+                <p className="text-xs font-semibold text-emerald-300 theme-light:text-emerald-900 mb-1">
                   {isA ? 'Họ thấy' : 'They see'}
                 </p>
                 <ul className="text-xs text-zinc-300 space-y-1 list-disc list-inside">
@@ -178,7 +178,7 @@ export default function CompanionLinkSection({ isA }: { isA: boolean }) {
                 </ul>
               </div>
               <div>
-                <p className="text-xs font-semibold text-rose-300 theme-light:text-rose-800 mb-1">
+                <p className="text-xs font-semibold text-rose-300 theme-light:text-rose-900 mb-1">
                   {isA ? 'Họ KHÔNG thấy' : "They DON'T see"}
                 </p>
                 <ul className="text-xs text-zinc-300 space-y-1 list-disc list-inside">
@@ -194,14 +194,14 @@ export default function CompanionLinkSection({ isA }: { isA: boolean }) {
           {invite ? (
             <div className="mb-4">
               <div className="flex items-center gap-2 mb-2">
-                <code className="flex-1 min-w-0 truncate bg-zinc-800 border border-zinc-700 rounded-xl px-3 py-2.5 text-sm font-mono tracking-widest text-accent-400 theme-light:text-accent-800">
+                <code className="flex-1 min-w-0 truncate bg-zinc-800 border border-zinc-700 rounded-xl px-3 py-2.5 text-sm font-mono tracking-widest text-accent-400 theme-light:text-accent-900">
                   {invite.code}
                 </code>
                 <button
                   type="button"
                   onClick={handleCopy}
                   aria-label={isA ? 'Sao chép mã mời' : 'Copy invite code'}
-                  className="tap-44 shrink-0 flex items-center gap-1.5 rounded-xl bg-accent-500/15 border border-accent-500/30 px-3 py-2.5 text-xs font-medium text-accent-400 theme-light:text-accent-800 hover:bg-accent-500/25 transition"
+                  className="tap-44 shrink-0 flex items-center gap-1.5 rounded-xl bg-accent-500/15 border border-accent-500/30 px-3 py-2.5 text-xs font-medium text-accent-400 theme-light:text-accent-900 hover:bg-accent-500/25 transition"
                 >
                   {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                   {copied ? (isA ? 'Đã chép' : 'Copied') : isA ? 'Chép mã' : 'Copy code'}
@@ -238,7 +238,7 @@ export default function CompanionLinkSection({ isA }: { isA: boolean }) {
               type="button"
               onClick={handleCreate}
               disabled={creating}
-              className="tap-44 mb-4 w-full rounded-xl bg-accent-500/15 border border-accent-500/30 px-3 py-2.5 text-xs font-medium text-accent-400 theme-light:text-accent-800 hover:bg-accent-500/25 transition disabled:opacity-60"
+              className="tap-44 mb-4 w-full rounded-xl bg-accent-500/15 border border-accent-500/30 px-3 py-2.5 text-xs font-medium text-accent-400 theme-light:text-accent-900 hover:bg-accent-500/25 transition disabled:opacity-60"
             >
               {isA
                 ? creating
@@ -311,7 +311,7 @@ export default function CompanionLinkSection({ isA }: { isA: boolean }) {
                 type="button"
                 onClick={handleRedeem}
                 disabled={redeeming || code.trim().length < 8}
-                className="tap-44 shrink-0 rounded-xl bg-accent-500/15 border border-accent-500/30 px-3 py-2.5 text-xs font-medium text-accent-400 theme-light:text-accent-800 hover:bg-accent-500/25 transition disabled:opacity-60"
+                className="tap-44 shrink-0 rounded-xl bg-accent-500/15 border border-accent-500/30 px-3 py-2.5 text-xs font-medium text-accent-400 theme-light:text-accent-900 hover:bg-accent-500/25 transition disabled:opacity-60"
               >
                 {redeeming ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -350,7 +350,7 @@ export default function CompanionLinkSection({ isA }: { isA: boolean }) {
           {message && (
             <p
               role="status"
-              className={`mt-3 text-xs ${message.kind === 'ok' ? 'text-emerald-300 theme-light:text-emerald-800' : 'text-rose-300 theme-light:text-rose-800'}`}
+              className={`mt-3 text-xs ${message.kind === 'ok' ? 'text-emerald-300 theme-light:text-emerald-900' : 'text-rose-300 theme-light:text-rose-900'}`}
             >
               {message.text}
             </p>

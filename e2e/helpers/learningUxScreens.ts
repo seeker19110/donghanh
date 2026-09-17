@@ -379,6 +379,20 @@ export async function moManHinh(
   if (setup.kind === 'route') await setup.install(page)
 
   await page.goto(man.route, { waitUntil: 'domcontentloaded' })
+  // Chờ VỎ TRANG THẬT trước khi chờ DOM đứng yên. Lý do (đo 2026-09-16, S13-2):
+  // mọi trang đều `lazyWithRetry(() => import(...))`, nên trong lúc chunk chưa về,
+  // React dựng Suspense fallback — một khung skeleton TĨNH. `waitForStableDom` thấy
+  // số phần tử không đổi liền báo "ổn định" và trả về SỚM, khi trang thật chưa mount:
+  // cổng bố cục đọc được `0 <h1>` ở 320/390 (đỏ giả, 3/3 lượt) trong khi 768/1440 lại
+  // xanh vì chunk về kịp. Chờ `<main>` gắn vào DOM là mốc "trang thật đã mount".
+  await page
+    .locator('main')
+    .first()
+    .waitFor({ state: 'attached', timeout: 15_000 })
+    .catch(() => {
+      // Không ném: có màn hợp lệ không dựng `<main>` (lỗi tải chunk thật, màn khoá…).
+      // Phép đo của cổng gọi sau sẽ tự đỏ với thông điệp của chính nó.
+    })
   await waitForStableDom(page)
 
   if (setup.kind === 'action') {

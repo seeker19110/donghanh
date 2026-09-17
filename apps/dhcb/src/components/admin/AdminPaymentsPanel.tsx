@@ -294,7 +294,7 @@ export default function AdminPaymentsPanel() {
                         Khớp đơn tay
                       </button>
                     ) : (
-                      <span className="text-zinc-600 text-[11px]">Hoàn tất</span>
+                      <span className="text-content-muted text-[11px]">Hoàn tất</span>
                     )}
                   </td>
                 </tr>

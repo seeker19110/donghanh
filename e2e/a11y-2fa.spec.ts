@@ -12,7 +12,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { mockLogin, type ThemeName } from './helpers/auth'
 import { freezeAnimations } from './helpers/axe'
 
-const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'pink', 'vibrant', 'kid']
+const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'kid']
 // CSS selector THUẦN: axe không hiểu cú pháp riêng của Playwright (`:has-text()`).
 const SECTION = '#two-factor-section'
 

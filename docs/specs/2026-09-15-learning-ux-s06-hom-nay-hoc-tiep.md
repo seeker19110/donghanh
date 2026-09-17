@@ -1,5 +1,12 @@
 # Học tập liền mạch — slice S06: "Hôm nay" và điểm học tiếp (hợp đồng `TodayPlan`/`ResumePoint` + resolver thuần + bố cục MỘT CTA)
 
+> **Ghi chú lỗi thời (2026-09-17):** mọi tham chiếu tới `apps/dhcb/src/lib/dailyLearningPlan.ts`/
+> `buildDailyLearningPlan` trong đặc tả này (bất biến "kế hoạch ngày accounting không đổi") đã
+> LỖI THỜI ngay từ ngày viết — `Home.tsx` đã chuyển hẳn sang `getDailyLearned`/`getDailyMax` của
+> `apps/dhcb/src/lib/curriculum.ts` từ PR #929 (2026-09-15). File `dailyLearningPlan.ts` mồ côi
+> (không còn ai import ngoài test của chính nó) đã bị XOÁ ở PR dọn dẹp 2026-09-17. Các dòng dưới
+> giữ nguyên để lưu lại bối cảnh khảo sát tại thời điểm viết đặc tả.
+
 | Thuộc tính    | Giá trị                                                                                                                                                                                                   |
 | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Spec nền      | [`2026-09-15-learning-ux-foundation.md`](2026-09-15-learning-ux-foundation.md) §④ D ("Hôm nay → mục lục/lộ trình → màn học → trợ giảng → kết quả → tiến độ")                                              |

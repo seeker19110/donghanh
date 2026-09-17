@@ -8,7 +8,7 @@ export interface ThemeToggleProps {
 }
 
 // Nút đổi giao diện dùng chung toàn monorepo: bấm là chuyển tuần tự sang theme kế tiếp
-// trong danh sách (Xanh đêm → Blue sky → Pink → Rực rỡ → quay lại Xanh đêm).
+// trong danh sách (Blue sky → Xanh đêm → quay lại Blue sky).
 // Tự động ẩn khi theme bị khoá cứng (ví dụ nhóm tuổi Nhi đồng).
 export function ThemeToggle({ lang = 'vi', className }: ThemeToggleProps) {
   const { theme, setTheme, locked } = useTheme()

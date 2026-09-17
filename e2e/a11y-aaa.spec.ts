@@ -29,7 +29,7 @@ const CONTENT_SELECTOR =
 const CHROME_ANCESTOR = 'nav,header,footer,button,a,[role="button"],[role="tab"],label,input,select'
 
 // Quét CẢ 5 theme (4 theme chính + "Nhi đồng") vì tương phản phụ thuộc bộ token màu.
-const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'pink', 'vibrant', 'kid']
+const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'kid']
 
 const ROUTES = [
   '/login',

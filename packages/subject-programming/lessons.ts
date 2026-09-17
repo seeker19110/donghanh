@@ -175,6 +175,18 @@ import { P6U186_LESSONS } from './lessons/p6u186.js'
 import { P6U187_LESSONS } from './lessons/p6u187.js'
 import { P6U188_LESSONS } from './lessons/p6u188.js'
 import { P6U189_LESSONS } from './lessons/p6u189.js'
+import { P6U166_LESSONS } from './lessons/p6u166.js'
+import { P6U167_LESSONS } from './lessons/p6u167.js'
+import { P6U168_LESSONS } from './lessons/p6u168.js'
+import { P6U169_LESSONS } from './lessons/p6u169.js'
+import { P6U170_LESSONS } from './lessons/p6u170.js'
+import { P6U171_LESSONS } from './lessons/p6u171.js'
+import { P6U172_LESSONS } from './lessons/p6u172.js'
+import { P6U173_LESSONS } from './lessons/p6u173.js'
+import { P6U174_LESSONS } from './lessons/p6u174.js'
+import { P6U175_LESSONS } from './lessons/p6u175.js'
+import { P6U176_LESSONS } from './lessons/p6u176.js'
+import { P6U177_LESSONS } from './lessons/p6u177.js'
 import { GIT_U2_LESSONS } from './lessons/gitu2.js'
 import { GIT_U3_LESSONS } from './lessons/gitu3.js'
 import { GIT_U4_LESSONS } from './lessons/gitu4.js'
@@ -376,6 +388,18 @@ export const PROGRAMMING_LESSONS: ProgrammingLesson[] = [
   ...P6U187_LESSONS,
   ...P6U188_LESSONS,
   ...P6U189_LESSONS,
+  ...P6U166_LESSONS,
+  ...P6U167_LESSONS,
+  ...P6U168_LESSONS,
+  ...P6U169_LESSONS,
+  ...P6U170_LESSONS,
+  ...P6U171_LESSONS,
+  ...P6U172_LESSONS,
+  ...P6U173_LESSONS,
+  ...P6U174_LESSONS,
+  ...P6U175_LESSONS,
+  ...P6U176_LESSONS,
+  ...P6U177_LESSONS,
   ...GIT_U2_LESSONS,
   ...GIT_U3_LESSONS,
   ...GIT_U4_LESSONS,

@@ -80,4 +80,10 @@ describe('cầu nối chặng chuyên sâu → unit bài học', () => {
     expect(unitsOfStage('mathforcode-s3')).toEqual(['p6-u158', 'p6-u159'])
     expect(unitsOfStage('mathforcode-s4')).toEqual(['p6-u160', 'p6-u161'])
   })
+
+  it('ai-s2 đến ai-s4 phủ đủ mười hai unit simulator thật', () => {
+    expect(unitsOfStage('ai-s2')).toEqual(['p6-u166', 'p6-u167', 'p6-u168', 'p6-u169'])
+    expect(unitsOfStage('ai-s3')).toEqual(['p6-u170', 'p6-u171', 'p6-u172', 'p6-u173'])
+    expect(unitsOfStage('ai-s4')).toEqual(['p6-u174', 'p6-u175', 'p6-u176', 'p6-u177'])
+  })
 })

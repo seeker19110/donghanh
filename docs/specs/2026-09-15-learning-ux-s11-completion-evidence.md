@@ -1,5 +1,9 @@
 # Góc học tập — slice S11: Completion evidence và màn kết quả (định nghĩa "hoàn thành" từng hoạt động + evidence STEM + `POST /api/learning/evidence`)
 
+> **Ghi chú lỗi thời (2026-09-17):** mọi tham chiếu tới `apps/dhcb/src/lib/dailyLearningPlan.ts`
+> (AC-8, mục "KHÔNG LÀM", bảng bất biến §⑤) đã LỖI THỜI ngay từ ngày viết — Home đã chuyển sang
+> `curriculum.ts` từ PR #929 (2026-09-15). File mồ côi đã bị XOÁ ở PR dọn dẹp 2026-09-17.
+
 | Thuộc tính    | Giá trị                                                                                                                                                                                                                          |
 | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Spec cha      | [`2026-09-15-goc-hoc-tap-architecture.md`](2026-09-15-goc-hoc-tap-architecture.md)                                                                                                                                               |

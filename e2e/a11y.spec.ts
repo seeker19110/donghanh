@@ -34,7 +34,7 @@ async function scan(page: Page) {
 // Theme SÁNG (Blue sky, Pink) trước đây rớt color-contrast (pill màu cố định + token
 // zinc-400 của Pink quá nhạt) → đã sửa bằng biến thể `theme-light:` (sắc độ đậm hơn) và
 // chỉnh token `--z-400` của Pink. Gate này chống tụt lùi cho mọi theme.
-const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'pink', 'vibrant', 'kid']
+const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'kid']
 
 // Trang đăng nhập — quét CẢ 5 theme (nút OAuth dùng màu thương hiệu cố định, không
 // đổi theo theme, nhưng nền/chữ xung quanh thì có).
@@ -63,7 +63,7 @@ for (const theme of THEMES) {
 // Trang chủ ở CHIỀU B (người nước ngoài học tiếng Việt): đảo bộ màu accent→sky cho
 // badge/nhãn chiều học. Quét ở 2 theme SÁNG (nơi màu sky cố định dễ rớt AA) để chắc
 // biến thể `theme-light:` của nhánh B cũng đạt — gate Home phía trên chỉ phủ chiều A.
-for (const theme of ['blue-sky', 'pink'] as ThemeName[]) {
+for (const theme of ['blue-sky'] as ThemeName[]) {
   test(`a11y: trang chủ chiều B theme=${theme} — 0 vi phạm A/AA`, async ({ page }) => {
     await mockLogin(page, 'en', theme)
     await page.addInitScript(() => localStorage.setItem('et_direction', 'B'))

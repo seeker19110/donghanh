@@ -474,6 +474,7 @@ export default function Companion() {
         <PageHeader
           title="Bạn Đồng Hành Đa Lĩnh Vực"
           subtitle="Người đồng hành trí tuệ kết nối sâu Học tập, Sự nghiệp, Công việc, Khởi nghiệp & Đời sống."
+          subtitleClassName="read-measure"
         />
 
         <RealtimeTelemetryBar />

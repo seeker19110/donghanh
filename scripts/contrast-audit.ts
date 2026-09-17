@@ -29,7 +29,7 @@ const TEXTS = [
   { name: 'text-disabled', token: 'z-500', need: AA },
 ] as const
 
-const THEME_ORDER = ['dark-blue', 'blue-sky', 'pink', 'vibrant', 'kid']
+const THEME_ORDER = ['dark-blue', 'blue-sky', 'kid']
 
 let worst = Number.POSITIVE_INFINITY
 let failures = 0

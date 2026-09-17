@@ -9,7 +9,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { mockLogin, USER_ID, type ThemeName } from './helpers/auth'
 import { freezeAnimations } from './helpers/axe'
 
-const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'pink', 'vibrant', 'kid']
+const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'kid']
 
 /** mockLogin không cấp quyền admin — route này đăng ký SAU nên được Playwright ưu tiên. */
 async function loginAsAdmin(page: Page, theme: ThemeName) {

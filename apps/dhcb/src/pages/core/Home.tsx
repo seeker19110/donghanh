@@ -316,7 +316,9 @@ export default function Home() {
                       aria-hidden="true"
                     />
                   </h3>
-                  <p className="text-sm text-zinc-400 leading-relaxed mt-0.5">{s.desc}</p>
+                  <p className="text-sm text-zinc-400 leading-relaxed mt-0.5 read-measure">
+                    {s.desc}
+                  </p>
                 </div>
               </button>
               <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 pl-[3.625rem]">

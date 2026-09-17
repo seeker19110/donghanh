@@ -11,7 +11,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { mockLogin, type ThemeName } from './helpers/auth'
 import { freezeAnimations } from './helpers/axe'
 
-const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'pink', 'vibrant', 'kid']
+const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'kid']
 
 async function scan(page: Page) {
   await freezeAnimations(page)

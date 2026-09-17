@@ -23,7 +23,7 @@ const PERSON = '11111111-1111-4111-8111-111111111111'
 const GRANT_ID = '22222222-2222-4222-8222-222222222222'
 const RECEIPT_ID = '33333333-3333-4333-8333-333333333333'
 const NOW = new Date('2026-08-17T00:00:00Z')
-const FUTURE = new Date('2026-09-17T00:00:00Z')
+const FUTURE = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
 const PAST = new Date('2026-07-17T00:00:00Z')
 
 const policies = vi.hoisted(() => ({

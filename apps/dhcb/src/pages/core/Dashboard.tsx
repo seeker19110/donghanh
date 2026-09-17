@@ -386,7 +386,7 @@ export default function Dashboard() {
             {vi ? 'Mục tiêu tuần' : 'Weekly goal'}
           </h2>
           {/* Số liệu cho screen reader — vòng SVG bên trái là aria-hidden */}
-          <p className="text-sm text-zinc-300 mt-1 leading-relaxed">
+          <p className="text-sm text-zinc-300 mt-1 leading-relaxed read-measure">
             <span className="sr-only">
               {vi
                 ? `Đã học ${stats.weekly.daysDone} trên ${stats.weekly.goal} ngày mục tiêu. `
@@ -462,7 +462,7 @@ export default function Dashboard() {
               }
               color="bg-accent-500"
             />
-            <p className="text-[11px] text-zinc-400 mt-2">
+            <p className="text-[11px] text-zinc-400 mt-2 read-measure">
               {vi
                 ? 'Hạn mức tính chung cho mọi tính năng AI và làm mới mỗi ngày (giờ Việt Nam).'
                 : 'The quota covers every AI feature and resets each day (Vietnam time).'}
@@ -635,10 +635,10 @@ export default function Dashboard() {
             onClick={() => nav('/luyen-viet')}
             className="w-full bg-zinc-900/80 border border-zinc-800/80 hover:border-violet-500/40 rounded-2xl p-5 text-center transition group"
           >
-            <p className="text-sm text-zinc-400">
+            <p className="text-sm text-zinc-400 read-measure">
               {vi ? 'Chưa có bài viết nào được chấm.' : 'No graded essays yet.'}
             </p>
-            <p className="text-xs text-violet-400 theme-light:text-violet-800 mt-1 group-hover:underline">
+            <p className="text-xs text-violet-400 theme-light:text-violet-800 mt-1 group-hover:underline read-measure">
               {vi ? 'Viết bài đầu tiên →' : 'Write your first essay →'}
             </p>
           </button>
@@ -772,7 +772,7 @@ export default function Dashboard() {
             {/* [S12-3] Khối "Tiến độ theo môn" ở ngay dưới tiêu đề đã nói tiến độ đa môn; câu
                 dưới đây nay chỉ còn nhiệm vụ giải thích rằng CÁC KHỐI SỐ LIỆU CÒN LẠI của trang
                 (từ vựng, SRS, thi CEFR) là của riêng môn Tiếng Anh. */}
-            <p className="text-sm text-zinc-300 mb-3">
+            <p className="text-sm text-zinc-300 mb-3 read-measure">
               {vi
                 ? 'Các khối số liệu bên dưới là của môn Tiếng Anh — '
                 : 'The stats below cover English — '}
@@ -793,6 +793,7 @@ export default function Dashboard() {
                   ? 'Chuỗi ngày, mục tiêu hôm nay và tiến độ lộ trình'
                   : 'Streak, today’s goal and roadmap progress'
               }
+              subtitleClassName="read-measure"
             />
             {/* [S12-3] Khối tiến độ đa môn đứng ĐẦU nội dung (quyết định Q6: THÊM, không thay
                 các StatCard tiếng Anh cũ — chúng vẫn là bằng chứng hợp lệ của môn Anh). */}

@@ -14,7 +14,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { mockLogin, USER_ID, type ThemeName } from './helpers/auth'
 import { freezeAnimations } from './helpers/axe'
 
-const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'pink', 'vibrant', 'kid']
+const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'kid']
 const AA_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']
 
 // Ngày thi rất gần + phạm vi lớn ⇒ ép ra trạng thái "không kịp" (khối cảnh báo hổ phách), tức là
@@ -78,7 +78,7 @@ test('a11y AAA: chữ nội dung trang Ôn thi đạt tương phản ≥ 7:1', a
 })
 
 // ── Chiều B ─────────────────────────────────────────────────────────────────
-const DIRECTION_B_THEMES: ThemeName[] = ['blue-sky', 'pink']
+const DIRECTION_B_THEMES: ThemeName[] = ['blue-sky']
 
 /** Cùng kế hoạch "không kịp" như chiều A, chỉ đổi kỳ thi + nhãn mục tiêu sang chiều B. */
 const NEAR_PLAN_B = { ...NEAR_PLAN, examKind: 'vsl-b1', targetLabel: 'level 3' }

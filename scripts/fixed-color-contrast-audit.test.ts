@@ -49,7 +49,52 @@ describe('màu Tailwind cố định dùng làm màu chữ', () => {
     ) as never
     const hits = auditLine('x.tsx', 1, '<p className="text-amber-300">chào</p>', themes)
     expect(hits.length).toBeGreaterThan(0)
-    expect(hits.every((h) => ['blue-sky', 'pink', 'kid'].includes(h.theme))).toBe(true)
+    expect(hits.every((h) => ['blue-sky', 'kid'].includes(h.theme))).toBe(true)
+  })
+
+  // Khuôn lỗi PR #981: `text-zinc-*` là token theo theme nên cổng cũ bỏ qua, nhưng ba bậc tối
+  // nhất rớt AA ở CẢ 3 theme (hỏng ĐỀU — đúng dấu hiệu đã thấy trên `/so-tay-loi-sai`).
+  it('bắt được thang zinc bậc tối (600/700/800) rớt AA ở mọi theme', () => {
+    const themes = parseThemeTokens(
+      readFileSync(`${ROOT}/packages/core-ui/theme.css`, 'utf-8'),
+    ) as never
+    for (const step of ['600', '700', '800']) {
+      const hits = auditLine('x.tsx', 1, `<p className="text-zinc-${step}">chào</p>`, themes)
+      expect(hits.length, `text-zinc-${step} phải bị bắt`).toBeGreaterThan(0)
+      expect(new Set(hits.map((h) => h.theme)).size, 'phải hỏng ở đủ 3 theme').toBe(3)
+    }
+  })
+
+  it('không báo nhầm thang zinc bậc sáng (≤ 500) — đã đo là đạt AA', () => {
+    const themes = parseThemeTokens(
+      readFileSync(`${ROOT}/packages/core-ui/theme.css`, 'utf-8'),
+    ) as never
+    for (const step of ['300', '400', '500']) {
+      expect(auditLine('x.tsx', 1, `<p className="text-zinc-${step}">x</p>`, themes)).toEqual([])
+    }
+  })
+
+  // Màu có độ mờ (`text-zinc-800/80`) không đo được bằng một cặp màu đặc — phải bỏ qua,
+  // nếu không sẽ báo nhầm các nét vẽ SVG trang trí.
+  it('bỏ qua class zinc có hậu tố độ mờ', () => {
+    const themes = parseThemeTokens(
+      readFileSync(`${ROOT}/packages/core-ui/theme.css`, 'utf-8'),
+    ) as never
+    expect(auditLine('x.tsx', 1, '<circle className="text-zinc-800/80" />', themes)).toEqual([])
+  })
+
+  // `bg-accent-500 text-zinc-950` là thành ngữ "chữ tối trên chip nhấn sáng" — nền thật là
+  // chip đó, không phải nền trang.
+  it('không báo nhầm khi chữ nằm trên nền nhấn hoặc dải màu', () => {
+    const themes = parseThemeTokens(
+      readFileSync(`${ROOT}/packages/core-ui/theme.css`, 'utf-8'),
+    ) as never
+    expect(
+      auditLine('x.tsx', 1, '<b className="bg-accent-500 text-zinc-600">x</b>', themes),
+    ).toEqual([])
+    expect(
+      auditLine('x.tsx', 1, '<b className="bg-gradient-to-tr text-zinc-700">x</b>', themes),
+    ).toEqual([])
   })
 
   it('không báo nhầm khi chữ nằm trên nền màu ĐẶC', () => {
