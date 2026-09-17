@@ -12,7 +12,7 @@ export const USER_ID = 'e2e-user-0001'
 // Tên 4 theme tự chọn (đồng bộ src/lib/theme.ts). Dùng để E2E quét a11y ở mọi theme.
 // 'kid' (Nhi đồng) tách riêng — không nằm trong vòng lặp THEMES chính (không tự chọn được),
 // chỉ dùng ở vài test riêng quét theme này.
-export type ThemeName = 'dark-blue' | 'blue-sky' | 'pink' | 'vibrant' | 'kid'
+export type ThemeName = 'dark-blue' | 'blue-sky' | 'kid'
 
 const MOCK_APP_SETTINGS = {
   limits: {

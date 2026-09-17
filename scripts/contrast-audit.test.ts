@@ -14,8 +14,8 @@ import { AA, AAA, contrastRatio, parseThemeTokens } from './lib/contrast.js'
 const css = readFileSync(join(process.cwd(), 'packages', 'core-ui', 'theme.css'), 'utf-8')
 const themes = parseThemeTokens(css)
 
-/** 5 theme của dự án — nếu thêm theme mới mà quên khai màu, test này đỏ ngay. */
-const THEME_NAMES = ['dark-blue', 'blue-sky', 'pink', 'vibrant', 'kid'] as const
+/** 3 theme của dự án — nếu thêm theme mới mà quên khai màu, test này đỏ ngay. */
+const THEME_NAMES = ['dark-blue', 'blue-sky', 'kid'] as const
 
 /** Bề mặt nền mà token ngữ nghĩa trỏ tới (khối `:root` cuối `theme.css`). */
 const SURFACES = ['z-950', 'z-900', 'z-800'] as const
@@ -29,7 +29,7 @@ const TEXT_ROLES = [
 ] as const
 
 describe('token màu ngữ nghĩa', () => {
-  it('đọc được đủ 5 theme từ theme.css', () => {
+  it('đọc được đủ 3 theme từ theme.css', () => {
     for (const name of THEME_NAMES) {
       expect(themes[name], `thiếu theme ${name}`).toBeDefined()
     }

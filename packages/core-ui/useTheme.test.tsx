@@ -15,11 +15,11 @@ function Consumer() {
 describe('useTheme', () => {
   it('có ThemeContext.Provider bao ngoài → đọc đúng giá trị context', () => {
     const html = renderToStaticMarkup(
-      <ThemeContext.Provider value={{ theme: 'pink', setTheme: () => {}, locked: false }}>
+      <ThemeContext.Provider value={{ theme: 'blue-sky', setTheme: () => {}, locked: false }}>
         <Consumer />
       </ThemeContext.Provider>,
     )
-    expect(html).toContain('pink-false')
+    expect(html).toContain('blue-sky-false')
   })
 
   it('KHÔNG có Provider bao ngoài → throw lỗi rõ ràng thay vì context rỗng âm thầm', () => {

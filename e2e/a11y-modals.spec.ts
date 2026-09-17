@@ -26,7 +26,7 @@ async function scan(page: Page) {
   return violations.map((v) => `${v.id} (${v.impact}, ${v.nodes.length} phần tử)`)
 }
 
-const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'pink', 'vibrant', 'kid']
+const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'kid']
 
 /** Một hộp thoại: tên tab phải bấm trước (nếu có) và tên nút mở nó. */
 type ModalCase = { tab?: string; trigger: string; title: string }

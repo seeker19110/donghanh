@@ -1,19 +1,19 @@
 // Lưu, đọc và áp dụng theme giao diện.
-// 4 theme tự chọn: Xanh đêm (mặc định) · Blue sky · Pink · Rực rỡ.
+// 2 theme tự chọn: Blue sky (mặc định) · Xanh đêm. Pink/Rực rỡ đã bị XOÁ (chốt
+// 2026-09-17, chủ dự án) — giá trị "pink"/"vibrant" cũ trong localStorage của
+// người dùng cũ rơi về mặc định qua VALID.has() bên dưới, không throw.
 // + 1 theme "Nhi đồng" (kid) — KHÔNG nằm trong THEMES (không cho tự chọn/cycle qua
 // ThemeToggle), chỉ tự áp + khoá cứng cho user có age_group='nhi_dong' (xem
 // ThemeProvider.tsx). Kế hoạch "giao diện + nội dung theo độ tuổi", PROGRESS.md 2026-07-22.
-export type Theme = 'dark-blue' | 'blue-sky' | 'pink' | 'vibrant' | 'kid'
+export type Theme = 'dark-blue' | 'blue-sky' | 'kid'
 
 export const THEMES: {
   value: Theme
   labelVi: string
   labelEn: string
 }[] = [
-  { value: 'dark-blue', labelVi: 'Xanh đêm', labelEn: 'Night blue' },
   { value: 'blue-sky', labelVi: 'Blue sky', labelEn: 'Blue sky' },
-  { value: 'pink', labelVi: 'Pink', labelEn: 'Pink' },
-  { value: 'vibrant', labelVi: 'Rực rỡ', labelEn: 'Vibrant' },
+  { value: 'dark-blue', labelVi: 'Xanh đêm', labelEn: 'Night blue' },
 ]
 
 // Theme "Nhi đồng" — tách riêng khỏi THEMES (mảng cho ThemeToggle cycle qua) vì đây là
@@ -21,15 +21,13 @@ export const THEMES: {
 export const KID_THEME = { value: 'kid' as const, labelVi: 'Nhi đồng', labelEn: 'Kids' }
 
 const VALID = new Set<Theme>([...THEMES.map((t) => t.value), KID_THEME.value])
-const DEFAULT_THEME: Theme = 'dark-blue' // mặc định: Xanh đêm
+const DEFAULT_THEME: Theme = 'blue-sky' // mặc định: Blue sky (đổi từ dark-blue, chốt 2026-09-17)
 const KEY = 'ui_theme'
 
 // Màu thanh trình duyệt (meta theme-color) theo từng theme — đồng bộ với --theme-color trong CSS
 const THEME_COLORS: Record<Theme, string> = {
   'dark-blue': '#0b1226', // = --z-900 mới của theme Sci-Fi (2026-09-03)
   'blue-sky': '#f0f9ff',
-  pink: '#fff8fc',
-  vibrant: '#1c1428',
   kid: '#fffbeb',
 }
 

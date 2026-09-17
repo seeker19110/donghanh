@@ -20,7 +20,7 @@ const AA_NORMAL_TEXT = 4.5
 type Rgb = [number, number, number]
 
 /** Theme nền sáng — dùng biến thể `theme-light:` (xem tailwind.config.js). */
-const LIGHT_THEMES = new Set(['blue-sky', 'pink', 'kid'])
+const LIGHT_THEMES = new Set(['blue-sky', 'kid'])
 
 /** Sắc độ nền được dùng làm BỀ MẶT thật: trang (950), thẻ (900), ô nổi (800/700). */
 const SURFACES = ['z-950', 'z-900', 'z-800', 'z-700'] as const
@@ -43,8 +43,8 @@ const ACCENT_TEXT_LIGHT = ['a-700', 'a-800'] as const
  * [2026-08-08] `z-500` (token "chữ mờ", mã nguồn dùng ~101 chỗ) ĐÃ TRẢ NỢ trên mọi BỀ MẶT
  * THẬT — z-950 (trang), z-900 (thẻ), z-800 (ô nổi) — bằng cách chỉnh 5 giá trị token
  * trong index.css, giữ nguyên sắc thái từng theme. Số đo mới: 4.58–6.09 (dark-blue),
- * 4.59–5.42 (blue-sky), 4.65–5.42 (pink), 4.59–5.81 (vibrant), 4.62–5.33 (kid) — vẫn mờ
- * rõ so với z-400 (6.4–9.2) nên không mất phân cấp chữ chính / chữ phụ.
+ * 4.59–5.42 (blue-sky), 4.62–5.33 (kid) — vẫn mờ rõ so với z-400 (6.4–9.2) nên không mất
+ * phân cấp chữ chính / chữ phụ. (Pink/vibrant đã xoá khỏi sản phẩm 2026-09-17.)
  *
  * Nhóm nền `z-700` giữ lại trong danh sách, có CHỦ Ý: đo thực tế cho thấy ép z-500 đạt AA
  * cả trên z-700 thì nó phải sáng NGANG z-400 (dark-blue: 8.59 so với 8.51 của z-400) —
@@ -58,16 +58,12 @@ const KNOWN_LOW = new Set<string>([
   // z-500 trên nền z-700 — xem giải thích ở khối chú thích ngay trên
   'dark-blue|z-500|z-700',
   'blue-sky|z-500|z-700',
-  'pink|z-500|z-700',
-  'vibrant|z-500|z-700',
   'kid|z-500|z-700',
   // [2026-08-04] Nhóm "chữ phụ (z-300/z-400) trên nền z-700" ĐÃ HẾT NỢ: việc siết token
   // --z-300/--z-400 cho đạt AAA 7:1 (xem cổng e2e/a11y-aaa.spec.ts) kéo luôn các cặp này
   // vượt AA, nên đã xoá khỏi danh sách theo đúng yêu cầu của test bên dưới.
   // chữ accent trên nền z-700 (cũng chỉ là màu hover, chưa dùng kèm chữ accent)
   'blue-sky|a-700|z-700',
-  'pink|a-700|z-700',
-  'vibrant|a-400|z-700',
 ])
 
 /** Tỉ lệ tương phản theo công thức WCAG 2.x (dùng luminance tương đối). */
@@ -115,8 +111,8 @@ function readThemeTokens(): Map<string, Map<string, Rgb>> {
 const THEMES = readThemeTokens()
 
 describe('bảng màu theme — đọc được từ theme.css', () => {
-  it('tìm thấy đủ 5 theme', () => {
-    expect([...THEMES.keys()].sort()).toEqual(['blue-sky', 'dark-blue', 'kid', 'pink', 'vibrant'])
+  it('tìm thấy đủ 3 theme', () => {
+    expect([...THEMES.keys()].sort()).toEqual(['blue-sky', 'dark-blue', 'kid'])
   })
 
   it('mỗi theme có đủ token nền và chữ cần kiểm', () => {

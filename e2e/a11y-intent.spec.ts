@@ -8,7 +8,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { type ThemeName } from './helpers/auth'
 import { freezeAnimations } from './helpers/axe'
 
-const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'pink', 'vibrant', 'kid']
+const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'kid']
 
 /** Đặt theme cho KHÁCH (không có phiên đăng nhập để `mockLogin` gắn vào). */
 async function datTheme(page: Page, theme: ThemeName) {

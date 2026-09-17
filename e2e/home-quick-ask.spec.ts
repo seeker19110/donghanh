@@ -146,7 +146,7 @@ test('Bạn Đồng Hành đổ sẵn câu hỏi vào ô soạn nhưng KHÔNG t�
 // `e2e/a11y.spec.ts` quét Trang chủ ở trạng thái mặc định, nên panel "Gợi ý nơi học" (chỉ hiện
 // sau khi người dùng hỏi) không nằm trong vùng quét đó. Đặc tả §⑤ yêu cầu THÊM state mới vào
 // cổng chứ không bỏ rule — nên quét riêng đúng panel này, đủ 5 theme.
-const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'pink', 'vibrant', 'kid']
+const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'kid']
 
 for (const theme of THEMES) {
   test(`a11y: panel gợi ý nơi học theme=${theme} — 0 vi phạm A/AA`, async ({ page }) => {

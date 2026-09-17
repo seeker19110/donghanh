@@ -29,7 +29,7 @@ import {
 } from '../e2e/helpers/learningUxScreens.js'
 import type { ThemeName } from '../e2e/helpers/auth.js'
 
-const MOI_THEME: readonly ThemeName[] = ['dark-blue', 'blue-sky', 'pink', 'vibrant', 'kid']
+const MOI_THEME: readonly ThemeName[] = ['dark-blue', 'blue-sky', 'kid']
 
 type ShotManifest = {
   phase: string

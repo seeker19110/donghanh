@@ -3,7 +3,7 @@
 // VÌ SAO CẦN: thang `zinc`/`accent`/`content` của dự án là biến CSS nên tự đổi theo theme
 // (`packages/core-ui/theme.css`). Nhưng giao diện còn dùng RẤT NHIỀU màu Tailwind gốc
 // (amber, emerald, rose, purple, cyan…) — những màu này là hex CỐ ĐỊNH, KHÔNG đổi theo theme.
-// Ba theme nền sáng (blue-sky, pink, kid) vì thế là chỗ dễ rớt tương phản nhất: một màu chữ
+// Hai theme nền sáng (blue-sky, kid) vì thế là chỗ dễ rớt tương phản nhất: một màu chữ
 // chọn cho nền tối sẽ nằm trên nền SÁNG mà không ai đổi nó.
 //
 // Dự án đã có cách vá đúng — biến thể `theme-light:text-<màu>-800` — nhưng chỉ vá tay ở một
@@ -44,10 +44,10 @@ const FIXED_FAMILIES = [
   'cyan',
 ] as const
 
-/** Ba theme nền sáng — đúng danh sách mà biến thể `theme-light:` áp dụng
+/** Hai theme nền sáng — đúng danh sách mà biến thể `theme-light:` áp dụng
  *  (xem `addVariant('theme-light', …)` trong `apps/dhcb/tailwind.config.js`). */
-const LIGHT_THEMES = ['blue-sky', 'pink', 'kid'] as const
-const DARK_THEMES = ['dark-blue', 'vibrant'] as const
+const LIGHT_THEMES = ['blue-sky', 'kid'] as const
+const DARK_THEMES = ['dark-blue'] as const
 
 /** Ba bề mặt thật của dự án, theo đúng bảng ở `scripts/contrast-audit.ts`. */
 const SURFACES = [

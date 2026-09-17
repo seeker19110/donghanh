@@ -20,7 +20,7 @@ const CONTENT_SELECTOR =
   'h1,h2,h3,h4,h5,h6,p,li,dt,dd,blockquote,figcaption,td,th,article,main > div'
 const CHROME_ANCESTOR = 'nav,header,footer,button,a,[role="button"],[role="tab"],label,input,select'
 
-const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'pink', 'vibrant', 'kid']
+const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'kid']
 
 /** Manifest thật rút gọn — cùng hình dạng `SUPPORTED_SUBJECTS` máy chủ trả ra. */
 const CATALOG = {
