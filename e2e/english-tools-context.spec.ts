@@ -21,18 +21,19 @@ test.describe('Back của công cụ Tiếng Anh về trang tổng quan môn (AC
   }
 })
 
-test('mobile: đứng ở /tro-truyen thì tab "Góc học tập" sáng, không phải "Luyện tập" (AC-3.2)', async ({
+test('mobile: đứng ở /tro-truyen thì tab "Học" (Góc học tập) sáng, không phải "Ôn tập" (AC-3.2)', async ({
   page,
 }) => {
+  // [P1-7, lệnh 9, 2026-09-17] Tab BottomNav thứ 4 đổi tên "Luyện tập" → "Ôn tập"
+  // (`/goc-hoc-tap/on-tap`, active theo `REVIEW_PATHS`) — bất biến gốc của test này (đứng ở
+  // công cụ Tiếng Anh thì tab "Góc học tập" sáng, KHÔNG phải tab còn lại) vẫn giữ nguyên, chỉ đổi
+  // tên tab đối chứng.
   await page.setViewportSize({ width: 390, height: 844 })
   await mockLogin(page)
   await page.goto('/tro-truyen')
   const nav = page.getByRole('navigation').last()
-  await expect(nav.getByRole('link', { name: /Góc học tập/ })).toHaveAttribute(
-    'aria-current',
-    'page',
-  )
-  await expect(nav.getByRole('link', { name: /Luyện tập/ })).not.toHaveAttribute(
+  await expect(nav.getByRole('link', { name: /Học/ })).toHaveAttribute('aria-current', 'page')
+  await expect(nav.getByRole('link', { name: /Ôn tập/ })).not.toHaveAttribute(
     'aria-current',
     'page',
   )
