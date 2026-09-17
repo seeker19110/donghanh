@@ -50,7 +50,6 @@ test('AC-6: CTA hiện trong dưới 3000ms kể từ khi mở "/"', async ({ pa
   await expect(page.getByRole('link', { name: CTA })).toBeVisible()
   const elapsedMs = Date.now() - start
   // Ghi số đo ra output CI để dán vào PR (AC-6 yêu cầu "ghi số vào PR").
-  // eslint-disable-next-line no-console -- số đo hiệu năng, cố ý in ra log CI
   console.log(`[AC-6] Thời gian tới CTA guest_home_start: ${elapsedMs}ms`)
   expect(elapsedMs).toBeLessThan(3000)
 })
