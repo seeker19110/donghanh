@@ -297,6 +297,36 @@ mode bật (`/mon-hoc/:mon/bai-hoc` → host Góc học tập → đá ngược 
 Đã sửa bằng bảng ownership theo độ sâu. Lỗi này chưa bao giờ lộ ở localhost/E2E vì ở đó chỉ có
 một host — đó là lý do nó sống sót từ 2026-08-28.
 
+### Ưu tiên 1d — REDESIGN TRANG CHỦ & TRẢI NGHIỆM HỌC CỐT LÕI (đặc tả `docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md`)
+
+**[2026-09-17] Đặc tả 15 lệnh đã chốt (§2), chủ dự án ra lệnh thi hành từng lát.** Trạng thái
+sau đợt 1 (4/15 lệnh, chạy song song bằng subagent Sonnet, đã merge):
+
+- **Lệnh 1 · P0-1 — ✅ ĐÃ MERGE (#1005).** `pickHomeBanner` (hàm thuần chọn ĐÚNG MỘT banner phụ),
+  `Home.tsx` sắp lại thứ tự khối (TodayCard là tâm điểm).
+- **Lệnh 2 · P0-2 — ✅ ĐÃ MERGE (#1008).** Token ấm `--w-*` (3 theme) + `CompanionAvatar`/
+  `CompanionBubble` (`packages/core-ui`) + `companionVoice.ts`; gộp luồng "quay lại sau bỏ bẵng"
+  vào bong bóng Companion (không còn card `.glass` riêng ở `Home.tsx`).
+- **Lệnh 5 · P0-4 — ✅ ĐÃ MERGE (#1006).** Header mobile ≤ 4 khe (ẩn Studio switcher + đổi giao
+  diện dưới 1024px, dời vào Hồ sơ mục "Không gian"/"Giao diện"); `focus` mode ẩn thêm `BottomNav`.
+- **Lệnh 6 · P1-8 — ✅ ĐÃ MERGE (#1007).** `SubjectSpaceList` + `orderSubjects` (thuần) tách khỏi
+  `Home.tsx`: môn có bằng chứng học lên đầu (không mặc định tiếng Anh), trạng thái bằng CHỮ
+  ("đang học · …" / "chưa bắt đầu", không %), mobile 3 thẻ + "Xem tất cả", empty state "Thử 5
+  phút".
+
+Cả 4 PR đều dính lỗi CI nhỏ do 4 slice cùng đụng `Home.tsx`/pattern `theme-light:` — đã tự sửa
+hết trước khi merge (chi tiết: đặc tả §8 "Nghiệm thu"): 1 lỗi format, 1 lỗi mô tả PR (cụm
+"Approved for implementation" bị ngắt dòng), 2 lỗi thiếu biến thể `theme-light:` cho màu accent
+trên nền `bg-zinc-900`/`bg-warm-50` (nền tự đảo sáng ở theme `blue-sky`/`kid` vì `zinc` map qua
+CSS variable theo theme — bài học chung cho các lệnh sau: MỌI `text-accent-*` mới thêm phải kèm
+`theme-light:` nếu nền không phải fixed-dark thật), 2 lần merge conflict trên `Home.tsx` (lệnh 2
+tạo PR trước khi lệnh 1/6 merge), 1 selector e2e lỗi thời (`e2e/a11y.spec.ts` còn tìm text cũ
+"Mừng bạn quay lại" sau khi lệnh 2 đổi text).
+
+**Tiếp theo:** lệnh 3 (P2-13, `prefers-reduced-motion` — có thể phần lớn đã có sẵn từ S13-2,
+2026-09-16, cần RÀ SOÁT trước khi viết mới), lệnh 4 (P0-3, `GuestHome`), lệnh 7 (P1-5,
+`WeekRhythm`) — theo đồ thị phụ thuộc ở đặc tả §2, chờ chủ dự án ra lệnh tiếp.
+
 ### Ưu tiên 2 — nợ nội dung của mảng đã ship (đi sâu, không mở rộng)
 
 - ~~Lộ trình "Kỹ Sư Trưởng AI": quiz sau chặng mới soạn 4/22~~ — **SAI, đo lại 2026-09-06:**
