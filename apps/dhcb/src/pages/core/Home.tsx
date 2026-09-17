@@ -14,6 +14,7 @@ import HomeAiBriefingCard, { type HomeComeback } from '../../components/Home/Hom
 import TodayCard from '../../components/Home/TodayCard.js'
 import HomeUniversalAiBar from '../../components/Home/HomeUniversalAiBar.js'
 import SubjectSpaceList from '../../components/Home/SubjectSpaceList.js'
+import WeekRhythm from '../../components/Home/WeekRhythm.js'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { useLang } from '../../context/useLang'
 import { useAuth } from '../../context/useAuth'
@@ -45,6 +46,12 @@ import { daysUntilPlanExpires } from '../../lib/planExpiryBanner'
 import { daysUntilPromoEnds } from '../../lib/promoEndingBanner'
 import { getAppSettings } from '../../lib/appSettings'
 import { shouldShowRewardTip } from '../../lib/rewardTip'
+import { getWeekDays } from '../../lib/weeklyGoal'
+import { getStreak } from '../../lib/storage'
+import { vnDayOfWeek } from '../../lib/date'
+import { fetchQuestsStatus, type QuestsStatus } from '../../lib/quests'
+import { latestUnlocked } from '../../lib/achievements'
+import { buildWeekRhythm } from '../../lib/home/weekRhythm'
 
 export default function Home() {
   const nav = useNavigate()
@@ -62,6 +69,9 @@ export default function Home() {
 
   const [cefrLevels, setCefrLevels] = useState<CefrLevel[]>([])
   const [circleById, setCircleById] = useState<Record<string, Circle>>({})
+  // Trạng thái nhiệm vụ cho `WeekRhythm` (P1-5) — gọi mạng, null khi lỗi/chưa đăng nhập/chưa
+  // tải xong (dòng "Nhiệm vụ x/y" tự ẩn, xem `buildWeekRhythm`), không toast lỗi.
+  const [questsStatus, setQuestsStatus] = useState<QuestsStatus | null>(null)
 
   usePageTitle('Trang chủ | Đồng hành cùng bạn')
 
@@ -71,6 +81,17 @@ export default function Home() {
       setCircleById(Object.fromEntries(foundation.map((c) => [c.id, c])))
     })
   }, [])
+
+  useEffect(() => {
+    if (!user?.id || user.isGuest) return
+    let cancelled = false
+    fetchQuestsStatus().then((s) => {
+      if (!cancelled) setQuestsStatus(s)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [user?.id, user?.isGuest])
 
   const uid = user?.id ?? ''
   // syncVersion tăng khi cloud sync xong → tham chiếu nó trong thân memo (void) để
@@ -122,9 +143,23 @@ export default function Home() {
 
   if (!user) return null
 
+  const isGuestUser = user.isGuest === true
   const srsDue = getSRSStats(user.id).due
   const dailyLearned = getDailyLearned(user.id)
   const dailyMax = getDailyMax(user.id)
+
+  // [P1-5, lệnh 7] "Nhịp tuần": 7 chấm T2→CN + nhiệm vụ + huy hiệu mới nhất — ẩn hoàn toàn
+  // với khách (không có dữ liệu cá nhân để vẽ). Luật ẩn khi tuần rỗng + streak=0 nằm trong
+  // `buildWeekRhythm` (thuần, test bảng), Home chỉ lắp dữ liệu.
+  const weekRhythmModel = isGuestUser
+    ? null
+    : buildWeekRhythm({
+        weekDays: getWeekDays(uid),
+        todayIndex: (vnDayOfWeek() + 6) % 7, // vnDayOfWeek: 0=CN..6=T7 → đổi sang 0=T2..6=CN
+        streak: getStreak(uid),
+        quests: questsStatus,
+        latestBadge: latestUnlocked(uid, vi),
+      })
 
   // [P0-2] Luồng "quay lại sau bỏ bẵng" gộp vào bong bóng Companion (`HomeAiBriefingCard`),
   // không còn là `.glass` card riêng — xem docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md.
@@ -161,6 +196,9 @@ export default function Home() {
       {/* ── "Hôm nay": ĐÚNG MỘT việc học tiếp, mọi môn, không mặc định tiếng Anh (S06-2). ── */}
       <TodayCard plan={todayPlan} state={todayState} onRetry={todayRetry} />
 
+      {/* ── Nhịp tuần: 7 chấm + nhiệm vụ + huy hiệu mới nhất (mobile — desktop ở cột phải). ── */}
+      {!isDesktop && weekRhythmModel && <WeekRhythm model={weekRhythmModel} />}
+
       {/* ── Universal AI Ask & Voice Bar (Hỏi nhanh đa năng mọi bộ môn & lĩnh vực) ── */}
       <HomeUniversalAiBar />
     </div>
@@ -172,7 +210,6 @@ export default function Home() {
   // mọi trang kể cả trang chủ) — khi luật chọn 1 trong 2 kind đó, trang chủ NHƯỜNG chỗ, không vẽ
   // thêm bản riêng đè lên; chỉ `pricePromo`/`rewardTip` mới có bản "của trang chủ" (2 banner này
   // vốn chỉ hiện ở Home/Profile, không có bản toàn cục).
-  const isGuestUser = user.isGuest === true
   const planExpiresInDays =
     !isGuestUser && user.plan !== 'free' && user.planExpiresAt
       ? daysUntilPlanExpires(user.planExpiresAt, new Date())
@@ -316,6 +353,7 @@ export default function Home() {
           railLabel="Gợi ý và tiến độ"
           rail={
             <div className="space-y-5">
+              {isDesktop && weekRhythmModel && <WeekRhythm model={weekRhythmModel} />}
               {progressHistory}
               {homeBannerNode}
             </div>

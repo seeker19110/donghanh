@@ -172,3 +172,38 @@ describe('Home — banner phụ (P0-1)', () => {
     expect(container.querySelectorAll('[data-home-banner]')).toHaveLength(0)
   })
 })
+
+// [P1-5, lệnh 7] AC-4: khách không có dữ liệu cá nhân để vẽ 7 chấm → `WeekRhythm` không render.
+describe('Home — WeekRhythm ẩn với khách (AC-4)', () => {
+  let container: HTMLDivElement
+  let root: Root
+
+  beforeEach(() => {
+    vi.resetModules()
+    localStorage.clear()
+    container = document.createElement('div')
+    document.body.appendChild(container)
+  })
+
+  afterEach(() => {
+    act(() => root.unmount())
+    container.remove()
+    vi.doUnmock('../../context/useAuth')
+  })
+
+  it('khách (isGuest) → không có [data-dot] nào trên trang chủ', async () => {
+    vi.doMock('../../context/useAuth', () => ({
+      useAuth: () => ({ user: { id: 'guest_2', name: 'Khách', email: '', isGuest: true } }),
+    }))
+    const { default: HomeAfterMock } = await import('./Home')
+    root = createRoot(container)
+    act(() => {
+      root.render(
+        <MemoryRouter initialEntries={['/']}>
+          <HomeAfterMock />
+        </MemoryRouter>,
+      )
+    })
+    expect(container.querySelectorAll('[data-dot]')).toHaveLength(0)
+  })
+})
