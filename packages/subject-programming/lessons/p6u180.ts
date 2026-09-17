@@ -33,7 +33,7 @@ export const P6U180_LESSONS: ProgrammingLesson[] = [
       },
       {
         stdinLines: ['api', 'api', 'NO'],
-        expected: 'create=-\ndelete=-\ndecision=apply-simulated',
+        expected: 'create=-\nupdate=-\ndelete=-\ndecision=apply-simulated',
         hidden: true,
         label: 'plan rỗng không cần approval delete',
       },
