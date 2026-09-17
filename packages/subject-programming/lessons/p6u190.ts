@@ -132,7 +132,7 @@ except (EOFError, ValueError):
       stdinLines: [],
     },
     predict: {
-      code: `# Availability giam thi muc xau di la baseline tru actual.\nbaseline = 99.95\nactual = 99.90\n# Tinh so diem phan tram availability da mat.\nloss = baseline - actual\n# In muc xau di de so voi regression budget.\nprint(loss)`,
+      code: `# Availability giam thi muc xau di la baseline tru actual.\nbaseline = 99.95\nactual = 99.90\n# Tinh so diem phan tram availability da mat.\nloss = baseline - actual\n# In muc xau di, lam tron 2 chu so de tranh sai so dau phay dong.\nprint(round(loss, 2))`,
       question: 'Baseline availability 99.95 còn actual 99.90. Mức regression in ra là bao nhiêu?',
       choices: ['0.05', '-0.05', '99.90', '199.85'],
       answerIndex: 0,

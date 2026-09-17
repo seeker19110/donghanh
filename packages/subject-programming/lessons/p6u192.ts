@@ -49,7 +49,7 @@ export const P6U192_LESSONS: ProgrammingLesson[] = [
         },
         {
           stdinLines: ['api:auth.cache.db;auth:-;cache:-;db:-', '2'],
-          expected: 'status=violation\nreason=hotspot:api',
+          expected: 'status=violation\nreason=hotspot=api',
           match: 'contains',
           hidden: true,
           label: 'quá budget dependency là hotspot',
@@ -142,7 +142,7 @@ except (EOFError, ValueError):
     predict: {
       code: `impact = 4\ninterest = 3\nprint(impact * interest)`,
       question: 'Khoản debt có impact 4 và interest 3 có score bao nhiêu?',
-      choices: ['7', '12', '1', '43'],
+      choices: ['7', '12', '21', '43'],
       answerIndex: 1,
       explain: 'Score là tích impact × interest, vì hai chiều đều phải có evidence.',
     },

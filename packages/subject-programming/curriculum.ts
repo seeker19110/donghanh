@@ -955,6 +955,26 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         topics: 'Context; decision; alternatives; owner; acceptance; revisit; boundary',
       },
       {
+        id: 'p6-u186',
+        title: 'Security S2 — authorized assessment scope',
+        topics: 'Consent; scope; window; test account; non-destructive refuse',
+      },
+      {
+        id: 'p6-u187',
+        title: 'Security S2 — web/API finding triage',
+        topics: 'Redacted fixture; authz; input validation; insufficient evidence',
+      },
+      {
+        id: 'p6-u188',
+        title: 'Security S2 — exposure và secret triage',
+        topics: 'Bounded inventory; true/false positive; rotate/revoke recommendation',
+      },
+      {
+        id: 'p6-u189',
+        title: 'Security S2 — responsible disclosure',
+        topics: 'Severity; remediation; owner/timeline; embargo before public disclosure',
+      },
+      {
         id: 'p6-u166',
         title: 'AI S2 — time split, baseline và leakage',
         topics: 'Past-only split; holdout; leakage fail closed; baseline comparison',
