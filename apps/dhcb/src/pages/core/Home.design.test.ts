@@ -31,10 +31,40 @@ describe('Home.tsx — trình bày tập trung (đợt C)', () => {
   })
 
   it('không gian bộ môn dựng từ SUBJECT_ENTRIES (một nguồn với hub, S05-2), không viết tay từng thẻ môn', () => {
-    expect(src).toContain('spaces.map(')
-    expect(src).toContain("from '@dhcb/core-learner/subjectEntry'")
-    expect(src).toContain('SUBJECT_ENTRIES.map(')
+    // [P1-8] Phần MÔN đã tách sang SubjectSpaceList.tsx (dùng SUBJECT_ENTRIES ở đó) — Home.tsx
+    // chỉ còn gọi component đó và khai tay thẻ Sự nghiệp/Khởi nghiệp & Đời sống (không phải môn).
+    expect(src).toContain('<SubjectSpaceList')
+    const subjectSpaceListSrc = readFileSync(
+      join(__dirname, '../../components/Home/SubjectSpaceList.tsx'),
+      'utf8',
+    )
+    expect(subjectSpaceListSrc).toContain("from '@dhcb/core-learner/subjectEntry'")
+    expect(subjectSpaceListSrc).toContain('orderSubjects(SUBJECT_ENTRIES')
     // Thẻ Sự nghiệp/Khởi nghiệp & Đời sống KHÔNG phải môn học — vẫn khai tay, giữ nguyên.
     expect(src).toContain("id: 'career-life'")
+  })
+})
+
+// [P0-1] Canh thứ tự khối: `pickHomeBanner` chọn ĐÚNG MỘT banner phụ, và mọi banner phụ đứng
+// SAU khối "Bộ môn & không gian" trong mã nguồn nhánh mobile (nhánh render 1 cột — bố cục thấy
+// trên di động, nơi thứ tự khối thật sự ảnh hưởng tới trải nghiệm cuộn).
+describe('Home.tsx — P0-1: đúng MỘT banner phụ, đứng dưới phần môn', () => {
+  it('gọi pickHomeBanner đúng một lần để chọn banner, không tự hiện nhiều banner cùng lúc', () => {
+    expect(src).toContain('pickHomeBanner(')
+    expect(src.match(/pickHomeBanner\(/g) ?? []).toHaveLength(1)
+  })
+
+  it('nhánh mobile: {spacesSection} đứng TRƯỚC {!isDesktop && homeBannerNode} trong mã nguồn', () => {
+    const idxSpaces = src.indexOf('{spacesSection}')
+    const idxBanner = src.indexOf('{!isDesktop && homeBannerNode}')
+    expect(idxSpaces).toBeGreaterThan(-1)
+    expect(idxBanner).toBeGreaterThan(-1)
+    expect(idxSpaces).toBeLessThan(idxBanner)
+  })
+
+  it('không còn hiện RewardTipBanner/PricePromoBanner độc lập ngoài homeBannerNode (tránh 2 banner cùng lúc)', () => {
+    // Trước P0-1: `{!isDesktop && rewardTip}` đứng ngay dưới `{topBlocks}`, TRƯỚC {spacesSection}.
+    expect(src).not.toContain('{!isDesktop && rewardTip}')
+    expect(src).not.toContain('{rewardTip}')
   })
 })

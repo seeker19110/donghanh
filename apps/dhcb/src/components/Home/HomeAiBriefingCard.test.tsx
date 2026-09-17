@@ -5,11 +5,16 @@
 // tuyến" nhấp nháy vĩnh viễn và nhãn HOA nhỏ giãn chữ — đúng bộ "tell" của UI do AI sinh mà
 // mục 9 của `.agents/skills/ui-ux-craftsman` liệt kê. Mấy thứ này rất dễ quay lại theo từng
 // PR nhỏ, nên canh bằng test render thật (happy-dom) ở cả trạng thái đang tải lẫn đã tải.
+//
+// [P0-2, 2026-09-17] Thêm ca canh `comeback` (gộp luồng "quay lại sau bỏ bẵng" vào bong bóng
+// Companion, thay cho `.glass` card riêng ở `Home.tsx` cũ) + canh không còn import `Bot`.
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { MemoryRouter } from 'react-router-dom'
-import HomeAiBriefingCard from './HomeAiBriefingCard'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import HomeAiBriefingCard, { type HomeComeback } from './HomeAiBriefingCard'
 
 const fetchBriefing = vi.fn()
 vi.mock('../../lib/proactiveBriefingApi', () => ({
@@ -41,6 +46,18 @@ async function render(props: Parameters<typeof HomeAiBriefingCard>[0]) {
 // Ba mẫu trang trí mà đợt C gỡ — không được quay lại ở BẤT KỲ trạng thái nào.
 const FORBIDDEN = ['animate-ping', 'blur-', 'bg-gradient-', 'shadow-accent-', 'uppercase']
 
+function comebackProp(overrides: Partial<HomeComeback> = {}): HomeComeback {
+  return {
+    daysAway: 5,
+    reviewLabel: 'Ôn 5 thẻ',
+    onReview: vi.fn(),
+    learnLabel: 'Học 3 từ mới',
+    onLearnNew: vi.fn(),
+    onDismiss: vi.fn(),
+    ...overrides,
+  }
+}
+
 describe('HomeAiBriefingCard — thẻ AI tập trung (đợt C)', () => {
   beforeEach(() => {
     fetchBriefing.mockReset()
@@ -59,7 +76,7 @@ describe('HomeAiBriefingCard — thẻ AI tập trung (đợt C)', () => {
     for (const cls of FORBIDDEN) expect(html).not.toContain(cls)
     // Tiêu đề thẻ phải là "Bạn Đồng Hành AI" — e2e/v2-hubs.spec.ts tìm heading này trên trang chủ.
     expect(el.querySelector('h2')?.textContent).toBe('Bạn Đồng Hành AI')
-    expect(html).toContain(', An!')
+    expect(html).toContain(', An.')
   })
 
   it('đã tải: không còn animate-pulse nào (pulse chỉ dành cho skeleton — luật 6 mục 9)', async () => {
@@ -98,5 +115,45 @@ describe('HomeAiBriefingCard — thẻ AI tập trung (đợt C)', () => {
     const el = await render({ dailyLearned: 0, dailyMax: 50 })
     expect(el.textContent).not.toContain('Hôm nay đã học')
     expect(el.textContent).not.toContain('0/50')
+  })
+
+  // [P0-2] KHÔNG còn import Bot từ lucide — thay bằng CompanionAvatar SVG inline.
+  it('không import Bot từ lucide-react', () => {
+    const src = readFileSync(join(__dirname, 'HomeAiBriefingCard.tsx'), 'utf-8')
+    // Chỉ soi CODE (bỏ dòng comment `//`) — bình luận lịch sử được phép nhắc lại tên icon đã gỡ.
+    const codeOnly = src
+      .split('\n')
+      .filter((l) => !l.trim().startsWith('//'))
+      .join('\n')
+    expect(codeOnly).not.toMatch(/\bBot\b/)
+  })
+
+  // [P0-2] Luồng "quay lại sau bỏ bẵng" gộp vào bong bóng, không còn card `.glass` riêng.
+  it('có comeback: DOM có "Đã 5 ngày" và KHÔNG có card .glass riêng', async () => {
+    fetchBriefing.mockResolvedValue({ summary: 'Bản tin thử.', insights: [] })
+    const el = await render({ comeback: comebackProp() })
+    expect(el.textContent).toContain('Đã 5 ngày')
+    expect(el.querySelector('.glass')).toBeNull()
+    expect(el.textContent).toContain('Ôn 5 thẻ')
+    expect(el.textContent).toContain('Học 3 từ mới')
+    expect(fetchBriefing).toHaveBeenCalledTimes(1)
+  })
+
+  it('comeback.reviewLabel = null: không hiện link ôn thẻ, vẫn hiện link học từ mới', async () => {
+    fetchBriefing.mockResolvedValue({ summary: 'Bản tin thử.', insights: [] })
+    const el = await render({ comeback: comebackProp({ reviewLabel: null }) })
+    expect(el.textContent).not.toContain('Ôn 5 thẻ')
+    expect(el.textContent).toContain('Học 3 từ mới')
+  })
+
+  it('bấm nút học từ mới trong comeback → gọi đúng callback', async () => {
+    fetchBriefing.mockResolvedValue({ summary: 'Bản tin thử.', insights: [] })
+    const onLearnNew = vi.fn()
+    const el = await render({ comeback: comebackProp({ onLearnNew }) })
+    const btn = [...el.querySelectorAll('button')].find((b) =>
+      b.textContent?.includes('Học 3 từ mới'),
+    ) as HTMLButtonElement
+    act(() => btn.click())
+    expect(onLearnNew).toHaveBeenCalledTimes(1)
   })
 })

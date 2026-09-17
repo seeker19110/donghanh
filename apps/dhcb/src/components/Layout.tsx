@@ -10,6 +10,7 @@ import { navigateTo } from '../lib/subjectsHost'
 import { STUDIOS } from '../lib/studios'
 import { matchesNav } from '../lib/navPaths'
 import { buildCrumbs, type Crumb } from '../lib/breadcrumb'
+import { useIsDesktopViewport } from '../lib/useIsDesktopViewport'
 
 interface Props {
   // title/subtitle KHÔNG bắt buộc: nhiều trang nay hiển thị tiêu đề LỚN ngay dưới header
@@ -60,6 +61,12 @@ export default function Layout({
   const location = useLocation()
   const { user } = useAuth()
   const { T } = useLang()
+  // [P0-4, 2026-09-17] Dưới 1024px, header chỉ giữ 4 khe (Back/Logo · title · AI/streak ·
+  // avatar) — bộ chuyển Studio và nút đổi giao diện chuyển hẳn sang trang Hồ sơ (`STUDIOS`
+  // ở đó) và `/cai-dat`. Gate bằng JS (không `lg:hidden`) để KHÔNG render trùng nút Studio ở
+  // hai bề rộng — cùng lý do đã ghi ở `useIsDesktopViewport.ts`.
+  const isDesktop = useIsDesktopViewport()
+  const isHome = location.pathname === '/'
   const [switcherOpen, setSwitcherOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   // Nút mở menu — giữ tham chiếu để TRẢ FOCUS về đây khi đóng (WAI-ARIA APG: menu button).
@@ -139,7 +146,9 @@ export default function Layout({
       // `setSwitcherOpen(true)` thì trạng thái bật mà không có gì hiện ra, và Escape sau đó
       // cũng không có menu nào để đóng.
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        if (focus) return
+        // Chế độ tập trung KHÔNG dựng menu; dưới 1024px menu cũng không dựng (P0-4, nội
+        // dung Studio đã dời sang trang Hồ sơ) — cả hai đều phải no-op.
+        if (focus || !isDesktop) return
         e.preventDefault()
         setSwitcherOpen((v) => !v)
         return
@@ -163,6 +172,19 @@ export default function Layout({
     }
     window.addEventListener('keydown', handleGlobalShortcut)
     return () => window.removeEventListener('keydown', handleGlobalShortcut)
+  }, [focus, isDesktop])
+
+  // [P0-4] Cờ CHẾ ĐỘ TẬP TRUNG toàn cục — `BottomNav` đọc `[data-focus='1']` qua CSS
+  // (index.css) để tự ẩn, cùng cơ chế `document.documentElement.dataset.sidebar` của
+  // `DesktopSidebar`. Dọn dẹp khi `focus` tắt HOẶC khi Layout unmount (đổi trang), không để
+  // sót cờ khiến trang kế tiếp mất luôn thanh điều hướng.
+  useEffect(() => {
+    const root = document.documentElement
+    if (focus) root.dataset.focus = '1'
+    else delete root.dataset.focus
+    return () => {
+      delete root.dataset.focus
+    }
   }, [focus])
 
   // Nội dung huy hiệu streak — dùng chung cho cả hai lớp bọc bên dưới.
@@ -231,8 +253,9 @@ export default function Layout({
           </Link>
         )}
 
-        {/* Bộ chuyển Studio — ẩn ở chế độ tập trung (xem prop `focus`). */}
-        {!focus && (
+        {/* Bộ chuyển Studio — ẩn ở chế độ tập trung (prop `focus`) VÀ dưới 1024px (P0-4):
+            nội dung của nó đã chuyển sang mục "Không gian" ở trang Hồ sơ. */}
+        {!focus && isDesktop && (
           <div className="relative" ref={menuRef}>
             <button
               ref={switcherBtnRef}
@@ -348,23 +371,30 @@ export default function Layout({
         {/* Nút tùy chỉnh thêm vào header (tuỳ trang truyền vào) */}
         {extra}
 
-        {/* Nút truy cập nhanh Bạn Đồng Hành AI toàn cục */}
+        {/* Nút truy cập nhanh Bạn Đồng Hành AI toàn cục.
+            [P0-4, 2026-09-17] Ẩn trên Trang chủ MOBILE: Orb ở BottomNav và ô hỏi
+            (HomeUniversalAiBar) đã là hai lối vào AI, nút thứ ba ở đây chỉ thêm khe không
+            cần thiết trong 4 khe header di động. Trang khác (kể cả mobile) vẫn giữ — đây
+            thường là lối AI DUY NHẤT ở đó. */}
         {/* GIỮ transition-all: hover đổi màu nền/viền, active đổi transform (scale). */}
-        <button
-          onClick={() => nav('/ban-dong-hanh')}
-          aria-label="Mở Bạn Đồng Hành AI"
-          title="Bạn Đồng Hành AI (Live Voice & Executive Suite)"
-          className="tap-44 relative flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-accent-500/15 hover:bg-accent-500/25 border border-accent-500/30 text-accent-300 theme-light:text-accent-800 text-xs font-semibold transition-all active:scale-95 group shadow-sm shrink-0"
-        >
-          <Bot className="w-3.5 h-3.5 text-accent-400 group-hover:scale-110 transition-transform" />
-          <span className="hidden md:inline">Đồng Hành AI</span>
-          {/* [2026-09-03, đợt B] Gỡ chấm `animate-ping`: nó chạy VĨNH VIỄN trên mọi trang mà
-              không báo hiệu bất cứ thay đổi nào — không có tin nhắn mới, không có tác vụ đang
-              chạy. Đây là điểm chuyển động duy nhất luôn hiện trong tầm mắt lúc ngồi học. */}
-        </button>
+        {!(isHome && !isDesktop) && (
+          <button
+            onClick={() => nav('/ban-dong-hanh')}
+            aria-label="Mở Bạn Đồng Hành AI"
+            title="Bạn Đồng Hành AI (Live Voice & Executive Suite)"
+            className="tap-44 relative flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-accent-500/15 hover:bg-accent-500/25 border border-accent-500/30 text-accent-300 theme-light:text-accent-800 text-xs font-semibold transition-all active:scale-95 group shadow-sm shrink-0"
+          >
+            <Bot className="w-3.5 h-3.5 text-accent-400 group-hover:scale-110 transition-transform" />
+            <span className="hidden md:inline">Đồng Hành AI</span>
+            {/* [2026-09-03, đợt B] Gỡ chấm `animate-ping`: nó chạy VĨNH VIỄN trên mọi trang mà
+                không báo hiệu bất cứ thay đổi nào — không có tin nhắn mới, không có tác vụ đang
+                chạy. Đây là điểm chuyển động duy nhất luôn hiện trong tầm mắt lúc ngồi học. */}
+          </button>
+        )}
 
-        {/* Nút đổi giao diện: Sáng / Tối / Xanh đêm */}
-        <ThemeToggle />
+        {/* Nút đổi giao diện: Sáng / Tối / Xanh đêm — dưới 1024px đã có ở trang Hồ sơ/`/cai-dat`
+            (P0-4), ẩn ở đây để header mobile chỉ còn 4 khe. */}
+        {isDesktop && <ThemeToggle />}
 
         {/* User avatar + tên đầy đủ (bấm vào để xem trang cá nhân) */}
         {user && (

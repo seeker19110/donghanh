@@ -68,6 +68,16 @@ export default {
           muted: 'rgb(var(--text-muted) / <alpha-value>)', // AA — nhãn/chú thích, KHÔNG cho nội dung
           disabled: 'rgb(var(--text-disabled) / <alpha-value>)', // AA — trạng thái tắt
         },
+        // Màu ẤM riêng cho Companion "Bạn Đồng Hành" (P0-2, 2026-09-17) — TÁCH khỏi `accent`
+        // (màu thương hiệu) để avatar/bong bóng chào có cảm giác gần gũi, không lẫn với nút
+        // hành động chính. Chữ trong bong bóng LUÔN dùng `text-content` (không `text-warm-*`)
+        // để giữ AAA — xem docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md §P0-2.
+        warm: {
+          50: 'rgb(var(--w-50) / <alpha-value>)',
+          100: 'rgb(var(--w-100) / <alpha-value>)',
+          500: 'rgb(var(--w-500) / <alpha-value>)',
+          700: 'rgb(var(--w-700) / <alpha-value>)',
+        },
       },
       fontFamily: {
         sans: ['Inter Variable', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
@@ -128,6 +138,23 @@ export default {
           '0%, 100%': { boxShadow: '0 0 20px 4px rgba(var(--a-500) / 0.25)' },
           '50%': { boxShadow: '0 0 36px 8px rgba(var(--a-500) / 0.45)' },
         },
+        // CompanionAvatar `idle` — chớp mắt nhẹ mỗi chu kỳ (P0-2).
+        'companion-blink': {
+          '0%, 92%, 100%': { transform: 'scaleY(1)' },
+          '96%': { transform: 'scaleY(0.1)' },
+        },
+        // CompanionAvatar `thinking` — ba chấm nhấp nháy so le.
+        'companion-dot': {
+          '0%, 80%, 100%': { opacity: '0.25' },
+          '40%': { opacity: '1' },
+        },
+        // CompanionAvatar `cheer` — phồng nhẹ rồi về, tự dừng sau 600ms (component quản bằng
+        // setTimeout, KHÔNG lặp vô hạn — animation chỉ chạy một lần).
+        'companion-cheer': {
+          '0%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.08)' },
+          '100%': { transform: 'scale(1)' },
+        },
       },
       animation: {
         'fade-in': 'fade-in 0.35s ease-out both',
@@ -140,6 +167,9 @@ export default {
         float: 'float 4s ease-in-out infinite',
         orbit: 'orbit 8s linear infinite',
         'glow-pulse': 'glow-pulse 3s ease-in-out infinite',
+        'companion-blink': 'companion-blink 6s ease-in-out infinite',
+        'companion-dot': 'companion-dot 1.2s ease-in-out infinite',
+        'companion-cheer': 'companion-cheer 0.6s ease-out both',
       },
     },
   },

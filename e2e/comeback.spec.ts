@@ -28,7 +28,9 @@ async function seedLearnedWords(page: Page, words: string[]) {
 }
 
 test.describe('Luồng quay lại sau khi bỏ bẵng (② M4)', () => {
-  test('vắng 5 ngày → hiện banner chào mừng + 2 CTA phiên rút gọn', async ({ page }) => {
+  test('vắng 5 ngày → bong bóng Companion gộp câu quay lại + 2 CTA phiên rút gọn', async ({
+    page,
+  }) => {
     await seedActivity(page, 5)
     await mockLogin(page, 'vi')
     await page.goto('/', { waitUntil: 'domcontentloaded' })
@@ -40,31 +42,30 @@ test.describe('Luồng quay lại sau khi bỏ bẵng (② M4)', () => {
     // ngưỡng 5000ms mặc định SAI cho expect ĐẦU TIÊN sau `goto` trên tải nguội, không phải
     // test flaky. 30s bao đủ chi phí tải nguội thật đo được; trang thật sự hỏng thì hỏng ngay
     // (không bao giờ mất 20s rồi mới hiện), nên ngưỡng rộng ở đây không che lỗi thật.
-    await expect(page.getByText(/Mừng bạn quay lại/)).toBeVisible({ timeout: 30_000 })
-    await expect(page.getByText(/Đã 5 ngày rồi/)).toBeVisible()
+    await expect(page.getByText(/Đã 5 ngày rồi/)).toBeVisible({ timeout: 30_000 })
     await expect(page.getByRole('button', { name: /Học 3 từ mới/ })).toBeVisible()
   })
 
-  test('đã học hôm nay → KHÔNG hiện banner (không phải "đi vắng")', async ({ page }) => {
+  test('đã học hôm nay → KHÔNG hiện câu quay lại (không phải "đi vắng")', async ({ page }) => {
     await seedActivity(page, 0)
     await mockLogin(page, 'vi')
     await page.goto('/', { waitUntil: 'domcontentloaded' })
-    await expect(page.getByText(/Mừng bạn quay lại/)).not.toBeVisible()
+    await expect(page.getByText(/Đã \d+ ngày rồi/)).not.toBeVisible()
   })
 
-  test('người dùng mới (chưa từng học) → KHÔNG hiện banner', async ({ page }) => {
+  test('người dùng mới (chưa từng học) → KHÔNG hiện câu quay lại', async ({ page }) => {
     await mockLogin(page, 'vi')
     await page.goto('/', { waitUntil: 'domcontentloaded' })
-    await expect(page.getByText(/Mừng bạn quay lại/)).not.toBeVisible()
+    await expect(page.getByText(/Đã \d+ ngày rồi/)).not.toBeVisible()
   })
 
-  test('bấm đóng (X) → banner ẩn ngay trong phiên', async ({ page }) => {
+  test('bấm đóng (X) → câu quay lại ẩn ngay trong phiên', async ({ page }) => {
     await seedActivity(page, 5)
     await mockLogin(page, 'vi')
     await page.goto('/', { waitUntil: 'domcontentloaded' })
-    await expect(page.getByText(/Mừng bạn quay lại/)).toBeVisible()
+    await expect(page.getByText(/Đã 5 ngày rồi/)).toBeVisible()
     await page.getByRole('button', { name: /Đóng/ }).click()
-    await expect(page.getByText(/Mừng bạn quay lại/)).not.toBeVisible()
+    await expect(page.getByText(/Đã 5 ngày rồi/)).not.toBeVisible()
   })
 
   test('bấm "Học 3 từ mới" → điều hướng sang tab Hôm nay với cap=3', async ({ page }) => {

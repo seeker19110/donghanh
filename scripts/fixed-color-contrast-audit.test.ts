@@ -7,8 +7,13 @@
 // component, kể cả component chưa có test E2E nào chạm tới.
 import { describe, expect, it } from 'vitest'
 import { readFileSync } from 'node:fs'
-import { ALLOWLIST, auditRepo, auditLine } from './fixed-color-contrast-audit.js'
-import { parseThemeTokens } from './lib/contrast.js'
+import {
+  ALLOWLIST,
+  auditRepo,
+  auditLine,
+  auditWarmTokenPairs,
+} from './fixed-color-contrast-audit.js'
+import { AA, AAA, parseThemeTokens } from './lib/contrast.js'
 
 const ROOT = process.cwd()
 
@@ -95,6 +100,30 @@ describe('màu Tailwind cố định dùng làm màu chữ', () => {
     expect(
       auditLine('x.tsx', 1, '<b className="bg-gradient-to-tr text-zinc-700">x</b>', themes),
     ).toEqual([])
+  })
+
+  // P0-2 (2026-09-17): token ấm `--w-*` của Companion "Bạn Đồng Hành" — bong bóng dùng
+  // `text-content` (AAA) trên `bg-warm-50`/`bg-warm-100`; đo thật trên cả 3 theme, không đoán.
+  it('token ấm --w-*: text-content trên bg-warm-50/100 đạt AAA ở cả 3 theme', () => {
+    const checks = auditWarmTokenPairs(ROOT).filter((c) => c.text === 'z-100')
+    expect(checks.length).toBe(6) // 2 bề mặt (w-50, w-100) × 3 theme
+    for (const c of checks) {
+      expect(
+        c.ratio,
+        `${c.theme} text-content/bg-warm-${c.surface} = ${c.ratio}`,
+      ).toBeGreaterThanOrEqual(AAA)
+    }
+  })
+
+  it('token ấm --w-*: mắt/miệng avatar (warm-700) trên nền warm-50/100 đạt AA ở cả 3 theme', () => {
+    const checks = auditWarmTokenPairs(ROOT).filter((c) => c.text === 'w-700')
+    expect(checks.length).toBe(6)
+    for (const c of checks) {
+      expect(
+        c.ratio,
+        `${c.theme} warm-700/bg-warm-${c.surface} = ${c.ratio}`,
+      ).toBeGreaterThanOrEqual(AA)
+    }
   })
 
   it('không báo nhầm khi chữ nằm trên nền màu ĐẶC', () => {

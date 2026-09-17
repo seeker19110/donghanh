@@ -975,6 +975,26 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         topics: 'SLI/SLO; burn rate; release freeze; blast radius; abort condition',
       },
       {
+        id: 'p6-u198',
+        title: 'DevOps S4 — nền tảng cho lập trình viên và DORA',
+        topics: 'Golden path; khuôn mẫu dịch vụ; cổng tự phục vụ; DORA; mẫu dưới ngưỡng',
+      },
+      {
+        id: 'p6-u199',
+        title: 'DevOps S4 — bảo mật chuỗi cung ứng',
+        topics: 'SBOM; signature; provenance; digest; xoay vòng bí mật; ưu tiên luật',
+      },
+      {
+        id: 'p6-u200',
+        title: 'DevOps S4 — sức chứa và chi phí phục vụ mô hình',
+        topics: 'KV cache; quantization; ngân sách GPU; cascade; fallback; cost-per-success',
+      },
+      {
+        id: 'p6-u201',
+        title: 'DevOps S4 — đo lường vận hành AI và văn hoá',
+        topics: 'TTFT; thời gian giữa token; span; postmortem không đổ lỗi; toil',
+      },
+      {
         id: 'p6-u178',
         title: 'DevOps S2 — delivery policy và change control',
         topics: 'Approval; change window; rollback; fail closed',

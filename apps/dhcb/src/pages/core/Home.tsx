@@ -6,28 +6,14 @@
 import { useEffect, useMemo, useState } from 'react'
 import FirstTaskCard from '../../components/FirstTaskCard'
 import { useNavigate } from 'react-router-dom'
-import {
-  ChevronRight,
-  History,
-  TrendingUp,
-  Brain,
-  X,
-  Sparkles,
-  Calculator,
-  Briefcase,
-  GraduationCap,
-  Atom,
-  FlaskConical,
-  Dna,
-  Code2,
-} from 'lucide-react'
-import { SUBJECT_ENTRIES } from '@dhcb/core-learner/subjectEntry'
+import { ChevronRight, History, TrendingUp, Briefcase } from 'lucide-react'
 import Layout from '../../components/Layout.js'
 import PricePromoBanner from '../../components/PricePromoBanner.js'
 import RewardTipBanner from '../../components/RewardTipBanner.js'
-import HomeAiBriefingCard from '../../components/Home/HomeAiBriefingCard.js'
+import HomeAiBriefingCard, { type HomeComeback } from '../../components/Home/HomeAiBriefingCard.js'
 import TodayCard from '../../components/Home/TodayCard.js'
 import HomeUniversalAiBar from '../../components/Home/HomeUniversalAiBar.js'
+import SubjectSpaceList from '../../components/Home/SubjectSpaceList.js'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { useLang } from '../../context/useLang'
 import { useAuth } from '../../context/useAuth'
@@ -54,6 +40,11 @@ import {
   COMEBACK_NEW_WORDS,
 } from '../../lib/comeback'
 import { duongDanHubOnTap } from '../../lib/reviewRoutes'
+import { pickHomeBanner } from '../../lib/home/pickHomeBanner'
+import { daysUntilPlanExpires } from '../../lib/planExpiryBanner'
+import { daysUntilPromoEnds } from '../../lib/promoEndingBanner'
+import { getAppSettings } from '../../lib/appSettings'
+import { shouldShowRewardTip } from '../../lib/rewardTip'
 
 export default function Home() {
   const nav = useNavigate()
@@ -135,19 +126,36 @@ export default function Home() {
   const dailyLearned = getDailyLearned(user.id)
   const dailyMax = getDailyMax(user.id)
 
+  // [P0-2] Luồng "quay lại sau bỏ bẵng" gộp vào bong bóng Companion (`HomeAiBriefingCard`),
+  // không còn là `.glass` card riêng — xem docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md.
+  const comeback: HomeComeback | undefined =
+    showComeback && continueLevelId
+      ? {
+          daysAway,
+          reviewLabel: srsDue > 0 ? `Ôn ${Math.min(srsDue, COMEBACK_SRS_CARDS)} thẻ` : null,
+          onReview: () => nav(duongDanHubOnTap(COMEBACK_SRS_CARDS)),
+          learnLabel: `Học ${COMEBACK_NEW_WORDS} từ mới`,
+          onLearnNew: () => nav(`${continueHref}?tab=today&cap=${COMEBACK_NEW_WORDS}`),
+          onDismiss: closeComeback,
+        }
+      : undefined
+
   // ── Các khối nội dung tách riêng để LẮP LẠI theo 2 bố cục (mobile 1 cột / desktop 2 cột).
   // Mỗi khối chỉ render MỘT lần trong cây DOM, không nhân bản rồi ẩn bằng CSS.
+  // [P0-1] `space-y-3` riêng (tách khỏi `space-y-5` của khung ngoài) để nhóm "Hôm nay" là khối
+  // tương phản lớn nhất, gọn trong khung nhìn di động 390×844 không cần cuộn (AC-4).
   const topBlocks = (
-    <>
+    <div className="space-y-3">
       {/* Việc đầu tiên chọn ở luồng người mới — tự ẩn khi đã xong hoặc chưa chọn */}
       <FirstTaskCard />
 
-      {/* ── TẦNG 1: EXECUTIVE AI COMPANION — CHỈ lời chào + bản tin (S06-2). ── */}
+      {/* ── TẦNG 1: EXECUTIVE AI COMPANION — lời chào + bản tin + luồng "quay lại" (S06-2, P0-2). ── */}
       <HomeAiBriefingCard
         userName={user.name || user.email?.split('@')[0]}
         dailyLearned={dailyLearned}
         dailyMax={dailyMax}
         showDailyWords={hocTiengAnh}
+        comeback={comeback}
       />
 
       {/* ── "Hôm nay": ĐÚNG MỘT việc học tiếp, mọi môn, không mặc định tiếng Anh (S06-2). ── */}
@@ -155,117 +163,47 @@ export default function Home() {
 
       {/* ── Universal AI Ask & Voice Bar (Hỏi nhanh đa năng mọi bộ môn & lĩnh vực) ── */}
       <HomeUniversalAiBar />
-
-      {/* ── Luồng "quay lại sau khi bỏ bẵng" ── */}
-      {showComeback && continueLevelId && (
-        <div className="glass rounded-2xl p-4 border border-accent-500/30 animate-fade-in">
-          <div className="flex items-start gap-3">
-            <span className="text-2xl shrink-0" aria-hidden="true">
-              👋
-            </span>
-            <div className="flex-1 min-w-0">
-              <p className="text-white font-semibold text-sm">
-                {vi ? 'Mừng bạn quay lại!' : 'Welcome back!'}
-              </p>
-              <p className="text-xs text-zinc-400 mt-0.5">
-                {vi
-                  ? `Đã ${daysAway} ngày rồi — bắt đầu nhẹ nhàng thôi, không cần ôn hết nợ cũ.`
-                  : `It's been ${daysAway} days — let's ease back in, no need to clear the backlog.`}
-              </p>
-            </div>
-            <button
-              onClick={closeComeback}
-              aria-label={vi ? 'Đóng' : 'Dismiss'}
-              className="tap-44 shrink-0 text-zinc-400 hover:text-zinc-200 transition"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-          <div className="flex gap-2 mt-3">
-            {srsDue > 0 && (
-              <button
-                // [S12-1] Trỏ tới HUB ôn tập xuyên môn thay vì chỉ SRS môn Anh: người bỏ bẵng
-                // vài ngày thường nợ ôn ở nhiều môn, gom vào một phiên nhẹ 5 mục.
-                onClick={() => nav(duongDanHubOnTap(COMEBACK_SRS_CARDS))}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 theme-light:text-sky-800 text-sm font-medium transition"
-              >
-                <Brain className="w-4 h-4" />
-                {vi
-                  ? `Ôn ${Math.min(srsDue, COMEBACK_SRS_CARDS)} thẻ`
-                  : `Review ${Math.min(srsDue, COMEBACK_SRS_CARDS)} cards`}
-              </button>
-            )}
-            <button
-              onClick={() => nav(`${continueHref}?tab=today&cap=${COMEBACK_NEW_WORDS}`)}
-              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-accent-500/15 hover:bg-accent-500/25 text-accent-300 theme-light:text-accent-800 text-sm font-medium transition"
-            >
-              <Sparkles className="w-4 h-4" />
-              {vi ? `Học ${COMEBACK_NEW_WORDS} từ mới` : `Learn ${COMEBACK_NEW_WORDS} words`}
-            </button>
-          </div>
-        </div>
-      )}
-    </>
+    </div>
   )
 
-  // ── Mẹo thưởng & Nhiệm vụ ──
-  // DailyQuestsCard + ReferralVipBanner (dữ liệu giả in-memory) đã gỡ 2026-08-23 — hệ nhiệm vụ/
-  // giới thiệu THẬT ở /nhiem-vu và /profile (QuestsPanel, ReferralSection)
-  const rewardTip = uid ? <RewardTipBanner uid={uid} isA={vi} /> : null
+  // [P0-1] ĐÚNG MỘT banner phụ cho trang chủ (thay vì hiện cả mẹo thưởng lẫn khuyến mãi giá
+  // cùng lúc như trước) — luật ưu tiên thuần ở `pickHomeBanner` (test bảng riêng). `planExpiry`/
+  // `promoEnding` đã có bản TOÀN CỤC ở App.tsx (`PlanExpiryBanner`/`PromoEndingBanner`, hiện ở
+  // mọi trang kể cả trang chủ) — khi luật chọn 1 trong 2 kind đó, trang chủ NHƯỜNG chỗ, không vẽ
+  // thêm bản riêng đè lên; chỉ `pricePromo`/`rewardTip` mới có bản "của trang chủ" (2 banner này
+  // vốn chỉ hiện ở Home/Profile, không có bản toàn cục).
+  const isGuestUser = user.isGuest === true
+  const planExpiresInDays =
+    !isGuestUser && user.plan !== 'free' && user.planExpiresAt
+      ? daysUntilPlanExpires(user.planExpiresAt, new Date())
+      : null
+  const { promoUntil } = getAppSettings()
+  const promoEndsInDays = promoUntil ? daysUntilPromoEnds(promoUntil, new Date()) : null
+  const hasRewardTip = !isGuestUser && !!uid && shouldShowRewardTip(uid)
+  const homeBanner = pickHomeBanner({
+    isGuest: isGuestUser,
+    planExpiresInDays,
+    promoEndsInDays,
+    hasRewardTip,
+  })
+  const homeBannerNode =
+    homeBanner?.kind === 'pricePromo' ? (
+      <div data-home-banner data-home-banner-kind="pricePromo">
+        <PricePromoBanner isA={vi} />
+      </div>
+    ) : homeBanner?.kind === 'rewardTip' ? (
+      <div data-home-banner data-home-banner-kind="rewardTip">
+        <RewardTipBanner uid={uid} isA={vi} />
+      </div>
+    ) : null
 
   // ── CÁC BỘ MÔN & KHÔNG GIAN ──
-  // [S05-2] Trước đây môn Anh và 4 môn STEM (gộp chung một dòng "Toán, Lý, Hóa, Sinh") được khai
-  // TAY tại đây, lệch với hub (`apps/hub/src/App.tsx` cũng khai tay 6 môn riêng). Nay phần MÔN
-  // HỌC render từ `SUBJECT_ENTRIES` (một nguồn dùng chung cho hub và app,
-  // `packages/core-learner/subjectEntry.ts`) — đủ 6 môn, đúng nhãn/thứ tự/`ctaPath` của registry;
-  // icon/mô tả/lối tắt là phần TRÌNH BÀY riêng của app, giữ ở đây (không thuộc nguồn chung).
-  // Thẻ Sự nghiệp/Khởi nghiệp & Đời sống GIỮ NGUYÊN (không phải môn học, không tới từ registry).
-  const SUBJECT_ICON: Record<string, typeof GraduationCap> = {
-    english: GraduationCap,
-    programming: Code2,
-    mathematics: Calculator,
-    physics: Atom,
-    chemistry: FlaskConical,
-    biology: Dna,
-  }
-  const SUBJECT_TONE: Record<string, string> = {
-    english: 'bg-emerald-500/15 text-emerald-400 theme-light:text-emerald-900',
-    programming: 'bg-cyan-500/15 text-cyan-400 theme-light:text-cyan-900',
-    mathematics: 'bg-blue-500/15 text-blue-400 theme-light:text-blue-800',
-    physics: 'bg-blue-500/15 text-blue-400 theme-light:text-blue-800',
-    chemistry: 'bg-blue-500/15 text-blue-400 theme-light:text-blue-800',
-    biology: 'bg-blue-500/15 text-blue-400 theme-light:text-blue-800',
-  }
-  const SUBJECT_DESC: Record<string, string> = {
-    english: 'Gia sư song ngữ Việt ⇄ Anh: lộ trình CEFR A1–C2, luyện nói, chấm bài viết, từ điển.',
-    programming: 'Từ số 0 tới sản phẩm chạy thật: Python, JavaScript/TypeScript, SQL — bậc P1–P6.',
-    mathematics: 'Đại số, hình học, giải tích, xác suất — giải từng bước cùng AI.',
-    physics: 'Cơ, nhiệt, điện từ, quang — mô phỏng thí nghiệm trực quan.',
-    chemistry: 'Vô cơ, hữu cơ, phản ứng oxi hóa khử — công thức LaTeX rõ ràng.',
-    biology: 'Di truyền, tế bào, tiến hóa, sinh thái — bài tập có hướng dẫn lập luận.',
-  }
-  const SUBJECT_SHORTCUTS: Record<string, Array<{ label: string; go: () => void }>> = {
-    english: [
-      { label: 'Lộ trình CEFR', go: () => nav('/lo-trinh-hoc') },
-      { label: 'Luyện nói', go: () => nav('/luyen-noi') },
-      { label: 'Từ điển', go: () => nav('/tu-dien') },
-    ],
-  }
-
-  const subjectSpaces = SUBJECT_ENTRIES.map((entry) => ({
-    id: entry.id,
-    icon: SUBJECT_ICON[entry.id] ?? GraduationCap,
-    tone: SUBJECT_TONE[entry.id] ?? 'bg-zinc-500/15 text-zinc-300',
-    title: entry.label,
-    desc: SUBJECT_DESC[entry.id] ?? '',
-    go: () => nav(entry.ctaPath),
-    shortcuts: SUBJECT_SHORTCUTS[entry.id] ?? [],
-  }))
-
+  // [P1-8] Phần MÔN HỌC (icon/mô tả/lối tắt/sắp môn đang học lên đầu/trạng thái bằng chữ) tách
+  // sang `SubjectSpaceList` (components/Home/SubjectSpaceList.tsx) — thuần hơn để test, dùng
+  // chung `orderSubjects` (lib/home/orderSubjects.ts). Thẻ Sự nghiệp/Khởi nghiệp & Đời sống GIỮ
+  // NGUYÊN tại đây (không phải môn học, không tới từ `SUBJECT_ENTRIES`, không tham gia sắp xếp).
   const careerLifeSpace = {
     id: 'career-life',
-    icon: Briefcase,
-    tone: 'bg-purple-500/15 text-purple-400 theme-light:text-purple-800',
     title: 'Sự nghiệp, Khởi nghiệp & Đời sống',
     desc: 'Phỏng vấn thử, quản lý công việc, Lean Canvas, bánh xe cuộc đời.',
     go: () => nav('/su-nghiep-khoi-nghiep'),
@@ -277,64 +215,48 @@ export default function Home() {
     ],
   }
 
-  const spaces: Array<{
-    id: string
-    icon: typeof GraduationCap
-    tone: string
-    title: string
-    desc: string
-    go: () => void
-    shortcuts: Array<{ label: string; go: () => void }>
-  }> = [...subjectSpaces, careerLifeSpace]
-
   const spacesSection = (
     <section aria-labelledby="home-spaces-heading" className="pt-2">
       {/* Khoảng TRÊN tiêu đề (pt-2 + mt của section) lớn hơn khoảng dưới (mb-2) — luật 2 mục 9. */}
       <h2 id="home-spaces-heading" className="text-base font-bold text-white mb-2 px-1">
         Bộ môn & không gian
       </h2>
-      <ul className="divide-y divide-zinc-800 rounded-3xl border border-zinc-800 bg-zinc-900/90">
-        {spaces.map((s) => {
-          const Icon = s.icon
-          return (
-            <li key={s.id} className="p-4">
+      <SubjectSpaceList plan={todayPlan} isDesktop={isDesktop} />
+      <ul className="mt-3 divide-y divide-zinc-800 rounded-3xl border border-zinc-800 bg-zinc-900/90">
+        <li className="p-4">
+          <button
+            onClick={careerLifeSpace.go}
+            className="w-full flex items-start gap-3.5 text-left group"
+            aria-label={`Vào không gian ${careerLifeSpace.title}`}
+          >
+            <div className="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 bg-purple-500/15 text-purple-400 theme-light:text-purple-800">
+              <Briefcase className="w-5 h-5" aria-hidden="true" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-white text-base flex items-center gap-1.5">
+                <span>{careerLifeSpace.title}</span>
+                <ChevronRight
+                  className="w-4 h-4 text-zinc-500 group-hover:text-white group-hover:translate-x-0.5 transition-transform"
+                  aria-hidden="true"
+                />
+              </h3>
+              <p className="text-sm text-zinc-400 leading-relaxed mt-0.5 read-measure">
+                {careerLifeSpace.desc}
+              </p>
+            </div>
+          </button>
+          <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 pl-[3.625rem]">
+            {careerLifeSpace.shortcuts.map((sc) => (
               <button
-                onClick={s.go}
-                className="w-full flex items-start gap-3.5 text-left group"
-                aria-label={`Vào không gian ${s.title}`}
+                key={sc.label}
+                onClick={sc.go}
+                className="tap-44-y text-sm font-medium text-zinc-400 hover:text-white underline-offset-4 hover:underline transition"
               >
-                <div
-                  className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 ${s.tone}`}
-                >
-                  <Icon className="w-5 h-5" aria-hidden="true" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-white text-base flex items-center gap-1.5">
-                    <span>{s.title}</span>
-                    <ChevronRight
-                      className="w-4 h-4 text-zinc-500 group-hover:text-white group-hover:translate-x-0.5 transition-transform"
-                      aria-hidden="true"
-                    />
-                  </h3>
-                  <p className="text-sm text-zinc-400 leading-relaxed mt-0.5 read-measure">
-                    {s.desc}
-                  </p>
-                </div>
+                {sc.label}
               </button>
-              <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 pl-[3.625rem]">
-                {s.shortcuts.map((sc) => (
-                  <button
-                    key={sc.label}
-                    onClick={sc.go}
-                    className="tap-44-y text-sm font-medium text-zinc-400 hover:text-white underline-offset-4 hover:underline transition"
-                  >
-                    {sc.label}
-                  </button>
-                ))}
-              </div>
-            </li>
-          )
-        })}
+            ))}
+          </div>
+        </li>
       </ul>
     </section>
   )
@@ -382,28 +304,29 @@ export default function Home() {
       <Layout title={T.greeting} back={false} />
 
       {/* [2026-09-02, đợt 2] Cột trái = luồng thao tác chính (AI, hành động nhanh, không gian bộ
-          môn); cột phải = ngữ cảnh phụ (mẹo thưởng, tiến độ/lịch sử, khuyến mãi). Bố cục này
-          trước đây viết tay tại chỗ — nay dùng chung `PageShell` + `TwoPane`. Ở mobile thứ tự
-          nội dung khác (ngữ cảnh phụ xen vào luồng chính) nên vẫn giữ nhánh riêng. */}
+          môn); cột phải = ngữ cảnh phụ (tiến độ/lịch sử, ĐÚNG MỘT banner phụ). Bố cục này trước
+          đây viết tay tại chỗ — nay dùng chung `PageShell` + `TwoPane`. Ở mobile thứ tự nội dung
+          khác (ngữ cảnh phụ xen vào luồng chính) nên vẫn giữ nhánh riêng.
+          [P0-1] Mọi banner phụ (progress/lịch sử KHÔNG tính) nay đứng SAU khối "Bộ môn & không
+          gian" — trước đây mẹo thưởng đứng ngay dưới "Hôm nay", cạnh tranh sự chú ý với CTA
+          chính (xem docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md §P0-1). */}
       <PageShell width="standard" baseWidth="max-w-3xl">
         <TwoPane
           isDesktop={isDesktop}
           railLabel="Gợi ý và tiến độ"
           rail={
             <div className="space-y-5">
-              {rewardTip}
               {progressHistory}
-              <PricePromoBanner isA={vi} />
+              {homeBannerNode}
             </div>
           }
         >
           <div className="space-y-5">
             <h1 className="sr-only">{T.greeting}</h1>
             {topBlocks}
-            {!isDesktop && rewardTip}
             {spacesSection}
             {!isDesktop && progressHistory}
-            {!isDesktop && <PricePromoBanner isA={vi} />}
+            {!isDesktop && homeBannerNode}
           </div>
         </TwoPane>
       </PageShell>

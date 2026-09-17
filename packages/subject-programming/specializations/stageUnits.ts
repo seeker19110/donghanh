@@ -97,6 +97,9 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // DevOps S3 — mỗi unit bám đúng một module của chặng (workload · cấu hình/GitOps · quan sát ·
   // độ tin cậy) để ca âm của module này không lẫn vào policy của module kia.
   'devops-s3': ['p6-u194', 'p6-u195', 'p6-u196', 'p6-u197'],
+  // DevOps S4 — bốn unit bám đúng bốn module của chặng (nền tảng cho lập trình viên · chuỗi cung
+  // ứng · quy mô và chi phí · văn hoá vận hành); phục vụ mô hình là lab cụ thể, không phải chặng riêng.
+  'devops-s4': ['p6-u198', 'p6-u199', 'p6-u200', 'p6-u201'],
   'mathforcode-s3': ['p6-u158', 'p6-u159'],
   'mathforcode-s4': ['p6-u160', 'p6-u161'],
   'ai-s2': ['p6-u166', 'p6-u167', 'p6-u168', 'p6-u169'],
