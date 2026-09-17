@@ -76,6 +76,10 @@ describe('cầu nối chặng chuyên sâu → unit bài học', () => {
     expect(unitsOfStage('security-s1')).toEqual(['p6-u182', 'p6-u183', 'p6-u184', 'p6-u185'])
   })
 
+  it('security-s2 phủ đủ bốn unit assessment và disclosure có trách nhiệm', () => {
+    expect(unitsOfStage('security-s2')).toEqual(['p6-u186', 'p6-u187', 'p6-u188', 'p6-u189'])
+  })
+
   it('mathforcode-s3 và s4 ánh xạ đúng bốn unit thật', () => {
     expect(unitsOfStage('mathforcode-s3')).toEqual(['p6-u158', 'p6-u159'])
     expect(unitsOfStage('mathforcode-s4')).toEqual(['p6-u160', 'p6-u161'])
