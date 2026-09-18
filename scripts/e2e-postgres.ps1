@@ -61,9 +61,6 @@ $env:DATABASE_URL = $databaseUrl
 $env:MIGRATE_DATABASE_URL = $databaseUrl
 $env:TTS_ENCRYPTION_MASTER_KEY = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='
 $env:E2E_SERVER_MODE = 'production'
-# Khớp chính xác cấu hình CI: Playwright giới hạn 2 worker cho mỗi shard. Không để
-# máy cục bộ tự chọn nhiều worker rồi làm quá tải server/DB disposable và tạo flake giả.
-$env:CI = '1'
 
 npm run build
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
