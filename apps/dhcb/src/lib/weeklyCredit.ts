@@ -9,12 +9,33 @@
 // Chat/Writing/Speaking/Dashboard/Challenge để số hiển thị luôn đúng.
 
 import { getAuthHeader } from '@core/authHeader'
+import { z } from 'zod'
 
 export interface WeeklyCreditInfo {
   plan: 'free' | 'vip'
   freeWeeklyCredit: number | null // null = server không đọc được (fail-open, UI ẩn số)
   freeWeeklyCap: number
 }
+
+const WeeklyCreditInfoSchema = z
+  .object({
+    plan: z.enum(['free', 'vip']),
+    freeWeeklyCredit: z.number().int().finite().nullable(),
+    freeWeeklyCap: z.number().int().finite().positive(),
+  })
+  .strict()
+  .superRefine((value, context) => {
+    if (
+      value.freeWeeklyCredit !== null &&
+      (value.freeWeeklyCredit < 0 || value.freeWeeklyCredit > value.freeWeeklyCap)
+    ) {
+      context.addIssue({
+        code: 'custom',
+        path: ['freeWeeklyCredit'],
+        message: 'Credit must be within the daily cap',
+      })
+    }
+  })
 
 // Lỗi mạng/server → coi như hết lượt (an toàn hơn là coi như còn — tránh hiển thị sai
 // "còn nhiều lượt" trong khi server có thể đang chặn thật). UI nơi gọi tự xử lý null/lỗi
@@ -23,7 +44,9 @@ export async function fetchWeeklyCredit(): Promise<WeeklyCreditInfo | null> {
   try {
     const resp = await fetch('/api/usage-summary', { headers: getAuthHeader() })
     if (!resp.ok) return null
-    return (await resp.json()) as WeeklyCreditInfo
+    const parsed = WeeklyCreditInfoSchema.safeParse(await resp.json())
+    if (!parsed.success || parsed.data.freeWeeklyCredit === null) return null
+    return parsed.data
   } catch {
     return null
   }

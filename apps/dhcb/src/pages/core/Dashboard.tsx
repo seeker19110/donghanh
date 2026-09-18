@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { duongDanMonTiengAnh } from '../../lib/subjectsHost'
 import { duongDanLuyenViet, duongDanSoTayLoiSai } from '../../lib/englishRoutes'
 import { Link, useNavigate } from 'react-router-dom'
@@ -117,8 +117,7 @@ function StatCard({
   color: string
 }) {
   return (
-    // GIỮ transition-all: hover đổi cả màu viền LẪN box-shadow (không gói nào phủ cả hai).
-    <div className="bg-zinc-900/80 border border-zinc-800/80 hover:border-zinc-700/80 rounded-2xl sm:rounded-3xl p-4 flex flex-col justify-between gap-2 transition-all duration-200 hover:shadow-md">
+    <div className="bg-zinc-900/80 border border-zinc-800/80 hover:border-zinc-700/80 rounded-2xl sm:rounded-3xl p-4 flex flex-col justify-between gap-2 transition-colors duration-200 hover:shadow-md">
       <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${color}`}>
         {icon}
       </div>
@@ -163,7 +162,7 @@ function GoalRing({ done, goal }: { done: number; goal: number }) {
           stroke="currentColor"
           strokeDasharray={c}
           strokeDashoffset={c * (1 - pct)}
-          className="text-accent-400 transition-[stroke-dashoffset] duration-500"
+          className="text-accent-400"
         />
       </svg>
       <span className="absolute inset-0 flex items-center justify-center text-sm font-extrabold text-white">
@@ -194,7 +193,7 @@ function Bar({ pct, color }: { pct: number; color: string }) {
   return (
     <div className="h-2 rounded-full bg-zinc-800/90 overflow-hidden">
       <div
-        className={`h-full rounded-full ${color} transition-[width] duration-500 shadow-sm`}
+        className={`h-full rounded-full ${color} shadow-sm`}
         style={{ width: `${Math.min(100, pct)}%` }}
       />
     </div>
@@ -209,6 +208,11 @@ function Bar({ pct, color }: { pct: number; color: string }) {
 // cuộn được.
 const CALENDAR_WEEKS_WIDE = 26
 const CALENDAR_WEEKS_DESKTOP = 13
+
+type DashboardResource<T> =
+  | { key: string; status: 'loading' }
+  | { key: string; status: 'ready'; data: T }
+  | { key: string; status: 'error' }
 
 export default function Dashboard() {
   const nav = useNavigate()
@@ -230,24 +234,67 @@ export default function Dashboard() {
   const isWide = useMediaQuery('(min-width: 1280px)')
   const calendarWeeks = isWide ? CALENDAR_WEEKS_WIDE : CALENDAR_WEEKS_DESKTOP
 
-  const [ready, setReady] = useState(false)
-  const [cefr, setCefr] = useState<LevelProgress[]>([])
+  const [curriculumRetryRevision, setCurriculumRetryRevision] = useState(0)
+  const curriculumRetryGuardRef = useRef(false)
+  const cefrRetryRef = useRef<HTMLButtonElement>(null)
+  const shouldRecoverCefrFocusRef = useRef(false)
+  const [cefrResource, setCefrResource] = useState<DashboardResource<LevelProgress[]>>({
+    key: '',
+    status: 'loading',
+  })
   // Gói Free: kho lượt AI tuần chung nằm ở server (weekly_ai_credit), không suy ra được
   // từ dữ liệu local per-mode — hạn mức là TỔNG/ngày nên phải hỏi server (usage-summary.ts).
-  const [weeklyCredit, setWeeklyCredit] = useState<WeeklyCreditInfo | null>(null)
+  const [weeklyRetryRevision, setWeeklyRetryRevision] = useState(0)
+  const weeklyRetryGuardRef = useRef(false)
+  const weeklyRetryRef = useRef<HTMLButtonElement>(null)
+  const shouldRecoverWeeklyFocusRef = useRef(false)
+  const [weeklyCreditResource, setWeeklyCreditResource] = useState<
+    DashboardResource<WeeklyCreditInfo | null>
+  >({ key: '', status: 'loading' })
+
+  const currentPlan = user ? effectivePlan(user.plan) : 'free'
+  const weeklyCreditKey = `weekly-credit:${user?.id ?? 'anonymous'}:${currentPlan}:${weeklyRetryRevision}`
+  const cefrKey = `cefr:${user?.id ?? 'anonymous'}:${syncVersion}:${curriculumRetryRevision}`
+  const weeklyCredit: DashboardResource<WeeklyCreditInfo | null> =
+    currentPlan !== 'free'
+      ? { key: weeklyCreditKey, status: 'ready', data: null }
+      : weeklyCreditResource.key === weeklyCreditKey
+        ? weeklyCreditResource
+        : { key: weeklyCreditKey, status: 'loading' }
+  const cefrState: DashboardResource<LevelProgress[]> =
+    cefrResource.key === cefrKey ? cefrResource : { key: cefrKey, status: 'loading' }
+  const weeklyCreditInfo =
+    weeklyCredit.status === 'ready' &&
+    weeklyCredit.data &&
+    weeklyCredit.data.freeWeeklyCredit !== null
+      ? { ...weeklyCredit.data, freeWeeklyCredit: weeklyCredit.data.freeWeeklyCredit }
+      : null
+  const cefr = cefrState.status === 'ready' ? cefrState.data : []
+  const ready = cefrState.status === 'ready'
 
   usePageTitle('Tiến độ học tập | Đồng hành cùng bạn')
 
   useEffect(() => {
-    if (!user || effectivePlan(user.plan) !== 'free') return
+    if (!user) return
+    if (currentPlan !== 'free') return
     let alive = true
     fetchWeeklyCredit().then((info) => {
-      if (alive) setWeeklyCredit(info)
+      if (!alive) return
+      weeklyRetryGuardRef.current = false
+      shouldRecoverWeeklyFocusRef.current =
+        info !== null &&
+        weeklyRetryRef.current !== null &&
+        document.activeElement === weeklyRetryRef.current
+      setWeeklyCreditResource(
+        info
+          ? { key: weeklyCreditKey, status: 'ready', data: info }
+          : { key: weeklyCreditKey, status: 'error' },
+      )
     })
     return () => {
       alive = false
     }
-  }, [user])
+  }, [currentPlan, user, weeklyCreditKey])
   // Kết quả thi cuối cấp — để hiện huy hiệu "🎓 Đã qua" cạnh từng cấp.
   // syncVersion: KHÔNG dùng trong thân hàm nhưng BẮT BUỘC có trong deps — báo hiệu cloud sync
   // vừa kéo dữ liệu mới, cần đọc lại localStorage (xem cảnh báo trong useCloudSync.ts).
@@ -259,18 +306,52 @@ export default function Dashboard() {
     if (!user) return
     let alive = true
     ;(async () => {
-      await loadCurriculum()
-      const levels = await getCefrProgress(getLearnedWords(user.id))
-      if (!alive) return
-      setCefr(levels)
-      setReady(true)
+      try {
+        await loadCurriculum()
+        const levels = await getCefrProgress(getLearnedWords(user.id))
+        if (!alive) return
+        curriculumRetryGuardRef.current = false
+        shouldRecoverCefrFocusRef.current =
+          cefrRetryRef.current !== null && document.activeElement === cefrRetryRef.current
+        setCefrResource({ key: cefrKey, status: 'ready', data: levels })
+      } catch {
+        if (!alive) return
+        curriculumRetryGuardRef.current = false
+        setCefrResource({ key: cefrKey, status: 'error' })
+      }
     })()
     return () => {
       alive = false
     }
     // syncVersion: nạp lại tiến độ CEFR sau khi cloud sync xong (learned words vừa được kéo
     // từ server về có thể khác bản local cũ trên thiết bị này).
-  }, [user, syncVersion])
+  }, [cefrKey, user])
+
+  useLayoutEffect(() => {
+    if (weeklyCredit.status === 'ready' && shouldRecoverWeeklyFocusRef.current) {
+      document.querySelector<HTMLElement>('#dashboard-weekly-credit-heading')?.focus()
+      shouldRecoverWeeklyFocusRef.current = false
+    }
+  }, [weeklyCredit.key, weeklyCredit.status])
+
+  useLayoutEffect(() => {
+    if (cefrState.status === 'ready' && shouldRecoverCefrFocusRef.current) {
+      document.querySelector<HTMLElement>('#dashboard-cefr-heading')?.focus()
+      shouldRecoverCefrFocusRef.current = false
+    }
+  }, [cefrState.key, cefrState.status])
+
+  function retryWeeklyCredit() {
+    if (weeklyRetryGuardRef.current || weeklyCredit.status === 'loading') return
+    weeklyRetryGuardRef.current = true
+    setWeeklyRetryRevision((revision) => revision + 1)
+  }
+
+  function retryCurriculum() {
+    if (curriculumRetryGuardRef.current || cefrState.status === 'loading') return
+    curriculumRetryGuardRef.current = true
+    setCurriculumRetryRevision((revision) => revision + 1)
+  }
 
   // Số liệu đọc tức thì từ localStorage (re-tính khi đã nạp xong dữ liệu).
   const stats = useMemo(() => {
@@ -324,7 +405,7 @@ export default function Dashboard() {
   // sang đó thay vì nằm ở đầu/cuối cột chính. Gate bằng JS (isDesktop) — 2 nhánh JSX
   // loại trừ nhau nên không có rủi ro trùng nội dung DOM (bài học PR trước, changelog 0199).
   const streakSection = (
-    <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-3xl p-5 sm:p-6 shadow-sm animate-fade-in">
+    <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-3xl p-5 sm:p-6 shadow-sm animate-fade-in motion-reduce:animate-none">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3.5">
           <div
@@ -361,7 +442,7 @@ export default function Dashboard() {
           <div key={d.date} className="flex-1 flex flex-col items-center gap-1.5">
             <div className="w-full flex-1 flex items-end">
               <div
-                className={`w-full rounded-lg transition-[height] duration-300 ${
+                className={`w-full rounded-lg ${
                   d.active
                     ? 'bg-gradient-to-t from-orange-500 to-amber-400 shadow-sm'
                     : 'bg-zinc-800/80'
@@ -378,7 +459,7 @@ export default function Dashboard() {
   )
 
   const weeklyGoalSection = (
-    <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-3xl p-5 sm:p-6 shadow-sm animate-fade-in">
+    <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-3xl p-5 sm:p-6 shadow-sm animate-fade-in motion-reduce:animate-none">
       <div className="flex items-center gap-4">
         <GoalRing done={stats.weekly.daysDone} goal={stats.weekly.goal} />
         <div className="min-w-0 flex-1">
@@ -421,7 +502,7 @@ export default function Dashboard() {
       />
 
       {/* ── Hôm nay ──────────────────────────────────────────────────── */}
-      <section className="animate-fade-in">
+      <section className="animate-fade-in motion-reduce:animate-none">
         <h2 className="text-sm font-semibold text-zinc-300 mb-3 flex items-center gap-2">
           <Target className="w-4 h-4 text-lime-400 theme-light:text-lime-900" />{' '}
           {vi ? 'Hôm nay' : 'Today'}
@@ -442,32 +523,71 @@ export default function Dashboard() {
 
         {/* Lượt dùng còn lại — gói Free: MỘT hạn mức TỔNG/ngày cho mọi tính năng AI (GĐ1
               2026-09-12, xem api/usage-summary.ts); VIP: hiển thị theo từng tính năng/ngày. */}
-        {effectivePlan(user.plan) === 'free' ? (
-          <div className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4">
+        {currentPlan === 'free' ? (
+          <div className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 min-h-32">
             <div className="flex items-start justify-between mb-2">
               {/* Nhãn dài: cho xuống dòng (min-w-0 + items-start) thay vì bị cắt cụt
                   ở màn hẹp — phần trong ngoặc mới là thứ giải thích lượt tính từ đâu. */}
-              <span className="text-sm text-zinc-300 flex items-start gap-1.5 min-w-0">
+              <h3
+                id="dashboard-weekly-credit-heading"
+                tabIndex={-1}
+                className="text-sm text-zinc-300 flex items-start gap-1.5 min-w-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded-md"
+              >
                 <MessageCircle className="w-4 h-4 text-accent-400 shrink-0 mt-0.5" />
                 <span>{vi ? 'Lượt AI hôm nay (chat · nói · viết)' : 'AI credits today'}</span>
-              </span>
-              <span className="text-sm font-semibold text-accent-300 theme-light:text-accent-800 shrink-0 ml-2">
-                {weeklyCredit?.freeWeeklyCredit ?? '…'}/{weeklyCredit?.freeWeeklyCap ?? 30}
-              </span>
+              </h3>
+              {weeklyCreditInfo && (
+                <span className="text-sm font-semibold text-accent-300 theme-light:text-accent-800 shrink-0 ml-2">
+                  {weeklyCreditInfo.freeWeeklyCredit}/{weeklyCreditInfo.freeWeeklyCap}
+                </span>
+              )}
             </div>
-            <Bar
-              pct={
-                weeklyCredit
-                  ? ((weeklyCredit.freeWeeklyCredit ?? 0) / weeklyCredit.freeWeeklyCap) * 100
-                  : 0
-              }
-              color="bg-accent-500"
-            />
-            <p className="text-[11px] text-zinc-400 mt-2 read-measure">
-              {vi
-                ? 'Hạn mức tính chung cho mọi tính năng AI và làm mới mỗi ngày (giờ Việt Nam).'
-                : 'The quota covers every AI feature and resets each day (Vietnam time).'}
-            </p>
+            {weeklyCreditInfo ? (
+              <>
+                <Bar
+                  pct={(weeklyCreditInfo.freeWeeklyCredit / weeklyCreditInfo.freeWeeklyCap) * 100}
+                  color="bg-accent-500"
+                />
+                <p className="text-[11px] text-zinc-400 mt-2 read-measure">
+                  {vi
+                    ? 'Hạn mức tính chung cho mọi tính năng AI và làm mới mỗi ngày (giờ Việt Nam).'
+                    : 'The quota covers every AI feature and resets each day (Vietnam time).'}
+                </p>
+              </>
+            ) : weeklyCredit.status === 'error' ? (
+              <div role="status" className="min-h-16">
+                <p className="text-sm text-zinc-300 leading-relaxed">
+                  {vi ? 'Chưa tải được lượt AI hôm nay.' : 'Today’s AI credits are unavailable.'}
+                </p>
+                <button
+                  ref={weeklyRetryRef}
+                  type="button"
+                  onClick={retryWeeklyCredit}
+                  className="min-h-11 px-2 -ml-2 mt-1 text-sm font-semibold text-accent-300 theme-light:text-accent-800 rounded-lg hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+                >
+                  {vi ? 'Thử lại' : 'Retry'}
+                </button>
+              </div>
+            ) : weeklyRetryRevision > 0 ? (
+              <div role="status" className="min-h-16">
+                <p className="text-sm text-zinc-300 leading-relaxed">
+                  {vi ? 'Đang tải lại lượt AI…' : 'Reloading AI credits…'}
+                </p>
+                <button
+                  ref={weeklyRetryRef}
+                  type="button"
+                  aria-disabled="true"
+                  onClick={retryWeeklyCredit}
+                  className="min-h-11 px-2 -ml-2 mt-1 text-sm font-semibold text-zinc-400 rounded-lg cursor-wait focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+                >
+                  {vi ? 'Đang thử lại…' : 'Retrying…'}
+                </button>
+              </div>
+            ) : (
+              <p role="status" className="min-h-16 text-sm text-zinc-300 leading-relaxed py-2">
+                {vi ? 'Đang tải lượt AI…' : 'Loading AI credits…'}
+              </p>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-3 gap-3">
@@ -508,7 +628,7 @@ export default function Dashboard() {
       </section>
 
       {/* ── Từ vựng ──────────────────────────────────────────────────── */}
-      <section className="animate-fade-in">
+      <section className="animate-fade-in motion-reduce:animate-none">
         <h2 className="text-sm font-semibold text-zinc-300 mb-3 flex items-center gap-2">
           <BookOpen className="w-4 h-4 text-amber-400 theme-light:text-amber-900" />{' '}
           {vi ? 'Từ vựng' : 'Vocabulary'}
@@ -541,14 +661,14 @@ export default function Dashboard() {
 
       {/* ── Sổ lỗi cá nhân ──────────────────────────────────────────── */}
       {stats.mistakes.total > 0 && (
-        <section className="animate-fade-in">
+        <section className="animate-fade-in motion-reduce:animate-none">
           <h2 className="text-sm font-semibold text-zinc-300 mb-3 flex items-center gap-2">
             <BookMarked className="w-4 h-4 text-rose-400 theme-light:text-rose-900" />{' '}
             {vi ? 'Sổ lỗi của tôi' : 'Mistake Bank'}
           </h2>
           <button
             onClick={() => nav(duongDanSoTayLoiSai())}
-            className="w-full bg-zinc-900/80 border border-zinc-800/80 hover:border-rose-500/40 rounded-2xl p-4 flex items-center justify-between transition group text-left"
+            className="w-full bg-zinc-900/80 border border-zinc-800/80 hover:border-rose-500/40 rounded-2xl p-4 flex items-center justify-between transition-colors group text-left"
           >
             <div>
               <p className="text-sm text-zinc-200">
@@ -572,16 +692,20 @@ export default function Dashboard() {
                   {stats.mistakes.due}
                 </span>
               )}
-              <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-rose-400 transition" />
+              <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-rose-400 transition-colors" />
             </div>
           </button>
         </section>
       )}
 
       {/* ── Lộ trình CEFR ───────────────────────────────────────────── */}
-      <section className="animate-fade-in">
+      <section className="animate-fade-in motion-reduce:animate-none">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-zinc-300 flex items-center gap-2">
+          <h2
+            id="dashboard-cefr-heading"
+            tabIndex={-1}
+            className="text-sm font-semibold text-zinc-300 flex items-center gap-2 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+          >
             <GraduationCap className="w-4 h-4 text-accent-400" />{' '}
             {vi ? 'Lộ trình CEFR' : 'CEFR Roadmap'}
           </h2>
@@ -591,10 +715,45 @@ export default function Dashboard() {
             </span>
           )}
         </div>
-        <div className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 space-y-4">
-          {cefr.length === 0 ? (
-            <p className="text-sm text-zinc-400 text-center py-2">
-              {vi ? 'Đang tải…' : 'Loading…'}
+        <div className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 space-y-4 min-h-24">
+          {cefrState.status === 'loading' ? (
+            curriculumRetryRevision > 0 ? (
+              <div role="status" className="text-center">
+                <p className="text-sm text-zinc-300 py-1">
+                  {vi ? 'Đang tải lại lộ trình Tiếng Anh…' : 'Reloading the English roadmap…'}
+                </p>
+                <button
+                  ref={cefrRetryRef}
+                  type="button"
+                  aria-disabled="true"
+                  onClick={retryCurriculum}
+                  className="min-h-11 px-3 text-sm font-semibold text-zinc-400 rounded-lg cursor-wait focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+                >
+                  {vi ? 'Đang thử lại…' : 'Retrying…'}
+                </button>
+              </div>
+            ) : (
+              <p role="status" className="text-sm text-zinc-300 text-center py-4">
+                {vi ? 'Đang tải lộ trình Tiếng Anh…' : 'Loading the English roadmap…'}
+              </p>
+            )
+          ) : cefrState.status === 'error' ? (
+            <div role="status" className="text-center">
+              <p className="text-sm text-zinc-300 py-1">
+                {vi ? 'Chưa tải được lộ trình Tiếng Anh.' : 'The English roadmap is unavailable.'}
+              </p>
+              <button
+                ref={cefrRetryRef}
+                type="button"
+                onClick={retryCurriculum}
+                className="min-h-11 px-3 text-sm font-semibold text-accent-300 theme-light:text-accent-800 rounded-lg hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+              >
+                {vi ? 'Thử lại' : 'Retry'}
+              </button>
+            </div>
+          ) : cefr.length === 0 ? (
+            <p className="text-sm text-zinc-300 text-center py-4">
+              {vi ? 'Chưa có dữ liệu lộ trình.' : 'No roadmap data yet.'}
             </p>
           ) : (
             cefr.map((l) => {
@@ -625,7 +784,7 @@ export default function Dashboard() {
       </section>
 
       {/* ── Điểm IELTS luyện viết theo thời gian ─────────────────────── */}
-      <section className="animate-fade-in">
+      <section className="animate-fade-in motion-reduce:animate-none">
         <h2 className="text-sm font-semibold text-zinc-300 mb-3 flex items-center gap-2">
           <PenLine className="w-4 h-4 text-violet-400 theme-light:text-violet-800" />{' '}
           {vi ? 'Điểm viết IELTS (ước lượng)' : 'IELTS writing score (estimated)'}
@@ -634,7 +793,7 @@ export default function Dashboard() {
         {wp.count === 0 ? (
           <button
             onClick={() => nav(duongDanLuyenViet())}
-            className="w-full bg-zinc-900/80 border border-zinc-800/80 hover:border-violet-500/40 rounded-2xl p-5 text-center transition group"
+            className="w-full bg-zinc-900/80 border border-zinc-800/80 hover:border-violet-500/40 rounded-2xl p-5 text-center transition-colors group"
           >
             <p className="text-sm text-zinc-400 read-measure">
               {vi ? 'Chưa có bài viết nào được chấm.' : 'No graded essays yet.'}
@@ -681,7 +840,7 @@ export default function Dashboard() {
                     <span className="text-[11px] text-zinc-400">{p.overall}</span>
                     <div className="w-full flex-1 flex items-end">
                       <div
-                        className={`w-full rounded-md ${bandBar(p.overall)} transition-[height]`}
+                        className={`w-full rounded-md ${bandBar(p.overall)}`}
                         style={{ height: `${(p.overall / 9) * 100}%` }}
                       />
                     </div>
@@ -719,7 +878,7 @@ export default function Dashboard() {
       </section>
 
       {/* ── Tổng kết hoạt động ──────────────────────────────────────── */}
-      <section className="animate-fade-in">
+      <section className="animate-fade-in motion-reduce:animate-none">
         <h2 className="text-sm font-semibold text-zinc-300 mb-3">
           {vi ? 'Tổng kết' : 'All-time totals'}
         </h2>

@@ -6,6 +6,15 @@ import type { Circle } from './curriculum'
 let _promise: Promise<Circle[]> | null = null
 
 export function loadFoundation(): Promise<Circle[]> {
-  if (!_promise) _promise = fetch('/data/curriculum.json').then((r) => r.json())
+  if (!_promise) {
+    const promise = fetch('/data/curriculum.json').then((response) => {
+      if (!response.ok) throw new Error('Không tải được dữ liệu lộ trình nền tảng')
+      return response.json() as Promise<Circle[]>
+    })
+    _promise = promise
+    void promise.catch(() => {
+      if (_promise === promise) _promise = null
+    })
+  }
   return _promise
 }

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, beforeAll, vi } from 'vitest'
+import { describe, it, expect, beforeEach, beforeAll, afterEach, vi } from 'vitest'
 
 // getDailySpeed() (curriculum.ts) đọc getLearnedCount() từ ./vocab, kéo theo
 // progressSync → supabase — mock để test chạy OFFLINE (giống srs.test.ts).
@@ -34,10 +34,25 @@ import { loadCefr } from '../data/cefrLoader'
 import { FOUNDATION } from '../data/curriculum'
 import type { DictEntry } from '../types'
 
+type CleanupCallback = (reason: unknown) => unknown
+
+function capturePromiseCleanup(callbacks: CleanupCallback[]) {
+  const originalCatch = Promise.prototype.catch
+  return vi.spyOn(Promise.prototype, 'catch').mockImplementation(function <TResult = never>(
+    this: Promise<unknown>,
+    onRejected?: ((reason: unknown) => TResult | PromiseLike<TResult>) | null,
+  ) {
+    if (onRejected) callbacks.push((reason) => onRejected(reason))
+    return Reflect.apply(originalCatch, this, [() => undefined]) as Promise<unknown | TResult>
+  })
+}
+
 // Dictionary giờ nạp ĐỘNG → phải await loadCurriculum() trước khi test các hàm dùng nó
 beforeAll(async () => {
   await loadCurriculum()
 })
+
+afterEach(() => vi.unstubAllGlobals())
 
 describe('wordKey', () => {
   it('chuẩn hoá: bỏ khoảng trắng + viết thường', () => {
@@ -448,4 +463,63 @@ describe('Cỡ vòng từ vựng tối thiểu', () => {
     )
     expect(coi).toEqual([])
   })
+})
+
+describe('loadCurriculum — retry tích hợp ba nhóm tài nguyên', () => {
+  it.each([
+    ['dictionary', '/data/dictionary/chunk-003.json', 'non-ok'],
+    ['foundation', '/data/curriculum.json', 'reject'],
+    ['CEFR', '/data/cefr.json', 'non-ok'],
+  ] as const)(
+    '%s lỗi lần đầu: rejected promise không bị giữ, retry dùng request mới và resolve',
+    async (_resource, failedUrl, failureMode) => {
+      vi.resetModules()
+      const cleanupCallbacks: CleanupCallback[] = []
+      let catchSpy = capturePromiseCleanup(cleanupCallbacks)
+      const attempts = new Map<string, number>()
+      let releaseRetry: ((value: Response) => void) | undefined
+      const retryResponse = new Promise<Response>((resolve) => (releaseRetry = resolve))
+      try {
+        const fakeFetch = vi.fn(async (input: RequestInfo | URL): Promise<Response> => {
+          const url = String(input)
+          const attempt = (attempts.get(url) ?? 0) + 1
+          attempts.set(url, attempt)
+          if (url === failedUrl && attempt === 1) {
+            if (failureMode === 'reject') throw new Error('fixture offline')
+            return { ok: false, json: async () => [] } as Response
+          }
+          if (url === failedUrl && attempt === 2) return retryResponse
+          return { ok: true, json: async () => [] } as Response
+        })
+        vi.stubGlobal('fetch', fakeFetch)
+        const { loadCurriculum: loadIsolated } = await import('./curriculum')
+
+        const oldAttemptStart = cleanupCallbacks.length
+        const rejected = loadIsolated()
+        expect(loadIsolated()).toBe(rejected)
+        catchSpy.mockRestore()
+        await expect(rejected).rejects.toThrow()
+        expect(loadIsolated(), 'cleanup bị chặn nên outer cache cũ vẫn còn').toBe(rejected)
+
+        const oldCleanupBoundary = cleanupCallbacks.length
+        const oldCallbacks = cleanupCallbacks.slice(oldAttemptStart, oldCleanupBoundary)
+        expect(oldCallbacks.length).toBeGreaterThan(0)
+        for (const cleanup of oldCallbacks) cleanup(new Error('old rejection'))
+
+        catchSpy = capturePromiseCleanup(cleanupCallbacks)
+        const retried = loadIsolated()
+        catchSpy.mockRestore()
+        expect(retried).not.toBe(rejected)
+        expect(cleanupCallbacks.length).toBeGreaterThan(oldCleanupBoundary)
+
+        for (const cleanup of oldCallbacks) cleanup(new Error('late old cleanup'))
+        expect(loadIsolated(), 'cleanup outer cũ không được xóa retry đang pending').toBe(retried)
+        releaseRetry?.({ ok: true, json: async () => [] } as Response)
+        await expect(retried).resolves.toBeUndefined()
+        expect(attempts.get(failedUrl)).toBe(2)
+      } finally {
+        catchSpy.mockRestore()
+      }
+    },
+  )
 })
