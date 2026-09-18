@@ -30,7 +30,7 @@ describe('lessonOutlineContext', () => {
     expect(n.outline?.courseId).toBe('git')
     expect(n.tenMucLuc).toBe('Mục lục khoá học')
     expect(n.storageKey).toBe('khoa:git')
-    expect(n.backTo).toContain('/lap-trinh/khoa-hoc/git--')
+    expect(n.backTo).toContain('/goc-hoc-tap/programming/khoa-hoc/git--')
     expect(n.crumbs.at(-1)?.label).toMatch(/^Khoá /)
   })
 
@@ -47,7 +47,7 @@ describe('lessonOutlineContext', () => {
     expect(n.outline?.courseId).toBeUndefined()
     expect(n.tenMucLuc).toBe('Mục lục môn học')
     expect(n.storageKey).toBe('p3')
-    expect(n.backTo).toContain('/lap-trinh/p3--')
+    expect(n.backTo).toContain('/goc-hoc-tap/programming/bac/p3--')
     const la = n.outline!.nodes.filter((x) => x.kind === 'lesson')
     expect(la.some((x) => x.href?.includes('?khoa=') === true)).toBe(false)
   })
@@ -55,13 +55,13 @@ describe('lessonOutlineContext', () => {
   it('mã khoá LẠ → bỏ qua query, dùng cây bậc (không ném, không vòng chuyển hướng)', () => {
     const n = lessonOutlineContext(CHUNG, 'khong-co-khoa-nay', CTX)
     expect(n.course).toBeUndefined()
-    expect(n.backTo).toContain('/lap-trinh/p3--')
+    expect(n.backTo).toContain('/goc-hoc-tap/programming/bac/p3--')
   })
 
   it('khoá CÓ THẬT nhưng KHÔNG chứa bài này → cũng bỏ qua, dùng cây bậc', () => {
     const n = lessonOutlineContext('p1-u4-l1', 'git', CTX)
     expect(n.course).toBeUndefined()
-    expect(n.backTo).toContain('/lap-trinh/p1--')
+    expect(n.backTo).toContain('/goc-hoc-tap/programming/bac/p1--')
   })
 
   it('bài chỉ thuộc khoá, mở không kèm ?khoa= → không có cây, nhưng có đường về khoá', () => {
@@ -71,7 +71,7 @@ describe('lessonOutlineContext', () => {
     const n = lessonOutlineContext(rieng, undefined, CTX)
     expect(n.outline).toBeUndefined()
     expect(n.khoaChuaBai.map((c) => c.id)).toContain('git')
-    expect(n.backTo).toBe('/lap-trinh')
+    expect(n.backTo).toBe('/goc-hoc-tap/programming')
   })
 
   it('có cây rồi thì KHÔNG liệt kê khoá chứa bài (tránh nói thừa)', () => {

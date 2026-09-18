@@ -10,9 +10,9 @@
 import { test, expect, type Page } from '@playwright/test'
 import { mockLogin } from './helpers/auth'
 
-const BAI_P1 = '/lap-trinh/bai-hoc/p1-u4-l1'
+const BAI_P1 = '/goc-hoc-tap/programming/bai-hoc/p1-u4-l1'
 // `p3-u10-l1` nằm trong CẢ bậc P3 lẫn khoá ngắn Git — ca chồng lấn thật của dữ liệu.
-const BAI_CHUNG = '/lap-trinh/bai-hoc/p3-u10-l1'
+const BAI_CHUNG = '/goc-hoc-tap/programming/bai-hoc/p3-u10-l1'
 
 const mucLuc = (page: Page) => page.getByRole('navigation', { name: /^Mục lục/ })
 

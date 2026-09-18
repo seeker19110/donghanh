@@ -59,6 +59,7 @@ import {
   duongDanChanDoan,
   duongDanChangLoTrinh,
   duongDanLoTrinh,
+  PROGRAMMING_PREFIX,
 } from '../../../lib/programmingRoutes'
 import { duongDanChangTheoId, duongDanHuongTheoChangId } from '../../../lib/programmingRoutesSpec'
 import PathStageQuiz from '../../../components/PathStageQuiz'
@@ -90,7 +91,7 @@ export default function ProgrammingPathPage() {
   if (!path) {
     return (
       <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-        <Layout onBack={() => nav('/lap-trinh')} />
+        <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] */}
         <PageShell width="standard" baseWidth="max-w-4xl">
           <PageHeader
@@ -111,13 +112,13 @@ export default function ProgrammingPathPage() {
 
   // Link cũ (chỉ mã) hoặc tiêu đề lộ trình đã đổi → về URL chuẩn.
   const canonicalPath = duongDanLoTrinh(path)
-  if (`/lap-trinh/lo-trinh/${pathSlugParam ?? ''}` !== canonicalPath) {
+  if (`${PROGRAMMING_PREFIX}/lo-trinh/${pathSlugParam ?? ''}` !== canonicalPath) {
     return <Navigate to={canonicalPath} replace />
   }
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav('/lap-trinh')} />
+      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
@@ -245,10 +246,10 @@ export default function ProgrammingPathPage() {
                   const coBai = unitsOfStage(ref.stageId).length > 0
                   const duongVaoHoc = pathOwnStage
                     ? duongDanChangLoTrinh(path, pathOwnStage)
-                    : (duongDanChangTheoId(ref.stageId) ?? '/lap-trinh/huong')
+                    : (duongDanChangTheoId(ref.stageId) ?? `${PROGRAMMING_PREFIX}/huong`)
                   const duongXemBanDo = pathOwnStage
                     ? duongDanChangLoTrinh(path, pathOwnStage)
-                    : (duongDanHuongTheoChangId(ref.stageId) ?? '/lap-trinh/huong')
+                    : (duongDanHuongTheoChangId(ref.stageId) ?? `${PROGRAMMING_PREFIX}/huong`)
                   return (
                     <li
                       key={ref.stageId}

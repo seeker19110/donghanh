@@ -25,6 +25,7 @@ import {
   MessageCircle,
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { duongDanLuyenNoi, duongDanTroTruyen } from '../../lib/englishRoutes'
 import { useQuizKeyboard } from '@dhcb/core-ui/useQuizKeyboard'
 import QuizOptionKey from '../QuizOptionKey'
 import KaraokeText, { KARAOKE_INDENT } from '../KaraokeText'
@@ -257,7 +258,9 @@ function BatchDoneView({
           recognition → use (từ được bơm vào prompt Chat/Nói qua ?words=). */}
       <button
         onClick={() =>
-          nav(`/tro-truyen?words=${encodeURIComponent(batch.map((w) => w.word).join(','))}`)
+          nav(
+            `${duongDanTroTruyen()}?words=${encodeURIComponent(batch.map((w) => w.word).join(','))}`,
+          )
         }
         className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold transition"
       >
@@ -268,7 +271,9 @@ function BatchDoneView({
       </button>
       <button
         onClick={() =>
-          nav(`/luyen-noi?words=${encodeURIComponent(batch.map((w) => w.word).join(','))}`)
+          nav(
+            `${duongDanLuyenNoi()}?words=${encodeURIComponent(batch.map((w) => w.word).join(','))}`,
+          )
         }
         className="w-full flex items-center justify-center gap-2 py-2.5 rounded-2xl bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 theme-light:text-sky-700 text-sm font-medium transition"
       >

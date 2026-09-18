@@ -354,11 +354,16 @@ eslint-disable thừa, và **4 test e2e cũ giả định hành vi khách cũ** 
 `home-quick-ask`, `smoke`, `today-plan` — banner hiện ngay lúc mở trang / có ô hỏi nhanh / có thẻ
 "Hôm nay" cho khách) bị phá bởi luật `GuestHome`/`GuestBanner` mới, đã cập nhật theo luật mới.
 
-**Tiếp theo:** lệnh 10 (P1-9a, URL Lập trình → `/goc-hoc-tap/programming`, dùng
-`programmingRoutes.ts` có sẵn) phụ thuộc lệnh 9 ✅ đã merge — dispatch được ngay khi có lệnh.
-Lệnh 11–15 chờ đồ thị phụ thuộc ở đặc tả §2 (lệnh 11 cần lệnh 10 xong trước, đổi route thật nên
-rủi ro E2E cao hơn — cân nhắc không chạy song song với lệnh khác cùng lúc) và lệnh thi hành tiếp
-theo của chủ dự án.
+**Đã thi hành:** lệnh 10 (P1-9a, URL Lập trình → `/goc-hoc-tap/programming`) trong
+`20cb2353`, và lệnh 11 (P1-9b, URL Tiếng Anh → `/goc-hoc-tap/english`) trong `c95240ca`.
+Các route cũ vẫn có redirect tương thích; server/nginx/SEO (P1-9c) đã hoàn tất phần mã và tài liệu
+trong lát lệnh 12. Còn hai việc tay:
+người vận hành phải áp dụng các `location` 301 trên VPS theo `docs/deploy-vps-ubuntu.md`, rồi
+đo Google Search Console sau 14 ngày (2026-10-01) để xác nhận URL cũ đã được thay thế.
+
+**Còn lại:** nợ coverage branch, bundle JS, AC-8 visual, S09-3 conflict UI, read-model `stats`
+không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelog. Mỗi lát tiếp theo phải có
+đặc tả được duyệt và changelog riêng trước khi sửa mã.
 
 ### Ưu tiên 2 — nợ nội dung của mảng đã ship (đi sâu, không mở rộng)
 

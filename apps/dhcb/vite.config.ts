@@ -334,6 +334,37 @@ function findApiRoute(url: string): { prefix: string; module: string } | undefin
   })
 }
 
+/**
+ * Chuyển đường dẫn tuyệt đối của hệ điều hành thành module ID `/@fs/` mà Vite
+ * hiểu được. `path.posix.join` giữ đúng một dấu `/` sau tiền tố và chuẩn hoá
+ * cả đường dẫn Windows (`C:\\...`) lẫn POSIX (`/...`).
+ */
+function toViteFsModuleId(filePath: string): string {
+  return path.posix.join('/@fs/', filePath.replace(/\\/g, '/'))
+}
+
+/**
+ * API_ROUTES là danh sách nội bộ, nhưng vẫn kiểm tra biên repo trước khi đưa
+ * đường dẫn vào Vite để một route thêm nhầm `../` không thể nạp mã ngoài repo.
+ */
+function resolveApiModulePath(modulePath: string): string {
+  if (!modulePath.startsWith('/')) {
+    throw new Error(`Đường dẫn module API phải bắt đầu bằng '/': ${modulePath}`)
+  }
+
+  const moduleFile = path.resolve(repoRoot, `.${modulePath}`)
+  const relativePath = path.relative(repoRoot, moduleFile)
+  if (
+    relativePath === '' ||
+    relativePath.startsWith(`..${path.sep}`) ||
+    path.isAbsolute(relativePath)
+  ) {
+    throw new Error(`Module API nằm ngoài repo: ${modulePath}`)
+  }
+
+  return moduleFile
+}
+
 function apiEdgeDevMiddleware(): Plugin {
   return {
     name: 'api-edge-dev-middleware',
@@ -352,9 +383,11 @@ function apiEdgeDevMiddleware(): Plugin {
 
             // ssrLoadModule: để Vite tự biên dịch TypeScript + import nội bộ (./_lib/...)
             // bằng đúng pipeline thật, không phải viết/duy trì 2 bản logic khác nhau.
-            // Handler nằm NGOÀI root Vite (api/, packages/ ở gốc repo) — nạp qua /@fs/<đường tuyệt đối>
+            // Handler nằm NGOÀI root Vite (api/, packages/ ở gốc repo) — nạp qua
+            // module ID /@fs/<đường tuyệt đối>. Không nối chuỗi trực tiếp: trên
+            // Windows sẽ thành `/@fsC:\\...`, không phải URL FS hợp lệ của Vite.
             const mod = (await server.ssrLoadModule(
-              '/@fs' + repoRoot.replace(/\/$/, '') + route.module,
+              toViteFsModuleId(resolveApiModulePath(route.module)),
             )) as {
               default: (request: Request) => Promise<Response>
             }

@@ -9,7 +9,7 @@ import { waitForStableDom } from './helpers/axe'
 // e2e/helpers/axe.ts) để trình duyệt thật sự đánh giá media query
 // `prefers-reduced-motion: reduce` — đúng cơ chế người dùng bật ở hệ điều hành, không phải
 // ép CSS từ ngoài vào.
-test.use({ reducedMotion: 'reduce' })
+test.use({ contextOptions: { reducedMotion: 'reduce' } })
 
 // 5 phần tử có ít nhất một class `animate-*` (Tailwind) chạy CSS animation thật sự phải
 // dừng: `getComputedStyle().animationName === 'none'` HOẶC animation-duration = 0s (rule

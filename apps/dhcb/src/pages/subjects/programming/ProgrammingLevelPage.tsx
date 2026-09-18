@@ -14,7 +14,7 @@ import { markLevelEntered, loiGiaiThichKhoa } from '../../../lib/programmingLeve
 import { getProgrammingLevel, nhomUnitTheoTrack } from '@dhcb/subject-programming/curriculum'
 import { getUnitSummaries } from '@dhcb/subject-programming/lessonsLoader'
 import { buildSlugSegment, idFromSlugSegment } from '@core/slug'
-import { duongDanBac, duongDanBaiHoc } from '../../../lib/programmingRoutes'
+import { PROGRAMMING_PREFIX, duongDanBac, duongDanBaiHoc } from '../../../lib/programmingRoutes'
 import { PageShell } from '@core/PageShell'
 import { TwoPane } from '@core/TwoPane'
 import { useIsDesktopViewport } from '../../../lib/useIsDesktopViewport'
@@ -78,7 +78,7 @@ export default function ProgrammingLevelPage() {
   }, [user, level, fetched, biKhoa])
 
   // Id bậc lạ → về trang tổng quan môn, không render trang rỗng.
-  if (!level) return <Navigate to="/lap-trinh" replace />
+  if (!level) return <Navigate to={PROGRAMMING_PREFIX} replace />
 
   // Link cũ (chỉ mã) hoặc tên bậc đã đổi → về URL chuẩn, tránh hai URL cùng nội dung.
   const canonicalLevel = buildSlugSegment(level.id, level.name)
@@ -140,7 +140,7 @@ export default function ProgrammingLevelPage() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav('/lap-trinh')} />
+      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
 
       {/* [2026-09-02, đợt 1 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl">
@@ -167,7 +167,7 @@ export default function ProgrammingLevelPage() {
                   VIP để vào bậc nào cũng được.
                 </p>
                 <button
-                  onClick={() => nav('/lap-trinh')}
+                  onClick={() => nav(PROGRAMMING_PREFIX)}
                   className="tap-44 inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition"
                 >
                   <Play className="w-4 h-4" />

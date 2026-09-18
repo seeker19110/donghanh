@@ -54,7 +54,11 @@ import {
 } from '@dhcb/subject-programming/specializations/registry'
 import { unitsOfStage } from '@dhcb/subject-programming/specializations/stageUnits'
 import { buildSlugSegment, idFromSlugSegment } from '@core/slug'
-import { duongDanChangHuong, duongDanHuong } from '../../../lib/programmingRoutes'
+import {
+  PROGRAMMING_PREFIX,
+  duongDanChangHuong,
+  duongDanHuong,
+} from '../../../lib/programmingRoutes'
 import { getProgrammingLevel } from '@dhcb/subject-programming/curriculum'
 
 const TIER_LABEL: Record<string, string> = {
@@ -145,7 +149,7 @@ function StageLessons({ stageId }: { stageId: string }) {
         ))}
       </ul>
       <button
-        onClick={() => nav('/lap-trinh/p6')}
+        onClick={() => nav(`${PROGRAMMING_PREFIX}/bac/p6`)}
         className="tap-44 w-full py-3 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition"
       >
         Vào học chặng này
@@ -274,7 +278,7 @@ export default function ProgrammingSpecializationPage() {
   if (!spec) {
     return (
       <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-        <Layout onBack={() => nav('/lap-trinh/huong')} />
+        <Layout onBack={() => nav(`${PROGRAMMING_PREFIX}/huong`)} />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] */}
         <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-4">
           <PageHeader
@@ -282,7 +286,7 @@ export default function ProgrammingSpecializationPage() {
             subtitle="Đường dẫn không khớp hướng nào trong môn Lập trình. Quay lại danh sách để chọn hướng có thật."
           />
           <button
-            onClick={() => nav('/lap-trinh/huong')}
+            onClick={() => nav(`${PROGRAMMING_PREFIX}/huong`)}
             className="tap-44 w-full py-3.5 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition"
           >
             Xem 14 hướng chuyên sâu
@@ -300,7 +304,7 @@ export default function ProgrammingSpecializationPage() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav('/lap-trinh/huong')} />
+      <Layout onBack={() => nav(`${PROGRAMMING_PREFIX}/huong`)} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">

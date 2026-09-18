@@ -114,7 +114,7 @@ describe('buildReviewQueue', () => {
       { now: NOW, cap: 5 },
     )
     expect(q.items).toHaveLength(1)
-    expect(q.items[0]!.href).toBe('/lo-trinh-hoc/a1?tab=srs&cap=5')
+    expect(q.items[0]!.href).toBe('/goc-hoc-tap/english/lo-trinh/a1?tab=srs&cap=5')
     expect(q.items[0]!.kind).toBe('vocab')
     expect(q.items[0]!.srsKey).toBe('apple')
   })
@@ -142,7 +142,7 @@ describe('buildReviewQueue', () => {
       }),
       { now: NOW },
     )
-    expect(q.items[0]!.href).toBe('/lap-trinh/on-tap')
+    expect(q.items[0]!.href).toBe('/goc-hoc-tap/programming/on-tap')
     expect(q.items[0]!.subjectId).toBe('programming')
   })
 
@@ -321,7 +321,7 @@ describe('buildReviewQueue', () => {
       }),
       { now: NOW },
     )
-    expect(q.items[0]!.href).toBe('/lo-trinh-hoc')
+    expect(q.items[0]!.href).toBe('/goc-hoc-tap/english/lo-trinh')
     expect(ReviewQueueSchema.safeParse(q).success).toBe(true)
   })
 

@@ -75,7 +75,7 @@ describe('trang Chi tiết môn — trạng thái tải/lỗi', () => {
           <Routes>
             {/* Đích của guard slice 02 — một trang giả để biết đã chuyển hướng tới đâu. */}
             <Route path="/goc-hoc-tap/english" element={<p>TRANG-TONG-QUAN-TIENG-ANH</p>} />
-            <Route path="/lap-trinh" element={<p>TRANG-LAP-TRINH</p>} />
+            <Route path="/goc-hoc-tap/programming" element={<p>TRANG-LAP-TRINH</p>} />
             <Route path="/goc-hoc-tap/:subjectId" element={<SubjectDetail />} />
           </Routes>
         </MemoryRouter>,

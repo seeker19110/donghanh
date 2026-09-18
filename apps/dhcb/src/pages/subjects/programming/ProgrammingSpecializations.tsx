@@ -9,7 +9,7 @@
 // hạng người. Không hướng nào được gắn nhãn "xịn hơn"; mỗi thẻ nói rõ hợp với ai và cần bậc nào.
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { duongDanHuong } from '../../../lib/programmingRoutes'
+import { PROGRAMMING_PREFIX, duongDanHuong } from '../../../lib/programmingRoutes'
 import { Compass, Clock, Lock, ArrowRight, Boxes, Layers, CheckCircle2 } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import Layout from '../../../components/Layout'
@@ -102,7 +102,7 @@ export default function ProgrammingSpecializations() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav('/lap-trinh')} />
+      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">

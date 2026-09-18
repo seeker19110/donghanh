@@ -4,6 +4,7 @@ import { BookOpen, Volume2, ArrowLeft } from 'lucide-react'
 import { loadDictionary } from '../../../data/dictionary/loader'
 import type { DictEntry } from '../../../types'
 import { PageShell } from '@core/PageShell'
+import { duongDanTuDien } from '../../../lib/englishRoutes'
 
 // Trang CÔNG KHAI cho 1 từ trong từ điển — /tu-vung/:word — KHÔNG bọc RequireAuth. Đây là phần
 // SEO thật: /dictionary (trang tra cứu chính) đang nằm sau RequireAuth nên Google không index
@@ -132,7 +133,7 @@ export default function WordDetail() {
           <p className="mt-4 text-sm text-zinc-400">
             Dạng biến thể của{' '}
             <Link
-              to={`/tu-vung/${entry.base}`}
+              to={duongDanTuDien(entry.base)}
               className="text-accent-400 underline underline-offset-2"
             >
               {entry.base}

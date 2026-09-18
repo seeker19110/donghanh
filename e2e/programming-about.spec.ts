@@ -7,11 +7,11 @@ import { mockLogin } from './helpers/auth'
 test('CÔNG KHAI: người chưa đăng nhập đọc được toàn bộ trang, không bị đá về /login', async ({
   page,
 }) => {
-  await page.goto('/lap-trinh/gioi-thieu', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/gioi-thieu', { waitUntil: 'domcontentloaded' })
 
   // Không bị RequireAuth chuyển hướng — đây là điểm dễ hỏng nhất nếu ai đó "dọn dẹp" App.tsx
   // và bọc lại route này cho đồng bộ với 6 route còn lại của môn.
-  await expect(page).toHaveURL(/\/lap-trinh\/gioi-thieu$/)
+  await expect(page).toHaveURL(/\/goc-hoc-tap\/programming\/gioi-thieu$/)
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Lập trình')
 
   // Nội dung thuyết phục phải có mặt, không chỉ tiêu đề.
@@ -22,7 +22,7 @@ test('CÔNG KHAI: người chưa đăng nhập đọc được toàn bộ trang,
 test('luật N1: khối trạng thái thật nói CHƯA AI đi hết môn, và số bài lấy từ dữ liệu', async ({
   page,
 }) => {
-  await page.goto('/lap-trinh/gioi-thieu', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/gioi-thieu', { waitUntil: 'domcontentloaded' })
 
   await expect(page.getByText('Trạng thái thật hôm nay')).toBeVisible()
   await expect(page.getByText(/chưa có ai đi hết môn này/i)).toBeVisible()
@@ -39,16 +39,16 @@ test('luật N1: khối trạng thái thật nói CHƯA AI đi hết môn, và s
 test('người CHƯA đăng nhập bấm "Bắt đầu" thì vào thẳng bài học, không qua /login', async ({
   page,
 }) => {
-  await page.goto('/lap-trinh/gioi-thieu', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/gioi-thieu', { waitUntil: 'domcontentloaded' })
   await page.getByRole('button', { name: 'Bắt đầu bài đầu tiên' }).click()
   await expect(page).not.toHaveURL(/\/login$/)
-  await expect(page).toHaveURL(/\/lap-trinh\/bai-hoc\//)
+  await expect(page).toHaveURL(/\/goc-hoc-tap\/programming\/bai-hoc\//)
 })
 
 test('người ĐÃ đăng nhập bấm "Bắt đầu" thì vào thẳng bài đầu tiên', async ({ page }) => {
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/gioi-thieu', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/gioi-thieu', { waitUntil: 'domcontentloaded' })
   await page.getByRole('button', { name: 'Bắt đầu bài đầu tiên' }).click()
   // URL nay có thêm slug mô tả (SEO) sau id — vd p1-u1-l1--chuong-trinh-dau-tien...
-  await expect(page).toHaveURL(/\/lap-trinh\/bai-hoc\/p1-u1-l1(--[a-z0-9-]+)?$/)
+  await expect(page).toHaveURL(/\/goc-hoc-tap\/programming\/bai-hoc\/p1-u1-l1(--[a-z0-9-]+)?$/)
 })

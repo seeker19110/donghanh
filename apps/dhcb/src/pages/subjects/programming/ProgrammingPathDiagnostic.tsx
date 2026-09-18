@@ -22,7 +22,7 @@ import {
 } from '@dhcb/subject-programming/learningPaths/diagnostic'
 import { getSpecStage } from '@dhcb/subject-programming/specializations/registry'
 import { idFromSlugSegment } from '@core/slug'
-import { duongDanLoTrinh } from '../../../lib/programmingRoutes'
+import { PROGRAMMING_PREFIX, duongDanLoTrinh } from '../../../lib/programmingRoutes'
 
 export default function ProgrammingPathDiagnostic() {
   const nav = useNavigate()
@@ -45,7 +45,7 @@ export default function ProgrammingPathDiagnostic() {
   if (!path) {
     return (
       <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-        <Layout onBack={() => nav('/lap-trinh')} />
+        <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] */}
         <PageShell width="standard" baseWidth="max-w-4xl">
           <PageHeader

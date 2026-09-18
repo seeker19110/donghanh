@@ -20,6 +20,7 @@ import {
 import { duongDanBaiHoc } from '../programmingRoutes'
 import { duongDanBaiHoc as duongDanBaiStem, getStemSubject } from '../stemLessonRoutes'
 import { ENGLISH_SUBJECT_ID } from './englishNext'
+import { duongDanLoTrinh } from '../englishRoutes'
 import { PROGRAMMING_SUBJECT_ID } from './programmingNext'
 
 /** Phiên đầy đủ → điểm quay lại. `hasDraft` đọc từ nháp thật, không đoán. */
@@ -116,7 +117,7 @@ export function resumeTarget(
   if (point.subjectId === ENGLISH_SUBJECT_ID) {
     const found = ctx.cefrLevels ? capChuaNoiDung(ctx.cefrLevels, point.contentId) : undefined
     if (!found) return undefined
-    return { href: `/lo-trinh-hoc/${found.level.id.toLowerCase()}`, title: found.title }
+    return { href: duongDanLoTrinh(found.level.id), title: found.title }
   }
 
   const stem = getStemSubject(point.subjectId)

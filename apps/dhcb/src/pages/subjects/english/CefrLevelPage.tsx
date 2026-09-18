@@ -21,6 +21,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { z } from 'zod'
 import { useParams, useNavigate, useSearchParams, Navigate } from 'react-router-dom'
+import { duongDanLoTrinh } from '../../../lib/englishRoutes'
 import {
   ChevronLeft,
   ChevronRight,
@@ -567,7 +568,7 @@ export default function CefrLevelPage() {
 
   if (!user) return null
   // Dữ liệu đã tải mà không tìm thấy cấp (URL sai kiểu /lo-trinh-hoc/c9) → về lộ trình.
-  if (ready && !level) return <Navigate to="/lo-trinh-hoc" replace />
+  if (ready && !level) return <Navigate to={duongDanLoTrinh()} replace />
 
   const accent: AccentClasses = level ? ACCENT[level.accent] : ACCENT.emerald
   const locked = level ? (lockedMap.get(level.id) ?? false) : false
@@ -615,7 +616,7 @@ export default function CefrLevelPage() {
     // phải đứng trước phần được chọn, khác với cột ngữ cảnh (đứng sau) ở các trang khác.
     return (
       <div className="min-h-dvh bg-zinc-950">
-        <Layout back onBack={headerBack ?? (() => nav('/lo-trinh-hoc'))} />
+        <Layout back onBack={headerBack ?? (() => nav(duongDanLoTrinh()))} />
         {/* Bề rộng phụ thuộc CÓ cột danh sách hay không: có thì `standard` (1152px = danh sách
             288px + phần chi tiết ~840px); không thì `reading` (768px) để dòng chữ không dài quá
             khổ đọc — màn tổng quan cấp toàn chữ và danh sách mục tiêu, kéo rộng 1152px là mắt
@@ -874,7 +875,7 @@ export default function CefrLevelPage() {
     <div className="animate-fade-in">
       {/* Về trang lộ trình (tổng quan 4 cấp ở /lo-trinh-hoc) */}
       <button
-        onClick={() => nav('/lo-trinh-hoc')}
+        onClick={() => nav(duongDanLoTrinh())}
         className="tap-44-y flex items-center gap-1 text-sm text-zinc-400 hover:text-zinc-200 transition mb-3"
       >
         <ChevronLeft className="w-4 h-4" /> {isA ? 'Lộ trình A1 → C2' : 'Roadmap A1 → C2'}
@@ -1085,7 +1086,7 @@ export default function CefrLevelPage() {
               </p>
               {prevLevel && (
                 <button
-                  onClick={() => nav(`/lo-trinh-hoc/${prevLevel.id.toLowerCase()}`)}
+                  onClick={() => nav(duongDanLoTrinh(prevLevel.id))}
                   className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-accent-500/20 hover:bg-accent-500/30 text-accent-300 theme-light:text-accent-800 text-sm font-medium transition"
                 >
                   {isA ? `Học tiếp cấp ${prevLevel.id}` : `Continue ${prevLevel.id}`}
@@ -1172,7 +1173,7 @@ export default function CefrLevelPage() {
                   </p>
                   {nextLevel && !(lockedMap.get(nextLevel.id) ?? false) && (
                     <button
-                      onClick={() => nav(`/lo-trinh-hoc/${nextLevel.id.toLowerCase()}`)}
+                      onClick={() => nav(duongDanLoTrinh(nextLevel.id))}
                       className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-accent-500/20 hover:bg-accent-500/30 text-accent-300 theme-light:text-accent-800 text-sm font-medium transition"
                     >
                       {isA ? `Sang cấp ${nextLevel.id}` : `Go to ${nextLevel.id}`}

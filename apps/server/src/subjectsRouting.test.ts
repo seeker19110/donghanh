@@ -109,10 +109,13 @@ describe('decideRedirect — trên host Góc học tập', () => {
     })
   })
 
-  // Lập trình có không gian riêng trên app nền tảng (route /lap-trinh) — đi thẳng, không dựng
+  // Lập trình có không gian riêng trên app nền tảng (route canonical mới) — đi thẳng, không dựng
   // trang chi tiết môn rồi mới chuyển tiếp bằng JS.
-  it.each([`${SUBJECTS_PREFIX}/programming`, '/programming'])('%s → thẳng tới /lap-trinh', (p) => {
-    expect(quyet(H, p)).toEqual({ location: `https://${WWW}/lap-trinh`, status: 302 })
+  it.each([`${SUBJECTS_PREFIX}/programming`, '/programming'])('%s → thẳng tới URL chuẩn', (p) => {
+    expect(quyet(H, p)).toEqual({
+      location: `https://${WWW}${SUBJECTS_PREFIX}/programming`,
+      status: 302,
+    })
   })
 
   // Bài học STEM thuộc APP host (bảng ownership của đặc tả): trước đây cặp luật cũ đá qua đá
@@ -208,11 +211,22 @@ describe('decideRedirect — trên app nền tảng (www/en-vi)', () => {
     })
   })
 
-  it('môn có không gian riêng → /lap-trinh trên chính app host', () => {
-    expect(quyet(WWW, `${SUBJECTS_PREFIX}/programming`)).toEqual({
-      location: `https://${WWW}/lap-trinh`,
-      status: 302,
-    })
+  it('môn có không gian riêng canonical → phục vụ tại app host', () => {
+    expect(quyet(WWW, `${SUBJECTS_PREFIX}/programming`)).toBeNull()
+  })
+
+  // P1-9c: mọi đường sâu dưới hai môn có không gian riêng vẫn thuộc app host. Chỉ host
+  // Góc học tập cần chuyển về app host; không được gộp đường dẫn sâu về trang tổng quan.
+  it.each([
+    `${SUBJECTS_PREFIX}/programming/bac/p1--nen-tang-lap-trinh`,
+    `${SUBJECTS_PREFIX}/programming/bai-hoc/p1-u1-l1--bien-va-kieu-du-lieu`,
+    `${SUBJECTS_PREFIX}/programming/khoa-hoc/web--web`,
+    `${SUBJECTS_PREFIX}/english/lo-trinh/a1`,
+    `${SUBJECTS_PREFIX}/english/bai-hoc`,
+    `${SUBJECTS_PREFIX}/english/tu-dien/hello`,
+  ])('%s: đường sâu thuộc app host, giữ nguyên path', (p) => {
+    expect(quyet(H, p)).toEqual({ location: `https://${WWW}${p}`, status: 302 })
+    expect(quyet(WWW, p)).toBeNull()
   })
 
   it('mã môn lạ → ở lại app host (trang "không tìm thấy" của app lo)', () => {

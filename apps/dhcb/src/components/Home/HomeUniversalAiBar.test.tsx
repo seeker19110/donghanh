@@ -148,7 +148,7 @@ describe('không có lời giải viết sẵn và không giả trạng thái AI
     expect(navigate).not.toHaveBeenCalled()
     const open = findByText('button', 'Mở Luyện nói')
     await act(async () => open?.click())
-    expect(navigate).toHaveBeenCalledWith('/luyen-noi')
+    expect(navigate).toHaveBeenCalledWith('/goc-hoc-tap/english/luyen-noi')
   })
 })
 

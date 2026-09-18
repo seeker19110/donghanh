@@ -7,7 +7,7 @@ import { mockLogin } from './helpers/auth'
 test('bước 1 dự án: dùng code mẫu → đạt hết check → mở bước 2', async ({ page }) => {
   test.setTimeout(180_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/du-an', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/du-an', { waitUntil: 'domcontentloaded' })
 
   // Bước 2 đang KHOÁ khi chưa xong bước 1
   await expect(page.getByRole('button', { name: 'Bước 2', exact: true })).toBeDisabled()
@@ -27,7 +27,7 @@ test('bước 1 dự án: dùng code mẫu → đạt hết check → mở bư�
 test('code khởi đầu (chưa làm gì) chấm bước 1 → có ca rớt, bước 2 vẫn khoá', async ({ page }) => {
   test.setTimeout(180_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/du-an', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/du-an', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Kiểm tra bước' }).click()
   // Starter code không in gì → ca 1 rớt hiện rõ
@@ -52,7 +52,7 @@ test('chặng P2: khoá khi chưa xong P1; mở ra thì bước tách 3 file ch�
       ? route.fulfill({ status: 200, body: JSON.stringify({ lessons: [] }) })
       : route.fulfill({ status: 200, body: '{}' }),
   )
-  await page.goto('/lap-trinh/du-an', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/du-an', { waitUntil: 'domcontentloaded' })
   await expect(page.getByRole('button', { name: /Chặng P2/ })).toBeDisabled()
 
   // Giả lập đã hoàn thành trọn chặng P1 → chặng P2 mở.
@@ -71,7 +71,7 @@ test('chặng P2: khoá khi chưa xong P1; mở ra thì bước tách 3 file ch�
       ? route.fulfill({ status: 200, body: JSON.stringify({ files: [], snapshots: [] }) })
       : route.fulfill({ status: 200, body: '{}' }),
   )
-  await page.goto('/lap-trinh/du-an?chang=p2', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/du-an?chang=p2', { waitUntil: 'domcontentloaded' })
 
   // Nhảy tới bước cuối (bước tách file) — các bước trước đã mở vì P1 xong… nhưng P2 thì chưa,
   // nên phải đi từng bước: dùng phao rồi chấm cho tới bước 5.
@@ -124,7 +124,7 @@ test('chặng P3: cả 5 bước (HTML → CSS → DOM → SQL → fetch) chấm
       : route.fulfill({ status: 200, body: '{}' }),
   )
 
-  await page.goto('/lap-trinh/du-an?chang=p3', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/du-an?chang=p3', { waitUntil: 'domcontentloaded' })
 
   for (let buoc = 1; buoc <= 5; buoc++) {
     await page.getByRole('button', { name: 'Xem code mẫu bước này' }).click()
@@ -167,7 +167,7 @@ test('chặng P3 bước HTML: khung xem trang hiện ngay trang học viên đa
       : route.fulfill({ status: 200, body: '{}' }),
   )
 
-  await page.goto('/lap-trinh/du-an?chang=p3', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/du-an?chang=p3', { waitUntil: 'domcontentloaded' })
   await page.getByRole('button', { name: 'Xem code mẫu bước này' }).click()
 
   // Bước HTML là trang TĨNH nên khung xem hiện luôn theo nội dung đang soạn (không cần bấm).

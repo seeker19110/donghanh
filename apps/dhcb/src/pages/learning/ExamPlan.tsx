@@ -17,6 +17,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { duongDanMonTiengAnh } from '../../lib/subjectsHost'
+import { duongDanLoTrinh, duongDanLuyenNoi } from '../../lib/englishRoutes'
 import { CalendarClock, Target, BookOpen, RotateCcw, Sparkles } from 'lucide-react'
 import { usePageTitle } from '../../lib/usePageTitle'
 import Layout from '../../components/Layout'
@@ -209,7 +210,7 @@ function TodayTasks({ plan, isA }: { plan: TodayPlan; isA: boolean }) {
       desc: isA
         ? 'Trả nợ cũ trước — đây là phần dễ quên nhất.'
         : 'Clear the backlog first — this is the part you forget fastest.',
-      to: '/lo-trinh-hoc/a1?tab=srs',
+      to: `${duongDanLoTrinh('A1')}?tab=srs`,
     },
     plan.todayNewItems > 0 && {
       key: 'new',
@@ -227,7 +228,7 @@ function TodayTasks({ plan, isA }: { plan: TodayPlan; isA: boolean }) {
       desc: isA
         ? 'Phần dễ bỏ nhất khi ôn thi, và mất điểm nhiều nhất.'
         : 'The easiest part to skip while cramming — and the one that costs the most marks.',
-      to: '/luyen-noi',
+      to: duongDanLuyenNoi(),
     },
   ].filter(Boolean) as Array<{
     key: string

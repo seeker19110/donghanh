@@ -18,7 +18,7 @@ const PARSONS_ORDER = [
 test('luồng 1 bài học end-to-end: predict → parsons → make đạt hết test', async ({ page }) => {
   test.setTimeout(180_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p1-u4-l1', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p1-u4-l1', { waitUntil: 'domcontentloaded' })
 
   // ①② Khái niệm hiện móc thực tế
   await expect(page.getByText(/hoá đơn tiền điện/i).first()).toBeVisible()
@@ -51,7 +51,7 @@ test('luồng 1 bài học end-to-end: predict → parsons → make đạt hết
 test('parsons xếp sai báo chưa đúng; make chạy code khởi đầu thì có ca rớt', async ({ page }) => {
   test.setTimeout(180_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p1-u4-l1', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p1-u4-l1', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Xếp code' }).click()
   // Xếp sai chủ đích: bấm 2 dòng cuối trước
@@ -76,7 +76,7 @@ test('bài số ngẫu nhiên: code mẫu đạt hết test-case trong Pyodide (
 }) => {
   test.setTimeout(180_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p1-u9-l1', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p1-u9-l1', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Tự viết' }).click()
   await page.getByRole('button', { name: 'Xem code mẫu' }).click()
@@ -94,7 +94,9 @@ for (const lessonId of ['p2-u6-l1', 'p2-u8-l1']) {
   }) => {
     test.setTimeout(180_000)
     await mockLogin(page, 'vi', 'dark-blue')
-    await page.goto(`/lap-trinh/bai-hoc/${lessonId}`, { waitUntil: 'domcontentloaded' })
+    await page.goto(`/goc-hoc-tap/programming/bai-hoc/${lessonId}`, {
+      waitUntil: 'domcontentloaded',
+    })
 
     await page.getByRole('button', { name: 'Tự viết' }).click()
     await page.getByRole('button', { name: 'Xem code mẫu' }).click()
@@ -133,7 +135,7 @@ test('gợi ý Socratic mở dần theo bậc server trả về; hết lượt h
     })
   })
 
-  await page.goto('/lap-trinh/bai-hoc/p1-u4-l1', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p1-u4-l1', { waitUntil: 'domcontentloaded' })
   await page.getByRole('button', { name: 'Tự viết' }).click()
 
   // Chưa đạt bài → KHÔNG được mời nhờ AI xem lại code (đó là đường vòng lấy lời giải).
@@ -156,7 +158,7 @@ test('gợi ý Socratic mở dần theo bậc server trả về; hết lượt h
 test('bài JavaScript p3-u6-l1: code mẫu đạt hết test-case trong Worker', async ({ page }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p3-u6-l1', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p3-u6-l1', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Tự viết' }).click()
   await page.getByRole('button', { name: 'Xem code mẫu' }).click()
@@ -170,7 +172,7 @@ test('bài JavaScript p3-u6-l1: code mẫu đạt hết test-case trong Worker',
 test('bài JavaScript: vòng lặp vô hạn bị ngắt, trang không treo', async ({ page }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p3-u6-l1', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p3-u6-l1', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Tự viết' }).click()
   const editor = page.getByRole('textbox').first()
@@ -203,7 +205,9 @@ for (const lessonId of ['p3-u8-l1', 'p3-u9-l1']) {
       return noiBo || url.protocol === 'data:' ? route.fallback() : route.abort()
     })
 
-    await page.goto(`/lap-trinh/bai-hoc/${lessonId}`, { waitUntil: 'domcontentloaded' })
+    await page.goto(`/goc-hoc-tap/programming/bai-hoc/${lessonId}`, {
+      waitUntil: 'domcontentloaded',
+    })
     await page.getByRole('button', { name: 'Tự viết' }).click()
     await page.getByRole('button', { name: 'Xem code mẫu' }).click()
     await page.getByRole('button', { name: 'Chấm bài' }).click()
@@ -218,7 +222,7 @@ test('bài SQL: xoá sạch bảng rồi chạy lại vẫn có dữ liệu (m�
 }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p3-u8-l1', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p3-u8-l1', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Tự viết' }).click()
   const editor = page.getByRole('textbox').first()
@@ -243,7 +247,9 @@ for (const lessonId of ['p3-u4-l1', 'p3-u5-l1']) {
   }) => {
     test.setTimeout(120_000)
     await mockLogin(page, 'vi', 'dark-blue')
-    await page.goto(`/lap-trinh/bai-hoc/${lessonId}`, { waitUntil: 'domcontentloaded' })
+    await page.goto(`/goc-hoc-tap/programming/bai-hoc/${lessonId}`, {
+      waitUntil: 'domcontentloaded',
+    })
 
     await page.getByRole('button', { name: 'Tự viết' }).click()
     await page.getByRole('button', { name: 'Xem code mẫu' }).click()
@@ -255,7 +261,7 @@ for (const lessonId of ['p3-u4-l1', 'p3-u5-l1']) {
 test('khung xem trang hiển thị trang nhưng KHÔNG chạy script trong đó', async ({ page }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p3-u4-l1', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p3-u4-l1', { waitUntil: 'domcontentloaded' })
   await page.getByRole('button', { name: 'Tự viết' }).click()
 
   await page
@@ -279,7 +285,7 @@ test('khung xem trang hiển thị trang nhưng KHÔNG chạy script trong đó'
 test('bài DOM p3-u6-l2: code mẫu đạt hết test-case (Worker + linkedom)', async ({ page }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p3-u6-l2', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p3-u6-l2', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Tự viết' }).click()
   await page.getByRole('button', { name: 'Xem code mẫu' }).click()
@@ -290,7 +296,7 @@ test('bài DOM p3-u6-l2: code mẫu đạt hết test-case (Worker + linkedom)',
 test('bài DOM: khung "Xem trang chạy" chạy script thật và phản ứng khi bấm', async ({ page }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p3-u6-l2', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p3-u6-l2', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Tự viết' }).click()
   await page.getByRole('button', { name: 'Xem code mẫu' }).click()
@@ -323,7 +329,9 @@ for (const lessonId of ['p3-u7-l1', 'p3-u7-l2']) {
       return noiBo || url.protocol === 'data:' ? route.fallback() : route.abort()
     })
 
-    await page.goto(`/lap-trinh/bai-hoc/${lessonId}`, { waitUntil: 'domcontentloaded' })
+    await page.goto(`/goc-hoc-tap/programming/bai-hoc/${lessonId}`, {
+      waitUntil: 'domcontentloaded',
+    })
     await page.getByRole('button', { name: 'Tự viết' }).click()
     await page.getByRole('button', { name: 'Xem code mẫu' }).click()
     await page.getByRole('button', { name: 'Chấm bài' }).click()
@@ -336,7 +344,7 @@ test('bài fetch: khung "Xem trang chạy" dùng fetch giả — tra cứu chạ
 }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p3-u7-l2', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p3-u7-l2', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Tự viết' }).click()
   await page.getByRole('button', { name: 'Xem code mẫu' }).click()
@@ -356,7 +364,7 @@ test('bài fetch: khung "Xem trang chạy" dùng fetch giả — tra cứu chạ
 test('bài Git p3-u10-l1: code mẫu đạt hết test-case, không cần git thật', async ({ page }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p3-u10-l1', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p3-u10-l1', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Tự viết' }).click()
   await page.getByRole('button', { name: 'Xem code mẫu' }).click()
@@ -367,7 +375,7 @@ test('bài Git p3-u10-l1: code mẫu đạt hết test-case, không cần git th
 test('bài Git: quên git add thì báo lỗi dạy được, không im lặng đánh rớt', async ({ page }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p3-u10-l1', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p3-u10-l1', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Tự viết' }).click()
   await page
@@ -388,7 +396,7 @@ test('bài dòng lệnh p3-u11-l4: code mẫu đạt hết test-case, có dòng 
 }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p3-u11-l4', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p3-u11-l4', { waitUntil: 'domcontentloaded' })
 
   // Huy hiệu ngôn ngữ phải tự khai là mô phỏng NGAY trước khi học viên vào bài.
   await expect(page.getByText('Dòng lệnh (bash)').first()).toBeVisible()
@@ -402,7 +410,7 @@ test('bài dòng lệnh p3-u11-l4: code mẫu đạt hết test-case, có dòng 
 test('bài dòng lệnh: gõ sai lệnh thì hiện thông báo dạy được ngay tại chỗ', async ({ page }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p3-u11-l2', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p3-u11-l2', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Tự viết' }).click()
   await page.getByRole('textbox').first().fill('mkdir bao_cao\nrm bao_cao')
@@ -421,7 +429,7 @@ test('bài Kotlin p6-u5-l3: code mẫu đạt hết test-case, huy hiệu tự k
 }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p6-u5-l3', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p6-u5-l3', { waitUntil: 'domcontentloaded' })
 
   // Huy hiệu phải tự khai là mô phỏng NGAY trước khi học viên vào bài (§3.3 luật 1).
   await expect(page.getByText('Kotlin').first()).toBeVisible()
@@ -436,7 +444,7 @@ test('bài Kotlin p6-u5-l3: code mẫu đạt hết test-case, huy hiệu tự k
 test('bài Kotlin: gán lại một `val` thì báo lỗi nói được, ngay tại chỗ', async ({ page }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p6-u5-l1', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p6-u5-l1', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Tự viết' }).click()
   await page
@@ -456,7 +464,7 @@ test('bài Kotlin: gán lại một `val` thì báo lỗi nói được, ngay t�
 test('bài Kotlin p6-u7-l2: dự án khép track chấm được trong trình duyệt', async ({ page }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p6-u7-l2', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p6-u7-l2', { waitUntil: 'domcontentloaded' })
 
   await expect(page.getByText('· mô phỏng').first()).toBeVisible()
 
@@ -471,7 +479,7 @@ test('bài Kotlin null safety: dùng thẳng dấu chấm trên kiểu có thể
 }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p6-u6-l1', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p6-u6-l1', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Tự viết' }).click()
   await page
@@ -484,14 +492,14 @@ test('bài Kotlin null safety: dùng thẳng dấu chấm trên kiểu có thể
   await expect(page.getByText(/KHONG duoc dung thang dau/).first()).toBeVisible({ timeout: 60_000 })
 })
 
-// PR-M12 — GOM NHÓM unit P6 theo mạch. Cổng a11y đã quét /lap-trinh/p6 ở cả 5 theme, nhưng nó
+// PR-M12 — GOM NHÓM unit P6 theo mạch. Cổng a11y đã quét /goc-hoc-tap/programming/bac/p6 ở cả 5 theme, nhưng nó
 // chỉ chứng minh trang KHÔNG vi phạm tương phản/ngữ nghĩa — không chứng minh việc chia mạch có
 // thật sự xảy ra. Hai test dưới chốt đúng điều đó, và chốt cả mặt trái: bậc KHÔNG chia mạch
 // phải giữ nguyên danh sách phẳng như trước.
 test('bậc P6: 65 unit được gom thành các mạch, mục lục trỏ tới mạch', async ({ page }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/p6', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bac/p6', { waitUntil: 'domcontentloaded' })
 
   // Ba mạch của chương trình M phải hiện thành tiêu đề thật, không lẫn vào dải unit.
   await expect(page.getByRole('heading', { name: 'Dẫn nhập bốn hướng phổ biến' })).toBeVisible()
@@ -508,7 +516,7 @@ test('bậc P6: 65 unit được gom thành các mạch, mục lục trỏ tới
 test('bậc P3: không chia mạch thì giữ nguyên danh sách phẳng như trước', async ({ page }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/p3', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bac/p3', { waitUntil: 'domcontentloaded' })
 
   // Nhãn nhóm MẶC ĐỊNH tuyệt đối không được rò ra ở bậc không chia mạch — nếu rò thì P1–P5
   // sẽ hiện một tiêu đề "Hướng chuyên sâu" hoàn toàn sai ngữ cảnh.
@@ -519,7 +527,7 @@ test('bậc P3: không chia mạch thì giữ nguyên danh sách phẳng như tr
 test('bài DOM: vòng lặp vô hạn khi CHẤM bị ngắt, trang không treo', async ({ page }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p3-u6-l2', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p3-u6-l2', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Tự viết' }).click()
   await page.getByRole('textbox').first().fill('while (true) {}')
@@ -537,11 +545,11 @@ test('thẻ SRS: đạt bài xong thì trang ôn có thẻ, lật đáp án rồ
   await mockLogin(page, 'vi', 'dark-blue')
 
   // Chưa học gì → không có thẻ nào tới hạn.
-  await page.goto('/lap-trinh/on-tap', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/on-tap', { waitUntil: 'domcontentloaded' })
   await expect(page.getByText('Hôm nay không có thẻ nào tới hạn')).toBeVisible({ timeout: 30_000 })
 
   // Đạt một bài (bài Git chạy nhanh, không cần tải Pyodide) → thẻ của bài vào vòng ôn.
-  await page.goto('/lap-trinh/bai-hoc/p3-u10-l1', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p3-u10-l1', { waitUntil: 'domcontentloaded' })
   await page.getByRole('button', { name: 'Tự viết' }).click()
   await page.getByRole('button', { name: 'Xem code mẫu' }).click()
   await page.getByRole('button', { name: 'Chấm bài' }).click()
@@ -551,7 +559,7 @@ test('thẻ SRS: đạt bài xong thì trang ôn có thẻ, lật đáp án rồ
   // tương lai để thấy chúng tới hạn, thay vì chờ thật.
   await page.clock.install()
   await page.clock.fastForward('30:00:00')
-  await page.goto('/lap-trinh/on-tap', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/on-tap', { waitUntil: 'domcontentloaded' })
 
   // Đáp án PHẢI ẩn cho tới khi bấm — bắt nghĩ trước là toàn bộ giá trị của thẻ.
   const xemDapAn = page.getByRole('button', { name: 'Xem đáp án' })
@@ -573,7 +581,7 @@ test('bài milestone P3 p3-u12-l1: code mẫu đạt hết test-case trong trìn
 }) => {
   test.setTimeout(120_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p3-u12-l1', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p3-u12-l1', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Tự viết' }).click()
   await page.getByRole('button', { name: 'Xem code mẫu' }).click()
@@ -592,7 +600,7 @@ test('bài milestone P3 p3-u12-l1: code mẫu đạt hết test-case trong trìn
 test('bài pytest p4-u6-l1: bộ chạy rút gọn hoạt động thật trong Pyodide', async ({ page }) => {
   test.setTimeout(180_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p4-u6-l1', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p4-u6-l1', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Tự viết' }).click()
   await page.getByRole('button', { name: 'Xem code mẫu' }).click()
@@ -607,7 +615,7 @@ test('bài pytest p4-u6-l1: bộ chạy rút gọn hoạt động thật trong P
 test('bài apisim p4-u8-l1: gói fastapi giả lập nạp được trong Pyodide', async ({ page }) => {
   test.setTimeout(180_000)
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p4-u8-l1', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p4-u8-l1', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: 'Tự viết' }).click()
   await page.getByRole('button', { name: 'Xem code mẫu' }).click()
@@ -616,11 +624,11 @@ test('bài apisim p4-u8-l1: gói fastapi giả lập nạp được trong Pyodid
 })
 
 // Cổng chặn V2 tái phát (PR-UX1, tiêu chí A6 của đặc tả UI/UX). Trước PR này trang bài học
-// ghi cứng `nav('/lap-trinh/p1')`, nên học xong một bài P3/P4/P5 rồi bấm Quay lại là rơi về
+// ghi cứng `nav('/goc-hoc-tap/programming/bac/p1')`, nên học xong một bài P3/P4/P5 rồi bấm Quay lại là rơi về
 // bậc P1 — sai bậc, mất chỗ đang học. Test đi từ một bài KHÔNG thuộc P1 để bắt đúng lỗi đó.
 test('quay lại từ bài học về ĐÚNG bậc của bài, không phải P1', async ({ page }) => {
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/lap-trinh/bai-hoc/p3-u10-l1', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/bai-hoc/p3-u10-l1', { waitUntil: 'domcontentloaded' })
 
   // Huy hiệu ngôn ngữ của bài hiện ngay đầu trang (PR-UX1, vá V7). Bài Git chạy trên bộ mô
   // phỏng nên phải tự khai điều đó.
@@ -637,8 +645,8 @@ test('quay lại từ bài học về ĐÚNG bậc của bài, không phải P1'
   // là tên bậc P3 trong `curriculum.ts` ("Làm được việc thật").
   await page.getByRole('button', { name: 'Làm được việc thật' }).click()
   // [S07-2] Lối về nay dựng bằng `duongDanBac` nên là URL CHUẨN `<mã>--<tên đã slug hoá>`,
-  // thay cho chuỗi ghép tay `/lap-trinh/p3` (URL cũ vẫn vào được, nhưng bị chuyển hướng ngay
+  // thay cho chuỗi ghép tay `/goc-hoc-tap/programming/bac/p3` (URL cũ vẫn vào được, nhưng bị chuyển hướng ngay
   // — dẫn thẳng tới URL chuẩn thì bớt một lượt điều hướng). Điều cần canh vẫn y nguyên: đúng
   // BẬC P3, không rơi về P1.
-  await expect(page).toHaveURL(/\/lap-trinh\/p3(--[a-z0-9-]+)?$/)
+  await expect(page).toHaveURL(/\/goc-hoc-tap\/programming\/bac\/p3(--[a-z0-9-]+)?$/)
 })

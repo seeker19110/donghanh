@@ -133,7 +133,7 @@ describe('buildCefrOutline — dữ liệu cefr.json thật', () => {
 
   it('duongDanHoatDongCefr: trang cấp + ngữ cảnh trên query', () => {
     expect(duongDanHoatDongCefr('B1', 'b1-u3', 'grammar', 'g-1')).toBe(
-      '/lo-trinh-hoc/b1?unit=b1-u3&hd=grammar%3Ag-1',
+      '/goc-hoc-tap/english/lo-trinh/b1?unit=b1-u3&hd=grammar%3Ag-1',
     )
   })
 

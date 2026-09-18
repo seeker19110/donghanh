@@ -16,10 +16,10 @@ import { test, expect, type Page } from '@playwright/test'
 import { mockLogin } from './helpers/auth'
 
 // Bài mẫu P1-U4 (cùng bài mà e2e/programming-lesson.spec.ts dùng).
-const BAI = '/lap-trinh/bai-hoc/p1-u4-l1'
+const BAI = '/goc-hoc-tap/programming/bai-hoc/p1-u4-l1'
 // Bài KHÁC để kiểm "đổi bài không dính nháp bài cũ". P1-U4 chỉ có ĐÚNG MỘT bài (đếm thật:
 // grep "id: 'p1-u4-l" = 1 dòng) nên bài thứ hai lấy ở unit kế tiếp.
-const BAI_KHAC = '/lap-trinh/bai-hoc/p1-u5-l1'
+const BAI_KHAC = '/goc-hoc-tap/programming/bai-hoc/p1-u5-l1'
 const DAU_AN = '# dau an cua toi'
 
 /** Ô soạn code của bước "Tự viết" (CodeMirror đặt aria-label lên vùng contenteditable). */

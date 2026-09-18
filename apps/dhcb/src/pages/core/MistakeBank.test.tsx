@@ -85,7 +85,7 @@ describe('MistakeBank', () => {
           <LangContext.Provider
             value={{ lang: 'vi', toggleLang: () => {}, setLang: () => {}, T: viTexts }}
           >
-            <MemoryRouter initialEntries={['/so-tay-loi-sai']}>
+            <MemoryRouter initialEntries={['/goc-hoc-tap/english/so-tay-loi-sai']}>
               <MistakeBank />
             </MemoryRouter>
           </LangContext.Provider>
@@ -148,7 +148,7 @@ describe('MistakeBank', () => {
     // Tab "Cần ôn" chỉ hiện nút ôn lại sau khi lật đáp án; danh sách "Tất cả" hiện luôn.
     await bam('Tất cả')
     const links = [...container.querySelectorAll('a')].map((a) => a.getAttribute('href'))
-    expect(links).toContain('/luyen-noi')
+    expect(links).toContain('/goc-hoc-tap/english/luyen-noi')
   })
 
   it('nhóm Lập trình nói thẳng "chưa có bằng chứng câu sai", không danh sách rỗng giả', async () => {

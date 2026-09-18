@@ -41,7 +41,12 @@ import { LEARNING_PATHS } from '@dhcb/subject-programming/learningPaths/registry
 import { levelLockMap, seedGrandfather, loiGiaiThichKhoa } from '../../../lib/programmingLevelLock'
 import { effectivePlan } from '../../../lib/promo'
 import { goToSubjects } from '../../../lib/subjectsHost'
-import { duongDanBac, duongDanKhoa, duongDanLoTrinh } from '../../../lib/programmingRoutes'
+import {
+  PROGRAMMING_PREFIX,
+  duongDanBac,
+  duongDanKhoa,
+  duongDanLoTrinh,
+} from '../../../lib/programmingRoutes'
 import { PageShell } from '@core/PageShell'
 
 export default function ProgrammingHome() {
@@ -138,7 +143,7 @@ export default function ProgrammingHome() {
             </button>
             {done === 0 && loaded && (
               <button
-                onClick={() => nav('/lap-trinh/gioi-thieu')}
+                onClick={() => nav(`${PROGRAMMING_PREFIX}/gioi-thieu`)}
                 className="tap-44 w-full text-center text-xs font-semibold text-zinc-400 hover:text-white underline underline-offset-2 transition"
               >
                 Khoá học này là gì? Học xong được gì?
@@ -212,7 +217,7 @@ export default function ProgrammingHome() {
               </span>
             </p>
           )}
-          <button onClick={() => nav('/lap-trinh/du-an')} className={`${nutPhu} w-full`}>
+          <button onClick={() => nav(`${PROGRAMMING_PREFIX}/du-an`)} className={`${nutPhu} w-full`}>
             <Trophy className="w-4 h-4 text-accent-400" />
             <span>Mở dự án của tôi</span>
           </button>
@@ -220,15 +225,15 @@ export default function ProgrammingHome() {
 
         {/* ④ Ba nút tắt */}
         <section className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <button onClick={() => nav('/lap-trinh/chay-thu')} className={nutPhu}>
+          <button onClick={() => nav(`${PROGRAMMING_PREFIX}/chay-thu`)} className={nutPhu}>
             <Play className="w-4 h-4 text-accent-400" />
             <span>Chạy thử tự do</span>
           </button>
-          <button onClick={() => nav('/lap-trinh/on-tap')} className={nutPhu}>
+          <button onClick={() => nav(`${PROGRAMMING_PREFIX}/on-tap`)} className={nutPhu}>
             <Brain className="w-4 h-4 text-accent-400" />
             <span>Ôn thẻ</span>
           </button>
-          <button onClick={() => nav('/lap-trinh/gioi-thieu')} className={nutPhu}>
+          <button onClick={() => nav(`${PROGRAMMING_PREFIX}/gioi-thieu`)} className={nutPhu}>
             <BookOpen className="w-4 h-4 text-accent-400" />
             <span>Về khoá học</span>
           </button>
@@ -327,7 +332,7 @@ export default function ProgrammingHome() {
             web, di động, backend, dữ liệu, AI, hệ thống, game, nhúng… Mỗi hướng 4 chặng và 5 sản
             phẩm phải nộp. Xem trước để biết mình đang học vì cái gì.
           </p>
-          <button onClick={() => nav('/lap-trinh/huong')} className={`${nutPhu} w-full`}>
+          <button onClick={() => nav(`${PROGRAMMING_PREFIX}/huong`)} className={`${nutPhu} w-full`}>
             <Compass className="w-4 h-4 text-accent-400" />
             <span>Xem {PROGRAMMING_SPECIALIZATIONS.length} hướng chuyên sâu</span>
           </button>

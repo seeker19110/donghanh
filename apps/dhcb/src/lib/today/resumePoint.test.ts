@@ -66,7 +66,7 @@ describe('toResumePoint', () => {
 describe('resumeTarget', () => {
   it('Lập trình: href dựng qua duongDanBaiHoc và giữ ?khoa=', () => {
     const target = resumeTarget(toResumePoint(session))
-    expect(target?.href.startsWith('/lap-trinh/bai-hoc/p1-u1-l1--')).toBe(true)
+    expect(target?.href.startsWith('/goc-hoc-tap/programming/bai-hoc/p1-u1-l1--')).toBe(true)
     expect(target?.href).toContain('?khoa=git')
     expect(target?.title.length).toBeGreaterThan(0)
   })
@@ -79,7 +79,7 @@ describe('resumeTarget', () => {
     const point = toResumePoint({ ...session, subjectId: 'english', contentId: 'c1' })
     expect(resumeTarget(point)).toBeUndefined() // chưa truyền dữ liệu cấp
     const target = resumeTarget(point, { cefrLevels: [levelA1] })
-    expect(target?.href).toBe('/lo-trinh-hoc/a1')
+    expect(target?.href).toBe('/goc-hoc-tap/english/lo-trinh/a1')
     expect(target?.title).toBe('Chào hỏi')
   })
 

@@ -17,6 +17,7 @@ import type { Outline, OutlineNode } from '@dhcb/core-contracts/outline'
 import type { CefrLevel, CefrUnit } from '../../data/cefrTypes'
 import type { Circle } from '../../data/curriculumTypes'
 import { circleDoneCount } from '../cefrProgress'
+import { duongDanLoTrinh } from '../englishRoutes'
 
 const SUBJECT_ID = 'english'
 
@@ -50,7 +51,7 @@ export function duongDanHoatDongCefr(
   contentId: string,
 ): string {
   const query = new URLSearchParams({ unit: unitId, hd: `${kind}:${contentId}` })
-  return `/lo-trinh-hoc/${levelId.toLowerCase()}?${query.toString()}`
+  return `${duongDanLoTrinh(levelId)}?${query.toString()}`
 }
 
 /** Một hoạt động đã được chỉ đích danh trên URL (`?unit=…&hd=<loại>:<mã>`). */

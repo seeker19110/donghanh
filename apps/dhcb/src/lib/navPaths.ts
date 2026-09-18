@@ -9,6 +9,8 @@
 // điều hướng không bao giờ lệch nhau nữa.
 
 export const LEARNING_PATHS = [
+  '/goc-hoc-tap/programming',
+  '/goc-hoc-tap/english',
   '/phong-hoc',
   '/goc-hoc-tap',
   '/hoc-mon-hoc',

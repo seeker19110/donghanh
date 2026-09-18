@@ -25,6 +25,7 @@ import {
 import { SUBJECT_ENTRIES, type SubjectEntry } from '@dhcb/core-learner/subjectEntry'
 import type { TodayPlan } from '@dhcb/core-contracts/todayPlan'
 import { orderSubjects } from '../../lib/home/orderSubjects'
+import { duongDanLuyenNoi, duongDanLoTrinh, duongDanTuDien } from '../../lib/englishRoutes'
 
 export interface SubjectSpaceListProps {
   plan: TodayPlan | null
@@ -59,9 +60,9 @@ const SUBJECT_DESC: Record<string, string> = {
 }
 const SUBJECT_SHORTCUTS: Record<string, Array<{ label: string; path: string }>> = {
   english: [
-    { label: 'Lộ trình CEFR', path: '/lo-trinh-hoc' },
-    { label: 'Luyện nói', path: '/luyen-noi' },
-    { label: 'Từ điển', path: '/tu-dien' },
+    { label: 'Lộ trình CEFR', path: duongDanLoTrinh() },
+    { label: 'Luyện nói', path: duongDanLuyenNoi() },
+    { label: 'Từ điển', path: duongDanTuDien() },
   ],
 }
 

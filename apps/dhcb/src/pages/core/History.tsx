@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { duongDanMonTiengAnh } from '../../lib/subjectsHost'
+import { duongDanLuyenNoi, duongDanLuyenViet, duongDanTroTruyen } from '../../lib/englishRoutes'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   MessageCircle,
@@ -302,9 +303,9 @@ type ActiveTab = 'chat' | 'writing' | 'speaking'
 
 // Route + nhãn CTA "Bắt đầu luyện tập" theo đúng tab đang rỗng.
 const EMPTY_CTA: Record<ActiveTab, { path: string; label: string }> = {
-  chat: { path: '/tro-truyen', label: 'Chat với gia sư' },
-  writing: { path: '/luyen-viet', label: 'Luyện viết & chấm điểm' },
-  speaking: { path: '/luyen-noi', label: 'Luyện nói song ngữ' },
+  chat: { path: duongDanTroTruyen(), label: 'Chat với gia sư' },
+  writing: { path: duongDanLuyenViet(), label: 'Luyện viết & chấm điểm' },
+  speaking: { path: duongDanLuyenNoi(), label: 'Luyện nói song ngữ' },
 }
 
 export default function History() {

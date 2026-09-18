@@ -21,6 +21,7 @@ import {
 } from '../../../lib/programmingProgress'
 import { idFromSlugSegment } from '@core/slug'
 import {
+  PROGRAMMING_PREFIX,
   duongDanBaiHoc,
   duongDanChangLoTrinh,
   duongDanLoTrinh,
@@ -54,11 +55,18 @@ export default function ProgrammingPathStagePage() {
 
   // Lộ trình lạ, chặng lạ, hoặc chặng không thuộc lộ trình → về trang lộ trình, không trang rỗng.
   if (!path || !stage)
-    return <Navigate to={pathId ? `/lap-trinh/lo-trinh/${pathId}` : '/lap-trinh'} replace />
+    return (
+      <Navigate
+        to={pathId ? `${PROGRAMMING_PREFIX}/lo-trinh/${pathId}` : PROGRAMMING_PREFIX}
+        replace
+      />
+    )
 
   // Link cũ (chỉ mã) hoặc tên đã đổi → về URL chuẩn.
   const canonicalStage = duongDanChangLoTrinh(path, stage)
-  if (`/lap-trinh/lo-trinh/${pathSlugParam}/chang/${stageSlugParam}` !== canonicalStage) {
+  if (
+    `${PROGRAMMING_PREFIX}/lo-trinh/${pathSlugParam}/chang/${stageSlugParam}` !== canonicalStage
+  ) {
     return <Navigate to={canonicalStage} replace />
   }
 

@@ -20,6 +20,7 @@ import { getAccessToken } from '@core/authHeader'
 import { useAuth } from '../context/useAuth'
 import { useLang } from '../context/useLang'
 import { useDialogBehavior } from './useDialogBehavior'
+import { duongDanLoTrinh } from '../lib/englishRoutes'
 
 // Lưu giờ nhắc (giờ địa phương 0–23) để hiển thị lại lần sau
 const remindKey = (uid: string) => `et_remind_hour_${uid}`
@@ -100,7 +101,7 @@ export default function QuickActions() {
       <div className="grid grid-cols-3 gap-2 max-w-md mx-auto">
         {/* Lộ trình — mở tổng quan A1→B2 (tab Kiểm tra giờ nằm TRONG từng cấp) */}
         <button
-          onClick={() => nav('/lo-trinh-hoc')}
+          onClick={() => nav(duongDanLoTrinh())}
           aria-label={isA ? 'Lộ trình học' : 'Learning path'}
           className="flex flex-col items-center gap-1.5 py-3 rounded-2xl bg-zinc-900/60 border border-zinc-800/60 hover:border-teal-500/40 transition group"
         >

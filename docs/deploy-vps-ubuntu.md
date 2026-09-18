@@ -416,6 +416,55 @@ sudo ln -s /etc/nginx/sites-available/en-vi /etc/nginx/sites-enabled/
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
+### 7a.1. Redirect URL cũ của Góc học tập (P1-9c)
+
+Sau khi deploy bản có URL chuẩn mới, thêm các luật sau vào **block HTTPS phục vụ app** trong
+`/etc/nginx/sites-available/en-vi`, đặt trước `location /`. Đây là redirect SEO tại Nginx cho
+các URL đã được phát hành; Express vẫn giữ redirect tương thích khi Nginx chưa được cập nhật.
+Không đổi hostname và không đặt luật này cho `/api/`.
+
+```nginx
+# Lập trình: giữ toàn bộ phần đuôi bài/khoá và query string.
+location = /lap-trinh {
+    return 301 https://$host/goc-hoc-tap/programming$is_args$args;
+}
+location = /lap-trinh/ {
+    return 301 https://$host/goc-hoc-tap/programming$is_args$args;
+}
+location ~ ^/lap-trinh/(.*)$ {
+    return 301 https://$host/goc-hoc-tap/programming/$1$is_args$args;
+}
+
+# Tiếng Anh: các trang gốc đã phát hành.
+location = /lo-trinh-hoc { return 301 https://$host/goc-hoc-tap/english/lo-trinh$is_args$args; }
+location = /bai-hoc { return 301 https://$host/goc-hoc-tap/english/bai-hoc$is_args$args; }
+location = /tro-truyen { return 301 https://$host/goc-hoc-tap/english/tro-truyen$is_args$args; }
+location = /luyen-noi { return 301 https://$host/goc-hoc-tap/english/luyen-noi$is_args$args; }
+location = /luyen-viet { return 301 https://$host/goc-hoc-tap/english/luyen-viet$is_args$args; }
+location = /luyen-nghe { return 301 https://$host/goc-hoc-tap/english/luyen-nghe$is_args$args; }
+location = /tu-dien { return 301 https://$host/goc-hoc-tap/english/tu-dien$is_args$args; }
+location = /tu-vung { return 301 https://$host/goc-hoc-tap/english/tu-dien$is_args$args; }
+location = /cau-thong-dung { return 301 https://$host/goc-hoc-tap/english/cau-thong-dung$is_args$args; }
+location = /truyen-song-ngu { return 301 https://$host/goc-hoc-tap/english/truyen$is_args$args; }
+location = /so-tay-loi-sai { return 301 https://$host/goc-hoc-tap/english/so-tay-loi-sai$is_args$args; }
+location = /on-thi { return 301 https://$host/goc-hoc-tap/english/on-thi$is_args$args; }
+location = /thu-thach { return 301 https://$host/goc-hoc-tap/english/thu-thach$is_args$args; }
+```
+
+Kiểm tra trước khi reload và xác nhận cả URL gốc lẫn URL có phần đuôi:
+
+```bash
+sudo nginx -t
+sudo systemctl reload nginx
+curl -sS -o /dev/null -D - https://www.donghanhcungban.org/lap-trinh | head
+curl -sS -o /dev/null -D - https://www.donghanhcungban.org/lap-trinh/bai-hoc/demo | head
+# Cả hai phải trả HTTP/2 301 và Location bắt đầu bằng /goc-hoc-tap/programming.
+curl -sS -o /dev/null -D - 'https://www.donghanhcungban.org/lo-trinh-hoc?utm_source=old' | head
+# Phải trả 301 tới /goc-hoc-tap/english/lo-trinh và giữ query utm_source.
+```
+
+Đây là bước vận hành thủ công trên VPS; không chạy `nginx` hoặc reload production từ phiên AI.
+
 ### 7b. Cài HTTPS miễn phí (Let's Encrypt)
 
 ```bash

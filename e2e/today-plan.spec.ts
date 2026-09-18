@@ -48,7 +48,8 @@ async function seedPhienLapTrinh(page: Page) {
 
 /**
  * [S06-3 · AC-19] Phiên học dở môn Tiếng Anh ở vòng từ vựng `greetings` (A1 · Chào hỏi & giới
- * thiệu bản thân — có thật trong `public/data/cefr.json`, nên `resumeTarget` tra ra `/lo-trinh-hoc/a1`).
+ * thiệu bản thân — có thật trong `public/data/cefr.json`, nên `resumeTarget` tra ra
+ * `/goc-hoc-tap/english/lo-trinh/a1`).
  * `phutTruoc` để đặt phiên này trước/sau phiên Lập trình mà không phụ thuộc đồng hồ máy chạy test.
  */
 async function seedPhienTiengAnh(page: Page, phutTruoc: number) {
@@ -131,7 +132,9 @@ test('phiên Lập trình đang dở → MỘT nút "Học tiếp", một cú b�
   await expect(page.getByText(/Phiên đang dở ·/)).toBeVisible()
 
   await cta.click() // đúng MỘT thao tác từ "Hôm nay" tới màn học
-  await expect(page).toHaveURL(/\/lap-trinh\/bai-hoc\/p3-u10-l1(--[a-z0-9-]+)?(\?khoa=git)?$/)
+  await expect(page).toHaveURL(
+    /\/goc-hoc-tap\/programming\/bai-hoc\/p3-u10-l1(--[a-z0-9-]+)?(\?khoa=git)?$/,
+  )
   expect(aiCalls).toEqual([])
 })
 
@@ -147,6 +150,7 @@ test('người mới chưa có tín hiệu nào → mời CHỌN MÔN, không đ
   await expect(the.getByRole('link', { name: /^Bắt đầu/ })).toHaveAttribute('href', '/goc-hoc-tap')
   // Bất biến của slice: thẻ "Hôm nay" KHÔNG chứa lối vào lộ trình CEFR khi chưa có tín hiệu.
   await expect(the.locator('a[href^="/lo-trinh-hoc"]')).toHaveCount(0)
+  await expect(the.locator('a[href^="/goc-hoc-tap/english/lo-trinh"]')).toHaveCount(0)
   await expect(the.locator('a[href^="/onboarding"]')).toHaveCount(0)
 })
 
@@ -160,7 +164,7 @@ test('chỉ học tiếng Anh → CTA về đúng cấp CEFR đang học, vẫn 
 
   const cta = ctaChinh(page)
   await expect(cta).toHaveCount(1)
-  await expect(cta).toHaveAttribute('href', /^\/lo-trinh-hoc\/[a-c][12]$/)
+  await expect(cta).toHaveAttribute('href', /^\/goc-hoc-tap\/english\/lo-trinh\/[a-c][12]$/)
 })
 
 test('lỗi tải tiến độ → vẫn có CTA từ dữ liệu cục bộ + dòng "Thử lại"', async ({ page }) => {
@@ -207,7 +211,7 @@ test('2 môn có phiên dở → phiên MỚI NHẤT làm việc chính, môn ki
   // Môn thứ hai vẫn có lối vào, nhưng là mục PHỤ và nói rõ nó thuộc môn nào.
   const phu = theHomNay(page).getByRole('listitem').filter({ hasText: 'Môn thứ hai: Tiếng Anh' })
   await expect(phu).toHaveCount(1)
-  await expect(phu.getByRole('link')).toHaveAttribute('href', '/lo-trinh-hoc/a1')
+  await expect(phu.getByRole('link')).toHaveAttribute('href', '/goc-hoc-tap/english/lo-trinh/a1')
 })
 
 test('đổi thứ tự thời gian → đổi việc chính (không phải môn nào cứng thắng)', async ({ page }) => {
@@ -219,6 +223,6 @@ test('đổi thứ tự thời gian → đổi việc chính (không phải môn
 
   const cta = ctaChinh(page)
   await expect(cta).toHaveCount(1)
-  await expect(cta).toHaveAttribute('href', '/lo-trinh-hoc/a1')
+  await expect(cta).toHaveAttribute('href', '/goc-hoc-tap/english/lo-trinh/a1')
   await expect(cta).toContainText('Chào hỏi')
 })

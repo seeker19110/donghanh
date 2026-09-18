@@ -17,6 +17,7 @@ import { groupLinesByParagraph, getStoryVoice } from '../../../lib/stories'
 import { loadStory } from '../../../data/stories/loader'
 import type { Story } from '../../../data/stories/index'
 import { buildSlugSegment, idFromSlugSegment } from '@core/slug'
+import { duongDanTruyen } from '../../../lib/englishRoutes'
 import {
   speak,
   stopSpeaking,
@@ -70,7 +71,7 @@ export default function StoryReader() {
     if (!story || !id) return
     const canonicalSegment = buildSlugSegment(id, isA ? story.titleEn : story.titleVi)
     if (slugParam !== canonicalSegment) {
-      nav(`/truyen-song-ngu/${canonicalSegment}`, { replace: true })
+      nav(duongDanTruyen(canonicalSegment), { replace: true })
     }
   }, [story, id, isA, slugParam, nav])
 

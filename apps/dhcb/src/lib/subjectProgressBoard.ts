@@ -123,7 +123,7 @@ async function theLapTrinh(uid: string, plan: LockPlan): Promise<SubjectProgress
   return {
     subjectId: 'programming',
     subjectLabel: 'Lập trình',
-    href: level ? routes.duongDanBac(level) : '/lap-trinh',
+    href: level ? routes.duongDanBac(level) : '/goc-hoc-tap/programming',
     summary: summarizeOutline(cay),
   }
 }

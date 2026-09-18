@@ -82,7 +82,7 @@ describe('programmingNext — luật cũ pickNextLesson', () => {
   it('chưa học gì → bài đầu tiên của giáo trình, href dựng qua duongDanBaiHoc', () => {
     const { next } = programmingNext({ progress: [] })
     const item = TodayItemSchema.parse(next)
-    expect(item.href.startsWith('/lap-trinh/bai-hoc/')).toBe(true)
+    expect(item.href.startsWith('/goc-hoc-tap/programming/bai-hoc/')).toBe(true)
     expect(item.href).toContain('--')
     expect(item.hint).toBe('Bài chưa học tiếp theo')
   })

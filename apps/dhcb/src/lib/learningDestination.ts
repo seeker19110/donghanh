@@ -9,6 +9,8 @@
 // trên bảng dưới đây đều phải nói đúng bản chất đó — không hứa "AI đã hiểu câu hỏi của bạn".
 
 /** Nơi học được gợi ý. `isCompanion` = đích cần đăng nhập và nhận được nháp câu hỏi. */
+import { duongDanLuyenNoi } from './englishRoutes'
+
 export interface Destination {
   route: string
   label: string
@@ -84,7 +86,7 @@ const KEYWORD_ROUTES: { keywords: string[]; destination: Destination }[] = [
   {
     keywords: ['phát âm', 'nói', 'speaking', 'ipa'],
     destination: {
-      route: '/luyen-noi',
+      route: duongDanLuyenNoi(),
       label: 'Luyện nói',
       reason: 'Câu hỏi có từ khoá về phát âm, luyện nói.',
       isCompanion: false,

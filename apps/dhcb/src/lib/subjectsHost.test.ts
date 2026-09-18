@@ -83,10 +83,10 @@ describe('subjectsPath', () => {
   })
 
   // Slice 02: môn có không gian hoạt động riêng lấy đường dẫn từ @dhcb/core-learner/subjectHome.
-  it('Tiếng Anh dưới tiền tố Góc học tập; Lập trình giữ /lap-trinh', () => {
+  it('Tiếng Anh và Lập trình dưới tiền tố Góc học tập', () => {
     expect(subjectsPath('english')).toBe('/goc-hoc-tap/english')
     expect(duongDanMonTiengAnh()).toBe('/goc-hoc-tap/english')
-    expect(subjectsPath('programming')).toBe('/lap-trinh')
+    expect(subjectsPath('programming')).toBe('/goc-hoc-tap/programming')
   })
 })
 
@@ -150,7 +150,7 @@ describe('subjectsTarget', () => {
     })
     expect(subjectsTarget('www.donghanhcungban.org', 'programming')).toEqual({
       kind: 'path',
-      value: '/lap-trinh',
+      value: '/goc-hoc-tap/programming',
     })
   })
 
@@ -161,7 +161,7 @@ describe('subjectsTarget', () => {
     })
     expect(subjectsTarget(HOC_TAP, 'programming')).toEqual({
       kind: 'url',
-      value: 'https://www.donghanhcungban.org/lap-trinh',
+      value: 'https://www.donghanhcungban.org/goc-hoc-tap/programming',
     })
   })
 

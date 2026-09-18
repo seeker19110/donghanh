@@ -12,6 +12,8 @@ import { STUDIOS } from './studios'
 import { SUBJECT_CHILDREN, type NavChild } from './navTree'
 import { subjectHomePath } from '@dhcb/core-learner/subjectHome'
 import { underPrefix } from './navPaths'
+import { legacyEnglishPath } from './legacyEnglishPath'
+import { duongDanLoTrinh } from './englishRoutes'
 
 /** Một đốt trong đường đi. `to` rỗng nghĩa là đốt cuối (trang hiện tại, không phải liên kết). */
 export interface Crumb {
@@ -74,7 +76,7 @@ const ROUTE_NODES: readonly RouteNode[] = [
   // [Slice 03] Trang Tiếng Anh KHÔNG lên sidebar nhưng vẫn phải có tầng cha đúng. Đặt TRƯỚC
   // childNodes(SUBJECT_CHILDREN): ENGLISH_PATHS (paths của mục "Tiếng Anh") cũng chứa hai đường
   // này, mà BY_PATH lấy nút ĐẦU TIÊN — đặt sau là chúng mang nhãn "Tiếng Anh" thay vì nhãn riêng.
-  { path: '/placement', label: 'Xếp lớp', parent: '/lo-trinh-hoc' },
+  { path: '/placement', label: 'Xếp lớp', parent: duongDanLoTrinh() },
   { path: '/cai-dat', label: 'Cài đặt môn', parent: ENGLISH_HOME },
   // SUBJECT_CHILDREN đã gồm cấp 2 của Tiếng Anh (ENGLISH_CHILDREN) — không trải lại lần hai.
   ...childNodes(SUBJECT_CHILDREN, SUBJECTS),
@@ -91,16 +93,28 @@ const ROUTE_NODES: readonly RouteNode[] = [
   { path: '/tin-nhan', label: 'Tin nhắn', parent: '/trang-ca-nhan' },
   { path: '/nhiem-vu', label: 'Nhiệm vụ', parent: '/tien-do' },
 
-  // --- Môn Lập trình: các tầng TĨNH dưới `/lap-trinh` ---
+  // --- Môn Lập trình: các tầng TĨNH dưới tiền tố chuẩn ---
   // Chỉ liệt kê nhánh nào có TRANG THẬT để bấm về (xem App.tsx). Nhánh có id động
   // (`/lap-trinh/khoa-hoc/:id`, `/lap-trinh/lo-trinh/:id`, `/lap-trinh/bai-hoc/:id`) KHÔNG có
   // trang danh sách riêng, nên không đặt nút ở đây — trang tự truyền đốt cha động vào
   // `Layout crumbs` (xem tham số `extra` của `buildCrumbs` bên dưới).
-  { path: '/lap-trinh/huong', label: 'Hướng chuyên sâu', parent: '/lap-trinh' },
-  { path: '/lap-trinh/du-an', label: 'Dự án', parent: '/lap-trinh' },
-  { path: '/lap-trinh/on-tap', label: 'Ôn tập', parent: '/lap-trinh' },
-  { path: '/lap-trinh/chay-thu', label: 'Chạy thử', parent: '/lap-trinh' },
-  { path: '/lap-trinh/gioi-thieu', label: 'Giới thiệu môn', parent: '/lap-trinh' },
+  {
+    path: '/goc-hoc-tap/programming/huong',
+    label: 'Hướng chuyên sâu',
+    parent: '/goc-hoc-tap/programming',
+  },
+  { path: '/goc-hoc-tap/programming/du-an', label: 'Dự án', parent: '/goc-hoc-tap/programming' },
+  { path: '/goc-hoc-tap/programming/on-tap', label: 'Ôn tập', parent: '/goc-hoc-tap/programming' },
+  {
+    path: '/goc-hoc-tap/programming/chay-thu',
+    label: 'Chạy thử',
+    parent: '/goc-hoc-tap/programming',
+  },
+  {
+    path: '/goc-hoc-tap/programming/gioi-thieu',
+    label: 'Giới thiệu môn',
+    parent: '/goc-hoc-tap/programming',
+  },
 
   // --- Các TRỤ: công cụ nằm dưới hai studio gộp ---
   // Trang công cụ của trụ trước đây không có tầng cha nào nên breadcrumb tự ẩn hẳn: đứng ở
@@ -161,10 +175,14 @@ export function buildCrumbs(
 ): Crumb[] {
   if (pathname === '/') return []
 
+  // Breadcrumb có thể render trước khi React Router hoàn tất redirect legacy; chuẩn hóa
+  // đường dẫn cũ để vẫn dựng đúng cây canonical trong khoảnh khắc chuyển tiếp.
+  const canonicalPathname = legacyEnglishPath(pathname, '') ?? pathname
+
   const trail: Crumb[] = []
   // Lần ngược lên cha. `seen` chặn vòng lặp vô hạn nếu cấu hình `parent` lỡ trỏ vòng tròn.
   const seen = new Set<string>()
-  let node = deepestNode(pathname)
+  let node = deepestNode(canonicalPathname)
   while (node && !seen.has(node.path)) {
     seen.add(node.path)
     trail.unshift({ label: node.label, to: node.to ?? node.path })

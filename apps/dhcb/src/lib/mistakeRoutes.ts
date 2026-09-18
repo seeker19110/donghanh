@@ -10,12 +10,13 @@
 import type { StemSubjectId } from '@dhcb/core-contracts/stemLesson'
 import type { MistakeSource } from './mistakes'
 import { duongDanBaiHoc } from './stemLessonRoutes'
+import { duongDanLuyenNoi, duongDanLuyenViet, duongDanTroTruyen } from './englishRoutes'
 
 /** Nơi mắc lỗi của sổ lỗi môn Anh → route thật trong `App.tsx`. */
 export const DUONG_DAN_NGUON_LOI: Record<MistakeSource, string> = {
-  chat: '/tro-truyen',
-  writing: '/luyen-viet',
-  speaking: '/luyen-noi',
+  chat: duongDanTroTruyen(),
+  writing: duongDanLuyenViet(),
+  speaking: duongDanLuyenNoi(),
 }
 
 /** "Ôn lại lỗi này" của một lỗi môn Anh: về đúng màn đã sinh ra nó (không có neo tới câu). */

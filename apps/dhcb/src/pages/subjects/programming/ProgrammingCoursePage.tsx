@@ -17,7 +17,7 @@ import { TwoPane } from '@core/TwoPane'
 import { useIsDesktopViewport } from '../../../lib/useIsDesktopViewport'
 import { getLessonSummary } from '@dhcb/subject-programming/lessonsLoader'
 import { buildSlugSegment, idFromSlugSegment } from '@core/slug'
-import { duongDanBaiHoc } from '../../../lib/programmingRoutes'
+import { PROGRAMMING_PREFIX, duongDanBaiHoc } from '../../../lib/programmingRoutes'
 import { buildCourseOutline } from '../../../lib/outline/programmingOutline'
 import { useProgrammingOutlineCtx } from '../../../lib/useProgrammingOutlineCtx'
 import { LoiTienDo } from '../../../components/OutlinePane'
@@ -47,13 +47,13 @@ export default function ProgrammingCoursePage() {
   })
 
   // Mã khoá lạ → về trang tổng quan môn, không render trang rỗng.
-  if (!course) return <Navigate to="/lap-trinh" replace />
+  if (!course) return <Navigate to={PROGRAMMING_PREFIX} replace />
 
   // URL chỉ có mã (link cũ) hoặc phần mô tả không khớp tiêu đề hiện tại → chuyển hướng về URL
   // chuẩn, để Google không coi là hai trang nội dung trùng nhau (cùng luật trang bài học).
   const canonicalCourse = buildSlugSegment(course.id, course.title)
   if (courseSlugParam !== canonicalCourse) {
-    return <Navigate to={`/lap-trinh/khoa-hoc/${canonicalCourse}`} replace />
+    return <Navigate to={`${PROGRAMMING_PREFIX}/khoa-hoc/${canonicalCourse}`} replace />
   }
 
   const allLessons = course.chapters.flatMap((ch) =>
@@ -64,7 +64,7 @@ export default function ProgrammingCoursePage() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav('/lap-trinh')} />
+      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl">

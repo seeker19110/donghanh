@@ -27,7 +27,7 @@ import PageHeader from '../../../components/PageHeader'
 import { useAuth } from '../../../context/useAuth'
 import { PROGRAMMING_LEVELS } from '@dhcb/subject-programming/curriculum'
 import { LESSON_INDEX, getLessonSummary } from '@dhcb/subject-programming/lessonsLoader'
-import { duongDanBaiHoc } from '../../../lib/programmingRoutes'
+import { PROGRAMMING_PREFIX, duongDanBaiHoc } from '../../../lib/programmingRoutes'
 import { PROJECT_STAGES } from '@dhcb/subject-programming/projectSteps'
 
 /** Sản phẩm của học viên lớn lên thế nào qua từng chặng (khối 2 của đặc tả §6). */
@@ -128,7 +128,7 @@ export default function ProgrammingAbout() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav(user ? '/lap-trinh' : '/')} />
+      <Layout onBack={() => nav(user ? PROGRAMMING_PREFIX : '/')} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang toàn chữ để đọc → giữ hẹp cho dễ đọc. */}
       <PageShell width="reading" baseWidth="max-w-3xl" className="space-y-6">
@@ -303,7 +303,7 @@ export default function ProgrammingAbout() {
             <span>Bắt đầu bài đầu tiên</span>
           </button>
           <button
-            onClick={() => nav('/lap-trinh')}
+            onClick={() => nav(PROGRAMMING_PREFIX)}
             className="tap-44 w-full inline-flex items-center justify-center gap-2 py-3 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 text-zinc-200 font-semibold text-sm transition"
           >
             <span>

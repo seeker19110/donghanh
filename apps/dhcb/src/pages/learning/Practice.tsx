@@ -12,6 +12,18 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePageTitle } from '../../lib/usePageTitle'
 import {
+  duongDanBaiHocAnh,
+  duongDanCauThongDung,
+  duongDanLuyenNghe,
+  duongDanLuyenNoi,
+  duongDanLuyenViet,
+  duongDanSoTayLoiSai,
+  duongDanThuThach,
+  duongDanTroTruyen,
+  duongDanTruyen,
+  duongDanTuDien,
+} from '../../lib/englishRoutes'
+import {
   Headphones,
   Mic,
   PenLine,
@@ -204,7 +216,7 @@ export default function Practice() {
             </div>
           </div>
           <button
-            onClick={() => nav('/so-tay-loi-sai')}
+            onClick={() => nav(duongDanSoTayLoiSai())}
             className="tap-44 w-full sm:w-auto px-5 py-2.5 rounded-2xl bg-rose-500 hover:bg-rose-400 text-black font-bold text-xs flex items-center justify-center gap-2 shadow-md transition active:scale-95 shrink-0"
           >
             <span>Mở Sổ Lỗi & Ôn Tập</span>
@@ -408,7 +420,7 @@ export default function Practice() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* Luyện Nói & IPA */}
             <button
-              onClick={() => nav('/luyen-noi')}
+              onClick={() => nav(duongDanLuyenNoi())}
               className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-sky-500/30 hover:border-sky-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex items-start gap-3.5"
             >
               <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
@@ -429,7 +441,7 @@ export default function Practice() {
 
             {/* Luyện Viết & IELTS */}
             <button
-              onClick={() => nav('/luyen-viet')}
+              onClick={() => nav(duongDanLuyenViet())}
               className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-violet-500/30 hover:border-violet-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex items-start gap-3.5"
             >
               <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
@@ -450,7 +462,7 @@ export default function Practice() {
 
             {/* Chat Đối Thoại Socratic */}
             <button
-              onClick={() => nav('/tro-truyen')}
+              onClick={() => nav(duongDanTroTruyen())}
               className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-accent-500/30 hover:border-accent-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex items-start gap-3.5"
             >
               <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-accent-500 to-amber-500 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
@@ -471,7 +483,7 @@ export default function Practice() {
 
             {/* Thư Viện Nghe */}
             <button
-              onClick={() => nav('/luyen-nghe')}
+              onClick={() => nav(duongDanLuyenNghe())}
               className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-rose-500/30 hover:border-rose-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex items-start gap-3.5"
             >
               <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
@@ -666,7 +678,7 @@ export default function Practice() {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
             {/* Sổ tay lỗi sai */}
             <button
-              onClick={() => nav('/so-tay-loi-sai')}
+              onClick={() => nav(duongDanSoTayLoiSai())}
               className="tap-44 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-rose-500/40 text-left transition active:scale-[0.98] group"
             >
               <div className="w-8 h-8 rounded-xl bg-rose-500/15 text-rose-400 theme-light:text-rose-800 flex items-center justify-center shrink-0 mb-2 group-hover:scale-105 transition">
@@ -678,7 +690,7 @@ export default function Practice() {
 
             {/* Từ điển 12k từ */}
             <button
-              onClick={() => nav('/tu-dien')}
+              onClick={() => nav(duongDanTuDien())}
               className="tap-44 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-amber-500/40 text-left transition active:scale-[0.98] group"
             >
               <div className="w-8 h-8 rounded-xl bg-amber-500/15 text-amber-400 theme-light:text-amber-800 flex items-center justify-center shrink-0 mb-2 group-hover:scale-105 transition">
@@ -690,7 +702,7 @@ export default function Practice() {
 
             {/* Truyện song ngữ */}
             <button
-              onClick={() => nav('/truyen-song-ngu')}
+              onClick={() => nav(duongDanTruyen())}
               className="tap-44 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-pink-500/40 text-left transition active:scale-[0.98] group"
             >
               <div className="w-8 h-8 rounded-xl bg-pink-500/15 text-pink-400 theme-light:text-pink-800 flex items-center justify-center shrink-0 mb-2 group-hover:scale-105 transition">
@@ -702,7 +714,7 @@ export default function Practice() {
 
             {/* Mẫu câu thông dụng */}
             <button
-              onClick={() => nav('/cau-thong-dung')}
+              onClick={() => nav(duongDanCauThongDung())}
               className="tap-44 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-blue-500/40 text-left transition active:scale-[0.98] group"
             >
               <div className="w-8 h-8 rounded-xl bg-blue-500/15 text-blue-400 theme-light:text-blue-800 flex items-center justify-center shrink-0 mb-2 group-hover:scale-105 transition">
@@ -714,7 +726,7 @@ export default function Practice() {
 
             {/* Bài học mẫu */}
             <button
-              onClick={() => nav('/bai-hoc')}
+              onClick={() => nav(duongDanBaiHocAnh())}
               className="tap-44 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-teal-500/40 text-left transition active:scale-[0.98] group"
             >
               <div className="w-8 h-8 rounded-xl bg-teal-500/15 text-teal-400 theme-light:text-teal-800 flex items-center justify-center shrink-0 mb-2 group-hover:scale-105 transition">
@@ -726,7 +738,7 @@ export default function Practice() {
 
             {/* Video Thử Thách */}
             <button
-              onClick={() => nav('/thu-thach')}
+              onClick={() => nav(duongDanThuThach())}
               className="tap-44 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-orange-500/40 text-left transition active:scale-[0.98] group"
             >
               <div className="w-8 h-8 rounded-xl bg-orange-500/15 text-orange-400 theme-light:text-orange-800 flex items-center justify-center shrink-0 mb-2 group-hover:scale-105 transition">

@@ -10,6 +10,8 @@ import { PROGRAMMING_SPECIALIZATIONS } from '@dhcb/subject-programming/specializ
 import { LEARNING_PATHS, pathStageRefs } from '@dhcb/subject-programming/learningPaths/registry'
 import { getPathStage } from '@dhcb/subject-programming/learningPaths/pathStages'
 import {
+  PROGRAMMING_PREFIX,
+  duongDanBac,
   duongDanBaiHoc,
   duongDanChangHuong,
   duongDanChangLoTrinh,
@@ -23,10 +25,15 @@ import { duongDanChangTheoId, maKhoaTuQuery } from './programmingRoutesSpec'
 const doanCuoi = (url: string) => url.split('/').pop() ?? ''
 
 describe('URL môn Lập trình — mã luôn tách lại được', () => {
+  it('mọi URL dùng tiền tố Góc học tập; bậc có đốt bac riêng', () => {
+    expect(duongDanBac({ id: 'p1', name: 'Nền tảng' })).toBe(
+      `${PROGRAMMING_PREFIX}/bac/p1--nen-tang`,
+    )
+  })
   it('khoá ngắn: URL giữ nguyên mã khoá ở đầu', () => {
     for (const khoa of SHORT_COURSES) {
       const url = duongDanKhoa(khoa)
-      expect(url.startsWith('/lap-trinh/khoa-hoc/')).toBe(true)
+      expect(url.startsWith(`${PROGRAMMING_PREFIX}/khoa-hoc/`)).toBe(true)
       expect(idFromSlugSegment(doanCuoi(url))).toBe(khoa.id)
     }
   })
@@ -36,7 +43,9 @@ describe('URL môn Lập trình — mã luôn tách lại được', () => {
       expect(idFromSlugSegment(doanCuoi(duongDanHuong(spec)))).toBe(spec.id)
       for (const stage of spec.stages) {
         const url = duongDanChangHuong(spec, stage)
-        const [, , , doanHuong, doanChang] = url.split('/')
+        const segments = url.split('/')
+        const doanHuong = segments.at(-2)
+        const doanChang = segments.at(-1)
         expect(idFromSlugSegment(doanHuong ?? '')).toBe(spec.id)
         expect(idFromSlugSegment(doanChang ?? '')).toBe(stage.id)
         // Tra ngược từ MỘT id chặng (đường mà trang lộ trình dùng) phải ra đúng URL đó.
@@ -75,7 +84,7 @@ describe('duongDanBaiHoc — URL bài học mang ngữ cảnh khoá', () => {
 
   it('không có khoá: chỉ `<mã>--<tiêu đề>`, tách lại đúng mã', () => {
     const url = duongDanBaiHoc(bai)
-    expect(url.startsWith('/lap-trinh/bai-hoc/')).toBe(true)
+    expect(url.startsWith(`${PROGRAMMING_PREFIX}/bai-hoc/`)).toBe(true)
     expect(url).not.toContain('?')
     expect(idFromSlugSegment(doanCuoi(url))).toBe('p3-u10-l1')
   })
@@ -99,7 +108,9 @@ describe('duongDanBaiHoc — URL bài học mang ngữ cảnh khoá', () => {
   })
 
   it('tiêu đề rỗng vẫn cho URL tra được (chỉ còn mã)', () => {
-    expect(duongDanBaiHoc({ id: 'p1-u1-l1', title: '' })).toBe('/lap-trinh/bai-hoc/p1-u1-l1')
+    expect(duongDanBaiHoc({ id: 'p1-u1-l1', title: '' })).toBe(
+      `${PROGRAMMING_PREFIX}/bai-hoc/p1-u1-l1`,
+    )
   })
 })
 
