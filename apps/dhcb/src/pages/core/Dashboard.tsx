@@ -25,7 +25,6 @@ import SubjectProgressSection from '../../components/SubjectProgressSection'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { useIsDesktopViewport, useMediaQuery } from '../../lib/useIsDesktopViewport'
 import { PageShell } from '@core/PageShell'
-import { TwoPane } from '@core/TwoPane'
 import { useAuth } from '../../context/useAuth'
 import { useLang } from '../../context/useLang'
 import { useCloudSync } from '../../lib/useCloudSync'
@@ -233,6 +232,10 @@ export default function Dashboard() {
   // ≥1280px thì thẻ lịch đủ rộng cho nửa năm; 1024–1279px chỉ đủ một quý (xem hằng số ở trên).
   const isWide = useMediaQuery('(min-width: 1280px)')
   const calendarWeeks = isWide ? CALENDAR_WEEKS_WIDE : CALENDAR_WEEKS_DESKTOP
+  const [calendarExpanded, setCalendarExpanded] = useState(false)
+  const [calendarSelectedDate, setCalendarSelectedDate] = useState('')
+  const calendarToggleRef = useRef<HTMLButtonElement>(null)
+  const calendarPanelRef = useRef<HTMLDivElement>(null)
 
   const [curriculumRetryRevision, setCurriculumRetryRevision] = useState(0)
   const curriculumRetryGuardRef = useRef(false)
@@ -396,6 +399,18 @@ export default function Dashboard() {
   const WDOW = vi ? ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'] : ['M', 'T', 'W', 'T', 'F', 'S', 'S']
   const wp = stats.writing
 
+  function toggleCalendar() {
+    if (calendarExpanded) {
+      const active = document.activeElement
+      if (active instanceof Node && calendarPanelRef.current?.contains(active)) {
+        calendarToggleRef.current?.focus()
+      }
+      setCalendarExpanded(false)
+      return
+    }
+    setCalendarExpanded(true)
+  }
+
   // Tổng tiến độ CEFR (trung bình % 4 cấp) — chỉ để hiển thị 1 con số tổng quan.
   const cefrOverall = cefr.length
     ? Math.round(cefr.reduce((s, l) => s + l.pct, 0) / cefr.length)
@@ -489,18 +504,6 @@ export default function Dashboard() {
 
   const restSections = (
     <>
-      {/* ── Lịch hoạt động (heatmap) ─────────────────────────────────
-          Tách sang `ActivityCalendarCard` (2026-09-02) khi khối này có thêm điều hướng bàn
-          phím kiểu roving tabindex và phần chi tiết theo ngày — xem chú thích đầu file đó. */}
-      <ActivityCalendarCard
-        calendar={stats.calendar}
-        uid={user?.id ?? ''}
-        vi={vi}
-        isDesktop={isDesktop}
-        weeks={isDesktop ? calendarWeeks : 5}
-        wdow={WDOW}
-      />
-
       {/* ── Hôm nay ──────────────────────────────────────────────────── */}
       <section className="animate-fade-in motion-reduce:animate-none">
         <h2 className="text-sm font-semibold text-zinc-300 mb-3 flex items-center gap-2">
@@ -910,29 +913,77 @@ export default function Dashboard() {
     <div className="min-h-dvh bg-zinc-950">
       <Layout />
 
-      {/* [2026-09-02, đợt 2] Bố cục 2 cột trước đây được viết tay ngay tại đây — một trong SÁU
-          bản sao cùng công thức nằm rải ở Home/Dashboard/CefrLevelPage/Chat/Speaking/Writing,
-          với bề rộng cột phải lệch nhau giữa các bản. Nay dùng chung `PageShell` + `TwoPane`
-          nên bề rộng và hành vi dính-theo-cuộn chỉ còn MỘT nơi định nghĩa. Thứ tự nội dung ở
-          mobile khác desktop (streak/mục tiêu nằm trong luồng chính) nên vẫn giữ nhánh riêng —
-          đó là khác biệt thật về thông tin, không phải trùng lặp. */}
       <PageShell width="standard" baseWidth="max-w-3xl">
-        <TwoPane
-          isDesktop={isDesktop}
-          railLabel="Chuỗi ngày và mục tiêu"
-          rail={
-            <div className="space-y-6">
-              {streakSection}
-              {weeklyGoalSection}
-              <QuickActions />
+        {/* Một cây DOM duy nhất ở mọi viewport. Grid chỉ đổi vị trí thị giác trên desktop;
+            thứ tự đọc/Tab luôn là header → môn → tuần → English → công cụ. */}
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,22rem)] lg:items-start">
+          <div className="lg:col-span-2">
+            <PageHeader
+              title={vi ? 'Tiến độ học' : 'Your Progress'}
+              subtitle={
+                vi
+                  ? 'Chuỗi ngày, mục tiêu hôm nay và tiến độ lộ trình'
+                  : 'Streak, today’s goal and roadmap progress'
+              }
+              subtitleClassName="read-measure"
+            />
+          </div>
+
+          <div className="lg:col-start-1 lg:row-start-2">
+            <SubjectProgressSection uid={user.id} plan={effectivePlan(user.plan)} />
+          </div>
+
+          <div
+            data-dashboard-region="weekly"
+            className="min-w-0 space-y-6 lg:col-start-2 lg:row-start-2"
+          >
+            {streakSection}
+            {weeklyGoalSection}
+            <div>
+              <button
+                ref={calendarToggleRef}
+                id="dashboard-calendar-toggle"
+                type="button"
+                aria-expanded={calendarExpanded}
+                aria-controls="dashboard-calendar-panel"
+                onClick={toggleCalendar}
+                className="min-h-11 w-full rounded-xl border border-zinc-800/80 bg-zinc-900/80 px-4 py-2 text-sm font-semibold text-zinc-200 hover:border-zinc-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+              >
+                {calendarExpanded
+                  ? vi
+                    ? 'Ẩn lịch hoạt động'
+                    : 'Hide activity calendar'
+                  : vi
+                    ? 'Xem lịch hoạt động'
+                    : 'View activity calendar'}
+              </button>
+              <div
+                ref={calendarPanelRef}
+                id="dashboard-calendar-panel"
+                hidden={!calendarExpanded}
+                className="mt-4 min-w-0"
+              >
+                <ActivityCalendarCard
+                  calendar={stats.calendar}
+                  uid={user.id}
+                  vi={vi}
+                  isDesktop={isDesktop}
+                  weeks={isDesktop ? calendarWeeks : 5}
+                  wdow={WDOW}
+                  selectedDate={calendarSelectedDate}
+                  onSelectedDateChange={setCalendarSelectedDate}
+                />
+              </div>
             </div>
-          }
-        >
-          <div className="space-y-6">
-            {/* [S12-3] Khối "Tiến độ theo môn" ở ngay dưới tiêu đề đã nói tiến độ đa môn; câu
-                dưới đây nay chỉ còn nhiệm vụ giải thích rằng CÁC KHỐI SỐ LIỆU CÒN LẠI của trang
-                (từ vựng, SRS, thi CEFR) là của riêng môn Tiếng Anh. */}
-            <p className="text-sm text-zinc-300 mb-3 read-measure">
+          </div>
+
+          <div
+            data-dashboard-region="english"
+            className="min-w-0 space-y-6 lg:col-start-1 lg:row-start-3"
+          >
+            {/* [S12-3] Các khối dưới đây vẫn là số liệu riêng của môn Tiếng Anh. R3-3 sẽ
+                tinh gọn copy/hierarchy; R3-2 chỉ đưa nó vào đúng vùng DOM ổn định. */}
+            <p className="text-sm text-zinc-300 read-measure">
               {vi
                 ? 'Các khối số liệu bên dưới là của môn Tiếng Anh — '
                 : 'The stats below cover English — '}
@@ -946,24 +997,13 @@ export default function Dashboard() {
                 ? '. Tiến độ của các môn khác nằm ở khối “Tiến độ theo môn”.'
                 : '. Other subjects appear in the “Tiến độ theo môn” block.'}
             </p>
-            <PageHeader
-              title={vi ? 'Tiến độ học' : 'Your Progress'}
-              subtitle={
-                vi
-                  ? 'Chuỗi ngày, mục tiêu hôm nay và tiến độ lộ trình'
-                  : 'Streak, today’s goal and roadmap progress'
-              }
-              subtitleClassName="read-measure"
-            />
-            {/* [S12-3] Khối tiến độ đa môn đứng ĐẦU nội dung (quyết định Q6: THÊM, không thay
-                các StatCard tiếng Anh cũ — chúng vẫn là bằng chứng hợp lệ của môn Anh). */}
-            <SubjectProgressSection uid={user.id} plan={effectivePlan(user.plan)} />
-            {!isDesktop && streakSection}
-            {!isDesktop && weeklyGoalSection}
             {restSections}
-            {!isDesktop && <QuickActions />}
           </div>
-        </TwoPane>
+
+          <div data-dashboard-region="actions" className="lg:col-start-2 lg:row-start-3">
+            <QuickActions />
+          </div>
+        </div>
       </PageShell>
     </div>
   )

@@ -1,4 +1,4 @@
-import { act } from 'react'
+import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
@@ -13,14 +13,45 @@ const mocks = vi.hoisted(() => ({
   fetchWeeklyCredit: vi.fn<() => Promise<WeeklyCreditInfo | null>>(),
   loadCurriculum: vi.fn<() => Promise<void>>(),
   getCefrProgress: vi.fn<() => Promise<LevelProgress[]>>(),
+  isDesktop: false,
+  isWide: false,
 }))
 
 vi.mock('../../components/Layout', () => ({ default: () => null }))
 vi.mock('../../components/PageHeader', () => ({
   default: ({ title }: { title: string }) => <h1>{title}</h1>,
 }))
-vi.mock('../../components/QuickActions', () => ({ default: () => <button>Công cụ</button> }))
-vi.mock('../../components/ActivityCalendarCard', () => ({ default: () => <div>Lịch</div> }))
+vi.mock('../../components/QuickActions', () => ({
+  default: function QuickActionsMock() {
+    const [open, setOpen] = useState(false)
+    return (
+      <div data-testid="quick-actions">
+        <button onClick={() => setOpen(true)}>Công cụ</button>
+        {open && (
+          <div role="dialog" aria-label="Công cụ đang mở">
+            <button>Trong hộp thoại</button>
+          </div>
+        )}
+      </div>
+    )
+  },
+}))
+vi.mock('../../components/ActivityCalendarCard', () => ({
+  default: ({
+    calendar,
+    selectedDate,
+    onSelectedDateChange,
+  }: {
+    calendar: { days: { date: string }[] }
+    selectedDate?: string
+    onSelectedDateChange?: (date: string) => void
+  }) => (
+    <div data-testid="activity-calendar" data-selected-date={selectedDate}>
+      Lịch
+      <button onClick={() => onSelectedDateChange?.(calendar.days[0]!.date)}>Chọn ngày đầu</button>
+    </div>
+  ),
+}))
 vi.mock('../../components/SubjectProgressSection', () => ({
   default: () => <section>Tiến độ theo môn</section>,
 }))
@@ -42,8 +73,8 @@ vi.mock('../../context/useLang', () => ({
 vi.mock('../../lib/useCloudSync', () => ({ useCloudSync: () => mocks.syncVersion }))
 vi.mock('../../lib/usePageTitle', () => ({ usePageTitle: () => undefined }))
 vi.mock('../../lib/useIsDesktopViewport', () => ({
-  useIsDesktopViewport: () => false,
-  useMediaQuery: () => false,
+  useIsDesktopViewport: () => mocks.isDesktop,
+  useMediaQuery: () => mocks.isWide,
 }))
 vi.mock('../../lib/onboarding', () => ({ useOnboarding: () => undefined }))
 vi.mock('../../lib/storage', () => ({
@@ -76,7 +107,19 @@ vi.mock('../../lib/stats', () => ({
     })),
   getWeekTotal: () => 0,
   getCefrProgress: mocks.getCefrProgress,
-  getActivityCalendar: () => [],
+  getActivityCalendar: (_uid: string, totalDays = 35) => {
+    const end = new Date('2026-09-18T00:00:00Z')
+    const days = Array.from({ length: totalDays }, (_, index) => {
+      const date = new Date(end.getTime() - (totalDays - index - 1) * 86_400_000)
+      return {
+        date: date.toISOString().slice(0, 10),
+        dow: date.getUTCDay(),
+        count: 0,
+        active: false,
+      }
+    })
+    return { days, firstColumn: 0, activeDays: 0, bestDay: 0 }
+  },
   getWritingProgress: () => ({ count: 0, latest: null, best: null, avg: null, history: [] }),
 }))
 vi.mock('../../lib/weeklyGoal', () => ({
@@ -121,6 +164,8 @@ describe('Dashboard — async truth, retry và focus', () => {
   beforeEach(() => {
     mocks.user = { id: 'u1', name: 'An', email: 'an@example.test', plan: 'free' }
     mocks.syncVersion = 0
+    mocks.isDesktop = false
+    mocks.isWide = false
     mocks.fetchWeeklyCredit.mockReset().mockResolvedValue({
       plan: 'free',
       freeWeeklyCredit: 3,
@@ -300,5 +345,100 @@ describe('Dashboard — async truth, retry và focus', () => {
     await act(async () => first.resolve([level('A1', 'A1 cũ')]))
     expect(container.textContent).toContain('A2 mới')
     expect(container.textContent).not.toContain('A1 cũ')
+  })
+
+  it('dùng một DOM tree theo thứ tự header → môn → tuần → English → công cụ', async () => {
+    await renderDashboard()
+    const main = container.querySelector('main')!
+    const ordered = [
+      main.querySelector('h1')!,
+      Array.from(main.querySelectorAll('section')).find(
+        (section) => section.textContent === 'Tiến độ theo môn',
+      )!,
+      main.querySelector('[data-dashboard-region="weekly"]')!,
+      main.querySelector('[data-dashboard-region="english"]')!,
+      main.querySelector('[data-dashboard-region="actions"]')!,
+    ]
+
+    expect(container.querySelectorAll('[data-dashboard-region="weekly"]')).toHaveLength(1)
+    expect(container.querySelectorAll('[data-testid="quick-actions"]')).toHaveLength(1)
+    for (let index = 0; index < ordered.length - 1; index += 1) {
+      expect(
+        Boolean(
+          ordered[index]!.compareDocumentPosition(ordered[index + 1]!) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+        ),
+      ).toBe(true)
+    }
+  })
+
+  it('calendar đóng mọi viewport, giữ expanded/selection/node qua 1023→1024→1280→390', async () => {
+    await renderDashboard()
+    const toggle = container.querySelector<HTMLButtonElement>('#dashboard-calendar-toggle')!
+    const panel = container.querySelector<HTMLDivElement>('#dashboard-calendar-panel')!
+    expect(toggle.getAttribute('aria-expanded')).toBe('false')
+    expect(panel.hidden).toBe(true)
+
+    act(() => toggle.click())
+    const calendarNode = container.querySelector<HTMLElement>('[data-testid="activity-calendar"]')!
+    act(() => calendarNode.querySelector<HTMLButtonElement>('button')!.click())
+    const selected = calendarNode.dataset.selectedDate
+    expect(panel.hidden).toBe(false)
+
+    mocks.isDesktop = true
+    await rerenderDashboard()
+    mocks.isWide = true
+    await rerenderDashboard()
+    mocks.isDesktop = false
+    mocks.isWide = false
+    await rerenderDashboard()
+
+    const afterResize = container.querySelector<HTMLElement>('[data-testid="activity-calendar"]')!
+    expect(afterResize).toBe(calendarNode)
+    expect(afterResize.dataset.selectedDate).toBe(selected)
+    expect(
+      container
+        .querySelector<HTMLButtonElement>('#dashboard-calendar-toggle')
+        ?.getAttribute('aria-expanded'),
+    ).toBe('true')
+    expect(container.querySelectorAll('[data-testid="activity-calendar"]')).toHaveLength(1)
+  })
+
+  it('đưa focus về toggle trước khi ẩn calendar, nhưng không steal focus ở ngoài', async () => {
+    await renderDashboard()
+    const toggle = container.querySelector<HTMLButtonElement>('#dashboard-calendar-toggle')!
+    act(() => toggle.click())
+    const inside = container.querySelector<HTMLButtonElement>(
+      '[data-testid="activity-calendar"] button',
+    )!
+    inside.focus()
+    act(() => toggle.click())
+    expect(document.activeElement).toBe(toggle)
+    expect(container.querySelector<HTMLDivElement>('#dashboard-calendar-panel')?.hidden).toBe(true)
+
+    act(() => toggle.click())
+    const outside = document.createElement('button')
+    document.body.appendChild(outside)
+    outside.focus()
+    act(() => toggle.click())
+    expect(document.activeElement).toBe(outside)
+    outside.remove()
+  })
+
+  it('QuickActions và dialog đang mở không remount qua breakpoint', async () => {
+    await renderDashboard()
+    const quickActions = container.querySelector<HTMLElement>('[data-testid="quick-actions"]')!
+    act(() => quickActions.querySelector<HTMLButtonElement>('button')!.click())
+    const dialogControl = quickActions.querySelector<HTMLButtonElement>('[role="dialog"] button')!
+    dialogControl.focus()
+
+    mocks.isDesktop = true
+    await rerenderDashboard()
+    mocks.isWide = true
+    await rerenderDashboard()
+
+    expect(container.querySelector('[data-testid="quick-actions"]')).toBe(quickActions)
+    expect(container.querySelector('[role="dialog"]')).not.toBeNull()
+    expect(document.activeElement).toBe(dialogControl)
   })
 })

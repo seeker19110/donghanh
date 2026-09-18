@@ -18,7 +18,7 @@
 //    câu đó. Vì ô nay là nút bấm thật, `role="img"` cũ không còn đúng — chuyển sang
 //    `role="grid"`/`gridcell` với `aria-selected`.
 
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { CalendarDays } from 'lucide-react'
 import { resolveRovingGridKey } from '@core/rovingGrid'
 import { getDayBreakdown, type ActivityCalendar, type DayBreakdownItem } from '../lib/stats'
@@ -65,6 +65,27 @@ export interface ActivityCalendarCardProps {
   /** Số tuần đang hiển thị — chỉ để ghi ở nhãn góc phải. */
   weeks: number
   wdow: string[]
+  /** Ngày được chọn do component cha sở hữu. Bỏ trống để giữ chế độ uncontrolled cũ. */
+  selectedDate?: string
+  /** Báo ngày mới khi người dùng chọn hoặc khi ngày cũ phải clamp vào range mới. */
+  onSelectedDateChange?: (date: string) => void
+}
+
+function clampDate(days: ActivityCalendar['days'], selectedDate: string | undefined) {
+  const first = days[0]?.date
+  const last = days[days.length - 1]?.date
+  if (!first || !last) return undefined
+  if (!selectedDate || selectedDate > last) return last
+  if (selectedDate < first) return first
+  return days.find((day) => day.date === selectedDate)?.date ?? last
+}
+
+/** Khóa hàng theo thứ Hai của tuần, kể cả khi range chỉ chứa phần cuối của tuần đầu. */
+function mondayOfWeek(date: string, dow: number) {
+  const mondayOffset = (dow + 6) % 7
+  const monday = new Date(`${date}T00:00:00Z`)
+  monday.setUTCDate(monday.getUTCDate() - mondayOffset)
+  return monday.toISOString().slice(0, 10)
 }
 
 export default function ActivityCalendarCard({
@@ -74,28 +95,80 @@ export default function ActivityCalendarCard({
   isDesktop,
   weeks,
   wdow,
+  selectedDate,
+  onSelectedDateChange,
 }: ActivityCalendarCardProps) {
   const days = calendar.days
-  const lastIndex = days.length - 1
   // Mặc định chọn HÔM NAY (ô cuối) — vào lưới bằng Tab là đứng ngay ở ngày gần nhất, chứ
   // không phải ở ngày xa nhất cách đây nửa năm.
-  const [selected, setSelected] = useState(lastIndex)
+  const [uncontrolledDate, setUncontrolledDate] = useState(() => days[days.length - 1]?.date)
+  const isControlled = selectedDate !== undefined
+  const requestedDate = isControlled ? selectedDate : uncontrolledDate
+  const effectiveDate = clampDate(days, requestedDate)
+  const selected = Math.max(
+    0,
+    days.findIndex((day) => day.date === effectiveDate),
+  )
   const gridRef = useRef<HTMLDivElement>(null)
+  const calendarHadFocusRef = useRef(false)
+  const focusedDateRef = useRef<string | null>(null)
 
-  const current = days[Math.min(selected, lastIndex)]
+  const current = days[selected]
   const breakdown = useMemo(
     () => (current ? getDayBreakdown(uid, current.date) : null),
     [uid, current],
   )
 
+  function selectDate(nextDate: string) {
+    if (!isControlled) setUncontrolledDate(nextDate)
+    onSelectedDateChange?.(nextDate)
+  }
+
   function move(next: number) {
-    setSelected(next)
+    const nextDate = days[next]?.date
+    if (!nextDate) return
+    selectDate(nextDate)
     // Chuyển tiêu điểm sang ô mới: roving tabindex chỉ đúng khi tiêu điểm ĐI THEO ô được
     // chọn, nếu không người dùng bàn phím thấy viền chọn nhảy mà con trỏ đứng yên.
-    const cell = gridRef.current?.querySelector<HTMLElement>(`[data-cell="${next}"]`)
+    const cell = gridRef.current?.querySelector<HTMLElement>(`[data-date="${nextDate}"]`)
     cell?.focus()
     cell?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
   }
+
+  // Khi range 26→13→5 tuần thu hẹp, selection thuộc component cha phải được chuẩn hóa về
+  // biên gần nhất. Callback chỉ chạy khi giá trị thật sự lệch để không tạo vòng render.
+  useLayoutEffect(() => {
+    if (!effectiveDate || requestedDate === effectiveDate) return
+    // Đây là đồng bộ state uncontrolled với range prop mới (26→5 tuần), không phải state
+    // dẫn xuất dùng để render: effectiveDate đã clamp ngay trong chính render hiện tại.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (!isControlled) setUncontrolledDate(effectiveDate)
+    onSelectedDateChange?.(effectiveDate)
+  }, [effectiveDate, isControlled, onSelectedDateChange, requestedDate])
+
+  // Theo dõi focus ở cấp document để phân biệt hai ca: ô đang focus biến mất do resize thì
+  // cần phục hồi; người dùng đã chủ động đi nơi khác thì tuyệt đối không kéo focus trở lại.
+  useEffect(() => {
+    function rememberFocus(event: FocusEvent) {
+      const target = event.target
+      if (!(target instanceof HTMLElement)) return
+      const inside = gridRef.current?.contains(target) ?? false
+      calendarHadFocusRef.current = inside
+      if (inside) focusedDateRef.current = target.dataset.date ?? null
+    }
+    document.addEventListener('focusin', rememberFocus)
+    return () => document.removeEventListener('focusin', rememberFocus)
+  }, [])
+
+  useLayoutEffect(() => {
+    const focusedDate = focusedDateRef.current
+    if (!calendarHadFocusRef.current || !focusedDate || !effectiveDate) return
+    if (days.some((day) => day.date === focusedDate)) return
+    const fallback = gridRef.current?.querySelector<HTMLElement>(`[data-date="${effectiveDate}"]`)
+    fallback?.focus()
+    fallback?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+    focusedDateRef.current = effectiveDate
+  }, [days, effectiveDate])
 
   function onKeyDown(e: React.KeyboardEvent) {
     const next = resolveRovingGridKey(e.key, {
@@ -116,7 +189,7 @@ export default function ActivityCalendarCard({
   // ở cả 3 theme. Hàng dùng `display: contents` để có ĐÚNG ngữ nghĩa mà KHÔNG tạo hộp bố
   // cục: các ô vẫn tham gia trực tiếp vào lưới CSS của phần tử cha, nên hình hài không đổi.
   const cell = (d: (typeof days)[number], idx: number) => {
-    const isLast = idx === lastIndex
+    const isLast = idx === days.length - 1
     const isSel = idx === selected
     const label = `${prettyDate(d.date, vi)}: ${d.count} ${vi ? 'hoạt động' : 'activities'}`
     return (
@@ -124,6 +197,7 @@ export default function ActivityCalendarCard({
         key={d.date}
         type="button"
         data-cell={idx}
+        data-date={d.date}
         role="gridcell"
         aria-selected={isSel}
         aria-label={label}
@@ -159,13 +233,17 @@ export default function ActivityCalendarCard({
   }
 
   const rows = weekRows.map((w) => (
-    <div key={w.start} role="row" style={{ display: 'contents' }}>
+    <div
+      key={w.items[0] ? mondayOfWeek(w.items[0].date, w.items[0].dow) : `empty-week-${w.start}`}
+      role="row"
+      style={{ display: 'contents' }}
+    >
       {w.items.map((d, j) => cell(d, w.start + j))}
     </div>
   ))
 
   return (
-    <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-3xl p-5 sm:p-6 shadow-sm animate-fade-in">
+    <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-3xl p-5 sm:p-6 shadow-sm animate-fade-in motion-reduce:animate-none">
       <div className="flex items-center justify-between mb-3">
         <h2 className="text-sm font-semibold text-zinc-300 flex items-center gap-2">
           <CalendarDays className="w-4 h-4 text-accent-400" />{' '}
@@ -176,57 +254,43 @@ export default function ActivityCalendarCard({
         </span>
       </div>
 
-      {/* HAI BỐ CỤC.
-          Desktop: 7 HÀNG (thứ) × N cột (tuần) — lối heatmap quen thuộc, thêm tuần là rộng ra
-          chứ không cao lên, nên bề ngang desktop được dùng để kể câu chuyện dài hơn.
-          Dưới 1024px giữ bố cục cũ 7 cột × N hàng: màn hẹp không đủ chỗ cho hàng chục cột. */}
-      {isDesktop ? (
-        <div className="flex gap-1.5 overflow-x-auto">
-          <div className="grid grid-rows-7 gap-1 text-[11px] text-zinc-400 shrink-0">
-            {wdow.map((w, i) => (
-              <span key={i} className="h-4 leading-4 pr-0.5">
-                {w}
-              </span>
-            ))}
-          </div>
-          {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus -- mẫu WAI-ARIA
-              "roving tabindex": tiêu điểm nằm ở Ô (role=gridcell, tabIndex 0/-1 ở dưới), KHÔNG
-              ở khung grid; khung chỉ nhận phím uỷ quyền từ ô đang focus. Đặt tabIndex cho khung
-              sẽ thêm một điểm dừng Tab thừa — đúng thứ đã bỏ đi ở đầu file. */}
-          <div
-            ref={gridRef}
-            role="grid"
-            aria-label={vi ? 'Lịch hoạt động theo ngày' : 'Daily activity calendar'}
-            onKeyDown={onKeyDown}
-            className="grid grid-rows-7 grid-flow-col gap-1"
-          >
-            {rows}
-          </div>
+      {/* Một cây DOM duy nhất cho cả hai hình học. Chỉ class CSS đổi qua breakpoint nên ô còn
+          trong range giữ nguyên identity, focus và state khi chuyển 5↔13↔26 tuần. */}
+      <div className={isDesktop ? 'flex gap-1.5 overflow-x-auto' : 'overflow-x-auto'}>
+        <div
+          className={
+            isDesktop
+              ? 'grid grid-rows-7 gap-1 text-[11px] text-zinc-400 shrink-0'
+              : 'grid w-max grid-cols-7 gap-1.5 mb-1.5'
+          }
+        >
+          {wdow.map((w, i) => (
+            <span
+              key={i}
+              className={
+                isDesktop ? 'h-4 leading-4 pr-0.5' : 'w-11 text-[11px] text-zinc-400 text-center'
+              }
+            >
+              {w}
+            </span>
+          ))}
         </div>
-      ) : (
-        <div className="overflow-x-auto">
-          <div className="grid w-max grid-cols-7 gap-1.5 mb-1.5">
-            {wdow.map((w, i) => (
-              <span key={i} className="w-11 text-[11px] text-zinc-400 text-center">
-                {w}
-              </span>
-            ))}
-          </div>
-          {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus -- mẫu WAI-ARIA
-              "roving tabindex": tiêu điểm nằm ở Ô (role=gridcell, tabIndex 0/-1 ở dưới), KHÔNG
-              ở khung grid; khung chỉ nhận phím uỷ quyền từ ô đang focus. Đặt tabIndex cho khung
-              sẽ thêm một điểm dừng Tab thừa — đúng thứ đã bỏ đi ở đầu file. */}
-          <div
-            ref={gridRef}
-            role="grid"
-            aria-label={vi ? 'Lịch hoạt động theo ngày' : 'Daily activity calendar'}
-            onKeyDown={onKeyDown}
-            className="grid w-max grid-cols-7 gap-1.5"
-          >
-            {rows}
-          </div>
+        {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus -- mẫu WAI-ARIA
+            "roving tabindex": tiêu điểm nằm ở Ô (role=gridcell, tabIndex 0/-1 ở dưới), KHÔNG
+            ở khung grid; khung chỉ nhận phím uỷ quyền từ ô đang focus. Đặt tabIndex cho khung
+            sẽ thêm một điểm dừng Tab thừa — đúng thứ đã bỏ đi ở đầu file. */}
+        <div
+          ref={gridRef}
+          role="grid"
+          aria-label={vi ? 'Lịch hoạt động theo ngày' : 'Daily activity calendar'}
+          onKeyDown={onKeyDown}
+          className={
+            isDesktop ? 'grid grid-rows-7 grid-flow-col gap-1' : 'grid w-max grid-cols-7 gap-1.5'
+          }
+        >
+          {rows}
         </div>
-      )}
+      </div>
 
       {/* Chi tiết ngày đang chọn. `aria-live="polite"`: người dùng trình đọc màn hình đi
           bằng phím mũi tên phải NGHE được nội dung đổi theo, chứ không chỉ nghe nhãn ô. */}
