@@ -11,6 +11,7 @@ import {
   neoCauHoi,
   duongDanCauSaiStem,
 } from './mistakeRoutes'
+import { ENGLISH_PREFIX } from './englishRoutes'
 
 describe('mistakeRoutes', () => {
   it('mọi nguồn lỗi môn Anh đều có đúng một đường dẫn nội bộ', () => {
@@ -23,14 +24,17 @@ describe('mistakeRoutes', () => {
   it('đường dẫn đó là route CÓ THẬT trong App.tsx (không phải tên trong đặc tả)', () => {
     const app = readFileSync(join(process.cwd(), 'apps/dhcb/src/App.tsx'), 'utf8')
     for (const href of Object.values(DUONG_DAN_NGUON_LOI)) {
-      expect(app, `App.tsx không khai route ${href}`).toContain(`path="${href}"`)
+      const suffix = href.slice(ENGLISH_PREFIX.length)
+      expect(app, `App.tsx không khai route ${href}`).toContain(
+        `path={\`\${ENGLISH_PREFIX}${suffix}\`}`,
+      )
     }
   })
 
   it('duongDanOnLaiLoiAnh trả đúng màn nguồn', () => {
-    expect(duongDanOnLaiLoiAnh('chat')).toBe('/tro-truyen')
-    expect(duongDanOnLaiLoiAnh('writing')).toBe('/luyen-viet')
-    expect(duongDanOnLaiLoiAnh('speaking')).toBe('/luyen-noi')
+    expect(duongDanOnLaiLoiAnh('chat')).toBe('/goc-hoc-tap/english/tro-truyen')
+    expect(duongDanOnLaiLoiAnh('writing')).toBe('/goc-hoc-tap/english/luyen-viet')
+    expect(duongDanOnLaiLoiAnh('speaking')).toBe('/goc-hoc-tap/english/luyen-noi')
   })
 
   it('neo câu đếm từ 1 cho người đọc, dữ liệu đếm từ 0', () => {

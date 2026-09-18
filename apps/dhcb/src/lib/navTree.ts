@@ -30,6 +30,20 @@ import {
 } from 'lucide-react'
 import { ENGLISH_PATHS, underPrefix } from './navPaths'
 import { PROGRAMMING_PREFIX } from './programmingRoutes'
+import {
+  duongDanBaiHocAnh,
+  duongDanCauThongDung,
+  duongDanLuyenNghe,
+  duongDanLuyenNoi,
+  duongDanLuyenViet,
+  duongDanLoTrinh,
+  duongDanOnThi,
+  duongDanSoTayLoiSai,
+  duongDanThuThach,
+  duongDanTroTruyen,
+  duongDanTruyen,
+  duongDanTuDien,
+} from './englishRoutes'
 
 /** Một mục CON trong nhóm đóng/mở được. */
 export interface NavChild {
@@ -59,28 +73,43 @@ export interface NavChild {
  * quan/breadcrumb. Xem docs/specs/2026-09-15-goc-hoc-tap-03-04-*.md §2.1.
  */
 export const ENGLISH_CHILDREN: NavChild[] = [
-  { label: 'Lộ trình CEFR', icon: RouteIcon, to: '/lo-trinh-hoc', paths: ['/lo-trinh-hoc'] },
-  { label: 'Bài học hôm nay', icon: BookOpen, to: '/bai-hoc', paths: ['/bai-hoc'] },
-  { label: 'Trò chuyện', icon: MessagesSquare, to: '/tro-truyen', paths: ['/tro-truyen'] },
-  { label: 'Luyện nói', icon: Mic, to: '/luyen-noi', paths: ['/luyen-noi'] },
-  { label: 'Luyện viết', icon: PenLine, to: '/luyen-viet', paths: ['/luyen-viet'] },
-  { label: 'Luyện nghe', icon: Headphones, to: '/luyen-nghe', paths: ['/luyen-nghe'] },
-  { label: 'Từ điển', icon: BookMarked, to: '/tu-dien', paths: ['/tu-dien', '/tu-vung'] },
+  { label: 'Lộ trình CEFR', icon: RouteIcon, to: duongDanLoTrinh(), paths: [duongDanLoTrinh()] },
+  {
+    label: 'Bài học hôm nay',
+    icon: BookOpen,
+    to: duongDanBaiHocAnh(),
+    paths: [duongDanBaiHocAnh()],
+  },
+  {
+    label: 'Trò chuyện',
+    icon: MessagesSquare,
+    to: duongDanTroTruyen(),
+    paths: [duongDanTroTruyen()],
+  },
+  { label: 'Luyện nói', icon: Mic, to: duongDanLuyenNoi(), paths: [duongDanLuyenNoi()] },
+  { label: 'Luyện viết', icon: PenLine, to: duongDanLuyenViet(), paths: [duongDanLuyenViet()] },
+  { label: 'Luyện nghe', icon: Headphones, to: duongDanLuyenNghe(), paths: [duongDanLuyenNghe()] },
+  { label: 'Từ điển', icon: BookMarked, to: duongDanTuDien(), paths: [duongDanTuDien()] },
   {
     label: 'Câu thông dụng',
     icon: Quote,
-    to: '/cau-thong-dung',
-    paths: ['/cau-thong-dung'],
+    to: duongDanCauThongDung(),
+    paths: [duongDanCauThongDung()],
   },
   {
     label: 'Truyện song ngữ',
     icon: BookText,
-    to: '/truyen-song-ngu',
-    paths: ['/truyen-song-ngu'],
+    to: duongDanTruyen(),
+    paths: [duongDanTruyen()],
   },
-  { label: 'Sổ tay lỗi sai', icon: NotebookPen, to: '/so-tay-loi-sai', paths: ['/so-tay-loi-sai'] },
-  { label: 'Ôn thi', icon: Dumbbell, to: '/on-thi', paths: ['/on-thi'] },
-  { label: 'Thử thách', icon: Swords, to: '/thu-thach', paths: ['/thu-thach'] },
+  {
+    label: 'Sổ tay lỗi sai',
+    icon: NotebookPen,
+    to: duongDanSoTayLoiSai(),
+    paths: [duongDanSoTayLoiSai()],
+  },
+  { label: 'Ôn thi', icon: Dumbbell, to: duongDanOnThi(), paths: [duongDanOnThi()] },
+  { label: 'Thử thách', icon: Swords, to: duongDanThuThach(), paths: [duongDanThuThach()] },
 ]
 
 /** Mục con của "Góc học tập" — 6 môn trong `packages/core-learner/subjectRegistry.ts`. */

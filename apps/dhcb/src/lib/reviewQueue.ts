@@ -22,6 +22,7 @@ import type { ProgSrsCardRef } from './programmingSrs'
 import type { StemSrsCardRef } from './stemSrs'
 import { STEM_SUBJECTS } from './stemLessonRoutes'
 import { duongDanOnTapStem } from './reviewRoutes'
+import { duongDanLoTrinh, duongDanSoTayLoiSai } from './englishRoutes'
 
 /**
  * Một mục lỗi đọc từ bằng chứng hoàn thành (S11) — khai theo HÌNH DẠNG ở đây để S12-1 không
@@ -84,8 +85,8 @@ function theSrs(
 
 /** href tới tab "Ôn SRS" của trang cấp CEFR đang học — giữ nguyên luật `?cap=` của trang đó. */
 function hrefOnAnh(levelId: string | undefined, cap: number): string {
-  if (!levelId) return '/lo-trinh-hoc'
-  return `/lo-trinh-hoc/${levelId.toLowerCase()}?tab=srs&cap=${cap}`
+  if (!levelId) return duongDanLoTrinh()
+  return `${duongDanLoTrinh(levelId as 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2')}?tab=srs&cap=${cap}`
 }
 
 /** Thứ tự ưu tiên khi cùng `dueAt`: lỗi đã mắc trước thẻ (§③.2 luật 3). */
@@ -185,7 +186,7 @@ export function buildReviewQueue(
       // Đã ôn rồi thì đến hạn sau giãn cách của sổ lỗi; chưa ôn bao giờ thì tính từ lúc mắc lỗi.
       dueAt: m.lastReviewedAt == null ? m.createdAt : m.lastReviewedAt + REVIEW_SPACING_MS,
       evidenceSource: 'english.mistakes',
-      href: '/so-tay-loi-sai',
+      href: duongDanSoTayLoiSai(),
       title: m.wrong || m.corrected || 'Lỗi đã mắc',
       mistakeId: m.id,
     })

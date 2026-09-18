@@ -26,6 +26,7 @@ import type { Circle } from '../data/curriculum'
 import { loadCefr } from '../data/cefrLoader'
 import { loadFoundation } from '../data/curriculumLoader'
 import { getLearnedWords } from '../lib/vocab'
+import { duongDanLoTrinh } from '../lib/englishRoutes'
 import {
   getDoneGrammar,
   computeLockedMapFromServer,
@@ -251,7 +252,7 @@ export default function RoadmapTab({ uid, isA }: { uid: string; isA: boolean }) 
                   </p>
                 )}
                 <button
-                  onClick={() => nav(`/lo-trinh-hoc/${level.id.toLowerCase()}`)}
+                  onClick={() => nav(duongDanLoTrinh(level.id))}
                   className="mt-3 w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-accent-500/20 hover:bg-accent-500/30 text-accent-300 theme-light:text-accent-800 text-sm font-medium transition"
                 >
                   {complete

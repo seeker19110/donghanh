@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { duongDanMonTiengAnh } from '../../lib/subjectsHost'
+import { duongDanLuyenViet, duongDanSoTayLoiSai } from '../../lib/englishRoutes'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   Flame,
@@ -546,7 +547,7 @@ export default function Dashboard() {
             {vi ? 'Sổ lỗi của tôi' : 'Mistake Bank'}
           </h2>
           <button
-            onClick={() => nav('/so-tay-loi-sai')}
+            onClick={() => nav(duongDanSoTayLoiSai())}
             className="w-full bg-zinc-900/80 border border-zinc-800/80 hover:border-rose-500/40 rounded-2xl p-4 flex items-center justify-between transition group text-left"
           >
             <div>
@@ -632,7 +633,7 @@ export default function Dashboard() {
 
         {wp.count === 0 ? (
           <button
-            onClick={() => nav('/luyen-viet')}
+            onClick={() => nav(duongDanLuyenViet())}
             className="w-full bg-zinc-900/80 border border-zinc-800/80 hover:border-violet-500/40 rounded-2xl p-5 text-center transition group"
           >
             <p className="text-sm text-zinc-400 read-measure">

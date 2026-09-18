@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import { duongDanMonTiengAnh } from '../../lib/subjectsHost'
+import { duongDanLuyenViet, duongDanTroTruyen } from '../../lib/englishRoutes'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import {
@@ -482,13 +483,13 @@ export default function MistakeBank() {
               </p>
               <div className="flex gap-2 justify-center">
                 <button
-                  onClick={() => nav('/tro-truyen')}
+                  onClick={() => nav(duongDanTroTruyen())}
                   className="tap-44 text-sm bg-gradient-to-r from-accent-600 to-accent-500 text-white font-medium px-4 py-2.5 rounded-xl transition active:scale-[0.98]"
                 >
                   {isA ? 'Luyện Chat →' : 'Practise Chat →'}
                 </button>
                 <button
-                  onClick={() => nav('/luyen-viet')}
+                  onClick={() => nav(duongDanLuyenViet())}
                   className="tap-44 text-sm border border-zinc-700/70 text-zinc-300 px-4 py-2.5 rounded-xl transition hover:bg-zinc-800/50"
                 >
                   {isA ? 'Luyện Viết' : 'Writing'}

@@ -25,7 +25,7 @@ test('chưa học bài nào → mời bắt đầu bài đầu tiên, kèm lối
 }) => {
   await mockLogin(page, 'vi', 'dark-blue')
   await gioLapTiendo(page, [])
-  await page.goto('/lap-trinh', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming', { waitUntil: 'domcontentloaded' })
 
   await expect(page.getByText('Học tiếp', { exact: true }).first()).toBeVisible()
   await expect(page.getByRole('button', { name: 'Bắt đầu bài này' })).toBeVisible()
@@ -37,12 +37,12 @@ test('đang học dở → thẻ đưa thẳng về ĐÚNG bài dở, không ph�
   await mockLogin(page, 'vi', 'dark-blue')
   // Bài dở nằm ở bậc P3, tức là sau rất nhiều bài chưa hoàn thành khác.
   await gioLapTiendo(page, [{ lessonId: 'p3-u10-l1', status: 'in_progress' }])
-  await page.goto('/lap-trinh', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming', { waitUntil: 'domcontentloaded' })
 
   await expect(page.getByText('Đang học dở')).toBeVisible()
   await page.getByRole('button', { name: 'Học tiếp', exact: true }).click()
   // URL nay có thêm slug mô tả (SEO) sau id — vd p3-u10-l1--git-co-may-thoi-gian...
-  await expect(page).toHaveURL(/\/lap-trinh\/bai-hoc\/p3-u10-l1(--[a-z0-9-]+)?$/)
+  await expect(page).toHaveURL(/\/goc-hoc-tap\/programming\/bai-hoc\/p3-u10-l1(--[a-z0-9-]+)?$/)
 })
 
 test('tiến độ và cột mốc bậc đọc từ dữ liệu thật, không phải số cứng', async ({ page }) => {
@@ -51,7 +51,7 @@ test('tiến độ và cột mốc bậc đọc từ dữ liệu thật, không 
     { lessonId: 'p1-u1-l1', status: 'completed' },
     { lessonId: 'p1-u2-l1', status: 'completed' },
   ])
-  await page.goto('/lap-trinh', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming', { waitUntil: 'domcontentloaded' })
 
   // Thanh tiến độ khai đúng số bài đã xong cho trình đọc màn hình.
   const thanh = page.getByRole('progressbar', { name: 'Tiến độ môn Lập trình' })
@@ -65,7 +65,7 @@ test('tiến độ và cột mốc bậc đọc từ dữ liệu thật, không 
 test('Free chưa học gì: bậc P2 khoá, ổ khoá NÓI RÕ còn thiếu bao nhiêu bài', async ({ page }) => {
   await mockLogin(page, 'vi', 'dark-blue')
   await gioLapTiendo(page, [])
-  await page.goto('/lap-trinh', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming', { waitUntil: 'domcontentloaded' })
 
   const p2 = page.getByRole('button', { name: /Bậc P2 .* đang khoá/ })
   await expect(p2).toBeDisabled()

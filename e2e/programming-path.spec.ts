@@ -17,9 +17,13 @@ test('lộ trình kiến trúc sư AI mở từ P1 và dùng URL chuẩn mới',
   await mockLogin(page, 'vi', 'dark-blue')
   await mockProgrammingProgress(page)
 
-  await page.goto('/lap-trinh/lo-trinh/principal-ai', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/lo-trinh/principal-ai', {
+    waitUntil: 'domcontentloaded',
+  })
 
-  await expect(page).toHaveURL(/\/lap-trinh\/lo-trinh\/principal-ai--kien-truc-su-phan-mem-ai$/)
+  await expect(page).toHaveURL(
+    /\/goc-hoc-tap\/programming\/lo-trinh\/principal-ai--kien-truc-su-phan-mem-ai$/,
+  )
   await expect(
     page.getByRole('heading', { name: 'Chặng nền tảng — bắt đầu từ số 0' }),
   ).toBeVisible()
@@ -43,7 +47,7 @@ test('lộ trình kiến trúc sư AI mở từ P1 và dùng URL chuẩn mới',
   await expect(algorithmStage.getByRole('button', { name: 'Vào học chặng này' })).toBeVisible()
 
   // `systems-s1` là chặng của hướng chuyên sâu, không nằm trong manifest principal-ai.
-  await page.goto('/lap-trinh/huong/systems', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/huong/systems', { waitUntil: 'domcontentloaded' })
   const systemsStage = page.getByRole('listitem').filter({ hasText: 'Bộ nhớ và C' })
   await expect(systemsStage.getByRole('button', { name: 'Vào học chặng này' })).toBeVisible()
   const operatingSystemsStage = page
@@ -53,7 +57,7 @@ test('lộ trình kiến trúc sư AI mở từ P1 và dùng URL chuẩn mới',
     operatingSystemsStage.getByRole('button', { name: 'Vào học chặng này' }),
   ).toBeVisible()
 
-  await page.goto('/lap-trinh/huong/devops', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/huong/devops', { waitUntil: 'domcontentloaded' })
   const devopsStage = page
     .getByRole('listitem')
     .filter({ hasText: 'Linux, mạng và tự động hoá cơ bản' })

@@ -64,7 +64,7 @@ const base = {
 describe('englishNext', () => {
   it('vòng từ vựng chưa đủ → mục next với nhãn đếm từ, href là cấp đang học', () => {
     const { next } = englishNext(base)
-    expect(TodayItemSchema.parse(next).href).toBe('/lo-trinh-hoc/a1')
+    expect(TodayItemSchema.parse(next).href).toBe('/goc-hoc-tap/english/lo-trinh/a1')
     expect(next?.evidenceSource).toBe('english.vocab')
     expect(next?.title).toBe('🍜 Vòng c1 (0/10)')
     expect(next?.contentId).toBe('c1')
@@ -85,7 +85,7 @@ describe('englishNext', () => {
   it('cấp bị khoá bị bỏ qua, nhảy sang cấp mở tiếp theo', () => {
     const lockedMap = new Map<CefrLevel['id'], boolean>([['A1', true]])
     const { next } = englishNext({ ...base, levels: [levelA1, levelA2], lockedMap })
-    expect(next?.href).toBe('/lo-trinh-hoc/a2')
+    expect(next?.href).toBe('/goc-hoc-tap/english/lo-trinh/a2')
   })
 
   it('xong hết mọi cấp → không mục nào (kể cả khi còn thẻ SRS)', () => {
@@ -96,7 +96,7 @@ describe('englishNext', () => {
 
   it('có thẻ đến hạn → thêm mục ôn tập trỏ đúng cấp đang học', () => {
     const { review } = englishNext({ ...base, srsDue: 12 })
-    expect(TodayItemSchema.parse(review).href).toBe('/lo-trinh-hoc/a1?tab=srs')
+    expect(TodayItemSchema.parse(review).href).toBe('/goc-hoc-tap/english/lo-trinh/a1?tab=srs')
     expect(review?.title).toBe('Ôn 12 thẻ đến hạn')
     expect(review?.evidenceSource).toBe('english.srs')
   })
@@ -131,7 +131,7 @@ describe('englishNext', () => {
     const a2 = { ...levelA2, id: 'A2' as CefrLevel['id'] }
     const ket = englishNext({ ...base, levels: [a1XongHet, a2] })
     expect(ket.levelId).toBe('A1')
-    expect(ket.next?.href).toBe('/lo-trinh-hoc/a1')
+    expect(ket.next?.href).toBe('/goc-hoc-tap/english/lo-trinh/a1')
   })
 
   it('srsDue là tuỳ chọn — trang môn gọi không truyền thì không có mục ôn', () => {

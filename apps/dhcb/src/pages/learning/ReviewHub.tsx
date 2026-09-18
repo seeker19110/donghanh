@@ -20,6 +20,7 @@ import Layout from '../../components/Layout'
 import PageHeader from '../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
 import { usePageTitle } from '../../lib/usePageTitle'
+import { duongDanSoTayLoiSai } from '../../lib/englishRoutes'
 import { useAuth } from '../../context/useAuth'
 import { getSrsSnapshot } from '../../lib/srs'
 import { getDueProgCards } from '../../lib/programmingSrs'
@@ -106,7 +107,7 @@ export default function ReviewHub() {
         contentId: e.contentId,
         questionIndex: e.questionIndex,
         dueAt: hanOnCuaMuc(e),
-        href: '/so-tay-loi-sai',
+        href: duongDanSoTayLoiSai(),
         title: `${STEM_SUBJECTS[e.subjectId].loader.getSummary(e.contentId)?.title ?? e.contentId} · câu ${e.questionIndex + 1}`,
       }))
       // Một môn hỏng là cả nguồn 'error': hub phải nói "chưa tải được", KHÔNG được im lặng
@@ -190,7 +191,7 @@ export default function ReviewHub() {
         {queue?.sourcesState['learning.evidence'] === 'error' && (
           <p className="text-sm text-content-secondary" role="status">
             Chưa tải được lỗi từ bài STEM — số dưới đây chưa gồm chúng.{' '}
-            <Link to="/so-tay-loi-sai" className="underline font-semibold">
+            <Link to={duongDanSoTayLoiSai()} className="underline font-semibold">
               Mở sổ lỗi để thử lại
             </Link>
           </p>

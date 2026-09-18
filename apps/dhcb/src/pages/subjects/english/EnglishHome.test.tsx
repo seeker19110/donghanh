@@ -72,18 +72,18 @@ describe('EnglishHome — trang tổng quan môn Tiếng Anh', () => {
     await hien()
     const buttons = Array.from(container.querySelectorAll('button')).map((b) => b.textContent ?? '')
     const expected: Record<string, RegExp> = {
-      '/lo-trinh-hoc': /Lộ trình|CEFR/i,
-      '/bai-hoc': /Ngữ Pháp|Bài học/i,
-      '/tro-truyen': /Trò chuyện|Chat/i,
-      '/luyen-noi': /Luyện nói|Speaking/i,
-      '/luyen-viet': /Luyện viết|Writing/i,
-      '/luyen-nghe': /Luyện nghe|Listening/i,
-      '/tu-dien': /Từ điển|Dictionary/i,
-      '/cau-thong-dung': /Câu thông dụng|Mẫu câu/i,
-      '/truyen-song-ngu': /Truyện/i,
-      '/so-tay-loi-sai': /Lỗi sai|Sổ Lỗi/i,
-      '/on-thi': /Ôn thi/i,
-      '/thu-thach': /Thử thách|Challenge/i,
+      '/goc-hoc-tap/english/lo-trinh': /Lộ trình|CEFR/i,
+      '/goc-hoc-tap/english/bai-hoc': /Ngữ Pháp|Bài học/i,
+      '/goc-hoc-tap/english/tro-truyen': /Trò chuyện|Chat/i,
+      '/goc-hoc-tap/english/luyen-noi': /Luyện nói|Speaking/i,
+      '/goc-hoc-tap/english/luyen-viet': /Luyện viết|Writing/i,
+      '/goc-hoc-tap/english/luyen-nghe': /Luyện nghe|Listening/i,
+      '/goc-hoc-tap/english/tu-dien': /Từ điển|Dictionary/i,
+      '/goc-hoc-tap/english/cau-thong-dung': /Câu thông dụng|Mẫu câu/i,
+      '/goc-hoc-tap/english/truyen': /Truyện/i,
+      '/goc-hoc-tap/english/so-tay-loi-sai': /Lỗi sai|Sổ Lỗi/i,
+      '/goc-hoc-tap/english/on-thi': /Ôn thi/i,
+      '/goc-hoc-tap/english/thu-thach': /Thử thách|Challenge/i,
     }
     for (const child of ENGLISH_CHILDREN) {
       const re = expected[child.to ?? '']

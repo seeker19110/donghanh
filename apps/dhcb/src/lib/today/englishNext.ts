@@ -10,6 +10,7 @@ import { todayItemId, type TodayItem } from '@dhcb/core-contracts/todayPlan'
 import type { CefrLevel } from '../../data/cefr'
 import type { Circle } from '../../data/curriculum'
 import { circleDoneCount, findNextStep } from '../cefrProgress'
+import { duongDanLoTrinh } from '../englishRoutes'
 
 export const ENGLISH_SUBJECT_ID = 'english'
 
@@ -45,9 +46,9 @@ export interface EnglishNextResult {
   levelId?: CefrLevel['id']
 }
 
-/** Đường dẫn cấp CEFR — mã cấp viết thường theo route `/lo-trinh-hoc/:levelId`. */
+/** Đường dẫn cấp CEFR — mã cấp viết thường theo route English chuẩn. */
 export function duongDanCapCefr(levelId: CefrLevel['id']): string {
-  return `/lo-trinh-hoc/${levelId.toLowerCase()}`
+  return duongDanLoTrinh(levelId)
 }
 
 /**

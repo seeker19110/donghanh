@@ -33,6 +33,20 @@ import RewardTipBanner from '../../../components/RewardTipBanner.js'
 import { getDirection } from '../../../lib/storage'
 import type { Direction } from '../../../types'
 import { useAuth } from '../../../context/useAuth'
+import {
+  duongDanBaiHocAnh,
+  duongDanCauThongDung,
+  duongDanLuyenNghe,
+  duongDanLuyenNoi,
+  duongDanLuyenViet,
+  duongDanLoTrinh,
+  duongDanOnThi,
+  duongDanSoTayLoiSai,
+  duongDanThuThach,
+  duongDanTroTruyen,
+  duongDanTruyen,
+  duongDanTuDien,
+} from '../../../lib/englishRoutes'
 import { useCloudSync } from '../../../lib/useCloudSync'
 import type { CefrLevel } from '../../../data/cefr'
 import type { Circle } from '../../../data/curriculum'
@@ -241,7 +255,9 @@ export default function EnglishHome() {
         {/* ── Gợi ý "Luyện nói với từ vừa học" ── */}
         {recentWords.length > 0 && (
           <button
-            onClick={() => nav(`/luyen-noi?words=${encodeURIComponent(recentWords.join(','))}`)}
+            onClick={() =>
+              nav(`${duongDanLuyenNoi()}?words=${encodeURIComponent(recentWords.join(','))}`)
+            }
             className="tap-44 w-full flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-sky-500/10 border border-sky-500/25 text-xs text-sky-300 theme-light:text-sky-800 hover:border-sky-500/50 transition animate-fade-in"
           >
             <Mic className="w-3.5 h-3.5 shrink-0" />
@@ -268,7 +284,7 @@ export default function EnglishHome() {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
             <button
-              onClick={() => nav('/luyen-nghe')}
+              onClick={() => nav(duongDanLuyenNghe())}
               className="tap-44 flex flex-col items-center justify-center gap-2 p-3.5 rounded-2xl bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800/80 hover:border-rose-500/40 transition active:scale-95 group shadow-sm"
             >
               <div className="w-10 h-10 rounded-xl bg-rose-500/15 flex items-center justify-center group-hover:scale-110 transition">
@@ -278,7 +294,7 @@ export default function EnglishHome() {
             </button>
 
             <button
-              onClick={() => nav('/tro-truyen')}
+              onClick={() => nav(duongDanTroTruyen())}
               className="tap-44 flex flex-col items-center justify-center gap-2 p-3.5 rounded-2xl bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800/80 hover:border-accent-500/40 transition active:scale-95 group shadow-sm"
             >
               <div className="w-10 h-10 rounded-xl bg-accent-500/15 flex items-center justify-center group-hover:scale-110 transition">
@@ -288,7 +304,7 @@ export default function EnglishHome() {
             </button>
 
             <button
-              onClick={() => nav('/luyen-noi')}
+              onClick={() => nav(duongDanLuyenNoi())}
               className="tap-44 flex flex-col items-center justify-center gap-2 p-3.5 rounded-2xl bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800/80 hover:border-sky-500/40 transition active:scale-95 group shadow-sm"
             >
               <div className="w-10 h-10 rounded-xl bg-sky-500/15 flex items-center justify-center group-hover:scale-110 transition">
@@ -298,7 +314,7 @@ export default function EnglishHome() {
             </button>
 
             <button
-              onClick={() => nav('/luyen-viet')}
+              onClick={() => nav(duongDanLuyenViet())}
               className="tap-44 flex flex-col items-center justify-center gap-2 p-3.5 rounded-2xl bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800/80 hover:border-violet-500/40 transition active:scale-95 group shadow-sm"
             >
               <div className="w-10 h-10 rounded-xl bg-violet-500/15 flex items-center justify-center group-hover:scale-110 transition">
@@ -313,7 +329,7 @@ export default function EnglishHome() {
         <section aria-label="Lộ trình & Từ điển" className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {/* Lộ trình CEFR */}
           <button
-            onClick={() => nav('/lo-trinh-hoc')}
+            onClick={() => nav(duongDanLoTrinh())}
             className="p-4 rounded-2xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-zinc-800/80 hover:border-emerald-500/50 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex items-start gap-3.5"
           >
             <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-400 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
@@ -334,7 +350,7 @@ export default function EnglishHome() {
 
           {/* Từ điển Song Ngữ */}
           <button
-            onClick={() => nav('/tu-dien')}
+            onClick={() => nav(duongDanTuDien())}
             className="p-4 rounded-2xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-zinc-800/80 hover:border-amber-500/50 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex items-start gap-3.5"
           >
             <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500 to-orange-400 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
@@ -365,7 +381,7 @@ export default function EnglishHome() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
             {/* Bài học ngữ pháp */}
             <button
-              onClick={() => nav('/bai-hoc')}
+              onClick={() => nav(duongDanBaiHocAnh())}
               className="p-3 rounded-2xl bg-zinc-900/70 hover:bg-zinc-800/80 border border-zinc-800/80 text-left transition active:scale-95 flex items-center gap-2.5 group"
             >
               <div className="w-8 h-8 rounded-lg bg-teal-500/15 text-teal-400 theme-light:text-teal-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
@@ -379,7 +395,7 @@ export default function EnglishHome() {
 
             {/* Mẫu câu thông dụng */}
             <button
-              onClick={() => nav('/cau-thong-dung')}
+              onClick={() => nav(duongDanCauThongDung())}
               className="p-3 rounded-2xl bg-zinc-900/70 hover:bg-zinc-800/80 border border-zinc-800/80 text-left transition active:scale-95 flex items-center gap-2.5 group"
             >
               <div className="w-8 h-8 rounded-lg bg-blue-500/15 text-blue-400 theme-light:text-blue-800 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
@@ -393,7 +409,7 @@ export default function EnglishHome() {
 
             {/* Truyện song ngữ */}
             <button
-              onClick={() => nav('/truyen-song-ngu')}
+              onClick={() => nav(duongDanTruyen())}
               className="p-3 rounded-2xl bg-zinc-900/70 hover:bg-zinc-800/80 border border-zinc-800/80 text-left transition active:scale-95 flex items-center gap-2.5 group"
             >
               <div className="w-8 h-8 rounded-lg bg-purple-500/15 text-purple-400 theme-light:text-purple-800 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
@@ -407,7 +423,7 @@ export default function EnglishHome() {
 
             {/* Ôn thi — công cụ thứ 5 của ENGLISH_CHILDREN, trước đây chỉ có ở sidebar. */}
             <button
-              onClick={() => nav('/on-thi')}
+              onClick={() => nav(duongDanOnThi())}
               className="p-3 rounded-2xl bg-zinc-900/70 hover:bg-zinc-800/80 border border-zinc-800/80 text-left transition active:scale-95 flex items-center gap-2.5 group"
             >
               <div className="w-8 h-8 rounded-lg bg-amber-500/15 text-amber-400 theme-light:text-amber-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
@@ -443,7 +459,7 @@ export default function EnglishHome() {
 
             {/* Sổ tay lỗi sai */}
             <button
-              onClick={() => nav('/so-tay-loi-sai')}
+              onClick={() => nav(duongDanSoTayLoiSai())}
               className="p-3 rounded-2xl bg-zinc-900/70 hover:bg-zinc-800/80 border border-zinc-800/80 text-left transition active:scale-95 flex items-center gap-2.5 group"
             >
               <div className="w-8 h-8 rounded-lg bg-rose-500/15 text-rose-400 theme-light:text-rose-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
@@ -459,7 +475,7 @@ export default function EnglishHome() {
 
         {/* ── THỬ THÁCH VIDEO 1 PHÚT ── */}
         <button
-          onClick={() => nav('/thu-thach')}
+          onClick={() => nav(duongDanThuThach())}
           className="w-full p-3.5 rounded-2xl bg-gradient-to-r from-zinc-900 via-zinc-900 to-rose-950/30 border border-rose-500/20 hover:border-rose-500/40 text-left transition flex items-center justify-between group shadow-sm"
         >
           <div className="flex items-center gap-3">

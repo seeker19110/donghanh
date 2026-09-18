@@ -1,7 +1,7 @@
 import { test, expect, type Page } from '@playwright/test'
 import { mockLogin } from './helpers/auth'
 
-// Cổng cho trang KHOÁ NGẮN (`/lap-trinh/khoa-hoc/:courseId`, PR 3/4 khoá Git). Bất biến quan
+// Cổng cho trang KHOÁ NGẮN (`/goc-hoc-tap/programming/khoa-hoc/:courseId`, PR 3/4 khoá Git). Bất biến quan
 // trọng nhất theo spec (docs/specs/2026-08-30-khoa-hoc-thuc-hanh-github.md, tiêu chí ④):
 // vào thẳng khoá Git khi CHƯA học bậc nào vẫn học được bài đầu ngay.
 
@@ -24,7 +24,7 @@ async function gioLapTiendo(page: Page, lessons: { lessonId: string; status: str
 test('chưa học bậc nào vẫn vào thẳng khoá Git học được ngay', async ({ page }) => {
   await mockLogin(page, 'vi', 'dark-blue')
   await gioLapTiendo(page, [])
-  await page.goto('/lap-trinh/khoa-hoc/git', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/khoa-hoc/git', { waitUntil: 'domcontentloaded' })
 
   await expect(page.getByRole('heading', { name: 'Git & GitHub thực hành' })).toBeVisible()
   await expect(page.getByText('vào thẳng học được', { exact: false })).toBeVisible()
@@ -34,15 +34,17 @@ test('chưa học bậc nào vẫn vào thẳng khoá Git học được ngay', 
 test('mã khoá lạ thì về trang tổng quan môn, không render trang trắng', async ({ page }) => {
   await mockLogin(page, 'vi', 'dark-blue')
   await gioLapTiendo(page, [])
-  await page.goto('/lap-trinh/khoa-hoc/khong-ton-tai', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/khoa-hoc/khong-ton-tai', {
+    waitUntil: 'domcontentloaded',
+  })
 
-  await expect(page).toHaveURL(/\/lap-trinh$/)
+  await expect(page).toHaveURL(/\/goc-hoc-tap\/programming$/)
 })
 
 test('bấm vào bài trong khoá dẫn đúng bài học (dùng lại bài p3-u10-l1)', async ({ page }) => {
   await mockLogin(page, 'vi', 'dark-blue')
   await gioLapTiendo(page, [])
-  await page.goto('/lap-trinh/khoa-hoc/git', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/khoa-hoc/git', { waitUntil: 'domcontentloaded' })
 
   await page
     .getByRole('button', { name: /Học bài:/ })
@@ -50,17 +52,19 @@ test('bấm vào bài trong khoá dẫn đúng bài học (dùng lại bài p3-u
     .click()
   // URL bài học mang ngữ cảnh khoá `?khoa=<mã>` (S07, đặc tả §③.2 Q1): một bài có thể nằm
   // trong nhiều khoá, mở bài xong vẫn phải biết đường về đúng khoá đang học.
-  await expect(page).toHaveURL(/\/lap-trinh\/bai-hoc\/p3-u10-l1(--[a-z0-9-]+)?\?khoa=git$/)
+  await expect(page).toHaveURL(
+    /\/goc-hoc-tap\/programming\/bai-hoc\/p3-u10-l1(--[a-z0-9-]+)?\?khoa=git$/,
+  )
 })
 
 test('trang môn Lập trình có lối vào khoá ngắn', async ({ page }) => {
   await mockLogin(page, 'vi', 'dark-blue')
   await gioLapTiendo(page, [])
-  await page.goto('/lap-trinh', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming', { waitUntil: 'domcontentloaded' })
 
   await expect(page.getByText('Khoá ngắn', { exact: false })).toBeVisible()
   await page.getByRole('button', { name: /Git & GitHub thực hành/ }).click()
-  await expect(page).toHaveURL(/\/lap-trinh\/khoa-hoc\/git(--[a-z0-9-]+)?$/)
+  await expect(page).toHaveURL(/\/goc-hoc-tap\/programming\/khoa-hoc\/git(--[a-z0-9-]+)?$/)
 })
 
 // ── Khoá Hermes (PR khoá Hermes — docs/specs/2026-08-31-khoa-dieu-phoi-ai-van-phong.md) ──
@@ -69,7 +73,7 @@ test('trang môn Lập trình có lối vào khoá ngắn', async ({ page }) => 
 test('chưa học bậc nào vẫn vào thẳng khoá Hermes học được ngay', async ({ page }) => {
   await mockLogin(page, 'vi', 'dark-blue')
   await gioLapTiendo(page, [])
-  await page.goto('/lap-trinh/khoa-hoc/hermes', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/khoa-hoc/hermes', { waitUntil: 'domcontentloaded' })
 
   await expect(
     page.getByRole('heading', { name: 'Hermes Agent — trợ lý AI cho người đi làm' }),
@@ -80,7 +84,7 @@ test('chưa học bậc nào vẫn vào thẳng khoá Hermes học được ngay
 test('bấm vào bài trong khoá Hermes dẫn đúng bài đầu chương C1', async ({ page }) => {
   await mockLogin(page, 'vi', 'dark-blue')
   await gioLapTiendo(page, [])
-  await page.goto('/lap-trinh/khoa-hoc/hermes', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/khoa-hoc/hermes', { waitUntil: 'domcontentloaded' })
 
   await page
     .getByRole('button', { name: /Học bài:/ })
@@ -88,16 +92,18 @@ test('bấm vào bài trong khoá Hermes dẫn đúng bài đầu chương C1', 
     .click()
   // URL bài học mang ngữ cảnh khoá `?khoa=<mã>` (S07, đặc tả §③.2 Q1): một bài có thể nằm
   // trong nhiều khoá, mở bài xong vẫn phải biết đường về đúng khoá đang học.
-  await expect(page).toHaveURL(/\/lap-trinh\/bai-hoc\/hermes-u1-l1(--[a-z0-9-]+)?\?khoa=hermes$/)
+  await expect(page).toHaveURL(
+    /\/goc-hoc-tap\/programming\/bai-hoc\/hermes-u1-l1(--[a-z0-9-]+)?\?khoa=hermes$/,
+  )
 })
 
 test('trang môn Lập trình có lối vào khoá Hermes', async ({ page }) => {
   await mockLogin(page, 'vi', 'dark-blue')
   await gioLapTiendo(page, [])
-  await page.goto('/lap-trinh', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: /Hermes Agent — trợ lý AI cho người đi làm/ }).click()
-  await expect(page).toHaveURL(/\/lap-trinh\/khoa-hoc\/hermes(--[a-z0-9-]+)?$/)
+  await expect(page).toHaveURL(/\/goc-hoc-tap\/programming\/khoa-hoc\/hermes(--[a-z0-9-]+)?$/)
 })
 
 // ── Khoá Vibe Code (docs/specs/2026-08-31-khoa-vibe-code.md) ── Cùng bất biến với khoá
@@ -106,7 +112,7 @@ test('trang môn Lập trình có lối vào khoá Hermes', async ({ page }) => 
 test('chưa học bậc nào vẫn vào thẳng khoá Vibe Code học được ngay', async ({ page }) => {
   await mockLogin(page, 'vi', 'dark-blue')
   await gioLapTiendo(page, [])
-  await page.goto('/lap-trinh/khoa-hoc/vibe', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/khoa-hoc/vibe', { waitUntil: 'domcontentloaded' })
 
   await expect(
     page.getByRole('heading', { name: 'Vibe Code — từ số 0 đến chuyên gia' }),
@@ -117,7 +123,7 @@ test('chưa học bậc nào vẫn vào thẳng khoá Vibe Code học được n
 test('bấm vào bài trong khoá Vibe Code dẫn đúng bài đầu chương C1', async ({ page }) => {
   await mockLogin(page, 'vi', 'dark-blue')
   await gioLapTiendo(page, [])
-  await page.goto('/lap-trinh/khoa-hoc/vibe', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/khoa-hoc/vibe', { waitUntil: 'domcontentloaded' })
 
   await page
     .getByRole('button', { name: /Học bài:/ })
@@ -125,16 +131,18 @@ test('bấm vào bài trong khoá Vibe Code dẫn đúng bài đầu chương C1
     .click()
   // URL bài học mang ngữ cảnh khoá `?khoa=<mã>` (S07, đặc tả §③.2 Q1): một bài có thể nằm
   // trong nhiều khoá, mở bài xong vẫn phải biết đường về đúng khoá đang học.
-  await expect(page).toHaveURL(/\/lap-trinh\/bai-hoc\/vibe-u1-l1(--[a-z0-9-]+)?\?khoa=vibe$/)
+  await expect(page).toHaveURL(
+    /\/goc-hoc-tap\/programming\/bai-hoc\/vibe-u1-l1(--[a-z0-9-]+)?\?khoa=vibe$/,
+  )
 })
 
 test('trang môn Lập trình có lối vào khoá Vibe Code', async ({ page }) => {
   await mockLogin(page, 'vi', 'dark-blue')
   await gioLapTiendo(page, [])
-  await page.goto('/lap-trinh', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming', { waitUntil: 'domcontentloaded' })
 
   await page.getByRole('button', { name: /Vibe Code — từ số 0 đến chuyên gia/ }).click()
-  await expect(page).toHaveURL(/\/lap-trinh\/khoa-hoc\/vibe(--[a-z0-9-]+)?$/)
+  await expect(page).toHaveURL(/\/goc-hoc-tap\/programming\/khoa-hoc\/vibe(--[a-z0-9-]+)?$/)
 })
 
 // ── Khoá OpenClaw (PR 2/3 khoá OpenClaw — docs/specs/2026-08-31-khoa-openclaw.md) ──
@@ -143,7 +151,7 @@ test('trang môn Lập trình có lối vào khoá Vibe Code', async ({ page }) 
 test('chưa học bậc nào vẫn vào thẳng khoá OpenClaw học được ngay', async ({ page }) => {
   await mockLogin(page, 'vi', 'dark-blue')
   await gioLapTiendo(page, [])
-  await page.goto('/lap-trinh/khoa-hoc/openclaw', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/khoa-hoc/openclaw', { waitUntil: 'domcontentloaded' })
 
   await expect(
     page.getByRole('heading', { name: 'OpenClaw — dựng trợ lý AI của riêng bạn' }),
@@ -154,7 +162,7 @@ test('chưa học bậc nào vẫn vào thẳng khoá OpenClaw học được ng
 test('bấm vào bài trong khoá OpenClaw dẫn đúng bài đầu chương C1', async ({ page }) => {
   await mockLogin(page, 'vi', 'dark-blue')
   await gioLapTiendo(page, [])
-  await page.goto('/lap-trinh/khoa-hoc/openclaw', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/programming/khoa-hoc/openclaw', { waitUntil: 'domcontentloaded' })
 
   await page
     .getByRole('button', { name: /Học bài:/ })
@@ -163,18 +171,18 @@ test('bấm vào bài trong khoá OpenClaw dẫn đúng bài đầu chương C1'
   // URL bài học mang ngữ cảnh khoá `?khoa=<mã>` (S07, đặc tả §③.2 Q1): một bài có thể nằm
   // trong nhiều khoá, mở bài xong vẫn phải biết đường về đúng khoá đang học.
   await expect(page).toHaveURL(
-    /\/lap-trinh\/bai-hoc\/openclaw-u1-l1(--[a-z0-9-]+)?\?khoa=openclaw$/,
+    /\/goc-hoc-tap\/programming\/bai-hoc\/openclaw-u1-l1(--[a-z0-9-]+)?\?khoa=openclaw$/,
   )
 })
 
-test('URL cũ /lap-trinh/khoa/:id chuyển hướng sang /lap-trinh/khoa-hoc/:id, giữ mã khoá', async ({
+test('URL cũ /lap-trinh/khoa/:id chuyển hướng sang URL chuẩn môn Lập trình, giữ mã khoá', async ({
   page,
 }) => {
   await mockLogin(page, 'vi', 'dark-blue')
   await gioLapTiendo(page, [])
   await page.goto('/lap-trinh/khoa/openclaw', { waitUntil: 'domcontentloaded' })
 
-  await expect(page).toHaveURL(/\/lap-trinh\/khoa-hoc\/openclaw(--[a-z0-9-]+)?$/)
+  await expect(page).toHaveURL(/\/goc-hoc-tap\/programming\/khoa-hoc\/openclaw(--[a-z0-9-]+)?$/)
   await expect(
     page.getByRole('heading', { name: 'OpenClaw — dựng trợ lý AI của riêng bạn' }),
   ).toBeVisible()

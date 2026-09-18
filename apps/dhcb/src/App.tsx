@@ -28,7 +28,9 @@ import { refreshPlanFeatures } from './lib/planFeatures'
 import { refreshPlanMarketing } from './lib/planMarketing'
 import FeatureGate from './components/FeatureGate'
 import LegacyProgrammingRedirect from './components/LegacyProgrammingRedirect'
+import LegacyEnglishRedirect from './components/LegacyEnglishRedirect'
 import { PROGRAMMING_PREFIX } from './lib/programmingRoutes'
+import { ENGLISH_PREFIX } from './lib/englishRoutes'
 // Dải báo đồng bộ hầu như luôn `return null` (chỉ hiện khi mất mạng / còn mục chờ / vừa gửi
 // xong), nên nó KHÔNG đáng nằm trong chunk khởi động — nạp lười để giữ ngân sách Initial JS
 // dưới trần 140 kB. Không bọc Suspense: khi chưa nạp xong, `lazy` render null, đúng bằng
@@ -361,7 +363,7 @@ export default function App() {
                       {/* Công khai, KHÔNG bọc RequireAuth — vào được khi chưa đăng nhập */}
                       <Route path="/welcome" element={<Landing />} />
                       <Route path="/learn-vietnamese" element={<LandingEn />} />
-                      <Route path="/tu-vung/:word" element={<WordDetail />} />
+                      <Route path={`${ENGLISH_PREFIX}/tu-dien/:word`} element={<WordDetail />} />
                       <Route path="/reset-password" element={<ResetPassword />} />
                       {/* [S05] /bat-dau nay la luong "bat dau theo y dinh" (cong khai, cho ca khach).
                           Luong Intake doi song cu GIU NGUYEN ma, chi doi sang route rieng. */}
@@ -388,7 +390,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/on-thi"
+                        path={`${ENGLISH_PREFIX}/on-thi`}
                         element={
                           <RequireAccount>
                             <ExamPlan />
@@ -756,7 +758,7 @@ export default function App() {
                         <Route path="/:subjectId" element={<SubjectsHostLegacyRedirect />} />
                       )}
                       <Route
-                        path="/tro-truyen"
+                        path={`${ENGLISH_PREFIX}/tro-truyen`}
                         element={
                           <AllowGuest>
                             <FeatureGate featureKey="chat">
@@ -766,7 +768,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/luyen-viet"
+                        path={`${ENGLISH_PREFIX}/luyen-viet`}
                         element={
                           <AllowGuest>
                             <FeatureGate featureKey="writing">
@@ -776,7 +778,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/luyen-noi"
+                        path={`${ENGLISH_PREFIX}/luyen-noi`}
                         element={
                           <AllowGuest>
                             <FeatureGate featureKey="speaking">
@@ -794,7 +796,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/lo-trinh-hoc"
+                        path={`${ENGLISH_PREFIX}/lo-trinh`}
                         element={
                           <AllowGuest>
                             <FeatureGate featureKey="learning_path">
@@ -804,7 +806,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/lo-trinh-hoc/:levelId"
+                        path={`${ENGLISH_PREFIX}/lo-trinh/:levelId`}
                         element={
                           <AllowGuest>
                             <FeatureGate featureKey="learning_path">
@@ -814,7 +816,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/tu-dien"
+                        path={`${ENGLISH_PREFIX}/tu-dien`}
                         element={
                           <AllowGuest>
                             <FeatureGate featureKey="dictionary">
@@ -824,7 +826,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/bai-hoc"
+                        path={`${ENGLISH_PREFIX}/bai-hoc`}
                         element={
                           <AllowGuest>
                             <FeatureGate featureKey="lessons">
@@ -834,7 +836,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/cau-thong-dung"
+                        path={`${ENGLISH_PREFIX}/cau-thong-dung`}
                         element={
                           <AllowGuest>
                             <FeatureGate featureKey="phrases">
@@ -844,7 +846,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/luyen-nghe"
+                        path={`${ENGLISH_PREFIX}/luyen-nghe`}
                         element={
                           <AllowGuest>
                             <FeatureGate featureKey="listening">
@@ -854,7 +856,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/truyen-song-ngu"
+                        path={`${ENGLISH_PREFIX}/truyen`}
                         element={
                           <AllowGuest>
                             <FeatureGate featureKey="listening">
@@ -864,7 +866,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/truyen-song-ngu/:id"
+                        path={`${ENGLISH_PREFIX}/truyen/:id`}
                         element={
                           <AllowGuest>
                             <FeatureGate featureKey="listening">
@@ -890,7 +892,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/so-tay-loi-sai"
+                        path={`${ENGLISH_PREFIX}/so-tay-loi-sai`}
                         element={
                           <RequireAccount>
                             <FeatureGate featureKey="mistake_bank">
@@ -900,7 +902,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/thu-thach"
+                        path={`${ENGLISH_PREFIX}/thu-thach`}
                         element={
                           <RequireAccount>
                             <FeatureGate featureKey="challenge">
@@ -909,6 +911,20 @@ export default function App() {
                           </RequireAccount>
                         }
                       />
+                      {/* URL English cũ giữ tương thích bookmark, query và nút Back. */}
+                      <Route path="/lo-trinh-hoc/*" element={<LegacyEnglishRedirect />} />
+                      <Route path="/bai-hoc/*" element={<LegacyEnglishRedirect />} />
+                      <Route path="/tro-truyen/*" element={<LegacyEnglishRedirect />} />
+                      <Route path="/luyen-noi/*" element={<LegacyEnglishRedirect />} />
+                      <Route path="/luyen-viet/*" element={<LegacyEnglishRedirect />} />
+                      <Route path="/luyen-nghe/*" element={<LegacyEnglishRedirect />} />
+                      <Route path="/tu-dien/*" element={<LegacyEnglishRedirect />} />
+                      <Route path="/tu-vung/*" element={<LegacyEnglishRedirect />} />
+                      <Route path="/cau-thong-dung/*" element={<LegacyEnglishRedirect />} />
+                      <Route path="/truyen-song-ngu/*" element={<LegacyEnglishRedirect />} />
+                      <Route path="/so-tay-loi-sai/*" element={<LegacyEnglishRedirect />} />
+                      <Route path="/on-thi/*" element={<LegacyEnglishRedirect />} />
+                      <Route path="/thu-thach/*" element={<LegacyEnglishRedirect />} />
                       <Route
                         path="/cai-dat"
                         element={
