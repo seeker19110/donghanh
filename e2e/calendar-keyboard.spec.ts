@@ -61,3 +61,74 @@ test('phím mũi tên đi từng tuần, Home về ngày xa nhất, chi tiết �
   await page.keyboard.press('End')
   await expect(detail).toHaveText(first)
 })
+
+for (const width of [320, 390]) {
+  test(`${width}px: ô ngày và CTA đủ 44px, header thẳng cột, trang không tràn ngang`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 844 })
+    await page.reload()
+
+    const grid = page.getByRole('grid', { name: /Lịch hoạt động theo ngày/ })
+    await expect(grid).toBeVisible()
+    const firstCell = grid.getByRole('gridcell').first()
+    const cellBox = await firstCell.boundingBox()
+    expect(cellBox).not.toBeNull()
+    expect(cellBox!.width).toBeGreaterThanOrEqual(44)
+    expect(cellBox!.height).toBeGreaterThanOrEqual(44)
+
+    const firstColumn = Number(
+      (await firstCell.getAttribute('style'))?.match(/grid-column-start:\s*(\d+)/)?.[1] ?? 1,
+    )
+    const firstHeader = grid.locator(`xpath=preceding-sibling::div[1]/span[${firstColumn}]`)
+    const headerBox = await firstHeader.boundingBox()
+    expect(headerBox).not.toBeNull()
+    expect(Math.abs(headerBox!.x - cellBox!.x), 'nhãn thứ phải thẳng cột với ô ngày').toBeLessThan(
+      1,
+    )
+
+    if (width === 320) {
+      const scroller = grid.locator('xpath=..')
+      const scrollerBefore = await scroller.boundingBox()
+      expect(scrollerBefore).not.toBeNull()
+      expect(
+        cellBox!.x < scrollerBefore!.x ||
+          cellBox!.x + cellBox!.width > scrollerBefore!.x + scrollerBefore!.width,
+        'ô đầu phải nằm ngoài vùng nhìn trước khi điều hướng để test scrollIntoView có ý nghĩa',
+      ).toBe(true)
+
+      await grid.locator('[role="gridcell"][tabindex="0"]').focus()
+      await page.keyboard.press('Home')
+      await expect(firstCell).toBeFocused()
+
+      const focusedBox = await firstCell.boundingBox()
+      const scrollerAfter = await scroller.boundingBox()
+      const headerAfter = await firstHeader.boundingBox()
+      expect(focusedBox).not.toBeNull()
+      expect(scrollerAfter).not.toBeNull()
+      expect(headerAfter).not.toBeNull()
+      expect(focusedBox!.x).toBeGreaterThanOrEqual(scrollerAfter!.x)
+      expect(focusedBox!.x + focusedBox!.width).toBeLessThanOrEqual(
+        scrollerAfter!.x + scrollerAfter!.width,
+      )
+      expect(
+        Math.abs(headerAfter!.x - focusedBox!.x),
+        'nhãn thứ vẫn thẳng cột sau scroll',
+      ).toBeLessThan(1)
+    }
+
+    const goalCta = page.getByRole('button', { name: /Đổi mục tiêu ở Hồ sơ/ })
+    const goalBox = await goalCta.boundingBox()
+    expect(goalBox).not.toBeNull()
+    expect(goalBox!.width).toBeGreaterThanOrEqual(44)
+    expect(goalBox!.height).toBeGreaterThanOrEqual(44)
+
+    const documentWidth = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      innerWidth: window.innerWidth,
+    }))
+    expect(documentWidth.scrollWidth, `trang /tien-do bị tràn ngang ở ${width}px`).toBe(
+      documentWidth.innerWidth,
+    )
+  })
+}

@@ -6,7 +6,7 @@
 // liên tiếp (streak). Khi bật, ta HỎI bạn muốn học lúc mấy giờ → server gửi nhắc đúng
 // giờ đó cho những ngày bạn chưa học (xem api/push.ts + bộ hẹn giờ trong server.ts).
 
-import { useCallback, useState } from 'react'
+import { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Share2, Route, Bell, BellOff, X, Clock } from 'lucide-react'
 import ShareProgress from './ShareProgress'
@@ -15,6 +15,7 @@ import {
   getNotifPermission,
   subscribePush,
   unsubscribePush,
+  type PushActionResult,
 } from '../lib/pushNotif'
 import { getAccessToken } from '@core/authHeader'
 import { useAuth } from '../context/useAuth'
@@ -25,10 +26,27 @@ import { duongDanLoTrinh } from '../lib/englishRoutes'
 // Lưu giờ nhắc (giờ địa phương 0–23) để hiển thị lại lần sau
 const remindKey = (uid: string) => `et_remind_hour_${uid}`
 function loadRemindHour(uid: string): number {
-  const raw = Number(localStorage.getItem(remindKey(uid)))
-  return Number.isInteger(raw) && raw >= 0 && raw <= 23 ? raw : 20 // mặc định 20:00
+  try {
+    const stored = localStorage.getItem(remindKey(uid))
+    if (stored === null) return 20
+    const raw = Number(stored)
+    return Number.isInteger(raw) && raw >= 0 && raw <= 23 ? raw : 20
+  } catch {
+    return 20
+  }
+}
+function saveRemindHour(uid: string, hour: number): boolean {
+  try {
+    localStorage.setItem(remindKey(uid), String(hour))
+    return true
+  } catch {
+    return false
+  }
 }
 const fmtHour = (h: number) => `${String(h).padStart(2, '0')}:00`
+
+type PushIssue = Exclude<PushActionResult['status'], 'success'>
+type PushOperation = 'subscribe' | 'unsubscribe'
 
 // Đổi giờ địa phương người dùng chọn → giờ UTC để server (chạy theo UTC) gửi đúng lúc.
 function localHourToUtc(localHour: number): number {
@@ -37,19 +55,41 @@ function localHourToUtc(localHour: number): number {
 }
 
 export default function QuickActions() {
-  const nav = useNavigate()
   const { user } = useAuth()
-  const userId = user?.id ?? ''
+  if (!user) return null
+
+  // Key theo user bảo đảm state cục bộ (đặc biệt giờ nhắc) được khởi tạo lại từ đúng namespace
+  // khi phiên auth đến muộn hoặc đổi người dùng, không cần effect đồng bộ state.
+  return <QuickActionsForUser key={user.id} userId={user.id} />
+}
+
+function QuickActionsForUser({ userId }: { userId: string }) {
+  const nav = useNavigate()
   // [Slice 04] Chữ giao diện theo ngôn ngữ giao diện, không theo chiều học Tiếng Anh.
   const isA = useLang().lang === 'vi'
   const supported = isPushSupported()
+  const initialPermission = supported ? getNotifPermission() : 'default'
   const [showShare, setShare] = useState(false)
   // Trạng thái quyền thông báo hiện tại — đọc 1 lần qua lazy initializer
   // (thay cho setState đồng bộ trong effect trước đây; `supported` không đổi trong đời component).
-  const [pushOn, setPushOn] = useState(() => supported && getNotifPermission() === 'granted')
+  const [pushOn, setPushOn] = useState(initialPermission === 'granted')
   const [pushLoading, setPushL] = useState(false)
   const [showTime, setShowTime] = useState(false)
   const [remindHour, setRemindHour] = useState(() => loadRemindHour(userId))
+  const [storageWarning, setStorageWarning] = useState(false)
+  const [pushIssue, setPushIssue] = useState<PushIssue | null>(
+    initialPermission === 'denied' ? 'denied' : null,
+  )
+  const [retryOperation, setRetryOperation] = useState<PushOperation | null>(null)
+  const [focusRevision, setFocusRevision] = useState(0)
+  const notifButtonRef = useRef<HTMLButtonElement>(null)
+
+  // Retry biến mất sau khi thành công; chuyển focus về control Nhắc học ở lần commit DOM kế
+  // tiếp để không làm người dùng bàn phím rơi về body. Counter bảo đảm mỗi success là một tín
+  // hiệu mới, kể cả khi các cập nhật loading bị React batch trong cùng một lượt.
+  useLayoutEffect(() => {
+    if (focusRevision > 0) notifButtonRef.current?.focus()
+  }, [focusRevision])
 
   // Hộp chọn giờ là một hộp thoại thật → phải đủ 6 hành vi a11y (Escape, bẫy tiêu
   // điểm, trả tiêu điểm về nút "Nhắc học", khoá cuộn nền).
@@ -59,26 +99,69 @@ export default function QuickActions() {
   // Bấm nút Nhắc học: đang TẮT → mở hộp chọn giờ; đang BẬT → tắt nhắc.
   function onNotifClick() {
     if (!supported || pushLoading) return
+    if (getNotifPermission() === 'denied') {
+      setPushIssue('denied')
+      setRetryOperation(null)
+      return
+    }
+    setPushIssue(null)
+    setRetryOperation(null)
     if (pushOn) void turnOff()
     else setShowTime(true)
   }
 
   // Lưu giờ đã chọn rồi BẬT nhắc (đăng ký push + gửi giờ UTC lên server)
-  async function confirmTime() {
+  function applyPushResult(result: PushActionResult, operation: PushOperation) {
+    if (result.status === 'success') {
+      setPushOn(operation === 'subscribe')
+      setPushIssue(null)
+      setRetryOperation(null)
+      return
+    }
+
+    if (operation === 'unsubscribe' && result.status === 'partial' && result.serverUpdated) {
+      setPushOn(false)
+    } else if (operation === 'subscribe') {
+      setPushOn(false)
+    }
+    setPushIssue(result.status)
+    setRetryOperation(result.status === 'denied' ? null : operation)
+  }
+
+  async function runPushOperation(operation: PushOperation, restoreFocusOnSuccess = false) {
     if (pushLoading) return
     setPushL(true)
-    localStorage.setItem(remindKey(userId), String(remindHour))
-    const ok = await subscribePush((await getAccessToken()) ?? '', localHourToUtc(remindHour))
-    setPushOn(ok)
-    setPushL(false)
+    // Khi Retry, giữ alert/button trong DOM (ở trạng thái disabled) cho tới khi có kết quả để
+    // focus không rơi về body trong lúc promise đang chạy.
+    if (!restoreFocusOnSuccess) setPushIssue(null)
+    try {
+      const token = (await getAccessToken()) ?? ''
+      const result =
+        operation === 'subscribe'
+          ? await subscribePush(token, localHourToUtc(remindHour))
+          : await unsubscribePush(token)
+      applyPushResult(result, operation)
+      if (restoreFocusOnSuccess && result.status === 'success') {
+        setFocusRevision((revision) => revision + 1)
+      }
+    } catch {
+      applyPushResult({ status: 'failed' }, operation)
+    } finally {
+      setPushL(false)
+    }
+  }
+
+  // Ghi storage chỉ là tiện ích cho lần mở sau: dù thiết bị chặn ghi, giờ vừa chọn vẫn được
+  // chuyển nguyên vẹn cho lần đăng ký hiện tại.
+  async function confirmTime() {
+    if (pushLoading) return
+    setStorageWarning(!saveRemindHour(userId, remindHour))
     setShowTime(false)
+    await runPushOperation('subscribe')
   }
 
   async function turnOff() {
-    setPushL(true)
-    await unsubscribePush((await getAccessToken()) ?? '')
-    setPushOn(false)
-    setPushL(false)
+    await runPushOperation('unsubscribe')
   }
 
   // Nhãn nút Nhắc học theo trạng thái — khi BẬT hiện luôn giờ nhắc
@@ -93,8 +176,6 @@ export default function QuickActions() {
         : isA
           ? 'Nhắc học'
           : 'Remind me'
-
-  if (!user) return null
 
   return (
     <div className="mt-8 pt-5 border-t border-zinc-800/60">
@@ -125,6 +206,7 @@ export default function QuickActions() {
 
         {/* Bật / tắt thông báo nhắc học mỗi ngày */}
         <button
+          ref={notifButtonRef}
           onClick={onNotifClick}
           disabled={!supported || pushLoading}
           aria-label={
@@ -166,6 +248,43 @@ export default function QuickActions() {
             ? 'Nhắc bạn vào học mỗi ngày để giữ chuỗi 🔥 ngày liên tiếp'
             : 'A daily nudge to study and keep your 🔥 streak'}
       </p>
+
+      <div className="min-h-12 mt-2 max-w-md mx-auto text-sm text-zinc-300 text-center">
+        {storageWarning && (
+          <p role="status">
+            {isA
+              ? 'Không thể lưu giờ nhắc trên thiết bị này. Lần mở sau sẽ dùng 20:00.'
+              : 'This device could not save the reminder time. Next time, 20:00 will be used.'}
+          </p>
+        )}
+        {pushIssue && (
+          <div role={pushIssue === 'denied' ? 'status' : 'alert'}>
+            <p>
+              {pushIssue === 'denied'
+                ? isA
+                  ? 'Thông báo đang bị chặn. Hãy bật quyền trong cài đặt trình duyệt.'
+                  : 'Notifications are blocked. Enable them in your browser settings.'
+                : pushIssue === 'partial'
+                  ? isA
+                    ? 'Nhắc học chưa cập nhật hoàn tất. Bạn có thể thử lại.'
+                    : 'The reminder was only partly updated. You can try again.'
+                  : isA
+                    ? 'Không thể cập nhật nhắc học. Vui lòng thử lại.'
+                    : 'The reminder could not be updated. Please try again.'}
+            </p>
+            {retryOperation && (
+              <button
+                type="button"
+                onClick={() => void runPushOperation(retryOperation, true)}
+                disabled={pushLoading}
+                className="min-h-11 mt-1 px-4 rounded-xl font-semibold text-accent-400 theme-light:text-accent-800 hover:bg-zinc-800/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 disabled:opacity-50"
+              >
+                {isA ? 'Thử lại' : 'Retry'}
+              </button>
+            )}
+          </div>
+        )}
+      </div>
 
       {/* Hộp chọn giờ học — hiện khi bật nhắc */}
       {showTime && (

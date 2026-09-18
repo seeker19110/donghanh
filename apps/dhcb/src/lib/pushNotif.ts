@@ -3,6 +3,12 @@
 
 const SW_PATH = '/sw.js'
 
+export type PushActionResult =
+  | { status: 'success' }
+  | { status: 'denied' }
+  | { status: 'failed' }
+  | { status: 'partial'; serverUpdated: boolean; browserUpdated: boolean }
+
 // Kiểm tra trình duyệt có hỗ trợ push không
 export function isPushSupported(): boolean {
   return 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window
@@ -15,8 +21,14 @@ export function getNotifPermission(): NotificationPermission {
 
 // Đăng ký SW + subscribe push, gửi subscription lên server.
 // remindHour: giờ UTC (0–23) muốn được nhắc học mỗi ngày (server gửi đúng giờ này).
-export async function subscribePush(accessToken: string, remindHour?: number): Promise<boolean> {
-  if (!isPushSupported()) return false
+export async function subscribePush(
+  accessToken: string,
+  remindHour?: number,
+): Promise<PushActionResult> {
+  if (!isPushSupported()) return { status: 'failed' }
+  if (getNotifPermission() === 'denied') return { status: 'denied' }
+
+  let browserUpdated = false
 
   try {
     // Lấy VAPID public key từ server
@@ -26,18 +38,15 @@ export async function subscribePush(accessToken: string, remindHour?: number): P
       body: JSON.stringify({ action: 'vapid-key' }),
     })
     if (!res.ok) {
-      console.warn('[push] Failed to fetch VAPID key:', res.status)
-      return false
+      return { status: 'failed' }
     }
     const data = (await res.json()) as unknown
     if (!data || typeof data !== 'object' || !('publicKey' in data)) {
-      console.warn('[push] Invalid VAPID response')
-      return false
+      return { status: 'failed' }
     }
     const { publicKey } = data as { publicKey?: unknown }
     if (typeof publicKey !== 'string' || !publicKey) {
-      console.warn('[push] VAPID key is invalid')
-      return false
+      return { status: 'failed' }
     }
 
     // Đăng ký service worker
@@ -46,7 +55,8 @@ export async function subscribePush(accessToken: string, remindHour?: number): P
 
     // Xin quyền thông báo
     const permission = await Notification.requestPermission()
-    if (permission !== 'granted') return false
+    if (permission === 'denied') return { status: 'denied' }
+    if (permission !== 'granted') return { status: 'failed' }
 
     // Subscribe push (Notification.requestPermission đã hỏi ở trên)
     const existing = await reg.pushManager.getSubscription()
@@ -56,6 +66,7 @@ export async function subscribePush(accessToken: string, remindHour?: number): P
         userVisibleOnly: true,
         applicationServerKey: urlBase64ToUint8Array(publicKey) as unknown as ArrayBuffer,
       }))
+    browserUpdated = true
 
     // Gửi subscription lên server (kèm giờ nhắc nếu có)
     const r = await fetch('/api/push', {
@@ -67,38 +78,57 @@ export async function subscribePush(accessToken: string, remindHour?: number): P
       body: JSON.stringify({ action: 'subscribe', subscription: sub.toJSON(), remindHour }),
     })
     if (!r.ok) {
-      console.warn('[push] Failed to subscribe:', r.status)
-      return false
+      return { status: 'partial', serverUpdated: false, browserUpdated: true }
     }
     const respData = (await r.json()) as unknown
     if (!respData || typeof respData !== 'object' || !('ok' in respData)) {
-      console.warn('[push] Invalid subscribe response')
-      return false
+      return { status: 'partial', serverUpdated: false, browserUpdated: true }
     }
     return (respData as { ok?: unknown }).ok === true
-  } catch (err) {
-    console.warn('[push] đăng ký thất bại:', err)
-    return false
+      ? { status: 'success' }
+      : { status: 'partial', serverUpdated: false, browserUpdated: true }
+  } catch {
+    return browserUpdated
+      ? { status: 'partial', serverUpdated: false, browserUpdated: true }
+      : { status: 'failed' }
   }
 }
 
 // Hủy đăng ký push
-export async function unsubscribePush(accessToken: string): Promise<boolean> {
-  if (!isPushSupported()) return false
+export async function unsubscribePush(accessToken: string): Promise<PushActionResult> {
+  if (!isPushSupported()) return { status: 'failed' }
+  let serverUpdated = false
   try {
     const reg = await navigator.serviceWorker.getRegistration(SW_PATH)
     const sub = await reg?.pushManager?.getSubscription()
-    if (!sub) return true
+    if (!sub) return { status: 'success' }
 
-    await fetch('/api/push', {
+    const response = await fetch('/api/push', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}` },
       body: JSON.stringify({ action: 'unsubscribe', subscription: sub.toJSON() }),
     })
-    await sub.unsubscribe()
-    return true
+    if (!response.ok) return { status: 'failed' }
+
+    const responseData = (await response.json()) as unknown
+    if (
+      !responseData ||
+      typeof responseData !== 'object' ||
+      !('ok' in responseData) ||
+      (responseData as { ok?: unknown }).ok !== true
+    ) {
+      return { status: 'failed' }
+    }
+    serverUpdated = true
+
+    const browserUpdated = await sub.unsubscribe()
+    return browserUpdated
+      ? { status: 'success' }
+      : { status: 'partial', serverUpdated: true, browserUpdated: false }
   } catch {
-    return false
+    return serverUpdated
+      ? { status: 'partial', serverUpdated: true, browserUpdated: false }
+      : { status: 'failed' }
   }
 }
 
