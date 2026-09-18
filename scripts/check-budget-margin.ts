@@ -13,6 +13,10 @@
 
 import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
+import { dirname, join } from 'node:path'
+
+const require = createRequire(import.meta.url)
 
 // Bundle: đã tiêu bao nhiêu % ngân sách thì kêu. 95% = còn 5% đệm.
 const WARN_BUNDLE_AT_PCT = 95
@@ -51,7 +55,11 @@ function readSizeBudgets(): Budget[] {
     console.log('· Bỏ qua bundle: chưa có thư mục dist/ (chạy `npm run build` trước).')
     return []
   }
-  const raw = execFileSync('npx', ['size-limit', '--json'], { encoding: 'utf-8' })
+  // Không gọi `npx`: trên Windows, file shim là `npx.cmd` nên `execFileSync('npx')`
+  // không tìm được lệnh. Resolve đúng CLI dependency cục bộ rồi chạy bằng Node hiện tại
+  // cũng tránh việc npx tải hoặc chọn một phiên bản khác với package-lock.
+  const sizeLimitCli = join(dirname(require.resolve('size-limit/package.json')), 'bin.js')
+  const raw = execFileSync(process.execPath, [sizeLimitCli, '--json'], { encoding: 'utf-8' })
   const entries = JSON.parse(raw) as SizeEntry[]
   return entries.map((e) => ({
     label: e.name,
