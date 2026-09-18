@@ -356,7 +356,10 @@ eslint-disable thừa, và **4 test e2e cũ giả định hành vi khách cũ** 
 
 **Đã thi hành:** lệnh 10 (P1-9a, URL Lập trình → `/goc-hoc-tap/programming`) trong
 `20cb2353`, và lệnh 11 (P1-9b, URL Tiếng Anh → `/goc-hoc-tap/english`) trong `c95240ca`.
-Các route cũ vẫn có redirect tương thích; server/nginx/SEO (P1-9c) là lát kế tiếp.
+Các route cũ vẫn có redirect tương thích; server/nginx/SEO (P1-9c) đã hoàn tất phần mã và tài liệu
+trong lát lệnh 12. Còn hai việc tay:
+người vận hành phải áp dụng các `location` 301 trên VPS theo `docs/deploy-vps-ubuntu.md`, rồi
+đo Google Search Console sau 14 ngày (2026-10-01) để xác nhận URL cũ đã được thay thế.
 
 **Còn lại:** nợ coverage branch, bundle JS, AC-8 visual, S09-3 conflict UI, read-model `stats`
 không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelog. Mỗi lát tiếp theo phải có

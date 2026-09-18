@@ -79,7 +79,7 @@ describe('resumeTarget', () => {
     const point = toResumePoint({ ...session, subjectId: 'english', contentId: 'c1' })
     expect(resumeTarget(point)).toBeUndefined() // chưa truyền dữ liệu cấp
     const target = resumeTarget(point, { cefrLevels: [levelA1] })
-    expect(target?.href).toBe('/lo-trinh-hoc/a1')
+    expect(target?.href).toBe('/goc-hoc-tap/english/lo-trinh/a1')
     expect(target?.title).toBe('Chào hỏi')
   })
 

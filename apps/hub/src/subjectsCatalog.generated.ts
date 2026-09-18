@@ -55,7 +55,7 @@ export const SUBJECT_CATALOG: readonly SubjectCatalogEntry[] = [
     id: 'programming',
     label: 'Lập trình',
     order: 5,
-    ctaPath: '/lap-trinh',
+    ctaPath: '/goc-hoc-tap/programming',
     status: 'live',
   },
 ]
