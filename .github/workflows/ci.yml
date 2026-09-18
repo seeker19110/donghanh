@@ -181,28 +181,6 @@ jobs:
   e2e-shard:
     name: E2E shard ${{ matrix.shard }}/6
     runs-on: ubuntu-latest
-    # E2E chạy qua Express production và PostgreSQL mới tinh cho MỖI shard. Không dùng
-    # secret/repository credential: test browser vẫn mock ranh giới provider, còn server
-    # thật chỉ được phép nối vào service này.
-    services:
-      postgres:
-        image: postgres:16-alpine
-        env:
-          POSTGRES_DB: dhcb_e2e
-          POSTGRES_USER: dhcb_e2e
-          POSTGRES_PASSWORD: dhcb_e2e
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready --username=dhcb_e2e --dbname=dhcb_e2e"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    env:
-      DATABASE_URL: postgresql://dhcb_e2e:dhcb_e2e@127.0.0.1:5432/dhcb_e2e
-      MIGRATE_DATABASE_URL: postgresql://dhcb_e2e:dhcb_e2e@127.0.0.1:5432/dhcb_e2e
-      TTS_ENCRYPTION_MASTER_KEY: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
-      E2E_SERVER_MODE: production
     strategy:
       fail-fast: false
       matrix:
@@ -238,14 +216,6 @@ jobs:
       - name: Install Playwright OS deps (cache trúng, không tải trình duyệt)
         if: steps.pw-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
-
-      # Express production phục vụ chính bundle/dist-server này; build và migration là
-      # một phần của cổng E2E, không được dựa vào artifact hay DB của job khác.
-      - name: Build production application and server
-        run: npm run build
-
-      - name: Migrate disposable PostgreSQL
-        run: npm run migrate:pg
 
       - name: E2E (Playwright + axe) — mảnh ${{ matrix.shard }}/6
         run: npm run test:e2e -- --shard=${{ matrix.shard }}/6

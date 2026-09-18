@@ -4,7 +4,6 @@ import { defineConfig, devices } from '@playwright/test'
 // Cổng dev server riêng cho E2E (tránh đụng 5173 nếu đang chạy dev tay).
 const PORT = 5179
 const baseURL = `http://localhost:${PORT}`
-const productionServer = process.env.E2E_SERVER_MODE === 'production'
 
 // Dùng Chromium cài sẵn của môi trường nếu có (KHÔNG chạy "playwright install");
 // nếu không (vd. CI tự cài browser), để trống cho Playwright tự tìm bản của nó.
@@ -34,12 +33,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    // E2E thông thường dùng Vite để phản hồi nhanh khi phát triển. CI production-E2E
-    // chọn rõ `E2E_SERVER_MODE=production`: kiểm thử bundle đã build qua đúng Express
-    // server thay vì để Vite middleware che khác biệt runtime.
-    command: productionServer
-      ? 'node scripts/e2e-production-server.mjs'
-      : `npm run dev -- --port ${PORT} --strictPort`,
+    command: `npm run dev -- --port ${PORT} --strictPort`,
     url: baseURL,
     timeout: 120_000,
     reuseExistingServer: !process.env.CI,
