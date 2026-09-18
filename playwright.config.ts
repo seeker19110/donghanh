@@ -8,7 +8,13 @@ const baseURL = `http://localhost:${PORT}`
 // Dùng Chromium cài sẵn của môi trường nếu có (KHÔNG chạy "playwright install");
 // nếu không (vd. CI tự cài browser), để trống cho Playwright tự tìm bản của nó.
 const chromiumPath = process.env.PLAYWRIGHT_CHROMIUM_PATH || '/opt/pw-browsers/chromium'
-const launchOptions = existsSync(chromiumPath) ? { executablePath: chromiumPath } : {}
+// Chromium trên Windows có thể làm GPU process crash trong suite E2E dài dù UI/DOM vẫn đúng.
+// E2E không kiểm thử WebGL/GPU, nên tắt GPU chỉ ở Windows để browser runner ổn định.
+const chromiumArgs = process.platform === 'win32' ? ['--disable-gpu'] : []
+const launchOptions = {
+  ...(existsSync(chromiumPath) ? { executablePath: chromiumPath } : {}),
+  ...(chromiumArgs.length > 0 ? { args: chromiumArgs } : {}),
+}
 
 export default defineConfig({
   testDir: './e2e',
