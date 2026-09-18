@@ -4,10 +4,10 @@
 | ----------------- | ------------------------------------------------------------------------------------------------------------- |
 | Goal ID           | GOAL-2026-0915-LEARNING-UX                                                                                    |
 | Owner             | Chủ sản phẩm Đồng Hành; agent chính điều phối và review                                                       |
-| Trạng thái        | SPEC — #920–#924 đã merge; ưu tiên kiến trúc Góc học tập (0S)                                                 |
+| Trạng thái        | ACTIVE — redesign cũ đã merge 12/15 lát; UX-R1 clarity foundation đã được duyệt                               |
 | Bắt đầu           | 2026-09-15                                                                                                    |
 | Target review     | Sau mỗi slice; chưa cam kết ngày phát hành toàn bộ                                                            |
-| Quyền được cấp    | Triển khai tuần tự, mỗi subagent một PR; người dùng đã cấp quyền auto-merge và deployment khi các check đạt   |
+| Quyền được cấp    | Research, branch, PR và auto-merge khi checks đạt; không bao gồm deploy thủ công hoặc production access       |
 | Budget/guardrails | Một outcome/PR/agent; tối đa 3 lần sửa cùng lỗi; không paid provider, production data hoặc secrets trong test |
 
 ## 1. Outcome và Definition of Goal Complete
@@ -95,6 +95,22 @@ Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S →
 
 ## 5. Current truth
 
+> Reconcile mới nhất 2026-09-18 ở `main@2c9025a6` thay cho snapshot cũ bên dưới khi hai phần mâu
+> thuẫn. Iteration log cũ được giữ nguyên làm lịch sử, không phải trạng thái hiện hành.
+
+- PR #1018 đã merge; quality, unit/build/type/lint/format và 6 shard E2E xanh. Canonical URL cho
+  Lập trình/Tiếng Anh cùng server/SEO (lệnh 10–12) đã vào main; nginx production và Search Console
+  vẫn là việc vận hành thủ công.
+- Chuỗi redesign Trang chủ đã merge 12/15 lát. P2-10/P2-12 chưa được duyệt; P2-11 phụ thuộc P2-12.
+- Ảnh thật baseline: Trang chủ thành viên 2.027px và `/tien-do` 3.421px ở viewport 390px.
+- Sản phẩm hiện có đúng ba theme: `dark-blue`, `blue-sky`, `kid`. Chủ dự án chọn giữ ba theme;
+  không phục hồi `pink`/`vibrant`.
+- Spec [UI clarity foundation](../specs/2026-09-18-ui-clarity-foundation.md) được duyệt **chỉ UX-R1**.
+- Next best slice: UX-R1 — sửa reliability/touch foundation trên `/tien-do`; không thêm
+  `ProgressStory` trước khi UX-R3 quyết định cách giảm mật độ.
+- Quyền cần thêm: không cần cho branch/PR/auto-merge UX-R1; cần riêng nếu deploy thủ công hoặc truy
+  cập production.
+
 - Main đã đối chiếu: `f5beb7a1d7d044232b686301e1cb2b0010535a65` (#924). #920–#924 đã merge; [deploy thành công](https://github.com/seeker19110/donghanh/actions/runs/34946596471).
 - Markdown/code, lỗi SubjectDetail và skip link landing đã sửa #924. Công thức toán còn thiếu; StrictMode nạp lịch sử Companion và nhãn animation mobile còn mở trong PROGRESS.
 - Quyết định mới: **Góc học tập `/goc-hoc-tap`**, tiếng Anh ngang hàng môn học, không còn là không gian platform; giữ dữ liệu và link cũ. [Spec 0S](../specs/2026-09-15-goc-hoc-tap-architecture.md) đã được root review cho 01, hiệu lực sau merge; 02–04 cần spec bổ sung.
@@ -172,6 +188,23 @@ Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S →
 - Quyết định: canonical path `/goc-hoc-tap`, host theo cấu hình sẵn; giữ origin hoạt động và key dữ liệu. Không đổi DNS, không gom hoạt động qua origin khi chưa có spec.
 - Bằng chứng: docs-only, validation ghi trong changelog 0323; chưa có test runtime mới hoặc metric mới.
 - Next: 01 sau review/merge spec; 02–04 cần discovery/spec bổ sung.
+
+### Iteration 6 — 2026-09-18 — clarity-first audit và quyết định theme
+
+- State: SPEC → READY.
+- Slice: UX-R1 reliability + touch foundation cho `/tien-do`.
+- Goal gap trước/sau: phản hồi “giao diện rối” chưa có baseline hiện hành → có ảnh thật, audit độc
+  lập và spec nhỏ; source chưa đổi.
+- Research/spec/issue/PR: [UI clarity foundation](../specs/2026-09-18-ui-clarity-foundation.md);
+  issue/PR điền sau.
+- Evidence: ảnh ngoài repo ở 390/1440; chiều cao Trang chủ 2.027/1.395px và Tiến độ
+  3.421/2.195px; audit 3 luồng độc lập.
+- Metric/guardrail: ba theme hiện hành; AAA nội dung, AA control, vùng chạm mobile 44px; không API,
+  schema, migration, paid provider hay production data.
+- Quyết định: phương án A — giữ `dark-blue`, `blue-sky`, `kid`; hoãn P2-10 để không thêm clutter.
+- Blocker: không còn blocker cho UX-R1.
+- Next best slice: merge spec, reload main, rồi thi hành UX-R1 trong PR source riêng.
+- Quyền cần thêm: không; auto-merge chỉ khi required checks xanh.
 
 ## 7. Final audit
 

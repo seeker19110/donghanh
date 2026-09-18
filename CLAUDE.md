@@ -132,12 +132,13 @@ Hệ thống được chuẩn hóa theo 10 bộ quy chuẩn SOTA chuyên biệt 
    - **Nội dung & tiêu đề** (chữ để đọc: `h1–h6`, `p`, `li`, bảng, blockquote…) phải đạt **WCAG AAA** — riêng tương phản là **≥ 7:1**.
    - **Mọi phần còn lại** (nav, nút, badge, ô nhập, biểu tượng…) phải đạt **AA** — sàn cứng, dung sai 0.
    - Lý do không ép AAA toàn site: W3C (_Understanding Conformance_) khuyến nghị KHÔNG lấy AAA làm chính sách cho toàn bộ site vì có nội dung không thể đạt hết AAA.
-   - Gác tự động, **chặn CI**, cả hai cổng TUYỆT ĐỐI (không có baseline/ngoại lệ): `e2e/a11y.spec.ts` (A/AA — 0 vi phạm ở mọi mức tác động) + `e2e/a11y-aaa.spec.ts` (AAA cho nội dung/tiêu đề). Đều quét **15 trang × 5 theme**. Kèm lint `jsx-a11y` (`plugin:jsx-a11y/recommended` trong `.eslintrc.cjs` — bật THẬT từ 2026-09-05; trước đó tài liệu ghi có nhưng gói chưa từng được cài, audit toàn diện F1 phát hiện).
+   - Gác tự động, **chặn CI**, cả hai cổng TUYỆT ĐỐI (không có baseline/ngoại lệ): `e2e/a11y.spec.ts` (A/AA — 0 vi phạm ở mọi mức tác động) + `e2e/a11y-aaa.spec.ts` (AAA cho nội dung/tiêu đề). Đều quét **15 trang × 3 theme hiện hành**. Kèm lint `jsx-a11y` (`plugin:jsx-a11y/recommended` trong `.eslintrc.cjs` — bật THẬT từ 2026-09-05; trước đó tài liệu ghi có nhưng gói chưa từng được cài, audit toàn diện F1 phát hiện).
    - Màu chữ lấy từ token `--z-*`/`--a-*` (`apps/dhcb/src/index.css`) — sửa tương phản thì **sửa token**, đừng vá từng chỗ. Lưu ý `text-white` map sang `--c-white` và **bị đảo thành màu tối ở theme nền sáng**: nền cố định tối (nút thương hiệu OAuth…) phải dùng `text-[#fff]`.
 6. **Không bí mật trong code:** dùng biến môi trường; `.env` đã nằm trong `.gitignore`.
 7. **Mobile-first & hiệu năng:** thiết kế màn nhỏ trước, vùng chạm ≥ 44px; hướng tới ngân sách Core Web Vitals (LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1) — Lighthouse CI _(đang bổ sung)_.
-8. **Theme:** **5 theme, mặc định "Xanh đêm"** (thêm theme "Nhi đồng" — `kid` — tách riêng khỏi
-   danh sách cycle của `ThemeToggle`, xem `packages/core-ui/theme.ts`); dùng design tokens qua
+8. **Theme:** **3 theme, mặc định "Blue sky"**: hai theme tự chọn `blue-sky`/`dark-blue` và theme
+   "Nhi đồng" (`kid`) khóa theo nhóm tuổi, tách khỏi cycle của `ThemeToggle` (chốt lại 2026-09-18,
+   xem `packages/core-ui/theme.ts`); dùng design tokens qua
    biến CSS `--a-*` (`apps/dhcb/src/index.css` + `tailwind.config.js`), **không hard-code màu**;
    giữ màu ngữ nghĩa (xanh lá = "đúng", phân cấp A1–B2/loại từ). AA ở mọi theme.
 9. **Chống lỗi logic:** type-checker không bắt lỗi nghiệp vụ — rà ca biên/rỗng, `null` vs 0, async race/idempotency, thời gian UTC, đếm lượt đúng; mỗi nhánh logic phức tạp có ≥ 1 test ca biên.
