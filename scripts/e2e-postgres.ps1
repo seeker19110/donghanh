@@ -12,8 +12,8 @@ $port = 55432
 $databaseUrl = "postgresql://dhcb_e2e:dhcb_e2e@127.0.0.1:$port/dhcb_e2e"
 
 function Test-ContainerRunning {
-  $name = docker ps --filter "name=^/${containerName}$" --format '{{.Names}}'
-  return $LASTEXITCODE -eq 0 -and $name -eq $containerName
+  $state = docker inspect --format '{{.State.Running}}' $containerName 2>$null
+  return $LASTEXITCODE -eq 0 -and $state -eq 'true'
 }
 
 function Start-DisposablePostgres {
@@ -25,8 +25,8 @@ function Start-DisposablePostgres {
     return
   }
 
-  $existingName = docker ps --all --filter "name=^/${containerName}$" --format '{{.Names}}'
-  if ($LASTEXITCODE -eq 0 -and $existingName -eq $containerName) {
+  $exists = docker container inspect $containerName 2>$null
+  if ($LASTEXITCODE -eq 0) {
     throw "Container $containerName exists but is not running. Run '.\\scripts\\e2e-postgres.ps1 stop' before retrying."
   }
 
