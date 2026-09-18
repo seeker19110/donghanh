@@ -102,6 +102,17 @@ for (const vp of VIEWPORTS) {
       if (MIEN_TRU.has(route)) continue
       await page.goto(route, { waitUntil: 'domcontentloaded' })
       await page.waitForSelector('main', { timeout: 30_000 })
+      // Chờ BottomNav dựng xong sau khi khôi phục user. Màn học có thể chủ ý ẩn nav
+      // bằng focus mode; vẫn đo chiều cao thực tế (0 khi ẩn) và kiểm tràn ngang của route đó.
+      await expect(
+        page.getByRole('navigation', {
+          name: 'Điều hướng chính',
+          exact: true,
+          includeHidden: true,
+        }),
+      ).toBeAttached({
+        timeout: 30_000,
+      })
       // Chờ khối nạp lười dựng xong — đo sớm thì `<main>` còn là khung rỗng của Suspense.
       await page.waitForTimeout(1200)
 
@@ -173,7 +184,7 @@ for (const vp of VIEWPORTS) {
 test('header mobile 360×740: không phần tử nào bị cắt chữ (truncate)', async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 740 })
   await mockLogin(page, 'vi', 'dark-blue')
-  await page.goto('/tro-truyen', { waitUntil: 'domcontentloaded' })
+  await page.goto('/goc-hoc-tap/english/tro-truyen', { waitUntil: 'domcontentloaded' })
   await page.waitForSelector('header')
 
   const cacDoTran = await page.evaluate(() => {

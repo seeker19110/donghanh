@@ -10,7 +10,7 @@
 import { test, expect, type Page } from '@playwright/test'
 import { mockLogin } from './helpers/auth'
 
-const CAP_A1 = '/lo-trinh-hoc/a1'
+const CAP_A1 = '/goc-hoc-tap/english/lo-trinh/a1'
 const TEN = 'Mục lục cấp học'
 
 const mucLuc = (page: Page) => page.getByRole('navigation', { name: TEN })
@@ -107,7 +107,7 @@ test.describe('mục lục cấp CEFR — desktop', () => {
 
   test('cấp còn khoá: không có mục lục, nói rõ lý do của server', async ({ page }) => {
     await mockLogin(page, 'vi', 'dark-blue')
-    await moTrangCap(page, '/lo-trinh-hoc/c1')
+    await moTrangCap(page, '/goc-hoc-tap/english/lo-trinh/c1')
     await expect(page.getByText(/Cấp C1 đang bị khóa/).first()).toBeVisible()
     await expect(mucLuc(page)).toHaveCount(0)
   })
