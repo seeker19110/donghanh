@@ -299,6 +299,22 @@ một host — đó là lý do nó sống sót từ 2026-08-28.
 
 ### Ưu tiên 1d — REDESIGN TRANG CHỦ & TRẢI NGHIỆM HỌC CỐT LÕI (đặc tả `docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md`)
 
+**Current truth clarity-first (2026-09-18, `main@806e77c0`):** UX-R1 đã merge PR #1020; vùng
+chạm calendar/CTA, storage fallback và failure/retry của Web Push trên `/tien-do` đã qua review
+độc lập cuối (0 critical · 0 major · 0 minor) và required CI. UX-R2 giảm nhiễu member Home đã có
+bản `docs/specs/2026-09-18-ui-clarity-home-progressive-disclosure.md`; independent final PASS 0
+critical · 0 major · 0 minor, trạng thái **Approved for implementation — chỉ UX-R2**. Hợp đồng:
+mobile 320/390 progressive disclosure, desktop 1440 giữ chức năng, đúng một entry Tiến độ, năm
+prompt chip collapsed, môn/Sự nghiệp compact nhưng empty CTA giữ nguyên. Adversarial vòng 1 BLOCK
+2 critical · 7 major · 2 minor; bản sửa đã đóng
+phạm vi `<main>`, focus toggle, fixture/settle, resize, Companion state, motion, 44px, artifact CI
+và zero-network. Re-review vòng 2 BLOCK 2 critical · 4 major · 1 minor; đã chốt DOM subject tự
+nhiên, evidence B, responsive state, shell fixture, Date/RAF, CLS observer và error fixture. Vòng
+3 BLOCK 1 critical · 1 major; đã chốt controlled container luôn mounted + HTML `hidden`,
+IDREF/axe/tab và focus transfer trước khi prompt toggle unmount khi lên desktop. Independent final
+đã PASS. Tiếp theo: merge spec → reload main → giao worker source riêng; chưa
+sửa source trên nhánh docs, chưa làm UX-R3, UX-R4 hoặc P2-10.
+
 **[2026-09-17] Đặc tả 15 lệnh đã chốt (§2), chủ dự án ra lệnh thi hành từng lát.** Trạng thái
 sau đợt 1 + đợt 2 + lệnh 8/9 (9/15 lệnh, chạy bằng subagent Sonnet, đã merge):
 
