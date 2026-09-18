@@ -88,8 +88,8 @@ vì phải parse Figma/JSON. Bổ sung skill này bằng **8 mục chuẩn** là
 màn hình mới cho DHCB — không tạo file `DESIGN.md` riêng (dự án đã có `index.css` +
 `tailwind.config.js` làm nguồn sự thật), mà dùng làm CHECKLIST khi review:
 
-1. **Sắc thái & Tâm trạng thị giác (Visual Theme & Atmosphere):** mỗi theme trong 5 theme
-   (🌙 Xanh đêm mặc định · ☀️ Blue sky · 🌸 Pink · 🎉 Rực rỡ · 🧒 Nhi đồng) phải giữ đúng "mood" của nó — độ
+1. **Sắc thái & Tâm trạng thị giác (Visual Theme & Atmosphere):** mỗi theme trong 3 theme hiện hành
+   (☀️ Blue sky mặc định · 🌙 Xanh đêm · 🧒 Nhi đồng) phải giữ đúng "mood" của nó — độ
    đậm nhạt nền, mật độ thông tin, không trộn phong cách giữa các theme khi thêm component mới.
 2. **Bảng màu & Vai trò (Color Palette & Roles):** đã có ở mục 2 (design tokens `--a-*`/`--z-*`,
    không hardcode hex). Bổ sung: khi thêm màu ngữ nghĩa MỚI (không phải accent/zinc có sẵn), phải
@@ -117,7 +117,7 @@ màn hình mới cho DHCB — không tạo file `DESIGN.md` riêng (dự án đ�
      dung/tiêu đề, AA cho phần còn lại.
    - ❌ Không thêm shadow đậm/gradient loè loẹt phá vỡ "mood" theme tối · ❌ Không tự chế cỡ chữ/
      khoảng cách ngoài thang chuẩn · ❌ Không để icon-only thiếu `aria-label` · ❌ Không copy y
-     nguyên phong cách "retro web"/trang ngoài vào DHCB — mọi component mới phải khớp 1 trong 4
+     nguyên phong cách "retro web"/trang ngoài vào DHCB — mọi component mới phải khớp 1 trong 3
      theme sẵn có, không du nhập phong cách rời rạc.
 8. **Hành vi Responsive (mục còn thiếu trước bản V7.0 này) — breakpoint & chiến lược:** mobile-
    first tuyệt đối (mục 4, KHUNG bất biến #7): thiết kế cho màn hẹp nhất trước, dùng breakpoint
@@ -144,7 +144,7 @@ ghi chú mục 5). Chỉ nhập tri thức, diễn đạt lại bằng token và
 Anh (buzzword, em-dash, kicker hero, cream palette…) không áp được cho app học tiếng Việt; nhóm
 tương phản/cấp tiêu đề/cỡ chữ đã có cổng `e2e/a11y.spec.ts` + `a11y-aaa.spec.ts` + `jsx-a11y`
 bắt rồi, nhập vào là dựng cổng thứ hai cho cùng một việc; luật "bỏ font Inter" bị loại vì đổi
-font toàn app đánh đổi CLS + bundle + chạy lại 2 cổng a11y × 15 trang × 5 theme để lấy "cá
+font toàn app đánh đổi CLS + bundle + chạy lại 2 cổng a11y × 15 trang × 3 theme để lấy "cá
 tính" — không đáng.
 
 ### A. Bốn luật MỚI (lấp lỗ hổng V7.0 chưa nói tới)
@@ -187,17 +187,18 @@ tính" — không đáng.
    Tiêu đề tự đủ sức nặng; chữ trong nhãn đó nếu quan trọng thì đưa vào chính tiêu đề hoặc câu
    mở. Đo 2026-09-03: **54 file** đang có mẫu này — chưa gỡ, chỉ chặn không sinh thêm.
 
-> **Đã chốt 2026-09-03 (người dùng quyết) — ĐỪNG mở lại cuộc bàn này.** Đợt đối chiếu đo được
+> **Đã chốt 2026-09-03 và xác nhận lại 2026-09-18 (người dùng quyết) — ĐỪNG mở lại cuộc bàn này.** Đợt đối chiếu đo được
 > **~4.141 lần** dùng màu Tailwind gốc trong `apps/` (`amber` 763 · `emerald` 700 · `rose` 480 ·
 > `sky` 328 · `indigo` 277…). Câu hỏi "có nên token hoá hết không" đã có câu trả lời: **KHÔNG.**
 > Đổi thì chạm >4.000 chỗ với rủi ro thị giác thật, mà lý do an toàn đã không còn — PR #842 đã
 > vá 720 chỗ rớt tương phản ở 3 theme nền sáng và thêm cổng
-> `scripts/fixed-color-contrast-audit.test.ts` đo mọi màu cứng dùng làm màu chữ trên cả 5 theme.
+> `scripts/fixed-color-contrast-audit.test.ts` đo mọi màu cứng dùng làm màu chữ trên cả 3 theme hiện hành.
 >
 > **Luật thi hành khi viết code mới:** dùng màu Tailwind cố định làm màu chữ thì **phải kèm
 > `theme-light:text-<họ>-800/900` ngay từ đầu** — thang `zinc`/`accent`/`content` tự đảo ở theme
 > nền sáng, màu Tailwind gốc thì không. Quên thì cổng trên đỏ và chỉ luôn cách vá. Bậc chọn theo
-> luật "bậc sáng nhất đạt AAA trên cả 3 theme sáng": `slate-700` · `blue/indigo/violet/purple-800`
+> luật lịch sử "bậc sáng nhất đạt AAA trên 3 theme sáng tại thời điểm audit" (nay còn 2 theme sáng
+> `blue-sky`/`kid`): `slate-700` · `blue/indigo/violet/purple-800`
 > · còn lại `-900`.
 
 ---
@@ -210,7 +211,7 @@ trục** và `references/verbs/audit.md` là khuôn rà soát.
 
 **KHÔNG cài công cụ đó vào repo** (`npx skills add nutlope/hallmark`) — nó sinh **landing page
 HTML/CSS thuần một file**, kèm 21 theme + 21 macrostructure + `design.md` riêng. DHCB là React +
-Tailwind + 5 theme + token `--a-*`/`--z-*`, đã có nguồn sự thật riêng (`apps/dhcb/src/index.css` +
+Tailwind + 3 theme + token `--a-*`/`--z-*`, đã có nguồn sự thật riêng (`apps/dhcb/src/index.css` +
 `tailwind.config.js` + `packages/core-ui/theme.ts`). Cài vào là dựng nguồn sự thật thứ hai — đúng
 lý do đã từ chối `pbakaus/impeccable` ở mục 9. **Chỉ nhập tri thức, diễn đạt lại bằng token và quy
 ước DHCB.**

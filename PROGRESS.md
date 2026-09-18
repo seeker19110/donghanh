@@ -69,7 +69,7 @@ từ) dùng để sắp "Mở rộng" theo độ thông dụng thay vì alphabet
 
 **Hạ tầng/chất lượng:** CI gate (lint/typecheck/test/build/format/E2E) trên mọi PR · coverage
 ratchet + bundle-size budget (`size-limit`, thay Lighthouse CI) · a11y AA toàn site qua axe
-(kể cả màn kết quả AI, 4 theme) — **đã đóng nợ a11y** · Zod validate input toàn bộ `api/*.ts` ·
+(kể cả màn kết quả AI, 3 theme hiện hành) — **đã đóng nợ a11y** · Zod validate input toàn bộ `api/*.ts` ·
 Sentry error tracking (**đã bật thật trên VPS, 2026-07-27** — DSN đã điền, đã xác nhận lỗi test
 ghi nhận được) · CI/CD tự deploy + tự chạy migration Postgres khi merge vào `main`
 (`npm run migrate:pg` trong pipeline deploy, không cần chạy tay) · audit bảo mật/logic nhiều đợt
@@ -340,7 +340,7 @@ sau đợt 1 + đợt 2 + lệnh 8/9 (9/15 lệnh, chạy bằng subagent Sonnet
   `companionHasNote?` (mặc định false, nối dữ liệu thật ở lệnh 15). `CAREER_LIFE_PATHS` mới
   trong `navPaths.ts`. CI đỏ 1 vòng: `e2e/english-tools-context.spec.ts` AC-3.2 còn dùng nhãn tab
   "Luyện tập" cũ — sửa theo nhãn mới ("Học"/"Ôn tập"), xanh. Nợ mở: ảnh chụp 1440/390 trước/sau +
-  a11y AAA đủ 15 trang × 5 theme chưa chạy trong phiên thi hành, để CI thật xác nhận.
+  a11y AAA đủ 15 trang × 3 theme hiện hành chưa chạy trong phiên thi hành, để CI thật xác nhận.
 
 Đợt 1 (4 PR đầu) đều dính lỗi CI nhỏ do nhiều slice cùng đụng `Home.tsx`/pattern `theme-light:` —
 đã tự sửa hết trước khi merge (chi tiết: đặc tả §8 "Nghiệm thu"): 1 lỗi format, 1 lỗi mô tả PR
@@ -655,7 +655,7 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   sự nhất quán về hình thức; (b) lý do an toàn — thứ duy nhất đáng đánh đổi rủi ro đó — **đã
   không còn**: 720 chỗ rớt tương phản đã vá xong ở PR #842, và cổng
   `scripts/fixed-color-contrast-audit.test.ts` nay đo MỌI màu cứng dùng làm màu chữ trên cả
-  5 theme mỗi lần `npm test`. Giữ nguyên là giữ cách viết quen thuộc mà vẫn không tái diễn
+  3 theme hiện hành mỗi lần `npm test`. Giữ nguyên là giữ cách viết quen thuộc mà vẫn không tái diễn
   loại lỗi vừa sửa.
   **Luật thi hành cho code mới:** dùng màu Tailwind cố định làm màu chữ thì phải kèm biến thể
   `theme-light:text-<họ>-800/900` NGAY TỪ ĐẦU; quên thì cổng trên đỏ và chỉ luôn cách vá.
