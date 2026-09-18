@@ -84,10 +84,18 @@ test('?cap= cắt số mục của phiên và nói còn bao nhiêu mục sau phi
 
 test('quay lại sau khi bỏ bẵng: nút "Ôn thẻ" trỏ về hub với cap 5', async ({ page }) => {
   const date = vnDateOffset(5)
-  await page.addInitScript(({ key, value }) => localStorage.setItem(key, JSON.stringify(value)), {
-    key: `et_usage_${USER_ID}_${date}`,
-    value: { date, chatCount: 0, writingCount: 0, speakingCount: 0, learnCount: 1 },
-  })
+  await page.addInitScript(
+    ({ usageKey, usage, learnedKey }) => {
+      localStorage.setItem(usageKey, JSON.stringify(usage))
+      // Usage là đa miền; cần bằng chứng English riêng để CTA comeback này hợp lệ.
+      localStorage.setItem(learnedKey, JSON.stringify(['apple']))
+    },
+    {
+      usageKey: `et_usage_${USER_ID}_${date}`,
+      usage: { date, chatCount: 0, writingCount: 0, speakingCount: 0, learnCount: 1 },
+      learnedKey: `et_learned_${USER_ID}`,
+    },
+  )
   await seedSrs(page, { apple: theQuaHan(Date.now() - 86_400_000) })
   await mockLogin(page, 'vi')
   await page.goto('/', { waitUntil: 'domcontentloaded' })

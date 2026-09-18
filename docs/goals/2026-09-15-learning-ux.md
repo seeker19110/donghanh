@@ -4,7 +4,7 @@
 | ----------------- | ------------------------------------------------------------------------------------------------------------- |
 | Goal ID           | GOAL-2026-0915-LEARNING-UX                                                                                    |
 | Owner             | Chủ sản phẩm Đồng Hành; agent chính điều phối và review                                                       |
-| Trạng thái        | ACTIVE — UX-R1 đã merge #1020; UX-R2 Approved, chờ merge spec rồi thi hành                                    |
+| Trạng thái        | ACTIVE — UX-R1 và spec UX-R2 đã merge; source UX-R2 đã verify, chờ PR/CI/merge                                |
 | Bắt đầu           | 2026-09-15                                                                                                    |
 | Target review     | Sau mỗi slice; chưa cam kết ngày phát hành toàn bộ                                                            |
 | Quyền được cấp    | Research, branch, PR và auto-merge khi checks đạt; không bao gồm deploy thủ công hoặc production access       |
@@ -109,10 +109,12 @@ Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S →
 - Sản phẩm hiện có đúng ba theme: `dark-blue`, `blue-sky`, `kid`. Chủ dự án chọn giữ ba theme;
   không phục hồi `pink`/`vibrant`.
 - Spec [UI clarity foundation](../specs/2026-09-18-ui-clarity-foundation.md) đã thi hành phần
-  **UX-R1**. [UX-R2 Home progressive disclosure](../specs/2026-09-18-ui-clarity-home-progressive-disclosure.md)
-  đã **Approved for implementation — chỉ UX-R2**, independent final PASS 0/0/0.
-- Next best slice: merge PR spec UX-R2; reload main rồi giao một worker triển khai đúng bốn file
-  runtime. Không thêm `ProgressStory` trước khi UX-R3 quyết định mật độ.
+  **UX-R1**. Spec [UX-R2 Home progressive disclosure](../specs/2026-09-18-ui-clarity-home-progressive-disclosure.md)
+  đã merge #1021. Candidate source cuối đạt height 1.663/1.581/1.423px ở 320/390/1440;
+  independent matrix 33 case xanh, max CLS 0,069396.
+- Next best slice: hoàn tất independent review + gate/CI rồi merge source UX-R2; sau đó reload
+  `main` và soạn spec UX-R3. Quyết định sản phẩm đã chốt: không tạo `ProgressStory` độc lập,
+  hợp nhất narrative vào khối “Tuần này”.
 - Quyền cần thêm: không cần cho docs review/branch/PR/auto-merge; cần riêng nếu deploy thủ công hoặc truy
   cập production.
 
@@ -234,6 +236,30 @@ Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S →
 - Blocker: không còn product/spec blocker; source vẫn chờ spec merge theo delivery loop.
 - Next best slice: merge spec, reload main, giao worker source UX-R2 và chạy đủ gate/evidence.
 - Quyền cần thêm: không cần thêm cho docs PR/auto-merge; deploy vẫn ngoài phạm vi.
+
+### Iteration 8 — 2026-09-18 — thi hành và verify UX-R2
+
+- State: IMPLEMENT → VERIFY; slice UX-R2 source trên base spec đã merge `809ee3a4`.
+- Goal gap trước/sau: Home canonical 320/390 cao 2.082/1.906px, hai entry Tiến độ và năm chip
+  focusable sẵn → candidate còn 1.663/1.581px, đúng một entry và 0 chip trước disclosure;
+  desktop 1.423px giữ năm chip/sáu môn/shortcut trong budget 1.459px.
+- Thay đổi: progressive disclosure prompt và môn; compact Companion/Sự nghiệp; ancestor Home ổn
+  định qua resize; reserve loading/validation/comeback; test canonical 33 state/theme/viewport.
+- Evidence: BEFORE `806e77c0`, fixture hash `8e5052…1774`; independent AFTER matrix 5/5 và
+  capture 1/1, max CLS 0,069396; không overflow/request ngoài fixture. Chi tiết ở changelog 0369.
+- Review findings đã đóng: stale focus sau blur; skeleton reserve lệch; status chưa AAA; 1/5 chip
+  và thiếu Tab 4→5→6; validation wrap; comeback async CLS; completed-English giữ khoảng trắng;
+  mock loader rò giữa test.
+- Guardrails: không route/API/schema/migration/dependency, không paid provider/production data;
+  người chỉ học Lập trình không nhận comeback English.
+- Quyết định UX-R3: chủ dự án chọn phương án A — bỏ `ProgressStory` độc lập, hợp nhất narrative
+  vào “Tuần này”; P2-10 được supersede khi spec UX-R3 được viết.
+- Verification: final independent review PASS 0 critical/major/minor; build, typecheck, lint,
+  format, budget, 14.925 unit test và 77 test tập trung đều xanh. Full E2E đóng cả 7 regression
+  comeback; một race ngoài phạm vi `sync-offline` PASS ở full trước và PASS 1/1 khi chạy cô lập.
+- Blocker: không còn source/evidence blocker; chờ required quality/e2e CI của PR; không deploy.
+- Next best slice: merge UX-R2 khi quality/e2e xanh, reload main, rồi tạo spec UX-R3 từ audit mới.
+- Quyền cần thêm: không cần cho PR/auto-merge; deploy/production access vẫn ngoài phạm vi.
 
 ## 7. Final audit
 

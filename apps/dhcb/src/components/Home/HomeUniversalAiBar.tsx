@@ -10,7 +10,7 @@
 // Thay bằng đúng thứ ô này làm được thật: ĐOÁN NƠI HỌC PHÙ HỢP theo từ khoá, nói rõ đó chỉ là
 // gợi ý điều hướng, rồi đưa người dùng tới đó kèm nguyên văn câu hỏi. Việc trả lời để cho trang
 // đích (có AI thật) làm.
-import React, { useState, useRef, useMemo, useCallback } from 'react'
+import React, { useState, useRef, useMemo, useCallback, useLayoutEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Sparkles,
@@ -93,7 +93,11 @@ const PROMPT_CHIPS: PromptChip[] = [
   },
 ]
 
-export default function HomeUniversalAiBar() {
+interface HomeUniversalAiBarProps {
+  isDesktop: boolean
+}
+
+export default function HomeUniversalAiBar({ isDesktop }: HomeUniversalAiBarProps) {
   const nav = useNavigate()
   const toast = useToast()
   const { user, isGuest } = useAuth()
@@ -106,10 +110,22 @@ export default function HomeUniversalAiBar() {
     memoryOnly: boolean
   } | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [expanded, setExpanded] = useState(false)
+  const effectiveVisible = isDesktop || expanded
   // Người dùng đã xử lý (dùng lại / bỏ qua) lời mời khôi phục câu hỏi cũ chưa.
   const [leftoverHandled, setLeftoverHandled] = useState(false)
 
   const stopVoiceRef = useRef<(() => void) | null>(null)
+  const firstPromptRef = useRef<HTMLButtonElement | null>(null)
+  // Ghi nhận focus bằng event thay vì đọc DOM ref trong render. Blur luôn xóa cờ, kể cả
+  // relatedTarget=null (click vùng không focusable), để resize sau đó không cướp focus.
+  const promptToggleFocusedRef = useRef(false)
+
+  useLayoutEffect(() => {
+    if (!isDesktop || !promptToggleFocusedRef.current) return
+    promptToggleFocusedRef.current = false
+    firstPromptRef.current?.focus()
+  }, [isDesktop])
 
   // Trên màn hẹp, panel gợi ý nằm dưới mép màn hình — bấm xong mà không thấy gì hiện ra thì
   // người dùng tưởng nút hỏng. Ref dạng hàm chạy đúng lúc panel gắn vào DOM, cuộn nó lên vừa đủ.
@@ -225,7 +241,7 @@ export default function HomeUniversalAiBar() {
   const needsLogin = Boolean(suggestion?.destination.isCompanion && (!user || isGuest))
 
   return (
-    <div className="w-full mb-4 animate-fade-up">
+    <div className="w-full mb-4 animate-fade-up motion-reduce:animate-none">
       {/* Câu hỏi còn lại từ lúc chưa đăng nhập */}
       {guestLeftover && (
         <div className="mb-2 flex flex-wrap items-center gap-2 rounded-2xl border border-line-strong bg-surface-card px-3 py-2 text-xs text-content">
@@ -236,7 +252,7 @@ export default function HomeUniversalAiBar() {
           <button
             type="button"
             onClick={askAgain}
-            className="tap-44 rounded-xl bg-accent-500 px-3 py-1.5 text-xs font-semibold text-[#09090b] transition hover:bg-accent-400"
+            className="tap-44 rounded-xl bg-accent-500 px-3 py-1.5 text-xs font-semibold text-[#09090b] transition-colors hover:bg-accent-400"
           >
             Dùng lại câu hỏi
           </button>
@@ -246,7 +262,7 @@ export default function HomeUniversalAiBar() {
               clearDraft()
               setLeftoverHandled(true)
             }}
-            className="tap-44 rounded-xl px-3 py-1.5 text-xs font-medium text-content-secondary transition hover:bg-surface-raised hover:text-content"
+            className="tap-44 rounded-xl px-3 py-1.5 text-xs font-medium text-content-secondary transition-colors hover:bg-surface-raised hover:text-content"
           >
             Bỏ qua
           </button>
@@ -256,7 +272,7 @@ export default function HomeUniversalAiBar() {
       {/* Universal Ask Bar */}
       <form
         onSubmit={handleSubmit}
-        className={`relative flex items-center gap-2 bg-zinc-900/90 border rounded-2xl p-2 sm:p-2.5 transition-all duration-200 shadow-lg shadow-black/20 ${
+        className={`relative flex items-center gap-2 bg-zinc-900/90 border rounded-2xl p-2 sm:p-2.5 transition-colors duration-200 shadow-lg shadow-black/20 ${
           isListening
             ? 'border-rose-500 ring-2 ring-rose-500/20 bg-zinc-900'
             : 'border-zinc-800 focus-within:border-accent-500/80 focus-within:ring-2 focus-within:ring-accent-500/20'
@@ -265,7 +281,7 @@ export default function HomeUniversalAiBar() {
         <div className="pl-2.5 text-zinc-400">
           {isListening ? (
             <span className="relative flex h-4 w-4">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
+              <span className="animate-ping motion-reduce:animate-none absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-4 w-4 bg-rose-500" />
             </span>
           ) : (
@@ -292,9 +308,9 @@ export default function HomeUniversalAiBar() {
           type="button"
           onClick={toggleVoice}
           aria-label={isListening ? 'Dừng lắng nghe' : 'Hỏi bằng giọng nói'}
-          className={`tap-44 p-2 rounded-xl transition-all duration-200 flex items-center justify-center shrink-0 ${
+          className={`tap-44 p-2 rounded-xl transition-colors duration-200 flex items-center justify-center shrink-0 ${
             isListening
-              ? 'bg-rose-500 text-white shadow-md shadow-rose-500/25 animate-pulse'
+              ? 'bg-rose-500 text-white shadow-md shadow-rose-500/25 animate-pulse motion-reduce:animate-none'
               : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white'
           }`}
         >
@@ -306,9 +322,9 @@ export default function HomeUniversalAiBar() {
           type="submit"
           disabled={!query.trim()}
           aria-label="Tìm nơi học cho câu hỏi này"
-          className={`tap-44 px-3 py-2 rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 shrink-0 text-xs font-semibold ${
+          className={`tap-44 px-3 py-2 rounded-xl transition-colors duration-200 flex items-center justify-center gap-1.5 shrink-0 text-xs font-semibold ${
             query.trim()
-              ? 'bg-accent-500 hover:bg-accent-400 text-[#09090b] shadow-md active:scale-95'
+              ? 'bg-accent-500 hover:bg-accent-400 text-[#09090b] shadow-md active:scale-95 motion-reduce:transform-none'
               : 'bg-zinc-800/80 text-zinc-500 cursor-not-allowed'
           }`}
         >
@@ -317,31 +333,53 @@ export default function HomeUniversalAiBar() {
         </button>
       </form>
 
-      {error && (
-        <p
-          role="alert"
-          className="mt-2 px-1 text-xs font-medium text-rose-300 theme-light:text-rose-900"
+      {/* Copy validation dài tối đa ba dòng ở 320px: 3×16px line-height + 8px margin = 56px.
+          Reserve sẵn đúng 3.5rem để toggle/panel bên dưới không dịch khi lỗi xuất hiện. */}
+      <div className="min-h-14">
+        {error && (
+          <p
+            role="alert"
+            className="mt-2 px-1 text-xs font-medium text-rose-300 theme-light:text-rose-900"
+          >
+            {error}
+          </p>
+        )}
+      </div>
+
+      {!isDesktop && (
+        <button
+          type="button"
+          aria-expanded={expanded}
+          aria-controls="home-prompt-chips"
+          onFocus={() => {
+            promptToggleFocusedRef.current = true
+          }}
+          onBlur={() => {
+            promptToggleFocusedRef.current = false
+          }}
+          onClick={() => setExpanded((current) => !current)}
+          className="tap-44 mt-1 w-full rounded-xl border border-zinc-800 px-3 py-2.5 text-sm font-medium text-zinc-300 transition-colors hover:border-zinc-700 hover:text-white focus-visible:ring-2 focus-visible:ring-accent-500"
         >
-          {error}
-        </p>
+          {expanded ? 'Ẩn gợi ý nhanh' : `Xem ${PROMPT_CHIPS.length} gợi ý nhanh`}
+        </button>
       )}
 
-      {/* Quick Prompt Starter Chips */}
-      {/* Mask mờ dần ở mép phải = dấu hiệu "còn cuộn được nữa". Dùng mask thay vì lớp
-          gradient màu để không phải đoán màu nền theo từng theme. */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pt-2.5 pb-1 scrollbar-none [mask-image:linear-gradient(to_right,black_calc(100%-2rem),transparent)]">
-        <span className="text-[11px] text-zinc-500 font-semibold uppercase tracking-wider pl-1 shrink-0">
-          Gợi ý nhanh:
-        </span>
+      {/* Chỉ một panel chip trong DOM. HTML hidden loại descendants khỏi tab order và a11y tree. */}
+      <div
+        id="home-prompt-chips"
+        hidden={!effectiveVisible}
+        className={`${effectiveVisible ? 'flex' : 'hidden'} items-center gap-1.5 overflow-x-auto pt-2.5 pb-1 scrollbar-none [mask-image:linear-gradient(to_right,black_calc(100%-2rem),transparent)]`}
+      >
         {PROMPT_CHIPS.map((chip) => (
           <button
             key={chip.id}
+            ref={chip.id === PROMPT_CHIPS[0]?.id ? firstPromptRef : undefined}
             type="button"
             onClick={() => {
               setQuery(chip.query)
               suggest(chip.query)
             }}
-            className={`tap-44 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-zinc-900/80 border border-zinc-800/80 transition-all duration-200 shrink-0 shadow-sm active:scale-95 ${chip.badgeColor}`}
+            className={`tap-44 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-zinc-900/80 border border-zinc-800/80 transition-colors duration-200 shrink-0 shadow-sm active:scale-95 motion-reduce:transform-none ${chip.badgeColor}`}
           >
             <span>{chip.label}</span>
           </button>
@@ -354,7 +392,7 @@ export default function HomeUniversalAiBar() {
         <section
           ref={focusSuggestion}
           aria-label="Gợi ý nơi học"
-          className="mt-3 scroll-mb-28 rounded-2xl border border-line-subtle bg-surface-card p-3 sm:p-4 shadow-lg animate-fade-in"
+          className="mt-3 scroll-mb-28 rounded-2xl border border-line-subtle bg-surface-card p-3 sm:p-4 shadow-lg animate-fade-in motion-reduce:animate-none"
         >
           <div className="flex items-start justify-between gap-3 border-b border-line-subtle pb-2.5">
             <div className="flex items-center gap-2.5">
@@ -372,7 +410,7 @@ export default function HomeUniversalAiBar() {
               type="button"
               onClick={() => setSuggestion(null)}
               aria-label="Đóng gợi ý nơi học"
-              className="tap-44 rounded-xl p-1.5 text-content-muted transition hover:bg-surface-raised hover:text-content"
+              className="tap-44 rounded-xl p-1.5 text-content-muted transition-colors hover:bg-surface-raised hover:text-content"
             >
               <X className="h-5 w-5" />
             </button>
@@ -400,7 +438,7 @@ export default function HomeUniversalAiBar() {
             <button
               type="button"
               onClick={copyQuestion}
-              className="tap-44 flex items-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-medium text-content-secondary transition hover:bg-surface-raised hover:text-content"
+              className="tap-44 flex items-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-medium text-content-secondary transition-colors hover:bg-surface-raised hover:text-content"
             >
               <Copy className="h-4 w-4" aria-hidden="true" />
               <span>Sao chép câu hỏi</span>
@@ -412,7 +450,7 @@ export default function HomeUniversalAiBar() {
                   setSuggestion(null)
                   nav('/login')
                 }}
-                className="tap-44 flex items-center gap-1.5 rounded-xl bg-accent-500 px-5 py-2.5 text-xs font-semibold text-[#09090b] shadow-md transition hover:bg-accent-400 active:scale-95"
+                className="tap-44 flex items-center gap-1.5 rounded-xl bg-accent-500 px-5 py-2.5 text-xs font-semibold text-[#09090b] shadow-md transition-colors hover:bg-accent-400 active:scale-95 motion-reduce:transform-none"
               >
                 <LogIn className="h-4 w-4" aria-hidden="true" />
                 <span>Đăng nhập để hỏi Bạn Đồng Hành</span>
@@ -421,7 +459,7 @@ export default function HomeUniversalAiBar() {
               <button
                 type="button"
                 onClick={openDestination}
-                className="tap-44 flex items-center gap-1.5 rounded-xl bg-accent-500 px-5 py-2.5 text-xs font-semibold text-[#09090b] shadow-md transition hover:bg-accent-400 active:scale-95"
+                className="tap-44 flex items-center gap-1.5 rounded-xl bg-accent-500 px-5 py-2.5 text-xs font-semibold text-[#09090b] shadow-md transition-colors hover:bg-accent-400 active:scale-95 motion-reduce:transform-none"
               >
                 <span>Mở {suggestion.destination.label}</span>
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />

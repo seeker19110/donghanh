@@ -68,7 +68,9 @@ describe('SubjectSpaceList', () => {
   }
 
   function titles() {
-    return Array.from(container.querySelectorAll('h3')).map((h) => h.textContent ?? '')
+    return Array.from(container.querySelectorAll('h3'))
+      .filter((h) => !h.closest('ul')?.hidden)
+      .map((h) => h.textContent ?? '')
   }
 
   function xemTatCaButton() {
@@ -96,10 +98,12 @@ describe('SubjectSpaceList', () => {
   it('AC-3: chuỗi trạng thái chỉ ∈ {"đang học · …", "chưa bắt đầu"}, không có ký tự %', () => {
     const plan = planVoiPrimary(nextItem('programming', 'Sự rơi tự do'))
     render({ plan, isDesktop: true })
-    const statuses = Array.from(container.querySelectorAll('p')).map((p) => p.textContent ?? '')
-    const trangThai = statuses.filter((s) => s.startsWith('đang học · ') || s === 'chưa bắt đầu')
-    expect(trangThai.length).toBeGreaterThanOrEqual(SUBJECT_ENTRIES.length)
-    expect(trangThai).toContain('đang học · Sự rơi tự do')
+    const statusNodes = Array.from(container.querySelectorAll('p')).filter(
+      (p) => p.textContent?.startsWith('đang học · ') || p.textContent === 'chưa bắt đầu',
+    )
+    expect(statusNodes.length).toBeGreaterThanOrEqual(SUBJECT_ENTRIES.length)
+    expect(statusNodes.map((p) => p.textContent)).toContain('đang học · Sự rơi tự do')
+    expect(statusNodes.every((p) => p.classList.contains('text-content-secondary'))).toBe(true)
     expect(container.textContent).not.toContain('%')
   })
 
@@ -133,5 +137,61 @@ describe('SubjectSpaceList', () => {
     render({ plan, isDesktop: true })
     const bienBiology = SUBJECT_ENTRIES.find((e) => e.id === 'biology')?.label
     expect(titles()[0]).toBe(bienBiology)
+  })
+
+  it('mobile có DOM 1–3 → toggle → list 4–6 stable-id; collapse giữ focus và hidden', () => {
+    render({ plan: null, isDesktop: false })
+    const lists = container.querySelectorAll('ul')
+    const toggle = xemTatCaButton() as HTMLButtonElement
+    const revealed = container.querySelector('#home-subjects-revealed') as HTMLUListElement
+    expect(lists).toHaveLength(2)
+    expect(lists[0].nextElementSibling).toBe(toggle)
+    expect(toggle.nextElementSibling).toBe(revealed)
+    expect(toggle.getAttribute('aria-controls')).toBe('home-subjects-revealed')
+    expect(revealed.hidden).toBe(true)
+
+    toggle.focus()
+    act(() => toggle.click())
+    expect(revealed.hidden).toBe(false)
+    expect(titles()).toHaveLength(SUBJECT_ENTRIES.length)
+    expect(document.activeElement).toBe(toggle)
+    expect(toggle.textContent).toBe('Thu gọn danh sách môn')
+
+    act(() => toggle.click())
+    expect(revealed.hidden).toBe(true)
+    expect(document.activeElement).toBe(toggle)
+  })
+
+  it('mobile compact không render mô tả/shortcut nhưng empty CTA của 3 môn visible vẫn còn', () => {
+    render({ plan: planVoiPrimary(pickItem()), isDesktop: false })
+    expect(container.textContent).not.toContain('Lộ trình CEFR')
+    expect(container.textContent).not.toContain('Gia sư song ngữ')
+    const visibleCtas = Array.from(container.querySelectorAll('button')).filter(
+      (button) => button.textContent === 'Thử 5 phút' && !button.closest('ul')?.hidden,
+    )
+    expect(visibleCtas).toHaveLength(3)
+  })
+
+  it('roundtrip mobile→desktop→mobile giữ lựa chọn đã mở', () => {
+    render({ plan: null, isDesktop: false })
+    act(() => xemTatCaButton()?.click())
+    act(() => {
+      root.render(
+        <MemoryRouter initialEntries={['/']}>
+          <SubjectSpaceList plan={null} isDesktop />
+        </MemoryRouter>,
+      )
+    })
+    expect(xemTatCaButton()).toBeFalsy()
+    expect(titles()).toHaveLength(SUBJECT_ENTRIES.length)
+    act(() => {
+      root.render(
+        <MemoryRouter initialEntries={['/']}>
+          <SubjectSpaceList plan={null} isDesktop={false} />
+        </MemoryRouter>,
+      )
+    })
+    expect(container.querySelector('#home-subjects-revealed')?.hasAttribute('hidden')).toBe(false)
+    expect(container.textContent).toContain('Thu gọn danh sách môn')
   })
 })

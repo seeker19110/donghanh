@@ -12,6 +12,7 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { MemoryRouter } from 'react-router-dom'
 import { SUBJECT_ENTRIES } from '@dhcb/core-learner/subjectEntry'
+import { vnDateStr } from '../../lib/date'
 
 ;(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
 
@@ -19,8 +20,29 @@ vi.mock('../../components/FirstTaskCard', () => ({ default: () => null }))
 vi.mock('../../components/Layout.js', () => ({ default: () => null }))
 vi.mock('../../components/PricePromoBanner.js', () => ({ default: () => null }))
 vi.mock('../../components/RewardTipBanner.js', () => ({ default: () => null }))
-vi.mock('../../components/Home/HomeAiBriefingCard.js', () => ({ default: () => null }))
-vi.mock('../../components/Home/HomeUniversalAiBar.js', () => ({ default: () => null }))
+vi.mock('../../components/Home/HomeAiBriefingCard.js', () => ({
+  default: ({
+    isDesktop,
+    reserveComeback,
+    comeback,
+  }: {
+    isDesktop: boolean
+    reserveComeback?: boolean
+    comeback?: unknown
+  }) => (
+    <div
+      data-testid="home-companion"
+      data-desktop={String(isDesktop)}
+      data-reserve-comeback={String(reserveComeback ?? false)}
+      data-has-comeback={String(Boolean(comeback))}
+    />
+  ),
+}))
+vi.mock('../../components/Home/HomeUniversalAiBar.js', () => ({
+  default: ({ isDesktop }: { isDesktop: boolean }) => (
+    <div data-testid="home-quick-ask" data-desktop={String(isDesktop)} />
+  ),
+}))
 vi.mock('../../lib/useCloudSync', () => ({ useCloudSync: () => 0 }))
 vi.mock('../../lib/usePageTitle', () => ({ usePageTitle: () => undefined }))
 vi.mock('../../lib/useIsDesktopViewport', () => ({ useIsDesktopViewport: () => false }))
@@ -36,12 +58,30 @@ function mockAuth(user: { id: string; name: string; email: string; isGuest?: boo
   }))
 }
 
+function seedActivityDaysAgo(uid: string, daysAgo: number) {
+  const date = new Date()
+  date.setDate(date.getDate() - daysAgo)
+  const dateKey = vnDateStr(date)
+  localStorage.setItem(
+    `et_usage_${uid}_${dateKey}`,
+    JSON.stringify({
+      date: dateKey,
+      chatCount: 0,
+      writingCount: 0,
+      speakingCount: 0,
+      sttCount: 0,
+      learnCount: 1,
+    }),
+  )
+}
+
 describe('Home — khối Bộ môn & không gian dùng SUBJECT_ENTRIES (AC-19)', () => {
   let container: HTMLDivElement
   let root: Root
 
   beforeEach(() => {
     vi.resetModules()
+    localStorage.clear()
     container = document.createElement('div')
     document.body.appendChild(container)
   })
@@ -50,6 +90,10 @@ describe('Home — khối Bộ môn & không gian dùng SUBJECT_ENTRIES (AC-19)'
     act(() => root.unmount())
     container.remove()
     vi.doUnmock('../../context/useAuth')
+    vi.doUnmock('../../data/cefrLoader')
+    vi.doUnmock('../../data/curriculumLoader')
+    vi.resetModules()
+    localStorage.clear()
   })
 
   async function hien() {
@@ -102,6 +146,92 @@ describe('Home — khối Bộ môn & không gian dùng SUBJECT_ENTRIES (AC-19)'
     mockAuth({ id: 'guest_1', name: 'Khách', email: '', isGuest: true })
     await hien()
     expect(container.querySelector('#today-card-heading')).toBeNull()
+  })
+
+  it('member mobile giữ thứ tự Companion → Today → Hỏi nhanh và chỉ một control Tiến độ trong main', async () => {
+    mockAuth({ id: 'u1', name: 'An', email: 'an@vd.vn' })
+    await hien()
+    const companion = container.querySelector('[data-testid="home-companion"]')
+    const today = container.querySelector('#today-card-heading')
+    const quickAsk = container.querySelector('[data-testid="home-quick-ask"]')
+    expect(companion?.getAttribute('data-desktop')).toBe('false')
+    expect(companion?.compareDocumentPosition(today!) & Node.DOCUMENT_POSITION_FOLLOWING).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    )
+    expect(today?.compareDocumentPosition(quickAsk!) & Node.DOCUMENT_POSITION_FOLLOWING).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    )
+    expect(container.querySelectorAll('button[aria-label="Xem bảng tiến độ"]')).toHaveLength(1)
+    expect(container.textContent).not.toContain('Xem tiến độ')
+  })
+
+  it('member mobile Sự nghiệp chỉ còn entry chính, không render bốn shortcut', async () => {
+    mockAuth({ id: 'u1', name: 'An', email: 'an@vd.vn' })
+    await hien()
+    expect(container.textContent).toContain('Sự nghiệp, Khởi nghiệp & Đời sống')
+    for (const shortcut of ['Phỏng vấn thử', 'Công việc', 'Lean Canvas', 'Đời sống']) {
+      expect(
+        Array.from(container.querySelectorAll('button')).some(
+          (button) => button.textContent?.trim() === shortcut,
+        ),
+      ).toBe(false)
+    }
+  })
+
+  it('có bằng chứng English + vắng 5 ngày: reserve comeback bật ngay trước CEFR async', async () => {
+    vi.doMock('../../data/cefrLoader', () => ({ loadCefr: () => new Promise(() => {}) }))
+    vi.doMock('../../data/curriculumLoader', () => ({
+      loadFoundation: () => new Promise(() => {}),
+    }))
+    localStorage.setItem('et_learned_u1', JSON.stringify(['hello']))
+    seedActivityDaysAgo('u1', 5)
+    mockAuth({ id: 'u1', name: 'An', email: 'an@vd.vn' })
+    await hien()
+    const companion = container.querySelector('[data-testid="home-companion"]')
+    expect(companion?.getAttribute('data-reserve-comeback')).toBe('true')
+  })
+
+  it('English đã hoàn thành, loader settle nhưng không còn next: gỡ reserve 173px', async () => {
+    vi.doMock('../../data/cefrLoader', () => ({ loadCefr: async () => [] }))
+    vi.doMock('../../data/curriculumLoader', () => ({ loadFoundation: async () => [] }))
+    localStorage.setItem('et_learned_u1', JSON.stringify(['hello']))
+    seedActivityDaysAgo('u1', 5)
+    mockAuth({ id: 'u1', name: 'An', email: 'an@vd.vn' })
+    await hien()
+    await act(async () => {
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+    const companion = container.querySelector('[data-testid="home-companion"]')
+    expect(companion?.getAttribute('data-reserve-comeback')).toBe('false')
+    expect(companion?.getAttribute('data-has-comeback')).toBe('false')
+  })
+
+  it('loader CEFR lỗi: bắt rejection và gỡ reserve thay vì giữ khoảng trắng vĩnh viễn', async () => {
+    vi.doMock('../../data/cefrLoader', () => ({
+      loadCefr: async () => Promise.reject(new Error('fixture CEFR lỗi')),
+    }))
+    vi.doMock('../../data/curriculumLoader', () => ({ loadFoundation: async () => [] }))
+    localStorage.setItem('et_learned_u1', JSON.stringify(['hello']))
+    seedActivityDaysAgo('u1', 5)
+    mockAuth({ id: 'u1', name: 'An', email: 'an@vd.vn' })
+    await hien()
+    await act(async () => {
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+    const companion = container.querySelector('[data-testid="home-companion"]')
+    expect(companion?.getAttribute('data-reserve-comeback')).toBe('false')
+    expect(companion?.getAttribute('data-has-comeback')).toBe('false')
+  })
+
+  it('chỉ có hoạt động Programming, không bằng chứng English: không comeback và không reserve', async () => {
+    seedActivityDaysAgo('u1', 5)
+    mockAuth({ id: 'u1', name: 'An', email: 'an@vd.vn' })
+    await hien()
+    const companion = container.querySelector('[data-testid="home-companion"]')
+    expect(companion?.getAttribute('data-reserve-comeback')).toBe('false')
+    expect(companion?.getAttribute('data-has-comeback')).toBe('false')
   })
 })
 
