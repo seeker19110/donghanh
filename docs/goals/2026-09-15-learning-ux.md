@@ -4,7 +4,7 @@
 | ----------------- | ------------------------------------------------------------------------------------------------------------- |
 | Goal ID           | GOAL-2026-0915-LEARNING-UX                                                                                    |
 | Owner             | Chủ sản phẩm Đồng Hành; agent chính điều phối và review                                                       |
-| Trạng thái        | ACTIVE — UX-R1 và spec UX-R2 đã merge; source UX-R2 đã verify, chờ PR/CI/merge                                |
+| Trạng thái        | ACTIVE — UX-R1/UX-R2 đã merge; spec toàn UX-R3 Approved, chờ PR docs merge                                    |
 | Bắt đầu           | 2026-09-15                                                                                                    |
 | Target review     | Sau mỗi slice; chưa cam kết ngày phát hành toàn bộ                                                            |
 | Quyền được cấp    | Research, branch, PR và auto-merge khi checks đạt; không bao gồm deploy thủ công hoặc production access       |
@@ -82,39 +82,68 @@ Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S →
 | 03  | Công cụ English trong môn               | 02 + spec bổ sung merge | BACKLOG  | Inventory component/API/context                                                        |
 | 04  | Platform không default English          | 03 + spec bổ sung merge | BACKLOG  | Hợp đồng thiếu context và legacy adapter                                               |
 
+### Chặng clarity-first hiện hành
+
+| ID    | Outcome                                       | Dependency          | State      | Spec / bằng chứng                                                                           |
+| ----- | --------------------------------------------- | ------------------- | ---------- | ------------------------------------------------------------------------------------------- |
+| UX-R1 | Tin cậy async/touch nền `/tien-do`            | Foundation approved | MERGED     | PR #1020 · changelog 0367                                                                   |
+| UX-R2 | Home progressive disclosure                   | UX-R1               | MERGED     | PR #1021 spec · PR #1022 source · changelog 0369                                            |
+| UX-R3 | Tiến độ progressive disclosure                | UX-R2               | SPEC READY | [Spec UX-R3](../specs/2026-09-18-ui-clarity-dashboard-progressive-disclosure.md) — Approved |
+| R3-1  | Async truth/retry + bốn rejected loader cache | UX-R3 spec merge    | WAITING    | Zod quota + response.ok/identity guard/fake-fetch; chưa source                              |
+| R3-2  | Responsive state/focus/calendar               | R3-1 merge          | WAITING    | Một DOM; explicit calendar state sống resize                                                |
+| R3-3  | Hierarchy + “Tuần này” có scope English       | R3-2 merge          | WAITING    | P2-10 superseded; calendar embedded, không card lồng                                        |
+| R3-4  | English progressive disclosure + 28 evidence  | R3-3 merge          | WAITING    | Final target 320/390/1440                                                                   |
+| UX-R4 | Taxonomy/header/navigation nhất quán          | UX-R3 complete      | BACKLOG    | Cần spec riêng                                                                              |
+
 ## 4. Risk register
 
-| Risk                         | Trigger/guardrail                     | Mitigation/rollback                                                                       | Owner              | State          |
-| ---------------------------- | ------------------------------------- | ----------------------------------------------------------------------------------------- | ------------------ | -------------- |
-| Khách bị đưa vào API private | Companion không phải API thử guest    | Giữ câu hỏi qua login hoặc đích hỗ trợ guest; không auto-send                             | Kỹ thuật           | Mở             |
-| Mất bài/ghi đè tiến độ       | Hai tab, timeout sau server commit    | Version/idempotency và test trước S09; rollback UI giữ dữ liệu                            | Kỹ thuật           | Mở             |
-| AI trở thành authority       | Click/AI text tăng completion/mastery | Domain evidence; chưa đo thì ghi chưa đo                                                  | Kỹ thuật + môn học | Mở             |
-| Spec cũ không khớp main      | #919 thêm guest sau audit             | Reconcile từng vòng từ main                                                               | Agent chính        | Đang kiểm soát |
-| Merge tự phát hành           | Workflow deploy main                  | Quyền auto-merge/deploy đã cấp; chỉ merge khi review/checks đạt, kiểm tra deploy mỗi vòng | Agent chính        | Đang kiểm soát |
-| Đẹp nhưng không học tốt      | Chỉ review screenshot                 | Phiên tiếng Anh/Toán, mục lục khóa lập trình, test gián đoạn và thử người dùng            | Thiết kế + môn học | Mở             |
+| Risk                         | Trigger/guardrail                          | Mitigation/rollback                                                                   | Owner              | State          |
+| ---------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------- | ------------------ | -------------- |
+| Khách bị đưa vào API private | Companion không phải API thử guest         | Giữ câu hỏi qua login hoặc đích hỗ trợ guest; không auto-send                         | Kỹ thuật           | Mở             |
+| Mất bài/ghi đè tiến độ       | Hai tab, timeout sau server commit         | Version/idempotency và test trước S09; rollback UI giữ dữ liệu                        | Kỹ thuật           | Mở             |
+| AI trở thành authority       | Click/AI text tăng completion/mastery      | Domain evidence; chưa đo thì ghi chưa đo                                              | Kỹ thuật + môn học | Mở             |
+| Spec cũ không khớp main      | #919 thêm guest sau audit                  | Reconcile từng vòng từ main                                                           | Agent chính        | Đang kiểm soát |
+| Merge tự phát hành           | Workflow deploy main                       | Chỉ auto-merge khi review/checks đạt; deploy ngoài phạm vi và không được tự thực hiện | Agent chính        | Đang kiểm soát |
+| Đẹp nhưng không học tốt      | Chỉ review screenshot                      | Phiên tiếng Anh/Toán, mục lục khóa lập trình, test gián đoạn và thử người dùng        | Thiết kế + môn học | Mở             |
+| Retry UX-R3 giả              | Một trong bốn promise cache vẫn giữ reject | Reset có identity guard ở outer + ba loader; fake-fetch từng tài nguyên               | R3-1               | Contract duyệt |
+| “Tuần này” bị hiểu là đa môn | Streak/activity English thiếu scope        | Label English + programming-only fixture; không đổi thuật toán                        | R3-3               | Contract duyệt |
+| Resize làm mất focus/state   | Auto disclosure theo breakpoint            | Calendar/English chỉ user toggle; một DOM; test 1024/1280 và conditional focus        | R3-2/R3-4          | Contract duyệt |
 
 ## 5. Current truth
 
-> Reconcile mới nhất 2026-09-18 ở `main@806e77c0` thay cho snapshot cũ bên dưới khi hai phần mâu
+> Reconcile mới nhất 2026-09-18 ở `main@5d81c6c8` thay cho snapshot cũ bên dưới khi hai phần mâu
 > thuẫn. Iteration log cũ được giữ nguyên làm lịch sử, không phải trạng thái hiện hành.
 
+- PR #1022 đã merge source UX-R2. Candidate canonical trở thành main truth: Home cao
+  1.663/1.581/1.423px ở 320/390/1440, đúng một entry Tiến độ trong content, prompt collapsed trên
+  mobile; changelog 0369 giữ evidence hash và gate.
 - PR #1020 đã merge UX-R1: calendar/CTA đạt vùng chạm mobile 44px; storage/Web Push có failure
   state và retry; review độc lập cuối PASS 0 critical · 0 major · 0 minor. Required checks đã
   xanh trước auto-merge; bằng chứng chi tiết ở changelog 0367.
 - PR #1018 đã merge; quality, unit/build/type/lint/format và 6 shard E2E xanh. Canonical URL cho
   Lập trình/Tiếng Anh cùng server/SEO (lệnh 10–12) đã vào main; nginx production và Search Console
   vẫn là việc vận hành thủ công.
-- Chuỗi redesign Trang chủ đã merge 12/15 lát. P2-10/P2-12 chưa được duyệt; P2-11 phụ thuộc P2-12.
-- Ảnh thật baseline: Trang chủ thành viên 2.027px và `/tien-do` 3.421px ở viewport 390px.
+- Chuỗi redesign cũ đã merge 12/15 lát. P2-10 nay được UX-R3 supersede; P2-12 chưa được duyệt và
+  P2-11 vẫn phụ thuộc P2-12.
+- Baseline audit lịch sử: Trang chủ thành viên 2.027px và `/tien-do` 3.421px ở viewport 390px.
+  Baseline canonical UX-R3 hiện hành được ghi riêng bên dưới, không tái sử dụng số lịch sử này.
 - Sản phẩm hiện có đúng ba theme: `dark-blue`, `blue-sky`, `kid`. Chủ dự án chọn giữ ba theme;
   không phục hồi `pink`/`vibrant`.
-- Spec [UI clarity foundation](../specs/2026-09-18-ui-clarity-foundation.md) đã thi hành phần
-  **UX-R1**. Spec [UX-R2 Home progressive disclosure](../specs/2026-09-18-ui-clarity-home-progressive-disclosure.md)
-  đã merge #1021. Candidate source cuối đạt height 1.663/1.581/1.423px ở 320/390/1440;
-  independent matrix 33 case xanh, max CLS 0,069396.
-- Next best slice: hoàn tất independent review + gate/CI rồi merge source UX-R2; sau đó reload
-  `main` và soạn spec UX-R3. Quyết định sản phẩm đã chốt: không tạo `ProgressStory` độc lập,
-  hợp nhất narrative vào khối “Tuần này”.
+- Spec [UI clarity foundation](../specs/2026-09-18-ui-clarity-foundation.md) và [UX-R2 Home
+  progressive disclosure](../specs/2026-09-18-ui-clarity-home-progressive-disclosure.md) đã thi
+  hành. [Spec UX-R3](../specs/2026-09-18-ui-clarity-dashboard-progressive-disclosure.md) đã
+  **Approved for implementation** theo bốn source slice tuần tự sau khi PR docs merge.
+- Baseline UX-R3 `/tien-do` hiện hành là 3.722/3.527/2.195px ở 320/390/1440; target cuối
+  ≤2.300/≤2.100/≤1.450px, CLS <0,1, ma trận 28 case trên ba theme.
+- Quyết định A đã chốt: không tạo `ProgressStory` độc lập; P2-10 được supersede, narrative gộp
+  vào “Tuần này”. Source dự kiến tuần tự R3-1 async → R3-2 responsive → R3-3 hierarchy → R3-4
+  English disclosure; không parallel vì cùng chạm Dashboard.
+- Adversarial review vòng 1 nêu sáu finding; spec đã sửa theo đủ loader thật và fake-fetch retry,
+  semantics quota null/0 + Zod, scope English cho “Tuần này”, focus có điều kiện, calendar explicit
+  collapsed state qua breakpoint và embedded presentation. Vòng 2 còn 0 critical · 2 major; đã
+  bổ sung fallback focus theo panel mở/đóng và recovery delay ≥600ms monotonic + observer flush.
+  Review vòng 3 PASS 0 critical · 0 major · 0 minor; mọi finding đã đóng trong contract.
+- Next best slice: merge PR đặc tả UX-R3; reload `main`, rồi giao R3-1 source.
 - Quyền cần thêm: không cần cho docs review/branch/PR/auto-merge; cần riêng nếu deploy thủ công hoặc truy
   cập production.
 
@@ -260,6 +289,29 @@ Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S →
 - Blocker: không còn source/evidence blocker; chờ required quality/e2e CI của PR; không deploy.
 - Next best slice: merge UX-R2 khi quality/e2e xanh, reload main, rồi tạo spec UX-R3 từ audit mới.
 - Quyền cần thêm: không cần cho PR/auto-merge; deploy/production access vẫn ngoài phạm vi.
+
+### Iteration 9 — 2026-09-18 — UX-R2 merged, đặc tả toàn UX-R3
+
+- State: RECONCILE → SPEC REVIEW; base `main@5d81c6c8` sau PR #1022.
+- Slice: docs-only contract cho toàn UX-R3; chưa source.
+- Goal gap trước/sau: `/tien-do` cao 3.722/3.527/2.195px ở 320/390/1440, hai failure async có thể
+  treo và hierarchy nặng → có contract keyed retry, stable responsive tree, consolidated weekly,
+  English disclosure và target ≤2.300/≤2.100/≤1.450px; trải nghiệm runtime chưa đổi.
+- Research/spec: [UX-R3 Dashboard progressive disclosure](../specs/2026-09-18-ui-clarity-dashboard-progressive-disclosure.md),
+  Approved for implementation; PR điền sau.
+- Quyết định: A — P2-10 superseded, narrative nằm trong “Tuần này”; bốn source PR tuần tự R3-1
+  đến R3-4, touch set serialize; 28 evidence cases, CLS <0,1, AAA/AA tuyệt đối.
+- Adversarial findings vòng 1: 6 finding đã được sửa trong contract; đáng chú ý Retry phải reset đủ outer
+  curriculum + ba resource loader, weekly null không phải loading và quota 0 vẫn ready, “Tuần này”
+  mang scope English, focus không bị steal, calendar chỉ đổi bởi user và R3-3 dùng embedded mode.
+- Review vòng 2: 0 critical · 2 major đã sửa — weekly heading luôn visible; CEFR success chọn đúng
+  heading/toggle theo panel và không steal; recovery fixture chờ ≥600ms thực rồi flush observer,
+  sáu weekly case chụp đủ loading→unavailable→ready. Vòng 3 PASS 0 critical · 0 major · 0 minor;
+  spec đã Approved.
+- Guardrails: không API/schema/migration/dependency/provider/production; không source trước Approved.
+- Blocker: không còn spec blocker; source chỉ chờ PR docs merge theo delivery loop.
+- Next best slice: merge docs, reload main và giao R3-1.
+- Quyền cần thêm: không cần cho docs review/PR/auto-merge; deploy/production vẫn ngoài phạm vi.
 
 ## 7. Final audit
 
