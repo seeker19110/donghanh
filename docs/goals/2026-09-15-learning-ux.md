@@ -4,7 +4,7 @@
 | ----------------- | ------------------------------------------------------------------------------------------------------------- |
 | Goal ID           | GOAL-2026-0915-LEARNING-UX                                                                                    |
 | Owner             | Chủ sản phẩm Đồng Hành; agent chính điều phối và review                                                       |
-| Trạng thái        | ACTIVE — redesign cũ đã merge 12/15 lát; UX-R1 clarity foundation đã được duyệt                               |
+| Trạng thái        | ACTIVE — UX-R1 đã merge #1020; UX-R2 Approved, chờ merge spec rồi thi hành                                    |
 | Bắt đầu           | 2026-09-15                                                                                                    |
 | Target review     | Sau mỗi slice; chưa cam kết ngày phát hành toàn bộ                                                            |
 | Quyền được cấp    | Research, branch, PR và auto-merge khi checks đạt; không bao gồm deploy thủ công hoặc production access       |
@@ -95,9 +95,12 @@ Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S →
 
 ## 5. Current truth
 
-> Reconcile mới nhất 2026-09-18 ở `main@2c9025a6` thay cho snapshot cũ bên dưới khi hai phần mâu
+> Reconcile mới nhất 2026-09-18 ở `main@806e77c0` thay cho snapshot cũ bên dưới khi hai phần mâu
 > thuẫn. Iteration log cũ được giữ nguyên làm lịch sử, không phải trạng thái hiện hành.
 
+- PR #1020 đã merge UX-R1: calendar/CTA đạt vùng chạm mobile 44px; storage/Web Push có failure
+  state và retry; review độc lập cuối PASS 0 critical · 0 major · 0 minor. Required checks đã
+  xanh trước auto-merge; bằng chứng chi tiết ở changelog 0367.
 - PR #1018 đã merge; quality, unit/build/type/lint/format và 6 shard E2E xanh. Canonical URL cho
   Lập trình/Tiếng Anh cùng server/SEO (lệnh 10–12) đã vào main; nginx production và Search Console
   vẫn là việc vận hành thủ công.
@@ -105,10 +108,12 @@ Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S →
 - Ảnh thật baseline: Trang chủ thành viên 2.027px và `/tien-do` 3.421px ở viewport 390px.
 - Sản phẩm hiện có đúng ba theme: `dark-blue`, `blue-sky`, `kid`. Chủ dự án chọn giữ ba theme;
   không phục hồi `pink`/`vibrant`.
-- Spec [UI clarity foundation](../specs/2026-09-18-ui-clarity-foundation.md) được duyệt **chỉ UX-R1**.
-- Next best slice: UX-R1 — sửa reliability/touch foundation trên `/tien-do`; không thêm
-  `ProgressStory` trước khi UX-R3 quyết định cách giảm mật độ.
-- Quyền cần thêm: không cần cho branch/PR/auto-merge UX-R1; cần riêng nếu deploy thủ công hoặc truy
+- Spec [UI clarity foundation](../specs/2026-09-18-ui-clarity-foundation.md) đã thi hành phần
+  **UX-R1**. [UX-R2 Home progressive disclosure](../specs/2026-09-18-ui-clarity-home-progressive-disclosure.md)
+  đã **Approved for implementation — chỉ UX-R2**, independent final PASS 0/0/0.
+- Next best slice: merge PR spec UX-R2; reload main rồi giao một worker triển khai đúng bốn file
+  runtime. Không thêm `ProgressStory` trước khi UX-R3 quyết định mật độ.
+- Quyền cần thêm: không cần cho docs review/branch/PR/auto-merge; cần riêng nếu deploy thủ công hoặc truy
   cập production.
 
 - Main đã đối chiếu: `f5beb7a1d7d044232b686301e1cb2b0010535a65` (#924). #920–#924 đã merge; [deploy thành công](https://github.com/seeker19110/donghanh/actions/runs/34946596471).
@@ -205,6 +210,30 @@ Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S →
 - Blocker: không còn blocker cho UX-R1.
 - Next best slice: merge spec, reload main, rồi thi hành UX-R1 trong PR source riêng.
 - Quyền cần thêm: không; auto-merge chỉ khi required checks xanh.
+
+### Iteration 7 — 2026-09-18 — UX-R1 merged, đặc tả UX-R2 Trang chủ
+
+- State: VERIFY UX-R1 → SPEC UX-R2.
+- Slice: UX-R2 progressive disclosure cho member Home ở 320/390px; desktop 1440 giữ chức năng.
+- Goal gap trước/sau: UX-R1 đã merge #1020 nhưng Trang chủ data vẫn cao baseline 2.027px ở 390px
+  và nhiều control phụ render đồng thời → có hợp đồng giảm nhiễu đo được, source chưa đổi.
+- Research/spec/PR: [UX-R2 Home progressive disclosure](../specs/2026-09-18-ui-clarity-home-progressive-disclosure.md);
+  PR docs điền sau.
+- Evidence: `main@806e77c0`; changelog 0367 xác nhận review cuối UX-R1 PASS và required CI là
+  release gate. Baseline Home từ manifest ảnh ngoài repo của clarity audit.
+- Metric/guardrail: target Home ≤1.700px ở 390, ≤1.850px ở 320; đúng một entry Tiến độ; prompt
+  chips collapsed; AAA nội dung, AA control, 44px; ba theme hiện hành.
+- Quyết định tại checkpoint trước final: scope đúng bốn runtime file; UX-R3/R4/P2-10 là non-goal.
+  Spec khi đó Review pending, chưa tự phê duyệt. Vòng 1 BLOCK 2 critical · 7 major · 2 minor;
+  D1–D10 đã
+  đóng trong bản sửa. Re-review vòng 2 BLOCK 2 critical · 4 major · 1 minor; D11–D14 cùng hợp đồng
+  DOM subject/evidence B/CLS/error fixture đã cập nhật. Vòng 3 BLOCK 1 critical · 1 major; D15 và
+  hợp đồng container always-mounted/HTML hidden/focus-resize đã cập nhật, chờ review lại.
+- Final review: PASS 0 critical · 0 major · 0 minor. Theo mandate giao subagent từng PR cho tới
+  khi hoàn thành, trạng thái đổi thành Approved for implementation — chỉ UX-R2.
+- Blocker: không còn product/spec blocker; source vẫn chờ spec merge theo delivery loop.
+- Next best slice: merge spec, reload main, giao worker source UX-R2 và chạy đủ gate/evidence.
+- Quyền cần thêm: không cần thêm cho docs PR/auto-merge; deploy vẫn ngoài phạm vi.
 
 ## 7. Final audit
 
