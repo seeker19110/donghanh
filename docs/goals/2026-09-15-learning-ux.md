@@ -4,7 +4,7 @@
 | ----------------- | ------------------------------------------------------------------------------------------------------------- |
 | Goal ID           | GOAL-2026-0915-LEARNING-UX                                                                                    |
 | Owner             | Chủ sản phẩm Đồng Hành; agent chính điều phối và review                                                       |
-| Trạng thái        | ACTIVE — UX-R1/UX-R2 và spec UX-R3 đã merge; R3-1 đang VERIFY trước PR                                        |
+| Trạng thái        | ACTIVE — UX-R1/UX-R2 và R3-1 đã merge; R3-2 review PASS, full gate đang chạy trước PR                         |
 | Bắt đầu           | 2026-09-15                                                                                                    |
 | Target review     | Sau mỗi slice; chưa cam kết ngày phát hành toàn bộ                                                            |
 | Quyền được cấp    | Research, branch, PR và auto-merge khi checks đạt; không bao gồm deploy thủ công hoặc production access       |
@@ -89,8 +89,8 @@ Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S →
 | UX-R1 | Tin cậy async/touch nền `/tien-do`            | Foundation approved | MERGED  | PR #1020 · changelog 0367                                                                   |
 | UX-R2 | Home progressive disclosure                   | UX-R1               | MERGED  | PR #1021 spec · PR #1022 source · changelog 0369                                            |
 | UX-R3 | Tiến độ progressive disclosure                | UX-R2               | ACTIVE  | [Spec UX-R3](../specs/2026-09-18-ui-clarity-dashboard-progressive-disclosure.md) — Approved |
-| R3-1  | Async truth/retry + bốn rejected loader cache | UX-R3 spec merge    | VERIFY  | Candidate: 92/92 targeted; review độc lập PASS; full E2E 843 pass / 5 skip                  |
-| R3-2  | Responsive state/focus/calendar               | R3-1 merge          | WAITING | Một DOM; explicit calendar state sống resize                                                |
+| R3-1  | Async truth/retry + bốn rejected loader cache | UX-R3 spec merge    | MERGED  | PR #1024 · main `2cc505f0` · changelog 0371                                                 |
+| R3-2  | Responsive state/focus/calendar               | R3-1 merge          | VERIFY  | Candidate: review PASS 0/0/0; component 21/21, calendar E2E 11/11; full gate chưa chốt      |
 | R3-3  | Hierarchy + “Tuần này” có scope English       | R3-2 merge          | WAITING | P2-10 superseded; calendar embedded, không card lồng                                        |
 | R3-4  | English progressive disclosure + 28 evidence  | R3-3 merge          | WAITING | Final target 320/390/1440                                                                   |
 | UX-R4 | Taxonomy/header/navigation nhất quán          | UX-R3 complete      | BACKLOG | Cần spec riêng                                                                              |
@@ -111,11 +111,13 @@ Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S →
 
 ## 5. Current truth
 
-> Reconcile mới nhất 2026-09-18 ở `main@b413e04f` thay cho snapshot cũ bên dưới khi hai phần mâu
+> Reconcile mới nhất 2026-09-18 ở `main@2cc505f0` thay cho snapshot cũ bên dưới khi hai phần mâu
 > thuẫn. Iteration log cũ được giữ nguyên làm lịch sử, không phải trạng thái hiện hành.
 
+- PR #1024 đã merge R3-1 tại `2cc505f0`: keyed async truth/retry, Zod boundary và bốn rejected
+  loader cache đã vào main; changelog 0371 giữ evidence của slice này.
 - PR #1023 đã merge đặc tả UX-R3 tại `b413e04f`; bốn source slice R3-1→R3-4 được phép thi hành
-  tuần tự. R3-1 đang là candidate trên branch `feat/ui-clarity-ux-r3-async`, chưa phải main truth.
+  tuần tự. R3-2 hiện là candidate, chưa merge và chưa phải main truth.
 - PR #1022 đã merge source UX-R2. Candidate canonical trở thành main truth: Home cao
   1.663/1.581/1.423px ở 320/390/1440, đúng một entry Tiến độ trong content, prompt collapsed trên
   mobile; changelog 0369 giữ evidence hash và gate.
@@ -145,13 +147,17 @@ Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S →
   collapsed state qua breakpoint và embedded presentation. Vòng 2 còn 0 critical · 2 major; đã
   bổ sung fallback focus theo panel mở/đóng và recovery delay ≥600ms monotonic + observer flush.
   Review vòng 3 PASS 0 critical · 0 major · 0 minor; mọi finding đã đóng trong contract.
-- Candidate R3-1 đã có keyed async truth/retry cho weekly quota + CEFR, Zod boundary, bốn cache
-  phục hồi sau reject và kiểm `response.ok` cho 12 resource. Review độc lập vòng 3 PASS 0 finding;
-  92/92 targeted và full E2E 843 pass / 5 skip. Full unit có đúng một timeout Swift 5 giây ngoài
-  phạm vi khi chạy 710 file song song; 14.948 test khác xanh và Swift cô lập 44/44. Required
-  `quality`/E2E CI của PR là release gate, không nới timeout hoặc test.
-- Next best slice: hoàn tất metadata, mở/auto-merge PR R3-1 khi required checks xanh; reload main,
-  rồi giao R3-2 responsive state/focus/calendar.
+- Candidate R3-2 dùng một DOM tree, một QuickActions/calendar instance, calendar đóng mặc định
+  và giữ disclosure/selection/focus qua breakpoint. Key tuần ổn định giữ cả ngày ở partial week;
+  uncontrolled lưu ngày đã clamp; animation calendar có reduced-motion.
+- Review R3-2 vòng 3 **PASS 0 critical · 0 major · 0 minor**. Kiểm độc lập trên candidate:
+  component **2 file / 21 test PASS**, calendar E2E **11/11 PASS** (axe ba theme, 44px/overflow,
+  focus/resize/dialog và cuộn trên layout thật), `git diff --check` PASS. Complete gate và bằng
+  chứng thị giác đang được agent chính kiểm, **chưa chốt**; không dùng kết quả R3-1 thay cho R3-2.
+- Checkpoint trước khi dừng/chạy tiếp: đọc lại mục này, reconcile current main/PR/checks và cập
+  nhật bằng chứng mới; không suy completion từ lịch sử chat.
+- Next best slice: hoàn tất full gate/evidence R3-2, mở PR và auto-merge khi required checks xanh;
+  reload main rồi giao R3-3 hierarchy + “Tuần này” có scope English.
 - Quyền cần thêm: không cần cho docs review/branch/PR/auto-merge; cần riêng nếu deploy thủ công hoặc truy
   cập production.
 
@@ -341,6 +347,30 @@ Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S →
 - Blocker: chưa có product/runtime blocker; chờ commit, PR và required CI trước auto-merge.
 - Next best slice: sau merge R3-1, reload main và giao R3-2 tuần tự.
 - Quyền cần thêm: không cần cho PR/auto-merge; deploy/production vẫn ngoài phạm vi.
+
+### Iteration 11 — 2026-09-18 — UX-R3.2 responsive state/focus/calendar
+
+- State: RECONCILE → IMPLEMENT → VERIFY; base `main@2cc505f0` sau PR #1024 đã merge R3-1.
+- Slice/spec: R3-2 theo §5 và §8 của [spec UX-R3](../specs/2026-09-18-ui-clarity-dashboard-progressive-disclosure.md),
+  **Approved for implementation**; changelog [0372](../changelog/0372-2026-09-18-ux-r3-2-dashboard-responsive-state.md).
+- Goal gap trước/sau: responsive branches có thể remount control và mất selection/dialog/focus
+  → candidate có một cây DOM, một QuickActions/calendar instance, explicit calendar disclosure
+  đóng mặc định và ngày chọn do stable owner giữ qua 5/13/26 tuần.
+- Review: vòng 1 BLOCK 1 critical · 3 major (partial-week focus, uncontrolled clamp, motion,
+  scroll precondition); vòng 2 còn 1 major ở harness ép kích thước; vòng 3 PASS 0/0/0 sau khi
+  kiểm cuộn trên kích thước sản phẩm thật với ngày fixture cố định.
+- Evidence candidate: component 2 file / 21 test PASS; calendar E2E 11/11 PASS; diff check PASS.
+  Test giữ node/focus partial week hai chiều, lưu clamp/callback, no-steal, hidden panel,
+  QuickActions dialog/focus trap, keyboard/live detail, mobile 44px/overflow và axe ba theme.
+- Complete gate: agent chính đang chạy/chốt build, typecheck, lint, format, full unit, budget,
+  full E2E và bằng chứng thị giác. **Chưa có kết luận full gate; chưa merge R3-2.**
+- Guardrails: không đổi API/schema/migration/dependency, thuật toán thống kê hoặc authority;
+  không paid provider/production access. Target chiều cao và ma trận 28 case chốt ở R3-4.
+- Blocker: không còn finding độc lập trong scope R3-2; vẫn chờ complete gate và required CI.
+- Next best slice: hoàn tất gate → PR/auto-merge R3-2 khi checks xanh → reload main → R3-3.
+- Quyền cần thêm: không cần cho PR/auto-merge; deploy/production vẫn ngoài phạm vi.
+- Điểm tiếp tục: nén/cập nhật canonical state ở goal này trước khi dừng, rồi đọc lại main và
+  trạng thái PR/checks trước khi chạy tiếp theo yêu cầu chủ dự án.
 
 ## 7. Final audit
 
