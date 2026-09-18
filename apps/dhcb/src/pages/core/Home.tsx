@@ -33,7 +33,6 @@ import { useTodayPlan } from '../../lib/today/useTodayPlan'
 import { ENGLISH_SUBJECT_ID, englishNext, duongDanCapCefr } from '../../lib/today/englishNext'
 import { useIsDesktopViewport } from '../../lib/useIsDesktopViewport'
 import { PageShell } from '@core/PageShell'
-import { TwoPane } from '@core/TwoPane'
 import {
   shouldShowComeback,
   dismissComebackToday,
@@ -70,6 +69,7 @@ export default function Home() {
 
   const [cefrLevels, setCefrLevels] = useState<CefrLevel[]>([])
   const [circleById, setCircleById] = useState<Record<string, Circle>>({})
+  const [englishContextSettled, setEnglishContextSettled] = useState(false)
   // Trạng thái nhiệm vụ cho `WeekRhythm` (P1-5) — gọi mạng, null khi lỗi/chưa đăng nhập/chưa
   // tải xong (dòng "Nhiệm vụ x/y" tự ẩn, xem `buildWeekRhythm`), không toast lỗi.
   const [questsStatus, setQuestsStatus] = useState<QuestsStatus | null>(null)
@@ -77,10 +77,23 @@ export default function Home() {
   usePageTitle('Trang chủ | Đồng hành cùng bạn')
 
   useEffect(() => {
-    Promise.all([loadCefr(), loadFoundation()]).then(([lv, foundation]) => {
-      setCefrLevels(lv)
-      setCircleById(Object.fromEntries(foundation.map((c) => [c.id, c])))
-    })
+    let cancelled = false
+    void Promise.all([loadCefr(), loadFoundation()])
+      .then(([lv, foundation]) => {
+        if (cancelled) return
+        setCefrLevels(lv)
+        setCircleById(Object.fromEntries(foundation.map((c) => [c.id, c])))
+      })
+      .catch(() => {
+        // Dữ liệu học tĩnh lỗi → giữ context rỗng và bỏ reserve comeback ở `finally`.
+        // Không để rejection thoát ra thành unhandled error làm vỡ Home.
+      })
+      .finally(() => {
+        if (!cancelled) setEnglishContextSettled(true)
+      })
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   useEffect(() => {
@@ -135,7 +148,13 @@ export default function Home() {
   })
   const continueHref = continueLevelId ? duongDanCapCefr(continueLevelId) : ''
 
-  const showComeback = !comebackClosed && !!continueLevelId && shouldShowComeback(uid)
+  // `shouldShowComeback` dựa trên hoạt động đa miền, nên tự nó KHÔNG đủ để mời người chỉ học
+  // Lập trình quay lại luồng English. Ba tập dưới là bằng chứng English đồng bộ có ngay từ render
+  // đầu; dùng candidate này để reserve đúng chiều cao trước khi CEFR async tìm xong next step.
+  const hasEnglishEvidence = learned.size > 0 || doneGrammar.size > 0 || examPassed.size > 0
+  const comebackCandidate = !comebackClosed && hasEnglishEvidence && shouldShowComeback(uid)
+  const showComeback = comebackCandidate && !!continueLevelId
+  const reserveComeback = comebackCandidate && (!englishContextSettled || !!continueLevelId)
   const daysAway = showComeback ? comebackDaysAway(uid) : 0
   function closeComeback() {
     dismissComebackToday(uid)
@@ -201,10 +220,12 @@ export default function Home() {
 
       {/* ── TẦNG 1: EXECUTIVE AI COMPANION — lời chào + bản tin + luồng "quay lại" (S06-2, P0-2). ── */}
       <HomeAiBriefingCard
+        isDesktop={isDesktop}
         userName={user.name || user.email?.split('@')[0]}
         dailyLearned={dailyLearned}
         dailyMax={dailyMax}
         showDailyWords={hocTiengAnh}
+        reserveComeback={reserveComeback}
         comeback={comeback}
       />
 
@@ -215,7 +236,7 @@ export default function Home() {
       {!isDesktop && weekRhythmModel && <WeekRhythm model={weekRhythmModel} />}
 
       {/* ── Universal AI Ask & Voice Bar (Hỏi nhanh đa năng mọi bộ môn & lĩnh vực) ── */}
-      <HomeUniversalAiBar />
+      <HomeUniversalAiBar isDesktop={isDesktop} />
     </div>
   )
 
@@ -288,26 +309,30 @@ export default function Home() {
               <h3 className="font-semibold text-white text-base flex items-center gap-1.5">
                 <span>{careerLifeSpace.title}</span>
                 <ChevronRight
-                  className="w-4 h-4 text-zinc-500 group-hover:text-white group-hover:translate-x-0.5 transition-transform"
+                  className="w-4 h-4 text-zinc-500 group-hover:text-white group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none"
                   aria-hidden="true"
                 />
               </h3>
-              <p className="text-sm text-zinc-400 leading-relaxed mt-0.5 read-measure">
+              <p
+                className={`${isDesktop ? 'mt-0.5' : 'mt-1 line-clamp-1'} text-sm text-zinc-400 leading-relaxed read-measure`}
+              >
                 {careerLifeSpace.desc}
               </p>
             </div>
           </button>
-          <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 pl-[3.625rem]">
-            {careerLifeSpace.shortcuts.map((sc) => (
-              <button
-                key={sc.label}
-                onClick={sc.go}
-                className="tap-44-y text-sm font-medium text-zinc-400 hover:text-white underline-offset-4 hover:underline transition"
-              >
-                {sc.label}
-              </button>
-            ))}
-          </div>
+          {isDesktop && (
+            <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 pl-[3.625rem]">
+              {careerLifeSpace.shortcuts.map((sc) => (
+                <button
+                  key={sc.label}
+                  onClick={sc.go}
+                  className="tap-44-y text-sm font-medium text-zinc-400 hover:text-white underline-offset-4 hover:underline transition-colors"
+                >
+                  {sc.label}
+                </button>
+              ))}
+            </div>
+          )}
         </li>
       </ul>
     </section>
@@ -321,11 +346,10 @@ export default function Home() {
   // trò: một cặp nút điều hướng gọn.
   const progressHistory = (
     <div className="grid grid-cols-2 gap-3 pt-1">
-      {/* GIỮ transition-all: đổi cả màu viền/nền (hover) LẪN transform (active:scale). */}
       <button
         onClick={() => nav('/tien-do')}
         aria-label="Xem bảng tiến độ"
-        className="bg-zinc-900/70 border border-zinc-800/80 hover:border-accent-500/40 rounded-2xl p-4 flex items-center gap-3.5 transition-all duration-200 group hover:bg-zinc-800/60 active:scale-98 animate-fade-in shadow-sm"
+        className="bg-zinc-900/70 border border-zinc-800/80 hover:border-accent-500/40 rounded-2xl p-4 flex items-center gap-3.5 transition-colors duration-200 group hover:bg-zinc-800/60 active:scale-98 animate-fade-in motion-reduce:transform-none motion-reduce:animate-none shadow-sm"
       >
         <div className="w-9 h-9 rounded-xl bg-accent-500/10 border border-accent-500/20 group-hover:bg-accent-500/20 flex items-center justify-center shrink-0 transition">
           <TrendingUp className="w-4 h-4 text-accent-400" />
@@ -335,11 +359,10 @@ export default function Home() {
         </span>
       </button>
 
-      {/* GIỮ transition-all: đổi cả màu viền/nền (hover) LẪN transform (active:scale). */}
       <button
         onClick={() => nav('/lich-su-hoc')}
         aria-label="Xem lịch sử học"
-        className="bg-zinc-900/70 border border-zinc-800/80 hover:border-zinc-700 rounded-2xl p-4 flex items-center gap-3.5 transition-all duration-200 group hover:bg-zinc-800/60 active:scale-98 animate-fade-in shadow-sm"
+        className="bg-zinc-900/70 border border-zinc-800/80 hover:border-zinc-700 rounded-2xl p-4 flex items-center gap-3.5 transition-colors duration-200 group hover:bg-zinc-800/60 active:scale-98 animate-fade-in motion-reduce:transform-none motion-reduce:animate-none shadow-sm"
       >
         <div className="w-9 h-9 rounded-xl bg-zinc-800/80 border border-zinc-700/50 group-hover:bg-zinc-700 flex items-center justify-center shrink-0 transition">
           <History className="w-4 h-4 text-zinc-400 group-hover:text-zinc-200" />
@@ -363,25 +386,32 @@ export default function Home() {
           gian" — trước đây mẹo thưởng đứng ngay dưới "Hôm nay", cạnh tranh sự chú ý với CTA
           chính (xem docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md §P0-1). */}
       <PageShell width="standard" baseWidth="max-w-3xl">
-        <TwoPane
-          isDesktop={isDesktop}
-          railLabel="Gợi ý và tiến độ"
-          rail={
+        {/* Giữ cùng một chuỗi ancestor cho cột chính qua resize để state disclosure/focus của
+            prompt và danh sách môn không bị reset khi chuyển mobile ↔ desktop. Markup desktop
+            giữ đúng hợp đồng TwoPane hiện hành: main flex-1 + rail sticky w-72/xl:w-80. */}
+        <div className={isDesktop ? 'flex items-start gap-6' : undefined}>
+          <div className={isDesktop ? 'min-w-0 flex-1' : undefined}>
             <div className="space-y-5">
-              {isDesktop && weekRhythmModel && <WeekRhythm model={weekRhythmModel} />}
-              {progressHistory}
-              {homeBannerNode}
+              <h1 className="sr-only">{T.greeting}</h1>
+              {topBlocks}
+              {spacesSection}
+              {!isDesktop && progressHistory}
+              {!isDesktop && homeBannerNode}
             </div>
-          }
-        >
-          <div className="space-y-5">
-            <h1 className="sr-only">{T.greeting}</h1>
-            {topBlocks}
-            {spacesSection}
-            {!isDesktop && progressHistory}
-            {!isDesktop && homeBannerNode}
           </div>
-        </TwoPane>
+          {isDesktop && (
+            <aside
+              aria-label="Gợi ý và tiến độ"
+              className="sticky top-20 max-h-[calc(100dvh-6rem)] w-72 shrink-0 overflow-y-auto xl:w-80"
+            >
+              <div className="space-y-5">
+                {weekRhythmModel && <WeekRhythm model={weekRhythmModel} />}
+                {progressHistory}
+                {homeBannerNode}
+              </div>
+            </aside>
+          )}
+        </div>
       </PageShell>
     </div>
   )

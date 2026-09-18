@@ -42,7 +42,7 @@ function authValue(kind: 'anonymous' | 'guest' | 'account'): AuthContextValue {
   return { user, loading: false, refresh: async () => {}, isGuest: kind === 'guest' }
 }
 
-async function render(kind: 'anonymous' | 'guest' | 'account' = 'account') {
+async function render(kind: 'anonymous' | 'guest' | 'account' = 'account', isDesktop = false) {
   container = document.createElement('div')
   document.body.appendChild(container)
   root = createRoot(container)
@@ -50,12 +50,24 @@ async function render(kind: 'anonymous' | 'guest' | 'account' = 'account') {
     root.render(
       <AuthContext.Provider value={authValue(kind)}>
         <MemoryRouter>
-          <HomeUniversalAiBar />
+          <HomeUniversalAiBar isDesktop={isDesktop} />
         </MemoryRouter>
       </AuthContext.Provider>,
     )
   })
   return container
+}
+
+async function rerender(isDesktop: boolean) {
+  await act(async () => {
+    root?.render(
+      <AuthContext.Provider value={authValue('account')}>
+        <MemoryRouter>
+          <HomeUniversalAiBar isDesktop={isDesktop} />
+        </MemoryRouter>
+      </AuthContext.Provider>,
+    )
+  })
 }
 
 function findByText(selector: string, text: string): HTMLElement | undefined {
@@ -188,14 +200,95 @@ describe('validation', () => {
   it('câu hỏi quá dài bị báo lỗi, không bị cắt bớt và không điều hướng', async () => {
     await render('account')
     await ask('a'.repeat(2001))
-    expect(container.querySelector('[role="alert"]')?.textContent).toContain('vượt giới hạn')
+    const alert = container.querySelector('[role="alert"]')
+    expect(alert?.textContent).toContain('vượt giới hạn')
+    expect(alert?.parentElement?.classList.contains('min-h-14')).toBe(true)
     expect(container.textContent).not.toContain('Gợi ý nơi học')
     expect(readDraft({ kind: 'account', id: 'user-1' })).toEqual({ status: 'empty' })
+  })
+
+  it('chừa sẵn 56px cho validation trước khi có lỗi để phần disclosure không nhảy', async () => {
+    await render('account')
+    const toggle = findByText('button', 'Xem 5 gợi ý nhanh')
+    expect(toggle?.previousElementSibling?.classList.contains('min-h-14')).toBe(true)
+    expect(toggle?.previousElementSibling?.querySelector('[role="alert"]')).toBeNull()
   })
 
   it('chuỗi chỉ có khoảng trắng không mở gợi ý', async () => {
     await render('account')
     await ask('    ')
     expect(container.textContent).not.toContain('Gợi ý nơi học')
+  })
+})
+
+describe('progressive disclosure prompt nhanh', () => {
+  it('mobile giữ một panel mounted, đóng/mở bằng hidden và trả focus về toggle khi đóng', async () => {
+    await render('account', false)
+    const panel = container.querySelector('#home-prompt-chips') as HTMLDivElement
+    const toggle = findByText('button', 'Xem 5 gợi ý nhanh') as HTMLButtonElement
+    expect(panel).not.toBeNull()
+    expect(panel.hidden).toBe(true)
+    expect(panel.querySelectorAll('button')).toHaveLength(5)
+    expect(toggle.getAttribute('aria-expanded')).toBe('false')
+
+    toggle.focus()
+    await act(async () => toggle.click())
+    expect(panel.hidden).toBe(false)
+    expect(document.activeElement).toBe(toggle)
+    expect(toggle.getAttribute('aria-expanded')).toBe('true')
+
+    await act(async () => toggle.click())
+    expect(panel.hidden).toBe(true)
+    expect(document.activeElement).toBe(toggle)
+  })
+
+  it('desktop hiện 5 chip, không render toggle; roundtrip resize giữ lựa chọn mobile', async () => {
+    await render('account', false)
+    const toggle = findByText('button', 'Xem 5 gợi ý nhanh') as HTMLButtonElement
+    await act(async () => toggle.click())
+    await rerender(true)
+    expect(findByText('button', 'Ẩn gợi ý nhanh')).toBeUndefined()
+    expect((container.querySelector('#home-prompt-chips') as HTMLDivElement).hidden).toBe(false)
+    await rerender(false)
+    expect(findByText('button', 'Ẩn gợi ý nhanh')).toBeDefined()
+    expect((container.querySelector('#home-prompt-chips') as HTMLDivElement).hidden).toBe(false)
+  })
+
+  it('resize lên desktop khi toggle có focus chuyển focus tới chip đầu', async () => {
+    await render('account', false)
+    const toggle = findByText('button', 'Xem 5 gợi ý nhanh') as HTMLButtonElement
+    toggle.focus()
+    expect(document.activeElement).toBe(toggle)
+    await rerender(true)
+    const firstChip = findByText('button', 'Luyện phát âm AI') as HTMLButtonElement
+    expect(document.activeElement).toBe(firstChip)
+  })
+
+  it('blur toggle với relatedTarget=null rồi resize không cưỡng focus tới chip đầu', async () => {
+    await render('account', false)
+    const toggle = findByText('button', 'Xem 5 gợi ý nhanh') as HTMLButtonElement
+    toggle.focus()
+    expect(document.activeElement).toBe(toggle)
+
+    // `blur()` tạo đúng ca click vùng không focusable: relatedTarget=null, activeElement về body.
+    toggle.blur()
+    expect(document.activeElement).toBe(document.body)
+    await rerender(true)
+
+    const firstChip = findByText('button', 'Luyện phát âm AI') as HTMLButtonElement
+    expect(document.activeElement).not.toBe(firstChip)
+    expect(document.activeElement).toBe(document.body)
+  })
+
+  it('bấm chip chỉ tạo suggestion cục bộ, không phát sinh network request', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch')
+    await render('account', false)
+    const toggle = findByText('button', 'Xem 5 gợi ý nhanh') as HTMLButtonElement
+    await act(async () => toggle.click())
+    const chip = findByText('button', 'Giải Toán & STEM') as HTMLButtonElement
+    await act(async () => chip.click())
+    expect(container.textContent).toContain('Gợi ý nơi học')
+    expect(fetchSpy).not.toHaveBeenCalled()
+    fetchSpy.mockRestore()
   })
 })

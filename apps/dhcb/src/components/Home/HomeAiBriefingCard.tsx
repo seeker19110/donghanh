@@ -12,8 +12,6 @@
 // vào dòng thứ hai của bong bóng + 2 link chữ nhỏ dưới bong bóng. Đặc tả:
 // docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md §P0-2.
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { ChevronRight } from 'lucide-react'
 import { CompanionAvatar, type CompanionMood } from '@dhcb/core-ui/CompanionAvatar'
 import { CompanionBubble } from '@dhcb/core-ui/CompanionBubble'
 import { fetchProactiveBriefing } from '../../lib/proactiveBriefingApi'
@@ -33,6 +31,7 @@ export interface HomeComeback {
 }
 
 interface Props {
+  isDesktop: boolean
   userName?: string
   dailyLearned?: number
   dailyMax?: number
@@ -42,21 +41,23 @@ interface Props {
    * định tiếng Anh trá hình (§7 Q5).
    */
   showDailyWords?: boolean
+  /** Reserve khung comeback từ render đầu khi Home đã thấy bằng chứng English đồng bộ. */
+  reserveComeback?: boolean
   /** Có mặt khi người dùng đã vắng ≥3 ngày (`shouldShowComeback`) — xem `lib/comeback.ts`. */
   comeback?: HomeComeback
 }
 
-const FALLBACK_SUMMARY =
-  'Hôm nay hãy bắt đầu bằng việc quan trọng nhất trước, rồi giữ một bước nhỏ tiếp theo để duy trì nhịp học.'
+const FALLBACK_SUMMARY = 'Bắt đầu việc quan trọng nhất hôm nay.'
 
 export default function HomeAiBriefingCard({
+  isDesktop,
   userName,
   dailyLearned = 0,
   dailyMax = 20,
   showDailyWords = false,
+  reserveComeback = false,
   comeback,
 }: Props) {
-  const nav = useNavigate()
   const [briefing, setBriefing] = useState<ProactiveBriefing | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -86,10 +87,10 @@ export default function HomeAiBriefingCard({
   return (
     <section
       aria-label="Bạn Đồng Hành AI chào và đề xuất"
-      className="rounded-3xl border border-zinc-800 bg-zinc-900/90 p-5 sm:p-6 animate-fade-up"
+      className="rounded-3xl border border-zinc-800 bg-zinc-900/90 p-4 sm:p-6 animate-fade-up motion-reduce:animate-none"
     >
       <div className="flex items-center gap-3">
-        <CompanionAvatar mood={mood} size={48} />
+        <CompanionAvatar mood={mood} size={isDesktop ? 48 : 32} />
         <div className="min-w-0">
           <h2 className="text-base sm:text-lg font-bold text-white tracking-tight">
             Bạn Đồng Hành AI
@@ -98,46 +99,58 @@ export default function HomeAiBriefingCard({
         </div>
       </div>
 
-      <div className="mt-4">
+      {/* Normal/error = 80px (canonical 320/390: bubble hai dòng = 79.5px; copy fallback nội bộ
+          giữ ngắn, không clamp). Comeback mobile =
+          173px: thêm detail hai dòng + hàng action 44px. Các sàn giữ loading → loaded/error ổn
+          định; nội dung API dài hơn vẫn được phép nở tự nhiên, không bị clamp. */}
+      <div
+        className={`${isDesktop ? 'mt-4' : 'mt-3'} ${reserveComeback ? 'min-h-[173px]' : 'min-h-[80px]'}`}
+      >
         {loading ? (
           <div aria-live="polite" className="space-y-2" aria-label="Đang tải bản tin">
-            <div className="h-3.5 rounded bg-zinc-800 animate-pulse w-11/12" />
-            <div className="h-3.5 rounded bg-zinc-800 animate-pulse w-2/3" />
+            <div className="h-3.5 rounded bg-zinc-800 animate-pulse motion-reduce:animate-none w-11/12" />
+            <div className="h-3.5 rounded bg-zinc-800 animate-pulse motion-reduce:animate-none w-2/3" />
           </div>
         ) : (
-          <CompanionBubble
-            variant="home"
-            lead={summary}
-            detail={comeback ? cauQuayLai(comeback.daysAway) : undefined}
-            onSpeak={() => void speak(summary, 'vi-VN')}
-            onDismiss={comeback?.onDismiss}
-          >
-            {insight && <span className="text-sm text-content-secondary">{insight}</span>}
-            {comeback && (
-              <>
-                {comeback.reviewLabel && (
+          // CompanionBubble mặc định clamp hai dòng. Riêng Home phải hiện trọn summary +
+          // comeback detail (§4.1); !important giữ override cục bộ này thắng utility core-ui.
+          <div data-testid="home-companion-full-copy" className="[&_p]:!line-clamp-none">
+            <CompanionBubble
+              variant="home"
+              lead={summary}
+              detail={comeback ? cauQuayLai(comeback.daysAway) : undefined}
+              onSpeak={() => void speak(summary, 'vi-VN')}
+              onDismiss={comeback?.onDismiss}
+            >
+              {isDesktop && insight && (
+                <span className="text-sm text-content-secondary">{insight}</span>
+              )}
+              {comeback && (
+                <>
+                  {comeback.reviewLabel && (
+                    <button
+                      type="button"
+                      onClick={comeback.onReview}
+                      className="tap-44-y text-sm font-medium text-warm-700 hover:underline"
+                    >
+                      {comeback.reviewLabel}
+                    </button>
+                  )}
                   <button
                     type="button"
-                    onClick={comeback.onReview}
+                    onClick={comeback.onLearnNew}
                     className="tap-44-y text-sm font-medium text-warm-700 hover:underline"
                   >
-                    {comeback.reviewLabel}
+                    {comeback.learnLabel}
                   </button>
-                )}
-                <button
-                  type="button"
-                  onClick={comeback.onLearnNew}
-                  className="tap-44-y text-sm font-medium text-warm-700 hover:underline"
-                >
-                  {comeback.learnLabel}
-                </button>
-              </>
-            )}
-          </CompanionBubble>
+                </>
+              )}
+            </CompanionBubble>
+          </div>
         )}
       </div>
 
-      <div className="flex items-center justify-between flex-wrap gap-2 mt-4 pt-3 border-t border-zinc-800 text-sm text-zinc-400">
+      <div className="mt-3 border-t border-zinc-800 pt-3 text-sm text-zinc-400">
         {showDailyWords ? (
           <span>
             Hôm nay đã học{' '}
@@ -149,13 +162,6 @@ export default function HomeAiBriefingCard({
         ) : (
           <span>Tiến độ của bạn được lưu theo từng môn</span>
         )}
-        <button
-          onClick={() => nav('/tien-do')}
-          className="tap-44-y text-sm text-accent-400 theme-light:text-accent-800 hover:text-accent-300 font-medium flex items-center gap-1 transition"
-        >
-          <span>Xem tiến độ</span>
-          <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
-        </button>
       </div>
     </section>
   )

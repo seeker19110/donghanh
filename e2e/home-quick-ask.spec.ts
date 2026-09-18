@@ -91,6 +91,97 @@ test('câu hỏi quá dài bị báo lỗi tại chỗ, không bị cắt bớt'
   await expect(page.getByRole('region', { name: 'Gợi ý nơi học' })).toHaveCount(0)
 })
 
+test.describe('UX-R2 — progressive disclosure ở Trang chủ member', () => {
+  test('mobile: prompt panel stable/hidden, mở có 5 chip và click chip không gọi mạng', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await mockLogin(page)
+    await page.goto('/')
+    await page.waitForLoadState('networkidle')
+
+    const toggle = page.locator('button[aria-controls="home-prompt-chips"]')
+    const panel = page.locator('#home-prompt-chips')
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    await expect(panel).toBeHidden()
+    await expect(panel.locator('button')).toHaveCount(5)
+
+    await toggle.click()
+    await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    await expect(panel).toBeVisible()
+    await expect(toggle).toBeFocused()
+
+    const requests: string[] = []
+    page.on('request', (request) => requests.push(request.url()))
+    await panel.getByRole('button', { name: /Giải Toán & STEM/ }).click()
+    await expect(page.getByRole('region', { name: 'Gợi ý nơi học' })).toBeVisible()
+    expect(requests).toEqual([])
+
+    await toggle.click()
+    await expect(panel).toBeHidden()
+    await expect(toggle).toBeFocused()
+  })
+
+  test('resize live giữ lựa chọn và chuyển focus toggle mobile sang chip đầu desktop', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await mockLogin(page)
+    await page.goto('/')
+
+    const toggle = page.getByRole('button', { name: 'Xem 5 gợi ý nhanh' })
+    await toggle.focus()
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await expect(toggle).toHaveCount(0)
+    await expect(page.locator('#home-prompt-chips').getByRole('button').first()).toBeFocused()
+
+    await page.setViewportSize({ width: 390, height: 844 })
+    await expect(page.getByRole('button', { name: 'Xem 5 gợi ý nhanh' })).toBeVisible()
+    await expect(page.locator('#home-prompt-chips')).toBeHidden()
+  })
+
+  test('mobile: 3 môn → toggle → list 4–6; shortcut phụ và career shortcut không render sẵn', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await mockLogin(page)
+    await page.goto('/')
+
+    const revealed = page.locator('#home-subjects-revealed')
+    const toggle = page.locator('button[aria-controls="home-subjects-revealed"]')
+    await expect(revealed).toBeHidden()
+    await expect(page.getByRole('button', { name: 'Lộ trình CEFR' })).toHaveCount(0)
+    await expect(page.getByRole('button', { name: 'Phỏng vấn thử', exact: true })).toHaveCount(0)
+
+    await toggle.click()
+    await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    await expect(revealed).toBeVisible()
+    await expect(toggle).toBeFocused()
+    await page.keyboard.press('Tab')
+    await expect(revealed.getByRole('button').first()).toBeFocused()
+
+    await toggle.click({ force: true })
+    await expect(revealed).toBeHidden()
+  })
+
+  test('desktop giữ đủ prompt/môn/shortcut và chỉ một Tiến độ do Home sở hữu', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await mockLogin(page)
+    await page.goto('/')
+
+    await expect(page.getByRole('button', { name: /gợi ý nhanh/i })).toHaveCount(0)
+    await expect(page.locator('#home-prompt-chips').getByRole('button')).toHaveCount(5)
+    await expect(page.locator('#home-subjects-revealed')).toHaveCount(0)
+    await expect(page.getByRole('heading', { level: 3 })).toHaveCount(7)
+    await expect(page.getByRole('button', { name: 'Lộ trình CEFR' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Phỏng vấn thử', exact: true })).toBeVisible()
+    await expect(
+      page.locator('main').getByRole('button', { name: 'Xem bảng tiến độ' }),
+    ).toHaveCount(1)
+    await expect(page.getByText('Xem tiến độ', { exact: true })).toHaveCount(0)
+  })
+})
+
 test('Bạn Đồng Hành đổ sẵn câu hỏi vào ô soạn nhưng KHÔNG tự gửi', async ({ page }) => {
   await mockLogin(page)
   const aiCalls = watchAiCalls(page)

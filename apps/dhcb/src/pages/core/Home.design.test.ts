@@ -9,6 +9,12 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 const src = readFileSync(join(__dirname, 'Home.tsx'), 'utf8')
+const UX_R2_RUNTIME = [
+  'Home.tsx',
+  '../../components/Home/HomeAiBriefingCard.tsx',
+  '../../components/Home/HomeUniversalAiBar.tsx',
+  '../../components/Home/SubjectSpaceList.tsx',
+]
 
 describe('Home.tsx — trình bày tập trung (đợt C)', () => {
   it.each([
@@ -42,6 +48,24 @@ describe('Home.tsx — trình bày tập trung (đợt C)', () => {
     expect(subjectSpaceListSrc).toContain('orderSubjects(SUBJECT_ENTRIES')
     // Thẻ Sự nghiệp/Khởi nghiệp & Đời sống KHÔNG phải môn học — vẫn khai tay, giữ nguyên.
     expect(src).toContain("id: 'career-life'")
+  })
+})
+
+describe('UX-R2 — motion guard cho bốn file runtime', () => {
+  it.each(UX_R2_RUNTIME)('%s không dùng transition-all', (relativePath) => {
+    const source = readFileSync(join(__dirname, relativePath), 'utf8')
+    expect(source).not.toContain('transition-all')
+  })
+
+  it.each(UX_R2_RUNTIME)('%s có reduced-motion cho animation/transform', (relativePath) => {
+    const source = readFileSync(join(__dirname, relativePath), 'utf8')
+    const unsafe = source.split('\n').filter((line) => {
+      const hasAnimation = /(?<!motion-reduce:)animate-(?!none)/.test(line)
+      const hasTransform = /(?<!motion-reduce:)\b(?:translate|scale)-/.test(line)
+      if (!hasAnimation && !hasTransform) return false
+      return !/motion-reduce:(?:animate-none|transform-none)/.test(line)
+    })
+    expect(unsafe).toEqual([])
   })
 })
 

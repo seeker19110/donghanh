@@ -27,11 +27,18 @@ async function seedLearnedWords(page: Page, words: string[]) {
   })
 }
 
+// Comeback trên Home chỉ thuộc luồng English khi có bằng chứng học môn Anh. `et_usage_*` là
+// hoạt động đa miền nên không đủ một mình (người chỉ học Lập trình không được nhận CTA English).
+async function seedEnglishComeback(page: Page, offsetDays: number) {
+  await seedActivity(page, offsetDays)
+  await seedLearnedWords(page, ['apple'])
+}
+
 test.describe('Luồng quay lại sau khi bỏ bẵng (② M4)', () => {
   test('vắng 5 ngày → bong bóng Companion gộp câu quay lại + 2 CTA phiên rút gọn', async ({
     page,
   }) => {
-    await seedActivity(page, 5)
+    await seedEnglishComeback(page, 5)
     await mockLogin(page, 'vi')
     await page.goto('/', { waitUntil: 'domcontentloaded' })
     // Banner chỉ hiện sau khi `Home.tsx` tải xong `cefr.json` (228KB) + `curriculum.json`
@@ -60,7 +67,7 @@ test.describe('Luồng quay lại sau khi bỏ bẵng (② M4)', () => {
   })
 
   test('bấm đóng (X) → câu quay lại ẩn ngay trong phiên', async ({ page }) => {
-    await seedActivity(page, 5)
+    await seedEnglishComeback(page, 5)
     await mockLogin(page, 'vi')
     await page.goto('/', { waitUntil: 'domcontentloaded' })
     await expect(page.getByText(/Đã 5 ngày rồi/)).toBeVisible()
@@ -69,7 +76,7 @@ test.describe('Luồng quay lại sau khi bỏ bẵng (② M4)', () => {
   })
 
   test('bấm "Học 3 từ mới" → điều hướng sang tab Hôm nay với cap=3', async ({ page }) => {
-    await seedActivity(page, 5)
+    await seedEnglishComeback(page, 5)
     await mockLogin(page, 'vi')
     await page.goto('/', { waitUntil: 'domcontentloaded' })
     await page.getByRole('button', { name: /Học 3 từ mới/ }).click()
