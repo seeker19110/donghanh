@@ -225,9 +225,14 @@ test.describe('Friends & Real-time Chat E2E Tests', () => {
 
   test('Luồng Profile: có thẻ "Tin nhắn" trong Không gian chuyên biệt', async ({ page }) => {
     await page.goto('/profile')
-    await page.waitForLoadState('networkidle')
 
-    const chatCard = page.locator('button', { hasText: 'Tin nhắn' })
+    // Profile mở các kết nối nền dài hạn ở production, nên `networkidle` không biểu thị
+    // màn hình đã sẵn sàng. Chờ đúng vùng UI chứa thẻ cần kiểm tra thay vì trạng thái transport.
+    await expect(
+      page.getByRole('heading', { name: 'Không Gian Chuyên Biệt (Hubs)', exact: true }),
+    ).toBeVisible()
+
+    const chatCard = page.getByRole('button', { name: /Tin nhắn/ })
     await expect(chatCard).toBeVisible()
     await chatCard.click()
 
