@@ -73,7 +73,7 @@ describe('buildLevelOutline', () => {
   it('href bài KHÔNG mang ?khoa= khi đi theo bậc', () => {
     const p3 = buildLevelOutline('p3', CTX_RONG)!
     const bai = p3.nodes.find((n) => n.contentId === 'p3-u10-l1')
-    expect(bai?.href).toMatch(/^\/lap-trinh\/bai-hoc\/p3-u10-l1--/)
+    expect(bai?.href).toMatch(/^\/goc-hoc-tap\/programming\/bai-hoc\/p3-u10-l1--/)
     expect(bai?.href).not.toContain('?khoa=')
   })
 

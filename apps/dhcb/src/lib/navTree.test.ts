@@ -73,11 +73,11 @@ describe('navTree — Tiếng Anh là một môn, công cụ ở cấp 2', () =>
 
 describe('groupContainsPath — tự mở nhóm chứa trang đang xem', () => {
   it('nhìn xuyên cấp 2: đứng ở công cụ Tiếng Anh thì nhóm Góc học tập mở', () => {
-    expect(groupContainsPath(SUBJECT_CHILDREN, '/lo-trinh-hoc/a1')).toBe(true)
-    expect(groupContainsPath(SUBJECT_CHILDREN, '/on-thi')).toBe(true)
-    expect(groupContainsPath(ENGLISH_CHILDREN, '/cau-thong-dung')).toBe(true)
-    expect(groupContainsPath(ENGLISH_CHILDREN, '/tro-truyen')).toBe(true)
-    expect(groupContainsPath(ENGLISH_CHILDREN, '/tu-vung/apple')).toBe(true)
+    expect(groupContainsPath(SUBJECT_CHILDREN, '/goc-hoc-tap/english/lo-trinh/a1')).toBe(true)
+    expect(groupContainsPath(SUBJECT_CHILDREN, '/goc-hoc-tap/english/on-thi')).toBe(true)
+    expect(groupContainsPath(ENGLISH_CHILDREN, '/goc-hoc-tap/english/cau-thong-dung')).toBe(true)
+    expect(groupContainsPath(ENGLISH_CHILDREN, '/goc-hoc-tap/english/tro-truyen')).toBe(true)
+    expect(groupContainsPath(ENGLISH_CHILDREN, '/goc-hoc-tap/english/tu-dien/apple')).toBe(true)
     expect(groupContainsPath(ENGLISH_CHILDREN, '/goc-hoc-tap/physics')).toBe(false)
   })
 
