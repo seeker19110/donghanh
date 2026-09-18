@@ -79,7 +79,7 @@ let _loadPromise: Promise<void> | null = null
 // Gọi (await) một lần trước khi dùng getCircles/getLearningPath/getTodayBatch...
 export function loadCurriculum(): Promise<void> {
   if (!_loadPromise) {
-    _loadPromise = Promise.all([loadDictionary(), loadFoundation(), loadCefr()]).then(
+    const promise = Promise.all([loadDictionary(), loadFoundation(), loadCefr()]).then(
       ([entries, foundation, levels]) => {
         ENTRIES = entries
         FOUNDATION = foundation
@@ -99,6 +99,10 @@ export function loadCurriculum(): Promise<void> {
         }
       },
     )
+    _loadPromise = promise
+    void promise.catch(() => {
+      if (_loadPromise === promise) _loadPromise = null
+    })
   }
   return _loadPromise
 }

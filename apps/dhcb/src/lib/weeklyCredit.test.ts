@@ -24,10 +24,25 @@ describe('fetchWeeklyCredit — lượt còn lại của gói Free từ server',
     )
   })
 
-  it('gói Pro/VIP → freeWeeklyCredit null vẫn parse đúng', async () => {
-    const data = { plan: 'pro' as const, freeWeeklyCredit: null, freeWeeklyCap: 10 }
+  it('credit bằng 0 là dữ liệu ready hợp lệ', async () => {
+    const data = { plan: 'free' as const, freeWeeklyCredit: 0, freeWeeklyCap: 30 }
     vi.mocked(fetch).mockResolvedValue({ ok: true, json: async () => data } as Response)
     await expect(fetchWeeklyCredit()).resolves.toEqual(data)
+  })
+
+  it.each([
+    ['credit null', { plan: 'free', freeWeeklyCredit: null, freeWeeklyCap: 30 }],
+    ['plan không hợp lệ', { plan: 'pro', freeWeeklyCredit: 2, freeWeeklyCap: 30 }],
+    ['thiếu field', { plan: 'free', freeWeeklyCredit: 2 }],
+    ['credit âm', { plan: 'free', freeWeeklyCredit: -1, freeWeeklyCap: 30 }],
+    ['credit vượt cap', { plan: 'free', freeWeeklyCredit: 31, freeWeeklyCap: 30 }],
+    ['credit thập phân', { plan: 'free', freeWeeklyCredit: 1.5, freeWeeklyCap: 30 }],
+    ['cap bằng 0', { plan: 'free', freeWeeklyCredit: 0, freeWeeklyCap: 0 }],
+    ['cap âm', { plan: 'free', freeWeeklyCredit: 0, freeWeeklyCap: -1 }],
+    ['cap thập phân', { plan: 'free', freeWeeklyCredit: 1, freeWeeklyCap: 1.5 }],
+  ])('payload %s → null thay vì tin dữ liệu ngoài biên', async (_name, data) => {
+    vi.mocked(fetch).mockResolvedValue({ ok: true, json: async () => data } as Response)
+    await expect(fetchWeeklyCredit()).resolves.toBeNull()
   })
 
   it('server trả HTTP lỗi → trả về null (an toàn, coi như hết lượt)', async () => {

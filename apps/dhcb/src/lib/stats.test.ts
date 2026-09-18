@@ -198,8 +198,9 @@ describe('stats — getCefrProgress (% hoàn thành theo cấp CEFR)', () => {
     vi.stubGlobal(
       'fetch',
       vi.fn((url: string) => {
-        if (url.includes('cefr.json')) return Promise.resolve({ json: async () => [level] })
-        return Promise.resolve({ json: async () => [circle] })
+        if (url.includes('cefr.json'))
+          return Promise.resolve({ ok: true, json: async () => [level] })
+        return Promise.resolve({ ok: true, json: async () => [circle] })
       }),
     )
     const learned = new Set(['cat', 'bird']) // 'bird' khớp không phân biệt hoa/thường với 'Bird'

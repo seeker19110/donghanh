@@ -4,7 +4,7 @@
 | ----------------- | ------------------------------------------------------------------------------------------------------------- |
 | Goal ID           | GOAL-2026-0915-LEARNING-UX                                                                                    |
 | Owner             | Chủ sản phẩm Đồng Hành; agent chính điều phối và review                                                       |
-| Trạng thái        | ACTIVE — UX-R1/UX-R2 đã merge; spec toàn UX-R3 Approved, chờ PR docs merge                                    |
+| Trạng thái        | ACTIVE — UX-R1/UX-R2 và spec UX-R3 đã merge; R3-1 đang VERIFY trước PR                                        |
 | Bắt đầu           | 2026-09-15                                                                                                    |
 | Target review     | Sau mỗi slice; chưa cam kết ngày phát hành toàn bộ                                                            |
 | Quyền được cấp    | Research, branch, PR và auto-merge khi checks đạt; không bao gồm deploy thủ công hoặc production access       |
@@ -84,16 +84,16 @@ Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S →
 
 ### Chặng clarity-first hiện hành
 
-| ID    | Outcome                                       | Dependency          | State      | Spec / bằng chứng                                                                           |
-| ----- | --------------------------------------------- | ------------------- | ---------- | ------------------------------------------------------------------------------------------- |
-| UX-R1 | Tin cậy async/touch nền `/tien-do`            | Foundation approved | MERGED     | PR #1020 · changelog 0367                                                                   |
-| UX-R2 | Home progressive disclosure                   | UX-R1               | MERGED     | PR #1021 spec · PR #1022 source · changelog 0369                                            |
-| UX-R3 | Tiến độ progressive disclosure                | UX-R2               | SPEC READY | [Spec UX-R3](../specs/2026-09-18-ui-clarity-dashboard-progressive-disclosure.md) — Approved |
-| R3-1  | Async truth/retry + bốn rejected loader cache | UX-R3 spec merge    | WAITING    | Zod quota + response.ok/identity guard/fake-fetch; chưa source                              |
-| R3-2  | Responsive state/focus/calendar               | R3-1 merge          | WAITING    | Một DOM; explicit calendar state sống resize                                                |
-| R3-3  | Hierarchy + “Tuần này” có scope English       | R3-2 merge          | WAITING    | P2-10 superseded; calendar embedded, không card lồng                                        |
-| R3-4  | English progressive disclosure + 28 evidence  | R3-3 merge          | WAITING    | Final target 320/390/1440                                                                   |
-| UX-R4 | Taxonomy/header/navigation nhất quán          | UX-R3 complete      | BACKLOG    | Cần spec riêng                                                                              |
+| ID    | Outcome                                       | Dependency          | State   | Spec / bằng chứng                                                                           |
+| ----- | --------------------------------------------- | ------------------- | ------- | ------------------------------------------------------------------------------------------- |
+| UX-R1 | Tin cậy async/touch nền `/tien-do`            | Foundation approved | MERGED  | PR #1020 · changelog 0367                                                                   |
+| UX-R2 | Home progressive disclosure                   | UX-R1               | MERGED  | PR #1021 spec · PR #1022 source · changelog 0369                                            |
+| UX-R3 | Tiến độ progressive disclosure                | UX-R2               | ACTIVE  | [Spec UX-R3](../specs/2026-09-18-ui-clarity-dashboard-progressive-disclosure.md) — Approved |
+| R3-1  | Async truth/retry + bốn rejected loader cache | UX-R3 spec merge    | VERIFY  | Candidate: 92/92 targeted; review độc lập PASS; full E2E 843 pass / 5 skip                  |
+| R3-2  | Responsive state/focus/calendar               | R3-1 merge          | WAITING | Một DOM; explicit calendar state sống resize                                                |
+| R3-3  | Hierarchy + “Tuần này” có scope English       | R3-2 merge          | WAITING | P2-10 superseded; calendar embedded, không card lồng                                        |
+| R3-4  | English progressive disclosure + 28 evidence  | R3-3 merge          | WAITING | Final target 320/390/1440                                                                   |
+| UX-R4 | Taxonomy/header/navigation nhất quán          | UX-R3 complete      | BACKLOG | Cần spec riêng                                                                              |
 
 ## 4. Risk register
 
@@ -111,9 +111,11 @@ Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S →
 
 ## 5. Current truth
 
-> Reconcile mới nhất 2026-09-18 ở `main@5d81c6c8` thay cho snapshot cũ bên dưới khi hai phần mâu
+> Reconcile mới nhất 2026-09-18 ở `main@b413e04f` thay cho snapshot cũ bên dưới khi hai phần mâu
 > thuẫn. Iteration log cũ được giữ nguyên làm lịch sử, không phải trạng thái hiện hành.
 
+- PR #1023 đã merge đặc tả UX-R3 tại `b413e04f`; bốn source slice R3-1→R3-4 được phép thi hành
+  tuần tự. R3-1 đang là candidate trên branch `feat/ui-clarity-ux-r3-async`, chưa phải main truth.
 - PR #1022 đã merge source UX-R2. Candidate canonical trở thành main truth: Home cao
   1.663/1.581/1.423px ở 320/390/1440, đúng một entry Tiến độ trong content, prompt collapsed trên
   mobile; changelog 0369 giữ evidence hash và gate.
@@ -143,7 +145,13 @@ Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S →
   collapsed state qua breakpoint và embedded presentation. Vòng 2 còn 0 critical · 2 major; đã
   bổ sung fallback focus theo panel mở/đóng và recovery delay ≥600ms monotonic + observer flush.
   Review vòng 3 PASS 0 critical · 0 major · 0 minor; mọi finding đã đóng trong contract.
-- Next best slice: merge PR đặc tả UX-R3; reload `main`, rồi giao R3-1 source.
+- Candidate R3-1 đã có keyed async truth/retry cho weekly quota + CEFR, Zod boundary, bốn cache
+  phục hồi sau reject và kiểm `response.ok` cho 12 resource. Review độc lập vòng 3 PASS 0 finding;
+  92/92 targeted và full E2E 843 pass / 5 skip. Full unit có đúng một timeout Swift 5 giây ngoài
+  phạm vi khi chạy 710 file song song; 14.948 test khác xanh và Swift cô lập 44/44. Required
+  `quality`/E2E CI của PR là release gate, không nới timeout hoặc test.
+- Next best slice: hoàn tất metadata, mở/auto-merge PR R3-1 khi required checks xanh; reload main,
+  rồi giao R3-2 responsive state/focus/calendar.
 - Quyền cần thêm: không cần cho docs review/branch/PR/auto-merge; cần riêng nếu deploy thủ công hoặc truy
   cập production.
 
@@ -312,6 +320,27 @@ Các mã S giữ liên kết kế hoạch cũ; thứ tự mới ưu tiên 0S →
 - Blocker: không còn spec blocker; source chỉ chờ PR docs merge theo delivery loop.
 - Next best slice: merge docs, reload main và giao R3-1.
 - Quyền cần thêm: không cần cho docs review/PR/auto-merge; deploy/production vẫn ngoài phạm vi.
+
+### Iteration 10 — 2026-09-18 — UX-R3.1 async truth và rejected-cache recovery
+
+- State: IMPLEMENT → VERIFY; base `origin/main@b413e04f` sau PR #1023.
+- Slice: R3-1; không đổi hierarchy/disclosure/calendar của R3-2→R3-4.
+- Goal gap trước/sau: weekly quota/CEFR có thể treo loading và loader giữ promise reject → hai
+  resource có keyed `loading|ready|error`, retry thật, chống stale response; bốn cache coalesce
+  pending và chỉ xóa đúng promise reject của chính nó.
+- Thay đổi: weekly boundary dùng Zod, `null`/invalid/non-2xx là unavailable nhưng credit `0` vẫn
+  ready; VIP không gọi quota Free; 10 dictionary chunk + foundation + CEFR kiểm `response.ok`;
+  recovery focus có điều kiện và không cướp focus; bỏ motion gây layout trong Dashboard.
+- Test/review: 7 file / 92 targeted PASS; reviewer độc lập vòng 1 BLOCK 2 major + 2 minor,
+  vòng 2 còn 2 major, vòng 3 PASS 0 critical · 0 major · 0 minor sau khi xóa width/height motion
+  và thêm harness capture/replay cleanup cũ cho đủ bốn cache.
+- Complete gate candidate: build, typecheck, lint, format, budget và full E2E **843 pass / 5
+  skip** đều xanh; JS 137,66/150 kB, CSS 18,42/20 kB. Full unit: 708 file + 14.948 test xanh,
+  1 timeout Swift 5 giây ngoài diff; Swift cô lập 44/44. Không sửa/nới test; CI `quality` là gate.
+- Guardrails: không API/schema/migration/dependency/provider/production; không dữ liệu authority.
+- Blocker: chưa có product/runtime blocker; chờ commit, PR và required CI trước auto-merge.
+- Next best slice: sau merge R3-1, reload main và giao R3-2 tuần tự.
+- Quyền cần thêm: không cần cho PR/auto-merge; deploy/production vẫn ngoài phạm vi.
 
 ## 7. Final audit
 

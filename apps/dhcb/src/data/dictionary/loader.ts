@@ -10,6 +10,12 @@ const CHUNK_COUNT = 10
 let cache: DictEntry[] | null = null
 let _loadPromise: Promise<DictEntry[]> | null = null
 
+async function fetchChunk(name: string): Promise<DictEntry[]> {
+  const response = await fetch(`/data/dictionary/${name}`)
+  if (!response.ok) throw new Error(`Không tải được dữ liệu từ điển: ${name}`)
+  return response.json() as Promise<DictEntry[]>
+}
+
 // Tải toàn bộ từ điển (ghép mọi chunk). Chỉ tải MỘT lần dù gọi từ nhiều nơi.
 export function loadDictionary(): Promise<DictEntry[]> {
   if (cache) return Promise.resolve(cache)
@@ -17,12 +23,16 @@ export function loadDictionary(): Promise<DictEntry[]> {
 
   const fetches = Array.from({ length: CHUNK_COUNT }, (_, i) => {
     const name = `chunk-${String(i).padStart(3, '0')}.json`
-    return fetch(`/data/dictionary/${name}`).then((r) => r.json() as Promise<DictEntry[]>)
+    return fetchChunk(name)
   })
 
-  _loadPromise = Promise.all(fetches).then((chunks) => {
+  const promise = Promise.all(fetches).then((chunks) => {
     cache = chunks.flat()
     return cache
   })
-  return _loadPromise
+  _loadPromise = promise
+  void promise.catch(() => {
+    if (_loadPromise === promise) _loadPromise = null
+  })
+  return promise
 }
