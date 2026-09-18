@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { Play, Square, Loader2, Terminal, Keyboard, ListOrdered } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import Layout from '../../../components/Layout'
+import { PROGRAMMING_PREFIX } from '../../../lib/programmingRoutes'
 import PageHeader from '../../../components/PageHeader'
 import CodeEditor from '../../../components/CodeEditor'
 import { runPython, resetPythonWorker } from '../../../lib/pythonRunner'
@@ -72,7 +73,7 @@ export default function ProgrammingPlayground() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav('/lap-trinh')} />
+      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
 
       <main className="max-w-4xl mx-auto px-4 pt-6 pb-[calc(2rem+var(--bnav-h))] space-y-5">
         <PageHeader

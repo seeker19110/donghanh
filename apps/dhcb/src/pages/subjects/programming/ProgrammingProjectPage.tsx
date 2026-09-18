@@ -24,6 +24,7 @@ import {
   FileCode,
 } from 'lucide-react'
 import Layout from '../../../components/Layout'
+import { PROGRAMMING_PREFIX } from '../../../lib/programmingRoutes'
 import PageHeader from '../../../components/PageHeader'
 import CodeEditor from '../../../components/CodeEditor'
 import { useAuth } from '../../../context/useAuth'
@@ -214,7 +215,7 @@ export default function ProgrammingProjectPage() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav('/lap-trinh')} />
+      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-5">

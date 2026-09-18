@@ -67,7 +67,7 @@ export function lessonOutlineContext(
     course,
     tenMucLuc: course ? 'Mục lục khoá học' : 'Mục lục môn học',
     storageKey: course ? `khoa:${course.id}` : (levelId ?? 'lap-trinh'),
-    backTo: course ? duongDanKhoa(course) : level ? duongDanBac(level) : '/lap-trinh',
+    backTo: course ? duongDanKhoa(course) : level ? duongDanBac(level) : '/goc-hoc-tap/programming',
     crumbs: course
       ? [{ label: `Khoá ${course.title}`, to: duongDanKhoa(course) }]
       : level

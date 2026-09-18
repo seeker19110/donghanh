@@ -11,9 +11,9 @@ describe('subjectHome — trang chủ môn và host sở hữu', () => {
     }
   })
 
-  it('đường dẫn trang chủ: Tiếng Anh nằm DƯỚI tiền tố Góc học tập, Lập trình giữ /lap-trinh', () => {
+  it('đường dẫn trang chủ: Tiếng Anh và Lập trình nằm dưới tiền tố Góc học tập', () => {
     expect(subjectHomePath('english')).toBe('/goc-hoc-tap/english')
-    expect(subjectHomePath('programming')).toBe('/lap-trinh')
+    expect(subjectHomePath('programming')).toBe('/goc-hoc-tap/programming')
     expect(subjectHomePath('physics')).toBe('/goc-hoc-tap/physics')
   })
 

@@ -24,7 +24,7 @@ import {
   type ProgSrsCardRef,
 } from '../../../lib/programmingSrs'
 import { SRS_SESSION_CAP, type Rating } from '../../../lib/srs'
-import { duongDanBaiHoc } from '../../../lib/programmingRoutes'
+import { PROGRAMMING_PREFIX, duongDanBaiHoc } from '../../../lib/programmingRoutes'
 import FlashcardReview, { type FlashcardItem } from '../../../components/FlashcardReview'
 
 export default function ProgrammingReview() {
@@ -76,7 +76,7 @@ export default function ProgrammingReview() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav('/lap-trinh')} />
+      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-2xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-2xl" className="space-y-5">
@@ -123,7 +123,7 @@ export default function ProgrammingReview() {
               bài mới đi, thẻ của bài đó sẽ tự vào vòng ôn khi bạn đạt phần tự viết.
             </p>
             <button
-              onClick={() => nav('/lap-trinh')}
+              onClick={() => nav(PROGRAMMING_PREFIX)}
               className="tap-44 inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition"
             >
               <BookOpen className="w-4 h-4" />

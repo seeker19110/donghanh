@@ -142,7 +142,7 @@ describe('buildReviewQueue', () => {
       }),
       { now: NOW },
     )
-    expect(q.items[0]!.href).toBe('/lap-trinh/on-tap')
+    expect(q.items[0]!.href).toBe('/goc-hoc-tap/programming/on-tap')
     expect(q.items[0]!.subjectId).toBe('programming')
   })
 

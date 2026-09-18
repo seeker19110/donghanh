@@ -27,6 +27,8 @@ import { pruneExpiredSessions } from './lib/learningSession'
 import { refreshPlanFeatures } from './lib/planFeatures'
 import { refreshPlanMarketing } from './lib/planMarketing'
 import FeatureGate from './components/FeatureGate'
+import LegacyProgrammingRedirect from './components/LegacyProgrammingRedirect'
+import { PROGRAMMING_PREFIX } from './lib/programmingRoutes'
 // Dải báo đồng bộ hầu như luôn `return null` (chỉ hiện khi mất mạng / còn mục chờ / vừa gửi
 // xong), nên nó KHÔNG đáng nằm trong chunk khởi động — nạp lười để giữ ngân sách Initial JS
 // dưới trần 140 kB. Không bọc Suspense: khi chưa nạp xong, `lazy` render null, đúng bằng
@@ -290,14 +292,6 @@ function SubjectsHostLegacyRedirect() {
   return <Navigate to={`${SUBJECTS_PREFIX}/${subjectId ?? ''}${search}${hash}`} replace />
 }
 
-// Chuyển hướng URL cũ của trang khoá ngắn (/lap-trinh/khoa/…) về URL chính thức
-// (/lap-trinh/khoa-hoc/…, đổi 2026-08-31 theo yêu cầu người dùng), GIỮ NGUYÊN mã khoá —
-// link đã chia sẻ/bookmark không chết.
-function CourseRedirect() {
-  const { courseId } = useParams()
-  return <Navigate to={`/lap-trinh/khoa-hoc/${courseId ?? ''}`} replace />
-}
-
 export default function App() {
   usePrefetchPages()
   // Host trụ Học tập đổi HÌNH DẠNG bảng route (xem chú thích ở route "/"). Đọc một lần lúc
@@ -508,23 +502,22 @@ export default function App() {
                       {/* Môn Lập trình có không gian riêng (như English) — đặt TRƯỚC
                           route param :subjectId để 'programming' không rơi vào SubjectDetail */}
                       <Route
-                        path="/goc-hoc-tap/programming"
-                        element={<Navigate to="/lap-trinh" replace />}
-                      />
-                      {/* Mô tả khoá học môn Lập trình — CÔNG KHAI, cố ý đặt ngoài RequireAuth
-                          (quyết định 2026-08-26): đây là trang giới thiệu môn, bắt đăng nhập
-                          mới cho xem là tự chặn đúng người mình cần thuyết phục. */}
-                      <Route path="/lap-trinh/gioi-thieu" element={<ProgrammingAbout />} />
-                      <Route
-                        path="/lap-trinh"
+                        path={PROGRAMMING_PREFIX}
                         element={
                           <AllowGuest>
                             <ProgrammingHome />
                           </AllowGuest>
                         }
                       />
+                      {/* Mô tả khoá học môn Lập trình — CÔNG KHAI, cố ý đặt ngoài RequireAuth
+                          (quyết định 2026-08-26): đây là trang giới thiệu môn, bắt đăng nhập
+                          mới cho xem là tự chặn đúng người mình cần thuyết phục. */}
                       <Route
-                        path="/lap-trinh/du-an"
+                        path={`${PROGRAMMING_PREFIX}/gioi-thieu`}
+                        element={<ProgrammingAbout />}
+                      />
+                      <Route
+                        path={`${PROGRAMMING_PREFIX}/du-an`}
                         element={
                           <AllowGuest>
                             <ProgrammingProjectPage />
@@ -532,7 +525,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/lap-trinh/bai-hoc/:lessonId"
+                        path={`${PROGRAMMING_PREFIX}/bai-hoc/:lessonId`}
                         element={
                           <AllowGuest>
                             <ProgrammingLessonPage />
@@ -540,7 +533,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/lap-trinh/on-tap"
+                        path={`${PROGRAMMING_PREFIX}/on-tap`}
                         element={
                           <AllowGuest>
                             <ProgrammingReview />
@@ -548,7 +541,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/lap-trinh/chay-thu"
+                        path={`${PROGRAMMING_PREFIX}/chay-thu`}
                         element={
                           <AllowGuest>
                             <ProgrammingPlayground />
@@ -558,7 +551,7 @@ export default function App() {
                       {/* Hướng chuyên sâu — đặt TRƯỚC route param :levelId để 'huong'
                           không bị hiểu nhầm là mã bậc. */}
                       <Route
-                        path="/lap-trinh/huong"
+                        path={`${PROGRAMMING_PREFIX}/huong`}
                         element={
                           <AllowGuest>
                             <ProgrammingSpecializations />
@@ -568,7 +561,7 @@ export default function App() {
                       {/* Chặng của một hướng — route dài hơn nên đặt TRƯỚC ':specId'
                           để React Router khớp đúng, không nuốt mất đoạn stageId. */}
                       <Route
-                        path="/lap-trinh/huong/:specId/:stageId"
+                        path={`${PROGRAMMING_PREFIX}/huong/:specId/:stageId`}
                         element={
                           <AllowGuest>
                             <ProgrammingSpecStagePage />
@@ -576,7 +569,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/lap-trinh/huong/:specId"
+                        path={`${PROGRAMMING_PREFIX}/huong/:specId`}
                         element={
                           <AllowGuest>
                             <ProgrammingSpecializationPage />
@@ -586,7 +579,7 @@ export default function App() {
                       {/* Khoá ngắn (cắt ngang bậc, ví dụ khoá Git) — đặt TRƯỚC ':levelId'
                           để 'khoa-hoc' không bị hiểu nhầm là mã bậc, cùng lý do như '/huong'. */}
                       <Route
-                        path="/lap-trinh/khoa-hoc/:courseId"
+                        path={`${PROGRAMMING_PREFIX}/khoa-hoc/:courseId`}
                         element={
                           <AllowGuest>
                             <ProgrammingCoursePage />
@@ -594,13 +587,13 @@ export default function App() {
                         }
                       />
                       {/* URL cũ trước 2026-08-31 — chuyển hướng giữ mã khoá. */}
-                      <Route path="/lap-trinh/khoa/:courseId" element={<CourseRedirect />} />
+                      <Route path="/lap-trinh/*" element={<LegacyProgrammingRedirect />} />
                       {/* Lộ trình mục tiêu (ví dụ Kỹ Sư Trưởng AI) — đặt TRƯỚC ':levelId'
                           để 'lo-trinh' không bị hiểu nhầm là mã bậc, cùng lý do như '/huong'.
                           Chẩn đoán đặt TRƯỚC ':pathId' (đoạn dài hơn khớp trước), cùng lý do
                           '/huong/:specId/:stageId' đặt trước '/huong/:specId'. */}
                       <Route
-                        path="/lap-trinh/lo-trinh/:pathId/chan-doan"
+                        path={`${PROGRAMMING_PREFIX}/lo-trinh/:pathId/chan-doan`}
                         element={
                           <AllowGuest>
                             <ProgrammingPathDiagnostic />
@@ -610,7 +603,7 @@ export default function App() {
                       {/* Chặng riêng của lộ trình (đợt 4, P5 "Tầm trưởng") — dài hơn
                           ':pathId' nên đặt trước, cùng luật '/huong/:specId/:stageId'. */}
                       <Route
-                        path="/lap-trinh/lo-trinh/:pathId/chang/:stageId"
+                        path={`${PROGRAMMING_PREFIX}/lo-trinh/:pathId/chang/:stageId`}
                         element={
                           <AllowGuest>
                             <ProgrammingPathStagePage />
@@ -618,7 +611,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/lap-trinh/lo-trinh/:pathId"
+                        path={`${PROGRAMMING_PREFIX}/lo-trinh/:pathId`}
                         element={
                           <AllowGuest>
                             <ProgrammingPathPage />
@@ -626,7 +619,7 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/lap-trinh/:levelId"
+                        path={`${PROGRAMMING_PREFIX}/bac/:levelId`}
                         element={
                           <AllowGuest>
                             <ProgrammingLevelPage />
@@ -1047,7 +1040,10 @@ export default function App() {
                           có cặp Việt–Anh (/tieng-anh ↔ /english, /su-nghiep ↔ /career,
                           /khoi-nghiep ↔ /startup…), riêng /programming rơi vào route `*` và bị
                           đẩy về trang chủ — không phải trang môn, cũng không phải 404. */}
-                      <Route path="/programming" element={<Navigate to="/lap-trinh" replace />} />
+                      <Route
+                        path="/programming"
+                        element={<Navigate to={PROGRAMMING_PREFIX} replace />}
+                      />
                       <Route path="/profile" element={<Navigate to="/trang-ca-nhan" replace />} />
                       <Route
                         path="/phong-luyen-tap"

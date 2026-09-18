@@ -29,6 +29,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import { ENGLISH_PATHS, underPrefix } from './navPaths'
+import { PROGRAMMING_PREFIX } from './programmingRoutes'
 
 /** Một mục CON trong nhóm đóng/mở được. */
 export interface NavChild {
@@ -119,7 +120,7 @@ export const SUBJECT_CHILDREN: NavChild[] = [
     label: 'Lập trình',
     icon: Code2,
     subjectId: 'programming',
-    paths: ['/goc-hoc-tap/programming', '/lap-trinh'],
+    paths: [PROGRAMMING_PREFIX, '/lap-trinh'],
   },
 ]
 

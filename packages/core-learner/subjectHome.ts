@@ -16,8 +16,8 @@ export const SUBJECTS_ON_APP_HOST: Readonly<Record<string, string>> = {
   // Tiếng Anh là MỘT MÔN ngang hàng (quyết định chủ dự án 2026-09-15); trang tổng quan nằm dưới
   // tiền tố Góc học tập nhưng dữ liệu hoạt động (từ vựng, SRS, token…) sống ở origin app.
   english: '/goc-hoc-tap/english',
-  // Lập trình giữ `/lap-trinh` — tương thích tạm tới khi có spec adapter (S07).
-  programming: '/lap-trinh',
+  // Lập trình là môn hoạt động riêng trên app host, dưới tiền tố Góc học tập.
+  programming: '/goc-hoc-tap/programming',
 }
 
 /** Môn này có trang chủ ở app host không (thay vì host Góc học tập). */

@@ -80,7 +80,7 @@ describe('buildCrumbs', () => {
   })
 
   it('nhánh tĩnh của môn Lập trình lồng dưới trang môn', () => {
-    expect(buildCrumbs('/lap-trinh/huong').map((c) => c.label)).toEqual([
+    expect(buildCrumbs('/goc-hoc-tap/programming/huong').map((c) => c.label)).toEqual([
       'Trang chủ',
       'Góc học tập',
       'Lập trình',
@@ -89,9 +89,11 @@ describe('buildCrumbs', () => {
   })
 
   it('đốt cha ĐỘNG chèn sau các tầng tĩnh', () => {
-    const crumbs = buildCrumbs('/lap-trinh/huong/web--lap-trinh-web/s2--nen-tang', undefined, [
-      { label: 'Lập trình Web', to: '/lap-trinh/huong/web--lap-trinh-web' },
-    ])
+    const crumbs = buildCrumbs(
+      '/goc-hoc-tap/programming/huong/web--lap-trinh-web/s2--nen-tang',
+      undefined,
+      [{ label: 'Lập trình Web', to: '/goc-hoc-tap/programming/huong/web--lap-trinh-web' }],
+    )
     expect(crumbs.map((c) => c.label)).toEqual([
       'Trang chủ',
       'Góc học tập',
@@ -103,8 +105,8 @@ describe('buildCrumbs', () => {
 
   it('đốt cha động trùng tầng tĩnh liền trước thì KHÔNG nhân đôi', () => {
     expect(
-      buildCrumbs('/lap-trinh/huong', undefined, [
-        { label: 'Hướng chuyên sâu', to: '/lap-trinh/huong' },
+      buildCrumbs('/goc-hoc-tap/programming/huong', undefined, [
+        { label: 'Hướng chuyên sâu', to: '/goc-hoc-tap/programming/huong' },
       ]).map((c) => c.label),
     ).toEqual(['Trang chủ', 'Góc học tập', 'Lập trình', 'Hướng chuyên sâu'])
   })

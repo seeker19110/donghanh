@@ -152,7 +152,7 @@ export function buildReviewQueue(
       dueAt,
       difficulty,
       evidenceSource: 'programming.srs',
-      href: '/lap-trinh/on-tap',
+      href: '/goc-hoc-tap/programming/on-tap',
       title: c.lessonTitle,
       srsKey: c.key,
     })

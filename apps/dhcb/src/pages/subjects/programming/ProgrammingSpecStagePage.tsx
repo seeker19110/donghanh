@@ -34,7 +34,11 @@ import {
 } from '../../../lib/programmingProgress'
 import { getSpecialization } from '@dhcb/subject-programming/specializations/registry'
 import { buildSlugSegment, idFromSlugSegment } from '@core/slug'
-import { duongDanChangHuong, duongDanHuong } from '../../../lib/programmingRoutes'
+import {
+  PROGRAMMING_PREFIX,
+  duongDanChangHuong,
+  duongDanHuong,
+} from '../../../lib/programmingRoutes'
 import {
   getSpecStageDetail,
   type SpecBrief,
@@ -265,7 +269,7 @@ export default function ProgrammingSpecStagePage() {
   if (!spec || !stage) {
     return (
       <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-        <Layout onBack={() => nav('/lap-trinh/huong')} />
+        <Layout onBack={() => nav(`${PROGRAMMING_PREFIX}/huong`)} />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] */}
         <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-4">
           <PageHeader
@@ -273,7 +277,7 @@ export default function ProgrammingSpecStagePage() {
             subtitle="Đường dẫn không khớp chặng nào của hướng nào. Quay lại danh sách để chọn hướng có thật."
           />
           <button
-            onClick={() => nav('/lap-trinh/huong')}
+            onClick={() => nav(`${PROGRAMMING_PREFIX}/huong`)}
             className="tap-44 w-full py-3.5 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition"
           >
             Xem các hướng chuyên sâu

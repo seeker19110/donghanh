@@ -18,9 +18,12 @@ import type {
 import type { LearningPath } from '@dhcb/subject-programming/learningPaths/types'
 import type { ProgrammingLevel } from '@dhcb/subject-programming/curriculum'
 
+/** Tiền tố URL chuẩn của toàn bộ nội dung môn Lập trình. */
+export const PROGRAMMING_PREFIX = '/goc-hoc-tap/programming'
+
 /** Trang một bậc P1–P6. */
 export function duongDanBac(level: Pick<ProgrammingLevel, 'id' | 'name'>): string {
-  return `/lap-trinh/${buildSlugSegment(level.id, level.name)}`
+  return `${PROGRAMMING_PREFIX}/bac/${buildSlugSegment(level.id, level.name)}`
 }
 
 /**
@@ -36,18 +39,18 @@ export function duongDanBaiHoc(
   lesson: { id: string; title: string },
   ctx?: { courseId?: string },
 ): string {
-  const base = `/lap-trinh/bai-hoc/${buildSlugSegment(lesson.id, lesson.title)}`
+  const base = `${PROGRAMMING_PREFIX}/bai-hoc/${buildSlugSegment(lesson.id, lesson.title)}`
   return ctx?.courseId ? `${base}?khoa=${encodeURIComponent(ctx.courseId)}` : base
 }
 
 /** Trang một khoá ngắn. */
 export function duongDanKhoa(course: Pick<ShortCourse, 'id' | 'title'>): string {
-  return `/lap-trinh/khoa-hoc/${buildSlugSegment(course.id, course.title)}`
+  return `${PROGRAMMING_PREFIX}/khoa-hoc/${buildSlugSegment(course.id, course.title)}`
 }
 
 /** Trang một hướng chuyên sâu. */
 export function duongDanHuong(spec: Pick<ProgrammingSpecialization, 'id' | 'name'>): string {
-  return `/lap-trinh/huong/${buildSlugSegment(spec.id, spec.name)}`
+  return `${PROGRAMMING_PREFIX}/huong/${buildSlugSegment(spec.id, spec.name)}`
 }
 
 /** Trang MỘT CHẶNG của một hướng chuyên sâu. */
@@ -60,7 +63,7 @@ export function duongDanChangHuong(
 
 /** Trang tổng quan một lộ trình mục tiêu. */
 export function duongDanLoTrinh(path: Pick<LearningPath, 'id' | 'title'>): string {
-  return `/lap-trinh/lo-trinh/${buildSlugSegment(path.id, path.title)}`
+  return `${PROGRAMMING_PREFIX}/lo-trinh/${buildSlugSegment(path.id, path.title)}`
 }
 
 /** Trang một chặng RIÊNG của lộ trình (chặng không thuộc hướng nào). */

@@ -23,7 +23,7 @@ import type {
 /** Trang tổng quan của từng môn — đích rơi về khi môn chưa dựng được cây, hoặc cây khoá hết. */
 export const SUBJECT_OVERVIEW_PATH: Readonly<Record<IntentSubjectId, string>> = {
   english: '/goc-hoc-tap/english',
-  programming: '/lap-trinh',
+  programming: '/goc-hoc-tap/programming',
   mathematics: '/goc-hoc-tap/mathematics',
   physics: '/goc-hoc-tap/physics',
   chemistry: '/goc-hoc-tap/chemistry',

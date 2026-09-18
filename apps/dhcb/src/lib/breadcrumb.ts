@@ -91,16 +91,28 @@ const ROUTE_NODES: readonly RouteNode[] = [
   { path: '/tin-nhan', label: 'Tin nhắn', parent: '/trang-ca-nhan' },
   { path: '/nhiem-vu', label: 'Nhiệm vụ', parent: '/tien-do' },
 
-  // --- Môn Lập trình: các tầng TĨNH dưới `/lap-trinh` ---
+  // --- Môn Lập trình: các tầng TĨNH dưới tiền tố chuẩn ---
   // Chỉ liệt kê nhánh nào có TRANG THẬT để bấm về (xem App.tsx). Nhánh có id động
   // (`/lap-trinh/khoa-hoc/:id`, `/lap-trinh/lo-trinh/:id`, `/lap-trinh/bai-hoc/:id`) KHÔNG có
   // trang danh sách riêng, nên không đặt nút ở đây — trang tự truyền đốt cha động vào
   // `Layout crumbs` (xem tham số `extra` của `buildCrumbs` bên dưới).
-  { path: '/lap-trinh/huong', label: 'Hướng chuyên sâu', parent: '/lap-trinh' },
-  { path: '/lap-trinh/du-an', label: 'Dự án', parent: '/lap-trinh' },
-  { path: '/lap-trinh/on-tap', label: 'Ôn tập', parent: '/lap-trinh' },
-  { path: '/lap-trinh/chay-thu', label: 'Chạy thử', parent: '/lap-trinh' },
-  { path: '/lap-trinh/gioi-thieu', label: 'Giới thiệu môn', parent: '/lap-trinh' },
+  {
+    path: '/goc-hoc-tap/programming/huong',
+    label: 'Hướng chuyên sâu',
+    parent: '/goc-hoc-tap/programming',
+  },
+  { path: '/goc-hoc-tap/programming/du-an', label: 'Dự án', parent: '/goc-hoc-tap/programming' },
+  { path: '/goc-hoc-tap/programming/on-tap', label: 'Ôn tập', parent: '/goc-hoc-tap/programming' },
+  {
+    path: '/goc-hoc-tap/programming/chay-thu',
+    label: 'Chạy thử',
+    parent: '/goc-hoc-tap/programming',
+  },
+  {
+    path: '/goc-hoc-tap/programming/gioi-thieu',
+    label: 'Giới thiệu môn',
+    parent: '/goc-hoc-tap/programming',
+  },
 
   // --- Các TRỤ: công cụ nằm dưới hai studio gộp ---
   // Trang công cụ của trụ trước đây không có tầng cha nào nên breadcrumb tự ẩn hẳn: đứng ở

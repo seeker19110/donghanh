@@ -66,7 +66,7 @@ describe('toResumePoint', () => {
 describe('resumeTarget', () => {
   it('Lập trình: href dựng qua duongDanBaiHoc và giữ ?khoa=', () => {
     const target = resumeTarget(toResumePoint(session))
-    expect(target?.href.startsWith('/lap-trinh/bai-hoc/p1-u1-l1--')).toBe(true)
+    expect(target?.href.startsWith('/goc-hoc-tap/programming/bai-hoc/p1-u1-l1--')).toBe(true)
     expect(target?.href).toContain('?khoa=git')
     expect(target?.title.length).toBeGreaterThan(0)
   })

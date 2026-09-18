@@ -29,7 +29,7 @@ import StepRail from '../../../components/programming/StepRail'
 import { PageShell } from '@core/PageShell'
 import { TwoPane } from '@core/TwoPane'
 import { useIsDesktopViewport, useMediaQuery } from '../../../lib/useIsDesktopViewport'
-import { duongDanBaiHoc, duongDanKhoa } from '../../../lib/programmingRoutes'
+import { PROGRAMMING_PREFIX, duongDanBaiHoc, duongDanKhoa } from '../../../lib/programmingRoutes'
 import { maKhoaTuQuery } from '../../../lib/programmingRoutesSpec'
 import { lessonOutlineContext } from '../../../lib/outline/lessonOutlineContext'
 import { useProgrammingOutlineCtx } from '../../../lib/useProgrammingOutlineCtx'
@@ -156,7 +156,7 @@ export default function ProgrammingLessonPage() {
     )
   }
   const lesson = trangThai.lesson
-  if (!lesson) return <Navigate to="/lap-trinh" replace />
+  if (!lesson) return <Navigate to={PROGRAMMING_PREFIX} replace />
 
   // URL cũ chỉ có id (không có phần mô tả) hoặc slug mô tả không khớp tiêu đề hiện tại
   // (bài học đã đổi tên) → chuyển hướng về URL chuẩn để không bị Google coi là 2 trang khác

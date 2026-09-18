@@ -613,7 +613,7 @@ export default function MistakeBank() {
               chứng thì con số trên trang không còn đáng tin.
             </p>
             <Link
-              to="/lap-trinh/on-tap"
+              to="/goc-hoc-tap/programming/on-tap"
               className="tap-44 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-300 theme-light:text-accent-800 hover:underline"
             >
               Ôn thẻ môn Lập trình
