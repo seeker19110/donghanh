@@ -18,38 +18,38 @@ function Test-ContainerRunning {
 
 function Start-DisposablePostgres {
   docker info *> $null
-  if ($LASTEXITCODE -ne 0) { throw 'Docker daemon is not ready.' }
+  if ($LASTEXITCODE -ne 0) { throw 'Docker daemon chưa sẵn sàng.' }
 
   if (Test-ContainerRunning) {
-    Write-Host "E2E PostgreSQL is already running on port $port."
+    Write-Host "PostgreSQL E2E đang chạy ở cổng $port."
     return
   }
 
   $exists = docker container inspect $containerName 2>$null
   if ($LASTEXITCODE -eq 0) {
-    throw "Container $containerName exists but is not running. Run '.\\scripts\\e2e-postgres.ps1 stop' before retrying."
+    throw "Container $containerName đang tồn tại nhưng không chạy. Hãy chạy '.\\scripts\\e2e-postgres.ps1 stop' rồi thử lại."
   }
 
   docker run --detach --rm --name $containerName --publish "127.0.0.1:${port}:5432" `
     --env POSTGRES_DB=dhcb_e2e --env POSTGRES_USER=dhcb_e2e --env POSTGRES_PASSWORD=dhcb_e2e `
     postgres:16-alpine
-  if ($LASTEXITCODE -ne 0) { throw 'Could not start E2E PostgreSQL.' }
+  if ($LASTEXITCODE -ne 0) { throw 'Không khởi động được PostgreSQL E2E.' }
 
   for ($attempt = 1; $attempt -le 30; $attempt++) {
     docker exec $containerName pg_isready --username dhcb_e2e --dbname dhcb_e2e *> $null
     if ($LASTEXITCODE -eq 0) { return }
     Start-Sleep -Seconds 1
   }
-  throw 'E2E PostgreSQL was not ready after 30 seconds.'
+  throw 'PostgreSQL E2E không sẵn sàng sau 30 giây.'
 }
 
 if ($Action -eq 'stop') {
   if (Test-ContainerRunning) {
     docker stop $containerName *> $null
-    if ($LASTEXITCODE -ne 0) { throw 'Could not stop E2E PostgreSQL.' }
-    Write-Host 'Stopped disposable E2E PostgreSQL; its test data was removed.'
+    if ($LASTEXITCODE -ne 0) { throw 'Không dừng được PostgreSQL E2E.' }
+    Write-Host 'Đã dừng PostgreSQL E2E disposable (dữ liệu thử nghiệm đã bị xoá).'
   } else {
-    Write-Host 'E2E PostgreSQL is not running.'
+    Write-Host 'PostgreSQL E2E không chạy.'
   }
   exit 0
 }
