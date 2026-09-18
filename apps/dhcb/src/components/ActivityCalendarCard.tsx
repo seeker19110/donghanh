@@ -94,6 +94,7 @@ export default function ActivityCalendarCard({
     // chọn, nếu không người dùng bàn phím thấy viền chọn nhảy mà con trỏ đứng yên.
     const cell = gridRef.current?.querySelector<HTMLElement>(`[data-cell="${next}"]`)
     cell?.focus()
+    cell?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
   }
 
   function onKeyDown(e: React.KeyboardEvent) {
@@ -112,7 +113,7 @@ export default function ActivityCalendarCard({
   // Ô lịch, gom theo TUẦN. `role="grid"` bắt buộc con trực tiếp là `role="row"`, và
   // `role="gridcell"` bắt buộc có cha là `row` (axe: aria-required-children /
   // aria-required-parent, đều mức critical) — bản đầu đặt ô thẳng vào lưới nên cổng a11y đỏ
-  // ở cả 5 theme. Hàng dùng `display: contents` để có ĐÚNG ngữ nghĩa mà KHÔNG tạo hộp bố
+  // ở cả 3 theme. Hàng dùng `display: contents` để có ĐÚNG ngữ nghĩa mà KHÔNG tạo hộp bố
   // cục: các ô vẫn tham gia trực tiếp vào lưới CSS của phần tử cha, nên hình hài không đổi.
   const cell = (d: (typeof days)[number], idx: number) => {
     const isLast = idx === lastIndex
@@ -137,7 +138,7 @@ export default function ActivityCalendarCard({
               : { gridColumnStart: calendar.firstColumn + 1 }
             : undefined
         }
-        className={`${isDesktop ? 'w-4 h-4' : 'aspect-square w-full'} rounded-[4px] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 ${heatColor(d.count)} ${
+        className={`${isDesktop ? 'w-4 h-4' : 'w-11 h-11'} rounded-[4px] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 ${heatColor(d.count)} ${
           isSel ? 'ring-2 ring-accent-300' : isLast ? 'ring-1 ring-accent-400/70' : ''
         }`}
       />
@@ -203,10 +204,10 @@ export default function ActivityCalendarCard({
           </div>
         </div>
       ) : (
-        <div>
-          <div className="grid grid-cols-7 gap-1.5 mb-1.5">
+        <div className="overflow-x-auto">
+          <div className="grid w-max grid-cols-7 gap-1.5 mb-1.5">
             {wdow.map((w, i) => (
-              <span key={i} className="text-[11px] text-zinc-400 text-center">
+              <span key={i} className="w-11 text-[11px] text-zinc-400 text-center">
                 {w}
               </span>
             ))}
@@ -220,7 +221,7 @@ export default function ActivityCalendarCard({
             role="grid"
             aria-label={vi ? 'Lịch hoạt động theo ngày' : 'Daily activity calendar'}
             onKeyDown={onKeyDown}
-            className="grid grid-cols-7 gap-1.5"
+            className="grid w-max grid-cols-7 gap-1.5"
           >
             {rows}
           </div>

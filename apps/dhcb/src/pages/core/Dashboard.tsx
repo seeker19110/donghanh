@@ -397,7 +397,7 @@ export default function Dashboard() {
           </p>
           <button
             onClick={() => nav('/trang-ca-nhan')}
-            className="text-xs font-medium text-accent-400 theme-light:text-accent-800 hover:underline mt-1.5 inline-flex items-center gap-1"
+            className="min-h-11 px-2 -ml-2 text-xs font-medium text-accent-400 theme-light:text-accent-800 hover:underline mt-1.5 inline-flex items-center gap-1 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
           >
             {vi ? 'Đổi mục tiêu ở Hồ sơ →' : 'Change goal in Profile →'}
           </button>

@@ -1,5 +1,5 @@
 /* ===== GLOBAL THEME TOKENS ===== */
-/* 5 themes: Xanh đêm (mặc định), Blue sky, Pink, Rực rỡ, Nhi đồng (kid).
+/* 3 themes: Xanh đêm, Blue sky (mặc định), Nhi đồng (kid).
    Mỗi theme định nghĩa lại 2 bảng màu ở dạng biến CSS:
    - zinc + white  → nền/chữ trung tính  (class bg-zinc / text-zinc / text-white)
    - accent (--a-*) → màu nhấn thương hiệu (class bg-accent / text-accent ...)
@@ -169,14 +169,14 @@
 
    VÌ SAO CÓ TẦNG NÀY: trước đây mỗi chỗ tự chọn `bg-zinc-900` / `text-zinc-400`, nên không ai
    biết một màu chữ có đủ tương phản trên bề mặt đang dùng hay không — cổng AAA chỉ báo lỗi sau
-   khi chạy hết E2E (15+ trang × 5 theme). Đặt tên theo VAI TRÒ và đo sẵn một lần thì chọn đúng
+   khi chạy hết E2E (15+ trang × 3 theme). Đặt tên theo VAI TRÒ và đo sẵn một lần thì chọn đúng
    trở thành mặc định, chọn sai trở thành khó.
 
    VÌ SAO KHAI MỘT LẦN Ở `:root` MÀ KHÔNG CHÉP CHO TỪNG THEME: giá trị ở đây là BÍ DANH trỏ vào
    `--z-*`, mà CSS phân giải biến một cách LƯỜI — `var(--z-100)` được tính tại nơi sử dụng, nên
-   nó tự lấy đúng giá trị `--z-100` của theme đang bật. Chép 5 lần vừa thừa vừa dễ lệch.
+    nó tự lấy đúng giá trị `--z-100` của theme đang bật. Chép 3 lần vừa thừa vừa dễ lệch.
 
-   BẪY ĐÃ ĐO (scripts/contrast-audit.ts, đo cả 5 theme):
+   BẪY ĐÃ ĐO (scripts/contrast-audit.ts, đo cả 3 theme hiện hành):
    - `--z-400` đạt AAA trên nền trang/thẻ nhưng CHỈ 6,40–7,24 trên bề mặt nổi → rớt AAA. Vì vậy
      `--text-muted` chỉ dùng cho NHÃN/PHỤ (chuẩn AA), tuyệt đối không dùng cho chữ nội dung.
    - `--z-600` chỉ đạt 1,59–3,25 trên mọi bề mặt → KHÔNG BAO GIỜ là màu chữ.
@@ -190,7 +190,7 @@
   --border-subtle: var(--z-800);
   --border-strong: var(--z-700);
 
-  /* Màu chữ theo vai trò — đã đo đạt ngưỡng trên cả 3 bề mặt ở cả 5 theme */
+  /* Màu chữ theo vai trò — đã đo đạt ngưỡng trên cả 3 bề mặt ở cả 3 theme hiện hành */
   --text-primary: var(--z-100); /* AAA mọi nơi — tiêu đề & nội dung */
   --text-secondary: var(--z-300); /* AAA mọi nơi — nội dung phụ */
   --text-muted: var(--z-400); /* AA — nhãn, chú thích; KHÔNG dùng cho nội dung */
@@ -199,7 +199,7 @@
   /* Màu ĐỒ HOẠ cho hoạt ảnh bài học (LessonAnimation) — giữ nghĩa quy ước của dự án:
      xanh lá = đúng/đạt, hổ phách = cảnh báo, đỏ = sai/nguy hiểm.
      Giá trị CỐ ĐỊNH (không đổi theo theme) vì đã chọn mức giữa đạt ≥ 3:1 trên CẢ bề mặt tối
-     nhất lẫn sáng nhất của 5 theme — 3:1 là ngưỡng WCAG cho đối tượng đồ hoạ phi văn bản.
+     nhất lẫn sáng nhất của 3 theme — 3:1 là ngưỡng WCAG cho đối tượng đồ hoạ phi văn bản.
      KHÔNG dùng làm màu CHỮ (chữ cần 4.5:1/7:1) — schema lessonAnimation.ts chặn sẵn. */
   --anim-correct: 5 150 105;
   --anim-warn: 217 119 6;
