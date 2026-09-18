@@ -15,10 +15,13 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  // Trên CI mỗi mảnh (shard) chạy trên một runner 4 nhân riêng → 2 worker là an toàn và
-  // nhanh gấp đôi so với 1. Đổi 2026-08-27 cùng lúc với việc chia E2E thành 4 mảnh.
-  workers: process.env.CI ? 2 : undefined,
+  // Giữ đúng 2 worker ở local và CI: server Vite dùng chung cache transform, còn mỗi test vẫn
+  // có BrowserContext riêng. Tránh local tự chọn quá nhiều worker rồi tạo tải khác hẳn CI.
+  workers: 2,
   reporter: [['list'], ['html', { open: 'never' }]],
+  // Làm nóng cache transform của Vite và tài nguyên worker/WASM trước khi worker test đầu
+  // tiên chạy. Script dùng browser/context RIÊNG và đóng ngay, không chia session với test.
+  globalSetup: './scripts/e2e-prewarm.mjs',
   use: {
     baseURL,
     trace: 'on-first-retry',
