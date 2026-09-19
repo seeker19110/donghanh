@@ -893,6 +893,17 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 
 ## Nợ kỹ thuật còn mở
 
+- 🟡 **[2026-09-19 — audit sâu UI/UX, `docs/changelog/0380-*.md`] Ba phát hiện chờ chủ dự án quyết định, CHƯA sửa (2 việc đã sửa cùng đợt: mục lục CEFR + thông điệp bộ lọc — xem changelog 0380):**
+  1. Trang `/luyen-noi` (luyện nói song ngữ — tính năng trụ cột chính theo CLAUDE.md §1) đang hiện
+     banner "Sắp ra mắt — bản đang hoàn thiện" cho mọi người dùng. Cần chủ dự án xác nhận đây có
+     đúng là trạng thái cố ý hiện tại của backend không.
+  2. Toast "Đã đồng bộ dữ liệu học tập thành công!" bắn lại mỗi lần điều hướng trang (không phải
+     một lần/phiên) — thấy ở hầu hết trang đã chụp; ở `/luyen-noi` trên mobile nó đè lên nút CTA
+     chính "Bắt đầu luyện nói →". Cần xác nhận tần suất bắn đúng ý muốn rồi mới sửa.
+  3. Vài màn báo lỗi tải dữ liệu (trang chủ, hồ sơ, `/su-nghiep-khoi-nghiep`, `/cong-viec-cuoc-song`)
+     xuất hiện trong môi trường audit — nhiều khả năng do môi trường chụp (Vite dev, không có
+     backend Postgres thật, một số API chưa mock) chứ không phải lỗi thật. Cần kiểm lại với
+     backend thật trước khi kết luận.
 - ✅ **[2026-09-16 → 2026-09-19 — `apps/hub/src` nằm NGOÀI cổng tương phản tĩnh — ĐÃ ĐÓNG]** (`docs/changelog/0373-*.md`). Tiền đề của nợ cũ (hub "không cùng hệ token") **sai**: hub đã có `ThemeToggle` (`App.tsx`/`HubLogin.tsx`) và `apps/hub/tailwind.config.js` map `zinc`/`accent` sang ĐÚNG biến `--z-*`/`--a-*` của `packages/core-ui/theme.css` — cùng hệ token với `@dhcb/app`. Gỡ bằng cách thêm `apps/hub/src` vào phạm vi quét của `scripts/fixed-color-contrast-audit.ts` (không tạo script riêng); vá 5 chỗ rớt AA tìm được (`theme-light:text-<màu>-800/900`, đúng cách vá đã dùng ~720 lần); ~60 chỗ `text-zinc-*` còn lại đã tự đạt AA (chỉ dùng bậc sáng). Hub vẫn chưa có ca nào trong `e2e/a11y.spec.ts` — nợ nhỏ khác, chưa mở vé riêng.
 - ✅ **[2026-09-16 → 2026-09-17 — S13-1 → S13-2] Hai nợ giao diện do cổng mới ĐO ĐƯỢC — ĐÃ ĐÓNG** (`docs/changelog/0358-*.md`, PR S13-2):
   1. `aria-prohibited-attr` (serious) trên Trang chủ ở trạng thái ĐANG TẢI: `TodayCard.tsx` nay có `role="status"`; khối `NO_AA` của `e2e/learning-ux-states.spec.ts` đã **xoá hẳn** — cổng chạy ở mức tuyệt đối, 0 vi phạm AA.
