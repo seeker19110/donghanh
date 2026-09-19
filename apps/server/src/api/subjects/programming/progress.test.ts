@@ -91,9 +91,10 @@ describe('/api/programming/progress', () => {
     const res = await handler(req('POST', { lessonId: 'p1-u4-l1', status: 'completed' }))
     expect(res.status).toBe(200)
     const calls = sqlCalls()
-    expect(calls).toHaveLength(2)
-    expect(calls[0]?.sql).toContain('learner_state')
-    const upsert = calls[1]!
+    // 2 câu đầu là khoá bậc (đọc plan + đọc tiến độ hiện có), 2 câu sau mới vào transaction.
+    expect(calls).toHaveLength(4)
+    expect(calls[2]?.sql).toContain('learner_state')
+    const upsert = calls[3]!
     // Bất biến chống kéo lùi: đã completed thì giữ completed.
     expect(upsert.sql).toContain("then 'completed' else excluded.status end")
     // S09-1: dạng cũ không có attemptId → clientUpdatedAt null, KHÔNG ghi biên nhận.
@@ -101,12 +102,13 @@ describe('/api/programming/progress', () => {
     expect(calls.some((c) => c.sql.includes('sync_receipts'))).toBe(false)
   })
 
-  // Tầng HƯỚNG CHUYÊN SÂU dùng chung bảng tiến độ (chi tiết chặng, nay đủ S1→S4).
+  // Tầng HƯỚNG CHUYÊN SÂU dùng chung bảng tiến độ (chi tiết chặng, nay đủ S1→S4). Khoá này
+  // KHÔNG phải bài xương sống nên không đi qua khoá bậc (levelOfSpineLesson trả null).
   it('POST module/tiêu chí hướng chuyên sâu có thật → ghi bình thường', async () => {
     expect(
       (await handler(req('POST', { lessonId: 'web-s2-m1', status: 'completed' }))).status,
     ).toBe(200)
-    expect(sqlCalls()[1]?.params).toEqual(['user-1', 'web-s2-m1', 'completed', null])
+    expect(sqlCalls().at(-1)?.params).toEqual(['user-1', 'web-s2-m1', 'completed', null])
     vi.clearAllMocks()
     query.mockResolvedValue({ rows: [] })
     expect(
@@ -126,6 +128,56 @@ describe('/api/programming/progress', () => {
   it('POST body sai khuôn (status lạ) → 400; method lạ → 405', async () => {
     expect((await handler(req('POST', { lessonId: 'p1-u4-l1', status: 'done' }))).status).toBe(400)
     expect((await handler(req('DELETE'))).status).toBe(405)
+  })
+})
+
+// ── 2026-09-19: siết khoá bậc P1→P6 Ở SERVER (dọn nợ kỹ thuật, xem PROGRESS.md) ─────────────
+describe('/api/programming/progress — khoá bậc P1→P6 ở server', () => {
+  /** `query` trả lần lượt: plan, tiến độ đã có — theo ĐÚNG thứ tự gọi trong handler. */
+  function mockPlanAndProgress(
+    plan: { plan: string; plan_expires_at: Date | null } | null,
+    rows: { lesson_id: string; status: string }[],
+  ) {
+    query.mockImplementation(async (sql: string) => {
+      const s = String(sql)
+      if (s.includes('from public.profiles')) return { rows: plan ? [plan] : [] }
+      if (s.includes('from programming.lesson_progress where user_id')) return { rows }
+      return { rows: [] }
+    })
+  }
+
+  it('Free ghi bài P3 khi CHƯA hoàn thành đủ P2 → 403, KHÔNG ghi DB', async () => {
+    mockPlanAndProgress({ plan: 'free', plan_expires_at: null }, [])
+    const res = await handler(req('POST', { lessonId: 'p3-u1-l1', status: 'completed' }))
+    expect(res.status).toBe(403)
+    expect(query.mock.calls.some(([s]) => String(s).includes('insert into'))).toBe(false)
+  })
+
+  it('Free ghi bài P1 (tuần tự hợp lệ) vẫn qua được dù chưa học gì', async () => {
+    mockPlanAndProgress({ plan: 'free', plan_expires_at: null }, [])
+    const res = await handler(req('POST', { lessonId: 'p1-u1-l1', status: 'completed' }))
+    expect(res.status).toBe(200)
+  })
+
+  it('User GRANDFATHER (đã có dòng tiến độ ở P3 từ trước) vẫn ghi tiếp P3 được', async () => {
+    mockPlanAndProgress({ plan: 'free', plan_expires_at: null }, [
+      { lesson_id: 'p3-u1-l1', status: 'in_progress' },
+    ])
+    const res = await handler(req('POST', { lessonId: 'p3-u2-l1', status: 'completed' }))
+    expect(res.status).toBe(200)
+  })
+
+  it('VIP ghi bài P6 tự do, bất kể tiến độ P1–P5', async () => {
+    mockPlanAndProgress({ plan: 'vip', plan_expires_at: null }, [])
+    const res = await handler(req('POST', { lessonId: 'p6-u1-l1', status: 'completed' }))
+    expect(res.status).toBe(200)
+  })
+
+  it('Không đụng nhánh khách: endpoint vẫn đòi đăng nhập trước khi tới bước khoá bậc', async () => {
+    authState.user = null
+    mockPlanAndProgress({ plan: 'free', plan_expires_at: null }, [])
+    const res = await handler(req('POST', { lessonId: 'p3-u1-l1', status: 'completed' }))
+    expect(res.status).toBe(401)
   })
 })
 

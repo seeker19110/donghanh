@@ -8,6 +8,7 @@
 // lessonId là khoá từ dữ liệu giáo trình (packages/subject-programming/lessons.ts) — server
 // kiểm tồn tại thật qua getLesson() để không ghi rác.
 import { z } from 'zod'
+import type { Pool } from 'pg'
 import { getPgPool } from '@dhcb/core-db/pgPool'
 import {
   getCorsHeaders,
@@ -22,6 +23,8 @@ import { getLesson } from '@dhcb/subject-programming/lessons'
 import { getProjectStep } from '@dhcb/subject-programming/projectSteps'
 import { getSpecStage } from '@dhcb/subject-programming/specializations/registry'
 import { getSpecStageDetail } from '@dhcb/subject-programming/specializations/stageDetails'
+import { checkLevelWriteAllowed } from '@dhcb/subject-programming/levelLockServer'
+import { resolvePlan, type Plan } from '@dhcb/core-billing/plan'
 import { withTransaction } from '@dhcb/core-db/transaction'
 import { findReceipt, saveReceipt } from '../../_lib/syncReceipt.js'
 
@@ -92,6 +95,25 @@ interface LessonRow {
 interface StateRow {
   current_level: string
   project_track: string
+}
+
+/**
+ * Gói ĐANG có hiệu lực — dùng để siết khoá bậc P1→P6 ở server (khuôn giống
+ * `apps/server/src/api/core/progress.ts` môn Anh, GĐ2a).
+ *
+ * FAIL-SAFE ĐÚNG CHIỀU: đọc lỗi → coi như Free (khoá chặt), không phát nhầm quyền VIP.
+ */
+async function readEffectivePlan(pool: Pool, userId: string): Promise<Plan> {
+  try {
+    const { rows } = await pool.query<{ plan: string | null; plan_expires_at: Date | null }>(
+      'select plan, plan_expires_at from public.profiles where id = $1',
+      [userId],
+    )
+    return resolvePlan(rows[0]?.plan, rows[0]?.plan_expires_at)
+  } catch (err) {
+    console.warn('[programming-progress] đọc plan lỗi → coi như Free (khoá chặt):', err)
+    return 'free'
+  }
 }
 
 export default async function handler(req: Request): Promise<Response> {
@@ -178,6 +200,47 @@ export default async function handler(req: Request): Promise<Response> {
           return jsonResponse({ error: 'attemptId đã dùng cho endpoint khác' }, 409, headers)
         }
         return jsonResponse({ ...receipt.response, replayed: true }, 200, headers)
+      }
+    }
+
+    // SIẾT KHOÁ BẬC P1→P6 Ở SERVER (2026-09-19, dọn nợ kỹ thuật ghi ở PROGRESS.md — luật này
+    // trước đây chỉ tính ở client `programmingLevelLock.ts`, sửa localStorage/gõ thẳng URL vẫn
+    // ghi được tiến độ bậc chưa mở). CHỈ chặn GHI TIẾN ĐỘ của bài xương sống — nội dung bài học
+    // (đọc) và các khoá khác (bước dự án/hướng chuyên sâu/khoá ngắn) không đi qua khoá bậc.
+    {
+      const plan = await readEffectivePlan(pool, auth.userId)
+      const existing = await pool.query<{ lesson_id: string; status: string }>(
+        'select lesson_id, status from programming.lesson_progress where user_id = $1',
+        [auth.userId],
+      )
+      // Mô phỏng TUẦN TỰ trong cùng batch: một batch có thể vừa hoàn thành đủ bài P(n) vừa ghi
+      // bài P(n+1) — mở khoá phải phản ánh ngay các mục ĐÃ QUA trong cùng lượt gửi, không chỉ
+      // trạng thái đã lưu trước đó.
+      const completedLessonIds = new Set(
+        existing.rows.filter((r) => r.status === 'completed').map((r) => r.lesson_id),
+      )
+      const everEnteredLessonIds = new Set(existing.rows.map((r) => r.lesson_id))
+
+      for (const item of items) {
+        const result = checkLevelWriteAllowed({
+          lessonId: item.lessonId,
+          plan,
+          completedLessonIds,
+          everEnteredLessonIds,
+        })
+        if (!result.allowed) {
+          const required = result.requiredLevelId?.toUpperCase() ?? 'bậc trước'
+          return jsonResponse(
+            {
+              error: `Bậc ${item.lessonId.split('-')[0]?.toUpperCase()} chưa mở — cần hoàn thành đủ bài ở ${required} trước`,
+            },
+            403,
+            headers,
+          )
+        }
+        // Ghi nhận mục này ĐÃ QUA để các mục sau trong cùng batch thấy đúng trạng thái mới nhất.
+        everEnteredLessonIds.add(item.lessonId)
+        if (item.status === 'completed') completedLessonIds.add(item.lessonId)
       }
     }
 
