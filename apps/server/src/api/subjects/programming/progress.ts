@@ -24,6 +24,10 @@ import { getProjectStep } from '@dhcb/subject-programming/projectSteps'
 import { getSpecStage } from '@dhcb/subject-programming/specializations/registry'
 import { getSpecStageDetail } from '@dhcb/subject-programming/specializations/stageDetails'
 import { checkLevelWriteAllowed } from '@dhcb/subject-programming/levelLockServer'
+import {
+  isServerRegradableLesson,
+  regradeMakeSubmission,
+} from '@dhcb/subject-programming/completionSandboxServer'
 import { resolvePlan, type Plan } from '@dhcb/core-billing/plan'
 import { withTransaction } from '@dhcb/core-db/transaction'
 import { findReceipt, saveReceipt } from '../../_lib/syncReceipt.js'
@@ -41,6 +45,9 @@ const UpdateSchema = z
         /^(p[1-6]-(u\d+-l\d+|s\d+)|[a-z]+-s[1-4]-[mr]\d+|(git|hermes|vibe|openclaw|ml|pyai|mathai|mlds|cv1|cv2|llmagent)-u\d+-l\d+)$/,
       ),
     status: z.enum(['in_progress', 'completed']),
+    /** ADR-0007: code Make của bài xương sống P1–P4 — BẮT BUỘC khi báo 'completed' một bài
+     *  thuộc phạm vi chấm-lại-ở-server (isServerRegradableLesson), bỏ qua với bài khác. */
+    code: z.string().max(4000).optional(),
   })
   .strict()
 
@@ -60,6 +67,7 @@ const BatchSchema = z
             lessonId: UpdateSchema.shape.lessonId,
             status: z.enum(['in_progress', 'completed']),
             clientUpdatedAt: z.string().datetime(),
+            code: z.string().max(4000).optional(),
           })
           .strict(),
       )
@@ -181,7 +189,14 @@ export default async function handler(req: Request): Promise<Response> {
     const items =
       'items' in body
         ? body.items
-        : [{ lessonId: body.lessonId, status: body.status, clientUpdatedAt: null }]
+        : [
+            {
+              lessonId: body.lessonId,
+              status: body.status,
+              clientUpdatedAt: null,
+              code: body.code,
+            },
+          ]
 
     // Một mục sai → CẢ BATCH 400 (client không được gửi mục lạ; đơn giản hơn partial success
     // và không để lọt khoá rác vào bảng tiến độ).
@@ -192,7 +207,8 @@ export default async function handler(req: Request): Promise<Response> {
       }
     }
 
-    // S09-1: tra biên nhận TRƯỚC transaction — lần gửi lại trả đúng response cũ, không upsert.
+    // S09-1: tra biên nhận TRƯỚC transaction — lần gửi lại trả đúng response cũ, không upsert
+    // (và không chấm lại lần nữa — xem khối CHẤM LẠI bên dưới, đặt SAU khối này có chủ đích).
     if (attemptId) {
       const receipt = await findReceipt(pool, auth.userId, attemptId)
       if (receipt) {
@@ -200,6 +216,53 @@ export default async function handler(req: Request): Promise<Response> {
           return jsonResponse({ error: 'attemptId đã dùng cho endpoint khác' }, 409, headers)
         }
         return jsonResponse({ ...receipt.response, replayed: true }, 200, headers)
+      }
+    }
+
+    // CHẤM LẠI Ở SERVER TRƯỚC KHI GHI 'completed' (ADR-0007, docs/adr/0007-completion-evidence-
+    // sandbox-lap-trinh.md). Client chỉ chấm bằng Pyodide trong Web Worker rồi tự báo hoàn
+    // thành — sửa được qua DevTools. Bài xương sống P1–P4 (làn Python) báo 'completed' PHẢI
+    // kèm code và phải đạt HẾT test-case khi chấm lại bằng python3 thật trên server (test-case
+    // đọc từ registry server, không tin dữ liệu client gửi).
+    for (const item of items) {
+      if (item.status !== 'completed' || !isServerRegradableLesson(item.lessonId)) continue
+      if (!item.code || item.code.trim().length === 0) {
+        return jsonResponse(
+          { error: `Bài "${item.lessonId}" cần gửi kèm code để chấm lại ở server` },
+          400,
+          headers,
+        )
+      }
+      let regrade: ReturnType<typeof regradeMakeSubmission>
+      try {
+        regrade = regradeMakeSubmission(item.lessonId, item.code)
+      } catch (err) {
+        console.error('[programming-progress] lỗi chấm lại ở server:', err)
+        return jsonResponse({ error: 'Không chấm lại được bài — thử lại sau' }, 500, headers)
+      }
+      if (!regrade.passed) {
+        // Rate-limit CHỈ đếm lượt NỘP SAI liên tiếp (không đếm lượt đạt) — chặn spam CPU do
+        // dò đáp án bằng thử liên tục, không phạt học viên đang luyện tập bình thường.
+        // Ngưỡng 5 lần nộp sai/phút/bài: mỗi lượt chấm tốn tới ~10s (timeout cứng) nên 5
+        // lần/phút đã rộng hơn nhiều số lượt một người thật gõ tay kịp gửi, nhưng đủ thoáng để
+        // không chặn oan người đang sửa lỗi từng chút một.
+        const okRate = await checkRateLimit(
+          `${auth.userId}:${item.lessonId}`,
+          5,
+          'programming-regrade-fail',
+        )
+        if (!okRate) {
+          return jsonResponse(
+            { error: 'Nộp bài sai quá nhiều lần liên tiếp trong 1 phút — nghỉ chút rồi thử lại' },
+            429,
+            { ...headers, 'Retry-After': '60' },
+          )
+        }
+        return jsonResponse(
+          { error: `Bài "${item.lessonId}" chưa đạt hết test-case khi chấm lại ở server` },
+          400,
+          headers,
+        )
       }
     }
 

@@ -144,6 +144,8 @@ export interface ProgrammingItem {
   lessonId: string
   status: 'in_progress' | 'completed'
   clientUpdatedAt: string
+  /** ADR-0007: code Make lúc báo 'completed' — server chấm lại bằng nó trước khi ghi nhận. */
+  code?: string
 }
 
 function normalizeProgrammingItems(payload: unknown): ProgrammingItem[] {

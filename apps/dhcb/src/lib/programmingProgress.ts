@@ -117,6 +117,9 @@ export async function saveLessonProgress(
   uid: string,
   lessonId: string,
   status: 'in_progress' | 'completed',
+  /** ADR-0007: BẮT BUỘC kèm code khi báo 'completed' bài xương sống P1–P4 (Python) — server
+   *  chấm lại bằng chính code này trước khi ghi nhận, không tin trạng thái client tự khai. */
+  code?: string,
 ): Promise<void> {
   const lessons = readCache(uid)
   const existing = lessons.find((l) => l.lessonId === lessonId)
@@ -133,7 +136,9 @@ export async function saveLessonProgress(
   if (isGuestId(uid)) return // khách: đã ghi localStorage, không có gì để đẩy lên
   // S09-2: xếp hàng thay vì POST thẳng. Mất mạng thì mục nằm lại hàng đợi (theo chủ sở hữu) và
   // tự gửi khi có mạng/mở lại app — không còn bị nuốt lỗi rồi mất như trước.
-  enqueueSync(uid, 'programming', [{ lessonId, status, clientUpdatedAt: new Date().toISOString() }])
+  enqueueSync(uid, 'programming', [
+    { lessonId, status, clientUpdatedAt: new Date().toISOString(), ...(code ? { code } : {}) },
+  ])
 }
 
 /**
