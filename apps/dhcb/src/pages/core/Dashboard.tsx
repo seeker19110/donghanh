@@ -3,7 +3,6 @@ import { duongDanMonTiengAnh } from '../../lib/subjectsHost'
 import { duongDanLuyenViet, duongDanSoTayLoiSai } from '../../lib/englishRoutes'
 import { Link, useNavigate } from 'react-router-dom'
 import {
-  Flame,
   BookOpen,
   Target,
   GraduationCap,
@@ -15,13 +14,12 @@ import {
   Trophy,
   BookMarked,
   ArrowRight,
-  CalendarCheck,
 } from 'lucide-react'
 import Layout from '../../components/Layout'
 import PageHeader from '../../components/PageHeader'
 import QuickActions from '../../components/QuickActions'
-import ActivityCalendarCard from '../../components/ActivityCalendarCard'
 import SubjectProgressSection from '../../components/SubjectProgressSection'
+import DashboardWeeklyOverview from '../../components/DashboardWeeklyOverview'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { useIsDesktopViewport, useMediaQuery } from '../../lib/useIsDesktopViewport'
 import { PageShell } from '@core/PageShell'
@@ -54,7 +52,7 @@ import {
   getWritingProgress,
   type LevelProgress,
 } from '../../lib/stats'
-import { getWeeklyProgress, type WeeklyProgress } from '../../lib/weeklyGoal'
+import { getWeeklyProgress } from '../../lib/weeklyGoal'
 import { effectivePlan } from '../../lib/promo'
 import { fetchWeeklyCredit, type WeeklyCreditInfo } from '../../lib/weeklyCredit'
 import { getLimits } from '../../lib/appSettings'
@@ -131,62 +129,6 @@ function StatCard({
   )
 }
 
-// Vòng tiến độ MỤC TIÊU TUẦN (② M1) — SVG tròn, % = số ngày đã học / mục tiêu.
-// Dùng stroke="currentColor" + class text-* để ăn theo design tokens (--a-*).
-function GoalRing({ done, goal }: { done: number; goal: number }) {
-  const size = 76
-  const stroke = 8
-  const r = (size - stroke) / 2
-  const c = 2 * Math.PI * r
-  const pct = Math.min(1, goal > 0 ? done / goal : 0)
-  return (
-    <div className="relative w-[76px] h-[76px] shrink-0" aria-hidden="true">
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-rotate-90">
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={r}
-          strokeWidth={stroke}
-          fill="none"
-          stroke="currentColor"
-          className="text-zinc-800/80"
-        />
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={r}
-          strokeWidth={stroke}
-          fill="none"
-          strokeLinecap="round"
-          stroke="currentColor"
-          strokeDasharray={c}
-          strokeDashoffset={c * (1 - pct)}
-          className="text-accent-400"
-        />
-      </svg>
-      <span className="absolute inset-0 flex items-center justify-center text-sm font-extrabold text-white">
-        {done}/{goal}
-      </span>
-    </div>
-  )
-}
-
-// Dòng động viên theo trạng thái mục tiêu tuần.
-function weeklyLine(p: WeeklyProgress, vi: boolean): string {
-  if (p.achieved)
-    return vi
-      ? '🎉 Đã đạt mục tiêu tuần này — giữ nhịp nhé!'
-      : '🎉 Weekly goal reached — keep the rhythm!'
-  const left = p.goal - p.daysDone
-  if (left === 1)
-    return vi
-      ? 'Chỉ còn 1 ngày học nữa là đạt mục tiêu tuần!'
-      : 'Just 1 more study day to hit your weekly goal!'
-  return vi
-    ? `Đã học ${p.daysDone}/${p.goal} ngày tuần này — mỗi ngày một chút nhé!`
-    : `${p.daysDone}/${p.goal} days this week — a little every day!`
-}
-
 // Thanh tiến độ ngang đơn giản.
 function Bar({ pct, color }: { pct: number; color: string }) {
   return (
@@ -216,26 +158,21 @@ type DashboardResource<T> =
 export default function Dashboard() {
   const nav = useNavigate()
   const { user } = useAuth()
-  const { T, lang } = useLang()
+  const { lang } = useLang()
   const vi = lang === 'vi'
   // PHẢI dùng giá trị trả về (xem cảnh báo trong useCloudSync.ts) — thêm vào deps của mọi
   // useMemo bên dưới đọc localStorage, nếu không stats sẽ đứng yên ở 0 trên thiết bị mới cho
   // tới khi có lý do khác khiến deps đổi (bug đã xác nhận 2026-07-28).
   const syncVersion = useCloudSync(user?.id)
   const onboarding = useOnboarding(user?.id) // nhóm tuổi (GĐ 4, PROGRESS.md) — lọc % lộ trình
-  // Cột ngữ cảnh phải ở desktop (≥1024px): "Streak" + "Mục tiêu tuần" + QuickActions dời sang
-  // đó thay vì nằm ở đầu/cuối cột chính — xem cách ghép ở cuối component (`isDesktop ? ... :
-  // ...`). Gate bằng JS, không CSS: 2 nhánh loại trừ nhau nên không có rủi ro trùng nội dung
-  // trong DOM (bài học từ PR trước, changelog `0199`), khác PR đó chỉ vì ở đây gọn hơn — không
-  // cần tách state/logic dùng chung.
+  // Cột ngữ cảnh phải ở desktop (≥1024px): khối "Tuần này" (DashboardWeeklyOverview, gộp
+  // streak/mục tiêu/lịch từ R3-3) + QuickActions dời sang đó thay vì nằm ở đầu/cuối cột chính —
+  // một cây DOM duy nhất, CSS grid area đổi vị trí thị giác, không remount (R3-2).
   const isDesktop = useIsDesktopViewport()
   // ≥1280px thì thẻ lịch đủ rộng cho nửa năm; 1024–1279px chỉ đủ một quý (xem hằng số ở trên).
   const isWide = useMediaQuery('(min-width: 1280px)')
   const calendarWeeks = isWide ? CALENDAR_WEEKS_WIDE : CALENDAR_WEEKS_DESKTOP
-  const [calendarExpanded, setCalendarExpanded] = useState(false)
   const [calendarSelectedDate, setCalendarSelectedDate] = useState('')
-  const calendarToggleRef = useRef<HTMLButtonElement>(null)
-  const calendarPanelRef = useRef<HTMLDivElement>(null)
 
   const [curriculumRetryRevision, setCurriculumRetryRevision] = useState(0)
   const curriculumRetryGuardRef = useRef(false)
@@ -391,116 +328,14 @@ export default function Dashboard() {
 
   if (!user || !stats) return null
 
-  const maxDay = Math.max(1, ...stats.week.map((d) => d.count))
-  const DOW_VI = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7']
-  const DOW_EN = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
-  const dow = vi ? DOW_VI : DOW_EN
   // Nhãn thứ bắt đầu từ Thứ 2 — cho lưới lịch heatmap.
   const WDOW = vi ? ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'] : ['M', 'T', 'W', 'T', 'F', 'S', 'S']
   const wp = stats.writing
-
-  function toggleCalendar() {
-    if (calendarExpanded) {
-      const active = document.activeElement
-      if (active instanceof Node && calendarPanelRef.current?.contains(active)) {
-        calendarToggleRef.current?.focus()
-      }
-      setCalendarExpanded(false)
-      return
-    }
-    setCalendarExpanded(true)
-  }
 
   // Tổng tiến độ CEFR (trung bình % 4 cấp) — chỉ để hiển thị 1 con số tổng quan.
   const cefrOverall = cefr.length
     ? Math.round(cefr.reduce((s, l) => s + l.pct, 0) / cefr.length)
     : 0
-
-  // Cột ngữ cảnh phải ở desktop (>=1024px): Streak + Mục tiêu tuần + QuickActions dời
-  // sang đó thay vì nằm ở đầu/cuối cột chính. Gate bằng JS (isDesktop) — 2 nhánh JSX
-  // loại trừ nhau nên không có rủi ro trùng nội dung DOM (bài học PR trước, changelog 0199).
-  const streakSection = (
-    <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-3xl p-5 sm:p-6 shadow-sm animate-fade-in motion-reduce:animate-none">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3.5">
-          <div
-            className={`w-13 h-13 rounded-2xl flex items-center justify-center p-3 ${
-              stats.streak > 0
-                ? 'bg-gradient-to-br from-orange-500/20 to-amber-500/10 border border-orange-500/30'
-                : 'bg-zinc-800'
-            }`}
-          >
-            <Flame
-              className={`w-7 h-7 ${stats.streak > 0 ? 'text-orange-400 theme-light:text-orange-900' : 'text-zinc-400'}`}
-            />
-          </div>
-          <div>
-            <p className="text-3xl font-extrabold text-white leading-none tracking-tight">
-              {stats.streak}
-            </p>
-            <p className="text-xs font-medium text-zinc-400 mt-1">{T.streakDays}</p>
-          </div>
-        </div>
-        <div className="text-right">
-          <p className="text-3xl font-extrabold text-white leading-none tracking-tight">
-            {stats.weekTotal}
-          </p>
-          <p className="text-xs font-medium text-zinc-400 mt-1">
-            {vi ? 'hoạt động / 7 ngày' : 'activities / 7 days'}
-          </p>
-        </div>
-      </div>
-
-      {/* Cột hoạt động 7 ngày gần nhất */}
-      <div className="flex items-end justify-between gap-2 h-20 pt-2">
-        {stats.week.map((d) => (
-          <div key={d.date} className="flex-1 flex flex-col items-center gap-1.5">
-            <div className="w-full flex-1 flex items-end">
-              <div
-                className={`w-full rounded-lg ${
-                  d.active
-                    ? 'bg-gradient-to-t from-orange-500 to-amber-400 shadow-sm'
-                    : 'bg-zinc-800/80'
-                }`}
-                style={{ height: `${d.active ? Math.max(16, (d.count / maxDay) * 100) : 8}%` }}
-                title={`${d.count} ${vi ? 'hoạt động' : 'activities'}`}
-              />
-            </div>
-            <span className="text-[11px] font-medium text-zinc-400">{dow[d.dow]}</span>
-          </div>
-        ))}
-      </div>
-    </section>
-  )
-
-  const weeklyGoalSection = (
-    <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-3xl p-5 sm:p-6 shadow-sm animate-fade-in motion-reduce:animate-none">
-      <div className="flex items-center gap-4">
-        <GoalRing done={stats.weekly.daysDone} goal={stats.weekly.goal} />
-        <div className="min-w-0 flex-1">
-          <h2 className="text-sm font-bold text-zinc-200 flex items-center gap-2">
-            <CalendarCheck className="w-4 h-4 text-accent-400" />
-            {vi ? 'Mục tiêu tuần' : 'Weekly goal'}
-          </h2>
-          {/* Số liệu cho screen reader — vòng SVG bên trái là aria-hidden */}
-          <p className="text-sm text-zinc-300 mt-1 leading-relaxed read-measure">
-            <span className="sr-only">
-              {vi
-                ? `Đã học ${stats.weekly.daysDone} trên ${stats.weekly.goal} ngày mục tiêu. `
-                : `Studied ${stats.weekly.daysDone} of ${stats.weekly.goal} goal days. `}
-            </span>
-            {weeklyLine(stats.weekly, vi)}
-          </p>
-          <button
-            onClick={() => nav('/trang-ca-nhan')}
-            className="min-h-11 px-2 -ml-2 text-xs font-medium text-accent-400 theme-light:text-accent-800 hover:underline mt-1.5 inline-flex items-center gap-1 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
-          >
-            {vi ? 'Đổi mục tiêu ở Hồ sơ →' : 'Change goal in Profile →'}
-          </button>
-        </div>
-      </div>
-    </section>
-  )
 
   const restSections = (
     <>
@@ -937,44 +772,21 @@ export default function Dashboard() {
             data-dashboard-region="weekly"
             className="min-w-0 space-y-6 lg:col-start-2 lg:row-start-2"
           >
-            {streakSection}
-            {weeklyGoalSection}
-            <div>
-              <button
-                ref={calendarToggleRef}
-                id="dashboard-calendar-toggle"
-                type="button"
-                aria-expanded={calendarExpanded}
-                aria-controls="dashboard-calendar-panel"
-                onClick={toggleCalendar}
-                className="min-h-11 w-full rounded-xl border border-zinc-800/80 bg-zinc-900/80 px-4 py-2 text-sm font-semibold text-zinc-200 hover:border-zinc-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
-              >
-                {calendarExpanded
-                  ? vi
-                    ? 'Ẩn lịch hoạt động'
-                    : 'Hide activity calendar'
-                  : vi
-                    ? 'Xem lịch hoạt động'
-                    : 'View activity calendar'}
-              </button>
-              <div
-                ref={calendarPanelRef}
-                id="dashboard-calendar-panel"
-                hidden={!calendarExpanded}
-                className="mt-4 min-w-0"
-              >
-                <ActivityCalendarCard
-                  calendar={stats.calendar}
-                  uid={user.id}
-                  vi={vi}
-                  isDesktop={isDesktop}
-                  weeks={isDesktop ? calendarWeeks : 5}
-                  wdow={WDOW}
-                  selectedDate={calendarSelectedDate}
-                  onSelectedDateChange={setCalendarSelectedDate}
-                />
-              </div>
-            </div>
+            <DashboardWeeklyOverview
+              vi={vi}
+              weekTotal={stats.weekTotal}
+              weekly={stats.weekly}
+              onChangeGoal={() => nav('/trang-ca-nhan')}
+              calendar={{
+                calendar: stats.calendar,
+                uid: user.id,
+                isDesktop,
+                weeks: isDesktop ? calendarWeeks : 5,
+                wdow: WDOW,
+                selectedDate: calendarSelectedDate,
+                onSelectedDateChange: setCalendarSelectedDate,
+              }}
+            />
           </div>
 
           <div

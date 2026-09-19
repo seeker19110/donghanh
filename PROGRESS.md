@@ -299,21 +299,19 @@ một host — đó là lý do nó sống sót từ 2026-08-28.
 
 ### Ưu tiên 1d — REDESIGN TRANG CHỦ & TRẢI NGHIỆM HỌC CỐT LÕI (đặc tả `docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md`)
 
-**Current truth clarity-first (2026-09-18, `main@2cc505f0`):** UX-R1 đã merge #1020; UX-R2
-Home progressive disclosure đã merge #1022 (Home canonical cao 1.663/1.581/1.423px ở
-320/390/1440). Spec UX-R3 đã merge #1023, **Approved for implementation** cho bốn slice tuần tự;
-R3-1 async truth/retry và bốn rejected loader cache đã merge #1024 tại `2cc505f0`.
-R3-2 responsive state/focus/calendar hiện là **candidate VERIFY, chưa merge**: một DOM tree,
-một QuickActions/calendar instance; calendar đóng mặc định, giữ state/focus qua resize và clamp
-ngày có kiểm soát. Independent review vòng 3 PASS **0 critical · 0 major · 0 minor**; component
-**21/21** và calendar E2E **11/11** PASS, gồm axe ba theme, 44px/overflow và dialog/focus.
-**Complete gate đang chạy/chưa chốt**; không suy PASS toàn repo từ targeted checks. Chi tiết
-candidate ở `docs/changelog/0372-2026-09-18-ux-r3-2-dashboard-responsive-state.md`; checkpoint
-tiếp tục ở `docs/goals/2026-09-15-learning-ux.md`. Sau full gate và required CI xanh mới
-auto-merge R3-2, reload main rồi làm R3-3 “Tuần này” có scope English → R3-4 English disclosure
-và 28 evidence cases. P2-10 `ProgressStory` độc lập đã được phương án A supersede; UX-R4 chưa
-thi hành. Trước khi dừng phải cập nhật/nén canonical state rồi đọc lại trước khi chạy tiếp;
-không deploy hoặc truy cập production trong scope này.
+**Current truth clarity-first (2026-09-19, `main@0b49300`):** UX-R1 đã merge #1020; UX-R2 Home
+progressive disclosure đã merge #1022. Spec UX-R3 đã merge #1023, **Approved for implementation**
+cho bốn slice tuần tự; R3-1 async truth/retry đã merge #1024; R3-2 responsive state/focus/
+calendar đã merge #1025 tại `0b49300` (một DOM tree, một QuickActions/calendar instance, calendar
+đóng mặc định, clamp ngày có kiểm soát). **R3-3 hierarchy + consolidated "Tuần này" đã làm** (PR
+này): `DashboardWeeklyOverview` gộp streak/mục tiêu/lịch dưới đúng một heading "Tuần này" + scope
+label English + narrative deterministic; `ActivityCalendarCard` thêm `presentation:
+'standalone'|'embedded'` (backward-compatible). Chi tiết ở
+`docs/changelog/0376-2026-09-19-ux-r3-3-dashboard-weekly-overview.md`. Tiếp theo: **R3-4 English
+progressive disclosure + 28 evidence cases** (chỉ bắt đầu sau khi PR R3-3 merge xanh vào `main`,
+đúng thứ tự phụ thuộc R3-1→R3-4, đọc lại spec + main trước khi code). P2-10 `ProgressStory` độc
+lập đã được phương án A supersede; UX-R4 chưa thi hành. Trước khi dừng phải cập nhật/nén canonical
+state rồi đọc lại trước khi chạy tiếp; không deploy hoặc truy cập production trong scope này.
 
 **[2026-09-17] Đặc tả 15 lệnh đã chốt (§2), chủ dự án ra lệnh thi hành từng lát.** Trạng thái
 sau đợt 1 + đợt 2 + lệnh 8/9 (9/15 lệnh, chạy bằng subagent Sonnet, đã merge):

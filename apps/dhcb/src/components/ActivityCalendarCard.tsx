@@ -69,6 +69,13 @@ export interface ActivityCalendarCardProps {
   selectedDate?: string
   /** Báo ngày mới khi người dùng chọn hoặc khi ngày cũ phải clamp vào range mới. */
   onSelectedDateChange?: (date: string) => void
+  /**
+   * R3-3: `embedded` bỏ surface/viền/nền/heading riêng để nhúng vào section cha
+   * (`DashboardWeeklyOverview`) — chỉ còn grid + chi tiết ngày + chú thích. `standalone`
+   * (mặc định) giữ nguyên thẻ độc lập cho mọi call site cũ. Roving tabindex, aria-label của
+   * grid và live detail KHÔNG đổi giữa hai chế độ.
+   */
+  presentation?: 'standalone' | 'embedded'
 }
 
 function clampDate(days: ActivityCalendar['days'], selectedDate: string | undefined) {
@@ -97,6 +104,7 @@ export default function ActivityCalendarCard({
   wdow,
   selectedDate,
   onSelectedDateChange,
+  presentation = 'standalone',
 }: ActivityCalendarCardProps) {
   const days = calendar.days
   // Mặc định chọn HÔM NAY (ô cuối) — vào lưới bằng Tab là đứng ngay ở ngày gần nhất, chứ
@@ -242,18 +250,8 @@ export default function ActivityCalendarCard({
     </div>
   ))
 
-  return (
-    <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-3xl p-5 sm:p-6 shadow-sm animate-fade-in motion-reduce:animate-none">
-      <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-semibold text-zinc-300 flex items-center gap-2">
-          <CalendarDays className="w-4 h-4 text-accent-400" />{' '}
-          {vi ? 'Lịch hoạt động' : 'Activity calendar'}
-        </h2>
-        <span className="text-xs text-zinc-400">
-          {calendar.activeDays} {vi ? `ngày / ${weeks} tuần` : `days / ${weeks} weeks`}
-        </span>
-      </div>
-
+  const body = (
+    <>
       {/* Một cây DOM duy nhất cho cả hai hình học. Chỉ class CSS đổi qua breakpoint nên ô còn
           trong range giữ nguyên identity, focus và state khi chuyển 5↔13↔26 tuần. */}
       <div className={isDesktop ? 'flex gap-1.5 overflow-x-auto' : 'overflow-x-auto'}>
@@ -330,6 +328,35 @@ export default function ActivityCalendarCard({
         <span className="w-3 h-3 rounded-[3px] bg-accent-400" />
         <span>{vi ? 'Nhiều' : 'More'}</span>
       </div>
+    </>
+  )
+
+  if (presentation === 'embedded') {
+    // Không surface/viền/nền/heading riêng — section cha (DashboardWeeklyOverview) sở hữu
+    // heading của toàn khối "Tuần này". Đếm ngày/tuần chuyển thành phần chú thích nhỏ ngay
+    // trên grid để không mất thông tin.
+    return (
+      <div className="animate-fade-in motion-reduce:animate-none">
+        <p className="text-xs text-zinc-400 mb-3">
+          {calendar.activeDays} {vi ? `ngày / ${weeks} tuần` : `days / ${weeks} weeks`}
+        </p>
+        {body}
+      </div>
+    )
+  }
+
+  return (
+    <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-3xl p-5 sm:p-6 shadow-sm animate-fade-in motion-reduce:animate-none">
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-sm font-semibold text-zinc-300 flex items-center gap-2">
+          <CalendarDays className="w-4 h-4 text-accent-400" />{' '}
+          {vi ? 'Lịch hoạt động' : 'Activity calendar'}
+        </h2>
+        <span className="text-xs text-zinc-400">
+          {calendar.activeDays} {vi ? `ngày / ${weeks} tuần` : `days / ${weeks} weeks`}
+        </span>
+      </div>
+      {body}
     </section>
   )
 }
