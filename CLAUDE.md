@@ -119,7 +119,7 @@ Hệ thống được chuẩn hóa theo 10 bộ quy chuẩn SOTA chuyên biệt 
 - **PR KHÔNG ĐỂ Ở DẠNG NHÁP** — GitHub từ chối auto-merge trên PR nháp (đã dính PR #693). Công cụ tạo nháp thì bỏ nháp ngay.
 - **Chia nhỏ.** Mỗi lần một phần nhỏ, hoàn chỉnh, kiểm tra được. Việc lớn → đề xuất kế hoạch chia nhỏ trước.
 - **Chủ động góp ý (BẮT BUỘC).** Thấy cách tốt hơn / rủi ro / thiếu sót / phạm vi phình → **nêu kèm đề xuất cụ thể**. Im lặng làm theo khi biết có vấn đề là vi phạm.
-- **Nhịp theo giới hạn giờ (usage limit):** ≥ 70% → hoàn tất việc đang làm, tạo PR rồi DỪNG chờ người dùng. < 70% → sau khi PR merge, tự tiếp mục kế tiếp trong `PROGRESS.md`.
+- **Nhịp theo giới hạn giờ (usage limit):** ≥ 70% → hoàn tất việc đang làm, tạo PR rồi DỪNG chờ người dùng. < 70% → sau khi PR merge, tự tiếp mục kế tiếp trong `PROGRESS.md`. **Từ 2026-09-19 luật này được TỰ ĐỘNG nhắc** bởi hook Stop `.claude/hooks/usage-guard.sh` (bật bằng cách copy `.claude/usage-budget.example.sh` thành `.claude/usage-budget.sh` và điền số quota — file cá nhân, không commit).
 - **Phân việc theo độ phức tạp (2026-07-15).** LUÔN đọc đặc tả liên quan (`docs/research/*.md`, `docs/specs/*.md`) trước khi giao. Phức tạp (kiến trúc, nhiều file/luồng, cần ngữ cảnh phiên) → **tự làm**. Vừa (1 tính năng/hàm có đặc tả rõ) → subagent **Sonnet**. Cơ học (đổi tên hàng loạt, format) → subagent **Haiku**. Brief phải đủ ngữ cảnh: đường dẫn file, quy ước, tiêu chí chấp nhận — subagent không thấy hội thoại.
 
 ## 4. Nguyên tắc kỹ thuật bất biến
@@ -183,6 +183,14 @@ Hệ thống được chuẩn hóa theo 10 bộ quy chuẩn SOTA chuyên biệt 
 
 ## 7. Quy ước khi viết code & cách làm việc
 
+- **Slash-command sẵn có (thêm 2026-09-19, `.claude/commands/`):** `/gate` (cổng commit/merge +
+  Báo cáo xác thực, mục 8-10) · `/debug` (chẩn đoán bug khó theo 6 pha có kỷ luật) · `/incident`
+  (sự cố production — giảm thiệt hại trước, bám `docs/ke-hoach-khoi-phuc-su-co-server.md`) ·
+  `/consult` (tư vấn công nghệ research-first cho DHCB). Dùng thay vì tự nhớ quy trình mỗi lần.
+  4 file `.claude/agents/*.md` (điều phối 3 tầng theo route độ phức tạp — xem
+  `docs/framework/KIEN-TRUC-DIEU-PHOI-3-TANG.md`) là lớp **khác** 10 skill ở mục 2.1 (skill =
+  kiến thức miền, agent = vai trò điều phối việc) — dùng song song, không thay thế nhau.
+
 - **Tra bản đồ code TRƯỚC khi sửa file dùng chung.** `npm run codemap` quét cả dự án (~9s) rồi:
   `-- impact <file>` (sửa file này gãy chỗ nào) · `-- callers <file>#<hàm>` (ai đang gọi hàm này) ·
   `-- hotspots` (file bị import nhiều nhất = rủi ro cao nhất) · `-- cycles` · `-- orphans`.
@@ -216,6 +224,12 @@ Hệ thống được chuẩn hóa theo 10 bộ quy chuẩn SOTA chuyên biệt 
 ## 8. Cổng trước khi COMMIT (chạy và đạt hết)
 
 Build `npm run build` · Type `npm run typecheck` · Lint `npm run lint` (0 cảnh báo) · Format `npm run format` _(sau khi thêm Prettier)_ · Test `npm test`. Ngoài ra: tự đọc lại diff (đúng mục tiêu, không sửa nhầm); xóa `console.log` debug/code chết; không bí mật trong code; mọi input đã validate; mọi thao tác có thể lỗi đã xử lý; commit message theo **conventional commits**. Nếu `git diff --stat` hiện `Bin` ở một file mã nguồn → file lẫn ký tự điều khiển (NUL…), diff thành nhị phân **không review được**: dùng escape (`\u0000`) thay vì gõ ký tự thật, rồi kiểm lại bằng `file <path>`.
+
+**Từ 2026-09-19, hook PreToolUse `.claude/hooks/pre-commit-gate.sh` TỰ CHẶN `git commit` khi `typecheck`/`lint`/`test` đỏ** (không chạy `build` ở đây — quá chậm cho mỗi commit, vẫn bắt buộc ở CI job `build` + checklist merge). Bỏ qua có chủ đích: `git commit --no-verify`. Hook `.claude/hooks/block-dangerous-git.sh` cũng chặn cứng `reset --hard`/`clean -f`/`branch -D`/`checkout .`/`push --force`/`merge --abort` (thi hành mục 11 bằng máy, không chỉ bằng văn bản).
+
+**Chống đặc tả "nói suông" (thêm 2026-09-19):** `npm run check:specs` (chạy trong CI job `audit`, chặn merge) kiểm mọi đường dẫn ở cột "Đường dẫn file" của đặc tả ĐÃ "Approved for implementation" (`docs/specs/*.md`) có tồn tại thật — xem `scripts/check-spec-paths.ts`.
+
+**Bảo trì định kỳ:** `npm run maintain` (`scripts/maintenance-sweep.sh`) quét tổng hợp git hygiene/dependency/tài liệu lỗi thời/bí mật lọt git/CI — chỉ đọc, không sửa; dùng khi rà soát định kỳ hoặc trước một đợt việc lớn.
 
 **Công cụ phải khớp lockfile (bài học 2026-08-04, CI #475 đỏ).** Cổng chỉ đáng tin khi `node_modules` đúng `package-lock.json`. Dấu hiệu lệch: cổng local báo lỗi ở **nhiều file mình không hề đụng tới**, hoặc local xanh mà CI đỏ (và ngược lại). Gặp dấu hiệu đó → `npm ci` rồi chạy lại cổng, ĐỪNG đi sửa từng file theo báo lỗi giả. Trong container phiên mới, chạy `npm ci` trước lần chạy cổng đầu tiên. Kiểm nhanh: `npx prettier --version` khớp `package.json`.
 

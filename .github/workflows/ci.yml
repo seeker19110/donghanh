@@ -139,6 +139,14 @@ jobs:
       - name: Chất lượng nội dung bài học (audit:lessons)
         run: npm run audit:lessons -- --ci
 
+      # Gate chống đặc tả "nói suông" (thêm 2026-09-19, tham khảo spec-compiler của
+      # seeker19110/projects-template): mọi đường dẫn trong cột "Đường dẫn file" của mục
+      # ② ở đặc tả ĐÃ "Approved for implementation" phải tồn tại thật trong repo — CLAUDE.md
+      # mục 5 "chống ảo giác" trước đây chỉ dựa kỷ luật, không có gác tự động cho nội dung
+      # đặc tả. Xem scripts/check-spec-paths.ts.
+      - name: Đường dẫn trong đặc tả Approved (check:specs)
+        run: npm run check:specs -- --ci
+
       # Cảnh báo PROGRESS.md lỗi thời (TRAPS.md mục 2) — chỉ đối chiếu khi push thẳng main:
       # lúc PR còn mở, nhánh feature vẫn tồn tại là bình thường, kiểm lúc đó báo oan. Cần
       # fetch-depth đủ để `git ls-remote` thấy remote thật (actions/checkout mặc định đã fetch
