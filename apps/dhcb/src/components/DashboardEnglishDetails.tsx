@@ -260,6 +260,7 @@ export default function DashboardEnglishDetails({
             Số liệu Tiếng Anh — xem thêm ở{' '}
             <Link
               to={englishSubjectHref}
+              aria-label="về trang môn"
               className="underline underline-offset-2 text-accent-300 theme-light:text-accent-800 hover:text-white"
             >
               trang môn
@@ -271,6 +272,7 @@ export default function DashboardEnglishDetails({
             English numbers — see the{' '}
             <Link
               to={englishSubjectHref}
+              aria-label="go to subject page"
               className="underline underline-offset-2 text-accent-300 theme-light:text-accent-800 hover:text-white"
             >
               subject page
