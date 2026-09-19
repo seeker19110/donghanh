@@ -1,8 +1,8 @@
 # ADR-0005: Không dùng cột `stats` không tồn tại cho learning read-model
 
 - **Ngày:** 2026-09-18
-- **Trạng thái:** đề xuất (Proposed — chưa phê duyệt triển khai)
-- **Người quyết định:** Chủ dự án (chưa chốt)
+- **Trạng thái:** ✅ Accepted — chốt phương án B (2026-09-19)
+- **Người quyết định:** Chủ dự án (đã chốt 2026-09-19, xem "Quyết định cần chủ dự án" bên dưới)
 
 ## Bối cảnh
 
@@ -72,14 +72,54 @@ có số đo kích thước JSONB, cardinality người dùng và p95 latency.
 - **Điều kiện xem lại:** JSONB hoặc p95 query vượt ngưỡng vận hành đã chốt, hoặc cần
   dashboard/query đa người dùng; khi đó cân nhắc C với backfill và verification query.
 
-## Quyết định cần chủ dự án
+## Quyết định cần chủ dự án — ĐÃ CHỐT (2026-09-19)
 
-1. `inProgressCount` và `dueForReviewCount` được định nghĩa từ dữ liệu nào?
-2. Cho phép contract v2 trả `null`/`unknown`, hay bắt buộc tương thích số nguyên v1?
-3. Có chấp nhận server-time làm chuẩn cho SRS due và coi client snapshot là nguồn đầu vào
-   của số đếm SRS không? Snapshot này chỉ là dữ liệu tự báo cáo, không cấp mastery.
-4. `recentEvidenceCount` đếm loại evidence nào, theo cửa sổ thời gian nào, và thể hiện
-   dữ liệu chưa biết ra sao? `masteredCount` cũng cần nguồn/tiêu chí mastery được xác nhận.
+**Khảo sát trước khi chốt:** tất cả 5 nơi gọi `getLearningReadModel` hiện tại
+(`apps/server/src/api/learning/learning-read-model.ts`, `careerService.ts`,
+`crossDomainGraphService.ts`, `proactiveBriefingService.ts`, `companionRuntime.ts`) đều KHÔNG
+truyền `subject`, nên luôn nhận mặc định `'english'`. Quan trọng: bảng bằng chứng thật
+`platform.completion_evidence` (migration `0081`) có ràng buộc
+`subject_id in ('mathematics','physics','chemistry','biology')` — **KHÔNG có `english`**. Tức
+với subject đang dùng thật, hiện KHÔNG tồn tại nguồn "bằng chứng đã xác thực server" nào cho
+việc học tiếng Anh (đúng nợ đã ghi ở `PROGRESS.md`: "Hội thoại CEFR chỉ đánh dấu đã xem",
+"Bài Lập trình/Anh vẫn client tự khai"). Quyết định dưới đây phản ánh đúng thực tế đó thay vì
+suy đoán ra một con số trông có vẻ đáng tin.
+
+1. **`inProgressCount` và `dueForReviewCount` lấy từ dữ liệu nào:** tính từ hai JSONB thật
+   `learned` (mảng từ đã tự đánh dấu "thuộc") và `srs` (map từ → thẻ ôn tập, có `reps`/`due`)
+   trong `english.learning_progress`.
+   - `inProgressCount` = số khoá trong `srs` **chưa có mặt** trong `learned` (đang ôn, chưa
+     được đánh dấu thuộc).
+   - `dueForReviewCount` = số khoá trong `srs` có `due <= now()` (now tính ở SERVER, xem mục 3).
+   - `srsDueCount` (field cấp cao nhất, tách khỏi `masterySummary`) dùng **CHUNG một công thức**
+     với `dueForReviewCount` — không tính hai lần theo hai cách khác nhau như code cũ ngầm định
+     (`stats.srsDueCount || dueForReviewCount`), tránh lệch số giữa hai field.
+2. **Contract v2:** CHỈ `recentEvidenceCount` được đổi sang **nullable** (`number | null`) —
+   biểu diễn "chưa đo được" khi subject không có nguồn evidence thật (đúng trường hợp `english`
+   hiện tại). Bốn field còn lại (`masteredCount`, `inProgressCount`, `dueForReviewCount`,
+   `srsDueCount`) **VẪN bắt buộc số nguyên không âm** như v1 — chúng có nguồn dữ liệu thật rõ
+   ràng từ JSONB, không cần nullable. **Không bump `LEARNING_READ_MODEL_SCHEMA_VERSION`** — chỉ
+   5 consumer nội bộ (liệt kê ở trên, cùng repo) nên sửa `recentEvidenceCount` sang nullable và
+   cập nhật cả 5 nơi đọc field này trong CÙNG một PR, không cần đường chuyển tiếp v1↔v2 riêng.
+3. **Đồng ý:** SRS due dùng **server time** (`Date.now()`/`now()` phía server, KHÔNG nhận giá
+   trị "bây giờ" từ client) làm chuẩn so sánh với `due` lưu trong `srs`. `due` do client ghi là
+   **dữ liệu đầu vào (snapshot)**, không phải nguồn xác định thời điểm — khớp cách
+   `mergeSrsMap`/`progressMerge.ts` đã xử lý (S09-1, xem `docs/changelog/0373-*.md`). Snapshot
+   này KHÔNG cấp mastery hay quyền gì, chỉ là ngữ cảnh hiển thị.
+4. **`recentEvidenceCount`:** với subject **không có** bảng evidence thật khớp
+   (`english` — do ràng buộc `completion_evidence.subject_id` ở trên) → trả **`null`**
+   (không suy đoán bằng `masteredCount + inProgressCount` như code cũ). Nếu sau này subject
+   khớp một trong bốn môn STEM có `completion_evidence` thật, tính = số dòng
+   `platform.completion_evidence` của user trong 7 ngày gần nhất (window cố định, có thể chỉnh
+   qua hằng số) — **việc này ĐỂ NGOÀI PHẠM VI PR sửa lỗi này**, vì hiện chưa consumer nào gọi
+   `getLearningReadModel` với subject STEM; chỉ cần cài đúng "trả null khi không có nguồn",
+   không cần cài logic đếm STEM ngay.
+   `masteredCount` = `learned.length` (số từ người học đã tự đánh dấu "thuộc" qua UI) — đây LÀ
+   **số tự báo cáo (self-reported)**, KHÔNG phải bằng chứng đã xác thực server; giữ nguyên diễn
+   giải này vì đó là nguồn duy nhất tồn tại và đã được hiển thị cho người dùng dưới đúng nhãn
+   "Đã thành thạo: N từ" từ trước khi có ADR này — bug ở đây chỉ là NGUỒN ĐỌC sai (`stats` ảo)
+   chứ không phải đổi ý nghĩa hiển thị. Phải ghi rõ trong code comment + type doc đây là số tự
+   báo cáo, để không ai sau này lại coi nó là bằng chứng học thật.
 
 ## Bảo mật và thẩm quyền dữ liệu
 
