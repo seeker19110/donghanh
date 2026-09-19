@@ -10,6 +10,7 @@
 
 /** Nơi học được gợi ý. `isCompanion` = đích cần đăng nhập và nhận được nháp câu hỏi. */
 import { duongDanLuyenNoi } from './englishRoutes'
+import { duongDanCareerInterview } from './domainRoutes'
 
 export interface Destination {
   route: string
@@ -68,7 +69,7 @@ const KEYWORD_ROUTES: { keywords: string[]; destination: Destination }[] = [
   {
     keywords: ['phỏng vấn', 'cv', 'sự nghiệp', 'career'],
     destination: {
-      route: '/career/interview',
+      route: duongDanCareerInterview(),
       label: 'Luyện phỏng vấn',
       reason: 'Câu hỏi có từ khoá về tuyển dụng, sự nghiệp.',
       isCompanion: false,

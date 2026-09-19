@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Plus, Clock, CheckCircle2, ArrowRight, ArrowLeft, Filter, Search } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
+import { duongDanCongViec } from '../../../lib/domainRoutes'
 import Layout from '../../../components/Layout'
 import PageHeader from '../../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
@@ -106,7 +107,7 @@ export default function WorkKanban() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout onBack={() => nav('/cong-viec-cuoc-song?muc=cong-viec')} />
+      <Layout onBack={() => nav(duongDanCongViec())} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Lưới 2 cột, không phải bảng cuộn ngang →
       width="standard". */}

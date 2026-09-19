@@ -1,6 +1,7 @@
 // apps/dhcb/src/pages/Life.tsx — Life Foundation Hub UI (V2-17)
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { duongDanLifeWheel } from '../../../lib/domainRoutes'
 import {
   Flame,
   Smile,
@@ -271,7 +272,7 @@ export default function Life({ embedded = false }: { embedded?: boolean } = {}) 
         )}
         <div className="flex items-center gap-2 shrink-0">
           <button
-            onClick={() => nav('/life/wheel')}
+            onClick={() => nav(duongDanLifeWheel())}
             className="tap-44 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-rose-500 hover:bg-rose-400 text-black text-sm font-bold shadow-sm transition"
             title="Bánh xe cuộc đời"
           >

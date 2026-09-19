@@ -1,6 +1,7 @@
 // apps/dhcb/src/pages/Startup.tsx — Startup Hub UI (V2-16)
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { duongDanStartupCanvas } from '../../../lib/domainRoutes'
 import {
   Rocket,
   Lightbulb,
@@ -288,7 +289,7 @@ export default function Startup({ embedded = false }: { embedded?: boolean } = {
         )}
         <div className="flex items-center gap-2 shrink-0">
           <button
-            onClick={() => nav('/startup/canvas')}
+            onClick={() => nav(duongDanStartupCanvas())}
             className="tap-44 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-purple-500 hover:bg-purple-400 text-black text-sm font-bold shadow-sm transition"
             title="Khung Lean Canvas 9 Ô"
           >

@@ -1,6 +1,7 @@
 // apps/dhcb/src/pages/Work.tsx — Work Hub UI (V2-15)
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { duongDanWorkKanban } from '../../../lib/domainRoutes'
 import {
   FolderKanban,
   CheckSquare,
@@ -252,7 +253,7 @@ export default function Work({ embedded = false }: { embedded?: boolean } = {}) 
         )}
         <div className="flex items-center gap-2 shrink-0">
           <button
-            onClick={() => nav('/work/kanban')}
+            onClick={() => nav(duongDanWorkKanban())}
             className="tap-44 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-blue-500 hover:bg-blue-400 text-black text-sm font-bold transition shadow-sm"
             title="Bảng Kanban Tương Tác"
           >
