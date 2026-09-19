@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest'
-import { mergeSrsMap, mergeExamMap, mergeByTimestamp, mergeArrayUnion } from './progressMerge'
+import {
+  mergeSrsMap,
+  mergeExamMap,
+  mergeByTimestamp,
+  mergeArrayUnion,
+  resolveHard,
+} from './progressMerge'
 
 describe('mergeArrayUnion', () => {
   it('hợp 2 mảng, không trùng lặp — chỉ tăng, không mất phần tử nào', () => {
@@ -93,5 +99,81 @@ describe('mergeByTimestamp', () => {
 
   it('cả 2 rỗng → trả về rỗng, không throw', () => {
     expect(mergeByTimestamp({}, {}, 'lastAt')).toEqual({})
+  })
+
+  it('F8 (docs/changelog/0373-*.md): clientClock (client_updated_at cả request) phân định đúng khi field nội bộ lệch đồng hồ máy', () => {
+    // Máy A gửi lúc 10h thật (clientClock mới hơn) nhưng tự ghi `updatedAt` SAI vì đồng hồ hệ
+    // thống của máy A chạy lùi — field nội bộ nói A cũ hơn, nhưng clientClock nói A mới hơn.
+    const existing = { goal: 5, updatedAt: '2026-09-19T09:00:00.000Z' } // đã lưu, gửi lúc 09h
+    const incoming = { goal: 10, updatedAt: '2026-09-19T08:00:00.000Z' } // gửi SAU (10h) nhưng đồng hồ lùi
+    const result = mergeByTimestamp(existing, incoming, 'updatedAt', {
+      existing: '2026-09-19T09:00:00.000Z',
+      incoming: '2026-09-19T10:00:00.000Z',
+    })
+    expect(result).toEqual(incoming) // clientClock nói incoming mới hơn → incoming thắng
+  })
+
+  it('F8: race 2 request gần như đồng thời — clientClock của request cũ hơn KHÔNG được thắng dù tới server sau', () => {
+    const existing = { goal: 5, updatedAt: '2026-09-19T09:00:00.000Z' }
+    const incoming = { goal: 1, updatedAt: '2026-09-19T09:05:00.000Z' } // field nội bộ mới hơn
+    // Nhưng clientClock (nguồn nhất quán) nói incoming thực ra được sinh TRƯỚC existing.
+    const result = mergeByTimestamp(existing, incoming, 'updatedAt', {
+      existing: '2026-09-19T09:10:00.000Z',
+      incoming: '2026-09-19T09:00:00.000Z',
+    })
+    expect(result).toEqual(existing)
+  })
+
+  it('F8: clientClock bằng nhau (idempotent retry) hoặc thiếu 1 bên → rơi về field nội bộ như cũ', () => {
+    const older = { goal: 5, updatedAt: '2026-08-01T00:00:00Z' }
+    const newer = { goal: 10, updatedAt: '2026-08-02T00:00:00Z' }
+    expect(
+      mergeByTimestamp(older, newer, 'updatedAt', {
+        existing: '2026-09-19T09:00:00.000Z',
+        incoming: '2026-09-19T09:00:00.000Z',
+      }),
+    ).toEqual(newer)
+    expect(
+      mergeByTimestamp(older, newer, 'updatedAt', {
+        existing: null,
+        incoming: '2026-09-19T09:00:00.000Z',
+      }),
+    ).toEqual(newer)
+  })
+})
+
+describe('resolveHard (F6)', () => {
+  it('client_updated_at của request CŨ HƠN bản đã lưu → bỏ qua thay đổi hard, giữ bản đã lưu', () => {
+    // Race: request B tới SAU ở tầng mạng nhưng đồng hồ client của B cũ hơn bản A đã lưu.
+    const result = resolveHard(
+      ['book'],
+      ['run'],
+      '2026-09-19T10:00:00.000Z', // đã lưu lúc 10h
+      '2026-09-19T09:00:00.000Z', // request hiện tại sinh lúc 9h (cũ hơn) nhưng tới server sau
+    )
+    expect(result).toEqual(['book'])
+  })
+
+  it('client_updated_at của request MỚI HƠN bản đã lưu → ghi đè như bình thường', () => {
+    const result = resolveHard(
+      ['book'],
+      ['run'],
+      '2026-09-19T09:00:00.000Z',
+      '2026-09-19T10:00:00.000Z',
+    )
+    expect(result).toEqual(['run'])
+  })
+
+  it('thiếu client_updated_at ở request hiện tại (client cũ chưa gửi sync) nhưng bản đã lưu có → giữ bản đã lưu', () => {
+    expect(resolveHard(['book'], ['run'], '2026-09-19T09:00:00.000Z', null)).toEqual(['book'])
+  })
+
+  it('thiếu client_updated_at ở CẢ HAI bên → không throw, giữ hành vi ghi đè tự do cũ (client thắng)', () => {
+    expect(resolveHard(['book'], ['run'], null, undefined)).toEqual(['run'])
+    expect(resolveHard(['book'], [], undefined, undefined)).toEqual([])
+  })
+
+  it('bản đã lưu thiếu client_updated_at (dòng cũ trước migration) nhưng request hiện tại có → request thắng', () => {
+    expect(resolveHard(['book'], ['run'], null, '2026-09-19T09:00:00.000Z')).toEqual(['run'])
   })
 })
