@@ -316,7 +316,9 @@ export default function Subjects() {
                 thật: máy chủ trả về thành công và bộ lọc này không có môn nào. */}
             {searchQuery.trim()
               ? `Không tìm thấy môn học nào khớp với từ khóa "${searchQuery.trim()}".`
-              : 'Bộ lọc này hiện chưa có môn học nào. Thử chọn "Tất cả môn".'}
+              : filter === 'all'
+                ? 'Hiện chưa có môn học nào trong danh mục.'
+                : 'Bộ lọc này hiện chưa có môn học nào. Thử chọn "Tất cả môn".'}
           </div>
         ) : (
           /* Ở 1440px cột nội dung rộng ~1150px, đủ chỗ cho BA thẻ ~360px — sáu môn hiện tại

@@ -122,7 +122,10 @@ test('danh mục rỗng THẬT nói đúng là bộ lọc rỗng, không hiện 
 
   await page.goto('/goc-hoc-tap')
 
-  await expect(page.getByText('Bộ lọc này hiện chưa có môn học nào')).toBeVisible()
+  // Bộ lọc mặc định là "Tất cả môn" — gợi ý "Thử chọn Tất cả môn" khi đang CHỌN ĐÚNG nó là
+  // sai logic (sửa cùng đợt audit UI/UX 2026-09-19), nên câu đúng cho ca danh mục rỗng THẬT
+  // (không phải do lọc) là câu trung tính, không gợi ý đổi bộ lọc.
+  await expect(page.getByText('Hiện chưa có môn học nào trong danh mục')).toBeVisible()
   await expect(page.getByRole('alert')).toHaveCount(0)
 })
 

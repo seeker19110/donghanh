@@ -118,13 +118,37 @@ describe('trang Môn học — trạng thái tải/lỗi/rỗng', () => {
     expect(chu()).toContain('503')
   })
 
-  it('thành công nhưng bộ lọc rỗng: nói đúng là bộ lọc rỗng, KHÔNG hiện bảng lỗi', async () => {
+  it('thành công nhưng danh mục rỗng (bộ lọc "Tất cả môn"): nói đúng là danh mục rỗng, KHÔNG hiện bảng lỗi, KHÔNG gợi ý chọn lại bộ lọc đang chọn', async () => {
     listSubjectsMock.mockResolvedValue([])
 
     hien()
     await chay()
 
     expect(container.querySelector('[role="alert"]')).toBeNull()
+    expect(chu()).toContain('Hiện chưa có môn học nào trong danh mục')
+    // Bộ lọc "Tất cả môn" đang được chọn — gợi ý chọn lại nó là vô nghĩa.
+    expect(chu()).not.toContain('Bộ lọc này hiện chưa có môn học nào')
+  })
+
+  it('bộ lọc KHÔNG PHẢI "Tất cả môn" mà rỗng: gợi ý chuyển sang "Tất cả môn"', async () => {
+    // Môn "english" ở category 'language' — server chỉ trả về nó khi lọc 'all'/'language',
+    // lọc 'stem' đúng ra phải rỗng (mô phỏng đúng hành vi server lọc theo tham số).
+    listSubjectsMock.mockImplementation((cat?: string) =>
+      Promise.resolve(cat === 'stem' ? [] : [manifest()]),
+    )
+
+    hien()
+    await chay()
+
+    const stemBtn = Array.from(container.querySelectorAll('button')).find((b) =>
+      b.textContent?.includes('STEM'),
+    )
+    expect(stemBtn).toBeTruthy()
+    act(() => {
+      stemBtn!.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    })
+    await chay()
+
     expect(chu()).toContain('Bộ lọc này hiện chưa có môn học nào')
   })
 
