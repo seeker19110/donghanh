@@ -114,7 +114,7 @@ Hệ thống được chuẩn hóa theo 10 bộ quy chuẩn SOTA chuyên biệt 
 - **Theo dõi trạng thái.** `PROGRESS.md` chỉ giữ TRẠNG THÁI HIỆN TẠI (giai đoạn · tiếp theo · việc tay · quyết định · nợ mở) — sửa TẠI CHỖ khi trạng thái thật sự đổi, không chồng thêm mục. Phần đã xong dời sang `docs/legacy/`.
 - **TẠO PR = COI NHƯ ĐÃ XONG (2026-08-09, làm rõ 2026-08-26).** Ba việc làm **liền một mạch**, không tách ra hỏi lại:
   1. **Nhật ký đợt việc = MỘT FILE MỚI trong `docs/changelog/`** theo khuôn `NNNN-YYYY-MM-DD-slug.md` (`npm run changelog` in số kế tiếp). Ghi số PR, ngày, việc đã làm, quyết định, bằng chứng kiểm chứng. KHÔNG chồng mục vào `PROGRESS.md` (test `scripts/changelog.test.ts` canh).
-  2. **Cập nhật `PROGRESS.md`** chỉ khi trạng thái đổi (mục "Tiếp theo" / nợ / việc tay), kèm số PR. Sửa `CLAUDE.md`/`PROJECT.md`/`docs/*` nếu thay đổi chạm tới.
+  2. **Cập nhật `PROGRESS.md`** chỉ khi trạng thái đổi (mục "Tiếp theo" / nợ / việc tay), kèm số PR. Sửa `CLAUDE.md`/`PROJECT.md`/`docs/*` nếu thay đổi chạm tới. **Quy ước chung (2026-09-19): bước đồng bộ `PROGRESS.md` LUÔN gộp vào PR đang mở gần nhất của đợt việc đó — KHÔNG tách thành PR/commit riêng**, kể cả khi phát hiện lệch trạng thái đến từ nguồn khác (vd `scripts/maintenance-sweep.sh`, `check-progress-freshness.sh`) trong lúc PR đó còn đang mở.
   3. **Bật auto-merge (squash) trong cùng nhịp tạo PR; không bật được thì theo dõi và tự merge khi CI xanh** — xem mục 11.
 - **PR KHÔNG ĐỂ Ở DẠNG NHÁP** — GitHub từ chối auto-merge trên PR nháp (đã dính PR #693). Công cụ tạo nháp thì bỏ nháp ngay.
 - **Chia nhỏ.** Mỗi lần một phần nhỏ, hoàn chỉnh, kiểm tra được. Việc lớn → đề xuất kế hoạch chia nhỏ trước.
