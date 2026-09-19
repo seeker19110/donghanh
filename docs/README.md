@@ -7,21 +7,22 @@
 
 ## 1. Nguồn THI HÀNH (đọc đầu phiên, làm theo)
 
-| File                                                    | Vai trò                                                               |
-| ------------------------------------------------------- | --------------------------------------------------------------------- |
-| `../CLAUDE.md`                                          | Luật làm việc hiện hành của AI (gọn, không lịch sử)                   |
-| `../PROGRESS.md`                                        | Trạng thái hiện tại: giai đoạn · tiếp theo · việc tay · nợ mở         |
-| `../PROJECT.md`                                         | Cái gì cần xây: MVP, schema, DoD                                      |
-| `research/dac-ta-kien-truc-platform-dhcb-2026-08-23.md` | Kiến trúc chuẩn nền tảng (khuôn "thêm môn học mới")                   |
-| `changelog/`                                            | Nhật ký từng đợt việc, mỗi PR một file (`npm run changelog`)          |
-| `specs/`                                                | Đặc tả từng tính năng đã/đang thi hành (cổng `feat(` cần link)        |
-| `research/`                                             | Đặc tả nghiên cứu: năng lực theo tuổi, đồng hành, thanh toán…         |
-| `adr/`                                                  | Quyết định kiến trúc lớn (0001–0004)                                  |
-| `templates/`                                            | Khuôn đặc tả tính năng + khuôn ADR                                    |
-| `AI_DEVELOPMENT_PIPELINES.md`                           | Quy trình phân vai model AI, escalation, verification và release gate |
-| `framework/QUY-TRINH-AUDIT.md`                          | Quy trình audit toàn diện 11 tầng (+ 8b ảnh chụp trang)               |
-| `framework/KHUNG-1..3-*.md`, `framework/BO-SUNG-*.md`   | Quy trình 9 giai đoạn, luật AI, tiêu chuẩn chất lượng                 |
-| `goals/`                                                | Mục tiêu lớn đang mở (STEM 3 môn nháp)                                |
+| File                                                    | Vai trò                                                                                                    |
+| ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `../CLAUDE.md`                                          | Luật làm việc hiện hành của AI (gọn, không lịch sử)                                                        |
+| `../PROGRESS.md`                                        | Trạng thái hiện tại: giai đoạn · tiếp theo · việc tay · nợ mở                                              |
+| `../PROJECT.md`                                         | Cái gì cần xây: MVP, schema, DoD                                                                           |
+| `research/dac-ta-kien-truc-platform-dhcb-2026-08-23.md` | Kiến trúc chuẩn nền tảng (khuôn "thêm môn học mới")                                                        |
+| `changelog/`                                            | Nhật ký từng đợt việc, mỗi PR một file (`npm run changelog`)                                               |
+| `specs/`                                                | Đặc tả từng tính năng đã/đang thi hành (cổng `feat(` cần link)                                             |
+| `research/`                                             | Đặc tả nghiên cứu: năng lực theo tuổi, đồng hành, thanh toán…                                              |
+| `adr/`                                                  | Quyết định kiến trúc lớn (0001–0004)                                                                       |
+| `templates/`                                            | Khuôn đặc tả tính năng + khuôn DESIGN_SPEC + khuôn ADR                                                     |
+| `AI_DEVELOPMENT_PROTOCOL.md`                            | Quy trình "kín" 5 vai: state machine, hợp đồng artifact, khoá file, cổng QA, quyền sửa, điều kiện PR/merge |
+| `AI_DEVELOPMENT_PIPELINES.md`                           | Chọn model/effort theo rủi ro cho từng bước (bổ sung cho PROTOCOL, không thay)                             |
+| `framework/QUY-TRINH-AUDIT.md`                          | Quy trình audit toàn diện 11 tầng (+ 8b ảnh chụp trang)                                                    |
+| `framework/KHUNG-1..3-*.md`, `framework/BO-SUNG-*.md`   | Quy trình 9 giai đoạn, luật AI, tiêu chuẩn chất lượng                                                      |
+| `goals/`                                                | Mục tiêu lớn đang mở (STEM 3 môn nháp)                                                                     |
 
 ## 2. VẬN HÀNH (đọc khi deploy / sự cố / cấu hình)
 

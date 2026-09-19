@@ -64,3 +64,6 @@ tai-lieu-sgk/
 # Output build của từng gói workspace (tsc -b, phương án B project references)
 packages/*/dist
 *.tsbuildinfo
+
+# Kế hoạch thi hành của một đợt việc (AI_DEVELOPMENT_PROTOCOL §3.3) — artifact tạm, không commit
+PLAN.md
