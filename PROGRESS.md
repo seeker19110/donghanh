@@ -924,20 +924,22 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   ngưỡng. Cùng đợt: nới timeout 4 describe bcrypt thật (12 vòng) ở `packages/core-auth/authService.test.ts`
   — cùng khuôn lỗi, phát hiện khi chạy full suite (S05-2). Xem `TRAPS.md` mục khuôn lỗi timeout
   5s dưới tải.
-- 🟡 **[2026-09-12 — GĐ3, xem `docs/changelog/0291-*.md`] Khoá bậc môn Lập trình mới cưỡng chế ở
-  CLIENT.** Luật "Free học tuần tự P1→P6" tính ở trình duyệt (`lib/programmingLevelLock.ts`), và
-  grandfather nằm ở localStorage chứ không phải cột DB như môn Anh (migration 0077). Người sửa
-  localStorage hoặc gõ thẳng URL `/lap-trinh/bai-hoc/<id>` vẫn xem được bài của bậc chưa mở. Cố ý
-  chấp nhận ở đợt đầu: nội dung bài học không phải bí mật, còn tiến độ + hạn mức AI thì server đã
-  giữ. Siết ở `api/subjects/programming/progress.ts` (như GĐ2a đã làm cho môn Anh) khi có lý do
-  thật, đừng gộp vào PR khác.
-  **[Cập nhật 2026-09-15 — chế độ Khách, `docs/changelog/0317-*.md`]** Nợ này nay có thêm một
-  nhánh **cố ý không đóng được**: khách vãng lai (chưa đăng nhập) không có hàng nào trên server
-  nên luật khoá của họ tính HOÀN TOÀN ở client, theo tiến độ localStorage. Đã cân nhắc và chấp
-  nhận trong `docs/specs/2026-09-15-mo-xem-web-khong-can-dang-nhap.md`: khách không có điểm,
-  tiền hay xếp hạng gắn với danh tính, nên "tự mở khoá bài của chính mình" không lấy được gì —
-  còn thứ TỐN TIỀN (lượt AI) thì server vẫn đếm theo `X-Guest-Id` + IP. Khi siết phần đã đăng
-  nhập thì **không** kéo theo phần khách: hai luồng khác bản chất.
+- ✅ **[2026-09-12 → ĐÃ SIẾT 2026-09-19, xem `docs/changelog/0291-*.md` +
+  `docs/changelog/0376-*.md`] Khoá bậc môn Lập trình — phần NGƯỜI DÙNG ĐÃ ĐĂNG NHẬP nay siết ở
+  SERVER.** Trước đây luật "Free học tuần tự P1→P6" chỉ tính ở trình duyệt
+  (`lib/programmingLevelLock.ts`); người sửa localStorage/gõ thẳng URL vẫn GHI ĐƯỢC tiến độ bậc
+  chưa mở. Từ 2026-09-19, `api/subjects/programming/progress.ts` tự kiểm lại bằng cùng hàm THUẦN
+  `computeLevelLockMap` (`packages/subject-programming/levelLockServer.ts`) trước khi upsert:
+  bài xương sống thuộc bậc chưa mở → 403, KHÔNG ghi DB. GRANDFATHER suy TỪ DỮ LIỆU SERVER sẵn có
+  (bất kỳ dòng `lesson_progress` nào ở một bậc, bất kể status, tức là đã từng vào bậc đó) — không
+  cần migration/cột mới, không khoá oan người dùng cũ. **Vẫn CỐ Ý không khoá nội dung bài học**
+  (đọc bài không phải bí mật) — chỉ chặn ghi tiến độ.
+  **[Cập nhật 2026-09-15 — chế độ Khách, `docs/changelog/0317-*.md`, KHÔNG đổi]** Khách vãng lai
+  (chưa đăng nhập) vẫn không có hàng trên server nên luật khoá của họ vẫn tính HOÀN TOÀN ở
+  client, theo tiến độ localStorage — quyết định riêng ở
+  `docs/specs/2026-09-15-mo-xem-web-khong-can-dang-nhap.md`, không đổi bởi đợt siết này (khách
+  không có điểm/tiền/xếp hạng gắn với danh tính nên không lấy được gì khi tự mở khoá; lượt AI
+  thì server vẫn đếm theo `X-Guest-Id` + IP).
 
 - 🟡 **[2026-09-12 — GĐ1, xem `docs/changelog/0289-*.md`] Kho lượt cửa sổ trượt 7 ngày của gói
   Free nay MỒ CÔI.** GĐ1 bỏ `consume_rolling_credit`/`refund_rolling_credit` khỏi đường enforce
