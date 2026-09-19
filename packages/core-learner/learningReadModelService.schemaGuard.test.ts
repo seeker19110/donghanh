@@ -79,7 +79,7 @@ function getColumnsSelectedByService(): string[] {
 // `npx vitest run packages/core-learner/learningReadModelService.schemaGuard.test.ts`
 // (xem chi tiết cách chạy trong changelog liên quan). Sau khi ADR-0005 được thi hành, bỏ
 // `.skip` VĨNH VIỄN để test này bảo vệ contract lâu dài.
-describe.skip('learningReadModelService — cột SELECT phải khớp schema thật (ADR-0005 chưa chốt)', () => {
+describe('learningReadModelService — cột SELECT phải khớp schema thật (ADR-0005 đã chốt & đã sửa)', () => {
   it('mọi cột SELECT từ english.learning_progress đều phải tồn tại trong postgres/schema.sql', () => {
     const realColumns = getRealColumnsOfLearningProgress()
     const selectedColumns = getColumnsSelectedByService()
