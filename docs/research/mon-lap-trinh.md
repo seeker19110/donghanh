@@ -16,7 +16,7 @@ _(Chi tiết nguồn gốc: `dac-ta-mon-lap-trinh-2026-08-24.md`)_
 > tạp, cấu trúc tiêu chuẩn, dạy những ngôn ngữ trong 10 năm tới vẫn còn dùng ở mức cao."_
 >
 > Trạng thái: **ĐẶC TẢ — chưa code.** Môn mới phải cắm vào khuôn 5 mảnh của
-> `dac-ta-kien-truc-platform-dhcb-2026-08-23.md` mục 4, KHÔNG được đòi sửa nền tảng.
+> `docs/research/kien-truc-va-ha-tang.md` mục [1] · mục 4, KHÔNG được đòi sửa nền tảng.
 
 ## 0. Nguyên tắc bám sát
 

@@ -32,7 +32,7 @@ type IconType = typeof BookOpen
 // DHCB là nền tảng đồng hành cá nhân 4 trụ (Học tập · Sự nghiệp · Khởi nghiệp · Công việc &
 // Đời sống — Work và Life gộp làm một, xem migration 0066) + Companion "Bạn Đồng Hành";
 // Tiếng Anh chỉ là MỘT MÔN trong trụ Học tập —
-// môn đầu tiên và chín nhất. Xem `docs/research/dac-ta-kien-truc-platform-dhcb-2026-08-23.md`.
+// môn đầu tiên và chín nhất. Xem `docs/research/kien-truc-va-ha-tang.md` mục [1].
 
 interface Pillar {
   icon: IconType

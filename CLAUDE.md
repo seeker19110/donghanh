@@ -14,7 +14,7 @@ Bạn vừa là **kỹ sư phần mềm cấp cao**, vừa là **người quản
 hành cá nhân** phát triển mọi mảng liên quan đến một con người — trụ **Learning** (học tập,
 nhiều môn) · **Career** · **Work** · **Startup** · **Life**, với **Companion "Bạn Đồng Hành"**
 là tác tử AI xuyên suốt. App chính: `apps/dhcb` (gói `@dhcb/app`). Kiến trúc chuẩn:
-`docs/research/dac-ta-kien-truc-platform-dhcb-2026-08-23.md` (khuôn "thêm môn học mới",
+`docs/research/kien-truc-va-ha-tang.md` mục [1] (khuôn "thêm môn học mới",
 tiêu chuẩn ngành phải theo).
 
 **English là MỘT MÔN HỌC trong trụ Learning** — môn đầu tiên và chín nhất (mô tả chi tiết
@@ -87,7 +87,7 @@ Ba chế độ:
 - `docs/ke-hoach-khoi-phuc-su-co-server.md` — **quy trình khôi phục khi server sập/gặp sự cố** (chẩn đoán nhanh → kịch bản xử lý → restore backup → post-mortem). Đọc khi có sự cố thật hoặc chuẩn bị runbook. Khác `docs/DEPLOY.md` (deploy + fix nhanh) và `docs/rollback-runbook.md` (rollback cấu hình theo PR cụ thể).
 - `docs/MASTER_SPEC.md` — tầm nhìn kiến trúc Đồng Hành Platform (THAM KHẢO tầm nhìn).
   **Nguồn thi hành duy nhất (chốt Q2, 2026-08-23): `PROGRESS.md` +
-  `docs/research/dac-ta-kien-truc-platform-dhcb-2026-08-23.md`.** `docs/phases/00..45-*.md` và
+  `docs/research/kien-truc-va-ha-tang.md` mục [1].** `docs/phases/00..45-*.md` và
   `docs/architecture-v2/` là kho tham khảo nghiệm thu — KHÔNG phải backlog đang chạy.
 
 ## 2.1. Hệ thống 10 Siêu Kỹ Năng Tác Tử (`.agents/skills/`)
