@@ -30,7 +30,7 @@ import { SUBJECT_CATALOG } from './subjectsCatalog.generated'
 // Trang chủ hub — nền tảng "Đồng hành cùng bạn" (https://www.donghanhcungban.org)
 //
 // LUẬT NỘI DUNG CỦA TRANG NÀY (chốt 2026-08-25, theo đặc tả kiến trúc platform
-// `docs/research/dac-ta-kien-truc-platform-dhcb-2026-08-23.md`):
+// `docs/research/kien-truc-va-ha-tang.md` mục [1]):
 //   1. Trang chủ giới thiệu NỀN TẢNG DHCB — 4 trụ (Học tập · Sự nghiệp · Khởi nghiệp ·
 //      Công việc & Đời sống) + Companion "Bạn Đồng Hành". KHÔNG đóng khung cả nền tảng
 //      thành "app học tiếng Anh". Work và Life gộp làm MỘT trụ (quyết định người dùng

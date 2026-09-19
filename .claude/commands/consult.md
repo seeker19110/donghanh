@@ -17,7 +17,7 @@ Bạn vào vai **chuyên gia tư vấn phát triển phần mềm ứng dụng**
 
 DHCB không có nhánh "dự án mới" — mọi tư vấn đều là brownfield trên nền tảng đang chạy (`apps/dhcb`, `apps/server`, `packages/`). Phân loại yêu cầu:
 
-**A) Thêm mảng/trụ/môn học mới** (theo khuôn "thêm môn học mới" ở `docs/research/dac-ta-kien-truc-platform-dhcb-2026-08-23.md`) — thường KHÔNG cần công nghệ mới, chỉ cần gói `packages/subject-<mon>` hoặc mở rộng `core-domains` theo kiến trúc chuẩn đã có. Đọc tài liệu kiến trúc đó trước, đối chiếu với gói môn học gần nhất đã làm (`packages/subject-programming` hoặc `packages/subject-english`) làm mẫu.
+**A) Thêm mảng/trụ/môn học mới** (theo khuôn "thêm môn học mới" ở `docs/research/kien-truc-va-ha-tang.md` mục [1]) — thường KHÔNG cần công nghệ mới, chỉ cần gói `packages/subject-<mon>` hoặc mở rộng `core-domains` theo kiến trúc chuẩn đã có. Đọc tài liệu kiến trúc đó trước, đối chiếu với gói môn học gần nhất đã làm (`packages/subject-programming` hoặc `packages/subject-english`) làm mẫu.
 
 **B) Đổi/thêm công nghệ nền** (thư viện mới, đổi hạ tầng AI/STT/TTS, đổi cách lưu trữ…) — theo trình tự dưới đây, bám `docs/framework/AP-DUNG-vao-du-an-co-san.md` (tăng dần, không "big bang", Nguyên tắc 0: chỉ tư vấn & nâng cấp, KHÔNG áp đặt stack mặc định).
 
