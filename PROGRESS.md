@@ -299,19 +299,25 @@ một host — đó là lý do nó sống sót từ 2026-08-28.
 
 ### Ưu tiên 1d — REDESIGN TRANG CHỦ & TRẢI NGHIỆM HỌC CỐT LÕI (đặc tả `docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md`)
 
-**Current truth clarity-first (2026-09-19, `main@0b49300`):** UX-R1 đã merge #1020; UX-R2 Home
-progressive disclosure đã merge #1022. Spec UX-R3 đã merge #1023, **Approved for implementation**
-cho bốn slice tuần tự; R3-1 async truth/retry đã merge #1024; R3-2 responsive state/focus/
-calendar đã merge #1025 tại `0b49300` (một DOM tree, một QuickActions/calendar instance, calendar
-đóng mặc định, clamp ngày có kiểm soát). **R3-3 hierarchy + consolidated "Tuần này" đã làm** (PR
-này): `DashboardWeeklyOverview` gộp streak/mục tiêu/lịch dưới đúng một heading "Tuần này" + scope
-label English + narrative deterministic; `ActivityCalendarCard` thêm `presentation:
-'standalone'|'embedded'` (backward-compatible). Chi tiết ở
-`docs/changelog/0376-2026-09-19-ux-r3-3-dashboard-weekly-overview.md`. Tiếp theo: **R3-4 English
-progressive disclosure + 28 evidence cases** (chỉ bắt đầu sau khi PR R3-3 merge xanh vào `main`,
-đúng thứ tự phụ thuộc R3-1→R3-4, đọc lại spec + main trước khi code). P2-10 `ProgressStory` độc
-lập đã được phương án A supersede; UX-R4 chưa thi hành. Trước khi dừng phải cập nhật/nén canonical
-state rồi đọc lại trước khi chạy tiếp; không deploy hoặc truy cập production trong scope này.
+**Current truth clarity-first (2026-09-19):** UX-R1 đã merge #1020; UX-R2 Home progressive
+disclosure đã merge #1022. Spec UX-R3 đã merge #1023, **Approved for implementation** cho bốn
+slice tuần tự; R3-1 async truth/retry đã merge #1024; R3-2 responsive state/focus/calendar đã
+merge #1025; R3-3 hierarchy + consolidated "Tuần này" đã merge #1034
+(`docs/changelog/0376-2026-09-19-ux-r3-3-dashboard-weekly-overview.md`). **R3-4 English
+progressive disclosure — SLICE CUỐI CỦA UX-R3, đã làm** (PR này): `DashboardEnglishDetails` mới —
+summary luôn hiển thị (từ cần ôn · chỉ dấu lộ trình CEFR · trạng thái lượt AI, gồm cả
+`#dashboard-weekly-credit-heading` recovery target) + panel disclosure đóng mặc định ở MỌI
+viewport (`#dashboard-english-details-toggle`/`-panel`, HTML `hidden`) chứa Hôm nay/Từ vựng/Sổ
+lỗi/CEFR/IELTS/Tổng kết; `Dashboard.tsx` chỉ còn orchestration (resource async + focus recovery),
+không còn JSX các khối English. Đủ 28 evidence case CLS/height/hierarchy ở
+`e2e/ux-r3-4-english-disclosure-evidence.spec.ts` (canonical 9 · English expanded 3 · weekly
+unavailable 6 · CEFR delayed 3 · CEFR error 3 · programming-only 3 · live responsive calendar 1),
+xanh ổn định qua nhiều lần chạy lại. Chi tiết + các phát hiện hạ tầng test ở
+`docs/changelog/0377-2026-09-19-ux-r3-4-english-disclosure.md`. **CHUỖI UX-R3 (R3-1→R3-4) HOÀN
+TẤT.** P2-10 `ProgressStory` độc lập đã được phương án A supersede; UX-R4 (taxonomy/header/
+navigation, đặc tả cha §2 non-goals) chưa thi hành — đọc lại `docs/specs/2026-09-18-ui-clarity-
+foundation.md` trước khi bắt đầu UX-R4 để lấy đúng phạm vi. Không deploy hoặc truy cập production
+trong scope này.
 
 **[2026-09-17] Đặc tả 15 lệnh đã chốt (§2), chủ dự án ra lệnh thi hành từng lát.** Trạng thái
 sau đợt 1 + đợt 2 + lệnh 8/9 (9/15 lệnh, chạy bằng subagent Sonnet, đã merge):

@@ -1,25 +1,13 @@
 import { useState, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { duongDanMonTiengAnh } from '../../lib/subjectsHost'
 import { duongDanLuyenViet, duongDanSoTayLoiSai } from '../../lib/englishRoutes'
-import { Link, useNavigate } from 'react-router-dom'
-import {
-  BookOpen,
-  Target,
-  GraduationCap,
-  MessageCircle,
-  PenLine,
-  Mic,
-  RotateCcw,
-  TrendingUp,
-  Trophy,
-  BookMarked,
-  ArrowRight,
-} from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/Layout'
 import PageHeader from '../../components/PageHeader'
 import QuickActions from '../../components/QuickActions'
 import SubjectProgressSection from '../../components/SubjectProgressSection'
 import DashboardWeeklyOverview from '../../components/DashboardWeeklyOverview'
+import DashboardEnglishDetails from '../../components/DashboardEnglishDetails'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { useIsDesktopViewport, useMediaQuery } from '../../lib/useIsDesktopViewport'
 import { PageShell } from '@core/PageShell'
@@ -57,90 +45,6 @@ import { effectivePlan } from '../../lib/promo'
 import { fetchWeeklyCredit, type WeeklyCreditInfo } from '../../lib/weeklyCredit'
 import { getLimits } from '../../lib/appSettings'
 
-// Màu theo band IELTS (đồng bộ với trang Luyện viết).
-function bandBar(v: number): string {
-  return v >= 7 ? 'bg-accent-500' : v >= 5 ? 'bg-amber-500' : 'bg-red-500'
-}
-function bandText(v: number): string {
-  return v >= 7
-    ? 'text-accent-400 theme-light:text-accent-800'
-    : v >= 5
-      ? 'text-amber-400 theme-light:text-amber-800'
-      : 'text-red-400 theme-light:text-red-700'
-}
-
-// Bảng màu nhấn cho từng cấp CEFR (Tailwind cần class tĩnh — không ghép động được).
-const ACCENT: Record<LevelProgress['accent'], { bar: string; text: string; soft: string }> = {
-  emerald: {
-    bar: 'bg-accent-500',
-    text: 'text-accent-300 theme-light:text-accent-800',
-    soft: 'bg-accent-500/10',
-  },
-  sky: { bar: 'bg-sky-500', text: 'text-sky-300 theme-light:text-sky-800', soft: 'bg-sky-500/10' },
-  violet: {
-    bar: 'bg-violet-500',
-    text: 'text-violet-300 theme-light:text-violet-800',
-    soft: 'bg-violet-500/10',
-  },
-  amber: {
-    bar: 'bg-amber-500',
-    text: 'text-amber-300 theme-light:text-amber-800',
-    soft: 'bg-amber-500/10',
-  },
-  rose: {
-    bar: 'bg-rose-500',
-    text: 'text-rose-300 theme-light:text-rose-800',
-    soft: 'bg-rose-500/10',
-  },
-  cyan: {
-    bar: 'bg-cyan-500',
-    text: 'text-cyan-300 theme-light:text-cyan-800',
-    soft: 'bg-cyan-500/10',
-  },
-}
-
-// Một thẻ số liệu nhỏ (icon + số to + nhãn) kiểu Bento hiện đại.
-function StatCard({
-  icon,
-  value,
-  label,
-  sub,
-  color,
-}: {
-  icon: React.ReactNode
-  value: string | number
-  label: string
-  sub?: string
-  color: string
-}) {
-  return (
-    <div className="bg-zinc-900/80 border border-zinc-800/80 hover:border-zinc-700/80 rounded-2xl sm:rounded-3xl p-4 flex flex-col justify-between gap-2 transition-colors duration-200 hover:shadow-md">
-      <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${color}`}>
-        {icon}
-      </div>
-      <div>
-        <p className="text-2xl sm:text-3xl font-extrabold text-white leading-none tracking-tight">
-          {value}
-        </p>
-        <p className="text-xs font-medium text-zinc-400 leading-tight mt-1">{label}</p>
-        {sub && <p className="text-[11px] text-zinc-400 leading-tight mt-0.5">{sub}</p>}
-      </div>
-    </div>
-  )
-}
-
-// Thanh tiến độ ngang đơn giản.
-function Bar({ pct, color }: { pct: number; color: string }) {
-  return (
-    <div className="h-2 rounded-full bg-zinc-800/90 overflow-hidden">
-      <div
-        className={`h-full rounded-full ${color} shadow-sm`}
-        style={{ width: `${Math.min(100, pct)}%` }}
-      />
-    </div>
-  )
-}
-
 // Số tuần của lịch hoạt động trên desktop (bố cục tuần-theo-cột — xem chú thích ở khối
 // render). HAI mức, chọn theo bề ngang thật ĐO ĐƯỢC chứ không theo cảm giác: cột trái
 // (sidebar 256px) và cột phải ngữ cảnh ăn hết phần lớn màn 1024px, nên thẻ ở đó chỉ còn
@@ -173,6 +77,13 @@ export default function Dashboard() {
   const isWide = useMediaQuery('(min-width: 1280px)')
   const calendarWeeks = isWide ? CALENDAR_WEEKS_WIDE : CALENDAR_WEEKS_DESKTOP
   const [calendarSelectedDate, setCalendarSelectedDate] = useState('')
+  // Disclosure "Chi tiết Tiếng Anh" (R3-4, §6.3) — đóng mặc định ở MỌI viewport, không
+  // localStorage, không tự mở/đóng vì breakpoint/lỗi/dữ liệu. CEFR heading nằm trong panel này
+  // nên chỉ có thể là activeElement khi panel đang mở — nhờ vậy focus recovery của CEFR bên
+  // dưới không cần biết state này: nếu panel đã đóng trước khi resolve, nút Retry (nằm trong
+  // panel `hidden`) đã bị component con tự chuyển focus ra toggle rồi (§6.3), nên
+  // `document.activeElement === cefrRetryRef.current` tự nhiên là false.
+  const [englishDetailsExpanded, setEnglishDetailsExpanded] = useState(false)
 
   const [curriculumRetryRevision, setCurriculumRetryRevision] = useState(0)
   const curriculumRetryGuardRef = useRef(false)
@@ -337,413 +248,6 @@ export default function Dashboard() {
     ? Math.round(cefr.reduce((s, l) => s + l.pct, 0) / cefr.length)
     : 0
 
-  const restSections = (
-    <>
-      {/* ── Hôm nay ──────────────────────────────────────────────────── */}
-      <section className="animate-fade-in motion-reduce:animate-none">
-        <h2 className="text-sm font-semibold text-zinc-300 mb-3 flex items-center gap-2">
-          <Target className="w-4 h-4 text-lime-400 theme-light:text-lime-900" />{' '}
-          {vi ? 'Hôm nay' : 'Today'}
-        </h2>
-
-        {/* Mục tiêu từ mới hôm nay */}
-        <div className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 mb-3">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-zinc-300">
-              {vi ? 'Từ mới hôm nay' : 'New words today'}
-            </span>
-            <span className="text-sm font-semibold text-lime-300 theme-light:text-lime-800">
-              {stats.learnedToday}/{stats.dailySpeed}
-            </span>
-          </div>
-          <Bar pct={(stats.learnedToday / stats.dailySpeed) * 100} color="bg-lime-500" />
-        </div>
-
-        {/* Lượt dùng còn lại — gói Free: MỘT hạn mức TỔNG/ngày cho mọi tính năng AI (GĐ1
-              2026-09-12, xem api/usage-summary.ts); VIP: hiển thị theo từng tính năng/ngày. */}
-        {currentPlan === 'free' ? (
-          <div className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 min-h-32">
-            <div className="flex items-start justify-between mb-2">
-              {/* Nhãn dài: cho xuống dòng (min-w-0 + items-start) thay vì bị cắt cụt
-                  ở màn hẹp — phần trong ngoặc mới là thứ giải thích lượt tính từ đâu. */}
-              <h3
-                id="dashboard-weekly-credit-heading"
-                tabIndex={-1}
-                className="text-sm text-zinc-300 flex items-start gap-1.5 min-w-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 rounded-md"
-              >
-                <MessageCircle className="w-4 h-4 text-accent-400 shrink-0 mt-0.5" />
-                <span>{vi ? 'Lượt AI hôm nay (chat · nói · viết)' : 'AI credits today'}</span>
-              </h3>
-              {weeklyCreditInfo && (
-                <span className="text-sm font-semibold text-accent-300 theme-light:text-accent-800 shrink-0 ml-2">
-                  {weeklyCreditInfo.freeWeeklyCredit}/{weeklyCreditInfo.freeWeeklyCap}
-                </span>
-              )}
-            </div>
-            {weeklyCreditInfo ? (
-              <>
-                <Bar
-                  pct={(weeklyCreditInfo.freeWeeklyCredit / weeklyCreditInfo.freeWeeklyCap) * 100}
-                  color="bg-accent-500"
-                />
-                <p className="text-[11px] text-zinc-400 mt-2 read-measure">
-                  {vi
-                    ? 'Hạn mức tính chung cho mọi tính năng AI và làm mới mỗi ngày (giờ Việt Nam).'
-                    : 'The quota covers every AI feature and resets each day (Vietnam time).'}
-                </p>
-              </>
-            ) : weeklyCredit.status === 'error' ? (
-              <div role="status" className="min-h-16">
-                <p className="text-sm text-zinc-300 leading-relaxed">
-                  {vi ? 'Chưa tải được lượt AI hôm nay.' : 'Today’s AI credits are unavailable.'}
-                </p>
-                <button
-                  ref={weeklyRetryRef}
-                  type="button"
-                  onClick={retryWeeklyCredit}
-                  className="min-h-11 px-2 -ml-2 mt-1 text-sm font-semibold text-accent-300 theme-light:text-accent-800 rounded-lg hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
-                >
-                  {vi ? 'Thử lại' : 'Retry'}
-                </button>
-              </div>
-            ) : weeklyRetryRevision > 0 ? (
-              <div role="status" className="min-h-16">
-                <p className="text-sm text-zinc-300 leading-relaxed">
-                  {vi ? 'Đang tải lại lượt AI…' : 'Reloading AI credits…'}
-                </p>
-                <button
-                  ref={weeklyRetryRef}
-                  type="button"
-                  aria-disabled="true"
-                  onClick={retryWeeklyCredit}
-                  className="min-h-11 px-2 -ml-2 mt-1 text-sm font-semibold text-zinc-400 rounded-lg cursor-wait focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
-                >
-                  {vi ? 'Đang thử lại…' : 'Retrying…'}
-                </button>
-              </div>
-            ) : (
-              <p role="status" className="min-h-16 text-sm text-zinc-300 leading-relaxed py-2">
-                {vi ? 'Đang tải lượt AI…' : 'Loading AI credits…'}
-              </p>
-            )}
-          </div>
-        ) : (
-          <div className="grid grid-cols-3 gap-3">
-            {[
-              {
-                icon: <MessageCircle className="w-4 h-4 text-accent-400" />,
-                label: vi ? 'Chat' : 'Chat',
-                used: stats.usage.chatCount,
-                max: stats.limit.chat,
-              },
-              {
-                icon: <Mic className="w-4 h-4 text-sky-400 theme-light:text-sky-900" />,
-                label: vi ? 'Nói' : 'Speak',
-                used: stats.usage.speakingCount,
-                max: stats.limit.speaking,
-              },
-              {
-                icon: <PenLine className="w-4 h-4 text-violet-400 theme-light:text-violet-800" />,
-                label: vi ? 'Viết' : 'Write',
-                used: stats.usage.writingCount,
-                max: stats.limit.writing,
-              },
-            ].map((m) => (
-              <div
-                key={m.label}
-                className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-3 text-center"
-              >
-                <div className="flex justify-center mb-1.5">{m.icon}</div>
-                <p className="text-base font-bold text-white leading-none">
-                  {m.used}
-                  <span className="text-zinc-400 text-xs">/{m.max}</span>
-                </p>
-                <p className="text-[11px] text-zinc-400 mt-1">{m.label}</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* ── Từ vựng ──────────────────────────────────────────────────── */}
-      <section className="animate-fade-in motion-reduce:animate-none">
-        <h2 className="text-sm font-semibold text-zinc-300 mb-3 flex items-center gap-2">
-          <BookOpen className="w-4 h-4 text-amber-400 theme-light:text-amber-900" />{' '}
-          {vi ? 'Từ vựng' : 'Vocabulary'}
-        </h2>
-        <div className="grid grid-cols-3 gap-3">
-          <StatCard
-            icon={<BookOpen className="w-5 h-5 text-amber-300 theme-light:text-amber-900" />}
-            color="bg-amber-500/10"
-            value={stats.learnedTotal}
-            label={vi ? 'từ đã thuộc' : 'words learned'}
-          />
-          <StatCard
-            icon={<RotateCcw className="w-5 h-5 text-teal-300 theme-light:text-teal-900" />}
-            color="bg-teal-500/10"
-            value={stats.srs.due}
-            label={vi ? 'cần ôn hôm nay' : 'due to review'}
-            sub={vi ? `${stats.srs.total} trong SRS` : `${stats.srs.total} in SRS`}
-          />
-          <StatCard
-            icon={<TrendingUp className="w-5 h-5 text-lime-300 theme-light:text-lime-900" />}
-            color="bg-lime-500/10"
-            value={
-              stats.path.total ? `${Math.round((stats.path.done / stats.path.total) * 100)}%` : '—'
-            }
-            label={vi ? 'lộ trình' : 'of path'}
-            sub={ready ? `${stats.path.done}/${stats.path.total}` : '…'}
-          />
-        </div>
-      </section>
-
-      {/* ── Sổ lỗi cá nhân ──────────────────────────────────────────── */}
-      {stats.mistakes.total > 0 && (
-        <section className="animate-fade-in motion-reduce:animate-none">
-          <h2 className="text-sm font-semibold text-zinc-300 mb-3 flex items-center gap-2">
-            <BookMarked className="w-4 h-4 text-rose-400 theme-light:text-rose-900" />{' '}
-            {vi ? 'Sổ lỗi của tôi' : 'Mistake Bank'}
-          </h2>
-          <button
-            onClick={() => nav(duongDanSoTayLoiSai())}
-            className="w-full bg-zinc-900/80 border border-zinc-800/80 hover:border-rose-500/40 rounded-2xl p-4 flex items-center justify-between transition-colors group text-left"
-          >
-            <div>
-              <p className="text-sm text-zinc-200">
-                {stats.mistakes.due > 0
-                  ? vi
-                    ? `${stats.mistakes.due} lỗi cần ôn hôm nay`
-                    : `${stats.mistakes.due} mistakes to review`
-                  : vi
-                    ? 'Không có lỗi cần ôn hôm nay'
-                    : 'No mistakes due today'}
-              </p>
-              <p className="text-xs text-zinc-400 mt-0.5">
-                {vi
-                  ? `${stats.mistakes.total} lỗi đã ghi từ Chat · Viết · Nói`
-                  : `${stats.mistakes.total} recorded from Chat · Writing · Speaking`}
-              </p>
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
-              {stats.mistakes.due > 0 && (
-                <span className="text-sm font-bold text-rose-300 theme-light:text-rose-700 bg-rose-500/10 rounded-full w-8 h-8 flex items-center justify-center">
-                  {stats.mistakes.due}
-                </span>
-              )}
-              <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-rose-400 transition-colors" />
-            </div>
-          </button>
-        </section>
-      )}
-
-      {/* ── Lộ trình CEFR ───────────────────────────────────────────── */}
-      <section className="animate-fade-in motion-reduce:animate-none">
-        <div className="flex items-center justify-between mb-3">
-          <h2
-            id="dashboard-cefr-heading"
-            tabIndex={-1}
-            className="text-sm font-semibold text-zinc-300 flex items-center gap-2 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
-          >
-            <GraduationCap className="w-4 h-4 text-accent-400" />{' '}
-            {vi ? 'Lộ trình CEFR' : 'CEFR Roadmap'}
-          </h2>
-          {cefr.length > 0 && (
-            <span className="text-xs text-zinc-400">
-              {vi ? 'Tổng' : 'Overall'} {cefrOverall}%
-            </span>
-          )}
-        </div>
-        <div className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 space-y-4 min-h-24">
-          {cefrState.status === 'loading' ? (
-            curriculumRetryRevision > 0 ? (
-              <div role="status" className="text-center">
-                <p className="text-sm text-zinc-300 py-1">
-                  {vi ? 'Đang tải lại lộ trình Tiếng Anh…' : 'Reloading the English roadmap…'}
-                </p>
-                <button
-                  ref={cefrRetryRef}
-                  type="button"
-                  aria-disabled="true"
-                  onClick={retryCurriculum}
-                  className="min-h-11 px-3 text-sm font-semibold text-zinc-400 rounded-lg cursor-wait focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
-                >
-                  {vi ? 'Đang thử lại…' : 'Retrying…'}
-                </button>
-              </div>
-            ) : (
-              <p role="status" className="text-sm text-zinc-300 text-center py-4">
-                {vi ? 'Đang tải lộ trình Tiếng Anh…' : 'Loading the English roadmap…'}
-              </p>
-            )
-          ) : cefrState.status === 'error' ? (
-            <div role="status" className="text-center">
-              <p className="text-sm text-zinc-300 py-1">
-                {vi ? 'Chưa tải được lộ trình Tiếng Anh.' : 'The English roadmap is unavailable.'}
-              </p>
-              <button
-                ref={cefrRetryRef}
-                type="button"
-                onClick={retryCurriculum}
-                className="min-h-11 px-3 text-sm font-semibold text-accent-300 theme-light:text-accent-800 rounded-lg hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
-              >
-                {vi ? 'Thử lại' : 'Retry'}
-              </button>
-            </div>
-          ) : cefr.length === 0 ? (
-            <p className="text-sm text-zinc-300 text-center py-4">
-              {vi ? 'Chưa có dữ liệu lộ trình.' : 'No roadmap data yet.'}
-            </p>
-          ) : (
-            cefr.map((l) => {
-              const c = ACCENT[l.accent]
-              const exam = examMap[l.id]
-              return (
-                <div key={l.id}>
-                  <div className="flex items-center justify-between mb-1.5 text-sm">
-                    <span className={`font-semibold ${c.text} flex items-center gap-1.5`}>
-                      {vi ? l.titleVi : l.titleEn}
-                      {exam?.passed && (
-                        <span className="flex items-center gap-0.5 text-[11px] font-semibold px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-300 theme-light:text-amber-800">
-                          <GraduationCap className="w-2.5 h-2.5" />
-                          {exam.bestPct}%
-                        </span>
-                      )}
-                    </span>
-                    <span className="text-zinc-400 text-xs">
-                      {l.doneWords}/{l.totalWords} {vi ? 'từ' : 'words'} · {l.pct}%
-                    </span>
-                  </div>
-                  <Bar pct={l.pct} color={c.bar} />
-                </div>
-              )
-            })
-          )}
-        </div>
-      </section>
-
-      {/* ── Điểm IELTS luyện viết theo thời gian ─────────────────────── */}
-      <section className="animate-fade-in motion-reduce:animate-none">
-        <h2 className="text-sm font-semibold text-zinc-300 mb-3 flex items-center gap-2">
-          <PenLine className="w-4 h-4 text-violet-400 theme-light:text-violet-800" />{' '}
-          {vi ? 'Điểm viết IELTS (ước lượng)' : 'IELTS writing score (estimated)'}
-        </h2>
-
-        {wp.count === 0 ? (
-          <button
-            onClick={() => nav(duongDanLuyenViet())}
-            className="w-full bg-zinc-900/80 border border-zinc-800/80 hover:border-violet-500/40 rounded-2xl p-5 text-center transition-colors group"
-          >
-            <p className="text-sm text-zinc-400 read-measure">
-              {vi ? 'Chưa có bài viết nào được chấm.' : 'No graded essays yet.'}
-            </p>
-            <p className="text-xs text-violet-400 theme-light:text-violet-800 mt-1 group-hover:underline read-measure">
-              {vi ? 'Viết bài đầu tiên →' : 'Write your first essay →'}
-            </p>
-          </button>
-        ) : (
-          <div className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 space-y-4">
-            {/* 3 số tổng quan: gần nhất · cao nhất · trung bình */}
-            <div className="grid grid-cols-3 gap-3">
-              <div className="text-center">
-                <p className={`text-2xl font-bold leading-none ${bandText(wp.latest!)}`}>
-                  {wp.latest}
-                </p>
-                <p className="text-[11px] text-zinc-400 mt-1">{vi ? 'gần nhất' : 'latest'}</p>
-              </div>
-              <div className="text-center border-x border-zinc-800">
-                <p className="text-2xl font-bold leading-none text-amber-300 theme-light:text-amber-900 flex items-center justify-center gap-1">
-                  <Trophy className="w-4 h-4" />
-                  {wp.best}
-                </p>
-                <p className="text-[11px] text-zinc-400 mt-1">{vi ? 'cao nhất' : 'best'}</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold leading-none text-zinc-200">{wp.avg}</p>
-                <p className="text-[11px] text-zinc-400 mt-1">{vi ? 'trung bình' : 'average'}</p>
-              </div>
-            </div>
-
-            {/* Biểu đồ cột band qua các bài (tối đa 12 bài gần nhất), thang 0–9 */}
-            <div>
-              <p className="text-[11px] text-zinc-400 mb-2">
-                {vi ? `${wp.count} bài đã chấm` : `${wp.count} essays graded`}
-              </p>
-              <div className="flex items-end justify-between gap-1.5 h-24">
-                {wp.history.slice(-12).map((p, i) => (
-                  <div
-                    key={`${p.date}-${i}`}
-                    className="flex-1 flex flex-col items-center gap-1"
-                    title={`${p.date}: ${p.overall}`}
-                  >
-                    <span className="text-[11px] text-zinc-400">{p.overall}</span>
-                    <div className="w-full flex-1 flex items-end">
-                      <div
-                        className={`w-full rounded-md ${bandBar(p.overall)}`}
-                        style={{ height: `${(p.overall / 9) * 100}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Điểm trung bình từng tiêu chí — chỉ ra điểm mạnh / yếu */}
-            {wp.components && (
-              <div className="space-y-2 pt-1">
-                {[
-                  {
-                    label: vi ? 'Trả lời đề (TR)' : 'Task Response',
-                    val: wp.components.task_response,
-                  },
-                  { label: vi ? 'Mạch lạc (CC)' : 'Coherence', val: wp.components.coherence },
-                  { label: vi ? 'Từ vựng (LR)' : 'Lexical', val: wp.components.lexical },
-                  { label: vi ? 'Ngữ pháp (GRA)' : 'Grammar', val: wp.components.grammar },
-                ].map((c) => (
-                  <div key={c.label} className="flex items-center gap-2">
-                    <span className="text-xs text-zinc-400 w-28 shrink-0">{c.label}</span>
-                    <div className="flex-1">
-                      <Bar pct={(c.val / 9) * 100} color={bandBar(c.val)} />
-                    </div>
-                    <span className={`text-xs font-semibold w-6 text-right ${bandText(c.val)}`}>
-                      {c.val}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-      </section>
-
-      {/* ── Tổng kết hoạt động ──────────────────────────────────────── */}
-      <section className="animate-fade-in motion-reduce:animate-none">
-        <h2 className="text-sm font-semibold text-zinc-300 mb-3">
-          {vi ? 'Tổng kết' : 'All-time totals'}
-        </h2>
-        <div className="grid grid-cols-3 gap-3">
-          <StatCard
-            icon={<MessageCircle className="w-5 h-5 text-accent-300" />}
-            color="bg-accent-500/10"
-            value={stats.chatN}
-            label={vi ? 'phiên chat' : 'chat sessions'}
-          />
-          <StatCard
-            icon={<Mic className="w-5 h-5 text-sky-300 theme-light:text-sky-900" />}
-            color="bg-sky-500/10"
-            value={stats.speakN}
-            label={vi ? 'lượt luyện nói' : 'speaking turns'}
-          />
-          <StatCard
-            icon={<PenLine className="w-5 h-5 text-violet-300 theme-light:text-violet-800" />}
-            color="bg-violet-500/10"
-            value={stats.writeN}
-            label={vi ? 'bài đã chấm' : 'graded essays'}
-          />
-        </div>
-      </section>
-    </>
-  )
-
   return (
     <div className="min-h-dvh bg-zinc-950">
       <Layout />
@@ -793,23 +297,48 @@ export default function Dashboard() {
             data-dashboard-region="english"
             className="min-w-0 space-y-6 lg:col-start-1 lg:row-start-3"
           >
-            {/* [S12-3] Các khối dưới đây vẫn là số liệu riêng của môn Tiếng Anh. R3-3 sẽ
-                tinh gọn copy/hierarchy; R3-2 chỉ đưa nó vào đúng vùng DOM ổn định. */}
-            <p className="text-sm text-zinc-300 read-measure">
-              {vi
-                ? 'Các khối số liệu bên dưới là của môn Tiếng Anh — '
-                : 'The stats below cover English — '}
-              <Link
-                to={duongDanMonTiengAnh()}
-                className="underline underline-offset-2 text-accent-300 theme-light:text-accent-800 hover:text-white"
-              >
-                {vi ? 'về trang môn' : 'go to subject page'}
-              </Link>
-              {vi
-                ? '. Tiến độ của các môn khác nằm ở khối “Tiến độ theo môn”.'
-                : '. Other subjects appear in the “Tiến độ theo môn” block.'}
-            </p>
-            {restSections}
+            {/* R3-4 (§6.3): summary luôn hiện (từ cần ôn · lộ trình · lượt AI) + panel chi tiết
+                đóng mặc định ở mọi viewport — xem boundary DashboardEnglishDetails. */}
+            <DashboardEnglishDetails
+              vi={vi}
+              expanded={englishDetailsExpanded}
+              onToggle={() => setEnglishDetailsExpanded((value) => !value)}
+              srsDue={stats.srs.due}
+              weeklyCredit={{
+                currentPlan,
+                info: weeklyCreditInfo,
+                status: weeklyCredit.status,
+                retryRevision: weeklyRetryRevision,
+                usage: stats.usage,
+                limit: stats.limit,
+              }}
+              weeklyCreditRetryRef={weeklyRetryRef}
+              onRetryWeeklyCredit={retryWeeklyCredit}
+              learnedToday={stats.learnedToday}
+              dailySpeed={stats.dailySpeed}
+              learnedTotal={stats.learnedTotal}
+              srsTotal={stats.srs.total}
+              pathDone={stats.path.done}
+              pathTotal={stats.path.total}
+              pathReady={ready}
+              mistakesDue={stats.mistakes.due}
+              mistakesTotal={stats.mistakes.total}
+              onOpenMistakes={() => nav(duongDanSoTayLoiSai())}
+              cefr={{
+                state: cefrState,
+                retryRevision: curriculumRetryRevision,
+                examMap,
+                overallPct: cefrOverall,
+              }}
+              cefrRetryRef={cefrRetryRef}
+              onRetryCefr={retryCurriculum}
+              writing={wp}
+              onWriteFirst={() => nav(duongDanLuyenViet())}
+              chatN={stats.chatN}
+              writeN={stats.writeN}
+              speakN={stats.speakN}
+              englishSubjectHref={duongDanMonTiengAnh()}
+            />
           </div>
 
           <div data-dashboard-region="actions" className="lg:col-start-2 lg:row-start-3">

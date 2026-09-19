@@ -292,12 +292,22 @@ describe('Dashboard — async truth, retry và focus', () => {
     expect(container.querySelector('#dashboard-weekly-credit-heading')).toBeNull()
   })
 
-  it('CEFR rejection hiện lỗi; Retry thật resolve và đưa focus về heading khi Retry còn active', async () => {
+  function openEnglishDetails(): HTMLButtonElement {
+    const toggle = container.querySelector<HTMLButtonElement>('#dashboard-english-details-toggle')!
+    act(() => toggle.click())
+    return toggle
+  }
+
+  it('CEFR nằm trong panel đóng mặc định; mở panel, Retry thật resolve và đưa focus về heading khi Retry còn active', async () => {
     const retryResult = deferred<void>()
     mocks.loadCurriculum
       .mockRejectedValueOnce(new Error('fixture'))
       .mockReturnValueOnce(retryResult.promise)
     await renderDashboard()
+    expect(container.querySelector<HTMLElement>('#dashboard-english-details-panel')?.hidden).toBe(
+      true,
+    )
+    openEnglishDetails()
     expect(container.textContent).toContain('Chưa tải được lộ trình Tiếng Anh.')
 
     const heading = container.querySelector<HTMLElement>('#dashboard-cefr-heading')!
@@ -319,17 +329,44 @@ describe('Dashboard — async truth, retry và focus', () => {
       .mockRejectedValueOnce(new Error('fixture'))
       .mockReturnValueOnce(retryResult.promise)
     await renderDashboard()
+    openEnglishDetails()
     const retry = retryInSection('#dashboard-cefr-heading')
     retry.focus()
     act(() => retry.click())
     const outside = document.createElement('button')
-    outside.id = 'dashboard-english-details-toggle'
     document.body.appendChild(outside)
     outside.focus()
 
     await act(async () => retryResult.resolve())
     expect(document.activeElement).toBe(outside)
     outside.remove()
+  })
+
+  it('CEFR Retry→đóng panel giữa chừng→success không cướp focus, giữ ở toggle', async () => {
+    const retryResult = deferred<void>()
+    mocks.loadCurriculum
+      .mockRejectedValueOnce(new Error('fixture'))
+      .mockReturnValueOnce(retryResult.promise)
+    await renderDashboard()
+    const toggle = openEnglishDetails()
+    const retry = retryInSection('#dashboard-cefr-heading')
+    retry.focus()
+    act(() => retry.click())
+    expect(document.activeElement).toBe(retry)
+
+    // Đóng panel giữa chừng lúc Retry vẫn đang loading — hide handler phải đưa focus về toggle
+    // (§6.3) trước khi resolve tới, chứ không được để lại focus trên nút đã biến mất.
+    act(() => toggle.click())
+    expect(document.activeElement).toBe(toggle)
+    expect(container.querySelector<HTMLElement>('#dashboard-english-details-panel')?.hidden).toBe(
+      true,
+    )
+
+    await act(async () => retryResult.resolve())
+    expect(document.activeElement).toBe(toggle)
+    expect(container.querySelector<HTMLElement>('#dashboard-english-details-panel')?.hidden).toBe(
+      true,
+    )
   })
 
   it('CEFR response cũ sau sync không overwrite response của key mới', async () => {
