@@ -26,7 +26,8 @@ import { getSpecStageDetail } from '@dhcb/subject-programming/specializations/st
 import { checkLevelWriteAllowed } from '@dhcb/subject-programming/levelLockServer'
 import {
   isServerRegradableLesson,
-  regradeMakeSubmission,
+  regradeSubmission,
+  type RegradeResult,
 } from '@dhcb/subject-programming/completionSandboxServer'
 import { resolvePlan, type Plan } from '@dhcb/core-billing/plan'
 import { withTransaction } from '@dhcb/core-db/transaction'
@@ -45,8 +46,8 @@ const UpdateSchema = z
         /^(p[1-6]-(u\d+-l\d+|s\d+)|[a-z]+-s[1-4]-[mr]\d+|(git|hermes|vibe|openclaw|ml|pyai|mathai|mlds|cv1|cv2|llmagent)-u\d+-l\d+)$/,
       ),
     status: z.enum(['in_progress', 'completed']),
-    /** ADR-0007: code Make của bài xương sống P1–P4 — BẮT BUỘC khi báo 'completed' một bài
-     *  thuộc phạm vi chấm-lại-ở-server (isServerRegradableLesson), bỏ qua với bài khác. */
+    /** ADR-0007 + ADR-0008: code Make — BẮT BUỘC khi báo 'completed' một bài thuộc phạm vi
+     *  chấm-lại-ở-server (isServerRegradableLesson), bỏ qua với bài khác. */
     code: z.string().max(4000).optional(),
   })
   .strict()
@@ -221,9 +222,10 @@ export default async function handler(req: Request): Promise<Response> {
 
     // CHẤM LẠI Ở SERVER TRƯỚC KHI GHI 'completed' (ADR-0007, docs/adr/0007-completion-evidence-
     // sandbox-lap-trinh.md). Client chỉ chấm bằng Pyodide trong Web Worker rồi tự báo hoàn
-    // thành — sửa được qua DevTools. Bài xương sống P1–P4 (làn Python) báo 'completed' PHẢI
-    // kèm code và phải đạt HẾT test-case khi chấm lại bằng python3 thật trên server (test-case
-    // đọc từ registry server, không tin dữ liệu client gửi).
+    // thành — sửa được qua DevTools. Bài thuộc phạm vi `isServerRegradableLesson` (ADR-0008:
+    // bài xương sống P1–P6 + 7 khoá ngắn Python + Kotlin/Swift/bash/git/hermes/vibe/openclaw)
+    // báo 'completed' PHẢI kèm code và phải đạt HẾT test-case khi chấm lại trên server
+    // (test-case đọc từ registry server, không tin dữ liệu client gửi).
     for (const item of items) {
       if (item.status !== 'completed' || !isServerRegradableLesson(item.lessonId)) continue
       if (!item.code || item.code.trim().length === 0) {
@@ -233,9 +235,11 @@ export default async function handler(req: Request): Promise<Response> {
           headers,
         )
       }
-      let regrade: ReturnType<typeof regradeMakeSubmission>
+      let regrade: RegradeResult
       try {
-        regrade = regradeMakeSubmission(item.lessonId, item.code)
+        // Dispatcher tự chọn luồng: Python → tiến trình con python3; Kotlin/bash/git/hermes/
+        // vibe/openclaw → gọi thẳng trình thông dịch thuần (ADR-0008 B2).
+        regrade = regradeSubmission(item.lessonId, item.code)
       } catch (err) {
         console.error('[programming-progress] lỗi chấm lại ở server:', err)
         return jsonResponse({ error: 'Không chấm lại được bài — thử lại sau' }, 500, headers)

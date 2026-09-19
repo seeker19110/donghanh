@@ -1,5 +1,13 @@
-// completionSandboxServer — Chấm LẠI bài Make bậc P1–P4 (Python) Ở SERVER trước khi ghi
-// `status:'completed'` (ADR-0007, docs/adr/0007-completion-evidence-sandbox-lap-trinh.md).
+// completionSandboxServer — Chấm LẠI bài Make Ở SERVER trước khi ghi `status:'completed'`
+// (ADR-0007, docs/adr/0007-completion-evidence-sandbox-lap-trinh.md; phạm vi mở rộng theo
+// ADR-0008 docs/adr/0008-cham-lai-server-lap-trinh-ngoai-p1-p4.md).
+//
+// HAI LUỒNG CHẤM KHÁC CƠ CHẾ, cố ý KHÔNG gộp làm một:
+//   · Python (bậc P1–P6 + 7 khoá ngắn) → `regradeMakeSubmission()`: `python3` thật trong tiến
+//     trình con, đủ 3 lớp bảo vệ mô tả dưới đây.
+//   · Kotlin/Swift/bash/git/hermes/vibe/openclaw → `regradeInterpretedSubmission()`: gọi thẳng
+//     trình thông dịch cây TypeScript thuần (không eval/không I/O, có trần bước + trần output).
+//   · `regradeSubmission()` là điểm vào duy nhất cho route, tự chọn đúng luồng.
 //
 // VÌ SAO CẦN: client chỉ chạy Pyodide/WASM trong Web Worker rồi tự POST 'completed' — DevTools
 // sửa được. File này CHẤM LẠI đúng test-case của bài (đọc từ registry server, KHÔNG tin dữ liệu
@@ -27,6 +35,13 @@ import { chownSync, mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { getLesson } from './lessons.js'
+import { chayKotlin } from './kotlinSim/chayKotlin.js'
+import { chaySwift } from './swiftSim/index.js'
+import { chayBash } from './bashSim.js'
+import { chayLenh } from './gitSim.js'
+import { chayLenhHermes } from './hermesSim.js'
+import { chayLenhVibe } from './vibeSim.js'
+import { chayLenhOpenclaw } from './openclawSim.js'
 import { laLanPython, fileCuaLan, noiCodeTheoLan, type PythonLane } from './pyLanes.js'
 import { gradeTestCase, allTestsPassed, type TestCaseResult } from './grading.js'
 import { mkdirSync, writeFileSync } from 'node:fs'
@@ -41,14 +56,68 @@ const MAX_VIRTUAL_MEM_KB = 512_000
  * (dù `os` đã bị chặn ở lớp 1, đây là lớp CHẶN THỨ HAI độc lập, phòng allowlist có kẽ hở). */
 const MAX_PROCESSES = 32
 
-/** Phạm vi ADR-0007 (Quyết định 4): CHỈ bậc P1–P4, bài xương sống (không phải bước dự án). */
-const SPINE_P1_P4_RE = /^p[1-4]-u\d+-l\d+$/
+/**
+ * Bài XƯƠNG SỐNG của MỘT bậc bất kỳ (`p1`…`p6`) — KHÔNG khớp bước dự án `p<n>-s<x>` và KHÔNG
+ * khớp tiêu chí hướng chuyên sâu `web-s2-m1` (hai loại đó chấm bằng rubric/artifact, NGOÀI phạm
+ * vi ADR-0008 — xem câu hỏi 2 đã chốt).
+ *
+ * ADR-0008 B1 nới `^p[1-4]-…$` của ADR-0007 thành `^p[1-6]-…$`: P5/P6 dùng ĐÚNG hạ tầng Python
+ * đã kiểm chứng, lý do duy nhất chúng chưa được chấm là phạm vi hẹp CÓ CHỦ ĐÍCH của ADR-0007.
+ */
+const SPINE_RE = /^p[1-6]-u\d+-l\d+$/
+
+/** 7 khoá ngắn dùng làn Python (ADR-0008 B1). */
+const PYTHON_SHORT_COURSE_RE = /^(ml|pyai|mathai|mlds|cv1|cv2|llmagent)-u\d+-l\d+$/
+
+/** 4 khoá ngắn chạy bằng bộ MÔ PHỎNG thuần TypeScript (ADR-0008 B2). */
+const SIM_SHORT_COURSE_RE = /^(git|hermes|vibe|openclaw)-u\d+-l\d+$/
+
+/**
+ * Chữ ký CHUNG của các bộ chạy "thông dịch trong tiến trình" (ADR-0008 B2).
+ *
+ * Tham số 2 mang nghĩa khác nhau tuỳ bộ chạy (dòng nhập với Kotlin/Swift — hiện chưa dùng; lệnh
+ * dựng bối cảnh với bash/git/hermes/vibe/openclaw) nhưng ở CẢ SÁU bộ, cổng nội dung
+ * (`lessonsKotlin.test.ts`, `lessonsBash.test.ts`, `lessonsGit.test.ts`…) đều truyền
+ * `testCase.stdinLines` vào đúng vị trí này — server chấm lại phải làm Y HỆT để hành vi CI và
+ * hành vi chấm-lại-khi-nộp-bài không trôi khỏi nhau.
+ */
+type InterpretedRunner = (code: string, stdinLines: string[]) => { output: string; error?: string }
+
+/**
+ * Vì sao gọi THẲNG trong tiến trình Node mà KHÔNG cần subprocess/sandbox như Python (ADR-0008,
+ * mục "Bằng chứng đã đọc"): sáu bộ chạy dưới đây là trình thông dịch cây TypeScript thuần —
+ * không `eval`, không `new Function`, không `child_process`, không I/O thật — và đều có sẵn trần
+ * số bước + trần độ dài output nên không thể treo. Chúng ĐÃ chạy trong Node (Vitest/CI) cho mọi
+ * bài trong registry ngay bây giờ; đây chỉ là gọi thêm từ API.
+ */
+const INTERPRETED_RUNNERS: Readonly<Record<string, InterpretedRunner>> = {
+  // Bọc lambda vì chayKotlin/chaySwift còn tham số thứ 3 (tuỳ chọn chạy) — giữ chữ ký chung.
+  kotlin: (code, stdinLines) => chayKotlin(code, stdinLines),
+  swift: (code, stdinLines) => chaySwift(code, stdinLines),
+  bash: (code, stdinLines) => chayBash(code, stdinLines),
+  git: (code, stdinLines) => chayLenh(code, stdinLines),
+  hermes: (code, stdinLines) => chayLenhHermes(code, stdinLines),
+  vibe: (code, stdinLines) => chayLenhVibe(code, stdinLines),
+  openclaw: (code, stdinLines) => chayLenhOpenclaw(code, stdinLines),
+}
 
 /** Bài này có thuộc phạm vi chấm-lại-ở-server không (dùng cả ở route để quyết có đòi `code` hay không). */
 export function isServerRegradableLesson(lessonId: string): boolean {
-  if (!SPINE_P1_P4_RE.test(lessonId)) return false
+  const spine = SPINE_RE.test(lessonId)
+  if (!spine && !PYTHON_SHORT_COURSE_RE.test(lessonId) && !SIM_SHORT_COURSE_RE.test(lessonId)) {
+    return false
+  }
   const lesson = getLesson(lessonId)
-  return !!lesson && laLanPython(lesson.language)
+  if (!lesson) return false
+  // B1 — làn Python: bài xương sống mọi bậc + 7 khoá ngắn Python.
+  if (laLanPython(lesson.language)) {
+    return spine || PYTHON_SHORT_COURSE_RE.test(lessonId)
+  }
+  // B2 — bộ thông dịch thuần: bài xương sống (Kotlin/Swift/bash/git ở P3/P6) + 4 khoá mô phỏng.
+  if (lesson.language in INTERPRETED_RUNNERS) {
+    return spine || SIM_SHORT_COURSE_RE.test(lessonId)
+  }
+  return false
 }
 
 // Lớp bảo vệ 1: chặn import module hệ thống/mạng — liệt kê MỌI module không lành mạnh mà bài
@@ -316,4 +385,39 @@ export function regradeMakeSubmission(lessonId: string, code: string): RegradeRe
   } finally {
     rmSync(scratchDir, { recursive: true, force: true })
   }
+}
+
+/**
+ * ADR-0008 B2 — chấm lại bài chạy bằng BỘ THÔNG DỊCH THUẦN (Kotlin/Swift/bash/git/hermes/vibe/
+ * openclaw) bằng cách gọi thẳng hàm thông dịch trong tiến trình Node.
+ *
+ * TÁCH HẲN khỏi `regradeMakeSubmission` có chủ đích: hai luồng khác cơ chế (subprocess `python3`
+ * + 3 lớp bảo vệ OS ở kia, gọi hàm thuần ở đây) — gộp lại sẽ làm mờ ranh giới bảo mật giữa
+ * chúng. Chỉ dùng CHUNG engine chấm (`gradeTestCase`/`allTestsPassed`) và kiểu `RegradeResult`
+ * để route không phải biết chi tiết.
+ */
+export function regradeInterpretedSubmission(lessonId: string, code: string): RegradeResult {
+  const lesson = getLesson(lessonId)
+  const runner = lesson ? INTERPRETED_RUNNERS[lesson.language] : undefined
+  if (!lesson || !runner) {
+    throw new Error(`Bài "${lessonId}" không thuộc phạm vi chấm-lại-bằng-bộ-thông-dịch`)
+  }
+  const results: TestCaseResult[] = lesson.make.testCases.map((testCase) => {
+    const r = runner(code, testCase.stdinLines)
+    return gradeTestCase(testCase, r.output, r.error)
+  })
+  return { passed: allTestsPassed(results), results }
+}
+
+/**
+ * Điểm vào DUY NHẤT cho route `/api/programming/progress`: tự chọn đúng luồng chấm lại theo ngôn
+ * ngữ của bài. Gọi `isServerRegradableLesson()` trước — hàm này ném lỗi với bài ngoài phạm vi.
+ */
+export function regradeSubmission(lessonId: string, code: string): RegradeResult {
+  const lesson = getLesson(lessonId)
+  if (!lesson) throw new Error(`Bài "${lessonId}" không tồn tại`)
+  if (lesson.language in INTERPRETED_RUNNERS) {
+    return regradeInterpretedSubmission(lessonId, code)
+  }
+  return regradeMakeSubmission(lessonId, code)
 }
