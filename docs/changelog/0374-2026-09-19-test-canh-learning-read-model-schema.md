@@ -1,4 +1,4 @@
-# 0373 — Test canh gác cột SELECT của `learningReadModelService` khớp schema thật
+# 0374 — Test canh gác cột SELECT của `learningReadModelService` khớp schema thật
 
 - **Ngày:** 2026-09-19
 - **PR:** (điền số PR khi mở)
