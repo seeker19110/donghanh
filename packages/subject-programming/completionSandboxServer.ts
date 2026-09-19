@@ -23,7 +23,7 @@
 //     trên máy chủ, bọc lệnh chấm trong đó để cô lập ở tầng OS. Không có thì bỏ qua — xem
 //     PROGRESS.md mục nợ kỹ thuật "cô lập mạng chấm bài Lập trình".
 import { execFileSync, spawnSync } from 'node:child_process'
-import { mkdtempSync, rmSync } from 'node:fs'
+import { chownSync, mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { getLesson } from './lessons.js'
@@ -123,6 +123,28 @@ function wrapStdin(code: string, stdinLines: string[]): string {
   )
 }
 
+let sandboxUserIds: { uid: number; gid: number } | null | undefined
+/**
+ * uid/gid của `PROGRAMMING_SANDBOX_USER` — tra MỘT LẦN (cache), dùng để `chown` thư mục tạm.
+ *
+ * VÌ SAO CẦN: tiến trình Node chạy bằng `root` (theo `scripts/deploy.sh`, PM2 khởi động trực
+ * tiếp trên VPS bằng user root) — `mkdtempSync` tạo thư mục quyền 700 sở hữu root. Nếu chấm bài
+ * chạy dưới user riêng qua `sudo -u` mà KHÔNG `chown` trước, user đó không đọc/ghi được thư mục
+ * tạm → mọi lượt chấm lỗi ngay, không phải lỗ hổng bảo mật nhưng là lỗi CHỨC NĂNG nghiêm trọng
+ * nếu bật `PROGRAMMING_SANDBOX_USER` mà thiếu bước này.
+ */
+function getSandboxUserIds(user: string): { uid: number; gid: number } | null {
+  if (sandboxUserIds !== undefined) return sandboxUserIds
+  try {
+    const uid = Number(execFileSync('id', ['-u', user], { encoding: 'utf8' }).trim())
+    const gid = Number(execFileSync('id', ['-g', user], { encoding: 'utf8' }).trim())
+    sandboxUserIds = Number.isFinite(uid) && Number.isFinite(gid) ? { uid, gid } : null
+  } catch {
+    sandboxUserIds = null
+  }
+  return sandboxUserIds
+}
+
 let unshareNetAvailable: boolean | null = null
 /** Dò THẬT lúc chạy (không giả định) — cache kết quả vì không đổi trong đời tiến trình server. */
 function hasUnshareNet(): boolean {
@@ -141,19 +163,27 @@ interface RunOutcome {
   error?: string
 }
 
-/** Chạy MỘT lần trong tiến trình con đã bọc đủ 3 lớp bảo vệ + cô lập mạng best-effort. */
-function runSandboxed(fullCode: string, cwd: string): RunOutcome {
-  // `ulimit` là lệnh nội trú của shell — bọc qua `bash -c`, code học viên đi qua BIẾN MÔI
-  // TRƯỜNG (không phải nối chuỗi vào script bash) để không dính escaping/injection shell.
+/**
+ * Chạy MỘT lần trong tiến trình con đã bọc đủ 3 lớp bảo vệ + cô lập mạng best-effort.
+ *
+ * `scriptPath` PHẢI là file THẬT nằm trong `cwd` (đã ghi + `chown` sẵn cho user sandbox nếu có
+ * cấu hình) — KHÔNG truyền code qua biến môi trường: `sudo` mặc định `env_reset` xoá sạch biến
+ * môi trường tự đặt (đã xác nhận bằng thực nghiệm — bật `PROGRAMMING_SANDBOX_USER` thật khiến
+ * code học viên "biến mất", `python3 -c ""` chạy rỗng, chấm sai im lặng). File tránh cả vấn đề
+ * đó lẫn escaping/injection của việc nối chuỗi vào `-c`.
+ */
+function runSandboxed(scriptPath: string, cwd: string): RunOutcome {
+  // `ulimit` là lệnh nội trú của shell — bọc qua `bash -c`, tham số `$1` là ĐƯỜNG DẪN FILE
+  // (không phải code) nên không có gì để escaping/injection.
   const ulimitPart = `ulimit -v ${MAX_VIRTUAL_MEM_KB} -u ${MAX_PROCESSES} 2>/dev/null`
-  const runPart = 'exec python3 -c "$DHCB_SANDBOX_CODE"'
+  const runPart = 'exec python3 "$1"'
   const script = `${ulimitPart}; ${runPart}`
 
   const sandboxUser = process.env.PROGRAMMING_SANDBOX_USER
   const netIsolate = hasUnshareNet()
 
   let cmd = 'bash'
-  let args = ['-c', script]
+  let args = ['-c', script, 'dhcb-sandbox', scriptPath]
   // Lớp 2 (best-effort): user hệ thống riêng, cấu hình `sudo -n` (không hỏi mật khẩu) sẵn trên
   // VPS cho đúng user đó — KHÔNG cấu hình được thì bỏ qua, không chặn PR (xem PROGRESS.md).
   if (sandboxUser) {
@@ -165,30 +195,50 @@ function runSandboxed(fullCode: string, cwd: string): RunOutcome {
     args = ['--net', '--', cmd, ...args]
     cmd = 'unshare'
   }
+  // BỌC NGOÀI CÙNG bằng `timeout(1)` (coreutils) — xác nhận bằng thực nghiệm: timeout của
+  // Node (`execFileSync`'s `timeout` option) chỉ kill tiến trình CON TRỰC TIẾP nó spawn; khi
+  // đó là `sudo`, cháu `python3` SỐNG SÓT sau timeout (vòng lặp vô hạn chạy vô thời hạn dưới
+  // user sandbox — đúng thứ timeout cứng phải chặn). `timeout(1)` tự đặt process group mới
+  // (không có `--foreground`) và kill CẢ NHÓM khi hết giờ — diệt được cả chuỗi
+  // unshare→sudo→bash→python3. `-k 1` gửi thêm SIGKILL sau 1s nếu SIGTERM đầu không đủ.
+  const timeoutSeconds = Math.ceil(TIMEOUT_MS / 1000)
+  args = ['-k', '1', `${timeoutSeconds}`, cmd, ...args]
+  cmd = 'timeout'
 
   try {
     const output = execFileSync(cmd, args, {
       encoding: 'utf8',
-      timeout: TIMEOUT_MS,
+      // Lưới an toàn PHỤ (Node), phòng khi `timeout(1)` tự nó bị treo — dài hơn timeout(1)
+      // một chút để không tranh triggers với nó.
+      timeout: TIMEOUT_MS + 3_000,
       killSignal: 'SIGKILL',
       cwd,
       stdio: ['ignore', 'pipe', 'pipe'],
       maxBuffer: MAX_OUTPUT_BYTES,
-      // Code học viên đi qua biến môi trường CỦA RIÊNG tiến trình con, không thừa hưởng secret
-      // của server (bất biến kỹ thuật #2, CLAUDE.md mục 4) — chỉ truyền đúng những gì cần.
+      // Không kế thừa secret của server (bất biến kỹ thuật #2, CLAUDE.md mục 4) — chỉ truyền
+      // đúng những gì cần. `sudo` sẽ tự `env_reset` lại theo chính sách của nó dù có set gì ở
+      // đây, nên code học viên KHÔNG được đặt vào env (xem comment ở scriptPath).
       env: {
         PATH: process.env.PATH ?? '/usr/bin:/bin',
         PYTHONIOENCODING: 'utf-8',
         PYTHONUTF8: '1',
-        DHCB_SANDBOX_CODE: fullCode,
       },
     })
     return { output }
   } catch (err) {
-    const e = err as { stdout?: string; stderr?: string; message?: string; killed?: boolean }
-    const error = e.killed
-      ? 'Quá thời gian hoặc vượt giới hạn tài nguyên khi chấm lại'
-      : (e.stderr || e.message || 'lỗi chạy python3 khi chấm lại').trim()
+    const e = err as {
+      stdout?: string
+      stderr?: string
+      message?: string
+      killed?: boolean
+      status?: number | null
+    }
+    // Mã thoát 124 = quy ước của `timeout(1)` khi nó phải diệt tiến trình (SIGTERM/SIGKILL đến
+    // TỪ `timeout`, không phải từ Node — `e.killed` chỉ đúng cho lưới an toàn phụ của Node).
+    const error =
+      e.killed || e.status === 124
+        ? 'Quá thời gian hoặc vượt giới hạn tài nguyên khi chấm lại'
+        : (e.stderr || e.message || 'lỗi chạy python3 khi chấm lại').trim()
     return { output: e.stdout ?? '', error }
   }
 }
@@ -223,10 +273,43 @@ export function regradeMakeSubmission(lessonId: string, code: string): RegradeRe
       writeFileSync(dest, content, 'utf8')
     }
 
+    // Đổi chủ thư mục tạm cho user sandbox RIÊNG (nếu có cấu hình) — bắt buộc để nó đọc/ghi
+    // được, vì tiến trình Node (root) vừa tạo thư mục này với quyền mặc định 700 của root.
+    const sandboxUser = process.env.PROGRAMMING_SANDBOX_USER
+    const sandboxIds = sandboxUser ? getSandboxUserIds(sandboxUser) : null
+    if (sandboxUser && !sandboxIds) {
+      console.warn(
+        `[completionSandboxServer] không tra được uid/gid của user "${sandboxUser}" — ` +
+          'chạy chấm bài KHÔNG đổi chủ (có thể lỗi quyền nếu user đó tồn tại nhưng lệnh `id` thất bại).',
+      )
+    }
+    const chownForSandbox = (p: string) => {
+      if (!sandboxIds) return
+      chownSync(p, sandboxIds.uid, sandboxIds.gid)
+    }
+    if (sandboxIds) {
+      chownForSandbox(scratchDir)
+      for (const name of Object.keys(laneFiles)) {
+        // Đổi chủ CẢ đường dẫn cha lẫn file — tên có "/" nghĩa là một gói (fastapi/__init__.py).
+        let dir = dirname(join(scratchDir, name))
+        while (dir !== scratchDir && dir.startsWith(scratchDir)) {
+          chownForSandbox(dir)
+          dir = dirname(dir)
+        }
+        chownForSandbox(join(scratchDir, name))
+      }
+    }
+
     const results: TestCaseResult[] = []
+    let seq = 0
     for (const testCase of lesson.make.testCases) {
       const studentCode = guard + noiCodeTheoLan(lane, code)
-      const outcome = runSandboxed(wrapStdin(studentCode, testCase.stdinLines), scratchDir)
+      // Ghi ra FILE THẬT (không qua biến môi trường — xem comment ở runSandboxed) rồi chown
+      // ngay cho user sandbox, nếu có, để nó đọc được sau khi `sudo -u` hạ quyền.
+      const scriptPath = join(scratchDir, `submission-${seq++}.py`)
+      writeFileSync(scriptPath, wrapStdin(studentCode, testCase.stdinLines), 'utf8')
+      chownForSandbox(scriptPath)
+      const outcome = runSandboxed(scriptPath, scratchDir)
       results.push(gradeTestCase(testCase, outcome.output, outcome.error))
     }
     return { passed: allTestsPassed(results), results }

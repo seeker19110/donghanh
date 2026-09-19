@@ -653,6 +653,32 @@ crontab -e
 
 ---
 
+## User sandbox chấm bài Lập trình (ADR-0007)
+
+Server chạy PM2 bằng **root** (xem `scripts/deploy.sh`) — nếu không cấu hình biến
+`PROGRAMMING_SANDBOX_USER`, code học viên nộp bài Lập trình bậc P1–P4 (Python) vẫn được chấm lại
+đúng ở tiến trình con, nhưng tiến trình đó chạy bằng root (chỉ còn lớp allowlist + timeout bảo
+vệ, thiếu lớp "user hệ thống riêng"). Chạy MỘT LẦN để bật thêm lớp này:
+
+```bash
+cd /var/www/dhcb
+bash scripts/setup-programming-sandbox-user.sh   # tạo user, tự kiểm sudo/unshare --net
+```
+
+Sau đó thêm vào `.env` rồi nạp lại PM2 (script tự in đúng 2 dòng này ở cuối, đây là chép lại):
+
+```bash
+echo "PROGRAMMING_SANDBOX_USER=dhcb-sandbox" >> .env
+pm2 restart dhcb --update-env
+```
+
+Kiểm tra đã ăn: `pm2 logs dhcb --lines 50 | grep -i sandbox` không thấy dòng cảnh báo "không tra
+được uid/gid" nào — có nghĩa là mọi lượt chấm bài Lập trình sau đó chạy dưới user riêng, không
+phải root. Xem `packages/subject-programming/completionSandboxServer.ts` và
+`docs/adr/0007-completion-evidence-sandbox-lap-trinh.md` để biết đủ 3 lớp bảo vệ.
+
+---
+
 ## Xử lý sự cố thường gặp
 
 ### App không start
