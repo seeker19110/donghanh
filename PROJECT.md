@@ -121,7 +121,8 @@ Learning stability hoặc migration; roadmap active duy nhất là `docs/archite
 - Bước phát triển hợp lý tiếp theo là V2-03 Personal World Model, sau khi đóng/ghi nhận rõ phần
   baseline còn chờ và duyệt contract cần dùng cho vertical slice đầu tiên.
 
-Theo dõi chi tiết tại `PROGRESS.md` và `docs/goals/v2-wave-a-architecture-boundaries.md`.
+Theo dõi chi tiết tại `PROGRESS.md` và `docs/legacy/v2-wave-a-architecture-boundaries.md` (goal đã
+DONE, dời sang legacy 2026-09-19).
 
 ## 9. Invariant và Definition of Done
 
