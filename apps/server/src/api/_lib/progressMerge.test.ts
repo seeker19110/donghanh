@@ -33,6 +33,32 @@ describe('mergeSrsMap', () => {
   it('giá trị không đúng dạng (không có reps số) → vẫn không throw, ưu tiên bên b khi bằng/không xác định', () => {
     expect(mergeSrsMap({ book: 'garbage' }, { book: { reps: 1 } })).toEqual({ book: { reps: 1 } })
   })
+
+  it('F7 (docs/changelog/0334-*.md): HOÀ reps → giữ bản có due XA HƠN, không cho client thắng vô điều kiện', () => {
+    // Máy A đã ôn tới reps=3, due đẩy xa tới ngày mai (10_000). Máy B đồng bộ CHẬM, gửi lên
+    // bản cũ hơn cũng reps=3 nhưng due=hôm nay (1_000) — ghi đè mù sẽ lùi lịch ôn về quá khứ.
+    const a = { book: { reps: 3, due: 10_000 } }
+    const b = { book: { reps: 3, due: 1_000 } }
+    expect(mergeSrsMap(a, b)).toEqual({ book: { reps: 3, due: 10_000 } })
+  })
+
+  it('F7: hoà reps, due bên b mới hơn (hoặc bằng) → b vẫn thắng như cũ', () => {
+    const a = { book: { reps: 3, due: 1_000 } }
+    const b = { book: { reps: 3, due: 10_000 } }
+    expect(mergeSrsMap(a, b)).toEqual({ book: { reps: 3, due: 10_000 } })
+    expect(mergeSrsMap(a, { book: { reps: 3, due: 1_000 } })).toEqual({
+      book: { reps: 3, due: 1_000 },
+    })
+  })
+
+  it('F7: hoà reps nhưng thiếu `due` số hợp lệ ở một/cả hai bên → không throw, coi như thua', () => {
+    expect(mergeSrsMap({ book: { reps: 1, due: 5 } }, { book: { reps: 1 } })).toEqual({
+      book: { reps: 1, due: 5 },
+    })
+    expect(mergeSrsMap({ book: { reps: 1 } }, { book: { reps: 1, due: 5 } })).toEqual({
+      book: { reps: 1, due: 5 },
+    })
+  })
 })
 
 describe('mergeExamMap', () => {
