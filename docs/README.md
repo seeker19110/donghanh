@@ -22,7 +22,7 @@
 | `AI_DEVELOPMENT_PIPELINES.md`                           | Chọn model/effort theo rủi ro cho từng bước (bổ sung cho PROTOCOL, không thay)                             |
 | `framework/QUY-TRINH-AUDIT.md`                          | Quy trình audit toàn diện 11 tầng (+ 8b ảnh chụp trang)                                                    |
 | `framework/KHUNG-1..3-*.md`, `framework/BO-SUNG-*.md`   | Quy trình 9 giai đoạn, luật AI, tiêu chuẩn chất lượng                                                      |
-| `goals/`                                                | Mục tiêu lớn đang mở (STEM 3 môn nháp)                                                                     |
+| `goals/`                                                | Mục tiêu lớn đang mở (STEM 3 môn nháp, AI Systems Architect, Learning UX) — goal DONE dời sang `legacy/`   |
 
 ## 2. VẬN HÀNH (đọc khi deploy / sự cố / cấu hình)
 

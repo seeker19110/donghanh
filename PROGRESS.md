@@ -1280,11 +1280,13 @@ build`: **JS 126,07 / 140 kB = 90,06%** (dư 13,93 kB, gấp gần 3 lần biên
   bởi câu hỏi khoá gốc.
 
 - 🟡 **[2026-08-21] Gemini Live — đã thay code GIẢ bằng kết nối WebSocket THẬT, nhưng CHƯA test
-  với API key thật.** Nhánh `claude/gemini-live-integration-xo175x` trước đó (commit `cf44362`
-  "feat: implement horizon features and stress test suite") đã có sẵn một bộ khung lớn (~4100
-  dòng: `packages/core-ai/geminiLiveService.ts`, `wsGeminiLiveHandler.ts`, `api/gemini-live.ts`,
-  contract `packages/core-contracts/geminiLive.ts`, hook `apps/english/src/lib/geminiLiveApi.ts`,
-  đã gắn vào `server.ts` chạy thật) — nhưng khi đọc kỹ, `geminiLiveService.ts` **không hề gọi API
+  với API key thật.** Nhánh `claude/gemini-live-integration-xo175x` **ĐÃ MERGE** (xác nhận
+  2026-09-19: code đang chạy thật tại `apps/server/src/api/platform/gemini-live.ts` +
+  `packages/core-ai/geminiLiveService.ts`/`wsGeminiLiveHandler.ts`/`packages/core-contracts/geminiLive.ts`,
+  gắn vào `apps/server/src/server.ts`/`routes.ts`; nhánh đã bị xoá sau merge như thường lệ,
+  đường dẫn `apps/english/...` cũ ở dưới đã đổi theo tái cấu trúc `apps/english`→`apps/dhcb`).
+  Trước đó (commit `cf44362` "feat: implement horizon features and stress test suite") đã có sẵn
+  một bộ khung lớn (~4100 dòng) — nhưng khi đọc kỹ, `geminiLiveService.ts` **không hề gọi API
   Gemini thật**: mỗi 20 audio chunk người dùng gửi lên, code chỉ **echo ngược chính audio đó** giả
   làm phản hồi AI. Đã sửa `packages/core-ai/geminiLiveService.ts` để **thật sự mở WebSocket** tới
   `wss://generativelanguage.googleapis.com/.../BidiGenerateContent` (đọc `docs/research/dac-ta-gemini-live-2026-08-21.md`
