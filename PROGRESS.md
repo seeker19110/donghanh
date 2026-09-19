@@ -939,13 +939,19 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   còn thứ TỐN TIỀN (lượt AI) thì server vẫn đếm theo `X-Guest-Id` + IP. Khi siết phần đã đăng
   nhập thì **không** kéo theo phần khách: hai luồng khác bản chất.
 
-- 🟡 **[2026-09-12 — GĐ1, xem `docs/changelog/0289-*.md`] Kho lượt cửa sổ trượt 7 ngày của gói
-  Free nay MỒ CÔI.** GĐ1 bỏ `consume_rolling_credit`/`refund_rolling_credit` khỏi đường enforce
-  (Free chuyển sang hạn mức TỔNG/ngày), nhưng **bảng `free_daily_credit`, 4 hàm SQL và lời gọi
-  `grant_daily_bonus_rolling` trong `api/progress.ts` vẫn còn** — đặc tả GĐ1 cấm xoá dữ liệu lịch
-  sử nên cố ý giữ. Hệ quả: mỗi ngày vẫn ghi bonus vào một bảng không còn ai đọc để chặn (tốn ghi
-  DB, và là bẫy cho người đọc mã sau này tưởng cơ chế còn hiệu lực). **Dọn ở đợt RIÊNG** (gỡ lời
-  gọi ở `progress.ts` trước, giữ bảng thêm một thời gian rồi mới drop) — đừng gộp vào PR khác.
+- ✅ **[2026-09-12 → xác minh lại 2026-09-19, xem `docs/changelog/0289-*.md` +
+  `docs/changelog/NNNN-2026-09-19-*.md`] Kho lượt cửa sổ trượt 7 ngày — mô tả "MỒ CÔI" ban đầu là
+  SAI, đã đóng nợ chính.** GĐ1 bỏ `consume_rolling_credit`/`refund_rolling_credit` khỏi đường
+  enforce (Free chuyển sang hạn mức TỔNG/ngày) — **hai hàm này thật sự không còn lời gọi TS nào**
+  (xác nhận qua `packages/core-billing/usage.test.ts:121,246`), có thể drop ở đợt dọn dẹp sau nếu
+  muốn, không khẩn cấp. Nhưng **bảng `free_daily_credit` + hàm `grant_daily_bonus_rolling` KHÔNG
+  mồ côi** — rà lại code thật 2026-09-19 phát hiện `apps/server/src/api/_lib/quests.ts`
+  (`getCurrentStreak`, nhiệm vụ `streak_5` — "học liên tiếp 5 ngày") đọc trực tiếp
+  `free_daily_credit.bonus_earned` và PHỤ THUỘC bảng này được ghi tiếp tục mỗi ngày qua lời gọi
+  ở `apps/server/src/api/core/progress.ts`. **QUYẾT ĐỊNH: GIỮ NGUYÊN lời gọi
+  `grant_daily_bonus_rolling`** — gỡ nó sẽ làm nhiệm vụ streak_5 hỏng âm thầm (không cổng CI nào
+  bắt được, vì không có test tích hợp progress.ts→quests.ts). Không còn việc phải làm cho phần
+  bảng/hàm chính này.
 
 - 🟡 **[2026-08-28 — rà UI/UX 5 trang trụ cột, xem `docs/changelog/0186-*.md`] Ba việc còn để
   ngỏ, cần người dùng quyết hoặc tách đợt riêng.**
