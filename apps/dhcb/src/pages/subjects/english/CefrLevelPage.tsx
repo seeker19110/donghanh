@@ -1220,6 +1220,48 @@ export default function CefrLevelPage() {
                 </button>
               )}
 
+              {/* Mục lục nhảy nhanh — trang này có thể dài gấp nhiều lần khung nhìn khi
+                  nhiều "Phần" chưa hoàn thành (audit UI/UX 2026-09-19: A1 cao ~6 lần khung
+                  nhìn desktop, không có cách nào tới thẳng một Phần giữa danh sách ngoài
+                  cuộn tay). Thu gọn mặc định để không chiếm chỗ ở cấp có ít unit. */}
+              {level.units.length > 4 && (
+                <details className="glass rounded-2xl p-4 mb-4 group">
+                  <summary className="cursor-pointer list-none text-sm font-semibold text-zinc-300 flex items-center gap-1.5 select-none">
+                    <Layers className={`w-4 h-4 shrink-0 ${accent.text}`} />
+                    <span className="flex-1">
+                      {isA
+                        ? `Mục lục ${level.units.length} phần`
+                        : `Table of contents (${level.units.length} parts)`}
+                    </span>
+                    <ChevronDown className="w-4 h-4 text-zinc-400 transition-transform group-open:rotate-180" />
+                  </summary>
+                  <ul className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                    {level.units.map((unit, ui) => (
+                      <li key={unit.id}>
+                        <a
+                          href={`#cefr-unit-${unit.id}`}
+                          onClick={(e) => {
+                            e.preventDefault()
+                            document
+                              .getElementById(`cefr-unit-${unit.id}`)
+                              ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                          }}
+                          className="tap-44 flex items-center gap-2 px-2.5 py-2 rounded-xl text-sm text-zinc-300 hover:bg-zinc-800/80 hover:text-white transition"
+                        >
+                          <span className={`text-[11px] font-bold shrink-0 ${accent.text}`}>
+                            {ui + 1}
+                          </span>
+                          <span className="text-base shrink-0">{unit.emoji}</span>
+                          <span className="flex-1 min-w-0 truncate">
+                            {isA ? unit.titleVi : unit.titleEn}
+                          </span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              )}
+
               {/* Danh sách unit — "Phần 1..n", trình tự: từ vựng → ngữ pháp → hội thoại */}
               <div className="space-y-3">
                 {level.units.map((unit, ui) => {
@@ -1311,8 +1353,9 @@ function UnitSection({
   if (allDone && !expanded) {
     return (
       <button
+        id={`cefr-unit-${unit.id}`}
         onClick={() => setExpanded(true)}
-        className="w-full glass rounded-2xl px-4 py-3 flex items-center gap-2 text-left hover:border-zinc-600 border border-transparent transition"
+        className="w-full glass rounded-2xl px-4 py-3 flex items-center gap-2 text-left hover:border-zinc-600 border border-transparent transition scroll-mt-20"
       >
         <CheckCircle2 className={`w-4 h-4 shrink-0 ${accent.text}`} />
         <span className="text-lg shrink-0">{unit.emoji}</span>
@@ -1344,7 +1387,7 @@ function UnitSection({
   }
 
   return (
-    <div className="glass rounded-2xl p-4">
+    <div id={`cefr-unit-${unit.id}`} className="glass rounded-2xl p-4 scroll-mt-20">
       <div className="flex items-center gap-2 mb-3">
         <span className={`text-[11px] font-bold uppercase tracking-wide ${accent.text}`}>
           {isA ? 'Phần' : 'Part'} {index + 1}
