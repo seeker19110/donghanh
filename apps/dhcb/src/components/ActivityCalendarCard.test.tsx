@@ -215,4 +215,34 @@ describe('ActivityCalendarCard', () => {
     expect(target.tabIndex).toBe(0)
     expect(container.querySelectorAll('[role="gridcell"][tabindex="0"]')).toHaveLength(1)
   })
+
+  it('presentation mặc định standalone giữ nguyên section/heading/viền riêng', () => {
+    render(false)
+    expect(container.querySelector('section')).not.toBeNull()
+    expect(container.querySelector('h2')?.textContent).toContain('Lịch hoạt động')
+  })
+
+  it('presentation embedded (R3-3) không sinh card/heading lồng nhưng giữ aria-label và roving tabindex', () => {
+    act(() => {
+      root.render(
+        <ActivityCalendarCard
+          calendar={calendar}
+          uid="u1"
+          vi
+          isDesktop={false}
+          weeks={5}
+          wdow={['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']}
+          presentation="embedded"
+        />,
+      )
+    })
+    // Không surface/viền/nền/heading riêng: không có <section>/<h2> — section cha
+    // (DashboardWeeklyOverview) sở hữu heading của toàn khối "Tuần này".
+    expect(container.querySelector('section')).toBeNull()
+    expect(container.querySelector('h2')).toBeNull()
+    // aria-label + live detail của grid vẫn còn nguyên.
+    const grid = container.querySelector('[role="grid"]')!
+    expect(grid.getAttribute('aria-label')).toBe('Lịch hoạt động theo ngày')
+    expect(container.querySelectorAll('[role="gridcell"][tabindex="0"]')).toHaveLength(1)
+  })
 })
