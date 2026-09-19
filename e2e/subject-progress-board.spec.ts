@@ -19,6 +19,10 @@ test.describe('/tien-do — khối tiến độ theo môn', () => {
     await expect(khoi).toHaveCount(1)
     await expect(khoi).toBeVisible()
 
+    // R3-4 (UX-R3): khối "Từ vựng" nay nằm trong panel disclosure "Chi tiết Tiếng Anh", đóng
+    // mặc định — phải mở ra trước khi kiểm tra quan hệ hình học với khối tiến độ theo môn.
+    await page.getByRole('button', { name: 'Xem chi tiết Tiếng Anh' }).click()
+
     const tuVung = page.getByRole('heading', { name: 'Từ vựng' }).first()
     await expect(tuVung).toBeVisible()
 
