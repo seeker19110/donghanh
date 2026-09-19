@@ -11,6 +11,15 @@ vi.mock('@dhcb/core-auth/security', () => ({
   logSecurityEvent: () => {},
 }))
 
+// ADR-0007: giả lập module chấm-lại-ở-server — test file này lo luật ROUTE (khoá bậc/receipt/
+// batch), KHÔNG lo chạy python3 thật (đó là việc của completionSandboxServer.test.ts riêng).
+// Mặc định KHÔNG bài nào thuộc phạm vi chấm-lại → mọi test 'completed' cũ giữ nguyên hành vi.
+const regradeState = vi.hoisted(() => ({ regradable: false, passed: true }))
+vi.mock('@dhcb/subject-programming/completionSandboxServer', () => ({
+  isServerRegradableLesson: () => regradeState.regradable,
+  regradeMakeSubmission: () => ({ passed: regradeState.passed, results: [] }),
+}))
+
 const query = vi.hoisted(() => vi.fn())
 const release = vi.hoisted(() => vi.fn())
 // S09-1: POST nay chạy trong withTransaction → cần `connect()` trả client dùng CÙNG mock `query`
@@ -41,7 +50,44 @@ beforeEach(() => {
   vi.clearAllMocks()
   authState.user = { userId: 'user-1' }
   rateLimitOk = true
+  regradeState.regradable = false
+  regradeState.passed = true
   query.mockResolvedValue({ rows: [] })
+})
+
+// ── ADR-0007: chấm lại ở server trước khi ghi 'completed' ───────────────────────────────────
+describe('/api/programming/progress — chấm lại ở server (ADR-0007)', () => {
+  it('bài thuộc phạm vi chấm-lại báo completed mà KHÔNG kèm code → 400, không ghi DB', async () => {
+    regradeState.regradable = true
+    const res = await handler(req('POST', { lessonId: 'p1-u4-l1', status: 'completed' }))
+    expect(res.status).toBe(400)
+    expect(query.mock.calls.some(([s]) => String(s).includes('insert into'))).toBe(false)
+  })
+
+  it('chấm lại KHÔNG đạt → 400, không ghi DB', async () => {
+    regradeState.regradable = true
+    regradeState.passed = false
+    const res = await handler(
+      req('POST', { lessonId: 'p1-u4-l1', status: 'completed', code: 'print(1)' }),
+    )
+    expect(res.status).toBe(400)
+    expect(query.mock.calls.some(([s]) => String(s).includes('insert into'))).toBe(false)
+  })
+
+  it('chấm lại đạt → ghi completed bình thường', async () => {
+    regradeState.regradable = true
+    regradeState.passed = true
+    const res = await handler(
+      req('POST', { lessonId: 'p1-u4-l1', status: 'completed', code: 'print(1)' }),
+    )
+    expect(res.status).toBe(200)
+  })
+
+  it('bài NGOÀI phạm vi (isServerRegradableLesson=false) không cần code, hành vi cũ giữ nguyên', async () => {
+    regradeState.regradable = false
+    const res = await handler(req('POST', { lessonId: 'p1-u4-l1', status: 'completed' }))
+    expect(res.status).toBe(200)
+  })
 })
 
 describe('/api/programming/progress', () => {

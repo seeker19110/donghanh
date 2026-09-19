@@ -1,8 +1,9 @@
 # ADR-0007: Bằng chứng hoàn thành bài Lập trình phải được server chấm lại, không tin nguyên trạng thái client gửi lên
 
 - **Ngày:** 2026-09-19
-- **Trạng thái:** đề xuất — CẦN CHỦ DỰ ÁN CHỐT 4 CÂU HỎI Ở CUỐI TRƯỚC KHI THI HÀNH
-- **Người quyết định:** chờ chủ dự án
+- **Trạng thái:** ✅ Accepted — chốt Phương án B (2026-09-19), ĐÃ THI HÀNH cho phạm vi P1–P4
+- **Người quyết định:** Chủ dự án (đã chốt 2026-09-19, uỷ quyền cho AI đọc code/đánh giá rủi ro
+  rồi quyết thay theo tinh thần "ưu tiên chất lượng, không khoá oan/không mở toang rủi ro")
 
 ## Bối cảnh
 
@@ -99,7 +100,7 @@ chỉ xác minh chữ ký
   vẫn đọc được khoá hoặc giả lập lời gọi ký, tương đương "client tự khai" nhưng phức tạp hơn vô ích.
   Loại phương án này ngay — không phải giải pháp bảo mật thật.
 
-## Quyết định (đề xuất — CHƯA CHỐT, chờ câu trả lời 4 câu hỏi bên dưới)
+## Quyết định (Accepted 2026-09-19)
 
 Đề xuất đi theo **Phương án B** cho phạm vi P1-P4 (Python/Pyodide) làm bước đầu, có 3 lớp chặn bổ
 sung bắt buộc đi kèm (không phải "chạy python3 trần"):
@@ -117,36 +118,35 @@ góp ý" — đã đủ chứng cứ để không im lặng bỏ qua. (C) đúng
 mô người dùng hiện tại (dự án "vốn tối thiểu", ưu tiên chi phí thấp theo CLAUDE.md mục 7). (D) không
 giải quyết đúng vấn đề, loại thẳng.
 
-## Bốn câu hỏi cần chủ dự án chốt trước khi thi hành
+## Bốn quyết định — ĐÃ CHỐT (2026-09-19)
 
-1. **Chấp nhận cách ly ở MỨC TIẾN TRÌNH (Phương án B, không phải container/VM) hay bắt buộc phải
-   nâng lên Phương án C (Docker/microVM) ngay từ đầu?** Đánh đổi: B nhanh/rẻ nhưng có rủi ro thoát
-   sandbox lý thuyết nếu allowlist thiếu sót; C an toàn hơn nhưng cần đổi hạ tầng deploy + có thể
-   tốn thêm chi phí VPS (cần RAM/CPU dự phòng cho container ngắn hạn chạy song song nhiều người
-   dùng cùng lúc — chưa đo tải thật).
-2. **VPS hiện tại có hỗ trợ cô lập mạng theo tiến trình con không (network namespace/`unshare -n`
-   hay tương đương)?** Nếu KHÔNG và chọn Phương án B, code người dùng chạy trong tiến trình chấm
-   VẪN CÓ THỂ gọi mạng ra ngoài trừ khi chặn bằng allowlist module (`socket`) — chấp nhận rủi ro
-   này ở mức "chặn qua allowlist Python, không chặn ở tầng OS" hay dừng lại chờ hạ tầng mạnh hơn?
-3. **Phạm vi chấm lại: MỌI lần bấm "Chạy thử" (tốn CPU server mỗi lần gõ code) hay CHỈ lần bấm
-   "Nộp bài"/"Đánh dấu hoàn thành" (client vẫn chạy thử tự do ở Pyodide, server chỉ chấm lại phát
-   quyết định cuối)?** Đề xuất mặc định: chỉ chấm lại ở bước nộp cuối — giữ trải nghiệm "chạy thử
-   tức thời" ở client, tránh server quá tải vì mỗi phím gõ.
-4. **Phạm vi ngôn ngữ: ADR này CHỈ áp cho P1-P4 (Python xác nhận qua Pyodide) hay phải khảo sát
-   thêm các hướng chuyên sâu dùng ngôn ngữ khác (JS/SQL...) trước khi chốt kiến trúc chung?** Nếu
-   chỉ P1-P4, các hướng chuyên sâu khác giữ nguyên "client tự khai" thêm một đợt nữa — cần ghi rõ
-   thành nợ MỚI (phạm vi hẹp hơn) thay vì coi ADR này đã giải quyết hết.
+1. **Mức cách ly: Phương án B (mức tiến trình), KHÔNG chờ Docker/VM.** Đánh đổi chấp nhận: rủi ro
+   thoát sandbox lý thuyết nếu allowlist thiếu sót, bù lại bằng 3 lớp chặn bắt buộc ở trên. Quyết
+   định CÓ THỂ ĐẢO NGƯỢC — một ADR sau có thể supersede khi có lý do thật (xem "Điều kiện xem lại").
+2. **Cô lập mạng: HAI TẦNG, không chọn một.** Tầng chính (bắt buộc, không phụ thuộc hạ tầng):
+   allowlist Python chặn `socket`/`urllib`/`http`/`ftplib`/`smtplib`/`requests` thật. Tầng phụ
+   (best-effort): nếu VPS hỗ trợ `unshare --net`/`ip netns` (XÁC NHẬN THẬT lúc chạy bằng lệnh dò,
+   KHÔNG giả định), bọc lệnh chấm trong đó; không hỗ trợ thì KHÔNG chặn PR — ghi thành nợ kỹ thuật
+   hẹp riêng trong `PROGRESS.md` để xem lại sau, không được im lặng bỏ qua.
+3. **Phạm vi chấm lại: CHỈ ở bước "Nộp bài"/"Đánh dấu hoàn thành".** Client giữ nguyên trải nghiệm
+   "Chạy thử" tức thời bằng Pyodide; server chấm lại ĐÚNG MỘT LẦN tại thời điểm gọi API ghi
+   `status:'completed'`. Kèm rate-limit số lần NỘP SAI liên tiếp/bài/người trong một cửa sổ ngắn
+   (chống lạm dụng CPU qua spam nộp bài) — ngưỡng cụ thể + lý do chọn phải ghi trong changelog thi
+   hành.
+4. **Phạm vi ngôn ngữ: CHỈ P1-P4 (Python qua Pyodide) trong đợt này.** Các hướng chuyên sâu dùng
+   ngôn ngữ khác Python vẫn "client tự khai" — PHẢI ghi thành một dòng nợ kỹ thuật MỚI, phạm vi
+   hẹp, riêng biệt trong `PROGRESS.md` (không được coi là đã giải quyết bởi ADR này).
 
-## Hệ quả (áp dụng SAU KHI chốt 4 câu hỏi trên)
+## Hệ quả
 
-- **Kéo theo:** một module chấm lại server-side mới (`packages/subject-programming` hoặc
-  `apps/server/src/api/_lib/`), sửa `apps/server/src/api/subjects/programming/progress.ts` để
-  BẮT BUỘC gọi chấm lại trước khi ghi `status:'completed'`, cập nhật `completionRules.ts` (bảng
-  luật) đổi dòng Lập trình từ "chưa hỗ trợ" sang "supported qua chấm lại server", cân nhắc mở CHECK
-  constraint `platform.completion_evidence.subject_id` nhận `'programming'` (migration mới) để
-  `recentEvidenceCount` (ADR-0005) hết trả `null` cho subject này.
-- **Chấp nhận đánh đổi:** thêm tải CPU cho server mỗi lần người dùng nộp bài (đã giới hạn bằng
-  hạn mức AI/ngày hiện có KHÔNG áp dụng ở đây — chấm bài không tính là lượt AI, cần luật hạn mức
-  RIÊNG để tránh lạm dụng gửi bài liên tục làm nghẽn server, xem thêm khi viết đặc tả thi hành).
+- **Kéo theo:** module chấm lại server-side mới
+  (`packages/subject-programming/completionSandboxServer.ts`), sửa
+  `apps/server/src/api/subjects/programming/progress.ts` để BẮT BUỘC gọi chấm lại trước khi ghi
+  `status:'completed'` (bài thuộc phạm vi P1–P4/Python), rate-limit riêng cho lượt nộp sai liên
+  tiếp. `completionRules.ts` KHÔNG đổi — Lập trình tiếp tục có nguồn evidence riêng
+  (`/api/programming/progress`) như comment đầu file đã ghi, không cần dời sang
+  `platform.completion_evidence` chung (việc đó vẫn là lựa chọn MỞ cho đợt sau, không bắt buộc).
+- **Chấp nhận đánh đổi:** thêm tải CPU cho server mỗi lần nộp bài — không dùng chung hạn mức AI/
+  ngày (chấm bài không tính là lượt AI), có luật hạn mức RIÊNG (Quyết định 3).
 - **Điều kiện xem lại:** nếu đo tải thật cho thấy Phương án B không đáp ứng nổi số người dùng
-  đồng thời, hoặc phát hiện lỗ hổng thoát sandbox thật (không chỉ lý thuyết), nâng lên Phương án C.
+  đồng thời, hoặc phát hiện lỗ hổng thoát sandbox THẬT (không chỉ lý thuyết), nâng lên Phương án C.
