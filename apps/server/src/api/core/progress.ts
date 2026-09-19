@@ -34,6 +34,7 @@ import {
   mergeExamMap,
   mergeByTimestamp,
   mergeArrayUnion,
+  resolveHard,
 } from '../_lib/progressMerge.js'
 import { findReceipt, saveReceipt } from '../_lib/syncReceipt.js'
 
@@ -76,6 +77,18 @@ interface ProgressRow {
   streak_freeze_dates: string[]
   /** S09-1: version đơn điệu do server tăng mỗi lần ghi (migration 0083, mặc định 1). */
   version: number
+  /**
+   * F6/F8 (2026-09-19): mốc đồng hồ CLIENT lúc gửi lần ghi TRƯỚC (migration 0083, NULL nếu dòng
+   * cũ/chưa từng gửi `sync`) — dùng làm trục so sánh nhất quán cho `hard` (F6) và
+   * `placement`/`weeklyGoal` (F8), xem `_lib/progressMerge.ts`. Cột Postgres là `timestamptz` —
+   * driver `pg` trả về `Date`, không phải chuỗi (xem `core-db/settings.ts` làm y hệt).
+   */
+  client_updated_at: Date | null
+}
+
+/** Chuẩn hoá `client_updated_at` (Date từ driver `pg`, hoặc null) về ISO string để so sánh. */
+function clientUpdatedAtIso(value: Date | null | undefined): string | null {
+  return value ? new Date(value).toISOString() : null
 }
 
 /** Tài liệu tiến độ camelCase — đúng hình dạng GET trả về, dùng lại cho `merged` khi xung đột. */
@@ -278,7 +291,8 @@ export default async function handler(req: Request): Promise<Response> {
     const { rows: existingRows } = await client.query<ProgressRow>(
       `select learned, hard, srs, cefr_grammar, cefr_dialogues, cefr_unlocked,
               cefr_unlocked_grandfathered, cefr_exams,
-              placement, weekly_goal, achievements, settings, streak_freeze_dates, version
+              placement, weekly_goal, achievements, settings, streak_freeze_dates, version,
+              client_updated_at
          from english.learning_progress where user_id = $1 for update`,
       [auth.userId],
     )
@@ -291,9 +305,18 @@ export default async function handler(req: Request): Promise<Response> {
     const conflict = sync ? sync.baseVersion !== existingVersion : false
     // Kết quả thi sau hợp nhất là ĐẦU VÀO của luật mở cấp → tính trước để dùng ở cả hai chỗ.
     const mergedExams = mergeExamMap(existing?.cefr_exams ?? {}, d.cefrExams)
+    // F6/F8: một trục đồng hồ CLIENT duy nhất cho cả request — bản đã lưu (existing, cột DB) so
+    // với request hiện tại (sync?.clientUpdatedAt). Xem `_lib/progressMerge.ts`.
+    const existingClientUpdatedAt = clientUpdatedAtIso(existing?.client_updated_at)
+    const incomingClientUpdatedAt = sync?.clientUpdatedAt ?? null
     const merged = {
       learned: mergeArrayUnion(existing?.learned ?? [], d.learned),
-      hard: d.hard,
+      hard: resolveHard(
+        existing?.hard ?? [],
+        d.hard,
+        existingClientUpdatedAt,
+        incomingClientUpdatedAt,
+      ),
       srs: mergeSrsMap(existing?.srs ?? {}, d.srs),
       cefrGrammar: mergeArrayUnion(existing?.cefr_grammar ?? [], d.cefrGrammar),
       cefrDialogues: mergeArrayUnion(existing?.cefr_dialogues ?? [], d.cefrDialogues),
@@ -305,8 +328,14 @@ export default async function handler(req: Request): Promise<Response> {
         grandfathered: existing?.cefr_unlocked_grandfathered ?? [],
       }),
       cefrExams: mergedExams,
-      placement: mergeByTimestamp(existing?.placement ?? {}, d.placement, 'lastAt'),
-      weeklyGoal: mergeByTimestamp(existing?.weekly_goal ?? {}, d.weeklyGoal, 'updatedAt'),
+      placement: mergeByTimestamp(existing?.placement ?? {}, d.placement, 'lastAt', {
+        existing: existingClientUpdatedAt,
+        incoming: incomingClientUpdatedAt,
+      }),
+      weeklyGoal: mergeByTimestamp(existing?.weekly_goal ?? {}, d.weeklyGoal, 'updatedAt', {
+        existing: existingClientUpdatedAt,
+        incoming: incomingClientUpdatedAt,
+      }),
       achievements: mergeArrayUnion(existing?.achievements ?? [], d.achievements),
       // settings: "lựa chọn hiện tại" (ngôn ngữ giao diện, chiều học, âm thanh, giọng đọc) —
       // không phải tiến độ "chỉ tăng", nên hợp nhất theo mốc updatedAt MỚI HƠN thắng, giống
