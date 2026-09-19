@@ -83,6 +83,14 @@ rồi mới bật mới → app chết ~10s mỗi lần deploy (thấy trong log
 delete+start MỘT lần vì PM2 không đổi được exec_mode qua reload) — đã kiểm chứng bằng PM2
 thật trong sandbox: 3.766 request liên tục xuyên 2 lần reload, 0 request rớt.
 
+**Quy trình AI-agent (thêm 2026-09-19, đối chiếu `seeker19110/projects-template`):** hook
+PreToolUse `pre-commit-gate.sh` tự chặn `git commit` khi typecheck/lint/test đỏ · hook
+`block-dangerous-git.sh` nâng cấp (lọc dấu nháy/heredoc trước khi so khớp, tránh chặn oan) ·
+hook Stop `usage-guard.sh` tự nhắc wind-down ở ≥70% quota 5h (CLAUDE.md mục 3) · gate CI mới
+`check:specs` (`scripts/check-spec-paths.ts`) chặn merge khi đặc tả "Approved" trỏ path không
+tồn tại · `scripts/maintenance-sweep.sh` (`npm run maintain`) quét bảo trì tổng hợp chỉ-đọc ·
+4 slash-command `/gate` `/debug` `/incident` `/consult` (`.claude/commands/`).
+
 **Tính năng mới:** Thử thách "Challenge 1 phút/ngày" (`/challenge`) — từ 2026-07-15 chạy
 **CHU KỲ TUẦN** Thứ 2→CN (bảng 7 ô, tổng kết tuần vào CN, ăn mừng 7/7; bỏ vòng 30 ngày/vé
 nghỉ/mốc — huy hiệu sẽ quay lại ở M2). ~~Migration `0010_challenge_entries.sql` chưa chạy trên
