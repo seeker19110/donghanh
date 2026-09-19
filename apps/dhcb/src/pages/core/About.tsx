@@ -24,6 +24,7 @@ import { usePageTitle } from '../../lib/usePageTitle'
 import { useLang } from '../../context/useLang'
 import { navigateTo } from '../../lib/subjectsHost'
 import { PageShell } from '@core/PageShell'
+import { WORKLIFE_STUDIO_PATH, duongDanSuNghiep, duongDanKhoiNghiep } from '../../lib/domainRoutes'
 
 type IconType = typeof BookOpen
 
@@ -54,7 +55,7 @@ const PILLARS: Pillar[] = [
   },
   {
     icon: Compass,
-    path: '/su-nghiep-khoi-nghiep?muc=su-nghiep',
+    path: duongDanSuNghiep(),
     titleVi: 'Sự nghiệp',
     titleEn: 'Career',
     descVi:
@@ -64,7 +65,7 @@ const PILLARS: Pillar[] = [
   },
   {
     icon: Rocket,
-    path: '/su-nghiep-khoi-nghiep?muc=khoi-nghiep',
+    path: duongDanKhoiNghiep(),
     titleVi: 'Khởi nghiệp',
     titleEn: 'Startup',
     descVi: 'Dựng mô hình kinh doanh, ghi rõ giả định và tìm cách kiểm chứng rẻ nhất.',
@@ -72,7 +73,7 @@ const PILLARS: Pillar[] = [
   },
   {
     icon: Briefcase,
-    path: '/cong-viec-cuoc-song',
+    path: WORKLIFE_STUDIO_PATH,
     titleVi: 'Công việc & Đời sống',
     titleEn: 'Work & Life',
     descVi:

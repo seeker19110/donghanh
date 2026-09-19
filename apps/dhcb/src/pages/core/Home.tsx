@@ -17,6 +17,13 @@ import SubjectSpaceList from '../../components/Home/SubjectSpaceList.js'
 import GuestHome from '../../components/Home/GuestHome.js'
 import WeekRhythm from '../../components/Home/WeekRhythm.js'
 import { usePageTitle } from '../../lib/usePageTitle'
+import {
+  CAREER_STUDIO_PATH,
+  duongDanCareerInterview,
+  duongDanCongViec,
+  duongDanStartupCanvas,
+  duongDanDoiSong,
+} from '../../lib/domainRoutes'
 import { useLang } from '../../context/useLang'
 import { useAuth } from '../../context/useAuth'
 import { useCloudSync } from '../../lib/useCloudSync'
@@ -279,12 +286,12 @@ export default function Home() {
     id: 'career-life',
     title: 'Sự nghiệp, Khởi nghiệp & Đời sống',
     desc: 'Phỏng vấn thử, quản lý công việc, Lean Canvas, bánh xe cuộc đời.',
-    go: () => nav('/su-nghiep-khoi-nghiep'),
+    go: () => nav(CAREER_STUDIO_PATH),
     shortcuts: [
-      { label: 'Phỏng vấn thử', go: () => nav('/career/interview') },
-      { label: 'Công việc', go: () => nav('/cong-viec-cuoc-song?muc=cong-viec') },
-      { label: 'Lean Canvas', go: () => nav('/startup/canvas') },
-      { label: 'Đời sống', go: () => nav('/cong-viec-cuoc-song?muc=doi-song') },
+      { label: 'Phỏng vấn thử', go: () => nav(duongDanCareerInterview()) },
+      { label: 'Công việc', go: () => nav(duongDanCongViec()) },
+      { label: 'Lean Canvas', go: () => nav(duongDanStartupCanvas()) },
+      { label: 'Đời sống', go: () => nav(duongDanDoiSong()) },
     ],
   }
 

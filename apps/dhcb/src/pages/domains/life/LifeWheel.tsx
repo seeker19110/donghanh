@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Activity, Save } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
+import { duongDanDoiSong } from '../../../lib/domainRoutes'
 import Layout from '../../../components/Layout'
 import PageHeader from '../../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
@@ -149,7 +150,7 @@ export default function LifeWheel() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout onBack={() => nav('/cong-viec-cuoc-song?muc=doi-song')} />
+      <Layout onBack={() => nav(duongDanDoiSong())} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] width="standard". */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">

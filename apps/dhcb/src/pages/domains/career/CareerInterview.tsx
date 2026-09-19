@@ -8,6 +8,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePageTitle } from '../../../lib/usePageTitle'
+import { duongDanSuNghiep } from '../../../lib/domainRoutes'
 import {
   Bot,
   User,
@@ -119,7 +120,7 @@ export default function CareerInterview() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout onBack={() => nav('/su-nghiep-khoi-nghiep?muc=su-nghiep')} />
+      <Layout onBack={() => nav(duongDanSuNghiep())} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] width="standard". */}
       <PageShell width="standard" baseWidth="max-w-3xl" className="space-y-6">

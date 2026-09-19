@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePageTitle } from '../../../lib/usePageTitle'
+import { duongDanKhoiNghiep } from '../../../lib/domainRoutes'
 import {
   Rocket,
   Plus,
@@ -123,7 +124,7 @@ export default function StartupCanvas() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout onBack={() => nav('/su-nghiep-khoi-nghiep?muc=khoi-nghiep')} />
+      <Layout onBack={() => nav(duongDanKhoiNghiep())} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Lưới 9 ô Lean Canvas cần chỗ → width="wide". */}
       <PageShell width="wide" baseWidth="max-w-7xl" className="space-y-6">

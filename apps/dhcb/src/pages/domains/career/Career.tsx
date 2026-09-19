@@ -1,6 +1,7 @@
 // apps/dhcb/src/pages/Career.tsx — Career Hub UI (V2-13)
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { duongDanCareerInterview } from '../../../lib/domainRoutes'
 import {
   Target,
   Plus,
@@ -302,7 +303,7 @@ export default function Career({ embedded = false }: { embedded?: boolean } = {}
         )}
         <div className="flex items-center gap-2 shrink-0">
           <button
-            onClick={() => nav('/career/interview')}
+            onClick={() => nav(duongDanCareerInterview())}
             className="tap-44 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black text-sm font-bold transition shadow-sm"
             title="Phòng Luyện Phỏng Vấn AI"
           >

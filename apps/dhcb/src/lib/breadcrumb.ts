@@ -14,6 +14,14 @@ import { subjectHomePath } from '@dhcb/core-learner/subjectHome'
 import { underPrefix } from './navPaths'
 import { legacyEnglishPath } from './legacyEnglishPath'
 import { duongDanLoTrinh } from './englishRoutes'
+import {
+  CAREER_STUDIO_PATH,
+  WORKLIFE_STUDIO_PATH,
+  duongDanSuNghiep,
+  duongDanKhoiNghiep,
+  duongDanCongViec,
+  duongDanDoiSong,
+} from './domainRoutes'
 
 /** Một đốt trong đường đi. `to` rỗng nghĩa là đốt cuối (trang hiện tại, không phải liên kết). */
 export interface Crumb {
@@ -62,8 +70,8 @@ function childNodes(children: readonly NavChild[], parent: string): RouteNode[] 
 
 const SUBJECTS = studioPath('subjects')
 const ENGLISH_HOME = subjectHomePath('english')
-const CAREER = studioPath('career')
-const WORKLIFE = studioPath('worklife')
+const CAREER = CAREER_STUDIO_PATH
+const WORKLIFE = WORKLIFE_STUDIO_PATH
 
 /**
  * Cây route dùng cho breadcrumb.
@@ -123,22 +131,22 @@ const ROUTE_NODES: readonly RouteNode[] = [
   {
     path: '/career/interview',
     label: 'Sự nghiệp',
-    to: `${CAREER}?muc=su-nghiep`,
+    to: duongDanSuNghiep(),
     parent: CAREER,
   },
   {
     path: '/startup/canvas',
     label: 'Khởi nghiệp',
-    to: `${CAREER}?muc=khoi-nghiep`,
+    to: duongDanKhoiNghiep(),
     parent: CAREER,
   },
   {
     path: '/work/kanban',
     label: 'Công việc',
-    to: `${WORKLIFE}?muc=cong-viec`,
+    to: duongDanCongViec(),
     parent: WORKLIFE,
   },
-  { path: '/life/wheel', label: 'Đời sống', to: `${WORKLIFE}?muc=doi-song`, parent: WORKLIFE },
+  { path: '/life/wheel', label: 'Đời sống', to: duongDanDoiSong(), parent: WORKLIFE },
   { path: '/action-canvas', label: 'Action Canvas', parent: studioPath('companion') },
   { path: '/life-graph', label: 'Mạng lưới & Ký ức', parent: '/trang-ca-nhan' },
   { path: '/ung-dung-thuc-te', label: 'Ứng dụng thực tế', parent: SUBJECTS },
