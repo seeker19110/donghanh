@@ -492,7 +492,7 @@ function ActivitySection({ stats }: { stats: HubStats | null }) {
               {isAdmin ? 'Thống kê hoạt động nền tảng' : 'Nền tảng hiện có gì'}
             </h2>
             {isAdmin && (
-              <span className="inline-flex items-center gap-1 text-[11px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-200 border border-amber-500/30 font-semibold">
+              <span className="inline-flex items-center gap-1 text-[11px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-200 theme-light:text-amber-900 border border-amber-500/30 font-semibold">
                 <Shield className="w-2.5 h-2.5" />
                 Admin
               </span>

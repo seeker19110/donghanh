@@ -12,6 +12,7 @@ import {
   auditRepo,
   auditLine,
   auditWarmTokenPairs,
+  walk,
 } from './fixed-color-contrast-audit.js'
 import { AA, AAA, parseThemeTokens } from './lib/contrast.js'
 
@@ -124,6 +125,21 @@ describe('màu Tailwind cố định dùng làm màu chữ', () => {
         `${c.theme} warm-700/bg-warm-${c.surface} = ${c.ratio}`,
       ).toBeGreaterThanOrEqual(AA)
     }
+  })
+
+  // 2026-09-19: `apps/hub` (@dhcb/hub, landing) dùng CHUNG hệ token `--z-*`/`--a-*` với
+  // `@dhcb/app` (có ThemeToggle, tailwind.config.js map zinc/accent sang cùng biến CSS) —
+  // phải nằm trong phạm vi quét, không phải cổng riêng theo bảng màu khác.
+  it('quét cả apps/hub/src, không chỉ apps/dhcb/src', () => {
+    // Canh trực tiếp: nếu ai đó lỡ xoá dòng `walk(join(root, 'apps', 'hub', 'src'))` khỏi
+    // `auditRepo`, danh sách file quét rỗng — test này đỏ ngay, không im lặng.
+    const hubFiles = walk(`${ROOT}/apps/hub/src`)
+    expect(hubFiles.length).toBeGreaterThan(0)
+    expect(hubFiles.some((f) => f.endsWith('App.tsx'))).toBe(true)
+
+    // Hub hiện đã sạch (đợt 2026-09-19 vá 4 chỗ amber/emerald/red rớt AA ở theme sáng).
+    const findings = auditRepo(ROOT)
+    expect(findings.every((f) => !f.file.startsWith('apps/hub/'))).toBe(true)
   })
 
   it('không báo nhầm khi chữ nằm trên nền màu ĐẶC', () => {

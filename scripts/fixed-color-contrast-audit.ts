@@ -12,6 +12,14 @@
 //
 // Chạy: npx tsx scripts/fixed-color-contrast-audit.ts
 // Cổng CHẶN nằm ở `scripts/fixed-color-contrast-audit.test.ts`.
+//
+// PHẠM VI QUÉT (2026-09-19): `apps/dhcb/src` + `apps/hub/src` + `packages/core-ui`. `apps/hub`
+// (`@dhcb/hub`, landing) từng bị loại vì tưởng là bảng màu riêng không cùng hệ token — SAI: hub
+// đã có `ThemeToggle` (`apps/hub/src/App.tsx`, `HubLogin.tsx`) và `apps/hub/tailwind.config.js`
+// map `zinc`/`accent` sang ĐÚNG biến `--z-*`/`--a-*` của `packages/core-ui/theme.css` như
+// `@dhcb/app` — cùng một hệ token thật, chỉ là app Vite khác. Xem
+// `docs/changelog/0356-2026-09-16-quet-mau-cung-mo-rong-cong-tuong-phan.md` (lý do loại trừ cũ,
+// nay đã lỗi thời) và changelog đợt này (nợ đóng lại thế nào).
 import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import colors from 'tailwindcss/colors'
@@ -86,7 +94,7 @@ function paletteRgb(family: string, step: string): Rgb | null {
   return typeof hex === 'string' ? hexToRgb(hex) : null
 }
 
-function walk(dir: string, out: string[] = []): string[] {
+export function walk(dir: string, out: string[] = []): string[] {
   for (const entry of readdirSync(dir)) {
     if (entry === 'node_modules' || entry === 'dist' || entry.startsWith('.')) continue
     const p = join(dir, entry)
@@ -228,6 +236,7 @@ export function auditRepo(root: string): Finding[] {
   const themes = parseThemeTokens(css) as unknown as Record<string, Record<string, Rgb>>
   const files = [
     ...walk(join(root, 'apps', 'dhcb', 'src')),
+    ...walk(join(root, 'apps', 'hub', 'src')),
     ...walk(join(root, 'packages', 'core-ui')),
   ]
   const out: Finding[] = []
