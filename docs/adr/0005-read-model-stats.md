@@ -64,6 +64,11 @@ có số đo kích thước JSONB, cardinality người dùng và p95 latency.
 
 ## Hệ quả
 
+- **[2026-09-19] ĐÃ TRIỂN KHAI theo 4 quyết định ở mục "Quyết định cần chủ dự án — ĐÃ CHỐT"
+  bên dưới.** `packages/core-learner/learningReadModelService.ts` chỉ còn SELECT cột thật
+  (`learned, srs, placement, updated_at`); contract `recentEvidenceCount` đã đổi sang
+  nullable (không bump schema version); test canh `learningReadModelService.schemaGuard.test.ts`
+  đã bỏ `describe.skip`, chạy xanh. Xem `docs/changelog/0375-2026-09-19-sua-learning-read-model-adr-0005.md`.
 - **Kéo theo:** cập nhật contract/test để không còn fake `stats`; xác nhận `learned` có
   nghĩa là mastered và quy ước `srs.due` (epoch/timezone); thêm telemetry cho giá trị
   unknown và query latency.

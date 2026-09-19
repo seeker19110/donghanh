@@ -25,7 +25,9 @@ export const LearningReadModelSchema = versionedObject(
     onboarded: z.boolean(),
     activeGoal: z.string().max(500).nullable(),
     masterySummary: MasterySummarySchema,
-    recentEvidenceCount: z.number().int().nonnegative(),
+    // ADR-0005 mục 2 (Accepted 2026-09-19): nullable — `null` nghĩa "chưa đo được" (subject
+    // không có nguồn bằng chứng đã xác thực server), KHÔNG được coi `0` là thay thế hợp lệ.
+    recentEvidenceCount: z.number().int().nonnegative().nullable(),
     srsDueCount: z.number().int().nonnegative(),
     updatedAt: IsoDateTimeSchema,
   },
