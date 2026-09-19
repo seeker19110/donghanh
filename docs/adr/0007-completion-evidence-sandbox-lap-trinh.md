@@ -1,8 +1,9 @@
 # ADR-0007: Bằng chứng hoàn thành bài Lập trình phải được server chấm lại, không tin nguyên trạng thái client gửi lên
 
 - **Ngày:** 2026-09-19
-- **Trạng thái:** đề xuất — CẦN CHỦ DỰ ÁN CHỐT 4 CÂU HỎI Ở CUỐI TRƯỚC KHI THI HÀNH
-- **Người quyết định:** chờ chủ dự án
+- **Trạng thái:** ✅ Accepted — chốt Phương án B (2026-09-19)
+- **Người quyết định:** Chủ dự án (đã chốt 2026-09-19, uỷ quyền cho AI đọc code/đánh giá rủi ro
+  rồi quyết thay theo tinh thần "ưu tiên chất lượng, không khoá oan/không mở toang rủi ro")
 
 ## Bối cảnh
 
@@ -99,10 +100,10 @@ chỉ xác minh chữ ký
   vẫn đọc được khoá hoặc giả lập lời gọi ký, tương đương "client tự khai" nhưng phức tạp hơn vô ích.
   Loại phương án này ngay — không phải giải pháp bảo mật thật.
 
-## Quyết định (đề xuất — CHƯA CHỐT, chờ câu trả lời 4 câu hỏi bên dưới)
+## Quyết định
 
-Đề xuất đi theo **Phương án B** cho phạm vi P1-P4 (Python/Pyodide) làm bước đầu, có 3 lớp chặn bổ
-sung bắt buộc đi kèm (không phải "chạy python3 trần"):
+Đi theo **Phương án B** cho phạm vi P1-P4 (Python/Pyodide) làm bước đầu, có 3 lớp chặn bổ sung
+bắt buộc đi kèm (không phải "chạy python3 trần"):
 
 1. Allowlist `builtins`/module nhập được (chặn `os`, `sys`, `subprocess`, `socket`, `ctypes`,
    `importlib`, mọi I/O ra ngoài `stdin`/`stdout` được cấp).
@@ -117,27 +118,36 @@ góp ý" — đã đủ chứng cứ để không im lặng bỏ qua. (C) đúng
 mô người dùng hiện tại (dự án "vốn tối thiểu", ưu tiên chi phí thấp theo CLAUDE.md mục 7). (D) không
 giải quyết đúng vấn đề, loại thẳng.
 
-## Bốn câu hỏi cần chủ dự án chốt trước khi thi hành
+## Bốn quyết định cần chủ dự án chốt — ĐÃ CHỐT (2026-09-19)
 
-1. **Chấp nhận cách ly ở MỨC TIẾN TRÌNH (Phương án B, không phải container/VM) hay bắt buộc phải
-   nâng lên Phương án C (Docker/microVM) ngay từ đầu?** Đánh đổi: B nhanh/rẻ nhưng có rủi ro thoát
-   sandbox lý thuyết nếu allowlist thiếu sót; C an toàn hơn nhưng cần đổi hạ tầng deploy + có thể
-   tốn thêm chi phí VPS (cần RAM/CPU dự phòng cho container ngắn hạn chạy song song nhiều người
-   dùng cùng lúc — chưa đo tải thật).
-2. **VPS hiện tại có hỗ trợ cô lập mạng theo tiến trình con không (network namespace/`unshare -n`
-   hay tương đương)?** Nếu KHÔNG và chọn Phương án B, code người dùng chạy trong tiến trình chấm
-   VẪN CÓ THỂ gọi mạng ra ngoài trừ khi chặn bằng allowlist module (`socket`) — chấp nhận rủi ro
-   này ở mức "chặn qua allowlist Python, không chặn ở tầng OS" hay dừng lại chờ hạ tầng mạnh hơn?
-3. **Phạm vi chấm lại: MỌI lần bấm "Chạy thử" (tốn CPU server mỗi lần gõ code) hay CHỈ lần bấm
-   "Nộp bài"/"Đánh dấu hoàn thành" (client vẫn chạy thử tự do ở Pyodide, server chỉ chấm lại phát
-   quyết định cuối)?** Đề xuất mặc định: chỉ chấm lại ở bước nộp cuối — giữ trải nghiệm "chạy thử
-   tức thời" ở client, tránh server quá tải vì mỗi phím gõ.
-4. **Phạm vi ngôn ngữ: ADR này CHỈ áp cho P1-P4 (Python xác nhận qua Pyodide) hay phải khảo sát
-   thêm các hướng chuyên sâu dùng ngôn ngữ khác (JS/SQL...) trước khi chốt kiến trúc chung?** Nếu
-   chỉ P1-P4, các hướng chuyên sâu khác giữ nguyên "client tự khai" thêm một đợt nữa — cần ghi rõ
-   thành nợ MỚI (phạm vi hẹp hơn) thay vì coi ADR này đã giải quyết hết.
+1. **Mức cách ly: PHƯƠNG ÁN B (tiến trình con) trước, KHÔNG chờ Docker/VM.** Lý do: quy mô người
+   dùng hiện tại (self-host VPS, chưa đo tải lớn) chưa đủ lớn để bắt buộc trả giá vận hành của
+   (C); rủi ro của (B) được bù bằng 3 lớp chặn ở mục "Quyết định" + điều kiện xem lại ở cuối ADR
+   (nâng lên C ngay khi có lỗ hổng THẬT, không chỉ lý thuyết, hoặc tải vượt ngưỡng đo được). Đây
+   là quyết định CÓ THỂ ĐẢO NGƯỢC (ADR mới thay thế), không phải cam kết vĩnh viễn.
+2. **Cô lập mạng: dùng CẢ HAI lớp, không chọn một.** Lớp CHÍNH (bắt buộc, không phụ thuộc hạ tầng
+   VPS): allowlist Python chặn `socket`, `urllib`, `http.client`, `ftplib`, `smtplib`, `requests`
+   và mọi module I/O mạng — đây là lớp CHẮC CHẮN có tác dụng bất kể VPS hỗ trợ gì. Lớp PHỤ (best
+   effort, kiểm tra lúc thi hành): nếu tiến trình khi build/deploy xác nhận `unshare --net` hoặc
+   `ip netns` có sẵn trên VPS (không giả định — subagent thi hành PHẢI tự kiểm bằng lệnh thật),
+   BỌC thêm lệnh chạy Python trong `unshare --net` để cắt mạng ở tầng OS. Nếu VPS không hỗ trợ,
+   KHÔNG chặn merge vì việc này — ghi rõ thành một dòng nợ kỹ thuật MỚI trong `PROGRESS.md`
+   ("cô lập mạng chấm bài Lập trình mới chỉ ở tầng allowlist Python, chưa có OS-level") để xem
+   lại sau, không được im lặng bỏ qua.
+3. **Phạm vi chấm lại: CHỈ ở bước "Nộp bài"/"Đánh dấu hoàn thành".** KHÔNG chấm lại ở mỗi lần bấm
+   "Chạy thử" — giữ nguyên trải nghiệm chạy thử tức thời ở Pyodide client, chỉ thêm MỘT lượt chấm
+   lại ở server đúng lúc client gọi API ghi `status:'completed'`. Thêm luật hạn mức: tối đa
+   N lượt CHẤM LẠI THẤT BẠI liên tiếp trong một khoảng thời gian ngắn cho cùng `lessonId`+`userId`
+   phải bị chặn tạm (chống lạm dụng CPU server bằng cách bấm nộp liên tục) — subagent thi hành tự
+   chọn ngưỡng hợp lý dựa trên `resolvePlan`/hạn mức AI hiện có làm tham chiếu, ghi rõ số đã chọn
+   và lý do trong changelog.
+4. **Phạm vi ngôn ngữ: CHỈ P1-P4 (Python qua Pyodide) trong đợt này.** Các hướng chuyên sâu dùng
+   ngôn ngữ khác (JS/SQL/…) GIỮ NGUYÊN "client tự khai" — KHÔNG coi ADR này đã giải quyết hết.
+   Subagent thi hành PHẢI thêm một dòng nợ kỹ thuật MỚI, PHẠM VI HẸP trong `PROGRESS.md` ("hướng
+   chuyên sâu Lập trình ngoài P1-P4 dùng ngôn ngữ khác Python vẫn client tự khai — chưa có ADR
+   riêng") thay vì để trống mất dấu.
 
-## Hệ quả (áp dụng SAU KHI chốt 4 câu hỏi trên)
+## Hệ quả
 
 - **Kéo theo:** một module chấm lại server-side mới (`packages/subject-programming` hoặc
   `apps/server/src/api/_lib/`), sửa `apps/server/src/api/subjects/programming/progress.ts` để
