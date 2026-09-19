@@ -295,7 +295,7 @@ export default function HubLogin() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-zinc-400">Trạng thái SSO:</span>
-                <span className="text-emerald-400 font-medium flex items-center gap-1">
+                <span className="text-emerald-400 theme-light:text-emerald-800 font-medium flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5" /> Sẵn sàng
                 </span>
               </div>
@@ -413,13 +413,13 @@ export default function HubLogin() {
               )}
 
               {error && (
-                <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-3 py-2 text-xs text-red-400 leading-relaxed">
+                <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-3 py-2 text-xs text-red-400 theme-light:text-red-800 leading-relaxed">
                   {error}
                 </div>
               )}
 
               {successMsg && (
-                <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl px-3 py-2 text-xs text-emerald-400 leading-relaxed">
+                <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl px-3 py-2 text-xs text-emerald-400 theme-light:text-emerald-800 leading-relaxed">
                   {successMsg}
                 </div>
               )}
@@ -483,7 +483,7 @@ export default function HubLogin() {
                 type="button"
                 onClick={handleGoogleRedirect}
                 disabled={loading}
-                className="w-full flex items-center justify-center gap-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 font-medium py-2.5 rounded-xl text-xs transition active:scale-[0.98] mt-2"
+                className="w-full flex items-center justify-center gap-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 theme-light:text-amber-900 font-medium py-2.5 rounded-xl text-xs transition active:scale-[0.98] mt-2"
               >
                 <span>🌐</span>
                 <span>Đăng nhập Google (Chuyển trang)</span>
