@@ -206,7 +206,7 @@ export default function ProgrammingLevelPage() {
             <section className="space-y-3">
               <div className="flex items-baseline justify-between gap-3 flex-wrap">
                 <h2 className="text-base font-bold text-white">
-                  Đề cương {level.units.length} unit ({level.duration})
+                  Đề cương {level.units.length} chương ({level.duration})
                 </h2>
                 {lessonCount > 0 && !isDesktop && (
                   <p className="text-xs text-zinc-400">
@@ -228,13 +228,13 @@ export default function ProgrammingLevelPage() {
                     <div id={`track-${nhom.track.id}`} className="scroll-mt-20 pt-2">
                       <h3 className="t-label text-content">{nhom.track.title}</h3>
                       <p className="t-caption text-content-muted mt-0.5">
-                        {nhom.track.moTa} · {nhom.units.length} unit
+                        {nhom.track.moTa} · {nhom.units.length} chương
                       </p>
                     </div>
                   )}
                   {nhom.units.map((unit) => {
                     // Số thứ tự lấy theo vị trí TOÀN BẬC, không phải trong nhóm — nếu không thì
-                    // ba mạch đều bắt đầu từ "Unit 1" và mã unit trên URL không còn khớp nhãn.
+                    // ba mạch đều bắt đầu từ "Chương 1" và mã unit trên URL không còn khớp nhãn.
                     const idx = level.units.indexOf(unit)
                     const lessons = getUnitSummaries(unit.id)
                     const unitCompleted =
@@ -249,7 +249,7 @@ export default function ProgrammingLevelPage() {
                       >
                         <div className="flex items-start justify-between gap-3">
                           <p className="text-sm font-bold text-white">
-                            <span className="text-zinc-500 mr-2">Unit {idx + 1}</span>
+                            <span className="text-zinc-500 mr-2">Chương {idx + 1}</span>
                             {unit.title}
                           </p>
                           {lessons.length === 0 ? (

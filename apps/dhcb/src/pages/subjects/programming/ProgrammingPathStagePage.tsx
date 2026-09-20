@@ -116,7 +116,7 @@ export default function ProgrammingPathStagePage() {
               >
                 <p className="text-sm font-bold text-white flex items-center gap-2">
                   <BookOpen className="w-4 h-4 text-accent-400 shrink-0" aria-hidden="true" />
-                  <span>Unit {idx + 1}</span>
+                  <span>Chương {idx + 1}</span>
                 </p>
                 {lessons.map((lesson) => (
                   <div key={lesson.id} className="space-y-1.5">

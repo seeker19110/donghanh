@@ -46,6 +46,25 @@ describe('BIOLOGY_LESSONS registry', () => {
     }
   })
 
+  it('mỗi (grade, chapterNumber) chỉ có ĐÚNG MỘT chapterTitle', () => {
+    // Cùng loại lỗi copy-paste đã dính thật ở subject-physics/lessons/ly10c3.ts: chapterTitle
+    // chỉ là string tự do, schema không ràng buộc theo chapterNumber nên sai sót không bị bắt
+    // ở đâu khác ngoài test này.
+    const titleByChapter = new Map<string, string>()
+    for (const lesson of BIOLOGY_LESSONS) {
+      const key = `${lesson.grade}-c${lesson.chapterNumber}`
+      const existing = titleByChapter.get(key)
+      if (existing === undefined) {
+        titleByChapter.set(key, lesson.chapterTitle)
+        continue
+      }
+      expect(
+        lesson.chapterTitle,
+        `Bài ${lesson.id}: chapterTitle "${lesson.chapterTitle}" khác với chapterTitle "${existing}" đã dùng cho chương ${key}`,
+      ).toBe(existing)
+    }
+  })
+
   it('getBiologyLesson trả về đúng bài khi tìm theo id', () => {
     const sample = BIOLOGY_LESSONS[0]!
     const found = getBiologyLesson(sample.id)
