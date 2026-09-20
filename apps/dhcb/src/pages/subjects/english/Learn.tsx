@@ -13,7 +13,6 @@ import { Target, Brain, Star, ClipboardList } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import Layout from '../../../components/Layout'
 import { PageShell } from '@core/PageShell'
-import PageHeader from '../../../components/PageHeader'
 import VocabMilestone from '../../../components/VocabMilestone'
 import StudyPanel, { type StudyTab } from '../../../components/StudyPanel'
 import RoadmapTab from '../../../components/RoadmapTab'
@@ -79,7 +78,11 @@ export default function Learn() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout backTo={duongDanMonTiengAnh()} back />
+      <Layout
+        backTo={duongDanMonTiengAnh()}
+        back
+        title={isA ? 'Học theo lộ trình' : 'Learning Path'}
+      />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Bản đồ lộ trình → width standard. */}
       <PageShell
@@ -87,10 +90,9 @@ export default function Learn() {
         baseWidth="max-w-3xl"
         className="!pb-[calc(1.5rem+var(--bnav-h))]"
       >
-        <PageHeader
-          title={isA ? 'Học theo lộ trình' : 'Learning Path'}
-          subtitle={isA ? 'Lộ trình chuẩn CEFR A1 → C2' : 'CEFR roadmap A1 → C2'}
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {isA ? 'Học theo lộ trình' : 'Learning Path'}
+        </h1>
         <VocabMilestone userId={user.id} />
 
         <div className="mb-4">

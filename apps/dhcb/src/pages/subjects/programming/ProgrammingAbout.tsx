@@ -23,7 +23,6 @@ import {
   Code2,
 } from 'lucide-react'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import { useAuth } from '../../../context/useAuth'
 import { PROGRAMMING_LEVELS } from '@dhcb/subject-programming/curriculum'
 import { LESSON_INDEX, getLessonSummary } from '@dhcb/subject-programming/lessonsLoader'
@@ -128,14 +127,16 @@ export default function ProgrammingAbout() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav(user ? PROGRAMMING_PREFIX : '/')} />
+      <Layout
+        title="Lập trình — từ số 0 tới một sản phẩm chạy thật trên Internet"
+        onBack={() => nav(user ? PROGRAMMING_PREFIX : '/')}
+      />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang toàn chữ để đọc → giữ hẹp cho dễ đọc. */}
       <PageShell width="reading" baseWidth="max-w-3xl" className="space-y-6">
-        <PageHeader
-          title="Lập trình — từ số 0 tới một sản phẩm chạy thật trên Internet"
-          subtitle="Không phải một khoá học 60 video rồi bạn tự xoay xở. Đây là một sản phẩm của bạn, lớn dần qua 5 chặng, và mỗi bài học là một viên gạch xây tiếp nó."
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Lập trình — từ số 0 tới một sản phẩm chạy thật trên Internet
+        </h1>
 
         {/* Khối 2 — cầm được gì trên tay */}
         <section className={`${the} space-y-3`}>

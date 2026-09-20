@@ -8,7 +8,6 @@
 import { useNavigate, useParams, Navigate } from 'react-router-dom'
 import { BookOpen, CheckCircle2, FlaskConical, PackageCheck, Play } from 'lucide-react'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import LangBadge from '../../../components/programming/LangBadge'
 import { isLessonCompleted } from '../../../lib/programmingProgress'
 import { getShortCourse } from '@dhcb/subject-programming/courses/registry'
@@ -64,7 +63,7 @@ export default function ProgrammingCoursePage() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
+      <Layout title={course.title} onBack={() => nav(PROGRAMMING_PREFIX)} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl">
@@ -74,11 +73,9 @@ export default function ProgrammingCoursePage() {
             thẳng vào một bài, không phải cuộn xuống rồi mới bấm. */}
         <TwoPane isDesktop={isDesktop} railSide="left" railLabel={TEN_MUC_LUC} rail={rail}>
           <div className="space-y-6">
-            <PageHeader
-              title={course.title}
-              subtitle={course.canDo}
-              subtitleClassName="read-measure"
-            />
+            <h1 tabIndex={-1} className="sr-only focus:outline-none">
+              {course.title}
+            </h1>
             {trigger}
 
             <section className="bg-zinc-900/80 border border-accent-500/30 rounded-3xl p-5 space-y-2 shadow-sm">

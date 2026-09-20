@@ -3,7 +3,6 @@ import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
 import { PenLine, Send, RotateCcw, ChevronDown, Trophy } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import { saveWritingSub, getUsage, incrementUsage, getDirection } from '../../../lib/storage'
 import { addMistakes, scheduleMistakeSync } from '../../../lib/mistakes'
 import { checkNewAchievements, achievementMessage } from '../../../lib/achievements'
@@ -390,15 +389,10 @@ export default function Writing() {
   // Khung soạn bài — dùng chung cho cả hai bố cục.
   const composer = (
     <>
-      {/* Tiêu đề trang — ngay dưới AppHeader, cỡ chữ lớn */}
-      <PageHeader
-        title={isA ? 'Luyện viết & chấm điểm' : 'Writing Practice & Grading'}
-        subtitle={
-          isA
-            ? 'AI chấm theo tiêu chí IELTS Writing Task 2'
-            : 'AI grades by IELTS Writing Task 2 criteria'
-        }
-      />
+      {/* Tiêu đề trang — nay hiện ở thanh header (Layout title=…), giữ đúng MỘT h1 cho a11y. */}
+      <h1 tabIndex={-1} className="sr-only focus:outline-none">
+        {isA ? 'Luyện viết & chấm điểm' : 'Writing Practice & Grading'}
+      </h1>
 
       <div className="bg-zinc-900/80 border border-zinc-800/80 rounded-3xl p-5 sm:p-6 space-y-3 shadow-sm backdrop-blur-md">
         <label htmlFor="essay-prompt-select" className="text-xs font-bold text-zinc-300 block">
@@ -538,7 +532,10 @@ export default function Writing() {
   if (isDesktop) {
     return (
       <div className="min-h-dvh bg-zinc-950">
-        <Layout backTo={duongDanMonTiengAnh()} />
+        <Layout
+          title={isA ? 'Luyện viết & chấm điểm' : 'Writing Practice & Grading'}
+          backTo={duongDanMonTiengAnh()}
+        />
         <PageShell width="standard" baseWidth="max-w-2xl">
           <TwoPane
             isDesktop
@@ -576,7 +573,10 @@ export default function Writing() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout backTo={duongDanMonTiengAnh()} />
+      <Layout
+        title={isA ? 'Luyện viết & chấm điểm' : 'Writing Practice & Grading'}
+        backTo={duongDanMonTiengAnh()}
+      />
       <main className="max-w-2xl mx-auto px-4 pt-6 pb-[calc(1.5rem+var(--bnav-h))] space-y-4 animate-fade-up">
         {composer}
       </main>

@@ -2,7 +2,6 @@
 // chung nội dung nhiệm vụ với khối mở-ngay trong Hồ sơ qua QuestsPanel.tsx.
 import { Gift } from 'lucide-react'
 import Layout from '../../components/Layout'
-import PageHeader from '../../components/PageHeader'
 import ReferralSection from '../../components/ReferralSection'
 import QuestsPanel from '../../components/QuestsPanel'
 import { usePageTitle } from '../../lib/usePageTitle'
@@ -19,17 +18,12 @@ export default function Quests() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout />
+      <Layout title={isA ? 'Nhiệm vụ' : 'Quests'} />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang danh sách → width="standard". */}
       <PageShell width="standard" baseWidth="max-w-2xl" className="space-y-4">
-        <PageHeader
-          title={isA ? 'Nhiệm vụ' : 'Quests'}
-          subtitle={
-            isA
-              ? 'Hoàn thành nhiệm vụ để nhận thêm ngày dùng gói VIP miễn phí'
-              : 'Complete quests to earn extra free days of Pro'
-          }
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {isA ? 'Nhiệm vụ' : 'Quests'}
+        </h1>
 
         <QuestsPanel isA={isA} userId={user?.id} />
 

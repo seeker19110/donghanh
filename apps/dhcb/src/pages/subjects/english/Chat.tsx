@@ -4,7 +4,6 @@ import { useSearchParams } from 'react-router-dom'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import { Send, Plus, ChevronDown, Sparkles, Award } from 'lucide-react'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import KaraokeText from '../../../components/KaraokeText'
 import EvaluationResultView from '../../../components/EvaluationResultView'
 import LoadError from '../../../components/LoadError'
@@ -758,6 +757,7 @@ export default function Chat() {
     >
       <Layout
         backTo={duongDanMonTiengAnh()}
+        title={isA ? 'Chat với gia sư' : 'Chat with tutor'}
         subtitle={
           session
             ? `${situationLabel(session.situation, dir)} · ${
@@ -773,12 +773,9 @@ export default function Chat() {
         <div className="flex-1 flex flex-col overflow-y-auto">
           {/* Tiêu đề trang — ngay dưới AppHeader, cỡ chữ lớn */}
           <div className="max-w-sm mx-auto w-full px-4 pt-5">
-            <PageHeader
-              title={isA ? 'Chat với gia sư' : 'Chat with tutor'}
-              subtitle={
-                isA ? 'Trò chuyện tiếng Anh theo tình huống' : 'Practise English by situation'
-              }
-            />
+            <h1 tabIndex={-1} className="sr-only focus:outline-none">
+              {isA ? 'Chat với gia sư' : 'Chat with tutor'}
+            </h1>
           </div>
           <SetupScreen
             onStart={startSession}

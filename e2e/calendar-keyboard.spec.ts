@@ -10,8 +10,13 @@ import { freezeAnimations } from './helpers/axe'
 
 async function openCalendar(page: import('@playwright/test').Page) {
   const toggle = page.locator('#dashboard-calendar-toggle')
-  await expect(toggle).toHaveAccessibleName(/Xem lịch hoạt động/)
-  await toggle.click()
+  // Mặc định đã MỞ SẴN (2026-09-20, theo yêu cầu người dùng) — chỉ bấm khi đang đóng, để
+  // hàm dùng được ở cả đầu test lẫn sau khi đã tự đóng/mở thủ công trong test.
+  const expanded = await toggle.getAttribute('aria-expanded')
+  if (expanded !== 'true') {
+    await expect(toggle).toHaveAccessibleName(/Xem lịch hoạt động/)
+    await toggle.click()
+  }
   await expect(toggle).toHaveAttribute('aria-expanded', 'true')
   return page.getByRole('grid', { name: /Lịch hoạt động theo ngày/ })
 }
@@ -152,14 +157,12 @@ for (const width of [320, 390]) {
   })
 }
 
-test('calendar đóng mặc định, mở một lần và giữ state/focus qua 1023→1024→1279→1280→390', async ({
-  page,
-}) => {
+test('calendar mở mặc định, giữ state/focus qua 1023→1024→1279→1280→390', async ({ page }) => {
   await page.setViewportSize({ width: 1023, height: 900 })
   await page.reload()
   const toggle = page.locator('#dashboard-calendar-toggle')
-  await expect(toggle).toHaveAttribute('aria-expanded', 'false')
-  await expect(page.getByRole('grid', { name: /Lịch hoạt động theo ngày/ })).toBeHidden()
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+  await expect(page.getByRole('grid', { name: /Lịch hoạt động theo ngày/ })).toBeVisible()
 
   let grid = await openCalendar(page)
   const latest = grid.locator('[role="gridcell"][tabindex="0"]')

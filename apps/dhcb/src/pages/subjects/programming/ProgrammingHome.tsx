@@ -25,7 +25,6 @@ import {
   Map,
 } from 'lucide-react'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import LangBadge from '../../../components/programming/LangBadge'
 import LevelMilestones from '../../../components/programming/LevelMilestones'
 import { useAuth } from '../../../context/useAuth'
@@ -94,14 +93,13 @@ export default function ProgrammingHome() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => goToSubjects(nav)} />
+      <Layout title="Môn Lập trình" onBack={() => goToSubjects(nav)} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
-        <PageHeader
-          title="Môn Lập trình"
-          subtitle="Từ số 0 tới sản phẩm chạy thật trên Internet — Python, JavaScript/TypeScript, SQL. Hoàn thành môn là hoàn thành luôn dự án của chính bạn."
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Môn Lập trình
+        </h1>
 
         {/* ① Học tiếp — khối quan trọng nhất trang, luôn đứng đầu */}
         {xongMon ? (

@@ -245,9 +245,13 @@ for (const width of [320, 390, 1440]) {
       await expect(toggle).toHaveAttribute('aria-expanded', 'false')
       await expect(page.locator('#dashboard-english-details-panel')).toBeHidden()
       const calendarToggle = page.locator('#dashboard-calendar-toggle')
-      await expect(calendarToggle).toHaveAttribute('aria-expanded', 'false')
+      // Lịch hoạt động mặc định MỞ SẴN từ 2026-09-20 (theo yêu cầu người dùng).
+      await expect(calendarToggle).toHaveAttribute('aria-expanded', 'true')
 
-      const heights = { 320: 2300, 390: 2100, 1440: 1450 } as const
+      // Ngân sách 320/390px NÂNG lên (2026-09-20): lịch hoạt động mặc định MỞ SẴN thêm chiều
+      // cao thật (đo được 2569px/2382px) — không phải hồi quy, là nội dung mới hiện đúng ý.
+      // 1440px không đổi: desktop lịch nằm ở cột phải, không cộng dồn vào chiều cao trang.
+      const heights = { 320: 2600, 390: 2450, 1440: 1450 } as const
       const cls = await readCls(page)
       expect(cls.supported, 'Chromium phải hỗ trợ layout-shift').toBe(true)
       const entry = await captureEvidence(
@@ -504,7 +508,7 @@ test('live responsive calendar giữ state/focus qua 1023→1024→1279→1280�
 }, testInfo) => {
   await gotoDashboard(page, 'member-data', 'dark-blue', 1023)
   const calendarToggle = page.locator('#dashboard-calendar-toggle')
-  await calendarToggle.click()
+  // Mặc định đã MỞ SẴN (2026-09-20) — không cần bấm để mở nữa.
   await expect(calendarToggle).toHaveAttribute('aria-expanded', 'true')
   const grid = page.getByRole('grid', { name: /Lịch hoạt động theo ngày/ })
   const oldCell = grid.getByRole('gridcell').first()

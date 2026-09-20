@@ -18,7 +18,6 @@ import {
 } from 'lucide-react'
 import Layout from '../../components/Layout'
 import { PageShell } from '@core/PageShell'
-import PageHeader from '../../components/PageHeader'
 import SubjectIllustration from '../../components/SubjectIllustration'
 import LoadError from '../../components/LoadError'
 import { listSubjects, SubjectApiError } from '../../lib/subjectApi'
@@ -138,14 +137,13 @@ export default function Subjects() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav('/')} />
+      <Layout onBack={() => nav('/')} title="Không Gian Môn Học & Gia Sư AI" />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Lưới môn học → width standard. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
-        <PageHeader
-          title="Không Gian Môn Học & Gia Sư AI"
-          subtitle="Học tập và giải bài tập tương tác đa môn cùng AI: Tiếng Anh, Toán học, Vật lý, Hóa học & Sinh học"
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Không Gian Môn Học & Gia Sư AI
+        </h1>
 
         {/* AI Multi-Subject Diagnostic & Adaptive Recommendation Card */}
         <section

@@ -12,14 +12,12 @@ import { useNavigate } from 'react-router-dom'
 import { Brain, CheckCircle2, BookOpen } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
 import { useAuth } from '../../../context/useAuth'
 import {
   getDueProgCards,
   hydrateProgCards,
   reviewProgCard,
-  countProgCards,
   type ProgSrsCard,
   type ProgSrsCardRef,
 } from '../../../lib/programmingSrs'
@@ -31,8 +29,6 @@ export default function ProgrammingReview() {
   usePageTitle('Ôn tập | Môn Lập trình · Đồng hành cùng bạn')
   const nav = useNavigate()
   const { user } = useAuth()
-
-  const tongThe = useMemo(() => countProgCards(), [])
 
   // Chốt hàng đợi MỘT LẦN lúc vào phiên (useMemo theo user, KHÔNG theo state của phiên ôn):
   // chấm xong một thẻ là nó hết đến hạn, nếu tính lại sau mỗi lần chấm thì danh sách tụt dần
@@ -76,14 +72,13 @@ export default function ProgrammingReview() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
+      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} title="Ôn thẻ Lập trình" />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-2xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-2xl" className="space-y-5">
-        <PageHeader
-          title="Ôn thẻ Lập trình"
-          subtitle={`Những khái niệm cốt lõi bạn đã học, quay lại đúng lúc sắp quên. Kho thẻ hiện có ${tongThe} thẻ — thẻ vào vòng ôn khi bạn đạt bài tương ứng.`}
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Ôn thẻ Lập trình
+        </h1>
 
         {hangDoi === null && (
           <p

@@ -6,7 +6,6 @@ import { useEffect } from 'react'
 import { useNavigate, useParams, Navigate } from 'react-router-dom'
 import { BookOpen, Hammer, Trophy, Lock, CheckCircle2, Play } from 'lucide-react'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import LangBadge from '../../../components/programming/LangBadge'
 import { useAuth } from '../../../context/useAuth'
 import { isLessonCompleted } from '../../../lib/programmingProgress'
@@ -140,7 +139,10 @@ export default function ProgrammingLevelPage() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
+      <Layout
+        onBack={() => nav(PROGRAMMING_PREFIX)}
+        title={`Bậc ${level.id.toUpperCase()} — ${level.name}`}
+      />
 
       {/* [2026-09-02, đợt 1 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl">
@@ -148,10 +150,10 @@ export default function ProgrammingLevelPage() {
             không còn chỉ là tóm tắt — xem luật `railSide` ở TwoPane.tsx. */}
         <TwoPane isDesktop={isDesktop} railSide="left" railLabel={tenMucLuc} rail={rail}>
           <div className="space-y-6">
-            <PageHeader
-              title={`Bậc ${level.id.toUpperCase()} — ${level.name}`}
-              subtitle={level.canDo}
-            />
+            <h1
+              tabIndex={-1}
+              className="sr-only focus:outline-none"
+            >{`Bậc ${level.id.toUpperCase()} — ${level.name}`}</h1>
             {trigger}
 
             {/* Bậc đang khoá (Free học tuần tự — GĐ3). Đề cương vẫn hiện để người học biết mình

@@ -166,7 +166,12 @@ export function buildCrumbs(
   const trail: Crumb[] = []
   // Lần ngược lên cha. `seen` chặn vòng lặp vô hạn nếu cấu hình `parent` lỡ trỏ vòng tròn.
   const seen = new Set<string>()
-  let node = deepestNode(canonicalPathname)
+  const deepest = deepestNode(canonicalPathname)
+  // Nút khớp SÂU NHẤT có trùng khít đường dẫn hiện tại không (không chỉ là tiền tố của một
+  // trang con) — nếu có, nó đang đại diện cho CHÍNH trang đang xem (vd "Trò chuyện" đăng ký
+  // đúng `/goc-hoc-tap/english/tro-truyen`), không phải một tầng cha.
+  const deepestIsCurrentPage = deepest?.path === canonicalPathname
+  let node = deepest
   while (node && !seen.has(node.path)) {
     seen.add(node.path)
     trail.unshift({ label: node.label, to: node.to ?? node.path })
@@ -179,9 +184,20 @@ export function buildCrumbs(
     if (trail[trail.length - 1]?.label !== c.label) trail.push(c)
   }
 
-  // Tiêu đề trang: chỉ thêm khi nó KHÁC đốt cuối, tránh "Toán học › Toán học".
+  // Tiêu đề trang: nút tĩnh sâu nhất VỪA LÀ chính trang này (không phải tầng cha) thì THAY
+  // nhãn của nó bằng tiêu đề thật (thường đầy đủ hơn, vd "Chat với gia sư" so với "Trò
+  // chuyện" ở sidebar) — cộng thêm thay vì thay thế sẽ biến nó thành một tầng cha giả, làm
+  // nút Back trỏ nhầm lên nhãn cũ (bài học 2026-09-20, PR #1064). Các trang khác (nút tĩnh
+  // sâu nhất chỉ là tầng cha, hoặc không có nút tĩnh nào — trang động như bài học) vẫn cộng
+  // thêm như cũ.
   if (currentLabel && trail[trail.length - 1]?.label !== currentLabel) {
-    trail.push({ label: currentLabel, to: '' })
+    // Chỉ thay khi đốt cuối vẫn ĐÚNG là nút tĩnh sâu nhất (chưa bị `extra` chèn thêm sau nó) —
+    // nếu không thì đây là tầng cha động, phải cộng thêm như cũ.
+    if (deepestIsCurrentPage && extra.length === 0 && trail.length > 0) {
+      trail[trail.length - 1] = { ...trail[trail.length - 1]!, label: currentLabel }
+    } else {
+      trail.push({ label: currentLabel, to: '' })
+    }
   }
   // Đốt cuối luôn là trang hiện tại → bỏ liên kết (bấm vào chính mình là vô nghĩa).
   const last = trail[trail.length - 1]

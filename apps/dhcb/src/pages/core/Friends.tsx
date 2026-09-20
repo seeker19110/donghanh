@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 import QRCode from 'qrcode'
 import { Users, Copy, Check, UserMinus, MessageSquare, MapPin } from 'lucide-react'
 import Layout from '../../components/Layout'
-import PageHeader from '../../components/PageHeader'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { useToast } from '@core/ToastProvider'
 import {
@@ -68,11 +67,13 @@ export default function Friends() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout />
+      <Layout title="Bạn bè" />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang danh sách → width="standard"; giữ
       nguyên đệm dưới cũ (pb-24, không theo --bnav-h) qua className. */}
       <PageShell width="standard" baseWidth="max-w-lg" className="!pt-4 !pb-24">
-        <PageHeader title="Bạn bè" subtitle="Chia sẻ mã/QR để kết bạn — chỉ bạn bè mới chat được" />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Bạn bè
+        </h1>
 
         {loading && <p className="text-sm text-zinc-400">Đang tải…</p>}
 

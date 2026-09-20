@@ -14,7 +14,6 @@ import {
   Sparkles,
 } from 'lucide-react'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import EvaluationResultView from '../../../components/EvaluationResultView'
 import { saveSpeakingSession, getUsage, incrementUsage, getDirection } from '../../../lib/storage'
 import { checkNewAchievements, achievementMessage } from '../../../lib/achievements'
@@ -1061,6 +1060,7 @@ export default function Speaking() {
     >
       <Layout
         backTo={duongDanMonTiengAnh()}
+        title={!session ? (isA ? 'Luyện nói song ngữ' : 'Bilingual Speaking') : undefined}
         subtitle={
           session
             ? `${situationLabel(session.situation, dir)} · ${
@@ -1076,14 +1076,9 @@ export default function Speaking() {
         <div className="flex-1 flex flex-col overflow-y-auto">
           {/* Tiêu đề trang — ngay dưới AppHeader, cỡ chữ lớn */}
           <div className="max-w-sm mx-auto w-full px-4 pt-5">
-            <PageHeader
-              title={isA ? 'Luyện nói song ngữ' : 'Bilingual Speaking'}
-              subtitle={
-                isA
-                  ? 'Nói → AI nghe → phản hồi + sửa lỗi'
-                  : 'Speak → AI listens → replies & corrects'
-              }
-            />
+            <h1 tabIndex={-1} className="sr-only focus:outline-none">
+              {isA ? 'Luyện nói song ngữ' : 'Bilingual Speaking'}
+            </h1>
           </div>
           <SetupScreen
             onStart={startSession}

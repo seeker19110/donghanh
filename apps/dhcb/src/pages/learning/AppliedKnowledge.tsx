@@ -9,7 +9,6 @@ import { usePageTitle } from '../../lib/usePageTitle'
 import { Sparkles, Activity, BookOpen, Lightbulb } from 'lucide-react'
 import Layout from '../../components/Layout'
 import { PageShell } from '@core/PageShell'
-import PageHeader from '../../components/PageHeader'
 import { SimulatorsLab, type SimulatorId } from './appliedKnowledge/tabs/SimulatorsLab'
 import { KnowledgeLibrary } from './appliedKnowledge/tabs/KnowledgeLibrary'
 import { AiExplainer } from './appliedKnowledge/tabs/AiExplainer'
@@ -29,7 +28,7 @@ export default function AppliedKnowledge() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav('/')} />
+      <Layout onBack={() => nav('/')} title="Ứng Dụng Thực Tế & Mô Phỏng Đời Sống" />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Lưới ứng dụng thực tế → width standard. */}
       <PageShell
@@ -37,10 +36,9 @@ export default function AppliedKnowledge() {
         baseWidth="max-w-5xl"
         className="!pb-[calc(2.5rem+var(--bnav-h))] space-y-6"
       >
-        <PageHeader
-          title="Ứng Dụng Thực Tế & Mô Phỏng Đời Sống"
-          subtitle="Khám phá vì sao chúng ta học những kiến thức này: Biến công thức SGK thành công cụ giải quyết bài toán thực tế, tài chính, sức khỏe và công nghệ"
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Ứng Dụng Thực Tế & Mô Phỏng Đời Sống
+        </h1>
 
         {/* TABS NAVIGATION */}
         <div className="flex gap-2 p-1.5 rounded-2xl bg-zinc-900 border border-zinc-800 overflow-x-auto">

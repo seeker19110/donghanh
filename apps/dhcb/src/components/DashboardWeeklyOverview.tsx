@@ -50,7 +50,8 @@ export default function DashboardWeeklyOverview({
   onChangeGoal,
   calendar,
 }: DashboardWeeklyOverviewProps) {
-  const [calendarExpanded, setCalendarExpanded] = useState(false)
+  // Mặc định MỞ SẴN theo yêu cầu người dùng (trước đây đóng, phải bấm mới thấy lịch).
+  const [calendarExpanded, setCalendarExpanded] = useState(true)
   const calendarToggleRef = useRef<HTMLButtonElement>(null)
   const calendarPanelRef = useRef<HTMLDivElement>(null)
   // Chưa có hoạt động Tiếng Anh nào được ghi nhận tuần này (fixture programming-only): không

@@ -3,7 +3,6 @@ import { duongDanMonTiengAnh } from '../../lib/subjectsHost'
 import { duongDanLuyenViet, duongDanSoTayLoiSai } from '../../lib/englishRoutes'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/Layout'
-import PageHeader from '../../components/PageHeader'
 import QuickActions from '../../components/QuickActions'
 import SubjectProgressSection from '../../components/SubjectProgressSection'
 import DashboardWeeklyOverview from '../../components/DashboardWeeklyOverview'
@@ -250,23 +249,23 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout />
+      {/* [tiêu đề chuyển lên thanh header] Trước đây `<Layout />` không nhận title, tiêu đề to
+          + mô tả nằm riêng trong `<PageHeader>` ở thân trang — theo yêu cầu người dùng, tiêu đề
+          nay hiện NGAY trên thanh header (cùng khuôn Home.tsx đang dùng `title={T.greeting}`),
+          mô tả phụ (subtitle) bị bỏ hẳn, không chuyển đi đâu khác. */}
+      <Layout title={vi ? 'Tiến độ học' : 'Your Progress'} />
 
-      <PageShell width="standard" baseWidth="max-w-3xl">
+      {/* [đợt nhỏ tận dụng khoảng trống desktop] `fluid` thay `standard`: lưới bên dưới đã dùng
+          `minmax(0,1fr)_minmax(18rem,22rem)` nên cột trái tự co giãn theo khoảng trống thật. */}
+      <PageShell width="fluid" baseWidth="max-w-3xl">
         {/* Một cây DOM duy nhất ở mọi viewport. Grid chỉ đổi vị trí thị giác trên desktop;
             thứ tự đọc/Tab luôn là header → môn → tuần → English → công cụ. */}
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,22rem)] lg:items-start">
-          <div className="lg:col-span-2">
-            <PageHeader
-              title={vi ? 'Tiến độ học' : 'Your Progress'}
-              subtitle={
-                vi
-                  ? 'Chuỗi ngày, mục tiêu hôm nay và tiến độ lộ trình'
-                  : 'Streak, today’s goal and roadmap progress'
-              }
-              subtitleClassName="read-measure"
-            />
-          </div>
+          {/* `sr-only`: tiêu đề đã hiện ở thanh header, khối này chỉ giữ đúng MỘT thẻ h1 cho
+              a11y (đọc màn hình/cấu trúc trang) — cùng khuôn `Home.tsx`. */}
+          <h1 tabIndex={-1} className="sr-only focus:outline-none lg:col-span-2">
+            {vi ? 'Tiến độ học' : 'Your Progress'}
+          </h1>
 
           <div className="lg:col-start-1 lg:row-start-2">
             <SubjectProgressSection uid={user.id} plan={effectivePlan(user.plan)} />

@@ -20,7 +20,6 @@ import {
   PencilLine,
 } from 'lucide-react'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import LangBadge from '../../../components/programming/LangBadge'
 import CodeSurface from '../../../components/programming/CodeSurface'
 import RunOutput, { type RunState } from '../../../components/programming/RunOutput'
@@ -345,6 +344,7 @@ function LessonBody({
       <Layout
         onBack={() => nav(backTo)}
         crumbs={[...crumbs, { label: lesson.title, to: '' }]}
+        title={lesson.title}
         focus
       />
 
@@ -364,10 +364,9 @@ function LessonBody({
             rail={<StepRail steps={STEPS} current={step} isDone={stepDone} onGo={setStep} />}
           >
             <div className="space-y-5">
-              <PageHeader
-                title={lesson.title}
-                subtitle={`Bài học unit ${lesson.unitId.toUpperCase()}`}
-              />
+              <h1 tabIndex={-1} className="sr-only focus:outline-none">
+                {lesson.title}
+              </h1>
 
               {/* Ngôn ngữ của bài + nút mở mục lục (mobile) + lối về đúng bậc/khoá (PR-UX1). */}
               <div className="flex items-center gap-2 flex-wrap -mt-3">

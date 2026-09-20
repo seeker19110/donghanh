@@ -321,7 +321,10 @@ for (const theme of THEMES) {
     await mockLogin(page, 'vi', theme)
     await seedChallengeState(page, { startDate: vnDateOffset(0), round: 1, entries: {} })
     await page.goto('/thu-thach', { waitUntil: 'domcontentloaded' })
-    await expect(page.getByText(/Challenge 1 phút/)).toBeVisible()
+    // `getByText` từng khớp CẢ hai: tiêu đề hiện ở thanh header (`Layout title=`) LẪN
+    // `<h1 className="sr-only">` cùng chữ trong thân trang (đợt chuyển PageHeader→Layout,
+    // 2026-09-20) — strict mode Playwright báo lỗi vì 2 phần tử khớp. Nhắm đúng heading.
+    await expect(page.getByRole('heading', { name: /Challenge 1 phút/ })).toBeVisible()
     // Đã chờ đúng mốc trạng thái ở trên; `waitForStableDom` bắt nốt phần render sau đó
     // (đồng hồ đếm ngược chỉ đổi CHỮ, không đổi số phần tử, nên vẫn ổn định nhanh).
     await waitForStableDom(page)

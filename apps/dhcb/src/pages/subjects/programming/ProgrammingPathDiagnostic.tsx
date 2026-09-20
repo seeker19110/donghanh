@@ -11,7 +11,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { PageShell } from '@core/PageShell'
 import { CheckCircle2, Compass, ListChecks } from 'lucide-react'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import { useAuth } from '../../../context/useAuth'
 import { savePathStages } from '../../../lib/programmingPathProgress'
 import { getLearningPath, pathStageRefs } from '@dhcb/subject-programming/learningPaths/registry'
@@ -45,13 +44,12 @@ export default function ProgrammingPathDiagnostic() {
   if (!path) {
     return (
       <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-        <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
+        <Layout onBack={() => nav(PROGRAMMING_PREFIX)} title="Không có lộ trình này" />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] */}
         <PageShell width="standard" baseWidth="max-w-4xl">
-          <PageHeader
-            title="Không có lộ trình này"
-            subtitle="Quay lại trang môn để xem lộ trình."
-          />
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+            Không có lộ trình này
+          </h1>
         </PageShell>
       </div>
     )
@@ -90,13 +88,12 @@ export default function ProgrammingPathDiagnostic() {
     const entryStage = entryStageId ? getSpecStage(entryStageId) : undefined
     return (
       <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-        <Layout onBack={() => nav(duongDanLoTrinh(path))} />
+        <Layout onBack={() => nav(duongDanLoTrinh(path))} title="Gợi ý điểm bắt đầu" />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] */}
         <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
-          <PageHeader
-            title="Gợi ý điểm bắt đầu"
-            subtitle="Đây là công cụ chọn việc, không phải bảng chấm điểm — bạn xem và sửa lại thoải mái."
-          />
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+            Gợi ý điểm bắt đầu
+          </h1>
           <section className="rounded-3xl border border-accent-500/40 bg-zinc-900 p-5 space-y-3">
             <p className="text-sm text-zinc-300 leading-relaxed flex items-start gap-2">
               <Compass className="w-4 h-4 text-accent-400 shrink-0 mt-0.5" aria-hidden="true" />
@@ -146,13 +143,11 @@ export default function ProgrammingPathDiagnostic() {
       <Layout
         onBack={() => nav(duongDanLoTrinh(path))}
         crumbs={[{ label: path.title, to: duongDanLoTrinh(path) }]}
+        title={`Chẩn đoán: ${path.title}`}
       />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
-        <PageHeader
-          title={`Chẩn đoán: ${path.title}`}
-          subtitle="Trả lời vài câu để mình gợi ý điểm bắt đầu phù hợp — không có điểm số, không bắt buộc đúng hết."
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">{`Chẩn đoán: ${path.title}`}</h1>
         <ol className="space-y-4">
           {questions.map((q, idx) => (
             <li

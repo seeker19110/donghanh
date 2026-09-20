@@ -382,14 +382,19 @@ export default function Home() {
           [P0-1] Mọi banner phụ (progress/lịch sử KHÔNG tính) nay đứng SAU khối "Bộ môn & không
           gian" — trước đây mẹo thưởng đứng ngay dưới "Hôm nay", cạnh tranh sự chú ý với CTA
           chính (xem docs/specs/2026-09-17-redesign-trang-chu-thi-hanh.md §P0-1). */}
-      <PageShell width="standard" baseWidth="max-w-3xl">
+      {/* [đợt nhỏ tận dụng khoảng trống desktop] `fluid` thay `standard`: cột chính (`flex-1`)
+          và rail (`w-72/xl:w-80`) bên dưới đã tự co giãn theo khoảng trống thật, PageShell chỉ
+          cần nới trần cao hơn (100rem) để không cắt ngang trước khi hết chỗ — xem PageShell.tsx. */}
+      <PageShell width="fluid" baseWidth="max-w-3xl">
         {/* Giữ cùng một chuỗi ancestor cho cột chính qua resize để state disclosure/focus của
             prompt và danh sách môn không bị reset khi chuyển mobile ↔ desktop. Markup desktop
             giữ đúng hợp đồng TwoPane hiện hành: main flex-1 + rail sticky w-72/xl:w-80. */}
         <div className={isDesktop ? 'flex items-start gap-6' : undefined}>
           <div className={isDesktop ? 'min-w-0 flex-1' : undefined}>
             <div className="space-y-5">
-              <h1 className="sr-only">{T.greeting}</h1>
+              <h1 tabIndex={-1} className="sr-only focus:outline-none">
+                {T.greeting}
+              </h1>
               {topBlocks}
               {spacesSection}
               {!isDesktop && progressHistory}

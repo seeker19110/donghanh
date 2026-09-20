@@ -22,7 +22,6 @@ import { CalendarClock, Target, BookOpen, RotateCcw, Sparkles } from 'lucide-rea
 import { usePageTitle } from '../../lib/usePageTitle'
 import Layout from '../../components/Layout'
 import { PageShell } from '@core/PageShell'
-import PageHeader from '../../components/PageHeader'
 import { Skeleton } from '../../components/Skeleton'
 import { useAuth } from '../../context/useAuth'
 import { setExamRetention } from '../../lib/srs'
@@ -317,17 +316,12 @@ export default function ExamPlanPage() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout backTo={duongDanMonTiengAnh()} />
+      <Layout backTo={duongDanMonTiengAnh()} title={isA ? 'Ôn thi' : 'Exam prep'} />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Đồng hồ đếm ngược + 3 việc hôm nay → width reading. */}
       <PageShell width="reading" baseWidth="max-w-2xl" className="!pb-[calc(1.5rem+var(--bnav-h))]">
-        <PageHeader
-          title={isA ? 'Ôn thi' : 'Exam prep'}
-          subtitle={
-            isA
-              ? 'Đặt ngày thi, mỗi ngày chỉ cần làm đúng phần việc của ngày đó.'
-              : 'Set your exam date, then just do that day’s share of the work.'
-          }
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {isA ? 'Ôn thi' : 'Exam prep'}
+        </h1>
 
         {loading ? (
           /* Skeleton thay vòng xoay: giữ đúng khung nội dung sắp hiện, đỡ giật layout. */

@@ -17,7 +17,6 @@ import {
   Sparkles,
 } from 'lucide-react'
 import Layout from '../../components/Layout'
-import PageHeader from '../../components/PageHeader'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { useLang } from '../../context/useLang'
 import { navigateTo } from '../../lib/subjectsHost'
@@ -212,17 +211,12 @@ export default function About() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout />
+      <Layout title={isA ? 'Giới thiệu nền tảng' : 'About the platform'} />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang chữ dài để đọc → width="reading". */}
       <PageShell width="reading" baseWidth="max-w-2xl" className="space-y-6">
-        <PageHeader
-          title={isA ? 'Giới thiệu nền tảng' : 'About the platform'}
-          subtitle={
-            isA
-              ? 'Đồng hành cùng bạn — nền tảng đồng hành cá nhân gồm bốn trụ, cùng một người bạn AI hiểu ngữ cảnh cả bốn.'
-              : 'Đồng hành cùng bạn — a personal companion platform of four pillars, with one AI companion that understands all four.'
-          }
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {isA ? 'Giới thiệu nền tảng' : 'About the platform'}
+        </h1>
 
         {/* Nền tảng gồm những gì — đặt TRƯỚC phần môn Tiếng Anh, vì đây là trang giới thiệu
             nền tảng chứ không phải trang giới thiệu một môn. */}

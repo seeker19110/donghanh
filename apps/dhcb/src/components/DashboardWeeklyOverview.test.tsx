@@ -86,20 +86,20 @@ describe('DashboardWeeklyOverview (R3-3)', () => {
     expect(container.textContent).not.toContain('ngày mục tiêu')
   })
 
-  it('calendar disclosure đóng mặc định, mở bằng đúng một click, embedded không sinh card/heading lồng', () => {
+  it('calendar disclosure mở mặc định, đóng lại bằng đúng một click, embedded không sinh card/heading lồng', () => {
     render()
     const toggle = container.querySelector<HTMLButtonElement>('#dashboard-calendar-toggle')!
     const panel = container.querySelector('#dashboard-calendar-panel')!
-    expect(toggle.getAttribute('aria-expanded')).toBe('false')
-    expect(panel.hasAttribute('hidden')).toBe(true)
-
-    act(() => toggle.click())
     expect(toggle.getAttribute('aria-expanded')).toBe('true')
     expect(panel.hasAttribute('hidden')).toBe(false)
     // Embedded: không có section/h2 lồng bên trong panel calendar.
     expect(panel.querySelector('section')).toBeNull()
     expect(panel.querySelector('h2')).toBeNull()
     expect(panel.querySelector('[role="grid"]')).not.toBeNull()
+
+    act(() => toggle.click())
+    expect(toggle.getAttribute('aria-expanded')).toBe('false')
+    expect(panel.hasAttribute('hidden')).toBe(true)
   })
 
   it('CTA "Đổi mục tiêu ở Hồ sơ" gọi onChangeGoal và giữ vùng chạm 44px', () => {

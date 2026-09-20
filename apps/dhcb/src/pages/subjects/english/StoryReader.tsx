@@ -6,7 +6,6 @@ import { Play, Pause, Square, Eye, EyeOff, Sparkles } from 'lucide-react'
 import Layout from '../../../components/Layout'
 import { PageShell } from '@core/PageShell'
 import { TwoPane } from '@core/TwoPane'
-import PageHeader from '../../../components/PageHeader'
 import { useIsDesktopViewport } from '../../../lib/useIsDesktopViewport'
 import { CardListSkeleton } from '../../../components/Skeleton'
 import KaraokeText, { KARAOKE_INDENT } from '../../../components/KaraokeText'
@@ -298,7 +297,7 @@ export default function StoryReader() {
   return (
     <div className="min-h-dvh bg-zinc-950">
       {/* `focus`: trang đọc truyện → ẩn bộ chuyển Studio + huy hiệu streak (xem Layout). */}
-      <Layout back onBack={() => nav(-1)} focus />
+      <Layout title={isA ? story.titleEn : story.titleVi} back onBack={() => nav(-1)} focus />
       {/* [2026-09-02, đợt 4] Trang chữ để đọc → width `reading`.
           [2026-09-05, đợt 1 "desktop giáo dục"] Ở desktop đổi sang `standard`: sau khi trừ cột
           phụ 288–320px, cột chữ còn lại vẫn rơi đúng khoảng đọc 65–75 ký tự mà `reading` nhắm
@@ -325,10 +324,9 @@ export default function StoryReader() {
               {story.level}
             </span>
           </div>
-          <PageHeader
-            title={isA ? story.titleEn : story.titleVi}
-            subtitle={isA ? story.titleVi : story.titleEn}
-          />
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+            {isA ? story.titleEn : story.titleVi}
+          </h1>
 
           {/* Nghĩa vụ ghi công bản quyền — bắt buộc hiển thị (mục 3, đặc tả trang Nghe).
             Dùng text-zinc-400 (không phải 500) để đạt AAA 7:1 — đây là nội dung

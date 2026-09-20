@@ -8,7 +8,6 @@ import { Play, Square, Loader2, Terminal, Keyboard, ListOrdered } from 'lucide-r
 import { usePageTitle } from '../../../lib/usePageTitle'
 import Layout from '../../../components/Layout'
 import { PROGRAMMING_PREFIX } from '../../../lib/programmingRoutes'
-import PageHeader from '../../../components/PageHeader'
 import CodeEditor from '../../../components/CodeEditor'
 import { runPython, resetPythonWorker } from '../../../lib/pythonRunner'
 import { P1_SAMPLES } from '@dhcb/subject-programming/samplesP1'
@@ -73,13 +72,12 @@ export default function ProgrammingPlayground() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
+      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} title="Chạy thử Python" />
 
       <main className="max-w-4xl mx-auto px-4 pt-6 pb-[calc(2rem+var(--bnav-h))] space-y-5">
-        <PageHeader
-          title="Chạy thử Python"
-          subtitle="Code chạy ngay trong trình duyệt của bạn — không cần cài gì. Lần chạy đầu sẽ tải môi trường Python (~13MB), các lần sau chạy tức thì."
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Chạy thử Python
+        </h1>
 
         {/* Chọn bài mẫu P1 */}
         <section className="space-y-2">

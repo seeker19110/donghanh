@@ -20,7 +20,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AlertTriangle, Flag, Navigation, ShieldCheck } from 'lucide-react'
 import Layout from '../../components/Layout'
-import PageHeader from '../../components/PageHeader'
 import { Skeleton } from '../../components/Skeleton'
 import LiveMap from '../../components/location/LiveMap'
 import MemberList from '../../components/location/MemberList'
@@ -329,13 +328,12 @@ export default function LiveLocation() {
   // ── Giao diện ───────────────────────────────────────────────────────────────────────────
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout />
+      <Layout title="Đi chung" />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang danh sách → width="standard". */}
       <PageShell width="standard" baseWidth="max-w-2xl">
-        <PageHeader
-          title="Đi chung"
-          subtitle="Thấy nhau trên bản đồ khi đi chơi chung, để không ai bị lạc — bật/tắt lúc nào cũng được"
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Đi chung
+        </h1>
 
         {loading ? (
           /* Skeleton thay chữ "Đang tải…" — khớp khung thẻ sắp hiện. */

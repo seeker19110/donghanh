@@ -34,7 +34,6 @@ import {
   GraduationCap,
 } from 'lucide-react'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import { useAuth } from '../../../context/useAuth'
 import {
   fetchSpecProgress,
@@ -278,13 +277,12 @@ export default function ProgrammingSpecializationPage() {
   if (!spec) {
     return (
       <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-        <Layout onBack={() => nav(`${PROGRAMMING_PREFIX}/huong`)} />
+        <Layout title="Không có hướng này" onBack={() => nav(`${PROGRAMMING_PREFIX}/huong`)} />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] */}
         <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-4">
-          <PageHeader
-            title="Không có hướng này"
-            subtitle="Đường dẫn không khớp hướng nào trong môn Lập trình. Quay lại danh sách để chọn hướng có thật."
-          />
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+            Không có hướng này
+          </h1>
           <button
             onClick={() => nav(`${PROGRAMMING_PREFIX}/huong`)}
             className="tap-44 w-full py-3.5 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition"
@@ -304,11 +302,13 @@ export default function ProgrammingSpecializationPage() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav(`${PROGRAMMING_PREFIX}/huong`)} />
+      <Layout title={spec.name} onBack={() => nav(`${PROGRAMMING_PREFIX}/huong`)} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
-        <PageHeader title={spec.name} subtitle={spec.tagline} />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {spec.name}
+        </h1>
 
         {/* Chọn/bỏ hướng — tiến độ lưu ở server, không phải localStorage, nên đổi máy vẫn còn. */}
         {user && (

@@ -7,7 +7,6 @@ import { Plus, Clock, CheckCircle2, ArrowRight, ArrowLeft, Filter, Search } from
 import { usePageTitle } from '../../../lib/usePageTitle'
 import { duongDanGhiChu } from '../../../lib/domainRoutes'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
 import { useToast } from '@core/ToastProvider'
 import {
@@ -113,15 +112,14 @@ export default function NotesKanban() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout onBack={() => nav(duongDanGhiChu())} />
+      <Layout onBack={() => nav(duongDanGhiChu())} title="Bảng Kanban việc cần làm" />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Lưới 2 cột, không phải bảng cuộn ngang →
       width="standard". */}
       <PageShell width="standard" baseWidth="max-w-6xl" className="space-y-6">
-        <PageHeader
-          title="Bảng Kanban việc cần làm"
-          subtitle="Theo dõi tiến độ, phân loại mức độ ưu tiên và tối ưu hóa quy trình làm việc"
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Bảng Kanban việc cần làm
+        </h1>
 
         {/* Thanh công cụ lọc & tìm kiếm */}
         <section className="bg-zinc-900/80 border border-zinc-800 rounded-2xl p-4 flex items-center justify-between gap-4 flex-wrap">

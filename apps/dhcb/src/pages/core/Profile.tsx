@@ -22,7 +22,6 @@ import {
   Sparkles,
 } from 'lucide-react'
 import Layout from '../../components/Layout'
-import PageHeader from '../../components/PageHeader'
 import ThemeToggle from '../../components/ThemeToggle'
 import LoadError from '../../components/LoadError'
 import { Skeleton } from '../../components/Skeleton'
@@ -258,7 +257,7 @@ export default function Profile() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout />
+      <Layout title={isA ? 'Trang cá nhân' : 'Personal Profile'} />
 
       {/* [2026-09-02, đợt 1 thiết kế lại desktop] Trước đây một cột `max-w-3xl` ở mọi bề rộng. */}
       <PageShell
@@ -268,14 +267,9 @@ export default function Profile() {
       >
         <TwoPane isDesktop={isDesktop} railLabel="Thông tin tài khoản" rail={rail}>
           <div className="space-y-6">
-            <PageHeader
-              title={isA ? 'Trang cá nhân' : 'Personal Profile'}
-              subtitle={
-                isA
-                  ? 'Trung tâm tài khoản và các không gian chuyên biệt'
-                  : 'Your account center and specialized spaces'
-              }
-            />
+            <h1 tabIndex={-1} className="sr-only focus:outline-none">
+              {isA ? 'Trang cá nhân' : 'Personal Profile'}
+            </h1>
 
             {/* Thông tin người dùng & Gói cước — ở desktop khối này nằm trong cột phải, nên chỉ
             dựng ở mobile. Dựng đúng MỘT nhánh (không `lg:hidden`) để DOM không có hai bản

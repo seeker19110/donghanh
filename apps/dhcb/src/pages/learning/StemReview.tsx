@@ -9,7 +9,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams, useSearchParams, Navigate } from 'react-router-dom'
 import { BookOpen, CheckCircle2, Brain } from 'lucide-react'
 import Layout from '../../components/Layout'
-import PageHeader from '../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { useAuth } from '../../context/useAuth'
@@ -78,12 +77,15 @@ export default function StemReview() {
 
   return (
     <>
-      <Layout onBack={() => nav(`/goc-hoc-tap/${subject.id}`)} />
+      <Layout
+        onBack={() => nav(`/goc-hoc-tap/${subject.id}`)}
+        title={`Ôn thẻ môn ${subject.label}`}
+      />
       <PageShell width="standard" baseWidth="max-w-2xl" className="space-y-5">
-        <PageHeader
-          title={`Ôn thẻ môn ${subject.label}`}
-          subtitle="Những ý cốt lõi của các bài bạn đã hoàn thành, quay lại đúng lúc sắp quên. Mỗi phiên tối đa vài thẻ — không cần ôn dồn."
-        />
+        <h1
+          tabIndex={-1}
+          className="sr-only focus:outline-none"
+        >{`Ôn thẻ môn ${subject.label}`}</h1>
 
         {hangDoi === null && (
           <p

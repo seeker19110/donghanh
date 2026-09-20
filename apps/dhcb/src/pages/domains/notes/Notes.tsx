@@ -25,7 +25,6 @@ import Modal from '../../../components/Modal'
 import Field from '../../../components/Field'
 import LoadError from '../../../components/LoadError'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
 import { useToast } from '@core/ToastProvider'
 import {
@@ -246,11 +245,9 @@ export default function Notes() {
       className="!pt-6 !pb-[calc(5rem+var(--bnav-h))] flex flex-1 flex-col space-y-6"
     >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800 pb-4">
-        <PageHeader
-          title="Ghi chú"
-          subtitle="Việc cần làm, dự án, biên bản họp và tài liệu — ghi lại ở một chỗ"
-          className="mb-0"
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Ghi chú
+        </h1>
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={() => nav(duongDanGhiChuKanban())}

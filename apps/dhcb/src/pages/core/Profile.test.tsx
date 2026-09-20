@@ -13,7 +13,6 @@ import { STUDIOS } from '../../lib/studios'
 ;(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
 
 vi.mock('../../components/Layout.js', () => ({ default: () => null }))
-vi.mock('../../components/PageHeader.js', () => ({ default: () => null }))
 vi.mock('../../components/ReferralSection.js', () => ({ default: () => null }))
 vi.mock('../../components/CompanionLinkSection.js', () => ({ default: () => null }))
 vi.mock('../../components/QuestsPanel.js', () => ({ default: () => null }))

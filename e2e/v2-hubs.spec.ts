@@ -178,7 +178,9 @@ test.describe('Platform V2 Specialized Domain Hubs & Companion E2E', () => {
     page,
   }) => {
     await page.goto('/ban-dong-hanh')
-    await expect(page.getByText('Bạn Đồng Hành Đa Lĩnh Vực')).toBeVisible()
+    // `getByText` khớp CẢ tiêu đề ở thanh header (`Layout title=`) LẪN `<h1 sr-only>` cùng chữ
+    // trong thân trang (đợt chuyển PageHeader→Layout, 2026-09-20) — nhắm đúng heading.
+    await expect(page.getByRole('heading', { name: 'Bạn Đồng Hành Đa Lĩnh Vực' })).toBeVisible()
 
     // Chọn Domain Sự nghiệp. `exact: true` vì sidebar desktop (P1-7) nay có nút
     // 'Mở rộng mục Sự nghiệp & Đời sống' chứa chuỗi con "Sự nghiệp" trùng lặp.

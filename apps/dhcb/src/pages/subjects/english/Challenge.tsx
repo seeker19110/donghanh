@@ -9,7 +9,6 @@ import { Video, Mic, RotateCcw, Send, Square, Type, Trophy, Check, Volume2 } fro
 import { usePageTitle } from '../../../lib/usePageTitle'
 import Layout from '../../../components/Layout'
 import { PageShell } from '@core/PageShell'
-import PageHeader from '../../../components/PageHeader'
 import Celebration from '../../../components/Celebration'
 import LeagueSection from '../../../components/LeagueSection'
 import ShareResultCard from '../../../components/ShareResultCard'
@@ -293,7 +292,7 @@ export default function Challenge() {
   const transcriptCacheRef = useRef<string | null>(null)
 
   const [challenge, setChallenge] = useState<ChallengeState | null>(() => getChallenge(uid))
-  const [syncedOnce, setSyncedOnce] = useState(false)
+  const [, setSyncedOnce] = useState(false)
 
   // Kéo entries đã đồng bộ từ Supabase 1 lần khi vào trang — hợp nhất vào state local
   // (đổi máy không mất tiến độ). Lỗi mạng/chưa đăng nhập → bỏ qua êm, dùng bản local.
@@ -330,7 +329,6 @@ export default function Challenge() {
   // 7 ô của tuần hiện tại (Thứ 2 → CN) — nguồn duy nhất cho bảng + tổng kết tuần.
   // (tính trực tiếp mỗi render — hàm thuần, rẻ; React Compiler tự memo hóa)
   const cells = challenge ? getWeekCells(challenge, todayStr) : []
-  const weekCount = cells.filter((c) => c.entry).length
   const totalSubmitted = challenge ? getTotalSubmitted(challenge) : 0
   // Chủ đề xoay vòng theo TỔNG số bài đã nộp (hết 30 chủ đề thì quay lại từ đầu);
   // hôm nay đã nộp thì giữ đúng chủ đề của bài hôm nay (nộp lại không đổi đề).
@@ -615,17 +613,15 @@ export default function Challenge() {
   if (!challenge) {
     return (
       <div className="min-h-dvh bg-zinc-950">
-        <Layout backTo={duongDanMonTiengAnh()} />
+        <Layout
+          title={isA ? 'Challenge 1 phút mỗi ngày' : 'Daily 1-Minute Challenge'}
+          backTo={duongDanMonTiengAnh()}
+        />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] Luồng tuần tự hẹp → width reading. */}
         <PageShell width="reading" baseWidth="max-w-lg">
-          <PageHeader
-            title={isA ? 'Challenge 1 phút mỗi ngày' : 'Daily 1-Minute Challenge'}
-            subtitle={
-              isA
-                ? 'Mỗi ngày quay 1 video ngắn kể về cuộc sống của bạn — AI nghe, khen và sửa lỗi. Tuần tính từ Thứ 2 đến Chủ nhật.'
-                : 'Record a short video about your life every day — AI listens, praises, and corrects. Weeks run Monday to Sunday.'
-            }
-          />
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+            {isA ? 'Challenge 1 phút mỗi ngày' : 'Daily 1-Minute Challenge'}
+          </h1>
           <div className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-5 space-y-3 animate-fade-in">
             <p className="text-sm text-zinc-300">
               {isA
@@ -669,7 +665,10 @@ export default function Challenge() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout backTo={duongDanMonTiengAnh()} />
+      <Layout
+        title={isA ? 'Challenge 1 phút mỗi ngày' : 'Daily 1-Minute Challenge'}
+        backTo={duongDanMonTiengAnh()}
+      />
       {celebrateWeek && (
         <Celebration
           icon="🏆"
@@ -685,14 +684,9 @@ export default function Challenge() {
       )}
 
       <PageShell width="reading" baseWidth="max-w-lg" className="space-y-5">
-        <PageHeader
-          title={isA ? 'Challenge 1 phút mỗi ngày' : 'Daily 1-Minute Challenge'}
-          subtitle={
-            isA
-              ? `Tuần này ${weekCount}/7 ngày · tổng ${totalSubmitted} challenge${syncedOnce ? '' : ' · đang đồng bộ...'}`
-              : `This week ${weekCount}/7 days · ${totalSubmitted} total${syncedOnce ? '' : ' · syncing...'}`
-          }
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {isA ? 'Challenge 1 phút mỗi ngày' : 'Daily 1-Minute Challenge'}
+        </h1>
 
         <WeekBoard cells={cells} isA={isA} />
 

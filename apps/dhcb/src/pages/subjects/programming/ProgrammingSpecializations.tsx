@@ -13,7 +13,6 @@ import { PROGRAMMING_PREFIX, duongDanHuong } from '../../../lib/programmingRoute
 import { Compass, Clock, Lock, ArrowRight, Boxes, Layers, CheckCircle2 } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
 import { useAuth } from '../../../context/useAuth'
 import {
@@ -24,7 +23,6 @@ import {
   type SpecProgressSnapshot,
 } from '../../../lib/programmingSpecProgress'
 import {
-  PROGRAMMING_SPECIALIZATIONS,
   productSpecializations,
   crossCuttingSpecializations,
   countArchitectureItems,
@@ -102,14 +100,13 @@ export default function ProgrammingSpecializations() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
+      <Layout title="Hướng chuyên sâu" onBack={() => nav(PROGRAMMING_PREFIX)} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
-        <PageHeader
-          title="Hướng chuyên sâu"
-          subtitle={`Xong xương sống P1–P5 là bạn lập trình được. Muốn đi tới mức chuyên gia thì phải chọn một con đường — dưới đây là ${PROGRAMMING_SPECIALIZATIONS.length} con đường thật của nghề, mỗi con đường 4 chặng, 5 sản phẩm phải nộp và một bản đồ kiến trúc riêng.`}
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Hướng chuyên sâu
+        </h1>
 
         <section className="rounded-3xl border border-accent-500/40 bg-zinc-900 p-5 space-y-2">
           <h2 className="text-base font-bold text-white flex items-center gap-2">

@@ -16,7 +16,6 @@ import {
 import { usePageTitle } from '../../../lib/usePageTitle'
 import Layout from '../../../components/Layout'
 import { PageShell } from '@core/PageShell'
-import PageHeader from '../../../components/PageHeader'
 import PronounceButton from '../../../components/PronounceButton'
 import VocabMilestone from '../../../components/VocabMilestone'
 import StudyPanel, { type StudyTab } from '../../../components/StudyPanel'
@@ -26,7 +25,7 @@ import WordFormsBlock from '../../../components/WordFormsBlock'
 import type { ExPair } from '../../../data/extra-examples'
 import { loadExtraExamples } from '../../../data/extraExamplesLoader'
 import type { DictEntry } from '../../../types'
-import { searchDictionary, fetchWordOfDay } from '../../../lib/dictionaryApi'
+import { searchDictionary } from '../../../lib/dictionaryApi'
 import { getDirection } from '../../../lib/storage'
 import { useAuth } from '../../../context/useAuth'
 import { useOnboarding } from '../../../lib/onboarding'
@@ -125,20 +124,10 @@ export default function Dictionary() {
   const [searching, setSearching] = useState(false)
   const [searchError, setSearchError] = useState(false) // true khi lỗi mạng (khác "không có kết quả")
   const [retryKey, setRetryKey] = useState(0) // tăng để gọi lại tìm kiếm sau lỗi mạng
-  const [totalWords, setTotalWords] = useState(0)
   const [extraExamples, setExtraExamples] = useState<Record<string, [ExPair, ExPair]>>({})
 
   useEffect(() => {
     loadExtraExamples().then(setExtraExamples)
-  }, [])
-
-  // Tổng số từ trong từ điển (cho phụ đề) — 1 lần khi mở trang.
-  useEffect(() => {
-    fetchWordOfDay()
-      .then(({ total }) => setTotalWords(total))
-      .catch(() => {
-        /* lỗi mạng — bỏ qua, trang vẫn dùng được để tra từ */
-      })
   }, [])
 
   // Khi từ khóa/bộ lọc đổi: reset trang + bật spinner (hoặc xoá kết quả nếu ô trống)
@@ -243,7 +232,7 @@ export default function Dictionary() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout backTo={duongDanMonTiengAnh()} />
+      <Layout backTo={duongDanMonTiengAnh()} title={isA ? 'Từ điển' : 'Dictionary'} />
 
       {/* Thẻ bọc này CHỈ để nhóm; landmark <main> do PageShell render bên trong — hai <main>
           lồng nhau là vi phạm a11y (landmark trùng) và cổng e2e/a11y.spec.ts quét đúng trang này. */}
@@ -256,11 +245,9 @@ export default function Dictionary() {
             tab === 'search' ? '!pb-[calc(6rem+var(--bnav-h))]' : '!pb-[calc(1.5rem+var(--bnav-h))]'
           }`}
         >
-          {/* Tiêu đề trang — ngay dưới AppHeader, cỡ chữ lớn */}
-          <PageHeader
-            title={isA ? 'Từ điển' : 'Dictionary'}
-            subtitle={`${totalWords.toLocaleString('vi-VN')} ${isA ? 'từ thông dụng' : 'common words'}`}
-          />
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+            {isA ? 'Từ điển' : 'Dictionary'}
+          </h1>
 
           <VocabMilestone userId={user.id} refreshKey={learnedKey} />
 

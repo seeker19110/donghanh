@@ -10,7 +10,6 @@ import { useEffect, useState } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { BookOpen, CheckCircle2, Play, Target, Trophy } from 'lucide-react'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import LangBadge from '../../../components/programming/LangBadge'
 import { PageShell } from '@core/PageShell'
 import { useAuth } from '../../../context/useAuth'
@@ -81,11 +80,14 @@ export default function ProgrammingPathStagePage() {
       <Layout
         onBack={() => nav(duongDanLoTrinh(path))}
         crumbs={[{ label: path.title, to: duongDanLoTrinh(path) }]}
+        title={stage.name}
       />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-5">
-        <PageHeader title={stage.name} subtitle={stage.canDo} />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {stage.name}
+        </h1>
 
         {lessonCount > 0 && (
           <div

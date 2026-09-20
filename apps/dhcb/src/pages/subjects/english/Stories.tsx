@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import Layout from '../../../components/Layout'
 import { PageShell } from '@core/PageShell'
-import PageHeader from '../../../components/PageHeader'
 import { CardListSkeleton } from '../../../components/Skeleton'
 import StoryCard from '../../../components/StoryCard'
 import { useLang } from '../../../context/useLang'
@@ -124,17 +123,16 @@ export default function Stories() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout backTo={ENGLISH_PREFIX} back />
+      <Layout
+        title={isA ? 'Nghe - Đọc - Kể Truyện' : 'Listen - Read - Tell Stories'}
+        backTo={ENGLISH_PREFIX}
+        back
+      />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Lưới thẻ truyện → width standard. */}
       <PageShell width="standard" baseWidth="max-w-3xl">
-        <PageHeader
-          title={isA ? 'Nghe - Đọc - Kể Truyện' : 'Listen - Read - Tell Stories'}
-          subtitle={
-            isA
-              ? 'Cổ tích, ngụ ngôn, truyện dân gian Việt Nam...'
-              : 'Fairy tales, fables, Vietnamese folk stories...'
-          }
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {isA ? 'Nghe - Đọc - Kể Truyện' : 'Listen - Read - Tell Stories'}
+        </h1>
 
         {all === null ? (
           <CardListSkeleton rows={4} />

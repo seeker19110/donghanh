@@ -49,7 +49,6 @@ import {
 } from 'lucide-react'
 import Layout from '../../components/Layout.js'
 import { PageShell } from '@core/PageShell'
-import PageHeader from '../../components/PageHeader.js'
 import PvPArenaCard from '../../components/PvPArena/PvPArenaCard.js'
 import { useLang } from '../../context/useLang'
 import { useAuth } from '../../context/useAuth'
@@ -182,19 +181,15 @@ export default function Practice() {
 
   return (
     <>
-      <Layout back={false} />
+      <Layout
+        back={false}
+        title={isA ? 'Phòng Luyện Tập Đa Môn & Sửa Lỗi' : 'Multi-Subject Practice & Mistake Studio'}
+      />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trung tâm luyện tập, nhiều thẻ → width standard. */}
       <PageShell width="standard" baseWidth="max-w-3xl" className="space-y-7">
-        <PageHeader
-          title={
-            isA ? 'Phòng Luyện Tập Đa Môn & Sửa Lỗi' : 'Multi-Subject Practice & Mistake Studio'
-          }
-          subtitle={
-            isA
-              ? 'Luyện tập toàn diện 5 môn học · Giải bài tập từng bước · Sổ tay sửa lỗi AI & Phản xạ'
-              : 'Comprehensive practice across 5 subjects · Step-by-step solver · AI mistake bank & reflex drills'
-          }
-        />
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {isA ? 'Phòng Luyện Tập Đa Môn & Sửa Lỗi' : 'Multi-Subject Practice & Mistake Studio'}
+        </h1>
 
         {/* ── BANNER SPOTLIGHT: SỔ TAY SỬA LỖI ĐA MÔN & CUNG ĐIỆN TRÍ NHỚ ── */}
         <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-br from-rose-500/15 via-zinc-900/90 to-amber-500/10 border border-rose-500/30 hover:border-rose-500/60 transition-all duration-200 shadow-lg group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
