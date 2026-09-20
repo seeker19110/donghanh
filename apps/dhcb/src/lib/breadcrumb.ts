@@ -54,10 +54,15 @@ function studioPath(id: string): string {
  * Mục có cấp 2 (Tiếng Anh → 5 công cụ): đường dẫn nào đã thuộc một mục cấp 2 thì KHÔNG dựng nút
  * ở cấp 1 — nếu không `/lo-trinh-hoc` sẽ mang nhãn "Tiếng Anh" thay vì "Lộ trình CEFR" (nút đầu
  * tiên thắng trong BY_PATH). Cấp 2 được trải riêng, treo dưới nút đầu của mục cha.
+ *
+ * Cây route ở đây phân biệt trang theo ĐƯỜNG DẪN, không theo query — mục cấp 2 nào KHÔNG có
+ * `path` nào khác cha (như "Lớp 10" của 4 môn STEM: cùng trang, chỉ khác `?grade=`) thì bỏ
+ * qua hẳn ở tầng breadcrumb (không tạo nút riêng, không loại path khỏi cha) — nếu không sẽ tự
+ * đè lên chính đường dẫn của cha, sinh nút cha trỏ vòng về chính nó.
  */
 function childNodes(children: readonly NavChild[], parent: string): RouteNode[] {
   return children.flatMap((c) => {
-    const nested = c.children ?? []
+    const nested = (c.children ?? []).filter((n) => n.paths.some((p) => !c.paths.includes(p)))
     const owned = new Set(nested.flatMap((n) => n.paths))
     const own = c.paths.filter((p) => !owned.has(p))
     const to = c.to ?? c.paths[0]
