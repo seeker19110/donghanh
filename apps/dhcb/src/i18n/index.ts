@@ -87,7 +87,7 @@ export const t = {
 
     // Login
     loginBrand: 'Đồng Hành Cùng Bạn',
-    loginTagline: 'Học tập · Sự nghiệp · Công việc · Khởi nghiệp · Đời sống',
+    loginTagline: 'Học tập · Ghi chú · Bạn Đồng Hành',
     loginTabLogin: 'Đăng nhập',
     loginTabRegister: 'Đăng ký',
     namePlaceholder: 'Tên của bạn',
@@ -293,7 +293,7 @@ export const t = {
 
     // Login
     loginBrand: 'Đồng Hành Cùng Bạn',
-    loginTagline: 'Learning · Career · Work · Startup · Life',
+    loginTagline: 'Learning · Notes · Your Companion',
     loginTabLogin: 'Log in',
     loginTabRegister: 'Sign up',
     namePlaceholder: 'Your name',

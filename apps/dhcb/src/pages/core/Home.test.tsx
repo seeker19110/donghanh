@@ -124,12 +124,13 @@ describe('Home — khối Bộ môn & không gian dùng SUBJECT_ENTRIES (AC-19)'
     for (const label of subjectTitles) {
       expect(titles, `thiếu thẻ môn "${label}"`).toContain(label)
     }
-    // Đúng số thẻ MÔN (không tính thẻ Sự nghiệp/Khởi nghiệp & Đời sống — giữ nguyên, không đổi).
+    // Đúng số thẻ MÔN (không tính thẻ "Ghi chú" — không phải môn học).
     const subjectHeadings = titles.filter((t) => subjectTitles.includes(t))
     expect(subjectHeadings.length).toBe(SUBJECT_ENTRIES.length)
     expect(subjectHeadings).toEqual(subjectTitles)
-    // Thẻ Sự nghiệp/Khởi nghiệp & Đời sống vẫn còn, không bị đổi.
-    expect(titles).toContain('Sự nghiệp, Khởi nghiệp & Đời sống')
+    // [2026-09-20] Thẻ "Ghi chú" thay cho thẻ "Sự nghiệp, Khởi nghiệp & Đời sống" cũ.
+    expect(titles).toContain('Ghi chú')
+    expect(titles).not.toContain('Sự nghiệp, Khởi nghiệp & Đời sống')
   })
 
   it('khách (isGuest): thấy đủ dải môn (chip) qua GuestHome — Home không chặn khách', async () => {
@@ -165,11 +166,12 @@ describe('Home — khối Bộ môn & không gian dùng SUBJECT_ENTRIES (AC-19)'
     expect(container.textContent).not.toContain('Xem tiến độ')
   })
 
-  it('member mobile Sự nghiệp chỉ còn entry chính, không render bốn shortcut', async () => {
+  it('member mobile: thẻ Ghi chú chỉ còn entry chính, không render shortcut', async () => {
     mockAuth({ id: 'u1', name: 'An', email: 'an@vd.vn' })
     await hien()
-    expect(container.textContent).toContain('Sự nghiệp, Khởi nghiệp & Đời sống')
-    for (const shortcut of ['Phỏng vấn thử', 'Công việc', 'Lean Canvas', 'Đời sống']) {
+    expect(container.textContent).toContain('Ghi chú')
+    // Shortcut chỉ hiện ở desktop. Ba nhãn của các trụ ĐÃ GỠ cũng không được xuất hiện lại.
+    for (const shortcut of ['Bảng Kanban', 'Phỏng vấn thử', 'Lean Canvas', 'Đời sống']) {
       expect(
         Array.from(container.querySelectorAll('button')).some(
           (button) => button.textContent?.trim() === shortcut,

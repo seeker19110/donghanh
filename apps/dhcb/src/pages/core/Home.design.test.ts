@@ -38,7 +38,7 @@ describe('Home.tsx — trình bày tập trung (đợt C)', () => {
 
   it('không gian bộ môn dựng từ SUBJECT_ENTRIES (một nguồn với hub, S05-2), không viết tay từng thẻ môn', () => {
     // [P1-8] Phần MÔN đã tách sang SubjectSpaceList.tsx (dùng SUBJECT_ENTRIES ở đó) — Home.tsx
-    // chỉ còn gọi component đó và khai tay thẻ Sự nghiệp/Khởi nghiệp & Đời sống (không phải môn).
+    // chỉ còn gọi component đó và khai tay thẻ "Ghi chú" (không phải môn học).
     expect(src).toContain('<SubjectSpaceList')
     const subjectSpaceListSrc = readFileSync(
       join(__dirname, '../../components/Home/SubjectSpaceList.tsx'),
@@ -46,8 +46,8 @@ describe('Home.tsx — trình bày tập trung (đợt C)', () => {
     )
     expect(subjectSpaceListSrc).toContain("from '@dhcb/core-learner/subjectEntry'")
     expect(subjectSpaceListSrc).toContain('orderSubjects(SUBJECT_ENTRIES')
-    // Thẻ Sự nghiệp/Khởi nghiệp & Đời sống KHÔNG phải môn học — vẫn khai tay, giữ nguyên.
-    expect(src).toContain("id: 'career-life'")
+    // Thẻ "Ghi chú" KHÔNG phải môn học — vẫn khai tay, giữ nguyên.
+    expect(src).toContain("id: 'notes'")
   })
 })
 
