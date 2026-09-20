@@ -893,17 +893,24 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 
 ## Nợ kỹ thuật còn mở
 
-- 🟡 **[2026-09-19 — audit sâu UI/UX, `docs/changelog/0380-*.md`] Ba phát hiện chờ chủ dự án quyết định, CHƯA sửa (2 việc đã sửa cùng đợt: mục lục CEFR + thông điệp bộ lọc — xem changelog 0380):**
-  1. Trang `/luyen-noi` (luyện nói song ngữ — tính năng trụ cột chính theo CLAUDE.md §1) đang hiện
-     banner "Sắp ra mắt — bản đang hoàn thiện" cho mọi người dùng. Cần chủ dự án xác nhận đây có
-     đúng là trạng thái cố ý hiện tại của backend không.
-  2. Toast "Đã đồng bộ dữ liệu học tập thành công!" bắn lại mỗi lần điều hướng trang (không phải
-     một lần/phiên) — thấy ở hầu hết trang đã chụp; ở `/luyen-noi` trên mobile nó đè lên nút CTA
-     chính "Bắt đầu luyện nói →". Cần xác nhận tần suất bắn đúng ý muốn rồi mới sửa.
-  3. Vài màn báo lỗi tải dữ liệu (trang chủ, hồ sơ, `/su-nghiep-khoi-nghiep`, `/cong-viec-cuoc-song`)
-     xuất hiện trong môi trường audit — nhiều khả năng do môi trường chụp (Vite dev, không có
-     backend Postgres thật, một số API chưa mock) chứ không phải lỗi thật. Cần kiểm lại với
-     backend thật trước khi kết luận.
+- ✅ **[2026-09-20 — Đợt 4 theo dõi audit 0380 — ĐÃ ĐÓNG 2 việc, còn 1 việc cần backend thật]**
+  Chủ dự án đã chốt việc 1 và 2 (`docs/changelog/0380-*.md`):
+  1. Gỡ `ComingSoonBanner` khỏi `/luyen-noi` (`Speaking.tsx`) — tính năng đã chạy thật trên
+     production (TTS/STT thật), banner "Sắp ra mắt" từ quyết định 2026-08-09 nay gây hiểu lầm.
+  2. Sửa gốc rễ toast "Đã đồng bộ dữ liệu học tập thành công!" bắn lại mỗi lần điều hướng trang:
+     `applyCloudProgress()` trong `apps/dhcb/src/lib/progressSync.ts` gọi `enqueueSync(userId,
+'english')` **VÔ ĐIỀU KIỆN** sau mỗi lượt kéo (`pullProgress`), dù bản hợp nhất không có gì
+     mới ngoài bản cloud vừa nhận — mỗi trang dùng `useCloudSync` (Home/Dashboard/Profile/
+     History/EnglishHome/Speaking/Writing/Chat) mount lại là kéo + đẩy lại y nguyên, khiến hàng
+     đợi luôn có đúng 1 mục rồi gửi ngay → `OfflineSyncIndicator.tsx` thấy "chờ → 0" mỗi lần và
+     bắn banner. Sửa: chỉ `enqueueSync` khi hợp nhất THẬT SỰ có gì mới so với bản cloud (local có
+     mục cloud chưa có, SRS/exam/settings đổi nội dung, hoặc local thắng theo mốc thời gian ở
+     placement/weeklyGoal/settings). Test canh ở `progressSync.test.ts`.
+  3. **CÒN MỞ** — vài màn báo lỗi tải dữ liệu (trang chủ, hồ sơ, `/su-nghiep-khoi-nghiep`,
+     `/cong-viec-cuoc-song`) thấy trong ảnh chụp audit: môi trường phiên làm việc này KHÔNG có
+     `DATABASE_URL`/backend Postgres thật (đã kiểm — biến rỗng), nên KHÔNG thể tự xác nhận đây là
+     lỗi thật hay chỉ do môi trường audit thiếu backend. Cần chủ dự án hoặc phiên có backend thật
+     kiểm lại các trang trên trước khi kết luận có phải bug production hay không.
 - ✅ **[2026-09-16 → 2026-09-19 — `apps/hub/src` nằm NGOÀI cổng tương phản tĩnh — ĐÃ ĐÓNG]** (`docs/changelog/0373-*.md`). Tiền đề của nợ cũ (hub "không cùng hệ token") **sai**: hub đã có `ThemeToggle` (`App.tsx`/`HubLogin.tsx`) và `apps/hub/tailwind.config.js` map `zinc`/`accent` sang ĐÚNG biến `--z-*`/`--a-*` của `packages/core-ui/theme.css` — cùng hệ token với `@dhcb/app`. Gỡ bằng cách thêm `apps/hub/src` vào phạm vi quét của `scripts/fixed-color-contrast-audit.ts` (không tạo script riêng); vá 5 chỗ rớt AA tìm được (`theme-light:text-<màu>-800/900`, đúng cách vá đã dùng ~720 lần); ~60 chỗ `text-zinc-*` còn lại đã tự đạt AA (chỉ dùng bậc sáng). Hub vẫn chưa có ca nào trong `e2e/a11y.spec.ts` — nợ nhỏ khác, chưa mở vé riêng.
 - ✅ **[2026-09-16 → 2026-09-17 — S13-1 → S13-2] Hai nợ giao diện do cổng mới ĐO ĐƯỢC — ĐÃ ĐÓNG** (`docs/changelog/0358-*.md`, PR S13-2):
   1. `aria-prohibited-attr` (serious) trên Trang chủ ở trạng thái ĐANG TẢI: `TodayCard.tsx` nay có `role="status"`; khối `NO_AA` của `e2e/learning-ux-states.spec.ts` đã **xoá hẳn** — cổng chạy ở mức tuyệt đối, 0 vi phạm AA.
