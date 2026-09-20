@@ -215,18 +215,10 @@ export function auditLine(
  * Test canh (`fixed-color-contrast-audit.test.ts`) bắt buộc mỗi mục ở đây phải CÒN khớp thật:
  * mục không còn khớp là mục chết, phải xoá — nhờ vậy danh sách không âm thầm phình ra.
  */
-export const ALLOWLIST: ReadonlyArray<{ file: string; cls: string; reason: string }> = [
-  {
-    file: 'apps/dhcb/src/pages/domains/career/Career.tsx',
-    cls: 'text-emerald-600',
-    reason: 'màu dấu tích của <input type="checkbox">, không phải màu chữ',
-  },
-  {
-    file: 'apps/dhcb/src/pages/domains/startup/Startup.tsx',
-    cls: 'text-emerald-600',
-    reason: 'màu dấu tích của <input type="checkbox">, không phải màu chữ',
-  },
-]
+// [2026-09-20] Hai mục cũ (`domains/career/Career.tsx`, `domains/startup/Startup.tsx`) đã bị xoá
+// cùng chính hai trang đó khi ba trụ Sự nghiệp · Khởi nghiệp · Đời sống được gỡ khỏi sản phẩm.
+// Danh sách rỗng là trạng thái ĐÚNG và mong muốn: không có ngoại lệ nào đang được tha.
+export const ALLOWLIST: ReadonlyArray<{ file: string; cls: string; reason: string }> = []
 
 const isAllowed = (f: Finding): boolean =>
   ALLOWLIST.some((a) => a.file === f.file && a.cls === f.cls)

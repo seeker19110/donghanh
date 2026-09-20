@@ -1,14 +1,18 @@
-// domainRoutes — dựng URL của 4 trụ Career/Work/Startup/Life ở MỘT chỗ duy nhất.
+// domainRoutes — dựng URL của trụ "Ghi chú" (trước đây là trụ Công việc) ở MỘT chỗ duy nhất.
 //
 // VÌ SAO: trước đợt "Gom URL trùng" (App.tsx, docs/research/nang-tam-du-an-2026-08-24.md §4)
-// mỗi trụ có tới 4 URL cùng render một trang. Sau đợt đó chỉ còn hai trang hợp nhất
-// (`/su-nghiep-khoi-nghiep`, `/cong-viec-cuoc-song`, tham số `?muc=` chọn tab) + các trang công
-// cụ riêng (`/career/interview`…) — nhưng cả hai vẫn bị GHÉP CHUỖI TAY ở nhiều nơi
-// (breadcrumb.ts, Home.tsx, About.tsx, 8 trang domain), khác với môn Lập trình đã có
-// `programmingRoutes.ts` làm một nguồn duy nhất. File này đóng vai trò tương đương cho 4 trụ.
+// mỗi trụ có tới 4 URL cùng render một trang. File này là một nguồn duy nhất cho các URL đó,
+// tương đương `programmingRoutes.ts` của môn Lập trình.
 //
-// Base path (`/su-nghiep-khoi-nghiep`, `/cong-viec-cuoc-song`) lấy từ `STUDIOS` — KHÔNG lặp lại
-// chuỗi ở đây — để đổi URL gốc chỉ cần sửa một chỗ (`lib/studios.ts`).
+// [2026-09-20] Trụ Sự nghiệp, Khởi nghiệp và nửa "Đời sống" đã bị GỠ HẲN khỏi giao diện theo
+// quyết định của chủ dự án, nên mọi hàm dựng URL của chúng (`duongDanSuNghiep`,
+// `duongDanKhoiNghiep`, `duongDanDoiSong`, `duongDanCareerInterview`, `duongDanStartupCanvas`,
+// `duongDanLifeWheel`, `CAREER_STUDIO_PATH`) đã bị xoá cùng với trang của chúng. Nửa "Công việc"
+// giữ lại, đổi tên hiển thị thành "Ghi chú" và đứng riêng ở `/ghi-chu` — KHÔNG còn tham số
+// `?muc=` vì không còn tab nào để chọn.
+//
+// Base path lấy từ `STUDIOS` — KHÔNG lặp lại chuỗi ở đây — để đổi URL gốc chỉ cần sửa một chỗ
+// (`lib/studios.ts`).
 import { STUDIOS } from './studios'
 
 function studioPath(id: string): string {
@@ -17,50 +21,17 @@ function studioPath(id: string): string {
   return st.to
 }
 
-/** Trang hợp nhất Sự Nghiệp & Khởi Nghiệp (tab chọn bằng `?muc=`). */
-export const CAREER_STUDIO_PATH = studioPath('career')
+/** Trang "Ghi chú" (việc cần làm, dự án, cuộc họp, tài liệu). */
+export const NOTES_STUDIO_PATH = studioPath('notes')
 
-/** Trang hợp nhất Công Việc & Đời Sống (tab chọn bằng `?muc=`). */
-export const WORKLIFE_STUDIO_PATH = studioPath('worklife')
-
-/** Tab "Sự nghiệp" trong studio Career. */
-export function duongDanSuNghiep(): string {
-  return `${CAREER_STUDIO_PATH}?muc=su-nghiep`
+/** Trang "Ghi chú" — điểm vào chính. */
+export function duongDanGhiChu(): string {
+  return NOTES_STUDIO_PATH
 }
 
-/** Tab "Khởi nghiệp" trong studio Career. */
-export function duongDanKhoiNghiep(): string {
-  return `${CAREER_STUDIO_PATH}?muc=khoi-nghiep`
-}
-
-/** Tab "Công việc" trong studio Work & Life. */
-export function duongDanCongViec(): string {
-  return `${WORKLIFE_STUDIO_PATH}?muc=cong-viec`
-}
-
-/** Tab "Đời sống" trong studio Work & Life. */
-export function duongDanDoiSong(): string {
-  return `${WORKLIFE_STUDIO_PATH}?muc=doi-song`
-}
-
-/** Phòng Luyện Phỏng Vấn AI (công cụ của tab Sự nghiệp). */
-export function duongDanCareerInterview(): string {
-  return '/career/interview'
-}
-
-/** Bảng Kanban việc cần làm (công cụ của tab Công việc). */
-export function duongDanWorkKanban(): string {
-  return '/work/kanban'
-}
-
-/** Lean Canvas khởi nghiệp (công cụ của tab Khởi nghiệp). */
-export function duongDanStartupCanvas(): string {
-  return '/startup/canvas'
-}
-
-/** Bánh xe cuộc sống (công cụ của tab Đời sống). */
-export function duongDanLifeWheel(): string {
-  return '/life/wheel'
+/** Bảng Kanban việc cần làm (công cụ của trang Ghi chú). */
+export function duongDanGhiChuKanban(): string {
+  return '/ghi-chu/kanban'
 }
 
 /** Action Canvas của Companion (không thuộc riêng trụ nào). */

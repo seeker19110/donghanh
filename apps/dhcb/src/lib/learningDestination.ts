@@ -10,7 +10,6 @@
 
 /** Nơi học được gợi ý. `isCompanion` = đích cần đăng nhập và nhận được nháp câu hỏi. */
 import { duongDanLuyenNoi } from './englishRoutes'
-import { duongDanCareerInterview } from './domainRoutes'
 
 export interface Destination {
   route: string
@@ -29,6 +28,9 @@ const COMPANION: Destination = {
 
 // Bảng từ khoá → nơi học. Cố tình để dạng dữ liệu (không phải chuỗi if lồng nhau) để đọc và bổ
 // sung môn mới dễ, và để test liệt kê được từng nhánh.
+// [2026-09-20] Dòng từ khoá 'phỏng vấn'/'sự nghiệp' → `/career/interview` đã bị gỡ cùng trang
+// Phòng Luyện Phỏng Vấn: không được trỏ tới trang không còn tồn tại. Các câu hỏi đó nay rơi về
+// Bạn Đồng Hành (`COMPANION`), nơi vẫn trò chuyện được mọi lĩnh vực.
 const KEYWORD_ROUTES: { keywords: string[]; destination: Destination }[] = [
   {
     keywords: ['toán', 'đạo hàm', 'tích phân', 'hàm số', 'phương trình', 'cực trị', 'hình học'],
@@ -63,15 +65,6 @@ const KEYWORD_ROUTES: { keywords: string[]; destination: Destination }[] = [
       route: '/goc-hoc-tap/biology',
       label: 'Môn Sinh học',
       reason: 'Câu hỏi có từ khoá về Sinh học.',
-      isCompanion: false,
-    },
-  },
-  {
-    keywords: ['phỏng vấn', 'cv', 'sự nghiệp', 'career'],
-    destination: {
-      route: duongDanCareerInterview(),
-      label: 'Luyện phỏng vấn',
-      reason: 'Câu hỏi có từ khoá về tuyển dụng, sự nghiệp.',
       isCompanion: false,
     },
   },

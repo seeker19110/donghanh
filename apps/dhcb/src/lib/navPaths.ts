@@ -64,25 +64,6 @@ export const PROFILE_PATHS = [
   '/cai-dat',
   '/tien-do',
   '/lich-su-hoc',
-  '/su-nghiep-cua-toi',
-  '/hoc-su-nghiep',
-  '/su-nghiep',
-  '/su-nghiep-khoi-nghiep',
-  '/career',
-  '/cong-viec-cua-toi',
-  '/hoc-cong-viec',
-  '/cong-viec',
-  '/cong-viec-cuoc-song',
-  '/work',
-  '/toi-khoi-nghiep',
-  '/hoc-khoi-nghiep',
-  '/khoi-nghiep',
-  '/startup',
-  '/cuoc-song-cua-toi',
-  '/hoc-cuoc-song',
-  '/cuoc-song',
-  '/life',
-  '/life-graph',
   '/ban-be',
   '/tin-nhan',
 ]
@@ -120,36 +101,68 @@ export const ENGLISH_PATHS = [
   '/cai-dat',
 ]
 
-export const CAREER_PATHS = [
-  '/su-nghiep-khoi-nghiep',
-  '/su-nghiep-cua-toi',
-  '/hoc-su-nghiep',
-  '/su-nghiep',
-  '/career',
-  '/toi-khoi-nghiep',
-  '/hoc-khoi-nghiep',
-  '/khoi-nghiep',
-  '/startup',
-]
-
-export const WORKLIFE_PATHS = [
+/**
+ * Mục sidebar "Ghi chú" (`/ghi-chu`).
+ *
+ * [2026-09-20] Thay cho `CAREER_PATHS` + `WORKLIFE_PATHS` + `CAREER_LIFE_PATHS` cũ: hai trụ
+ * Sự nghiệp/Khởi nghiệp và nửa "Đời sống" đã bị gỡ hẳn khỏi giao diện, nên chỉ còn nửa "Công
+ * việc" — nay mang tên "Ghi chú". Các đường CŨ (`/cong-viec`, `/work`, `/cong-viec-cuoc-song`…)
+ * vẫn nằm đây vì App.tsx chuyển hướng chúng về `/ghi-chu`: trong một nhịp render trước khi
+ * `<Navigate>` kịp chạy, sidebar vẫn phải sáng đúng mục thay vì nhấp nháy sang mục khác.
+ */
+export const NOTES_PATHS = [
+  '/ghi-chu',
   '/cong-viec-cuoc-song',
   '/cong-viec-cua-toi',
   '/hoc-cong-viec',
   '/cong-viec',
   '/work',
-  '/cuoc-song-cua-toi',
-  '/hoc-cuoc-song',
-  '/cuoc-song',
-  '/life-graph',
-  '/life',
 ]
 
 /**
- * Nhóm sidebar "Sự nghiệp & Đời sống" (P1-7, lệnh 9) gộp 2 studio `career` + `worklife` cũ
- * thành MỘT mục cấp 1 — hợp của hai bảng path, không trùng lặp phần tử.
+ * URL CŨ của trụ "Công việc" → chuyển hướng về `/ghi-chu` (App.tsx). Giữ đủ bộ alias Việt–Anh
+ * đã từng tồn tại để bookmark và link đã chia sẻ không thành 404.
  */
-export const CAREER_LIFE_PATHS: readonly string[] = [...CAREER_PATHS, ...WORKLIFE_PATHS]
+export const LEGACY_NOTES_PATHS = [
+  '/cong-viec-cuoc-song',
+  '/cong-viec',
+  '/cong-viec-cua-toi',
+  '/hoc-cong-viec',
+  '/work',
+  '/work/kanban',
+] as const
+
+/**
+ * URL CŨ của các trụ ĐÃ GỠ HẲN 2026-09-20 (Sự nghiệp, Khởi nghiệp, Đời sống) → chuyển hướng về
+ * Trang chủ.
+ *
+ * Vì sao KHÔNG đẩy sang `/ghi-chu`: nội dung của các trụ này không còn tồn tại ở đâu cả. Đưa
+ * người dùng tới một trang nội dung KHÁC HẲN rồi im lặng là nói dối về nơi họ đang đứng — về
+ * Trang chủ thì họ tự thấy ngay app có gì.
+ */
+export const REMOVED_DOMAIN_PATHS = [
+  // Sự nghiệp
+  '/su-nghiep-khoi-nghiep',
+  '/su-nghiep',
+  '/su-nghiep-cua-toi',
+  '/hoc-su-nghiep',
+  '/career',
+  '/career/interview',
+  // Khởi nghiệp
+  '/khoi-nghiep',
+  '/toi-khoi-nghiep',
+  '/hoc-khoi-nghiep',
+  '/startup',
+  '/startup/canvas',
+  // Đời sống
+  '/cuoc-song',
+  '/cuoc-song-cua-toi',
+  '/hoc-cuoc-song',
+  '/life',
+  '/life/wheel',
+  '/life/wheel-of-life',
+  '/life-graph',
+] as const
 
 /** Trang tiến độ — tách khỏi PROFILE_PATHS để sidebar có mục "Tiến độ" riêng. */
 export const PROGRESS_PATHS = ['/tien-do']

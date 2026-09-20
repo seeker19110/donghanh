@@ -48,6 +48,24 @@ describe('workApi', () => {
     expect(res).toEqual(mock)
   })
 
+  // [2026-09-20] Cổng canh lỗi ĐÃ XẢY RA: client từng gửi `kind: 'project_status'` /
+  // 'task_status', không khớp discriminator nào của `PatchBodySchema` ở
+  // apps/server/src/api/domains/work.ts, nên MỌI lần đổi trạng thái đều bị server trả 400 mà
+  // giao diện không báo gì rõ ràng. Hai `kind` hợp lệ duy nhất là 'project' và 'task'.
+  it('PATCH gửi đúng discriminator kind mà server chờ', async () => {
+    const fetchSpy = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValue({ ok: true, json: async () => ({}) } as unknown as Response)
+
+    await updateWorkProjectStatus('p-9', 'completed')
+    await updateWorkTaskStatus('t-9', 'done')
+
+    const kinds = fetchSpy.mock.calls.map(
+      (call) => JSON.parse(String((call[1] as RequestInit).body)).kind,
+    )
+    expect(kinds).toEqual(['project', 'task'])
+  })
+
   it('updateWorkProjectStatus sends PATCH', async () => {
     const mock = { id: 'p-2', status: 'completed' }
     vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({

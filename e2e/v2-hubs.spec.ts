@@ -75,83 +75,6 @@ test.describe('Platform V2 Specialized Domain Hubs & Companion E2E', () => {
       })
     })
 
-    // Mock Career API
-    await page.route('**/api/career*', async (route) => {
-      const url = route.request().url()
-      if (url.includes('resource=profile')) {
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({
-            profile: {
-              targetRole: 'Staff AI Engineer',
-              currentTitle: 'Senior Software Engineer',
-              yearsOfExperience: 6,
-              industry: 'EdTech AI',
-              targetSalaryMin: 50000000,
-              targetSalaryMax: 80000000,
-              currency: 'VND',
-            },
-          }),
-        })
-      } else if (url.includes('resource=experiences')) {
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({
-            experiences: [
-              {
-                id: 'exp-1',
-                company: 'VNG Tech',
-                role: 'Senior Software Engineer',
-                startDate: '2022-01',
-                isCurrent: true,
-                achievements: ['Xây dựng kiến trúc hệ thống phục vụ 500k DAU'],
-              },
-            ],
-          }),
-        })
-      } else if (url.includes('resource=goals')) {
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({
-            goals: [
-              {
-                id: 'goal-1',
-                targetTitle: 'VP of Engineering',
-                targetCompanyType: 'Global Tech',
-                timeframe: '2 năm',
-                skillsRequired: ['System Design', 'English C1', 'Executive Leadership'],
-                status: 'in_progress',
-              },
-            ],
-          }),
-        })
-      } else if (url.includes('resource=skill_gap')) {
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({
-            analysis: {
-              goalId: 'goal-1',
-              gaps: [
-                { skill: 'System Design', requiredLevel: 'Expert', isFulfilled: true },
-                {
-                  skill: 'English C1',
-                  requiredLevel: 'C1',
-                  currentMastery: 'B2',
-                  isFulfilled: false,
-                },
-              ],
-            },
-          }),
-        })
-      } else {
-        await route.fulfill({ status: 200, contentType: 'application/json', body: '{}' })
-      }
-    })
-
     // Mock Work API
     await page.route('**/api/work*', async (route) => {
       const url = route.request().url()
@@ -221,153 +144,6 @@ test.describe('Platform V2 Specialized Domain Hubs & Companion E2E', () => {
         await route.fulfill({ status: 200, contentType: 'application/json', body: '{}' })
       }
     })
-
-    // Mock Startup API
-    await page.route('**/api/startup*', async (route) => {
-      const url = route.request().url()
-      if (url.includes('kind=ventures')) {
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({
-            ventures: [
-              {
-                id: 'ven-1',
-                name: 'AI Companion SaaS',
-                stage: 'validation',
-                description: 'Trợ lý học tập và phát triển cá nhân hóa',
-              },
-            ],
-          }),
-        })
-      } else if (url.includes('kind=problems')) {
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({
-            problems: [
-              {
-                id: 'prob-1',
-                statement: 'Người đi làm khó duy trì kỷ luật học tiếng Anh',
-                customerSegment: 'Kỹ sư công nghệ',
-                severity: 'critical',
-                evidenceCount: 3,
-              },
-            ],
-          }),
-        })
-      } else if (url.includes('kind=hypotheses')) {
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({
-            hypotheses: [
-              {
-                id: 'hyp-1',
-                statement: 'Tích hợp Life Graph tăng tỷ lệ giữ chân lên 40%',
-                hypothesisType: 'solution',
-                status: 'supported',
-              },
-            ],
-          }),
-        })
-      } else if (url.includes('kind=evidence')) {
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({
-            evidence: [
-              {
-                id: 'ev-1',
-                title: 'Phỏng vấn 30 người dùng Alpha',
-                evidenceType: 'interview',
-                provenance: 'Survey 2026-08',
-                findings: '90% người dùng đánh giá cao tính năng Life Graph',
-                supportsHypothesis: true,
-              },
-            ],
-          }),
-        })
-      } else {
-        await route.fulfill({ status: 200, contentType: 'application/json', body: '{}' })
-      }
-    })
-
-    // Mock Life Foundation API
-    await page.route('**/api/life*', async (route) => {
-      const url = route.request().url()
-      if (url.includes('kind=habits')) {
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({
-            habits: [
-              {
-                id: 'hab-1',
-                title: 'Luyện phát âm 15 phút mỗi sáng',
-                habitType: 'build',
-                currentStreak: 12,
-                bestStreak: 21,
-              },
-            ],
-          }),
-        })
-      } else if (url.includes('kind=wellbeing')) {
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          // Handler thật (apps/server/src/api/domains/life.ts) trả khoá "checks" cho
-          // kind=wellbeing, không phải "wellbeing".
-          body: JSON.stringify({
-            checks: [
-              {
-                id: 'wb-1',
-                moodScore: 9,
-                energyScore: 8,
-                stressScore: 2,
-                notes: 'Tràn đầy năng lượng sau buổi học',
-                checkedAt: new Date().toISOString(),
-              },
-            ],
-          }),
-        })
-      } else if (url.includes('kind=plans')) {
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({
-            plans: [
-              {
-                id: 'plan-1',
-                title: 'Chinh phục IELTS 7.5 trong Q4',
-                planType: 'quarterly',
-                periodStart: '2026-10-01',
-                periodEnd: '2026-12-31',
-                status: 'active',
-              },
-            ],
-          }),
-        })
-      } else if (url.includes('kind=milestones')) {
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({
-            milestones: [
-              {
-                id: 'mile-1',
-                title: 'Hoàn thành Cấp độ CEFR B2',
-                area: 'learning',
-                achievedAt: '2026-08-15',
-                description: 'Vượt qua bài thi đánh giá 4 kỹ năng',
-              },
-            ],
-          }),
-        })
-      } else {
-        await route.fulfill({ status: 200, contentType: 'application/json', body: '{}' })
-      }
-    })
   })
 
   test('Trang chủ hiển thị thẻ Bạn Đồng Hành AI, Không Gian Chuyên Biệt nằm ở trang Cá nhân', async ({
@@ -382,14 +158,18 @@ test.describe('Platform V2 Specialized Domain Hubs & Companion E2E', () => {
     await page.goto('/')
     await expect(page.getByRole('heading', { name: /Bạn Đồng Hành AI/ })).toBeVisible()
 
-    // Trang Cá nhân nay liệt kê 2 thẻ trụ, vì cả hai cặp đều đã GỘP:
-    //   · Work + Life  → "Công việc & Đời sống" (migration 0066)
-    //   · Career + Startup → "Sự nghiệp & Khởi nghiệp" (2026-08-28)
+    // Trang Cá nhân [2026-09-20] chỉ còn ĐÚNG MỘT thẻ trụ: "Ghi chú" (nửa "Công việc" cũ) —
+    // ba thẻ "Sự nghiệp & Khởi nghiệp", "Công việc & Đời sống", "Mạng lưới cá nhân" đã gỡ hẳn
+    // cùng trang của chúng (docs/changelog/0389-*.md). Chốt chặn để không âm thầm quay lại.
     await page.goto('/profile')
-    await expect(page.getByText('Sự nghiệp & Khởi nghiệp', { exact: true })).toBeVisible()
-    await expect(page.getByText('Công việc & Đời sống', { exact: true })).toBeVisible()
-    // Chốt chặn để không âm thầm quay lại kiểu cũ: bốn thẻ tách rời phải KHÔNG còn.
-    for (const cu of ['Sự nghiệp', 'Khởi nghiệp', 'Công việc', 'Đời sống']) {
+    await expect(page.getByText('Ghi chú', { exact: true }).first()).toBeVisible()
+    for (const cu of [
+      'Sự nghiệp & Khởi nghiệp',
+      'Công việc & Đời sống',
+      'Sự nghiệp',
+      'Khởi nghiệp',
+      'Đời sống',
+    ]) {
       await expect(page.getByText(cu, { exact: true })).toHaveCount(0)
     }
   })
@@ -420,29 +200,16 @@ test.describe('Platform V2 Specialized Domain Hubs & Companion E2E', () => {
     await expect(page.getByText('Đã thực thi')).toBeVisible()
   })
 
-  test('Luồng Career Hub: hiển thị thông tin hồ sơ, mục tiêu và phân tích khoảng cách kỹ năng', async ({
+  test('Luồng Ghi chú: chuyển đổi giữa các tab Việc, Dự án, Cuộc họp và Ghi chú', async ({
     page,
   }) => {
-    await page.goto('/su-nghiep')
-    await expect(page.getByText('Không Gian Sự Nghiệp (Career Hub)')).toBeVisible()
-    await expect(page.getByText('Staff AI Engineer')).toBeVisible()
-    await expect(page.getByText('6 năm kinh nghiệm')).toBeVisible()
-    await expect(page.getByText('VP of Engineering')).toBeVisible()
-    await expect(page.getByRole('heading', { name: /Phân Tích Khoảng Cách Kỹ Năng/ })).toBeVisible()
-    await expect(page.getByText('System Design').first()).toBeVisible()
-    await expect(page.getByText('English C1').first()).toBeVisible()
-  })
-
-  test('Luồng Work Hub: chuyển đổi giữa các tab Công việc, Dự án, Cuộc họp và Tài liệu', async ({
-    page,
-  }) => {
-    // Route cũ /cong-viec nay chuyển hướng sang tab "Công việc" của trụ gộp
-    // "Công việc & Đời sống" (migration 0066) — kiểm luôn để link cũ không gãy im lặng.
+    // [2026-09-20] Trụ "Công việc" đổi tên hiển thị thành "Ghi chú" và đứng riêng ở `/ghi-chu`.
+    // Route cũ /cong-viec chuyển hướng sang đó — kiểm luôn để link cũ không gãy im lặng.
     await page.goto('/cong-viec')
-    await expect(page).toHaveURL(/\/cong-viec-cuoc-song\?muc=cong-viec/)
-    await expect(page.getByText('Không Gian Công Việc (Work Hub)')).toBeVisible()
+    await expect(page).toHaveURL(/\/ghi-chu$/)
+    await expect(page.getByRole('heading', { name: 'Ghi chú', level: 1 })).toBeVisible()
 
-    // Tab 1: Công việc
+    // Tab 1: việc cần làm
     await expect(page.getByText('Hoàn thiện E2E Tests')).toBeVisible()
 
     // Tab 2: Dự án
@@ -453,46 +220,15 @@ test.describe('Platform V2 Specialized Domain Hubs & Companion E2E', () => {
     await page.getByRole('button', { name: /Cuộc họp/ }).click()
     await expect(page.getByText('V2 Architecture Sprint Sync')).toBeVisible()
 
-    // Tab 4: Tài liệu
-    await page.getByRole('button', { name: /Tài liệu/ }).click()
+    // Tab 4: Ghi chú (entity `document` của /api/work — tên hiển thị đổi, hợp đồng giữ nguyên)
+    await page.getByRole('button', { name: /^Ghi chú \(/ }).click()
     await expect(page.getByText('V2 Architecture Spec')).toBeVisible()
   })
 
-  test('Luồng Startup Hub: xem Lean Canvas và Nhật ký Bằng chứng', async ({ page }) => {
-    await page.goto('/khoi-nghiep')
-    await expect(page.getByText('Không Gian Khởi Nghiệp (Startup Hub)')).toBeVisible()
-    await expect(page.getByText('Trợ lý học tập và phát triển cá nhân hóa')).toBeVisible()
-    await expect(page.getByText('Người đi làm khó duy trì kỷ luật học tiếng Anh')).toBeVisible()
-    await expect(page.getByText('Tích hợp Life Graph tăng tỷ lệ giữ chân lên 40%')).toBeVisible()
-
-    // Chuyển sang tab Nhật ký bằng chứng
-    await page.getByRole('button', { name: /Nhật Ký Bằng Chứng/ }).click()
-    await expect(page.getByText('Phỏng vấn 30 người dùng Alpha')).toBeVisible()
-    await expect(page.getByText('Ủng hộ giả thuyết')).toBeVisible()
-  })
-
-  test('Luồng Life Foundation Hub: xem chuỗi thói quen, check-in sức khỏe và kế hoạch', async ({
-    page,
-  }) => {
-    // Route cũ /cuoc-song nay chuyển hướng sang tab "Đời sống" của trụ gộp.
-    await page.goto('/cuoc-song')
-    await expect(page).toHaveURL(/\/cong-viec-cuoc-song\?muc=doi-song/)
-    await expect(page.getByText('Nền Tảng Cuộc Sống (Life Foundation)')).toBeVisible()
-
-    // Tab Thói quen
-    await expect(page.getByText('Luyện phát âm 15 phút mỗi sáng')).toBeVisible()
-    await expect(page.getByText('12 ngày')).toBeVisible()
-
-    // Tab Sức khỏe & Tâm trạng
-    await page.getByRole('button', { name: /Sức khỏe & Tâm trạng/ }).click()
-    await expect(page.getByText('Tràn đầy năng lượng sau buổi học')).toBeVisible()
-
-    // Tab Kế hoạch
-    await page.getByRole('button', { name: /Kế hoạch/ }).click()
-    await expect(page.getByText('Chinh phục IELTS 7.5 trong Q4')).toBeVisible()
-
-    // Tab Cột mốc
-    await page.getByRole('button', { name: /Cột mốc/ }).click()
-    await expect(page.getByText('Hoàn thành Cấp độ CEFR B2')).toBeVisible()
+  test('URL cũ của ba trụ đã gỡ đều về Trang chủ, không thành 404', async ({ page }) => {
+    for (const path of ['/su-nghiep', '/khoi-nghiep', '/cuoc-song', '/life-graph']) {
+      await page.goto(path)
+      await expect(page).toHaveURL(/\/$/)
+    }
   })
 })

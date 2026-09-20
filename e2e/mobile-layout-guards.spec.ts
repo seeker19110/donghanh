@@ -48,10 +48,8 @@ const ROUTES = [
   '/ho-so',
   '/gia-ca',
   '/kien-thuc-ung-dung',
-  '/su-nghiep-khoi-nghiep?muc=su-nghiep',
-  '/su-nghiep-khoi-nghiep?muc=khoi-nghiep',
-  '/cong-viec-cuoc-song?muc=cong-viec',
-  '/cong-viec-cuoc-song?muc=doi-song',
+  '/ghi-chu',
+  '/ghi-chu/kanban',
   // [S07-2] Vùng học môn STEM: hai trang này nay có mục lục (nút mở panel ở trang bài, cây bài
   // ở trang danh sách). Trước đợt này chưa route môn nào của STEM nằm trong phép đo lề dưới.
   '/goc-hoc-tap/physics/bai-hoc',

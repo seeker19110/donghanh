@@ -8,6 +8,9 @@ import {
   formatStartupReadModelForContext,
   formatLifeReadModelForContext,
   getWorkReadModel,
+  excerptNote,
+  NOTE_CONTEXT_LIMIT,
+  NOTE_CONTEXT_EXCERPT,
   getStartupReadModel,
   getLifeReadModel,
   getDomainReadModelForContext,
@@ -16,9 +19,11 @@ import {
 
 const listWorkProjects = vi.fn()
 const listWorkTasks = vi.fn()
+const listWorkDocuments = vi.fn()
 vi.mock('./workService.js', () => ({
   listWorkProjects: (...a: unknown[]) => listWorkProjects(...a),
   listWorkTasks: (...a: unknown[]) => listWorkTasks(...a),
+  listWorkDocuments: (...a: unknown[]) => listWorkDocuments(...a),
 }))
 
 const listVentures = vi.fn()
@@ -53,6 +58,8 @@ const PERSON = '11111111-1111-4111-8111-111111111111'
 
 beforeEach(() => {
   vi.clearAllMocks()
+  // Mặc định KHÔNG có ghi chú nào: mọi ca cũ phải chạy được y như trước khi nối nguồn này vào.
+  listWorkDocuments.mockResolvedValue([])
 })
 
 describe('isDomainReadModelDomain', () => {
@@ -91,7 +98,75 @@ describe('Work read model', () => {
     listWorkTasks.mockResolvedValue([])
     const m = await getWorkReadModel(pool, PERSON)
     expect(m.overdueTaskCount).toBe(0)
-    expect(formatWorkReadModelForContext(m)).toContain('Dự án đang chạy: 0')
+    expect(m.recentNotes).toEqual([])
+    const text = formatWorkReadModelForContext(m)
+    expect(text).toContain('Dự án đang chạy: 0')
+    // Không có ghi chú thì KHÔNG in mục "Ghi chú gần đây" rỗng — đó là rác trong ngữ cảnh.
+    expect(text).not.toContain('Ghi chú gần đây')
+  })
+})
+
+// [2026-09-20] Nội dung ghi chú được nạp vào ngữ cảnh Bạn Đồng Hành — yêu cầu của chủ dự án.
+describe('Ghi chú trong ngữ cảnh Companion', () => {
+  beforeEach(() => {
+    listWorkProjects.mockResolvedValue([])
+  })
+
+  it('nạp nội dung ghi chú và tiêu đề việc CHƯA xong vào chuỗi ngữ cảnh', async () => {
+    listWorkTasks.mockResolvedValue([
+      { status: 'todo', priority: 'high', title: 'Gọi cho khách hàng A' },
+      { status: 'done', priority: 'low', title: 'Việc đã xong' },
+    ])
+    listWorkDocuments.mockResolvedValue([
+      { title: 'Biên bản họp thứ Hai', summary: 'Chốt giá gói VIP và ngày ra mắt.' },
+    ])
+
+    const m = await getWorkReadModel(pool, PERSON)
+    expect(m.openTaskTitles).toEqual(['Gọi cho khách hàng A'])
+    expect(m.recentNotes).toEqual([
+      {
+        title: 'Biên bản họp thứ Hai',
+        excerpt: 'Chốt giá gói VIP và ngày ra mắt.',
+        truncated: false,
+      },
+    ])
+
+    const text = formatWorkReadModelForContext(m)
+    expect(text).toContain('Gọi cho khách hàng A')
+    expect(text).toContain('Biên bản họp thứ Hai')
+    expect(text).toContain('Chốt giá gói VIP và ngày ra mắt.')
+    // Việc ĐÃ xong không được lọt vào danh sách việc tồn đọng.
+    expect(text).not.toContain('Việc đã xong')
+  })
+
+  it('chỉ lấy NOTE_CONTEXT_LIMIT ghi chú mới nhất — không nuốt hết ngân sách token', async () => {
+    listWorkTasks.mockResolvedValue([])
+    listWorkDocuments.mockResolvedValue(
+      // `listWorkDocuments` sắp xếp mới nhất trước, nên phần tử đầu là mới nhất.
+      Array.from({ length: NOTE_CONTEXT_LIMIT + 3 }, (_, i) => ({
+        title: `Ghi chú ${i}`,
+        summary: `nội dung ${i}`,
+      })),
+    )
+    const m = await getWorkReadModel(pool, PERSON)
+    expect(m.recentNotes).toHaveLength(NOTE_CONTEXT_LIMIT)
+    expect(m.recentNotes[0]?.title).toBe('Ghi chú 0')
+  })
+
+  it('ghi chú dài 10.000 ký tự bị CẮT ở NOTE_CONTEXT_EXCERPT và đánh dấu truncated', async () => {
+    listWorkTasks.mockResolvedValue([])
+    listWorkDocuments.mockResolvedValue([{ title: 'Ghi chú dài', summary: 'x'.repeat(10_000) }])
+    const m = await getWorkReadModel(pool, PERSON)
+    expect(m.recentNotes[0]?.excerpt).toHaveLength(NOTE_CONTEXT_EXCERPT)
+    expect(m.recentNotes[0]?.truncated).toBe(true)
+    expect(formatWorkReadModelForContext(m)).toContain('…')
+  })
+
+  it('excerptNote gộp khoảng trắng, ca biên đúng bằng ngưỡng thì KHÔNG cắt', () => {
+    expect(excerptNote('  a\n\n  b  ').text).toBe('a b')
+    const vua = 'y'.repeat(NOTE_CONTEXT_EXCERPT)
+    expect(excerptNote(vua)).toEqual({ text: vua, truncated: false })
+    expect(excerptNote('y'.repeat(NOTE_CONTEXT_EXCERPT + 1)).truncated).toBe(true)
   })
 })
 
@@ -206,6 +281,7 @@ describe('getDomainReadModelForContext', () => {
     listWorkProjects.mockResolvedValue([])
     listWorkTasks.mockResolvedValue([])
     const text = await getDomainReadModelForContext(pool, PERSON, 'work')
-    expect(text).toContain('[Domain: Work]')
+    // Nhãn hiển thị đổi sang 'Ghi chú' 2026-09-20; khoá kỹ thuật vẫn là 'work'.
+    expect(text).toContain('[Domain: Ghi chú]')
   })
 })

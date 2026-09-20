@@ -1,9 +1,11 @@
-// apps/dhcb/src/pages/WorkKanban.tsx — Interactive Kanban Board (Work Sub-page)
+// apps/dhcb/src/pages/domains/notes/NotesKanban.tsx — bảng Kanban việc cần làm, trang con của
+// "Ghi chú" (`/ghi-chu/kanban`). Đổi tên hiển thị từ "Công việc" 2026-09-20; bố cục và API
+// (`/api/work`) giữ NGUYÊN.
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Plus, Clock, CheckCircle2, ArrowRight, ArrowLeft, Filter, Search } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
-import { duongDanCongViec } from '../../../lib/domainRoutes'
+import { duongDanGhiChu } from '../../../lib/domainRoutes'
 import Layout from '../../../components/Layout'
 import PageHeader from '../../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
@@ -16,27 +18,31 @@ import {
 } from '../../../lib/workApi'
 import type { WorkTask, WorkProject } from '@dhcb/core-contracts/work'
 
+// Nền cố định trang này LUÔN tối (bg-zinc-950, không đổi theo theme — xem thẻ gốc bên
+// dưới), nên `theme-light:` ở đây KHÔNG được chỉ đổi màu chữ sang sắc tối (chữ tối trên
+// nền tối vẫn tối = rớt contrast ở theme sáng, bắt bởi e2e/a11y.spec.ts). Phải đổi CẢ nền
+// sang màu sáng (`theme-light:bg-*-50`) cùng lúc, đúng pattern đã dùng ở Notes.tsx.
 const PRIORITY_COLORS: Record<string, { label: string; cls: string }> = {
   urgent: {
     label: 'Khẩn cấp',
-    cls: 'bg-red-500/15 text-red-400 theme-light:text-red-900 border-red-500/30',
+    cls: 'bg-red-500/15 theme-light:bg-red-50 text-red-400 theme-light:text-red-900 border-red-500/30',
   },
   high: {
     label: 'Cao',
-    cls: 'bg-orange-500/15 text-orange-400 theme-light:text-orange-900 border-orange-500/30',
+    cls: 'bg-orange-500/15 theme-light:bg-orange-50 text-orange-400 theme-light:text-orange-900 border-orange-500/30',
   },
   medium: {
     label: 'Vừa',
-    cls: 'bg-amber-500/15 text-amber-400 theme-light:text-amber-900 border-amber-500/30',
+    cls: 'bg-amber-500/15 theme-light:bg-amber-50 text-amber-400 theme-light:text-amber-900 border-amber-500/30',
   },
   low: {
     label: 'Thấp',
-    cls: 'bg-blue-500/15 text-blue-400 theme-light:text-blue-800 border-blue-500/30',
+    cls: 'bg-blue-500/15 theme-light:bg-blue-50 text-blue-400 theme-light:text-blue-800 border-blue-500/30',
   },
 }
 
-export default function WorkKanban() {
-  usePageTitle('Bảng công việc Kanban | Đồng hành cùng bạn')
+export default function NotesKanban() {
+  usePageTitle('Bảng Kanban ghi chú | Đồng hành cùng bạn')
   const nav = useNavigate()
   const toast = useToast()
   const [tasks, setTasks] = useState<WorkTask[]>([])
@@ -107,13 +113,13 @@ export default function WorkKanban() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout onBack={() => nav(duongDanCongViec())} />
+      <Layout onBack={() => nav(duongDanGhiChu())} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Lưới 2 cột, không phải bảng cuộn ngang →
       width="standard". */}
       <PageShell width="standard" baseWidth="max-w-6xl" className="space-y-6">
         <PageHeader
-          title="Bảng Kanban Quản Lý Dự Án"
+          title="Bảng Kanban việc cần làm"
           subtitle="Theo dõi tiến độ, phân loại mức độ ưu tiên và tối ưu hóa quy trình làm việc"
         />
 
@@ -135,6 +141,7 @@ export default function WorkKanban() {
             <select
               value={selectedProjectId}
               onChange={(e) => setSelectedProjectId(e.target.value)}
+              aria-label="Lọc theo dự án"
               className="bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none"
             >
               <option value="all">Tất cả dự án ({tasks.length})</option>
@@ -164,7 +171,7 @@ export default function WorkKanban() {
                 </div>
                 <button
                   onClick={() => setAddingToStatus(addingToStatus === 'todo' ? null : 'todo')}
-                  className="tap-44 text-xs text-accent-400 hover:text-accent-300 flex items-center gap-1 font-semibold"
+                  className="tap-44 text-xs text-accent-400 theme-light:text-accent-800 hover:text-accent-300 theme-light:hover:text-accent-900 flex items-center gap-1 font-semibold"
                 >
                   <Plus className="w-3.5 h-3.5" /> Thêm việc
                 </button>
@@ -252,7 +259,7 @@ export default function WorkKanban() {
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 theme-light:text-emerald-900" />
                   <h3 className="text-sm font-bold text-white">ĐÃ HOÀN THÀNH</h3>
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-300 theme-light:text-emerald-900">
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 theme-light:bg-emerald-50 text-xs font-bold text-emerald-300 theme-light:text-emerald-900">
                     {doneTasks.length}
                   </span>
                 </div>

@@ -19,7 +19,6 @@ import {
   MicOff,
   Calculator,
   MessageSquare,
-  Briefcase,
   Activity,
   Brain,
   Search,
@@ -66,14 +65,6 @@ const PROMPT_CHIPS: PromptChip[] = [
     query: 'Tìm cực trị của hàm số bậc 3: y = x^3 - 3x + 2',
     badgeColor:
       'hover:border-blue-500/50 hover:bg-blue-500/10 text-blue-300 theme-light:text-blue-800',
-  },
-  {
-    id: 'career',
-    label: '💼 Phỏng vấn thử việc',
-    icon: Briefcase,
-    query: 'Mô phỏng câu hỏi phỏng vấn STAR cho vị trí Data Analyst',
-    badgeColor:
-      'hover:border-purple-500/50 hover:bg-purple-500/10 text-purple-300 theme-light:text-purple-800',
   },
   {
     id: 'simulators',

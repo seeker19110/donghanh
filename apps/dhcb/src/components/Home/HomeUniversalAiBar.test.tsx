@@ -209,7 +209,7 @@ describe('validation', () => {
 
   it('chừa sẵn 56px cho validation trước khi có lỗi để phần disclosure không nhảy', async () => {
     await render('account')
-    const toggle = findByText('button', 'Xem 5 gợi ý nhanh')
+    const toggle = findByText('button', 'Xem 4 gợi ý nhanh')
     expect(toggle?.previousElementSibling?.classList.contains('min-h-14')).toBe(true)
     expect(toggle?.previousElementSibling?.querySelector('[role="alert"]')).toBeNull()
   })
@@ -225,10 +225,10 @@ describe('progressive disclosure prompt nhanh', () => {
   it('mobile giữ một panel mounted, đóng/mở bằng hidden và trả focus về toggle khi đóng', async () => {
     await render('account', false)
     const panel = container.querySelector('#home-prompt-chips') as HTMLDivElement
-    const toggle = findByText('button', 'Xem 5 gợi ý nhanh') as HTMLButtonElement
+    const toggle = findByText('button', 'Xem 4 gợi ý nhanh') as HTMLButtonElement
     expect(panel).not.toBeNull()
     expect(panel.hidden).toBe(true)
-    expect(panel.querySelectorAll('button')).toHaveLength(5)
+    expect(panel.querySelectorAll('button')).toHaveLength(4)
     expect(toggle.getAttribute('aria-expanded')).toBe('false')
 
     toggle.focus()
@@ -244,7 +244,7 @@ describe('progressive disclosure prompt nhanh', () => {
 
   it('desktop hiện 5 chip, không render toggle; roundtrip resize giữ lựa chọn mobile', async () => {
     await render('account', false)
-    const toggle = findByText('button', 'Xem 5 gợi ý nhanh') as HTMLButtonElement
+    const toggle = findByText('button', 'Xem 4 gợi ý nhanh') as HTMLButtonElement
     await act(async () => toggle.click())
     await rerender(true)
     expect(findByText('button', 'Ẩn gợi ý nhanh')).toBeUndefined()
@@ -256,7 +256,7 @@ describe('progressive disclosure prompt nhanh', () => {
 
   it('resize lên desktop khi toggle có focus chuyển focus tới chip đầu', async () => {
     await render('account', false)
-    const toggle = findByText('button', 'Xem 5 gợi ý nhanh') as HTMLButtonElement
+    const toggle = findByText('button', 'Xem 4 gợi ý nhanh') as HTMLButtonElement
     toggle.focus()
     expect(document.activeElement).toBe(toggle)
     await rerender(true)
@@ -266,7 +266,7 @@ describe('progressive disclosure prompt nhanh', () => {
 
   it('blur toggle với relatedTarget=null rồi resize không cưỡng focus tới chip đầu', async () => {
     await render('account', false)
-    const toggle = findByText('button', 'Xem 5 gợi ý nhanh') as HTMLButtonElement
+    const toggle = findByText('button', 'Xem 4 gợi ý nhanh') as HTMLButtonElement
     toggle.focus()
     expect(document.activeElement).toBe(toggle)
 
@@ -283,7 +283,7 @@ describe('progressive disclosure prompt nhanh', () => {
   it('bấm chip chỉ tạo suggestion cục bộ, không phát sinh network request', async () => {
     const fetchSpy = vi.spyOn(globalThis, 'fetch')
     await render('account', false)
-    const toggle = findByText('button', 'Xem 5 gợi ý nhanh') as HTMLButtonElement
+    const toggle = findByText('button', 'Xem 4 gợi ý nhanh') as HTMLButtonElement
     await act(async () => toggle.click())
     const chip = findByText('button', 'Giải Toán & STEM') as HTMLButtonElement
     await act(async () => chip.click())
