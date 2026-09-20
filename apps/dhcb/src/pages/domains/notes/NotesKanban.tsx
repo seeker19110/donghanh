@@ -171,7 +171,7 @@ export default function NotesKanban() {
                 </div>
                 <button
                   onClick={() => setAddingToStatus(addingToStatus === 'todo' ? null : 'todo')}
-                  className="tap-44 text-xs text-accent-400 hover:text-accent-300 flex items-center gap-1 font-semibold"
+                  className="tap-44 text-xs text-accent-400 theme-light:text-accent-800 hover:text-accent-300 theme-light:hover:text-accent-900 flex items-center gap-1 font-semibold"
                 >
                   <Plus className="w-3.5 h-3.5" /> Thêm việc
                 </button>
