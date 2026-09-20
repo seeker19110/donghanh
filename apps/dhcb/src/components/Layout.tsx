@@ -263,20 +263,24 @@ export default function Layout({
             <span className="text-sm font-medium hidden sm:inline">{backLabel}</span>
           </button>
         ) : (
-          // Logo "Đồng Hành" — bấm vào xem trang giới thiệu tính năng
-          <Link
-            to="/gioi-thieu"
-            aria-label={T.aboutApp}
-            title={T.aboutApp}
-            className="tap-44 flex items-center gap-2.5 shrink-0 -ml-1 p-1.5 rounded-xl hover:bg-zinc-800/60 transition active:scale-95 group"
-          >
-            <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-accent-500 via-accent-400 to-indigo-500 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-              <BookOpen className="w-3.5 h-3.5 text-white" />
-            </div>
-            <span className="font-bold text-sm text-white hidden sm:inline tracking-tight">
-              {T.appName}
-            </span>
-          </Link>
+          // Logo "Đồng Hành" — bấm vào xem trang giới thiệu tính năng. CHỈ hiện ở MOBILE: từ
+          // 1024px trở lên, nút "Trang chủ" (ra ngoài app, ở trên) đã đứng ngay chỗ này — hai
+          // nút cùng một chỗ, cùng nói "trang chủ" nghe TRÙNG NHAU (ảnh chụp 2026-09-20).
+          !isDesktop && (
+            <Link
+              to="/gioi-thieu"
+              aria-label={T.aboutApp}
+              title={T.aboutApp}
+              className="tap-44 flex items-center gap-2.5 shrink-0 -ml-1 p-1.5 rounded-xl hover:bg-zinc-800/60 transition active:scale-95 group"
+            >
+              <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-accent-500 via-accent-400 to-indigo-500 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                <BookOpen className="w-3.5 h-3.5 text-white" />
+              </div>
+              <span className="font-bold text-sm text-white hidden sm:inline tracking-tight">
+                {T.appName}
+              </span>
+            </Link>
+          )
         )}
 
         {/* Bộ chuyển Studio — ẩn ở chế độ tập trung (prop `focus`) VÀ dưới 1024px (P0-4):

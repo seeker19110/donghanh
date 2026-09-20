@@ -114,7 +114,11 @@ const CAREER_LIFE_ITEM: Item = {
 }
 
 const MAIN_NAV: Item[] = [
-  studioItem('subjects', LEARNING_PATHS, 'Góc học tập', SUBJECT_CHILDREN),
+  // Icon riêng CUỐN SÁCH (`BookOpen`) thay vì icon mặc định của studio `subjects`
+  // (`Calculator` ở lib/studios.ts, dùng cho Studio Switcher) — khớp icon "Gia Sư AI" đã
+  // dùng ở logo app/`/gioi-thieu` (yêu cầu 2026-09-20), vì "Góc học tập" CHÍNH LÀ nơi vào
+  // Gia Sư AI của từng môn.
+  { ...studioItem('subjects', LEARNING_PATHS, 'Góc học tập', SUBJECT_CHILDREN), icon: BookOpen },
   // [S12-1] "Ôn tập" là mục CẤP NỀN TẢNG, không phải của riêng môn nào: hàng đợi gộp mọi môn.
   // Không có mục con — sidebar dừng ở cấp môn (spec cha Góc học tập §③).
   REVIEW_ITEM,
@@ -348,14 +352,26 @@ export default function DesktopSidebar() {
       className="hidden lg:flex fixed inset-y-0 left-0 z-40 w-[var(--sidebar-w)] flex-col bg-zinc-950/95 backdrop-blur-xl border-r border-zinc-800/80 transition-[width] duration-200"
       aria-label="Điều hướng chính (desktop)"
     >
-      {/* [thiết kế lại header desktop] Nút thu gọn/mở rộng nay CHỈ một chỗ, luôn ở ĐẦU sidebar
-          — trước đây tách hai vị trí (đầu khi mở rộng, cuối khi thu gọn) khiến người dùng phải
-          nhớ nó "chạy" đi đâu tuỳ trạng thái. */}
+      {/* [thiết kế lại header desktop, chỉnh 2026-09-20] Nút thu gọn/mở rộng nay đứng BÊN
+          PHẢI hàng đầu sidebar (logo "Đồng Hành" bên trái) — trước đó cả hai đứng sát nhau
+          bên trái, đọc như một khối, dễ bấm nhầm. Khi thu gọn thì logo ẩn (không đủ chỗ),
+          chỉ còn nút này, tự căn giữa. */}
       <div
         className={`h-14 flex items-center gap-2 px-3 border-b border-zinc-800/80 ${
-          collapsed ? 'justify-center' : ''
+          collapsed ? 'justify-center' : 'justify-between'
         }`}
       >
+        {!collapsed && (
+          <Link
+            to="/gioi-thieu"
+            className="flex items-center gap-2.5 min-w-0 rounded-xl p-1 hover:bg-zinc-800/60 transition"
+          >
+            <span className="w-7 h-7 rounded-xl bg-gradient-to-br from-accent-500 via-accent-400 to-indigo-500 flex items-center justify-center shadow-md shrink-0">
+              <BookOpen className="w-3.5 h-3.5 text-[#fff]" />
+            </span>
+            <span className="font-bold text-sm text-white truncate">Đồng Hành</span>
+          </Link>
+        )}
         <button
           onClick={toggle}
           aria-label={collapsed ? 'Mở rộng thanh điều hướng' : 'Thu gọn thanh điều hướng'}
@@ -368,17 +384,6 @@ export default function DesktopSidebar() {
             <PanelLeftClose className="w-4 h-4" />
           )}
         </button>
-        {!collapsed && (
-          <Link
-            to="/gioi-thieu"
-            className="flex items-center gap-2.5 min-w-0 rounded-xl p-1 hover:bg-zinc-800/60 transition"
-          >
-            <span className="w-7 h-7 rounded-xl bg-gradient-to-br from-accent-500 via-accent-400 to-indigo-500 flex items-center justify-center shadow-md shrink-0">
-              <BookOpen className="w-3.5 h-3.5 text-[#fff]" />
-            </span>
-            <span className="font-bold text-sm text-white truncate">Đồng Hành</span>
-          </Link>
-        )}
       </div>
 
       <nav className="flex-1 overflow-y-auto px-2 py-3">
