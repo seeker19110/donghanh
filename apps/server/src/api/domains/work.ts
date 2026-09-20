@@ -22,6 +22,7 @@ import {
   listWorkDocuments,
 } from '@dhcb/core-domains/workService'
 import {
+  NOTE_CONTENT_MAX_LENGTH,
   WorkProjectStatusSchema,
   WorkTaskPrioritySchema,
   WorkTaskStatusSchema,
@@ -67,7 +68,9 @@ const CreateDocumentBodySchema = z
     projectId: z.uuid().optional(),
     title: z.string().min(1).max(200),
     documentType: WorkDocumentTypeSchema,
-    summary: z.string().min(1).max(2000),
+    // Nội dung ghi chú: 10.000 ký tự là hạn mức CỨNG ở server. Client cũng chặn bằng
+    // `maxLength`, nhưng client có thể bị bỏ qua — cổng thật nằm ở đây (CLAUDE.md 4.2).
+    summary: z.string().min(1).max(NOTE_CONTENT_MAX_LENGTH),
     contentUri: z.string().max(500).optional(),
   })
   .strict()

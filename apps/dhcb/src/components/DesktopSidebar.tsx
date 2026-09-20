@@ -15,7 +15,6 @@ import { Link, useLocation } from 'react-router-dom'
 import {
   BookOpen,
   Brain,
-  Briefcase,
   ChevronDown,
   Home,
   PanelLeftClose,
@@ -37,14 +36,12 @@ import {
 } from '../lib/navTree'
 import { STUDIOS, NAV_HIDDEN_PATHS } from '../lib/studios'
 import {
-  CAREER_LIFE_PATHS,
-  CAREER_PATHS,
   COMPANION_PATHS,
   LEARNING_PATHS,
+  NOTES_PATHS,
   REVIEW_PATHS,
   PROFILE_PATHS,
   PROGRESS_PATHS,
-  WORKLIFE_PATHS,
   resolveActiveNav,
 } from '../lib/navPaths'
 
@@ -84,9 +81,9 @@ function studioItem(
 // NHÓM 1 — 6 điểm đến CẤP 1 của sidebar (thiết kế lại header desktop: "Trang chủ" dời hẳn lên
 // Header — xem components/Layout.tsx — vì đó là lối RA NGOÀI app này (domain gốc `@dhcb/hub`),
 // không phải điều hướng nội bộ như các mục còn lại ở đây). "Luyện tập" đã gỡ khỏi đây trước đó
-// — route `/luyen-tap` vẫn sống, chỉ không còn mục riêng (vào từ mục con môn/hub). "Sự nghiệp &
-// Đời sống" GỘP hai studio `career` + `worklife` cũ thành MỘT nhóm mở/đóng được, mục con là
-// chính hai studio đó — không mục nào xuất hiện hai lần.
+// — route `/luyen-tap` vẫn sống, chỉ không còn mục riêng (vào từ mục con môn/hub). Mục gộp
+// "Sự nghiệp & Đời sống" đã bị GỠ 2026-09-20 cùng hai studio `career` + `worklife`; thay vào đó
+// là mục lá "Ghi chú" (`/ghi-chu`).
 // `HOME_ITEM` vẫn giữ (không render trong `MAIN_NAV`) vì `ACTIVE_ORDER` cần nó để KHÔNG mục
 // nào khác lỡ sáng đèn khi đang ở Trang chủ (`resolveActiveNav` xét tuần tự, thiếu mốc `/`
 // thì `/` rơi vào nhánh so khớp lỏng hơn của mục kế tiếp).
@@ -98,20 +95,9 @@ const REVIEW_ITEM: Item = {
   paths: REVIEW_PATHS,
 }
 
-/** Nhóm gộp 2 studio "Sự Nghiệp & Khởi Nghiệp" + "Công Việc & Đời Sống" thành 1 mục cấp 1. */
-function careerLifeChild(id: 'career' | 'worklife', paths: readonly string[]): NavChild {
-  const st = studio(id)
-  return { label: st.title, icon: st.icon, to: st.to, paths }
-}
-
-const CAREER_LIFE_ITEM: Item = {
-  to: studio('career').to,
-  label: 'Sự nghiệp & Đời sống',
-  icon: Briefcase,
-  color: 'text-purple-400 theme-light:text-purple-800 bg-purple-500/10 border-purple-500/30',
-  paths: CAREER_LIFE_PATHS,
-  children: [careerLifeChild('career', CAREER_PATHS), careerLifeChild('worklife', WORKLIFE_PATHS)],
-}
+/** [2026-09-20] Thay mục gộp "Sự nghiệp & Đời sống" cũ: hai studio `career` + `worklife` đã bị
+ *  gỡ hẳn, chỉ còn nửa "Công việc" — nay là "Ghi chú", một mục LÁ (không có mục con). */
+const NOTES_ITEM: Item = studioItem('notes', NOTES_PATHS)
 
 const MAIN_NAV: Item[] = [
   // Icon riêng CUỐN SÁCH (`BookOpen`) thay vì icon mặc định của studio `subjects`
@@ -123,7 +109,7 @@ const MAIN_NAV: Item[] = [
   // Không có mục con — sidebar dừng ở cấp môn (spec cha Góc học tập §③).
   REVIEW_ITEM,
   studioItem('companion', COMPANION_PATHS, 'Bạn Đồng Hành'),
-  CAREER_LIFE_ITEM,
+  NOTES_ITEM,
 ]
 
 const CORE_BOTTOM: Item[] = [
@@ -132,7 +118,7 @@ const CORE_BOTTOM: Item[] = [
 ]
 
 // Thứ tự XÉT active (khác thứ tự HIỂN THỊ): cụ thể nhất trước, bao quát nhất sau — xem
-// `resolveActiveNav`. `PROFILE_PATHS` chứa cả path sự nghiệp/đời sống nên "Hồ sơ" đứng cuối cùng.
+// `resolveActiveNav`. "Hồ sơ" (`PROFILE_PATHS`, bảng bao quát nhất) đứng cuối cùng.
 const ACTIVE_ORDER: Item[] = [
   // `HOME_ITEM` không còn render trong `MAIN_NAV` (dời lên Header) nhưng VẪN phải đứng đầu
   // đây: `/` phải khớp đúng `HOME_ITEM` (exact) trước khi rơi vào so khớp lỏng hơn của mục

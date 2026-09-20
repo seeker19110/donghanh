@@ -2,9 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import {
   BookOpen,
   Target,
-  Compass,
   Briefcase,
-  Rocket,
   GraduationCap,
   Bot,
   BookMarked,
@@ -23,7 +21,7 @@ import { usePageTitle } from '../../lib/usePageTitle'
 import { useLang } from '../../context/useLang'
 import { navigateTo } from '../../lib/subjectsHost'
 import { PageShell } from '@core/PageShell'
-import { WORKLIFE_STUDIO_PATH, duongDanSuNghiep, duongDanKhoiNghiep } from '../../lib/domainRoutes'
+import { NOTES_STUDIO_PATH } from '../../lib/domainRoutes'
 
 type IconType = typeof BookOpen
 
@@ -53,39 +51,24 @@ const PILLARS: Pillar[] = [
     descEn: 'Multi-subject study room: English, Programming — more subjects are being built.',
   },
   {
-    icon: Compass,
-    path: duongDanSuNghiep(),
-    titleVi: 'Sự nghiệp',
-    titleEn: 'Career',
-    descVi:
-      'Tám họ nghề — kỹ thuật–CNTT, y tế–chăm sóc, giáo dục, kinh doanh–bán hàng, tài chính–kế toán–pháp lý, sáng tạo–truyền thông, sản xuất–kỹ thuật viên, dịch vụ công–hành chính — mỗi họ có cửa sổ then chốt và nhánh chuyển hướng riêng.',
-    descEn:
-      'Eight job families — engineering/IT, healthcare, education, sales, finance/legal, creative/media, manufacturing, public service — each with its own key window and natural pivots.',
-  },
-  {
-    icon: Rocket,
-    path: duongDanKhoiNghiep(),
-    titleVi: 'Khởi nghiệp',
-    titleEn: 'Startup',
-    descVi: 'Dựng mô hình kinh doanh, ghi rõ giả định và tìm cách kiểm chứng rẻ nhất.',
-    descEn: 'Sketch a business model, write down assumptions, find the cheapest way to test them.',
-  },
-  {
+    // [2026-09-20] Ba trụ Sự nghiệp, Khởi nghiệp và Đời sống đã bị gỡ hẳn khỏi sản phẩm, nên
+    // cũng không còn được giới thiệu ở đây — trang này chỉ nói về thứ có thật.
     icon: Briefcase,
-    path: WORKLIFE_STUDIO_PATH,
-    titleVi: 'Công việc & Đời sống',
-    titleEn: 'Work & Life',
+    path: NOTES_STUDIO_PATH,
+    titleVi: 'Ghi chú',
+    titleEn: 'Notes',
     descVi:
-      'Một guồng, không phải hai: dự án và việc cần làm nằm cạnh thói quen, sức khoẻ, kế hoạch — vì chúng tiêu cùng một quỹ thời gian.',
+      'Việc cần làm, dự án, biên bản họp và tài liệu nằm chung một chỗ — và Bạn Đồng Hành đọc được chúng khi trò chuyện với bạn.',
     descEn:
-      'One rhythm, not two: projects and tasks sit next to habits, wellbeing and plans — they draw on the same hours.',
+      'Tasks, projects, meeting notes and documents in one place — and your Companion can read them while talking with you.',
   },
   {
     icon: Bot,
     path: '/ban-dong-hanh',
     titleVi: 'Bạn Đồng Hành',
     titleEn: 'Your Companion',
-    descVi: 'Một người bạn AI duy nhất, hiểu ngữ cảnh của bạn ở cả bốn trụ. Bạn chốt, AI đề xuất.',
+    descVi:
+      'Một người bạn AI duy nhất, hiểu ngữ cảnh của bạn ở mọi nơi trong app. Bạn chốt, AI đề xuất.',
     descEn:
       'One AI companion that knows your context across all four pillars. You decide, it suggests.',
   },

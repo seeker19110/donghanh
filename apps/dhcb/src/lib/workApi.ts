@@ -1,4 +1,6 @@
-// apps/dhcb/src/lib/workApi.ts — Client API wrapper for Work Domain (V2-15)
+// apps/dhcb/src/lib/workApi.ts — client của `/api/work`, nguồn dữ liệu cho trang "Ghi chú"
+// (apps/dhcb/src/pages/domains/notes/). Tên file/hàm giữ tiền tố `work` vì ĐƯỜNG DẪN API vẫn là
+// `/api/work` và bảng CSDL vẫn là `worklife` — chỉ tên HIỂN THỊ đổi thành "Ghi chú" (V2-15).
 import { getAuthHeader } from '@core/authHeader'
 import type { WorkProject, WorkTask, WorkMeeting, WorkDocument } from '@dhcb/core-contracts/work'
 
@@ -66,7 +68,11 @@ export async function updateWorkProjectStatus(
   const res = await fetch('/api/work', {
     method: 'PATCH',
     headers: { ...headers, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ kind: 'project_status', id, status }),
+    // `kind` phải là 'project' — đúng nhánh `UpdateProjectBodySchema` của
+    // `PatchBodySchema` ở apps/server/src/api/domains/work.ts. Trước 2026-09-20 ở đây là
+    // 'project_status', không khớp discriminator nào nên MỌI lần đổi trạng thái dự án đều
+    // bị server trả 400 (lỗi im lặng, không cổng nào bắt). Test canh: workApi.test.ts.
+    body: JSON.stringify({ kind: 'project', id, status }),
   })
   if (!res.ok) {
     const errorBody = await res.json().catch(() => ({ error: `HTTP ${res.status}` }))
@@ -111,7 +117,8 @@ export async function updateWorkTaskStatus(
   const res = await fetch('/api/work', {
     method: 'PATCH',
     headers: { ...headers, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ kind: 'task_status', id, status }),
+    // Xem chú thích ở `updateWorkProjectStatus`: discriminator đúng là 'task'.
+    body: JSON.stringify({ kind: 'task', id, status }),
   })
   if (!res.ok) {
     const errorBody = await res.json().catch(() => ({ error: `HTTP ${res.status}` }))

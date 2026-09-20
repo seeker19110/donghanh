@@ -40,16 +40,21 @@ test.describe('tiêu đề dính của Modal không che nội dung', () => {
       await page.setViewportSize({ width: w, height: w === 1440 ? 900 : 844 })
       await mockLogin(page, 'vi', 'dark-blue')
       await mockDomainApis(page)
-      await page.goto('/su-nghiep-khoi-nghiep?muc=su-nghiep', { waitUntil: 'domcontentloaded' })
+      await page.goto('/ghi-chu', { waitUntil: 'domcontentloaded' })
 
-      const nut = page.getByRole('button', { name: 'Thêm mục tiêu', exact: true }).first()
+      // [2026-09-20] Trang "Sự nghiệp" đã bị gỡ; dùng hộp thoại "Tạo Dự Án Mới" của trang
+      // "Ghi chú" — cùng dáng Modal center, vẫn canh đúng thứ lỗi này từng làm biến mất.
+      // Nút chỉ hiện ở tab "Dự án" (mặc định trang mở ở tab "Công việc") nên phải chuyển tab
+      // trước khi chờ nút.
+      await page.getByRole('button', { name: /Dự án \(\d+\)/ }).click()
+      const nut = page.getByRole('button', { name: 'Tạo dự án mới', exact: true }).first()
       await nut.waitFor()
       await nut.click()
 
       const dialog = page.getByRole('dialog')
       await expect(dialog).toBeVisible()
       // Nhãn của ô ĐẦU TIÊN chính là thứ từng biến mất — canh luôn cho cụ thể.
-      await expect(dialog.getByText('Chức danh / Mục tiêu', { exact: false })).toBeVisible()
+      await expect(dialog.getByText('Tên dự án', { exact: false })).toBeVisible()
       expect(await doChongLan(dialog)).toBeLessThanOrEqual(DUNG_SAI)
     })
   }

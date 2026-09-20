@@ -36,6 +36,7 @@ vi.mock('@dhcb/core-domains/workService', () => ({
 }))
 
 import handler from './work.js'
+import { NOTE_CONTENT_MAX_LENGTH } from '@dhcb/core-contracts/work'
 
 const PERSON_ID = '11111111-1111-4111-8111-111111111111'
 const ID_1 = '22222222-2222-4222-8222-222222222222'
@@ -176,6 +177,42 @@ describe('api/work', () => {
 
     const resInvalid = await handler(req('PATCH', '', { kind: 'unknown' }))
     expect(resInvalid.status).toBe(400)
+  })
+
+  // [2026-09-20] Nội dung một ghi chú tối đa 10.000 ký tự. Client cũng chặn bằng `maxLength`,
+  // nhưng client có thể bị bỏ qua — cổng THẬT nằm ở Zod của handler này (CLAUDE.md 4.2).
+  // Ca biên: đúng 10.000 hợp lệ, 10.001 bị chặn (CLAUDE.md 4.9).
+  describe('giới hạn 10.000 ký tự của nội dung ghi chú', () => {
+    function docBody(length: number) {
+      return {
+        kind: 'document',
+        title: 'Ghi chú dài',
+        documentType: 'note',
+        summary: 'x'.repeat(length),
+      }
+    }
+
+    it('NOTE_CONTENT_MAX_LENGTH đúng bằng 10.000 — hằng số là nguồn duy nhất', () => {
+      expect(NOTE_CONTENT_MAX_LENGTH).toBe(10_000)
+    })
+
+    it('đúng 10.000 ký tự: hợp lệ, tạo được', async () => {
+      workService.createWorkDocument.mockResolvedValueOnce({ id: ID_1 })
+      const res = await handler(req('POST', '', docBody(NOTE_CONTENT_MAX_LENGTH)))
+      expect(res.status).toBe(201)
+      expect(workService.createWorkDocument).toHaveBeenCalledTimes(1)
+    })
+
+    it('10.001 ký tự: bị chặn 400, KHÔNG chạm tới service', async () => {
+      const res = await handler(req('POST', '', docBody(NOTE_CONTENT_MAX_LENGTH + 1)))
+      expect(res.status).toBe(400)
+      expect(workService.createWorkDocument).not.toHaveBeenCalled()
+    })
+
+    it('rỗng vẫn bị chặn (min 1) — nới trần không được nới sàn', async () => {
+      const res = await handler(req('POST', '', docBody(0)))
+      expect(res.status).toBe(400)
+    })
   })
 
   it('DELETE trả 405', async () => {

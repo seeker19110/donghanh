@@ -111,33 +111,21 @@ describe('buildCrumbs', () => {
     ).toEqual(['Trang chủ', 'Góc học tập', 'Lập trình', 'Hướng chuyên sâu'])
   })
 
-  it('công cụ của trụ lồng dưới đúng studio, đốt tab giữ tham số ?muc=', () => {
-    const crumbs = buildCrumbs('/career/interview', 'Phòng Luyện Phỏng Vấn AI')
-    expect(crumbs.map((c) => c.label)).toEqual([
-      'Trang chủ',
-      'Sự Nghiệp & Khởi Nghiệp',
-      'Sự nghiệp',
-      'Phòng Luyện Phỏng Vấn AI',
-    ])
-    expect(crumbs[2].to).toBe('/su-nghiep-khoi-nghiep?muc=su-nghiep')
+  // [2026-09-20] Ba trụ Sự nghiệp · Khởi nghiệp · Đời sống bị gỡ hẳn cùng trang công cụ của
+  // chúng (`/career/interview`, `/startup/canvas`, `/life/wheel`). Trụ còn lại là "Ghi chú".
+  it('trang con của trụ Ghi chú lồng dưới đúng studio', () => {
+    const crumbs = buildCrumbs('/ghi-chu/kanban', 'Bảng Kanban việc cần làm')
+    expect(crumbs.map((c) => c.label)).toEqual(['Trang chủ', 'Ghi chú', 'Bảng Kanban việc cần làm'])
+    expect(crumbs[1].to).toBe('/ghi-chu')
   })
 
-  it('công cụ trụ Công việc & Đời sống cũng có tầng cha', () => {
-    expect(buildCrumbs('/life/wheel').map((c) => c.label)).toEqual([
-      'Trang chủ',
-      'Công Việc & Đời Sống',
-      'Đời sống',
-    ])
-    expect(buildCrumbs('/work/kanban').map((c) => c.label)).toEqual([
-      'Trang chủ',
-      'Công Việc & Đời Sống',
-      'Công việc',
-    ])
-    expect(buildCrumbs('/startup/canvas').map((c) => c.label)).toEqual([
-      'Trang chủ',
-      'Sự Nghiệp & Khởi Nghiệp',
-      'Khởi nghiệp',
-    ])
+  it('đường dẫn của ba trụ đã gỡ KHÔNG còn đốt cha nào', () => {
+    for (const path of ['/career/interview', '/startup/canvas', '/life/wheel', '/life-graph']) {
+      expect(
+        buildCrumbs(path).map((c) => c.label),
+        path,
+      ).toEqual(['Trang chủ'])
+    }
   })
 
   it('đường dẫn lạ chỉ còn Trang chủ, không vỡ', () => {

@@ -1,7 +1,13 @@
-// apps/dhcb/src/pages/Work.tsx — Work Hub UI (V2-15)
+// apps/dhcb/src/pages/domains/notes/Notes.tsx — trang "Ghi chú" (trước đây là "Không Gian Công
+// Việc", V2-15).
+//
+// [2026-09-20] Trang này TỪNG là tab `?muc=cong-viec` của trang gộp "Công việc & Đời sống"
+// (`worklife/WorkLife.tsx`). Trang gộp và nửa "Đời sống" đã bị gỡ hẳn, nên đây là trang CẤP 1
+// độc lập tại `/ghi-chu` — không còn chế độ `embedded`, không còn tab nào để chọn.
+// Bố cục, kiểu dữ liệu và API (`/api/work`) giữ NGUYÊN, chỉ đổi tên hiển thị.
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { duongDanWorkKanban } from '../../../lib/domainRoutes'
+import { duongDanGhiChuKanban } from '../../../lib/domainRoutes'
 import {
   FolderKanban,
   CheckSquare,
@@ -33,13 +39,19 @@ import {
   listWorkDocuments,
   createWorkDocument,
 } from '../../../lib/workApi'
-import type { WorkProject, WorkTask, WorkMeeting, WorkDocument } from '@dhcb/core-contracts/work'
+import {
+  NOTE_CONTENT_MAX_LENGTH,
+  type WorkProject,
+  type WorkTask,
+  type WorkMeeting,
+  type WorkDocument,
+} from '@dhcb/core-contracts/work'
 
-// `embedded` = đang được nhúng trong trang gộp "Công việc & Đời sống"
-// (`/cong-viec-cuoc-song`): khi đó KHÔNG dựng Layout riêng và KHÔNG render
-// PageHeader (h1) nữa — trang gộp đã có h1 của nó, hai h1 trên một trang là
-// lỗi phân cấp tiêu đề (a11y).
-export default function Work({ embedded = false }: { embedded?: boolean } = {}) {
+// Ngưỡng cảnh báo đếm ký tự: chỉ hiện khi người dùng đã dùng quá 80% hạn mức. Hiện sớm hơn
+// thì con số chỉ làm nhiễu ô nhập (luật "chống nhiễu giao diện" — UiNoise.design.test.ts).
+const NOTE_COUNTER_THRESHOLD = Math.floor(NOTE_CONTENT_MAX_LENGTH * 0.8)
+
+export default function Notes() {
   const nav = useNavigate()
   const toast = useToast()
   const [activeTab, setActiveTab] = useState<'tasks' | 'projects' | 'meetings' | 'documents'>(
@@ -222,8 +234,7 @@ export default function Work({ embedded = false }: { embedded?: boolean } = {}) 
     }
   }
 
-  // [2026-09-02, đợt 4 thiết kế lại desktop] width="standard"; giữ bố cục flex cột (dùng chung
-  // cho cả bản độc lập lẫn bản nhúng trong WorkLife.tsx).
+  // [2026-09-02, đợt 4 thiết kế lại desktop] width="standard"; giữ bố cục flex cột.
   const body = (
     <PageShell
       width="standard"
@@ -234,21 +245,10 @@ export default function Work({ embedded = false }: { embedded?: boolean } = {}) 
       className="!pt-6 !pb-[calc(5rem+var(--bnav-h))] flex flex-1 flex-col space-y-6"
     >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800 pb-4">
-        {embedded ? (
-          <div className="mb-0">
-            <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight leading-tight">
-              Không Gian Công Việc (Work Hub)
-            </h2>
-            <p className="text-sm text-zinc-300 mt-1.5 leading-relaxed">
-              Quản lý dự án, tiến độ công việc, biên bản họp và tài liệu nghiệp vụ
-            </p>
-          </div>
-        ) : (
-          <h1 className="sr-only">Không Gian Công Việc (Work Hub)</h1>
-        )}
+        <h1 className="sr-only">Ghi chú</h1>
         <div className="flex items-center gap-2 shrink-0">
           <button
-            onClick={() => nav(duongDanWorkKanban())}
+            onClick={() => nav(duongDanGhiChuKanban())}
             className="tap-44 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-blue-500 hover:bg-blue-400 text-black text-sm font-bold transition shadow-sm"
             title="Bảng Kanban Tương Tác"
           >
@@ -325,7 +325,7 @@ export default function Work({ embedded = false }: { embedded?: boolean } = {}) 
           }`}
         >
           <FileText className="w-4 h-4" />
-          Tài liệu ({documents.length})
+          Ghi chú ({documents.length})
         </button>
       </div>
 
@@ -550,23 +550,23 @@ export default function Work({ embedded = false }: { embedded?: boolean } = {}) 
             </div>
           )}
 
-          {/* Tab 4: Documents */}
+          {/* Tab 4: Ghi chú (entity `document` của /api/work — tên hiển thị đổi, hợp đồng giữ nguyên) */}
           {activeTab === 'documents' && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-base font-semibold text-zinc-200">Tài Liệu Nghiệp Vụ</h3>
+                <h3 className="text-base font-semibold text-zinc-200">Ghi chú đã lưu</h3>
                 <button
                   onClick={() => setShowDocModal(true)}
                   className="tap-44 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-[#fff] text-xs font-semibold shadow-md transition"
                 >
                   <Plus className="w-3.5 h-3.5" />
-                  Thêm tài liệu
+                  Thêm ghi chú
                 </button>
               </div>
 
               {documents.length === 0 ? (
                 <div className="text-center py-12 bg-zinc-900/40 border border-zinc-800 rounded-2xl text-zinc-500 text-sm">
-                  Chưa có tài liệu nào được lưu trữ.
+                  Chưa có ghi chú nào được lưu.
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -581,7 +581,11 @@ export default function Work({ embedded = false }: { embedded?: boolean } = {}) 
                           {doc.documentType}
                         </span>
                       </div>
-                      <p className="text-xs text-zinc-300 mt-2">{doc.summary}</p>
+                      {/* `whitespace-pre-wrap`: nội dung ghi chú dài (tới 10.000 ký tự) có xuống dòng của
+                          người viết — không có nó thì mọi đoạn dính liền thành một khối. */}
+                      <p className="text-xs text-zinc-300 mt-2 whitespace-pre-wrap break-words">
+                        {doc.summary}
+                      </p>
                       {doc.contentUri && (
                         <div className="text-xs text-blue-400 theme-light:text-blue-800 mt-3 truncate">
                           URI: {doc.contentUri}
@@ -871,7 +875,7 @@ export default function Work({ embedded = false }: { embedded?: boolean } = {}) 
 
       {/* Modal Create Document */}
       {showDocModal && (
-        <Modal title="Thêm Tài Liệu" onClose={() => setShowDocModal(false)}>
+        <Modal title="Thêm Ghi Chú" onClose={() => setShowDocModal(false)}>
           <form onSubmit={handleCreateDocument} className="space-y-4">
             <div>
               <Field label="Tiêu đề tài liệu" required>
@@ -938,17 +942,34 @@ export default function Work({ embedded = false }: { embedded?: boolean } = {}) 
               </div>
             </div>
             <div>
-              <Field label="Tóm tắt nội dung" required>
+              <Field label="Nội dung ghi chú" required>
                 {(id) => (
-                  <textarea
-                    id={id}
-                    rows={3}
-                    required
-                    value={docForm.summary}
-                    onChange={(e) => setDocForm({ ...docForm, summary: e.target.value })}
-                    placeholder="Tóm tắt điểm cốt lõi của tài liệu..."
-                    className="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-100 text-sm focus:border-blue-500 focus:outline-none"
-                  />
+                  <>
+                    <textarea
+                      id={id}
+                      rows={6}
+                      required
+                      // `maxLength` chặn ngay trên trình duyệt; server VẪN kiểm lại bằng Zod
+                      // (`apps/server/src/api/domains/work.ts`) — không tin client (CLAUDE.md 4.2).
+                      maxLength={NOTE_CONTENT_MAX_LENGTH}
+                      value={docForm.summary}
+                      onChange={(e) => setDocForm({ ...docForm, summary: e.target.value })}
+                      placeholder="Viết nội dung ghi chú..."
+                      aria-describedby={`${id}-dem`}
+                      className="w-full px-3 py-2 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-100 text-sm focus:border-blue-500 focus:outline-none"
+                    />
+                    {/* `aria-live=polite`: người dùng trình đọc màn hình nghe được số ký tự còn
+                        lại khi sắp chạm ngưỡng, thay vì chỉ thấy ô nhập lặng lẽ ngừng nhận chữ. */}
+                    <p
+                      id={`${id}-dem`}
+                      aria-live="polite"
+                      className="mt-1 text-xs text-zinc-300 text-right"
+                    >
+                      {docForm.summary.length >= NOTE_COUNTER_THRESHOLD
+                        ? `${docForm.summary.length.toLocaleString('vi-VN')}/${NOTE_CONTENT_MAX_LENGTH.toLocaleString('vi-VN')} ký tự — còn ${(NOTE_CONTENT_MAX_LENGTH - docForm.summary.length).toLocaleString('vi-VN')}`
+                        : `Tối đa ${NOTE_CONTENT_MAX_LENGTH.toLocaleString('vi-VN')} ký tự`}
+                    </p>
+                  </>
                 )}
               </Field>
             </div>
@@ -980,7 +1001,7 @@ export default function Work({ embedded = false }: { embedded?: boolean } = {}) 
                 disabled={submitting}
                 className="tap-44 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-[#fff] text-sm font-semibold transition disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {submitting ? 'Đang lưu…' : 'Lưu Tài Liệu'}
+                {submitting ? 'Đang lưu…' : 'Lưu Ghi Chú'}
               </button>
             </div>
           </form>
@@ -989,11 +1010,9 @@ export default function Work({ embedded = false }: { embedded?: boolean } = {}) 
     </PageShell>
   )
 
-  if (embedded) return body
-
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100 flex flex-col">
-      <Layout onBack={() => nav('/')} title="Không Gian Công Việc (Work Hub)" />
+      <Layout onBack={() => nav('/')} title="Ghi chú" />
       {body}
     </div>
   )

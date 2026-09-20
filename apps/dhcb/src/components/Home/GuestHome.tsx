@@ -6,9 +6,9 @@
 // tài khoản để tính. Thay vào đó, khách cần ĐÚNG BA điều để bắt đầu học trong vài giây:
 //  1. Companion tự giới thiệu (chuỗi tĩnh, không gọi API — khách chưa có gì để cá nhân hoá).
 //  2. ĐÚNG MỘT CTA dẫn tới `/bat-dau` (luồng "Bắt đầu theo ý định" — S05, không đụng ở đây).
-//  3. Dải môn để khách muốn xem trước một môn cụ thể vẫn bấm được, + 2 trụ Sự nghiệp/Đời sống.
+//  3. Dải môn để khách muốn xem trước một môn cụ thể vẫn bấm được, + trụ Ghi chú.
 import { Link } from 'react-router-dom'
-import { Briefcase, HeartHandshake } from 'lucide-react'
+import { StickyNote } from 'lucide-react'
 import { CompanionAvatar } from '@core/CompanionAvatar'
 import { CompanionBubble } from '@core/CompanionBubble'
 import { buttonClass } from '@core/buttonStyles'
@@ -20,21 +20,15 @@ import { track } from '../../lib/analytics'
 const GUEST_LEAD = 'Chào bạn. Mình là Bạn Đồng Hành — học cùng bạn mỗi ngày.'
 const GUEST_DETAIL = 'Từ tiếng Anh tới lập trình, toán, lý, hoá, sinh — bắt đầu từ một việc nhỏ.'
 
-// Hai trụ KHÔNG phải môn học (không tới từ SUBJECT_ENTRIES) — cùng nội dung với khối
-// "Sự nghiệp, Khởi nghiệp & Đời sống" của trang chủ người đã đăng nhập (Home.tsx), rút gọn cho
-// khách vì khách chưa có gì để cá nhân hoá thêm.
+// Trụ KHÔNG phải môn học (không tới từ SUBJECT_ENTRIES) — cùng nội dung với thẻ "Ghi chú" của
+// trang chủ người đã đăng nhập (Home.tsx), rút gọn cho khách vì khách chưa có gì để cá nhân hoá.
+// [2026-09-20] Hai trụ "Sự nghiệp & Khởi nghiệp" và "Công việc & Đời sống" đã bị gỡ hẳn.
 const GUEST_PILLARS = [
   {
-    id: 'career',
-    label: 'Sự nghiệp & Khởi nghiệp',
-    path: '/su-nghiep-khoi-nghiep',
-    icon: Briefcase,
-  },
-  {
-    id: 'life',
-    label: 'Công việc & Đời sống',
-    path: '/cong-viec-cuoc-song',
-    icon: HeartHandshake,
+    id: 'notes',
+    label: 'Ghi chú',
+    path: '/ghi-chu',
+    icon: StickyNote,
   },
 ] as const
 

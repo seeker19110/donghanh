@@ -6,7 +6,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import FirstTaskCard from '../../components/FirstTaskCard'
 import { useNavigate } from 'react-router-dom'
-import { ChevronRight, History, TrendingUp, Briefcase } from 'lucide-react'
+import { ChevronRight, History, TrendingUp, StickyNote } from 'lucide-react'
 import Layout from '../../components/Layout.js'
 import PricePromoBanner from '../../components/PricePromoBanner.js'
 import RewardTipBanner from '../../components/RewardTipBanner.js'
@@ -17,13 +17,7 @@ import SubjectSpaceList from '../../components/Home/SubjectSpaceList.js'
 import GuestHome from '../../components/Home/GuestHome.js'
 import WeekRhythm from '../../components/Home/WeekRhythm.js'
 import { usePageTitle } from '../../lib/usePageTitle'
-import {
-  CAREER_STUDIO_PATH,
-  duongDanCareerInterview,
-  duongDanCongViec,
-  duongDanStartupCanvas,
-  duongDanDoiSong,
-} from '../../lib/domainRoutes'
+import { duongDanGhiChu, duongDanGhiChuKanban } from '../../lib/domainRoutes'
 import { useLang } from '../../context/useLang'
 import { useAuth } from '../../context/useAuth'
 import { useCloudSync } from '../../lib/useCloudSync'
@@ -280,19 +274,15 @@ export default function Home() {
   // ── CÁC BỘ MÔN & KHÔNG GIAN ──
   // [P1-8] Phần MÔN HỌC (icon/mô tả/lối tắt/sắp môn đang học lên đầu/trạng thái bằng chữ) tách
   // sang `SubjectSpaceList` (components/Home/SubjectSpaceList.tsx) — thuần hơn để test, dùng
-  // chung `orderSubjects` (lib/home/orderSubjects.ts). Thẻ Sự nghiệp/Khởi nghiệp & Đời sống GIỮ
-  // NGUYÊN tại đây (không phải môn học, không tới từ `SUBJECT_ENTRIES`, không tham gia sắp xếp).
-  const careerLifeSpace = {
-    id: 'career-life',
-    title: 'Sự nghiệp, Khởi nghiệp & Đời sống',
-    desc: 'Phỏng vấn thử, quản lý công việc, Lean Canvas, bánh xe cuộc đời.',
-    go: () => nav(CAREER_STUDIO_PATH),
-    shortcuts: [
-      { label: 'Phỏng vấn thử', go: () => nav(duongDanCareerInterview()) },
-      { label: 'Công việc', go: () => nav(duongDanCongViec()) },
-      { label: 'Lean Canvas', go: () => nav(duongDanStartupCanvas()) },
-      { label: 'Đời sống', go: () => nav(duongDanDoiSong()) },
-    ],
+  // chung `orderSubjects` (lib/home/orderSubjects.ts). Thẻ "Ghi chú" GIỮ NGUYÊN tại đây (không
+  // phải môn học, không tới từ `SUBJECT_ENTRIES`, không tham gia sắp xếp).
+  // [2026-09-20] Thẻ này trước là "Sự nghiệp, Khởi nghiệp & Đời sống"; ba trụ đó đã bị gỡ hẳn.
+  const notesSpace = {
+    id: 'notes',
+    title: 'Ghi chú',
+    desc: 'Việc cần làm, dự án, biên bản họp và tài liệu — ghi lại ở một chỗ.',
+    go: () => nav(duongDanGhiChu()),
+    shortcuts: [{ label: 'Bảng Kanban', go: () => nav(duongDanGhiChuKanban()) }],
   }
 
   const spacesSection = (
@@ -305,16 +295,16 @@ export default function Home() {
       <ul className="mt-3 divide-y divide-zinc-800 rounded-3xl border border-zinc-800 bg-zinc-900/90">
         <li className="p-4">
           <button
-            onClick={careerLifeSpace.go}
+            onClick={notesSpace.go}
             className="w-full flex items-start gap-3.5 text-left group"
-            aria-label={`Vào không gian ${careerLifeSpace.title}`}
+            aria-label={`Vào không gian ${notesSpace.title}`}
           >
-            <div className="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 bg-purple-500/15 text-purple-400 theme-light:text-purple-800">
-              <Briefcase className="w-5 h-5" aria-hidden="true" />
+            <div className="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 bg-rose-500/15 text-rose-400 theme-light:text-rose-800">
+              <StickyNote className="w-5 h-5" aria-hidden="true" />
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-white text-base flex items-center gap-1.5">
-                <span>{careerLifeSpace.title}</span>
+                <span>{notesSpace.title}</span>
                 <ChevronRight
                   className="w-4 h-4 text-zinc-500 group-hover:text-white group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none"
                   aria-hidden="true"
@@ -323,13 +313,13 @@ export default function Home() {
               <p
                 className={`${isDesktop ? 'mt-0.5' : 'mt-1 line-clamp-1'} text-sm text-zinc-400 leading-relaxed read-measure`}
               >
-                {careerLifeSpace.desc}
+                {notesSpace.desc}
               </p>
             </div>
           </button>
           {isDesktop && (
             <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 pl-[3.625rem]">
-              {careerLifeSpace.shortcuts.map((sc) => (
+              {notesSpace.shortcuts.map((sc) => (
                 <button
                   key={sc.label}
                   onClick={sc.go}

@@ -5,6 +5,20 @@ import { IsoDateTimeSchema, UuidSchema } from './shared.js'
 
 export const WORK_SCHEMA_VERSION = 1
 
+/**
+ * Giới hạn ĐỘ DÀI nội dung một ghi chú (trường `summary` của `WorkDocument`) — 10.000 ký tự,
+ * chốt 2026-09-20 cùng đợt đổi tên trụ "Công việc" thành "Ghi chú".
+ *
+ * Một hằng số DÙNG CHUNG cho cả ba tầng, cố ý không lặp lại con số ở đâu khác:
+ *   - giao diện: `maxLength` của ô nhập + bộ đếm ký tự (apps/dhcb/src/pages/domains/notes/Notes.tsx)
+ *   - API: Zod `.max()` ở apps/server/src/api/domains/work.ts (KHÔNG tin client — CLAUDE.md 4.2)
+ *   - hợp đồng: chính schema dưới đây, nên dữ liệu đọc lên từ CSDL cũng phải qua cổng này.
+ *
+ * Cột CSDL vẫn là TEXT không giới hạn (postgres/migrations/0066_worklife_merge.sql) — không đổi
+ * kiểu cột, vì dữ liệu cũ dài hơn ngưỡng (nếu có) vẫn phải đọc lên được để người dùng tự cắt.
+ */
+export const NOTE_CONTENT_MAX_LENGTH = 10_000
+
 export const WorkProjectStatusSchema = z.enum(['active', 'completed', 'archived'])
 
 export const WorkProjectSchema = versionedObject(
@@ -64,7 +78,7 @@ export const WorkDocumentSchema = versionedObject(
     projectId: UuidSchema.optional(),
     title: z.string().min(1).max(200),
     documentType: WorkDocumentTypeSchema,
-    summary: z.string().min(1).max(2000),
+    summary: z.string().min(1).max(NOTE_CONTENT_MAX_LENGTH),
     contentUri: z.string().max(500).optional(),
     version: z.number().int().positive().optional(),
     createdAt: IsoDateTimeSchema,

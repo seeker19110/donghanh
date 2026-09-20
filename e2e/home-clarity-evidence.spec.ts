@@ -397,7 +397,6 @@ async function captureEvidence(
     const promptNames = [
       'Luyện phát âm AI',
       'Giải Toán & STEM',
-      'Phỏng vấn thử việc',
       '10 Simulators Đời Sống',
       'Socratic & Trí nhớ',
     ]
@@ -431,7 +430,7 @@ async function captureEvidence(
   if (!CAPTURE_BEFORE) {
     expect(measurements.progressEntryCount, `${name}: Home-owned Tiến độ`).toBe(1)
     expect(measurements.focusableChipCount, `${name}: prompt chip focusable`).toBe(
-      width === 1440 || state === 'member-data-expanded-prompts' ? 5 : 0,
+      width === 1440 || state === 'member-data-expanded-prompts' ? 4 : 0,
     )
   }
 
@@ -490,7 +489,6 @@ test.describe('UX-R2 — canonical Home evidence', () => {
       await expect(revealedSubjects).toBeHidden()
       await expect(page.getByRole('button', { name: /^Vào không gian / })).toHaveCount(4)
       await expect(page.getByRole('button', { name: 'Lộ trình CEFR' })).toHaveCount(0)
-      await expect(page.getByRole('button', { name: 'Phỏng vấn thử', exact: true })).toHaveCount(0)
       await assertTouchTarget(subjectToggle)
 
       await subjectToggle.click()
@@ -504,9 +502,7 @@ test.describe('UX-R2 — canonical Home evidence', () => {
       await page.keyboard.press('Tab')
       await expect(revealedButtons.nth(2)).toBeFocused()
       await page.keyboard.press('Tab')
-      await expect(
-        page.getByRole('button', { name: 'Vào không gian Sự nghiệp, Khởi nghiệp & Đời sống' }),
-      ).toBeFocused()
+      await expect(page.getByRole('button', { name: 'Vào không gian Ghi chú' })).toBeFocused()
       await page.keyboard.press('Shift+Tab')
       await expect(revealedButtons.nth(2)).toBeFocused()
       await subjectToggle.click({ force: true })
@@ -515,7 +511,7 @@ test.describe('UX-R2 — canonical Home evidence', () => {
 
       await promptToggle.click()
       await expect(promptPanel).toBeVisible()
-      await expect(promptPanel.getByRole('button')).toHaveCount(5)
+      await expect(promptPanel.getByRole('button')).toHaveCount(4)
       await expect(promptToggle).toBeFocused()
       const requestsAfterSettle: string[] = []
       page.on('request', (request) => requestsAfterSettle.push(request.url()))
@@ -529,11 +525,6 @@ test.describe('UX-R2 — canonical Home evidence', () => {
           name: /Giải Toán & STEM/,
           query: 'Tìm cực trị của hàm số bậc 3: y = x^3 - 3x + 2',
           destination: 'Môn Toán',
-        },
-        {
-          name: /Phỏng vấn thử việc/,
-          query: 'Mô phỏng câu hỏi phỏng vấn STAR cho vị trí Data Analyst',
-          destination: 'Luyện phỏng vấn',
         },
         {
           name: /10 Simulators Đời Sống/,
@@ -562,20 +553,19 @@ test.describe('UX-R2 — canonical Home evidence', () => {
       await page.setViewportSize({ width: 1440, height: 900 })
       await expect(promptToggle).toHaveCount(0)
       await expect(promptPanel.getByRole('button').first()).toBeFocused()
-      await expect(promptPanel.getByRole('button')).toHaveCount(5)
+      await expect(promptPanel.getByRole('button')).toHaveCount(4)
       await expect(page.locator('#home-subjects-revealed')).toHaveCount(0)
       await expect(page.getByRole('button', { name: /^Vào không gian / })).toHaveCount(7)
       await expect(page.getByRole('button', { name: 'Lộ trình CEFR' })).toBeVisible()
-      await expect(page.getByRole('button', { name: 'Phỏng vấn thử', exact: true })).toBeVisible()
       await expect(page.locator('main [aria-label="Xem bảng tiến độ"]')).toHaveCount(1)
       await expect(page.getByText('Xem tiến độ', { exact: true })).toHaveCount(0)
 
       await page.setViewportSize({ width: 390, height: 844 })
-      await expect(page.getByRole('button', { name: 'Xem 5 gợi ý nhanh' })).toBeVisible()
+      await expect(page.getByRole('button', { name: 'Xem 4 gợi ý nhanh' })).toBeVisible()
       await expect(promptPanel).toBeHidden()
 
       // Khi focus ở nơi khác, resize không cưỡng ép focus. Lựa chọn expanded sống qua roundtrip.
-      await page.getByRole('button', { name: 'Xem 5 gợi ý nhanh' }).click()
+      await page.getByRole('button', { name: 'Xem 4 gợi ý nhanh' }).click()
       const questionInput = page.getByLabel('Câu hỏi của bạn')
       await questionInput.focus()
       await page.setViewportSize({ width: 1440, height: 900 })
@@ -639,7 +629,7 @@ test.describe('UX-R2 — canonical Home evidence', () => {
     }
   })
 
-  test('desktop giữ đúng đích của 3 shortcut Tiếng Anh và 4 shortcut Sự nghiệp', async ({
+  test('desktop giữ đúng đích của 3 shortcut Tiếng Anh và shortcut Ghi chú', async ({
     browser,
   }) => {
     test.skip(CAPTURE_BEFORE, 'before mode chỉ chụp canonical member-data')
@@ -650,10 +640,8 @@ test.describe('UX-R2 — canonical Home evidence', () => {
         { name: 'Lộ trình CEFR', path: '/goc-hoc-tap/english/lo-trinh' },
         { name: 'Luyện nói', path: '/goc-hoc-tap/english/luyen-noi' },
         { name: 'Từ điển', path: '/goc-hoc-tap/english/tu-dien' },
-        { name: 'Phỏng vấn thử', path: '/career/interview' },
-        { name: 'Công việc', path: '/cong-viec-cuoc-song?muc=cong-viec' },
-        { name: 'Lean Canvas', path: '/startup/canvas' },
-        { name: 'Đời sống', path: '/cong-viec-cuoc-song?muc=doi-song' },
+        // [2026-09-20] Thẻ "Sự nghiệp, Khởi nghiệp & Đời sống" thay bằng thẻ "Ghi chú".
+        { name: 'Bảng Kanban', path: '/ghi-chu/kanban' },
       ] as const
 
       for (const shortcut of shortcuts) {

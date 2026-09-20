@@ -14,14 +14,6 @@ import { subjectHomePath } from '@dhcb/core-learner/subjectHome'
 import { underPrefix } from './navPaths'
 import { legacyEnglishPath } from './legacyEnglishPath'
 import { duongDanLoTrinh } from './englishRoutes'
-import {
-  CAREER_STUDIO_PATH,
-  WORKLIFE_STUDIO_PATH,
-  duongDanSuNghiep,
-  duongDanKhoiNghiep,
-  duongDanCongViec,
-  duongDanDoiSong,
-} from './domainRoutes'
 
 /** Một đốt trong đường đi. `to` rỗng nghĩa là đốt cuối (trang hiện tại, không phải liên kết). */
 export interface Crumb {
@@ -75,8 +67,6 @@ function childNodes(children: readonly NavChild[], parent: string): RouteNode[] 
 
 const SUBJECTS = studioPath('subjects')
 const ENGLISH_HOME = subjectHomePath('english')
-const CAREER = CAREER_STUDIO_PATH
-const WORKLIFE = WORKLIFE_STUDIO_PATH
 
 /**
  * Cây route dùng cho breadcrumb.
@@ -129,31 +119,12 @@ const ROUTE_NODES: readonly RouteNode[] = [
     parent: '/goc-hoc-tap/programming',
   },
 
-  // --- Các TRỤ: công cụ nằm dưới hai studio gộp ---
-  // Trang công cụ của trụ trước đây không có tầng cha nào nên breadcrumb tự ẩn hẳn: đứng ở
-  // "Phòng Luyện Phỏng Vấn AI" không có gì cho biết nó thuộc trụ Sự nghiệp. Đích của đốt cha
-  // giữ nguyên tham số `?muc=` như nút Back của chính trang đó, để rơi đúng tab.
-  {
-    path: '/career/interview',
-    label: 'Sự nghiệp',
-    to: duongDanSuNghiep(),
-    parent: CAREER,
-  },
-  {
-    path: '/startup/canvas',
-    label: 'Khởi nghiệp',
-    to: duongDanKhoiNghiep(),
-    parent: CAREER,
-  },
-  {
-    path: '/work/kanban',
-    label: 'Công việc',
-    to: duongDanCongViec(),
-    parent: WORKLIFE,
-  },
-  { path: '/life/wheel', label: 'Đời sống', to: duongDanDoiSong(), parent: WORKLIFE },
+  // --- Trụ "Ghi chú" ---
+  // [2026-09-20] Các nút của trụ Sự nghiệp / Khởi nghiệp / Đời sống đã bị gỡ cùng trang của
+  // chúng. Trang con `/ghi-chu/kanban` KHÔNG cần nút riêng: nó đã khớp tiền tố nút `/ghi-chu`
+  // (sinh từ `STUDIOS` ở đầu danh sách này) nên đốt cha "Ghi chú" tự có — thêm nút riêng chỉ
+  // làm tên trang hiện HAI lần trên breadcrumb.
   { path: '/action-canvas', label: 'Action Canvas', parent: studioPath('companion') },
-  { path: '/life-graph', label: 'Mạng lưới & Ký ức', parent: '/trang-ca-nhan' },
   { path: '/ung-dung-thuc-te', label: 'Ứng dụng thực tế', parent: SUBJECTS },
 ]
 

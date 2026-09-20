@@ -104,7 +104,8 @@ describe('DesktopSidebar — Tiếng Anh là một môn trong Góc học tập',
 })
 
 // [P1-7, lệnh 9; rút còn 6 mục ở thiết kế lại header desktop] Sidebar nay 6 mục cấp 1: Góc học
-// tập · Ôn tập · Bạn Đồng Hành · Sự nghiệp & Đời sống (gộp career+worklife) · Tiến độ · Hồ sơ.
+// tập · Ôn tập · Bạn Đồng Hành · Ghi chú · Tiến độ · Hồ sơ. [2026-09-20] Mục gộp
+// "Sự nghiệp & Đời sống" cũ đã bị gỡ, thay bằng mục lá "Ghi chú" (/ghi-chu).
 // "Trang chủ" cấp 1 (mục điều hướng, sáng đèn theo trang) đã gỡ khỏi danh sách này — hàng đợi
 // so khớp `ACTIVE_ORDER` không còn tính nó. "Luyện tập" gỡ khỏi sidebar, "Nâng cấp" thành dòng
 // nhỏ dưới danh sách (không còn <a> cấp 1 riêng).
@@ -119,7 +120,7 @@ describe('DesktopSidebar — P1-7: 10 → 6 mục cấp 1', () => {
       '/goc-hoc-tap',
       '/goc-hoc-tap/on-tap',
       '/ban-dong-hanh',
-      '/su-nghiep-khoi-nghiep',
+      '/ghi-chu',
       '/tien-do',
       '/trang-ca-nhan',
     ]
@@ -134,23 +135,31 @@ describe('DesktopSidebar — P1-7: 10 → 6 mục cấp 1', () => {
     expect(html).toContain('href="/"')
   })
 
-  it('AC-2: "Sự Nghiệp & Khởi Nghiệp"/"Công Việc & Đời Sống" chỉ còn ở cấp 2, không còn mục cấp 1 riêng', () => {
-    const html = render('/su-nghiep-khoi-nghiep')
-    // Nhóm cấp 1 mới.
-    expect(html).toContain('Sự nghiệp &amp; Đời sống')
-    // Nhãn hai studio cũ chỉ xuất hiện ĐÚNG MỘT LẦN mỗi cái — không còn bản sao ở "Không Gian
-    // Nền Tảng" (đã xoá) lẫn ở nhóm mới.
-    expect(html.match(/Sự Nghiệp &amp; Khởi Nghiệp/g)).toHaveLength(1)
-    expect(html.match(/Công Việc &amp; Đời Sống/g)).toHaveLength(1)
+  // [2026-09-20] Ba trụ Sự nghiệp · Khởi nghiệp · Đời sống đã bị GỠ HẲN; mục gộp cũ thay bằng
+  // mục LÁ "Ghi chú". Test này canh cho chúng không lẻn trở lại sidebar.
+  it('AC-2: không còn vết nào của Sự nghiệp / Khởi nghiệp / Đời sống trong sidebar', () => {
+    const html = render('/ghi-chu')
+    expect(html).toContain('Ghi chú')
+    for (const label of [
+      'Sự nghiệp',
+      'Sự Nghiệp',
+      'Khởi nghiệp',
+      'Khởi Nghiệp',
+      'Đời sống',
+      'Đời Sống',
+    ]) {
+      expect(html, label).not.toContain(label)
+    }
     expect(html).not.toContain('Không Gian Nền Tảng')
     expect(html).not.toContain('Luyện tập')
   })
 
-  it('AC-3: /su-nghiep, /cong-viec, /cuoc-song sáng "Sự nghiệp & Đời sống"; /luyen-tap sáng "Góc học tập"', () => {
-    for (const path of ['/su-nghiep', '/cong-viec', '/cuoc-song']) {
+  it('AC-3: URL cũ của trụ Công việc sáng mục "Ghi chú"; /luyen-tap sáng "Góc học tập"', () => {
+    // Trong nhịp render trước khi <Navigate> kịp chạy, sidebar vẫn phải sáng đúng mục.
+    for (const path of ['/ghi-chu', '/cong-viec', '/work', '/cong-viec-cuoc-song']) {
       const html = render(path)
       expect(html, path).toMatch(
-        /<a[^>]*href="\/su-nghiep-khoi-nghiep"[^>]*aria-current="page"|<a[^>]*aria-current="page"[^>]*href="\/su-nghiep-khoi-nghiep"/,
+        /<a[^>]*href="\/ghi-chu"[^>]*aria-current="page"|<a[^>]*aria-current="page"[^>]*href="\/ghi-chu"/,
       )
     }
   })

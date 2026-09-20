@@ -13,9 +13,7 @@ import {
   ChevronDown,
   ChevronRight,
   Loader2,
-  Briefcase,
-  Heart,
-  GitMerge,
+  StickyNote,
   Bot,
   Settings,
   Users,
@@ -152,35 +150,16 @@ export default function Profile() {
 
   const SPECIAL_HUBS = [
     {
-      // Hai trụ gộp làm một trang (2026-08-28) — vào thẳng tab "Sự nghiệp".
-      path: '/su-nghiep-khoi-nghiep',
-      title: isA ? 'Sự nghiệp & Khởi nghiệp' : 'Career & Startup Hub',
+      // [2026-09-20] Ba thẻ "Sự nghiệp & Khởi nghiệp", "Công việc & Đời sống" và "Mạng lưới cá
+      // nhân" đã bị gỡ cùng trang của chúng. Chỉ còn "Ghi chú" — nửa "Công việc" cũ.
+      path: '/ghi-chu',
+      title: isA ? 'Ghi chú' : 'Notes',
       desc: isA
-        ? 'Hồ sơ nghề, mục tiêu, Lean Canvas & kiểm chứng giả thuyết'
-        : 'Career profile, goals, lean canvas & hypothesis validation',
-      icon: Briefcase,
-      color: 'text-emerald-400 theme-light:text-emerald-900',
-      bg: 'bg-emerald-500/10 border-emerald-500/30 hover:border-emerald-500/60',
-    },
-    {
-      path: '/cong-viec-cuoc-song',
-      title: isA ? 'Công việc & Đời sống' : 'Work & Life',
-      desc: isA
-        ? 'Dự án, việc cần làm, cuộc họp · thói quen, sức khoẻ, kế hoạch'
-        : 'Projects, tasks, meetings · habits, wellbeing, life plans',
-      icon: Heart,
+        ? 'Việc cần làm, dự án, cuộc họp & tài liệu'
+        : 'Tasks, projects, meetings & documents',
+      icon: StickyNote,
       color: 'text-rose-400 theme-light:text-rose-900',
       bg: 'bg-rose-500/10 border-rose-500/30 hover:border-rose-500/60',
-    },
-    {
-      path: '/life-graph',
-      title: isA ? 'Mạng lưới cá nhân' : 'Life Graph & Facts',
-      desc: isA
-        ? 'Mạng lưới tri thức, ký ức & quyền riêng tư'
-        : 'Personal facts, memory fabric & GDPR',
-      icon: GitMerge,
-      color: 'text-indigo-400 theme-light:text-indigo-800',
-      bg: 'bg-indigo-500/10 border-indigo-500/30 hover:border-indigo-500/60',
     },
     {
       path: '/goc-hoc-tap',

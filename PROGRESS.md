@@ -35,7 +35,9 @@ khảo: `docs/README.md`.
 
 **Vị trí hôm nay (2026-09-06):** app nền tảng chạy thật tại `donghanhcungban.org`; môn Anh
 chín nhất (A1→C2, 3 chế độ, hai chiều A/B); môn Lập trình có xương sống P1–P6 + 14 hướng chuyên
-sâu + khoá ngắn + lộ trình mục tiêu; 4 trụ Career/Work/Startup/Life có trang; **4 môn STEM
+sâu + khoá ngắn + lộ trình mục tiêu; **[2026-09-20] ba trụ Sự nghiệp · Khởi nghiệp · Đời sống
+ĐÃ GỠ HẲN khỏi giao diện, trụ Công việc đổi tên thành "Ghi chú" (`/ghi-chu`) và nối nội dung
+vào ngữ cảnh Companion** (changelog 0389); **4 môn STEM
 (Toán/Lí/Hoá/Sinh) ĐÃ NỐI VÀO APP 2026-09-13** — 294 bài, 55 bài có hoạt ảnh minh hoạ, 24 chuyên
 đề bồi dưỡng học sinh giỏi ba cấp, chấm câu hỏi tất định bằng `@dhcb/core-grading`
 (`docs/changelog/0295-2026-09-13-hoan-thien-4-mon-stem.md`). Cổng chất lượng đo thật 2026-09-13:
@@ -542,8 +544,16 @@ không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelo
   trên production. Byte mã nguồn không phải thứ người học tải; **chunk sau build** mới là. Tiêu
   chí đã đổi trong đặc tả và nay có **cổng đo thật chặn CI** (`scripts/check-lesson-chunks.ts`)
   thay vì một dòng chữ trong tài liệu.
-- **4 trang trụ Career/Work/Startup/Life chưa có chiều B** (0/4 file dùng `direction`) — nợ có
-  chủ đích, người dùng chốt "chiều B nợ". Làm khi có người học chiều B thật.
+- ~~**4 trang trụ Career/Work/Startup/Life chưa có chiều B**~~ — ✅ **ĐÓNG 2026-09-20**: ba
+  trang Career/Startup/Life đã bị gỡ hẳn (changelog 0389), trang còn lại là "Ghi chú" —
+  nội dung do người dùng tự nhập, không có chiều học nào để phân biệt.
+- **[2026-09-20, NỢ MỞ] Backend ba trụ đã gỡ vẫn còn sống.** `/api/{career,startup,life,
+life-graph}` + `careerService`/`startupService`/`lifeFoundationService` + read model của
+  chúng KHÔNG bị xoá: `lifeGraphService` là động cơ đồ thị xuyên miền mà Companion
+  (`contextEngine`, `crossDomainGraphService`, `crossDomainSynergyService`,
+  `subconsciousService`, `lifeSynthesis`) đang dùng, và xoá bảng/dữ liệu người dùng là thao tác
+  không hoàn tác được (CLAUDE.md mục 12). **Cần chủ dự án quyết riêng** có xoá dữ liệu + API
+  hay giữ làm kho dữ liệu chỉ-đọc cho Companion.
 
 ### Ưu tiên 3 — kỹ thuật (nhỏ, đo được, không đổi hành vi)
 
