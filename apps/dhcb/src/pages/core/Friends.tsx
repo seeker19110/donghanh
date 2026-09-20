@@ -71,7 +71,9 @@ export default function Friends() {
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang danh sách → width="standard"; giữ
       nguyên đệm dưới cũ (pb-24, không theo --bnav-h) qua className. */}
       <PageShell width="standard" baseWidth="max-w-lg" className="!pt-4 !pb-24">
-        <h1 className="sr-only">Bạn bè</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Bạn bè
+        </h1>
 
         {loading && <p className="text-sm text-zinc-400">Đang tải…</p>}
 

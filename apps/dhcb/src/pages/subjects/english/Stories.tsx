@@ -130,7 +130,7 @@ export default function Stories() {
       />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Lưới thẻ truyện → width standard. */}
       <PageShell width="standard" baseWidth="max-w-3xl">
-        <h1 className="sr-only">
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
           {isA ? 'Nghe - Đọc - Kể Truyện' : 'Listen - Read - Tell Stories'}
         </h1>
 

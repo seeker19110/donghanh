@@ -214,7 +214,9 @@ export default function About() {
       <Layout title={isA ? 'Giới thiệu nền tảng' : 'About the platform'} />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang chữ dài để đọc → width="reading". */}
       <PageShell width="reading" baseWidth="max-w-2xl" className="space-y-6">
-        <h1 className="sr-only">{isA ? 'Giới thiệu nền tảng' : 'About the platform'}</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {isA ? 'Giới thiệu nền tảng' : 'About the platform'}
+        </h1>
 
         {/* Nền tảng gồm những gì — đặt TRƯỚC phần môn Tiếng Anh, vì đây là trang giới thiệu
             nền tảng chứ không phải trang giới thiệu một môn. */}

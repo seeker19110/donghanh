@@ -245,7 +245,9 @@ export default function Dictionary() {
             tab === 'search' ? '!pb-[calc(6rem+var(--bnav-h))]' : '!pb-[calc(1.5rem+var(--bnav-h))]'
           }`}
         >
-          <h1 className="sr-only">{isA ? 'Từ điển' : 'Dictionary'}</h1>
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+            {isA ? 'Từ điển' : 'Dictionary'}
+          </h1>
 
           <VocabMilestone userId={user.id} refreshKey={learnedKey} />
 

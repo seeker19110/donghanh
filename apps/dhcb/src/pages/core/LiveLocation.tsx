@@ -331,7 +331,9 @@ export default function LiveLocation() {
       <Layout title="Đi chung" />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang danh sách → width="standard". */}
       <PageShell width="standard" baseWidth="max-w-2xl">
-        <h1 className="sr-only">Đi chung</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Đi chung
+        </h1>
 
         {loading ? (
           /* Skeleton thay chữ "Đang tải…" — khớp khung thẻ sắp hiện. */

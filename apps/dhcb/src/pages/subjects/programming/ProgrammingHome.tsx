@@ -97,7 +97,9 @@ export default function ProgrammingHome() {
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
-        <h1 className="sr-only">Môn Lập trình</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Môn Lập trình
+        </h1>
 
         {/* ① Học tiếp — khối quan trọng nhất trang, luôn đứng đầu */}
         {xongMon ? (

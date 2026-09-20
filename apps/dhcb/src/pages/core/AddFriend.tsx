@@ -48,7 +48,9 @@ export default function AddFriend() {
     <div className="min-h-dvh bg-zinc-950">
       <Layout title="Kết bạn" />
       <main className="max-w-md mx-auto px-4 pb-24 pt-4 text-center">
-        <h1 className="sr-only">Kết bạn</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Kết bạn
+        </h1>
 
         {target === undefined && <p className="text-sm text-zinc-400">Đang kiểm tra mã…</p>}
 

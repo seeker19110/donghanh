@@ -93,7 +93,9 @@ export default function ProgrammingPathPage() {
         <Layout onBack={() => nav(PROGRAMMING_PREFIX)} title="Không có lộ trình này" />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] */}
         <PageShell width="standard" baseWidth="max-w-4xl">
-          <h1 className="sr-only">Không có lộ trình này</h1>
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+            Không có lộ trình này
+          </h1>
         </PageShell>
       </div>
     )
@@ -118,7 +120,7 @@ export default function ProgrammingPathPage() {
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
-        <h1 className="sr-only">{`Lộ trình: ${path.title}`}</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">{`Lộ trình: ${path.title}`}</h1>
 
         {/* Thông tin đầu vào + tiến độ tổng — đọc từ tiến độ hướng sẵn có */}
         <section className="rounded-3xl border border-accent-500/40 bg-zinc-900 p-5 space-y-3">

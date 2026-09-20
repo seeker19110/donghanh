@@ -21,7 +21,9 @@ export default function Quests() {
       <Layout title={isA ? 'Nhiệm vụ' : 'Quests'} />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang danh sách → width="standard". */}
       <PageShell width="standard" baseWidth="max-w-2xl" className="space-y-4">
-        <h1 className="sr-only">{isA ? 'Nhiệm vụ' : 'Quests'}</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {isA ? 'Nhiệm vụ' : 'Quests'}
+        </h1>
 
         <QuestsPanel isA={isA} userId={user?.id} />
 

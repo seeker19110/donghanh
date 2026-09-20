@@ -117,7 +117,9 @@ export default function NotesKanban() {
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Lưới 2 cột, không phải bảng cuộn ngang →
       width="standard". */}
       <PageShell width="standard" baseWidth="max-w-6xl" className="space-y-6">
-        <h1 className="sr-only">Bảng Kanban việc cần làm</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Bảng Kanban việc cần làm
+        </h1>
 
         {/* Thanh công cụ lọc & tìm kiếm */}
         <section className="bg-zinc-900/80 border border-zinc-800 rounded-2xl p-4 flex items-center justify-between gap-4 flex-wrap">

@@ -264,7 +264,9 @@ export default function ProgrammingSpecStagePage() {
         <Layout title="Không có chặng này" onBack={() => nav(`${PROGRAMMING_PREFIX}/huong`)} />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] */}
         <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-4">
-          <h1 className="sr-only">Không có chặng này</h1>
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+            Không có chặng này
+          </h1>
           <button
             onClick={() => nav(`${PROGRAMMING_PREFIX}/huong`)}
             className="tap-44 w-full py-3.5 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition"
@@ -301,7 +303,9 @@ export default function ProgrammingSpecStagePage() {
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
-        <h1 className="sr-only">{stage.name}</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {stage.name}
+        </h1>
 
         <section className="rounded-3xl border border-accent-500/40 bg-zinc-900 p-5 space-y-3">
           <h2 className="text-base font-bold text-white flex items-center gap-2">

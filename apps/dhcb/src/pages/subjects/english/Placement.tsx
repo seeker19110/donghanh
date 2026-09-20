@@ -205,7 +205,9 @@ export default function Placement() {
           baseWidth="max-w-lg"
           className={`!pb-[calc(1.5rem+var(--bnav-h))] space-y-5 ${fromOnboarding ? '!pt-10' : ''}`}
         >
-          <h1 className="sr-only">{isA ? '🎯 Test xếp lớp' : '🎯 Placement test'}</h1>
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+            {isA ? '🎯 Test xếp lớp' : '🎯 Placement test'}
+          </h1>
 
           {saved && !canRetake ? (
             <div className="glass rounded-2xl p-6 text-center space-y-3 animate-fade-in">

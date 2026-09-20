@@ -319,7 +319,9 @@ export default function ExamPlanPage() {
       <Layout backTo={duongDanMonTiengAnh()} title={isA ? 'Ôn thi' : 'Exam prep'} />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Đồng hồ đếm ngược + 3 việc hôm nay → width reading. */}
       <PageShell width="reading" baseWidth="max-w-2xl" className="!pb-[calc(1.5rem+var(--bnav-h))]">
-        <h1 className="sr-only">{isA ? 'Ôn thi' : 'Exam prep'}</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {isA ? 'Ôn thi' : 'Exam prep'}
+        </h1>
 
         {loading ? (
           /* Skeleton thay vòng xoay: giữ đúng khung nội dung sắp hiện, đỡ giật layout. */

@@ -335,7 +335,9 @@ export default function CommonPhrases() {
           baseWidth="max-w-3xl"
           className="!pt-4 !pb-2 sm:!pt-6 sm:!pb-[calc(1.5rem+var(--bnav-h))] space-y-4"
         >
-          <h1 className="sr-only">{T.phrasesPageTitle}</h1>
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+            {T.phrasesPageTitle}
+          </h1>
 
           {/* Gợi ý "Tiếp tục" — chủ đề đầu tiên chưa xem, ẩn khi đang tìm kiếm */}
           {nextUnviewed && !search.trim() && (

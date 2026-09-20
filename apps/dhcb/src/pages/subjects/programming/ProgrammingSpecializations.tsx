@@ -104,7 +104,9 @@ export default function ProgrammingSpecializations() {
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
-        <h1 className="sr-only">Hướng chuyên sâu</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Hướng chuyên sâu
+        </h1>
 
         <section className="rounded-3xl border border-accent-500/40 bg-zinc-900 p-5 space-y-2">
           <h2 className="text-base font-bold text-white flex items-center gap-2">

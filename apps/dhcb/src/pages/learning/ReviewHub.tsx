@@ -182,7 +182,9 @@ export default function ReviewHub() {
     <>
       <Layout title="Ôn tập hôm nay" />
       <PageShell width="standard" baseWidth="max-w-2xl" className="space-y-5">
-        <h1 className="sr-only">Ôn tập hôm nay</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Ôn tập hôm nay
+        </h1>
 
         {queue?.sourcesState['learning.evidence'] === 'error' && (
           <p className="text-sm text-content-secondary" role="status">

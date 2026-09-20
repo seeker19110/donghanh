@@ -150,7 +150,10 @@ export default function ProgrammingLevelPage() {
             không còn chỉ là tóm tắt — xem luật `railSide` ở TwoPane.tsx. */}
         <TwoPane isDesktop={isDesktop} railSide="left" railLabel={tenMucLuc} rail={rail}>
           <div className="space-y-6">
-            <h1 className="sr-only">{`Bậc ${level.id.toUpperCase()} — ${level.name}`}</h1>
+            <h1
+              tabIndex={-1}
+              className="sr-only focus:outline-none"
+            >{`Bậc ${level.id.toUpperCase()} — ${level.name}`}</h1>
             {trigger}
 
             {/* Bậc đang khoá (Free học tuần tự — GĐ3). Đề cương vẫn hiện để người học biết mình

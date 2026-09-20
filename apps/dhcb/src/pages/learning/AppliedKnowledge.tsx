@@ -36,7 +36,9 @@ export default function AppliedKnowledge() {
         baseWidth="max-w-5xl"
         className="!pb-[calc(2.5rem+var(--bnav-h))] space-y-6"
       >
-        <h1 className="sr-only">Ứng Dụng Thực Tế & Mô Phỏng Đời Sống</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Ứng Dụng Thực Tế & Mô Phỏng Đời Sống
+        </h1>
 
         {/* TABS NAVIGATION */}
         <div className="flex gap-2 p-1.5 rounded-2xl bg-zinc-900 border border-zinc-800 overflow-x-auto">

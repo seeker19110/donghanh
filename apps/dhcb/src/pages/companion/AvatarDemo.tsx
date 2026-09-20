@@ -105,7 +105,9 @@ export default function AvatarDemo() {
     <>
       <Layout title="PoC — Avatar AI nói chuyện" />
       <main className="max-w-lg mx-auto px-4 pt-6 pb-[calc(2rem+var(--bnav-h))]">
-        <h1 className="sr-only">PoC — Avatar AI nói chuyện</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          PoC — Avatar AI nói chuyện
+        </h1>
         <ComingSoonBanner
           isA
           note="Avatar AI nói chuyện đang ở giai đoạn thử nghiệm (PoC): mới chứng minh cơ chế khẩu hình chạy đúng, chưa nối vào luồng Luyện nói thật. Bản hoàn chỉnh sẽ ra mắt sau."

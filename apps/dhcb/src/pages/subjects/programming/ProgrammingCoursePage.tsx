@@ -73,7 +73,9 @@ export default function ProgrammingCoursePage() {
             thẳng vào một bài, không phải cuộn xuống rồi mới bấm. */}
         <TwoPane isDesktop={isDesktop} railSide="left" railLabel={TEN_MUC_LUC} rail={rail}>
           <div className="space-y-6">
-            <h1 className="sr-only">{course.title}</h1>
+            <h1 tabIndex={-1} className="sr-only focus:outline-none">
+              {course.title}
+            </h1>
             {trigger}
 
             <section className="bg-zinc-900/80 border border-accent-500/30 rounded-3xl p-5 space-y-2 shadow-sm">

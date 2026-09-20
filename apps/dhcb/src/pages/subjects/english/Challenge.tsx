@@ -619,7 +619,7 @@ export default function Challenge() {
         />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] Luồng tuần tự hẹp → width reading. */}
         <PageShell width="reading" baseWidth="max-w-lg">
-          <h1 className="sr-only">
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
             {isA ? 'Challenge 1 phút mỗi ngày' : 'Daily 1-Minute Challenge'}
           </h1>
           <div className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-5 space-y-3 animate-fade-in">
@@ -684,7 +684,7 @@ export default function Challenge() {
       )}
 
       <PageShell width="reading" baseWidth="max-w-lg" className="space-y-5">
-        <h1 className="sr-only">
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
           {isA ? 'Challenge 1 phút mỗi ngày' : 'Daily 1-Minute Challenge'}
         </h1>
 

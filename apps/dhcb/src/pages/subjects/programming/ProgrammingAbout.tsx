@@ -134,7 +134,9 @@ export default function ProgrammingAbout() {
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang toàn chữ để đọc → giữ hẹp cho dễ đọc. */}
       <PageShell width="reading" baseWidth="max-w-3xl" className="space-y-6">
-        <h1 className="sr-only">Lập trình — từ số 0 tới một sản phẩm chạy thật trên Internet</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Lập trình — từ số 0 tới một sản phẩm chạy thật trên Internet
+        </h1>
 
         {/* Khối 2 — cầm được gì trên tay */}
         <section className={`${the} space-y-3`}>

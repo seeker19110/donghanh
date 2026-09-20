@@ -364,7 +364,9 @@ function LessonBody({
             rail={<StepRail steps={STEPS} current={step} isDone={stepDone} onGo={setStep} />}
           >
             <div className="space-y-5">
-              <h1 className="sr-only">{lesson.title}</h1>
+              <h1 tabIndex={-1} className="sr-only focus:outline-none">
+                {lesson.title}
+              </h1>
 
               {/* Ngôn ngữ của bài + nút mở mục lục (mobile) + lối về đúng bậc/khoá (PR-UX1). */}
               <div className="flex items-center gap-2 flex-wrap -mt-3">

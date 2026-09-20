@@ -245,7 +245,9 @@ export default function Notes() {
       className="!pt-6 !pb-[calc(5rem+var(--bnav-h))] flex flex-1 flex-col space-y-6"
     >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800 pb-4">
-        <h1 className="sr-only">Ghi chú</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Ghi chú
+        </h1>
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={() => nav(duongDanGhiChuKanban())}

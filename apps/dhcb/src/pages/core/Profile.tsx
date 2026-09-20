@@ -267,7 +267,9 @@ export default function Profile() {
       >
         <TwoPane isDesktop={isDesktop} railLabel="Thông tin tài khoản" rail={rail}>
           <div className="space-y-6">
-            <h1 className="sr-only">{isA ? 'Trang cá nhân' : 'Personal Profile'}</h1>
+            <h1 tabIndex={-1} className="sr-only focus:outline-none">
+              {isA ? 'Trang cá nhân' : 'Personal Profile'}
+            </h1>
 
             {/* Thông tin người dùng & Gói cước — ở desktop khối này nằm trong cột phải, nên chỉ
             dựng ở mobile. Dựng đúng MỘT nhánh (không `lg:hidden`) để DOM không có hai bản

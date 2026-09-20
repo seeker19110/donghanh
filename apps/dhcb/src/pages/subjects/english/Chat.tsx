@@ -773,7 +773,9 @@ export default function Chat() {
         <div className="flex-1 flex flex-col overflow-y-auto">
           {/* Tiêu đề trang — ngay dưới AppHeader, cỡ chữ lớn */}
           <div className="max-w-sm mx-auto w-full px-4 pt-5">
-            <h1 className="sr-only">{isA ? 'Chat với gia sư' : 'Chat with tutor'}</h1>
+            <h1 tabIndex={-1} className="sr-only focus:outline-none">
+              {isA ? 'Chat với gia sư' : 'Chat with tutor'}
+            </h1>
           </div>
           <SetupScreen
             onStart={startSession}

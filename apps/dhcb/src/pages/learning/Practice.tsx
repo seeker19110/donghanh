@@ -187,7 +187,7 @@ export default function Practice() {
       />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trung tâm luyện tập, nhiều thẻ → width standard. */}
       <PageShell width="standard" baseWidth="max-w-3xl" className="space-y-7">
-        <h1 className="sr-only">
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
           {isA ? 'Phòng Luyện Tập Đa Môn & Sửa Lỗi' : 'Multi-Subject Practice & Mistake Studio'}
         </h1>
 

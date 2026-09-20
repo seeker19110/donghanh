@@ -141,7 +141,9 @@ export default function Subjects() {
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Lưới môn học → width standard. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
-        <h1 className="sr-only">Không Gian Môn Học & Gia Sư AI</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Không Gian Môn Học & Gia Sư AI
+        </h1>
 
         {/* AI Multi-Subject Diagnostic & Adaptive Recommendation Card */}
         <section

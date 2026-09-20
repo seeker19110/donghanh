@@ -76,7 +76,9 @@ export default function ProgrammingReview() {
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-2xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-2xl" className="space-y-5">
-        <h1 className="sr-only">Ôn thẻ Lập trình</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Ôn thẻ Lập trình
+        </h1>
 
         {hangDoi === null && (
           <p

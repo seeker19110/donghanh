@@ -324,7 +324,9 @@ export default function StoryReader() {
               {story.level}
             </span>
           </div>
-          <h1 className="sr-only">{isA ? story.titleEn : story.titleVi}</h1>
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+            {isA ? story.titleEn : story.titleVi}
+          </h1>
 
           {/* Nghĩa vụ ghi công bản quyền — bắt buộc hiển thị (mục 3, đặc tả trang Nghe).
             Dùng text-zinc-400 (không phải 500) để đạt AAA 7:1 — đây là nội dung

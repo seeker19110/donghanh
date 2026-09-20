@@ -392,7 +392,9 @@ export default function Home() {
         <div className={isDesktop ? 'flex items-start gap-6' : undefined}>
           <div className={isDesktop ? 'min-w-0 flex-1' : undefined}>
             <div className="space-y-5">
-              <h1 className="sr-only">{T.greeting}</h1>
+              <h1 tabIndex={-1} className="sr-only focus:outline-none">
+                {T.greeting}
+              </h1>
               {topBlocks}
               {spacesSection}
               {!isDesktop && progressHistory}

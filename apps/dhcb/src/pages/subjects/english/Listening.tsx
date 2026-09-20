@@ -56,7 +56,9 @@ export default function Listening() {
       <Layout backTo={duongDanMonTiengAnh()} back title={T.listeningPageTitle} />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Thư viện nghe (2 tab, danh sách) → width standard. */}
       <PageShell width="standard" baseWidth="max-w-3xl">
-        <h1 className="sr-only">{T.listeningPageTitle}</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {T.listeningPageTitle}
+        </h1>
 
         {/* Thanh 2 tab */}
         <div

@@ -85,7 +85,9 @@ export default function ProgrammingPathStagePage() {
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-5">
-        <h1 className="sr-only">{stage.name}</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {stage.name}
+        </h1>
 
         {lessonCount > 0 && (
           <div

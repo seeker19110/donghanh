@@ -108,7 +108,9 @@ export default function EnglishSettings() {
         baseWidth="max-w-3xl"
         className="!pb-[calc(1.5rem+var(--bnav-h))] space-y-6"
       >
-        <h1 className="sr-only">{isA ? 'Cài đặt học Tiếng Anh' : 'English Learning Settings'}</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {isA ? 'Cài đặt học Tiếng Anh' : 'English Learning Settings'}
+        </h1>
 
         {/* Ngôn ngữ hiển thị & chiều học */}
         <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 animate-fade-in">

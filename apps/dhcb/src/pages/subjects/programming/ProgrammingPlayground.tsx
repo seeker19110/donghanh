@@ -75,7 +75,9 @@ export default function ProgrammingPlayground() {
       <Layout onBack={() => nav(PROGRAMMING_PREFIX)} title="Chạy thử Python" />
 
       <main className="max-w-4xl mx-auto px-4 pt-6 pb-[calc(2rem+var(--bnav-h))] space-y-5">
-        <h1 className="sr-only">Chạy thử Python</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Chạy thử Python
+        </h1>
 
         {/* Chọn bài mẫu P1 */}
         <section className="space-y-2">

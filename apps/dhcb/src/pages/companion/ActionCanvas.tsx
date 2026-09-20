@@ -199,7 +199,9 @@ export default function ActionCanvas() {
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] width="standard"; giữ bố cục flex cột full-height. */}
       <PageShell width="standard" baseWidth="max-w-6xl" className="!pt-4 flex flex-1 flex-col">
-        <h1 className="sr-only">Không Gian Làm Việc Trực Quan (Action Canvas)</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Không Gian Làm Việc Trực Quan (Action Canvas)
+        </h1>
 
         <div className="flex flex-wrap items-center justify-between gap-2 mb-3 bg-zinc-900/80 p-2.5 rounded-2xl border border-zinc-800/80 backdrop-blur-md">
           <div className="flex items-center gap-1.5">

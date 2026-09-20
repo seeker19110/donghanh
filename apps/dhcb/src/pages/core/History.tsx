@@ -347,7 +347,9 @@ export default function History() {
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang danh sách → width="standard". */}
       <PageShell width="standard" baseWidth="max-w-3xl">
-        <h1 className="sr-only">Lịch sử học</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Lịch sử học
+        </h1>
         {/* Tiêu đề trang — ngay dưới AppHeader, cỡ chữ lớn */}
         {/* [Slice 03] Lịch sử ở đây là của MÔN TIẾNG ANH (Chat / Viết / Nói) — nói rõ ngữ cảnh. */}
         <p className="text-sm text-zinc-300 mb-3">

@@ -916,7 +916,9 @@ export default function CefrLevelPage() {
       {/* Tiêu đề: to + phụ đề ở tab "Bài học"; gọn 1 dòng ở 4 tab học (đỡ chiếm chỗ,
           vì các tab đó đã có ngữ cảnh riêng — vd "Từ 3/10" — không cần tiêu đề to). */}
       {activeTab === 'lessons' ? (
-        <h1 className="sr-only">{isA ? level.titleVi : level.titleEn}</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {isA ? level.titleVi : level.titleEn}
+        </h1>
       ) : (
         <p className="text-sm font-semibold text-zinc-300 mb-4">
           {isA ? level.titleVi : level.titleEn}

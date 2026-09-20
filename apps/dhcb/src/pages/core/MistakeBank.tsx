@@ -432,7 +432,9 @@ export default function MistakeBank() {
       <Layout backTo={duongDanMonTiengAnh()} title={isA ? 'Sổ lỗi của tôi' : 'My Mistake Bank'} />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang danh sách → width="standard". */}
       <PageShell width="standard" baseWidth="max-w-2xl" className="space-y-5">
-        <h1 className="sr-only">{isA ? 'Sổ lỗi của tôi' : 'My Mistake Bank'}</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {isA ? 'Sổ lỗi của tôi' : 'My Mistake Bank'}
+        </h1>
 
         {/* Bộ lọc môn — mỗi môn một NGUỒN bằng chứng khác nhau nên không gộp một danh sách. */}
         <div

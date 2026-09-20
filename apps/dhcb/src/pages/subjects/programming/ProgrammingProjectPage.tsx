@@ -218,7 +218,9 @@ export default function ProgrammingProjectPage() {
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-5">
-        <h1 className="sr-only">Dự án: Cửa hàng của tôi</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Dự án: Cửa hàng của tôi
+        </h1>
 
         {/* Thanh chọn chặng */}
         <nav aria-label="Các chặng dự án" className="flex gap-2 flex-wrap">

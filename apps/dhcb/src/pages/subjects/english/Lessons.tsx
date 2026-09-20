@@ -224,7 +224,7 @@ export default function Lessons() {
           baseWidth="max-w-3xl"
           className="!pt-4 !pb-2 sm:!pb-[calc(1.5rem+var(--bnav-h))]"
         >
-          <h1 className="sr-only">
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
             {isA ? 'Các bài hội thoại mẫu thông dụng' : 'Common sample dialogues'}
           </h1>
           {/* Gợi ý "Tiếp tục bài N" — bài đầu tiên chưa xem, ẩn khi đang tìm kiếm */}

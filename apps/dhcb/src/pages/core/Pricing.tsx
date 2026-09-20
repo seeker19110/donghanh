@@ -25,7 +25,9 @@ export default function Pricing() {
       <Layout title={isA ? 'Nâng cấp gói' : 'Upgrade your plan'} />
 
       <main className="max-w-3xl lg:max-w-6xl mx-auto px-4 pt-6 pb-[calc(1.5rem+var(--bnav-h))] space-y-6">
-        <h1 className="sr-only">{isA ? 'Nâng cấp gói' : 'Upgrade your plan'}</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {isA ? 'Nâng cấp gói' : 'Upgrade your plan'}
+        </h1>
 
         <PricePromoBanner isA={isA} />
 

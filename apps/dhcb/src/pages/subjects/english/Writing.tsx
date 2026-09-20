@@ -390,7 +390,9 @@ export default function Writing() {
   const composer = (
     <>
       {/* Tiêu đề trang — nay hiện ở thanh header (Layout title=…), giữ đúng MỘT h1 cho a11y. */}
-      <h1 className="sr-only">{isA ? 'Luyện viết & chấm điểm' : 'Writing Practice & Grading'}</h1>
+      <h1 tabIndex={-1} className="sr-only focus:outline-none">
+        {isA ? 'Luyện viết & chấm điểm' : 'Writing Practice & Grading'}
+      </h1>
 
       <div className="bg-zinc-900/80 border border-zinc-800/80 rounded-3xl p-5 sm:p-6 space-y-3 shadow-sm backdrop-blur-md">
         <label htmlFor="essay-prompt-select" className="text-xs font-bold text-zinc-300 block">

@@ -47,7 +47,9 @@ export default function ProgrammingPathDiagnostic() {
         <Layout onBack={() => nav(PROGRAMMING_PREFIX)} title="Không có lộ trình này" />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] */}
         <PageShell width="standard" baseWidth="max-w-4xl">
-          <h1 className="sr-only">Không có lộ trình này</h1>
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+            Không có lộ trình này
+          </h1>
         </PageShell>
       </div>
     )
@@ -89,7 +91,9 @@ export default function ProgrammingPathDiagnostic() {
         <Layout onBack={() => nav(duongDanLoTrinh(path))} title="Gợi ý điểm bắt đầu" />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] */}
         <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
-          <h1 className="sr-only">Gợi ý điểm bắt đầu</h1>
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+            Gợi ý điểm bắt đầu
+          </h1>
           <section className="rounded-3xl border border-accent-500/40 bg-zinc-900 p-5 space-y-3">
             <p className="text-sm text-zinc-300 leading-relaxed flex items-start gap-2">
               <Compass className="w-4 h-4 text-accent-400 shrink-0 mt-0.5" aria-hidden="true" />
@@ -143,7 +147,7 @@ export default function ProgrammingPathDiagnostic() {
       />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
-        <h1 className="sr-only">{`Chẩn đoán: ${path.title}`}</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">{`Chẩn đoán: ${path.title}`}</h1>
         <ol className="space-y-4">
           {questions.map((q, idx) => (
             <li

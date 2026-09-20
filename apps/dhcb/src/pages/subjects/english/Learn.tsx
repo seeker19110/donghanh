@@ -90,7 +90,9 @@ export default function Learn() {
         baseWidth="max-w-3xl"
         className="!pb-[calc(1.5rem+var(--bnav-h))]"
       >
-        <h1 className="sr-only">{isA ? 'Học theo lộ trình' : 'Learning Path'}</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {isA ? 'Học theo lộ trình' : 'Learning Path'}
+        </h1>
         <VocabMilestone userId={user.id} />
 
         <div className="mb-4">

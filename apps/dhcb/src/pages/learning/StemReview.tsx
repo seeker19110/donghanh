@@ -82,7 +82,10 @@ export default function StemReview() {
         title={`Ôn thẻ môn ${subject.label}`}
       />
       <PageShell width="standard" baseWidth="max-w-2xl" className="space-y-5">
-        <h1 className="sr-only">{`Ôn thẻ môn ${subject.label}`}</h1>
+        <h1
+          tabIndex={-1}
+          className="sr-only focus:outline-none"
+        >{`Ôn thẻ môn ${subject.label}`}</h1>
 
         {hangDoi === null && (
           <p

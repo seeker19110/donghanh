@@ -263,7 +263,9 @@ export default function Dashboard() {
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,22rem)] lg:items-start">
           {/* `sr-only`: tiêu đề đã hiện ở thanh header, khối này chỉ giữ đúng MỘT thẻ h1 cho
               a11y (đọc màn hình/cấu trúc trang) — cùng khuôn `Home.tsx`. */}
-          <h1 className="sr-only lg:col-span-2">{vi ? 'Tiến độ học' : 'Your Progress'}</h1>
+          <h1 tabIndex={-1} className="sr-only focus:outline-none lg:col-span-2">
+            {vi ? 'Tiến độ học' : 'Your Progress'}
+          </h1>
 
           <div className="lg:col-start-1 lg:row-start-2">
             <SubjectProgressSection uid={user.id} plan={effectivePlan(user.plan)} />

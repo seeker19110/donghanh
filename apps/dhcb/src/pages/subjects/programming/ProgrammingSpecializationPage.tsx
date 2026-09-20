@@ -280,7 +280,9 @@ export default function ProgrammingSpecializationPage() {
         <Layout title="Không có hướng này" onBack={() => nav(`${PROGRAMMING_PREFIX}/huong`)} />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] */}
         <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-4">
-          <h1 className="sr-only">Không có hướng này</h1>
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+            Không có hướng này
+          </h1>
           <button
             onClick={() => nav(`${PROGRAMMING_PREFIX}/huong`)}
             className="tap-44 w-full py-3.5 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition"
@@ -304,7 +306,9 @@ export default function ProgrammingSpecializationPage() {
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
-        <h1 className="sr-only">{spec.name}</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          {spec.name}
+        </h1>
 
         {/* Chọn/bỏ hướng — tiến độ lưu ở server, không phải localStorage, nên đổi máy vẫn còn. */}
         {user && (

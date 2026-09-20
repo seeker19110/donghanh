@@ -470,7 +470,9 @@ export default function Companion() {
           đệm dưới lớn hơn của PageShell (`pb-[calc(2rem+var(--bnav-h))]`) đẩy nội dung chồng lên
           hàng nút Studio — đo được là 3 vi phạm `target-size` ở cổng a11y (nút bị che một phần). */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="!py-4 flex flex-1 flex-col">
-        <h1 className="sr-only">Bạn Đồng Hành Đa Lĩnh Vực</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Bạn Đồng Hành Đa Lĩnh Vực
+        </h1>
 
         <RealtimeTelemetryBar />
 

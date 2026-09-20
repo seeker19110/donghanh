@@ -135,7 +135,9 @@ export default function AdminDashboard() {
     <div className="min-h-dvh bg-zinc-950">
       <Layout title="Quản trị hệ thống" />
       <main className="max-w-3xl mx-auto px-4 pt-6 pb-[calc(1.5rem+var(--bnav-h))]">
-        <h1 className="sr-only">Quản trị hệ thống</h1>
+        <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          Quản trị hệ thống
+        </h1>
 
         <div className="space-y-3">
           {TABS.map(({ key, label, icon: Icon }) => {
