@@ -84,11 +84,7 @@ import companionHandler from './api/personal/companion.js'
 import decisionLedgerHandler from './api/personal/decision-ledger.js'
 import learningReadModelHandler from './api/learning/learning-read-model.js'
 import subjectsHandler from './api/learning/subjects.js'
-import careerHandler from './api/domains/career.js'
-import careerInterviewHandler from './api/domains/career-interview.js'
 import workHandler from './api/domains/work.js'
-import startupHandler from './api/domains/startup.js'
-import lifeHandler from './api/domains/life.js'
 import automationHandler from './api/personal/automation.js'
 import healthDeepHandler from './api/platform/healthDeep.js'
 import proactiveBriefingHandler from './api/personal/proactive-briefing.js'
@@ -304,15 +300,8 @@ export function registerApiRoutes(app: express.Express): void {
   app.all('/api/learning-read-model', wrapEdge(learningReadModelHandler))
   // Multi-Subject Learning (V2-12) — Subject manifests & taxonomy registry.
   app.all('/api/subjects', wrapEdge(subjectsHandler))
-  // Career Domain (V2-13) — Profile, experiences, goals & skill gap analysis.
-  app.all('/api/career', wrapEdge(careerHandler))
-  app.all('/api/career-interview', wrapEdge(careerInterviewHandler))
   // Work Domain (V2-15) — Projects, tasks, meetings, documents, deadlines.
   app.all('/api/work', wrapEdge(workHandler))
-  // Startup Domain (V2-16) — Ventures, problems, hypotheses, evidence (claims require provenance).
-  app.all('/api/startup', wrapEdge(startupHandler))
-  // Life Foundation (V2-17) — Plans, habits, wellbeing, growth milestones.
-  app.all('/api/life', wrapEdge(lifeHandler))
   // Approved Automation (V2-18) — Explicit grants, triggers, budgets, retries/compensation, action receipts.
   app.all('/api/automation', wrapEdge(automationHandler))
   // Deep Health Check — Giám sát chuyên sâu Database, Storage, Cache, Uptime.

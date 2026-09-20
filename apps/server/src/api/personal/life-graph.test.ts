@@ -30,11 +30,6 @@ const service = vi.hoisted(() => ({
 vi.mock('@dhcb/core-personal/lifeGraphService', () =>
   Object.fromEntries(Object.entries(service).map(([k, fn]) => [k, (...a: unknown[]) => fn(...a)])),
 )
-const syncCrossDomainLifeGraph = vi.fn()
-vi.mock('@dhcb/core-personal/crossDomainGraphService', () => ({
-  syncCrossDomainLifeGraph: (...a: unknown[]) => syncCrossDomainLifeGraph(...a),
-}))
-
 import handler from './life-graph.js'
 
 const PERSON = '11111111-1111-4111-8111-111111111111'
@@ -142,25 +137,12 @@ describe('GET các kind khác', () => {
     expect(res.status).toBe(200)
     expect(service.validateGraphIntegrity).toHaveBeenCalledWith({}, PERSON)
   })
-  it('kind=cross_domain gọi syncCrossDomainLifeGraph', async () => {
-    syncCrossDomainLifeGraph.mockResolvedValueOnce({
-      nodes: [],
-      edges: [],
-      syncSummary: { careerGoalsProcessed: 1 },
-    })
-    const res = await handler(req('GET', '?kind=cross_domain'))
-    expect(res.status).toBe(200)
-    expect(syncCrossDomainLifeGraph).toHaveBeenCalledWith({}, PERSON, 'user-1')
+  it('kind=cross_domain và kind=synergy đã gỡ (trụ career bị xoá) → 400', async () => {
+    expect((await handler(req('GET', '?kind=cross_domain'))).status).toBe(400)
+    expect((await handler(req('GET', '?kind=synergy'))).status).toBe(400)
   })
-  it('POST kind=cross_domain_sync gọi syncCrossDomainLifeGraph', async () => {
-    syncCrossDomainLifeGraph.mockResolvedValueOnce({
-      nodes: [],
-      edges: [],
-      syncSummary: { careerGoalsProcessed: 1 },
-    })
-    const res = await handler(req('POST', '', { kind: 'cross_domain_sync' }))
-    expect(res.status).toBe(200)
-    expect(syncCrossDomainLifeGraph).toHaveBeenCalledWith({}, PERSON, 'user-1')
+  it('POST kind=cross_domain_sync đã gỡ → 400', async () => {
+    expect((await handler(req('POST', '', { kind: 'cross_domain_sync' }))).status).toBe(400)
   })
   it('kind không hợp lệ trả 400', async () => {
     expect((await handler(req('GET', '?kind=nope'))).status).toBe(400)

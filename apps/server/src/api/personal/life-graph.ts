@@ -43,20 +43,9 @@ const CreateEdgeSchema = z
     provenance: z.string().min(1).max(100),
   })
   .strict()
-import { syncCrossDomainLifeGraph } from '@dhcb/core-personal/crossDomainGraphService'
-import { analyzeCrossDomainSynergies } from '@dhcb/core-personal/crossDomainSynergyService'
-
-const CreateCrossDomainSyncSchema = z
-  .object({
-    kind: z.literal('cross_domain_sync'),
-  })
-  .strict()
-
-const PostSchema = z.discriminatedUnion('kind', [
-  CreateNodeSchema,
-  CreateEdgeSchema,
-  CreateCrossDomainSyncSchema,
-])
+// [2026-09-20] Đã gỡ `kind: 'cross_domain_sync'` / `'cross_domain'` / `'synergy'`: chúng chỉ
+// đồng bộ MỤC TIÊU SỰ NGHIỆP (trụ career) vào đồ thị, mà trụ career đã bị xoá hẳn.
+const PostSchema = z.discriminatedUnion('kind', [CreateNodeSchema, CreateEdgeSchema])
 const PatchSchema = z.discriminatedUnion('kind', [
   z
     .object({
@@ -134,18 +123,6 @@ export default async function handler(req: Request): Promise<Response> {
         return jsonResponse({ edges: await listEdges(pool, person.id) }, 200, headers)
       if (kind === 'integrity')
         return jsonResponse({ issues: await validateGraphIntegrity(pool, person.id) }, 200, headers)
-      if (kind === 'cross_domain')
-        return jsonResponse(
-          await syncCrossDomainLifeGraph(pool, person.id, auth.userId),
-          200,
-          headers,
-        )
-      if (kind === 'synergy')
-        return jsonResponse(
-          await analyzeCrossDomainSynergies(pool, person.id, auth.userId),
-          200,
-          headers,
-        )
       return jsonResponse({ error: 'kind không hợp lệ' }, 400, headers)
     }
     if (req.method === 'POST') {
@@ -166,13 +143,6 @@ export default async function handler(req: Request): Promise<Response> {
         return jsonResponse(
           await createEdge(pool, { personId: person.id, ...body.data }),
           201,
-          headers,
-        )
-      }
-      if (body.data.kind === 'cross_domain_sync') {
-        return jsonResponse(
-          await syncCrossDomainLifeGraph(pool, person.id, auth.userId),
-          200,
           headers,
         )
       }

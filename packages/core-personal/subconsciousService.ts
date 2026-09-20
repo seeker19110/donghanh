@@ -8,7 +8,7 @@ import {
   SubconsciousThoughtLogSchema,
   SUBCONSCIOUS_SCHEMA_VERSION,
 } from '@dhcb/core-contracts/subconscious'
-import { syncCrossDomainLifeGraph } from './crossDomainGraphService.js'
+import { listEdges, listNodes } from './lifeGraphService.js'
 import { calculateOutcomeCalibration } from './outcomeCalibrationService.js'
 
 // In-memory cache for fast retrieval per person
@@ -20,11 +20,19 @@ const thoughtLogCache = new Map<string, SubconsciousThoughtLog[]>()
 export async function runNightlyConsolidation(
   pool: Pool,
   personId: string,
-  userId: string,
+  /** Giữ trong chữ ký cho bên gọi (`/api/subconscious`) dù thân hàm không còn dùng tới. */
+  _userId: string,
   triggerSource = 'nightly_rem_scheduler',
 ): Promise<SubconsciousThoughtLog> {
-  // 1. Tái cấu trúc Life Graph đa miền
-  const graph = await syncCrossDomainLifeGraph(pool, personId, userId)
+  // 1. Đọc Life Graph hiện có.
+  // [2026-09-20] Trước đây bước này gọi `syncCrossDomainLifeGraph` để đồng bộ MỤC TIÊU SỰ NGHIỆP
+  // vào đồ thị rồi mới đọc lại. Trụ career đã bị xoá hẳn nên không còn nguồn nào để đồng bộ —
+  // giữ đúng phần mà hàm này thật sự dùng: danh sách node/edge đang có.
+  const [nodeRows, edgeRows] = await Promise.all([
+    listNodes(pool, personId),
+    listEdges(pool, personId),
+  ])
+  const graph = { nodes: nodeRows.map((n) => n.value), edges: edgeRows.map((e) => e.value) }
 
   // 2. Đối soát độ lệch kết quả quyết định
   const calibration = await calculateOutcomeCalibration(pool, personId)

@@ -132,16 +132,7 @@ function makeFullPool(personId: string) {
       if (s.includes('automation_grants')) return Promise.resolve({ rows: [], rowCount: 0 })
       if (s.includes('action_receipts')) return Promise.resolve({ rows: [], rowCount: 0 })
       if (s.includes('decision_records')) return Promise.resolve({ rows: [], rowCount: 0 })
-      if (s.includes('career.career_profiles')) return Promise.resolve({ rows: [], rowCount: 0 })
-      if (s.includes('career.career_experiences')) return Promise.resolve({ rows: [], rowCount: 0 })
-      if (s.includes('career.career_goals')) return Promise.resolve({ rows: [], rowCount: 0 })
       if (s.includes('worklife.projects')) return Promise.resolve({ rows: [], rowCount: 0 })
-      if (s.includes('startup.ventures')) return Promise.resolve({ rows: [], rowCount: 0 })
-      if (s.includes('worklife.plans')) return Promise.resolve({ rows: [], rowCount: 0 })
-      if (s.includes('worklife.habits')) return Promise.resolve({ rows: [], rowCount: 0 })
-      if (s.includes('worklife.wellbeing_checks')) return Promise.resolve({ rows: [], rowCount: 0 })
-      if (s.includes('worklife.growth_milestones'))
-        return Promise.resolve({ rows: [], rowCount: 0 })
 
       return Promise.resolve({ rows: [], rowCount: 0 })
     }),
@@ -203,10 +194,7 @@ describe('exportPersonData', () => {
     expect(Array.isArray(result.automationGrants)).toBe(true)
     expect(Array.isArray(result.actionReceipts)).toBe(true)
     expect(Array.isArray(result.decisionRecords)).toBe(true)
-    expect(Array.isArray(result.careerRecords)).toBe(true)
     expect(Array.isArray(result.workRecords)).toBe(true)
-    expect(Array.isArray(result.startupRecords)).toBe(true)
-    expect(Array.isArray(result.lifeRecords)).toBe(true)
   })
 
   it('returns exportedAt as ISO 8601 string', async () => {
@@ -228,7 +216,7 @@ describe('exportPersonData', () => {
   it('continues export even if domain schemas throw (best-effort)', async () => {
     const pool = {
       query: vi.fn((sql: string) => {
-        if (sql.includes('career') || sql.includes('worklife.') || sql.includes('startup')) {
+        if (sql.includes('worklife.')) {
           return Promise.reject(new Error('schema does not exist'))
         }
         return Promise.resolve({ rows: [], rowCount: 0 })
@@ -236,7 +224,6 @@ describe('exportPersonData', () => {
     }
     const result = await exportPersonData(pool as never, personId)
     // Should not throw; domain arrays default to empty
-    expect(Array.isArray(result.careerRecords)).toBe(true)
     expect(Array.isArray(result.workRecords)).toBe(true)
   })
 })
@@ -285,7 +272,7 @@ describe('erasePersonData', () => {
   })
 
   it('handles domain schema deletes that throw (catch() => 0 paths)', async () => {
-    // Domain schema tables (career, work, startup, life) throw — should still succeed
+    // Domain schema tables (chỉ còn trụ work) throw — should still succeed
     // This covers the .catch(() => 0) branches in erasePersonData
     const mockClient = {
       query: vi.fn((sql: string) => {
@@ -294,8 +281,7 @@ describe('erasePersonData', () => {
           return Promise.resolve({ rows: [{ id: 'erasure-log-2' }], rowCount: 1 })
         if (s.includes('begin') || s.includes('commit') || s.includes('rollback'))
           return Promise.resolve({ rows: [], rowCount: 0 })
-        if (s.includes('career.') || s.includes('worklife.') || s.includes('startup.'))
-          return Promise.reject(new Error('schema does not exist'))
+        if (s.includes('worklife.')) return Promise.reject(new Error('schema does not exist'))
         return Promise.resolve({ rows: [], rowCount: 1 })
       }),
       release: vi.fn(),
@@ -315,9 +301,7 @@ describe('erasePersonData', () => {
     const result = await erasePersonData(pool as never, personId, 'self')
     expect(result.erasureLogId).toBe('erasure-log-2')
     // Domain deletes threw → count = 0 from catch, not added to schemasCleared
-    const hasDomainSchema = result.schemasCleared.some(
-      (s) => s.startsWith('career.') || s.startsWith('worklife.') || s.startsWith('startup.'),
-    )
+    const hasDomainSchema = result.schemasCleared.some((s) => s.startsWith('worklife.'))
     expect(hasDomainSchema).toBe(false)
   })
 
@@ -333,8 +317,7 @@ describe('erasePersonData', () => {
         // action_receipts returns 0 — tests count === 0 && indexOf === -1 → still pushed
         if (s.includes('action_receipts')) return Promise.resolve({ rows: [], rowCount: 0 })
         // Domain throws → catch path
-        if (s.includes('career.') || s.includes('worklife.') || s.includes('startup.'))
-          return Promise.reject(new Error('schema does not exist'))
+        if (s.includes('worklife.')) return Promise.reject(new Error('schema does not exist'))
         return Promise.resolve({ rows: [], rowCount: 1 })
       }),
       release: vi.fn(),
@@ -365,8 +348,7 @@ describe('erasePersonData', () => {
           return Promise.resolve({ rows: [{ id: 'erasure-log-4' }], rowCount: 1 })
         if (s.includes('begin') || s.includes('commit') || s.includes('rollback'))
           return Promise.resolve({ rows: [], rowCount: 0 })
-        if (s.includes('career.') || s.includes('worklife.') || s.includes('startup.'))
-          return Promise.resolve({ rows: [], rowCount: null })
+        if (s.includes('worklife.')) return Promise.resolve({ rows: [], rowCount: null })
         return Promise.resolve({ rows: [], rowCount: 1 })
       }),
       release: vi.fn(),

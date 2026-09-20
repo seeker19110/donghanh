@@ -215,10 +215,7 @@ async function drill_exportCompleteness() {
     'automationGrants',
     'actionReceipts',
     'decisionRecords',
-    'careerRecords',
     'workRecords',
-    'startupRecords',
-    'lifeRecords',
   ] as const
 
   const missing = schemas.filter((s) => !Array.isArray(data[s]))
@@ -262,12 +259,7 @@ async function drill_exportHasData() {
 async function drill_exportBestEffortDomains() {
   const pool = {
     query: (sql: string) => {
-      if (
-        sql.toLowerCase().includes('career') ||
-        sql.toLowerCase().includes('work') ||
-        sql.toLowerCase().includes('startup') ||
-        sql.toLowerCase().includes('life.')
-      ) {
+      if (sql.toLowerCase().includes('worklife.')) {
         return Promise.reject(new Error('schema does not exist'))
       }
       return Promise.resolve({ rows: [], rowCount: 0 })
@@ -275,8 +267,8 @@ async function drill_exportBestEffortDomains() {
   }
   try {
     const data = await exportPersonData(pool as never, PERSON_ID)
-    if (!Array.isArray(data.careerRecords)) {
-      fail('Export Best-Effort Domains', 'careerRecords should default to [] on schema error')
+    if (!Array.isArray(data.workRecords)) {
+      fail('Export Best-Effort Domains', 'workRecords should default to [] on schema error')
       return
     }
     pass(

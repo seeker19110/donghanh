@@ -2,14 +2,17 @@ import { describe, it, expect, vi } from 'vitest'
 import type { Pool } from 'pg'
 import { runNightlyConsolidation, getLatestSubconsciousThought } from './subconsciousService.js'
 
-vi.mock('./crossDomainGraphService.js', () => ({
-  syncCrossDomainLifeGraph: vi.fn().mockImplementation(async () => ({
-    nodes: [
-      { id: 'n1', type: 'Goal', label: 'Career: Principal AI' },
-      { id: 'n2', type: 'Skill', label: 'English IELTS 8.0' },
-    ],
-    edges: [{ id: 'e1', source: 'n2', target: 'n1', relation: 'enables' }],
-  })),
+// Từ 2026-09-20 hàm đọc thẳng Life Graph (`listNodes`/`listEdges`) chứ không đồng bộ career nữa.
+vi.mock('./lifeGraphService.js', () => ({
+  listNodes: vi.fn().mockImplementation(async () => [
+    { value: { id: 'n1', type: 'Goal', label: 'Học xong C1' }, version: 1 },
+    { value: { id: 'n2', type: 'Skill', label: 'English IELTS 8.0' }, version: 1 },
+  ]),
+  listEdges: vi
+    .fn()
+    .mockImplementation(async () => [
+      { value: { id: 'e1', fromNodeId: 'n2', toNodeId: 'n1', relation: 'supports' }, version: 1 },
+    ]),
 }))
 
 vi.mock('./outcomeCalibrationService.js', () => ({
@@ -53,12 +56,10 @@ describe('subconsciousService', () => {
 
   // --- Nhánh: hypotheses.length === 0 → default hypothesis (lines 59-67) ---
   it('khi graph không có Skill và calibration không có pendingReview → thêm hypothesis mặc định', async () => {
-    const { syncCrossDomainLifeGraph } = await import('./crossDomainGraphService.js')
+    const { listNodes, listEdges } = await import('./lifeGraphService.js')
     const { calculateOutcomeCalibration } = await import('./outcomeCalibrationService.js')
-    vi.mocked(syncCrossDomainLifeGraph).mockResolvedValueOnce({
-      nodes: [],
-      edges: [],
-    } as unknown as Awaited<ReturnType<typeof syncCrossDomainLifeGraph>>)
+    vi.mocked(listNodes).mockResolvedValueOnce([])
+    vi.mocked(listEdges).mockResolvedValueOnce([])
     vi.mocked(calculateOutcomeCalibration).mockResolvedValueOnce({
       totalDecisions: 0,
       decidedCount: 0,
@@ -82,12 +83,10 @@ describe('subconsciousService', () => {
   })
 
   it('khi successRate < 0.6 → potentialObstacles có cảnh báo thời gian', async () => {
-    const { syncCrossDomainLifeGraph } = await import('./crossDomainGraphService.js')
+    const { listNodes, listEdges } = await import('./lifeGraphService.js')
     const { calculateOutcomeCalibration } = await import('./outcomeCalibrationService.js')
-    vi.mocked(syncCrossDomainLifeGraph).mockResolvedValueOnce({
-      nodes: [],
-      edges: [],
-    } as unknown as Awaited<ReturnType<typeof syncCrossDomainLifeGraph>>)
+    vi.mocked(listNodes).mockResolvedValueOnce([])
+    vi.mocked(listEdges).mockResolvedValueOnce([])
     vi.mocked(calculateOutcomeCalibration).mockResolvedValueOnce({
       totalDecisions: 3,
       decidedCount: 3,
@@ -110,12 +109,10 @@ describe('subconsciousService', () => {
 
   // --- Nhánh: getLatestSubconsciousThought khi cache miss với personId mới (line 129) ---
   it('cache miss với personId mới → gọi runNightlyConsolidation tự động', async () => {
-    const { syncCrossDomainLifeGraph } = await import('./crossDomainGraphService.js')
+    const { listNodes, listEdges } = await import('./lifeGraphService.js')
     const { calculateOutcomeCalibration } = await import('./outcomeCalibrationService.js')
-    vi.mocked(syncCrossDomainLifeGraph).mockResolvedValueOnce({
-      nodes: [],
-      edges: [],
-    } as unknown as Awaited<ReturnType<typeof syncCrossDomainLifeGraph>>)
+    vi.mocked(listNodes).mockResolvedValueOnce([])
+    vi.mocked(listEdges).mockResolvedValueOnce([])
     vi.mocked(calculateOutcomeCalibration).mockResolvedValueOnce({
       totalDecisions: 0,
       decidedCount: 0,
