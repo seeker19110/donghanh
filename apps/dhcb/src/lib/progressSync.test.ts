@@ -270,6 +270,59 @@ describe('pullProgress', () => {
     expect(srs.book.reps).toBe(5) // local thắng vì reps cao hơn (tiến bộ hơn)
   })
 
+  it('cloud đã có đủ mọi thứ local có (không có gì mới) → KHÔNG xếp hàng đẩy lại (audit 2026-09-19, docs/changelog/0380-*.md mục 2: tránh banner "Đã đồng bộ" bắn lại mỗi lần điều hướng trang)', async () => {
+    localStorage.setItem('et_learned_sync99', JSON.stringify(['book']))
+    const cloudData = {
+      learned: ['book'],
+      hard: [],
+      srs: {},
+      cefrGrammar: [],
+      cefrDialogues: [],
+      cefrUnlocked: [],
+      cefrExams: {},
+      placement: {},
+      weeklyGoal: {},
+      achievements: [],
+    }
+    const fetchMock = vi.fn(async (_url: string, init?: RequestInit) =>
+      init?.method === 'POST'
+        ? new Response('{}', { status: 200 })
+        : new Response(JSON.stringify(cloudData), { status: 200 }),
+    )
+    vi.stubGlobal('fetch', fetchMock)
+    await pullProgress('sync99')
+    await flush()
+
+    expect(pending('sync99')).toBe(0)
+    expect(fetchMock.mock.calls.filter(([, init]) => init?.method === 'POST')).toHaveLength(0)
+  })
+
+  it('local có dữ liệu cloud chưa có → CÓ xếp hàng đẩy lên', async () => {
+    localStorage.setItem('et_learned_sync99', JSON.stringify(['book', 'apple']))
+    const cloudData = {
+      learned: ['book'],
+      hard: [],
+      srs: {},
+      cefrGrammar: [],
+      cefrDialogues: [],
+      cefrUnlocked: [],
+      cefrExams: {},
+      placement: {},
+      weeklyGoal: {},
+      achievements: [],
+    }
+    const fetchMock = vi.fn(async (_url: string, init?: RequestInit) =>
+      init?.method === 'POST'
+        ? new Response('{}', { status: 200 })
+        : new Response(JSON.stringify(cloudData), { status: 200 }),
+    )
+    vi.stubGlobal('fetch', fetchMock)
+    await pullProgress('sync99')
+    await flush()
+
+    expect(fetchMock.mock.calls.filter(([, init]) => init?.method === 'POST')).toHaveLength(1)
+  })
+
   it('placement/weeklyGoal: chọn bản có lastAt/updatedAt mới hơn giữa local và cloud', async () => {
     localStorage.setItem(
       'et_placement_u1',
@@ -587,6 +640,9 @@ describe('progressSync — ca biên hợp nhất khi kéo về', () => {
   })
 
   it('localStorage đầy (setItem ném) khi ghi bản hợp nhất → nuốt lỗi, vẫn đẩy lên server', async () => {
+    // Local có 'y' mà cloud chưa có → hợp nhất THẬT SỰ có gì mới cần đẩy lên (khác bản cloud
+    // vừa kéo về), nên đây là ca đúng để kiểm khả năng chịu lỗi đĩa đầy của hàng đợi.
+    localStorage.setItem('et_learned_u4', JSON.stringify(['y']))
     const calls = mockFetchPull({ learned: ['x'] })
     // Spy tren chinh `localStorage` (thuoc tinh rieng cua instance), khong phai prototype.
     const setItem = vi.spyOn(localStorage, 'setItem').mockImplementation(() => {

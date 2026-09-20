@@ -15,7 +15,6 @@ import {
 } from 'lucide-react'
 import Layout from '../../../components/Layout'
 import PageHeader from '../../../components/PageHeader'
-import ComingSoonBanner from '../../../components/ComingSoonBanner'
 import EvaluationResultView from '../../../components/EvaluationResultView'
 import { saveSpeakingSession, getUsage, incrementUsage, getDirection } from '../../../lib/storage'
 import { checkNewAchievements, achievementMessage } from '../../../lib/achievements'
@@ -1085,7 +1084,6 @@ export default function Speaking() {
                   : 'Speak → AI listens → replies & corrects'
               }
             />
-            <ComingSoonBanner isA={isA} />
           </div>
           <SetupScreen
             onStart={startSession}

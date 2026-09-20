@@ -431,39 +431,56 @@ export interface CloudProgressDoc {
  * phát hiện thiết bị khác đã ghi chen vào giữa (S09-1 `conflict: true`). Chỉ có MỘT nơi viết
  * luật hợp nhất ở client — thêm nơi thứ hai là mở đường cho hai bên lệch nhau.
  */
+// Có phần tử nào của `localArr` mà `cloudArr` CHƯA CÓ không? — dùng để biết máy này đang giữ
+// dữ liệu mới hơn server, tức là hợp nhất xong THẬT SỰ cần đẩy lên (khác trường hợp server đã
+// có sẵn mọi thứ, hợp nhất ra y hệt bản cloud → không có gì để gửi).
+function hasExtra(localArr: string[], cloudArr: string[] | undefined): boolean {
+  if (localArr.length === 0) return false
+  const cloudSet = new Set(cloudArr ?? [])
+  return localArr.some((x) => !cloudSet.has(x))
+}
+
 function applyCloudProgress(userId: string, cloud: CloudProgressDoc): void {
   // learned/hard/cefr_*: dữ liệu chỉ tăng dần → lấy hợp của local và cloud
-  const learned = new Set<string>([...readArr(LEARNED(userId)), ...(cloud.learned ?? [])])
-  const hard = new Set<string>([...readArr(HARD(userId)), ...(cloud.hard ?? [])])
-  const cefrGrammar = new Set<string>([
-    ...readArr(CEFR_GRAMMAR(userId)),
-    ...(cloud.cefrGrammar ?? []),
-  ])
-  const cefrDialogues = new Set<string>([
-    ...readArr(CEFR_DIALOGUE(userId)),
-    ...(cloud.cefrDialogues ?? []),
-  ])
+  const localLearned = readArr(LEARNED(userId))
+  const localHard = readArr(HARD(userId))
+  const localCefrGrammar = readArr(CEFR_GRAMMAR(userId))
+  const localCefrDialogues = readArr(CEFR_DIALOGUE(userId))
+  const learned = new Set<string>([...localLearned, ...(cloud.learned ?? [])])
+  const hard = new Set<string>([...localHard, ...(cloud.hard ?? [])])
+  const cefrGrammar = new Set<string>([...localCefrGrammar, ...(cloud.cefrGrammar ?? [])])
+  const cefrDialogues = new Set<string>([...localCefrDialogues, ...(cloud.cefrDialogues ?? [])])
+  // Có dữ liệu mới cần đẩy lên hay không — bắt đầu bằng bốn tập hợp trên, các nhánh dưới
+  // (SRS/achievements/placement/weeklyGoal/settings/streakFreezeDates) tự cộng dồn thêm.
+  let changed =
+    hasExtra(localLearned, cloud.learned) ||
+    hasExtra(localHard, cloud.hard) ||
+    hasExtra(localCefrGrammar, cloud.cefrGrammar) ||
+    hasExtra(localCefrDialogues, cloud.cefrDialogues)
   // cefrUnlocked: KHÔNG hợp nhất với bản local nữa — server là nguồn sự thật duy nhất (GĐ2a),
   // lấy union sẽ giữ lại đúng những cấp giả mạo/hết hạn mà server vừa gỡ.
   const cefrUnlocked = cloud.cefrUnlocked ?? []
-  const achievements = new Set<string>([
-    ...readArr(ACHIEVEMENTS(userId)),
-    ...(cloud.achievements ?? []),
-  ])
+  const localAchievements = readArr(ACHIEVEMENTS(userId))
+  const achievements = new Set<string>([...localAchievements, ...(cloud.achievements ?? [])])
+  changed = changed || hasExtra(localAchievements, cloud.achievements)
 
   // cefr_exams: hợp nhất theo cấp, giữ kết quả "tốt hơn" (xem mergeExamMaps).
-  const cefrExams = mergeExamMaps(readExamMap(CEFR_EXAMS(userId)), cloud.cefrExams ?? {})
+  const localCefrExams = readExamMap(CEFR_EXAMS(userId))
+  const cefrExams = mergeExamMaps(localCefrExams, cloud.cefrExams ?? {})
+  changed = changed || JSON.stringify(cefrExams) !== JSON.stringify(cloud.cefrExams ?? {})
 
   // placement: hợp nhất theo lastAt mới hơn (cloud.placement rỗng '{}' khi chưa
   // từng thi → không có lastAt → coi như null).
   const cloudPlacement = cloud.placement && 'lastAt' in cloud.placement ? cloud.placement : null
   const placement = mergePlacement(readPlacement(PLACEMENT(userId)), cloudPlacement)
+  changed = changed || placement !== cloudPlacement
 
   // weekly_goal: hợp nhất theo updatedAt mới hơn (cloud rỗng '{}' khi chưa từng
   // chỉnh → không có updatedAt → coi như null).
   const cloudWeeklyGoal =
     cloud.weeklyGoal && 'updatedAt' in cloud.weeklyGoal ? cloud.weeklyGoal : null
   const weeklyGoal = mergeWeeklyGoal(readWeeklyGoal(WEEKLY_GOAL(userId)), cloudWeeklyGoal)
+  changed = changed || weeklyGoal !== cloudWeeklyGoal
 
   // settings: mốc updatedAt MỚI HƠN thắng (giống placement/weeklyGoal — đây là "lựa chọn hiện
   // tại", không phải tiến độ chỉ tăng).
@@ -473,12 +490,26 @@ function applyCloudProgress(userId: string, cloud: CloudProgressDoc): void {
     (cloudSettings.updatedAt ?? '') > (localSettings.updatedAt ?? '')
       ? cloudSettings
       : localSettings
+  // `readSettingsBlob()` luôn trả `updatedAt: ''` (chuỗi rỗng, không phải `undefined`) khi
+  // chưa từng lưu mốc — so JSON trực tiếp với `cloudSettings` (thường là `{}` từ server) sẽ
+  // LUÔN lệch dù không có ô nào thật sự khác, vì `{}` !== `{"updatedAt":""}`. Bỏ khoá
+  // `updatedAt` rỗng trước khi so để chỉ bắt lệch NỘI DUNG thật.
+  const stripEmptyUpdatedAt = (s: SettingsBlob) => {
+    const { updatedAt, ...rest } = s
+    return updatedAt ? { ...rest, updatedAt } : rest
+  }
+  changed =
+    changed ||
+    JSON.stringify(stripEmptyUpdatedAt(settings)) !==
+      JSON.stringify(stripEmptyUpdatedAt(cloudSettings))
 
-  // streakFreezeDates: vé đã dùng là sự kiện đã xảy ra — union như learned/achievements.
+  // streakFreezeDates: vé đã dùng là sự kiện đã xảy ra → union như learned/achievements.
+  const localStreakFreezeDates = getStreakFreezeDatesForSync(userId)
   const streakFreezeDates = new Set<string>([
-    ...getStreakFreezeDatesForSync(userId),
+    ...localStreakFreezeDates,
     ...(cloud.streakFreezeDates ?? []),
   ])
+  changed = changed || hasExtra(localStreakFreezeDates, cloud.streakFreezeDates)
 
   // SRS: merge theo từ-khoá, giữ thẻ có nhiều lần ôn hơn (tiến bộ hơn)
   const merged: Record<string, SRSLike> = { ...(cloud.srs ?? {}) }
@@ -486,6 +517,7 @@ function applyCloudProgress(userId: string, cloud: CloudProgressDoc): void {
     const c = merged[k]
     if (!c || (v.reps ?? 0) >= (c.reps ?? 0)) merged[k] = v
   }
+  changed = changed || JSON.stringify(merged) !== JSON.stringify(cloud.srs ?? {})
 
   try {
     localStorage.setItem(LEARNED(userId), JSON.stringify([...learned]))
@@ -504,7 +536,13 @@ function applyCloudProgress(userId: string, cloud: CloudProgressDoc): void {
     /* hết dung lượng — bỏ qua */
   }
 
-  // Xếp bản đã hợp nhất vào hàng đợi để mọi máy hội tụ. KHÔNG gửi ngay tại đây: `pullProgress`
-  // gọi `flush` sau khi lượt pull kết thúc (hàng đợi chờ chính lượt pull này trong `beforeSend`).
-  enqueueSync(userId, 'english')
+  // Xếp bản đã hợp nhất vào hàng đợi để mọi máy hội tụ — CHỈ KHI hợp nhất thực sự thêm gì đó
+  // ngoài bản cloud vừa kéo về. Trước đây gọi VÔ ĐIỀU KIỆN ở đây: mỗi lần mở một trang có
+  // `useCloudSync` (Home/Dashboard/Profile/History/EnglishHome/Speaking/Writing/Chat) đều kéo
+  // rồi đẩy lại NGUYÊN VĂN bản cloud (không đổi gì), khiến hàng đợi luôn có đúng 1 mục rồi được
+  // gửi lại ngay → banner "Đã đồng bộ dữ liệu học tập thành công!" (OfflineSyncIndicator.tsx)
+  // bắn lại mỗi lần điều hướng trang dù không có gì mới để đồng bộ (audit 2026-09-19,
+  // docs/changelog/0380-*.md mục 2). KHÔNG gửi ngay tại đây: `pullProgress` gọi `flush` sau khi
+  // lượt pull kết thúc (hàng đợi chờ chính lượt pull này trong `beforeSend`).
+  if (changed) enqueueSync(userId, 'english')
 }
