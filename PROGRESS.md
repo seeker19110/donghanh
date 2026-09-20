@@ -37,7 +37,14 @@ khảo: `docs/README.md`.
 chín nhất (A1→C2, 3 chế độ, hai chiều A/B); môn Lập trình có xương sống P1–P6 + 14 hướng chuyên
 sâu + khoá ngắn + lộ trình mục tiêu; **[2026-09-20] ba trụ Sự nghiệp · Khởi nghiệp · Đời sống
 ĐÃ GỠ HẲN khỏi giao diện, trụ Công việc đổi tên thành "Ghi chú" (`/ghi-chu`) và nối nội dung
-vào ngữ cảnh Companion** (changelog 0389); **4 môn STEM
+vào ngữ cảnh Companion** (changelog 0389); **[2026-09-20, PR [#1064](https://github.com/seeker19110/donghanh/pull/1064), `docs/changelog/0390-*.md`] `PageShell` thêm biến thể bề rộng `fluid` (Home/Dashboard tận
+dụng khoảng trống khi sidebar desktop thu gọn, đo 1152px → 1336px @1440px); ~57 trang dùng
+`PageHeader` trong thân trang đã chuyển tiêu đề lên thanh header (`Layout title=`), xoá subtitle,
+giữ `h1 sr-only` cho trình đọc màn hình; lịch hoạt động Dashboard đổi mặc định thành MỞ SẴN. Đợt
+này cũng vá 2 hồi quy tinh tế do đổi `<h1>` gây ra: thiếu `tabIndex={-1}` làm hỏng focus sau khi
+đóng mục lục mobile (`useOutlinePane.tsx`), và `buildCrumbs()` (`apps/dhcb/src/lib/breadcrumb.ts`)
+cộng thêm một đốt breadcrumb thay vì thay thế khi tiêu đề trang khác tên tĩnh trong route tree,
+làm sai nhãn nút Back — đã sửa gốc, cả hai đều có test canh; **4 môn STEM
 (Toán/Lí/Hoá/Sinh) ĐÃ NỐI VÀO APP 2026-09-13** — 294 bài, 55 bài có hoạt ảnh minh hoạ, 24 chuyên
 đề bồi dưỡng học sinh giỏi ba cấp, chấm câu hỏi tất định bằng `@dhcb/core-grading`
 (`docs/changelog/0295-2026-09-13-hoan-thien-4-mon-stem.md`). Cổng chất lượng đo thật 2026-09-13:
@@ -911,6 +918,10 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 
 ## Nợ kỹ thuật còn mở
 
+- 🟡 **[2026-09-20 — PR #1064, `docs/changelog/0390-*.md`] `apps/dhcb/src/components/PageHeader.tsx`
+  không còn nơi nào gọi thật sau khi ~57 trang chuyển tiêu đề lên `Layout` — CHƯA XOÁ.** Giữ lại
+  có chủ đích (ngoài phạm vi yêu cầu ban đầu); xoá component + test kèm theo khi có việc khác
+  chạm tới khu vực này, hoặc dọn riêng một đợt nhỏ.
 - 🟡 **[2026-09-20 — PR #1061, `docs/changelog/0388-*.md`] Sửa tương phản theme blue-sky
   (CompanionVoice + StudioDialogue) — CHƯA chụp ảnh Tầng 8b.** Audit + sửa xong 2 lỗi: (1) 6 file
   `CompanionVoice/*` dùng nền cố định `bg-slate-900/90` + chữ `theme-light:` tối → tương phản đo
