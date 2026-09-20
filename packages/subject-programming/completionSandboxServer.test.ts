@@ -8,6 +8,7 @@ import {
   regradeInterpretedSubmission,
   regradeSubmission,
   regradeWebSubmission,
+  regradeSqlSubmission,
   isServerRegradableLesson,
 } from './completionSandboxServer.js'
 
@@ -88,14 +89,18 @@ describe('phạm vi chấm-lại-ở-server sau ADR-0008 (không cần python3)'
     }
   })
 
-  it('NGOÀI phạm vi ADR-0008: bước dự án, hướng chuyên sâu, SQL', () => {
+  it('SQL (5 bài) nay THUỘC phạm vi — sql.js đã xác minh an toàn (câu hỏi 3 của ADR-0008)', () => {
+    const sql = PROGRAMMING_LESSONS.filter((l) => l.language === 'sql')
+    expect(sql).toHaveLength(5)
+    for (const lesson of sql) {
+      expect(isServerRegradableLesson(lesson.id), `sql (${lesson.id})`).toBe(true)
+    }
+  })
+
+  it('NGOÀI phạm vi ADR-0008: bước dự án, hướng chuyên sâu', () => {
     expect(isServerRegradableLesson('p1-s1')).toBe(false) // bước dự án
     expect(isServerRegradableLesson('web-s2-m1')).toBe(false) // tiêu chí hướng chuyên sâu
     expect(isServerRegradableLesson('khong-ton-tai-u1-l1')).toBe(false)
-    // SQL vẫn "client tự khai": chờ xác minh `sqlWorker.ts` (câu hỏi 3 của ADR-0008).
-    for (const lesson of PROGRAMMING_LESSONS.filter((l) => l.language === 'sql')) {
-      expect(isServerRegradableLesson(lesson.id), `sql (${lesson.id})`).toBe(false)
-    }
   })
 })
 
@@ -198,3 +203,54 @@ describe.skipIf(!hasPython)(
   },
   120_000,
 )
+
+describe('ADR-0008 câu hỏi 3 — chấm lại SQL bằng sql.js (WASM, không subprocess)', () => {
+  const SQL_LESSON_IDS = PROGRAMMING_LESSONS.filter((l) => l.language === 'sql').map((l) => l.id)
+
+  it('mọi bài SQL: code mẫu chính thức ĐẠT khi chấm lại', async () => {
+    for (const id of SQL_LESSON_IDS) {
+      const lesson = getLesson(id)!
+      const { passed, results } = await regradeSqlSubmission(id, lesson.make.sampleSolution)
+      expect(passed, `bài ${id}: ${JSON.stringify(results)}`).toBe(true)
+    }
+  }, 30_000)
+
+  it('code SQL sai (không liên quan) → KHÔNG đạt', async () => {
+    const id = SQL_LESSON_IDS[0]!
+    const { passed } = await regradeSqlSubmission(id, "SELECT 'khong lien quan gi ca' AS x;")
+    expect(passed).toBe(false)
+  })
+
+  it('câu lệnh sai cú pháp → không đạt, không ném lỗi ra ngoài', async () => {
+    const id = SQL_LESSON_IDS[0]!
+    const { passed, results } = await regradeSqlSubmission(id, 'SELEC * FROM khong_ton_tai;')
+    expect(passed).toBe(false)
+    expect(results.every((r) => !r.passed)).toBe(true)
+  })
+
+  it('cố ATTACH DATABASE ra đường dẫn thật → không chạm hệ thống file (đã xác minh an toàn)', async () => {
+    const id = SQL_LESSON_IDS[0]!
+    const scratchPath = '/tmp/dhcb-sql-regrade-attach-probe.db'
+    const { passed } = await regradeSqlSubmission(
+      id,
+      `ATTACH DATABASE '${scratchPath}' AS x; CREATE TABLE x.t(a INT); INSERT INTO x.t VALUES (1);`,
+    )
+    // Không đạt vì output không khớp test-case của bài (đây không phải điều đang canh) — điều
+    // đang canh là ATTACH không được phép tạo file thật trên đĩa của server.
+    expect(passed).toBe(false)
+    const { existsSync, rmSync } = await import('node:fs')
+    const bịTạoThật = existsSync(scratchPath)
+    if (bịTạoThật) rmSync(scratchPath)
+    expect(bịTạoThật, 'ATTACH DATABASE không được phép tạo file thật trên server').toBe(false)
+  })
+
+  it('regradeSubmission điều hướng đúng luồng cho bài SQL', async () => {
+    const id = SQL_LESSON_IDS[0]!
+    const lesson = getLesson(id)!
+    expect((await regradeSubmission(id, lesson.make.sampleSolution)).passed).toBe(true)
+  })
+
+  it('bài ngoài phạm vi SQL → ném lỗi rõ ràng, không im lặng cho qua', async () => {
+    await expect(regradeSqlSubmission('p1-u1-l1', 'SELECT 1;')).rejects.toThrow()
+  })
+})
