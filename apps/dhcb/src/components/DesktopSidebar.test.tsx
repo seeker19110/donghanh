@@ -105,9 +105,12 @@ describe('DesktopSidebar — Tiếng Anh là một môn trong Góc học tập',
 
 // [P1-7, lệnh 9; rút còn 6 mục ở thiết kế lại header desktop] Sidebar nay 6 mục cấp 1: Góc học
 // tập · Ôn tập · Bạn Đồng Hành · Sự nghiệp & Đời sống (gộp career+worklife) · Tiến độ · Hồ sơ.
-// "Trang chủ" dời hẳn lên Header (lối RA NGOÀI app, domain gốc `@dhcb/hub` — xem
-// components/Layout.tsx), không còn là điều hướng nội bộ ở sidebar. "Luyện tập" gỡ khỏi sidebar,
-// "Nâng cấp" thành dòng nhỏ dưới danh sách (không còn <a> cấp 1 riêng).
+// "Trang chủ" cấp 1 (mục điều hướng, sáng đèn theo trang) đã gỡ khỏi danh sách này — hàng đợi
+// so khớp `ACTIVE_ORDER` không còn tính nó. "Luyện tập" gỡ khỏi sidebar, "Nâng cấp" thành dòng
+// nhỏ dưới danh sách (không còn <a> cấp 1 riêng).
+// [chỉnh 2026-09-20] Ô LOGO ở ĐẦU sidebar (ngoài `<nav>`, không phải mục cấp 1) đổi từ "Đồng
+// Hành" (link `/gioi-thieu`) sang "Trang chủ" (link nội bộ `/`) — vẫn có `href="/"` trong HTML,
+// chỉ không còn nằm trong `<nav>`/`ACTIVE_ORDER`.
 describe('DesktopSidebar — P1-7: 10 → 6 mục cấp 1', () => {
   function countTopLevelLinks(html: string): number {
     // Cấp 1 = <li> con trực tiếp của <ul> đầu tiên (MAIN_NAV) + <ul> CORE_BOTTOM — đơn giản
@@ -123,10 +126,12 @@ describe('DesktopSidebar — P1-7: 10 → 6 mục cấp 1', () => {
     return topHrefs.filter((href) => html.includes(`href="${href}"`)).length
   }
 
-  it('AC-1: đúng 6 mục cấp 1 khi mọi nhóm đóng (Trang chủ đã dời lên Header)', () => {
+  it('AC-1: đúng 6 mục cấp 1 khi mọi nhóm đóng ("Trang chủ" là ô logo riêng, không phải mục nav)', () => {
     const html = render('/tien-do')
     expect(countTopLevelLinks(html)).toBe(6)
-    expect(html).not.toContain('href="/"')
+    // Ô logo đầu sidebar (`href="/"`) có thật, nhưng đứng NGOÀI `<nav>` nên không tính vào 6
+    // mục cấp 1 ở trên — `countTopLevelLinks` cố tình không liệt `/` vào danh sách tra.
+    expect(html).toContain('href="/"')
   })
 
   it('AC-2: "Sự Nghiệp & Khởi Nghiệp"/"Công Việc & Đời Sống" chỉ còn ở cấp 2, không còn mục cấp 1 riêng', () => {
