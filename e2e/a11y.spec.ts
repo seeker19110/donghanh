@@ -21,8 +21,13 @@ async function scan(page: Page) {
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
     .disableRules(['meta-viewport'])
     .analyze()
-  const fmt = (v: { id: string; impact?: string | null; nodes: unknown[] }) =>
-    `${v.id} (${v.impact}, ${v.nodes.length} phần tử)`
+  // Kèm target CSS selector của phần tử đầu tiên — không có nó, log CI chỉ nói "rớt ở đâu đó
+  // trên trang" mà không nói RÕ chỗ nào, buộc phải đoán mò hoặc chờ thêm một vòng CI.
+  const fmt = (v: { id: string; impact?: string | null; nodes: Array<{ target: unknown }> }) => {
+    const first = v.nodes[0]?.target
+    const sel = Array.isArray(first) ? first.join(' ') : String(first ?? '?')
+    return `${v.id} (${v.impact}, ${v.nodes.length} phần tử, đầu tiên: ${sel})`
+  }
   return { all: violations.map(fmt) }
 }
 
