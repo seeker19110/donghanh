@@ -44,6 +44,9 @@ test.describe('tiêu đề dính của Modal không che nội dung', () => {
 
       // [2026-09-20] Trang "Sự nghiệp" đã bị gỡ; dùng hộp thoại "Tạo Dự Án Mới" của trang
       // "Ghi chú" — cùng dáng Modal center, vẫn canh đúng thứ lỗi này từng làm biến mất.
+      // Nút chỉ hiện ở tab "Dự án" (mặc định trang mở ở tab "Công việc") nên phải chuyển tab
+      // trước khi chờ nút.
+      await page.getByRole('button', { name: /Dự án \(\d+\)/ }).click()
       const nut = page.getByRole('button', { name: 'Tạo dự án mới', exact: true }).first()
       await nut.waitFor()
       await nut.click()
