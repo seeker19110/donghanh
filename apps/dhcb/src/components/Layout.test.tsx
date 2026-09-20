@@ -1,10 +1,12 @@
 // apps/dhcb/src/components/Layout.test.tsx — Cổng canh CHẾ ĐỘ TẬP TRUNG của header.
 //
-// VÌ SAO CẦN (đợt B thiết kế lại UI/UX, 2026-09-03): header mặc định mang 8 khe trong 56px.
-// Trang ngồi học lâu bật `focus` để ẩn đúng hai thứ không phục vụ việc đang làm — bộ chuyển
-// Studio và huy hiệu streak. Đây là thứ RẤT dễ mất im lặng: thêm một prop mới vào Layout, hay
-// dựng lại khối streak, là cờ này thành no-op mà không có gì đỏ. Test dưới canh cả hai chiều
-// (bật thì ẩn, TẮT thì vẫn còn) — chỉ canh chiều "ẩn" thì một Layout hỏng hẳn cũng qua được.
+// VÌ SAO CẦN (đợt B thiết kế lại UI/UX, 2026-09-03): trang ngồi học lâu bật `focus` để ẩn
+// huy hiệu streak — thứ không phục vụ việc đang làm. Đây là thứ RẤT dễ mất im lặng: thêm một
+// prop mới vào Layout, hay dựng lại khối streak, là cờ này thành no-op mà không có gì đỏ. Test
+// dưới canh cả hai chiều (bật thì ẩn, TẮT thì vẫn còn) — chỉ canh chiều "ẩn" thì một Layout
+// hỏng hẳn cũng qua được.
+// [2026-09-20] Bộ chuyển Studio (dropdown "Studio" ở header) đã GỠ HẲN khỏi Layout — trùng với
+// sidebar/trang Hồ sơ. Các test trước đây canh nó đã bỏ hoặc đổi sang canh "đã gỡ".
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { act } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -33,15 +35,13 @@ const render = (focus: boolean) =>
   )
 
 describe('Layout — chế độ tập trung', () => {
-  it('mặc định (focus tắt): còn bộ chuyển Studio và huy hiệu streak', () => {
+  it('mặc định (focus tắt): còn huy hiệu streak', () => {
     const html = render(false)
-    expect(html).toContain('Chuyển đổi Studio')
     expect(html).toContain('🔥')
   })
 
-  it('focus bật: ẩn CẢ bộ chuyển Studio LẪN huy hiệu streak', () => {
+  it('focus bật: ẩn huy hiệu streak', () => {
     const html = render(true)
-    expect(html).not.toContain('Chuyển đổi Studio')
     expect(html).not.toContain('🔥')
   })
 
@@ -57,12 +57,12 @@ describe('Layout — chế độ tập trung', () => {
   })
 })
 
-// Slice 02: dropdown Studio là data-driven từ STUDIOS — không còn "Học Tiếng Anh" ở cấp nền tảng.
-describe('Layout — bộ chuyển Studio (slice 02)', () => {
-  // Menu chỉ dựng DOM khi mở (renderToStaticMarkup không mở được) — số mục canh ở
-  // `lib/studios.test.ts`; ở đây canh phần header tĩnh không còn dấu vết "không gian" Tiếng Anh.
-  it('header không còn nhắc tới không gian Học Tiếng Anh', () => {
+// [2026-09-20] Bộ chuyển Studio đã gỡ khỏi header — canh nó KHÔNG còn trong markup tĩnh.
+describe('Layout — bộ chuyển Studio đã gỡ khỏi header', () => {
+  it('header không còn dropdown Studio lẫn dấu vết không gian Học Tiếng Anh', () => {
     const html = render(false)
+    expect(html).not.toContain('Chuyển đổi Studio')
+    expect(html).not.toContain('Không Gian Nền Tảng')
     expect(html).not.toContain('Học Tiếng Anh')
     expect(html).not.toContain('/hoc-tieng-anh')
   })
@@ -97,7 +97,8 @@ describe('Layout — header mobile 4 khe (P0-4)', () => {
       </MemoryRouter>,
     )
     expect(demSoPhanTuTuongTac(html)).toBeLessThanOrEqual(4)
-    // Bộ chuyển Studio và nút đổi giao diện đã dời sang Hồ sơ — không còn ở header mobile.
+    // Nút đổi giao diện đã dời sang Hồ sơ — không còn ở header mobile. Bộ chuyển Studio đã
+    // gỡ hẳn khỏi header (mọi bề rộng), không riêng gì mobile.
     expect(html).not.toContain('Chuyển đổi Studio')
   })
 
@@ -142,14 +143,59 @@ describe('Layout — header mobile 4 khe (P0-4)', () => {
     expect(html).toContain('Mở Bạn Đồng Hành AI')
   })
 
-  it('desktop (≥1024px): vẫn còn bộ chuyển Studio và nút đổi giao diện', () => {
+  it('desktop (≥1024px): không còn bộ chuyển Studio, vẫn còn nút "Trang chủ" ra ngoài app', () => {
     withViewport(1280)
     const html = renderToStaticMarkup(
       <MemoryRouter initialEntries={['/bai-hoc']}>
         <Layout title="Bài học" />
       </MemoryRouter>,
     )
-    expect(html).toContain('Chuyển đổi Studio')
+    expect(html).not.toContain('Chuyển đổi Studio')
+    expect(html).toContain('Trang chủ Đồng Hành Cùng Bạn')
+  })
+})
+
+// [2026-09-20] Nút "Trang chủ" ở header (ra ngoài app, tới `@dhcb/hub`) chỉ hiện khi sidebar
+// KHÔNG đang mở rộng — sidebar mở rộng đã có sẵn nút "Trang chủ" riêng ở hàng đầu, đứng hai
+// nút cùng chữ cạnh nhau là thừa. `document.documentElement.dataset.sidebar` là nơi
+// `DesktopSidebar` ghi trạng thái mở/thu gọn — Layout đọc lại qua MutationObserver.
+describe('Layout — nút "Trang chủ" header theo trạng thái sidebar', () => {
+  afterEach(() => {
+    withViewport(1024)
+    delete document.documentElement.dataset.sidebar
+  })
+
+  it('sidebar mở rộng ("expanded"): ẩn nút "Trang chủ" ở header', () => {
+    withViewport(1280)
+    document.documentElement.dataset.sidebar = 'expanded'
+    const html = renderToStaticMarkup(
+      <MemoryRouter>
+        <Layout back={false} />
+      </MemoryRouter>,
+    )
+    expect(html).not.toContain('Trang chủ Đồng Hành Cùng Bạn')
+  })
+
+  it('sidebar thu gọn ("collapsed"): hiện lại nút "Trang chủ" ở header', () => {
+    withViewport(1280)
+    document.documentElement.dataset.sidebar = 'collapsed'
+    const html = renderToStaticMarkup(
+      <MemoryRouter>
+        <Layout back={false} />
+      </MemoryRouter>,
+    )
+    expect(html).toContain('Trang chủ Đồng Hành Cùng Bạn')
+  })
+
+  it('không có sidebar ("off", vd trang đăng nhập): vẫn hiện nút "Trang chủ" ở header', () => {
+    withViewport(1280)
+    document.documentElement.dataset.sidebar = 'off'
+    const html = renderToStaticMarkup(
+      <MemoryRouter>
+        <Layout back={false} />
+      </MemoryRouter>,
+    )
+    expect(html).toContain('Trang chủ Đồng Hành Cùng Bạn')
   })
 })
 

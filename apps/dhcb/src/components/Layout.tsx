@@ -1,16 +1,33 @@
-import { useState, useRef, useEffect, useCallback, type ReactNode } from 'react'
+import { useState, useEffect, type ReactNode } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { ArrowLeft, BookOpen, Bot, Layers, ChevronDown, Home as HomeIcon } from 'lucide-react'
+import { ArrowLeft, BookOpen, Bot, Home as HomeIcon } from 'lucide-react'
 import { useLang } from '../context/useLang'
 import { useAuth } from '../context/useAuth'
 import { getStreak } from '../lib/storage'
 import ThemeToggle from './ThemeToggle'
 import OfflineStatusBanner from './OfflineStatusBanner'
-import { navigateTo } from '../lib/subjectsHost'
-import { STUDIOS } from '../lib/studios'
-import { matchesNav } from '../lib/navPaths'
 import { buildCrumbs, type Crumb } from '../lib/breadcrumb'
 import { useIsDesktopViewport } from '../lib/useIsDesktopViewport'
+
+/**
+ * Đọc `document.documentElement.dataset.sidebar` ('expanded' | 'collapsed' | 'off') mà
+ * `DesktopSidebar.tsx` tự ghi khi mở/thu gọn — theo dõi bằng MutationObserver vì đây là state
+ * của MỘT component khác, không có qua props/context (cùng cơ chế đã dùng cho `--sidebar-w`).
+ * Layout dùng giá trị này để ẩn nút "Trang chủ" ở header khi sidebar đang MỞ RỘNG (hai lối về
+ * trang chủ đứng cạnh nhau, xem cột trái của sidebar) — thu gọn/tắt sidebar thì hiện lại.
+ */
+function useSidebarDataset(): string | undefined {
+  const [value, setValue] = useState<string | undefined>(
+    () => document.documentElement.dataset.sidebar,
+  )
+  useEffect(() => {
+    const root = document.documentElement
+    const observer = new MutationObserver(() => setValue(root.dataset.sidebar))
+    observer.observe(root, { attributes: true, attributeFilter: ['data-sidebar'] })
+    return () => observer.disconnect()
+  }, [])
+  return value
+}
 
 // Trang chủ NỀN TẢNG (landing "Đồng Hành Cùng Bạn", app `@dhcb/hub` — domain gốc, KHÁC domain
 // môn Anh app này đang chạy). Cùng khuôn với ShareResultCard.tsx/App.tsx: cho đổi qua
@@ -42,14 +59,13 @@ interface Props {
   /**
    * CHẾ ĐỘ TẬP TRUNG — dành cho trang NGỒI HỌC LÂU (bài học, truyện, bài ngữ pháp).
    *
-   * Header mặc định mang 8 khe trong 56px: Back · Studio · breadcrumb · title · streak ·
-   * `extra` · nút AI · đổi giao diện · avatar. Trên trang tra cứu thì chấp nhận được, nhưng
-   * trên trang đọc lâu thì hai trong số đó KHÔNG phục vụ việc đang làm: bộ chuyển Studio (đi
-   * sang miền khác) và huy hiệu streak (điểm số, thuộc về `/tien-do`). Cả hai đều nằm trong
-   * tầm mắt suốt buổi học và mời người ta rời đi.
+   * Header mặc định mang các khe: Back · breadcrumb · title · streak · `extra` · nút AI ·
+   * đổi giao diện · avatar. Trên trang tra cứu thì chấp nhận được, nhưng trên trang đọc lâu
+   * thì huy hiệu streak (điểm số, thuộc về `/tien-do`) KHÔNG phục vụ việc đang làm — nằm
+   * trong tầm mắt suốt buổi học và mời người ta rời đi.
    *
-   * Bật cờ này thì ẩn đúng hai thứ đó. KHÔNG ẩn: Back/breadcrumb (đường lùi), nút Bạn Đồng
-   * Hành (trợ giúp NGAY TRONG lúc học), đổi giao diện (a11y), avatar.
+   * Bật cờ này thì ẩn streak. KHÔNG ẩn: Back/breadcrumb (đường lùi), nút Bạn Đồng Hành (trợ
+   * giúp NGAY TRONG lúc học), đổi giao diện (a11y), avatar.
    */
   focus?: boolean
 }
@@ -69,17 +85,15 @@ export default function Layout({
   const { user } = useAuth()
   const { T } = useLang()
   // [P0-4, 2026-09-17] Dưới 1024px, header chỉ giữ 4 khe (Back/Logo · title · AI/streak ·
-  // avatar) — bộ chuyển Studio và nút đổi giao diện chuyển hẳn sang trang Hồ sơ (`STUDIOS`
-  // ở đó) và `/cai-dat`. Gate bằng JS (không `lg:hidden`) để KHÔNG render trùng nút Studio ở
-  // hai bề rộng — cùng lý do đã ghi ở `useIsDesktopViewport.ts`.
+  // avatar) — nút đổi giao diện chuyển hẳn sang trang Hồ sơ và `/cai-dat`. [2026-09-20] Bộ
+  // chuyển Studio (dropdown "Studio" ở header) đã GỠ HẲN khỏi Layout — ô chọn miền trùng lặp
+  // với sidebar/trang Hồ sơ, không còn phục vụ mục đích riêng nào ở đây.
   const isDesktop = useIsDesktopViewport()
   const isHome = location.pathname === '/'
-  const [switcherOpen, setSwitcherOpen] = useState(false)
-  const menuRef = useRef<HTMLDivElement>(null)
-  // Nút mở menu — giữ tham chiếu để TRẢ FOCUS về đây khi đóng (WAI-ARIA APG: menu button).
-  const switcherBtnRef = useRef<HTMLButtonElement>(null)
-  // Danh sách các mục trong menu, theo đúng thứ tự hiển thị — dùng cho ↑/↓ và focus mục đầu.
-  const menuItemsRef = useRef<(HTMLButtonElement | null)[]>([])
+  // Sidebar đang MỞ RỘNG thì ẩn nút "Trang chủ" ở header (trùng với nút "Trang chủ" đứng đầu
+  // sidebar) — thu gọn ('collapsed') hoặc không có sidebar ('off'/trang đăng nhập) thì hiện lại.
+  const sidebarState = useSidebarDataset()
+  const showHubHomeLink = isDesktop && sidebarState !== 'expanded'
 
   // Streak tự lấy ở ĐÂY (không nhận qua prop nữa) — áp dụng TOÀN CỤC, hiện trên MỌI
   // trang có Layout, không cần từng trang tự truyền vào (trước đây dễ quên).
@@ -93,53 +107,8 @@ export default function Layout({
   const ancestors = buildCrumbs(location.pathname, title, crumbs).slice(0, -1)
   const backLabel = ancestors[ancestors.length - 1]?.label ?? T.home
 
-  // Đóng menu VÀ trả focus về nút kích hoạt (bắt buộc theo WAI-ARIA APG — nếu không,
-  // người dùng bàn phím bị "rơi" về đầu tài liệu và phải Tab mò lại từ đầu).
-  const closeSwitcher = useCallback((returnFocus: boolean) => {
-    setSwitcherOpen(false)
-    if (returnFocus) switcherBtnRef.current?.focus()
-  }, [])
-
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        // Bấm ra ngoài: KHÔNG kéo focus về nút (người dùng đang thao tác chỗ khác).
-        setSwitcherOpen(false)
-      }
-    }
-    function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === 'Escape') {
-        e.preventDefault()
-        closeSwitcher(true)
-        return
-      }
-      // ↑/↓ chạy vòng trong danh sách mục; Home/End nhảy đầu/cuối.
-      if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key)) return
-      const items = menuItemsRef.current.filter((el): el is HTMLButtonElement => el !== null)
-      if (items.length === 0) return
-      e.preventDefault()
-      const current = items.findIndex((el) => el === document.activeElement)
-      let next = 0
-      if (e.key === 'End') next = items.length - 1
-      else if (e.key === 'ArrowUp') next = (current <= 0 ? items.length : current) - 1
-      else if (e.key === 'ArrowDown') next = (current + 1) % items.length
-      items[next]?.focus()
-    }
-    if (switcherOpen) {
-      document.addEventListener('mousedown', handleClickOutside)
-      document.addEventListener('keydown', handleKeyDown)
-      // Mở xong đưa focus vào mục ĐẦU TIÊN (⌘K mới thực sự dùng được bằng bàn phím).
-      menuItemsRef.current[0]?.focus()
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [switcherOpen, closeSwitcher])
-
   // Phím tắt toàn cục (PR 4, thiết kế lại web cho desktop) — Layout render ở MỌI trang nên
   // đây là chỗ gắn 1 lần duy nhất, không phải lặp lại ở từng trang.
-  //   ⌘K / Ctrl+K — mở/đóng Studio switcher (quy ước "command palette" của nhiều app desktop).
   //   /            — focus ô nhập TRÊN TRANG (input/textarea đầu tiên còn hiện, không disabled),
   //                  bỏ qua khi đang gõ sẵn trong 1 ô nhập khác (để không chặn gõ dấu "/" thật).
   useEffect(() => {
@@ -149,17 +118,6 @@ export default function Layout({
       return tag === 'INPUT' || tag === 'TEXTAREA' || t.isContentEditable
     }
     function handleGlobalShortcut(e: KeyboardEvent) {
-      // Chế độ tập trung KHÔNG dựng menu Studio, nên ⌘K ở đó phải là no-op — nếu vẫn
-      // `setSwitcherOpen(true)` thì trạng thái bật mà không có gì hiện ra, và Escape sau đó
-      // cũng không có menu nào để đóng.
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        // Chế độ tập trung KHÔNG dựng menu; dưới 1024px menu cũng không dựng (P0-4, nội
-        // dung Studio đã dời sang trang Hồ sơ) — cả hai đều phải no-op.
-        if (focus || !isDesktop) return
-        e.preventDefault()
-        setSwitcherOpen((v) => !v)
-        return
-      }
       if (e.key === '/' && !isTypingTarget(e.target)) {
         // Ưu tiên Ô NHẬP CHÍNH của trang (trang tự đánh dấu bằng `data-primary-input`).
         // Không có thì mới lấy ô nhập đầu tiên trong DOM như cũ — trước đây chỉ có nhánh
@@ -179,7 +137,7 @@ export default function Layout({
     }
     window.addEventListener('keydown', handleGlobalShortcut)
     return () => window.removeEventListener('keydown', handleGlobalShortcut)
-  }, [focus, isDesktop])
+  }, [])
 
   // [P0-4] Cờ CHẾ ĐỘ TẬP TRUNG toàn cục — `BottomNav` đọc `[data-focus='1']` qua CSS
   // (index.css) để tự ẩn, cùng cơ chế `document.documentElement.dataset.sidebar` của
@@ -235,8 +193,9 @@ export default function Layout({
       <div className="max-w-3xl lg:max-w-none mx-auto lg:mx-0 px-4 lg:px-6 h-14 flex items-center gap-3 relative">
         {/* Trang chủ NỀN TẢNG — chỉ desktop (mobile đã có tab "Trang chủ" ở BottomNav). Link
             RA NGOÀI app này (domain gốc `@dhcb/hub`), khác nút Back/Logo bên cạnh vốn điều
-            hướng NỘI BỘ trong app môn Anh. */}
-        {isDesktop && (
+            hướng NỘI BỘ trong app môn Anh. Ẩn khi sidebar đang MỞ RỘNG: sidebar cũng có sẵn
+            nút "Trang chủ" ở hàng đầu — hai nút cùng chữ đứng gần nhau là thừa. */}
+        {showHubHomeLink && (
           <a
             href={HUB_URL}
             className="tap-44 hidden lg:flex items-center gap-1.5 text-zinc-400 hover:text-white transition shrink-0 -ml-1 p-2.5 rounded-xl hover:bg-zinc-800/60 active:scale-95"
@@ -281,91 +240,6 @@ export default function Layout({
               </span>
             </Link>
           )
-        )}
-
-        {/* Bộ chuyển Studio — ẩn ở chế độ tập trung (prop `focus`) VÀ dưới 1024px (P0-4):
-            nội dung của nó đã chuyển sang mục "Không gian" ở trang Hồ sơ. */}
-        {!focus && isDesktop && (
-          <div className="relative" ref={menuRef}>
-            <button
-              ref={switcherBtnRef}
-              onClick={() => setSwitcherOpen(!switcherOpen)}
-              aria-expanded={switcherOpen}
-              aria-haspopup="menu"
-              aria-keyshortcuts="Meta+K Control+K"
-              aria-label="Chuyển đổi Studio & Không gian học tập (⌘K)"
-              title="Chuyển đổi Studio & Không gian học tập (⌘K)"
-              className="tap-44 flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800/90 text-xs font-semibold text-zinc-200 transition active:scale-95 group"
-            >
-              <Layers className="w-3.5 h-3.5 text-accent-400 group-hover:rotate-12 transition-transform" />
-              <span className="hidden xs:inline">Studio</span>
-              <ChevronDown
-                className={`w-3 h-3 text-zinc-400 transition-transform ${switcherOpen ? 'rotate-180' : ''}`}
-              />
-            </button>
-
-            {/* Studio Switcher Dropdown */}
-            {switcherOpen && (
-              <div className="absolute top-full left-0 mt-2 w-72 sm:w-80 p-2 rounded-2xl bg-zinc-900/95 border border-zinc-800 shadow-2xl backdrop-blur-2xl z-50 animate-fade-up">
-                <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-zinc-800/80 mb-1">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-400">
-                    Không Gian Nền Tảng
-                  </span>
-                  <span className="text-[11px] text-accent-400 font-semibold bg-accent-500/10 px-1.5 py-0.5 rounded">
-                    5 Miền Studio
-                  </span>
-                </div>
-                {/* role="menu" + các mục role="menuitem": khai báo đúng ngữ nghĩa để trình đọc
-                    màn hình đọc "menu 6 mục" thay vì một đống nút rời rạc. */}
-                <div className="space-y-1" role="menu" aria-label="Không Gian Nền Tảng">
-                  {STUDIOS.map((st, i) => {
-                    const Icon = st.icon
-                    // Khớp theo BIÊN đoạn (không phải chuỗi con): `/goc-hoc-tap-abc` không
-                    // được làm sáng "Góc học tập" — cùng họ lỗi slice 01 đã chặn ở nav.
-                    const isActive = matchesNav(location.pathname, [st.to])
-                    return (
-                      <button
-                        key={st.id}
-                        ref={(el) => {
-                          menuItemsRef.current[i] = el
-                        }}
-                        role="menuitem"
-                        onClick={() => {
-                          // Điều hướng đi nơi khác nên KHÔNG trả focus về nút mở menu.
-                          closeSwitcher(false)
-                          navigateTo(nav, st.to)
-                        }}
-                        className={`w-full flex items-center gap-3 p-2.5 rounded-xl text-left transition-colors ${
-                          isActive
-                            ? 'bg-zinc-800 border border-accent-500/40 text-white'
-                            : 'hover:bg-zinc-800/70 text-zinc-300'
-                        }`}
-                      >
-                        <div
-                          className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border ${st.color}`}
-                        >
-                          <Icon className="w-4 h-4" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center justify-between gap-1">
-                            <span className="text-xs font-bold text-white truncate">
-                              {st.title}
-                            </span>
-                            <span className="text-[11px] font-semibold px-1 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700">
-                              {st.badge}
-                            </span>
-                          </div>
-                          <p className="text-[11px] text-zinc-400 truncate leading-tight mt-0.5">
-                            {st.subtitle}
-                          </p>
-                        </div>
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
         )}
 
         {/* Title/subtitle — như cũ, hiện ở MỌI kích thước. Không còn Breadcrumb riêng: nhãn
