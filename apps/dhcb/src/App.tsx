@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Navigate, useLocation, useParams } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { LangProvider } from './context/LangProvider'
 import { AppThemeProvider as ThemeProvider } from './context/AppThemeProvider'
 import { AuthProvider } from './context/AuthProvider'
@@ -15,7 +15,6 @@ import PlanExpiryBanner from './components/PlanExpiryBanner'
 import GuestBanner from './components/GuestBanner'
 import { lazyWithRetry } from './lib/lazyWithRetry'
 import {
-  isSubjectsHost,
   normalizeLegacySubjectsPath,
   duongDanMonTiengAnh,
   LEGACY_ENGLISH_PREFIXES,
@@ -285,20 +284,8 @@ function LegacySubjectsRedirect() {
   return <Navigate to={`${normalized}${search}${hash}`} replace />
 }
 
-// URL CŨ của chính host Góc học tập: thời tiền tố còn bị bỏ đi, mã môn nằm thẳng ở cấp 1
-// (`hoc-tap…/mathematics`). Đưa về dạng chuẩn `/goc-hoc-tap/<mã môn>` để một nội dung chỉ có
-// một địa chỉ; `replace` để Back không kẹt giữa hai dạng URL.
-function SubjectsHostLegacyRedirect() {
-  const { subjectId } = useParams()
-  const { search, hash } = useLocation()
-  return <Navigate to={`${SUBJECTS_PREFIX}/${subjectId ?? ''}${search}${hash}`} replace />
-}
-
 export default function App() {
   usePrefetchPages()
-  // Host trụ Học tập đổi HÌNH DẠNG bảng route (xem chú thích ở route "/"). Đọc một lần lúc
-  // dựng: hostname không đổi trong vòng đời một trang.
-  const onSubjectsHost = isSubjectsHost(window.location.hostname)
   // Kéo toàn bộ nội dung trang xuống 1 tay (Reachability) — xem lib/useOneHandedDrag.ts
   const oneHandedDrag = useOneHandedDrag()
   // Đồng bộ hạn mức/khuyến mãi thật từ server: ngay lúc mở app, định kỳ mỗi 1h nếu app mở
@@ -735,28 +722,17 @@ export default function App() {
                           </AllowGuest>
                         }
                       />
-                      {/* Trên host Góc học tập (hoc-tap.donghanhcungban.org) KHÔNG có trang chủ
-                          nền tảng: trang gốc đi thẳng tới danh mục `/goc-hoc-tap`. URL cũ của
-                          host này (`/`, `/mathematics` — thời còn bỏ tiền tố) được chuyển về
-                          dạng chuẩn, nên link đã chia sẻ vẫn sống. Server chuyển hướng mọi
-                          đường dẫn ngoài Góc học tập khỏi host này nên `/:subjectId` không nuốt
-                          route nào của app nền tảng.
-                          Xem apps/dhcb/src/lib/subjectsHost.ts + apps/server/src/subjectsRouting.ts */}
+                      {/* Một host duy nhất phục vụ tất cả (cơ chế subdomain `hoc-tap.` đã gỡ
+                          2026-09-20 — xem apps/dhcb/src/lib/subjectsHost.ts): trang gốc luôn là
+                          trang chủ nền tảng, Góc học tập ở `/goc-hoc-tap`. */}
                       <Route
                         path="/"
                         element={
-                          onSubjectsHost ? (
-                            <Navigate to={SUBJECTS_PREFIX} replace />
-                          ) : (
-                            <AllowGuest>
-                              <Home />
-                            </AllowGuest>
-                          )
+                          <AllowGuest>
+                            <Home />
+                          </AllowGuest>
                         }
                       />
-                      {onSubjectsHost && (
-                        <Route path="/:subjectId" element={<SubjectsHostLegacyRedirect />} />
-                      )}
                       <Route
                         path={`${ENGLISH_PREFIX}/tro-truyen`}
                         element={
