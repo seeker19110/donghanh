@@ -37,7 +37,10 @@ khảo: `docs/README.md`.
 chín nhất (A1→C2, 3 chế độ, hai chiều A/B); môn Lập trình có xương sống P1–P6 + 14 hướng chuyên
 sâu + khoá ngắn + lộ trình mục tiêu; **[2026-09-20] ba trụ Sự nghiệp · Khởi nghiệp · Đời sống
 ĐÃ GỠ HẲN khỏi giao diện, trụ Công việc đổi tên thành "Ghi chú" (`/ghi-chu`) và nối nội dung
-vào ngữ cảnh Companion** (changelog 0389); **[2026-09-20, PR [#1064](https://github.com/seeker19110/donghanh/pull/1064), `docs/changelog/0390-*.md`] `PageShell` thêm biến thể bề rộng `fluid` (Home/Dashboard tận
+vào ngữ cảnh Companion** (changelog 0389); **[2026-09-20, PR [#1063](https://github.com/seeker19110/donghanh/pull/1063), `docs/changelog/0389-2026-09-20-header-trang-chu-theo-sidebar-go-studio-switcher.md`]
+nút "Trang chủ" ở header desktop nay ẩn khi sidebar mở rộng (đỡ trùng nút "Trang chủ" của sidebar),
+hiện lại khi sidebar thu gọn/không có; gỡ hẳn dropdown "Studio" ở header (đã trùng mục "Góc học
+tập"/"Sự nghiệp & Đời sống" ở sidebar và mục "Không gian" ở trang Hồ sơ)**; **[2026-09-20, PR [#1064](https://github.com/seeker19110/donghanh/pull/1064), `docs/changelog/0390-*.md`] `PageShell` thêm biến thể bề rộng `fluid` (Home/Dashboard tận
 dụng khoảng trống khi sidebar desktop thu gọn, đo 1152px → 1336px @1440px); ~57 trang dùng
 `PageHeader` trong thân trang đã chuyển tiêu đề lên thanh header (`Layout title=`), xoá subtitle,
 giữ `h1 sr-only` cho trình đọc màn hình; lịch hoạt động Dashboard đổi mặc định thành MỞ SẴN. Đợt
