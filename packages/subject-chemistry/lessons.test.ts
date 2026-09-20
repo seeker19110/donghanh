@@ -9,7 +9,13 @@ import {
   timLoiHoatAnh,
 } from '@dhcb/core-contracts/animationQuality'
 import { moTaLoiTuCham, timLoiTuCham } from '@dhcb/core-grading/selfGrade'
-import { CHEM_LESSONS, getChemLesson, listChemLessonsByGrade } from './lessons.js'
+import {
+  CHEM_LESSONS,
+  getChemLesson,
+  listChemAdvancedLessons,
+  listChemLessonsByChapter,
+  listChemLessonsByGrade,
+} from './lessons.js'
 import { HOA_HSG_NHIET_DONG_LESSONS } from './lessons/hoa-hsg-nhiet-dong-hoc.js'
 import { HOA_HSG_DUNG_DICH_LESSONS } from './lessons/hoa-hsg-dung-dich.js'
 import { HOA_HSG_HUU_CO_LESSONS } from './lessons/hoa-hsg-huu-co-va-hon-hop.js'
@@ -67,6 +73,37 @@ describe('chemistry lessons', () => {
       expect(curKey).toBeGreaterThanOrEqual(prevKey)
     }
   })
+  it('listChemLessonsByChapter chỉ trả bài đúng chương, đúng thứ tự bài', () => {
+    const c1 = listChemLessonsByChapter('10', 1)
+    expect(c1.length).toBeGreaterThan(0)
+    for (const l of c1) expect(l.chapterNumber).toBe(1)
+    for (let i = 1; i < c1.length; i++) {
+      expect(c1[i]!.lessonNumber).toBeGreaterThanOrEqual(c1[i - 1]!.lessonNumber)
+    }
+  })
+
+  it('listChemLessonsByChapter với chương không tồn tại trả mảng rỗng', () => {
+    expect(listChemLessonsByChapter('10', 999)).toEqual([])
+  })
+
+  it('listChemAdvancedLessons không truyền tier trả cả ba cấp, sắp trường→tỉnh→quốc gia', () => {
+    const all = listChemAdvancedLessons()
+    expect(all.length).toBeGreaterThan(0)
+    for (const l of all) expect(l.track).toBe('advanced')
+    const order: Record<string, number> = { 'hsg-truong': 0, 'hsg-tinh': 1, 'hsg-quoc-gia': 2 }
+    for (let i = 1; i < all.length; i++) {
+      expect(order[all[i]!.advancedTier ?? 'hsg-truong']).toBeGreaterThanOrEqual(
+        order[all[i - 1]!.advancedTier ?? 'hsg-truong']!,
+      )
+    }
+  })
+
+  it('listChemAdvancedLessons(tier) chỉ trả đúng cấp được yêu cầu', () => {
+    const truong = listChemAdvancedLessons('hsg-truong')
+    expect(truong.length).toBeGreaterThan(0)
+    for (const l of truong) expect(l.advancedTier).toBe('hsg-truong')
+  })
+
   it('không hai bài nào trùng tiêu đề nguyên văn', () => {
     // Audit 2026-09-14 (F8): 6 bài Hoá trùng tiêu đề y hệt giữa lớp 11 và 12 ("Ôn tập chương 1"…),
     // nên trong danh sách / kết quả tìm kiếm / slug URL chúng trông là một.
