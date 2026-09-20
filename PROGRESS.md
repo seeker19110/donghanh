@@ -923,7 +923,11 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   của chủ dự án, đúng luật "nới ngân sách không phải việc của agent". Đo lại 2026-09-20
   (`npm run budget`, build sạch): **Initial JS 137,54 / 150 kB = 91,7%** — dưới mốc cảnh báo
   95%, dư 12,46 kB. Không còn là nợ mở; không tách chunk vì không cần thiết ở mức dùng hiện tại.
-- 🟡 **[2026-09-17 — S13-2, `docs/changelog/0358-*.md`] Coverage branch dư 0,83 điểm so với sàn 89, chưa đạt "≥ 1 điểm" mà AC-10 đòi:** đo 3 lượt liên tiếp đều `94,02 / 89,83 / 94,35 / 94,58`; chạy cùng lệnh trên `main` cho ra **đúng cùng số** nên đây là nợ có sẵn, không phải hồi quy của S13-2. **Gỡ:** thêm test ca biên cho nhánh chưa phủ tới khi branch ≥ 90,0. KHÔNG hạ sàn.
+- ✅ **[2026-09-17 → ĐÃ ĐÓNG 2026-09-20, `docs/changelog/0358-*.md` + `docs/changelog/0385-*.md`] Coverage branch — ĐÃ ĐẠT "≥ 1 điểm" mà AC-10 đòi.** Thêm test ca biên cho nhánh chưa phủ:
+  `listChemAdvancedLessons`/`listChemLessonsByChapter` (`packages/subject-chemistry/lessons.ts`,
+  trước đây 0 test) và các nhánh rỗng/thẻ SCRIPT/CSS rỗng của `htmlPrelude.ts`
+  (`packages/subject-programming`). Đo sau khi thêm (`npm run test:coverage` sạch, checkout mới):
+  **Branches 90,01% (16175/17969) — dư 1,01 điểm so với sàn 89.** Không hạ sàn, không nới ngưỡng.
 - 🟡 **[2026-09-17 — S13-2] AC-8 (ma trận thị giác 6 màn × 5 trục) CHƯA CHẤM:** spec S13 §7 Q6 cấm agent vừa làm vừa chấm — điểm cuối là của chủ dự án. 18 ảnh bắt buộc chụp sẵn bằng `npm run shots:learning-ux`. **Gỡ:** chủ dự án chấm 30 ô kèm một câu lý do/ô; ô < 4 thành mục việc. Goal `learning-ux` KHÔNG được kết luận COMPLETE trước đó.
 - ✅ **[2026-09-15 → ĐÃ ĐÓNG 2026-09-20, `docs/changelog/0384-*.md`] Hai tài liệu được CLAUDE.md và mã dẫn tới nhưng KHÔNG tồn tại trong repo — KHÔI PHỤC LẠI.** Cả hai từng bị GỘP vào tài
   liệu tổng hợp khác trong một đợt dọn tài liệu (đúng khuôn lỗi đã gặp ở Đợt 1 audit UI/UX

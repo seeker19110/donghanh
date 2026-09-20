@@ -39,6 +39,20 @@ describe('moTaCayDom', () => {
       'body\n  style\n    .menu { display: flex; gap: 12px }',
     )
   })
+
+  it('thẻ không thuộc tính, không chữ trực tiếp — không in thừa dấu cách/dấu ngoặc kép', () => {
+    expect(ta('<div><span></span></div>')).toBe('body\n  div\n    span')
+  })
+
+  it('thẻ SCRIPT không đi vào bên trong (nội dung không tách thành cây con)', () => {
+    expect(ta('<script>let a = 1</script><p>Sau script</p>')).toBe(
+      'body\n  script "let a = 1"\n  p "Sau script"',
+    )
+  })
+
+  it('thẻ style rỗng — không in dòng CSS nào', () => {
+    expect(ta('<style></style>')).toBe('body\n  style')
+  })
 })
 
 describe('chuanHoaCss', () => {
@@ -52,5 +66,13 @@ describe('chuanHoaCss', () => {
 
   it('giữ nhiều luật, mỗi luật một dòng', () => {
     expect(chuanHoaCss('.a{color:red}.b{color:blue}')).toBe('.a { color: red }\n.b { color: blue }')
+  })
+
+  it('luật rỗng (không khai báo nào) vẫn in được bộ chọn', () => {
+    expect(chuanHoaCss('.a{}')).toBe('.a {  }')
+  })
+
+  it('bỏ khai báo rỗng do dấu chấm phẩy thừa cuối', () => {
+    expect(chuanHoaCss('.a{color:red;;}')).toBe('.a { color: red }')
   })
 })

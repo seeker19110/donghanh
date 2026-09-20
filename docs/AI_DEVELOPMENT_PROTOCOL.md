@@ -460,14 +460,23 @@ không push thẳng `main`, không commit `.env`/PLAN.md.
 | Merge     | §5.4 đủ mọi vế                                                                                                                                                                                       | bất kỳ vế nào thiếu (và cấm merge tay để đi tắt) · breaking change · đổi schema không rollback được |
 | Deploy    | tự động sau merge (`deploy.yml`)                                                                                                                                                                     | cần chạy tay trên VPS (ghi vào PROGRESS "Cần làm tay")                                              |
 
-## 12. Việc kế tiếp để controller thành máy (chưa làm trong đợt này — ghi rõ để không ai tưởng đã có)
+## 12. Việc kế tiếp để controller thành máy
 
-1. `scripts/protocol-check.ts` (+ test): đọc header spec → `Trạng thái`; kiểm khối `feature:` đủ
-   trường, mỗi AC có `proof`; kiểm PLAN.md hai task song song không giao `files`; chạy trong CI
-   job `audit` như `check:specs`. Khi có, bảng §2.1 cột "Cách kiểm" trỏ về lệnh này.
-2. Slash-command `/protocol <feature-id>`: in trạng thái hiện tại + vai chịu trách nhiệm + việc
-   còn thiếu để chuyển trạng thái (thay việc tự nhớ bảng §2.1).
-3. Agent `.claude/agents/qa-verifier.md` (Sonnet): đội mũ QA độc lập theo §4.1, brief chỉ gồm
-   spec + PR + head SHA.
-4. Cân nhắc gộp phần "prompt contracts" của `AI_DEVELOPMENT_PIPELINES.md` §18 vào brief chuẩn
-   của từng vai để hai tài liệu không lệch dần.
+1. **XONG (đợt này):** `scripts/protocol-check.ts` (+ `scripts/protocol-check.test.ts`) — đọc
+   header spec → `Trạng thái:`; với mọi trạng thái ≥ `SPEC_READY` kiểm khối `feature:` đủ trường
+   - mỗi AC có `proof` (schema §3.1 qua Zod); ≥ `DESIGN_READY` + `design_spec: required` kiểm có
+     mục `## ⑦ DESIGN_SPEC`; ≥ `PASS` kiểm khối `qa:`; `DONE` kiểm khối `doc_delta:` (đường dẫn
+     changelog phải tồn tại thật); mọi khối `reject:` bất kỳ đâu phải có `owner`; PLAN.md cục bộ
+     (không commit) kiểm hai task không `depends_on` nhau mà đụng cùng `files` (§5.2). Chạy trong
+     CI job `audit` qua `npm run check:protocol -- --ci`, ngay sau `check:specs`. Spec cũ không có
+     dòng `Trạng thái:` được bỏ qua (di sản, không phải lỗi) — bảng §2.1 cột "Cách kiểm" nay trỏ
+     về lệnh này cho các dòng có artifact dạng YAML.
+2. **XONG (đợt này):** Slash-command `.claude/commands/protocol.md` (`/protocol <feature-id>`) —
+   in trạng thái hiện tại + vai chịu trách nhiệm (§4) + artifact còn thiếu, dựa trên
+   `protocol-check.ts` chạy thật (không suy đoán). Chỉ đọc/báo cáo, không tự đổi trạng thái.
+3. **XONG (đợt này):** Agent `.claude/agents/qa-verifier.md` (Sonnet) — đội mũ QA độc lập theo
+   §4.1, brief chỉ gồm spec + PR + head SHA (không nhận diễn giải của Engineering), chạy đủ
+   lệnh §7.1 theo ma trận rủi ro §7.2, ghi `QA_REPORT` hoặc `REJECT` có `owner`.
+4. **Chưa làm — để sau:** gộp phần "prompt contracts" của `AI_DEVELOPMENT_PIPELINES.md` §18 vào
+   brief chuẩn của từng vai để hai tài liệu không lệch dần. Không thuộc đợt này (không phải máy
+   kiểm được, cần người dùng quyết định cách hợp nhất).
