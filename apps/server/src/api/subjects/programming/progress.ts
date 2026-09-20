@@ -238,8 +238,9 @@ export default async function handler(req: Request): Promise<Response> {
       let regrade: RegradeResult
       try {
         // Dispatcher tự chọn luồng: Python → tiến trình con python3; Kotlin/bash/git/hermes/
-        // vibe/openclaw → gọi thẳng trình thông dịch thuần (ADR-0008 B2).
-        regrade = regradeSubmission(item.lessonId, item.code)
+        // vibe/openclaw → gọi thẳng trình thông dịch thuần (ADR-0008 B2); JS/TS/html/dom/fetch
+        // → `node:vm` context tối giản (ADR-0008 B3, nhánh async nên phải `await`).
+        regrade = await regradeSubmission(item.lessonId, item.code)
       } catch (err) {
         console.error('[programming-progress] lỗi chấm lại ở server:', err)
         return jsonResponse({ error: 'Không chấm lại được bài — thử lại sau' }, 500, headers)
