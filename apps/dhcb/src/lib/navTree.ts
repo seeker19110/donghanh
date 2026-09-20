@@ -112,6 +112,30 @@ export const ENGLISH_CHILDREN: NavChild[] = [
   { label: 'Thử thách', icon: Swords, to: duongDanThuThach(), paths: [duongDanThuThach()] },
 ]
 
+/**
+ * Mục con CẤP 3 "theo lớp" cho 4 môn STEM (Toán/Lý/Hoá/Sinh) — trỏ tới đúng trang môn kèm
+ * `?grade=`, `SubjectDetail.tsx` đã đọc query này để chọn sẵn đúng lớp (dòng ~164), nên đây là
+ * LINK SÂU thật, không phải danh sách trang trí. 4 mốc khớp đúng khoá `StemGradeCurriculum.grade`
+ * ở `data/stemCurriculum.ts` (`grade_10`/`grade_11`/`grade_12`/`university`).
+ */
+export function stemGradeChildren(subjectPath: string): NavChild[] {
+  const grades: Array<[string, string]> = [
+    ['grade_10', 'Lớp 10'],
+    ['grade_11', 'Lớp 11'],
+    ['grade_12', 'Lớp 12'],
+    ['university', 'Đại học'],
+  ]
+  return grades.map(([grade, label]) => ({
+    label,
+    icon: BookOpen,
+    to: `${subjectPath}?grade=${grade}`,
+    // So khớp active theo TIỀN TỐ ĐƯỜNG DẪN (không gồm query) — dùng chung `subjectPath`
+    // nên cả 4 lớp cùng "sáng" khi đứng ở trang môn; đó là đánh đổi chấp nhận được vì trang
+    // không đổi URL khi người dùng tự bấm tab lớp khác (chỉ đổi state nội bộ).
+    paths: [subjectPath],
+  }))
+}
+
 /** Mục con của "Góc học tập" — 6 môn trong `packages/core-learner/subjectRegistry.ts`. */
 export const SUBJECT_CHILDREN: NavChild[] = [
   {
@@ -126,24 +150,28 @@ export const SUBJECT_CHILDREN: NavChild[] = [
     icon: Calculator,
     subjectId: 'mathematics',
     paths: ['/goc-hoc-tap/mathematics', '/mathematics'],
+    children: stemGradeChildren('/goc-hoc-tap/mathematics'),
   },
   {
     label: 'Vật lý',
     icon: Atom,
     subjectId: 'physics',
     paths: ['/goc-hoc-tap/physics', '/physics'],
+    children: stemGradeChildren('/goc-hoc-tap/physics'),
   },
   {
     label: 'Hóa học',
     icon: FlaskConical,
     subjectId: 'chemistry',
     paths: ['/goc-hoc-tap/chemistry', '/chemistry'],
+    children: stemGradeChildren('/goc-hoc-tap/chemistry'),
   },
   {
     label: 'Sinh học',
     icon: Leaf,
     subjectId: 'biology',
     paths: ['/goc-hoc-tap/biology', '/biology'],
+    children: stemGradeChildren('/goc-hoc-tap/biology'),
   },
   {
     label: 'Lập trình',

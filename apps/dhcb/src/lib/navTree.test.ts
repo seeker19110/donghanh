@@ -5,6 +5,7 @@ import {
   childIsActive,
   groupContainsPath,
   readOpenGroups,
+  stemGradeChildren,
   toggleGroup,
   writeOpenGroups,
 } from './navTree'
@@ -51,8 +52,15 @@ describe('navTree — Tiếng Anh là một môn, công cụ ở cấp 2', () =>
       'Thử thách',
     ])
     expect(english.paths).toContain('/goc-hoc-tap/english')
-    // Chỉ Tiếng Anh có cấp 2 trong đợt này.
-    expect(SUBJECT_CHILDREN.filter((c) => c.children).map((c) => c.subjectId)).toEqual(['english'])
+    // 4 môn STEM (Toán/Lý/Hoá/Sinh) có cấp 2 "theo lớp" từ đợt sau — chỉ Lập trình chưa có
+    // (bậc P1-P6, không phải khuôn "Lớp 1-12", quyết định chủ dự án 2026-09-20).
+    expect(SUBJECT_CHILDREN.filter((c) => c.children).map((c) => c.subjectId)).toEqual([
+      'english',
+      'mathematics',
+      'physics',
+      'chemistry',
+      'biology',
+    ])
   })
 
   it('mục cấp 2 cũng tuân luật "đúng một cách trỏ đích"', () => {
@@ -68,6 +76,32 @@ describe('navTree — Tiếng Anh là một môn, công cụ ở cấp 2', () =>
     expect(childIsActive(english, '/goc-hoc-tap/english/x')).toBe(true)
     expect(childIsActive(english, '/goc-hoc-tap/english-abc')).toBe(false)
     expect(childIsActive(english, '/goc-hoc-tap/physics')).toBe(false)
+  })
+})
+
+describe('stemGradeChildren — mục "theo lớp" cho 4 môn STEM', () => {
+  it('sinh đúng 4 lớp, mỗi lớp là LINK SÂU kèm ?grade= khớp key StemGradeCurriculum', () => {
+    const children = stemGradeChildren('/goc-hoc-tap/mathematics')
+    expect(children.map((c) => c.label)).toEqual(['Lớp 10', 'Lớp 11', 'Lớp 12', 'Đại học'])
+    expect(children.map((c) => c.to)).toEqual([
+      '/goc-hoc-tap/mathematics?grade=grade_10',
+      '/goc-hoc-tap/mathematics?grade=grade_11',
+      '/goc-hoc-tap/mathematics?grade=grade_12',
+      '/goc-hoc-tap/mathematics?grade=university',
+    ])
+    for (const c of children) {
+      expect(c.subjectId).toBeUndefined()
+      expect(c.paths).toEqual(['/goc-hoc-tap/mathematics'])
+    }
+  })
+
+  it('4 môn STEM đều gắn stemGradeChildren, Lập trình thì không (bậc P1-P6, không phải Lớp)', () => {
+    for (const subjectId of ['mathematics', 'physics', 'chemistry', 'biology']) {
+      const c = SUBJECT_CHILDREN.find((s) => s.subjectId === subjectId)!
+      expect(c.children?.length, subjectId).toBe(4)
+    }
+    const programming = SUBJECT_CHILDREN.find((s) => s.subjectId === 'programming')!
+    expect(programming.children).toBeUndefined()
   })
 })
 
