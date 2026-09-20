@@ -17,7 +17,8 @@ vi.mock('@dhcb/core-auth/security', () => ({
 const regradeState = vi.hoisted(() => ({ regradable: false, passed: true }))
 vi.mock('@dhcb/subject-programming/completionSandboxServer', () => ({
   isServerRegradableLesson: () => regradeState.regradable,
-  regradeSubmission: () => ({ passed: regradeState.passed, results: [] }),
+  // ADR-0008 B3: dispatcher thật nay là ASYNC — mock cũng phải trả Promise để route đúng hành vi.
+  regradeSubmission: () => Promise.resolve({ passed: regradeState.passed, results: [] }),
 }))
 
 const query = vi.hoisted(() => vi.fn())

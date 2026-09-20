@@ -181,6 +181,24 @@ ngữ khác Python" — vi phạm nguyên tắc chia nhỏ.
    `load_extension` đã tắt trong `sqlWorker.ts` — không đáng gộp vào B1/B2 khi câu hỏi bảo mật đó
    còn treo.
 
+## Tình trạng thi hành
+
+- **B1 + B2 — ĐÃ THI HÀNH 2026-09-19 (PR #1044).** 374 bài (285 Python P5/P6/khoá ngắn + 89
+  Kotlin/bash/4 khoá mô phỏng). Tổng phạm vi chấm-lại-ở-server: 407/509 bài.
+- **B3 — ĐÃ THI HÀNH 2026-09-20 (PR #1048).** 97 bài JavaScript (6) + TypeScript (82) + `html`
+  (3) + `dom` (4) + `fetch` (2). Tổng phạm vi: **504/509 bài**. Cách làm đúng như hướng đã sửa
+  lại ở câu 1: `domPrelude.ts`/`fetchPrelude.ts` **GIỮ NGUYÊN, không sửa một dòng nào** (Worker
+  trình duyệt vẫn dùng chúng, `node:vm` không có trong trình duyệt); bản chấm ở SERVER nằm ở file
+  MỚI `packages/subject-programming/domFetchServerPrelude.ts` — dùng lại `parseHTML` (linkedom),
+  `thucHien()`, `moTaCayDom()`, `taoFetchGia()`/`taoFetchCuaHang()`, chỉ thay dòng thực thi script
+  học viên bằng `vm.createContext({ document, window, fetch? })` + `vm.runInContext()` với timeout
+  10s. JS/TS chấm bằng `regradeWebSubmission()` trong `completionSandboxServer.ts` (TS đi qua
+  `kiemTraTypeScript()` trước, rồi chạy JS đã transpile — đúng hai chặng của `lessonsTs.test.ts`).
+  `regradeSubmission()` nay là hàm ASYNC (nhánh `fetch` bất đồng bộ); route `progress.ts` thêm
+  `await`. Hợp đồng wire KHÔNG đổi: client đã gửi `code` cho mọi bài, còn `domHtml` và danh sách
+  hành động lấy từ registry SERVER.
+- **CÒN MỞ:** SQL (5 bài) — chờ xác minh `sqlWorker.ts` (câu hỏi 3).
+
 ## Hệ quả (áp dụng SAU KHI chốt câu hỏi trên, với B1+B2 không cần chờ)
 
 - **B1+B2 kéo theo:** sửa `isServerRegradableLesson()` (nới regex + nhận thêm ngôn ngữ mô

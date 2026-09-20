@@ -7,6 +7,7 @@ import {
   regradeMakeSubmission,
   regradeInterpretedSubmission,
   regradeSubmission,
+  regradeWebSubmission,
   isServerRegradableLesson,
 } from './completionSandboxServer.js'
 
@@ -77,16 +78,79 @@ describe('phạm vi chấm-lại-ở-server sau ADR-0008 (không cần python3)'
     expect(isServerRegradableLesson('openclaw-u1-l1')).toBe(true)
   })
 
-  it('NGOÀI phạm vi ADR-0008: bước dự án, hướng chuyên sâu, JS/TS/dom/html/fetch (B3), SQL', () => {
+  it('B3 — MỌI bài JavaScript/TypeScript/html/dom/fetch nay THUỘC phạm vi (97 bài)', () => {
+    const web = PROGRAMMING_LESSONS.filter((l) =>
+      ['javascript', 'typescript', 'html', 'dom', 'fetch'].includes(l.language),
+    )
+    expect(web).toHaveLength(97)
+    for (const lesson of web) {
+      expect(isServerRegradableLesson(lesson.id), `${lesson.language} (${lesson.id})`).toBe(true)
+    }
+  })
+
+  it('NGOÀI phạm vi ADR-0008: bước dự án, hướng chuyên sâu, SQL', () => {
     expect(isServerRegradableLesson('p1-s1')).toBe(false) // bước dự án
     expect(isServerRegradableLesson('web-s2-m1')).toBe(false) // tiêu chí hướng chuyên sâu
     expect(isServerRegradableLesson('khong-ton-tai-u1-l1')).toBe(false)
-    // B3 + SQL vẫn "client tự khai" theo đúng quyết định đã chốt của ADR-0008.
-    for (const lang of ['javascript', 'typescript', 'html', 'dom', 'fetch', 'sql']) {
-      const lesson = PROGRAMMING_LESSONS.find((l) => l.language === lang)
-      expect(lesson, `không tìm thấy bài ${lang} để canh`).toBeDefined()
-      expect(isServerRegradableLesson(lesson!.id), `${lang} (${lesson!.id})`).toBe(false)
+    // SQL vẫn "client tự khai": chờ xác minh `sqlWorker.ts` (câu hỏi 3 của ADR-0008).
+    for (const lesson of PROGRAMMING_LESSONS.filter((l) => l.language === 'sql')) {
+      expect(isServerRegradableLesson(lesson.id), `sql (${lesson.id})`).toBe(false)
     }
+  })
+})
+
+// ────────────────────────────────────────────────────────────────────────────────────────────
+// ADR-0008 B3 — làn WEB chạy bằng node:vm (không cần python3).
+// ────────────────────────────────────────────────────────────────────────────────────────────
+
+describe('ADR-0008 B3 — chấm lại JS/TS/html/dom/fetch bằng node:vm', () => {
+  // [mô tả, lessonId, code SAI chắc chắn không ra output kỳ vọng]
+  const CAS: ReadonlyArray<readonly [string, string, string]> = [
+    ['JavaScript', 'p3-u6-l1', 'console.log("khong lien quan gi ca")'],
+    ['TypeScript', 'p4-u10-l1', 'console.log("khong lien quan gi ca")'],
+    ['html', 'p3-u4-l1', '<!doctype html><html><body><p>khong lien quan</p></body></html>'],
+    ['dom', 'p3-u6-l2', '/* khong lam gi */'],
+    ['fetch', 'p3-u7-l1', '/* khong lam gi */'],
+  ]
+
+  it.each(CAS)(
+    '%s (%s) — code mẫu ĐẠT, code sai KHÔNG đạt',
+    async (_ten, lessonId, codeSai) => {
+      const lesson = getLesson(lessonId)
+      expect(lesson, `bài ${lessonId} phải tồn tại trong registry`).toBeDefined()
+      expect((await regradeWebSubmission(lessonId, lesson!.make.sampleSolution)).passed).toBe(true)
+      expect((await regradeWebSubmission(lessonId, codeSai)).passed).toBe(false)
+    },
+    120_000,
+  )
+
+  it('regradeSubmission điều hướng đúng luồng cho bài làn web', async () => {
+    const lesson = getLesson('p3-u6-l1')!
+    expect((await regradeSubmission('p3-u6-l1', lesson.make.sampleSolution)).passed).toBe(true)
+  })
+
+  it('bài TypeScript sai KIỂU thì KHÔNG đạt (tsc chặn trước, chương trình không chạy)', async () => {
+    const r = await regradeWebSubmission('p4-u10-l1', 'const x: number = "chuoi"\n')
+    expect(r.passed).toBe(false)
+  }, 120_000)
+
+  it('code học viên KHÔNG với tới được require/process trong context vm', async () => {
+    // Bài JS nào cũng được: code này in ra "undefined undefined" nên chắc chắn rớt test-case,
+    // điều cần canh là nó KHÔNG ném lỗi kiểu "require is not defined" ở tầng khác — tức context
+    // đúng là tối giản và code chạy lọt tới chỗ in ra.
+    const r = await regradeWebSubmission('p3-u6-l1', 'console.log(typeof require, typeof process)')
+    expect(r.passed).toBe(false)
+    expect(r.results[0]?.actual ?? '').toContain('undefined undefined')
+  })
+
+  it('vòng lặp vô hạn bị timeout cứng cắt, không treo tiến trình chấm', async () => {
+    const r = await regradeWebSubmission('p3-u6-l1', 'while (true) {}')
+    expect(r.passed).toBe(false)
+    expect(r.results.every((x) => !x.passed)).toBe(true)
+  }, 120_000)
+
+  it('bài ngoài làn web → ném lỗi rõ ràng, không im lặng cho qua', async () => {
+    await expect(regradeWebSubmission('p1-u1-l1', 'print(1)')).rejects.toThrow()
   })
 })
 
@@ -108,14 +172,14 @@ describe('ADR-0008 B2 — chấm lại bằng trình thông dịch thuần (khô
     expect(regradeInterpretedSubmission(lessonId, codeSai).passed).toBe(false)
   })
 
-  it('regradeSubmission điều hướng đúng luồng cho bài thông dịch', () => {
+  it('regradeSubmission điều hướng đúng luồng cho bài thông dịch', async () => {
     const lesson = getLesson('p6-u5-l1')!
-    expect(regradeSubmission('p6-u5-l1', lesson.make.sampleSolution).passed).toBe(true)
+    expect((await regradeSubmission('p6-u5-l1', lesson.make.sampleSolution)).passed).toBe(true)
   })
 
-  it('bài ngoài phạm vi thông dịch → ném lỗi rõ ràng, không im lặng cho qua', () => {
+  it('bài ngoài phạm vi thông dịch → ném lỗi rõ ràng, không im lặng cho qua', async () => {
     expect(() => regradeInterpretedSubmission('p1-u1-l1', 'print(1)')).toThrow()
-    expect(() => regradeSubmission('khong-ton-tai', 'x')).toThrow()
+    await expect(regradeSubmission('khong-ton-tai', 'x')).rejects.toThrow()
   })
 })
 
@@ -124,8 +188,8 @@ describe.skipIf(!hasPython)(
   () => {
     const p6 = getLesson('p6-u1-l1')!
 
-    it('code mẫu của bài P6 ĐẠT khi chấm lại', () => {
-      expect(regradeSubmission(p6.id, p6.make.sampleSolution).passed).toBe(true)
+    it('code mẫu của bài P6 ĐẠT khi chấm lại', async () => {
+      expect((await regradeSubmission(p6.id, p6.make.sampleSolution)).passed).toBe(true)
     })
 
     it('code sai của bài P6 KHÔNG đạt', () => {

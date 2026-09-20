@@ -7,7 +7,11 @@
 //     trình con, đủ 3 lớp bảo vệ mô tả dưới đây.
 //   · Kotlin/Swift/bash/git/hermes/vibe/openclaw → `regradeInterpretedSubmission()`: gọi thẳng
 //     trình thông dịch cây TypeScript thuần (không eval/không I/O, có trần bước + trần output).
-//   · `regradeSubmission()` là điểm vào duy nhất cho route, tự chọn đúng luồng.
+//   · JavaScript/TypeScript/html/dom/fetch (ADR-0008 B3) → `regradeWebSubmission()`: chạy trong
+//     `node:vm` với context TỐI GIẢN (không `require`/`process`/`global`) + timeout cứng — đúng
+//     cấu hình mà `lessonsJs.test.ts`/`lessonsTs.test.ts` đã chạy trong CI từ trước.
+//   · `regradeSubmission()` là điểm vào duy nhất cho route, tự chọn đúng luồng (ASYNC vì nhánh
+//     `fetch` vốn bất đồng bộ; hai nhánh kia vẫn đồng bộ bên trong).
 //
 // VÌ SAO CẦN: client chỉ chạy Pyodide/WASM trong Web Worker rồi tự POST 'completed' — DevTools
 // sửa được. File này CHẤM LẠI đúng test-case của bài (đọc từ registry server, KHÔNG tin dữ liệu
@@ -42,6 +46,10 @@ import { chayLenh } from './gitSim.js'
 import { chayLenhHermes } from './hermesSim.js'
 import { chayLenhVibe } from './vibeSim.js'
 import { chayLenhOpenclaw } from './openclawSim.js'
+import vm from 'node:vm'
+import { wrapJavaScript, formatConsoleArgs } from './jsPrelude.js'
+import { kiemTraTypeScript, dinhDangKetQuaTs, TIEU_DE_LOI, type TsCompiler } from './tsPrelude.js'
+import { chayBaiHtmlServer, chayBaiDomServer, chayBaiFetchServer } from './domFetchServerPrelude.js'
 import { laLanPython, fileCuaLan, noiCodeTheoLan, type PythonLane } from './pyLanes.js'
 import { gradeTestCase, allTestsPassed, type TestCaseResult } from './grading.js'
 import { mkdirSync, writeFileSync } from 'node:fs'
@@ -101,6 +109,12 @@ const INTERPRETED_RUNNERS: Readonly<Record<string, InterpretedRunner>> = {
   openclaw: (code, stdinLines) => chayLenhOpenclaw(code, stdinLines),
 }
 
+/**
+ * Ngôn ngữ "web" chấm lại bằng `node:vm` (ADR-0008 B3). Tất cả 97 bài thuộc nhóm này đều là bài
+ * XƯƠNG SỐNG (`p3`/`p4`/`p6`) — không khoá ngắn nào dùng chúng, nên chỉ cần `SPINE_RE`.
+ */
+const WEB_LANGUAGES = new Set(['javascript', 'typescript', 'html', 'dom', 'fetch'])
+
 /** Bài này có thuộc phạm vi chấm-lại-ở-server không (dùng cả ở route để quyết có đòi `code` hay không). */
 export function isServerRegradableLesson(lessonId: string): boolean {
   const spine = SPINE_RE.test(lessonId)
@@ -109,6 +123,8 @@ export function isServerRegradableLesson(lessonId: string): boolean {
   }
   const lesson = getLesson(lessonId)
   if (!lesson) return false
+  // B3 — làn web (JS/TS/html/dom/fetch): chỉ bài xương sống.
+  if (WEB_LANGUAGES.has(lesson.language)) return spine
   // B1 — làn Python: bài xương sống mọi bậc + 7 khoá ngắn Python.
   if (laLanPython(lesson.language)) {
     return spine || PYTHON_SHORT_COURSE_RE.test(lessonId)
@@ -409,15 +425,116 @@ export function regradeInterpretedSubmission(lessonId: string, code: string): Re
   return { passed: allTestsPassed(results), results }
 }
 
+// ────────────────────────────────────────────────────────────────────────────────────────────
+// ADR-0008 B3 — làn WEB (JavaScript / TypeScript / html / dom / fetch), chạy bằng `node:vm`.
+// ────────────────────────────────────────────────────────────────────────────────────────────
+
+/** Timeout một lượt chạy JS/TS — bằng `RUN_TIMEOUT_MS` của cổng nội dung `lessonsJs.test.ts`. */
+const JS_TIMEOUT_MS = 5_000
+
+/**
+ * Trình biên dịch TypeScript nạp LƯỜI (gói `typescript` nặng, phần lớn request của server không
+ * đụng tới bài TS) và nhớ lại một lần cho cả đời tiến trình.
+ */
+let tsCompiler: TsCompiler | null = null
+async function layTsCompiler(): Promise<TsCompiler> {
+  if (!tsCompiler) tsCompiler = (await import('typescript')).default as unknown as TsCompiler
+  return tsCompiler
+}
+
+/**
+ * Chạy JavaScript trong `node:vm` với context TỐI GIẢN — SAO ĐÚNG cấu hình của
+ * `lessonsJs.test.ts` (chỉ cấp `console`, không `require`/`process`/`fetch`) để hành vi cổng CI
+ * và hành vi chấm-lại-khi-nộp-bài không trôi khỏi nhau.
+ */
+function chayJsTrongVm(source: string): { output: string; error?: string } {
+  const lines: string[] = []
+  const collect = (...args: unknown[]) => {
+    lines.push(formatConsoleArgs(args))
+  }
+  const context = vm.createContext({ console: { log: collect, error: collect } })
+  try {
+    vm.runInContext(source, context, { timeout: JS_TIMEOUT_MS })
+    return { output: lines.join('\n') }
+  } catch (err) {
+    return { output: lines.join('\n'), error: (err as Error).message }
+  }
+}
+
+/**
+ * ADR-0008 B3 — chấm lại bài làn WEB. TÁCH khỏi hai luồng kia vì cơ chế cách ly khác hẳn
+ * (`node:vm` trong tiến trình, không subprocess). Chỉ dùng chung engine chấm `grading.ts`.
+ *
+ * Bài TypeScript đi qua ĐÚNG HAI CHẶNG mà học viên gặp: kiểm kiểu bằng `kiemTraTypeScript()`
+ * trước (còn lỗi thì CHƯƠNG TRÌNH KHÔNG CHẠY — nhiều bài cố ý chấm đúng thông báo lỗi TS đó),
+ * rồi mới chạy JavaScript sinh ra. Kết quả kiểm kiểu chỉ phụ thuộc CODE nên tính MỘT lần cho cả
+ * bộ test-case (một lượt tsc tốn ~2,5 giây).
+ */
+export async function regradeWebSubmission(lessonId: string, code: string): Promise<RegradeResult> {
+  const lesson = getLesson(lessonId)
+  if (!lesson || !WEB_LANGUAGES.has(lesson.language)) {
+    throw new Error(`Bài "${lessonId}" không thuộc phạm vi chấm-lại-làn-web`)
+  }
+
+  // Bài dom/fetch chấm trên cây DOM của trang dựng sẵn trong registry (`domHtml`) — HTML và danh
+  // sách hành động đều lấy từ SERVER, client chỉ gửi phần JavaScript của học viên.
+  if (lesson.language === 'dom' || lesson.language === 'fetch') {
+    if (!lesson.domHtml) throw new Error(`Bài "${lessonId}" thiếu domHtml trong registry`)
+    const html = lesson.domHtml
+    const results: TestCaseResult[] = []
+    for (const testCase of lesson.make.testCases) {
+      const r =
+        lesson.language === 'dom'
+          ? chayBaiDomServer(html, code, testCase.stdinLines)
+          : await chayBaiFetchServer(html, code, testCase.stdinLines)
+      results.push(gradeTestCase(testCase, r.output, r.error))
+    }
+    return { passed: allTestsPassed(results), results }
+  }
+
+  if (lesson.language === 'html') {
+    const results = lesson.make.testCases.map((testCase) => {
+      const r = chayBaiHtmlServer(code)
+      return gradeTestCase(testCase, r.output, r.error)
+    })
+    return { passed: allTestsPassed(results), results }
+  }
+
+  // JavaScript / TypeScript.
+  let js = code
+  if (lesson.language === 'typescript') {
+    const { loi, js: bienDich } = kiemTraTypeScript(code, await layTsCompiler())
+    if (loi.length > 0) {
+      const output = [TIEU_DE_LOI, ...loi].join('\n')
+      const results = lesson.make.testCases.map((tc) => gradeTestCase(tc, output, undefined))
+      return { passed: allTestsPassed(results), results }
+    }
+    js = bienDich
+  }
+
+  const results: TestCaseResult[] = lesson.make.testCases.map((testCase) => {
+    const r = chayJsTrongVm(wrapJavaScript(js, testCase.stdinLines))
+    const output = lesson.language === 'typescript' ? dinhDangKetQuaTs([], r.output) : r.output
+    return gradeTestCase(testCase, output, r.error)
+  })
+  return { passed: allTestsPassed(results), results }
+}
+
 /**
  * Điểm vào DUY NHẤT cho route `/api/programming/progress`: tự chọn đúng luồng chấm lại theo ngôn
  * ngữ của bài. Gọi `isServerRegradableLesson()` trước — hàm này ném lỗi với bài ngoài phạm vi.
+ *
+ * ASYNC từ ADR-0008 B3: nhánh `fetch` vốn bất đồng bộ (fetch giả lập + chuỗi Promise của học
+ * viên) và trình biên dịch TypeScript nạp lười — hai nhánh cũ vẫn chạy đồng bộ bên trong.
  */
-export function regradeSubmission(lessonId: string, code: string): RegradeResult {
+export async function regradeSubmission(lessonId: string, code: string): Promise<RegradeResult> {
   const lesson = getLesson(lessonId)
   if (!lesson) throw new Error(`Bài "${lessonId}" không tồn tại`)
   if (lesson.language in INTERPRETED_RUNNERS) {
     return regradeInterpretedSubmission(lessonId, code)
+  }
+  if (WEB_LANGUAGES.has(lesson.language)) {
+    return regradeWebSubmission(lessonId, code)
   }
   return regradeMakeSubmission(lessonId, code)
 }
