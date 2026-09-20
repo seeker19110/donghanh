@@ -185,7 +185,7 @@ ngữ khác Python" — vi phạm nguyên tắc chia nhỏ.
 
 - **B1 + B2 — ĐÃ THI HÀNH 2026-09-19 (PR #1044).** 374 bài (285 Python P5/P6/khoá ngắn + 89
   Kotlin/bash/4 khoá mô phỏng). Tổng phạm vi chấm-lại-ở-server: 407/509 bài.
-- **B3 — ĐÃ THI HÀNH 2026-09-20 (PR #1048).** 97 bài JavaScript (6) + TypeScript (82) + `html`
+- **B3 — ĐÃ THI HÀNH 2026-09-20 (PR #1051).** 97 bài JavaScript (6) + TypeScript (82) + `html`
   (3) + `dom` (4) + `fetch` (2). Tổng phạm vi: **504/509 bài**. Cách làm đúng như hướng đã sửa
   lại ở câu 1: `domPrelude.ts`/`fetchPrelude.ts` **GIỮ NGUYÊN, không sửa một dòng nào** (Worker
   trình duyệt vẫn dùng chúng, `node:vm` không có trong trình duyệt); bản chấm ở SERVER nằm ở file
