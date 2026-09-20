@@ -158,14 +158,18 @@ test.describe('Platform V2 Specialized Domain Hubs & Companion E2E', () => {
     await page.goto('/')
     await expect(page.getByRole('heading', { name: /Bạn Đồng Hành AI/ })).toBeVisible()
 
-    // Trang Cá nhân nay liệt kê 2 thẻ trụ, vì cả hai cặp đều đã GỘP:
-    //   · Work + Life  → "Công việc & Đời sống" (migration 0066)
-    //   · Career + Startup → "Sự nghiệp & Khởi nghiệp" (2026-08-28)
+    // Trang Cá nhân [2026-09-20] chỉ còn ĐÚNG MỘT thẻ trụ: "Ghi chú" (nửa "Công việc" cũ) —
+    // ba thẻ "Sự nghiệp & Khởi nghiệp", "Công việc & Đời sống", "Mạng lưới cá nhân" đã gỡ hẳn
+    // cùng trang của chúng (docs/changelog/0389-*.md). Chốt chặn để không âm thầm quay lại.
     await page.goto('/profile')
-    await expect(page.getByText('Sự nghiệp & Khởi nghiệp', { exact: true })).toBeVisible()
-    await expect(page.getByText('Công việc & Đời sống', { exact: true })).toBeVisible()
-    // Chốt chặn để không âm thầm quay lại kiểu cũ: bốn thẻ tách rời phải KHÔNG còn.
-    for (const cu of ['Sự nghiệp', 'Khởi nghiệp', 'Công việc', 'Đời sống']) {
+    await expect(page.getByText('Ghi chú', { exact: true }).first()).toBeVisible()
+    for (const cu of [
+      'Sự nghiệp & Khởi nghiệp',
+      'Công việc & Đời sống',
+      'Sự nghiệp',
+      'Khởi nghiệp',
+      'Đời sống',
+    ]) {
       await expect(page.getByText(cu, { exact: true })).toHaveCount(0)
     }
   })

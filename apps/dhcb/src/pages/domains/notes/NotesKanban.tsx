@@ -137,6 +137,7 @@ export default function NotesKanban() {
             <select
               value={selectedProjectId}
               onChange={(e) => setSelectedProjectId(e.target.value)}
+              aria-label="Lọc theo dự án"
               className="bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none"
             >
               <option value="all">Tất cả dự án ({tasks.length})</option>
