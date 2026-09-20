@@ -151,13 +151,27 @@ ngữ khác Python" — vi phạm nguyên tắc chia nhỏ.
    `require`/`process`/`global`, timeout cứng) cho JavaScript/TypeScript — giống hệt cấu hình
    `lessonsJs.test.ts` đang chạy trong CI ngay bây giờ, vì `vm.createContext({})` rỗng không có
    API nhạy cảm nào trong tầm với và đây là hạn chế đã biết, không phải lỗ hổng mới. **Điều kiện
-   bắt buộc trước khi B3 được coi là an toàn tương đương:** `html`/`dom`/`fetch` (9 bài) PHẢI sửa
-   từ `new Function('document','window', js)(document, window)` sang chạy trong
-   `vm.createContext({ document, window, ... })` + cùng timeout — không được giữ `new Function`
-   trần (không có ranh giới nào, tệ hơn cả JS/TS). B3 là một ADR/PR riêng, thi hành SAU B1+B2,
-   không chặn B1+B2. Lý do không chọn (ii)/subprocess: cần thiết kế allowlist riêng cho Node
-   (`require` là built-in, không chặn được bằng override kiểu Python `__import__`) — việc lớn hơn
-   hẳn B1+B2, để dành làm kỹ trong PR riêng thay vì làm vội chung một đợt.
+   bắt buộc trước khi B3 được coi là an toàn tương đương:** `html`/`dom`/`fetch` (9 bài) PHẢI chấm
+   lại ở server bằng `vm.createContext({ document, window, ... })` + cùng timeout thay vì
+   `new Function('document','window', js)(document, window)` trần (không có ranh giới nào, tệ hơn
+   cả JS/TS).
+   **Sửa lại 2026-09-20 sau khi đọc kỹ mã nguồn (chốt lúc viết câu này chưa thấy hết): KHÔNG được
+   sửa thẳng `domPrelude.ts`/`fetchPrelude.ts` tại chỗ.** Hai hàm `chayBaiDom()`/`chayBaiFetch()`
+   trong đó là mã DÙNG CHUNG cho CẢ Worker trình duyệt (`apps/dhcb/src/workers/domWorker.ts`,
+   `fetchWorker.ts` — chấm xem trước phía học viên) LẪN cổng nội dung CI — `node:vm` là module
+   riêng của Node, KHÔNG tồn tại trong trình duyệt, nên đổi thẳng import sẽ vỡ bundle client. Hướng
+   đúng: giữ nguyên `domPrelude.ts`/`fetchPrelude.ts` (Worker vẫn cách ly bằng
+   `terminate()` như hiện tại, không đổi), và viết một bộ chấm-lại-ở-SERVER RIÊNG (ví dụ
+   `domFetchServerPrelude.ts`, cạnh `completionSandboxServer.ts`) dùng LẠI các hàm thuần không
+   đụng `new Function` (`thucHien()`, `moTaCayDom()`, `taoFetchGia()`/`taoFetchCuaHang()`,
+   `parseHTML` của `linkedom`) nhưng thay dòng thực thi script học viên bằng
+   `vm.createContext({ document, window, fetch? })` + `vm.runInContext(...)`. Đây đúng khuôn mẫu
+   đã có sẵn với Python (client Pyodide, server `python3` thật — hai engine khác nhau, cùng bộ
+   test-case, không lệch nhau nhờ `grading.ts` dùng chung), không phải ngoại lệ mới.
+   B3 là một ADR/PR riêng, thi hành SAU B1+B2, không chặn B1+B2. Lý do không chọn (ii)/subprocess:
+   cần thiết kế allowlist riêng cho Node (`require` là built-in, không chặn được bằng override
+   kiểu Python `__import__`) — việc lớn hơn hẳn B1+B2, để dành làm kỹ trong PR riêng thay vì làm
+   vội chung một đợt.
 2. **Mở rộng B1 sang bước dự án (`p<n>-s<x>`) — CHỐT: KHÔNG.** Giữ đúng đề xuất mặc định của ADR:
    bước dự án chấm bằng rubric/artifact (`referenceCode`), không phải test-case — khác hẳn bài
    toán ADR này giải, cần thiết kế riêng (chấm bằng AI đọc code so rubric, hoặc nộp link
