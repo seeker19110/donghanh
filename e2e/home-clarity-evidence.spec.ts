@@ -430,7 +430,7 @@ async function captureEvidence(
   if (!CAPTURE_BEFORE) {
     expect(measurements.progressEntryCount, `${name}: Home-owned Tiến độ`).toBe(1)
     expect(measurements.focusableChipCount, `${name}: prompt chip focusable`).toBe(
-      width === 1440 || state === 'member-data-expanded-prompts' ? 5 : 0,
+      width === 1440 || state === 'member-data-expanded-prompts' ? 4 : 0,
     )
   }
 
