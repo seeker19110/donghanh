@@ -84,9 +84,9 @@ export default function ArticulatoryPhoneticsVisualizer() {
   }
 
   return (
-    <div className="bg-slate-900/90 border border-teal-500/30 rounded-2xl p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden transition-all duration-300">
+    <div className="bg-surface-card border border-teal-500/30 rounded-2xl p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden transition-all duration-300">
       {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+      <div className="flex items-center justify-between pb-4 border-b border-line-subtle">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-600 to-emerald-500 flex items-center justify-center shadow-lg">
             <Activity className="w-5 h-5 text-white" />
@@ -100,7 +100,7 @@ export default function ArticulatoryPhoneticsVisualizer() {
                 L1 Special Care
               </span>
             </div>
-            <p className="text-xs text-slate-400 theme-light:text-slate-700">
+            <p className="text-xs text-content-secondary">
               Giải phẫu âm vị học 3D vòm họng & đối sánh đường cong ngữ điệu F0
             </p>
           </div>
@@ -130,7 +130,7 @@ export default function ArticulatoryPhoneticsVisualizer() {
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold shrink-0 transition-all border ${
                 isSelected
                   ? 'bg-teal-950/60 border-teal-400 text-teal-200 theme-light:text-teal-900 shadow-md shadow-teal-500/20'
-                  : 'bg-slate-800/50 border-slate-800 text-slate-400 theme-light:text-slate-700 hover:text-slate-200'
+                  : 'bg-surface-raised border-line-subtle text-content-secondary hover:text-content'
               }`}
             >
               {item.label}
@@ -142,8 +142,8 @@ export default function ArticulatoryPhoneticsVisualizer() {
       {guide && (
         <div className="mt-4 grid grid-cols-1 lg:grid-cols-12 gap-4">
           {/* Col 1: SVG Sagittal Vocal Tract Diagram */}
-          <div className="lg:col-span-5 p-4 rounded-xl bg-slate-950/80 border border-slate-800 flex flex-col items-center justify-center">
-            <div className="text-[11px] font-bold text-slate-400 theme-light:text-slate-700 mb-2 flex items-center gap-1.5">
+          <div className="lg:col-span-5 p-4 rounded-xl bg-surface-raised border border-line-subtle flex flex-col items-center justify-center">
+            <div className="text-[11px] font-bold text-content-secondary mb-2 flex items-center gap-1.5">
               <span>Mặt cắt Giải phẫu Miệng / Vòm họng</span>
               <span className="text-teal-400 theme-light:text-teal-900 font-mono text-sm">
                 {guide.ipaSymbol}
@@ -200,7 +200,7 @@ export default function ArticulatoryPhoneticsVisualizer() {
               />
             </svg>
 
-            <div className="mt-2 text-[11px] text-center text-slate-400 theme-light:text-slate-700 max-w-xs">
+            <div className="mt-2 text-[11px] text-center text-content-secondary max-w-xs">
               {guide.airflowDescription}
             </div>
           </div>
@@ -214,17 +214,14 @@ export default function ArticulatoryPhoneticsVisualizer() {
               {guide.commonVietnameseMistake}
             </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-800/60 border border-slate-700 space-y-2">
-              <div className="text-xs font-bold text-slate-200 theme-light:text-slate-700 flex items-center gap-1.5">
+            <div className="p-3.5 rounded-xl bg-surface-raised border border-line-strong space-y-2">
+              <div className="text-xs font-bold text-content flex items-center gap-1.5">
                 <Layers className="w-3.5 h-3.5 text-teal-400 theme-light:text-teal-900" />
                 <span>3 Bước Đặt Khẩu Hình Chuẩn Xác:</span>
               </div>
               <ul className="space-y-1.5">
                 {guide.stepByStepAnatomyTips.map((tip, idx) => (
-                  <li
-                    key={idx}
-                    className="text-xs text-slate-300 theme-light:text-slate-700 flex items-start gap-2"
-                  >
+                  <li key={idx} className="text-xs text-content-secondary flex items-start gap-2">
                     <span className="w-4 h-4 rounded-full bg-teal-500/20 text-teal-300 theme-light:text-teal-900 text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">
                       {idx + 1}
                     </span>
@@ -248,7 +245,7 @@ export default function ArticulatoryPhoneticsVisualizer() {
                 </div>
 
                 {/* Simulated Pitch Chart */}
-                <div className="h-16 w-full bg-slate-950 rounded-lg p-2 flex items-center relative overflow-hidden border border-slate-800">
+                <div className="h-16 w-full bg-surface-raised rounded-lg p-2 flex items-center relative overflow-hidden border border-line-subtle">
                   {/* Native curve */}
                   <svg className="w-full h-full" viewBox="0 0 300 50">
                     <path
@@ -266,12 +263,12 @@ export default function ArticulatoryPhoneticsVisualizer() {
                     />
                   </svg>
                   <div className="absolute bottom-1 right-2 text-[11px] text-content-muted">
-                    <span className="text-slate-400 theme-light:text-slate-700">--- Bản xứ</span> |{' '}
+                    <span className="text-content-secondary">--- Bản xứ</span> |{' '}
                     <span className="text-teal-400 theme-light:text-teal-900">― Của bạn</span>
                   </div>
                 </div>
 
-                <p className="text-[11px] text-slate-300 theme-light:text-slate-700 italic">
+                <p className="text-[11px] text-content-secondary italic">
                   💡 {report.pitchContour.coachingAdvice}
                 </p>
               </div>

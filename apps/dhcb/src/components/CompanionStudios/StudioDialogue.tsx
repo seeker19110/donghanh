@@ -140,7 +140,7 @@ export default function StudioDialogue({
             onClick={() => setViewMode('voice')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
               viewMode === 'voice'
-                ? 'bg-gradient-to-r from-sky-500 to-indigo-600 text-white shadow-md shadow-sky-500/20'
+                ? 'bg-gradient-to-r from-accent-500 to-accent-600 text-white shadow-md shadow-accent-500/20'
                 : 'text-zinc-400 hover:text-zinc-200'
             }`}
           >
@@ -243,7 +243,7 @@ export default function StudioDialogue({
               <button
                 onClick={voice.start}
                 disabled={!voice.supported}
-                className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 disabled:opacity-50 text-white font-bold text-sm shadow-xl transition-all transform hover:scale-105"
+                className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-400 hover:to-accent-500 disabled:opacity-50 text-white font-bold text-sm shadow-xl transition-all transform hover:scale-105"
               >
                 <Mic className="w-5 h-5" />
                 Nhấn Để Nói
@@ -312,7 +312,7 @@ export default function StudioDialogue({
                   className={`flex gap-3.5 ${isBot ? 'justify-start' : 'justify-end'} animate-fade-in`}
                 >
                   {isBot && (
-                    <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-accent-600 via-accent-500 to-indigo-500 flex items-center justify-center shrink-0 shadow-md mt-1 ring-1 ring-accent-400/30">
+                    <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-accent-600 via-accent-500 to-accent-400 flex items-center justify-center shrink-0 shadow-md mt-1 ring-1 ring-accent-400/30">
                       <Bot className="w-4.5 h-4.5 text-white" />
                     </div>
                   )}
