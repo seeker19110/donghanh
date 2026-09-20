@@ -167,6 +167,12 @@ jobs:
       - name: Đường dẫn trong đặc tả Approved (check:specs)
         run: npm run check:specs -- --ci
 
+      # Workflow Controller cơ học của AI_DEVELOPMENT_PROTOCOL.md §12 mục 1: spec nào tự khai
+      # `Trạng thái: **XXX**` phải đủ khối YAML hợp đồng đúng schema §3 cho trạng thái đó (spec
+      # cũ không có dòng này thì bỏ qua, hợp lệ). Xem scripts/protocol-check.ts.
+      - name: Hợp đồng AI_DEVELOPMENT_PROTOCOL.md (check:protocol)
+        run: npm run check:protocol -- --ci
+
       # Cảnh báo PROGRESS.md lỗi thời (TRAPS.md mục 2) — chỉ đối chiếu khi push thẳng main:
       # lúc PR còn mở, nhánh feature vẫn tồn tại là bình thường, kiểm lúc đó báo oan. Cần
       # fetch-depth đủ để `git ls-remote` thấy remote thật (actions/checkout mặc định đã fetch
