@@ -18,22 +18,26 @@ import {
 } from '../../../lib/workApi'
 import type { WorkTask, WorkProject } from '@dhcb/core-contracts/work'
 
+// Nền cố định trang này LUÔN tối (bg-zinc-950, không đổi theo theme — xem thẻ gốc bên
+// dưới), nên `theme-light:` ở đây KHÔNG được chỉ đổi màu chữ sang sắc tối (chữ tối trên
+// nền tối vẫn tối = rớt contrast ở theme sáng, bắt bởi e2e/a11y.spec.ts). Phải đổi CẢ nền
+// sang màu sáng (`theme-light:bg-*-50`) cùng lúc, đúng pattern đã dùng ở Notes.tsx.
 const PRIORITY_COLORS: Record<string, { label: string; cls: string }> = {
   urgent: {
     label: 'Khẩn cấp',
-    cls: 'bg-red-500/15 text-red-400 theme-light:text-red-900 border-red-500/30',
+    cls: 'bg-red-500/15 theme-light:bg-red-50 text-red-400 theme-light:text-red-900 border-red-500/30',
   },
   high: {
     label: 'Cao',
-    cls: 'bg-orange-500/15 text-orange-400 theme-light:text-orange-900 border-orange-500/30',
+    cls: 'bg-orange-500/15 theme-light:bg-orange-50 text-orange-400 theme-light:text-orange-900 border-orange-500/30',
   },
   medium: {
     label: 'Vừa',
-    cls: 'bg-amber-500/15 text-amber-400 theme-light:text-amber-900 border-amber-500/30',
+    cls: 'bg-amber-500/15 theme-light:bg-amber-50 text-amber-400 theme-light:text-amber-900 border-amber-500/30',
   },
   low: {
     label: 'Thấp',
-    cls: 'bg-blue-500/15 text-blue-400 theme-light:text-blue-800 border-blue-500/30',
+    cls: 'bg-blue-500/15 theme-light:bg-blue-50 text-blue-400 theme-light:text-blue-800 border-blue-500/30',
   },
 }
 
@@ -255,7 +259,7 @@ export default function NotesKanban() {
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 theme-light:text-emerald-900" />
                   <h3 className="text-sm font-bold text-white">ĐÃ HOÀN THÀNH</h3>
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-300 theme-light:text-emerald-900">
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 theme-light:bg-emerald-50 text-xs font-bold text-emerald-300 theme-light:text-emerald-900">
                     {doneTasks.length}
                   </span>
                 </div>
