@@ -296,9 +296,10 @@ thẳng "chưa có bằng chứng câu sai" (không sổ ghi tay).
 **Ghi trong lúc khảo sát 02 (2026-09-15, `docs/changelog/0325-*.md`) — LỖI THẬT đang chạy:** trên
 host `hoc-tap.`, nút "Vào Không Gian Học Tiếng Anh"/"Vào Lộ Trình Lập Trình" ở danh mục dùng
 `navigate()` nên KHÔNG đổi origin → người đã đăng nhập thành khách, tiến độ 0, dữ liệu học ghi
-vào origin không ai đọc lại. **Slice 02 đã bịt** (mọi nút "Vào môn …" qua `goToSubjectHome`, `subjectsTarget` biết chiều về app
-host). Dữ liệu đã lỡ ghi ở origin `hoc-tap.` KHÔNG migrate (Q3, chủ dự án uỷ quyền, người dùng còn
-ít) — xem mục nợ tương ứng ở "Nợ kỹ thuật còn mở".
+vào origin không ai đọc lại. **Slice 02 đã bịt**, và **2026-09-20 cơ chế đa host bị GỠ HẲN**
+(`docs/changelog/0383-*.md`): không còn origin thứ hai để sinh lại lỗi này. Dữ liệu đã lỡ ghi ở
+origin `hoc-tap.` KHÔNG migrate (Q3, chủ dự án uỷ quyền, người dùng còn ít) — xem mục nợ tương
+ứng ở "Nợ kỹ thuật còn mở".
 
 **Ghi trong lúc làm 01:** luật chuyển hướng cũ có lỗi VÒNG LẶP thật với bài học STEM khi host
 mode bật (`/mon-hoc/:mon/bai-hoc` → host Góc học tập → đá ngược về một đường dẫn không tồn tại).
@@ -934,7 +935,10 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   query/postMessage, tập người ảnh hưởng nhỏ (chưa có phản ánh). **Cách đo nếu có phản ánh:**
   mở DevTools trên `hoc-tap.` → Application → Local Storage, đếm khoá `et_learned_*`/`dhcb_*`;
   nếu có, hướng dẫn người dùng "Đăng nhập lại ở www" — tiến độ trên server (đã đồng bộ trước đó)
-  không mất. Đóng nợ khi host mode được tắt hẳn hoặc sau 60 ngày không phản ánh.
+  không mất. **[2026-09-20] NGUỒN LỖI ĐÃ CHẶN VĨNH VIỄN:** cơ chế đa host bị xoá khỏi mã
+  (`docs/changelog/0383-*.md`), mọi môn dùng `/goc-hoc-tap/<mã môn>` trên MỘT host — không còn
+  origin thứ hai để ghi nhầm. Nợ vẫn 🟡 vì phần dữ liệu ĐÃ ghi ở origin cũ chưa được dọn/chuyển.
+  Đóng nợ sau 60 ngày không phản ánh, hoặc khi `hoc-tap.` bị gỡ khỏi `server_name` của nginx.
 - **[2026-09-14 — phát hiện khi NHÌN ảnh chụp Tầng 8b, xem `docs/changelog/0309-*.md`] Nhãn chữ
   trong hoạt ảnh khó đọc ở màn hình 390px.** Đo được **29/150 nhãn dài hơn 24 ký tự** ở cỡ chữ
   11–12 trong viewBox rộng 440 — trên điện thoại chúng co lại rất nhỏ. **KHÔNG phải lỗi mới**:

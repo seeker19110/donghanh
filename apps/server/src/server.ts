@@ -17,8 +17,6 @@ dotenv.config()
 import { initSentryServer, captureServerException } from './api/_lib/sentry.js'
 import { registerApiRoutes, applyCommonSecurityHeaders } from './routes.js'
 import { parseHubHostnames, resolveDistDir } from './staticApps.js'
-import { decideRedirect } from './subjectsRouting.js'
-import { listSupportedSubjects } from '@dhcb/core-learner/subjectRegistry'
 import { warnIfClusterWithoutRedis, reportRedisStatusAtStartup } from '@dhcb/core-auth/security'
 
 // Bật Sentry (error tracking) — no-op nếu chưa cấu hình SENTRY_DSN (xem api/_lib/sentry.ts).
@@ -141,37 +139,6 @@ function staticCacheHeaders(res: express.Response, filePath: string) {
     res.setHeader('Content-Type', 'text/html; charset=utf-8')
   }
 }
-
-// ── Góc học tập ở subdomain riêng: chuyển hướng TRƯỚC khi phục vụ static ───────────────────
-// Phải đứng trước static, nếu không `hoc-tap…/tien-do` sẽ được trả index.html (nội dung trùng ở
-// hai host — đúng thứ phương án subdomain sinh ra để tránh). Luật + lý do ở subjectsRouting.ts,
-// có test canh gác đầy đủ. `/api/*` đã xử lý xong phía trên nên không đi qua đây.
-const SUBJECT_IDS = listSupportedSubjects().map((s) => s.id)
-
-app.use((req, res, next) => {
-  // Chỉ trang HTML mới có chuyện "URL cũ": POST/PUT… là lời gọi API, chuyển hướng chúng là làm
-  // mất body (trình duyệt đổi sang GET ở 301/302) — đặc tả yêu cầu chỉ đụng GET/HEAD.
-  if (req.method !== 'GET' && req.method !== 'HEAD') return next()
-  const decision = decideRedirect({
-    hostname: req.hostname,
-    pathname: req.path,
-    // req.originalUrl gồm cả query; cắt lấy phần từ dấu '?' để giữ nguyên tham số khi chuyển.
-    search: req.originalUrl.slice(
-      req.originalUrl.indexOf('?') >= 0 ? req.originalUrl.indexOf('?') : req.originalUrl.length,
-    ),
-    subjectIds: SUBJECT_IDS,
-    // Không đặt SUBJECTS_HOSTNAME = tính năng TẮT, mọi thứ giữ nguyên như trước (xem
-    // subjectsRouting.ts để biết vì sao mặc định là tắt).
-    ...(process.env.SUBJECTS_HOSTNAME ? { subjectsHostname: process.env.SUBJECTS_HOSTNAME } : {}),
-    ...(process.env.CANONICAL_HOSTNAME
-      ? { canonicalHostname: process.env.CANONICAL_HOSTNAME }
-      : {}),
-  })
-  if (!decision) return next()
-  // Mã do subjectsRouting quyết: 301 cho luật đã nghiệm thu, 302 cho phần mới của đợt đổi tên
-  // (301 bị trình duyệt nhớ vĩnh viễn — rollback sẽ không gỡ ra được).
-  res.redirect(decision.status, decision.location)
-})
 
 // Hai handler static dựng SẴN một lần (đừng tạo mới mỗi request — express.static giữ cache
 // nội bộ), rồi chọn theo host.

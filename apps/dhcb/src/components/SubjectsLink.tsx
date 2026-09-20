@@ -1,14 +1,13 @@
-// SubjectsLink.tsx — Liên kết tới trụ Học tập, tự chọn <Link> hay <a> theo host.
+// SubjectsLink.tsx — Liên kết tới Góc học tập (danh mục hoặc một môn).
 //
-// Vì sao cần component riêng thay vì `<Link to={...}>`: trên production, trụ Học tập nằm ở
-// ORIGIN KHÁC (`hoc-tap.donghanhcungban.org`). React Router chỉ điều hướng trong cùng ứng dụng;
-// đưa cho nó một URL tuyệt đối là rơi vào vùng hành vi không được dự án này kiểm chứng. Dùng
-// thẻ `<a>` thật cho trường hợp đó — trình duyệt lo phần còn lại, và đó cũng là điều đúng về
-// mặt ngữ nghĩa: đây là một lượt tải trang mới.
+// Trước 2026-09-20 component này phải tự chọn `<Link>` hay `<a>` vì Góc học tập từng nằm ở
+// ORIGIN KHÁC (`hoc-tap.donghanhcungban.org`). Cơ chế đa host đã bị gỡ (xem lib/subjectsHost.ts):
+// mọi môn ở cùng một host, nên đây luôn là điều hướng trong app. Giữ component để mọi nơi dựng
+// link môn học đi qua ĐÚNG MỘT chỗ tính đường dẫn (CLAUDE.md §7).
 
 import { Link } from 'react-router-dom'
 import type { ReactNode } from 'react'
-import { subjectsLinkTarget } from '../lib/subjectsHost'
+import { subjectsPath } from '../lib/subjectsHost'
 
 export default function SubjectsLink({
   subjectId,
@@ -21,16 +20,8 @@ export default function SubjectsLink({
   className?: string
   ariaCurrent?: 'page' | undefined
 }) {
-  const target = subjectsLinkTarget(subjectId)
-  if (target.kind === 'url') {
-    return (
-      <a href={target.value} aria-current={ariaCurrent} className={className}>
-        {children}
-      </a>
-    )
-  }
   return (
-    <Link to={target.value} aria-current={ariaCurrent} className={className}>
+    <Link to={subjectsPath(subjectId)} aria-current={ariaCurrent} className={className}>
       {children}
     </Link>
   )
