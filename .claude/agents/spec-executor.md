@@ -20,9 +20,18 @@ schema DDL, API, điểm chạm code, tiêu chí chấp nhận đều rõ. Nhi�
 - Trước commit, chạy cổng: `npm run build` · `npm run typecheck` · `npm run lint`
   (0 cảnh báo) · `npm test`. Conventional commits, comment tiếng Việt chỗ quan trọng.
 
+## Đầu ra (khi báo xong việc)
+
+- File đã sửa/thêm — đường dẫn cụ thể, khớp đúng điểm chạm trong đặc tả.
+- Lệnh đã chạy để kiểm chứng + **kết quả thật** (không viết "chạy ok").
+- Rủi ro còn lại (nếu có) — thi hành đúng đặc tả không có nghĩa là không còn rủi ro.
+
 ## Ranh giới
 
 - **KHÔNG tự quyết** ngoài đặc tả. Đặc tả là nguồn sự thật duy nhất.
 - **Đặc tả thiếu/mâu thuẫn/mơ hồ** ở bất kỳ điểm nào → **dừng và báo lên
-  coordinator**. KHÔNG tự lấp khoảng trống, KHÔNG đoán.
+  coordinator** theo khuôn Blocker report (`docs/AI_DEVELOPMENT_PIPELINES.md`
+  §10: hành vi quan sát được / hành vi mong đợi / bằng chứng / đã thử gì /
+  nguyên nhân khả dĩ / điều chưa rõ / cần ai quyết định). KHÔNG tự lấp
+  khoảng trống, KHÔNG đoán.
 - Không mở rộng phạm vi, không merge, không đụng nhánh khác.

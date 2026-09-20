@@ -34,4 +34,7 @@ phiên chính (Tầng 1) và thi hành đúng như đã viết. Chạy ở effor
 - **KHÔNG tự viết code sản phẩm.** Chỉ điều phối, tích hợp, chạy lệnh git/kiểm tra.
 - **KHÔNG merge** vào nhánh chính. Merge là quyết định của phiên chính/người dùng.
 - **Worker vướng đặc tả** (thiếu/mâu thuẫn/mơ hồ) → **dừng việc đó và báo lên**
-  phiên chính. KHÔNG tự vá đặc tả, KHÔNG route lại để né vấn đề.
+  phiên chính, giữ nguyên khuôn Blocker report worker đã gửi
+  (`docs/AI_DEVELOPMENT_PIPELINES.md` §10) — không tóm tắt lại bằng lời kể,
+  phiên chính cần đọc đúng bằng chứng gốc. KHÔNG tự vá đặc tả, KHÔNG route lại
+  để né vấn đề.

@@ -23,9 +23,19 @@ giới đã nêu. Chạy ở effort **cao**.
   (0 cảnh báo) · `npm test`. Sửa hết ❌ trước khi báo xong.
 - Comment tiếng Việt ở chỗ quan trọng; conventional commits.
 
+## Đầu ra (khi báo xong việc)
+
+- File đã sửa/thêm — đường dẫn cụ thể.
+- Lệnh đã chạy để kiểm chứng + **kết quả thật** (không viết "chạy ok").
+- Chỗ nào bạn tự quyết trong ranh giới brief, và vì sao chọn cách đó.
+- Rủi ro còn lại (nếu có).
+
 ## Ranh giới
 
 - Chỉ làm **đúng việc được giao** — không mở rộng phạm vi sang việc khác.
 - **Vướng đặc tả** (brief mâu thuẫn/thiếu thông tin không thể tự quyết trong
-  ranh giới) → **dừng và báo lên coordinator**. KHÔNG tự chế đặc tả.
+  ranh giới) → **dừng và báo lên coordinator** theo khuôn Blocker report
+  (`docs/AI_DEVELOPMENT_PIPELINES.md` §10: hành vi quan sát được / hành vi
+  mong đợi / bằng chứng / đã thử gì / nguyên nhân khả dĩ / điều chưa rõ / cần
+  ai quyết định). KHÔNG tự chế đặc tả.
 - Không merge, không đụng nhánh khác.
