@@ -916,7 +916,13 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 - ✅ **[2026-09-16 → 2026-09-17 — S13-1 → S13-2] Hai nợ giao diện do cổng mới ĐO ĐƯỢC — ĐÃ ĐÓNG** (`docs/changelog/0358-*.md`, PR S13-2):
   1. `aria-prohibited-attr` (serious) trên Trang chủ ở trạng thái ĐANG TẢI: `TodayCard.tsx` nay có `role="status"`; khối `NO_AA` của `e2e/learning-ux-states.spec.ts` đã **xoá hẳn** — cổng chạy ở mức tuyệt đối, 0 vi phạm AA.
   2. Đoạn văn quá dài ở ≥ 768px: **126 → 3** vi phạm trên toàn bộ 10 ô (today 10→1 · outline 8→0 · lesson 12→0 · result 27→0 · progress 8→1 · tutor 2→1, 768/1440). Cách sửa: bó khoảng đọc `.read-measure` (hiệu chuẩn 66ch → 63ch, đo được 83 → 79 ký tự/dòng) lên đúng những đoạn chữ để đọc. Bảng `BASELINE_KY_TU` đã về **rỗng**.
-- 🟡 **[2026-09-17 — S13-2, `docs/changelog/0358-*.md`] Initial JS 135,4 kB đã vượt MỐC CẢNH BÁO 95% của ngân sách (133 kB), trần cứng vẫn 140 kB:** di sản từ #984, **không** do S13-2 (đợt này không thêm một dòng JS nào; đo `main` eaefb183 = 135,43 kB, sau = 135,40 kB). **Gỡ:** tách chunk/nạp lười theo mẫu changelog 0304 cho tới khi < 133 kB; nới `.size-limit.json` là quyết định của chủ dự án (spec S13 §7 Q4), KHÔNG phải của agent.
+- ✅ **[2026-09-17 → XÁC NHẬN ĐÃ ĐÓNG 2026-09-20] Initial JS — mô tả "vượt mốc cảnh báo, trần
+  140kB" ĐÃ LỖI THỜI, không cần tách chunk.** Cùng ngày 2026-09-17 (sau thời điểm ghi nợ này),
+  đặc tả `docs/specs/...thiet-ke-lai-trang-chu.md`/`docs/changelog/0360-*.md` (PR #1000) đã
+  **NỚI TRẦN CÓ CHỦ ĐÍCH 140 → 150 kB** để có chỗ cho các lát P0 của trang chủ mới — quyết định
+  của chủ dự án, đúng luật "nới ngân sách không phải việc của agent". Đo lại 2026-09-20
+  (`npm run budget`, build sạch): **Initial JS 137,54 / 150 kB = 91,7%** — dưới mốc cảnh báo
+  95%, dư 12,46 kB. Không còn là nợ mở; không tách chunk vì không cần thiết ở mức dùng hiện tại.
 - 🟡 **[2026-09-17 — S13-2, `docs/changelog/0358-*.md`] Coverage branch dư 0,83 điểm so với sàn 89, chưa đạt "≥ 1 điểm" mà AC-10 đòi:** đo 3 lượt liên tiếp đều `94,02 / 89,83 / 94,35 / 94,58`; chạy cùng lệnh trên `main` cho ra **đúng cùng số** nên đây là nợ có sẵn, không phải hồi quy của S13-2. **Gỡ:** thêm test ca biên cho nhánh chưa phủ tới khi branch ≥ 90,0. KHÔNG hạ sàn.
 - 🟡 **[2026-09-17 — S13-2] AC-8 (ma trận thị giác 6 màn × 5 trục) CHƯA CHẤM:** spec S13 §7 Q6 cấm agent vừa làm vừa chấm — điểm cuối là của chủ dự án. 18 ảnh bắt buộc chụp sẵn bằng `npm run shots:learning-ux`. **Gỡ:** chủ dự án chấm 30 ô kèm một câu lý do/ô; ô < 4 thành mục việc. Goal `learning-ux` KHÔNG được kết luận COMPLETE trước đó.
 - ✅ **[2026-09-15 → ĐÃ ĐÓNG 2026-09-20, `docs/changelog/0384-*.md`] Hai tài liệu được CLAUDE.md và mã dẫn tới nhưng KHÔNG tồn tại trong repo — KHÔI PHỤC LẠI.** Cả hai từng bị GỘP vào tài
