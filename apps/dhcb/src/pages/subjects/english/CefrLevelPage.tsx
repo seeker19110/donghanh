@@ -46,7 +46,6 @@ import {
 } from 'lucide-react'
 import Layout from '../../../components/Layout'
 import { useIsDesktopViewport } from '../../../lib/useIsDesktopViewport'
-import PageHeader from '../../../components/PageHeader'
 import { GrammarDetail, VocabFlash, DialogueView } from '../../../components/CefrLessonViews'
 import {
   TodayLesson,
@@ -610,13 +609,18 @@ export default function CefrLevelPage() {
   // `master`: cột trái desktop (xem `mucLuc` ở trên) — CHỈ hiện khi có + `isDesktop` true.
   // Gate bằng JS (`useIsDesktopViewport`), không phải class Tailwind: bài học ở đợt thiết kế
   // desktop trước (changelog 0199) là ẩn-bằng-CSS vẫn để nội dung trùng trong DOM.
-  function shell(children: React.ReactNode, headerBack?: () => void, master?: React.ReactNode) {
+  function shell(
+    children: React.ReactNode,
+    headerBack?: () => void,
+    master?: React.ReactNode,
+    headerTitle?: string,
+  ) {
     // [2026-09-02, đợt 3] Bố cục master–detail trước đây viết tay tại chỗ; nay dùng chung
     // `PageShell` + `TwoPane` với `railSide="left"` — cột phụ ở đây là DANH SÁCH ĐỂ CHỌN nên
     // phải đứng trước phần được chọn, khác với cột ngữ cảnh (đứng sau) ở các trang khác.
     return (
       <div className="min-h-dvh bg-zinc-950">
-        <Layout back onBack={headerBack ?? (() => nav(duongDanLoTrinh()))} />
+        <Layout back onBack={headerBack ?? (() => nav(duongDanLoTrinh()))} title={headerTitle} />
         {/* Bề rộng phụ thuộc CÓ cột danh sách hay không: có thì `standard` (1152px = danh sách
             288px + phần chi tiết ~840px); không thì `reading` (768px) để dòng chữ không dài quá
             khổ đọc — màn tổng quan cấp toàn chữ và danh sách mục tiêu, kéo rộng 1152px là mắt
@@ -871,6 +875,10 @@ export default function CefrLevelPage() {
     },
   ]
 
+  // Tiêu đề thanh header: chỉ ở tab "Bài học" — các tab học khác đã có ngữ cảnh riêng
+  // (vd "Từ 3/10") nên không cần tiêu đề to (xem khối `activeTab === 'lessons'` bên dưới).
+  const pageTitle = activeTab === 'lessons' ? (isA ? level.titleVi : level.titleEn) : undefined
+
   return shell(
     <div className="animate-fade-in">
       {/* Về trang lộ trình (tổng quan 4 cấp ở /lo-trinh-hoc) */}
@@ -908,11 +916,7 @@ export default function CefrLevelPage() {
       {/* Tiêu đề: to + phụ đề ở tab "Bài học"; gọn 1 dòng ở 4 tab học (đỡ chiếm chỗ,
           vì các tab đó đã có ngữ cảnh riêng — vd "Từ 3/10" — không cần tiêu đề to). */}
       {activeTab === 'lessons' ? (
-        <PageHeader
-          title={isA ? level.titleVi : level.titleEn}
-          subtitle={level.subtitleVi}
-          className="mb-4"
-        />
+        <h1 className="sr-only">{isA ? level.titleVi : level.titleEn}</h1>
       ) : (
         <p className="text-sm font-semibold text-zinc-300 mb-4">
           {isA ? level.titleVi : level.titleEn}
@@ -1290,6 +1294,9 @@ export default function CefrLevelPage() {
         </>
       )}
     </div>,
+    undefined,
+    undefined,
+    pageTitle,
   )
 }
 

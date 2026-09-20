@@ -19,7 +19,6 @@ import {
   Share2,
 } from 'lucide-react'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
 import { useToast } from '@core/ToastProvider'
 import { listVentures } from '../../../lib/startupApi'
@@ -124,14 +123,11 @@ export default function StartupCanvas() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout onBack={() => nav(duongDanKhoiNghiep())} />
+      <Layout onBack={() => nav(duongDanKhoiNghiep())} title="Khung Lean Canvas 9 Ô Chuẩn Hóa" />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Lưới 9 ô Lean Canvas cần chỗ → width="wide". */}
       <PageShell width="wide" baseWidth="max-w-7xl" className="space-y-6">
-        <PageHeader
-          title="Khung Lean Canvas 9 Ô Chuẩn Hóa"
-          subtitle="Thiết kế, kiểm chứng và hoàn thiện mô hình kinh doanh khởi nghiệp trên 1 trang duy nhất"
-        />
+        <h1 className="sr-only">Khung Lean Canvas 9 Ô Chuẩn Hóa</h1>
 
         {/* Thanh công cụ chọn dự án & lưu */}
         <section className="bg-zinc-900/80 border border-zinc-800 rounded-2xl p-4 flex items-center justify-between gap-4 flex-wrap">

@@ -14,7 +14,6 @@ import { TwoPane } from '@core/TwoPane'
 import { TocRail } from '@core/TocRail'
 import { useActiveSection } from '@core/useActiveSection'
 import { useIsDesktopViewport } from '../../../lib/useIsDesktopViewport'
-import PageHeader from '../../../components/PageHeader'
 import { CardListSkeleton } from '../../../components/Skeleton'
 import KaraokeText, { KARAOKE_INDENT } from '../../../components/KaraokeText'
 import { useAuth } from '../../../context/useAuth'
@@ -54,10 +53,10 @@ export default function Listening() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout backTo={duongDanMonTiengAnh()} back />
+      <Layout backTo={duongDanMonTiengAnh()} back title={T.listeningPageTitle} />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Thư viện nghe (2 tab, danh sách) → width standard. */}
       <PageShell width="standard" baseWidth="max-w-3xl">
-        <PageHeader title={T.listeningPageTitle} subtitle={T.listeningPageSub} />
+        <h1 className="sr-only">{T.listeningPageTitle}</h1>
 
         {/* Thanh 2 tab */}
         <div

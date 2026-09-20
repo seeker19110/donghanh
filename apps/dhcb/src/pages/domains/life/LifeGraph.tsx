@@ -26,7 +26,6 @@ import {
   X,
 } from 'lucide-react'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
 import CrossDomainSynergyCard from '../../../components/LifeGraph/CrossDomainSynergyCard'
 import OutcomeCalibrationCard from '../../../components/DecisionLedger/OutcomeCalibrationCard'
@@ -358,11 +357,7 @@ export default function LifeGraph() {
       >
         {/* Top Header & Privacy Toolbar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800 pb-4">
-          <PageHeader
-            title="Mạng Lưới Tri Thức & Ký Ức"
-            subtitle="Toàn quyền kiểm soát Life Graph, Facts, Ký ức và Quyền tự động hóa."
-            className="mb-0"
-          />
+          <h1 className="sr-only">Mạng Lưới Tri Thức & Ký Ức</h1>
 
           <div className="flex items-center gap-2 shrink-0">
             <button

@@ -18,9 +18,6 @@ const mocks = vi.hoisted(() => ({
 }))
 
 vi.mock('../../components/Layout', () => ({ default: () => null }))
-vi.mock('../../components/PageHeader', () => ({
-  default: ({ title }: { title: string }) => <h1>{title}</h1>,
-}))
 vi.mock('../../components/QuickActions', () => ({
   default: function QuickActionsMock() {
     const [open, setOpen] = useState(false)
@@ -409,14 +406,13 @@ describe('Dashboard — async truth, retry và focus', () => {
     }
   })
 
-  it('calendar đóng mọi viewport, giữ expanded/selection/node qua 1023→1024→1280→390', async () => {
+  it('calendar mở mặc định mọi viewport, giữ expanded/selection/node qua 1023→1024→1280→390', async () => {
     await renderDashboard()
     const toggle = container.querySelector<HTMLButtonElement>('#dashboard-calendar-toggle')!
     const panel = container.querySelector<HTMLDivElement>('#dashboard-calendar-panel')!
-    expect(toggle.getAttribute('aria-expanded')).toBe('false')
-    expect(panel.hidden).toBe(true)
+    expect(toggle.getAttribute('aria-expanded')).toBe('true')
+    expect(panel.hidden).toBe(false)
 
-    act(() => toggle.click())
     const calendarNode = container.querySelector<HTMLElement>('[data-testid="activity-calendar"]')!
     act(() => calendarNode.querySelector<HTMLButtonElement>('button')!.click())
     const selected = calendarNode.dataset.selectedDate
@@ -444,7 +440,7 @@ describe('Dashboard — async truth, retry và focus', () => {
   it('đưa focus về toggle trước khi ẩn calendar, nhưng không steal focus ở ngoài', async () => {
     await renderDashboard()
     const toggle = container.querySelector<HTMLButtonElement>('#dashboard-calendar-toggle')!
-    act(() => toggle.click())
+    // Mặc định đã MỞ SẴN (xem test "mở mặc định" ở trên) — không cần click để mở nữa.
     const inside = container.querySelector<HTMLButtonElement>(
       '[data-testid="activity-calendar"] button',
     )!

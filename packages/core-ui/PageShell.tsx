@@ -22,8 +22,16 @@ import type { ReactNode } from 'react'
  *   dòng khi xuống hàng. Đây là lý do trang bài học KHÔNG nên giãn hết màn hình.
  * - `standard` — mặc định: bảng điều khiển, danh sách, biểu mẫu. Khớp đúng bề rộng header.
  * - `wide`     — lưới nhiều cột, bảng dữ liệu, bảng giá — thứ thật sự cần chỗ.
+ * - `fluid`    — như `wide` nhưng trần cao hơn (1600px thay vì 1280px), dùng cho trang mà cột
+ *   chính bên trong ĐÃ tự co giãn bằng flex/grid (`flex-1`, `minmax(0,1fr)…`) — ví dụ Trang chủ,
+ *   Tiến độ. Bản thân trần 1600px KHÔNG phản ứng trực tiếp với sidebar mở/thu gọn, nhưng vì nó
+ *   cao hơn nhiều so với bề rộng khả dụng thực tế ở màn hình phổ biến (≤ 1440px), nội dung gần
+ *   như luôn được giới hạn bởi khoảng trống thật còn lại (viewport trừ sidebar) chứ không phải
+ *   bởi trần cố định — tức co giãn theo sidebar một cách gián tiếp. Không dùng cho trang có
+ *   đoạn văn dài (SubjectProgressSection, English details…) vẫn tự giữ `max-w`/`read-measure`
+ *   riêng nên không bị kéo dài dòng chữ.
  */
-export type PageWidth = 'reading' | 'standard' | 'wide'
+export type PageWidth = 'reading' | 'standard' | 'wide' | 'fluid'
 
 /**
  * `id` của vùng nội dung chính — đích của liên kết "Bỏ qua tới nội dung chính".
@@ -42,6 +50,8 @@ const WIDTH_CLASS: Record<PageWidth, string> = {
   // CÓ cột phải vẫn giữ được cột chữ trong khoảng đọc dễ chịu.
   standard: 'lg:max-w-6xl',
   wide: 'lg:max-w-7xl',
+  // 1600px — xem giải thích ở PageWidth phía trên.
+  fluid: 'lg:max-w-[100rem]',
 }
 
 export interface PageShellProps {

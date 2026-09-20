@@ -25,7 +25,6 @@ import {
   Trophy,
 } from 'lucide-react'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import { useAuth } from '../../../context/useAuth'
 import {
   fetchProgress,
@@ -44,13 +43,6 @@ import {
   type SpecBrief,
   type SpecModuleDetail,
 } from '@dhcb/subject-programming/specializations/stageDetails'
-
-const TIER_LABEL: Record<string, string> = {
-  s1: 'Chặng 1 — căn bản',
-  s2: 'Chặng 2 — vững tay',
-  s3: 'Chặng 3 — nâng cao',
-  s4: 'Chặng 4 — chuyên gia',
-}
 
 /** Ô đánh dấu xong một mục tiến độ. Đã xong thì KHÔNG bỏ được — cùng bất biến với server. */
 function DoneToggle({ done, label, onDone }: { done: boolean; label: string; onDone: () => void }) {
@@ -269,13 +261,10 @@ export default function ProgrammingSpecStagePage() {
   if (!spec || !stage) {
     return (
       <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-        <Layout onBack={() => nav(`${PROGRAMMING_PREFIX}/huong`)} />
+        <Layout title="Không có chặng này" onBack={() => nav(`${PROGRAMMING_PREFIX}/huong`)} />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] */}
         <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-4">
-          <PageHeader
-            title="Không có chặng này"
-            subtitle="Đường dẫn không khớp chặng nào của hướng nào. Quay lại danh sách để chọn hướng có thật."
-          />
+          <h1 className="sr-only">Không có chặng này</h1>
           <button
             onClick={() => nav(`${PROGRAMMING_PREFIX}/huong`)}
             className="tap-44 w-full py-3.5 rounded-2xl bg-accent-500 hover:bg-accent-400 text-black font-semibold text-sm transition"
@@ -305,13 +294,14 @@ export default function ProgrammingSpecStagePage() {
       {/* Breadcrumb: thêm đốt cha ĐỘNG là chính hướng chuyên sâu này (cây route tĩnh
           chỉ biết tới tầng "Hướng chuyên sâu"). */}
       <Layout
+        title={stage.name}
         onBack={() => nav(duongDanHuong(spec))}
         crumbs={[{ label: spec.name, to: duongDanHuong(spec) }]}
       />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
-        <PageHeader title={stage.name} subtitle={`${spec.name} · ${TIER_LABEL[stage.tier]}`} />
+        <h1 className="sr-only">{stage.name}</h1>
 
         <section className="rounded-3xl border border-accent-500/40 bg-zinc-900 p-5 space-y-3">
           <h2 className="text-base font-bold text-white flex items-center gap-2">

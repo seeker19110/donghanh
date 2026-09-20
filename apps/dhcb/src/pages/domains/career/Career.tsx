@@ -19,7 +19,6 @@ import Modal from '../../../components/Modal'
 import Field from '../../../components/Field'
 import LoadError from '../../../components/LoadError'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
 import { useToast } from '@core/ToastProvider'
 import {
@@ -295,11 +294,7 @@ export default function Career({ embedded = false }: { embedded?: boolean } = {}
             </p>
           </div>
         ) : (
-          <PageHeader
-            title="Không Gian Sự Nghiệp (Career Hub)"
-            subtitle="Định vị lộ trình nghề nghiệp, kinh nghiệm và phân tích khoảng cách kỹ năng với AI"
-            className="mb-0"
-          />
+          <h1 className="sr-only">Không Gian Sự Nghiệp (Career Hub)</h1>
         )}
         <div className="flex items-center gap-2 shrink-0">
           <button
@@ -967,7 +962,7 @@ export default function Career({ embedded = false }: { embedded?: boolean } = {}
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100 flex flex-col">
-      <Layout onBack={() => nav('/')} title="Không Gian Sự Nghiệp" />
+      <Layout onBack={() => nav('/')} title="Không Gian Sự Nghiệp (Career Hub)" />
       {body}
     </div>
   )

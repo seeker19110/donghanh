@@ -20,7 +20,6 @@ import Field from '../../../components/Field'
 import { vnDateStr } from '../../../lib/date'
 import LoadError from '../../../components/LoadError'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
 import { useToast } from '@core/ToastProvider'
 import {
@@ -264,11 +263,7 @@ export default function Life({ embedded = false }: { embedded?: boolean } = {}) 
             </p>
           </div>
         ) : (
-          <PageHeader
-            title="Nền Tảng Cuộc Sống (Life Foundation)"
-            subtitle="Xây dựng thói quen bền vững, theo dõi tâm trạng, kế hoạch cuộc sống và cột mốc phát triển"
-            className="mb-0"
-          />
+          <h1 className="sr-only">Nền Tảng Cuộc Sống (Life Foundation)</h1>
         )}
         <div className="flex items-center gap-2 shrink-0">
           <button
@@ -993,7 +988,7 @@ export default function Life({ embedded = false }: { embedded?: boolean } = {}) 
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100 flex flex-col">
-      <Layout onBack={() => nav('/')} title="Nền Tảng Cuộc Sống" />
+      <Layout onBack={() => nav('/')} title="Nền Tảng Cuộc Sống (Life Foundation)" />
       {body}
     </div>
   )

@@ -21,7 +21,6 @@ import { usePageTitle } from '../../../lib/usePageTitle'
 import { GraduationCap, ArrowLeft, Sparkles, RotateCcw } from 'lucide-react'
 import Layout from '../../../components/Layout'
 import { PageShell } from '@core/PageShell'
-import PageHeader from '../../../components/PageHeader'
 import ExamQuestionCard from '../../../components/ExamQuestionCard'
 import { useAuth } from '../../../context/useAuth'
 import { getDirection } from '../../../lib/storage'
@@ -194,21 +193,19 @@ export default function Placement() {
   if (phase === 'intro') {
     return (
       <div className="min-h-dvh bg-zinc-950">
-        {!fromOnboarding && <Layout backTo={duongDanMonTiengAnh()} />}
+        {!fromOnboarding && (
+          <Layout
+            backTo={duongDanMonTiengAnh()}
+            title={isA ? '🎯 Test xếp lớp' : '🎯 Placement test'}
+          />
+        )}
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] Luồng tuần tự hẹp → width reading. */}
         <PageShell
           width="reading"
           baseWidth="max-w-lg"
           className={`!pb-[calc(1.5rem+var(--bnav-h))] space-y-5 ${fromOnboarding ? '!pt-10' : ''}`}
         >
-          <PageHeader
-            title={isA ? '🎯 Test xếp lớp' : '🎯 Placement test'}
-            subtitle={
-              isA
-                ? 'Trả lời ~5–7 phút để AI đề xuất cấp CEFR phù hợp nhất cho bạn.'
-                : 'Answer for ~5–7 minutes so the AI can suggest the CEFR level that fits you.'
-            }
-          />
+          <h1 className="sr-only">{isA ? '🎯 Test xếp lớp' : '🎯 Placement test'}</h1>
 
           {saved && !canRetake ? (
             <div className="glass rounded-2xl p-6 text-center space-y-3 animate-fade-in">

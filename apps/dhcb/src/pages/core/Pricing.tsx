@@ -7,7 +7,6 @@
 // `lg:grid-cols-4`; Hồ sơ giữ bản rút gọn có nút dẫn sang đây.
 
 import Layout from '../../components/Layout'
-import PageHeader from '../../components/PageHeader'
 import UpgradeSection from '../../components/UpgradeSection'
 import PricePromoBanner from '../../components/PricePromoBanner'
 import { usePageTitle } from '../../lib/usePageTitle'
@@ -23,17 +22,10 @@ export default function Pricing() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout />
+      <Layout title={isA ? 'Nâng cấp gói' : 'Upgrade your plan'} />
 
       <main className="max-w-3xl lg:max-w-6xl mx-auto px-4 pt-6 pb-[calc(1.5rem+var(--bnav-h))] space-y-6">
-        <PageHeader
-          title={isA ? 'Nâng cấp gói' : 'Upgrade your plan'}
-          subtitle={
-            isA
-              ? 'So sánh Free · VIP rồi chọn chu kỳ 10 ngày, tháng hoặc năm.'
-              : 'Compare Free · VIP, then pick a 10-day, monthly or yearly cycle.'
-          }
-        />
+        <h1 className="sr-only">{isA ? 'Nâng cấp gói' : 'Upgrade your plan'}</h1>
 
         <PricePromoBanner isA={isA} />
 

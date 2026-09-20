@@ -24,7 +24,6 @@ import {
   BookOpen,
 } from 'lucide-react'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import { useAuth } from '../../../context/useAuth'
 import {
   fetchSpecProgress,
@@ -91,13 +90,10 @@ export default function ProgrammingPathPage() {
   if (!path) {
     return (
       <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-        <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
+        <Layout onBack={() => nav(PROGRAMMING_PREFIX)} title="Không có lộ trình này" />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] */}
         <PageShell width="standard" baseWidth="max-w-4xl">
-          <PageHeader
-            title="Không có lộ trình này"
-            subtitle="Đường dẫn không đúng hoặc lộ trình chưa tồn tại. Quay lại trang môn để xem các lộ trình đang mở."
-          />
+          <h1 className="sr-only">Không có lộ trình này</h1>
         </PageShell>
       </div>
     )
@@ -118,11 +114,11 @@ export default function ProgrammingPathPage() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
+      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} title={`Lộ trình: ${path.title}`} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
-        <PageHeader title={`Lộ trình: ${path.title}`} subtitle={path.tagline} />
+        <h1 className="sr-only">{`Lộ trình: ${path.title}`}</h1>
 
         {/* Thông tin đầu vào + tiến độ tổng — đọc từ tiến độ hướng sẵn có */}
         <section className="rounded-3xl border border-accent-500/40 bg-zinc-900 p-5 space-y-3">

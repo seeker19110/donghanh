@@ -14,7 +14,6 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Briefcase, HeartHandshake } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import Work from '../work/Work'
 import Life from '../life/Life'
 
@@ -59,10 +58,7 @@ export default function WorkLife() {
       <Layout onBack={() => nav('/')} title="Công Việc & Đời Sống" />
 
       <div className="max-w-6xl w-full mx-auto px-4 pt-6">
-        <PageHeader
-          title="Công Việc & Đời Sống"
-          subtitle="Một guồng, không phải hai: thời gian dồn cho việc thì lấy đi của sức khoẻ, quan hệ và thói quen — nên hai nửa này nằm chung một chỗ để bạn thấy cả hai cùng lúc."
-        />
+        <h1 className="sr-only">Công Việc & Đời Sống</h1>
 
         <div
           role="tablist"

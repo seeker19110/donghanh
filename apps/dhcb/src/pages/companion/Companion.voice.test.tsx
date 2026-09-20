@@ -20,7 +20,6 @@ import Companion from './Companion'
 
 // ── Vỏ trang: không phải phần đang test, cắt cho nhẹ ────────────────────────────────────────
 vi.mock('../../components/Layout', () => ({ default: () => null }))
-vi.mock('../../components/PageHeader', () => ({ default: () => null }))
 vi.mock('../../components/MeshTelemetry/RealtimeTelemetryBar', () => ({ default: () => null }))
 vi.mock('@core/PageShell', () => ({
   PageShell: ({ children }: { children?: React.ReactNode }) => <div>{children}</div>,

@@ -19,7 +19,6 @@ import Modal from '../../../components/Modal'
 import Field from '../../../components/Field'
 import LoadError from '../../../components/LoadError'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
 import { useToast } from '@core/ToastProvider'
 import {
@@ -281,11 +280,7 @@ export default function Startup({ embedded = false }: { embedded?: boolean } = {
             </p>
           </div>
         ) : (
-          <PageHeader
-            title="Không Gian Khởi Nghiệp (Startup Hub)"
-            subtitle="Khung Lean Canvas, quản lý bài toán thị trường, kiểm chứng giả thuyết và nhật ký bằng chứng"
-            className="mb-0"
-          />
+          <h1 className="sr-only">Không Gian Khởi Nghiệp (Startup Hub)</h1>
         )}
         <div className="flex items-center gap-2 shrink-0">
           <button
@@ -974,7 +969,7 @@ export default function Startup({ embedded = false }: { embedded?: boolean } = {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100 flex flex-col">
-      <Layout onBack={() => nav('/')} title="Không Gian Khởi Nghiệp" />
+      <Layout onBack={() => nav('/')} title="Không Gian Khởi Nghiệp (Startup Hub)" />
       {body}
     </div>
   )

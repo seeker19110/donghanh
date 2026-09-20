@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import { UserPlus, CheckCircle2 } from 'lucide-react'
 import Layout from '../../components/Layout'
-import PageHeader from '../../components/PageHeader'
 import { useToast } from '@core/ToastProvider'
 import { lookupFriendByCode, addFriendByCode, type FriendUserSummary } from '../../lib/friends'
 
@@ -47,9 +46,9 @@ export default function AddFriend() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout />
+      <Layout title="Kết bạn" />
       <main className="max-w-md mx-auto px-4 pb-24 pt-4 text-center">
-        <PageHeader title="Kết bạn" />
+        <h1 className="sr-only">Kết bạn</h1>
 
         {target === undefined && <p className="text-sm text-zinc-400">Đang kiểm tra mã…</p>}
 

@@ -15,7 +15,6 @@ import {
   PenLine,
 } from 'lucide-react'
 import Layout from '../../components/Layout'
-import PageHeader from '../../components/PageHeader'
 import KaraokeText from '../../components/KaraokeText'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { useAuth } from '../../context/useAuth'
@@ -430,17 +429,10 @@ export default function MistakeBank() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout backTo={duongDanMonTiengAnh()} />
+      <Layout backTo={duongDanMonTiengAnh()} title={isA ? 'Sổ lỗi của tôi' : 'My Mistake Bank'} />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang danh sách → width="standard". */}
       <PageShell width="standard" baseWidth="max-w-2xl" className="space-y-5">
-        <PageHeader
-          title={isA ? 'Sổ lỗi của tôi' : 'My Mistake Bank'}
-          subtitle={
-            isA
-              ? 'Ôn lại chính những lỗi AI đã sửa cho bạn — nhớ lâu hơn'
-              : 'Review the very mistakes the AI corrected for you'
-          }
-        />
+        <h1 className="sr-only">{isA ? 'Sổ lỗi của tôi' : 'My Mistake Bank'}</h1>
 
         {/* Bộ lọc môn — mỗi môn một NGUỒN bằng chứng khác nhau nên không gộp một danh sách. */}
         <div

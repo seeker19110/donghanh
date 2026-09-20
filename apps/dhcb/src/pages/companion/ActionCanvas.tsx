@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { usePageTitle } from '../../lib/usePageTitle'
 import Layout from '../../components/Layout'
-import PageHeader from '../../components/PageHeader'
 import { useToast } from '@core/ToastProvider'
 import { ActionCanvasState, CanvasNode, CanvasViewport } from '@dhcb/core-contracts/actionCanvas'
 import {
@@ -196,14 +195,11 @@ export default function ActionCanvas() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100 flex flex-col">
-      <Layout back={true} title="Action Canvas" />
+      <Layout back={true} title="Không Gian Làm Việc Trực Quan (Action Canvas)" />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] width="standard"; giữ bố cục flex cột full-height. */}
       <PageShell width="standard" baseWidth="max-w-6xl" className="!pt-4 flex flex-1 flex-col">
-        <PageHeader
-          title="Không Gian Làm Việc Trực Quan (Action Canvas)"
-          subtitle="Đồng sáng tạo và liên kết 5 miền tri thức cùng Bạn Đồng Hành AI."
-        />
+        <h1 className="sr-only">Không Gian Làm Việc Trực Quan (Action Canvas)</h1>
 
         <div className="flex flex-wrap items-center justify-between gap-2 mb-3 bg-zinc-900/80 p-2.5 rounded-2xl border border-zinc-800/80 backdrop-blur-md">
           <div className="flex items-center gap-1.5">

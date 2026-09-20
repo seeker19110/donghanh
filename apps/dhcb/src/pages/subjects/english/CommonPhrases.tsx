@@ -4,7 +4,6 @@ import { Search, X, ChevronRight, Loader2, Play } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import Layout from '../../../components/Layout'
 import { PageShell } from '@core/PageShell'
-import PageHeader from '../../../components/PageHeader'
 import { useLang } from '../../../context/useLang'
 import { useAuth } from '../../../context/useAuth'
 import KaraokeText from '../../../components/KaraokeText'
@@ -326,7 +325,7 @@ export default function CommonPhrases() {
 
   return (
     <div className="bg-zinc-950 flex flex-col h-[calc(100dvh-var(--bnav-h))] sm:h-auto sm:block sm:min-h-dvh">
-      <Layout backTo={duongDanMonTiengAnh()} back />
+      <Layout backTo={duongDanMonTiengAnh()} back title={T.phrasesPageTitle} />
 
       {/* <div> chứ không phải <main>: landmark <main> do PageShell render bên trong. */}
       <div className="flex-1 overflow-y-auto sm:overflow-visible sm:flex-none">
@@ -336,8 +335,7 @@ export default function CommonPhrases() {
           baseWidth="max-w-3xl"
           className="!pt-4 !pb-2 sm:!pt-6 sm:!pb-[calc(1.5rem+var(--bnav-h))] space-y-4"
         >
-          {/* Tiêu đề trang — đặt ngay dưới AppHeader, cỡ chữ lớn */}
-          <PageHeader title={T.phrasesPageTitle} subtitle={T.phrasesPageSub} />
+          <h1 className="sr-only">{T.phrasesPageTitle}</h1>
 
           {/* Gợi ý "Tiếp tục" — chủ đề đầu tiên chưa xem, ẩn khi đang tìm kiếm */}
           {nextUnviewed && !search.trim() && (

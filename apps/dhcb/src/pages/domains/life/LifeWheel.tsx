@@ -5,7 +5,6 @@ import { Activity, Save } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import { duongDanDoiSong } from '../../../lib/domainRoutes'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
 import { useToast } from '@core/ToastProvider'
 import { getLifeWheel, saveLifeWheel } from '../../../lib/lifeApi'
@@ -150,14 +149,11 @@ export default function LifeWheel() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout onBack={() => nav(duongDanDoiSong())} />
+      <Layout onBack={() => nav(duongDanDoiSong())} title="Bánh Xe Cuộc Đời (Wheel of Life)" />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] width="standard". */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
-        <PageHeader
-          title="Bánh Xe Cuộc Đời (Wheel of Life)"
-          subtitle="Tự đánh giá 8 khía cạnh cốt lõi để nhận diện điểm cân bằng và định hình kế hoạch phát triển"
-        />
+        <h1 className="sr-only">Bánh Xe Cuộc Đời (Wheel of Life)</h1>
 
         {/* Khối biểu đồ Radar & Điểm trung bình */}
         <section className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-6 shadow-2xl flex flex-col md:flex-row items-center justify-around gap-6">

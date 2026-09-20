@@ -12,7 +12,6 @@ import {
   Clock,
 } from 'lucide-react'
 import Layout from '../../components/Layout'
-import PageHeader from '../../components/PageHeader'
 import { usePageTitle } from '../../lib/usePageTitle'
 import {
   getChatSessions,
@@ -344,10 +343,11 @@ export default function History() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout />
+      <Layout title="Lịch sử học" />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang danh sách → width="standard". */}
       <PageShell width="standard" baseWidth="max-w-3xl">
+        <h1 className="sr-only">Lịch sử học</h1>
         {/* Tiêu đề trang — ngay dưới AppHeader, cỡ chữ lớn */}
         {/* [Slice 03] Lịch sử ở đây là của MÔN TIẾNG ANH (Chat / Viết / Nói) — nói rõ ngữ cảnh. */}
         <p className="text-sm text-zinc-300 mb-3">
@@ -359,7 +359,6 @@ export default function History() {
             về trang môn
           </Link>
         </p>
-        <PageHeader title="Lịch sử học" subtitle="Xem lại chat, bài viết và buổi luyện nói" />
 
         {/* Tabs */}
         <div className="flex gap-2 mb-5 overflow-x-auto pb-1">

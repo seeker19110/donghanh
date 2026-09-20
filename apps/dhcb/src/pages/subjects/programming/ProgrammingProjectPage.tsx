@@ -25,7 +25,6 @@ import {
 } from 'lucide-react'
 import Layout from '../../../components/Layout'
 import { PROGRAMMING_PREFIX } from '../../../lib/programmingRoutes'
-import PageHeader from '../../../components/PageHeader'
 import CodeEditor from '../../../components/CodeEditor'
 import { useAuth } from '../../../context/useAuth'
 import { runLessonCode, resetLessonRunners } from '../../../lib/codeRunner'
@@ -215,14 +214,11 @@ export default function ProgrammingProjectPage() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} />
+      <Layout onBack={() => nav(PROGRAMMING_PREFIX)} title="Dự án: Cửa hàng của tôi" />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trước đây một cột `max-w-4xl` ở mọi bề rộng. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-5">
-        <PageHeader
-          title="Dự án: Cửa hàng của tôi"
-          subtitle="Một sản phẩm duy nhất lớn dần qua từng chặng: máy tính tiền chạy chữ (P1) → sổ sách tử tế có file dữ liệu (P2) → cửa hàng lên web, có trang đặt hàng và kho dữ liệu SQL (P3). Đạt hết test của bước là mở bước sau."
-        />
+        <h1 className="sr-only">Dự án: Cửa hàng của tôi</h1>
 
         {/* Thanh chọn chặng */}
         <nav aria-label="Các chặng dự án" className="flex gap-2 flex-wrap">

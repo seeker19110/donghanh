@@ -5,7 +5,6 @@
 import { useState } from 'react'
 import { usePageTitle } from '../../lib/usePageTitle'
 import Layout from '../../components/Layout'
-import PageHeader from '../../components/PageHeader'
 import ComingSoonBanner from '../../components/ComingSoonBanner'
 import AvatarSpeaking from '../../components/AvatarSpeaking'
 import { ensureAudioWithTimeline, bufferToBlobUrl, DEFAULT_VOICE } from '../../lib/tts'
@@ -106,10 +105,7 @@ export default function AvatarDemo() {
     <>
       <Layout title="PoC — Avatar AI nói chuyện" />
       <main className="max-w-lg mx-auto px-4 pt-6 pb-[calc(2rem+var(--bnav-h))]">
-        <PageHeader
-          title="PoC — Avatar AI nói chuyện"
-          subtitle="Demo nội bộ: khẩu hình theo audio TTS — dùng mốc thời gian thật nếu giọng hỗ trợ, không thì ước lượng"
-        />
+        <h1 className="sr-only">PoC — Avatar AI nói chuyện</h1>
         <ComingSoonBanner
           isA
           note="Avatar AI nói chuyện đang ở giai đoạn thử nghiệm (PoC): mới chứng minh cơ chế khẩu hình chạy đúng, chưa nối vào luồng Luyện nói thật. Bản hoàn chỉnh sẽ ra mắt sau."

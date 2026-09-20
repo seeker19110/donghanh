@@ -22,7 +22,6 @@ import {
   Info,
 } from 'lucide-react'
 import Layout from '../../../components/Layout'
-import PageHeader from '../../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
 import { useToast } from '@core/ToastProvider'
 import {
@@ -120,18 +119,11 @@ export default function CareerInterview() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout onBack={() => nav(duongDanSuNghiep())} />
+      <Layout onBack={() => nav(duongDanSuNghiep())} title="Phòng Luyện Phỏng Vấn AI" />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] width="standard". */}
       <PageShell width="standard" baseWidth="max-w-3xl" className="space-y-6">
-        <PageHeader
-          title="Phòng Luyện Phỏng Vấn AI"
-          subtitle={
-            session
-              ? `Luyện phỏng vấn cho vị trí: ${session.targetRole}`
-              : 'Câu hỏi được soạn riêng theo hồ sơ nghề nghiệp của bạn'
-          }
-        />
+        <h1 className="sr-only">Phòng Luyện Phỏng Vấn AI</h1>
 
         {degraded && (
           <div

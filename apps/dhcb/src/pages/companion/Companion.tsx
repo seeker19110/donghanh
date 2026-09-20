@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { Layers, X } from 'lucide-react'
 import { usePageTitle } from '../../lib/usePageTitle'
 import Layout from '../../components/Layout'
-import PageHeader from '../../components/PageHeader'
 import RealtimeTelemetryBar from '../../components/MeshTelemetry/RealtimeTelemetryBar'
 import StudioLoadingSkeleton from '../../components/CompanionStudios/StudioLoadingSkeleton'
 import { lazyWithRetry } from '../../lib/lazyWithRetry'
@@ -463,7 +462,7 @@ export default function Companion() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100 flex flex-col">
-      <Layout back={true} title="Bạn Đồng Hành" />
+      <Layout back={true} title="Bạn Đồng Hành Đa Lĩnh Vực" />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang danh sách/khu trò chuyện → width="standard";
           giữ nguyên bố cục flex cột full-height qua className.
@@ -471,11 +470,7 @@ export default function Companion() {
           đệm dưới lớn hơn của PageShell (`pb-[calc(2rem+var(--bnav-h))]`) đẩy nội dung chồng lên
           hàng nút Studio — đo được là 3 vi phạm `target-size` ở cổng a11y (nút bị che một phần). */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="!py-4 flex flex-1 flex-col">
-        <PageHeader
-          title="Bạn Đồng Hành Đa Lĩnh Vực"
-          subtitle="Người đồng hành trí tuệ kết nối sâu Học tập, Sự nghiệp, Công việc, Khởi nghiệp & Đời sống."
-          subtitleClassName="read-measure"
-        />
+        <h1 className="sr-only">Bạn Đồng Hành Đa Lĩnh Vực</h1>
 
         <RealtimeTelemetryBar />
 

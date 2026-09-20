@@ -17,7 +17,6 @@ import { Link } from 'react-router-dom'
 import { useSearchParams } from 'react-router-dom'
 import { Brain, ArrowRight, Sparkles } from 'lucide-react'
 import Layout from '../../components/Layout'
-import PageHeader from '../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { duongDanSoTayLoiSai } from '../../lib/englishRoutes'
@@ -181,12 +180,9 @@ export default function ReviewHub() {
 
   return (
     <>
-      <Layout />
+      <Layout title="Ôn tập hôm nay" />
       <PageShell width="standard" baseWidth="max-w-2xl" className="space-y-5">
-        <PageHeader
-          title="Ôn tập hôm nay"
-          subtitle="Mọi thứ đến hạn ôn trên tất cả các môn, gộp vào một chỗ. Bấm vào một môn để ôn ngay trong màn quen thuộc của môn đó."
-        />
+        <h1 className="sr-only">Ôn tập hôm nay</h1>
 
         {queue?.sourcesState['learning.evidence'] === 'error' && (
           <p className="text-sm text-content-secondary" role="status">

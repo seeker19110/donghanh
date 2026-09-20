@@ -9,7 +9,6 @@ import { Play, Loader2 } from 'lucide-react'
 import Layout from '../../../components/Layout'
 import { PageShell } from '@core/PageShell'
 import { TwoPane } from '@core/TwoPane'
-import PageHeader from '../../../components/PageHeader'
 import { useIsDesktopViewport } from '../../../lib/useIsDesktopViewport'
 import { getDirection } from '../../../lib/storage'
 import { useAuth } from '../../../context/useAuth'
@@ -211,7 +210,11 @@ export default function Lessons() {
   // Desktop (sm+): layout thường, search ở trên
   return (
     <div className="bg-zinc-950 flex flex-col h-[calc(100dvh-var(--bnav-h))] sm:h-auto sm:block sm:min-h-dvh">
-      <Layout backTo={duongDanMonTiengAnh()} back />
+      <Layout
+        backTo={duongDanMonTiengAnh()}
+        back
+        title={isA ? 'Các bài hội thoại mẫu thông dụng' : 'Common sample dialogues'}
+      />
 
       {/* <div> chứ không phải <main>: landmark <main> do PageShell render bên trong. */}
       <div className="flex-1 overflow-y-auto sm:overflow-visible sm:flex-none">
@@ -221,19 +224,9 @@ export default function Lessons() {
           baseWidth="max-w-3xl"
           className="!pt-4 !pb-2 sm:!pb-[calc(1.5rem+var(--bnav-h))]"
         >
-          {/* Tiêu đề trang — ngay dưới AppHeader, cỡ chữ lớn */}
-          <PageHeader
-            title={isA ? 'Các bài hội thoại mẫu thông dụng' : 'Common sample dialogues'}
-            subtitle={
-              index.length > 0
-                ? isA
-                  ? `${index.length} chủ đề hội thoại giao tiếp`
-                  : `${index.length} conversation topics`
-                : isA
-                  ? 'Hội thoại mẫu giao tiếp'
-                  : 'Conversation lessons'
-            }
-          />
+          <h1 className="sr-only">
+            {isA ? 'Các bài hội thoại mẫu thông dụng' : 'Common sample dialogues'}
+          </h1>
           {/* Gợi ý "Tiếp tục bài N" — bài đầu tiên chưa xem, ẩn khi đang tìm kiếm */}
           {continueCta}
           {/* Search bar — chỉ hiện ở trên trên desktop */}
