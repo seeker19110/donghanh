@@ -362,14 +362,16 @@ export default function DesktopSidebar() {
         }`}
       >
         {!collapsed && (
+          // [chỉnh 2026-09-20] Logo "Đồng Hành" (icon cuốn sách, link `/gioi-thieu`) đổi
+          // thành "Trang chủ" (icon nhà, về thẳng `/`) — người dùng chỉ ra logo cũ không nói
+          // rõ bấm vào đâu, trong khi đây là ĐÚNG chỗ quen thuộc nhất để về trang chủ NỘI BỘ
+          // của app (khác nút "Trang chủ" ở Header, vốn đi RA NGOÀI app tới `@dhcb/hub`).
           <Link
-            to="/gioi-thieu"
-            className="flex items-center gap-2.5 min-w-0 rounded-xl p-1 hover:bg-zinc-800/60 transition"
+            to="/"
+            className="tap-44 flex items-center gap-1.5 min-w-0 rounded-xl p-2.5 -ml-1 text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition"
           >
-            <span className="w-7 h-7 rounded-xl bg-gradient-to-br from-accent-500 via-accent-400 to-indigo-500 flex items-center justify-center shadow-md shrink-0">
-              <BookOpen className="w-3.5 h-3.5 text-[#fff]" />
-            </span>
-            <span className="font-bold text-sm text-white truncate">Đồng Hành</span>
+            <Home className="w-4 h-4 shrink-0" />
+            <span className="text-sm font-medium truncate">Trang chủ</span>
           </Link>
         )}
         <button
