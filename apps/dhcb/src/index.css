@@ -3,15 +3,20 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Chặn bôi đen/copy text (yêu cầu 2026-08-01, NỚI CHO DESKTOP 2026-08-28) — chỉ còn
-   khoá trên MOBILE/TOUCH (`pointer: coarse`); web desktop (chuột, `pointer: fine`)
-   được bôi đen/copy bình thường. Trên mobile, những nơi CHỦ ĐỘNG cho phép vẫn bôi
-   đen/copy được: ô nhập liệu (input/textarea/contenteditable), mã hiển thị dạng
-   <code> (vd mã mời ở ReferralSection.tsx — đã có nút "Chép" riêng cho việc copy
-   thật sự), và bất kỳ chỗ nào gắn class "select-text" (Tailwind có sẵn). Những nơi
-   "chia sẻ" (ShareProgress, ShareResultCard) đã copy qua nút bấm + Web Share API
-   sẵn, không cần bôi đen tay nên không cần ngoại lệ riêng. */
-@media (pointer: coarse) {
+/* Chặn bôi đen/copy text (yêu cầu 2026-08-01, NỚI CHO DESKTOP 2026-08-28, XIẾT LẠI ĐIỀU
+   KIỆN 2026-09-20). Chỉ khoá trên thiết bị CHỈ CÓ CẢM ỨNG thật sự: `pointer: coarse`
+   (điểm trỏ chính "thô") RIÊNG một mình bắt nhầm cả laptop màn hình cảm ứng lai (có cả
+   chuột lẫn cảm ứng) — Chromium báo `pointer: coarse` cho những máy đó dù đang dùng
+   chuột thật, nên desktop vẫn bị khoá chọn text dù đã thêm điều kiện lần trước. Thêm
+   `hover: none` (thiết bị KHÔNG có cách di chuột mà không bấm) thu hẹp đúng còn điện
+   thoại/tablet cảm ứng thuần — laptop có chuột (dù có thêm màn cảm ứng) vẫn `hover: hover`
+   nên không rơi vào khối này. Trên mobile, những nơi CHỦ ĐỘNG cho phép vẫn bôi đen/copy
+   được: ô nhập liệu (input/textarea/contenteditable), mã hiển thị dạng <code> (vd mã mời
+   ở ReferralSection.tsx — đã có nút "Chép" riêng cho việc copy thật sự), và bất kỳ chỗ nào
+   gắn class "select-text" (Tailwind có sẵn). Những nơi "chia sẻ" (ShareProgress,
+   ShareResultCard) đã copy qua nút bấm + Web Share API sẵn, không cần bôi đen tay nên
+   không cần ngoại lệ riêng. */
+@media (pointer: coarse) and (hover: none) {
   @layer base {
     body {
       -webkit-user-select: none;
