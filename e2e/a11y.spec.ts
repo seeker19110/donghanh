@@ -121,11 +121,10 @@ const AUTHED_ROUTES = [
   // không baseline/ngoại lệ". Đo lần đầu: 41/50 tổ hợp trang×theme vi phạm, có cả mức
   // critical. Đã sửa hết về 0 trước khi thêm vào đây (xem docs/changelog).
   '/goc-hoc-tap', // hub Môn học — cửa vào trụ Learning cho các môn ngoài Tiếng Anh
-  '/su-nghiep-khoi-nghiep', // trụ GỘP Career + Startup
-  '/cong-viec-cuoc-song', // trụ Work + Life (hai mục trong một trang)
-  '/su-nghiep-khoi-nghiep?muc=khoi-nghiep', // nửa Startup của trụ gộp
-  '/life/wheel', // Bánh xe cuộc đời — 8 thanh trượt chấm điểm
-  '/life-graph', // Đồ thị cuộc đời
+  // [2026-09-20] Bốn trang của ba trụ đã gỡ (/su-nghiep-khoi-nghiep, /life/wheel, /life-graph…)
+  // rời khỏi danh sách cùng chính các trang đó. Trang "Ghi chú" thay chỗ trụ Work & Life cũ.
+  '/ghi-chu', // trụ Ghi chú — việc cần làm, dự án, cuộc họp, ghi chú
+  '/ghi-chu/kanban', // bảng Kanban việc cần làm
   '/ban-dong-hanh', // Companion — tác tử xuyên suốt
   '/action-canvas', // Bảng hành động của Companion
   '/ung-dung-thuc-te', // Ứng dụng thực tế — 22 thanh trượt mô phỏng

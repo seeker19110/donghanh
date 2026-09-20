@@ -31,9 +31,10 @@ const ALIASES: ReadonlyArray<readonly [alias: string, dich: string]> = [
   ['/lap-trinh/du-an', '/goc-hoc-tap/programming/du-an'],
   ['/lap-trinh/on-tap', '/goc-hoc-tap/programming/on-tap'],
   ['/lap-trinh/chay-thu', '/goc-hoc-tap/programming/chay-thu'],
-  // Hai trụ gộp thành một trang (2026-08-28) — alias tiếng Anh vào thẳng đúng tab.
-  ['/career', '/su-nghiep-khoi-nghiep'],
-  ['/startup', '/su-nghiep-khoi-nghiep'],
+  // [2026-09-20] Alias của trụ Công việc → trang "Ghi chú". Ba trụ Sự nghiệp · Khởi nghiệp ·
+  // Đời sống đã bị gỡ hẳn, alias của chúng nay về Trang chủ (xem e2e/v2-hubs.spec.ts).
+  ['/work', '/ghi-chu'],
+  ['/cong-viec', '/ghi-chu'],
   ['/profile', '/trang-ca-nhan'],
   ['/companion', '/ban-dong-hanh'],
   // Tiền tố CŨ của Góc học tập — mọi dạng, kể cả đường sâu, phải đi THẲNG tới đích cuối.

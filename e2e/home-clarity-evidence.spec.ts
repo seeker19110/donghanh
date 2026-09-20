@@ -504,9 +504,7 @@ test.describe('UX-R2 — canonical Home evidence', () => {
       await page.keyboard.press('Tab')
       await expect(revealedButtons.nth(2)).toBeFocused()
       await page.keyboard.press('Tab')
-      await expect(
-        page.getByRole('button', { name: 'Vào không gian Sự nghiệp, Khởi nghiệp & Đời sống' }),
-      ).toBeFocused()
+      await expect(page.getByRole('button', { name: 'Vào không gian Ghi chú' })).toBeFocused()
       await page.keyboard.press('Shift+Tab')
       await expect(revealedButtons.nth(2)).toBeFocused()
       await subjectToggle.click({ force: true })
@@ -639,7 +637,7 @@ test.describe('UX-R2 — canonical Home evidence', () => {
     }
   })
 
-  test('desktop giữ đúng đích của 3 shortcut Tiếng Anh và 4 shortcut Sự nghiệp', async ({
+  test('desktop giữ đúng đích của 3 shortcut Tiếng Anh và shortcut Ghi chú', async ({
     browser,
   }) => {
     test.skip(CAPTURE_BEFORE, 'before mode chỉ chụp canonical member-data')
@@ -650,10 +648,8 @@ test.describe('UX-R2 — canonical Home evidence', () => {
         { name: 'Lộ trình CEFR', path: '/goc-hoc-tap/english/lo-trinh' },
         { name: 'Luyện nói', path: '/goc-hoc-tap/english/luyen-noi' },
         { name: 'Từ điển', path: '/goc-hoc-tap/english/tu-dien' },
-        { name: 'Phỏng vấn thử', path: '/career/interview' },
-        { name: 'Công việc', path: '/cong-viec-cuoc-song?muc=cong-viec' },
-        { name: 'Lean Canvas', path: '/startup/canvas' },
-        { name: 'Đời sống', path: '/cong-viec-cuoc-song?muc=doi-song' },
+        // [2026-09-20] Thẻ "Sự nghiệp, Khởi nghiệp & Đời sống" thay bằng thẻ "Ghi chú".
+        { name: 'Bảng Kanban', path: '/ghi-chu/kanban' },
       ] as const
 
       for (const shortcut of shortcuts) {
