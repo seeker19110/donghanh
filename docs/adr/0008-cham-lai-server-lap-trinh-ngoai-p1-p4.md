@@ -197,7 +197,17 @@ ngữ khác Python" — vi phạm nguyên tắc chia nhỏ.
   `regradeSubmission()` nay là hàm ASYNC (nhánh `fetch` bất đồng bộ); route `progress.ts` thêm
   `await`. Hợp đồng wire KHÔNG đổi: client đã gửi `code` cho mọi bài, còn `domHtml` và danh sách
   hành động lấy từ registry SERVER.
-- **CÒN MỞ:** SQL (5 bài) — chờ xác minh `sqlWorker.ts` (câu hỏi 3).
+- **Câu hỏi 3 (SQL) — ĐÃ THI HÀNH 2026-09-20.** Xác minh thật (không đoán) trên `sql.js` bản
+  đang dùng: `load_extension()` KHÔNG tồn tại (gọi ném "no such function"); `ATTACH DATABASE
+'<đường dẫn>' AS x` KHÔNG chạm hệ thống file thật — bản dựng WASM không có VFS bền, ghi/đọc
+  bảng của CSDL đã ATTACH không tạo file trên đĩa thật (kiểm bằng thực nghiệm: tạo bảng + insert
+  rồi `existsSync()` đường dẫn — không tồn tại). Kết luận: `sql.js` an toàn để chấm-lại-ở-server
+  cùng mức tin cậy như khi nó chạy trong Worker trình duyệt (`sqlWorker.ts`), không cần
+  allowlist/sandbox OS riêng. Thêm `regradeSqlSubmission()` trong `completionSandboxServer.ts`
+  (nạp `sql.js` lười, dùng lại `SQL_SEED`/`formatSqlResults` — đúng engine `sqlWorker.ts` và cổng
+  nội dung `lessonsSql.test.ts` dùng). Tổng phạm vi chấm-lại-ở-server: **509/509 bài (100%)**.
+  Test canh: `completionSandboxServer.test.ts` describe "ADR-0008 câu hỏi 3", gồm ca xác minh
+  ATTACH DATABASE không tạo file thật trên server.
 
 ## Hệ quả (áp dụng SAU KHI chốt câu hỏi trên, với B1+B2 không cần chờ)
 

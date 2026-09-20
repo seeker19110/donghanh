@@ -2,7 +2,7 @@
 // (ADR-0007, docs/adr/0007-completion-evidence-sandbox-lap-trinh.md; phạm vi mở rộng theo
 // ADR-0008 docs/adr/0008-cham-lai-server-lap-trinh-ngoai-p1-p4.md).
 //
-// HAI LUỒNG CHẤM KHÁC CƠ CHẾ, cố ý KHÔNG gộp làm một:
+// BỐN LUỒNG CHẤM KHÁC CƠ CHẾ, cố ý KHÔNG gộp làm một:
 //   · Python (bậc P1–P6 + 7 khoá ngắn) → `regradeMakeSubmission()`: `python3` thật trong tiến
 //     trình con, đủ 3 lớp bảo vệ mô tả dưới đây.
 //   · Kotlin/Swift/bash/git/hermes/vibe/openclaw → `regradeInterpretedSubmission()`: gọi thẳng
@@ -10,8 +10,11 @@
 //   · JavaScript/TypeScript/html/dom/fetch (ADR-0008 B3) → `regradeWebSubmission()`: chạy trong
 //     `node:vm` với context TỐI GIẢN (không `require`/`process`/`global`) + timeout cứng — đúng
 //     cấu hình mà `lessonsJs.test.ts`/`lessonsTs.test.ts` đã chạy trong CI từ trước.
+//   · SQL (ADR-0008 câu hỏi 3) → `regradeSqlSubmission()`: `sql.js` (SQLite biên dịch WASM)
+//     in-memory — đã xác minh `load_extension` không tồn tại và `ATTACH DATABASE` không chạm hệ
+//     thống file thật (xem comment ngay trước hàm đó).
 //   · `regradeSubmission()` là điểm vào duy nhất cho route, tự chọn đúng luồng (ASYNC vì nhánh
-//     `fetch` vốn bất đồng bộ; hai nhánh kia vẫn đồng bộ bên trong).
+//     `fetch` vốn bất đồng bộ; các nhánh khác vẫn đồng bộ bên trong, trừ SQL nạp module lười).
 //
 // VÌ SAO CẦN: client chỉ chạy Pyodide/WASM trong Web Worker rồi tự POST 'completed' — DevTools
 // sửa được. File này CHẤM LẠI đúng test-case của bài (đọc từ registry server, KHÔNG tin dữ liệu
@@ -51,6 +54,10 @@ import { wrapJavaScript, formatConsoleArgs } from './jsPrelude.js'
 import { kiemTraTypeScript, dinhDangKetQuaTs, TIEU_DE_LOI, type TsCompiler } from './tsPrelude.js'
 import { chayBaiHtmlServer, chayBaiDomServer, chayBaiFetchServer } from './domFetchServerPrelude.js'
 import { laLanPython, fileCuaLan, noiCodeTheoLan, type PythonLane } from './pyLanes.js'
+import initSqlJs from 'sql.js'
+import { createRequire } from 'node:module'
+import { SQL_SEED } from './sqlDataset.js'
+import { formatSqlResults, type SqlResultTable } from './sqlPrelude.js'
 import { gradeTestCase, allTestsPassed, type TestCaseResult } from './grading.js'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { dirname } from 'node:path'
@@ -133,6 +140,8 @@ export function isServerRegradableLesson(lessonId: string): boolean {
   if (lesson.language in INTERPRETED_RUNNERS) {
     return spine || SIM_SHORT_COURSE_RE.test(lessonId)
   }
+  // ADR-0008 câu hỏi 3 — SQL: cả 5 bài đều là bài xương sống (p3/p5/p6), không có khoá ngắn SQL.
+  if (lesson.language === 'sql') return spine
   return false
 }
 
@@ -520,12 +529,75 @@ export async function regradeWebSubmission(lessonId: string, code: string): Prom
   return { passed: allTestsPassed(results), results }
 }
 
+// ────────────────────────────────────────────────────────────────────────────────────────────
+// ADR-0008 câu hỏi 3 — SQL, chạy bằng `sql.js` (SQLite biên dịch WASM), CÙNG engine với
+// `apps/dhcb/src/workers/sqlWorker.ts` (trình duyệt) và `lessonsSql.test.ts` (cổng nội dung).
+// ────────────────────────────────────────────────────────────────────────────────────────────
+
+// Xác minh trước khi bật (ADR-0008, câu hỏi 3 — đã đo thật 2026-09-20, không đoán):
+//   · `load_extension()` KHÔNG tồn tại trong bản dựng sql.js dùng ở đây (gọi thử ném
+//     "no such function: load_extension") — không thể nạp mã máy gốc.
+//   · `ATTACH DATABASE '<đường dẫn bất kỳ>' AS x` KHÔNG chạm hệ thống file thật: bản dựng WASM
+//     của sql.js không có VFS bền (không kèm gói `sql.js` dạng Node có `fs` binding), nên
+//     "đường dẫn" chỉ là một khoá đặt tên cho CSDL phụ nằm TRONG BỘ NHỚ — thử ATTACH rồi tạo
+//     bảng/ghi dữ liệu, `/tmp/<tên file>` không hề xuất hiện trên đĩa thật.
+//   · Do đó `sql.js` an toàn để chấm-lại-ở-server CÙNG MỘT MỨC với việc nó đã chạy trong Worker
+//     trình duyệt — không cần allowlist/sandbox OS riêng như Python.
+
+const requireSql = createRequire(import.meta.url)
+type SqlModule = Awaited<ReturnType<typeof initSqlJs>>
+let sqlModulePromise: Promise<SqlModule> | null = null
+
+/** Nạp `sql.js` một lần, dùng lại cho cả đời tiến trình — nạp .wasm thẳng từ `node_modules`
+ *  (không qua mạng), đúng cách `lessonsSql.test.ts` đã làm ở cổng nội dung. */
+function laySqlModule(): Promise<SqlModule> {
+  if (!sqlModulePromise) {
+    const wasmPath = requireSql.resolve('sql.js/dist/sql-wasm.wasm')
+    sqlModulePromise = initSqlJs({ locateFile: () => wasmPath })
+  }
+  return sqlModulePromise
+}
+
+/** Mở CSDL mới tinh, nạp dữ liệu mẫu, chạy câu của học viên — mỗi lượt một CSDL sạch, ĐÚNG hành
+ *  vi của `sqlWorker.ts`/`lessonsSql.test.ts` (seed riêng theo `testCase.datasetSql`, không có
+ *  thì dùng `SQL_SEED` mặc định). */
+function chaySqlTrongDb(SQL: SqlModule, code: string, seed: string): RunOutcome {
+  const db = new SQL.Database()
+  try {
+    db.run(seed)
+    const tables = db.exec(code) as SqlResultTable[]
+    return { output: formatSqlResults(tables) }
+  } catch (err) {
+    return { output: '', error: (err as Error).message }
+  } finally {
+    db.close()
+  }
+}
+
+/**
+ * ADR-0008 câu hỏi 3 — chấm lại bài SQL. TÁCH khỏi các luồng kia vì cơ chế khác hẳn (WASM
+ * in-memory, không subprocess, không `node:vm`) — chỉ dùng chung engine chấm `grading.ts`.
+ */
+export async function regradeSqlSubmission(lessonId: string, code: string): Promise<RegradeResult> {
+  const lesson = getLesson(lessonId)
+  if (!lesson || lesson.language !== 'sql') {
+    throw new Error(`Bài "${lessonId}" không thuộc phạm vi chấm-lại-SQL`)
+  }
+  const SQL = await laySqlModule()
+  const results: TestCaseResult[] = lesson.make.testCases.map((testCase) => {
+    const r = chaySqlTrongDb(SQL, code, testCase.datasetSql ?? SQL_SEED)
+    return gradeTestCase(testCase, r.output, r.error)
+  })
+  return { passed: allTestsPassed(results), results }
+}
+
 /**
  * Điểm vào DUY NHẤT cho route `/api/programming/progress`: tự chọn đúng luồng chấm lại theo ngôn
  * ngữ của bài. Gọi `isServerRegradableLesson()` trước — hàm này ném lỗi với bài ngoài phạm vi.
  *
  * ASYNC từ ADR-0008 B3: nhánh `fetch` vốn bất đồng bộ (fetch giả lập + chuỗi Promise của học
- * viên) và trình biên dịch TypeScript nạp lười — hai nhánh cũ vẫn chạy đồng bộ bên trong.
+ * viên) và trình biên dịch TypeScript nạp lười — các nhánh còn lại vẫn chạy đồng bộ bên trong
+ * (trừ SQL, nạp module `sql.js` lười theo cùng khuôn với `tsCompiler`).
  */
 export async function regradeSubmission(lessonId: string, code: string): Promise<RegradeResult> {
   const lesson = getLesson(lessonId)
@@ -535,6 +607,9 @@ export async function regradeSubmission(lessonId: string, code: string): Promise
   }
   if (WEB_LANGUAGES.has(lesson.language)) {
     return regradeWebSubmission(lessonId, code)
+  }
+  if (lesson.language === 'sql') {
+    return regradeSqlSubmission(lessonId, code)
   }
   return regradeMakeSubmission(lessonId, code)
 }
