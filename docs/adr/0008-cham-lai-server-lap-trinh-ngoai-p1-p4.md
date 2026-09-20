@@ -1,8 +1,8 @@
 # ADR-0008: Chấm lại ở server cho bài Lập trình NGOÀI phạm vi P1–P4 (ADR-0007)
 
 - **Ngày:** 2026-09-19
-- **Trạng thái:** đề xuất — CẦN CHỦ DỰ ÁN CHỐT CÂU HỎI Ở CUỐI TRƯỚC KHI THI HÀNH
-- **Người quyết định:** chờ chủ dự án
+- **Trạng thái:** Accepted (chốt 2026-09-19)
+- **Người quyết định:** chủ dự án (qua chỉ đạo "chốt luôn 3 câu hỏi rồi giao subagent theo hướng tốt")
 
 ## Bối cảnh
 
@@ -135,33 +135,37 @@ rubric, hoặc buộc nộp link deploy/artifact) — NGOÀI PHẠM VI ADR này.
   TRONG tiến trình con thay vì tiến trình chính để giới hạn thiệt hại nếu `vm` bị thoát). Đây
   chính là câu hỏi cần chốt ở B3, không phải thứ ADR này tự quyết được ngay — xem "Câu hỏi".
 
-## Quyết định (đề xuất — CHƯA CHỐT)
+## Quyết định (ĐÃ CHỐT 2026-09-19)
 
-Đề xuất đi theo **Phương án B**: thi hành B1 + B2 trong MỘT PR (rủi ro bằng 0, dùng lại hạ tầng
-đã kiểm chứng), để B3 (JavaScript/TypeScript) làm một ADR/PR RIÊNG sau khi chủ dự án chốt hướng
-cách ly.
+Đi theo **Phương án B**: thi hành B1 + B2 trong MỘT PR NGAY (rủi ro bằng 0, dùng lại hạ tầng đã
+kiểm chứng). B3 (JavaScript/TypeScript/dom/html/fetch) làm một ADR/PR RIÊNG sau, theo hướng đã
+chốt ở câu hỏi 1 dưới đây — không chờ thêm quyết định nào khác trước khi bắt đầu B3.
 
 **Vì sao loại A:** khoá oan phần việc an toàn/rẻ chỉ vì có phần khó lẫn trong cùng nhãn "ngôn
-ngữ khác Python" — vi phạm nguyên tắc chia nhỏ. **Vì sao chưa chốt C ngay:** cần chủ dự án xác
-nhận mức chấp nhận rủi ro cho `vm` (câu hỏi 1 bên dưới) trước khi chọn giữa (i)/(ii)/(iii) — đây
-đúng loại quyết định CLAUDE.md mục 12 liệt kê phải dừng hỏi ("đụng bảo mật", "nhiều giải pháp
-đánh đổi khác nhau đáng kể").
+ngữ khác Python" — vi phạm nguyên tắc chia nhỏ.
 
-## Câu hỏi cần chủ dự án chốt trước khi thi hành B3 (B1+B2 có thể thi hành ngay, không cần chờ)
+## Ba câu hỏi — ĐÃ CHỐT 2026-09-19
 
-1. **JavaScript/TypeScript + html/dom/fetch (97 bài): chấp nhận rủi ro của `node:vm` (context tối giản + timeout,
-   giống cấu hình `lessonsJs.test.ts` hiện tại), hay bắt buộc thêm lớp cách ly hệ điều hành
-   (subprocess riêng, tương tự Python) trước khi chấm ở server?** Đánh đổi: chấp nhận `vm` là
-   nhanh (không code mới ngoài việc gọi lại `wrapJavaScript`/hàm chạy đã có) nhưng Node tự nhận
-   đây không phải hàng rào bảo mật; thêm subprocess an toàn hơn nhưng cần thiết kế allowlist
-   RIÊNG cho JS (khác Python — `require` là built-in, không "import" được để chặn theo cách cũ).
-2. **Có mở rộng B1 sang bước dự án (`p<n>-s<x>`) không?** Đề xuất mặc định: KHÔNG — bước dự án
-   chấm bằng rubric/artifact chứ không phải test-case, cần thiết kế hoàn toàn khác (ngoài phạm
-   vi ADR này, xem "Bằng chứng" ở trên). Đồng ý giữ ngoài phạm vi, hay muốn gộp vào?
-3. **Có cần xác minh cấu hình `sql.js` (`sqlWorker.ts`) đã tắt `ATTACH DATABASE`/
-   `load_extension` trước khi B-nào-đó chấm SQL ở server không, hay để SQL đứng ngoài B1/B2 (đợt
-   riêng, sau khi xác minh)?** Đề xuất mặc định: để SQL đứng ngoài B1/B2, xác minh + xử lý ở một
-   PR riêng nhỏ (chỉ 5 bài, không đáng gộp vào B1/B2 khi câu hỏi bảo mật đó còn treo).
+1. **JavaScript/TypeScript + html/dom/fetch (97 bài) — CHỐT: đi theo hướng (i) có sửa, KHÔNG
+   chọn (ii) subprocess.** Chấp nhận cách ly bằng `node:vm` (context tối giản, KHÔNG expose
+   `require`/`process`/`global`, timeout cứng) cho JavaScript/TypeScript — giống hệt cấu hình
+   `lessonsJs.test.ts` đang chạy trong CI ngay bây giờ, vì `vm.createContext({})` rỗng không có
+   API nhạy cảm nào trong tầm với và đây là hạn chế đã biết, không phải lỗ hổng mới. **Điều kiện
+   bắt buộc trước khi B3 được coi là an toàn tương đương:** `html`/`dom`/`fetch` (9 bài) PHẢI sửa
+   từ `new Function('document','window', js)(document, window)` sang chạy trong
+   `vm.createContext({ document, window, ... })` + cùng timeout — không được giữ `new Function`
+   trần (không có ranh giới nào, tệ hơn cả JS/TS). B3 là một ADR/PR riêng, thi hành SAU B1+B2,
+   không chặn B1+B2. Lý do không chọn (ii)/subprocess: cần thiết kế allowlist riêng cho Node
+   (`require` là built-in, không chặn được bằng override kiểu Python `__import__`) — việc lớn hơn
+   hẳn B1+B2, để dành làm kỹ trong PR riêng thay vì làm vội chung một đợt.
+2. **Mở rộng B1 sang bước dự án (`p<n>-s<x>`) — CHỐT: KHÔNG.** Giữ đúng đề xuất mặc định của ADR:
+   bước dự án chấm bằng rubric/artifact (`referenceCode`), không phải test-case — khác hẳn bài
+   toán ADR này giải, cần thiết kế riêng (chấm bằng AI đọc code so rubric, hoặc nộp link
+   deploy/artifact), NGOÀI PHẠM VI ADR-0008.
+3. **Xác minh `sql.js`/`sqlWorker.ts` trước khi chấm SQL ở server — CHỐT: để SQL đứng ngoài
+   B1/B2.** 5 bài SQL xử lý ở một PR riêng, nhỏ, sau khi xác minh `ATTACH DATABASE`/
+   `load_extension` đã tắt trong `sqlWorker.ts` — không đáng gộp vào B1/B2 khi câu hỏi bảo mật đó
+   còn treo.
 
 ## Hệ quả (áp dụng SAU KHI chốt câu hỏi trên, với B1+B2 không cần chờ)
 

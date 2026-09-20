@@ -17,7 +17,7 @@ vi.mock('@dhcb/core-auth/security', () => ({
 const regradeState = vi.hoisted(() => ({ regradable: false, passed: true }))
 vi.mock('@dhcb/subject-programming/completionSandboxServer', () => ({
   isServerRegradableLesson: () => regradeState.regradable,
-  regradeMakeSubmission: () => ({ passed: regradeState.passed, results: [] }),
+  regradeSubmission: () => ({ passed: regradeState.passed, results: [] }),
 }))
 
 const query = vi.hoisted(() => vi.fn())

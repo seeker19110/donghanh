@@ -286,8 +286,9 @@ function LessonBody({
       clearSession({ owner, subjectId: 'programming', contentId: lesson.id })
     }
     if (allTestsPassed(out) && user) {
-      // ADR-0007: kèm code để server chấm lại trước khi ghi nhận 'completed' (bài xương sống
-      // P1–P4 Python) — bài khác/hạng khác server bỏ qua tham số này.
+      // ADR-0007 + ADR-0008: kèm code để server chấm lại trước khi ghi nhận 'completed'. Gửi
+      // cho MỌI bài (không lọc ở client): server tự quyết bài nào trong phạm vi chấm lại
+      // (`isServerRegradableLesson`) và bỏ qua tham số này với bài ngoài phạm vi.
       void saveLessonProgress(user.id, lesson.id, 'completed', code)
       // ⑧ Thẻ SRS vào vòng ôn NGAY khi đạt bài (PR-L10): đó là lúc học viên vừa hiểu, nên
       // lịch ôn đầu tiên tính từ đây mới đúng. Gọi nhiều lần cũng vô hại — addToSRS bỏ qua

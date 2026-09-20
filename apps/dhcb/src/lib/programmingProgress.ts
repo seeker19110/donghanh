@@ -117,8 +117,9 @@ export async function saveLessonProgress(
   uid: string,
   lessonId: string,
   status: 'in_progress' | 'completed',
-  /** ADR-0007: BẮT BUỘC kèm code khi báo 'completed' bài xương sống P1–P4 (Python) — server
-   *  chấm lại bằng chính code này trước khi ghi nhận, không tin trạng thái client tự khai. */
+  /** ADR-0007 + ADR-0008: BẮT BUỘC kèm code khi báo 'completed' bài thuộc phạm vi chấm-lại-ở-
+   *  server (bài xương sống P1–P6 Python, 7 khoá ngắn Python, Kotlin/Swift/bash/git/hermes/
+   *  vibe/openclaw) — server chấm lại bằng chính code này, không tin trạng thái client tự khai. */
   code?: string,
 ): Promise<void> {
   const lessons = readCache(uid)
