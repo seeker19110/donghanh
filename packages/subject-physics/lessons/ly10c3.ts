@@ -1484,7 +1484,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
     },
     grade: '10',
     chapterNumber: 3,
-    chapterTitle: 'Động học',
+    chapterTitle: 'Động lực học',
     lessonNumber: 19,
     title: 'Lực cản và lực nâng',
     hook:
@@ -1796,7 +1796,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
     },
     grade: '10',
     chapterNumber: 3,
-    chapterTitle: 'Động học',
+    chapterTitle: 'Động lực học',
     lessonNumber: 21,
     title: 'Moment lực. Cân bằng của vật rắn',
     hook:
@@ -1870,7 +1870,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
     id: 'ly10-c3-b22',
     grade: '10',
     chapterNumber: 3,
-    chapterTitle: 'Động học',
+    chapterTitle: 'Động lực học',
     lessonNumber: 22,
     title: 'Thực hành: Tổng hợp lực',
     hook:

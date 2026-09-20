@@ -5,14 +5,12 @@
 // Trạng thái `draft` — chờ người có chuyên môn Toán duyệt qua quy trình lessonReview.
 import type { MathLesson } from '../lessonTypes.js'
 
-const CHUONG = 'Các số đặc trưng của mẫu số liệu không ghép nhóm'
-
 export const TOAN10_C5_LESSONS: MathLesson[] = [
   {
     id: 'toan10-c5-b1',
     grade: '10',
     chapterNumber: 5,
-    chapterTitle: CHUONG,
+    chapterTitle: 'Các số đặc trưng của mẫu số liệu không ghép nhóm',
     lessonNumber: 1,
     title: 'Số gần đúng và sai số',
     hook:
@@ -292,7 +290,7 @@ export const TOAN10_C5_LESSONS: MathLesson[] = [
     id: 'toan10-c5-b2',
     grade: '10',
     chapterNumber: 5,
-    chapterTitle: CHUONG,
+    chapterTitle: 'Các số đặc trưng của mẫu số liệu không ghép nhóm',
     lessonNumber: 2,
     title: 'Số trung bình, trung vị, tứ phân vị và mốt của mẫu số liệu không ghép nhóm',
     hook:
@@ -451,7 +449,7 @@ export const TOAN10_C5_LESSONS: MathLesson[] = [
     id: 'toan10-c5-b3',
     grade: '10',
     chapterNumber: 5,
-    chapterTitle: CHUONG,
+    chapterTitle: 'Các số đặc trưng của mẫu số liệu không ghép nhóm',
     lessonNumber: 3,
     title: 'Khoảng biến thiên, phương sai, độ lệch chuẩn và giá trị ngoại lệ',
     hook:

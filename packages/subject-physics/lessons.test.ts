@@ -34,6 +34,25 @@ describe('physics lessons', () => {
     }
   })
 
+  it('mỗi (grade, chapterNumber) chỉ có ĐÚNG MỘT chapterTitle', () => {
+    // Đã dính thật ở ly10c3.ts: copy-paste 3 bài lỡ giữ nguyên chapterTitle của chương trước
+    // ("Động học" thay vì "Động lực học"), lộ ra sai ngay trên UI học sinh vì schema/type vẫn
+    // qua bình thường (chapterTitle chỉ là string, không ràng buộc theo chapterNumber).
+    const titleByChapter = new Map<string, string>()
+    for (const lesson of PHYSICS_LESSONS) {
+      const key = `${lesson.grade}-c${lesson.chapterNumber}`
+      const existing = titleByChapter.get(key)
+      if (existing === undefined) {
+        titleByChapter.set(key, lesson.chapterTitle)
+        continue
+      }
+      expect(
+        lesson.chapterTitle,
+        `Bài ${lesson.id}: chapterTitle "${lesson.chapterTitle}" khác với chapterTitle "${existing}" đã dùng cho chương ${key}`,
+      ).toBe(existing)
+    }
+  })
+
   it('mọi bài đánh dấu reviewStatus (không âm thầm coi là đã duyệt)', () => {
     for (const lesson of PHYSICS_LESSONS) {
       expect(['draft', 'reviewed']).toContain(lesson.reviewStatus)
