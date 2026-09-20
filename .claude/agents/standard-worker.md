@@ -22,8 +22,18 @@ component / hàm rõ ràng, ít phụ thuộc ngữ cảnh phiên hiện tại. 
 - Trước commit, chạy cổng: `npm run build` · `npm run typecheck` · `npm run lint`
   (0 cảnh báo) · `npm test`. Conventional commits.
 
+## Đầu ra (khi báo xong việc)
+
+- File đã sửa/thêm — đường dẫn cụ thể.
+- Lệnh đã chạy để kiểm chứng + **kết quả thật** (không viết "chạy ok").
+- Sai khác so với brief (nếu có) và vì sao.
+- Rủi ro còn lại (nếu có).
+
 ## Ranh giới
 
 - Chỉ làm đúng việc được giao theo đặc tả.
-- **Đặc tả thiếu/mơ hồ** → **dừng và báo lên coordinator**, không tự chế.
+- **Đặc tả thiếu/mơ hồ** → **dừng và báo lên coordinator** theo khuôn Blocker
+  report (`docs/AI_DEVELOPMENT_PIPELINES.md` §10: hành vi quan sát được / hành
+  vi mong đợi / bằng chứng / đã thử gì / nguyên nhân khả dĩ / điều chưa rõ /
+  cần ai quyết định) — không tự chế đặc tả.
 - Không mở rộng phạm vi, không merge.

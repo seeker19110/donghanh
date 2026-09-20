@@ -21,9 +21,15 @@ This pipeline
 Task prompt
 ```
 
-The names Astra, Sol, Terra, and Luna are organizational aliases. Resolve each alias to an
-available model with equivalent capability. If an exact alias is unavailable, preserve the role,
-risk tier, and escalation policy instead of silently changing governance.
+The names Astra, Sol, Terra, and Luna are organizational aliases — **provider-agnostic**, not tied
+to any one vendor's model family (e.g. not "GPT-only" or "Claude-only"). In this repo, the coding
+agent runs on Claude Code, so resolve each alias to the Claude model tier with equivalent
+capability actually available in the session (Opus, Sonnet, Haiku, or Fable — see
+`AI_DEVELOPMENT_PROTOCOL.md` §0 and each `.claude/agents/*.md` file's `model:` field for the exact
+mapping already in force in this repo). If the coding agent changes to a different vendor later,
+re-resolve the same aliases against that vendor's tiers instead of rewriting this document. If an
+exact alias is unavailable, preserve the role, risk tier, and escalation policy instead of silently
+changing governance.
 
 At the start of a task, state the selected mode:
 
@@ -806,180 +812,37 @@ critical feature.
 
 ## 18. Prompt contracts
 
-### Planner
+> **Merged into DHCB's real role briefs (2026-09-20, `AI_DEVELOPMENT_PROTOCOL.md` §12 item 4).**
+> This section used to carry five full prompt bodies (Planner / Astra architecture /
+> Implementation / Sol verification / Astra audit) that duplicated what the repo's actual role
+> files already say — two documents describing the same prompt were guaranteed to drift apart.
+> The generic OUTPUT contract (files changed / verification commands + exact results / deviations
+> / remaining risks) and the blocker-report shape (§10 above) now live **inside** each role's real
+> brief. **Edit a role's prompt there, not here** — this section only records the shape and where
+> each role actually lives.
+
+### Shape (reference only — not a standalone role definition)
 
 ```text
-ROLE:
-Senior specification engineer.
-
-OBJECTIVE:
-Produce an implementation-independent specification.
-
-INPUT:
-Repository context
-Feature request
-Existing constraints
-
-REQUIREMENTS:
-Identify goals, non-goals, invariants, edge cases, failure behavior,
-security and compatibility requirements, and acceptance criteria.
-
-DO NOT:
-Invent implementation details unless required by the contract.
-
-OUTPUT:
-SPEC.md
+ROLE / INPUT / OBJECTIVE / RULES (or REQUIREMENTS) / VERIFY / IF BLOCKED / OUTPUT
 ```
 
-### Astra architecture
+Every real role brief in this repo follows this shape even where its Vietnamese headings differ:
+"Cách làm" ≈ RULES, "Đầu ra" ≈ OUTPUT, "Ranh giới" ≈ RULES + IF BLOCKED (pointing at the §10
+blocker report).
 
-```text
-ROLE:
-Principal software architect.
+### Role → real brief in this repo
 
-INPUT:
-REPO_CONTEXT.md
-SPEC.md
+| Generic role (§2 hierarchy above) | DHCB vai (`AI_DEVELOPMENT_PROTOCOL.md` §4) | Real brief                                                                                                                                                          |
+| --------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Planner                           | Product & UX                               | phiên chính + `docs/templates/dac-ta-tinh-nang.md` → FEATURE_SPEC (PROTOCOL §3.1)                                                                                   |
+| Astra architecture                | Design                                     | phiên chính / `standard-worker` + `docs/templates/design-spec.md` → DESIGN_SPEC (PROTOCOL §3.2)                                                                     |
+| Implementation                    | Engineering                                | `.claude/agents/{spec-executor,standard-worker,complex-implementer,mechanical-worker}.md`, dispatch qua `coordinator.md` theo `route:` (PLAN.md, PROTOCOL §3.3–3.4) |
+| Sol verification                  | (hậu kiểm nội bộ Engineering, trước QA)    | `.claude/agents/reviewer.md`                                                                                                                                        |
+| Astra audit                       | QA & DevOps                                | `.claude/agents/qa-verifier.md` — độc lập theo PROTOCOL §4.1 (QA_REPORT / REJECT, PROTOCOL §3.5–3.6)                                                                |
 
-OBJECTIVE:
-Design the safest and simplest execution architecture that fully
-satisfies the specification.
-
-ANALYZE:
-Architecture, boundaries, interfaces, state, data, concurrency,
-failure modes, security, migration, testing, deployment, and rollback.
-
-REQUIRE:
-Traceability from requirements to implementation strategy.
-
-DO NOT:
-Write production code unless needed to clarify an interface.
-
-OUTPUT:
-EXECUTION_SPEC.md
-```
-
-### Implementation
-
-```text
-ROLE:
-Implementation engineer.
-
-INPUT:
-Relevant SPEC sections
-Relevant EXECUTION_SPEC sections
-Assigned work package
-Relevant repository files
-
-OBJECTIVE:
-Complete the assigned task.
-
-RULES:
-Do not change architecture or expand scope.
-Do not weaken requirements or tests.
-Follow repository conventions and preserve unrelated user changes.
-
-VERIFY:
-Run relevant tests and applicable lint/typecheck gates.
-Check every acceptance criterion in scope.
-Fix implementation defects discovered during verification.
-
-IF BLOCKED:
-Report evidence using the blocker protocol and escalate.
-
-OUTPUT:
-Implementation
-Files changed
-Verification commands and exact results
-Deviations
-Remaining risks
-```
-
-### Sol verification
-
-```text
-ROLE:
-Independent senior reviewer.
-
-INPUT:
-SPEC
-EXECUTION_SPEC
-Implementation diff
-Test results
-
-RULE:
-Do not assume the implementation agent is correct.
-
-VERIFY:
-Every requirement and invariant
-Architecture compliance
-Failure and boundary behavior
-Regression, security, and compatibility
-Test quality and unintended changes
-
-IDENTIFY:
-Missing tests
-Incorrect assumptions
-Unintended behavior
-Specification deviations
-
-OUTPUT:
-VERIFICATION_REPORT.md
-```
-
-### Astra audit
-
-```text
-ROLE:
-Independent principal architect.
-
-INPUT:
-SPEC
-EXECUTION_SPEC
-Final diff
-Test results
-Verification report
-
-OBJECTIVE:
-Find high-impact defects that survived implementation and normal review.
-
-FOCUS:
-Architectural drift
-Hidden assumptions
-Security and reliability
-Concurrency and data integrity
-Migration and rollback
-Long-term maintainability
-Missing verification
-
-DO NOT:
-Approve automatically.
-Do not rewrite working code without evidence.
-
-OUTPUT:
-AUDIT_REPORT.md
-```
-
-### Efficient end-to-end implementation prompt
-
-```text
-Inspect the minimum relevant repository context.
-
-Implement TASK-042 according to the approved SPEC and EXECUTION_SPEC.
-
-Run the required tests, lint, and typecheck. Fix implementation defects
-discovered during verification. Do not change architecture, weaken tests,
-or expand scope.
-
-Stop and report only if an architectural decision, missing requirement,
-unsafe operation, or authority boundary blocks completion.
-
-Return:
-- files changed;
-- checks run and exact results;
-- deviations;
-- remaining risks.
-```
+Model/effort per role is still governed by §2, §9, and §17 above — this table only says **where**
+the prompt content lives, not which model runs it.
 
 ---
 

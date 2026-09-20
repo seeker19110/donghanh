@@ -477,6 +477,14 @@ không push thẳng `main`, không commit `.env`/PLAN.md.
 3. **XONG (đợt này):** Agent `.claude/agents/qa-verifier.md` (Sonnet) — đội mũ QA độc lập theo
    §4.1, brief chỉ gồm spec + PR + head SHA (không nhận diễn giải của Engineering), chạy đủ
    lệnh §7.1 theo ma trận rủi ro §7.2, ghi `QA_REPORT` hoặc `REJECT` có `owner`.
-4. **Chưa làm — để sau:** gộp phần "prompt contracts" của `AI_DEVELOPMENT_PIPELINES.md` §18 vào
-   brief chuẩn của từng vai để hai tài liệu không lệch dần. Không thuộc đợt này (không phải máy
-   kiểm được, cần người dùng quyết định cách hợp nhất).
+4. **XONG (đợt này):** gộp phần "prompt contracts" của `AI_DEVELOPMENT_PIPELINES.md` §18 vào brief
+   chuẩn của từng vai để hai tài liệu không lệch dần. `PIPELINES.md` §18 trước đây giữ 5 prompt
+   đầy đủ (Planner/Astra architecture/Implementation/Sol verification/Astra audit) lặp lại nội
+   dung các file vai thật — hai bản mô tả cùng một prompt chắc chắn lệch dần theo thời gian.
+   Đã chuyển: (a) hợp đồng ĐẦU RA chuẩn (file đã sửa/thêm · lệnh kiểm chứng + kết quả thật · sai
+   khác so với brief · rủi ro còn lại) vào mục "Đầu ra" của `spec-executor.md`/`standard-worker.md`/
+   `complex-implementer.md`/`mechanical-worker.md`; (b) khuôn Blocker report của PIPELINES §10 vào
+   mục "Ranh giới" của 4 file trên + `coordinator.md` (khi relay báo cáo lên phiên chính, giữ
+   nguyên bằng chứng gốc, không tóm tắt lại). `PIPELINES.md` §18 nay chỉ còn khuôn chung
+   (ROLE/INPUT/OBJECTIVE/RULES/VERIFY/IF BLOCKED/OUTPUT) + bảng ánh xạ "vai chung → file brief
+   thật trong repo" — sửa nội dung một vai thì sửa ở file agent đó, không sửa ở PIPELINES.md.
