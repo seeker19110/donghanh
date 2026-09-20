@@ -1,9 +1,11 @@
-// apps/dhcb/src/pages/WorkKanban.tsx — Interactive Kanban Board (Work Sub-page)
+// apps/dhcb/src/pages/domains/notes/NotesKanban.tsx — bảng Kanban việc cần làm, trang con của
+// "Ghi chú" (`/ghi-chu/kanban`). Đổi tên hiển thị từ "Công việc" 2026-09-20; bố cục và API
+// (`/api/work`) giữ NGUYÊN.
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Plus, Clock, CheckCircle2, ArrowRight, ArrowLeft, Filter, Search } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
-import { duongDanCongViec } from '../../../lib/domainRoutes'
+import { duongDanGhiChu } from '../../../lib/domainRoutes'
 import Layout from '../../../components/Layout'
 import PageHeader from '../../../components/PageHeader'
 import { PageShell } from '@core/PageShell'
@@ -35,8 +37,8 @@ const PRIORITY_COLORS: Record<string, { label: string; cls: string }> = {
   },
 }
 
-export default function WorkKanban() {
-  usePageTitle('Bảng công việc Kanban | Đồng hành cùng bạn')
+export default function NotesKanban() {
+  usePageTitle('Bảng Kanban ghi chú | Đồng hành cùng bạn')
   const nav = useNavigate()
   const toast = useToast()
   const [tasks, setTasks] = useState<WorkTask[]>([])
@@ -107,13 +109,13 @@ export default function WorkKanban() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout onBack={() => nav(duongDanCongViec())} />
+      <Layout onBack={() => nav(duongDanGhiChu())} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Lưới 2 cột, không phải bảng cuộn ngang →
       width="standard". */}
       <PageShell width="standard" baseWidth="max-w-6xl" className="space-y-6">
         <PageHeader
-          title="Bảng Kanban Quản Lý Dự Án"
+          title="Bảng Kanban việc cần làm"
           subtitle="Theo dõi tiến độ, phân loại mức độ ưu tiên và tối ưu hóa quy trình làm việc"
         />
 

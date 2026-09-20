@@ -1,4 +1,9 @@
-// Danh sách 5 "Studio" (không gian nền tảng) dùng CHUNG cho mọi thanh điều hướng.
+// Danh sách 4 "Studio" (không gian nền tảng) dùng CHUNG cho mọi thanh điều hướng.
+//
+// [2026-09-20] KHÔNG còn studio `career` ("Sự Nghiệp & Khởi Nghiệp") và `worklife`
+// ("Công Việc & Đời Sống"): hai trụ Sự nghiệp/Khởi nghiệp và nửa "Đời sống" đã bị GỠ HẲN khỏi
+// giao diện theo quyết định của chủ dự án. Nửa "Công việc" được giữ lại, đổi tên hiển thị thành
+// "Ghi chú" và đứng riêng thành MỘT studio cấp 1 ở `/ghi-chu` (không còn là tab con của ai).
 //
 // [Slice 02 Góc học tập, 2026-09-15] KHÔNG còn studio `english`: Tiếng Anh là MỘT MÔN ngang hàng
 // trong Góc học tập (`navTree.ts` → SUBJECT_CHILDREN), trang tổng quan ở `/goc-hoc-tap/english`.
@@ -7,7 +12,7 @@
 // dropdown "Studio" ở header (components/Layout.tsx) và sidebar desktop
 // (components/DesktopSidebar.tsx). Trước đây danh sách này nằm riêng trong Layout.tsx;
 // tách ra đây để hai nơi không bao giờ lệch nhau khi thêm/bớt studio.
-import { Sparkles, Dumbbell, Calculator, Briefcase, Heart, type LucideIcon } from 'lucide-react'
+import { Sparkles, Dumbbell, Calculator, StickyNote, type LucideIcon } from 'lucide-react'
 
 export interface Studio {
   id: string
@@ -56,22 +61,12 @@ export const STUDIOS: Studio[] = [
       'text-blue-400 theme-light:text-blue-800 bg-blue-500/10 border-blue-500/30 hover:border-blue-500/60',
   },
   {
-    id: 'career',
-    title: 'Sự Nghiệp & Khởi Nghiệp',
-    subtitle: 'Phỏng vấn STAR · Lean Canvas',
-    to: '/su-nghiep-khoi-nghiep',
-    icon: Briefcase,
-    badge: 'Career',
-    color:
-      'text-purple-400 theme-light:text-purple-800 bg-purple-500/10 border-purple-500/30 hover:border-purple-500/60',
-  },
-  {
-    id: 'worklife',
-    title: 'Công Việc & Đời Sống',
-    subtitle: 'Dự án, việc cần làm · thói quen, sức khoẻ',
-    to: '/cong-viec-cuoc-song',
-    icon: Heart,
-    badge: 'Work-Life',
+    id: 'notes',
+    title: 'Ghi chú',
+    subtitle: 'Việc cần làm, dự án, tài liệu — bảng Kanban',
+    to: '/ghi-chu',
+    icon: StickyNote,
+    badge: 'Ghi chú',
     color:
       'text-rose-400 theme-light:text-rose-800 bg-rose-500/10 border-rose-500/30 hover:border-rose-500/60',
   },

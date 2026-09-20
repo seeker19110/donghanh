@@ -7,9 +7,9 @@ import {
   PRICING_PATHS,
   PROFILE_PATHS,
   ENGLISH_PATHS,
-  CAREER_PATHS,
-  WORKLIFE_PATHS,
-  CAREER_LIFE_PATHS,
+  NOTES_PATHS,
+  LEGACY_NOTES_PATHS,
+  REMOVED_DOMAIN_PATHS,
   PROGRESS_PATHS,
   matchesNav,
   resolveActiveNav,
@@ -25,9 +25,9 @@ describe('các bảng hằng path', () => {
     ['PRICING_PATHS', PRICING_PATHS],
     ['PROFILE_PATHS', PROFILE_PATHS],
     ['ENGLISH_PATHS', ENGLISH_PATHS],
-    ['CAREER_PATHS', CAREER_PATHS],
-    ['WORKLIFE_PATHS', WORKLIFE_PATHS],
-    ['CAREER_LIFE_PATHS', CAREER_LIFE_PATHS],
+    ['NOTES_PATHS', NOTES_PATHS],
+    ['LEGACY_NOTES_PATHS', LEGACY_NOTES_PATHS],
+    ['REMOVED_DOMAIN_PATHS', REMOVED_DOMAIN_PATHS],
     ['PROGRESS_PATHS', PROGRESS_PATHS],
   ])('%s không rỗng và mọi phần tử bắt đầu bằng "/"', (_name, paths) => {
     expect(paths.length).toBeGreaterThan(0)
@@ -35,13 +35,32 @@ describe('các bảng hằng path', () => {
   })
 })
 
-// [P1-7, lệnh 9] CAREER_LIFE_PATHS là HỢP của 2 bảng cũ — sidebar gộp 2 studio thành 1 mục.
-describe('CAREER_LIFE_PATHS', () => {
-  it('là hợp của CAREER_PATHS và WORKLIFE_PATHS, không thiếu phần tử nào', () => {
-    for (const p of [...CAREER_PATHS, ...WORKLIFE_PATHS]) {
-      expect(CAREER_LIFE_PATHS).toContain(p)
+// [2026-09-20] Ba trụ Sự nghiệp · Khởi nghiệp · Đời sống bị gỡ hẳn; chỉ còn "Ghi chú".
+describe('bảng path sau khi gỡ ba trụ', () => {
+  it('NOTES_PATHS bắt đầu bằng đường CHÍNH THỨC /ghi-chu', () => {
+    // `resolveActiveNav` lấy mục ĐẦU TIÊN khớp, và `Item.to` của mục Ghi chú là `/ghi-chu` —
+    // bảng này chỉ dùng để so khớp, nhưng để đầu bảng là đường chính thức giúp đọc code dễ.
+    expect(NOTES_PATHS[0]).toBe('/ghi-chu')
+  })
+
+  it('mọi URL cũ của trụ Công việc đều nằm trong NOTES_PATHS (sidebar không nhấp nháy)', () => {
+    // Trong nhịp render TRƯỚC khi <Navigate> kịp chạy, sidebar vẫn phải sáng mục "Ghi chú".
+    for (const p of LEGACY_NOTES_PATHS)
+      expect(NOTES_PATHS.some((n) => underPrefix(p, n))).toBe(true)
+  })
+
+  it('KHÔNG đường nào của ba trụ đã gỡ còn làm sáng mục Ghi chú hay Hồ sơ', () => {
+    for (const p of REMOVED_DOMAIN_PATHS) {
+      expect(matchesNav(p, NOTES_PATHS), p).toBe(false)
+      expect(matchesNav(p, PROFILE_PATHS), p).toBe(false)
     }
-    expect(CAREER_LIFE_PATHS.length).toBe(CAREER_PATHS.length + WORKLIFE_PATHS.length)
+  })
+
+  it('hai bảng URL cũ KHÔNG giao nhau — một đường chỉ có MỘT đích chuyển hướng', () => {
+    // Giao nhau nghĩa là App.tsx dựng hai <Route> cùng path: React Router lấy cái đầu, cái sau
+    // chết lặng. Đúng loại lỗi không ai thấy cho tới khi người dùng báo link sai chỗ.
+    const removed = new Set<string>(REMOVED_DOMAIN_PATHS)
+    for (const p of LEGACY_NOTES_PATHS) expect(removed.has(p), p).toBe(false)
   })
 })
 

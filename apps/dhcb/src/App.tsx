@@ -21,6 +21,7 @@ import {
   LEGACY_SUBJECTS_PREFIXES,
   SUBJECTS_PREFIX,
 } from './lib/subjectsHost'
+import { LEGACY_NOTES_PATHS, REMOVED_DOMAIN_PATHS } from './lib/navPaths'
 import { refreshAppSettings } from './lib/appSettings'
 import { pruneExpiredSessions } from './lib/learningSession'
 import { refreshPlanFeatures } from './lib/planFeatures'
@@ -74,14 +75,13 @@ const StemLessonView = lazyWithRetry(() => import('./pages/learning/StemLessonVi
 const Practice = lazyWithRetry(() => import('./pages/learning/Practice'))
 const AppliedKnowledge = lazyWithRetry(() => import('./pages/learning/AppliedKnowledge'))
 
-// ── 4. Life Synthesis Domains (Sự nghiệp, Công việc, Khởi nghiệp, Cuộc sống)
-const CareerStartup = lazyWithRetry(() => import('./pages/domains/careerstartup/CareerStartup'))
-const CareerInterview = lazyWithRetry(() => import('./pages/domains/career/CareerInterview'))
-const WorkLife = lazyWithRetry(() => import('./pages/domains/worklife/WorkLife'))
-const WorkKanban = lazyWithRetry(() => import('./pages/domains/work/WorkKanban'))
-const StartupCanvas = lazyWithRetry(() => import('./pages/domains/startup/StartupCanvas'))
-const LifeGraph = lazyWithRetry(() => import('./pages/domains/life/LifeGraph'))
-const LifeWheel = lazyWithRetry(() => import('./pages/domains/life/LifeWheel'))
+// ── 4. Trụ "Ghi chú"
+// [2026-09-20] Các trụ Sự nghiệp, Khởi nghiệp và nửa "Đời sống" đã bị GỠ HẲN (trang, route,
+// client API) theo quyết định của chủ dự án. Chỉ còn nửa "Công việc" cũ, nay mang tên "Ghi chú"
+// và đứng riêng ở `/ghi-chu`. Mọi URL cũ của các trụ đã gỡ chuyển hướng về Trang chủ, của trụ
+// Công việc chuyển hướng về `/ghi-chu` — không link nào gãy thành 404.
+const Notes = lazyWithRetry(() => import('./pages/domains/notes/Notes'))
+const NotesKanban = lazyWithRetry(() => import('./pages/domains/notes/NotesKanban'))
 
 // ── 5. English Subject Module (Module Môn Học Tiếng Anh Chuyên Biệt)
 const EnglishHome = lazyWithRetry(() => import('./pages/subjects/english/EnglishHome'))
@@ -385,14 +385,6 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/life-graph"
-                        element={
-                          <RequireAccount>
-                            <LifeGraph />
-                          </RequireAccount>
-                        }
-                      />
-                      <Route
                         path="/ban-dong-hanh"
                         element={
                           <RequireAccount>
@@ -440,44 +432,14 @@ export default function App() {
                           </RequireAccount>
                         }
                       />
-                      {/* V2 Specialized Domain Hubs & Hoc-* Routes */}
-                      {/* Trụ GỘP "Sự nghiệp & Khởi nghiệp" (2026-08-28). Hai route cũ
-                          /su-nghiep và /khoi-nghiep vẫn vào được — chuyển hướng sang đúng
-                          tab của trang gộp, nên link cũ và bookmark không gãy. */}
+                      {/* Trang "Ghi chú" — trụ duy nhất còn lại của nhóm domain cũ. */}
                       <Route
-                        path="/su-nghiep-khoi-nghiep"
+                        path="/ghi-chu"
                         element={
-                          <AllowGuest>
-                            <CareerStartup />
-                          </AllowGuest>
+                          <RequireAccount>
+                            <Notes />
+                          </RequireAccount>
                         }
-                      />
-                      <Route
-                        path="/su-nghiep"
-                        element={<Navigate to="/su-nghiep-khoi-nghiep?muc=su-nghiep" replace />}
-                      />
-                      {/* Trụ GỘP "Công việc & Đời sống" (2026-08-25). Hai route cũ
-                          /cong-viec và /cuoc-song vẫn vào được — chuyển hướng sang đúng
-                          tab của trang gộp, nên link cũ và bookmark không gãy. */}
-                      <Route
-                        path="/cong-viec-cuoc-song"
-                        element={
-                          <AllowGuest>
-                            <WorkLife />
-                          </AllowGuest>
-                        }
-                      />
-                      <Route
-                        path="/cong-viec"
-                        element={<Navigate to="/cong-viec-cuoc-song?muc=cong-viec" replace />}
-                      />
-                      <Route
-                        path="/khoi-nghiep"
-                        element={<Navigate to="/su-nghiep-khoi-nghiep?muc=khoi-nghiep" replace />}
-                      />
-                      <Route
-                        path="/cuoc-song"
-                        element={<Navigate to="/cong-viec-cuoc-song?muc=doi-song" replace />}
                       />
                       {/* V2 Multi-Subject Learning Hub & Sub-pages */}
                       <Route
@@ -675,26 +637,10 @@ export default function App() {
                         }
                       />
                       <Route
-                        path="/career/interview"
+                        path="/ghi-chu/kanban"
                         element={
                           <RequireAccount>
-                            <CareerInterview />
-                          </RequireAccount>
-                        }
-                      />
-                      <Route
-                        path="/work/kanban"
-                        element={
-                          <RequireAccount>
-                            <WorkKanban />
-                          </RequireAccount>
-                        }
-                      />
-                      <Route
-                        path="/startup/canvas"
-                        element={
-                          <RequireAccount>
-                            <StartupCanvas />
+                            <NotesKanban />
                           </RequireAccount>
                         }
                       />
@@ -703,14 +649,6 @@ export default function App() {
                         element={
                           <RequireAccount>
                             <ActionCanvas />
-                          </RequireAccount>
-                        }
-                      />
-                      <Route
-                        path="/life/wheel"
-                        element={
-                          <RequireAccount>
-                            <LifeWheel />
                           </RequireAccount>
                         }
                       />
@@ -950,54 +888,22 @@ export default function App() {
                           redirect — đúng loại lỗi trùng nội dung vừa sửa ở tầng tên miền (PR #645),
                           nhưng ở tầng route. Nay mỗi trang có MỘT URL chính thức (tiếng Việt);
                           các URL cũ vẫn sống, chỉ chuyển hướng — không ai mất bookmark. */}
-                      <Route
-                        path="/career"
-                        element={<Navigate to="/su-nghiep-khoi-nghiep?muc=su-nghiep" replace />}
-                      />
-                      <Route
-                        path="/su-nghiep-cua-toi"
-                        element={<Navigate to="/su-nghiep-khoi-nghiep?muc=su-nghiep" replace />}
-                      />
-                      <Route
-                        path="/hoc-su-nghiep"
-                        element={<Navigate to="/su-nghiep-khoi-nghiep?muc=su-nghiep" replace />}
-                      />
-                      <Route
-                        path="/work"
-                        element={<Navigate to="/cong-viec-cuoc-song?muc=cong-viec" replace />}
-                      />
-                      <Route
-                        path="/cong-viec-cua-toi"
-                        element={<Navigate to="/cong-viec-cuoc-song?muc=cong-viec" replace />}
-                      />
-                      <Route
-                        path="/hoc-cong-viec"
-                        element={<Navigate to="/cong-viec-cuoc-song?muc=cong-viec" replace />}
-                      />
-                      <Route
-                        path="/startup"
-                        element={<Navigate to="/su-nghiep-khoi-nghiep?muc=khoi-nghiep" replace />}
-                      />
-                      <Route
-                        path="/toi-khoi-nghiep"
-                        element={<Navigate to="/su-nghiep-khoi-nghiep?muc=khoi-nghiep" replace />}
-                      />
-                      <Route
-                        path="/hoc-khoi-nghiep"
-                        element={<Navigate to="/su-nghiep-khoi-nghiep?muc=khoi-nghiep" replace />}
-                      />
-                      <Route
-                        path="/life"
-                        element={<Navigate to="/cong-viec-cuoc-song?muc=doi-song" replace />}
-                      />
-                      <Route
-                        path="/cuoc-song-cua-toi"
-                        element={<Navigate to="/cong-viec-cuoc-song?muc=doi-song" replace />}
-                      />
-                      <Route
-                        path="/hoc-cuoc-song"
-                        element={<Navigate to="/cong-viec-cuoc-song?muc=doi-song" replace />}
-                      />
+                      {/* [2026-09-20] URL CŨ của trụ Công việc → trang "Ghi chú". Bookmark và
+                          link đã chia sẻ vẫn vào đúng chỗ, không thành 404. */}
+                      {LEGACY_NOTES_PATHS.map((path) => (
+                        <Route
+                          key={path}
+                          path={path}
+                          element={<Navigate to="/ghi-chu" replace />}
+                        />
+                      ))}
+                      {/* [2026-09-20] URL CŨ của các trụ ĐÃ GỠ (Sự nghiệp, Khởi nghiệp, Đời sống,
+                          cùng các trang công cụ của chúng). Nội dung không còn tồn tại, nên đích
+                          đúng là Trang chủ — cố tình KHÔNG đẩy sang "Ghi chú": đó là nội dung
+                          khác hẳn, đưa người dùng tới đó là nói dối về nơi họ đang đứng. */}
+                      {REMOVED_DOMAIN_PATHS.map((path) => (
+                        <Route key={path} path={path} element={<Navigate to="/" replace />} />
+                      ))}
                       <Route path="/companion" element={<Navigate to="/ban-dong-hanh" replace />} />
                       <Route path="/dong-hanh" element={<Navigate to="/ban-dong-hanh" replace />} />
                       <Route
@@ -1029,8 +935,8 @@ export default function App() {
                         />
                       ))}
                       {/* Môn Lập trình trước đây THIẾU alias tiếng Anh: mọi trụ/môn khác đều
-                          có cặp Việt–Anh (/tieng-anh ↔ /english, /su-nghiep ↔ /career,
-                          /khoi-nghiep ↔ /startup…), riêng /programming rơi vào route `*` và bị
+                          có cặp Việt–Anh (/tieng-anh ↔ /english…), riêng /programming rơi vào
+                          route `*` và bị
                           đẩy về trang chủ — không phải trang môn, cũng không phải 404. */}
                       <Route
                         path="/programming"
@@ -1042,10 +948,6 @@ export default function App() {
                         element={<Navigate to="/luyen-tap" replace />}
                       />
                       <Route path="/workspace" element={<Navigate to="/action-canvas" replace />} />
-                      <Route
-                        path="/life/wheel-of-life"
-                        element={<Navigate to="/life/wheel" replace />}
-                      />
                       {/* Tiền tố CŨ của Góc học tập — một component lo hết mọi độ sâu, giữ
                           nguyên query/hash. `/*` để `/mon-hoc/physics/bai-hoc/<bài>` cũng về
                           đúng bài chứ không rơi xuống route `*` (đá về trang chủ). */}

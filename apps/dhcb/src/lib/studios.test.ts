@@ -1,18 +1,14 @@
 import { describe, it, expect } from 'vitest'
 import { STUDIOS, NAV_HIDDEN_PATHS } from './studios'
 
-// Cổng canh registry studio — 81 file phụ thuộc (codemap 2026-09-15), và hai chỗ tra theo id
+// Cổng canh registry studio — hàng chục file phụ thuộc (codemap 2026-09-15), và hai chỗ tra theo id
 // (`DesktopSidebar.studio()`, `breadcrumb.studioPath()`) NÉM LỖI LÚC NẠP MODULE khi id không có:
 // sai một dòng ở đây là app trắng, không có thông báo nào để lần ra.
 describe('STUDIOS — không gian nền tảng', () => {
-  it('đúng 5 studio, id duy nhất, đường dẫn tuyệt đối', () => {
-    expect(STUDIOS.map((s) => s.id)).toEqual([
-      'companion',
-      'practice',
-      'subjects',
-      'career',
-      'worklife',
-    ])
+  // [2026-09-20] `career` và `worklife` đã bị GỠ HẲN (trang, route, client API). Nửa "Công việc"
+  // của `worklife` giữ lại dưới id `notes`, tên hiển thị "Ghi chú", đường dẫn `/ghi-chu`.
+  it('đúng 4 studio, id duy nhất, đường dẫn tuyệt đối', () => {
+    expect(STUDIOS.map((s) => s.id)).toEqual(['companion', 'practice', 'subjects', 'notes'])
     expect(new Set(STUDIOS.map((s) => s.id)).size).toBe(STUDIOS.length)
     for (const st of STUDIOS) expect(st.to.startsWith('/'), st.id).toBe(true)
   })
@@ -21,6 +17,25 @@ describe('STUDIOS — không gian nền tảng', () => {
   it('KHÔNG có studio english — Tiếng Anh nằm trong Góc học tập', () => {
     expect(STUDIOS.some((s) => s.id === 'english')).toBe(false)
     expect(STUDIOS.some((s) => s.to === '/hoc-tieng-anh')).toBe(false)
+  })
+
+  it('KHÔNG còn studio career/worklife — ba trụ đã gỡ không lẻn trở lại', () => {
+    for (const id of ['career', 'worklife', 'startup', 'life']) {
+      expect(
+        STUDIOS.some((s) => s.id === id),
+        id,
+      ).toBe(false)
+    }
+    for (const to of ['/su-nghiep-khoi-nghiep', '/cong-viec-cuoc-song']) {
+      expect(
+        STUDIOS.some((s) => s.to === to),
+        to,
+      ).toBe(false)
+    }
+  })
+
+  it('studio Ghi chú trỏ đúng /ghi-chu', () => {
+    expect(STUDIOS.find((s) => s.id === 'notes')?.to).toBe('/ghi-chu')
   })
 
   it('Góc học tập trỏ đúng tiền tố chuẩn', () => {
