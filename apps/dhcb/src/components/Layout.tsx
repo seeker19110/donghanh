@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback, type ReactNode } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { ArrowLeft, BookOpen, Bot, Layers, ChevronDown } from 'lucide-react'
+import { ArrowLeft, BookOpen, Bot, Layers, ChevronDown, Home as HomeIcon } from 'lucide-react'
 import { useLang } from '../context/useLang'
 import { useAuth } from '../context/useAuth'
 import { getStreak } from '../lib/storage'
@@ -11,6 +11,13 @@ import { STUDIOS } from '../lib/studios'
 import { matchesNav } from '../lib/navPaths'
 import { buildCrumbs, type Crumb } from '../lib/breadcrumb'
 import { useIsDesktopViewport } from '../lib/useIsDesktopViewport'
+
+// Trang chủ NỀN TẢNG (landing "Đồng Hành Cùng Bạn", app `@dhcb/hub` — domain gốc, KHÁC domain
+// môn Anh app này đang chạy). Cùng khuôn với ShareResultCard.tsx/App.tsx: cho đổi qua
+// VITE_SITE_URL (staging), mặc định domain production hiện tại.
+const HUB_URL =
+  (import.meta.env.VITE_SITE_URL as string | undefined)?.replace(/\/$/, '') ||
+  'https://www.donghanhcungban.org'
 
 interface Props {
   // title/subtitle KHÔNG bắt buộc: nhiều trang nay hiển thị tiêu đề LỚN ngay dưới header
@@ -221,7 +228,26 @@ export default function Layout({
           trang có cột phải (Trang chủ, Tiến độ, Luyện viết, CEFR) là 288→1408 — tức nội dung
           THÒ RA 48px mỗi bên so với header, nhìn như hai lớp lệch nhau. 1152px (`max-w-6xl`) nay
           là bề rộng chuẩn của app: `PageShell` cấp `standard` dùng đúng giá trị này. */}
-      <div className="max-w-3xl lg:max-w-6xl mx-auto px-4 h-14 flex items-center gap-3 relative">
+      {/* [thiết kế lại header desktop] Bề rộng header nay TRÀN HẾT màn hình từ 1024px trở lên
+          (không còn `mx-auto max-w-6xl` bó giữa) — nút "Trang chủ" mới ghim sát MÉP TRÁI thật
+          sự, không phải mép trái của khối nội dung 1152px. Dưới 1024px giữ nguyên bố cục cũ
+          (căn giữa `max-w-3xl`) vì mobile không có nút này. */}
+      <div className="max-w-3xl lg:max-w-none mx-auto lg:mx-0 px-4 lg:px-6 h-14 flex items-center gap-3 relative">
+        {/* Trang chủ NỀN TẢNG — chỉ desktop (mobile đã có tab "Trang chủ" ở BottomNav). Link
+            RA NGOÀI app này (domain gốc `@dhcb/hub`), khác nút Back/Logo bên cạnh vốn điều
+            hướng NỘI BỘ trong app môn Anh. */}
+        {isDesktop && (
+          <a
+            href={HUB_URL}
+            className="tap-44 hidden lg:flex items-center gap-1.5 text-zinc-400 hover:text-white transition shrink-0 -ml-1 p-2.5 rounded-xl hover:bg-zinc-800/60 active:scale-95"
+            aria-label="Trang chủ Đồng Hành Cùng Bạn"
+            title="Trang chủ Đồng Hành Cùng Bạn"
+          >
+            <HomeIcon className="w-4 h-4" />
+            <span className="text-sm font-medium">Trang chủ</span>
+          </a>
+        )}
+
         {/* Back / Logo */}
         {back ? (
           <button

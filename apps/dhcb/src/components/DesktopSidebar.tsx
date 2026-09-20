@@ -81,10 +81,15 @@ function studioItem(
   return { to: st.to, label: label ?? st.title, icon: st.icon, color: st.color, paths, children }
 }
 
-// NHÓM 1 — 7 điểm đến CẤP 1 của sidebar (P1-7, lệnh 9: rút 10 → 7 mục). "Luyện tập" đã gỡ khỏi
-// đây — route `/luyen-tap` vẫn sống, chỉ không còn mục riêng (vào từ mục con môn/hub). "Sự
-// nghiệp & Đời sống" GỘP hai studio `career` + `worklife` cũ thành MỘT nhóm mở/đóng được, mục
-// con là chính hai studio đó — không mục nào xuất hiện hai lần.
+// NHÓM 1 — 6 điểm đến CẤP 1 của sidebar (thiết kế lại header desktop: "Trang chủ" dời hẳn lên
+// Header — xem components/Layout.tsx — vì đó là lối RA NGOÀI app này (domain gốc `@dhcb/hub`),
+// không phải điều hướng nội bộ như các mục còn lại ở đây). "Luyện tập" đã gỡ khỏi đây trước đó
+// — route `/luyen-tap` vẫn sống, chỉ không còn mục riêng (vào từ mục con môn/hub). "Sự nghiệp &
+// Đời sống" GỘP hai studio `career` + `worklife` cũ thành MỘT nhóm mở/đóng được, mục con là
+// chính hai studio đó — không mục nào xuất hiện hai lần.
+// `HOME_ITEM` vẫn giữ (không render trong `MAIN_NAV`) vì `ACTIVE_ORDER` cần nó để KHÔNG mục
+// nào khác lỡ sáng đèn khi đang ở Trang chủ (`resolveActiveNav` xét tuần tự, thiếu mốc `/`
+// thì `/` rơi vào nhánh so khớp lỏng hơn của mục kế tiếp).
 const HOME_ITEM: Item = { to: '/', label: 'Trang chủ', icon: Home, exact: true }
 const REVIEW_ITEM: Item = {
   to: '/goc-hoc-tap/on-tap',
@@ -109,7 +114,6 @@ const CAREER_LIFE_ITEM: Item = {
 }
 
 const MAIN_NAV: Item[] = [
-  HOME_ITEM,
   studioItem('subjects', LEARNING_PATHS, 'Góc học tập', SUBJECT_CHILDREN),
   // [S12-1] "Ôn tập" là mục CẤP NỀN TẢNG, không phải của riêng môn nào: hàng đợi gộp mọi môn.
   // Không có mục con — sidebar dừng ở cấp môn (spec cha Góc học tập §③).
@@ -126,11 +130,14 @@ const CORE_BOTTOM: Item[] = [
 // Thứ tự XÉT active (khác thứ tự HIỂN THỊ): cụ thể nhất trước, bao quát nhất sau — xem
 // `resolveActiveNav`. `PROFILE_PATHS` chứa cả path sự nghiệp/đời sống nên "Hồ sơ" đứng cuối cùng.
 const ACTIVE_ORDER: Item[] = [
+  // `HOME_ITEM` không còn render trong `MAIN_NAV` (dời lên Header) nhưng VẪN phải đứng đầu
+  // đây: `/` phải khớp đúng `HOME_ITEM` (exact) trước khi rơi vào so khớp lỏng hơn của mục
+  // kế tiếp.
   HOME_ITEM,
   // Cụ thể nhất trước: `/goc-hoc-tap/on-tap` nằm TRONG `LEARNING_PATHS`, nên nếu xét sau thì
   // đứng ở hub lại sáng mục "Góc học tập".
   REVIEW_ITEM,
-  ...MAIN_NAV.slice(1),
+  ...MAIN_NAV,
   ...CORE_BOTTOM,
 ]
 
@@ -341,31 +348,36 @@ export default function DesktopSidebar() {
       className="hidden lg:flex fixed inset-y-0 left-0 z-40 w-[var(--sidebar-w)] flex-col bg-zinc-950/95 backdrop-blur-xl border-r border-zinc-800/80 transition-[width] duration-200"
       aria-label="Điều hướng chính (desktop)"
     >
+      {/* [thiết kế lại header desktop] Nút thu gọn/mở rộng nay CHỈ một chỗ, luôn ở ĐẦU sidebar
+          — trước đây tách hai vị trí (đầu khi mở rộng, cuối khi thu gọn) khiến người dùng phải
+          nhớ nó "chạy" đi đâu tuỳ trạng thái. */}
       <div
         className={`h-14 flex items-center gap-2 px-3 border-b border-zinc-800/80 ${
           collapsed ? 'justify-center' : ''
         }`}
       >
-        <Link
-          to="/gioi-thieu"
-          className="flex items-center gap-2.5 min-w-0 rounded-xl p-1 hover:bg-zinc-800/60 transition"
+        <button
+          onClick={toggle}
+          aria-label={collapsed ? 'Mở rộng thanh điều hướng' : 'Thu gọn thanh điều hướng'}
+          title={collapsed ? 'Mở rộng thanh điều hướng' : 'Thu gọn thanh điều hướng'}
+          className="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition shrink-0"
         >
-          <span className="w-7 h-7 rounded-xl bg-gradient-to-br from-accent-500 via-accent-400 to-indigo-500 flex items-center justify-center shadow-md shrink-0">
-            <BookOpen className="w-3.5 h-3.5 text-[#fff]" />
-          </span>
-          <span className={collapsed ? 'sr-only' : 'font-bold text-sm text-white truncate'}>
-            Đồng Hành
-          </span>
-        </Link>
-        {!collapsed && (
-          <button
-            onClick={toggle}
-            aria-label="Thu gọn thanh điều hướng"
-            title="Thu gọn thanh điều hướng"
-            className="ml-auto p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition"
-          >
+          {collapsed ? (
+            <PanelLeftOpen className="w-4 h-4" />
+          ) : (
             <PanelLeftClose className="w-4 h-4" />
-          </button>
+          )}
+        </button>
+        {!collapsed && (
+          <Link
+            to="/gioi-thieu"
+            className="flex items-center gap-2.5 min-w-0 rounded-xl p-1 hover:bg-zinc-800/60 transition"
+          >
+            <span className="w-7 h-7 rounded-xl bg-gradient-to-br from-accent-500 via-accent-400 to-indigo-500 flex items-center justify-center shadow-md shrink-0">
+              <BookOpen className="w-3.5 h-3.5 text-[#fff]" />
+            </span>
+            <span className="font-bold text-sm text-white truncate">Đồng Hành</span>
+          </Link>
         )}
       </div>
 
@@ -387,19 +399,6 @@ export default function DesktopSidebar() {
       >
         {collapsed ? 'VIP' : 'Free · Nâng cấp'}
       </Link>
-
-      {collapsed && (
-        <div className="p-2 border-t border-zinc-800/80 flex justify-center">
-          <button
-            onClick={toggle}
-            aria-label="Mở rộng thanh điều hướng"
-            title="Mở rộng thanh điều hướng"
-            className="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition"
-          >
-            <PanelLeftOpen className="w-4 h-4" />
-          </button>
-        </div>
-      )}
     </aside>
   )
 }

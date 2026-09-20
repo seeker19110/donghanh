@@ -103,15 +103,16 @@ describe('DesktopSidebar — Tiếng Anh là một môn trong Góc học tập',
   })
 })
 
-// [P1-7, lệnh 9] Sidebar 10 → 7 mục cấp 1: Trang chủ · Góc học tập · Ôn tập · Bạn Đồng Hành ·
-// Sự nghiệp & Đời sống (gộp career+worklife) · Tiến độ · Hồ sơ. "Luyện tập" gỡ khỏi sidebar,
+// [P1-7, lệnh 9; rút còn 6 mục ở thiết kế lại header desktop] Sidebar nay 6 mục cấp 1: Góc học
+// tập · Ôn tập · Bạn Đồng Hành · Sự nghiệp & Đời sống (gộp career+worklife) · Tiến độ · Hồ sơ.
+// "Trang chủ" dời hẳn lên Header (lối RA NGOÀI app, domain gốc `@dhcb/hub` — xem
+// components/Layout.tsx), không còn là điều hướng nội bộ ở sidebar. "Luyện tập" gỡ khỏi sidebar,
 // "Nâng cấp" thành dòng nhỏ dưới danh sách (không còn <a> cấp 1 riêng).
-describe('DesktopSidebar — P1-7: 10 → 7 mục cấp 1', () => {
+describe('DesktopSidebar — P1-7: 10 → 6 mục cấp 1', () => {
   function countTopLevelLinks(html: string): number {
     // Cấp 1 = <li> con trực tiếp của <ul> đầu tiên (MAIN_NAV) + <ul> CORE_BOTTOM — đơn giản
     // hơn: đếm theo các href cấp 1 đã biết, vì DOM tĩnh không phân biệt lồng cấp bằng regex dễ.
     const topHrefs = [
-      '/',
       '/goc-hoc-tap',
       '/goc-hoc-tap/on-tap',
       '/ban-dong-hanh',
@@ -122,9 +123,10 @@ describe('DesktopSidebar — P1-7: 10 → 7 mục cấp 1', () => {
     return topHrefs.filter((href) => html.includes(`href="${href}"`)).length
   }
 
-  it('AC-1: đúng 7 mục cấp 1 khi mọi nhóm đóng', () => {
+  it('AC-1: đúng 6 mục cấp 1 khi mọi nhóm đóng (Trang chủ đã dời lên Header)', () => {
     const html = render('/tien-do')
-    expect(countTopLevelLinks(html)).toBe(7)
+    expect(countTopLevelLinks(html)).toBe(6)
+    expect(html).not.toContain('href="/"')
   })
 
   it('AC-2: "Sự Nghiệp & Khởi Nghiệp"/"Công Việc & Đời Sống" chỉ còn ở cấp 2, không còn mục cấp 1 riêng', () => {
