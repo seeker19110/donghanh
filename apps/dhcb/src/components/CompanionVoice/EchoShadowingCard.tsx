@@ -65,7 +65,7 @@ export default function EchoShadowingCard() {
       <div className="flex items-center justify-between pb-4 border-b border-line-subtle">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-blue-500 flex items-center justify-center shadow-lg">
-            <Zap className="w-5 h-5 text-white" />
+            <Zap className="w-5 h-5 text-[#fff]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
@@ -170,8 +170,8 @@ export default function EchoShadowingCard() {
               disabled={isRecording || isEvaluating}
               className={`w-full py-3 rounded-xl font-bold text-sm shadow-lg flex items-center justify-center gap-2 transition-all ${
                 isRecording
-                  ? 'bg-rose-600 text-white animate-pulse'
-                  : 'bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white'
+                  ? 'bg-rose-600 text-[#fff] animate-pulse'
+                  : 'bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-[#fff]'
               }`}
             >
               {isRecording ? (
@@ -199,7 +199,7 @@ export default function EchoShadowingCard() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Award className="w-5 h-5 text-sky-400 theme-light:text-sky-900" />
-                  <h4 className="text-sm font-bold text-white">Kết Quả Shadowing Chuẩn Xác</h4>
+                  <h4 className="text-sm font-bold text-[#fff]">Kết Quả Shadowing Chuẩn Xác</h4>
                 </div>
                 <div className="text-lg font-black text-sky-400 theme-light:text-sky-900 bg-sky-400/10 px-3 py-1 rounded-lg border border-sky-400/30">
                   Band: {sessionResult.overallShadowingBand}

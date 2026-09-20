@@ -190,7 +190,7 @@ export const A2ANegotiatorCard: React.FC = () => {
                         <button
                           onClick={() => handleStartHandshake(peer)}
                           disabled={actionLoading === peer.peerPersonId}
-                          className="tap-44 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition disabled:opacity-50 shadow-sm"
+                          className="tap-44 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-[#fff] font-semibold text-xs transition disabled:opacity-50 shadow-sm"
                         >
                           {actionLoading === peer.peerPersonId ? (
                             <Loader2 className="w-3.5 h-3.5 animate-spin" />

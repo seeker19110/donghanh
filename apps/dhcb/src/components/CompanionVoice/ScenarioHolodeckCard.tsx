@@ -122,7 +122,7 @@ export default function ScenarioHolodeckCard() {
       <div className="flex items-center justify-between pb-4 border-b border-line-subtle">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg">
-            <Users className="w-5 h-5 text-white" />
+            <Users className="w-5 h-5 text-[#fff]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
@@ -205,7 +205,11 @@ export default function ScenarioHolodeckCard() {
                       <Users className="w-3 h-3" /> {sc.personas.length} Persona
                     </span>
                   </div>
-                  <h4 className="text-sm font-semibold text-white mb-1.5">{sc.title}</h4>
+                  <h4
+                    className={`text-sm font-semibold mb-1.5 ${isSelected ? 'text-[#fff]' : 'text-white'}`}
+                  >
+                    {sc.title}
+                  </h4>
                   <p className="text-xs text-content-secondary line-clamp-2">{sc.description}</p>
                 </button>
               )
@@ -239,7 +243,7 @@ export default function ScenarioHolodeckCard() {
               <button
                 onClick={() => handleStartSession(currentScenario.id)}
                 disabled={isLoading}
-                className="w-full mt-4 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm shadow-lg flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+                className="w-full mt-4 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-[#fff] font-semibold text-sm shadow-lg flex items-center justify-center gap-2 transition-all disabled:opacity-50"
               >
                 <Sparkles className="w-4 h-4" />
                 <span>Bước vào phòng giả lập ngay</span>
@@ -345,7 +349,7 @@ export default function ScenarioHolodeckCard() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Award className="w-5 h-5 text-amber-400 theme-light:text-amber-900" />
-                  <h4 className="text-sm font-bold text-white">
+                  <h4 className="text-sm font-bold text-[#fff]">
                     Bảng Điểm Rubric Tổng Kết Chuẩn Quốc Tế
                   </h4>
                 </div>
@@ -413,7 +417,7 @@ export default function ScenarioHolodeckCard() {
               <button
                 type="submit"
                 disabled={!userUtterance.trim() || isLoading}
-                className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-lg transition-colors disabled:opacity-50"
+                className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-[#fff] text-xs font-semibold flex items-center gap-1.5 shadow-lg transition-colors disabled:opacity-50"
               >
                 <Send className="w-3.5 h-3.5" />
                 <span>Gửi</span>

@@ -110,7 +110,7 @@ export default function WorkplaceHarvesterCard() {
       <div className="flex items-center justify-between pb-4 border-b border-line-subtle">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-orange-500 flex items-center justify-center shadow-lg">
-            <Briefcase className="w-5 h-5 text-white" />
+            <Briefcase className="w-5 h-5 text-[#fff]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
