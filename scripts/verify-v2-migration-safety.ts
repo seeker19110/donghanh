@@ -4,7 +4,8 @@
 //   1. Idempotency: Tạo bảng/index/schema phải dùng `IF NOT EXISTS` hoặc `OR REPLACE`.
 //   2. Tính liên tục (Sequence continuity): Các file migration được đánh số thứ tự từ 0001 đến 0052.
 //   3. Không phá huỷ ngoài kiểm soát: Cấm `DROP DATABASE`, `DROP SCHEMA ... CASCADE`, `TRUNCATE`.
-//   4. Đầy đủ các schema Platform V2: personal, career, work, startup, life, platform.
+//   4. Đầy đủ các schema Platform V2 còn hiệu lực: personal, worklife, platform.
+//      (career/startup/life đã xoá hẳn 2026-09-20 — migration 0085.)
 //
 // Cách chạy: npx tsx scripts/verify-v2-migration-safety.ts
 // Exit 0: Toàn bộ migration an toàn và đạt chuẩn.
@@ -89,7 +90,7 @@ export function auditMigrations(migrationsDir: string = MIGRATIONS_DIR): Migrati
   }
 
   // Kiểm tra sự hiện diện của các schema cốt lõi Platform V2
-  const REQUIRED_V2_SCHEMAS = ['personal', 'career', 'work', 'startup', 'life', 'platform']
+  const REQUIRED_V2_SCHEMAS = ['personal', 'worklife', 'platform']
   for (const reqSchema of REQUIRED_V2_SCHEMAS) {
     if (!foundSchemas.has(reqSchema)) {
       warnings.push(

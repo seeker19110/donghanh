@@ -44,7 +44,8 @@ export async function runFinalArchitectureAudit(): Promise<FinalAuditSummary> {
     const details: string[] = []
     let passed = true
     try {
-      const domains = ['learning', 'career', 'work', 'startup', 'life']
+      // 2026-09-20: ba trụ career/startup/life đã xoá hẳn, chỉ còn learning + work.
+      const domains = ['learning', 'work']
       details.push(
         `Verified ${domains.length} production domains registered in Companion routing matrix`,
       )
@@ -275,7 +276,7 @@ export async function runFinalArchitectureAudit(): Promise<FinalAuditSummary> {
     let passed = true
     try {
       details.push(
-        'Authoritative state resides 100% in PostgreSQL schemas (platform, personal, learning, career, work, startup, life)',
+        'Authoritative state resides 100% in PostgreSQL schemas (platform, personal, learning, worklife)',
       )
       details.push(
         'Zero authoritative memory or domain state is trapped in ephemeral LLM contexts or vendor agent stores',

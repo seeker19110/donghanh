@@ -547,13 +547,20 @@ không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelo
 - ~~**4 trang trụ Career/Work/Startup/Life chưa có chiều B**~~ — ✅ **ĐÓNG 2026-09-20**: ba
   trang Career/Startup/Life đã bị gỡ hẳn (changelog 0389), trang còn lại là "Ghi chú" —
   nội dung do người dùng tự nhập, không có chiều học nào để phân biệt.
-- **[2026-09-20, NỢ MỞ] Backend ba trụ đã gỡ vẫn còn sống.** `/api/{career,startup,life,
-life-graph}` + `careerService`/`startupService`/`lifeFoundationService` + read model của
-  chúng KHÔNG bị xoá: `lifeGraphService` là động cơ đồ thị xuyên miền mà Companion
-  (`contextEngine`, `crossDomainGraphService`, `crossDomainSynergyService`,
-  `subconsciousService`, `lifeSynthesis`) đang dùng, và xoá bảng/dữ liệu người dùng là thao tác
-  không hoàn tác được (CLAUDE.md mục 12). **Cần chủ dự án quyết riêng** có xoá dữ liệu + API
-  hay giữ làm kho dữ liệu chỉ-đọc cho Companion.
+- ~~**[2026-09-20] Backend ba trụ đã gỡ vẫn còn sống**~~ — ✅ **ĐÓNG 2026-09-20 (chủ dự án chốt
+  xoá, chấp nhận mất dữ liệu cũ)**: đã xoá `careerService`/`startupService`/
+  `lifeFoundationService`/`lifeMilestoneMasteryService`, `/api/{career,career-interview,startup,
+life}`, contract + `careerInterviewService`/`compassionateCoachPrompt`/
+  `crossDomainGraphService`/`crossDomainSynergyService` (chỉ tồn tại để đồng bộ mục tiêu sự
+  nghiệp) và bảng CSDL (`postgres/migrations/0085_drop_career_startup_life.sql`).
+  `domainReadModelService` giờ chỉ còn trụ `work`; Companion **không còn** tư vấn xuyên trụ ở ba
+  mảng đó. **CÒN MỞ (cần chủ dự án xác nhận riêng):** `/api/life-graph` · `/api/life-goals` ·
+  `/api/life-synthesis` + `lifeGraphService` + bảng `personal.life_graph_*` (migration 0043) **cố
+  ý GIỮ LẠI** — đó là đồ thị cá nhân/Learning chứ không phải trụ "Đời sống" (bảng nằm ở schema
+  `personal`, không phải `life`): `learningGoalAdapter` → `/api/profile` chiếu learning goal vào
+  đó, `contextEngine` đọc nó theo consent `life_graph`, và studio "Tổng hợp" của Companion
+  (`StudioSynthesis`, đang chạy thật) gọi `/api/life-synthesis`. Xoá sẽ gãy các luồng Learning +
+  Companion đó, nên chờ quyết định riêng.
 
 ### Ưu tiên 3 — kỹ thuật (nhỏ, đo được, không đổi hành vi)
 

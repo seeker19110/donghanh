@@ -31,10 +31,7 @@ export interface PersonExportData {
   personalPolicies: PolicyRow[]
   lifeGraphNodes: LifeGraphNodeRow[]
   lifeGraphEdges: LifeGraphEdgeRow[]
-  careerRecords: CareerRow[]
   workRecords: WorkRow[]
-  startupRecords: StartupRow[]
-  lifeRecords: LifeRow[]
   automationGrants: AutomationGrantRow[]
   actionReceipts: ActionReceiptRow[]
   decisionRecords: DecisionRow[]
@@ -112,22 +109,7 @@ interface LifeGraphEdgeRow {
   edge_type: string
   created_at: string
 }
-interface CareerRow {
-  id: string
-  record_type: string
-  created_at: string
-}
 interface WorkRow {
-  id: string
-  record_type: string
-  created_at: string
-}
-interface StartupRow {
-  id: string
-  record_type: string
-  created_at: string
-}
-interface LifeRow {
   id: string
   record_type: string
   created_at: string
@@ -172,10 +154,7 @@ export async function exportPersonData(pool: Pool, personId: string): Promise<Pe
     automationRes,
     receiptsRes,
     decisionRes,
-    careerRes,
     workRes,
-    startupRes,
-    lifeRes,
   ] = await Promise.all([
     // Personal identity
     pool.query<PersonRow>(
@@ -246,14 +225,6 @@ export async function exportPersonData(pool: Pool, personId: string): Promise<Pe
         [personId],
       )
       .catch(() => ({ rows: [] as DecisionRow[] })),
-    // Career records
-    pool
-      .query<CareerRow>(
-        `select id, 'career' as record_type, created_at::text
-         from career.career_profiles where person_id = $1`,
-        [personId],
-      )
-      .catch(() => ({ rows: [] as CareerRow[] })),
     // Work records
     pool
       .query<WorkRow>(
@@ -262,22 +233,6 @@ export async function exportPersonData(pool: Pool, personId: string): Promise<Pe
         [personId],
       )
       .catch(() => ({ rows: [] as WorkRow[] })),
-    // Startup records
-    pool
-      .query<StartupRow>(
-        `select id, 'venture' as record_type, created_at::text
-         from startup.ventures where person_id = $1`,
-        [personId],
-      )
-      .catch(() => ({ rows: [] as StartupRow[] })),
-    // Life records
-    pool
-      .query<LifeRow>(
-        `select id, 'plan' as record_type, created_at::text
-         from worklife.plans where person_id = $1`,
-        [personId],
-      )
-      .catch(() => ({ rows: [] as LifeRow[] })),
   ])
 
   return {
@@ -293,10 +248,7 @@ export async function exportPersonData(pool: Pool, personId: string): Promise<Pe
     automationGrants: automationRes.rows,
     actionReceipts: receiptsRes.rows,
     decisionRecords: decisionRes.rows,
-    careerRecords: careerRes.rows,
     workRecords: workRes.rows,
-    startupRecords: startupRes.rows,
-    lifeRecords: lifeRes.rows,
   }
 }
 
@@ -395,74 +347,14 @@ export async function erasePersonData(
     totalDeleted += await deleteScoped('personal', 'personal_facts')
 
     // --- domain schemas (best-effort: tables may not exist in local dev) ---
-
-    // Career
-    totalDeleted += await client
-      .query('DELETE FROM career.career_profiles WHERE person_id = $1', [personId])
-      .then((r) => {
-        if ((r.rowCount ?? 0) > 0) schemasCleared.push('career.career_profiles')
-        return r.rowCount ?? 0
-      })
-      .catch(() => 0)
-    totalDeleted += await client
-      .query('DELETE FROM career.career_experiences WHERE person_id = $1', [personId])
-      .then((r) => {
-        if ((r.rowCount ?? 0) > 0) schemasCleared.push('career.career_experiences')
-        return r.rowCount ?? 0
-      })
-      .catch(() => 0)
-    totalDeleted += await client
-      .query('DELETE FROM career.career_goals WHERE person_id = $1', [personId])
-      .then((r) => {
-        if ((r.rowCount ?? 0) > 0) schemasCleared.push('career.career_goals')
-        return r.rowCount ?? 0
-      })
-      .catch(() => 0)
+    // [2026-09-20] Ba trụ career/startup/life đã bị xoá hẳn (service, API và bảng CSDL —
+    // migration `0085_drop_career_startup_life.sql`), nên ở đây không còn gì để xoá cho chúng.
 
     // Work
     totalDeleted += await client
       .query('DELETE FROM worklife.projects WHERE person_id = $1', [personId])
       .then((r) => {
         if ((r.rowCount ?? 0) > 0) schemasCleared.push('worklife.projects')
-        return r.rowCount ?? 0
-      })
-      .catch(() => 0)
-
-    // Startup
-    totalDeleted += await client
-      .query('DELETE FROM startup.ventures WHERE person_id = $1', [personId])
-      .then((r) => {
-        if ((r.rowCount ?? 0) > 0) schemasCleared.push('startup.ventures')
-        return r.rowCount ?? 0
-      })
-      .catch(() => 0)
-
-    // Life
-    totalDeleted += await client
-      .query('DELETE FROM worklife.plans WHERE person_id = $1', [personId])
-      .then((r) => {
-        if ((r.rowCount ?? 0) > 0) schemasCleared.push('worklife.plans')
-        return r.rowCount ?? 0
-      })
-      .catch(() => 0)
-    totalDeleted += await client
-      .query('DELETE FROM worklife.habits WHERE person_id = $1', [personId])
-      .then((r) => {
-        if ((r.rowCount ?? 0) > 0) schemasCleared.push('worklife.habits')
-        return r.rowCount ?? 0
-      })
-      .catch(() => 0)
-    totalDeleted += await client
-      .query('DELETE FROM worklife.wellbeing_checks WHERE person_id = $1', [personId])
-      .then((r) => {
-        if ((r.rowCount ?? 0) > 0) schemasCleared.push('worklife.wellbeing_checks')
-        return r.rowCount ?? 0
-      })
-      .catch(() => 0)
-    totalDeleted += await client
-      .query('DELETE FROM worklife.growth_milestones WHERE person_id = $1', [personId])
-      .then((r) => {
-        if ((r.rowCount ?? 0) > 0) schemasCleared.push('worklife.growth_milestones')
         return r.rowCount ?? 0
       })
       .catch(() => 0)
