@@ -92,7 +92,7 @@ test('câu hỏi quá dài bị báo lỗi tại chỗ, không bị cắt bớt'
 })
 
 test.describe('UX-R2 — progressive disclosure ở Trang chủ member', () => {
-  test('mobile: prompt panel stable/hidden, mở có 5 chip và click chip không gọi mạng', async ({
+  test('mobile: prompt panel stable/hidden, mở có 4 chip và click chip không gọi mạng', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 844 })
@@ -104,7 +104,7 @@ test.describe('UX-R2 — progressive disclosure ở Trang chủ member', () => {
     const panel = page.locator('#home-prompt-chips')
     await expect(toggle).toHaveAttribute('aria-expanded', 'false')
     await expect(panel).toBeHidden()
-    await expect(panel.locator('button')).toHaveCount(5)
+    await expect(panel.locator('button')).toHaveCount(4)
 
     await toggle.click()
     await expect(toggle).toHaveAttribute('aria-expanded', 'true')
@@ -129,20 +129,18 @@ test.describe('UX-R2 — progressive disclosure ở Trang chủ member', () => {
     await mockLogin(page)
     await page.goto('/')
 
-    const toggle = page.getByRole('button', { name: 'Xem 5 gợi ý nhanh' })
+    const toggle = page.getByRole('button', { name: 'Xem 4 gợi ý nhanh' })
     await toggle.focus()
     await page.setViewportSize({ width: 1440, height: 900 })
     await expect(toggle).toHaveCount(0)
     await expect(page.locator('#home-prompt-chips').getByRole('button').first()).toBeFocused()
 
     await page.setViewportSize({ width: 390, height: 844 })
-    await expect(page.getByRole('button', { name: 'Xem 5 gợi ý nhanh' })).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Xem 4 gợi ý nhanh' })).toBeVisible()
     await expect(page.locator('#home-prompt-chips')).toBeHidden()
   })
 
-  test('mobile: 3 môn → toggle → list 4–6; shortcut phụ và career shortcut không render sẵn', async ({
-    page,
-  }) => {
+  test('mobile: 3 môn → toggle → list 4–6; shortcut phụ không render sẵn', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await mockLogin(page)
     await page.goto('/')
@@ -151,7 +149,6 @@ test.describe('UX-R2 — progressive disclosure ở Trang chủ member', () => {
     const toggle = page.locator('button[aria-controls="home-subjects-revealed"]')
     await expect(revealed).toBeHidden()
     await expect(page.getByRole('button', { name: 'Lộ trình CEFR' })).toHaveCount(0)
-    await expect(page.getByRole('button', { name: 'Phỏng vấn thử', exact: true })).toHaveCount(0)
 
     await toggle.click()
     await expect(toggle).toHaveAttribute('aria-expanded', 'true')
@@ -170,11 +167,10 @@ test.describe('UX-R2 — progressive disclosure ở Trang chủ member', () => {
     await page.goto('/')
 
     await expect(page.getByRole('button', { name: /gợi ý nhanh/i })).toHaveCount(0)
-    await expect(page.locator('#home-prompt-chips').getByRole('button')).toHaveCount(5)
+    await expect(page.locator('#home-prompt-chips').getByRole('button')).toHaveCount(4)
     await expect(page.locator('#home-subjects-revealed')).toHaveCount(0)
     await expect(page.getByRole('heading', { level: 3 })).toHaveCount(7)
     await expect(page.getByRole('button', { name: 'Lộ trình CEFR' })).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Phỏng vấn thử', exact: true })).toBeVisible()
     await expect(
       page.locator('main').getByRole('button', { name: 'Xem bảng tiến độ' }),
     ).toHaveCount(1)
