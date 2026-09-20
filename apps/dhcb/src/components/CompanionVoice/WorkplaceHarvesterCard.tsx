@@ -105,12 +105,12 @@ export default function WorkplaceHarvesterCard() {
   }
 
   return (
-    <div className="bg-slate-900/90 border border-amber-500/30 rounded-2xl p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden transition-all duration-300">
+    <div className="bg-surface-card border border-amber-500/30 rounded-2xl p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden transition-all duration-300">
       {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+      <div className="flex items-center justify-between pb-4 border-b border-line-subtle">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-orange-500 flex items-center justify-center shadow-lg">
-            <Briefcase className="w-5 h-5 text-white" />
+            <Briefcase className="w-5 h-5 text-[#fff]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
@@ -121,7 +121,7 @@ export default function WorkplaceHarvesterCard() {
                 Workplace AI
               </span>
             </div>
-            <p className="text-xs text-slate-400 theme-light:text-slate-700">
+            <p className="text-xs text-content-secondary">
               Thu hoạch câu từ chưa chuẩn từ công việc thực tế ➔ Tự động sinh Flashcard Spaced
               Repetition
             </p>
@@ -129,13 +129,13 @@ export default function WorkplaceHarvesterCard() {
         </div>
 
         {/* Tab switcher */}
-        <div className="flex bg-slate-800/80 p-1 rounded-xl border border-slate-700">
+        <div className="flex bg-surface-raised p-1 rounded-xl border border-line-strong">
           <button
             onClick={() => setActiveTab('mistakes')}
             className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors ${
               activeTab === 'mistakes'
                 ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                : 'text-slate-400 theme-light:text-slate-700 hover:text-slate-200'
+                : 'text-content-secondary hover:text-content'
             }`}
           >
             Lỗi Thu Hoạch ({mistakes.length})
@@ -145,7 +145,7 @@ export default function WorkplaceHarvesterCard() {
             className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors ${
               activeTab === 'cards'
                 ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                : 'text-slate-400 theme-light:text-slate-700 hover:text-slate-200'
+                : 'text-content-secondary hover:text-content'
             }`}
           >
             Thẻ SRS ({srsCards.length})
@@ -161,7 +161,7 @@ export default function WorkplaceHarvesterCard() {
           onChange={(e) => setTestText(e.target.value)}
           placeholder="Dán đoạn thảo luận / email (ví dụ: 'I am agree with you to discuss about this project')..."
           disabled={isHarvesting}
-          className="flex-1 px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors"
+          className="flex-1 px-4 py-2.5 rounded-xl bg-surface-raised border border-line-strong text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors"
         />
         <button
           type="submit"
@@ -179,11 +179,11 @@ export default function WorkplaceHarvesterCard() {
           {mistakes.map((m) => (
             <div
               key={m.id}
-              className="p-3.5 rounded-xl bg-slate-800/50 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-all"
+              className="p-3.5 rounded-xl bg-surface-raised border border-line-subtle space-y-2 hover:border-line-strong transition-all"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-bold uppercase px-2 py-0.5 rounded bg-slate-700 text-slate-300">
+                  <span className="text-[11px] font-bold uppercase px-2 py-0.5 rounded bg-surface-raised text-content-secondary">
                     {m.sourceType}
                   </span>
                   <span className="text-[11px] font-bold px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 theme-light:text-blue-800">
@@ -218,7 +218,7 @@ export default function WorkplaceHarvesterCard() {
                 )}
               </div>
 
-              <div className="text-xs text-slate-300 theme-light:text-slate-700 italic bg-slate-900/60 p-2 rounded-lg border border-slate-800">
+              <div className="text-xs text-content-secondary italic bg-surface-raised p-2 rounded-lg border border-line-subtle">
                 &ldquo;{m.originalContextSnippet}&rdquo;
               </div>
 
@@ -237,9 +237,8 @@ export default function WorkplaceHarvesterCard() {
                 </div>
               </div>
 
-              <p className="text-[11px] text-slate-400 theme-light:text-slate-700">
-                💡 <span className="text-slate-300 theme-light:text-slate-700">Giải thích:</span>{' '}
-                {m.explanationVi}
+              <p className="text-[11px] text-content-secondary">
+                💡 <span className="text-content-secondary">Giải thích:</span> {m.explanationVi}
               </p>
             </div>
           ))}
@@ -250,7 +249,7 @@ export default function WorkplaceHarvesterCard() {
       {activeTab === 'cards' && (
         <div className="mt-4 space-y-3 max-h-72 overflow-y-auto pr-1">
           {srsCards.length === 0 ? (
-            <div className="p-6 text-center text-xs text-slate-400 theme-light:text-slate-700">
+            <div className="p-6 text-center text-xs text-content-secondary">
               Chưa có thẻ SRS nào được tạo từ lỗi công việc. Hãy nhấn &quot;Tạo Thẻ SRS&quot; ở tab
               bên cạnh!
             </div>
@@ -267,19 +266,19 @@ export default function WorkplaceHarvesterCard() {
                       Thẻ Ôn Tập Spaced Repetition
                     </span>
                   </div>
-                  <span className="text-[11px] text-slate-400 theme-light:text-slate-700">
+                  <span className="text-[11px] text-content-secondary">
                     Lặp lại sau {c.repetitionIntervalDays} ngày
                   </span>
                 </div>
 
-                <div className="text-xs font-medium text-slate-200 theme-light:text-slate-700">
+                <div className="text-xs font-medium text-content">
                   <span className="text-amber-400 theme-light:text-amber-900 font-bold">
                     Mặt trước:{' '}
                   </span>
                   {c.frontPrompt}
                 </div>
 
-                <div className="text-xs font-medium text-emerald-300 theme-light:text-emerald-900 bg-slate-900/80 p-2 rounded-lg border border-slate-800">
+                <div className="text-xs font-medium text-emerald-300 theme-light:text-emerald-900 bg-surface-raised p-2 rounded-lg border border-line-subtle">
                   <span className="text-emerald-400 theme-light:text-emerald-900 font-bold">
                     Đáp án:{' '}
                   </span>

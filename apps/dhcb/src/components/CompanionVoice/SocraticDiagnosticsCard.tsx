@@ -90,12 +90,12 @@ export default function SocraticDiagnosticsCard() {
   }
 
   return (
-    <div className="bg-slate-900/90 border border-violet-500/30 rounded-2xl p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden transition-all duration-300">
+    <div className="bg-surface-card border border-violet-500/30 rounded-2xl p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden transition-all duration-300">
       {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+      <div className="flex items-center justify-between pb-4 border-b border-line-subtle">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 to-purple-500 flex items-center justify-center shadow-lg">
-            <HelpCircle className="w-5 h-5 text-white" />
+            <HelpCircle className="w-5 h-5 text-[#fff]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
@@ -106,7 +106,7 @@ export default function SocraticDiagnosticsCard() {
                 Mental Model Debugger
               </span>
             </div>
-            <p className="text-xs text-slate-400 theme-light:text-slate-700">
+            <p className="text-xs text-content-secondary">
               Chẩn đoán khuyết điểm nhận thức gốc rễ & dẫn dắt tư duy Socratic tự thấu suốt
             </p>
           </div>
@@ -115,7 +115,7 @@ export default function SocraticDiagnosticsCard() {
         {activeSession && (
           <button
             onClick={() => setActiveSession(null)}
-            className="p-1.5 text-slate-400 theme-light:text-slate-700 hover:text-slate-200 hover:bg-slate-800 rounded-lg transition-colors"
+            className="p-1.5 text-content-secondary hover:text-content hover:bg-surface-raised rounded-lg transition-colors"
             title="Đổi chủ đề"
           >
             <RotateCcw className="w-4 h-4" />
@@ -140,17 +140,21 @@ export default function SocraticDiagnosticsCard() {
                   className={`w-full text-left p-4 rounded-xl cursor-pointer border transition-all duration-200 ${
                     isSelected
                       ? 'bg-violet-950/40 border-violet-500 shadow-lg shadow-violet-500/10'
-                      : 'bg-slate-800/40 border-slate-800 hover:border-slate-700'
+                      : 'bg-surface-raised border-line-subtle hover:border-line-strong'
                   }`}
                 >
                   <div className="text-[11px] font-semibold uppercase px-2 py-0.5 rounded bg-violet-500/20 text-violet-300 theme-light:text-violet-800 w-fit mb-2">
                     {m.domain.replace(/_/g, ' ')}
                   </div>
-                  <h4 className="text-sm font-semibold text-white mb-1.5">{m.title}</h4>
+                  <h4
+                    className={`text-sm font-semibold mb-1.5 ${isSelected ? 'text-[#fff]' : 'text-white'}`}
+                  >
+                    {m.title}
+                  </h4>
                   <div className="text-xs text-red-300 theme-light:text-red-900/90 font-mono bg-red-950/30 p-1.5 rounded border border-red-500/20 mb-2">
                     ❌ &ldquo;{m.surfaceErrorPattern}&rdquo;
                   </div>
-                  <p className="text-xs text-slate-400 theme-light:text-slate-700 line-clamp-2">
+                  <p className="text-xs text-content-secondary line-clamp-2">
                     {m.rootCauseAnalysis}
                   </p>
                 </button>
@@ -159,18 +163,18 @@ export default function SocraticDiagnosticsCard() {
           </div>
 
           {currentTopic && (
-            <div className="p-4 rounded-xl bg-slate-800/50 border border-slate-700/60 mt-4 space-y-3">
-              <div className="text-xs font-semibold text-slate-200 theme-light:text-slate-700">
+            <div className="p-4 rounded-xl bg-surface-raised border border-line-strong mt-4 space-y-3">
+              <div className="text-xs font-semibold text-content">
                 🔍 Phân tích căn nguyên nhận thức:
               </div>
-              <p className="text-xs text-slate-300 theme-light:text-slate-700 leading-relaxed">
+              <p className="text-xs text-content-secondary leading-relaxed">
                 {currentTopic.rootCauseAnalysis}
               </p>
 
               <button
                 onClick={() => handleStartSession(currentTopic.id)}
                 disabled={isSubmitting}
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white font-semibold text-sm shadow-lg flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-[#fff] font-semibold text-sm shadow-lg flex items-center justify-center gap-2 transition-all disabled:opacity-50"
               >
                 <Sparkles className="w-4 h-4" />
                 <span>Bắt đầu đối thoại dẫn dắt Socratic</span>
@@ -184,7 +188,7 @@ export default function SocraticDiagnosticsCard() {
       {/* State 2: Active Socratic Inquiry Session */}
       {activeSession && (
         <div className="mt-4 space-y-4">
-          <div className="max-h-72 overflow-y-auto space-y-3 p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
+          <div className="max-h-72 overflow-y-auto space-y-3 p-3.5 rounded-xl bg-surface-raised border border-line-subtle">
             {activeSession.turns.map((turn, idx) => (
               <div key={idx} className="space-y-2">
                 {/* Socratic Question */}
@@ -202,7 +206,7 @@ export default function SocraticDiagnosticsCard() {
 
                 {/* Learner Answer if submitted */}
                 {turn.learnerAnswer && (
-                  <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700 text-xs text-slate-200 theme-light:text-slate-700 ml-6 flex items-start gap-2">
+                  <div className="p-3 rounded-xl bg-surface-raised border border-line-strong text-xs text-content ml-6 flex items-start gap-2">
                     <span className="font-bold text-emerald-400 theme-light:text-emerald-900">
                       Bạn:{' '}
                     </span>
@@ -240,7 +244,7 @@ export default function SocraticDiagnosticsCard() {
               <h4 className="text-sm font-bold text-emerald-300 theme-light:text-emerald-900">
                 Cognitive Breakthrough Đạt Được!
               </h4>
-              <p className="text-xs text-slate-300 theme-light:text-slate-700 max-w-lg mx-auto">
+              <p className="text-xs text-content-secondary max-w-lg mx-auto">
                 {activeSession.breakthroughSummary}
               </p>
             </div>
@@ -255,12 +259,12 @@ export default function SocraticDiagnosticsCard() {
                 onChange={(e) => setLearnerAnswer(e.target.value)}
                 placeholder="Nhập câu trả lời / suy ngẫm của bạn..."
                 disabled={isSubmitting}
-                className="flex-1 px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 transition-colors"
+                className="flex-1 px-4 py-2.5 rounded-xl bg-surface-raised border border-line-strong text-xs text-white placeholder-slate-500 focus:outline-none focus:border-violet-500 transition-colors"
               />
               <button
                 type="submit"
                 disabled={!learnerAnswer.trim() || isSubmitting}
-                className="px-4 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold text-xs flex items-center gap-1.5 shadow-lg transition-all disabled:opacity-50"
+                className="px-4 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-[#fff] font-semibold text-xs flex items-center gap-1.5 shadow-lg transition-all disabled:opacity-50"
               >
                 <Send className="w-3.5 h-3.5" />
                 <span>Gửi phản tư</span>

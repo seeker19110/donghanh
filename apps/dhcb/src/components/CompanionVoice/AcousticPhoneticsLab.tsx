@@ -63,7 +63,7 @@ export default function AcousticPhoneticsLab() {
         <button
           onClick={() => runAcousticAnalysis(targetSentence)}
           disabled={isAnalyzing}
-          className="flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg hover:bg-indigo-500 transition-all disabled:opacity-50"
+          className="flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-[#fff] shadow-lg hover:bg-indigo-500 transition-all disabled:opacity-50"
         >
           {isAnalyzing ? (
             <>

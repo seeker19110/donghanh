@@ -68,7 +68,7 @@ export const SubconsciousInsightsCard: React.FC = () => {
             <Brain className="w-4 h-4" />
           </div>
           <div>
-            <h4 className="font-bold text-white text-sm flex items-center gap-1.5">
+            <h4 className="font-bold text-[#fff] text-sm flex items-center gap-1.5">
               <span>Nhận Thức Ngầm & Dự Đoán Đón Đầu</span>
               <span className="px-1.5 py-0.5 rounded text-[11px] font-mono bg-purple-500/20 text-purple-300 theme-light:text-purple-800 border border-purple-500/30">
                 V3 Autonomous

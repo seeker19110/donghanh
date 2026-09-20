@@ -894,6 +894,15 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 
 ## Nợ kỹ thuật còn mở
 
+- 🟡 **[2026-09-20 — PR #1061, `docs/changelog/0388-*.md`] Sửa tương phản theme blue-sky
+  (CompanionVoice + StudioDialogue) — CHƯA chụp ảnh Tầng 8b.** Audit + sửa xong 2 lỗi: (1) 6 file
+  `CompanionVoice/*` dùng nền cố định `bg-slate-900/90` + chữ `theme-light:` tối → tương phản đo
+  được chỉ 1.72:1, đã đổi nền sang token `surface-*`/`line-*`, chữ xám sang `text-content*`;
+  (2) 10 file `CompanionVoice/*` + rà `StudioDialogue.tsx` có `text-white` trên nền màu cố định
+  bị đảo tối (`--c-white`) → đổi sang `text-[#fff]`. typecheck/lint/format/test đều xanh. **Còn
+  thiếu:** ảnh chụp 1440px + 390px trước/sau theo Tầng 8b (`QUY-TRINH-AUDIT.md`) — các thẻ
+  CompanionVoice đổi từ nền tối sang nền sáng viền màu ở blue-sky, cần chủ dự án/phiên có server
+  xem bằng mắt trước khi merge PR #1061.
 - ✅ **[2026-09-20 — Đợt 4 theo dõi audit 0380 — ĐÃ ĐÓNG 2 việc, còn 1 việc cần backend thật]**
   Chủ dự án đã chốt việc 1 và 2 (`docs/changelog/0380-*.md`):
   1. Gỡ `ComingSoonBanner` khỏi `/luyen-noi` (`Speaking.tsx`) — tính năng đã chạy thật trên

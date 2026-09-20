@@ -57,12 +57,12 @@ export default function WearablesSyncCard() {
   }
 
   return (
-    <div className="bg-slate-900/90 border border-emerald-500/30 rounded-2xl p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden transition-all duration-300">
+    <div className="bg-surface-card border border-emerald-500/30 rounded-2xl p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden transition-all duration-300">
       {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+      <div className="flex items-center justify-between pb-4 border-b border-line-subtle">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center shadow-lg">
-            <Watch className="w-5 h-5 text-white" />
+            <Watch className="w-5 h-5 text-[#fff]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
@@ -73,7 +73,7 @@ export default function WearablesSyncCard() {
                 Bio-Sync Active
               </span>
             </div>
-            <p className="text-xs text-slate-400 theme-light:text-slate-700">
+            <p className="text-xs text-content-secondary">
               Đồng bộ nhịp tim (HRV) & giấc ngủ ➔ Tự động xác định Khung Giờ Học Vàng
             </p>
           </div>
@@ -82,7 +82,7 @@ export default function WearablesSyncCard() {
         <button
           onClick={handleSyncNow}
           disabled={isSyncing}
-          className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-lg flex items-center gap-1.5 transition-all disabled:opacity-50"
+          className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-[#fff] text-xs font-semibold shadow-lg flex items-center gap-1.5 transition-all disabled:opacity-50"
         >
           <RotateCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
           <span>{isSyncing ? 'Đang đồng bộ...' : 'Đồng bộ Sinh trắc'}</span>
@@ -105,7 +105,7 @@ export default function WearablesSyncCard() {
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all border ${
                 isSelected
                   ? 'bg-emerald-950/60 border-emerald-400 text-emerald-200 theme-light:text-emerald-900 shadow-md shadow-emerald-500/20'
-                  : 'bg-slate-800/50 border-slate-800 text-slate-400 theme-light:text-slate-700 hover:text-slate-200'
+                  : 'bg-surface-raised border-line-subtle text-content-secondary hover:text-content'
               }`}
             >
               {labels[src]}
@@ -118,8 +118,8 @@ export default function WearablesSyncCard() {
         <div className="mt-4 space-y-4">
           {/* Bio Metrics Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
-            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
-              <div className="flex items-center gap-1.5 text-[11px] text-slate-400 theme-light:text-slate-700">
+            <div className="p-3 rounded-xl bg-surface-raised border border-line-subtle space-y-1">
+              <div className="flex items-center gap-1.5 text-[11px] text-content-secondary">
                 <Heart className="w-3.5 h-3.5 text-rose-400 theme-light:text-rose-900" />
                 <span>Biến thiên HRV</span>
               </div>
@@ -129,8 +129,8 @@ export default function WearablesSyncCard() {
               </div>
             </div>
 
-            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
-              <div className="flex items-center gap-1.5 text-[11px] text-slate-400 theme-light:text-slate-700">
+            <div className="p-3 rounded-xl bg-surface-raised border border-line-subtle space-y-1">
+              <div className="flex items-center gap-1.5 text-[11px] text-content-secondary">
                 <Moon className="w-3.5 h-3.5 text-indigo-400 theme-light:text-indigo-800" />
                 <span>Chất lượng Giấc ngủ</span>
               </div>
@@ -140,13 +140,13 @@ export default function WearablesSyncCard() {
               </div>
             </div>
 
-            <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
-              <div className="flex items-center gap-1.5 text-[11px] text-slate-400 theme-light:text-slate-700">
+            <div className="p-3 rounded-xl bg-surface-raised border border-line-subtle space-y-1">
+              <div className="flex items-center gap-1.5 text-[11px] text-content-secondary">
                 <Heart className="w-3.5 h-3.5 text-pink-400 theme-light:text-pink-900" />
                 <span>Nhịp tim Nghỉ ngơi</span>
               </div>
               <div className="text-base font-bold text-white">{bio.restingHeartRateBpm} bpm</div>
-              <div className="text-[11px] text-slate-400 theme-light:text-slate-700">Bình ổn</div>
+              <div className="text-[11px] text-content-secondary">Bình ổn</div>
             </div>
 
             <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 space-y-1">
@@ -163,11 +163,11 @@ export default function WearablesSyncCard() {
           </div>
 
           {/* Circadian Golden Window Banner */}
-          <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
+          <div className="p-4 rounded-xl bg-surface-raised border border-line-subtle space-y-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-amber-400 theme-light:text-amber-900" />
-                <span className="text-xs font-bold text-slate-200 theme-light:text-slate-700">
+                <span className="text-xs font-bold text-content">
                   Khung Giờ Học Vàng (Circadian Golden Window):
                 </span>
               </div>
@@ -176,7 +176,7 @@ export default function WearablesSyncCard() {
               </span>
             </div>
 
-            <p className="text-xs text-slate-300 theme-light:text-slate-700 leading-relaxed">
+            <p className="text-xs text-content-secondary leading-relaxed">
               💡 {window.adaptationAdvice}
             </p>
           </div>
