@@ -69,32 +69,9 @@ describe('luật UI: chiều cao viewport dùng dvh, không dùng vh', () => {
   // `max-h-[90vh]` vẫn tràn khỏi màn hình thật; `dvh` (dynamic viewport height) co giãn
   // đúng theo phần nhìn thấy được. Mẫu đúng đã có sẵn: `Modal.tsx` dùng `max-h-[90dvh]`.
   //
-  // BASELINE TẠM: các file dưới đây là hộp thoại tự chế đang được xử lý ở đợt việc khác
-  // (audit mục A4 — "chiến dịch Modal": chuyển 24 modal về `<Modal>`). Không chặn chúng ở
-  // đây để hai đợt việc không giẫm chân nhau, nhưng KHÔNG được thêm file mới vào danh sách.
-  // TODO(audit A4): xoá dần từng dòng khi modal tương ứng chuyển sang `<Modal>`; danh sách
-  // rỗng thì xoá luôn hằng số này và phần lọc bên dưới.
-  const BASELINE = new Set([
-    'apps/dhcb/src/components/MetacognitiveReflection/MetacognitiveReflectionModal.tsx',
-    'apps/dhcb/src/components/LifeSynthesis/LifeSynthesisDetailModal.tsx',
-    'apps/dhcb/src/pages/subjects/english/Writing.tsx',
-  ])
-
-  it('không có `max-h-[NNvh]` mới ngoài danh sách baseline', () => {
-    const fresh = findViolations(/max-h-\[\d+vh\]/).filter(
-      (hit) => !BASELINE.has(hit.slice(0, hit.lastIndexOf(':'))),
-    )
-    expect(fresh).toEqual([])
-  })
-
-  it('mọi file trong baseline vẫn còn vi phạm thật (dọn baseline khi đã sửa)', () => {
-    // Canh chiều NGƯỢC LẠI: baseline chỉ được phép chứa vi phạm CÒN TỒN TẠI. Nhờ vậy khi
-    // đợt việc Modal sửa xong một file, test này đỏ và nhắc xoá dòng tương ứng — danh sách
-    // miễn trừ không bao giờ phình ra rồi bị quên.
-    const stillViolating = new Set(
-      findViolations(/max-h-\[\d+vh\]/).map((hit) => hit.slice(0, hit.lastIndexOf(':'))),
-    )
-    const stale = [...BASELINE].filter((f) => !stillViolating.has(f))
-    expect(stale).toEqual([])
+  // Baseline tạm (audit A4) đã dọn xong 2026-09-21 — cả 3 file còn lại đều đổi sang `dvh`.
+  // Danh sách miễn trừ đã xoá theo đúng ghi chú cũ; giữ luật cấm `vh` mới tuyệt đối.
+  it('không có `max-h-[NNvh]` ở bất kỳ đâu', () => {
+    expect(findViolations(/max-h-\[\d+vh\]/)).toEqual([])
   })
 })
