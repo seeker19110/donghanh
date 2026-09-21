@@ -91,6 +91,12 @@ export default function ProgrammingHome() {
   const nutPhu =
     'tap-44 flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-accent-500/60 text-white font-semibold text-sm transition active:scale-[0.98]'
 
+  // Nhóm hiển thị 4 tầng cho môn Lập trình (chốt trong phiên, không đổi id/route/dữ liệu bậc):
+  // Nền tảng = P1 · Cơ bản → Nâng cao = P2-P5 · Chuyên sâu = P6/14 hướng (khối riêng bên dưới).
+  const nenTang = PROGRAMMING_LEVELS.filter((l) => l.id === 'p1')
+  const coBanNangCao = PROGRAMMING_LEVELS.filter((l) => l.id !== 'p1' && l.id !== 'p6')
+  const chuyenSau = PROGRAMMING_LEVELS.filter((l) => l.id === 'p6')
+
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
       <Layout title="Môn Lập trình" onBack={() => goToSubjects(nav)} />
@@ -244,7 +250,7 @@ export default function ProgrammingHome() {
           <section className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5 space-y-3 shadow-sm">
             <h2 className="text-base font-bold text-white flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-accent-400" aria-hidden="true" />
-              <span>Khoá ngắn — học ngay, không cần đợi tới bậc</span>
+              <span>Khoá học — học ngay, không cần đợi tới bậc</span>
             </h2>
             {SHORT_COURSES.map((course) => (
               <button
@@ -295,14 +301,33 @@ export default function ProgrammingHome() {
           </section>
         )}
 
-        {/* ⑤ Lộ trình 6 bậc — cột mốc, thấy được mình đang ở đâu trên đường dài */}
+        {/* ⑤ Lộ trình 6 bậc — cột mốc, thấy được mình đang ở đâu trên đường dài.
+            Nhóm hiển thị theo 4 tầng (chốt trong phiên trò chuyện, không đổi id/route/dữ liệu
+            bậc P1-P6 hiện có — chỉ tách JSX theo levelGroups bên dưới):
+            Nền tảng (P1) · Cơ bản → Nâng cao (P2-P5) · Chuyên sâu theo nghề (P6/14 hướng, khối
+            riêng bên dưới) · Khoá học (đã có khối "Khoá ngắn" ở trên). */}
         <section className="space-y-3">
           <h2 className="text-base font-bold text-white flex items-center gap-2">
             <Code2 className="w-5 h-5 text-accent-400" />
-            <span>Lộ trình {PROGRAMMING_LEVELS.length} bậc P1 → P6</span>
+            <span>Nền tảng — bắt buộc với mọi lập trình viên</span>
           </h2>
           <LevelMilestones
-            levels={PROGRAMMING_LEVELS}
+            levels={nenTang}
+            progressOf={(levelId) => countCompletedByLevel(progress, levelId)}
+            onOpen={(level) => nav(duongDanBac(level))}
+            currentLevelId={picked?.levelId}
+            lockOf={(levelId) => lockMap.get(levelId)}
+            lockHint={loiGiaiThichKhoa}
+          />
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-base font-bold text-white flex items-center gap-2">
+            <Code2 className="w-5 h-5 text-accent-400" />
+            <span>Cơ bản → Nâng cao — {coBanNangCao.length} bậc</span>
+          </h2>
+          <LevelMilestones
+            levels={coBanNangCao}
             progressOf={(levelId) => countCompletedByLevel(progress, levelId)}
             onOpen={(level) => nav(duongDanBac(level))}
             currentLevelId={picked?.levelId}
@@ -317,12 +342,12 @@ export default function ProgrammingHome() {
           )}
         </section>
 
-        {/* ⑥ Sau xương sống là gì — trả lời câu "học xong môn này rồi sao nữa?" ngay tại đây,
-            thay vì để học viên tự hỏi lúc gần hết P5. */}
+        {/* ⑥ Chuyên sâu theo nghề nghiệp — trả lời câu "học xong môn này rồi sao nữa?" ngay tại
+            đây, thay vì để học viên tự hỏi lúc gần hết P5. */}
         <section className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5 space-y-3 shadow-sm">
           <h2 className="text-base font-bold text-white flex items-center gap-2">
             <Compass className="w-5 h-5 text-accent-400" aria-hidden="true" />
-            <span>Sau P5: chọn hướng chuyên sâu</span>
+            <span>Chuyên sâu — theo nghề nghiệp</span>
           </h2>
           <p className="text-sm text-zinc-300 leading-relaxed">
             Xong xương sống là bạn lập trình được. Từ đó có{' '}
@@ -330,6 +355,14 @@ export default function ProgrammingHome() {
             web, di động, backend, dữ liệu, AI, hệ thống, game, nhúng… Mỗi hướng 4 chặng và 5 sản
             phẩm phải nộp. Xem trước để biết mình đang học vì cái gì.
           </p>
+          <LevelMilestones
+            levels={chuyenSau}
+            progressOf={(levelId) => countCompletedByLevel(progress, levelId)}
+            onOpen={(level) => nav(duongDanBac(level))}
+            currentLevelId={picked?.levelId}
+            lockOf={(levelId) => lockMap.get(levelId)}
+            lockHint={loiGiaiThichKhoa}
+          />
           <button onClick={() => nav(`${PROGRAMMING_PREFIX}/huong`)} className={`${nutPhu} w-full`}>
             <Compass className="w-4 h-4 text-accent-400" />
             <span>Xem {PROGRAMMING_SPECIALIZATIONS.length} hướng chuyên sâu</span>
