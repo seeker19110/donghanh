@@ -22,6 +22,14 @@
 > khi gửi rồi server lưu mà client timeout — là **S09** và KHÔNG có dòng nào của S08 chạm tới
 > API. S08 chỉ chuẩn bị cho S09 đúng một thứ: hợp đồng `LearningSession` có `version`,
 > `updatedAt`, `contentVersion` để S09 có cái mà so sánh.
+>
+> **[2026-09-21] Chủ dự án chốt MỞ RỘNG phạm vi, để gỡ nợ S09-3 (BLOCKED):** đẩy nháp
+> `LearningSession` lên server để resume xuyên thiết bị. Đây là việc CHO SLICE MỚI (tạm gọi
+> **S08-5**), không sửa lại S08-1..4 đã ship (vẫn đúng như thiết kế "cùng thiết bị" lúc đó — không
+> phải lỗi cần vá ngược). S08-5 cần đặc tả riêng (endpoint, có/không migration, chu kỳ đẩy nháp,
+> merge với `ConflictRecord` của S09-3) TRƯỚC khi code, theo đúng luật "không bắt đầu code khi
+> chưa Approved for implementation" ở trên. Xem `docs/goals/2026-09-15-learning-ux.md` dòng
+> S09-3 để biết trạng thái theo dõi.
 
 ## 0. Một câu
 
