@@ -107,6 +107,12 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   'ai-s4': ['p6-u174', 'p6-u175', 'p6-u176', 'p6-u177'],
   'security-s1': ['p6-u182', 'p6-u183', 'p6-u184', 'p6-u185'],
   'security-s2': ['p6-u186', 'p6-u187', 'p6-u188', 'p6-u189'],
+  // Hướng Dữ liệu, chặng S4 — soạn 2026-09-21 (4 unit bám đúng 4 module: p6-u202 = m1 kiến trúc
+  // nền tảng, p6-u203 = m2 độ tin cậy, p6-u204 = m3 định nghĩa chỉ số, p6-u205 = m4 đạo đức và
+  // pháp lý). Không gộp module nào: bốn module này là bốn loại quyết định khác hẳn nhau, gộp thì
+  // ca biên của cái này lẫn vào policy của cái kia. Đặc tả:
+  // `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`.
+  'data-s4': ['p6-u202', 'p6-u203', 'p6-u204', 'p6-u205'],
 }
 
 /** Unit của một chặng; mảng RỖNG nghĩa là chặng chưa có bài (giao diện phải nói rõ điều đó). */

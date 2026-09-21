@@ -995,6 +995,28 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         topics: 'TTFT; thời gian giữa token; span; postmortem không đổ lỗi; toil',
       },
       {
+        id: 'p6-u202',
+        title: 'Data S4 — kiến trúc nền tảng dữ liệu: danh mục, snapshot, tiến hoá schema',
+        topics:
+          'Owner; classification; cổng công bố; du hành thời gian; retention; thay đổi phá vỡ',
+      },
+      {
+        id: 'p6-u203',
+        title: 'Data S4 — độ tin cậy dữ liệu: SLO độ tươi, đầy đủ và tốc độ đốt',
+        topics: 'Freshness; completeness; 0 dòng vs NULL vs chưa chạy; burn rate; ngưỡng mẫu',
+      },
+      {
+        id: 'p6-u204',
+        title: 'Data S4 — tầng chỉ số: một tên một định nghĩa',
+        topics: 'Conflict định nghĩa; version; grain; múi giờ; hai con số không so được',
+      },
+      {
+        id: 'p6-u205',
+        title: 'Data S4 — đạo đức và pháp lý của dữ liệu cá nhân',
+        topics:
+          'Legal basis; purpose limitation; retention; ngưỡng k; bias theo nhóm; câu giới hạn',
+      },
+      {
         id: 'p6-u178',
         title: 'DevOps S2 — delivery policy và change control',
         topics: 'Approval; change window; rollback; fail closed',

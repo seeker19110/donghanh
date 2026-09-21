@@ -63,9 +63,12 @@ biến ↔ test canh, quy ước dự án, rollout/rollback, và mục nghiệm 
 
 - **Chưa soạn bài.** 76 unit × ≥2 lesson là khối lượng nội dung lớn, chia theo nhịp PR ở quyết
   định 3.
-- Phát hiện phụ vẫn còn nguyên từ PR #1077: `CLAUDE.md` mục 2 dẫn tới
-  `docs/research/dac-ta-huong-chuyen-sau-mon-lap-trinh-2026-08-27.md` **không tồn tại trong repo**,
-  và còn ghi "13 hướng" trong khi `registry.ts` có **14**. Chưa sửa ở đợt này.
+- ✅ **Đã sửa luôn trong đợt này** (chủ dự án yêu cầu giữa phiên) phát hiện phụ từ PR #1077:
+  `CLAUDE.md` mục 2 dẫn tới `docs/research/dac-ta-huong-chuyen-sau-mon-lap-trinh-2026-08-27.md`
+  **không tồn tại trong repo**, và ghi "13 hướng" trong khi `registry.ts` có **14**. Mục đó nay trỏ
+  thẳng vào mã nguồn làm nguồn sự thật và ghi đúng 14 hướng (11 sản phẩm + 3 nền cắt ngang, hướng
+  thiếu là `mathforcode`). Tài liệu nghiên cứu/đặc tả cũ ghi "13 hướng" giữ nguyên làm hồ sơ lịch
+  sử — đúng với thời điểm viết, không sửa ngược.
 - Trong lúc làm phát hiện `node_modules` của container lệch lockfile (tsc 6.0.2 thay vì 5.x ghim
   trong `package.json`) làm cổng typecheck đỏ giả — đúng khuôn bẫy CLAUDE.md mục 8, đã xử bằng
   `npm ci`. Không phải lỗi mã nguồn.

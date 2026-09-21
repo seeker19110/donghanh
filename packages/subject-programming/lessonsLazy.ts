@@ -1985,6 +1985,67 @@ export const LESSON_INDEX: readonly LessonSummary[] = [
     srsCardCount: 2,
   },
   {
+    id: 'p6-u202-l1',
+    unitId: 'p6-u202',
+    title:
+      'MÔ PHỎNG cổng công bố của danh mục dữ liệu: chủ sở hữu (owner) và phân loại (classification)',
+    language: 'python',
+    srsCardCount: 2,
+  },
+  {
+    id: 'p6-u202-l2',
+    unitId: 'p6-u202',
+    title:
+      'MÔ PHỎNG du hành thời gian trong thời hạn lưu giữ (retention) và tiến hoá schema không phá',
+    language: 'python',
+    srsCardCount: 2,
+  },
+  {
+    id: 'p6-u203-l1',
+    unitId: 'p6-u203',
+    title:
+      'MÔ PHỎNG SLO độ tươi (freshness) và đầy đủ (completeness): ba trạng thái không được gộp',
+    language: 'python',
+    srsCardCount: 2,
+  },
+  {
+    id: 'p6-u203-l2',
+    unitId: 'p6-u203',
+    title:
+      'MÔ PHỎNG tốc độ đốt ngân sách (burn rate) và ngưỡng mẫu tối thiểu của phát hiện bất thường',
+    language: 'python',
+    srsCardCount: 2,
+  },
+  {
+    id: 'p6-u204-l1',
+    unitId: 'p6-u204',
+    title: 'MÔ PHỎNG tầng chỉ số: một tên một định nghĩa, và phiên bản (version) bắt buộc khi đổi',
+    language: 'python',
+    srsCardCount: 2,
+  },
+  {
+    id: 'p6-u204-l2',
+    unitId: 'p6-u204',
+    title: 'MÔ PHỎNG hai con số không so được: khác hạt (grain) hoặc khác múi giờ',
+    language: 'python',
+    srsCardCount: 2,
+  },
+  {
+    id: 'p6-u205-l1',
+    unitId: 'p6-u205',
+    title: 'MÔ PHỎNG cổng cơ sở pháp lý (legal basis) và giới hạn mục đích (purpose limitation)',
+    language: 'python',
+    srsCardCount: 2,
+  },
+  {
+    id: 'p6-u205-l2',
+    unitId: 'p6-u205',
+    title:
+      'MÔ PHỎNG nén nhóm nhỏ theo ngưỡng k (k-anonymity) và chênh lệch sai số giữa nhóm (bias)',
+    language: 'python',
+    srsCardCount: 2,
+  },
+  {
     id: 'p6-u178-l1',
     unitId: 'p6-u178',
     title: 'MÔ PHỎNG container policy: user, secret và base image',
@@ -3743,6 +3804,10 @@ export const UNIT_LOADERS: Readonly<Record<string, () => Promise<ProgrammingLess
   'p6-u199': () => import('./lessons/p6u199.js').then((m) => m.P6U199_LESSONS),
   'p6-u200': () => import('./lessons/p6u200.js').then((m) => m.P6U200_LESSONS),
   'p6-u201': () => import('./lessons/p6u201.js').then((m) => m.P6U201_LESSONS),
+  'p6-u202': () => import('./lessons/p6u202.js').then((m) => m.P6U202_LESSONS),
+  'p6-u203': () => import('./lessons/p6u203.js').then((m) => m.P6U203_LESSONS),
+  'p6-u204': () => import('./lessons/p6u204.js').then((m) => m.P6U204_LESSONS),
+  'p6-u205': () => import('./lessons/p6u205.js').then((m) => m.P6U205_LESSONS),
   'p6-u178': () => import('./lessons/p6u178.js').then((m) => m.P6U178_LESSONS),
   'p6-u179': () => import('./lessons/p6u179.js').then((m) => m.P6U179_LESSONS),
   'p6-u180': () => import('./lessons/p6u180.js').then((m) => m.P6U180_LESSONS),
