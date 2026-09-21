@@ -173,6 +173,12 @@ jobs:
       - name: Hợp đồng AI_DEVELOPMENT_PROTOCOL.md (check:protocol)
         run: npm run check:protocol -- --ci
 
+      # Lệnh/agent ↔ CLAUDE.md khớp hai chiều (thêm 2026-09-21, áp từ
+      # seeker19110/projects-template scripts/check-docs-consistency.sh, rút gọn cho DHCB — xem
+      # CLAUDE.md mục 7). Bắt lỗi kiểu "thêm .claude/commands/x.md mà quên khai trong CLAUDE.md".
+      - name: Lệnh/agent ↔ CLAUDE.md (check:docs)
+        run: npm run check:docs
+
       # Cảnh báo PROGRESS.md lỗi thời (TRAPS.md mục 2) — chỉ đối chiếu khi push thẳng main:
       # lúc PR còn mở, nhánh feature vẫn tồn tại là bình thường, kiểm lúc đó báo oan. Cần
       # fetch-depth đủ để `git ls-remote` thấy remote thật (actions/checkout mặc định đã fetch

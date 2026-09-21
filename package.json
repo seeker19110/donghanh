@@ -37,6 +37,7 @@
     "codemap": "tsx scripts/codemap.ts",
     "check:specs": "tsx scripts/check-spec-paths.ts",
     "check:protocol": "tsx scripts/protocol-check.ts",
+    "check:docs": "bash scripts/check-docs-consistency.sh",
     "maintain": "bash scripts/maintenance-sweep.sh",
     "shots:learning-ux": "tsx scripts/shots-learning-ux.ts",
     "cwv:prod": "bash scripts/lighthouse-cwv.sh",
