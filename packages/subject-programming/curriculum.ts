@@ -1037,6 +1037,46 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         topics: 'Khả năng × tác động; residual risk; third-party; DPA; kế hoạch rút lui; evidence',
       },
       {
+        id: 'p6-u274',
+        title: 'Desktop S1 — chọn nền tảng: ngân sách gói cài, RAM và phím tắt',
+        topics: 'packageSizeMb; ramMb; khay hệ thống; phím tắt toàn cục; xung đột phím hệ',
+      },
+      {
+        id: 'p6-u275',
+        title: 'Desktop S1 — làm việc với tệp: ghi an toàn và đường dẫn đa nền',
+        topics: 'Tệp tạm; đổi tên; kết quả không kết luận được; ký tự cấm theo hệ',
+      },
+      {
+        id: 'p6-u276',
+        title: 'Desktop S1 — lưu trữ cục bộ: phiên bản dữ liệu và sao lưu',
+        topics: 'schemaVersion; dataVersion; bước migration; sao lưu; xuất dữ liệu',
+      },
+      {
+        id: 'p6-u277',
+        title: 'Desktop S1 — đóng gói, cài đặt và cập nhật tự động',
+        topics: 'Ký mã; checksum; hệ đích hỗ trợ; hướng phiên bản; khoảng cách phiên bản',
+      },
+      {
+        id: 'p6-u278',
+        title: 'Desktop S2 — việc nền: không chặn luồng giao diện, huỷ và tiến độ',
+        topics: 'Luồng giao diện; huỷ trong ngưỡng; hàng đợi; ước lượng đo được',
+      },
+      {
+        id: 'p6-u279',
+        title: 'Desktop S2 — trải nghiệm chuyên nghiệp: hoàn tác, phím tắt, trợ năng',
+        topics: 'Ngăn xếp hoàn tác; nhánh redo bị cắt; bàn phím; tương phản; thao tác hàng loạt',
+      },
+      {
+        id: 'p6-u280',
+        title: 'Desktop S2 — đồng bộ tuỳ chọn: xung đột và offline-first',
+        topics: 'Mã hoá trước khi gửi; giao tập trường; drift; fast-forward; hàng đợi chờ',
+      },
+      {
+        id: 'p6-u281',
+        title: 'Desktop S2 — chẩn đoán từ xa: đồng ý, che PII và gói báo lỗi',
+        topics: 'Sự đồng ý; PII; chế độ an toàn; bảng ký hiệu; trần kích thước gói',
+      },
+      {
         id: 'p6-u178',
         title: 'DevOps S2 — delivery policy và change control',
         topics: 'Approval; change window; rollback; fail closed',

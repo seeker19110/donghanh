@@ -125,6 +125,12 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // canh bằng danh sách từ vựng tấn công bị cấm. Đặc tả:
   // `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`.
   'security-s4': ['p6-u206', 'p6-u207', 'p6-u208', 'p6-u209'],
+  // Hướng DESKTOP, chặng S1 và S2 — soạn 2026-09-21. Mỗi unit bám đúng MỘT module của chặng
+  // (không gộp): bốn module của desktop-s1 là bốn loại quyết định rời nhau (nền tảng · tệp ·
+  // lưu trữ · đóng gói), gộp lại thì ca âm của module này lẫn vào policy của module kia.
+  // Đặc tả: `docs/specs/2026-09-21-desktop-s1-s4-bai-hoc-that.md`.
+  'desktop-s1': ['p6-u274', 'p6-u275', 'p6-u276', 'p6-u277'],
+  'desktop-s2': ['p6-u278', 'p6-u279', 'p6-u280', 'p6-u281'],
 }
 
 /** Unit của một chặng; mảng RỖNG nghĩa là chặng chưa có bài (giao diện phải nói rõ điều đó). */
