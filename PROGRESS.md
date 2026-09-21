@@ -449,8 +449,11 @@ không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelo
   S1–S4 × 14 hướng, đủ hết, không placeholder) với `SPEC_STAGE_UNITS` trong
   `specializations/stageUnits.ts` (bảng map chặng → unit bài học thật trong `lessons/`):
   - **3 hướng CHƯA có bài học nào dù đã có đặc tả đủ 4 chặng: game, embedded, desktop** (S1–S4
-    đều 0 unit). **`desktop` đang được trả: S1+S2 = `p6-u274…u281`, 16 bài
-    (`docs/changelog/0397-*.md`); còn S3+S4 ở PR kế tiếp.** Học viên chọn 1 trong 3 hướng này sẽ gặp mảng rỗng — không có cờ trạng thái
+    đều 0 unit). **Cập nhật 2026-09-21: `embedded` và `desktop` KHÔNG còn rỗng —
+    `embedded-s1` = `p6-u258…u261` và `embedded-s2` = `p6-u262…u265` (`docs/changelog/0397-*.md`,
+    còn nợ `embedded-s3`/`s4` = `p6-u266…u273`); `desktop-s1` = `p6-u274…u277` và `desktop-s2` =
+    `p6-u278…u281` (`docs/changelog/0399-*.md`, còn `desktop-s3`/`s4` ở PR kế tiếp).** Học viên
+    chọn 1 trong 3 hướng này sẽ gặp mảng rỗng — không có cờ trạng thái
     (`status/draft/comingSoon`) nào trong code để giao diện báo trước, chỉ suy ra được gián tiếp
     qua mảng rỗng.
   - **mobile chỉ có S1** (S2–S4 = 0 unit).

@@ -1177,6 +1177,46 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         topics:
           'Trung bình vs trung vị, tương quan không phải nhân quả; chọn biểu đồ không đánh lừa mắt',
       },
+      {
+        id: 'p6-u258',
+        title: 'Nhúng S1 — GPIO, chế độ chân và ngân sách log',
+        topics: 'Pull-up; chân thả nổi unknown; ghi vào chân input; ngân sách thời gian log UART',
+      },
+      {
+        id: 'p6-u259',
+        title: 'Nhúng S1 — ngoại vi và datasheet',
+        topics: 'Bảng địa chỉ I2C; NACK trả unknown; dải chu kỳ PWM khai báo',
+      },
+      {
+        id: 'p6-u260',
+        title: 'Nhúng S1 — ngắt và thời gian',
+        topics: 'ISR ngắn; hàng đợi có trần; chống dội phím theo cửa sổ debounce',
+      },
+      {
+        id: 'p6-u261',
+        title: 'Nhúng S1 — gỡ lỗi phần cứng',
+        topics: 'Cô lập phần cứng/phần mềm; quá dòng; sổ bằng chứng đo; máy phân tích logic',
+      },
+      {
+        id: 'p6-u262',
+        title: 'Nhúng S2 — RTOS và ngân sách ngăn xếp',
+        topics: 'Stack budget; chia sẻ ISR/task; đảo ưu tiên; hàng đợi liên tác vụ',
+      },
+      {
+        id: 'p6-u263',
+        title: 'Nhúng S2 — kết nối và đệm cục bộ',
+        topics: 'Checksum khung; chính sách rơi rụng tường minh; gửi bù chờ xác nhận',
+      },
+      {
+        id: 'p6-u264',
+        title: 'Nhúng S2 — cập nhật từ xa A/B',
+        topics: 'Chữ ký gói; phân vùng đang chạy; quay lui sau nhiều lần khởi động thất bại',
+      },
+      {
+        id: 'p6-u265',
+        title: 'Nhúng S2 — ngân sách năng lượng',
+        topics: 'Battery budget ra số ngày; ngủ sâu; ngoại vi chưa tắt gây rò dòng',
+      },
     ],
   },
 ]
