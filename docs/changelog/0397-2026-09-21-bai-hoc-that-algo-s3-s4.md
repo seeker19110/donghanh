@@ -1,6 +1,6 @@
 # 0397 — 2026-09-21 — Bài học thật cho chặng `algo-s3` và `algo-s4` (hướng Thuật toán)
 
-> PR: (điền số khi mở) · Nhánh: `claude/bai-hoc-algo-s3-s4`
+> PR: #1094 · Nhánh: `claude/bai-hoc-algo-s3-s4`
 > Đặc tả: `docs/specs/2026-09-21-algo-s3-s4-bai-hoc-that.md` (Approved for implementation,
 > chủ dự án duyệt 2026-09-21)
 
