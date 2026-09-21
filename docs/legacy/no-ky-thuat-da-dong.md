@@ -6,6 +6,18 @@ bỏ). Thứ tự: như thứ tự cũ trong `PROGRESS.md`, mới hơn ở trên
 
 Khi đóng thêm một món nợ: cắt khối đó khỏi `PROGRESS.md`, dán vào ĐẦU danh sách dưới đây.
 
+- ✅ **[2026-08-28 → ĐÓNG 2026-09-21 (khảo sát nợ kỹ thuật định kỳ), nay VÔ NGHĨA vì trang đã bị
+  xoá] "4 trang trụ Career/Work/Startup/Life vẫn chưa có bản chiều B".** Ba việc chính trong mục
+  gốc (Career.tsx hỏi "Số năm kinh nghiệm", Work.tsx/Life.tsx đặt `<Layout>` cuối JSX,
+  FeedbackModal.tsx thiếu Escape/bẫy tiêu điểm) đã đóng từ 2026-09-03. Phần còn treo — "4 trang
+  trụ chưa có bản chiều B" — bị bỏ quên khi ba trụ Career/Startup/Life bị **XOÁ HẲN** khỏi mã
+  nguồn ở đợt 2026-09-20 (`docs/changelog/0389-*.md` gỡ giao diện, `0390-*.md` gỡ backend +
+  migration `postgres/migrations/0085_drop_career_startup_life.sql`), chỉ còn trụ `work` dưới
+  tên hiển thị "Ghi chú" (`/ghi-chu`). Xác nhận lại 2026-09-21: `find apps -iname "Career.tsx"
+-o -iname "Work.tsx" -o -iname "Startup.tsx" -o -iname "Life.tsx"` không trả file nào — không
+  còn gì để dịch song ngữ. Đúng loại lệch Tầng 6b (tài liệu điều hành nói một đằng, mã một nẻo):
+  đóng bằng cách xoá mục nợ, không phải bằng cách làm bản chiều B cho trang không còn tồn tại.
+
 - ✅ **[2026-09-15 → ĐÓNG 2026-09-15, PR S10-1, `docs/changelog/0332-*.md`] 6 lỗi lifecycle
   voice/AI** (TTS nổ ở trang kế khi rời Companion giữa stream; stream không huỷ được; `tts.ts`
   chốt play-token sau await; mic không release khi `MediaRecorder` ném; `AiHelpPanel` rò hint
