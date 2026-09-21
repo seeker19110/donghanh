@@ -992,7 +992,6 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   không tạo file thật trên server. Bước dự án `p<n>-s<x>` + tiêu chí hướng chuyên sâu vẫn NGOÀI
   phạm vi ADR-0008 (câu hỏi 2 chốt KHÔNG mở rộng — chấm bằng rubric/artifact, khác bài toán này).
 - 🟡 **[2026-09-15 — S11-1] Hội thoại CEFR đánh dấu "đã xem" (`markDialogueViewed`) chứ không phải "đã học".** Mục lục phải ghi đúng nhãn `english.cefrDialogue` = đã xem; cần một dạng evidence thật (nói lại/trả lời câu hỏi) ở slice môn Anh sau này.
-- 🟡 **[2026-09-15 — khảo sát S10] 6 lỗi lifecycle voice/AI** (TTS nổ ở trang kế khi rời Companion giữa stream; stream không huỷ được; `tts.ts` chốt play-token sau await; mic không release khi `MediaRecorder` ném; `AiHelpPanel` rò hint giữa bài) — file:dòng ở spec S10 §②; PR S10-1 sửa trước mọi tính năng trợ giảng.
 
 > Mục này CHỈ giữ nợ **đang mở** (🟡/🔴). Nợ đã đóng (🟢) được dời sang
 > `docs/legacy/no-ky-thuat-da-dong.md` (2026-09-01) để file này chỉ nói trạng thái hiện tại —
