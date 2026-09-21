@@ -183,13 +183,27 @@ Hệ thống được chuẩn hóa theo 10 bộ quy chuẩn SOTA chuyên biệt 
 
 ## 7. Quy ước khi viết code & cách làm việc
 
-- **Slash-command sẵn có (thêm 2026-09-19, `.claude/commands/`):** `/gate` (cổng commit/merge +
-  Báo cáo xác thực, mục 8-10) · `/debug` (chẩn đoán bug khó theo 6 pha có kỷ luật) · `/incident`
-  (sự cố production — giảm thiệt hại trước, bám `docs/ke-hoach-khoi-phuc-su-co-server.md`) ·
-  `/consult` (tư vấn công nghệ research-first cho DHCB). Dùng thay vì tự nhớ quy trình mỗi lần.
-  4 file `.claude/agents/*.md` (điều phối 3 tầng theo route độ phức tạp — xem
-  `docs/framework/KIEN-TRUC-DIEU-PHOI-3-TANG.md`) là lớp **khác** 10 skill ở mục 2.1 (skill =
-  kiến thức miền, agent = vai trò điều phối việc) — dùng song song, không thay thế nhau.
+- **Slash-command sẵn có (`.claude/commands/`):** `/gate` (cổng commit/merge + Báo cáo xác thực,
+  mục 8-10) · `/debug` (chẩn đoán bug khó theo 6 pha có kỷ luật) · `/incident` (sự cố production —
+  giảm thiệt hại trước, bám `docs/ke-hoach-khoi-phuc-su-co-server.md`) · `/consult` (tư vấn công
+  nghệ research-first cho DHCB) · `/protocol` (in trạng thái một feature theo
+  `AI_DEVELOPMENT_PROTOCOL.md`) · **thêm 2026-09-21 (áp từ `seeker19110/projects-template`):**
+  `/adr` (tạo ADR — bản ghi quyết định kiến trúc khó đảo, xem `docs/adr/`) · `/contract` (chốt
+  schema Postgres/API TRƯỚC khi code) · `/grill` (phỏng vấn dồn dập làm rõ ý tưởng trước khi
+  hành động, kỹ thuật cụ thể cho mục 12 "dừng và hỏi") · `/review` (đọc-hiểu logic/thiết kế trước
+  khi mở PR, khác `/gate` chỉ chạy máy). Dùng thay vì tự nhớ quy trình mỗi lần.
+  7 file `.claude/agents/*.md` điều phối 3 tầng theo route độ phức tạp
+  (`complex-implementer`/`coordinator`/`mechanical-worker`/`qa-verifier`/`reviewer`/
+  `spec-executor`/`standard-worker` — xem `docs/framework/KIEN-TRUC-DIEU-PHOI-3-TANG.md`) +
+  **3 subagent tiện ích thêm 2026-09-21** ngoài bảng route đó, gọi trực tiếp khi cần:
+  `lookup` (tra cứu read-only, Haiku) · `version-check` (xác minh phiên bản qua nguồn sống,
+  Haiku) · `security-reviewer` (rà bảo mật độc lập trên diff, Sonnet, dùng trong `/review`). Đây
+  là lớp **khác** 10 skill ở mục 2.1 (skill = kiến thức miền, agent = vai trò điều phối/thực thi
+  việc) — dùng song song, không thay thế nhau.
+- **`npm run check:docs`** (`scripts/check-docs-consistency.sh`, thêm 2026-09-21, áp từ
+  `seeker19110/projects-template`) — đối chiếu máy hai chiều lệnh ↔ CLAUDE.md và subagent
+  frontmatter `name:` ↔ tên file, bắt lỗi kiểu "thêm lệnh mà quên khai trong CLAUDE.md". Chạy
+  trước khi thêm/xoá `.claude/commands/`hoặc `.claude/agents/`.
 
 - **Tra bản đồ code TRƯỚC khi sửa file dùng chung.** `npm run codemap` quét cả dự án (~9s) rồi:
   `-- impact <file>` (sửa file này gãy chỗ nào) · `-- callers <file>#<hàm>` (ai đang gọi hàm này) ·
