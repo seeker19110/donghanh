@@ -8,16 +8,16 @@
 Lấp hai chặng rỗng cuối cùng của hướng Hệ thống: **8 unit / 16 bài Python MÔ PHỎNG**, mỗi unit
 bám đúng MỘT module của chặng (không gộp module nào).
 
-| Unit      | Module           | Cơ chế mô phỏng                                              |
-| --------- | ---------------- | ------------------------------------------------------------ |
-| `p6-u234` | `systems-s3-m1`  | Dòng cache, bước nhảy truy cập, false sharing                |
-| `p6-u235` | `systems-s3-m2`  | Nhiễu vi chuẩn quanh trung vị, định luật Amdahl              |
-| `p6-u236` | `systems-s3-m3`  | Thrash bộ nhớ ảo, cách ly địa chỉ, mật độ syscall            |
-| `p6-u237` | `systems-s3-m4`  | Hàng rào bộ nhớ, hàng đợi lock-free (rỗng/tràn)              |
-| `p6-u238` | `systems-s4-m1`  | Bảng ký hiệu (`undeclared-var`), kiểm kiểu (`type-error`)    |
-| `p6-u239` | `systems-s4-m2`  | GC mark-sweep có chu trình, máy ảo ngăn xếp (`stack-error`)  |
-| `p6-u240` | `systems-s4-m3`  | Bảng trang hai tiến trình, lập lịch vòng tròn, context switch |
-| `p6-u241` | `systems-s4-m4`  | Stack canary / ASLR, fuzzing theo độ phủ (`plateau`)         |
+| Unit      | Module          | Cơ chế mô phỏng                                               |
+| --------- | --------------- | ------------------------------------------------------------- |
+| `p6-u234` | `systems-s3-m1` | Dòng cache, bước nhảy truy cập, false sharing                 |
+| `p6-u235` | `systems-s3-m2` | Nhiễu vi chuẩn quanh trung vị, định luật Amdahl               |
+| `p6-u236` | `systems-s3-m3` | Thrash bộ nhớ ảo, cách ly địa chỉ, mật độ syscall             |
+| `p6-u237` | `systems-s3-m4` | Hàng rào bộ nhớ, hàng đợi lock-free (rỗng/tràn)               |
+| `p6-u238` | `systems-s4-m1` | Bảng ký hiệu (`undeclared-var`), kiểm kiểu (`type-error`)     |
+| `p6-u239` | `systems-s4-m2` | GC mark-sweep có chu trình, máy ảo ngăn xếp (`stack-error`)   |
+| `p6-u240` | `systems-s4-m3` | Bảng trang hai tiến trình, lập lịch vòng tròn, context switch |
+| `p6-u241` | `systems-s4-m4` | Stack canary / ASLR, fuzzing theo độ phủ (`plateau`)          |
 
 - Thêm 8 file `packages/subject-programming/lessons/p6u234.ts … p6u241.ts` + khuôn chung
   `lessons/systemsS3S4LessonFactory.ts` (16 bài cùng hình dạng "đọc fixture → in một dòng
