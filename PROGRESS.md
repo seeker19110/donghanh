@@ -442,7 +442,9 @@ không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelo
      `docs/specs/2026-09-17-security-s3-bai-hoc-that.md`).
   2. Ba hướng đang RỖNG HOÀN TOÀN, ưu tiên cao nhất vì học viên chọn vào gặp mảng trắng: `game`
      → `embedded` → `desktop`, mỗi hướng 2 PR (S1+S2 rồi S3+S4).
-  3. `mobile` S2–S4, `algo` S3–S4, `systems` S3–S4 — mỗi hướng 1 PR.
+  3. `mobile` S2–S4, ~~`algo` S3–S4~~ (XONG 2026-09-21, `p6-u226…u233`, PR #____ —
+     `docs/changelog/0397-2026-09-21-bai-hoc-that-algo-s3-s4.md`; hướng `algo` nay đủ S1–S4),
+     `systems` S3–S4 — mỗi hướng 1 PR.
 
   Hiện trạng đo được lúc ghi nợ (trước khi `data-s4` xong ở PR #1086):
   Đo bằng cách đối chiếu `packages/subject-programming/specializations/details/` (56/56 file

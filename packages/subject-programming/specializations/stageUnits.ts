@@ -113,6 +113,14 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // ca biên của cái này lẫn vào policy của cái kia. Đặc tả:
   // `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`.
   'data-s4': ['p6-u202', 'p6-u203', 'p6-u204', 'p6-u205'],
+  // Hướng Thuật toán, hai chặng CUỐI — soạn 2026-09-21, khép hướng nền cắt ngang này lại đủ
+  // bốn chặng S1–S4. Mỗi unit bám đúng một module: u226 = algo-s3-m1 quy hoạch động,
+  // u227 = m2 chuỗi, u228 = m3 toán rời rạc, u229 = m4 cấu trúc truy vấn khoảng;
+  // u230 = algo-s4-m1 cấu trúc xác suất, u231 = m2 NP-khó, u232 = m3 bộ nhớ/song song,
+  // u233 = m4 phỏng vấn và truyền đạt. Đặc tả:
+  // `docs/specs/2026-09-21-algo-s3-s4-bai-hoc-that.md`.
+  'algo-s3': ['p6-u226', 'p6-u227', 'p6-u228', 'p6-u229'],
+  'algo-s4': ['p6-u230', 'p6-u231', 'p6-u232', 'p6-u233'],
 }
 
 /** Unit của một chặng; mảng RỖNG nghĩa là chặng chưa có bài (giao diện phải nói rõ điều đó). */
