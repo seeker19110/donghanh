@@ -343,7 +343,7 @@ export default function DesktopSidebar() {
           bên trái, đọc như một khối, dễ bấm nhầm. Khi thu gọn thì logo ẩn (không đủ chỗ),
           chỉ còn nút này, tự căn giữa. */}
       <div
-        className={`h-14 flex items-center gap-2 px-3 border-b border-zinc-800/80 ${
+        className={`h-14 flex items-center gap-2 px-3 border-b border-zinc-800/80 shadow-sm relative z-10 ${
           collapsed ? 'justify-center' : 'justify-between'
         }`}
       >

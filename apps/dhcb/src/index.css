@@ -16,8 +16,17 @@
    gắn class "select-text" (Tailwind có sẵn). Những nơi "chia sẻ" (ShareProgress,
    ShareResultCard) đã copy qua nút bấm + Web Share API sẵn, không cần bôi đen tay nên
    không cần ngoại lệ riêng. */
-@media (pointer: coarse) and (hover: none) {
-  @layer base {
+/* [2026-09-21] Lồng ĐÚNG THỨ TỰ: `@media` bên TRONG `@layer base`, không phải ngược lại.
+   Tailwind (v3, dùng `@layer` riêng, không phải CSS layer chuẩn) khi build sẽ TÁCH nội dung
+   `@layer base {...}` ra khỏi vị trí gốc và chuyển tới điểm chèn base layer — nếu `@layer`
+   là con của `@media`, bước tách đó làm RỚT LUÔN điều kiện `@media` bao ngoài, khiến rule áp
+   dụng cho MỌI thiết bị kể cả desktop (kiểm chứng bằng CSS thật serve ra: rule `body {
+   user-select: none }` không còn nằm trong khối `@media` nào — bắt được khi người dùng báo
+   "vẫn chưa chọn được text ở chế độ desktop" dù điều kiện `pointer: coarse` không khớp
+   `matchMedia` trên desktop thật). `@media` lồng bên trong `@layer` thì không bị tách rời,
+   giữ nguyên điều kiện. */
+@layer base {
+  @media (pointer: coarse) and (hover: none) {
     body {
       -webkit-user-select: none;
       user-select: none;
