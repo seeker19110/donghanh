@@ -191,6 +191,26 @@ import { P6U238_LESSONS } from './lessons/p6u238.js'
 import { P6U239_LESSONS } from './lessons/p6u239.js'
 import { P6U240_LESSONS } from './lessons/p6u240.js'
 import { P6U241_LESSONS } from './lessons/p6u241.js'
+import { P6U206_LESSONS } from './lessons/p6u206.js'
+import { P6U207_LESSONS } from './lessons/p6u207.js'
+import { P6U208_LESSONS } from './lessons/p6u208.js'
+import { P6U209_LESSONS } from './lessons/p6u209.js'
+import { P6U274_LESSONS } from './lessons/p6u274.js'
+import { P6U275_LESSONS } from './lessons/p6u275.js'
+import { P6U276_LESSONS } from './lessons/p6u276.js'
+import { P6U277_LESSONS } from './lessons/p6u277.js'
+import { P6U278_LESSONS } from './lessons/p6u278.js'
+import { P6U279_LESSONS } from './lessons/p6u279.js'
+import { P6U280_LESSONS } from './lessons/p6u280.js'
+import { P6U281_LESSONS } from './lessons/p6u281.js'
+import { P6U258_LESSONS } from './lessons/p6u258.js'
+import { P6U259_LESSONS } from './lessons/p6u259.js'
+import { P6U260_LESSONS } from './lessons/p6u260.js'
+import { P6U261_LESSONS } from './lessons/p6u261.js'
+import { P6U262_LESSONS } from './lessons/p6u262.js'
+import { P6U263_LESSONS } from './lessons/p6u263.js'
+import { P6U264_LESSONS } from './lessons/p6u264.js'
+import { P6U265_LESSONS } from './lessons/p6u265.js'
 import { P6U178_LESSONS } from './lessons/p6u178.js'
 import { P6U179_LESSONS } from './lessons/p6u179.js'
 import { P6U180_LESSONS } from './lessons/p6u180.js'
@@ -432,6 +452,26 @@ export const PROGRAMMING_LESSONS: ProgrammingLesson[] = [
   ...P6U239_LESSONS,
   ...P6U240_LESSONS,
   ...P6U241_LESSONS,
+  ...P6U206_LESSONS,
+  ...P6U207_LESSONS,
+  ...P6U208_LESSONS,
+  ...P6U209_LESSONS,
+  ...P6U274_LESSONS,
+  ...P6U275_LESSONS,
+  ...P6U276_LESSONS,
+  ...P6U277_LESSONS,
+  ...P6U278_LESSONS,
+  ...P6U279_LESSONS,
+  ...P6U280_LESSONS,
+  ...P6U281_LESSONS,
+  ...P6U258_LESSONS,
+  ...P6U259_LESSONS,
+  ...P6U260_LESSONS,
+  ...P6U261_LESSONS,
+  ...P6U262_LESSONS,
+  ...P6U263_LESSONS,
+  ...P6U264_LESSONS,
+  ...P6U265_LESSONS,
   ...P6U178_LESSONS,
   ...P6U179_LESSONS,
   ...P6U180_LESSONS,

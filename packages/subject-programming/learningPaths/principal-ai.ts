@@ -211,6 +211,15 @@ export const PRINCIPAL_AI_PATH: LearningPath = {
           requires: ['principal-s2'],
         },
         {
+          // Đợt `security-s4` (cùng đặc tả với `data-s4`): chặng HƯỚNG CHUYÊN SÂU mượn vào lộ
+          // trình, đặt TRƯỚC `principal-s3` — quyết định kiến trúc mà chưa biết ranh giới tin cậy
+          // nằm ở đâu thì mọi phương án đều thiếu một cột đánh đổi. Chặng PHÒNG THỦ, không dạy
+          // tấn công.
+          stageId: 'security-s4',
+          why: 'Kiến trúc nào rồi cũng phải trả lời: ai được tin và vì sao, bí mật sống bao lâu, hỏng thì phát hiện bằng gì và ứng cứu theo trình tự nào — bốn câu này phải có trước khi chốt thiết kế, không phải sau.',
+          requires: ['data-s4'],
+        },
+        {
           stageId: 'principal-s3',
           why: 'Có đặc tả và hiểu cơ chế rồi thì tới lượt RA QUYẾT ĐỊNH kiến trúc — bằng số, ghi lại bằng ADR để người sau hiểu vì sao.',
           requires: ['principal-s2'],
