@@ -1,4 +1,4 @@
-# 0397 — 2026-09-21 — Bài học thật cho chặng `security-s4` (hướng An toàn, 4 unit / 8 bài)
+# 0398 — 2026-09-21 — Bài học thật cho chặng `security-s4` (hướng An toàn, 4 unit / 8 bài)
 
 > PR: (điền khi tạo) · Nhánh: `claude/charming-hypatia-e14hpi`
 > Đặc tả: `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md` (**Approved for
