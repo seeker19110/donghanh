@@ -183,6 +183,14 @@ import { P6U202_LESSONS } from './lessons/p6u202.js'
 import { P6U203_LESSONS } from './lessons/p6u203.js'
 import { P6U204_LESSONS } from './lessons/p6u204.js'
 import { P6U205_LESSONS } from './lessons/p6u205.js'
+import { P6U226_LESSONS } from './lessons/p6u226.js'
+import { P6U227_LESSONS } from './lessons/p6u227.js'
+import { P6U228_LESSONS } from './lessons/p6u228.js'
+import { P6U229_LESSONS } from './lessons/p6u229.js'
+import { P6U230_LESSONS } from './lessons/p6u230.js'
+import { P6U231_LESSONS } from './lessons/p6u231.js'
+import { P6U232_LESSONS } from './lessons/p6u232.js'
+import { P6U233_LESSONS } from './lessons/p6u233.js'
 import { P6U234_LESSONS } from './lessons/p6u234.js'
 import { P6U235_LESSONS } from './lessons/p6u235.js'
 import { P6U236_LESSONS } from './lessons/p6u236.js'
@@ -464,6 +472,14 @@ export const PROGRAMMING_LESSONS: ProgrammingLesson[] = [
   ...P6U203_LESSONS,
   ...P6U204_LESSONS,
   ...P6U205_LESSONS,
+  ...P6U226_LESSONS,
+  ...P6U227_LESSONS,
+  ...P6U228_LESSONS,
+  ...P6U229_LESSONS,
+  ...P6U230_LESSONS,
+  ...P6U231_LESSONS,
+  ...P6U232_LESSONS,
+  ...P6U233_LESSONS,
   ...P6U234_LESSONS,
   ...P6U235_LESSONS,
   ...P6U236_LESSONS,
