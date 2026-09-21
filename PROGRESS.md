@@ -445,20 +445,22 @@ không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelo
      `docs/changelog/0397-2026-09-21-bai-hoc-embedded-s1-s2.md`; còn `embedded-s3`/`s4`.)
   3. `mobile` S2–S4, ~~`algo` S3–S4~~ (XONG 2026-09-21, `p6-u226…u233`, PR #1094 —
      `docs/changelog/0397-2026-09-21-bai-hoc-that-algo-s3-s4.md`; hướng `algo` nay đủ S1–S4),
-     `systems` S3–S4 — mỗi hướng 1 PR.
+     ~~`systems` S3–S4~~ — mỗi hướng 1 PR.
+     **`systems` S3–S4 ĐÃ XONG 2026-09-21** (`p6-u234…u241`, 8 unit / 16 bài — hướng Hệ thống
+     nay đủ S1→S4; xem `docs/changelog/0404-2026-09-21-bai-hoc-systems-s3-s4.md`).
 
   Hiện trạng đo được lúc ghi nợ (trước khi `data-s4` xong ở PR #1086):
   Đo bằng cách đối chiếu `packages/subject-programming/specializations/details/` (56/56 file
   S1–S4 × 14 hướng, đủ hết, không placeholder) với `SPEC_STAGE_UNITS` trong
   `specializations/stageUnits.ts` (bảng map chặng → unit bài học thật trong `lessons/`):
   - **3 hướng CHƯA có bài học nào dù đã có đặc tả đủ 4 chặng: game, embedded, desktop** (S1–S4
-    đều 0 unit). **Cập nhật 2026-09-21: `embedded` và `desktop` KHÔNG còn rỗng —
-    `embedded-s1` = `p6-u258…u261` và `embedded-s2` = `p6-u262…u265` (`docs/changelog/0397-*.md`,
-    còn nợ `embedded-s3`/`s4` = `p6-u266…u273`); `desktop-s1` = `p6-u274…u277` và `desktop-s2` =
-    `p6-u278…u281` (`docs/changelog/0399-*.md`). **`desktop` nay ĐỦ 4/4 CHẶNG:** `desktop-s3` =
-    `p6-u282…u285` và `desktop-s4` = `p6-u286…u289` (`docs/changelog/0401-*.md`) — hướng này đã
-    hết nợ soạn bài, chỉ còn `game` rỗng hoàn toàn và `embedded` thiếu S3/S4. Học viên
-    chọn 1 trong 3 hướng này sẽ gặp mảng rỗng — không có cờ trạng thái
+    đều 0 unit). **Cập nhật 2026-09-21: `embedded` VÀ `desktop` ĐỀU ĐÃ TRẢ XONG CẢ BỐN CHẶNG —
+    `embedded-s1` = `p6-u258…u261` và `s2` = `p6-u262…u265` (`docs/changelog/0397-*.md`), `s3` =
+    `p6-u266…u269` và `s4` = `p6-u270…u273` (`docs/changelog/0402-*.md`), tổng 32 bài với bốn
+    cổng `embeddedS1…S4Lessons.test.ts`; `desktop-s1` = `p6-u274…u277` và `s2` = `p6-u278…u281`
+    (`docs/changelog/0399-*.md`), `s3` = `p6-u282…u285` và `s4` = `p6-u286…u289`
+    (`docs/changelog/0401-*.md`). **CHỈ CÒN `game` rỗng hoàn toàn.** Học viên
+    chọn hướng còn rỗng sẽ gặp mảng rỗng — không có cờ trạng thái
     (`status/draft/comingSoon`) nào trong code để giao diện báo trước, chỉ suy ra được gián tiếp
     qua mảng rỗng.
   - **mobile chỉ có S1** (S2–S4 = 0 unit).

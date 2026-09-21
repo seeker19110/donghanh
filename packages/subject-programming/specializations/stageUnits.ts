@@ -90,6 +90,11 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   'algo-s2': ['p6-u162', 'p6-u163', 'p6-u164', 'p6-u165'],
   'systems-s1': ['p6-u146', 'p6-u147', 'p6-u148', 'p6-u149'],
   'systems-s2': ['p6-u150', 'p6-u151', 'p6-u152', 'p6-u153'],
+  // Systems S3/S4 — soạn 2026-09-21, mỗi unit bám ĐÚNG một module của chặng (không gộp): bốn
+  // cơ chế của mỗi chặng có ca biên rất khác nhau, gộp lại thì ca âm của cái này che cái kia.
+  // Đặc tả: `docs/specs/2026-09-21-systems-s3-s4-bai-hoc-that.md`.
+  'systems-s3': ['p6-u234', 'p6-u235', 'p6-u236', 'p6-u237'],
+  'systems-s4': ['p6-u238', 'p6-u239', 'p6-u240', 'p6-u241'],
   // DevOps S1 — bốn module được tách để mỗi policy vận hành có ca âm riêng. Mô phỏng Python
   // chỉ chuẩn bị quyết định; rubric Linux/VPS thật vẫn nằm ở `details/devops-s1.ts`.
   'devops-s1': ['p6-u154', 'p6-u155', 'p6-u156', 'p6-u157'],
@@ -106,6 +111,11 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // `docs/specs/2026-09-21-embedded-s1-s4-bai-hoc-that.md`.
   'embedded-s1': ['p6-u258', 'p6-u259', 'p6-u260', 'p6-u261'],
   'embedded-s2': ['p6-u262', 'p6-u263', 'p6-u264', 'p6-u265'],
+  // Hướng Nhúng, chặng S3 và S4 — soạn 2026-09-21 (PR thứ hai của cùng đặc tả): độ tin cậy ·
+  // kiểm thử qua HAL · Linux nhúng · an toàn bộ nhớ; rồi sản xuất · bảo mật thiết bị · vận hành
+  // đội · an toàn chức năng. Hướng `embedded` từ đây đủ cả bốn chặng.
+  'embedded-s3': ['p6-u266', 'p6-u267', 'p6-u268', 'p6-u269'],
+  'embedded-s4': ['p6-u270', 'p6-u271', 'p6-u272', 'p6-u273'],
   'mathforcode-s3': ['p6-u158', 'p6-u159'],
   'mathforcode-s4': ['p6-u160', 'p6-u161'],
   'ai-s2': ['p6-u166', 'p6-u167', 'p6-u168', 'p6-u169'],
