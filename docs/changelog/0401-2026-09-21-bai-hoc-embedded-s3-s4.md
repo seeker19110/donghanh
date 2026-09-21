@@ -1,4 +1,4 @@
-# 0398 — Bài học thật chặng `embedded-s3` và `embedded-s4`
+# 0401 — Bài học thật chặng `embedded-s3` và `embedded-s4`
 
 - Ngày: 2026-09-21
 - PR: #TBD (PR thứ hai, sau `docs/changelog/0397-*.md`)

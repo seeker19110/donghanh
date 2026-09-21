@@ -124,6 +124,18 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // ca biên của cái này lẫn vào policy của cái kia. Đặc tả:
   // `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`.
   'data-s4': ['p6-u202', 'p6-u203', 'p6-u204', 'p6-u205'],
+  // Hướng An toàn, chặng S4 — soạn 2026-09-21 (4 unit bám đúng 4 module: p6-u206 = m1 kiến trúc
+  // an toàn, p6-u207 = m2 phát hiện và ứng cứu, p6-u208 = m3 điều tra số, p6-u209 = m4 quản trị
+  // và tuân thủ). Chặng PHÒNG THỦ: chỉ phân loại, quyết định, quy trình — `securityS4Lessons.test.ts`
+  // canh bằng danh sách từ vựng tấn công bị cấm. Đặc tả:
+  // `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`.
+  'security-s4': ['p6-u206', 'p6-u207', 'p6-u208', 'p6-u209'],
+  // Hướng DESKTOP, chặng S1 và S2 — soạn 2026-09-21. Mỗi unit bám đúng MỘT module của chặng
+  // (không gộp): bốn module của desktop-s1 là bốn loại quyết định rời nhau (nền tảng · tệp ·
+  // lưu trữ · đóng gói), gộp lại thì ca âm của module này lẫn vào policy của module kia.
+  // Đặc tả: `docs/specs/2026-09-21-desktop-s1-s4-bai-hoc-that.md`.
+  'desktop-s1': ['p6-u274', 'p6-u275', 'p6-u276', 'p6-u277'],
+  'desktop-s2': ['p6-u278', 'p6-u279', 'p6-u280', 'p6-u281'],
 }
 
 /** Unit của một chặng; mảng RỖNG nghĩa là chặng chưa có bài (giao diện phải nói rõ điều đó). */
