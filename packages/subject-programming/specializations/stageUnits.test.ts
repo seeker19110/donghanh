@@ -37,7 +37,14 @@ describe('cầu nối chặng chuyên sâu → unit bài học', () => {
 
   it('specHasLessons chỉ đúng với hướng đã có bài', () => {
     expect(specHasLessons('web')).toBe(true)
-    expect(specHasLessons('game')).toBe(false)
+    // `game` đã có bài từ 2026-09-21 (chặng S1+S2); `embedded` vẫn là hướng chưa soạn bài nào.
+    expect(specHasLessons('game')).toBe(true)
+    expect(specHasLessons('embedded')).toBe(false)
+  })
+
+  it('game-s1 và game-s2 phủ đủ bốn module mỗi chặng bằng unit thật', () => {
+    expect(unitsOfStage('game-s1')).toEqual(['p6-u242', 'p6-u243', 'p6-u244', 'p6-u245'])
+    expect(unitsOfStage('game-s2')).toEqual(['p6-u246', 'p6-u247', 'p6-u248', 'p6-u249'])
   })
 
   it('mathforcode-s1 phủ đủ bốn module theo đúng thứ tự bằng bốn unit thật', () => {

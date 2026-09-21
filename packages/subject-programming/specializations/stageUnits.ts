@@ -113,6 +113,11 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // ca biên của cái này lẫn vào policy của cái kia. Đặc tả:
   // `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`.
   'data-s4': ['p6-u202', 'p6-u203', 'p6-u204', 'p6-u205'],
+  // Hướng GAME, chặng S1 và S2 — soạn 2026-09-21 (4 unit mỗi chặng, bám ĐÚNG một module một
+  // unit: bốn module của `game` không trùng chủ đề nên không gộp như một số hướng khác).
+  // Đặc tả: `docs/specs/2026-09-21-game-s1-s4-bai-hoc-that.md`.
+  'game-s1': ['p6-u242', 'p6-u243', 'p6-u244', 'p6-u245'],
+  'game-s2': ['p6-u246', 'p6-u247', 'p6-u248', 'p6-u249'],
 }
 
 /** Unit của một chặng; mảng RỖNG nghĩa là chặng chưa có bài (giao diện phải nói rõ điều đó). */

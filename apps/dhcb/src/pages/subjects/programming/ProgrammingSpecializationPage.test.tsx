@@ -52,7 +52,8 @@ describe('ProgrammingSpecializationPage — lối vào bài học', () => {
   })
 
   it('hướng chưa soạn bài: KHÔNG hiện lối vào nào (không hứa suông)', () => {
-    expect(render('game')).not.toContain(NHAN_VAO_HOC)
+    // `game` đã có bài từ 2026-09-21; `embedded` là hướng còn trắng hoàn toàn.
+    expect(render('embedded')).not.toContain(NHAN_VAO_HOC)
   })
 
   it('link cũ chỉ có mã: chuyển hướng về URL chuẩn thay vì render trang thứ hai', () => {

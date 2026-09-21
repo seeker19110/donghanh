@@ -1017,6 +1017,46 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
           'Legal basis; purpose limitation; retention; ngưỡng k; bias theo nhóm; câu giới hạn',
       },
       {
+        id: 'p6-u242',
+        title: 'Game S1 — vòng lặp game: delta time và máy trạng thái nhân vật',
+        topics: 'Delta time; bước thời gian chết; bảng chuyển tiếp; nhập liệu trừu tượng',
+      },
+      {
+        id: 'p6-u243',
+        title: 'Game S1 — toán cho game: vector chuẩn hoá, AABB, camera',
+        topics: 'Chuẩn hoá véc-tơ; AABB; va chạm hình tròn; hệ số nội suy clamp',
+      },
+      {
+        id: 'p6-u244',
+        title: 'Game S1 — cảm giác chơi: coyote time và jump buffer',
+        topics: 'Coyote time; jump buffer; gia tốc; ma sát; cảm giác mô tả bằng số',
+      },
+      {
+        id: 'p6-u245',
+        title: 'Game S1 — tài nguyên và phát hành: atlas và bản lưu có phiên bản',
+        topics: 'Ngân sách atlas; bộ rỗng là unknown; migrate bản lưu; phiên bản lạ deny',
+      },
+      {
+        id: 'p6-u246',
+        title: 'Game S2 — kiến trúc ECS: lọc theo thành phần và luật ghi',
+        topics: 'Thành phần thay kế thừa; bỏ qua entity thiếu; tranh chấp ghi; thứ tự cố định',
+      },
+      {
+        id: 'p6-u247',
+        title: 'Game S2 — vật lý bước cố định và phát lại tất định',
+        topics: 'Fixed timestep; bộ tích luỹ; trần số bước; hash trạng thái; replay',
+      },
+      {
+        id: 'p6-u248',
+        title: 'Game S2 — AI trong game: tầm quan sát và tìm đường A*',
+        topics: 'Tầm quan sát; chống AI đọc trộm; A*; heuristic Manhattan; unreachable',
+      },
+      {
+        id: 'p6-u249',
+        title: 'Game S2 — nội dung và công cụ: validator màn chơi và hạt giống',
+        topics: 'Validator lúc lưu; phiên bản định dạng; random.Random(seed); tái lập',
+      },
+      {
         id: 'p6-u178',
         title: 'DevOps S2 — delivery policy và change control',
         topics: 'Approval; change window; rollback; fail closed',
