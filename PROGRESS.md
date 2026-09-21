@@ -48,7 +48,7 @@ này cũng vá 2 hồi quy tinh tế do đổi `<h1>` gây ra: thiếu `tabIndex
 đóng mục lục mobile (`useOutlinePane.tsx`), và `buildCrumbs()` (`apps/dhcb/src/lib/breadcrumb.ts`)
 cộng thêm một đốt breadcrumb thay vì thay thế khi tiêu đề trang khác tên tĩnh trong route tree,
 làm sai nhãn nút Back — đã sửa gốc, cả hai đều có test canh; **4 môn STEM
-(Toán/Lí/Hoá/Sinh) ĐÃ NỐI VÀO APP 2026-09-13** — 294 bài, 55 bài có hoạt ảnh minh hoạ, 24 chuyên
+(Toán/Lí/Hoá/Sinh) ĐÃ NỐI VÀO APP 2026-09-13\*\* — 294 bài, 55 bài có hoạt ảnh minh hoạ, 24 chuyên
 đề bồi dưỡng học sinh giỏi ba cấp, chấm câu hỏi tất định bằng `@dhcb/core-grading`
 (`docs/changelog/0295-2026-09-13-hoan-thien-4-mon-stem.md`). Cổng chất lượng đo thật 2026-09-13:
 typecheck ✅ · 586 file / 12.269 unit test ✅ · a11y AA+AAA ✅ · bundle 135,4/150 kB (trần nới 140 → 150 kB ngày 2026-09-17, changelog 0360).
@@ -429,6 +429,28 @@ không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelo
 - **Môn Toán thiếu hình học không gian và thống kê** — lớp 10 C5; lớp 11 C3, C4, C8; lớp 12 C2, C3,
   và phương trình đường thẳng trong không gian. Đây là mảng mỏng nhất của cả bốn môn STEM.
 - **Môn Sinh chưa có nhánh bồi dưỡng học sinh giỏi** — đợt 2026-09-13 chỉ làm cho Toán/Lí/Hoá.
+- **[2026-09-21] P6 (Lập trình, 14 hướng chuyên sâu) — lệch lớn giữa "đã đặc tả" và "đã có bài học thật".**
+  Đo bằng cách đối chiếu `packages/subject-programming/specializations/details/` (56/56 file
+  S1–S4 × 14 hướng, đủ hết, không placeholder) với `SPEC_STAGE_UNITS` trong
+  `specializations/stageUnits.ts` (bảng map chặng → unit bài học thật trong `lessons/`):
+  - **3 hướng CHƯA có bài học nào dù đã có đặc tả đủ 4 chặng: game, embedded, desktop** (S1–S4
+    đều 0 unit). Học viên chọn 1 trong 3 hướng này sẽ gặp mảng rỗng — không có cờ trạng thái
+    (`status/draft/comingSoon`) nào trong code để giao diện báo trước, chỉ suy ra được gián tiếp
+    qua mảng rỗng.
+  - **mobile chỉ có S1** (S2–S4 = 0 unit).
+  - **security, systems, algo chỉ có S1–S2** (thiếu S3–S4).
+  - **data thiếu S4** (S1–S3 có, S4 = 0).
+  - **mathforcode S3/S4 mỏng** (2 unit/chặng thay vì 4 như các hướng khác).
+  - 5 hướng đã đủ 4 chặng, dùng làm khuôn mẫu: web, devops, ai, architecture, backend.
+    Vì `details/` đã có sẵn nội dung chi tiết (module/objective/practice/selfCheck/doneSignals)
+    cho toàn bộ 56 chặng, việc còn thiếu là "dịch từ đặc tả sang bài học chấm được", không phải
+    soạn từ đầu — nhưng vẫn là khối lượng nội dung lớn, chưa ước lượng effort.
+    Phát hiện phụ: tài liệu tham chiếu nguồn `docs/research/dac-ta-huong-chuyen-sau-mon-lap-trinh-2026-08-27.md`
+    (dẫn trong CLAUDE.md mục 2) **không tồn tại trong repo** — chỉ còn `docs/research/mon-lap-trinh.md`
+    (bản gộp) và `docs/specs/2026-08-27-chang-s2-huong-chuyen-sau.md`; spec đó còn ghi "13 hướng"
+    trong khi code thật (`registry.ts`) và phần còn lại của tài liệu này đều xác nhận **14** (có
+    `mathforcode`) — cần sửa CLAUDE.md mục 2.1/tài liệu liên quan cho khớp con số thật, và xác minh
+    đường dẫn `dac-ta-huong-chuyen-sau-mon-lap-trinh-2026-08-27.md` trong CLAUDE.md có còn đúng không.
 - ✅ **Sáu việc nhỏ của lượt audit ĐÃ TRẢ XONG (2026-09-14, `docs/changelog/0300-*.md`):**
   F1 huy hiệu "chưa duyệt chuyên môn" · F4 cờ `notForKids` cho vòng sinh tự động (12 → 42
   vòng) · F5 gộp vòng dưới 5 từ (699 → 677 vòng, không mất từ nào) · F8 tiêu đề bài Hoá hết
