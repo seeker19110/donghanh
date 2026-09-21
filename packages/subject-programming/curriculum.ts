@@ -1060,6 +1060,66 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         topics: 'Trường bắt buộc có thứ tự; ước lượng dung lượng; giả định/đánh đổi/ví dụ',
       },
       {
+        id: 'p6-u214',
+        title: 'Mobile S2 — mạng ở môi trường xấu: hàng đợi offline và retry',
+        topics: 'Khoá idempotent; dedup; backoff có trần; hàng đợi rỗng; fail sau N lần',
+      },
+      {
+        id: 'p6-u215',
+        title: 'Mobile S2 — xác thực trên điện thoại: máy trạng thái token',
+        topics: 'Access vs refresh; làm mới lặng lẽ; lỗi mạng khác bị từ chối; ca biên hết hạn',
+      },
+      {
+        id: 'p6-u216',
+        title: 'Mobile S2 — quyền và cảm biến: xin đúng lúc, có đường lui',
+        topics: 'Lý do trước khi xin; hết lượt hỏi; fallback; quyền chưa khai báo',
+      },
+      {
+        id: 'p6-u217',
+        title: 'Mobile S2 — kiểm thử và phát hành thử: cổng chặn hay cảnh báo',
+        topics: 'Chữ ký; versionCode; ngưỡng người thử; ghi chú thay đổi; gom vi phạm',
+      },
+      {
+        id: 'p6-u218',
+        title: 'Mobile S3 — hiệu năng giao diện: ngân sách 16ms',
+        topics: 'Build/layout/draw; ảo hoá danh sách; giải mã ảnh; nguyên nhân trước triệu chứng',
+      },
+      {
+        id: 'p6-u219',
+        title: 'Mobile S3 — pin, bộ nhớ, dung lượng',
+        topics: 'Công việc nền; đánh thức; rò tham chiếu; ngưỡng mẫu tối thiểu; dung lượng gói',
+      },
+      {
+        id: 'p6-u220',
+        title: 'Mobile S3 — kiến trúc app lớn: ranh giới lớp',
+        topics: 'Kho dữ liệu; tiêm interface; test lớp dữ liệu; chặn khác cảnh báo; 0 khác null',
+      },
+      {
+        id: 'p6-u221',
+        title: 'Mobile S3 — trải nghiệm chuẩn nền tảng: trợ năng',
+        topics: 'Nhãn trợ năng; cỡ chữ hệ thống; chiều cao cố định; chế độ tối; giới hạn rà tĩnh',
+      },
+      {
+        id: 'p6-u222',
+        title: 'Mobile S4 — phát hành chuyên nghiệp: rollout theo tỉ lệ',
+        topics: 'Cửa sổ theo dõi; ngưỡng dừng; halt-rollout; minSupportedVersion; buộc cập nhật',
+      },
+      {
+        id: 'p6-u223',
+        title: 'Mobile S4 — quan sát từ xa: giải mã stack trace và cờ tính năng',
+        topics: 'Bản đồ giải mã; unresolved; giá trị an toàn; tự tắt theo ngưỡng crash',
+      },
+      {
+        id: 'p6-u224',
+        title: 'Mobile S4 — nền tảng và mã dùng chung',
+        topics: 'Logic thuần; riêng nền tảng; semver; đổi phá vỡ; ghi chú thay đổi',
+      },
+      {
+        id: 'p6-u225',
+        title: 'Mobile S4 — bảo mật ứng dụng di động',
+        topics: 'Bí mật trong gói; định danh công khai; chống chụp màn; loại trừ khỏi backup',
+      },
+      {
         id: 'p6-u234',
         title: 'Systems S3 — phần cứng quyết định tốc độ: dòng cache và false sharing',
         topics: 'Cache line; stride; cache_miss_rate; false-sharing; đệm biến nóng',
