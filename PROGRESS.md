@@ -429,7 +429,12 @@ không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelo
 - **Môn Toán thiếu hình học không gian và thống kê** — lớp 10 C5; lớp 11 C3, C4, C8; lớp 12 C2, C3,
   và phương trình đường thẳng trong không gian. Đây là mảng mỏng nhất của cả bốn môn STEM.
 - **Môn Sinh chưa có nhánh bồi dưỡng học sinh giỏi** — đợt 2026-09-13 chỉ làm cho Toán/Lí/Hoá.
-- **[2026-09-21] P6 (Lập trình, 14 hướng chuyên sâu) — lệch lớn giữa "đã đặc tả" và "đã có bài học thật".**
+- **[2026-09-21, cập nhật 2026-09-21] P6 (Lập trình, 14 hướng chuyên sâu) — lệch lớn giữa "đã đặc tả" và "đã có bài học thật".**
+  **Tiếp theo của mảng này:** `security-s4` (`p6-u206…u209`, cùng đặc tả
+  `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`, PR thứ hai — phải gộp `main` rồi
+  sinh lại `lessonsLazy.ts`), rồi `security-s3` (`p6-u210…u213`,
+  `docs/specs/2026-09-17-security-s3-bai-hoc-that.md`). Hai chặng này đã có đặc tả **đã duyệt**,
+  chưa thi hành.
   Đo bằng cách đối chiếu `packages/subject-programming/specializations/details/` (56/56 file
   S1–S4 × 14 hướng, đủ hết, không placeholder) với `SPEC_STAGE_UNITS` trong
   `specializations/stageUnits.ts` (bảng map chặng → unit bài học thật trong `lessons/`):
@@ -439,7 +444,11 @@ không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelo
     qua mảng rỗng.
   - **mobile chỉ có S1** (S2–S4 = 0 unit).
   - **security, systems, algo chỉ có S1–S2** (thiếu S3–S4).
-  - **data thiếu S4** (S1–S3 có, S4 = 0).
+  - ~~**data thiếu S4**~~ — **ĐÃ TRẢ 2026-09-21** (`docs/changelog/0396-*.md`): `data-s4` =
+    `p6-u202…u205`, 8 bài, cổng `dataS4Lessons.test.ts`; nối vào `principal-ai-p5` trước
+    `principal-s3`. Ghi lại cho đợt sau: nối một chặng vào lộ trình `principal-ai` thì **bắt buộc
+    soạn quiz** trong `stageQuizzes.ts` — đặc tả không liệt kê điểm chạm này, cổng
+    `ProgrammingPathPage.test.tsx` mới bắt được.
   - **mathforcode S3/S4 mỏng** (2 unit/chặng thay vì 4 như các hướng khác).
   - 5 hướng đã đủ 4 chặng, dùng làm khuôn mẫu: web, devops, ai, architecture, backend.
     Vì `details/` đã có sẵn nội dung chi tiết (module/objective/practice/selfCheck/doneSignals)

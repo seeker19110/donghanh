@@ -625,6 +625,78 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
         'Kho dữ liệu dùng chung cho nhiều đội, nên phải kiểm soát ai xem được trường nhạy cảm nào (che/ẩn) — đây là yêu cầu quản trị và tuân thủ, tách biệt với việc tối ưu chi phí hay hiệu năng.',
     },
   ],
+  // `data-s4` — thêm 2026-09-21 cùng đợt soạn bài học chặng này (đặc tả
+  // `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`). Năm câu bám bốn module:
+  // danh mục/schema (m1), độ tin cậy (m2), tầng chỉ số (m3), đạo đức và pháp lý (m4).
+  'data-s4': [
+    {
+      id: 'data-s4-q1',
+      prompt: 'Vì sao danh mục dữ liệu phải chặn công bố một bảng thiếu chủ sở hữu?',
+      choices: [
+        'Vì thiếu chủ sở hữu thì truy vấn sẽ chạy chậm hơn',
+        'Vì dữ liệu nào rồi cũng có lúc sai, và không có chủ sở hữu thì không có ai chịu trách nhiệm sửa',
+        'Vì hệ thống không lưu được bảng chưa có chủ',
+        'Vì chủ sở hữu quyết định định dạng lưu trữ của bảng',
+      ],
+      answerIndex: 1,
+      explain:
+        'Chủ sở hữu là câu trả lời cho câu hỏi "ai sửa khi bảng này sai vào sáng mai"; không có nó thì bảng thành nợ vĩnh viễn của cả nền tảng, dù hôm nay dữ liệu vẫn đúng.',
+    },
+    {
+      id: 'data-s4-q2',
+      prompt: 'Tiến hoá schema kiểu nào được coi là AN TOÀN với người dùng đang có?',
+      choices: [
+        'Đổi kiểu một cột đang được truy vấn',
+        'Xoá cột không còn ai dùng theo phán đoán của đội chủ quản',
+        'Thêm cột mới rồi để người dùng chuyển dần sang nó',
+        'Đổi tên bảng và giữ nguyên toàn bộ cột',
+      ],
+      answerIndex: 2,
+      explain:
+        'Thêm cột không làm gãy truy vấn cũ vì không ai đang đọc cột chưa tồn tại; xoá cột, đổi kiểu hay đổi tên đều có thể làm vỡ truy vấn đang chạy ngay lúc đổi, không có cửa sổ chuyển dần.',
+    },
+    {
+      id: 'data-s4-q3',
+      prompt:
+        'Bảng báo 0 dòng, bảng báo NULL, và đường ống chưa chạy — vì sao không được gộp ba trạng thái này?',
+      choices: [
+        'Vì chúng chiếm dung lượng lưu trữ khác nhau',
+        'Vì chúng dẫn tới ba hành động khác nhau: không làm gì, đi sửa nguồn, và đi tìm đường ống chết',
+        'Vì SQL không cho phép so sánh NULL với 0',
+        'Vì chỉ có NULL mới là lỗi, hai cái còn lại đều bình thường',
+      ],
+      answerIndex: 1,
+      explain:
+        'Gộp lại thì một sự cố im lặng (đường ống chết) bị đọc như một ngày ế khách (0 dòng) — cùng một ô trống trên bảng điều khiển nhưng ba nguyên nhân và ba việc phải làm hoàn toàn khác nhau.',
+    },
+    {
+      id: 'data-s4-q4',
+      prompt:
+        'Hai đội đăng ký hai định nghĩa khác nhau dưới cùng một tên chỉ số. Tầng chỉ số nên làm gì?',
+      choices: [
+        'Tự chọn định nghĩa của đội đăng ký trước',
+        'Tự chọn định nghĩa có bộ lọc chặt hơn cho an toàn',
+        'Trả về conflict và nêu rõ hai định nghĩa khác nhau ở phần nào, để con người quyết',
+        'Ghép hai định nghĩa thành một định nghĩa trung bình',
+      ],
+      answerIndex: 2,
+      explain:
+        'Chọn giúp là âm thầm đổi ý nghĩa con số của bên còn lại; việc của hệ thống là phơi bày mâu thuẫn ra chỗ nhìn thấy được, không phải che nó đi bằng một quy tắc mặc định.',
+    },
+    {
+      id: 'data-s4-q5',
+      prompt: 'Một ô trong bảng thống kê công khai chỉ gộp hai người. Cách xử lý đúng là gì?',
+      choices: [
+        'Làm tròn con số lên cho khó đoán',
+        'Nén ô đó, không công bố số nào cho nhóm dưới ngưỡng k',
+        'Công bố bình thường vì đã bỏ tên khỏi bảng',
+        'Thay số bằng số trung bình của toàn bảng',
+      ],
+      answerIndex: 1,
+      explain:
+        'Làm tròn hay thay thế vẫn phát ra tín hiệu về nhóm nhỏ, và người đọc chỉ cần ghép thêm một nguồn nữa là suy ngược ra cá nhân; nén là cách duy nhất không để lại tín hiệu nào.',
+    },
+  ],
   'backend-s1': [
     {
       id: 'backend-s1-q1',
