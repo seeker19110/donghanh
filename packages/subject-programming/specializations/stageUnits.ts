@@ -113,6 +113,15 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // ca biên của cái này lẫn vào policy của cái kia. Đặc tả:
   // `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`.
   'data-s4': ['p6-u202', 'p6-u203', 'p6-u204', 'p6-u205'],
+  // Hướng DI ĐỘNG, chặng S2/S3/S4 — soạn 2026-09-21 (12 unit, mỗi chặng 4 unit ánh xạ 1:1 vào
+  // 4 module gốc). KHÁC `mobile-s1` (gộp m3+m4 vì dải id chỉ có 3 chỗ): dải `p6-u214…u225` cấp
+  // đủ chỗ nên không gộp module nào — bốn module của mỗi chặng là bốn loại quyết định khác hẳn
+  // nhau, gộp thì ca biên của cái này lẫn vào policy của cái kia. Vẫn làn `typescript` theo đúng
+  // quyết định đã chốt ở `mobile-s1`. Đặc tả:
+  // `docs/specs/2026-09-21-mobile-s2-s4-bai-hoc-that.md`.
+  'mobile-s2': ['p6-u214', 'p6-u215', 'p6-u216', 'p6-u217'],
+  'mobile-s3': ['p6-u218', 'p6-u219', 'p6-u220', 'p6-u221'],
+  'mobile-s4': ['p6-u222', 'p6-u223', 'p6-u224', 'p6-u225'],
 }
 
 /** Unit của một chặng; mảng RỖNG nghĩa là chặng chưa có bài (giao diện phải nói rõ điều đó). */
