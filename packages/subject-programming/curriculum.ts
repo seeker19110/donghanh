@@ -1338,6 +1338,46 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         title: 'Nhúng S2 — ngân sách năng lượng',
         topics: 'Battery budget ra số ngày; ngủ sâu; ngoại vi chưa tắt gây rò dòng',
       },
+      {
+        id: 'p6-u266',
+        title: 'Nhúng S3 — ghi bền qua mất điện và watchdog',
+        topics: 'Đổi con trỏ ở bước cuối; torn write; watchdog timeout; ngân sách bộ nhớ tĩnh',
+      },
+      {
+        id: 'p6-u267',
+        title: 'Nhúng S3 — kiểm thử phần cứng qua HAL',
+        topics: 'Bản giả lập HAL; chặn test bỏ qua HAL; test không xác định; dải môi trường thử',
+      },
+      {
+        id: 'p6-u268',
+        title: 'Nhúng S3 — Linux nhúng',
+        topics: 'Hệ tệp chỉ-đọc; cây thiết bị thiếu nút; ngân sách thời gian khởi động',
+      },
+      {
+        id: 'p6-u269',
+        title: 'Nhúng S3 — an toàn bộ nhớ kiểu Rust',
+        topics: 'Truy cập chia sẻ không đồng bộ; dùng vùng nhớ đã giải phóng; no_std và heap',
+      },
+      {
+        id: 'p6-u270',
+        title: 'Nhúng S4 — từ nguyên mẫu tới sản xuất',
+        topics: 'Khớp đời phần cứng; calibration ghi đè; ngân sách thời gian trạm xưởng',
+      },
+      {
+        id: 'p6-u271',
+        title: 'Nhúng S4 — bảo mật và định danh thiết bị',
+        topics: 'Khởi động an toàn; khoá riêng từng máy; duplicate identity; thu hồi đúng phạm vi',
+      },
+      {
+        id: 'p6-u272',
+        title: 'Nhúng S4 — vận hành đội thiết bị',
+        topics: 'Cập nhật theo đợt nhỏ; ngưỡng dừng freeze; bản tin sức khoẻ; quay lui từng máy',
+      },
+      {
+        id: 'p6-u273',
+        title: 'Nhúng S4 — chuẩn và an toàn',
+        topics: 'Safe state theo từng chế độ lỗi; tính đầy đủ của checklist quy trình',
+      },
     ],
   },
 ]
