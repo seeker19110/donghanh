@@ -73,12 +73,18 @@ Ba chế độ:
   `docs/research/luong-nguoi-moi-ho-so-nang-luc-an-2026-08-23.md` (**luồng người mới**: 5 câu hỏi
   ~90 giây → hồ sơ năng lực ẩn → gợi ý ĐÚNG MỘT việc; **luật ngôn ngữ cấm/cho phép** + 7 test bất
   biến chặn CI để con số năng lực không rò lên giao diện).
-- `docs/research/dac-ta-huong-chuyen-sau-mon-lap-trinh-2026-08-27.md` — **13 hướng chuyên sâu của
-  môn Lập trình** (11 hướng sản phẩm: web · di động · backend · dữ liệu · AI · DevOps · bảo mật ·
-  hệ thống · game · nhúng · desktop; 2 hướng nền cắt ngang: **kiến trúc** · thuật toán), mỗi hướng
-  4 chặng S1→S4 + 5 dự án + **bản đồ kiến trúc bắt buộc** (module · hợp đồng · quyết định phải
-  chốt sớm · NFR · checklist đặc tả). Dữ liệu thi hành:
-  `packages/subject-programming/specializations/`. Đọc trước khi đụng bậc P6 hoặc nội dung sau P5.
+- **14 hướng chuyên sâu của môn Lập trình** — 11 hướng sản phẩm (web · di động · backend · dữ
+  liệu · AI · DevOps · bảo mật · hệ thống · game · nhúng · desktop) + **3 hướng NỀN cắt ngang**
+  (kiến trúc · thuật toán · **toán cho lập trình**), mỗi hướng 4 chặng S1→S4 + 5 dự án + **bản đồ
+  kiến trúc bắt buộc** (module · hợp đồng · quyết định phải chốt sớm · NFR · checklist đặc tả).
+  **Nguồn sự thật là MÃ NGUỒN, không phải tài liệu nghiên cứu:**
+  `packages/subject-programming/specializations/registry.ts` (danh sách 14 hướng) +
+  `specializations/<hướng>.ts` (bản đồ chặng/module) + `specializations/details/<hướng>-<chặng>.ts`
+  (nội dung chi tiết 56/56 chặng) + `specializations/stageUnits.ts` (chặng nào ĐÃ có bài học thật).
+  Nền nghiên cứu: `docs/research/mon-lap-trinh.md` (bản gộp 6 tài liệu, có trước khi thêm hướng
+  `mathforcode` nên chỉ mô tả 13 hướng — đọc để hiểu bối cảnh, KHÔNG dùng làm con số). Đặc tả
+  triển khai từng chặng nằm ở `docs/specs/*-bai-hoc-that.md`. Đọc trước khi đụng bậc P6 hoặc nội
+  dung sau P5.
 - `docs/templates/dac-ta-tinh-nang.md` + `docs/templates/adr.md` — **khuôn đặc tả giao việc và
   khuôn ADR**. Dùng khi cần viết đặc tả cho AI/người khác thi hành: 6 ô bắt buộc (phạm vi có mục
   "KHÔNG làm" · điểm chạm file · hợp đồng vào-ra · tiêu chí chấp nhận đo được · bất biến + test

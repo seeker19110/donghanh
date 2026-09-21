@@ -429,12 +429,22 @@ không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelo
 - **Môn Toán thiếu hình học không gian và thống kê** — lớp 10 C5; lớp 11 C3, C4, C8; lớp 12 C2, C3,
   và phương trình đường thẳng trong không gian. Đây là mảng mỏng nhất của cả bốn môn STEM.
 - **Môn Sinh chưa có nhánh bồi dưỡng học sinh giỏi** — đợt 2026-09-13 chỉ làm cho Toán/Lí/Hoá.
-- **[2026-09-21, cập nhật 2026-09-21] P6 (Lập trình, 14 hướng chuyên sâu) — lệch lớn giữa "đã đặc tả" và "đã có bài học thật".**
-  **Tiếp theo của mảng này:** `security-s4` (`p6-u206…u209`, cùng đặc tả
-  `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`, PR thứ hai — phải gộp `main` rồi
-  sinh lại `lessonsLazy.ts`), rồi `security-s3` (`p6-u210…u213`,
-  `docs/specs/2026-09-17-security-s3-bai-hoc-that.md`). Hai chặng này đã có đặc tả **đã duyệt**,
-  chưa thi hành.
+- **[2026-09-21 · CẬP NHẬT cùng ngày, PR đặc tả — `docs/changelog/0396-*.md`] P6 (Lập trình,
+  14 hướng chuyên sâu) — lệch lớn giữa "đã đặc tả" và "đã có bài học thật".**
+  **Phần KẾ HOẠCH đã khép: đủ 56/56 chặng có đặc tả.** 19 chặng thiếu nay đều có đặc tả triển
+  khai đã duyệt
+  (`docs/specs/2026-09-21-{mobile-s2-s4,algo-s3-s4,systems-s3-s4,game-s1-s4,embedded-s1-s4,desktop-s1-s4}-bai-hoc-that.md`,
+  dải unit `p6-u214…u289`). Chủ dự án chốt: KHÔNG nối các chặng này vào `learningPaths/` nào.
+  **Nợ còn lại thuần là SOẠN BÀI THẬT.** Thứ tự thi hành:
+  1. `security-s4` (`p6-u206…u209`, đặc tả `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`
+     — PR thứ hai của đặc tả đó, `data-s4` đã xong ở PR #1086; phải gộp `main` rồi sinh lại
+     `lessonsLazy.ts`), rồi `security-s3` (`p6-u210…u213`,
+     `docs/specs/2026-09-17-security-s3-bai-hoc-that.md`).
+  2. Ba hướng đang RỖNG HOÀN TOÀN, ưu tiên cao nhất vì học viên chọn vào gặp mảng trắng: `game`
+     → `embedded` → `desktop`, mỗi hướng 2 PR (S1+S2 rồi S3+S4).
+  3. `mobile` S2–S4, `algo` S3–S4, `systems` S3–S4 — mỗi hướng 1 PR.
+
+  Hiện trạng đo được lúc ghi nợ (trước khi `data-s4` xong ở PR #1086):
   Đo bằng cách đối chiếu `packages/subject-programming/specializations/details/` (56/56 file
   S1–S4 × 14 hướng, đủ hết, không placeholder) với `SPEC_STAGE_UNITS` trong
   `specializations/stageUnits.ts` (bảng map chặng → unit bài học thật trong `lessons/`):
@@ -454,12 +464,15 @@ không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelo
     Vì `details/` đã có sẵn nội dung chi tiết (module/objective/practice/selfCheck/doneSignals)
     cho toàn bộ 56 chặng, việc còn thiếu là "dịch từ đặc tả sang bài học chấm được", không phải
     soạn từ đầu — nhưng vẫn là khối lượng nội dung lớn, chưa ước lượng effort.
-    Phát hiện phụ: tài liệu tham chiếu nguồn `docs/research/dac-ta-huong-chuyen-sau-mon-lap-trinh-2026-08-27.md`
-    (dẫn trong CLAUDE.md mục 2) **không tồn tại trong repo** — chỉ còn `docs/research/mon-lap-trinh.md`
-    (bản gộp) và `docs/specs/2026-08-27-chang-s2-huong-chuyen-sau.md`; spec đó còn ghi "13 hướng"
-    trong khi code thật (`registry.ts`) và phần còn lại của tài liệu này đều xác nhận **14** (có
-    `mathforcode`) — cần sửa CLAUDE.md mục 2.1/tài liệu liên quan cho khớp con số thật, và xác minh
-    đường dẫn `dac-ta-huong-chuyen-sau-mon-lap-trinh-2026-08-27.md` trong CLAUDE.md có còn đúng không.
+    ✅ **Phát hiện phụ ĐÃ SỬA (2026-09-21, cùng PR đặc tả):** `CLAUDE.md` mục 2 trước đây dẫn
+    tới `docs/research/dac-ta-huong-chuyen-sau-mon-lap-trinh-2026-08-27.md` — file KHÔNG tồn tại
+    trong repo — và ghi "13 hướng" trong khi `registry.ts` có **14** (thiếu `mathforcode`). Nay mục
+    đó trỏ thẳng vào mã nguồn làm nguồn sự thật (`specializations/registry.ts` · `<hướng>.ts` ·
+    `details/` · `stageUnits.ts`) và ghi đúng 14 hướng = 11 sản phẩm + 3 nền. `docs/research/mon-lap-trinh.md`
+    (bản gộp) và `docs/specs/2026-08-27-chang-s2-huong-chuyen-sau.md` vẫn còn ghi "13 hướng" —
+    ĐÚNG với thời điểm chúng được viết (trước khi thêm `mathforcode`), giữ nguyên làm hồ sơ lịch sử,
+    không sửa ngược tài liệu đã đóng.
+
 - ✅ **Sáu việc nhỏ của lượt audit ĐÃ TRẢ XONG (2026-09-14, `docs/changelog/0300-*.md`):**
   F1 huy hiệu "chưa duyệt chuyên môn" · F4 cờ `notForKids` cho vòng sinh tự động (12 → 42
   vòng) · F5 gộp vòng dưới 5 từ (699 → 677 vòng, không mất từ nào) · F8 tiêu đề bài Hoá hết
@@ -1007,7 +1020,7 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 - ✅ **[2026-09-15 → đóng hoàn toàn 2026-09-19, `docs/changelog/0376-2026-09-19-sua-f6-f8-progress-merge.md`] Ba lỗi merge tinh tế ghi nợ ở S09-1 — ĐÃ SỬA CẢ BA (F7/F6/F8).** F7 (`mergeSrsMap` hoà `reps`) sửa ở đợt trước. F6 (`hard` ghi đè theo thứ tự ĐẾN của request) và F8 (`mergeByTimestamp` cho `placement`/`weeklyGoal` lệch đồng hồ 2 thiết bị) sửa ở đợt này theo quyết định đã chốt của chủ dự án: `resolveHard()` mới ở `progressMerge.ts` so `client_updated_at` (migration `0083`) của bản đã lưu với request hiện tại, bỏ qua thay đổi `hard` nếu request cũ hơn; `mergeByTimestamp()` nhận thêm tham số tuỳ chọn `clientClock` dùng `client_updated_at` của CẢ REQUEST (một trục nhất quán, thay vì mốc `lastAt`/`updatedAt` tự ghi rải rác từng object) làm tiêu chí chính, field nội bộ vẫn giữ để tie-break phụ. Cột `version` (S09-1) là version của CẢ DÒNG, không tách theo field — không đủ để làm trọng tài riêng cho `placement`/`weeklyGoal` (đã ghi rõ lý do đổi phương án so với đề xuất ban đầu trong changelog trên).
 - ✅ **[2026-09-15 → ĐÃ ĐÓNG 2026-09-19 — khảo sát S12] `learningReadModelService.ts` select cột `stats`/`settings` không tồn tại trong `english.learning_progress` — ĐÃ SỬA theo ADR-0005 (Accepted).** Service nay chỉ SELECT cột thật (`learned, srs, placement, updated_at`); `masteredCount` tính từ `learned` (tự báo cáo), `inProgressCount`/`dueForReviewCount`/`srsDueCount` tính từ `srs` theo server time (`Date.now()`), `recentEvidenceCount` đổi sang nullable và trả `null` cho subject không có nguồn evidence thật (`english` hiện tại). Test canh `learningReadModelService.schemaGuard.test.ts` đã bỏ `describe.skip`, chạy XANH THẬT. Xem `docs/changelog/0375-2026-09-19-sua-learning-read-model-adr-0005.md`.
 - ✅ **[2026-09-15 — ĐÃ TRẢ, xem `docs/changelog/0334-2026-09-15-on-dinh-test-python3.md`] `packages/subject-programming/lessonsPython.test.ts` (ca `p5-s2`) flaky dưới tải toàn suite.** Nguyên nhân thật KHÔNG phải `timeout: 15_000` của `execFileSync` mà là: hằng số `PYTHON_TEST_TIMEOUT_MS = 30_000` chỉ được truyền cho 2 trong 4 khối `it.each` sinh tiến trình `python3`; hai khối còn lại (Predict, milestone check — nơi `p5-s2` nằm) vẫn dùng mặc định 5s của Vitest. Đo lúc máy rảnh: ca chậm nhất của khối CÓ timeout là `p5-u6-l1` 1.866ms (dư 16×), ca chậm nhất của khối KHÔNG có timeout là `p5-s2` 1.604ms (dư 3,1×) — dưới tải song song thì 3,1× không đủ. Đã truyền hằng số cho cả bốn khối, không skip/giảm ca nào. Mục `programmingSrs.test.ts` (2026-09-14) ở cuối file là nợ KHÁC họ (phụ thuộc `vi.setSystemTime`), vẫn còn mở.
-- ✅ **[2026-09-15 → ĐÓNG HOÀN TOÀN 2026-09-19, ADR-0007 Accepted] Bài Lập trình bậc P1–P4 (Python) nay được CHẤM LẠI Ở SERVER trước khi ghi `status:'completed'`, cả 3 lớp bảo vệ đều BẬT THẬT trên production.** `packages/subject-programming/completionSandboxServer.ts` chạy code học viên bằng `python3` thật trong tiến trình con (đúng `grading.ts`/`pyLanes.ts` mà cổng nội dung `lessonsPython.test.ts` dùng), đọc test-case từ registry SERVER (không tin dữ liệu client gửi). 3 lớp bảo vệ: (1) allowlist chặn import module hệ thống/mạng; (2) chạy dưới user hệ thống riêng `dhcb-sandbox` — đã chạy `scripts/setup-programming-sandbox-user.sh` + cấu hình `PROGRAMMING_SANDBOX_USER=dhcb-sandbox` + `pm2 restart --update-env` trên VPS thật 2026-09-19, xác nhận `pm2 logs` không có cảnh báo "không tra được uid/gid"; (3) giới hạn CPU/bộ nhớ/tiến trình (`ulimit`) + timeout 10s khớp client, diệt CẢ CÂY tiến trình qua `timeout(1)` (sửa ở PR sau khi phát hiện `execFileSync`'s timeout không lan xuống cháu tiến trình qua `sudo`). Cô lập mạng tầng phụ (`unshare --net`) VPS này CŨNG hỗ trợ — xác nhận qua script (không còn là nợ mở, xem lịch sử ADR-0007 Quyết định 2 đã đóng). `apps/server/src/api/subjects/programming/progress.ts` đòi kèm `code` khi báo 'completed' bài thuộc phạm vi này, từ chối (400) nếu chấm lại không đạt, rate-limit 5 lần nộp sai/phút/bài chống spam CPU. Bước dự án (`p<n>-s<x>`) và bài P5/P6 + 13 hướng chuyên sâu KHÔNG thuộc phạm vi ADR-0007 — xem dòng nợ hẹp bên dưới.
+- ✅ **[2026-09-15 → ĐÓNG HOÀN TOÀN 2026-09-19, ADR-0007 Accepted] Bài Lập trình bậc P1–P4 (Python) nay được CHẤM LẠI Ở SERVER trước khi ghi `status:'completed'`, cả 3 lớp bảo vệ đều BẬT THẬT trên production.** `packages/subject-programming/completionSandboxServer.ts` chạy code học viên bằng `python3` thật trong tiến trình con (đúng `grading.ts`/`pyLanes.ts` mà cổng nội dung `lessonsPython.test.ts` dùng), đọc test-case từ registry SERVER (không tin dữ liệu client gửi). 3 lớp bảo vệ: (1) allowlist chặn import module hệ thống/mạng; (2) chạy dưới user hệ thống riêng `dhcb-sandbox` — đã chạy `scripts/setup-programming-sandbox-user.sh` + cấu hình `PROGRAMMING_SANDBOX_USER=dhcb-sandbox` + `pm2 restart --update-env` trên VPS thật 2026-09-19, xác nhận `pm2 logs` không có cảnh báo "không tra được uid/gid"; (3) giới hạn CPU/bộ nhớ/tiến trình (`ulimit`) + timeout 10s khớp client, diệt CẢ CÂY tiến trình qua `timeout(1)` (sửa ở PR sau khi phát hiện `execFileSync`'s timeout không lan xuống cháu tiến trình qua `sudo`). Cô lập mạng tầng phụ (`unshare --net`) VPS này CŨNG hỗ trợ — xác nhận qua script (không còn là nợ mở, xem lịch sử ADR-0007 Quyết định 2 đã đóng). `apps/server/src/api/subjects/programming/progress.ts` đòi kèm `code` khi báo 'completed' bài thuộc phạm vi này, từ chối (400) nếu chấm lại không đạt, rate-limit 5 lần nộp sai/phút/bài chống spam CPU. Bước dự án (`p<n>-s<x>`) và bài P5/P6 + 14 hướng chuyên sâu KHÔNG thuộc phạm vi ADR-0007 — xem dòng nợ hẹp bên dưới.
 - ✅ **[2026-09-19 → ĐÓNG HOÀN TOÀN 2026-09-20 — ADR-0007 Quyết định 4; ADR-0008 Accepted] 509/509 bài Lập trình (100%) nay được CHẤM LẠI Ở SERVER, không còn bài nào "client tự khai".**
   `docs/adr/0008-cham-lai-server-lap-trinh-ngoai-p1-p4.md` (Accepted, cả 3 câu hỏi đã thi hành).
   B1+B2 (374 bài, `docs/changelog/0382-*.md`) + B3 (97 bài JS/TS/`html`/`dom`/`fetch`,
