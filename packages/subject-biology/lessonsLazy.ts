@@ -327,7 +327,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     lessonNumber: 1,
     title: 'Khái quát về trao đổi chất và chuyển hóa năng lượng ở sinh vật',
     track: 'core',
-    hasAnimation: false,
+    hasAnimation: true,
     reviewStatus: 'draft',
     chapterKey: 'sinh11c1',
   },
