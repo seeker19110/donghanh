@@ -1060,6 +1060,107 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         topics: 'Trường bắt buộc có thứ tự; ước lượng dung lượng; giả định/đánh đổi/ví dụ',
       },
       {
+        id: 'p6-u206',
+        title: 'Security S4 — kiến trúc an toàn: ranh giới tin cậy, phân đoạn, vòng đời khoá',
+        topics: 'Trust boundary; zero trust; segmentation; key lifecycle; rotate; mô hình đe doạ',
+      },
+      {
+        id: 'p6-u207',
+        title: 'Security S4 — phát hiện và ứng cứu sự cố',
+        topics: 'Detection rule; ATT&CK; dương tính giả; containment; eradication; phục hồi',
+      },
+      {
+        id: 'p6-u208',
+        title: 'Security S4 — điều tra số: toàn vẹn chứng cứ và dòng thời gian',
+        topics: 'Integrity; chain of custody; lệch đồng hồ; UTC; cờ bất định; redact báo cáo',
+      },
+      {
+        id: 'p6-u209',
+        title: 'Security S4 — quản trị và tuân thủ',
+        topics: 'Khả năng × tác động; residual risk; third-party; DPA; kế hoạch rút lui; evidence',
+      },
+      {
+        id: 'p6-u274',
+        title: 'Desktop S1 — chọn nền tảng: ngân sách gói cài, RAM và phím tắt',
+        topics: 'packageSizeMb; ramMb; khay hệ thống; phím tắt toàn cục; xung đột phím hệ',
+      },
+      {
+        id: 'p6-u275',
+        title: 'Desktop S1 — làm việc với tệp: ghi an toàn và đường dẫn đa nền',
+        topics: 'Tệp tạm; đổi tên; kết quả không kết luận được; ký tự cấm theo hệ',
+      },
+      {
+        id: 'p6-u276',
+        title: 'Desktop S1 — lưu trữ cục bộ: phiên bản dữ liệu và sao lưu',
+        topics: 'schemaVersion; dataVersion; bước migration; sao lưu; xuất dữ liệu',
+      },
+      {
+        id: 'p6-u277',
+        title: 'Desktop S1 — đóng gói, cài đặt và cập nhật tự động',
+        topics: 'Ký mã; checksum; hệ đích hỗ trợ; hướng phiên bản; khoảng cách phiên bản',
+      },
+      {
+        id: 'p6-u278',
+        title: 'Desktop S2 — việc nền: không chặn luồng giao diện, huỷ và tiến độ',
+        topics: 'Luồng giao diện; huỷ trong ngưỡng; hàng đợi; ước lượng đo được',
+      },
+      {
+        id: 'p6-u279',
+        title: 'Desktop S2 — trải nghiệm chuyên nghiệp: hoàn tác, phím tắt, trợ năng',
+        topics: 'Ngăn xếp hoàn tác; nhánh redo bị cắt; bàn phím; tương phản; thao tác hàng loạt',
+      },
+      {
+        id: 'p6-u280',
+        title: 'Desktop S2 — đồng bộ tuỳ chọn: xung đột và offline-first',
+        topics: 'Mã hoá trước khi gửi; giao tập trường; drift; fast-forward; hàng đợi chờ',
+      },
+      {
+        id: 'p6-u281',
+        title: 'Desktop S2 — chẩn đoán từ xa: đồng ý, che PII và gói báo lỗi',
+        topics: 'Sự đồng ý; PII; chế độ an toàn; bảng ký hiệu; trần kích thước gói',
+      },
+      {
+        id: 'p6-u282',
+        title: 'Desktop S3 — dữ liệu lớn trên máy đơn: đọc theo luồng, ảo hoá, chỉ mục',
+        topics: 'Ngân sách nạp tệp; ảo hoá danh sách; chỉ mục toàn văn; chỉ mục cũ hơn dữ liệu',
+      },
+      {
+        id: 'p6-u283',
+        title: 'Desktop S3 — tối ưu khởi động và bộ nhớ, và cách đo đáng tin',
+        topics: 'Ngân sách startup; tải lười; RAM lúc nghỉ; trung vị; đủ mẫu; máy cấu hình thấp',
+      },
+      {
+        id: 'p6-u284',
+        title: 'Desktop S3 — hệ plugin: hộp cát, phiên bản API, quyền tối thiểu',
+        topics: 'Sandbox ưu tiên tuyệt đối; khác major; plugin crash không giết host; tập quyền',
+      },
+      {
+        id: 'p6-u285',
+        title: 'Desktop S3 — kiểm thử desktop: ma trận nền tảng và test giao diện ổn định',
+        topics: 'Ba nền mục tiêu; luồng cài đặt; luồng cập nhật; chờ theo điều kiện; ngưỡng flaky',
+      },
+      {
+        id: 'p6-u286',
+        title: 'Desktop S4 — phân phối và cấp phép: kích hoạt offline, chống lùi đồng hồ',
+        topics: 'Clock rollback; license hợp lệ; kích hoạt offline; dùng thử; cửa sổ hoàn tiền',
+      },
+      {
+        id: 'p6-u287',
+        title: 'Desktop S4 — cập nhật an toàn: kênh, tỉ lệ, quay lui và di trú dữ liệu',
+        topics: 'Health-check sau cập nhật; rolloutPercent; sao lưu; chuỗi bước; đường hạ cấp',
+      },
+      {
+        id: 'p6-u288',
+        title: 'Desktop S4 — bảo mật máy khách: chữ ký, quyền tối thiểu, dữ liệu ở lại máy',
+        topics:
+          'Signature; admin rights; phụ thuộc có lỗ hổng; cho phép; mã hoá; phạm vi tối thiểu',
+      },
+      {
+        id: 'p6-u289',
+        title: 'Desktop S4 — hỗ trợ người dùng: triage báo lỗi và lộ trình theo bằng chứng',
+        topics: 'Che nội dung người dùng; gói chẩn đoán; affectedUserCount; mất dữ liệu; phạm vi',
+      },
+      {
         id: 'p6-u178',
         title: 'DevOps S2 — delivery policy và change control',
         topics: 'Approval; change window; rollback; fail closed',
@@ -1179,6 +1280,46 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         title: 'Hướng Dữ liệu S1 — thống kê đủ dùng & trực quan hoá trung thực',
         topics:
           'Trung bình vs trung vị, tương quan không phải nhân quả; chọn biểu đồ không đánh lừa mắt',
+      },
+      {
+        id: 'p6-u258',
+        title: 'Nhúng S1 — GPIO, chế độ chân và ngân sách log',
+        topics: 'Pull-up; chân thả nổi unknown; ghi vào chân input; ngân sách thời gian log UART',
+      },
+      {
+        id: 'p6-u259',
+        title: 'Nhúng S1 — ngoại vi và datasheet',
+        topics: 'Bảng địa chỉ I2C; NACK trả unknown; dải chu kỳ PWM khai báo',
+      },
+      {
+        id: 'p6-u260',
+        title: 'Nhúng S1 — ngắt và thời gian',
+        topics: 'ISR ngắn; hàng đợi có trần; chống dội phím theo cửa sổ debounce',
+      },
+      {
+        id: 'p6-u261',
+        title: 'Nhúng S1 — gỡ lỗi phần cứng',
+        topics: 'Cô lập phần cứng/phần mềm; quá dòng; sổ bằng chứng đo; máy phân tích logic',
+      },
+      {
+        id: 'p6-u262',
+        title: 'Nhúng S2 — RTOS và ngân sách ngăn xếp',
+        topics: 'Stack budget; chia sẻ ISR/task; đảo ưu tiên; hàng đợi liên tác vụ',
+      },
+      {
+        id: 'p6-u263',
+        title: 'Nhúng S2 — kết nối và đệm cục bộ',
+        topics: 'Checksum khung; chính sách rơi rụng tường minh; gửi bù chờ xác nhận',
+      },
+      {
+        id: 'p6-u264',
+        title: 'Nhúng S2 — cập nhật từ xa A/B',
+        topics: 'Chữ ký gói; phân vùng đang chạy; quay lui sau nhiều lần khởi động thất bại',
+      },
+      {
+        id: 'p6-u265',
+        title: 'Nhúng S2 — ngân sách năng lượng',
+        topics: 'Battery budget ra số ngày; ngủ sâu; ngoại vi chưa tắt gây rò dòng',
       },
     ],
   },
