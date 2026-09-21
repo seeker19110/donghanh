@@ -73,7 +73,7 @@ export default function MetacognitiveReflectionModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
-      <div className="relative w-full max-w-4xl max-h-[90vh] bg-zinc-950 border border-teal-500/30 rounded-3xl shadow-2xl flex flex-col overflow-hidden text-zinc-100">
+      <div className="relative w-full max-w-4xl max-h-[90dvh] bg-zinc-950 border border-teal-500/30 rounded-3xl shadow-2xl flex flex-col overflow-hidden text-zinc-100">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-zinc-900/50">
           <div className="flex items-center gap-3">

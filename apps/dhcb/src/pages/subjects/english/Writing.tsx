@@ -456,7 +456,7 @@ export default function Writing() {
               ? 'Viết bài vào đây... (IELTS Task 2 nên từ 250–350 từ để đạt điểm tối ưu)'
               : 'Write your essay here... (aim for 150–250 words)'
           }
-          className="w-full bg-zinc-950/90 border border-zinc-800 rounded-2xl px-4.5 py-4 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-violet-500/70 transition resize-none min-h-[180px] max-h-[45dvh] sm:max-h-[55vh] shadow-inner leading-relaxed"
+          className="w-full bg-zinc-950/90 border border-zinc-800 rounded-2xl px-4.5 py-4 text-sm text-white placeholder:text-zinc-500 outline-none focus:border-violet-500/70 transition resize-none min-h-[180px] max-h-[45dvh] sm:max-h-[55dvh] shadow-inner leading-relaxed"
         />
 
         {/* Instant Edge Grammar Suggestions */}
