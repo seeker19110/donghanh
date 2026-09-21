@@ -35,7 +35,7 @@ export function devopsSimulation(input: LessonInput): ProgrammingLesson {
     workedExample: { code: input.workedCode, stdinLines: [] },
     predict: {
       code: input.predictCode,
-      question: 'Trace MÔ PHỎNG in gì?',
+      question: 'Chạy MÔ PHỎNG này thì in ra dòng gì?',
       choices: input.predictChoices,
       answerIndex: input.predictAnswer,
       explain: input.predictExplain,

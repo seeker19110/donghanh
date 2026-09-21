@@ -99,11 +99,11 @@ const CHINH_TA: Array<[RegExp, string]> = [
   [/(?<!\p{L})chăm xóc(?!\p{L})/giu, 'chăm sóc'],
   [/(?<!\p{L})dục giã(?!\p{L})/giu, 'giục giã'],
   [/(?<!\p{L})thúc dục(?!\p{L})/giu, 'thúc giục'],
-  [/(?<!\p{L})năng xuất(?!\p{L})/giu, 'năng suất'],
+  [/(?<!\p{L})(?<!tính |chức |tài )năng xuất(?!\p{L})(?! chúng)/giu, 'năng suất'],
   [/(?<!\p{L})sản suất(?!\p{L})/giu, 'sản xuất'],
   [/(?<!\p{L})suất bản(?!\p{L})/giu, 'xuất bản'],
   [/(?<!\p{L})suất hiện(?!\p{L})/giu, 'xuất hiện'],
-  [/(?<!\p{L})suất phát(?!\p{L})/giu, 'xuất phát'],
+  [/(?<!\p{L})(?<!tần )suất phát(?!\p{L})/giu, 'xuất phát'],
   [/(?<!\p{L})tỷ mỷ(?!\p{L})/giu, 'tỉ mỉ'],
   [/(?<!\p{L})xem sét(?!\p{L})/giu, 'xem xét'],
   [/(?<!\p{L})sem xét(?!\p{L})/giu, 'xem xét'],
@@ -120,7 +120,6 @@ const CHINH_TA: Array<[RegExp, string]> = [
   [/(?<!\p{L})mệt mõi(?!\p{L})/giu, 'mệt mỏi'],
   [/(?<!\p{L})cố gắn(?!\p{L})/giu, 'cố gắng'],
   [/(?<!\p{L})dản dị(?!\p{L})/giu, 'giản dị'],
-  [/(?<!\p{L})hàng số(?!\p{L})/giu, 'hằng số'],
   [/(?<!\p{L})hằng đợi(?!\p{L})/giu, 'hàng đợi'],
   [/(?<!\p{L})ngoại lệch(?!\p{L})/giu, 'ngoại lệ'],
   [/(?<!\p{L})khoảng khắc(?!\p{L})/giu, 'khoảnh khắc'],
@@ -195,15 +194,18 @@ function trichTs(src: string): Chuoi[] {
   // Chỉ lấy chuỗi nháy đơn/kép (văn xuôi của bài học). Template literal (`...`) hầu hết là
   // code mẫu → bỏ qua; chuỗi có dấu hiệu code cũng bỏ ở bước kiểm.
   const ra: Chuoi[] = []
+  // Xoá nội dung template literal (code mẫu, cố ý không dấu) trước khi bóc chuỗi nháy —
+  // giữ nguyên số dòng bằng cách chỉ xoá ký tự không phải xuống dòng.
+  const src2 = src.replace(/`(?:\\.|[^`\\])*`/g, (m) => m.replace(/[^\n]/g, ' '))
   const re = /'((?:\\.|[^'\\\n])*)'|"((?:\\.|[^"\\\n])*)"/g
   let m: RegExpExecArray | null
-  while ((m = re.exec(src))) {
+  while ((m = re.exec(src2))) {
     const text = (m[1] ?? m[2] ?? '')
       .replace(/\\n/g, '\n')
       .replace(/\\'/g, "'")
       .replace(/\\"/g, '"')
     if (text.length < 12) continue
-    const dong = src.slice(0, m.index).split('\n').length
+    const dong = src2.slice(0, m.index).split('\n').length
     ra.push({ text, dong })
   }
   return ra
@@ -342,7 +344,7 @@ function kiem(file: string, c: Chuoi) {
       )
 
     // Chỗ soạn dở.
-    if (/\bTODO\b|\bTBD\b|\bFIXME\b|\bXXX\b|\blorem ipsum\b/i.test(t))
+    if (/\bTODO\b|\bTBD\b|\bFIXME\b|\blorem ipsum\b/i.test(t))
       ghi('LOI', 'SOAN_DO', file, c.dong, 'còn dấu TODO/TBD/FIXME/lorem ipsum')
   }
 }

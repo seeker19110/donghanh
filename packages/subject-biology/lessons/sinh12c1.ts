@@ -4099,8 +4099,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         choices: [
           {
             id: 'lh_1',
-            label:
-              'Ngăn hạt phấn lạ do gió hoặc côn trùng mang tới gây thụ phấn chéo ngoài ý muốn',
+            label: 'Ngăn hạt phấn lạ do gió hoặc côn trùng mang tới gây thụ phấn chéo ngoài ý muốn',
           },
           { id: 'lh_2', label: 'Giữ nhiệt độ cho hoa ấm áp để mau chín noãn' },
           { id: 'lh_3', label: 'Ngăn không cho ánh sáng chiếu vào hoa làm biến tính sắc tố' },

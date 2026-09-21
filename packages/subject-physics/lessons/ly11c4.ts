@@ -1377,7 +1377,7 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
         answer: {
           kind: 'numeric',
           value: 0.4,
-          unit: 'ohm', // Note: 'ohm' or 'Ω' are both fine, let's use 'ohm'
+          unit: 'ohm',
         },
         explain:
           'U = E - I*r ⇔ 1,3 = 1,5 - 0,5*r ⇔ r = 0,4 Ω. Khi mạch hở (I = 0) thì U = E, đó là cách đo suất điện động E bằng vôn kế lí tưởng (gần như không lấy dòng của pin).',

@@ -28,7 +28,8 @@ child["state"] = "zombie"
 print(child["state"], child["status"])
 child["state"] = "reaped"
 print(child["state"])`,
-      question: 'Trace MÔ PHỎNG in gì khi child nhận signal 15 rồi cha wait?',
+      question:
+        'Chạy MÔ PHỎNG này thì in ra gì khi tiến trình con nhận tín hiệu 15 rồi tiến trình cha gọi wait?',
       choices: [
         'zombie signal:15\nreaped',
         'running signal:15\nreaped',

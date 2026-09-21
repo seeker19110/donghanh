@@ -28,10 +28,10 @@ export const HERMES_U2_LESSONS: ProgrammingLesson[] = [
 /goal "giam chi phi API"`,
       question: 'Đặt goal thứ hai khi goal thứ nhất còn sống — agent phản ứng thế nào?',
       choices: [
-        'Bao loi, doi go ro /goal thay',
-        'Lang le thay goal cu',
-        'Chay ca hai goal song song',
-        'Tu gop hai goal lam mot',
+        'Báo lỗi, đòi gõ rõ /goal thay',
+        'Lặng lẽ thay goal cũ',
+        'Chạy cả hai goal song song',
+        'Tự gộp hai goal làm một',
       ],
       answerIndex: 0,
       explain:
@@ -121,10 +121,10 @@ tuchoi v1 "giong qua cung, khach lau nam"
 /learn email-nhac-han`,
       question: 'Việc vừa bị TỪ CHỐI mà đã /learn ngay — kỹ năng đúc ra sẽ thế nào?',
       choices: [
-        'Dong goi ca cach lam CHUA dat — sai vinh vien',
-        'Agent tu sua cho dat roi moi dong goi',
-        '/learn bao loi vi viec chua duoc duyet',
-        'Ky nang chi luu ly do tu choi',
+        'Đóng gói cả cách làm CHƯA đạt — sai vĩnh viễn',
+        'Agent tự sửa cho đạt rồi mới đóng gói',
+        '/learn báo lỗi vì việc chưa được duyệt',
+        'Kỹ năng chỉ lưu lý do từ chối',
       ],
       answerIndex: 0,
       explain:
@@ -213,10 +213,10 @@ hermes model curator litellm/curator-mini
       question:
         'Trỏ model chính qua proxy nhưng QUÊN curator — chuyện gì với chi phí nén ngữ cảnh?',
       choices: [
-        'Cuoc goi cua curator van di thang, KHONG qua tram dem',
-        'Curator tu di qua proxy theo model chinh',
-        'Curator ngung hoat dong',
-        'Khong sao, curator khong ton tien',
+        'Cuộc gọi của curator vẫn đi thẳng, KHÔNG qua trạm đếm',
+        'Curator tự đi qua proxy theo model chính',
+        'Curator ngừng hoạt động',
+        'Không sao, curator không tốn tiền',
       ],
       answerIndex: 0,
       explain:
@@ -294,10 +294,10 @@ hermes model curator litellm/hermes-4-mini
 /model`,
       question: 'Sau lệnh này, việc agent đọc hợp đồng sẽ chạy ở đâu?',
       choices: [
-        'Tren may minh — du lieu khong roi cong ty',
-        'Van len may chu nha cung cap, chi doi ten',
-        'Nua tren may, nua tren may chu',
-        'Khong chay duoc vi thieu card do hoa',
+        'Trên máy mình — dữ liệu không rời công ty',
+        'Vẫn lên máy chủ nhà cung cấp, chỉ đổi tên',
+        'Nửa trên máy, nửa trên máy chủ',
+        'Không chạy được vì thiếu card đồ hoạ',
       ],
       answerIndex: 0,
       explain:
@@ -386,10 +386,10 @@ hermes`,
       code: `hermes`,
       question: 'Chị kế toán cần tra cứu nhanh chính sách thuế — nên đưa chị ấy vào cửa nào?',
       choices: [
-        'Open WebUI — hoi-dap khong can terminal',
-        'Hermes CLI — go lenh cho chuyen nghiep',
-        'Bat chi ay hoc /new va giao viec',
-        'Khong cua nao, in tai lieu ra giay',
+        'Open WebUI — hỏi-đáp không cần terminal',
+        'Hermes CLI — gõ lệnh cho chuyên nghiệp',
+        'Bắt chị ấy học /new và giao việc',
+        'Không cửa nào, in tài liệu ra giấy',
       ],
       answerIndex: 0,
       explain:

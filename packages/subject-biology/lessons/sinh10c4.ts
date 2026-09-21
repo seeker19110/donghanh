@@ -622,7 +622,7 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
     animation: {
       title: 'Lên men lactic: đường giảm, acid tăng, pH hạ',
       description:
-        'Ba đường biến thiên cùng vẽ trên một trục thời gian của mẻ sữa chua hoặc vại dưa muối. Đường ĐƯỜNG trong nguyên liệu đi xuống vì vi khuẩn lactic phân giải lactose hoặc glucose trong điều kiện kị khí. Đường ACID LACTIC đi lên vì đó là sản phẩm của quá trình lên men. Đường pH đi xuống theo, từ khoảng 6,5 xuống dưới 4,6 — tới ngưỡng đó protein sữa đông lại thành sữa chua, còn trong vại dưa thì môi trường chua ức chế vi khuẩn gây thối. Điều mà một câu văn khó nói: ba đại lượng này không tách rời mà là ba cách nhìn cùng một phản ứng, và chính sản phẩm do vi khuẩn tạo ra lại là thứ về sau kìm hãm chính chúng.',
+        'Ba đường biến thiên cùng vẽ trên một trục thời gian của mẻ sữa chua hoặc vại dưa muối. Đường biểu diễn lượng ĐƯỜNG trong nguyên liệu đi xuống vì vi khuẩn lactic phân giải lactose hoặc glucose trong điều kiện kị khí. Đường biểu diễn ACID LACTIC đi lên vì đó là sản phẩm của quá trình lên men. Đường biểu diễn pH đi xuống theo, từ khoảng 6,5 xuống dưới 4,6 — tới ngưỡng đó protein sữa đông lại thành sữa chua, còn trong vại dưa thì môi trường chua ức chế vi khuẩn gây thối. Điều mà một câu văn khó nói: ba đại lượng này không tách rời mà là ba cách nhìn cùng một phản ứng, và chính sản phẩm do vi khuẩn tạo ra lại là thứ về sau kìm hãm chính chúng.',
       viewBoxWidth: 480,
       viewBoxHeight: 272,
       durationMs: 8000,

@@ -20,7 +20,7 @@ export const HOA12_C3_LESSONS: ChemLesson[] = [
       "— Phân loại theo bậc amine (bằng số gốc hydrocarbon liên kết với nguyên tử N): Amine bậc I (R−NH₂), Amine bậc II (R−NH−R'), Amine bậc III (R−N(R')−R\").\n" +
       '— Phân loại theo gốc hydrocarbon: Aliphatic amine (amine béo, vd: methylamine, ethylamine) và Aromatic amine (amine thơm, vd: aniline C₆H₅NH₂).\n\n' +
       'TÍNH CHẤT HOÁ HỌC CỦA AMINE:\n' +
-      '1. Tính base yếu (do nguyên tử N còn một cặp electron tự do chưa liên kết):\n' +
+      '1. Tính base yếu (do nguyên tử N còn một cặp electron chưa liên kết, sẵn sàng nhận proton):\n' +
       '   — Aliphatic amine có tính base mạnh hơn NH₃, làm quỳ tím hoá xanh, phenolphthalein hoá hồng, phản ứng dễ dàng với acid tạo muối.\n' +
       '   — Aniline (amine thơm) có tính base rất yếu (yếu hơn NH₃) do vòng benzene hút electron, không làm đổi màu quỳ tím hay phenolphthalein. Aniline phản ứng được với acid mạnh (như HCl) tạo muối tan: C₆H₅NH₂ + HCl → C₆H₅NH₃Cl (phenylammonium chloride).\n' +
       '2. Phản ứng thế ở nhân thơm của aniline:\n' +
@@ -51,7 +51,7 @@ export const HOA12_C3_LESSONS: ChemLesson[] = [
       },
       {
         prompt:
-          'Nhỏ nước bromine vào ống nghiệm chứa aniline ở nhiệt độ thường, xuất hiện hiện tượng gì?',
+          'Nhỏ nước bromine vào ống nghiệm chứa aniline ở nhiệt độ thường thì quan sát thấy hiện tượng gì?',
         choices: [
           { id: 'khi', label: 'Có bọt khí thoát ra' },
           { id: 'tua_trang', label: 'Xuất hiện kết tủa màu trắng' },
@@ -59,7 +59,7 @@ export const HOA12_C3_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['tua_trang'] },
         explain:
-          'Nhóm −NH₂ đẩy electron hoạt hoá nhân thơm, làm aniline dễ phản ứng với nước bromine tạo kết tủa trắng 2,4,6-tribromoaniline.',
+          'Nhóm −NH₂ đẩy electron vào vòng, hoạt hoá nhân thơm rất mạnh, nên aniline phản ứng ngay với nước bromine ở nhiệt độ thường, cho kết tủa trắng 2,4,6-tribromoaniline. Phản ứng này là phản ứng thế, sản phẩm phụ là HBr tan trong nước nên không thấy bọt khí.',
       },
     ],
     srsCards: [
@@ -558,8 +558,8 @@ export const HOA12_C3_LESSONS: ChemLesson[] = [
     lessonNumber: 9,
     title: 'Amino acid và peptide',
     hook:
-      'Gia vị bột ngọt (mì chính) chính là muối sodium của acid glutamic — một amino acid phổ biến. ' +
-      'Các amino acid này liên kết với nhau bằng liên kết peptide tạo thành cấu trúc cơ bắp của động vật.',
+      'Bột ngọt (mì chính) chính là muối sodium của glutamic acid — một amino acid rất phổ biến. ' +
+      'Các amino acid nối với nhau bằng liên kết peptide để tạo nên protein của cơ thể.',
     theory:
       'AMINO ACID:\n' +
       '— Khái niệm: Là hợp chất hữu cơ tạp chức, phân tử chứa đồng thời nhóm amino (−NH₂) và nhóm carboxyl (−COOH).\n' +
@@ -570,7 +570,7 @@ export const HOA12_C3_LESSONS: ChemLesson[] = [
       '  3. Valine (Val): (CH₃)₂CH−CH(NH₂)−COOH (M = 117).\n' +
       '  4. Glutamic acid (Glu): HOOC−(CH₂)₂−CH(NH₂)−COOH (2 nhóm −COOH, 1 nhóm −NH₂, M = 147).\n' +
       '  5. Lysine (Lys): H₂N−(CH₂)₄−CH(NH₂)−COOH (1 nhóm −COOH, 2 nhóm −NH₂, M = 146).\n' +
-      '— Tính chất hoá học: Có tính lưỡng tính (phản ứng với cả acid và base mạnh). Dung dịch Gly, Ala, Val trung tính; Glu axit (quỳ hoá đỏ); Lys base (quỳ hoá xanh).\n\n' +
+      '— Tính chất hoá học: Có tính lưỡng tính (phản ứng với cả acid và base mạnh). Dung dịch Gly, Ala, Val trung tính; Glu có tính acid (quỳ hoá đỏ); Lys có tính base (quỳ hoá xanh).\n\n' +
       'PEPTIDE:\n' +
       '— Khái niệm: Là hợp chất chứa từ 2 đến 50 mắt xích α-amino acid liên kết với nhau bằng các liên kết peptide −CO−NH−.\n' +
       '— Phản ứng màu biuret (nhận biết peptide): Các peptide chứa từ 3 mắt xích trở lên (tripeptide trở lên) phản ứng với Cu(OH)₂ trong môi trường kiềm tạo dung dịch màu TÍM đặc trưng. Dipeptide không có phản ứng này.',
@@ -596,7 +596,7 @@ export const HOA12_C3_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['aminoacid'] },
         explain:
-          'Glycine có nhóm carboxyl −COOH (axit) và nhóm amino −NH₂ (base) trong cùng phân tử nên thể hiện tính lưỡng tính.',
+          'Glycine có cả nhóm carboxyl −COOH (tính acid) lẫn nhóm amino −NH₂ (tính base) trong cùng một phân tử nên lưỡng tính. Methylamine chỉ có tính base, còn ethyl acetate là ester trung tính — nó bị NaOH thuỷ phân chứ không phải phản ứng acid–base.',
       },
       {
         prompt:
@@ -608,7 +608,7 @@ export const HOA12_C3_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['di'] },
         explain:
-          'Chỉ các peptide chứa từ 2 liên kết peptide trở lên (tức là tripeptide có 3 mắt xích trở lên) mới tạo phức màu tím đặc trưng với Cu(OH)₂ trong môi trường kiềm.',
+          'Phản ứng biuret cần ít nhất 2 liên kết peptide, nghĩa là từ tripeptide (3 mắt xích) trở lên. Dipeptide chỉ có 1 liên kết peptide nên không cho màu tím; tripeptide và tetrapeptide thì có.',
       },
     ],
     srsCards: [
@@ -1087,7 +1087,7 @@ export const HOA12_C3_LESSONS: ChemLesson[] = [
       'đều là protein. Enzyme là các xúc tác sinh học giúp cơ thể ta tiêu hoá thức ăn chỉ trong vài giờ.',
     theory:
       'PROTEIN (Chất đạm):\n' +
-      '— Khái niệm: Là những polypeptide cao phân tử có khối lượng phân tử lớn từ vài chục nghìn đến hàng triệu g/mol.\n' +
+      '— Khái niệm: Là những polypeptide cao phân tử, khối lượng phân tử từ vài chục nghìn đến hàng triệu g/mol.\n' +
       '— Phân loại: Protein đơn giản (chỉ chứa các gốc α-amino acid, vd: albumin của lòng trắng trứng) và Protein phức tạp (có thêm thành phần phi protein như nucleic acid, lipid, carbohydrate...).\n\n' +
       'TÍNH CHẤT CỦA PROTEIN:\n' +
       '1. Sự đông tụ (denaturation): Dưới tác dụng của nhiệt độ, acid, base hoặc muối kim loại nặng, protein bị mất cấu trúc không gian ba chiều tự nhiên và đông tụ lại thành chất rắn vô định hình (vd: trứng chín, sữa chua đông tụ).\n' +
@@ -1101,7 +1101,7 @@ export const HOA12_C3_LESSONS: ChemLesson[] = [
       steps: [
         'Lòng trắng trứng chứa thành phần chính là protein albumin tan trong nước.',
         'HNO₃ đặc vừa là acid mạnh vừa là tác nhân gây đông tụ protein.',
-        'Khi cho vào dung dịch lòng trắng trứng, protein bị đông tụ tạo kết tủa màu vàng đặc trưng (do phản ứng thế nitro vào vòng chứa nhân thơm của amino acid như tyrosine trong protein).',
+        'Khi nhỏ vào dung dịch lòng trắng trứng, protein vừa đông tụ vừa cho kết tủa màu vàng đặc trưng: nhóm nitro −NO₂ đã thế vào vòng benzene của những amino acid có nhân thơm như tyrosine.',
       ],
       answer: 'Xuất hiện kết tủa màu vàng',
     },
@@ -1115,7 +1115,7 @@ export const HOA12_C3_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['đôngtụ'] },
         explain:
-          'Sự đông tụ của protein xảy ra khi cấu trúc không gian bị phá vỡ bởi nhiệt độ cao.',
+          'Nhiệt độ cao phá vỡ cấu trúc không gian của protein, làm nó biến tính và đông tụ thành chất rắn. Các liên kết peptide không bị cắt nên đây không phải thuỷ phân; trùng ngưng thì ngược lại, là phản ứng nối các phân tử nhỏ thành phân tử lớn.',
       },
       {
         prompt: 'Enzyme có đặc điểm xúc tác nổi bật nào so với các xúc tác hoá học thông thường?',
@@ -1700,7 +1700,7 @@ export const HOA12_C3_LESSONS: ChemLesson[] = [
     workedExample: {
       problem: 'Lập sơ đồ phân biệt 3 dung dịch mất nhãn: alanine, lysine, và aniline.',
       steps: [
-        'Trích mẫu thử của 3 dung dịch.',
+        'Lấy một ít mỗi dung dịch ra ba ống nghiệm làm mẫu thử.',
         'Nhỏ nước bromine vào các mẫu thử: mẫu xuất hiện kết tủa trắng là aniline.',
         'Dùng giấy quỳ tím nhúng vào 2 mẫu còn lại (alanine, lysine).',
         'Mẫu làm quỳ tím hoá xanh là lysine (chứa 2 nhóm base −NH₂ và 1 nhóm acid −COOH).',
@@ -1719,7 +1719,7 @@ export const HOA12_C3_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['lysine'] },
         explain:
-          'Lysine có số nhóm −NH₂ (2) lớn hơn số nhóm −COOH (1) nên làm quỳ tím hoá xanh. Alanine trung tính, glutamic acid làm quỳ hoá đỏ, aniline trơ.',
+          'Lysine có 2 nhóm −NH₂ mà chỉ 1 nhóm −COOH nên dung dịch có tính base, làm quỳ tím hoá xanh. Alanine cân bằng 1−1 nên trung tính; glutamic acid dư một nhóm −COOH nên làm quỳ hoá đỏ; aniline có tính base quá yếu, không đủ để đổi màu quỳ tím.',
       },
       {
         prompt: 'Dipeptide Gly-Ala phản ứng được với chất nào sau đây nhờ tính lưỡng tính?',
