@@ -1,8 +1,8 @@
-# 0398 — 2026-09-21 — Bài học thật chặng `desktop-s3` và `desktop-s4`
+# 0400 — 2026-09-21 — Bài học thật chặng `desktop-s3` và `desktop-s4`
 
 - **PR:** (điền số sau khi tạo)
 - **Đặc tả:** `docs/specs/2026-09-21-desktop-s1-s4-bai-hoc-that.md` (Approved for implementation, 2026-09-21)
-- **PR trước cùng đặc tả:** `docs/changelog/0397-2026-09-21-bai-hoc-desktop-s1-s2.md`
+- **PR trước cùng đặc tả:** `docs/changelog/0399-2026-09-21-bai-hoc-desktop-s1-s2.md`
 
 ## Việc đã làm
 
