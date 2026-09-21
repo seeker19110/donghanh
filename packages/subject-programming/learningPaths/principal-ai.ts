@@ -159,6 +159,15 @@ export const PRINCIPAL_AI_PATH: LearningPath = {
           requires: ['security-s1'],
         },
         {
+          // Đợt `security-s3` (đặc tả `docs/specs/2026-09-17-security-s3-bai-hoc-that.md`):
+          // đặt NGAY SAU `security-s2`. Chặng dạy vì sao lỗ hổng tồn tại và cách phát hiện —
+          // kiến trúc sư phải thẩm định được lựa chọn ngôn ngữ và tin được kết quả công cụ tìm
+          // lỗi, chứ không phải học cách khai thác.
+          stageId: 'security-s3',
+          why: 'Thẩm định được vì sao "viết cẩn thận" không thay thế được an toàn bộ nhớ, và đọc được kết quả của công cụ tìm lỗi tự động thay vì tin theo lời người khác.',
+          requires: ['security-s2'],
+        },
+        {
           stageId: 'architecture-s1',
           why: 'Ranh giới module & hợp đồng — ngôn ngữ để nói chuyện kiến trúc cho ra đầu ra đũa.',
         },
@@ -209,6 +218,15 @@ export const PRINCIPAL_AI_PATH: LearningPath = {
           stageId: 'data-s4',
           why: 'Trước khi ra quyết định kiến trúc bằng số, phải bảo đảm được con số đó: ai sở hữu dữ liệu, nó còn tươi không, chỉ số có đúng một định nghĩa không, và xử lý dữ liệu cá nhân có cơ sở pháp lý không.',
           requires: ['principal-s2'],
+        },
+        {
+          // Đợt `security-s4` (cùng đặc tả với `data-s4`): chặng HƯỚNG CHUYÊN SÂU mượn vào lộ
+          // trình, đặt TRƯỚC `principal-s3` — quyết định kiến trúc mà chưa biết ranh giới tin cậy
+          // nằm ở đâu thì mọi phương án đều thiếu một cột đánh đổi. Chặng PHÒNG THỦ, không dạy
+          // tấn công.
+          stageId: 'security-s4',
+          why: 'Kiến trúc nào rồi cũng phải trả lời: ai được tin và vì sao, bí mật sống bao lâu, hỏng thì phát hiện bằng gì và ứng cứu theo trình tự nào — bốn câu này phải có trước khi chốt thiết kế, không phải sau.',
+          requires: ['data-s4'],
         },
         {
           stageId: 'principal-s3',

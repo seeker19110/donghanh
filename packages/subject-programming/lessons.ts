@@ -199,6 +199,62 @@ import { P6U254_LESSONS } from './lessons/p6u254.js'
 import { P6U255_LESSONS } from './lessons/p6u255.js'
 import { P6U256_LESSONS } from './lessons/p6u256.js'
 import { P6U257_LESSONS } from './lessons/p6u257.js'
+import { P6U226_LESSONS } from './lessons/p6u226.js'
+import { P6U227_LESSONS } from './lessons/p6u227.js'
+import { P6U228_LESSONS } from './lessons/p6u228.js'
+import { P6U229_LESSONS } from './lessons/p6u229.js'
+import { P6U230_LESSONS } from './lessons/p6u230.js'
+import { P6U231_LESSONS } from './lessons/p6u231.js'
+import { P6U232_LESSONS } from './lessons/p6u232.js'
+import { P6U233_LESSONS } from './lessons/p6u233.js'
+import { P6U234_LESSONS } from './lessons/p6u234.js'
+import { P6U235_LESSONS } from './lessons/p6u235.js'
+import { P6U236_LESSONS } from './lessons/p6u236.js'
+import { P6U237_LESSONS } from './lessons/p6u237.js'
+import { P6U238_LESSONS } from './lessons/p6u238.js'
+import { P6U239_LESSONS } from './lessons/p6u239.js'
+import { P6U240_LESSONS } from './lessons/p6u240.js'
+import { P6U241_LESSONS } from './lessons/p6u241.js'
+import { P6U206_LESSONS } from './lessons/p6u206.js'
+import { P6U207_LESSONS } from './lessons/p6u207.js'
+import { P6U208_LESSONS } from './lessons/p6u208.js'
+import { P6U209_LESSONS } from './lessons/p6u209.js'
+import { P6U210_LESSONS } from './lessons/p6u210.js'
+import { P6U211_LESSONS } from './lessons/p6u211.js'
+import { P6U212_LESSONS } from './lessons/p6u212.js'
+import { P6U213_LESSONS } from './lessons/p6u213.js'
+import { P6U274_LESSONS } from './lessons/p6u274.js'
+import { P6U275_LESSONS } from './lessons/p6u275.js'
+import { P6U276_LESSONS } from './lessons/p6u276.js'
+import { P6U277_LESSONS } from './lessons/p6u277.js'
+import { P6U278_LESSONS } from './lessons/p6u278.js'
+import { P6U279_LESSONS } from './lessons/p6u279.js'
+import { P6U280_LESSONS } from './lessons/p6u280.js'
+import { P6U281_LESSONS } from './lessons/p6u281.js'
+import { P6U282_LESSONS } from './lessons/p6u282.js'
+import { P6U283_LESSONS } from './lessons/p6u283.js'
+import { P6U284_LESSONS } from './lessons/p6u284.js'
+import { P6U285_LESSONS } from './lessons/p6u285.js'
+import { P6U286_LESSONS } from './lessons/p6u286.js'
+import { P6U287_LESSONS } from './lessons/p6u287.js'
+import { P6U288_LESSONS } from './lessons/p6u288.js'
+import { P6U289_LESSONS } from './lessons/p6u289.js'
+import { P6U258_LESSONS } from './lessons/p6u258.js'
+import { P6U259_LESSONS } from './lessons/p6u259.js'
+import { P6U260_LESSONS } from './lessons/p6u260.js'
+import { P6U261_LESSONS } from './lessons/p6u261.js'
+import { P6U262_LESSONS } from './lessons/p6u262.js'
+import { P6U263_LESSONS } from './lessons/p6u263.js'
+import { P6U264_LESSONS } from './lessons/p6u264.js'
+import { P6U265_LESSONS } from './lessons/p6u265.js'
+import { P6U266_LESSONS } from './lessons/p6u266.js'
+import { P6U267_LESSONS } from './lessons/p6u267.js'
+import { P6U268_LESSONS } from './lessons/p6u268.js'
+import { P6U269_LESSONS } from './lessons/p6u269.js'
+import { P6U270_LESSONS } from './lessons/p6u270.js'
+import { P6U271_LESSONS } from './lessons/p6u271.js'
+import { P6U272_LESSONS } from './lessons/p6u272.js'
+import { P6U273_LESSONS } from './lessons/p6u273.js'
 import { P6U178_LESSONS } from './lessons/p6u178.js'
 import { P6U179_LESSONS } from './lessons/p6u179.js'
 import { P6U180_LESSONS } from './lessons/p6u180.js'
@@ -448,6 +504,62 @@ export const PROGRAMMING_LESSONS: ProgrammingLesson[] = [
   ...P6U255_LESSONS,
   ...P6U256_LESSONS,
   ...P6U257_LESSONS,
+  ...P6U226_LESSONS,
+  ...P6U227_LESSONS,
+  ...P6U228_LESSONS,
+  ...P6U229_LESSONS,
+  ...P6U230_LESSONS,
+  ...P6U231_LESSONS,
+  ...P6U232_LESSONS,
+  ...P6U233_LESSONS,
+  ...P6U234_LESSONS,
+  ...P6U235_LESSONS,
+  ...P6U236_LESSONS,
+  ...P6U237_LESSONS,
+  ...P6U238_LESSONS,
+  ...P6U239_LESSONS,
+  ...P6U240_LESSONS,
+  ...P6U241_LESSONS,
+  ...P6U206_LESSONS,
+  ...P6U207_LESSONS,
+  ...P6U208_LESSONS,
+  ...P6U209_LESSONS,
+  ...P6U210_LESSONS,
+  ...P6U211_LESSONS,
+  ...P6U212_LESSONS,
+  ...P6U213_LESSONS,
+  ...P6U274_LESSONS,
+  ...P6U275_LESSONS,
+  ...P6U276_LESSONS,
+  ...P6U277_LESSONS,
+  ...P6U278_LESSONS,
+  ...P6U279_LESSONS,
+  ...P6U280_LESSONS,
+  ...P6U281_LESSONS,
+  ...P6U282_LESSONS,
+  ...P6U283_LESSONS,
+  ...P6U284_LESSONS,
+  ...P6U285_LESSONS,
+  ...P6U286_LESSONS,
+  ...P6U287_LESSONS,
+  ...P6U288_LESSONS,
+  ...P6U289_LESSONS,
+  ...P6U258_LESSONS,
+  ...P6U259_LESSONS,
+  ...P6U260_LESSONS,
+  ...P6U261_LESSONS,
+  ...P6U262_LESSONS,
+  ...P6U263_LESSONS,
+  ...P6U264_LESSONS,
+  ...P6U265_LESSONS,
+  ...P6U266_LESSONS,
+  ...P6U267_LESSONS,
+  ...P6U268_LESSONS,
+  ...P6U269_LESSONS,
+  ...P6U270_LESSONS,
+  ...P6U271_LESSONS,
+  ...P6U272_LESSONS,
+  ...P6U273_LESSONS,
   ...P6U178_LESSONS,
   ...P6U179_LESSONS,
   ...P6U180_LESSONS,
