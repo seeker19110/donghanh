@@ -1,9 +1,3 @@
-// CỔNG NGỮ NGHĨA của chặng `security-s4` (đặc tả
-// `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md` ④ và ⑤).
-//
-// Bất biến lớn nhất của chặng: đây là chặng PHÒNG THỦ. Rủi ro thật là một bài giải thích cách
-// phòng thủ trượt thành một playbook tấn công — kiểu TypeScript không bắt được điều đó, nên
-// danh sách từ vựng cấm dưới đây là thứ duy nhất canh nó bằng máy.
 import { describe, expect, it } from 'vitest'
 import { P6U206_LESSONS } from './lessons/p6u206.js'
 import { P6U207_LESSONS } from './lessons/p6u207.js'
@@ -12,13 +6,19 @@ import { P6U209_LESSONS } from './lessons/p6u209.js'
 
 const lessons = [...P6U206_LESSONS, ...P6U207_LESSONS, ...P6U208_LESSONS, ...P6U209_LESSONS]
 
-/** Phần "bằng chứng nội dung" — nơi marker của chặng phải xuất hiện. */
+// Phần "bằng chứng nội dung" — nơi marker của chặng phải xuất hiện.
 const evidence = lessons
   .map((lesson) => `${lesson.title}\n${lesson.theory}\n${lesson.make.prompt}`)
   .join('\n')
   .toLocaleLowerCase('vi')
 
-/** Code CHẠY ĐƯỢC — nơi tuyệt đối không có I/O ngoài, random hay từ vựng tấn công. */
+// Mọi văn xuôi — dùng cho luật miễn trừ pháp lý và luật "không thành playbook tấn công".
+const prose = lessons
+  .map((lesson) => `${lesson.title}\n${lesson.hook}\n${lesson.theory}\n${lesson.homework}`)
+  .join('\n')
+  .toLocaleLowerCase('vi')
+
+// Code CHẠY ĐƯỢC — nơi tuyệt đối không có I/O ngoài, random, dữ liệu cá nhân hay từ vựng tấn công.
 const code = lessons
   .flatMap((lesson) => [
     lesson.workedExample.code,
@@ -29,7 +29,7 @@ const code = lessons
   ])
   .join('\n')
 
-/** Mọi chuỗi đi vào/ra simulator — fixture phải là NHÃN tổng hợp, không phải dữ liệu thật. */
+// Mọi chuỗi đi vào/ra simulator — fixture phải là NHÃN tổng hợp, không phải dữ liệu thật.
 const fixtures = lessons
   .flatMap((lesson) =>
     lesson.make.testCases.flatMap((testCase) => [...testCase.stdinLines, testCase.expected]),
@@ -54,6 +54,22 @@ const QUYET_DINH = [
   'not-reported',
 ]
 
+/**
+ * Từ vựng TẤN CÔNG bị cấm (đặc tả ④ + ⑦ rủi ro 1). `security-s4` là chặng PHÒNG THỦ: bài chỉ
+ * dạy phân loại, quyết định và quy trình, không bao giờ trở thành hướng dẫn tấn công.
+ * Dùng biên từ (`\b`) để không bắt oan chuỗi con vô hại (vd "rop" trong "properties").
+ */
+const TU_VUNG_TAN_CONG = [
+  'exploit',
+  'payload',
+  'shellcode',
+  'rop',
+  'bypass',
+  'scan',
+  'bruteforce',
+  'reverse engineer',
+]
+
 describe('security-s4 — kiến trúc an toàn, ứng cứu, điều tra số và quản trị tuân thủ', () => {
   it('có bốn unit, tám lesson Python cùng Make visible, hidden và ca âm', () => {
     expect(lessons).toHaveLength(8)
@@ -65,6 +81,7 @@ describe('security-s4 — kiến trúc an toàn, ứng cứu, điều tra số v
       expect(lesson.make.testCases.some((testCase) => !testCase.hidden)).toBe(true)
       expect(lesson.make.testCases.some((testCase) => testCase.hidden)).toBe(true)
       expect(lesson.make.testCases.every((testCase) => testCase.match === 'contains')).toBe(true)
+      // Ca âm: ít nhất một ca rơi vào nhánh fail closed `invalid:`.
       expect(
         lesson.make.testCases.some((testCase) => testCase.expected.startsWith('invalid:')),
         `${lesson.id} thiếu ca âm invalid`,
@@ -81,7 +98,16 @@ describe('security-s4 — kiến trúc an toàn, ứng cứu, điều tra số v
     }
   })
 
-  it('giữ đủ marker của chặng phòng thủ', () => {
+  it('KHÔNG có từ vựng tấn công trong code chạy được, fixture lẫn văn xuôi', () => {
+    for (const tu of TU_VUNG_TAN_CONG) {
+      const khuon = new RegExp(`\\b${tu}\\b`, 'i')
+      expect(code, `code chạy được có từ vựng tấn công: ${tu}`).not.toMatch(khuon)
+      expect(fixtures, `fixture có từ vựng tấn công: ${tu}`).not.toMatch(khuon)
+      expect(prose, `văn xuôi có từ vựng tấn công: ${tu}`).not.toMatch(khuon)
+    }
+  })
+
+  it('khoá trust boundary, zero trust, segmentation, key lifecycle, rotate, detection rule, att&ck, containment, eradication, chain of custody, integrity, utc, redact, residual risk, third-party và evidence', () => {
     for (const marker of [
       'trust boundary',
       'zero trust',
@@ -104,33 +130,18 @@ describe('security-s4 — kiến trúc an toàn, ứng cứu, điều tra số v
     }
   })
 
-  it('KHÔNG có từ vựng tấn công trong code chạy được — chặng này chỉ dạy phòng thủ', () => {
-    for (const cam of [
-      /\bexploit\w*\b/i,
-      /\bpayload\b/i,
-      /\bshellcode\b/i,
-      /\brop\b/i,
-      /\bbypass\b/i,
-      /\bscan(?:ner|ning)?\b/i,
-      /\bbrute-?force\b/i,
-      /\breverse[\s-]engineer\w*\b/i,
-    ]) {
-      expect(code, `code chạy được chứa từ vựng tấn công: ${cam}`).not.toMatch(cam)
-    }
-  })
-
-  it('không gọi mạng, file, subprocess, random hay đồng hồ hệ thống', () => {
+  it('không gọi hệ ngoài, mạng, file, subprocess, random hay đồng hồ hệ thống', () => {
     expect(code).not.toMatch(
-      /\bopen\(|\bsubprocess\b|\brequests\b|\bsocket\b|\brandom\b|datetime\.now|time\.time|import\s+(os|sys)\b/i,
+      /\bopen\(|\bsubprocess\b|\brequests\b|\bsocket\b|\brandom\b|datetime\.now|time\.time|import\s+(os|sys)\b|paramiko|scapy|hashlib\.new/i,
     )
   })
 
-  it('không rò dữ liệu cá nhân hay giá trị bí mật ra code lẫn fixture', () => {
+  it('không lộ giá trị khoá/bí mật hay dữ liệu cá nhân — chỉ nhãn tham chiếu', () => {
     for (const [ten, khuon] of [
       ['email', /[\w.+-]+@[\w-]+\.[a-z]{2,}/i],
       ['dãy số định danh', /\b\d{9,12}\b/],
       ['ngày sinh đầy đủ', /\b\d{1,2}[/-]\d{1,2}[/-]\d{4}\b/],
-      ['giá trị khoá/bí mật', /\b(?:secret|api[_-]?key|token)\s*=\s*["'][^"']+["']/i],
+      ['giá trị khoá/bí mật', /\b(secret|api[_-]?key|private[_-]?key|token)\s*=\s*["'][^"']+["']/i],
     ] as const) {
       expect(code, `code chạy được lộ ${ten}`).not.toMatch(khuon)
       expect(fixtures, `fixture lộ ${ten}`).not.toMatch(khuon)
@@ -139,30 +150,36 @@ describe('security-s4 — kiến trúc an toàn, ứng cứu, điều tra số v
 
   it('bài quản trị tuân thủ có câu miễn trừ "không thay thế ý kiến pháp lý"', () => {
     for (const lesson of P6U209_LESSONS) {
-      const van = `${lesson.theory}\n${lesson.homework}`.toLocaleLowerCase('vi')
-      expect(van, `${lesson.id} thiếu câu miễn trừ pháp lý`).toContain(
-        'không thay thế ý kiến pháp lý',
-      )
+      expect(
+        lesson.theory.toLocaleLowerCase('vi'),
+        `${lesson.id} thiếu câu miễn trừ pháp lý`,
+      ).toContain('không thay thế ý kiến pháp lý')
     }
   })
 
-  it('luật bằng chứng: khai đạt mà không có bằng chứng phải ra not-reported, KHÔNG phải allow', () => {
-    const caKhongBangChung = P6U209_LESSONS.flatMap((lesson) => lesson.make.testCases).filter(
-      (testCase) => testCase.stdinLines.some((dong) => dong.includes('bangchung:khong')),
+  it('không tự nhận là tư vấn pháp lý hay thao tác trên hệ thật', () => {
+    for (const cam of ['tư vấn pháp lý', 'hệ thống thật của bạn', 'dữ liệu production']) {
+      expect(prose, `cụm từ cấm: ${cam}`).not.toContain(cam)
+    }
+  })
+
+  it('kiểm soát khai đạt mà không có bằng chứng phải ra not-reported, không bao giờ thành allow', () => {
+    const ca = P6U209_LESSONS.flatMap((lesson) => lesson.make.testCases).filter((testCase) =>
+      testCase.stdinLines.some((d) => d.includes('kiemsoat:dat') && d.includes('bangchung:no')),
     )
-    expect(caKhongBangChung.length, 'thiếu ca kiểm soát không có bằng chứng').toBeGreaterThan(0)
-    for (const testCase of caKhongBangChung) {
+    expect(ca.length, 'thiếu ca kiểm soát khai đạt mà không có bằng chứng').toBeGreaterThan(0)
+    for (const testCase of ca) {
       expect(testCase.expected.startsWith('not-reported:')).toBe(true)
     }
   })
 
-  it('không tự nhận là tư vấn pháp lý hay thao tác trên hệ thống đang chạy', () => {
-    const prose = lessons
-      .map((lesson) => `${lesson.title}\n${lesson.hook}\n${lesson.theory}\n${lesson.homework}`)
-      .join('\n')
-      .toLocaleLowerCase('vi')
-    for (const cam of ['tư vấn pháp lý', 'dò quét hệ thống', 'dữ liệu production']) {
-      expect(prose, `cụm từ cấm: ${cam}`).not.toContain(cam)
+  it('luật phát hiện không bắt được ca dương tính nào thì ra noisy, không được bật', () => {
+    const ca = P6U207_LESSONS.flatMap((lesson) => lesson.make.testCases).filter((testCase) =>
+      testCase.stdinLines.some((d) => d.includes('dung:0')),
+    )
+    expect(ca.length, 'thiếu ca luật phát hiện rỗng tín hiệu').toBeGreaterThan(0)
+    for (const testCase of ca) {
+      expect(testCase.expected.startsWith('noisy:')).toBe(true)
     }
   })
 })

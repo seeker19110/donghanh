@@ -1,13 +1,13 @@
-// lessons/p6u207.ts — P6-U207: HƯỚNG BẢO MẬT, chặng S4 — module `security-s4-m2` (phát hiện và
-// ứng cứu: chất lượng luật phát hiện, ánh xạ ATT&CK, trình tự ngăn chặn → diệt trừ → phục hồi).
+// lessons/p6u207.ts — P6-U207: HƯỚNG AN TOÀN, chặng S4 — module `security-s4-m2`
+// (phát hiện và ứng cứu: luật phát hiện trên nhật ký fixture, ánh xạ ATT&CK, trình tự
+// ngăn chặn → diệt trừ → phục hồi).
 //
-// Bài 1 hỏi "luật phát hiện này có đáng bật không" (bắt được ca dương tính thật nào chưa, tỉ lệ
-// dương tính giả có vượt ngưỡng không). Bài 2 hỏi "bước ứng cứu này có được làm lúc này không"
-// (diệt trừ trước khi thu chứng cứ là phá hiện trường; phục hồi khi chưa rõ nguyên nhân gốc là
-// mời sự cố quay lại).
+// Bài 1 hỏi "luật phát hiện này có đáng bật không" (bắt được gì, nhiễu bao nhiêu, ánh xạ kỹ thuật
+// nào). Bài 2 hỏi "đang ở bước nào của quy trình ứng cứu, và bước đó có được phép chạy chưa".
 //
 // Đặc tả: `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`.
-// Nhật ký dùng trong bài là fixture TỔNG HỢP: không log thật, không hệ thống đang chạy.
+// Chặng PHÒNG THỦ: chỉ phân loại, quyết định, quy trình. Nhật ký là fixture tổng hợp đã che
+// thông tin; simulator Python tất định, hữu hạn, fail closed.
 import type { ProgrammingLesson } from '../lessonTypes.js'
 
 export const P6U207_LESSONS: ProgrammingLesson[] = [
@@ -15,84 +15,86 @@ export const P6U207_LESSONS: ProgrammingLesson[] = [
     id: 'p6-u207-l1',
     unitId: 'p6-u207',
     language: 'python',
-    title: 'MÔ PHỎNG cổng chất lượng luật phát hiện (detection rule) và ánh xạ ATT&CK',
-    hook: 'Một luật phát hiện kêu suốt ngày mà chưa bắt đúng lần nào thì nó không bảo vệ ai — nó chỉ dạy cả đội thói quen tắt chuông.',
+    title: 'MÔ PHỎNG cổng duyệt luật phát hiện (detection rule): ánh xạ ATT&CK và ngưỡng nhiễu',
+    hook: 'Một luật báo động suốt ngày nhưng chưa bao giờ đúng sẽ dạy cả đội một thói quen chết người: tắt thông báo.',
     theory:
-      'Luật phát hiện (detection rule) chỉ có giá trị khi đo được trên nhật ký fixture: nó bắt được bao nhiêu ca dương tính thật, và kêu nhầm bao nhiêu lần. Luật không bắt được ca dương tính nào là luật chưa chứng minh được gì — bật nó lên chỉ thêm tiếng ồn. Luật có tỉ lệ dương tính giả vượt ngưỡng cũng vậy, vì con người có ngân sách chú ý hữu hạn và sẽ tiêu nó hết vào các báo động nhầm.\nÁnh xạ sang ATT&CK — bảng phân loại kỹ thuật tấn công của MITRE — là cách trả lời câu hỏi "chúng ta đang nhìn thấy những kỹ thuật nào và mù ở đâu": mỗi luật gắn một mã kỹ thuật, rồi nhìn bảng xem ô nào còn trống. Mục đích phòng thủ của bài: chọn được luật nào đáng bật, thay vì bật tất cả rồi tắt chuông. MÔ PHỎNG chạy trên số đếm tổng hợp, không đọc nhật ký thật.',
+      'Luật phát hiện (detection rule) chỉ đáng bật khi trả lời được ba câu. Một: nó bắt được gì — chạy trên nhật ký fixture mà không trúng ca dương tính nào thì luật ấy là `noisy`, không được bật, vì nó chỉ sinh việc chứ không sinh tín hiệu. Hai: nó tương ứng kỹ thuật nào trong ATT&CK — luật không ánh xạ được vào một kỹ thuật cụ thể là luật không ai biết nó bảo vệ điều gì. Ba: nhiễu tới mức nào — tỉ lệ dương tính giả vượt ngưỡng đã thoả thuận thì phải chỉnh luật trước khi bật. Đây là MÔ PHỎNG hữu hạn trên số đếm tổng hợp: không SIEM thật, không nhật ký thật, và không có bất kỳ thao tác tấn công nào — chỉ chấm chất lượng luật phòng thủ.',
     workedExample: {
-      code: `# MO PHONG cong chat luong luat phat hien tren fixture tong hop.\ntp = 0  # so ca duong tinh THAT ma luat bat duoc trong fixture\nprint("noisy: luat khong bat duoc ca duong tinh nao" if tp == 0 else "allow: bat duoc luat phat hien")`,
+      code: `# MO PHONG cham chat luong luat phat hien; so dem tong hop, khong SIEM that.\ndung, gia, tong, nguong = 0, 4, 40, 10\nprint("noisy: luat khong bat duoc ca duong tinh nao" if dung == 0 else "allow: bat duoc luat")`,
       stdinLines: [],
     },
     predict: {
-      code: `tp, fp, nguong = 2, 8, 50\nti_le = fp * 100 // (tp + fp)\nprint("noisy: ti le duong tinh gia vuot nguong" if ti_le > nguong else "allow: bat duoc luat phat hien")`,
-      question: 'Luật bắt đúng 2 ca và kêu nhầm 8 lần, ngưỡng dương tính giả là 50%. In gì?',
+      code: `gia, tong, nguong = 9, 40, 10\nty = gia * 100 // tong\nprint("noisy: ti le duong tinh gia vuot nguong" if ty > nguong else "allow: bat duoc luat")`,
+      question: '9 báo động sai trên 40 sự kiện, ngưỡng nhiễu là 10 phần trăm. Cổng in gì?',
       choices: [
         'noisy: ti le duong tinh gia vuot nguong',
-        'allow: bat duoc luat phat hien',
-        'noisy: luat khong bat duoc ca duong tinh nao',
-        'unknown: chua du mau',
+        'allow: bat duoc luat',
+        'deny: thieu anh xa ky thuat att&ck',
+        'invalid: input',
       ],
       answerIndex: 0,
       explain:
-        'Tỉ lệ dương tính giả là 8/10 = 80%, vượt ngưỡng 50%; luật có bắt đúng vài ca nhưng cái giá là tám lần làm phiền, nên nó phải được chỉnh lại trước khi bật.',
+        '9 trên 40 là 22 phần trăm, vượt ngưỡng 10 — luật phải được chỉnh lại trước khi bật, nếu không mỗi ca trực sẽ tốn thời gian cho báo động sai nhiều hơn cho sự cố thật.',
     },
     parsons: {
-      prompt:
-        'Xếp cổng chất lượng luật: xét "chưa bắt được gì" trước, rồi mới tới tỉ lệ dương tính giả.',
+      prompt: 'Xếp cổng duyệt luật: thiếu ánh xạ loại trước, rồi tới hai luật về chất lượng.',
       lines: [
-        'if tp == 0:',
+        'if attack == "none":',
+        '    print("deny: thieu anh xa ky thuat att&ck")',
+        'elif dung == 0:',
         '    print("noisy: luat khong bat duoc ca duong tinh nao")',
-        'elif fp * 100 // (tp + fp) > nguong:',
-        '    print("noisy: ti le duong tinh gia vuot nguong")',
+        'elif gia * 100 > nguong * tong:',
+        '    print("noisy: ti le duong tinh gia vuot nguong, phai chinh luat")',
         'else:',
-        '    print("allow: bat duoc luat phat hien")',
+        '    print("allow: bat duoc luat")',
       ],
     },
     make: {
       prompt:
-        'MÔ PHỎNG cổng chất lượng luật phát hiện (detection rule) đo trên fixture tổng hợp, có gắn mã kỹ thuật ATT&CK. Đọc `tp:<số>,fp:<số>,nguong:<số phần trăm>,attack:<mã|->`. Thiếu/thừa trường → `invalid: field`; `tp`/`fp`/`nguong` không phải số nguyên không âm → `invalid: tp` / `invalid: fp` / `invalid: nguong`; `attack` là `-` → `invalid: attack` (luật không ánh xạ được kỹ thuật nào thì không kiểm chứng được nó nhìn cái gì). Sau đó: `tp` bằng 0 → `noisy: luat khong bat duoc ca duong tinh nao`; tỉ lệ dương tính giả `fp*100//(tp+fp)` vượt `nguong` → `noisy: ti le duong tinh gia vuot nguong`; còn lại → `allow: bat duoc luat phat hien`. Không đọc nhật ký thật, không chạm hệ đang chạy.',
-      starterCode: '# MÔ PHỎNG cổng luật phát hiện; chỉ tính trên số đếm của dòng nhập.\n',
+        'MÔ PHỎNG cổng duyệt luật phát hiện (detection rule) trên nhật ký fixture tổng hợp. Đọc `luat:<nhãn>,attack:<mã kỹ thuật|none>,dung:<số>,gia:<số>,tong:<số>,nguong:<số phần trăm>` — `dung` là số ca dương tính đúng, `gia` là số dương tính giả, `tong` là số sự kiện trong fixture. Thiếu/thừa trường → `invalid: field`; bốn con số không phải số nguyên không âm → `invalid: so`; tong bằng 0 → `invalid: tong`. Thứ tự ưu tiên tất định: attack là `none` → `deny: thieu anh xa ky thuat att&ck`; dung bằng 0 → `noisy: luat khong bat duoc ca duong tinh nao`; `gia * 100 > nguong * tong` → `noisy: ti le duong tinh gia vuot nguong, phai chinh luat`; còn lại → `allow: bat duoc luat`. Không SIEM thật, không mạng, không file.',
+      starterCode:
+        '# MÔ PHỎNG chấm chất lượng luật phát hiện; chỉ tính trên dòng nhập, không chạm hệ ngoài.\n',
       testCases: [
         {
-          stdinLines: ['tp:9,fp:1,nguong:50,attack:T1078'],
-          expected: 'allow: bat duoc luat phat hien',
+          stdinLines: ['luat:dang-nhap-la,attack:T1078,dung:5,gia:2,tong:40,nguong:10'],
+          expected: 'allow: bat duoc luat',
           match: 'contains',
           hidden: false,
-          label: 'bắt đúng nhiều, kêu nhầm ít thì được bật',
+          label: 'luật có ánh xạ, bắt được ca đúng, nhiễu dưới ngưỡng',
         },
         {
-          stdinLines: ['tp:0,fp:40,nguong:50,attack:T1078'],
+          stdinLines: ['luat:dang-nhap-la,attack:T1078,dung:0,gia:2,tong:40,nguong:10'],
           expected: 'noisy: luat khong bat duoc ca duong tinh nao',
           match: 'contains',
           hidden: true,
-          label: 'chưa bắt đúng lần nào thì không bật',
+          label: 'không bắt được ca dương tính nào thì không được bật',
         },
         {
-          stdinLines: ['tp:2,fp:8,nguong:50,attack:T1078'],
-          expected: 'noisy: ti le duong tinh gia vuot nguong',
+          stdinLines: ['luat:dang-nhap-la,attack:T1078,dung:5,gia:9,tong:40,nguong:10'],
+          expected: 'noisy: ti le duong tinh gia vuot nguong, phai chinh luat',
           match: 'contains',
           hidden: true,
-          label: 'tỉ lệ dương tính giả 80% vượt ngưỡng 50%',
+          label: 'nhiễu vượt ngưỡng thì phải chỉnh luật trước',
         },
         {
-          stdinLines: ['tp:9,fp:1,nguong:50,attack:-'],
-          expected: 'invalid: attack',
+          stdinLines: ['luat:dang-nhap-la,attack:none,dung:5,gia:2,tong:40,nguong:10'],
+          expected: 'deny: thieu anh xa ky thuat att&ck',
           match: 'contains',
           hidden: true,
-          label: 'luật không ánh xạ được kỹ thuật nào thì không kiểm chứng được',
+          label: 'luật không ánh xạ được vào kỹ thuật nào thì không ai biết nó bảo vệ gì',
         },
         {
-          stdinLines: ['tp:chin,fp:1,nguong:50,attack:T1078'],
-          expected: 'invalid: tp',
+          stdinLines: ['luat:dang-nhap-la,attack:T1078,dung:5,gia:2,tong:0,nguong:10'],
+          expected: 'invalid: tong',
           match: 'contains',
           hidden: true,
-          label: 'ca âm — số đếm sai kiểu fail closed',
+          label: 'ca âm — fixture rỗng thì không chấm được, fail closed',
         },
       ],
       hints: [
-        'Kiểm đủ bốn khoá và kiểu của ba số trước khi tính bất cứ tỉ lệ nào.',
-        'Dùng chia lấy phần nguyên để tỉ lệ là số nguyên, cho kết quả tất định giữa các lần chạy.',
-        'tp bằng 0 phải được xét TRƯỚC, nếu không mẫu số vẫn hợp lệ và luật rỗng lọt qua.',
+        'So tỉ lệ bằng phép nhân (`gia * 100 > nguong * tong`) thay vì chia, để không dính sai số và không phải lo chia cho 0.',
+        'Kiểm đủ trường và kiểu của cả bốn con số trước khi rẽ nhánh.',
+        'Không dùng subprocess, socket, file hay thời gian thực.',
       ],
       sampleSolution: `def so(x):
     return int(x) if x.isdigit() else None
@@ -100,35 +102,33 @@ export const P6U207_LESSONS: ProgrammingLesson[] = [
 
 try:
     m = dict(p.split(":", 1) for p in input().strip().split(","))
-    if set(m) != {"tp", "fp", "nguong", "attack"}:
+    if set(m) != {"luat", "attack", "dung", "gia", "tong", "nguong"}:
         print("invalid: field")
-    elif so(m["tp"]) is None:
-        print("invalid: tp")
-    elif so(m["fp"]) is None:
-        print("invalid: fp")
-    elif so(m["nguong"]) is None:
-        print("invalid: nguong")
-    elif m["attack"] == "-":
-        print("invalid: attack")
-    elif so(m["tp"]) == 0:
+    elif any(so(m[k]) is None for k in ("dung", "gia", "tong", "nguong")):
+        print("invalid: so")
+    elif so(m["tong"]) == 0:
+        print("invalid: tong")
+    elif m["attack"] == "none":
+        print("deny: thieu anh xa ky thuat att&ck")
+    elif so(m["dung"]) == 0:
         print("noisy: luat khong bat duoc ca duong tinh nao")
-    elif so(m["fp"]) * 100 // (so(m["tp"]) + so(m["fp"])) > so(m["nguong"]):
-        print("noisy: ti le duong tinh gia vuot nguong")
+    elif so(m["gia"]) * 100 > so(m["nguong"]) * so(m["tong"]):
+        print("noisy: ti le duong tinh gia vuot nguong, phai chinh luat")
     else:
-        print("allow: bat duoc luat phat hien")
+        print("allow: bat duoc luat")
 except (EOFError, ValueError, KeyError):
     print("invalid: input")`,
     },
     homework:
-      'Ngoài sandbox, lấy ba cảnh báo gần nhất mà đội bạn nhận được và tra xem mỗi cái đến từ luật nào, luật đó đã bắt đúng bao nhiêu lần trong ba tháng qua; luật nào chưa đúng lần nào thì viết ra: nên chỉnh, nên tắt, hay nên đổi nguồn nhật ký.',
+      'Ngoài sandbox, lấy ba luật cảnh báo đang bật ở nơi bạn làm và với mỗi luật ghi ba con số của tháng qua: bao nhiêu lần nó kêu, bao nhiêu lần đúng, và nó tương ứng kỹ thuật nào trong ATT&CK. Luật nào không điền nổi cột thứ ba thì viết một câu giải thích nó đang bảo vệ điều gì — không viết nổi thì đó là luật cần bỏ hoặc viết lại.',
     srsCards: [
       {
-        hoi: 'Vì sao luật chưa bắt đúng ca nào lại bị xếp là noisy chứ không phải "chưa có dữ liệu"?',
-        dap: 'Vì nó đã chạy trên fixture có ca dương tính thật mà vẫn không thấy gì, nên cái nó tạo ra chỉ còn là báo động nhầm — bật lên là tiêu ngân sách chú ý của đội mà không đổi lại được gì.',
+        hoi: 'Vì sao luật không bắt được ca dương tính nào lại bị xếp là `noisy` chứ không phải "an toàn"?',
+        dap: 'Vì nó vẫn sinh báo động trên fixture mà không trúng ca thật nào; nó chỉ tiêu tốn sự chú ý của người trực và dần dạy họ bỏ qua thông báo — tác hại chứ không phải trung tính.',
       },
       {
-        hoi: 'Ánh xạ luật phát hiện sang ATT&CK giúp trả lời câu hỏi nào mà số đếm không trả lời được?',
-        dap: 'Câu "chúng ta đang mù ở đâu": số đếm chỉ nói luật hiện có chạy tốt tới đâu, còn bảng kỹ thuật cho thấy những ô chưa có luật nào nhìn tới.',
+        hoi: 'Ánh xạ vào ATT&CK giúp gì ngoài việc cho luật một cái tên đẹp?',
+        dap: 'Nó biến tập luật thành một bản đồ độ phủ: nhìn vào là biết kỹ thuật nào đã có người canh và kỹ thuật nào đang trống, thay vì chỉ có một đống luật rời rạc không so được với nhau.',
       },
     ],
   },
@@ -136,129 +136,122 @@ except (EOFError, ValueError, KeyError):
     id: 'p6-u207-l2',
     unitId: 'p6-u207',
     language: 'python',
-    title: 'MÔ PHỎNG trình tự ứng cứu: ngăn chặn (containment) → diệt trừ (eradication) → phục hồi',
-    hook: 'Xoá sạch máy bị nhiễm lúc 2 giờ sáng cho nhanh nghĩa là sáng hôm sau không ai còn trả lời được câu "nó vào bằng đường nào".',
+    title:
+      'MÔ PHỎNG trình tự ứng cứu sự cố: ngăn chặn (containment) → diệt trừ (eradication) → phục hồi',
+    hook: 'Xoá sạch máy bị chiếm trước khi sao lưu chứng cứ là cách nhanh nhất để không bao giờ biết chuyện gì đã xảy ra.',
     theory:
-      'Ứng cứu sự cố có trình tự, và trình tự đó không phải nghi thức: ngăn chặn (containment) trước để sự cố ngừng lan; thu thập chứng cứ TRƯỚC khi diệt trừ (eradication), vì diệt trừ là hành động xoá dấu vết; và chỉ phục hồi khi đã biết nguyên nhân gốc, nếu không thì hệ vừa phục hồi sẽ bị chiếm lại bằng đúng con đường cũ.\nMục đích phòng thủ của bài: biến ba câu hỏi "đã ngăn chưa · đã thu chứng cứ chưa · đã rõ nguyên nhân chưa" thành một cổng máy chạy được, để lúc 2 giờ sáng người trực không phải tự nhớ. Đây là MÔ PHỎNG hữu hạn trên trạng thái sự cố tổng hợp: không hệ thống thật, không nhật ký thật.',
+      'Quy trình ứng cứu có thứ tự cứng: ngăn chặn (containment) để sự cố ngừng lan, rồi diệt trừ (eradication) để loại nguyên nhân, rồi mới phục hồi. Hai luật chặn nằm giữa ba bước đó. Một: diệt trừ khi chưa thu thập chứng cứ (evidence) thì phải `block` — chứng cứ bị xoá cùng lúc với nguyên nhân, và cuộc điều tra sau đó không còn gì để dựa vào. Hai: phục hồi khi chưa xác định nguyên nhân gốc là `incomplete` — bật lại dịch vụ trên một hệ còn nguyên lỗ hổng chỉ dời sự cố sang tuần sau. Đây là MÔ PHỎNG hữu hạn trên bản ghi trạng thái tổng hợp; chặng này PHÒNG THỦ, không có thao tác tấn công nào.',
     workedExample: {
-      code: `# MO PHONG trinh tu ung cuu tren trang thai su co tong hop.\nbuoc, chungcu = "diet-tru", "chua"\nprint("block: diet tru truoc khi thu thap chung cu" if buoc == "diet-tru" and chungcu == "chua" else "allow: buoc dung trinh tu")`,
+      code: `# MO PHONG trinh tu ung cuu; ban ghi trang thai tong hop.\nbuoc, chungcu = "eradication", "none"\nprint("block: dietru truoc khi thu thap chung cu" if buoc == "eradication" and chungcu == "none" else "allow: chay buoc nay duoc")`,
       stdinLines: [],
     },
     predict: {
-      code: `buoc, nguyennhan = "phuc-hoi", "chua"\nprint("incomplete: phuc hoi khi chua ro nguyen nhan goc" if buoc == "phuc-hoi" and nguyennhan == "chua" else "allow: buoc dung trinh tu")`,
-      question: 'Đội muốn phục hồi dịch vụ trong khi chưa tìm ra nguyên nhân gốc. In gì?',
+      code: `buoc, nguyennhan = "recovery", "unknown"\nprint("incomplete: phuc hoi khi chua co nguyen nhan goc" if buoc == "recovery" and nguyennhan == "unknown" else "allow: chay buoc nay duoc")`,
+      question: 'Đội muốn phục hồi dịch vụ khi nguyên nhân gốc vẫn chưa rõ. Cổng in gì?',
       choices: [
-        'incomplete: phuc hoi khi chua ro nguyen nhan goc',
-        'allow: buoc dung trinh tu',
-        'block: diet tru truoc khi thu thap chung cu',
-        'unknown: chua du thong tin',
+        'incomplete: phuc hoi khi chua co nguyen nhan goc',
+        'allow: chay buoc nay duoc',
+        'block: dietru truoc khi thu thap chung cu',
+        'invalid: buoc',
       ],
       answerIndex: 0,
       explain:
-        'Phục hồi lúc này không sai về đạo đức như phá hiện trường, nhưng nó là việc làm dở: hệ quay lại đúng trạng thái đã bị chiếm, nên quyết định đúng là incomplete — còn thiếu một bước.',
+        'Phục hồi không bị cấm về nguyên tắc, nó chỉ chưa đủ điều kiện — nên kết quả là `incomplete`: còn thiếu nguyên nhân gốc, bổ sung xong thì chạy tiếp.',
     },
     parsons: {
-      prompt: 'Xếp cổng trình tự ứng cứu: chặn diệt trừ sớm trước, rồi mới xét phục hồi sớm.',
+      prompt: 'Xếp cổng trình tự ứng cứu: ngăn chặn luôn được phép, hai bước sau có điều kiện.',
       lines: [
-        'if buoc == "diet-tru" and chungcu == "chua":',
-        '    print("block: diet tru truoc khi thu thap chung cu")',
-        'elif buoc == "phuc-hoi" and ngan == "chua":',
-        '    print("block: phuc hoi khi su co con dang lan")',
-        'elif buoc == "phuc-hoi" and nguyennhan == "chua":',
-        '    print("incomplete: phuc hoi khi chua ro nguyen nhan goc")',
+        'if buoc == "containment":',
+        '    print("allow: ngan chan truoc de su co ngung lan")',
+        'elif buoc == "eradication" and chungcu == "none":',
+        '    print("block: dietru truoc khi thu thap chung cu")',
+        'elif buoc == "recovery" and nguyennhan == "unknown":',
+        '    print("incomplete: phuc hoi khi chua co nguyen nhan goc")',
         'else:',
-        '    print("allow: buoc dung trinh tu")',
+        '    print("allow: chay buoc nay duoc")',
       ],
     },
     make: {
       prompt:
-        'MÔ PHỎNG cổng trình tự ứng cứu sự cố. Đọc `buoc:<ngan-chan|diet-tru|phuc-hoi>,ngan:<xong|chua>,chungcu:<da-thu|chua>,nguyennhan:<da-ro|chua>`. Thiếu/thừa trường → `invalid: field`; giá trị lạ ở trường nào → `invalid: <tên trường>`. Thứ tự quyết định: bước `diet-tru` mà chứng cứ `chua` → `block: diet tru truoc khi thu thap chung cu`; bước `phuc-hoi` mà ngăn chặn `chua` → `block: phuc hoi khi su co con dang lan`; bước `phuc-hoi` mà nguyên nhân `chua` → `incomplete: phuc hoi khi chua ro nguyen nhan goc`; còn lại → `allow: buoc dung trinh tu`. Không chạm hệ thống thật, không đọc nhật ký thật.',
+        'MÔ PHỎNG cổng trình tự ứng cứu sự cố. Đọc `buoc:<containment|eradication|recovery>,chungcu:<collected|none>,nguyennhan:<found|unknown>,ngangchan:<done|no>`. Thiếu/thừa trường → `invalid: field`; buoc lạ → `invalid: buoc`; chungcu lạ → `invalid: chungcu`; nguyennhan lạ → `invalid: nguyennhan`; ngangchan lạ → `invalid: ngangchan`. Thứ tự ưu tiên tất định: buoc là `containment` → `allow: ngan chan truoc de su co ngung lan`; buoc là `eradication` và chungcu là `none` → `block: dietru truoc khi thu thap chung cu`; buoc là `eradication` và ngangchan là `no` → `block: chua ngan chan xong`; buoc là `recovery` và nguyennhan là `unknown` → `incomplete: phuc hoi khi chua co nguyen nhan goc`; còn lại → `allow: chay buoc nay duoc`. Không hệ thật, không mạng, không file.',
       starterCode: '# MÔ PHỎNG trình tự ứng cứu; chỉ tính trên dòng nhập, không chạm hệ ngoài.\n',
       testCases: [
         {
-          stdinLines: ['buoc:ngan-chan,ngan:chua,chungcu:chua,nguyennhan:chua'],
-          expected: 'allow: buoc dung trinh tu',
+          stdinLines: ['buoc:containment,chungcu:none,nguyennhan:unknown,ngangchan:no'],
+          expected: 'allow: ngan chan truoc de su co ngung lan',
           match: 'contains',
           hidden: false,
-          label: 'ngăn chặn luôn là bước được làm đầu tiên',
+          label: 'ngăn chặn luôn là bước được phép chạy đầu tiên',
         },
         {
-          stdinLines: ['buoc:diet-tru,ngan:xong,chungcu:chua,nguyennhan:chua'],
-          expected: 'block: diet tru truoc khi thu thap chung cu',
+          stdinLines: ['buoc:eradication,chungcu:none,nguyennhan:found,ngangchan:done'],
+          expected: 'block: dietru truoc khi thu thap chung cu',
           match: 'contains',
           hidden: true,
-          label: 'diệt trừ sớm là phá hiện trường',
+          label: 'diệt trừ trước khi thu thập chứng cứ bị chặn',
         },
         {
-          stdinLines: ['buoc:phuc-hoi,ngan:chua,chungcu:da-thu,nguyennhan:da-ro'],
-          expected: 'block: phuc hoi khi su co con dang lan',
+          stdinLines: ['buoc:eradication,chungcu:collected,nguyennhan:found,ngangchan:no'],
+          expected: 'block: chua ngan chan xong',
           match: 'contains',
           hidden: true,
-          label: 'chưa ngăn chặn xong thì chưa phục hồi',
+          label: 'diệt trừ khi sự cố còn đang lan thì chặn',
         },
         {
-          stdinLines: ['buoc:phuc-hoi,ngan:xong,chungcu:da-thu,nguyennhan:chua'],
-          expected: 'incomplete: phuc hoi khi chua ro nguyen nhan goc',
+          stdinLines: ['buoc:recovery,chungcu:collected,nguyennhan:unknown,ngangchan:done'],
+          expected: 'incomplete: phuc hoi khi chua co nguyen nhan goc',
           match: 'contains',
           hidden: true,
-          label: 'phục hồi khi chưa rõ nguyên nhân là mời sự cố quay lại',
+          label: 'phục hồi thiếu nguyên nhân gốc là chưa đủ điều kiện',
         },
         {
-          stdinLines: ['buoc:phuc-hoi,ngan:xong,chungcu:da-thu,nguyennhan:da-ro'],
-          expected: 'allow: buoc dung trinh tu',
-          match: 'contains',
-          hidden: true,
-          label: 'đủ ba điều kiện thì phục hồi được',
-        },
-        {
-          stdinLines: ['buoc:xoa-sach,ngan:xong,chungcu:da-thu,nguyennhan:da-ro'],
+          stdinLines: ['buoc:dongbang,chungcu:collected,nguyennhan:found,ngangchan:done'],
           expected: 'invalid: buoc',
           match: 'contains',
           hidden: true,
-          label: 'ca âm — bước lạ fail closed',
+          label: 'ca âm — bước lạ ngoài ba bước chuẩn thì fail closed',
         },
       ],
       hints: [
-        'Kiểm đủ bốn khoá và tập giá trị cho phép trước khi xét trình tự.',
-        'Hai điều kiện chặn của bước phục hồi phải xét theo thứ tự cố định, nếu không cùng một sự cố cho hai câu trả lời khác nhau.',
-        'Không dùng socket, subprocess, file hay thời gian thực.',
+        'Kiểm đủ bốn khoá và bốn tập giá trị hợp lệ trước, rồi mới xét luật nghiệp vụ.',
+        'Hai luật chặn của bước diệt trừ phải có thứ tự cố định: chứng cứ trước, ngăn chặn sau — trùng điều kiện thì kết quả vẫn tất định.',
+        'Không dùng subprocess, socket, file hay thời gian thực.',
       ],
-      sampleSolution: `MUC = {
-    "buoc": {"ngan-chan", "diet-tru", "phuc-hoi"},
-    "ngan": {"xong", "chua"},
-    "chungcu": {"da-thu", "chua"},
-    "nguyennhan": {"da-ro", "chua"},
-}
-
-try:
+      sampleSolution: `try:
     m = dict(p.split(":", 1) for p in input().strip().split(","))
-    if set(m) != set(MUC):
+    if set(m) != {"buoc", "chungcu", "nguyennhan", "ngangchan"}:
         print("invalid: field")
+    elif m["buoc"] not in {"containment", "eradication", "recovery"}:
+        print("invalid: buoc")
+    elif m["chungcu"] not in {"collected", "none"}:
+        print("invalid: chungcu")
+    elif m["nguyennhan"] not in {"found", "unknown"}:
+        print("invalid: nguyennhan")
+    elif m["ngangchan"] not in {"done", "no"}:
+        print("invalid: ngangchan")
+    elif m["buoc"] == "containment":
+        print("allow: ngan chan truoc de su co ngung lan")
+    elif m["buoc"] == "eradication" and m["chungcu"] == "none":
+        print("block: dietru truoc khi thu thap chung cu")
+    elif m["buoc"] == "eradication" and m["ngangchan"] == "no":
+        print("block: chua ngan chan xong")
+    elif m["buoc"] == "recovery" and m["nguyennhan"] == "unknown":
+        print("incomplete: phuc hoi khi chua co nguyen nhan goc")
     else:
-        xau = [k for k in ("buoc", "ngan", "chungcu", "nguyennhan") if m[k] not in MUC[k]]
-        if xau:
-            print("invalid: " + xau[0])
-        elif m["buoc"] == "diet-tru" and m["chungcu"] == "chua":
-            print("block: diet tru truoc khi thu thap chung cu")
-        elif m["buoc"] == "phuc-hoi" and m["ngan"] == "chua":
-            print("block: phuc hoi khi su co con dang lan")
-        elif m["buoc"] == "phuc-hoi" and m["nguyennhan"] == "chua":
-            print("incomplete: phuc hoi khi chua ro nguyen nhan goc")
-        else:
-            print("allow: buoc dung trinh tu")
+        print("allow: chay buoc nay duoc")
 except (EOFError, ValueError, KeyError):
     print("invalid: input")`,
     },
     homework:
-      'Ngoài sandbox, lấy sự cố gần nhất của đội bạn (kể cả sự cố vận hành, không nhất thiết là an ninh) và dựng lại dòng thời gian ba bước: ngăn chặn lúc nào, chứng cứ thu lúc nào, phục hồi lúc nào — rồi đánh dấu chỗ trình tự bị đảo và hậu quả của nó.',
+      'Ngoài sandbox, lấy một sự cố đã xử lý ở nơi bạn làm (kỹ thuật hay không đều được) và xếp lại các hành động đã làm vào ba nhóm ngăn chặn — diệt trừ — phục hồi theo đúng thứ tự thời gian thật. Chỗ nào thứ tự thật khác thứ tự chuẩn thì ghi lại đã mất thông tin gì vì chuyện đó.',
     srsCards: [
       {
-        hoi: 'Vì sao thu thập chứng cứ phải xảy ra trước bước diệt trừ?',
-        dap: 'Vì diệt trừ chính là hành động xoá dấu vết của kẻ tấn công; làm trước thì mất luôn cơ sở để trả lời họ vào bằng đường nào và còn chỗ nào khác đang bị chiếm.',
+        hoi: 'Vì sao ngăn chặn phải đi trước diệt trừ?',
+        dap: 'Vì diệt trừ mất thời gian, và trong khoảng thời gian đó sự cố còn đang lan; ngăn chặn giữ phạm vi thiệt hại đứng yên để phần việc sau làm trên một mục tiêu không đổi.',
       },
       {
-        hoi: 'Phục hồi khi chưa rõ nguyên nhân gốc dẫn tới hậu quả gì?',
-        dap: 'Hệ quay về đúng trạng thái đã bị chiếm với đúng lỗ hổng cũ, nên sự cố lặp lại — lần này kèm niềm tin sai rằng mọi thứ đã được xử lý xong.',
+        hoi: 'Khác nhau giữa `block` và `incomplete` trong cổng ứng cứu là gì?',
+        dap: '`block` là hành động sẽ phá hỏng thứ không lấy lại được (chứng cứ) nên cấm chạy bây giờ; `incomplete` là hành động hợp lệ nhưng đầu vào còn thiếu, bổ sung xong là chạy được.',
       },
     ],
   },

@@ -1,13 +1,13 @@
-// lessons/p6u208.ts — P6-U208: HƯỚNG BẢO MẬT, chặng S4 — module `security-s4-m3` (điều tra số:
-// toàn vẹn chứng cứ, chuỗi lưu giữ, dòng thời gian từ nhiều nguồn lệch đồng hồ, báo cáo).
+// lessons/p6u208.ts — P6-U208: HƯỚNG AN TOÀN, chặng S4 — module `security-s4-m3` (điều tra số:
+// toàn vẹn chứng cứ, dòng thời gian từ nhiều nguồn nhật ký lệch đồng hồ, báo cáo cho lãnh đạo
+// và cơ quan quản lý).
 //
-// Bài 1 hỏi "mẩu chứng cứ này còn dùng được không" (băm khớp không, chuỗi lưu giữ có đứt không).
-// Bài 2 hỏi "mốc thời gian này đặt được vào dòng thời gian chưa, và báo cáo này phát hành được
-// chưa" (chuẩn hoá về UTC kèm cờ bất định; báo cáo còn dữ liệu cá nhân thô thì phải che).
+// Bài 1 hỏi "chứng cứ này còn dùng được không" (chuỗi băm và chuỗi lưu giữ). Bài 2 hỏi "dòng thời
+// gian dựng từ nhiều nguồn có đáng tin không, và bản báo cáo đã sạch dữ liệu cá nhân chưa".
 //
 // Đặc tả: `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`.
-// Mọi mã băm và mốc thời gian trong bài là fixture TỔNG HỢP; không vụ việc thật, không dữ liệu
-// cá nhân thật, không đồng hồ hệ thống.
+// Chặng PHÒNG THỦ. Mọi nhật ký là fixture tổng hợp đã che thông tin; simulator Python tất định,
+// hữu hạn, fail closed, không đồng hồ hệ thống.
 import type { ProgrammingLesson } from '../lessonTypes.js'
 
 export const P6U208_LESSONS: ProgrammingLesson[] = [
@@ -15,113 +15,117 @@ export const P6U208_LESSONS: ProgrammingLesson[] = [
     id: 'p6-u208-l1',
     unitId: 'p6-u208',
     language: 'python',
-    title: 'MÔ PHỎNG cổng toàn vẹn chứng cứ (integrity) và chuỗi lưu giữ (chain of custody)',
-    hook: 'Chứng cứ không mất giá trị vì nội dung sai — nó mất giá trị vì không còn ai chứng minh được nó chưa bị đụng vào.',
+    title:
+      'MÔ PHỎNG cổng toàn vẹn chứng cứ (evidence integrity) và chuỗi lưu giữ (chain of custody)',
+    hook: 'Bản sao nhật ký nằm trong thư mục Tải về của một ai đó không phải là chứng cứ — nó chỉ là một tập tin.',
     theory:
-      'Điều tra số đứng trên hai cột. Cột thứ nhất là tính toàn vẹn (integrity): lấy mã băm của mẩu chứng cứ ngay lúc thu, rồi so lại ở mọi lần dùng — lệch một ký tự nghĩa là nó đã thay đổi, và không ai nói được thay đổi ở chỗ nào. Cột thứ hai là chuỗi lưu giữ (chain of custody): sổ ghi ai giữ, từ lúc nào tới lúc nào, bàn giao cho ai; đứt một mắt là có một quãng thời gian không ai chịu trách nhiệm, và cả mẩu chứng cứ mất tư cách.\nMục đích phòng thủ của bài: kết luận của một cuộc điều tra chỉ vững bằng mắt xích yếu nhất trong hai cột đó, nên phải biết nói "inadmissible" sớm thay vì xây lập luận trên nền cát. Đây là MÔ PHỎNG trên bản ghi tổng hợp, không vụ việc thật.',
+      'Chứng cứ số (evidence) chỉ dùng được khi chứng minh được hai điều. Một là tính toàn vẹn (integrity): giá trị băm lấy lúc thu thập phải khớp với giá trị băm lúc kiểm lại — lệch một bit nghĩa là bản đang cầm không còn là bản đã thu. Hai là chuỗi lưu giữ (chain of custody): từ lúc thu tới lúc trình bày, mỗi lần đổi tay đều có người ký nhận; đứt một mắt là không ai bảo đảm được khoảng trống đó. Thiếu một trong hai thì kết luận là `inadmissible` — không phải "vẫn dùng tạm", vì chứng cứ dùng tạm sẽ dẫn tới kết luận sai mà không ai biết. Đây là MÔ PHỎNG hữu hạn trên nhãn trạng thái tổng hợp: không tang vật thật, không nhật ký thật.',
     workedExample: {
-      code: `# MO PHONG cong toan ven chung cu; ma bam la fixture tong hop, khong phai vu viec that.\nbam_goc, bam_nay = "a1b2c3", "a1b2c9"\nprint("inadmissible: bam khong khop" if bam_goc != bam_nay else "allow: chung cu dung duoc")`,
+      code: `# MO PHONG cong toan ven chung cu; nhan trang thai tong hop, khong tang vat that.\nbam, luugiu = "match", "unbroken"\nprint("allow: chung cu dung duoc" if bam == "match" and luugiu == "unbroken" else "inadmissible: chung cu khong dung duoc")`,
       stdinLines: [],
     },
     predict: {
-      code: `chuoi = "dut"\nprint("inadmissible: dut chuoi luu giu" if chuoi == "dut" else "allow: chung cu dung duoc")`,
-      question: 'Mã băm khớp nhưng sổ bàn giao thiếu mất một chặng. Cổng MÔ PHỎNG in gì?',
+      code: `bam = "mismatch"\nprint("inadmissible: bam khong khop" if bam == "mismatch" else "allow: chung cu dung duoc")`,
+      question: 'Băm lúc kiểm lại không khớp băm lúc thu thập. Cổng in gì?',
       choices: [
-        'inadmissible: dut chuoi luu giu',
-        'allow: chung cu dung duoc',
         'inadmissible: bam khong khop',
-        'redact: con du lieu ca nhan tho',
+        'allow: chung cu dung duoc',
+        'invalid: bam',
+        'incomplete: thieu nguoi ky nhan',
       ],
       answerIndex: 0,
       explain:
-        'Băm khớp chỉ chứng minh nội dung không đổi, không chứng minh ai giữ nó trong quãng trống đó; thiếu mắt xích trong sổ bàn giao là thiếu người chịu trách nhiệm, nên mẩu chứng cứ không dùng được.',
+        'Băm lệch nghĩa là nội dung đã đổi sau khi thu — không biết đổi ở đâu, đổi bao nhiêu, nên toàn bộ bản đó mất tư cách chứng cứ chứ không chỉ phần nghi ngờ.',
     },
     parsons: {
-      prompt: 'Xếp cổng chứng cứ: so băm trước, rồi mới xét chuỗi lưu giữ.',
+      prompt: 'Xếp cổng chứng cứ fail closed: hai điều kiện toàn vẹn trước, người ký nhận sau.',
       lines: [
-        'if bam_goc != bam_nay:',
+        'if bam != "match":',
         '    print("inadmissible: bam khong khop")',
-        'elif chuoi == "dut":',
+        'elif luugiu != "unbroken":',
         '    print("inadmissible: dut chuoi luu giu")',
+        'elif nguoi == "-":',
+        '    print("inadmissible: thieu nguoi ky nhan")',
         'else:',
         '    print("allow: chung cu dung duoc")',
       ],
     },
     make: {
       prompt:
-        'MÔ PHỎNG cổng toàn vẹn chứng cứ và chuỗi lưu giữ. Đọc `bamgoc:<chuỗi hex>,bamnay:<chuỗi hex>,chuoi:<lientuc|dut>,nguoigiu:<tên|->`. Thiếu/thừa trường → `invalid: field`; `chuoi` lạ → `invalid: chuoi`; `bamgoc` hoặc `bamnay` rỗng → `invalid: bam`; `nguoigiu` là `-` → `invalid: nguoi giu` (không ghi ai giữ thì sổ bàn giao vô nghĩa). Sau đó: hai mã băm khác nhau → `inadmissible: bam khong khop`; chuỗi `dut` → `inadmissible: dut chuoi luu giu`; còn lại → `allow: chung cu dung duoc`. Mã băm trong bài là fixture tổng hợp; không tính băm thật, không đọc file.',
-      starterCode: '# MÔ PHỎNG cổng chứng cứ; chỉ so chuỗi của dòng nhập, không đọc file.\n',
+        'MÔ PHỎNG cổng toàn vẹn chứng cứ (evidence integrity) và chuỗi lưu giữ (chain of custody). Đọc `vat:<nhãn>,bam:<match|mismatch>,luugiu:<unbroken|broken>,nguoi:<tên|->`. Thiếu/thừa trường → `invalid: field`; bam lạ → `invalid: bam`; luugiu lạ → `invalid: luugiu`. Thứ tự ưu tiên tất định: bam khác `match` → `inadmissible: bam khong khop`; luugiu khác `unbroken` → `inadmissible: dut chuoi luu giu`; nguoi là `-` → `inadmissible: thieu nguoi ky nhan`; còn lại → `allow: chung cu dung duoc`. Chỉ dùng NHÃN tổng hợp, không nội dung chứng cứ thật, không mạng, không file.',
+      starterCode:
+        '# MÔ PHỎNG cổng chứng cứ; chỉ tính trên nhãn trạng thái, không chạm hệ ngoài.\n',
       testCases: [
         {
-          stdinLines: ['bamgoc:a1b2c3,bamnay:a1b2c3,chuoi:lientuc,nguoigiu:doi-ung-cuu'],
+          stdinLines: ['vat:anh-dia-a,bam:match,luugiu:unbroken,nguoi:dieu-tra-vien-1'],
           expected: 'allow: chung cu dung duoc',
           match: 'contains',
           hidden: false,
-          label: 'băm khớp và sổ bàn giao liền mạch',
+          label: 'băm khớp, chuỗi lưu giữ liền mạch, có người ký nhận',
         },
         {
-          stdinLines: ['bamgoc:a1b2c3,bamnay:a1b2c9,chuoi:lientuc,nguoigiu:doi-ung-cuu'],
+          stdinLines: ['vat:anh-dia-a,bam:mismatch,luugiu:unbroken,nguoi:dieu-tra-vien-1'],
           expected: 'inadmissible: bam khong khop',
           match: 'contains',
           hidden: true,
-          label: 'lệch một ký tự băm là mất toàn vẹn',
+          label: 'băm lệch thì mất tư cách chứng cứ',
         },
         {
-          stdinLines: ['bamgoc:a1b2c3,bamnay:a1b2c3,chuoi:dut,nguoigiu:doi-ung-cuu'],
+          stdinLines: ['vat:anh-dia-a,bam:match,luugiu:broken,nguoi:dieu-tra-vien-1'],
           expected: 'inadmissible: dut chuoi luu giu',
           match: 'contains',
           hidden: true,
-          label: 'đứt chuỗi lưu giữ thì băm khớp cũng không cứu được',
+          label: 'đứt chuỗi lưu giữ thì cũng mất tư cách chứng cứ',
         },
         {
-          stdinLines: ['bamgoc:a1b2c3,bamnay:a1b2c3,chuoi:lientuc,nguoigiu:-'],
-          expected: 'invalid: nguoi giu',
+          stdinLines: ['vat:anh-dia-a,bam:match,luugiu:unbroken,nguoi:-'],
+          expected: 'inadmissible: thieu nguoi ky nhan',
           match: 'contains',
           hidden: true,
-          label: 'không ghi người giữ thì sổ bàn giao vô nghĩa',
+          label: 'không ai ký nhận thì không có ai bảo đảm khoảng trống',
         },
         {
-          stdinLines: ['bamgoc:a1b2c3,bamnay:a1b2c3,chuoi:co-le,nguoigiu:doi-ung-cuu'],
-          expected: 'invalid: chuoi',
+          stdinLines: ['vat:anh-dia-a,bam:chua-kiem,luugiu:unbroken,nguoi:dieu-tra-vien-1'],
+          expected: 'invalid: bam',
           match: 'contains',
           hidden: true,
-          label: 'ca âm — trạng thái chuỗi lạ fail closed',
+          label: 'ca âm — trạng thái băm lạ thì fail closed',
         },
       ],
       hints: [
-        'Kiểm đủ bốn khoá trước, rồi kiểm từng giá trị có hợp lệ không, cuối cùng mới so băm.',
-        'So băm bằng phép so chuỗi thường là đủ cho MÔ PHỎNG — bài này dạy trình tự quyết định, không dạy mật mã.',
-        'Không đọc file, không tính băm thật, không dùng thời gian thực.',
+        'Kiểm đủ bốn khoá trước khi đọc giá trị, rồi kiểm tập giá trị hợp lệ của hai cờ.',
+        'Thứ tự ba lý do `inadmissible` phải cố định để hai khiếm khuyết cùng lúc vẫn cho một kết quả.',
+        'Không dùng subprocess, socket, file hay thời gian thực.',
       ],
       sampleSolution: `try:
     m = dict(p.split(":", 1) for p in input().strip().split(","))
-    if set(m) != {"bamgoc", "bamnay", "chuoi", "nguoigiu"}:
+    if set(m) != {"vat", "bam", "luugiu", "nguoi"}:
         print("invalid: field")
-    elif m["chuoi"] not in {"lientuc", "dut"}:
-        print("invalid: chuoi")
-    elif m["bamgoc"] == "" or m["bamnay"] == "":
+    elif m["bam"] not in {"match", "mismatch"}:
         print("invalid: bam")
-    elif m["nguoigiu"] == "-":
-        print("invalid: nguoi giu")
-    elif m["bamgoc"] != m["bamnay"]:
+    elif m["luugiu"] not in {"unbroken", "broken"}:
+        print("invalid: luugiu")
+    elif m["bam"] != "match":
         print("inadmissible: bam khong khop")
-    elif m["chuoi"] == "dut":
+    elif m["luugiu"] != "unbroken":
         print("inadmissible: dut chuoi luu giu")
+    elif m["nguoi"] == "-":
+        print("inadmissible: thieu nguoi ky nhan")
     else:
         print("allow: chung cu dung duoc")
 except (EOFError, ValueError, KeyError):
     print("invalid: input")`,
     },
     homework:
-      'Ngoài sandbox, chọn một tệp nhật ký mà đội bạn sẽ cần tới nếu có sự cố, rồi viết ra: ai đang giữ bản gốc, bản sao nằm ở đâu, và bạn chứng minh bằng cách nào rằng bản sao đó chưa bị sửa — chỗ nào không trả lời được là chỗ chuỗi lưu giữ đang đứt.',
+      'Ngoài sandbox, chọn một lần bạn từng tải nhật ký về máy để điều tra một sự cố và viết lại: bản đó có băm lúc thu không, đã qua tay mấy người, và ai ký nhận ở từng lần. Viết ra một quy trình ba dòng để lần sau bản sao đó đủ tư cách chứng cứ ngay từ đầu.',
     srsCards: [
       {
-        hoi: 'Mã băm khớp chứng minh được điều gì, và KHÔNG chứng minh được điều gì?',
-        dap: 'Nó chứng minh nội dung không đổi kể từ lúc lấy băm, nhưng không nói ai đã giữ mẩu chứng cứ trong quãng đó — phần đó chỉ sổ chuỗi lưu giữ mới trả lời được.',
+        hoi: 'Vì sao băm lệch làm hỏng cả bản chứng cứ chứ không chỉ phần bị sửa?',
+        dap: 'Vì băm chỉ nói "có khác" chứ không nói khác ở đâu; không xác định được phần nào còn nguyên thì không phần nào dựa vào được.',
       },
       {
-        hoi: 'Vì sao đứt một mắt trong sổ bàn giao lại loại bỏ cả mẩu chứng cứ?',
-        dap: 'Vì trong quãng trống đó không ai chịu trách nhiệm, nên không thể bác được giả thuyết rằng nó đã bị đụng vào; lập luận dựng trên nó sẽ đổ ngay khi bị hỏi.',
+        hoi: 'Chuỗi lưu giữ bảo vệ điều gì mà giá trị băm không bảo vệ được?',
+        dap: 'Băm chứng minh nội dung không đổi, chuỗi lưu giữ chứng minh bản đó đến từ đâu và ai từng cầm — không có nó thì một bản khớp băm vẫn có thể là bản dựng từ nguồn khác.',
       },
     ],
   },
@@ -129,132 +133,122 @@ except (EOFError, ValueError, KeyError):
     id: 'p6-u208-l2',
     unitId: 'p6-u208',
     language: 'python',
-    title: 'MÔ PHỎNG chuẩn hoá mốc thời gian về UTC kèm cờ bất định, và che (redact) báo cáo',
-    hook: 'Hai máy lệch nhau bốn giây đủ để dòng thời gian kể ngược câu chuyện: hậu quả xảy ra trước nguyên nhân.',
+    title: 'MÔ PHỎNG dòng thời gian đa nguồn: chuẩn hoá UTC, gắn cờ bất định và redact báo cáo',
+    hook: 'Hai máy chủ lệch đồng hồ ba phút là đủ để một dòng thời gian sự cố kể ngược thứ tự nguyên nhân và hậu quả.',
     theory:
-      'Dựng dòng thời gian sự cố từ nhiều nguồn nhật ký là việc gộp các mốc ghi ở nhiều múi giờ và nhiều đồng hồ lệch nhau. Luật bắt buộc có hai vế: (1) quy mọi mốc về UTC để so được với nhau; (2) khi độ lệch đồng hồ của nguồn vượt ngưỡng, phải GẮN CỜ bất định thay vì âm thầm sắp xếp — vì thứ tự do máy xếp ra lúc đó là phỏng đoán, mà người đọc lại tưởng là sự kiện.\nVế thứ hai của bài là báo cáo: bản gửi lãnh đạo hay cơ quan quản lý chỉ cần kết luận và bằng chứng, không cần dữ liệu cá nhân thô — còn dữ liệu thô thì phải che (redact) trước khi phát hành. Mục đích phòng thủ: một cuộc điều tra xử lý sự cố rò dữ liệu không được tự mình làm rò thêm lần nữa. MÔ PHỎNG hữu hạn: không đồng hồ hệ thống, không nhật ký thật, không dữ liệu cá nhân thật.',
+      'Dựng dòng thời gian sự cố từ nhiều nguồn nhật ký có hai cái bẫy. Bẫy thứ nhất là múi giờ và lệch đồng hồ: mốc thời gian phải được chuẩn hoá về UTC và độ lệch còn lại phải được GẮN CỜ bất định — cấm im lặng sắp xếp, vì một bảng đã sắp xếp trông như sự thật trong khi thứ tự của nó có thể do sai số quyết định. Khi độ lệch vượt ngưỡng thì dòng thời gian là `incomplete`: chưa dùng để kết luận nhân quả được. Bẫy thứ hai nằm ở bản báo cáo gửi lãnh đạo và cơ quan quản lý: còn dữ liệu cá nhân thô thì phải `redact` trước khi gửi. Đây là MÔ PHỎNG hữu hạn trên độ lệch tính bằng phút, dùng nhãn tổng hợp: không nhật ký thật, không đồng hồ hệ thống, không dữ liệu cá nhân thật.',
     workedExample: {
-      code: `# MO PHONG chuan hoa moc thoi gian ve UTC kem co bat dinh; so lieu tong hop.\nlech, nguong = 9, 3  # do lech dong ho cua nguon, tinh bang giay\nprint("unknown: moc bat dinh vuot nguong" if lech > nguong else "allow: moc chuan hoa ve utc")`,
+      code: `# MO PHONG chuan hoa UTC va co bat dinh; do lech tinh bang phut, khong dong ho he thong.\nlech, nguong = 2, 5\nprint("allow: chuan hoa utc, gan co bat dinh " + str(lech) + " phut" if lech <= nguong else "incomplete: do bat dinh vuot nguong")`,
       stdinLines: [],
     },
     predict: {
-      code: `noidung = "tho"\nprint("redact: bao cao con du lieu ca nhan tho" if noidung == "tho" else "allow: bao cao phat hanh duoc")`,
-      question: 'Bản báo cáo gửi lãnh đạo vẫn còn dữ liệu cá nhân chưa che. In gì?',
+      code: `canhan = "raw"\nprint("redact: bao cao con du lieu ca nhan tho" if canhan == "raw" else "allow: bao cao gui duoc")`,
+      question: 'Bản báo cáo sự cố vẫn còn dữ liệu cá nhân ở dạng thô. Cổng in gì?',
       choices: [
         'redact: bao cao con du lieu ca nhan tho',
-        'allow: bao cao phat hanh duoc',
-        'unknown: moc bat dinh vuot nguong',
-        'inadmissible: dut chuoi luu giu',
+        'allow: bao cao gui duoc',
+        'incomplete: do bat dinh vuot nguong',
+        'invalid: canhan',
       ],
       answerIndex: 0,
       explain:
-        'Quyết định không phải là chặn báo cáo mà là chỉ ra việc phải làm trước khi phát hành: che phần dữ liệu thô đi, vì kết luận và bằng chứng vẫn đứng vững khi không có nó.',
+        'Báo cáo không bị cấm gửi, nó chỉ chưa ở dạng gửi được: che dữ liệu cá nhân xong là gửi — nên quyết định đúng là `redact` chứ không phải từ chối.',
     },
     parsons: {
-      prompt: 'Xếp cổng dòng thời gian: quy về UTC trước, rồi mới quyết định gắn cờ bất định.',
+      prompt:
+        'Xếp cổng báo cáo sự cố: che dữ liệu cá nhân trước, rồi mới xét độ tin của dòng thời gian.',
       lines: [
-        'utc = gio - offset',
-        'if lech > nguong:',
-        '    print("unknown: moc bat dinh vuot nguong")',
+        'if canhan == "raw":',
+        '    print("redact: bao cao con du lieu ca nhan tho")',
+        'elif lech > nguong:',
+        '    print("incomplete: do bat dinh vuot nguong")',
+        'elif lech > 0:',
+        '    print("allow: chuan hoa utc, gan co bat dinh")',
         'else:',
-        '    print("allow: moc chuan hoa ve utc " + str(utc))',
+        '    print("allow: dong thoi gian chac chan")',
       ],
     },
     make: {
       prompt:
-        'MÔ PHỎNG cổng dòng thời gian và cổng phát hành báo cáo. Đọc `loai:<moc|baocao>,gio:<0-23>,offset:<-12..14>,lech:<số giây>,nguong:<số giây>,noidung:<tho|da-che>`. Thiếu/thừa trường → `invalid: field`; `loai` hoặc `noidung` lạ → `invalid: loai` / `invalid: noidung`; `gio` ngoài 0–23 hoặc sai kiểu → `invalid: gio`; `offset` sai kiểu hoặc ngoài -12..14 → `invalid: offset`; `lech`/`nguong` không phải số nguyên không âm → `invalid: lech` / `invalid: nguong`. Với `moc`: độ lệch vượt ngưỡng → `unknown: moc bat dinh vuot nguong`; còn lại → `allow: moc chuan hoa ve utc <giờ UTC>` với giờ UTC = `(gio - offset) % 24`. Với `baocao`: nội dung `tho` → `redact: bao cao con du lieu ca nhan tho`; `da-che` → `allow: bao cao phat hanh duoc`. Không dùng đồng hồ hệ thống, không in dữ liệu cá nhân.',
-      starterCode: '# MÔ PHỎNG dòng thời gian và báo cáo; không dùng đồng hồ hệ thống.\n',
+        'MÔ PHỎNG cổng dòng thời gian đa nguồn và báo cáo sự cố. Đọc `nguon:<số nguồn>,lech:<số phút>,nguong:<số phút>,canhan:<raw|masked>` — `lech` là độ lệch đồng hồ lớn nhất giữa các nguồn sau khi đã chuẩn hoá về UTC. Thiếu/thừa trường → `invalid: field`; ba con số không phải số nguyên không âm → `invalid: so`; canhan lạ → `invalid: canhan`; nguon nhỏ hơn 2 → `unknown: chua du nguon de dung dong thoi gian`. Thứ tự ưu tiên tất định: canhan là `raw` → `redact: bao cao con du lieu ca nhan tho`; lech lớn hơn nguong → `incomplete: do bat dinh vuot nguong, khong ket luan nhan qua`; lech lớn hơn 0 → `allow: chuan hoa utc, gan co bat dinh <lech> phut`; còn lại → `allow: dong thoi gian chac chan`. Không nhật ký thật, không đồng hồ hệ thống, không mạng, không file.',
+      starterCode: '# MÔ PHỎNG dòng thời gian; mốc đã chuẩn hoá UTC, chỉ tính trên dòng nhập.\n',
       testCases: [
         {
-          stdinLines: ['loai:moc,gio:9,offset:7,lech:1,nguong:3,noidung:da-che'],
-          expected: 'allow: moc chuan hoa ve utc 2',
+          stdinLines: ['nguon:3,lech:2,nguong:5,canhan:masked'],
+          expected: 'allow: chuan hoa utc, gan co bat dinh 2 phut',
           match: 'contains',
           hidden: false,
-          label: '9 giờ ở múi +7 quy về 2 giờ UTC',
+          label: 'lệch trong ngưỡng thì dùng được nhưng phải gắn cờ bất định',
         },
         {
-          stdinLines: ['loai:moc,gio:3,offset:7,lech:1,nguong:3,noidung:da-che'],
-          expected: 'allow: moc chuan hoa ve utc 20',
+          stdinLines: ['nguon:3,lech:0,nguong:5,canhan:masked'],
+          expected: 'allow: dong thoi gian chac chan',
           match: 'contains',
           hidden: true,
-          label: 'quy đổi lùi qua nửa đêm phải vòng về 20 giờ hôm trước',
+          label: 'không lệch thì không cần cờ bất định',
         },
         {
-          stdinLines: ['loai:moc,gio:9,offset:7,lech:9,nguong:3,noidung:da-che'],
-          expected: 'unknown: moc bat dinh vuot nguong',
+          stdinLines: ['nguon:3,lech:9,nguong:5,canhan:masked'],
+          expected: 'incomplete: do bat dinh vuot nguong, khong ket luan nhan qua',
           match: 'contains',
           hidden: true,
-          label: 'lệch đồng hồ vượt ngưỡng thì gắn cờ, không âm thầm sắp xếp',
+          label: 'lệch vượt ngưỡng thì cấm im lặng sắp xếp rồi kết luận',
         },
         {
-          stdinLines: ['loai:baocao,gio:9,offset:7,lech:1,nguong:3,noidung:tho'],
+          stdinLines: ['nguon:3,lech:2,nguong:5,canhan:raw'],
           expected: 'redact: bao cao con du lieu ca nhan tho',
           match: 'contains',
           hidden: true,
-          label: 'báo cáo còn dữ liệu thô phải che trước khi phát hành',
+          label: 'báo cáo còn dữ liệu cá nhân thô thì phải che trước khi gửi',
         },
         {
-          stdinLines: ['loai:baocao,gio:9,offset:7,lech:1,nguong:3,noidung:da-che'],
-          expected: 'allow: bao cao phat hanh duoc',
+          stdinLines: ['nguon:3,lech:hai,nguong:5,canhan:masked'],
+          expected: 'invalid: so',
           match: 'contains',
           hidden: true,
-          label: 'đã che thì phát hành được',
-        },
-        {
-          stdinLines: ['loai:moc,gio:25,offset:7,lech:1,nguong:3,noidung:da-che'],
-          expected: 'invalid: gio',
-          match: 'contains',
-          hidden: true,
-          label: 'ca âm — giờ ngoài 0–23 fail closed',
+          label: 'ca âm — độ lệch sai kiểu thì fail closed',
         },
       ],
       hints: [
-        'Kiểm kiểu và miền giá trị của cả bốn số TRƯỚC khi rẽ theo loai.',
-        'offset có thể âm nên đừng dùng isdigit() trực tiếp — cắt dấu trừ ra rồi mới kiểm.',
-        'Phép `% 24` của Python luôn cho kết quả không âm, nên quy đổi lùi qua nửa đêm tự vòng đúng.',
+        'Kiểm kiểu cả ba con số trong một biểu thức `any(...)` cho gọn và tất định.',
+        'Nhánh in độ lệch phải đọc lại giá trị nhập, đừng ghi cứng con số.',
+        'Không dùng subprocess, socket, file hay thời gian thực.',
       ],
-      sampleSolution: `def nguyen(x):
-    return int(x) if x.lstrip("-").isdigit() else None
+      sampleSolution: `def so(x):
+    return int(x) if x.isdigit() else None
 
 
 try:
     m = dict(p.split(":", 1) for p in input().strip().split(","))
-    if set(m) != {"loai", "gio", "offset", "lech", "nguong", "noidung"}:
+    if set(m) != {"nguon", "lech", "nguong", "canhan"}:
         print("invalid: field")
-    elif m["loai"] not in {"moc", "baocao"}:
-        print("invalid: loai")
-    elif m["noidung"] not in {"tho", "da-che"}:
-        print("invalid: noidung")
-    elif nguyen(m["gio"]) is None or not 0 <= nguyen(m["gio"]) <= 23:
-        print("invalid: gio")
-    elif nguyen(m["offset"]) is None or not -12 <= nguyen(m["offset"]) <= 14:
-        print("invalid: offset")
-    elif not m["lech"].isdigit():
-        print("invalid: lech")
-    elif not m["nguong"].isdigit():
-        print("invalid: nguong")
-    elif m["loai"] == "moc":
-        if int(m["lech"]) > int(m["nguong"]):
-            print("unknown: moc bat dinh vuot nguong")
-        else:
-            print("allow: moc chuan hoa ve utc " + str((nguyen(m["gio"]) - nguyen(m["offset"])) % 24))
-    elif m["noidung"] == "tho":
+    elif any(so(m[k]) is None for k in ("nguon", "lech", "nguong")):
+        print("invalid: so")
+    elif m["canhan"] not in {"raw", "masked"}:
+        print("invalid: canhan")
+    elif so(m["nguon"]) < 2:
+        print("unknown: chua du nguon de dung dong thoi gian")
+    elif m["canhan"] == "raw":
         print("redact: bao cao con du lieu ca nhan tho")
+    elif so(m["lech"]) > so(m["nguong"]):
+        print("incomplete: do bat dinh vuot nguong, khong ket luan nhan qua")
+    elif so(m["lech"]) > 0:
+        print("allow: chuan hoa utc, gan co bat dinh " + m["lech"] + " phut")
     else:
-        print("allow: bao cao phat hanh duoc")
+        print("allow: dong thoi gian chac chan")
 except (EOFError, ValueError, KeyError):
     print("invalid: input")`,
     },
     homework:
-      'Ngoài sandbox, lấy ba nguồn nhật ký khác nhau của hệ bạn và ghi lại: mỗi nguồn ghi thời gian theo múi nào, đồng hồ của nó được đồng bộ bằng gì, và lệch bao nhiêu là bình thường — con số đó chính là ngưỡng bất định bạn phải gắn cờ khi dựng dòng thời gian.',
+      'Ngoài sandbox, lấy hai nguồn nhật ký khác nhau của cùng một hệ và kiểm xem chúng ghi thời gian theo múi giờ nào, lệch nhau bao nhiêu. Viết ra một câu quy ước cho đội: mọi nhật ký ghi theo UTC, và mọi dòng thời gian sự cố phải nói rõ độ bất định còn lại là bao nhiêu.',
     srsCards: [
       {
-        hoi: 'Khi độ lệch đồng hồ của một nguồn vượt ngưỡng, vì sao không được cứ sắp xếp theo mốc đã có?',
-        dap: 'Vì thứ tự xếp ra lúc đó là phỏng đoán nhưng lại được đọc như sự kiện; gắn cờ bất định giữ nguyên thông tin mà không biến phỏng đoán thành kết luận.',
+        hoi: 'Vì sao im lặng sắp xếp dòng thời gian lại nguy hiểm hơn là nói "không biết thứ tự"?',
+        dap: 'Vì bảng đã sắp xếp trông như sự thật và người đọc sẽ rút nhân quả từ nó; nói rõ độ bất định giữ cho kết luận dừng đúng chỗ dữ liệu dừng.',
       },
       {
-        hoi: 'Vì sao báo cáo sự cố nên che dữ liệu cá nhân thô thay vì gửi kèm cho đầy đủ?',
-        dap: 'Vì kết luận và bằng chứng vẫn đứng vững khi không có nó, còn bản báo cáo thì đi qua nhiều tay — gửi kèm là tự mở thêm một lần rò dữ liệu nữa.',
+        hoi: 'Vì sao báo cáo còn dữ liệu cá nhân thô ra `redact` chứ không ra `deny`?',
+        dap: 'Vì bản thân việc báo cáo là bắt buộc và đúng; chỉ có dạng trình bày là chưa đạt, che xong là gửi được ngay.',
       },
     ],
   },

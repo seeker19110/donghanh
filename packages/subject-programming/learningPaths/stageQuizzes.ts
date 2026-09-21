@@ -697,6 +697,79 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
         'Làm tròn hay thay thế vẫn phát ra tín hiệu về nhóm nhỏ, và người đọc chỉ cần ghép thêm một nguồn nữa là suy ngược ra cá nhân; nén là cách duy nhất không để lại tín hiệu nào.',
     },
   ],
+  // `security-s4` — thêm 2026-09-21 cùng đợt soạn bài học chặng này (đặc tả
+  // `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`). Năm câu bám bốn module:
+  // kiến trúc an toàn (m1), phát hiện và ứng cứu (m2), điều tra số (m3), quản trị tuân thủ (m4).
+  // Chặng PHÒNG THỦ: câu hỏi chỉ về phân loại, quyết định và quy trình.
+  'security-s4': [
+    {
+      id: 'security-s4-q1',
+      prompt: 'Theo zero trust, vì sao "yêu cầu đến từ mạng nội bộ" không đủ để cho qua?',
+      choices: [
+        'Vì mạng nội bộ thường chậm hơn mạng ngoài',
+        'Vì vị trí mạng chỉ nói yêu cầu đi từ đâu, không nói ai đang hỏi và từ thiết bị nào',
+        'Vì mạng nội bộ không ghi được nhật ký truy cập',
+        'Vì địa chỉ nội bộ có thể trùng nhau giữa các vùng',
+      ],
+      answerIndex: 1,
+      explain:
+        'Một máy trong mạng nội bộ bị chiếm là đủ để biến cả vùng đó thành đường vào miễn kiểm tra; tin cậy phải dựa trên danh tính đã xác thực cộng trạng thái thiết bị, bất kể yêu cầu xuất phát từ đâu.',
+    },
+    {
+      id: 'security-s4-q2',
+      prompt: 'Vì sao khoá dùng chung giữa môi trường thử nghiệm và môi trường thật bị từ chối?',
+      choices: [
+        'Vì khoá dùng chung làm chậm quá trình xác thực',
+        'Vì mức bảo vệ của cả hệ tụt xuống bằng mức của môi trường được bảo vệ lỏng nhất',
+        'Vì mỗi môi trường cần thuật toán mã hoá khác nhau',
+        'Vì khoá dùng chung không xoay vòng được',
+      ],
+      answerIndex: 1,
+      explain:
+        'Môi trường thử nghiệm luôn lỏng hơn; dùng chung khoá nghĩa là một lần lộ ở đó là lộ luôn ở môi trường thật, bất kể khoá còn mới đến đâu.',
+    },
+    {
+      id: 'security-s4-q3',
+      prompt:
+        'Một luật phát hiện chạy trên nhật ký fixture mà không trúng ca dương tính nào. Kết luận đúng là gì?',
+      choices: [
+        'Luật an toàn, cứ bật vì nó không gây hại',
+        'Luật là nhiễu, không được bật: nó chỉ tiêu tốn sự chú ý của người trực',
+        'Luật đúng nhưng fixture sai, cứ bật rồi chỉnh sau',
+        'Luật cần được nhân đôi ngưỡng rồi bật lại',
+      ],
+      answerIndex: 1,
+      explain:
+        'Luật không sinh tín hiệu nhưng vẫn sinh báo động sẽ dần dạy cả đội bỏ qua thông báo — đó là tác hại thật, không phải trạng thái trung tính.',
+    },
+    {
+      id: 'security-s4-q4',
+      prompt: 'Vì sao không được diệt trừ nguyên nhân sự cố trước khi thu thập chứng cứ?',
+      choices: [
+        'Vì diệt trừ trước làm mất chứng cứ, và cuộc điều tra sau đó không còn gì để dựa vào',
+        'Vì quy định bắt buộc phải chờ 24 giờ trước khi xử lý',
+        'Vì thu thập chứng cứ nhanh hơn diệt trừ',
+        'Vì chứng cứ chỉ dùng được khi hệ thống còn đang bị ảnh hưởng',
+      ],
+      answerIndex: 0,
+      explain:
+        'Chứng cứ bị xoá cùng lúc với nguyên nhân là mất vĩnh viễn; ngăn chặn giữ phạm vi đứng yên, thu chứng cứ xong mới tới diệt trừ, rồi mới phục hồi.',
+    },
+    {
+      id: 'security-s4-q5',
+      prompt:
+        'Một kiểm soát tuân thủ được khai là "đạt" nhưng không kèm bằng chứng nào. Ghi nhận thế nào?',
+      choices: [
+        'Ghi là đạt, vì người phụ trách đã khai',
+        'Ghi là chưa đạt và mở việc đi làm lại kiểm soát đó',
+        'Ghi là chưa báo cáo được, và mở việc đi thu bằng chứng',
+        'Bỏ kiểm soát đó khỏi bảng cho gọn',
+      ],
+      answerIndex: 2,
+      explain:
+        '"Chưa đạt" và "không có bằng chứng" dẫn tới hai việc khác nhau — một bên đi làm kiểm soát, một bên đi thu bằng chứng; quy khai báo suông thành đạt thì tới lúc cần chẳng có gì dùng được.',
+    },
+  ],
   'backend-s1': [
     {
       id: 'backend-s1-q1',
@@ -1600,79 +1673,6 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
       answerIndex: 1,
       explain:
         'Cùng một ý có vô hạn cách diễn đạt nên bộ lọc luôn thua về số lượng; thứ sửa được là VAI TRÒ của nội dung trong hệ thống, không phải hình dạng câu chữ.',
-    },
-  ],
-  // `security-s4` — thêm cùng đợt soạn bài học chặng này (đặc tả
-  // `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`). Chặng PHÒNG THỦ: năm câu đều
-  // hỏi về quyết định và quy trình, không có câu nào về kỹ thuật tấn công.
-  'security-s4': [
-    {
-      id: 'security-s4-q1',
-      prompt: 'Theo nguyên lý zero trust, vì sao "yêu cầu đến từ mạng nội bộ" không đủ để tin?',
-      choices: [
-        'Vì mạng nội bộ thường chậm hơn mạng ngoài',
-        'Vì vị trí mạng chỉ nói yêu cầu đi từ đâu, không nói ai gửi — máy nội bộ bị chiếm mang đúng vị trí đó',
-        'Vì mạng nội bộ không mã hoá được lưu lượng',
-        'Vì phân đoạn mạng đã thay thế hoàn toàn việc xác thực',
-      ],
-      answerIndex: 1,
-      explain:
-        'Phân đoạn vẫn có ích nhưng nó GIỚI HẠN thiệt hại chứ không XÁC THỰC ai cả; lấy nó làm lý lẽ tin cậy là đổi vai của nó.',
-    },
-    {
-      id: 'security-s4-q2',
-      prompt:
-        'Một luật phát hiện không bắt được ca dương tính thật nào trong fixture thì nên làm gì?',
-      choices: [
-        'Bật lên vì có còn hơn không',
-        'Không bật: nó chưa chứng minh được gì và chỉ sinh thêm báo động nhầm',
-        'Bật nhưng hạ mức ưu tiên xuống thấp nhất',
-        'Bật và đợi tới khi có sự cố thật để đánh giá',
-      ],
-      answerIndex: 1,
-      explain:
-        'Con người có ngân sách chú ý hữu hạn; một luật chỉ tạo ra tiếng ồn sẽ tiêu ngân sách đó và dạy cả đội thói quen tắt chuông.',
-    },
-    {
-      id: 'security-s4-q3',
-      prompt: 'Vì sao thu thập chứng cứ phải xảy ra TRƯỚC bước diệt trừ trong ứng cứu sự cố?',
-      choices: [
-        'Vì diệt trừ mất nhiều thời gian hơn thu thập chứng cứ',
-        'Vì diệt trừ chính là hành động xoá dấu vết, làm trước thì mất cơ sở trả lời "họ vào bằng đường nào"',
-        'Vì quy định bắt buộc phải làm theo thứ tự bảng chữ cái',
-        'Vì chứng cứ chỉ tồn tại sau khi hệ đã sạch',
-      ],
-      answerIndex: 1,
-      explain:
-        'Xoá xong thì sáng hôm sau không ai còn trả lời được đường vào và những chỗ khác còn đang bị chiếm — sự cố sẽ quay lại bằng đúng con đường cũ.',
-    },
-    {
-      id: 'security-s4-q4',
-      prompt:
-        'Các mốc nhật ký đến từ nhiều nguồn có đồng hồ lệch nhau quá ngưỡng. Cách dựng dòng thời gian đúng là gì?',
-      choices: [
-        'Sắp xếp theo mốc đã có và không ghi chú gì thêm',
-        'Bỏ hẳn các nguồn lệch đồng hồ ra khỏi dòng thời gian',
-        'Quy về UTC rồi GẮN CỜ độ bất định cho những mốc vượt ngưỡng lệch',
-        'Lấy trung bình các mốc để có một con số duy nhất',
-      ],
-      answerIndex: 2,
-      explain:
-        'Thứ tự do máy xếp ra khi đồng hồ lệch là phỏng đoán, nhưng người đọc lại tiếp nhận nó như sự kiện; gắn cờ giữ nguyên thông tin mà không biến phỏng đoán thành kết luận.',
-    },
-    {
-      id: 'security-s4-q5',
-      prompt:
-        'Một kiểm soát được khai là "đạt" nhưng không đính kèm bằng chứng nào. Trạng thái đúng của nó là gì?',
-      choices: [
-        'pass — vì đội chủ quản đã xác nhận',
-        'not-reported — chưa báo cáo, tuyệt đối không được quy thành đạt',
-        'violated — vì thiếu bằng chứng là vi phạm',
-        'không cần trạng thái, ghi chú lại là đủ',
-      ],
-      answerIndex: 1,
-      explain:
-        'Quy nó thành đạt là dựng một bức tranh an toàn không có thật, và chính bức tranh đó sẽ được dùng để ra quyết định tiếp theo; "không đạt" cũng sai vì đó là một kết luận khác hẳn.',
     },
   ],
   'architecture-s1': [
