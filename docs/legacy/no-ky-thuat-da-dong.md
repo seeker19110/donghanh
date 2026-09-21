@@ -662,6 +662,24 @@ purple/orange/amber/sky-300` thiếu biến thể `theme-light:text-*-800` nên 
      Xác nhận: `npx playwright test e2e/a11y.spec.ts e2e/bottomnav.spec.ts e2e/comeback.spec.ts`
      134/134 pass cục bộ; build/typecheck/lint/format/`npm test` (5019/5019) đều xanh.
 
+- 🟢 **[ĐÃ TRẢ 2026-09-15, PR S10-1 — `docs/changelog/0332-*.md`] 6 lỗi lifecycle voice/AI
+  (khảo sát S10, spec `docs/specs/2026-09-15-learning-ux-s10-tro-giang-trong-bai-voice.md`
+  §2.1 + §④ Phần 1 AC-1…AC-6).** Sáu lỗi "rời trang rồi mà thứ cũ vẫn chạy": (L1) rời trang
+  Companion giữa lúc AI đang nói bằng giọng → AI cất tiếng ở trang kế; (L2) stream SSE không
+  huỷ được, callback vẫn bắn sau khi rời trang; (L3) StrictMode gọi `fetchProactiveAgentState`
+  hai lượt, lượt cũ setState sau unmount; (L4) `tts.ts` chốt `playToken` **sau** await nên
+  `stopSpeaking()` gọi lúc đang tải không ngăn được audio nổ ở trang kế; (L5) `MediaRecorder`
+  constructor ném lỗi → mic không bao giờ được nhả; (L6) `AiHelpPanel` rò state/response trễ
+  giữa hai bài học (component không remount khi đổi `lessonId`). Sửa: `Companion.tsx` cleanup
+  đặt cờ huỷ + abort; `companionApi.ts`/`proactiveAgentApi.ts` nhận `AbortSignal`; `tts.ts` chốt
+  vé trước await; `sttServer.ts` bọc try/catch quanh constructor, release track trước khi ném
+  lại; `AiHelpPanel.tsx` + `key={lesson.id}` ở `ProgrammingLessonPage.tsx`. 8 ca test đỏ-trước/
+  xanh-sau (bảng đầy đủ ở changelog `0332`), không đổi giao diện/API công khai/schema. Xác nhận
+  lại 2026-09-21 (khảo sát nợ kỹ thuật định kỳ): 5 file test liên quan / 98 ca vẫn xanh trên
+  `main`, không regression — `npx vitest run apps/dhcb/src/pages/companion
+apps/dhcb/src/lib/companionApi.test.ts apps/dhcb/src/lib/tts.test.ts
+apps/dhcb/src/lib/sttServer.test.ts apps/dhcb/src/components/programming/AiHelpPanel.test.tsx`.
+
 - 🟢 **[ĐÃ TRẢ 2026-08-24 — xem mục "Giai đoạn hiện tại"]** Nâng lại plugin lên `7.1.1` + sửa
   đúng bản chất 95 lỗi (danh sách 73 lỗi cũ đã phình theo code mới), 0 eslint-disable mới.
   Ghi chú gốc giữ lại bên dưới để tra cứu:
