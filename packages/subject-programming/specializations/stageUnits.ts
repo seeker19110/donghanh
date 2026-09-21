@@ -100,6 +100,12 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // DevOps S4 — bốn unit bám đúng bốn module của chặng (nền tảng cho lập trình viên · chuỗi cung
   // ứng · quy mô và chi phí · văn hoá vận hành); phục vụ mô hình là lab cụ thể, không phải chặng riêng.
   'devops-s4': ['p6-u198', 'p6-u199', 'p6-u200', 'p6-u201'],
+  // Hướng Nhúng, chặng S1 và S2 — soạn 2026-09-21. Mỗi unit bám đúng MỘT module vì bốn cơ chế
+  // của mỗi chặng tách bạch hoàn toàn (GPIO · ngoại vi · ngắt · chẩn đoán; RTOS · kết nối ·
+  // cập nhật từ xa · năng lượng). Đặc tả:
+  // `docs/specs/2026-09-21-embedded-s1-s4-bai-hoc-that.md`.
+  'embedded-s1': ['p6-u258', 'p6-u259', 'p6-u260', 'p6-u261'],
+  'embedded-s2': ['p6-u262', 'p6-u263', 'p6-u264', 'p6-u265'],
   'mathforcode-s3': ['p6-u158', 'p6-u159'],
   'mathforcode-s4': ['p6-u160', 'p6-u161'],
   'ai-s2': ['p6-u166', 'p6-u167', 'p6-u168', 'p6-u169'],
