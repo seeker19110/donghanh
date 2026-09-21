@@ -136,6 +136,11 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // Đặc tả: `docs/specs/2026-09-21-desktop-s1-s4-bai-hoc-that.md`.
   'desktop-s1': ['p6-u274', 'p6-u275', 'p6-u276', 'p6-u277'],
   'desktop-s2': ['p6-u278', 'p6-u279', 'p6-u280', 'p6-u281'],
+  // Desktop S3 và S4 — soạn 2026-09-21, PR thứ hai của cùng đặc tả. Vẫn một unit một module:
+  // S3 là bốn bài toán hiệu năng/mở rộng rời nhau, S4 là bốn mặt của việc bán và nuôi một sản
+  // phẩm desktop có người trả tiền.
+  'desktop-s3': ['p6-u282', 'p6-u283', 'p6-u284', 'p6-u285'],
+  'desktop-s4': ['p6-u286', 'p6-u287', 'p6-u288', 'p6-u289'],
 }
 
 /** Unit của một chặng; mảng RỖNG nghĩa là chặng chưa có bài (giao diện phải nói rõ điều đó). */

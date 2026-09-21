@@ -450,12 +450,12 @@ không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelo
   S1–S4 × 14 hướng, đủ hết, không placeholder) với `SPEC_STAGE_UNITS` trong
   `specializations/stageUnits.ts` (bảng map chặng → unit bài học thật trong `lessons/`):
   - **3 hướng CHƯA có bài học nào dù đã có đặc tả đủ 4 chặng: game, embedded, desktop** (S1–S4
-    đều 0 unit). **Cập nhật 2026-09-21: `embedded` ĐÃ TRẢ XONG CẢ BỐN CHẶNG, `desktop` trả
-    được một nửa — `embedded-s1` = `p6-u258…u261` và `s2` = `p6-u262…u265`
-    (`docs/changelog/0397-*.md`), `s3` = `p6-u266…u269` và `s4` = `p6-u270…u273`
-    (`docs/changelog/0401-*.md`); tổng 32 bài, bốn cổng `embeddedS1…S4Lessons.test.ts`.
-    `desktop-s1` = `p6-u274…u277` và `desktop-s2` = `p6-u278…u281` (`docs/changelog/0399-*.md`,
-    còn `desktop-s3`/`s4` ở PR kế tiếp). CHỈ CÒN `game` là rỗng hoàn toàn.** Học viên
+    đều 0 unit). **Cập nhật 2026-09-21: `embedded` VÀ `desktop` ĐỀU ĐÃ TRẢ XONG CẢ BỐN CHẶNG —
+    `embedded-s1` = `p6-u258…u261` và `s2` = `p6-u262…u265` (`docs/changelog/0397-*.md`), `s3` =
+    `p6-u266…u269` và `s4` = `p6-u270…u273` (`docs/changelog/0402-*.md`), tổng 32 bài với bốn
+    cổng `embeddedS1…S4Lessons.test.ts`; `desktop-s1` = `p6-u274…u277` và `s2` = `p6-u278…u281`
+    (`docs/changelog/0399-*.md`), `s3` = `p6-u282…u285` và `s4` = `p6-u286…u289`
+    (`docs/changelog/0401-*.md`). **CHỈ CÒN `game` rỗng hoàn toàn.** Học viên
     chọn hướng còn rỗng sẽ gặp mảng rỗng — không có cờ trạng thái
     (`status/draft/comingSoon`) nào trong code để giao diện báo trước, chỉ suy ra được gián tiếp
     qua mảng rỗng.
