@@ -444,49 +444,49 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
       // paradigm), nên nội dung hướng bắt đầu từ u16 để hai dòng việc không tranh mã unit.
       {
         id: 'p6-u16',
-        title: 'Hướng Web S1 — trình duyệt làm gì & bố cục hiện đại',
+        title: 'Web S1 — trình duyệt làm gì & bố cục hiện đại',
         topics: 'Event loop, long task; Grid vs Flex, mobile-first, design token',
       },
       {
         id: 'p6-u17',
-        title: 'Hướng Web S1 — UI là hàm của state, TypeScript cho giao diện',
+        title: 'Web S1 — UI là hàm của state, TypeScript cho giao diện',
         topics: 'State là nguồn sự thật; union phân biệt 4 trạng thái; không tin `as`',
       },
       {
         id: 'p6-u18',
-        title: 'Hướng Web S1 — accessibility nhập môn',
+        title: 'Web S1 — accessibility nhập môn',
         topics: 'Bàn phím đi hết luồng, focus thấy được; 4 trạng thái màn hình, aria-live',
       },
       {
         id: 'p6-u19',
-        title: 'Hướng Kiến trúc S1 — module có ranh giới & luật phụ thuộc',
+        title: 'Kiến trúc S1 — module có ranh giới & luật phụ thuộc',
         topics: 'Trách nhiệm duy nhất đo được; phụ thuộc một chiều, đảo phụ thuộc, vòng',
       },
       {
         id: 'p6-u20',
-        title: 'Hướng Kiến trúc S1 — vẽ bản đồ & đọc hệ thống người khác',
+        title: 'Kiến trúc S1 — vẽ bản đồ & đọc hệ thống người khác',
         topics: 'C4 bốn tầng, bản đồ kiểm được bằng máy; điểm nóng fan-in, dò vòng bóc lá',
       },
       {
         id: 'p6-u21',
-        title: 'Hướng Kiến trúc S1 — đặc tả kín & sổ quyết định ADR',
+        title: 'Kiến trúc S1 — đặc tả kín & sổ quyết định ADR',
         topics: 'Sáu ô bắt buộc, tiêu chí đo được; ADR có phương án bị loại, điều kiện xem lại',
       },
       // Từ u22 trở đi là chặng S4 (bậc chuyên gia) của các hướng — đặc tả:
       // `docs/specs/2026-08-27-chang-s4-13-huong.md` (dải u22…u60, 3 unit mỗi hướng).
       {
         id: 'p6-u22',
-        title: 'Hướng Web S4 — thời gian thực: thứ tự, gửi lại, presence',
+        title: 'Web S4 — thời gian thực: thứ tự, gửi lại, presence',
         topics: 'Hoà giải gói tin theo seq, lũy đẳng khi gửi lại; presence bằng dấu vết sống',
       },
       {
         id: 'p6-u23',
-        title: 'Hướng Web S4 — offline: chọn chiến lược cache, đồng bộ khi có mạng lại',
+        title: 'Web S4 — offline: chọn chiến lược cache, đồng bộ khi có mạng lại',
         topics: 'Cache-first/network-first/SWR theo rủi ro; hàng đợi ghi, LWW tất định',
       },
       {
         id: 'p6-u24',
-        title: 'Hướng Web S4 — vận hành: đọc p95, cảnh báo theo triệu chứng người dùng',
+        title: 'Web S4 — vận hành: đọc p95, cảnh báo theo triệu chứng người dùng',
         topics: 'Log/metric/trace; phân vị nearest-rank; SLO, ngân sách lỗi, tốc độ tiêu',
       },
       // Từ u61 trở đi là chặng S1 của 11 hướng CÒN LẠI (web và architecture đã có ở u16…u21).
@@ -494,17 +494,17 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
       // `docs/specs/2026-08-27-dai-ma-unit-s1-cac-huong-con-lai.md`.
       {
         id: 'p6-u61',
-        title: 'Hướng Backend S1 — HTTP đúng nghĩa: mã trạng thái & phân trang',
+        title: 'Backend S1 — HTTP đúng nghĩa: mã trạng thái & phân trang',
         topics: 'Chọn mã theo ai-phải-sửa; 401≠403, 409/422; con trỏ thay offset',
       },
       {
         id: 'p6-u62',
-        title: 'Hướng Backend S1 — đúng đắn dữ liệu: kiểm ở biên & lũy đẳng',
+        title: 'Backend S1 — đúng đắn dữ liệu: kiểm ở biên & lũy đẳng',
         topics: 'Kiểu tĩnh không cứu lúc chạy; bỏ trường lạ; khoá lũy đẳng, tiền số nguyên',
       },
       {
         id: 'p6-u63',
-        title: 'Hướng Backend S1 — vận hành: ba nhóm lỗi, log lần ra được, tắt êm',
+        title: 'Backend S1 — vận hành: ba nhóm lỗi, log lần ra được, tắt êm',
         topics: 'Ai bị đánh thức; log có cấu trúc + mã yêu cầu, che dữ liệu nhạy cảm; tắt êm',
       },
       // p6-u64/u65 khép nốt chặng S1 của hướng AI: p6-u1 (đã có từ trước, module gọi mô hình
@@ -512,12 +512,12 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
       // và "An toàn và chi phí". Đăng ký cầu nối ở `specializations/stageUnits.ts`.
       {
         id: 'p6-u64',
-        title: 'Hướng AI S1 — đánh giá tự động: bộ vàng, recall@k, chặn hồi quy trong CI',
+        title: 'AI S1 — đánh giá tự động: bộ vàng, recall@k, chặn hồi quy trong CI',
         topics: 'Bộ dữ liệu vàng, recall@k của khâu truy hồi; cổng so baseline, DAT/HONG',
       },
       {
         id: 'p6-u65',
-        title: 'Hướng AI S1 — an toàn & chi phí: định tuyến model, tiêm lệnh',
+        title: 'AI S1 — an toàn & chi phí: định tuyến model, tiêm lệnh',
         topics: 'Chọn model theo độ khó, đếm lượt theo gói; nhận diện tiêm lệnh (prompt injection)',
       },
       // u94…u101 là 4 CHẶNG RIÊNG CỦA LỘ TRÌNH "Kỹ Sư Trưởng AI" (principal-s1…s4, giai đoạn
@@ -571,119 +571,119 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
       // hoạch cũ đã ghi trong dac-ta-dai-ma-unit-s1-cac-huong-con-lai.md.
       {
         id: 'p6-u102',
-        title: 'Hướng Backend S2 — CSDL quan hệ chuyên sâu: lost update & composite index',
+        title: 'Backend S2 — CSDL quan hệ chuyên sâu: lost update & composite index',
         topics: 'Khoá lạc quan (version) chống lost update; quy tắc tiền tố của composite index',
       },
       {
         id: 'p6-u103',
-        title: 'Hướng Backend S2 — cache: cache-aside, TTL, cache stampede',
+        title: 'Backend S2 — cache: cache-aside, TTL, cache stampede',
         topics: 'Đọc/ghi cache-aside, làm mất hiệu lực đúng lúc; chặn stampede bằng khoá/jitter',
       },
       {
         id: 'p6-u104',
-        title: 'Hướng Backend S2 — hàng đợi idempotent & race condition',
+        title: 'Backend S2 — hàng đợi idempotent & race condition',
         topics: 'At-least-once buộc idempotent, dead letter queue; race condition tái hiện được',
       },
       // p6-u105…u107: chặng S3 "Hệ phân tán" của hướng Backend (backend-s3,
       // specializations/backend.ts, 4 module).
       {
         id: 'p6-u105',
-        title: 'Hướng Backend S3 — nền tảng: sharding & gọi mạng khác gọi hàm',
+        title: 'Backend S3 — nền tảng: sharding & gọi mạng khác gọi hàm',
         topics: 'Sharding modulo xáo trộn khi thêm máy; timeout là KHÔNG BIẾT, không phải lỗi',
       },
       {
         id: 'p6-u106',
-        title: 'Hướng Backend S3 — giao tiếp giữa dịch vụ: outbox & saga',
+        title: 'Backend S3 — giao tiếp giữa dịch vụ: outbox & saga',
         topics: 'Outbox pattern chống mất sự kiện; saga bù trừ cho giao dịch nhiều dịch vụ',
       },
       {
         id: 'p6-u107',
-        title: 'Hướng Backend S3 — chịu lỗi & quan sát: circuit breaker, error budget',
+        title: 'Backend S3 — chịu lỗi & quan sát: circuit breaker, error budget',
         topics: 'Circuit breaker 3 trạng thái chặn dồn tải; SLO và ngân sách lỗi còn lại',
       },
       // p6-u108…u110: chặng S4 "Chuyên gia — quy mô lớn và trách nhiệm vận hành" của hướng
       // Backend (backend-s4, specializations/backend.ts, 4 module).
       {
         id: 'p6-u108',
-        title: 'Hướng Backend S4 — thiết kế quy mô: ước lượng dung lượng, độ trễ đa vùng',
+        title: 'Backend S4 — thiết kế quy mô: ước lượng dung lượng, độ trễ đa vùng',
         topics: 'QPS trung bình/đỉnh, dung lượng lưu trữ; RTT theo tốc độ ánh sáng trong sợi quang',
       },
       {
         id: 'p6-u109',
-        title: 'Hướng Backend S4 — lưu trữ chuyên biệt: chọn kho dữ liệu, LSM vs B-tree',
+        title: 'Backend S4 — lưu trữ chuyên biệt: chọn kho dữ liệu, LSM vs B-tree',
         topics: 'Chọn loại kho theo mẫu truy vấn; đánh đổi ghi nhanh (LSM) vs đọc nhanh (B-tree)',
       },
       {
         id: 'p6-u110',
-        title: 'Hướng Backend S4 — bảo mật & vận hành: đặc quyền tối thiểu, phân loại sự cố',
+        title: 'Backend S4 — bảo mật & vận hành: đặc quyền tối thiểu, phân loại sự cố',
         topics: 'Phân quyền deny-by-default; phân loại mức độ sự cố + quy trình leo thang',
       },
       // p6-u111…u113: chặng S2 "Full-stack — có backend của mình" của hướng Web
       // (web-s2, specializations/web.ts, 5 module).
       {
         id: 'p6-u111',
-        title: 'Hướng Web S2 — API HTTP tử tế: mã trạng thái, phân trang, idempotency',
+        title: 'Web S2 — API HTTP tử tế: mã trạng thái, phân trang, idempotency',
         topics: 'Chọn đúng mã trạng thái theo hành động/kết quả; phân trang; Idempotency-Key',
       },
       {
         id: 'p6-u112',
-        title: 'Hướng Web S2 — CSDL & xác thực: toàn vẹn tham chiếu, session vs JWT',
+        title: 'Web S2 — CSDL & xác thực: toàn vẹn tham chiếu, session vs JWT',
         topics: 'Kiểm khoá ngoại trước khi ghi; so khớp mật khẩu đã băm; chọn session hay JWT',
       },
       {
         id: 'p6-u113',
-        title: 'Hướng Web S2 — tải dữ liệu & deploy: race condition, biến môi trường',
+        title: 'Web S2 — tải dữ liệu & deploy: race condition, biến môi trường',
         topics: 'Huỷ phản hồi cũ khi gõ tìm kiếm; kiểm biến môi trường & thứ tự migration',
       },
       // p6-u114…u116: chặng S3 "Nâng cao — hiệu năng, kiến trúc, chất lượng" của hướng Web
       // (web-s3, specializations/web.ts, 5 module).
       {
         id: 'p6-u114',
-        title: 'Hướng Web S3 — hiệu năng đo bằng số: Core Web Vitals, ngân sách bundle',
+        title: 'Web S3 — hiệu năng đo bằng số: Core Web Vitals, ngân sách bundle',
         topics: 'Phân loại LCP/INP/CLS theo ba ngưỡng chuẩn; chặn CI khi bundle vượt ngân sách',
       },
       {
         id: 'p6-u115',
-        title: 'Hướng Web S3 — kiến trúc & render: SSR/SSG/CSR, ranh giới module',
+        title: 'Web S3 — kiến trúc & render: SSR/SSG/CSR, ranh giới module',
         topics: 'Chọn chiến lược render theo loại trang; kiểm vi phạm luật phụ thuộc module',
       },
       {
         id: 'p6-u116',
-        title: 'Hướng Web S3 — kiểm thử & bảo mật: kim tự tháp test, XSS/CSRF/rate limit',
+        title: 'Web S3 — kiểm thử & bảo mật: kim tự tháp test, XSS/CSRF/rate limit',
         topics: 'Tỉ lệ unit/integration/E2E khoẻ mạnh; phân loại lỗ hổng; giới hạn tốc độ gọi',
       },
       // p6-u117…u119: chặng S2 "Hợp đồng & mô hình miền" của hướng Kiến trúc
       // (architecture-s2, specializations/architecture.ts, 4 module — u119 gộp m3+m4).
       {
         id: 'p6-u117',
-        title: 'Hướng Kiến trúc S2 — mô hình hoá miền: ngôn ngữ chung, ngữ cảnh giới hạn',
+        title: 'Kiến trúc S2 — mô hình hoá miền: ngôn ngữ chung, ngữ cảnh giới hạn',
         topics: 'Cùng chữ "đơn hàng" hai nghĩa ở kho và kế toán; thực thể vs giá trị; bất biến',
       },
       {
         id: 'p6-u118',
-        title: 'Hướng Kiến trúc S2 — hợp đồng kiểm được: schema lúc chạy, union phân biệt',
+        title: 'Kiến trúc S2 — hợp đồng kiểm được: schema lúc chạy, union phân biệt',
         topics: 'Kiểu bốc hơi lúc chạy nên phải kiểm ở biên; trạng thái sai bất khả biểu diễn',
       },
       {
         id: 'p6-u119',
-        title: 'Hướng Kiến trúc S2 — tiến hoá & dữ liệu: mở rộng rồi thu hẹp, tiền/thời gian/mã',
+        title: 'Kiến trúc S2 — tiến hoá & dữ liệu: mở rộng rồi thu hẹp, tiền/thời gian/mã',
         topics: 'Bốn bước đổi schema không downtime; nguồn sự thật duy nhất; ba chỗ sai đắt nhất',
       },
       // p6-u120…u122: chặng S2 "Kỹ sư dữ liệu — đường ống" của hướng Dữ liệu (data-s2,
       // specializations/data.ts, 4 module).
       {
         id: 'p6-u120',
-        title: 'Hướng Dữ liệu S2 — ETL/ELT: nạp gia tăng theo mốc nước, ghi idempotent',
+        title: 'Dữ liệu S2 — ETL/ELT: nạp gia tăng theo mốc nước, ghi idempotent',
         topics: 'Mốc nước + chồng lấn chống mất bản ghi tới muộn; upsert/ghi lại phân vùng',
       },
       {
         id: 'p6-u121',
-        title: 'Hướng Dữ liệu S2 — mô hình hoá kho: star schema và chiều biến đổi chậm',
+        title: 'Dữ liệu S2 — mô hình hoá kho: star schema và chiều biến đổi chậm',
         topics: 'Bảng sự kiện vs bảng chiều, hạt và khoá thay thế; SCD type 1 vs type 2',
       },
       {
         id: 'p6-u122',
-        title: 'Hướng Dữ liệu S2 — điều phối & chất lượng: DAG, chạy lại một phần, kiểm chặn',
+        title: 'Dữ liệu S2 — điều phối & chất lượng: DAG, chạy lại một phần, kiểm chặn',
         topics: 'Sắp xếp tô-pô + phạm vi chạy lại xuôi dòng; 4 nhóm kiểm, khớp tổng, lineage',
       },
       // p6-u123…u125: chặng S3 "Đặc tả thi hành được & nghiệm thu code mình không tự gõ" của
@@ -691,37 +691,36 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
       // u125 gộp m3+m4).
       {
         id: 'p6-u123',
-        title: 'Hướng Kiến trúc S3 — đặc tả kín: sáu ô bắt buộc, tiêu chí chấp nhận đo được',
+        title: 'Kiến trúc S3 — đặc tả kín: sáu ô bắt buộc, tiêu chí chấp nhận đo được',
         topics:
           'Đọc xong không phải hỏi lại câu nào; viết tiêu chí trước mô tả giải pháp; chia lát',
       },
       {
         id: 'p6-u124',
-        title: 'Hướng Kiến trúc S3 — giao việc cho AI/người mới: brief tự chứa, chống ảo giác',
+        title: 'Kiến trúc S3 — giao việc cho AI/người mới: brief tự chứa, chống ảo giác',
         topics:
           'Bên thi hành không thấy ngữ cảnh trước; chọn độ tự quyết; đòi dẫn nguồn, cấm phình',
       },
       {
         id: 'p6-u125',
-        title:
-          'Hướng Kiến trúc S3 — nghiệm thu & sổ quyết định: test canh gác, review theo tầng, ADR',
+        title: 'Kiến trúc S3 — nghiệm thu & sổ quyết định: test canh gác, review theo tầng, ADR',
         topics: 'Bất biến bị phá là CI đỏ; bốn tầng review; ADR ghi cả phương án bị loại',
       },
       // p6-u126…u128: chặng S3 "Quy mô và thời gian thực" của hướng Dữ liệu (data-s3,
       // specializations/data.ts, 4 module — u128 gộp m3+m4).
       {
         id: 'p6-u126',
-        title: 'Hướng Dữ liệu S3 — lớn hơn RAM: xử lý theo khối và sắp xếp ngoài',
+        title: 'Dữ liệu S3 — lớn hơn RAM: xử lý theo khối và sắp xếp ngoài',
         topics: 'Đỉnh bộ nhớ hằng số, phép tổng hợp cộng dồn được; tạo run rồi trộn nhiều đường',
       },
       {
         id: 'p6-u127',
-        title: 'Hướng Dữ liệu S3 — luồng gần thời gian thực: cửa sổ, mốc nước, sự kiện tới muộn',
+        title: 'Dữ liệu S3 — luồng gần thời gian thực: cửa sổ, mốc nước, sự kiện tới muộn',
         topics: 'Thời gian sự kiện vs thời gian xử lý; watermark chốt cửa sổ; khử trùng theo id',
       },
       {
         id: 'p6-u128',
-        title: 'Hướng Dữ liệu S3 — chi phí & thực nghiệm: quét ít đi, đo cho đáng tin',
+        title: 'Dữ liệu S3 — chi phí & thực nghiệm: quét ít đi, đo cho đáng tin',
         topics: 'Cắt tỉa phân vùng, định dạng cột, vòng đời dữ liệu; cỡ mẫu và bẫy dừng sớm',
       },
       // p6-u131…u133: chặng S1 "App đầu tiên trên máy thật" của hướng DI ĐỘNG (mobile-s1,
@@ -730,17 +729,17 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
       // song nhau nên số unit được cấp cách quãng để không đụng nhau.
       {
         id: 'p6-u131',
-        title: 'Hướng Di động S1 — vòng đời app: hệ điều hành giết app lúc nào cũng được',
+        title: 'Di động S1 — vòng đời app: hệ điều hành giết app lúc nào cũng được',
         topics: 'Bốn trạng thái foreground/background/bị giết; hien→nen là cơ hội ghi cuối cùng',
       },
       {
         id: 'p6-u132',
-        title: 'Hướng Di động S1 — giao diện khai báo: UI là hàm của state, danh sách phải ảo hoá',
+        title: 'Di động S1 — giao diện khai báo: UI là hàm của state, danh sách phải ảo hoá',
         topics: 'Bốn trạng thái màn hình theo thứ tự ưu tiên; cửa sổ ảo hoá và kẹp biên hai đầu',
       },
       {
         id: 'p6-u133',
-        title: 'Hướng Di động S1 — điều hướng & lưu trữ: ngăn xếp màn, deep link, migration',
+        title: 'Di động S1 — điều hướng & lưu trữ: ngăn xếp màn, deep link, migration',
         topics: 'push/pop/replace/popToRoot, deep link dựng lại cả ngăn xếp; migration từng bậc',
       },
       // p6-u134…u137: chặng S1 "Nền tảng rời rạc cho lập trình viên" của hướng Toán học
@@ -844,65 +843,73 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
       },
       {
         id: 'p6-u152',
-        title: 'Hệ thống S2 — TCP framing và event loop',
-        topics: 'Length-prefix; non-blocking readiness, fairness và backpressure',
+        title: 'Hệ thống S2 — đóng khung gói tin TCP và vòng lặp sự kiện',
+        topics:
+          'Tiền tố độ dài khung; đọc/ghi không chặn theo tín hiệu sẵn sàng, chia lượt công bằng và chống dồn tải',
       },
       {
         id: 'p6-u153',
-        title: 'Hệ thống S2 — ownership và safety contract của Rust',
-        topics: 'Move, borrow, lifetime; Option/Result và ranh giới unsafe',
+        title: 'Hệ thống S2 — quyền sở hữu và hợp đồng an toàn của Rust',
+        topics:
+          'Chuyển quyền (move), mượn (borrow), vòng đời (lifetime); Option/Result và ranh giới unsafe',
       },
       // p6-u154…u157: DevOps S1. Python chỉ mô phỏng policy/state machine; Linux/VPS,
       // TLS và backup/restore thật vẫn là artifact có evidence ngoài sandbox.
       {
         id: 'p6-u154',
-        title: 'DevOps S1 — service Linux, journal và triage tài nguyên',
-        topics: 'Restart policy; journal; CPU/RAM/disk/file descriptor; least privilege',
+        title: 'DevOps S1 — dịch vụ Linux, nhật ký hệ thống và phân loại sự cố tài nguyên',
+        topics:
+          'Chính sách khởi động lại; đọc nhật ký journal; CPU/RAM/đĩa/file descriptor; đặc quyền tối thiểu',
       },
       {
         id: 'p6-u155',
-        title: 'DevOps S1 — DNS, TLS, proxy và cổng public',
-        topics: 'Diagnostic ladder; firewall allow-list; reverse proxy; hạn chứng chỉ',
+        title: 'DevOps S1 — DNS, TLS, proxy và cổng mở ra Internet',
+        topics:
+          'Thang chẩn đoán từng bậc; tường lửa chỉ mở cổng cần; reverse proxy; hạn dùng của chứng chỉ',
       },
       {
         id: 'p6-u156',
-        title: 'DevOps S1 — automation fail-fast và desired state',
-        topics: 'Config bắt buộc; nonzero exit; idempotency; secret policy/history',
+        title: 'DevOps S1 — tự động hoá dừng sớm khi sai và trạng thái mong muốn',
+        topics:
+          'Bắt buộc khai đủ cấu hình; thoát khác 0 là hỏng; lũy đẳng; chính sách bí mật và bí mật lọt vào lịch sử Git',
       },
       {
         id: 'p6-u157',
-        title: 'DevOps S1 — 3-2-1, restore drill, RPO và RTO',
-        topics: 'Off-site; backup freshness; restore evidence; thời gian phục hồi',
+        title: 'DevOps S1 — quy tắc 3-2-1, diễn tập khôi phục, RPO và RTO',
+        topics:
+          'Bản sao để xa; độ tươi của bản sao lưu; bằng chứng khôi phục được; thời gian phục hồi',
       },
       {
         id: 'p6-u158',
-        title: 'Toán S3 — vector và biến đổi',
-        topics: 'Dot, normalize, homogeneous transform và thứ tự',
+        title: 'Toán cho Lập trình S3 — vector và phép biến đổi',
+        topics: 'Tích vô hướng, chuẩn hoá, biến đổi thuần nhất và thứ tự nhân ma trận',
       },
       {
         id: 'p6-u159',
-        title: 'Toán S3 — khử Gauss và power iteration',
-        topics: 'Pivot, suy biến, probability và delta',
+        title: 'Toán cho Lập trình S3 — khử Gauss và lặp luỹ thừa',
+        topics: 'Chọn trụ, ma trận suy biến, vector xác suất và sai khác giữa hai vòng lặp',
       },
       {
         id: 'p6-u160',
-        title: 'Toán S4 — gradient, loss và hồi quy',
-        topics: 'Sai phân hữu hạn, gradient descent, MSE/MAE',
+        title: 'Toán cho Lập trình S4 — gradient, hàm mất mát và hồi quy',
+        topics: 'Sai phân hữu hạn, gradient descent, sai số MSE/MAE',
       },
       {
         id: 'p6-u161',
-        title: 'Toán S4 — chain rule và tối ưu ràng buộc',
-        topics: 'Gradient check, feasible domain và stopping rule',
+        title: 'Toán cho Lập trình S4 — quy tắc chuỗi và tối ưu có ràng buộc',
+        topics: 'Kiểm gradient bằng sai phân; miền khả thi; điều kiện dừng',
       },
       {
         id: 'p6-u162',
-        title: 'Thuật toán S2 — recursion, termination và backtracking',
-        topics: 'Base case; termination measure; bounded search; pruning và oracle',
+        title: 'Thuật toán S2 — đệ quy, chứng minh dừng và quay lui',
+        topics:
+          'Điều kiện cơ sở; đại lượng giảm dần bảo đảm dừng; tìm kiếm có chặn; cắt tỉa và bản giải đối chiếu',
       },
       {
         id: 'p6-u163',
-        title: 'Thuật toán S2 — BST, trie và priority queue',
-        topics: 'BST degeneration; trie prefix; heap top-k; ordering tất định',
+        title: 'Thuật toán S2 — cây tìm kiếm nhị phân, cây tiền tố và hàng đợi ưu tiên',
+        topics:
+          'BST thoái hoá thành danh sách; tra tiền tố bằng trie; lấy top-k bằng heap; thứ tự tất định',
       },
       {
         id: 'p6-u164',
@@ -911,68 +918,80 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
       },
       {
         id: 'p6-u165',
-        title: 'Thuật toán S2 — greedy, exchange và phản ví dụ',
-        topics: 'Interval scheduling; bounded oracle; coin greedy; counterexample',
+        title: 'Thuật toán S2 — tham lam, lập luận đổi chỗ và phản ví dụ',
+        topics:
+          'Xếp lịch đoạn thời gian; đối chiếu bằng vét cạn có chặn; đổi tiền kiểu tham lam; phản ví dụ',
       },
       {
         id: 'p6-u182',
-        title: 'Security S1 — threat boundary và least privilege',
-        topics: 'Asset owner; trust boundary; unknown risk; actor-resource-action deny',
+        title: 'Bảo mật S1 — ranh giới tin cậy và đặc quyền tối thiểu',
+        topics:
+          'Chủ sở hữu tài sản; ranh giới tin cậy; rủi ro chưa biết thì khai là chưa biết; từ chối mặc định theo bộ ba chủ thể–tài nguyên–hành động',
       },
       {
         id: 'p6-u183',
-        title: 'Security S1 — crypto choice, salt và rotation',
-        topics: 'Hash/encryption/signature; primitive policy; salt; key rotation',
+        title: 'Bảo mật S1 — chọn thuật toán mật mã, salt và xoay khoá',
+        topics:
+          'Băm, mã hoá và chữ ký khác nhau ra sao; chính sách chọn thuật toán; salt cho mật khẩu; xoay vòng khoá',
       },
       {
         id: 'p6-u184',
-        title: 'Security S1 — defensive API authorization',
-        topics: 'Allow-list; contextual encoding; server-side object authorization',
+        title: 'Bảo mật S1 — phân quyền phòng thủ cho API',
+        topics:
+          'Danh sách cho phép; mã hoá đầu ra theo ngữ cảnh; kiểm quyền trên từng đối tượng ở phía máy chủ',
       },
       {
         id: 'p6-u185',
-        title: 'Security S1 — identity và session lifecycle',
-        topics: 'Rotation; expiry; revocation; recovery rate limit; authn vs authz',
+        title: 'Bảo mật S1 — danh tính và vòng đời phiên đăng nhập',
+        topics:
+          'Xoay token; hết hạn; thu hồi; giới hạn tốc độ khôi phục tài khoản; xác thực khác phân quyền',
       },
       {
         id: 'p6-u190',
-        title: 'Architecture S4 — NFR quality gate',
-        topics: 'Latency; availability; error; cost; measurable threshold fail closed',
+        title: 'Kiến trúc S4 — cổng chất lượng cho yêu cầu phi chức năng',
+        topics: 'Độ trễ; độ sẵn sàng; tỉ lệ lỗi; chi phí; ngưỡng đo được, không đạt là chặn',
       },
       {
         id: 'p6-u191',
-        title: 'Architecture S4 — strangler migration',
-        topics: 'Feature flag; shadow compare; dual write; compatibility; rollback',
+        title: 'Kiến trúc S4 — di trú kiểu cây bóp cổ',
+        topics:
+          'Cờ tính năng; chạy song song đối chiếu; ghi kép; tương thích ngược; đường quay lui',
       },
       {
         id: 'p6-u192',
-        title: 'Architecture S4 — architecture health',
-        topics: 'Dependency cycle; hotspot; debt impact/interest; violation',
+        title: 'Kiến trúc S4 — sức khoẻ kiến trúc',
+        topics:
+          'Vòng phụ thuộc; điểm nóng; nợ kỹ thuật tính theo thiệt hại và lãi; vi phạm luật phụ thuộc',
       },
       {
         id: 'p6-u193',
-        title: 'Architecture S4 — executable ADR handoff',
-        topics: 'Context; decision; alternatives; owner; acceptance; revisit; boundary',
+        title: 'Kiến trúc S4 — bàn giao bằng ADR thi hành được',
+        topics:
+          'Bối cảnh; quyết định; phương án bị loại; người chịu trách nhiệm; nghiệm thu; điều kiện xem lại; ranh giới',
       },
       {
         id: 'p6-u194',
-        title: 'DevOps S3 — workload contract và scheduling',
-        topics: 'Request; limit; readiness probe; autoscale clamp; disruption budget',
+        title: 'DevOps S3 — hợp đồng tài nguyên của workload và lập lịch',
+        topics:
+          'Mức xin và mức trần tài nguyên; thăm dò sẵn sàng; kẹp biên khi tự co giãn; ngân sách gián đoạn',
       },
       {
         id: 'p6-u195',
         title: 'DevOps S3 — cấu hình, bí mật và GitOps',
-        topics: 'Desired state; drift; reconcile bounded; overlay; secret reference',
+        topics:
+          'Trạng thái mong muốn; trôi cấu hình; hoà giải có chặn số vòng; lớp phủ theo môi trường; tham chiếu tới bí mật',
       },
       {
         id: 'p6-u196',
         title: 'DevOps S3 — metric, log, trace và cảnh báo',
-        topics: 'RED/USE; cardinality; PII redact; symptom alert; trace span',
+        topics:
+          'Bộ chỉ số RED/USE; bùng nổ số nhãn; che dữ liệu cá nhân; cảnh báo theo triệu chứng; span trong trace',
       },
       {
         id: 'p6-u197',
-        title: 'DevOps S3 — SLI/SLO, error budget và chaos',
-        topics: 'SLI/SLO; burn rate; release freeze; blast radius; abort condition',
+        title: 'DevOps S3 — SLI/SLO, ngân sách lỗi và chaos',
+        topics:
+          'SLI/SLO; tốc độ tiêu ngân sách lỗi; đóng băng phát hành; giới hạn bán kính ảnh hưởng; điều kiện dừng thí nghiệm',
       },
       {
         id: 'p6-u198',
@@ -996,25 +1015,26 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
       },
       {
         id: 'p6-u202',
-        title: 'Data S4 — kiến trúc nền tảng dữ liệu: danh mục, snapshot, tiến hoá schema',
+        title: 'Dữ liệu S4 — kiến trúc nền tảng dữ liệu: danh mục, snapshot, tiến hoá schema',
         topics:
-          'Owner; classification; cổng công bố; du hành thời gian; retention; thay đổi phá vỡ',
+          'Chủ sở hữu; phân loại dữ liệu; cổng công bố; du hành thời gian; thời hạn lưu; thay đổi phá vỡ',
       },
       {
         id: 'p6-u203',
-        title: 'Data S4 — độ tin cậy dữ liệu: SLO độ tươi, đầy đủ và tốc độ đốt',
-        topics: 'Freshness; completeness; 0 dòng vs NULL vs chưa chạy; burn rate; ngưỡng mẫu',
+        title: 'Dữ liệu S4 — độ tin cậy dữ liệu: SLO độ tươi, đầy đủ và tốc độ đốt',
+        topics:
+          'Độ tươi; độ đầy đủ; 0 dòng khác NULL khác chưa chạy; tốc độ tiêu ngân sách; ngưỡng mẫu',
       },
       {
         id: 'p6-u204',
-        title: 'Data S4 — tầng chỉ số: một tên một định nghĩa',
-        topics: 'Conflict định nghĩa; version; grain; múi giờ; hai con số không so được',
+        title: 'Dữ liệu S4 — tầng chỉ số: một tên một định nghĩa',
+        topics: 'Xung đột định nghĩa; phiên bản; hạt dữ liệu; múi giờ; hai con số không so được',
       },
       {
         id: 'p6-u205',
-        title: 'Data S4 — đạo đức và pháp lý của dữ liệu cá nhân',
+        title: 'Dữ liệu S4 — đạo đức và pháp lý của dữ liệu cá nhân',
         topics:
-          'Legal basis; purpose limitation; retention; ngưỡng k; bias theo nhóm; câu giới hạn',
+          'Cơ sở pháp lý; giới hạn mục đích; thời hạn lưu; ngưỡng k; thiên lệch theo nhóm; câu nói rõ giới hạn',
       },
       // p6-u226..u229 = chặng algo-s3, p6-u230..u233 = chặng algo-s4 (hướng Thuật toán, hướng
       // NỀN cắt ngang). Mỗi unit bám đúng một module của chặng. Đặc tả:
@@ -1141,143 +1161,153 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
       },
       {
         id: 'p6-u214',
-        title: 'Mobile S2 — mạng ở môi trường xấu: hàng đợi offline và retry',
+        title: 'Di động S2 — mạng ở môi trường xấu: hàng đợi offline và retry',
         topics: 'Khoá idempotent; dedup; backoff có trần; hàng đợi rỗng; fail sau N lần',
       },
       {
         id: 'p6-u215',
-        title: 'Mobile S2 — xác thực trên điện thoại: máy trạng thái token',
+        title: 'Di động S2 — xác thực trên điện thoại: máy trạng thái token',
         topics: 'Access vs refresh; làm mới lặng lẽ; lỗi mạng khác bị từ chối; ca biên hết hạn',
       },
       {
         id: 'p6-u216',
-        title: 'Mobile S2 — quyền và cảm biến: xin đúng lúc, có đường lui',
+        title: 'Di động S2 — quyền và cảm biến: xin đúng lúc, có đường lui',
         topics: 'Lý do trước khi xin; hết lượt hỏi; fallback; quyền chưa khai báo',
       },
       {
         id: 'p6-u217',
-        title: 'Mobile S2 — kiểm thử và phát hành thử: cổng chặn hay cảnh báo',
+        title: 'Di động S2 — kiểm thử và phát hành thử: cổng chặn hay cảnh báo',
         topics: 'Chữ ký; versionCode; ngưỡng người thử; ghi chú thay đổi; gom vi phạm',
       },
       {
         id: 'p6-u218',
-        title: 'Mobile S3 — hiệu năng giao diện: ngân sách 16ms',
+        title: 'Di động S3 — hiệu năng giao diện: ngân sách 16ms',
         topics: 'Build/layout/draw; ảo hoá danh sách; giải mã ảnh; nguyên nhân trước triệu chứng',
       },
       {
         id: 'p6-u219',
-        title: 'Mobile S3 — pin, bộ nhớ, dung lượng',
+        title: 'Di động S3 — pin, bộ nhớ, dung lượng',
         topics: 'Công việc nền; đánh thức; rò tham chiếu; ngưỡng mẫu tối thiểu; dung lượng gói',
       },
       {
         id: 'p6-u220',
-        title: 'Mobile S3 — kiến trúc app lớn: ranh giới lớp',
+        title: 'Di động S3 — kiến trúc app lớn: ranh giới lớp',
         topics: 'Kho dữ liệu; tiêm interface; test lớp dữ liệu; chặn khác cảnh báo; 0 khác null',
       },
       {
         id: 'p6-u221',
-        title: 'Mobile S3 — trải nghiệm chuẩn nền tảng: trợ năng',
+        title: 'Di động S3 — trải nghiệm chuẩn nền tảng: trợ năng',
         topics: 'Nhãn trợ năng; cỡ chữ hệ thống; chiều cao cố định; chế độ tối; giới hạn rà tĩnh',
       },
       {
         id: 'p6-u222',
-        title: 'Mobile S4 — phát hành chuyên nghiệp: rollout theo tỉ lệ',
+        title: 'Di động S4 — phát hành chuyên nghiệp: rollout theo tỉ lệ',
         topics: 'Cửa sổ theo dõi; ngưỡng dừng; halt-rollout; minSupportedVersion; buộc cập nhật',
       },
       {
         id: 'p6-u223',
-        title: 'Mobile S4 — quan sát từ xa: giải mã stack trace và cờ tính năng',
+        title: 'Di động S4 — quan sát từ xa: giải mã stack trace và cờ tính năng',
         topics: 'Bản đồ giải mã; unresolved; giá trị an toàn; tự tắt theo ngưỡng crash',
       },
       {
         id: 'p6-u224',
-        title: 'Mobile S4 — nền tảng và mã dùng chung',
+        title: 'Di động S4 — nền tảng và mã dùng chung',
         topics: 'Logic thuần; riêng nền tảng; semver; đổi phá vỡ; ghi chú thay đổi',
       },
       {
         id: 'p6-u225',
-        title: 'Mobile S4 — bảo mật ứng dụng di động',
+        title: 'Di động S4 — bảo mật ứng dụng di động',
         topics: 'Bí mật trong gói; định danh công khai; chống chụp màn; loại trừ khỏi backup',
       },
       {
         id: 'p6-u234',
-        title: 'Systems S3 — phần cứng quyết định tốc độ: dòng cache và false sharing',
-        topics: 'Cache line; stride; cache_miss_rate; false-sharing; đệm biến nóng',
+        title: 'Hệ thống S3 — phần cứng quyết định tốc độ: dòng cache và chia sẻ giả',
+        topics:
+          'Dòng cache; bước nhảy truy cập; tỉ lệ trượt cache; chia sẻ giả; đệm tách biến nóng',
       },
       {
         id: 'p6-u235',
-        title: 'Systems S3 — đo trước khi sửa: nhiễu vi chuẩn và định luật Amdahl',
-        topics: 'Trung vị; insufficient-samples; noisy; tỉ trọng phần nóng; trần cải thiện',
+        title: 'Hệ thống S3 — đo trước khi sửa: nhiễu vi chuẩn và định luật Amdahl',
+        topics: 'Trung vị; chưa đủ mẫu; phép đo nhiễu; tỉ trọng phần nóng; trần cải thiện',
       },
       {
         id: 'p6-u236',
-        title: 'Systems S3 — bên trong nhân: bộ nhớ ảo, cách ly và chi phí syscall',
-        topics: 'Working set; thrash; page fault; cách ly địa chỉ; gom syscall',
+        title: 'Hệ thống S3 — bên trong nhân: bộ nhớ ảo, cách ly và chi phí syscall',
+        topics:
+          'Tập làm việc; giật trang liên tục; lỗi trang; cách ly không gian địa chỉ; gom lời gọi hệ thống',
       },
       {
         id: 'p6-u237',
-        title: 'Systems S3 — đồng thời không khoá: hàng rào bộ nhớ và hàng đợi lock-free',
-        topics: 'Memory barrier; race; linearizable; hàng đợi rỗng; tràn capacity',
+        title: 'Hệ thống S3 — đồng thời không khoá: hàng rào bộ nhớ và hàng đợi lock-free',
+        topics: 'Hàng rào bộ nhớ; tranh chấp; tuyến tính hoá được; hàng đợi rỗng; tràn sức chứa',
       },
       {
         id: 'p6-u238',
-        title: 'Systems S4 — trình biên dịch: bảng ký hiệu và hệ thống kiểu',
-        topics: 'Undeclared-var; type-error; số dòng; sinh lệnh IR',
+        title: 'Hệ thống S4 — trình biên dịch: bảng ký hiệu và hệ thống kiểu',
+        topics: 'Biến chưa khai báo; lỗi kiểu; báo đúng số dòng; sinh mã trung gian (IR)',
       },
       {
         id: 'p6-u239',
-        title: 'Systems S4 — runtime: mark-sweep và máy ảo ngăn xếp',
-        topics: 'Reachable; chu trình heap; stack-error; khung lời gọi',
+        title: 'Hệ thống S4 — môi trường chạy: thu gom rác mark-sweep và máy ảo ngăn xếp',
+        topics: 'Đối tượng còn tới được; chu trình trên heap; lỗi ngăn xếp; khung lời gọi',
       },
       {
         id: 'p6-u240',
-        title: 'Systems S4 — hệ điều hành từ số 0: bảng trang và lập lịch vòng tròn',
-        topics: 'Page table; cách ly tiến trình; context switch; quantum; idle',
+        title: 'Hệ thống S4 — hệ điều hành từ số 0: bảng trang và lập lịch vòng tròn',
+        topics:
+          'Bảng trang; cách ly tiến trình; chuyển ngữ cảnh; lượng tử thời gian; trạng thái rỗi',
       },
       {
         id: 'p6-u241',
-        title: 'Systems S4 — an toàn tầng thấp: canary, ASLR và fuzzing theo độ phủ',
-        topics: 'Overflow-detected; stack canary; W^X; coverage; plateau',
+        title: 'Hệ thống S4 — an toàn tầng thấp: canary, ASLR và fuzzing theo độ phủ',
+        topics: 'Phát hiện tràn bộ đệm; canary trên ngăn xếp; W^X; độ phủ; độ phủ đi ngang',
       },
       {
         id: 'p6-u206',
-        title: 'Security S4 — kiến trúc an toàn: ranh giới tin cậy, phân đoạn, vòng đời khoá',
-        topics: 'Trust boundary; zero trust; segmentation; key lifecycle; rotate; mô hình đe doạ',
+        title: 'Bảo mật S4 — kiến trúc an toàn: ranh giới tin cậy, phân đoạn, vòng đời khoá',
+        topics:
+          'Ranh giới tin cậy; không tin mặc định (zero trust); phân đoạn; vòng đời khoá và xoay khoá; mô hình đe doạ',
       },
       {
         id: 'p6-u207',
-        title: 'Security S4 — phát hiện và ứng cứu sự cố',
-        topics: 'Detection rule; ATT&CK; dương tính giả; containment; eradication; phục hồi',
+        title: 'Bảo mật S4 — phát hiện và ứng cứu sự cố',
+        topics: 'Luật phát hiện; khung ATT&CK; dương tính giả; ngăn chặn; diệt trừ; phục hồi',
       },
       {
         id: 'p6-u208',
-        title: 'Security S4 — điều tra số: toàn vẹn chứng cứ và dòng thời gian',
-        topics: 'Integrity; chain of custody; lệch đồng hồ; UTC; cờ bất định; redact báo cáo',
+        title: 'Bảo mật S4 — điều tra số: toàn vẹn chứng cứ và dòng thời gian',
+        topics:
+          'Toàn vẹn chứng cứ; chuỗi lưu giữ; lệch đồng hồ; quy về UTC; cờ bất định; che dữ liệu trong báo cáo',
       },
       {
         id: 'p6-u209',
-        title: 'Security S4 — quản trị và tuân thủ',
-        topics: 'Khả năng × tác động; residual risk; third-party; DPA; kế hoạch rút lui; evidence',
+        title: 'Bảo mật S4 — quản trị và tuân thủ',
+        topics:
+          'Khả năng × tác động; rủi ro còn lại; bên thứ ba; hợp đồng xử lý dữ liệu; kế hoạch rút lui; bằng chứng',
       },
       {
         id: 'p6-u210',
-        title: 'Security S3 — đọc luồng điều khiển từ mã mức thấp (máy đồ chơi)',
-        topics: 'Basic block; control flow; unreachable; trần bước; vòng lặp không lối thoát',
+        title: 'Bảo mật S3 — đọc luồng điều khiển từ mã mức thấp (máy đồ chơi)',
+        topics:
+          'Khối cơ bản; luồng điều khiển; khối không tới được; trần số bước; vòng lặp không lối thoát',
       },
       {
         id: 'p6-u211',
-        title: 'Security S3 — vì sao an toàn bộ nhớ là biện pháp gốc rễ',
-        topics: 'Bounds; oob-write; use-after-free; double-free; leak; prevented; memory-safe',
+        title: 'Bảo mật S3 — vì sao an toàn bộ nhớ là biện pháp gốc rễ',
+        topics:
+          'Kiểm biên; ghi ngoài biên; dùng sau khi giải phóng; giải phóng hai lần; rò bộ nhớ; ngăn từ gốc bằng ngôn ngữ an toàn bộ nhớ',
       },
       {
         id: 'p6-u212',
-        title: 'Security S3 — tìm lỗi tự động: fuzzing theo độ phủ và thu nhỏ ca lỗi',
-        topics: 'Coverage; seed; deterministic; not-found; minimize; delta-debugging',
+        title: 'Bảo mật S3 — tìm lỗi tự động: fuzzing theo độ phủ và thu nhỏ ca lỗi',
+        topics:
+          'Độ phủ; hạt giống; chạy lại tái hiện được; không tìm thấy khác với đã sạch; thu nhỏ ca lỗi bằng delta-debugging',
       },
       {
         id: 'p6-u213',
-        title: 'Security S3 — bảo mật hệ thống hiện đại: chuỗi cung ứng, IAM, bảo mật AI',
-        topics: 'Provenance; chữ ký; least privilege; prompt injection; data poisoning; allow-list',
+        title: 'Bảo mật S3 — bảo mật hệ thống hiện đại: chuỗi cung ứng, IAM, bảo mật AI',
+        topics:
+          'Xuất xứ tạo tác; chữ ký; đặc quyền tối thiểu; tiêm lệnh (prompt injection); đầu độc dữ liệu; danh sách cho phép',
       },
       {
         id: 'p6-u274',
@@ -1362,122 +1392,123 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
       },
       {
         id: 'p6-u178',
-        title: 'DevOps S2 — delivery policy và change control',
-        topics: 'Approval; change window; rollback; fail closed',
+        title: 'DevOps S2 — chính sách phát hành và kiểm soát thay đổi',
+        topics: 'Phê duyệt; cửa sổ thay đổi; đường quay lui; nghi ngờ thì chặn',
       },
       {
         id: 'p6-u179',
-        title: 'DevOps S2 — incident triage và evidence',
-        topics: 'Bounded signals; severity; owner; remediation',
+        title: 'DevOps S2 — phân loại sự cố và bằng chứng',
+        topics: 'Tín hiệu có giới hạn; mức nghiêm trọng; người chịu trách nhiệm; việc khắc phục',
       },
       {
         id: 'p6-u180',
-        title: 'DevOps S2 — infrastructure plan policy',
-        topics: 'Plan review; drift classification; non-destructive apply deny',
+        title: 'DevOps S2 — chính sách duyệt kế hoạch hạ tầng',
+        topics: 'Đọc kế hoạch trước khi áp; phân loại trôi cấu hình; từ chối áp thay đổi phá huỷ',
       },
       {
         id: 'p6-u181',
-        title: 'DevOps S2 — IAM và cost guardrail',
-        topics: 'Least privilege; budget threshold; deny unknown policy',
+        title: 'DevOps S2 — IAM và hàng rào chi phí',
+        topics: 'Đặc quyền tối thiểu; ngưỡng ngân sách; chính sách lạ thì từ chối',
       },
       {
         id: 'p6-u186',
-        title: 'Security S2 — authorized assessment scope',
-        topics: 'Consent; scope; window; test account; non-destructive refuse',
+        title: 'Bảo mật S2 — phạm vi đánh giá đã được cho phép',
+        topics: 'Sự đồng ý; phạm vi; cửa sổ thời gian; tài khoản thử; từ chối thao tác phá huỷ',
       },
       {
         id: 'p6-u187',
-        title: 'Security S2 — web/API finding triage',
-        topics: 'Redacted fixture; authz; input validation; insufficient evidence',
+        title: 'Bảo mật S2 — phân loại phát hiện trên web/API',
+        topics: 'Dữ liệu mẫu đã che; phân quyền; kiểm đầu vào; bằng chứng chưa đủ',
       },
       {
         id: 'p6-u188',
-        title: 'Security S2 — exposure và secret triage',
-        topics: 'Bounded inventory; true/false positive; rotate/revoke recommendation',
+        title: 'Bảo mật S2 — phân loại lộ lọt và bí mật',
+        topics: 'Kiểm kê có giới hạn; dương tính thật hay giả; khuyến nghị xoay hoặc thu hồi khoá',
       },
       {
         id: 'p6-u189',
-        title: 'Security S2 — responsible disclosure',
-        topics: 'Severity; remediation; owner/timeline; embargo before public disclosure',
+        title: 'Bảo mật S2 — công bố lỗ hổng có trách nhiệm',
+        topics: 'Mức nghiêm trọng; cách khắc phục; người nhận và hạn; giữ kín trước khi công bố',
       },
       {
         id: 'p6-u166',
-        title: 'AI S2 — time split, baseline và leakage',
-        topics: 'Past-only split; holdout; leakage fail closed; baseline comparison',
+        title: 'AI S2 — chia dữ liệu theo thời gian, mốc so sánh và rò rỉ dữ liệu',
+        topics: 'Chỉ chia theo quá khứ; tập giữ riêng; phát hiện rò rỉ là chặn; so với mốc cơ sở',
       },
       {
         id: 'p6-u167',
-        title: 'AI S2 — confusion, threshold và mất cân bằng lớp',
-        topics: 'Precision/recall; denominator; threshold; class imbalance',
+        title: 'AI S2 — ma trận nhầm lẫn, ngưỡng và mất cân bằng lớp',
+        topics: 'Precision/recall; mẫu số của từng thước đo; chọn ngưỡng; lớp hiếm',
       },
       {
         id: 'p6-u168',
-        title: 'AI S2 — feature contribution và group error',
-        topics: 'Bounded contribution; group error; empty/sensitive group boundary',
+        title: 'AI S2 — đóng góp của đặc trưng và sai số theo nhóm',
+        topics: 'Đóng góp có giới hạn; sai số theo nhóm; ca biên nhóm rỗng và nhóm nhạy cảm',
       },
       {
         id: 'p6-u169',
-        title: 'AI S2 — chọn model theo quality, latency và cost',
-        topics: 'Dominated option; deterministic tie-break; bounded trade-off',
+        title: 'AI S2 — chọn mô hình theo chất lượng, độ trễ và chi phí',
+        topics: 'Loại phương án bị áp đảo; phá hoà tất định; đánh đổi trong khung đã chặn',
       },
       {
         id: 'p6-u170',
-        title: 'AI S3 — loss, gradient và checkpoint',
-        topics: 'Finite difference; epsilon/lr; non-finite and divergence gate',
+        title: 'AI S3 — hàm mất mát, gradient và điểm lưu',
+        topics: 'Sai phân hữu hạn; epsilon và tốc độ học; chặn khi số không hữu hạn hoặc phân kỳ',
       },
       {
         id: 'p6-u171',
-        title: 'AI S3 — attention bounded và mask invariant',
-        topics: 'Short sequence; shape/mask; softmax denominator; context',
+        title: 'AI S3 — attention trong khung nhỏ và bất biến của mask',
+        topics: 'Chuỗi ngắn; hình dạng và mask; mẫu số của softmax; ngữ cảnh',
       },
       {
         id: 'p6-u172',
-        title: 'AI S3 — label agreement và distribution shift',
-        topics: 'Agreement; bounded histogram; empty group; invalid count',
+        title: 'AI S3 — độ đồng thuận nhãn và dịch chuyển phân phối',
+        topics: 'Độ đồng thuận; biểu đồ tần suất có chặn; nhóm rỗng; số đếm không hợp lệ',
       },
       {
         id: 'p6-u173',
-        title: 'AI S3 — prompt, fine-tune và quantization decision',
-        topics: 'Eval/latency table; explicit trade-off; no production benchmark claim',
+        title: 'AI S3 — chọn giữa prompt, tinh chỉnh và lượng tử hoá',
+        topics:
+          'Bảng eval và độ trễ; nêu rõ đánh đổi; không khai kết quả đo như benchmark sản xuất',
       },
       {
         id: 'p6-u174',
-        title: 'AI S4 — version tuple và model release gate',
-        topics: 'Code/data/model version; approval; eval; rollback fail closed',
+        title: 'AI S4 — bộ ba phiên bản và cổng phát hành mô hình',
+        topics: 'Phiên bản mã, dữ liệu và mô hình; phê duyệt; eval; không quay lui được là chặn',
       },
       {
         id: 'p6-u175',
-        title: 'AI S4 — drift, feedback delay và alert',
-        topics: 'Unknown quality; threshold; measured feedback; investigate',
+        title: 'AI S4 — trôi dữ liệu, phản hồi trễ và cảnh báo',
+        topics: 'Chất lượng chưa xác định; ngưỡng; phản hồi đo được; mở việc điều tra',
       },
       {
         id: 'p6-u176',
-        title: 'AI S4 — tool loop có budget và cancellation',
-        topics: 'Allow-list; schema; idempotency; step/cost budget',
+        title: 'AI S4 — vòng lặp gọi tool có ngân sách và huỷ giữa chừng',
+        topics: 'Danh sách cho phép; schema tham số; lũy đẳng; trần số bước và chi phí',
       },
       {
         id: 'p6-u177',
-        title: 'AI S4 — harm, privacy và incident decision',
-        topics: 'PII; license; human review; audit trail',
+        title: 'AI S4 — tác hại, quyền riêng tư và quyết định khi có sự cố',
+        topics: 'Dữ liệu cá nhân; giấy phép; người duyệt; vết kiểm toán',
       },
       // p6-u66..u68: chặng S1 của hướng Dữ liệu (data-s1, specializations/data.ts, 4 module).
       // p3-u8/p3-u9 đã dạy SELECT/JOIN/GROUP BY/HAVING cơ bản — u66 đi XA HƠN (hàm cửa sổ, CTE)
       // để không dạy trùng. Đăng ký cầu nối ở `specializations/stageUnits.ts`.
       {
         id: 'p6-u66',
-        title: 'Hướng Dữ liệu S1 — hàm cửa sổ & CTE: xếp hạng và luỹ kế không mất dòng',
+        title: 'Dữ liệu S1 — hàm cửa sổ & CTE: xếp hạng và luỹ kế không mất dòng',
         topics:
           'RANK/DENSE_RANK OVER PARTITION BY; CTE (WITH) chia truy vấn dài, SUM() OVER luỹ kế',
       },
       {
         id: 'p6-u67',
-        title: 'Hướng Dữ liệu S1 — làm sạch dữ liệu: thiếu/trùng/sai kiểu, chuẩn hoá ngày giờ',
+        title: 'Dữ liệu S1 — làm sạch dữ liệu: thiếu/trùng/sai kiểu, chuẩn hoá ngày giờ',
         topics:
           'Phát hiện thiếu/trùng/ngoại lệ; chuẩn hoá định dạng ngày; ghi lại giả định làm sạch',
       },
       {
         id: 'p6-u68',
-        title: 'Hướng Dữ liệu S1 — thống kê đủ dùng & trực quan hoá trung thực',
+        title: 'Dữ liệu S1 — thống kê đủ dùng & trực quan hoá trung thực',
         topics:
           'Trung bình vs trung vị, tương quan không phải nhân quả; chọn biểu đồ không đánh lừa mắt',
       },
@@ -1607,7 +1638,7 @@ export const UNIT_TRACKS: UnitTrack[] = [
   },
   {
     id: 'chuyen-sau',
-    title: 'Hướng chuyên sâu',
+    title: 'chuyên sâu',
     moTa: 'Nội dung học thật của 14 hướng nghề — chọn một hướng và đi hết bốn chặng của nó.',
     macDinh: true,
   },

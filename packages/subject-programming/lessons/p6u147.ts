@@ -7,7 +7,7 @@ export const P6U147_LESSONS: ProgrammingLesson[] = [
     unitId: 'p6-u147',
     language: 'python',
     title: 'MÔ PHỎNG allocator — ai sở hữu thì người đó giải phóng',
-    hook: 'Một hàm cấp phát xong rồi quên ghi ai phải free. Chương trình vẫn chạy hôm nay, nhưng ledger cuối phiên còn một khối sống: đó là leak.',
+    hook: 'Một hàm cấp phát xong rồi quên ghi ai phải free. Chương trình vẫn chạy hôm nay, nhưng sổ theo dõi cấp phát (ledger) cuối phiên còn một khối sống: đó là rò rỉ bộ nhớ (leak).',
     theory:
       'Ownership là hợp đồng về trách nhiệm giải phóng. Mỗi khối MÔ PHỎNG có id, kích thước, chủ sở hữu và trạng thái sống. `alloc` tạo đúng một khối còn sống; `free` hợp lệ đúng một lần, bởi chủ sở hữu; `NULL` biểu diễn không trỏ tới khối nào và không được đọc. Free lần hai là double-free; bỏ sót khối sống cuối phiên là leak. Simulator Python này chỉ kiểm bất biến ledger, không cấp phát bộ nhớ C và không tái tạo undefined behavior.',
     workedExample: {

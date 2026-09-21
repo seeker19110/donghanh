@@ -26,11 +26,11 @@ export const TOAN11_C7_LESSONS: MathLesson[] = [
       'nhưng phải là hai hướng KHÁC nhau, không song song.\n\n' +
       'CÁC HỆ QUẢ HAY DÙNG\n' +
       '— Nếu d ⊥ (P) thì d vuông góc với mọi đường thẳng trong (P), kể cả đường không đi qua chân đường vuông góc.\n' +
-      '— Hai đường thẳng cùng vuông góc với một mặt phẳng thì song song với nhau.\n' +
-      '— Hai mặt phẳng cùng vuông góc với một đường thẳng thì song song với nhau.\n\n' +
+      '— Hai đường thẳng PHÂN BIỆT cùng vuông góc với một mặt phẳng thì song song với nhau.\n' +
+      '— Hai mặt phẳng PHÂN BIỆT cùng vuông góc với một đường thẳng thì song song với nhau.\n\n' +
       'ĐỊNH LÍ BA ĐƯỜNG VUÔNG GÓC\n' +
-      'Cho a ⊄ (P), gọi a′ là hình chiếu vuông góc của a lên (P), và b là đường thẳng nằm trong (P). Khi đó ' +
-      'b ⊥ a ⇔ b ⊥ a′.\n' +
+      'Cho đường thẳng a KHÔNG vuông góc với (P), gọi a′ là hình chiếu vuông góc của a lên (P), và b là đường ' +
+      'thẳng nằm trong (P). Khi đó b ⊥ a ⇔ b ⊥ a′.\n' +
       'Công dụng: chuyển một bài toán vuông góc trong KHÔNG GIAN (khó hình dung) về bài toán vuông góc trong MẶT ' +
       'PHẲNG (dễ vẽ, dễ tính). Đây là chìa khoá của hầu hết bài tập tính khoảng cách và góc.\n\n' +
       'GÓC GIỮA ĐƯỜNG THẲNG VÀ MẶT PHẲNG\n' +

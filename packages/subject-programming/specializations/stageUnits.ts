@@ -3,7 +3,7 @@
 // Bản đồ hướng (`registry.ts`) nói "chặng web-s1 dạy những gì"; dòng bài học 8 bước
 // (`lessons/`) mới là chỗ học viên gõ code. Hai tầng cố ý tách nhau: bản đồ phủ đủ 14 hướng
 // từ ngày đầu, còn nội dung soạn dần từng chặng. File này ghi lại chặng nào ĐÃ có bài, để
-// giao diện hiện nút "Vào học" đúng chỗ thay vì hứa suông ở cả 52 chặng.
+// giao diện hiện nút "Vào học" đúng chỗ thay vì hứa suông ở cả 56 chặng.
 //
 // Luật: chỉ thêm một dòng vào đây KHI unit đã có bài thật — test `stageUnits.test.ts` kiểm
 // chéo với curriculum và với `lessons.ts`, nên khai sai là CI đỏ chứ không phải trang trắng.
@@ -154,13 +154,13 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // `docs/specs/2026-09-21-algo-s3-s4-bai-hoc-that.md`.
   'algo-s3': ['p6-u226', 'p6-u227', 'p6-u228', 'p6-u229'],
   'algo-s4': ['p6-u230', 'p6-u231', 'p6-u232', 'p6-u233'],
-  // Hướng An toàn, chặng S4 — soạn 2026-09-21 (4 unit bám đúng 4 module: p6-u206 = m1 kiến trúc
+  // Hướng An toàn thông tin, chặng S4 — soạn 2026-09-21 (4 unit bám đúng 4 module: p6-u206 = m1 kiến trúc
   // an toàn, p6-u207 = m2 phát hiện và ứng cứu, p6-u208 = m3 điều tra số, p6-u209 = m4 quản trị
   // và tuân thủ). Chặng PHÒNG THỦ: chỉ phân loại, quyết định, quy trình — `securityS4Lessons.test.ts`
   // canh bằng danh sách từ vựng tấn công bị cấm. Đặc tả:
   // `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`.
   'security-s4': ['p6-u206', 'p6-u207', 'p6-u208', 'p6-u209'],
-  // Hướng Bảo mật, chặng S3 — dạy VÌ SAO lỗ hổng tồn tại và CÁCH PHÁT HIỆN, không cung cấp công
+  // Hướng An toàn thông tin, chặng S3 — dạy VÌ SAO lỗ hổng tồn tại và CÁCH PHÁT HIỆN, không cung cấp công
   // cụ khai thác (p6-u210 = m1 luồng điều khiển trên máy đồ chơi, p6-u211 = m2 an toàn bộ nhớ,
   // p6-u212 = m3 fuzzing theo độ phủ, p6-u213 = m4 chuỗi cung ứng/IAM/bảo mật AI). Đặc tả:
   // `docs/specs/2026-09-17-security-s3-bai-hoc-that.md`.

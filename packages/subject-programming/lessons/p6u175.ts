@@ -69,7 +69,7 @@ export const P6U175_LESSONS: ProgrammingLesson[] = [
   driftLesson(
     'p6-u175-l1',
     'MÔ PHỎNG drift và feedback delay',
-    'MÔ PHỎNG. Đọc `baseline,current,feedback` là số nguyên 0..100. Tính `drift=abs(current-baseline)`. Ngưỡng alert là 15. Nếu feedback là 0 in `quality=unknown`; nếu không in `quality=measured`. In `status=alert` khi drift >=15, ngược lại `status=watch`; không bao giờ in healthy khi quality unknown. Input sai in `input-khong-hop-le`.',
+    'MÔ PHỎNG. Đọc `baseline,current,feedback` là số nguyên 0..100. Tính `drift=abs(current-baseline)`. Ngưỡng alert là 15. Nếu feedback là 0 in `quality=unknown`; nếu không in `quality=measured`. In `status=alert` khi drift >= 15, ngược lại `status=watch`; không bao giờ in healthy khi quality unknown. Input sai in `input-khong-hop-le`.',
     `try:
     baseline, current, feedback = (int(x) for x in input().strip().split(","))
     if any(not 0 <= x <= 100 for x in (baseline, current, feedback)): raise ValueError
@@ -105,7 +105,7 @@ except (EOFError, ValueError): print("input-khong-hop-le")`,
   driftLesson(
     'p6-u175-l2',
     'MÔ PHỎNG alert quality có feedback trễ',
-    'MÔ PHỎNG. Đọc `expected,correct,delay` với expected 1..100, correct 0..expected, delay 0..30. Delay > 7 in `quality=unknown`; ngược lại in `quality=<percent>` và `status=alert` nếu quality <80, còn lại `status=watch`. Khi unknown, luôn in `status=investigate`. Input sai in `input-khong-hop-le`.',
+    'MÔ PHỎNG. Đọc `expected,correct,delay` với expected 1..100, correct 0..expected, delay 0..30. Delay > 7 in `quality=unknown`; ngược lại in `quality=<percent>` và `status=alert` nếu quality < 80, còn lại `status=watch`. Khi unknown, luôn in `status=investigate`. Input sai in `input-khong-hop-le`.',
     `try:
     expected, correct, delay = (int(x) for x in input().strip().split(","))
     if not 1 <= expected <= 100 or not 0 <= correct <= expected or not 0 <= delay <= 30: raise ValueError

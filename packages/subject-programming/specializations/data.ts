@@ -6,7 +6,7 @@ export const DATA_SPECIALIZATION: ProgrammingSpecialization = {
   name: 'Dữ liệu & Phân tích',
   tagline: 'Đường ống dữ liệu tin cậy và những con số dám dựa vào để quyết định.',
   forWho:
-    'Hợp với người thích trả lời câu hỏi bằng bằng chứng và chịu khó làm sạch dữ liệu bẩn. Phần lớn thời gian của nghề là làm sạch, không phải vẽ biểu đồ.',
+    'Hợp với người thích trả lời câu hỏi dựa trên bằng chứng và chịu khó làm sạch dữ liệu bẩn. Phần lớn thời gian của nghề là làm sạch, không phải vẽ biểu đồ.',
   prerequisite: 'p3',
   duration: '9–14 tháng',
   languages: ['Python', 'SQL'],
@@ -87,7 +87,7 @@ export const DATA_SPECIALIZATION: ProgrammingSpecialization = {
           title: 'Trực quan hoá trung thực',
           topics: [
             'Chọn dạng biểu đồ theo câu hỏi',
-            'Trục không cắt gốc gây hiểu sai',
+            'Trục dọc không bắt đầu từ số không gây hiểu sai',
             'Một biểu đồ nói một ý',
           ],
         },

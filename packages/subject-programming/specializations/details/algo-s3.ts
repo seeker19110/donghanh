@@ -89,7 +89,7 @@ export const ALGO_S3_DETAIL: SpecStageDetail = {
       selfCheck: [
         {
           q: 'Cập nhật lười giải quyết vấn đề gì?',
-          a: 'Cho phép cập nhật cả một khoảng trong thời gian lôgarit thay vì sửa từng phần tử.',
+          a: 'Cho phép cập nhật cả một khoảng trong thời gian logarit thay vì sửa từng phần tử.',
         },
         {
           q: 'Khi nào cây chỉ số nhị phân là lựa chọn tốt hơn?',

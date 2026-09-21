@@ -23,8 +23,8 @@ export const TOAN10_C8_LESSONS: MathLesson[] = [
       '(cộng) hay NỐI TIẾP nhau (nhân)?\n\n' +
       'BA KHÁI NIỆM VÀ SỰ KHÁC NHAU CỐT LÕI\n' +
       '1. HOÁN VỊ Pₙ = n! — sắp xếp TOÀN BỘ n phần tử theo thứ tự.\n' +
-      '2. CHỈNH HỢP Aⁿₖ = n!/(n−k)! — chọn k phần tử từ n rồi SẮP THỨ TỰ chúng.\n' +
-      '3. TỔ HỢP Cⁿₖ = n!/(k!·(n−k)!) — chọn k phần tử từ n, KHÔNG quan tâm thứ tự.\n\n' +
+      '2. CHỈNH HỢP Aᵏₙ = n!/(n−k)! — chọn k phần tử từ n rồi SẮP THỨ TỰ chúng.\n' +
+      '3. TỔ HỢP Cᵏₙ = n!/(k!·(n−k)!) — chọn k phần tử từ n, KHÔNG quan tâm thứ tự.\n\n' +
       'VÌ SAO CHỈNH HỢP LỚN HƠN TỔ HỢP ĐÚNG k! LẦN\n' +
       'Mỗi nhóm k người được chọn ra có thể xếp thành k! thứ tự khác nhau. Tổ hợp gộp tất cả k! cách xếp ấy thành ' +
       'MỘT, còn chỉnh hợp đếm chúng riêng rẽ. Vậy A = C · k!. Với ví dụ đầu bài, k = 3 nên k! = 6 — đúng bằng hệ số ' +
@@ -34,8 +34,8 @@ export const TOAN10_C8_LESSONS: MathLesson[] = [
       'khác nhau) thì dùng chỉnh hợp. Nếu KHÔNG (ba bạn trực nhật đổi chỗ vẫn là ba bạn ấy) thì dùng tổ hợp. Hãy tập ' +
       'thói quen tự hỏi câu này trước khi viết công thức.\n\n' +
       'HAI TÍNH CHẤT HAY DÙNG CỦA TỔ HỢP\n' +
-      '— Đối xứng: Cⁿₖ = Cⁿ₍ₙ₋ₖ₎. Vì chọn k phần tử để LẤY cũng là chọn n−k phần tử để BỎ.\n' +
-      '— Pascal: Cⁿₖ = Cⁿ⁻¹₍ₖ₋₁₎ + Cⁿ⁻¹ₖ. Xét một phần tử cố định: hoặc nó được chọn, hoặc không.\n\n' +
+      '— Đối xứng: Cᵏₙ = Cⁿ⁻ᵏₙ. Vì chọn k phần tử để LẤY cũng là chọn n−k phần tử để BỎ.\n' +
+      '— Pascal: Cᵏₙ = Cᵏ⁻¹₍ₙ₋₁₎ + Cᵏ₍ₙ₋₁₎. Xét một phần tử cố định: hoặc nó được chọn, hoặc không.\n\n' +
       'GIỚI HẠN: các công thức trên chỉ áp dụng khi n phần tử ĐÔI MỘT KHÁC NHAU và mỗi phần tử được lấy nhiều nhất ' +
       'một lần. Bài toán cho phép lặp lại (ví dụ lập số có chữ số trùng nhau) phải dùng quy tắc nhân trực tiếp.',
     animation: {
@@ -586,7 +586,7 @@ export const TOAN10_C8_LESSONS: MathLesson[] = [
           id: 'ket',
           x: 160,
           y: 232,
-          text: 'A₃² = 3·2 = 6  →  C₃² = 6 : 2! = 3',
+          text: 'A²₃ = 3·2 = 6  →  C²₃ = 6 : 2! = 3',
           size: 14,
           anchor: 'middle',
           fill: 'primary',
@@ -622,7 +622,7 @@ export const TOAN10_C8_LESSONS: MathLesson[] = [
         },
         {
           atMs: 3500,
-          text: '3 · 2 = 6 kết quả CÓ THỨ TỰ — đó là chỉnh hợp A₃².',
+          text: '3 · 2 = 6 kết quả CÓ THỨ TỰ — đó là chỉnh hợp A²₃.',
         },
         {
           atMs: 4900,
@@ -630,7 +630,7 @@ export const TOAN10_C8_LESSONS: MathLesson[] = [
         },
         {
           atMs: 6300,
-          text: 'Mỗi tổ hợp bị đếm 2! = 2 lần, nên C₃² = 6 : 2 = 3.',
+          text: 'Mỗi tổ hợp bị đếm 2! = 2 lần, nên C²₃ = 6 : 2 = 3.',
         },
       ],
     },
@@ -685,7 +685,7 @@ export const TOAN10_C8_LESSONS: MathLesson[] = [
       },
       {
         hoi: 'Quan hệ giữa chỉnh hợp và tổ hợp?',
-        dap: 'Aⁿₖ = Cⁿₖ · k! — mỗi nhóm k phần tử xếp được k! thứ tự.',
+        dap: 'Aᵏₙ = Cᵏₙ · k! — mỗi nhóm k phần tử xếp được k! thứ tự.',
       },
       {
         hoi: 'Khi nào dùng quy tắc cộng, khi nào dùng quy tắc nhân?',
@@ -708,24 +708,24 @@ export const TOAN10_C8_LESSONS: MathLesson[] = [
       'sao các hệ số ấy chính là số cách chọn.',
     theory:
       'CÔNG THỨC NHỊ THỨC NEWTON\n' +
-      '(a + b)ⁿ = Σ (k từ 0 đến n) Cⁿₖ · aⁿ⁻ᵏ · bᵏ\n' +
-      '= Cⁿ₀aⁿ + Cⁿ₁aⁿ⁻¹b + Cⁿ₂aⁿ⁻²b² + ... + Cⁿₙbⁿ.\n\n' +
+      '(a + b)ⁿ = Σ (k từ 0 đến n) Cᵏₙ · aⁿ⁻ᵏ · bᵏ\n' +
+      '= C⁰ₙaⁿ + C¹ₙaⁿ⁻¹b + C²ₙaⁿ⁻²b² + ... + Cⁿₙbⁿ.\n\n' +
       'VÌ SAO HỆ SỐ LẠI LÀ SỐ TỔ HỢP\n' +
       'Khai triển (a+b)ⁿ nghĩa là nhân n cặp ngoặc (a+b) với nhau. Mỗi số hạng của kết quả sinh ra bằng cách từ MỖI ' +
       'ngoặc chọn lấy a hoặc b. Muốn ra số hạng aⁿ⁻ᵏbᵏ, ta phải chọn b từ đúng k trong n cặp ngoặc — số cách làm ' +
-      'việc đó chính là Cⁿₖ. Đó là toàn bộ lý do, và cũng là lý do tam giác Pascal (mỗi số bằng tổng hai số phía ' +
+      'việc đó chính là Cᵏₙ. Đó là toàn bộ lý do, và cũng là lý do tam giác Pascal (mỗi số bằng tổng hai số phía ' +
       'trên) cho ra đúng các hệ số này.\n\n' +
       'BỐN ĐIỀU CẦN NHỚ VỀ CẤU TRÚC\n' +
       '1. Khai triển có đúng n + 1 số hạng (k chạy từ 0 đến n).\n' +
-      '2. Số hạng TỔNG QUÁT thứ k+1 là T₍ₖ₊₁₎ = Cⁿₖ · aⁿ⁻ᵏ · bᵏ. Chú ý chỉ số lệch 1: số hạng thứ 5 ứng với k = 4.\n' +
+      '2. Số hạng TỔNG QUÁT thứ k+1 là T₍ₖ₊₁₎ = Cᵏₙ · aⁿ⁻ᵏ · bᵏ. Chú ý chỉ số lệch 1: số hạng thứ 5 ứng với k = 4.\n' +
       '3. Tổng số mũ của a và b trong mỗi số hạng luôn bằng n — dùng để kiểm tra nhanh.\n' +
-      '4. Hệ số đối xứng: Cⁿₖ = Cⁿ₍ₙ₋ₖ₎.\n\n' +
+      '4. Hệ số đối xứng: Cᵏₙ = Cⁿ⁻ᵏₙ.\n\n' +
       'HỆ QUẢ HAY DÙNG\n' +
-      '— Cho a = b = 1: Cⁿ₀ + Cⁿ₁ + ... + Cⁿₙ = 2ⁿ. Ý nghĩa: một tập n phần tử có 2ⁿ tập con.\n' +
+      '— Cho a = b = 1: C⁰ₙ + C¹ₙ + ... + Cⁿₙ = 2ⁿ. Ý nghĩa: một tập n phần tử có 2ⁿ tập con.\n' +
       '— Cho a = 1, b = −1: tổng đan dấu các hệ số bằng 0 (với n ≥ 1).\n\n' +
       'DẠNG BÀI QUAN TRỌNG NHẤT: tìm hệ số của xᵐ trong khai triển. Cách làm là viết số hạng tổng quát, GOM số mũ ' +
       'của x lại thành một biểu thức theo k, cho bằng m rồi giải tìm k.\n' +
-      'GIỚI HẠN: k tìm được phải là số NGUYÊN và thoả 0 ≤ k ≤ n. Nếu k lẻ (ví dụ 7/2) thì số hạng chứa xᵐ KHÔNG tồn ' +
+      'GIỚI HẠN: k tìm được phải là số NGUYÊN và thoả 0 ≤ k ≤ n. Nếu k không phải số nguyên (ví dụ 7/2) thì số hạng chứa xᵐ KHÔNG tồn ' +
       'tại, và đáp số đúng là "hệ số bằng 0" chứ không phải làm tròn k.',
     animation: {
       title: 'Tam giác Pascal mọc từng hàng, mỗi số là tổng hai số phía trên',
@@ -1399,12 +1399,12 @@ export const TOAN10_C8_LESSONS: MathLesson[] = [
     workedExample: {
       problem: 'Tìm hệ số của x⁵ trong khai triển (2x + 3)⁸.',
       steps: [
-        'Bước 1 — Viết số hạng tổng quát, đặt a = 2x và b = 3, n = 8: T₍ₖ₊₁₎ = C⁸ₖ · (2x)⁸⁻ᵏ · 3ᵏ.',
-        'Bước 2 — Tách phần chứa x ra để nhìn rõ số mũ: T₍ₖ₊₁₎ = C⁸ₖ · 2⁸⁻ᵏ · 3ᵏ · x⁸⁻ᵏ. Bước tách này là mấu chốt — ' +
+        'Bước 1 — Viết số hạng tổng quát, đặt a = 2x và b = 3, n = 8: T₍ₖ₊₁₎ = Cᵏ₈ · (2x)⁸⁻ᵏ · 3ᵏ.',
+        'Bước 2 — Tách phần chứa x ra để nhìn rõ số mũ: T₍ₖ₊₁₎ = Cᵏ₈ · 2⁸⁻ᵏ · 3ᵏ · x⁸⁻ᵏ. Bước tách này là mấu chốt — ' +
           'nhiều bạn quên nâng luỹ thừa cho hệ số 2 và chỉ lấy mỗi số tổ hợp.',
         'Bước 3 — Cho số mũ của x bằng 5: 8 − k = 5 ⇔ k = 3. Giá trị k = 3 là số nguyên và nằm trong [0; 8] nên số ' +
           'hạng này tồn tại.',
-        'Bước 4 — Thay k = 3 vào: hệ số = C⁸₃ · 2⁵ · 3³ = 56 · 32 · 27.',
+        'Bước 4 — Thay k = 3 vào: hệ số = C³₈ · 2⁵ · 3³ = 56 · 32 · 27.',
         'Bước 5 — Tính ra số: 56 · 32 = 1792; 1792 · 27 = 48384.',
       ],
       answer: 'Hệ số của x⁵ là 48384.',
@@ -1428,7 +1428,7 @@ export const TOAN10_C8_LESSONS: MathLesson[] = [
         prompt: 'Trong khai triển (x² + 1/x)⁹, hệ số của số hạng chứa x⁴ bằng bao nhiêu?',
         answer: { kind: 'numeric', value: 0 },
         explain:
-          'Đây là câu bẫy cố ý. Số hạng tổng quát: C⁹ₖ · (x²)⁹⁻ᵏ · x⁻ᵏ = C⁹ₖ · x¹⁸⁻³ᵏ. Cho 18 − 3k = 4 được k = 14/3, ' +
+          'Đây là câu bẫy cố ý. Số hạng tổng quát: Cᵏ₉ · (x²)⁹⁻ᵏ · x⁻ᵏ = Cᵏ₉ · x¹⁸⁻³ᵏ. Cho 18 − 3k = 4 được k = 14/3, ' +
           'KHÔNG phải số nguyên. Vậy khai triển này không hề có số hạng chứa x⁴ và hệ số cần tìm bằng 0. Rất nhiều ' +
           'bạn làm tròn k về 4 hoặc 5 rồi tính ra một con số — sai bản chất. Luôn kiểm k có nguyên và thuộc [0; n] ' +
           'hay không trước khi thay vào.',
@@ -1437,14 +1437,14 @@ export const TOAN10_C8_LESSONS: MathLesson[] = [
     srsCards: [
       {
         hoi: 'Số hạng tổng quát của khai triển (a+b)ⁿ?',
-        dap: 'T₍ₖ₊₁₎ = Cⁿₖ · aⁿ⁻ᵏ · bᵏ; số hạng thứ k+1 ứng với chỉ số k.',
+        dap: 'T₍ₖ₊₁₎ = Cᵏₙ · aⁿ⁻ᵏ · bᵏ; số hạng thứ k+1 ứng với chỉ số k.',
       },
       {
         hoi: 'Vì sao hệ số khai triển lại là số tổ hợp?',
-        dap: 'Vì để có aⁿ⁻ᵏbᵏ phải chọn b từ đúng k trong n cặp ngoặc, số cách là Cⁿₖ.',
+        dap: 'Vì để có aⁿ⁻ᵏbᵏ phải chọn b từ đúng k trong n cặp ngoặc, số cách là Cᵏₙ.',
       },
       {
-        hoi: 'Tổng tất cả các hệ số Cⁿₖ với k từ 0 đến n bằng bao nhiêu?',
+        hoi: 'Tổng tất cả các hệ số Cᵏₙ với k từ 0 đến n bằng bao nhiêu?',
         dap: '2ⁿ — thay a = b = 1 vào nhị thức Newton.',
       },
     ],

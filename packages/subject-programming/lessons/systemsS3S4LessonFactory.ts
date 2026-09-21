@@ -68,7 +68,7 @@ export function systemsSimulation(input: LessonInput): ProgrammingLesson {
       hints: [
         'Kiểm trường thiếu/sai kiểu TRƯỚC, rồi mới tới luật nghiệp vụ.',
         'Thứ tự các luật phải tường minh và tất định, không phụ thuộc thứ tự dict.',
-        'Ca thiếu bằng chứng phải fail closed, không được quy về "an toàn".',
+        'Ca thiếu bằng chứng phải fail closed (mặc định TỪ CHỐI khi chưa đủ căn cứ), không được quy về "an toàn".',
       ],
       sampleSolution: input.sampleSolution,
     },

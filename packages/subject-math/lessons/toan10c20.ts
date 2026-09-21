@@ -1,5 +1,5 @@
 // lessons/toan10c20.ts — Chuyên đề bồi dưỡng HSG cấp TRƯỜNG (track: 'advanced', tier 'hsg-truong').
-// Ba chuyên đề đi thẳng lên từ chương trình chuẩn lớp 10: bất đẳng thức AM–GM, chia hết, đếm nâng cao.
+// Hai chuyên đề đi thẳng lên từ chương trình chuẩn lớp 10: bất đẳng thức AM–GM, chia hết và đồng dư.
 import type { MathLesson } from '../lessonTypes.js'
 
 export const TOAN10_C20_LESSONS: MathLesson[] = [

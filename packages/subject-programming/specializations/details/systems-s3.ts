@@ -81,7 +81,7 @@ export const SYSTEMS_S3_DETAIL: SpecStageDetail = {
       objective:
         'Viết được cấu trúc dữ liệu đồng thời và kiểm chứng tính đúng bằng công cụ chứ không bằng chạy thử vài lần.',
       practice: [
-        'Cài một hàng đợi dùng thao tác nguyên tử cho một nhà sản xuất và một người tiêu thụ.',
+        'Cài một hàng đợi dùng thao tác nguyên tử cho một bên ghi và một bên đọc (single producer, single consumer).',
         'Chạy công cụ phát hiện đua điều kiện với bốn luồng và ít nhất một triệu thao tác.',
         'Đọc lại mô hình bộ nhớ để đặt đúng hàng rào, rồi thử bỏ hàng rào để thấy lỗi xuất hiện.',
       ],

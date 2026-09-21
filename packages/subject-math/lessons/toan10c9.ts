@@ -12,7 +12,8 @@ export const TOAN10_C9_LESSONS: MathLesson[] = [
     hook:
       'Trong một trò chơi hội chợ Tết, người ta úp 3 chiếc bát, dưới một chiếc có đồng xu. Bạn chọn một bát, người ' +
       'chủ trò lật một bát TRỐNG trong hai bát còn lại rồi hỏi: "Có muốn đổi không?" Trực giác bảo đổi hay không ' +
-      'chẳng khác gì nhau. Trực giác sai — và bài học này cho bạn công cụ để chứng minh nó sai.',
+      'chẳng khác gì nhau. Trực giác sai. Bài học này trao cho bạn công cụ đầu tiên để không tin trực giác nữa: ' +
+      'mô tả thật rõ mọi kết quả có thể xảy ra, rồi mới đếm.',
     theory:
       'BA KHÁI NIỆM NỀN\n' +
       '— Phép thử ngẫu nhiên: hành động mà ta biết trước tập các kết quả có thể, nhưng không biết trước kết quả nào ' +
@@ -23,8 +24,8 @@ export const TOAN10_C9_LESSONS: MathLesson[] = [
       'P(A) = n(A) / n(Ω).\n' +
       'ĐIỀU KIỆN ÁP DỤNG CỰC KỲ QUAN TRỌNG: công thức này chỉ đúng khi các kết quả trong Ω ĐỒNG KHẢ NĂNG, tức khả ' +
       'năng xảy ra như nhau. Nếu không, đếm số phần tử rồi chia là sai hoàn toàn. Ví dụ tung hai đồng xu, nếu lấy ' +
-      'Ω = {hai mặt giống nhau, hai mặt khác nhau} thì hai kết quả này KHÔNG đồng khả năng (khác nhau có xác suất ' +
-      '1/2, giống nhau cũng 1/2 nhưng phải phân tích kỹ mới thấy). Cách an toàn: luôn mô tả Ω ở mức chi tiết nhất, ' +
+      'Ω = {hai mặt ngửa, hai mặt sấp, một ngửa một sấp} thì BA kết quả này KHÔNG đồng khả năng (lần lượt là 1/4, ' +
+      '1/4 và 1/2). Cách an toàn: luôn mô tả Ω ở mức chi tiết nhất, ' +
       'phân biệt cả các vật giống hệt nhau.\n\n' +
       'TÍNH CHẤT\n' +
       '— 0 ≤ P(A) ≤ 1; P(∅) = 0; P(Ω) = 1.\n' +

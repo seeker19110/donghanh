@@ -58,7 +58,7 @@ export const P6U154_LESSONS = [
     title: 'triage tài nguyên và least privilege',
     hook: 'CPU còn thấp nhưng app vẫn không mở được socket mới: file descriptor hoặc disk có thể đã cạn.',
     theory:
-      'Triage phải theo evidence: CPU, RAM, disk và file descriptor là các failure mode khác nhau. Quyền tối thiểu giảm blast radius; không suy luận root hay SSH key từ simulator.',
+      'Triage phải theo evidence: CPU, RAM, disk và file descriptor là các failure mode khác nhau. Quyền tối thiểu thu hẹp phạm vi thiệt hại (blast radius); không suy luận root hay SSH key từ simulator.',
     workedCode:
       '# MÔ PHỎNG metric\nmetrics = {"cpu": 20, "ram": 40, "disk": 98, "fd": 12}\nprint("triage:disk")',
     predictCode: 'metrics = {"cpu": 10, "ram": 20, "disk": 20, "fd": 100}\nprint("triage:fd")',

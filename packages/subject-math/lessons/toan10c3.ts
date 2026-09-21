@@ -39,7 +39,7 @@ export const TOAN10_C3_LESSONS: MathLesson[] = [
     animation: {
       title: 'Cùng hai cạnh, đổi góc xen giữa thì cạnh thứ ba đổi theo',
       description:
-        'Hai tam giác được dựng lần lượt từ cùng một đỉnh A với hai cạnh giữ nguyên: AB = 5 và AC = 8. Tam giác thứ nhất có góc A = 60 độ, cạnh đối diện tính theo định lí côsin là a bình phương bằng 25 cộng 64 trừ 2 nhân 5 nhân 8 nhân cos 60 độ, tức 89 trừ 40 bằng 49, nên a = 7. Sau đó cạnh AC quay lên vị trí vuông góc với AB: góc A = 90 độ, số hạng trừ biến mất vì cos 90 độ bằng 0, nên a bình phương bằng đúng 89 và a khoảng 9,43. Hình động phá bẫy quen thuộc là tưởng ba cạnh quyết định lẫn nhau một cách cố định: hai cạnh giữ nguyên mà cạnh thứ ba vẫn dài ra khi góc xen giữa mở rộng, và định lí Pytago chỉ là trường hợp riêng khi góc đó bằng 90 độ.',
+        'Hai tam giác được dựng lần lượt từ cùng một đỉnh A với hai cạnh giữ nguyên: AB = 5 và AC = 8. Tam giác thứ nhất có góc A = 60 độ, cạnh đối diện tính theo định lí côsin là a bình phương bằng 25 cộng 64 trừ 2 nhân 5 nhân 8 nhân cos 60 độ, tức 89 trừ 40 bằng 49, nên a = 7. Sau đó cạnh AC quay lên vị trí vuông góc với AB: góc A = 90 độ, số hạng trừ biến mất vì cos 90 độ bằng 0, nên a bình phương bằng đúng 89 và a khoảng 9,43. Hình động phá bẫy quen thuộc là tưởng ba cạnh quyết định lẫn nhau một cách cố định: hai cạnh giữ nguyên mà cạnh thứ ba vẫn dài ra khi góc xen giữa mở rộng, và định lí Pythagore chỉ là trường hợp riêng khi góc đó bằng 90 độ.',
       viewBoxWidth: 360,
       viewBoxHeight: 260,
       durationMs: 7000,
@@ -379,7 +379,7 @@ export const TOAN10_C3_LESSONS: MathLesson[] = [
         },
         {
           atMs: 6200,
-          text: 'cos90° = 0 nên số hạng trừ biến mất: a² = 89, a ≈ 9,43. Pytago chỉ là một ca riêng.',
+          text: 'cos90° = 0 nên số hạng trừ biến mất: a² = 89, a ≈ 9,43. Pythagore chỉ là một trường hợp riêng.',
         },
       ],
     },

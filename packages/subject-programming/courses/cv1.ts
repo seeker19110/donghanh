@@ -6,7 +6,7 @@ export const CV1_COURSE: ShortCourse = {
   title: 'Deep Learning for Computer Vision cơ bản',
   canDo:
     'Giải thích và tự cài được forward pass của MLP và CNN (convolution/pooling), chạy được vòng huấn luyện trên bài toán ảnh nhỏ; đọc hiểu code PyTorch tương đương và biết Docker đóng gói mô hình để làm gì.',
-  duration: '14 bài · 3 giai đoạn · nên học sau khoá Machine Learning & Data Science',
+  duration: '14 bài · 3 chương · nên học sau khoá Machine Learning & Data Science',
   prerequisites: ['Khoá Machine Learning & Data Science (mlds)'],
   chapters: [
     {

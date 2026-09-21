@@ -84,7 +84,7 @@ for phan in chuan:              # duyet theo DUNG THU TU chuan
       hints: [
         'Tách input bằng .split(",") ra list các phần đã có; danh sách 5 phần chuẩn ghi cố định theo đúng thứ tự đề bài.',
         'Duyệt for phan in chuan (không phải duyệt da_co) để phần thiếu luôn in ra đúng thứ tự chuẩn, không phụ thuộc thứ tự input.',
-        'Dùng một biến đếm (hoặc list) số phần thiếu: nếu sau vòng lặp không có gì bị in "Thieu:" thì in "Du 5 phan" — cách gọn là đếm len(chuan) - len(da_co đã lọc trùng) hoặc dùng cờ boolean.',
+        'Dùng một biến đếm (hoặc list) số phần thiếu: đặt một cờ boolean thieu_gi = False trước vòng lặp, mỗi lần in "Thieu:" thì gán nó thành True; sau vòng lặp, nếu cờ vẫn là False thì in "Du 5 phan".',
       ],
       sampleSolution: `da_co = input("Cac phan da co: ").split(",")\nchuan = ["boi_canh", "lua_chon", "quyet_dinh", "danh_doi", "he_qua"]\nthieu_gi = False\nfor phan in chuan:\n    if phan not in da_co:\n        print(f"Thieu: {phan}")\n        thieu_gi = True\nif not thieu_gi:\n    print("Du 5 phan")`,
     },

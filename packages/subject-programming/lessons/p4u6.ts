@@ -27,7 +27,7 @@ def tinh_tien_don(gia, so_luong):
 def test_duoi_moc():                 # ngay DƯỚI mốc: đúng ra không giảm — code đúng ở đây
     assert tinh_tien_don(9000, 11) == 99000
 
-def test_dung_moc_100k():            # ĐÚNG MỐC: đây là test bắt được lỗi -> se FAILED
+def test_dung_moc_100k():            # ĐÚNG MỐC: đây là test bắt được lỗi -> sẽ FAILED
     assert tinh_tien_don(10000, 10) == 90000
 
 def test_tren_moc():                 # ngay TRÊN mốc: code đúng ở đây

@@ -20,7 +20,7 @@ export const MOBILE_S2_DETAIL: SpecStageDetail = {
         },
         {
           q: 'Đơn hàng gửi lại sau khi có mạng có nguy cơ gì?',
-          a: 'Có thể tạo đơn trùng nếu lần gửi trước đã tới server; phải kèm khoá lặp-lại-an-toàn.',
+          a: 'Có thể tạo đơn trùng nếu lần gửi trước đã tới server; phải kèm khoá lặp-lại-an-toàn (idempotency key).',
         },
       ],
       doneSignals: [

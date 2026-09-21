@@ -15,7 +15,7 @@ export const SYSTEMS_S2_DETAIL: SpecStageDetail = {
       ],
       selfCheck: [
         {
-          q: 'Tiến trình xác sống xuất hiện khi nào?',
+          q: 'Tiến trình xác sống (zombie) xuất hiện khi nào?',
           a: 'Khi tiến trình con kết thúc mà cha chưa thu trạng thái thoát; bảng tiến trình vẫn giữ một mục.',
         },
         {
@@ -71,7 +71,7 @@ export const SYSTEMS_S2_DETAIL: SpecStageDetail = {
         },
       ],
       doneSignals: [
-        'Máy chủ giữ được một nghìn kết nối mà bộ nhớ không phình theo cấp số nhân.',
+        'Máy chủ giữ được một nghìn kết nối mà bộ nhớ không phình mất kiểm soát.',
         'Ngắt kết nối đột ngột không làm máy chủ chết.',
       ],
     },

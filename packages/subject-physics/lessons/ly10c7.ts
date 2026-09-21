@@ -227,7 +227,7 @@ export const LY10_C7_LESSONS: PhysicsLesson[] = [
     lessonNumber: 33,
     title: 'Biến dạng của vật rắn',
     hook:
-      'Dây cung bắn tên hay đệm nhảy lò xo trampoline có thể co giãn đàn hồi linh hoạt rồi quay lại hình dạng cũ. ' +
+      'Dây cung bắn tên hay tấm đệm nhún (trampoline) đều biến dạng rất nhiều rồi tự lấy lại hình dạng cũ. ' +
       'Nhưng nếu kéo quá mạnh, chúng sẽ bị méo mó vĩnh viễn. Đâu là ranh giới khoa học cho sự đàn hồi?',
     theory:
       'PHÂN LOẠI BIẾN DẠNG:\n' +
@@ -240,7 +240,8 @@ export const LY10_C7_LESSONS: PhysicsLesson[] = [
       'ĐỊNH LUẬT HOOKE (ĐỊNH LUẬT ĐÀN HỒI LÒ XO):\n' +
       '— Phát biểu: Trong giới hạn đàn hồi, độ lớn lực đàn hồi của lò xo tỉ lệ thuận với độ biến dạng của lò xo.\n' +
       '— Công thức: F_đh = k.|Δl|.\n' +
-      '  — k: Độ cứng (độ chịu biến dạng) của lò xo. Đơn vị: Newton trên mét (N/m).\n' +
+      '  — k: Độ cứng của lò xo, còn gọi là hệ số đàn hồi; k càng lớn thì lò xo càng khó biến dạng. ' +
+      'Đơn vị: Newton trên mét (N/m).\n' +
       '  — Δl = l - l_o: Độ biến dạng của lò xo (l độ dài sau biến dạng, l_o độ dài tự nhiên ban đầu). Đơn vị: mét (m).',
     workedExample: {
       problem:
@@ -268,7 +269,8 @@ export const LY10_C7_LESSONS: PhysicsLesson[] = [
           correctIds: ['ct_1'],
         },
         explain:
-          'Độ lớn lực đàn hồi của lò xo tỉ lệ thuận trực tiếp với độ biến dạng của nó thông qua hệ số độ cứng k.',
+          'Lực đàn hồi tỉ lệ THUẬN với độ biến dạng qua hệ số độ cứng k: kéo giãn gấp đôi thì lực đàn hồi gấp đôi. ' +
+          'Hai phương án chia cho nhau đều cho điều vô lí: lò xo chưa biến dạng (Δl = 0) lại sinh ra lực vô cùng lớn.',
       },
       {
         prompt:
@@ -512,16 +514,16 @@ export const LY10_C7_LESSONS: PhysicsLesson[] = [
       '— Công thức tính áp suất chất lỏng ở độ sâu h tính từ mặt thoáng chất lỏng:\n' +
       '  — p = p_o + ρ.g.h (p_o là áp suất khí quyển bề mặt thoáng, ρ là khối lượng riêng chất lỏng).\n' +
       '  — Áp suất tĩnh của riêng cột chất lỏng: p_tĩnh = ρ.g.h.\n\n' +
-      'LỰC ĐẨY ARCHIMEDES (ARCHIMEDES LIFT FORCE):\n' +
+      'LỰC ĐẨY ARCHIMEDES (BUOYANT FORCE):\n' +
       '— Lực đẩy tác dụng lên một vật chìm trong chất lưu hướng thẳng đứng từ dưới lên có độ lớn bằng trọng lượng phần chất lưu bị vật chiếm chỗ:\n' +
       '  — F_A = ρ_cl.g.V (V là thể tích phần vật chìm trong chất lưu, ρ_cl là khối lượng riêng chất lưu).',
     workedExample: {
       problem:
-        'Một người thợ lặn ở độ sâu h = 10 m dưới mặt nước biển. Biết khối lượng riêng của nước biển là ρ = 1000 kg/m³, ' +
-        'gia tốc trọng trường g = 10 m/s². Tính áp suất do cột nước biển tác dụng lên người thợ lặn (bỏ qua áp suất khí quyển).',
+        'Một người thợ lặn ở độ sâu h = 10 m dưới mặt nước. Biết khối lượng riêng của nước là ρ = 1000 kg/m³, ' +
+        'gia tốc trọng trường g = 10 m/s². Tính áp suất do cột nước tác dụng lên người thợ lặn (bỏ qua áp suất khí quyển).',
       steps: [
-        'Xác định độ sâu h = 10 m, khối lượng riêng nước biển ρ = 1000 kg/m³, gia tốc g = 10 m/s².',
-        'Tính áp suất tĩnh của cột nước biển ở độ sâu h: p_tĩnh = ρ.g.h.',
+        'Xác định độ sâu h = 10 m, khối lượng riêng của nước ρ = 1000 kg/m³, gia tốc g = 10 m/s².',
+        'Tính áp suất tĩnh của cột nước ở độ sâu h: p_tĩnh = ρ.g.h.',
         'Thay số: p_tĩnh = 1000 * 10 * 10 = 100000 (Pa) = 100 kPa.',
       ],
       answer: 'p = 100000 Pa',
@@ -540,7 +542,9 @@ export const LY10_C7_LESSONS: PhysicsLesson[] = [
           correctIds: ['ct_1'],
         },
         explain:
-          'Áp suất do cột chất lỏng gây ra tỉ lệ thuận với độ sâu h và khối lượng riêng ρ của chất lỏng: p = ρgh.',
+          'Áp suất của cột chất lỏng tỉ lệ THUẬN với độ sâu h và khối lượng riêng ρ: p = ρgh, càng lặn sâu áp suất càng lớn. ' +
+          'Phương án chia cho h làm ngược lại điều đó. Còn p = F / S đúng là định nghĩa chung của áp suất, ' +
+          'nhưng không cho biết áp suất thay đổi theo độ sâu như thế nào.',
       },
       {
         prompt:

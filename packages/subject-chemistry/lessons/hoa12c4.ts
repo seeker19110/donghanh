@@ -26,7 +26,7 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
       '— Mạch phân nhánh: như amylopectin, glycogen.\n' +
       '— Mạch mạng không gian (khâu mạch): như cao su lưu hoá, nhựa bakelite.\n\n' +
       'PHƯƠNG PHÁP TỔNG HỢP:\n' +
-      '1. Phản ứng trùng hợp: Là quá trình kết hợp nhiều phân tử nhỏ giống nhau hoặc tương tự nhau (monomer) thành phân tử lớn (polymer) không giải phóng chất phụ.\n' +
+      '1. Phản ứng trùng hợp: Là quá trình kết hợp nhiều phân tử nhỏ giống nhau hoặc tương tự nhau (monomer) thành phân tử lớn (polymer), không tách ra phân tử nhỏ nào.\n' +
       '   — Điều kiện monomer: Phân tử phải có liên kết bội kém bền (C=C, C≡C) hoặc vòng kém bền (như ethylene, vinyl chloride, styrene).\n' +
       '2. Phản ứng trùng ngưng: Là quá trình kết hợp nhiều phân tử monomer thành phân tử polymer đồng thời giải phóng các phân tử nhỏ khác (thường là H₂O).\n' +
       '   — Điều kiện monomer: Phân tử phải chứa ít nhất hai nhóm chức có khả năng phản ứng với nhau (ví dụ: acid adipic và hexamethylenediamine).',
@@ -40,7 +40,7 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
         'Hệ số trùng hợp n = 10000, nghĩa là phân tử gồm 10000 mắt xích nối với nhau.',
         'Tính khối lượng phân tử polymer: M_polymer = n * M_matxich = 10000 * 28 = 280000 g/mol.',
       ],
-      answer: '280000',
+      answer: '280000 g/mol',
     },
     checkQuestions: [
       {
@@ -52,7 +52,7 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['bantonghop'] },
         explain:
-          'Tơ viscose và tơ acetate được sản xuất bằng cách lấy polymer thiên nhiên là cellulose chế hoá thêm bằng tác chất hoá học (như CS₂ hoặc anhydride acetic), nên gọi là polymer bán tổng hợp.',
+          'Tơ viscose và tơ acetate đi từ polymer thiên nhiên là cellulose, rồi được chế hoá thêm bằng hoá chất (CS₂ hoặc anhydride acetic). Vì mạch polymer có sẵn trong tự nhiên nên chúng không phải polymer tổng hợp; vì đã bị biến đổi hoá học nên cũng không còn là polymer thiên nhiên. Loại nằm giữa hai nhóm đó gọi là polymer bán tổng hợp.',
       },
       {
         prompt: 'Phản ứng trùng ngưng khác phản ứng trùng hợp ở điểm cốt lõi nào?',
@@ -63,7 +63,7 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['a'] },
         explain:
-          'Phản ứng trùng ngưng luôn sinh ra sản phẩm phụ là các phân tử nhỏ (thường là H₂O) bên cạnh polymer chính, còn phản ứng trùng hợp thì không.',
+          'Phản ứng trùng ngưng luôn tách ra thêm phân tử nhỏ (thường là H₂O) bên cạnh polymer, còn trùng hợp thì không. Áp suất cao chỉ là điều kiện của một số phản ứng cụ thể, không phải dấu hiệu phân biệt; khối lượng phân tử polymer thì cả hai cách đều rất lớn.',
       },
     ],
     srsCards: [
@@ -594,7 +594,7 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
     theory:
       'CHẤT DẺO (Plastics):\n' +
       '— Là những vật liệu polymer có tính dẻo (bị biến dạng khi chịu tác dụng của nhiệt, áp lực bên ngoài và vẫn giữ nguyên sự biến dạng đó khi thôi tác dụng).\n' +
-      '— Các chất dẻo phổ biến: Polyethylene (PE), Poly(vinyl chloride) (PVC), Poly(methyl methacrylate) (PMM - thuỷ tinh hữu cơ Plexiglas), Poly(tetrafluoroethylene) (Teflon - chảo chống dính).\n\n' +
+      '— Các chất dẻo phổ biến: Polyethylene (PE), Poly(vinyl chloride) (PVC), Poly(methyl methacrylate) (PMMA — thuỷ tinh hữu cơ, tên thương mại Plexiglas), Poly(tetrafluoroethylene) (Teflon - chảo chống dính).\n\n' +
       'TƠ (Fibers):\n' +
       '— Là những vật liệu polymer hình sợi dài, mảnh, độ bền kéo cao.\n' +
       '— Tơ polyamide (chứa nhóm −CO−NH−): tơ nylon-6, nylon-6,6. Kém bền với nhiệt, acid, base do nhóm amide bị thuỷ phân.\n' +
@@ -613,7 +613,7 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
         'Phản ứng trùng hợp mở liên kết đôi C=C thành liên kết đơn và nối các mắt xích lại với nhau dưới tác dụng của nhiệt độ (t°), áp suất (p), xúc tác (xt).',
         'Viết phương trình phản ứng: n CH₂=CHCl → −(CH₂−CHCl)−ₙ.',
       ],
-      answer: 'n CH2=CHCl -> -(CH2-CHCl)-n',
+      answer: 'n CH₂=CHCl → −(CH₂−CHCl)−ₙ',
     },
     checkQuestions: [
       {
@@ -636,7 +636,7 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['butadiene'] },
         explain:
-          'Cao su Buna viết tắt từ Butadiene và chất xúc tác Sodium (Natri), trùng hợp từ buta-1,3-diene (CH₂=CH−CH=CH₂).',
+          'Tên Buna ghép từ Butadiene và Na (natri, chất xúc tác), nên monomer của nó là buta-1,3-diene CH₂=CH−CH=CH₂. Isoprene trùng hợp cho cao su isoprene (giống cao su thiên nhiên), còn chloroprene cho cao su chloroprene.',
       },
     ],
     srsCards: [
@@ -1221,16 +1221,16 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
     lessonNumber: 14,
     title: 'Ôn tập chương 4 — Polymer',
     hook:
-      'Chương 4 kết nối bức tranh toàn cảnh từ các monomer phân tử nhỏ sang các vật liệu polymer khổng lồ, ' +
-      'nền tảng của vật liệu học hiện đại.',
+      'Chương 4 đi một mạch từ những phân tử nhỏ là monomer đến các vật liệu quen thuộc quanh ta: chất dẻo, tơ sợi và cao su. ' +
+      'Bài này hệ thống lại toàn bộ chặng đường đó.',
     theory:
       'HỆ THỐNG HOÁ KIẾN THỨC CHƯƠNG 4:\n' +
-      '1. Khái niệm polymer: n mắt xích monomer. Có 3 nguồn gốc: thiên nhiên, tổng hợp, bán tổng hợp (viscose, acetate). Mạch thẳng, nhánh (amylopectin), mạng không gian (cao su lưu hoá, bakelite).\n' +
-      '2. Phương pháp tổng hợp: Trùng hợp (cộng hợp mở liên kết đôi, không giải phóng phụ), Trùng ngưng (đóng vòng hoặc kết hợp có tách H₂O).\n' +
-      '3. Vật liệu polymer: Chất dẻo (PE, PVC, PMM, Teflon); Cao su (thiên nhiên isoprene, tổng hợp Buna, Buna-S, Buna-N); Tơ (thiên nhiên bông/tơ tằm, bán tổng hợp viscose/acetate, tổng hợp nylon-6, nylon-6,6, tơ nitron).',
+      '1. Khái niệm polymer: phân tử rất lớn gồm n mắt xích giống nhau nối lại. Có 3 nguồn gốc: thiên nhiên, tổng hợp, bán tổng hợp (viscose, acetate). Có 3 dạng mạch: mạch thẳng, mạch phân nhánh (amylopectin), mạng không gian (cao su lưu hoá, bakelite).\n' +
+      '2. Phương pháp tổng hợp: Trùng hợp (mở liên kết bội của monomer rồi nối lại, không tách phân tử nhỏ nào); Trùng ngưng (nối các monomer có ít nhất hai nhóm chức, đồng thời tách ra phân tử nhỏ, thường là H₂O).\n' +
+      '3. Vật liệu polymer: Chất dẻo (PE, PVC, PMMA, Teflon); Cao su (thiên nhiên isoprene, tổng hợp Buna, Buna-S, Buna-N); Tơ (thiên nhiên bông/tơ tằm, bán tổng hợp viscose/acetate, tổng hợp nylon-6, nylon-6,6, tơ nitron).',
     workedExample: {
       problem:
-        'Để tổng hợp được 125 kg polyvinyl chloride (PVC, M=62,5) từ vinyl chloride (CH₂=CHCl, M=62,5) ' +
+        'Để tổng hợp được 125 kg polyvinyl chloride (PVC, mắt xích M = 62,5) từ vinyl chloride (CH₂=CHCl, M = 62,5) ' +
         'với hiệu suất phản ứng trùng hợp đạt 90%, ta cần bao nhiêu kg monomer vinyl chloride?',
       steps: [
         'Viết phương trình trùng hợp: n CH₂=CHCl → −(CH₂−CHCl)−ₙ. Khối lượng mắt xích bằng khối lượng monomer.',
@@ -1271,8 +1271,8 @@ export const HOA12_C4_LESSONS: ChemLesson[] = [
         dap: 'Phản ứng trùng hợp acrylonitrile (CH₂=CH−CN).',
       },
       {
-        hoi: 'Độ bền của tơ polyamide bị ảnh hưởng bởi yếu tố nào?',
-        dap: 'Dễ bị phân huỷ trong môi trường acid hoặc kiềm nóng do thuỷ phân liên kết amide.',
+        hoi: 'Tơ polyamide kém bền trong môi trường nào? Vì sao?',
+        dap: 'Kém bền trong acid và kiềm nóng, vì liên kết amide −CO−NH− trên mạch bị thuỷ phân làm đứt mạch polymer.',
       },
     ],
     track: 'core',

@@ -55,7 +55,7 @@ export const EMBEDDED_S4_DETAIL: SpecStageDetail = {
       ],
       doneSignals: [
         'Không thiết bị nào chạy được firmware chưa ký.',
-        'Bạn thu hồi được đúng một thiết bị mà không ảnh hưởng phần còn lại của đội.',
+        'Bạn thu hồi được đúng một thiết bị mà không ảnh hưởng các thiết bị còn lại.',
       ],
     },
     {

@@ -305,8 +305,8 @@ export const TOAN12_C3_LESSONS: MathLesson[] = [
       'GIÁ TRỊ ĐẠI DIỆN CỦA NHÓM\n' +
       'Với nhóm [a; b), ta lấy giá trị đại diện x = (a + b)/2, tức TRUNG ĐIỂM của nhóm, rồi coi như cả f giá trị ' +
       'trong nhóm đều bằng x.\n' +
-      'VÌ SAO CHỌN TRUNG ĐIỂM: ta không biết chúng nằm đâu trong nhóm, nên chọn điểm mà tổng sai lệch bình phương ' +
-      'nhỏ nhất trong tình huống xấu nhất — đó là điểm chính giữa. Đây là phép XẤP XỈ có kiểm soát, nên mọi kết quả ' +
+      'VÌ SAO CHỌN TRUNG ĐIỂM: ta không biết chúng nằm đâu trong nhóm, nên chọn điểm sao cho sai số lớn nhất có ' +
+      'thể mắc phải là nhỏ nhất — đó là điểm chính giữa. Đây là phép XẤP XỈ có kiểm soát, nên mọi kết quả ' +
       'ở bài này đều là giá trị gần đúng, và nhóm càng hẹp thì càng sát thực tế.\n\n' +
       'SỐ TRUNG BÌNH\n' +
       'x̄ = (1/n)·Σ nᵢxᵢ, với xᵢ là giá trị đại diện nhóm thứ i, nᵢ là tần số, n = Σ nᵢ.\n' +

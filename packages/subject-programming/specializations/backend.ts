@@ -234,7 +234,7 @@ export const BACKEND_SPECIALIZATION: ProgrammingSpecialization = {
           topics: [
             'Ước lượng dung lượng: QPS, dung lượng lưu, băng thông',
             'Phân mảnh dữ liệu, đọc bản sao, CQRS khi cần',
-            'Đa vùng địa lý và cái giá của độ trễ ánh sáng',
+            'Đa vùng địa lý và cái giá của độ trễ do khoảng cách (tín hiệu không đi nhanh hơn ánh sáng)',
           ],
         },
         {

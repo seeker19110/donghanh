@@ -18,7 +18,7 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
       '— Thực vật học (Botany), Động vật học (Zoology), Vi sinh vật học (Microbiology), Di truyền học (Genetics), Sinh học tế bào (Cell Biology), Sinh học phân tử (Molecular Biology), Sinh thái học (Ecology).\n\n' +
       'VAI TRÒ CỦA SINH HỌC TRONG CUỘC SỐNG:\n' +
       '— Y học: Sản xuất thuốc, vaccine, liệu pháp gene, chẩn đoán bệnh.\n' +
-      '— Nông nghiệp: Tạo giống cây trồng vật nuôi năng suất cao, kháng bệnh.\n' +
+      '— Nông nghiệp: Tạo giống cây trồng, vật nuôi năng suất cao, kháng bệnh.\n' +
       '— Công nghệ thực phẩm: Lên men sữa chua, bia, rượu, bảo quản thực phẩm.\n' +
       '— Bảo vệ môi trường: Xử lí ô nhiễm sinh học (bioremediation), bảo tồn đa dạng sinh học.\n\n' +
       'PHÁT TRIỂN BỀN VỮNG VÀ ĐẠO ĐỨC SINH HỌC:\n' +
@@ -65,7 +65,8 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
           kind: 'choice',
           correctIds: ['bn_1'],
         },
-        explain: 'Đây là định nghĩa chuẩn về phát triển bền vững (Sustainable Development).',
+        explain:
+          'Đây đúng là định nghĩa chuẩn về phát triển bền vững (Sustainable Development): vừa đáp ứng nhu cầu hôm nay, vừa giữ lại tài nguyên cho mai sau. Ba phương án còn lại đều chỉ nói tới tăng trưởng trước mắt và thường phải đánh đổi bằng tài nguyên, môi trường của thế hệ sau.',
       },
     ],
     srsCards: [
@@ -110,7 +111,7 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
         'Nêu các bước trong tiến trình nghiên cứu ảnh hưởng của ánh sáng đến sự nảy mầm của hạt đậu.',
       steps: [
         'Bước 1: Quan sát thấy hạt đậu ở chỗ sáng nảy mầm khác chỗ tối. Đặt câu hỏi: Ánh sáng có ảnh hưởng đến tỉ lệ nảy mầm không?',
-        'Bước 2: Đưa ra giả thuyết: Ánh sáng không ảnh hưởng đến tỉ lệ nảy mầm của hạt đậu (hoặc ngược lại).',
+        'Bước 2: Đưa ra giả thuyết phát biểu rõ ràng để kiểm chứng được, ví dụ: ánh sáng làm tăng tỉ lệ nảy mầm của hạt đậu.',
         'Bước 3: Thiết kế thí nghiệm: Chia hạt đậu làm 2 lô (Lô thí nghiệm: đặt ngoài sáng; Lô đối chứng: đặt trong bóng tối). Giữ nguyên các yếu tố khác như nước, nhiệt độ.',
         'Bước 4: Theo dõi sau 3 ngày, đếm số hạt nảy mầm ở cả hai lô và tính tỉ lệ phần trăm.',
         'Bước 5: Rút ra kết luận và viết báo cáo.',
@@ -172,7 +173,7 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
     animation: {
       title: 'Các cấp độ tổ chức sống lồng vào nhau',
       description:
-        'Sáu ô sáng lên lần lượt theo đúng thứ tự lồng nhau của thế giới sống. Phân tử (protein, ADN) tự nó chưa sống; ghép lại thành bào quan, nhiều bào quan hợp thành TẾ BÀO — cấp độ tổ chức sống CƠ BẢN nhất, vì từ đây trở lên mới có đủ dấu hiệu của sự sống. Tế bào cùng loại họp thành mô, các mô họp thành cơ quan rồi cơ thể; nhiều cơ thể cùng loài sống chung một vùng thành quần thể, nhiều quần thể thành quần xã, quần xã cùng môi trường vô sinh thành hệ sinh thái, tất cả hệ sinh thái trên Trái Đất là sinh quyển. Điểm mà một câu văn khó truyền: mỗi cấp trên KHÔNG chỉ là phép cộng của cấp dưới mà xuất hiện đặc tính mới, ví dụ tế bào biết trao đổi chất còn phân tử thì không.',
+        'Sáu ô sáng lên lần lượt theo đúng thứ tự lồng nhau của thế giới sống. Phân tử (protein, DNA) tự nó chưa sống; ghép lại thành bào quan, nhiều bào quan hợp thành TẾ BÀO — cấp độ tổ chức sống CƠ BẢN nhất, vì từ đây trở lên mới có đủ dấu hiệu của sự sống. Tế bào cùng loại họp thành mô, các mô họp thành cơ quan rồi cơ thể; nhiều cơ thể cùng loài sống chung một vùng thành quần thể, nhiều quần thể thành quần xã, quần xã cùng môi trường vô sinh thành hệ sinh thái, tất cả hệ sinh thái trên Trái Đất là sinh quyển. Điểm mà một câu văn khó truyền: mỗi cấp trên KHÔNG chỉ là phép cộng của cấp dưới mà xuất hiện đặc tính mới, ví dụ tế bào biết trao đổi chất còn phân tử thì không.',
       viewBoxWidth: 538,
       viewBoxHeight: 234,
       durationMs: 7800,
@@ -229,7 +230,7 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
           id: 'p0',
           x: 91,
           y: 84,
-          text: 'ADN, protein',
+          text: 'DNA, protein',
           size: 12,
           anchor: 'middle',
           fill: 'muted',
@@ -907,7 +908,7 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
       '   — Vai trò: Cấu tạo nên các đại phân tử sinh học (carbohydrate, lipid, protein, nucleic acid), cấu trúc nên tế bào và bào quan.\n' +
       '   — Carbon (C) là nguyên tố quan trọng nhất vì có 4 electron hoá trị, dễ dàng hình thành liên kết cộng hoá trị bền vững với các nguyên tố khác, tạo nên mạch carbon vô cùng đa dạng.\n' +
       '2. Nguyên tố vi lượng (Microelements): Chiếm tỉ lệ nhỏ (< 0,01% khối lượng khô cơ thể). Ví dụ: Fe, Cu, Zn, Mn, I, F...\n' +
-      '   — Vai trò: Tham gia cấu tạo enzyme hoạt hoá, hormone, sắc tố (ví dụ: Fe cấu tạo hồng cầu, I cấu tạo hormone tuyến giáp).\n\n' +
+      '   — Vai trò: Tham gia cấu tạo hoặc hoạt hoá enzyme, hormone, sắc tố (ví dụ: Fe cấu tạo hemoglobin trong hồng cầu, I cấu tạo hormone tuyến giáp).\n\n' +
       'NƯỚC VÀ VAI TRÒ CỦA NƯỚC ĐỐI VỚI TẾ BÀO:\n' +
       '— Cấu trúc phân cực: Nguyên tử Oxygen có độ âm điện lớn hơn nguyên tử Hydrogen, hút electron lệch về phía mình, làm đầu Oxygen mang điện tích âm nhẹ, đầu Hydrogen mang điện tích dương nhẹ.\n' +
       '— Liên kết hydrogen: Nhờ tính phân cực, các phân tử nước hút nhau tạo thành các liên kết hydrogen linh động.\n' +
@@ -919,7 +920,7 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
       problem:
         'Tại sao khi ta làm lạnh nước dưới 0 °C, nước đá lại nổi lên trên mặt nước lỏng? Điều này có ý nghĩa gì đối với sinh vật?',
       steps: [
-        'Mô tả cấu trúc nước đá: Khi nhiệt độ giảm dưới 4 °C, các liên kết hydrogen giữa các phân tử nước trở nên cố định và giữ khoảng cách xa nhau, tạo cấu trúc mạng lưới tinh thể rỗng làm mật độ phân tử giảm.',
+        'Mô tả cấu trúc nước đá: Nước lỏng đặc nhất ở 4 °C. Khi hạ xuống 0 °C và nước đóng băng, mỗi phân tử nước giữ 4 liên kết hydrogen bền vững, khoá các phân tử ở khoảng cách xa nhau thành mạng tinh thể rỗng nên mật độ phân tử giảm.',
         'Kết luận về khối lượng riêng: Khối lượng riêng của nước đá nhỏ hơn nước lỏng, khiến nước đá nổi lên.',
         'Ý nghĩa sinh thái: Vào mùa đông ở vùng cực, lớp băng nổi lên trên mặt hồ tạo thành một tấm cách nhiệt ngăn nước bên dưới tiếp tục đóng băng, bảo vệ các sinh vật thuỷ sinh sống dưới nước.',
       ],
@@ -1301,16 +1302,16 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
     theory:
       'CÁC PHÂN TỬ SINH HỌC CHÍNH TRONG TẾ BÀO:\n' +
       'Có 4 nhóm đại phân tử hữu cơ cấu tạo nên tế bào:\n' +
-      '1. Carbohydrate (Đường / Saccarit): Cấu tạo từ C, H, O theo tỉ lệ khoảng 1:2:1.\n' +
+      '1. Carbohydrate (đường, chất bột đường): Cấu tạo từ C, H, O theo tỉ lệ khoảng 1:2:1.\n' +
       '   — Đường đơn (Monosaccharide): Glucose, Fructose, Galactose. Dùng làm nguồn năng lượng tức thời.\n' +
-      '   — Đường đôi (Disaccharide): Sucrose, Lactose, Maltose. Dùng làm đường vận chuyển.\n' +
+      '   — Đường đôi (Disaccharide): Sucrose, Lactose, Maltose. Sucrose là dạng đường vận chuyển trong cây, lactose có trong sữa động vật.\n' +
       '   — Đường đa (Polysaccharide): Tinh bột (dự trữ ở thực vật), Glycogen (dự trữ ở động vật), Cellulose (cấu tạo thành tế bào thực vật), Chitin (thành tế bào nấm, vỏ giáp xác).\n' +
       '2. Lipid (Chất béo): Không tan trong nước (kị nước), cấu tạo chủ yếu từ C, H, O.\n' +
       '   — Triglyceride (mỡ và dầu): Cấu tạo từ 1 glycerol và 3 acid béo. Dự trữ năng lượng lâu dài.\n' +
       '   — Phospholipid: Cấu tạo từ 1 glycerol liên kết với 2 acid béo kị nước và 1 nhóm phosphate ưa nước. Là thành phần chính cấu tạo nên màng sinh chất.\n' +
       '   — Steroid (ví dụ cholesterol, estrogen, testosterone): Điều hoà sinh lí, làm vững màng sinh chất.\n' +
       '3. Protein (Chất đạm): Đại phân tử cấu tạo theo nguyên tắc đa phân, monomer là **amino acid** (có khoảng 20 loại khác nhau).\n' +
-      '   — Có 4 bậc cấu trúc: Bậc 1 (chuỗi polypeptide thẳng), Bậc 2 (xoắn alpha hoặc nếp gấp beta), Bậc 3 (cấu trúc không gian 3 chiều đặc trưng), Bậc 4 (sự liên kết của nhiều chuỗi polypeptide).\n' +
+      '   — Có 4 bậc cấu trúc: Bậc 1 (trình tự các amino acid trên chuỗi polypeptide), Bậc 2 (xoắn alpha hoặc nếp gấp beta), Bậc 3 (cấu trúc không gian 3 chiều đặc trưng), Bậc 4 (sự liên kết của nhiều chuỗi polypeptide).\n' +
       '   — Chức năng: Xúc tác (enzyme), cấu trúc (collagen, keratin), vận chuyển (hemoglobin), bảo vệ (kháng thể), truyền tín hiệu (hormone).\n' +
       '4. Nucleic acid: Gồm DNA (A, T, G, C - mạch kép xoắn, lưu trữ thông tin di truyền) và RNA (A, U, G, C - mạch đơn, truyền đạt thông tin di truyền và dịch mã). Cấu tạo từ các monomer là **nucleotide**.',
     workedExample: {
@@ -1337,7 +1338,7 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
           correctIds: ['cb_1'],
         },
         explain:
-          'Cellulose là polymer bền vững của các phân tử glucose, liên kết với nhau bằng liên kết hydro tạo các bó sợi microfibril cấu thành màng tế bào thực vật.',
+          'Cellulose là chuỗi dài các phân tử glucose nối nhau bằng liên kết glycosidic bền vững; nhiều chuỗi lại bị liên kết hydrogen bó chặt thành vi sợi (microfibril) làm nên thành tế bào thực vật. Tinh bột và glycogen cũng là polymer của glucose nhưng dùng để dự trữ, còn chitin cấu tạo thành tế bào nấm chứ không phải của thực vật.',
       },
       {
         prompt:
@@ -1383,13 +1384,13 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
       'NGUYÊN TẮC CÁC PHẢN ỨNG THỬ MÀU SINH HỌC:\n' +
       '1. Nhận biết đường khử (glucose, fructose...):\n' +
       '   — Thuốc thử: Dung dịch Benedict (hoặc thuốc thử Fehling chứa ion Cu²⁺).\n' +
-      '   — Hiện tượng: Khi đun nóng nhẹ hỗn hợp đường khử với thuốc thử Benedict, xuất hiện kết tủa đỏ gạch (Cu₂O) do đường khử oxi hoá Cu²⁺ thành Cu⁺.\n' +
+      '   — Hiện tượng: Khi đun nóng nhẹ hỗn hợp đường khử với thuốc thử Benedict, xuất hiện kết tủa đỏ gạch (Cu₂O) do đường khử đã khử ion Cu²⁺ xuống Cu⁺.\n' +
       '2. Nhận biết tinh bột:\n' +
       '   — Thuốc thử: Dung dịch Iốt (I₂ / KI).\n' +
       '   — Hiện tượng: Dung dịch Iốt len lỏi vào cấu trúc xoắn của tinh bột tạo thành phức chất có màu xanh tím đặc trưng. Khi đun nóng màu xanh tím biến mất, làm nguội màu xuất hiện trở lại.\n' +
       '3. Nhận biết protein (Phản ứng Biuret):\n' +
       '   — Thuốc thử: NaOH + CuSO₄ (phản ứng tạo môi trường kiềm cho ion Cu²⁺ liên kết với peptide).\n' +
-      '   — Hiện tượng: Sự hình thành phức chất màu tím đặc trưng giữa các nguyên tử Cu²⁺ và các liên kết peptide của protein.\n' +
+      '   — Hiện tượng: Xuất hiện màu tím đặc trưng do ion Cu²⁺ tạo phức với các liên kết peptide của protein.\n' +
       '4. Nhận biết lipid:\n' +
       '   — Nguyên tắc: Lipid không tan trong nước nhưng tan trong dung môi hữu cơ (ethanol). Khi cho nước vào dung dịch lipid đã hoà tan trong cồn, sẽ xuất hiện nhũ dịch trắng đục (emulsion).',
     workedExample: {
@@ -1401,7 +1402,7 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
         'Nhỏ tiếp vài giọt dung dịch CuSO₄ 1% vào ống nghiệm và lắc đều nhẹ nhàng.',
         'Quan sát hiện tượng: Dung dịch chuyển sang màu tím đặc trưng (phản ứng Biuret dương tính).',
       ],
-      answer: 'Nhỏ NaOH và CuSO4 vào dung dịch lòng trắng trứng thấy xuất hiện phức chất màu tím.',
+      answer: 'Nhỏ NaOH và CuSO₄ vào dung dịch lòng trắng trứng thấy xuất hiện phức chất màu tím.',
     },
     checkQuestions: [
       {
@@ -1417,7 +1418,8 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
           kind: 'choice',
           correctIds: ['th_1'],
         },
-        explain: 'Dung dịch Iốt phản ứng tạo màu xanh tím đặc trưng với tinh bột.',
+        explain:
+          'Phân tử iốt chui vào lòng chuỗi xoắn của tinh bột tạo phức chất màu xanh tím đặc trưng. Benedict dùng cho đường khử, NaOH kết hợp CuSO₄ mới là phép thử protein, còn ethanol chỉ dùng để thử lipid.',
       },
       {
         prompt:
@@ -1443,7 +1445,7 @@ export const SINH10_C1_LESSONS: BiologyLesson[] = [
       },
       {
         hoi: 'Tại sao màu xanh tím của tinh bột và iốt biến mất khi đun nóng?',
-        dap: 'Vì nhiệt độ cao làm phân tử tinh bột duỗi thẳng, iốt giải phóng khỏi ống xoắn tinh bột; khi nguội tinh bột xoắn lại làm iốt bị bẫy lại và màu xanh tím xuất hiện.',
+        dap: 'Vì nhiệt độ cao làm chuỗi tinh bột duỗi thẳng, iốt thoát khỏi lòng chuỗi xoắn; khi nguội tinh bột xoắn lại, giữ iốt vào trong nên màu xanh tím xuất hiện trở lại.',
       },
     ],
     track: 'core',

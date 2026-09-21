@@ -133,7 +133,7 @@ export const P6U276_LESSONS = [
       'NGOÀI sandbox, thêm chức năng "Xuất dữ liệu" vào một app nhỏ của bạn: xuất toàn bộ dữ liệu người dùng ra JSON, rồi nhập lại vào một bản cài sạch và đối chiếu số bản ghi trước/sau.',
     cards: [
       {
-        hoi: 'Vì sao app desktop bắt buộc có chức năng xuất dữ liệu?',
+        hoi: 'Vì sao app desktop bắt buộc phải cho người dùng xuất dữ liệu ra?',
         dap: 'Vì dữ liệu nằm trên máy người dùng: không xuất được thì họ bị khoá vào app của bạn và mất trắng nếu app ngừng phát triển.',
       },
       {

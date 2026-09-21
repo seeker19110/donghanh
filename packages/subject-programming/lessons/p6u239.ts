@@ -23,7 +23,7 @@ export const P6U239_LESSONS = [
     predictAnswer: 0,
     predictExplain: 'D không nằm trong tập đánh dấu được từ gốc, nên pha quét thu gom nó.',
     makePrompt:
-      'Đọc `roots:<tên ngăn bằng dấu chấm phẩy, `-` nếu rỗng>,edges:<A>B;B>C, `-` nếu rỗng>,target:<tên>`. Thiếu trường → `invalid: field`; target không có trong đồ thị → `invalid: target`; target còn reachable từ gốc → `deny: object van reachable, mark-sweep khong thu gom`; còn lại → `collected: mark-sweep thu gom <target>`. Đồ thị có chu trình vẫn phải dừng. MÔ PHỎNG, không giải phóng bộ nhớ thật.',
+      'Đọc một dòng dạng `roots:...,edges:...,target:...`, trong đó roots là các tên gốc ngăn bằng dấu chấm phẩy, edges là các cạnh dạng A>B cũng ngăn bằng dấu chấm phẩy, và dấu gạch ngang thay cho danh sách rỗng — ví dụ `roots:A,edges:A>B;B>C,target:C`. Thiếu trường → `invalid: field`; target không có trong đồ thị → `invalid: target`; target còn reachable từ gốc → `deny: object van reachable, mark-sweep khong thu gom`; còn lại → `collected: mark-sweep thu gom <target>`. Đồ thị có chu trình vẫn phải dừng. MÔ PHỎNG, không giải phóng bộ nhớ thật.',
     testCases: [
       {
         stdinLines: ['roots:A,edges:A>B,target:B'],

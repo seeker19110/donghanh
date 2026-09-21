@@ -12,7 +12,7 @@ type LessonInput = {
   predictAnswer: number
   predictExplain: string
   makePrompt: string
-  /** Factories normalize this to `contains`, so callers cannot accidentally use runner-unsafe exact matching. */
+  /** Factory tự chuẩn hoá về `contains`, để người soạn không lỡ dùng so khớp tuyệt đối (runner echo stdin). */
   testCases: Array<
     Omit<ProgrammingLesson['make']['testCases'][number], 'match'> & {
       match?: ProgrammingLesson['make']['testCases'][number]['match']

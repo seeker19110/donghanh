@@ -199,7 +199,7 @@ console.log("That bai 3:", theoDoiThatBai("viec-X", soLanThatBai, NGUONG))`,
     id: 'p6-u104-l2',
     unitId: 'p6-u104',
     language: 'typescript',
-    title: 'Race condition: hai luồng cùng cộng biến đếm, mất mất một lần cộng',
+    title: 'Race condition: hai luồng cùng cộng biến đếm, mất một lần cộng',
     hook: 'Hai request cùng lúc gọi "tăng số lượt xem bài viết lên 1". Bộ đếm đang là 10. Cả hai request đều đọc thấy 10, đều tính ra 11, đều ghi lại 11. Đáng lẽ phải là 12 (hai lần +1), kết quả cuối chỉ là 11 — một lần cộng biến mất không dấu vết, không có lỗi nào được báo.',
     theory:
       'RACE CONDITION (tranh chấp) xảy ra khi nhiều luồng thực thi cùng truy cập một dữ liệu dùng chung, và kết quả cuối cùng PHỤ THUỘC vào THỨ TỰ XEN KẼ của các bước — thứ tự đó lại không do lập trình viên kiểm soát được.\n\nPhép "tăng biến đếm lên 1" trông như MỘT bước, nhưng máy tính thực hiện nó bằng BA bước tách rời: (1) ĐỌC giá trị hiện tại, (2) CỘNG 1 vào giá trị vừa đọc, (3) GHI kết quả trở lại. Nếu hai luồng A và B cùng làm việc này trên cùng một biến, và các bước của chúng XEN KẼ nhau thay vì chạy trọn vẹn từng luồng một, kết quả có thể sai:\n\nBiến đếm bắt đầu = 10.\nA đọc: thấy 10.\nB đọc: thấy 10 (A CHƯA GHI XONG nên B vẫn thấy giá trị cũ).\nA cộng: 10 + 1 = 11. A ghi: biến đếm = 11.\nB cộng: 10 + 1 = 11 (B dùng giá trị B ĐÃ ĐỌC TỪ TRƯỚC, không đọc lại). B ghi: biến đếm = 11.\nKết quả cuối: 11 — dù có HAI lần +1, chỉ MỘT lần được tính. Lần cộng của A bị "nuốt mất" vì B ghi đè lên bằng một giá trị tính từ dữ liệu đã cũ.\n\nCách sửa cốt lõi: gộp đọc-cộng-ghi thành MỘT BƯỚC NGUYÊN TỬ (atomic) — không thể bị luồng khác chen ngang giữa chừng. Trong CSDL thật, đó là câu lệnh `UPDATE bang SET dem = dem + 1` (CSDL tự đảm bảo nguyên tử ở tầng dòng dữ liệu) thay vì đọc giá trị ra ứng dụng, cộng, rồi ghi lại. Trong bộ nhớ một tiến trình, đó là dùng khoá (mutex) hoặc cấu trúc dữ liệu atomic để đảm bảo không luồng nào xen vào giữa ba bước.\n\nHai khái niệm liên quan, chỉ cần hiểu KHÔNG cần code: DEADLOCK là khi hai luồng cùng CHỜ khoá của nhau — luồng A giữ khoá 1 và đang chờ khoá 2, luồng B giữ khoá 2 và đang chờ khoá 1 — cả hai đứng hình mãi mãi vì không bên nào chịu nhả khoá đang giữ. GIỚI HẠN ĐỒNG THỜI (backpressure) là chặn không cho quá N việc chạy song song cùng lúc — việc thứ N+1 phải CHỜ tới khi có một việc trong N đang chạy xong, tránh làm sập hệ thống (hết bộ nhớ, hết kết nối CSDL) khi có quá nhiều việc ập đến cùng lúc.',
@@ -326,7 +326,7 @@ console.log("Viec thu 4 (dang chay 3):", chayGioiHanDongThoi(3, GIOI_HAN))`,
       hints: [
         'tangNguyenTu: viết đúng một dòng bienDem.giaTri = bienDem.giaTri + 1 — không tạo biến trung gian lưu giá trị đọc ra rồi mới gán lại, vì tách ra là tạo đúng cái kẽ hở race condition đã học ở workedExample.',
         'chayGioiHanDongThoi: so sánh soViecDangChay < GIOI_HAN (chú ý dấu <, không phải <=) — còn chỗ trống nghĩa là số đang chạy CHƯA CHẠM giới hạn.',
-        'Kiểm lại bằng workedExample: giới hạn 3 nghĩa là tối đa 3 việc chạy CÙNG LÚC — khi đã có đúng 3 việc đang chạy (soViecDangChay = 3), việc thứ 4 không còn chỗ nên phải "CHO".',
+        'Nghĩ cho chắc về ca biên: giới hạn 3 nghĩa là tối đa 3 việc chạy CÙNG LÚC — khi đã có đúng 3 việc đang chạy (soViecDangChay = 3), việc thứ 4 không còn chỗ nên phải "CHO".',
       ],
       sampleSolution: `type BienDem = { giaTri: number }
 

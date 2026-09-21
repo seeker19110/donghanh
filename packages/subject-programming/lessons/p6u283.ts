@@ -10,7 +10,7 @@ export const P6U283_LESSONS = [
     title: 'ngân sách startup và RAM lúc nghỉ',
     hook: 'App mở trong 6 giây trên máy văn phòng cũ là app bị người ta ghim vào thanh tác vụ rồi không bao giờ bấm nữa.',
     theory:
-      'Hai ngân sách độc lập: thời gian mở app (startup) có trần 2000ms và RAM ở trạng thái nghỉ có trần 400MB. Vượt trần startup chỉ bị deny khi còn module tải lười được mà chưa tải lười — tức là còn cách sửa rõ ràng; vượt trần RAM nghỉ thì reject thẳng vì app không làm gì vẫn chiếm chỗ là lỗi giữ dữ liệu thừa. Ba con số 2000, 400 là hằng số dạy học của bài.',
+      'Hai ngân sách độc lập: thời gian mở app (startup) có trần 2000ms và RAM ở trạng thái nghỉ có trần 400MB. Vượt trần startup chỉ bị deny khi còn module tải lười được mà chưa tải lười — tức là còn cách sửa rõ ràng; vượt trần RAM nghỉ thì reject thẳng vì app không làm gì vẫn chiếm chỗ là lỗi giữ dữ liệu thừa. Hai con số 2000 và 400 là hằng số dạy học của bài.',
     workedCode:
       '# MÔ PHỎNG ngân sách khởi động\nstartup_ms, deferred = 5200, "no"\nprint("deny: startup budget exceeded" if startup_ms > 2000 and deferred == "no" else "allow: within budget")',
     predictCode:

@@ -208,7 +208,9 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
           correctIds: ['dung'],
         },
         explain:
-          'Điều kiện cân bằng của một vật là tổng vectơ của tất cả các lực tác dụng lên nó phải bằng vectơ không.',
+          'Điều kiện cân bằng là tổng VECTƠ của mọi lực tác dụng lên vật bằng vectơ không. Cộng ba độ lớn như ba con số ' +
+          '(dạng đại số) thì không bao giờ ra 0 vì độ lớn luôn dương. Còn F₁ + F₂ = F₃ sai dấu: hợp lực của F₁ và F₂ ' +
+          'phải TRỰC ĐỐI với F₃, tức bằng -F₃.',
       },
       {
         // Câu bẫy: cộng độ lớn hai lực như cộng hai con số, quên rằng lực là VECTƠ.
@@ -377,7 +379,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
     lessonNumber: 14,
     title: 'Định luật 1 Newton',
     hook:
-      'Nếu bạn phóng một con tàu vũ trụ vào không gian sâu thẳm, nó sẽ bay mãi mãi theo một đường thẳng mà không cần bất kỳ động cơ nào chạy. ' +
+      'Nếu bạn phóng một con tàu vũ trụ vào không gian sâu thẳm, nó sẽ bay mãi mãi theo một đường thẳng mà không cần bất kì động cơ nào chạy. ' +
       'Tại sao trên Trái Đất, mọi vật di chuyển lại dừng lại nếu ta ngừng đẩy?',
     theory:
       'QUÁN TÍNH (INERTIA):\n' +
@@ -620,7 +622,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
     lessonNumber: 15,
     title: 'Định luật 2 Newton',
     hook:
-      'Đẩy một chiếc xe đẩy siêu thị trống không rất dễ dàng. Nhưng nếu chiếc xe chất đầy hàng hóa nặng nề, bạn cần dùng một lực lớn hơn nhiều ' +
+      'Đẩy một chiếc xe đẩy siêu thị trống không rất dễ dàng. Nhưng nếu chiếc xe chất đầy hàng hoá nặng nề, bạn cần dùng một lực lớn hơn nhiều ' +
       'chỉ để làm nó bắt đầu chuyển động. Định luật 2 Newton sẽ giải thích mối liên hệ này bằng toán học.',
     theory:
       'ĐỊNH LUẬT 2 NEWTON:\n' +
@@ -653,7 +655,9 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
           kind: 'choice',
           correctIds: ['cong_1'],
         },
-        explain: 'Hợp lực tác dụng lên vật bằng tích khối lượng và gia tốc: F = m*a.',
+        explain:
+          'Hợp lực bằng khối lượng nhân gia tốc: F = m*a. Hai phương án kia sai vì cùng một lực thì khối lượng càng lớn ' +
+          'gia tốc phải càng NHỎ (a = F/m), chứ không phải càng lớn.',
       },
       {
         prompt:
@@ -664,7 +668,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
           unit: 'N',
         },
         explain:
-          'Định luật II Newton: hợp lực bằng khối lượng nhân gia tốc. Đề nói bỏ qua ma sát nên lực kéo của động cơ CHÍNH LÀ hợp lực: F = m * a = 1000 * 2,5 = 2500 N. Có ma sát thì lực kéo phải lớn hơn con số này, vì còn phải thắng thêm lực ma sát.',
+          'Định luật 2 Newton: hợp lực bằng khối lượng nhân gia tốc. Đề nói bỏ qua ma sát nên lực kéo của động cơ CHÍNH LÀ hợp lực: F = m * a = 1000 * 2,5 = 2500 N. Có ma sát thì lực kéo phải lớn hơn con số này, vì còn phải thắng thêm lực ma sát.',
       },
     ],
     srsCards: [
@@ -827,8 +831,8 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
     lessonNumber: 16,
     title: 'Định luật 3 Newton',
     hook:
-      'Khi một chú chim đập cánh xuống không khí, không khí đẩy chú chim bay lên cao. Khi một quả tên lửa phun luồng khí ga xuống dưới đất, ' +
-      'nó vọt thẳng lên trời. Tại sao mọi lực trong vũ trụ luôn đi theo cặp đối xứng?',
+      'Khi một chú chim đập cánh xuống không khí, không khí đẩy chú chim bay lên cao. Khi một tên lửa phụt luồng khí nóng ' +
+      'xuống phía dưới, nó vọt thẳng lên trời. Tại sao lực luôn xuất hiện theo từng cặp như vậy?',
     theory:
       'SỰ TƯƠNG TÁC GIỮA CÁC VẬT:\n' +
       '— Lực không bao giờ xuất hiện đơn lẻ mà luôn xuất hiện theo cặp tương tác hai chiều giữa hai vật.\n\n' +
@@ -858,7 +862,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
         choices: [
           { id: 'khac_vat', label: 'Tác dụng lên hai vật khác nhau' },
           { id: 'can_bang', label: 'Tác dụng lên cùng một vật nên triệt tiêu nhau' },
-          { id: 'khac_do_lon', label: 'Lực hành động luôn có độ lớn lớn hơn phản lực' },
+          { id: 'khac_do_lon', label: 'Lực tác dụng luôn mạnh hơn phản lực' },
         ],
         answer: {
           kind: 'choice',
@@ -879,7 +883,9 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
           kind: 'choice',
           correctIds: ['dung'],
         },
-        explain: 'Hai lực ngược hướng nên dạng vectơ có dấu trừ phía trước: F_12 = -F_21.',
+        explain:
+          'Hai lực trực đối nên viết dạng vectơ phải có dấu trừ: F_12 = -F_21. Viết F_12 = F_21 là bỏ mất chiều ngược nhau. ' +
+          'Còn F_12 + F_21 = 0 hiểu theo nghĩa ĐẠI SỐ (cộng hai độ lớn) cũng sai, vì hai độ lớn đều dương, tổng không thể bằng 0.',
       },
       {
         // Câu bẫy kinh điển "nghịch lý con ngựa kéo xe": trực đối nhưng KHÔNG cân bằng.
@@ -1076,7 +1082,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
       '— PHÂN BIỆT KHỐI LƯỢNG VỚI TRỌNG LƯỢNG — hai đại lượng khác hẳn nhau, hay bị gọi lẫn trong đời thường:\n' +
       '  — Khối lượng m là lượng chất của vật, đo bằng kilôgam (kg), là đại lượng VÔ HƯỚNG và KHÔNG đổi ' +
       'dù mang vật đi đâu. Nó đo mức quán tính: vật càng nặng càng khó thay đổi vận tốc.\n' +
-      '  — Trọng lượng P là một LỰC, đo bằng niutơn (N), là đại lượng VECTƠ và THAY ĐỔI theo nơi đặt vật ' +
+      '  — Trọng lượng P là một LỰC, đo bằng Newton (N), là đại lượng VECTƠ và THAY ĐỔI theo nơi đặt vật ' +
       'vì g thay đổi. Bạn 50 kg trên Trái Đất có P = 500 N; lên Mặt Trăng (g ≈ 1,6 m/s²) vẫn 50 kg nhưng P chỉ còn 80 N.\n' +
       '  — VÌ SAO hay nhầm: cái cân trong nhà thực ra đo LỰC ép lên mặt cân rồi tự chia cho g để hiện ra số kg. ' +
       'Đưa đúng cái cân đó lên Mặt Trăng thì nó sẽ hiện sai, vì nó vẫn chia cho g của Trái Đất.\n\n' +
@@ -1493,18 +1499,21 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
     theory:
       'LỰC CẢN CỦA CHẤT LƯU (FLUID RESISTANCE):\n' +
       '— Khi một vật chuyển động trong chất lưu (chất khí hoặc chất lỏng), nó luôn chịu một lực cản ngược hướng chuyển động.\n' +
-      '— Lực cản phụ thuộc vào: Vận tốc của vật (tốc độ càng nhanh lực cản càng lớn), hình dạng vật (hình thoi khí động học lực cản nhỏ), kích thước diện tích cản, và độ nhớt của chất lưu.\n\n' +
+      '— Lực cản phụ thuộc vào: Vận tốc của vật (tốc độ càng nhanh lực cản càng lớn), hình dạng vật (thân thuôn dài, mũi vuốt nhọn thì lực cản nhỏ), kích thước diện tích cản, và độ nhớt của chất lưu.\n\n' +
       'VẬN TỐC GIỚI HẠN (TERMINAL VELOCITY):\n' +
       '— Khi vật rơi trong chất lưu, vận tốc tăng dần làm lực cản tăng dần. Đến khi lực cản bằng trọng lực, hợp lực bằng 0 → Vật chuyển động thẳng đều với vận tốc không đổi gọi là vận tốc giới hạn.\n\n' +
       'LỰC NÂNG CỦA CHẤT LƯU (LIFT FORCE):\n' +
-      '— Khi vật chuyển động trong chất lưu, có thể xuất hiện lực tác dụng vuông góc với hướng chuyển động nâng vật lên (vd: lực nâng của không khí lên cánh máy bay, lực nâng Archimedes của nước).',
+      '— Khi vật chuyển động trong chất lưu, có thể xuất hiện lực vuông góc với hướng chuyển động, có tác dụng nâng vật lên ' +
+      '(ví dụ: lực nâng của không khí lên cánh máy bay, lực nâng của nước lên cánh lái tàu ngầm).\n' +
+      '— Chú ý phân biệt: lực nâng này chỉ có khi vật CHUYỂN ĐỘNG trong chất lưu, khác hẳn lực đẩy Archimedes — ' +
+      'lực đẩy Archimedes có cả khi vật nằm yên và do chênh lệch áp suất theo độ sâu gây ra.',
     workedExample: {
       problem:
         'Giải thích tại sao các dòng xe ô tô hiện đại hoặc máy bay siêu thanh luôn được thiết kế có mũi vuốt nhọn, ' +
-        'thân hình thoi thuôn dài (kiểu dáng khí động học).',
+        'thân thuôn dài về phía sau (kiểu dáng khí động học).',
       steps: [
         'Khi di chuyển ở vận tốc cao, lực cản không khí tác dụng lên xe tăng rất nhanh theo bình phương vận tốc.',
-        'Kiểu dáng hình thoi khí động học giúp luồng không khí lướt nhẹ nhàng xung quanh thân vật mà không bị chặn lại đột ngột.',
+        'Thân thuôn dài, mũi vuốt nhọn giúp luồng không khí lướt nhẹ quanh thân vật mà không bị chặn lại đột ngột.',
         'Thiết kế này giúp giảm thiểu lực cản chất lưu, tiết kiệm nhiên liệu và tăng tốc độ tối đa cho phương tiện.',
       ],
       answer: 'Thiết kế khí động học thuôn nhọn để giảm thiểu tối đa lực cản của không khí.',
@@ -1548,7 +1557,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
       },
       {
         hoi: 'Hiện tượng vận tốc giới hạn xảy ra khi nào?',
-        dap: 'Khi lực cản của chất lưu cân bằng hoàn toàn với lực đẩy/trọng lực khiến vật chuyển động thẳng đều.',
+        dap: 'Khi lực cản của chất lưu tăng lên đúng bằng trọng lực, hợp lực bằng 0 nên vật rơi thẳng đều.',
       },
     ],
     track: 'core',
@@ -1597,7 +1606,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
           unit: 'm/s^2',
         },
         explain:
-          'Chiếu định luật II Newton lên phương mặt nghiêng: thành phần trọng lực dọc mặt nghiêng là m * g * sinα, chia cho m thì m triệt tiêu, còn a = g * sin(30°) = 10 * 0,5 = 5 m/s². Khối lượng 5 kg KHÔNG có mặt trong kết quả — khi không ma sát, mọi vật đều trượt với cùng gia tốc.',
+          'Chiếu định luật 2 Newton lên phương mặt nghiêng: thành phần trọng lực dọc mặt nghiêng là m * g * sinα, chia cho m thì m triệt tiêu, còn a = g * sin(30°) = 10 * 0,5 = 5 m/s². Khối lượng 5 kg KHÔNG có mặt trong kết quả — khi không ma sát, mọi vật đều trượt với cùng gia tốc.',
       },
       {
         prompt:
@@ -1611,7 +1620,9 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
           kind: 'choice',
           correctIds: ['cos'],
         },
-        explain: 'Chiếu lực theo phương vuông góc mặt phẳng nghiêng ta luôn có N = P_y = mg*cos α.',
+        explain:
+          'Chiếu các lực lên phương vuông góc mặt nghiêng: N cân bằng với thành phần P_y = mg*cos α, nên N = mg*cos α. ' +
+          'Thành phần mg*sin α nằm DỌC mặt nghiêng (nó gây trượt), còn N = mg chỉ đúng khi mặt nằm ngang (α = 0°).',
       },
     ],
     srsCards: [
@@ -1811,7 +1822,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
       '— Đơn vị trong hệ SI: Newton mét (N.m).\n\n' +
       'QUY TẮC MOMENT LỰC (ĐIỀU KIỆN CÂN BẰNG CỦA VẬT CÓ TRỤC QUAY CỐ ĐỊNH):\n' +
       '— Một vật có trục quay cố định ở trạng thái cân bằng khi tổng các moment lực có xu hướng làm vật quay theo chiều kim đồng hồ bằng tổng các moment lực có xu hướng làm vật quay ngược chiều kim đồng hồ:\n' +
-      '  — Σ M_thuan = Σ M_nguoc.' +
+      '  — Σ M_thuan = Σ M_nguoc.\n' +
       '— Quy tắc này còn áp dụng cho cả vật không có trục quay cố định nếu xuất hiện trục quay tạm thời.',
     workedExample: {
       problem:
@@ -1837,7 +1848,7 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
           correctIds: ['ct_1'],
         },
         explain:
-          'Moment lực bằng tích lực nhân cánh tay đòn: M = F*d. Cánh tay đòn d là khoảng cách VUÔNG GÓC từ trục quay đến giá của lực, không phải khoảng cách bất kỳ đến điểm đặt lực.',
+          'Moment lực bằng tích lực nhân cánh tay đòn: M = F*d. Cánh tay đòn d là khoảng cách VUÔNG GÓC từ trục quay đến giá của lực, không phải khoảng cách bất kì đến điểm đặt lực.',
       },
       {
         prompt: 'Đơn vị đo chuẩn của moment lực trong hệ SI là gì?',
@@ -1874,11 +1885,11 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
     lessonNumber: 22,
     title: 'Thực hành: Tổng hợp lực',
     hook:
-      'Làm thế nào để chứng minh quy tắc hình bình hành lực không chỉ là lý thuyết trên giấy? ' +
+      'Làm thế nào để chứng minh quy tắc hình bình hành lực không chỉ là lí thuyết trên giấy? ' +
       'Hãy dùng các lực kế thực tế và vẽ bản đồ lực để tự mình kiểm chứng định luật Vật lí cơ bản này.',
     theory:
       'NGUYÊN TẮC THỰC HÀNH TỔNG HỢP LỰC:\n' +
-      '— Mắc hai lực kế đo hai lực thành phần vectơ F₁ và vectơ F₂ đồng quy tác dụng lên một chiếc vòng nhẫn làm mốc phẳng.\n' +
+      '— Mắc hai lực kế đo hai lực thành phần vectơ F₁ và vectơ F₂ đồng quy tác dụng lên một chiếc vòng nhỏ đặt phẳng làm điểm đồng quy.\n' +
       '— Mắc lực kế thứ ba đo lực đối cân bằng vectơ F₃ sao cho vòng nhẫn đứng yên hoàn toàn ở tâm.\n' +
       '— Khi vòng nhẫn cân bằng: vectơ F₁ + vectơ F₂ + vectơ F₃ = vectơ 0 => vectơ F₁ + vectơ F₂ = - vectơ F₃.\n' +
       '— Vẽ các vectơ lực lên giấy theo đúng tỉ lệ độ lớn và hướng thực tế, dựng hình bình hành để đối chiếu đường chéo hợp lực vectơ F_hl của F₁ và F₂ với vectơ đối của F₃.\n\n' +
@@ -1891,9 +1902,9 @@ export const LY10_C3_LESSONS: PhysicsLesson[] = [
         'Góc giữa hai dây treo đo bằng thước đo góc là 90°. Lực kế thứ ba chỉ giá trị lực cân bằng đối là 5 N. ' +
         'Hãy nhận xét kết quả thực nghiệm.',
       steps: [
-        'Theo lý thuyết quy tắc hình bình hành, hai lực vuông góc thì hợp lực F_hl = √(3² + 4²) = 5 N.',
+        'Theo lí thuyết quy tắc hình bình hành, hai lực vuông góc thì hợp lực F_hl = √(3² + 4²) = 5 N.',
         'Kết quả đo từ lực kế thứ ba chỉ 5 N (hướng ngược lại để cân bằng).',
-        'So sánh thấy F_hl lý thuyết bằng đúng F₃ thực tế đo được, chứng tỏ quy tắc hình bình hành hoàn toàn chính xác trong phạm vi sai số cho phép.',
+        'So sánh thấy F_hl lí thuyết bằng đúng F₃ thực tế đo được, chứng tỏ quy tắc hình bình hành hoàn toàn chính xác trong phạm vi sai số cho phép.',
       ],
       answer: 'Quy tắc hình bình hành lực được thực nghiệm kiểm chứng chính xác.',
     },

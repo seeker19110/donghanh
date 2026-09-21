@@ -271,8 +271,8 @@ export const TOAN10_C1_LESSONS: MathLesson[] = [
         'Lớp 10A1 có 40 học sinh: 25 bạn đăng ký câu lạc bộ bóng đá, 18 bạn đăng ký cờ vua, 7 bạn đăng ký cả hai. ' +
         'Hỏi có bao nhiêu bạn chưa đăng ký câu lạc bộ nào?',
       steps: [
-        'Bước 1 — Đặt tên tập hợp để bài toán thành ngôn ngữ tập hợp: gọi A là tập các bạn học bóng đá, B là tập các ' +
-          'bạn học cờ vua. Ta có n(A) = 25, n(B) = 18, n(A ∩ B) = 7, tổng số học sinh n(E) = 40.',
+        'Bước 1 — Đặt tên tập hợp để bài toán thành ngôn ngữ tập hợp: gọi A là tập các bạn đăng ký bóng đá, B là tập ' +
+          'các bạn đăng ký cờ vua. Ta có n(A) = 25, n(B) = 18, n(A ∩ B) = 7, tổng số học sinh n(E) = 40.',
         'Bước 2 — Nhận ra câu hỏi thực chất hỏi gì: "chưa đăng ký câu lạc bộ nào" nghĩa là không thuộc A và cũng ' +
           'không thuộc B, tức là thuộc phần bù của A ∪ B trong lớp. Vậy phải tính n(A ∪ B) trước.',
         'Bước 3 — Áp dụng nguyên lý bù trừ (chọn công thức này vì hai tập có phần chung khác rỗng): ' +

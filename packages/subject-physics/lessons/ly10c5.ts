@@ -153,11 +153,11 @@ export const LY10_C5_LESSONS: PhysicsLesson[] = [
       'XUNG LƯỢNG CỦA LỰC (IMPULSE OF FORCE):\n' +
       '— Khi một lực vectơ F tác dụng lên vật trong khoảng thời gian ngắn Δt, tích vectơ F.Δt gọi là xung lượng của lực trong khoảng thời gian đó. Đơn vị: N.s.\n' +
       '— Dạng khác của Định luật 2 Newton: vectơ F = Δvectơ p / Δt.\n' +
-      '— Ý nghĩa: Độ biến thiên động năng/động lượng của vật bằng xung lượng của lực tác dụng lên vật: Δvectơ p = vectơ F.Δt.',
+      '— Ý nghĩa: Độ biến thiên động lượng của vật bằng xung lượng của lực tác dụng lên vật: Δvectơ p = vectơ F.Δt.',
     workedExample: {
       problem:
         'Một quả bóng đá có khối lượng m = 400g bay thẳng vào tường theo phương ngang với vận tốc v₁ = 10 m/s ' +
-        'và nảy ngược trở lại với vận tốc v₂ = 10 m/s theo hướng cũ. Tính độ lớn độ biến thiên động lượng của quả bóng.',
+        'rồi nảy ngược trở lại với tốc độ v₂ = 10 m/s. Tính độ lớn độ biến thiên động lượng của quả bóng.',
       steps: [
         'Đổi khối lượng quả bóng sang kg: m = 400g = 0,4 kg.',
         'Chọn chiều dương là chiều chuyển động ban đầu của quả bóng hướng vào tường. Vận tốc đầu v₁ = 10 m/s.',
@@ -182,7 +182,10 @@ export const LY10_C5_LESSONS: PhysicsLesson[] = [
           kind: 'choice',
           correctIds: ['ct_1'],
         },
-        explain: 'Vectơ động lượng bằng tích khối lượng nhân với vectơ vận tốc vật: p = mv.',
+        explain:
+          'Động lượng bằng khối lượng (một số dương) nhân vectơ vận tốc: p = mv, nên p luôn cùng hướng với v. ' +
+          'Không thể chia cho một vectơ, cũng không có bình phương vectơ ở đây — công thức 0,5.m.v² là ĐỘNG NĂNG, ' +
+          'một đại lượng vô hướng khác hẳn.',
       },
       {
         prompt:
@@ -193,7 +196,8 @@ export const LY10_C5_LESSONS: PhysicsLesson[] = [
           unit: 'kg*m/s',
         },
         explain:
-          'Δp = F * Δt = 50 * 0,2 = 10 kg.m/s (hoặc N.s). Đây là dạng khác của định luật II Newton: xung lực F.Δt gây ra độ biến thiên động lượng của vật.',
+          'Δp = F * Δt = 50 * 0,2 = 10 kg.m/s (cũng viết là 10 N.s). Đây là dạng khác của định luật 2 Newton: ' +
+          'xung lượng của lực F.Δt bằng đúng độ biến thiên động lượng của vật.',
       },
     ],
     srsCards: [
@@ -215,7 +219,7 @@ export const LY10_C5_LESSONS: PhysicsLesson[] = [
     animation: {
       title: 'Va chạm mềm: động lượng được bảo toàn, động năng thì không',
       description:
-        'Trên đệm khí gần như không ma sát, xe A khối lượng 1 kg chạy sang phải với tốc độ 4 m/s, xe B khối lượng 3 kg đứng yên. Hai xe có gắn miếng dính nên sau va chạm chúng móc vào nhau thành một khối 4 kg. Mũi tên động lượng của A (dài 4 đơn vị) là tất cả động lượng của hệ trước va chạm. Sau va chạm, khối chung vẫn mang đúng mũi tên dài 4 đơn vị đó, nhưng vì khối lượng đã gấp 4 lần nên tốc độ chỉ còn 1 m/s: chúng bò đi chậm hẳn. Kiểm tra bằng số: p = 1×4 = 4 kg·m/s trước và 4×1 = 4 kg·m/s sau — bảo toàn. Trong khi đó động năng giảm từ ½·1·4² = 8 J xuống ½·4·1² = 2 J; 6 J còn lại biến thành nhiệt và tiếng động khi hai xe dính vào nhau. Đây là lý do va chạm mềm không được dùng bảo toàn động năng.',
+        'Trên đệm khí gần như không ma sát, xe A khối lượng 1 kg chạy sang phải với tốc độ 4 m/s, xe B khối lượng 3 kg đứng yên. Hai xe có gắn miếng dính nên sau va chạm chúng móc vào nhau thành một khối 4 kg. Mũi tên động lượng của A (dài 4 đơn vị) là tất cả động lượng của hệ trước va chạm. Sau va chạm, khối chung vẫn mang đúng mũi tên dài 4 đơn vị đó, nhưng vì khối lượng đã gấp 4 lần nên tốc độ chỉ còn 1 m/s: chúng bò đi chậm hẳn. Kiểm tra bằng số: p = 1×4 = 4 kg·m/s trước và 4×1 = 4 kg·m/s sau — bảo toàn. Trong khi đó động năng giảm từ ½·1·4² = 8 J xuống ½·4·1² = 2 J; 6 J còn lại biến thành nhiệt và tiếng động khi hai xe dính vào nhau. Đây là lí do va chạm mềm không được dùng bảo toàn động năng.',
       viewBoxWidth: 420,
       viewBoxHeight: 200,
       durationMs: 4000,
@@ -360,7 +364,7 @@ export const LY10_C5_LESSONS: PhysicsLesson[] = [
       'ỨNG DỤNG CỦA ĐỊNH LUẬT:\n' +
       "1. Va chạm mềm: Hai vật va chạm rồi dính vào nhau chuyển động cùng vận tốc v'.\n" +
       "   — Công thức: v' = (m₁.v₁ + m₂.v₂) / (m₁ + m₂) (dạng đại số trên trục thẳng).\n" +
-      '2. Chuyển động bằng phản lực: Một phần của hệ tách ra và phóng đi về một hướng, làm phần còn lại chuyển động về hướng ngược lại (vd: súng giật khi bắn, tên lửa phun khí gas).',
+      '2. Chuyển động bằng phản lực: Một phần của hệ tách ra và phóng đi về một hướng, làm phần còn lại chuyển động về hướng ngược lại (ví dụ: súng giật khi bắn, tên lửa phụt luồng khí nóng về phía sau).',
     workedExample: {
       problem:
         'Một khẩu súng trường có khối lượng M = 4 kg bắn một viên đạn có khối lượng m = 20g với vận tốc v = 600 m/s thoát ra khỏi nòng súng. ' +
@@ -643,14 +647,13 @@ export const LY10_C5_LESSONS: PhysicsLesson[] = [
       steps: [
         'Tính tổng động lượng trước va chạm: p_trước = m₁.v₁ + m₂.v₂ = 0,3 * 2,0 + 0 = 0,6 (kg.m/s).',
         "Tính tổng động lượng sau va chạm: p_sau = (m₁ + m₂).v' = (0,3 + 0,2) * 1,2 = 0,5 * 1,2 = 0,6 (kg.m/s).",
-        'So sánh: p_trước = p_sau = 0,6 kg.m/s. Thực nghiệm hoàn toàn trùng khớp lý thuyết bảo toàn động lượng.',
+        'So sánh: p_trước = p_sau = 0,6 kg.m/s. Kết quả thực nghiệm trùng khớp với lí thuyết bảo toàn động lượng.',
       ],
       answer: 'Tổng động lượng trước và sau va chạm đều bằng 0,6 kg.m/s.',
     },
     checkQuestions: [
       {
-        prompt:
-          'Thiết bị nào giúp loại bỏ tối đa lực ma sát trượt trong bài thực hành va chạm vật lý?',
+        prompt: 'Thiết bị nào giúp loại bỏ tối đa lực ma sát trượt trong bài thực hành va chạm?',
         choices: [
           { id: 'dem_khi', label: 'Băng đệm khí (Air track)' },
           { id: 'thuoc_day', label: 'Thước dây cuộn' },

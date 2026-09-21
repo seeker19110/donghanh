@@ -18,7 +18,7 @@ export const HOA10_C1_LESSONS: ChemLesson[] = [
     theory:
       'Hoá học là ngành khoa học nghiên cứu về THÀNH PHẦN, CẤU TRÚC, TÍNH CHẤT và SỰ BIẾN ĐỔI ' +
       'của các chất.\n\n' +
-      'Đối tượng nghiên cứu: chất hữu cơ (hợp chất của carbon, trừ một số ít như CO2, muối ' +
+      'Đối tượng nghiên cứu: chất hữu cơ (hợp chất của carbon, trừ một số ít như CO₂, muối ' +
       'carbonate), chất vô cơ, vật liệu tự nhiên và nhân tạo.\n\n' +
       'Vai trò của Hoá học: cung cấp nguyên liệu, vật liệu, thuốc chữa bệnh, phân bón cho sản ' +
       'xuất và đời sống. Ngành công nghiệp hoá học sản xuất hàng triệu tấn hoá chất cơ bản mỗi ' +
@@ -34,7 +34,7 @@ export const HOA10_C1_LESSONS: ChemLesson[] = [
         'Quan sát: có bọt khí thoát ra — nghĩa là có CHẤT MỚI (khí) được sinh ra, khác với ' +
           'chất ban đầu (viên sủi rắn + nước).',
         'Đối chiếu định nghĩa: hiện tượng hoá học là hiện tượng có sự biến đổi tạo ra CHẤT ' +
-          'MỚI. Hiện tượng vật lí chỉ đổi trạng thái/hình dạng, không đổi bản chất chất.',
+          'MỚI. Hiện tượng vật lí chỉ đổi trạng thái hoặc hình dạng, không làm đổi bản chất của chất.',
         'Kết luận: đây là hiện tượng HOÁ HỌC — phản ứng giữa acid trong viên sủi và baking ' +
           'soda tạo khí carbon dioxide (CO₂).',
       ],
@@ -263,8 +263,8 @@ export const HOA10_C1_LESSONS: ChemLesson[] = [
       'hiệu nguyên tử Z).\n\n' +
       'SỐ HIỆU NGUYÊN TỬ (Z) = SỐ PROTON. Đây là đại lượng đặc trưng, quyết định nguyên tố ' +
       'đó là gì — đổi Z là đổi hẳn sang nguyên tố khác.\n\n' +
-      'Kí hiệu nguyên tử: ᴬZX (A ở trên, Z ở dưới, X là kí hiệu hoá học). Ví dụ: ¹¹²³Na nghĩa ' +
-      'là Sodium có Z=11, A=23.\n\n' +
+      'Kí hiệu nguyên tử: viết số khối A ở phía trên bên trái và số hiệu Z ở phía dưới bên ' +
+      'trái kí hiệu hoá học X. Ví dụ ²³₁₁Na nghĩa là Sodium có Z = 11 và A = 23.\n\n' +
       'ĐỒNG VỊ: các nguyên tử của CÙNG một nguyên tố (cùng Z) nhưng khác số neutron (khác A). ' +
       'Ví dụ Carbon có 3 đồng vị chính: ¹²C, ¹³C, ¹⁴C (đều Z=6, nhưng A khác nhau).\n\n' +
       'NGUYÊN TỬ KHỐI TRUNG BÌNH của một nguyên tố (M̄) tính theo phần trăm số nguyên tử mỗi ' +

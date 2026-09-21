@@ -1,5 +1,5 @@
 // lessons/toan11c20.ts — Chuyên đề bồi dưỡng HSG cấp TỈNH (track: 'advanced', tier 'hsg-tinh').
-// Nâng một bậc so với cấp trường: Cauchy–Schwarz, phương tích – trục đẳng phương, đếm bằng song ánh.
+// Nâng một bậc so với cấp trường: Cauchy–Schwarz dạng Engel, phương tích – trục đẳng phương.
 import type { MathLesson } from '../lessonTypes.js'
 
 export const TOAN11_C20_LESSONS: MathLesson[] = [
@@ -71,9 +71,9 @@ export const TOAN11_C20_LESSONS: MathLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['duong'] },
         explain:
-          'Các mẫu phải DƯƠNG, không chỉ khác 0. Phản ví dụ khi cho phép mẫu âm: với x₁ = x₂ = 1, y₁ = 1, y₂ = −1 ' +
-          'thì vế trái bằng 1 − 1 = 0 còn vế phải là 4/0 — vô nghĩa; đổi chút số liệu sẽ cho vế trái nhỏ hơn hẳn vế ' +
-          'phải, bất đẳng thức sụp đổ. Trong bài thi, nếu chưa chắc mẫu dương thì phải chứng minh trước khi áp dụng.',
+          'Các mẫu phải DƯƠNG, không chỉ khác 0. Phản ví dụ cụ thể khi cho phép mẫu âm: lấy x₁ = x₂ = 1, y₁ = 1 và ' +
+          'y₂ = −0,5 thì vế trái bằng 1 + 1/(−0,5) = −1, còn vế phải bằng (1 + 1)²/(1 − 0,5) = 4/0,5 = 8. Rõ ràng ' +
+          '−1 < 8, bất đẳng thức sụp đổ. Trong bài thi, nếu chưa chắc mẫu dương thì phải chứng minh trước khi áp dụng.',
       },
       {
         prompt:

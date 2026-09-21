@@ -25,7 +25,7 @@ export const WEB_S4_DETAIL: SpecStageDetail = {
         },
         {
           q: 'Danh sách người đang online nên dựng từ cái gì?',
-          a: 'Từ dấu vết sống có hạn dùng, vì sự kiện rời đi không đáng tin khi mất sóng hay đóng máy đột ngột.',
+          a: 'Từ nhịp báo sống (heartbeat) có hạn dùng, vì sự kiện rời đi không đáng tin khi mất sóng hay đóng máy đột ngột.',
         },
         {
           q: 'Khi nào mới cần tới CRDT thay vì đánh số thứ tự?',

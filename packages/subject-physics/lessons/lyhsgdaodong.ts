@@ -151,8 +151,8 @@ export const LY_HSG_DAO_DONG_LESSONS: PhysicsLesson[] = [
       'và chu kì GIẢM — đây là chỗ mất điểm kinh điển.\n' +
       '2. Lực lạ NẰM NGANG (xe tăng tốc, lực điện ngang): g_hd = √(g² + a₀²), luôn LỚN HƠN g nên chu kì luôn GIẢM, ' +
       'bất kể xe tăng tốc sang trái hay sang phải. Dây treo lệch góc α với tan α = a₀/g.\n' +
-      '3. Lực lạ XIÊN góc β so với phương thẳng đứng: dùng định lí hàm số cosin ' +
-      'g_hd = √(g² + (F/m)² − 2·g·(F/m)·cos β) — trường hợp 1 và 2 chỉ là hai ca riêng của công thức này.\n\n' +
+      '3. Lực lạ XIÊN: gọi β là góc giữa lực lạ và chiều của trọng lực (thẳng đứng hướng xuống), khi đó định lí hàm số cosin cho ' +
+      'g_hd = √(g² + (F/m)² + 2·g·(F/m)·cos β). Trường hợp 1 (β = 0 hoặc β = 180°) và trường hợp 2 (β = 90°) chỉ là hai ca riêng của công thức này.\n\n' +
       'GIỚI HẠN ÁP DỤNG — đừng dùng sai chỗ:\n' +
       '— Lực lạ phải KHÔNG ĐỔI cả về hướng lẫn độ lớn trong suốt quá trình dao động. Lực cản của không khí hay lực ma sát ' +
       'đổi chiều theo chuyển động thì không gộp được, bài đó thuộc loại dao động tắt dần.\n' +
@@ -280,7 +280,7 @@ export const LY_HSG_DAO_DONG_LESSONS: PhysicsLesson[] = [
         'm = 0,4 kg, hệ số ma sát nghỉ cực đại giữa vật và ván là μ = 0,4. Lấy g = 10 m/s². ' +
         'Tìm biên độ dao động lớn nhất của hệ để vật m không bị trượt trên ván.',
       steps: [
-        'Khi chưa trượt, cả hai vật dao động như một khối khối lượng M + m = 2 kg, nên tần số góc ω = √(k/(M+m)) = √(100/2) = √50 (rad/s), tức ω² = 50 rad²/s².',
+        'Khi chưa trượt, cả hai vật dao động như một vật duy nhất có khối lượng M + m = 2 kg, nên tần số góc ω = √(k/(M+m)) = √(100/2) = √50 (rad/s), tức ω² = 50 rad²/s².',
         'Xét riêng vật m: lực duy nhất theo phương ngang tác dụng lên nó là lực ma sát nghỉ do ván tác dụng. Chính lực này phải tạo ra toàn bộ gia tốc của m.',
         'Gia tốc trong dao động điều hoà có độ lớn cực đại ở biên: a_max = ω²·A. Vậy lực ma sát nghỉ cần thiết lớn nhất là F_cần = m·ω²·A.',
         'Ma sát nghỉ không thể lớn hơn giá trị cực đại F_msn(max) = μ·N = μ·m·g (mặt ngang nên N = m·g).',

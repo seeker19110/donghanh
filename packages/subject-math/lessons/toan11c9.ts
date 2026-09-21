@@ -30,7 +30,7 @@ export const TOAN11_C9_LESSONS: MathLesson[] = [
       'nguội của một vật, tốc độ lan của dịch bệnh.\n\n' +
       'PHƯƠNG TRÌNH TIẾP TUYẾN tại điểm M(x₀; y₀) thuộc đồ thị:\n' +
       "y = f'(x₀)(x − x₀) + y₀.\n" +
-      'GIỚI HẠN QUAN TRỌNG: công thức này chỉ dùng khi x₀ là hoành độ TIẾP ĐIỂM. Nếu đề cho "tiếp tuyến đi qua điểm ' +
+      'PHẠM VI ÁP DỤNG (rất hay bị bỏ qua): công thức này chỉ dùng khi x₀ là hoành độ TIẾP ĐIỂM. Nếu đề cho "tiếp tuyến đi qua điểm ' +
       'A" mà A không thuộc đồ thị thì phải đặt tiếp điểm làm ẩn rồi giải phương trình — đây là hai dạng bài khác hẳn ' +
       'nhau và bị nhầm rất nhiều.\n\n' +
       'BẢNG ĐẠO HÀM CƠ BẢN\n' +

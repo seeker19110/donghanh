@@ -200,7 +200,7 @@ duyet v1
     title: 'LiteLLM — một proxy quản mọi model, kiểm soát chi phí cả phòng',
     hook: 'Phòng 8 người dùng AI, mỗi người một khoá API riêng — cuối tháng kế toán cầm 8 hoá đơn không biết ai đốt tiền vào đâu, và một bạn lỡ commit khoá lên Git. LiteLLM gom tất cả về MỘT cửa: một đầu mối, một hoá đơn, một chỗ khoá van.',
     theory:
-      'LiteLLM là PROXY — trạm trung chuyển đứng giữa mọi người dùng và mọi nhà cung cấp model. Thay vì mỗi người cầm khoá API thật, tất cả trỏ vào LiteLLM, và LiteLLM mới cầm khoá thật đi gọi Anthropic/OpenAI/Nous…\n\nVì sao một phòng nên có nó:\n1. MỘT hoá đơn — thấy ai dùng bao nhiêu, model nào tốn nhất.\n2. Đặt TRẦN chi tiêu theo người/nhóm — hết ngân sách là van tự khoá, không có bất ngờ cuối tháng.\n3. Khoá API thật chỉ nằm MỘT chỗ (trên máy chủ proxy) — nhân viên không ai cầm, không ai lỡ làm lộ.\n4. Đổi nhà cung cấp không ai phải cấu hình lại — đổi ở proxy là xong.\n\nVới Hermes, nối vào LiteLLM chỉ là trỏ model qua proxy — tên model mang tiền tố litellm/: \n\n    hermes model litellm/hermes-4\n    hermes model curator litellm/hermes-4-mini\n\nTừ đó mọi cuộc gọi của agent đi qua trạm, được đếm và được giới hạn. Dựng trạm LiteLLM thật là việc của homework.',
+      'LiteLLM là PROXY — trạm trung chuyển đứng giữa mọi người dùng và mọi nhà cung cấp model. Thay vì mỗi người cầm khoá API thật, tất cả trỏ vào LiteLLM, và LiteLLM mới cầm khoá thật đi gọi Anthropic/OpenAI/Nous…\n\nVì sao một phòng nên có nó:\n1. MỘT hoá đơn — thấy ai dùng bao nhiêu, model nào tốn nhất.\n2. Đặt TRẦN chi tiêu theo người/nhóm — hết ngân sách là van tự khoá, không có bất ngờ cuối tháng.\n3. Khoá API thật chỉ nằm MỘT chỗ (trên máy chủ proxy) — nhân viên không ai cầm, không ai lỡ làm lộ.\n4. Đổi nhà cung cấp không ai phải cấu hình lại — đổi ở proxy là xong.\n\nVới Hermes, nối vào LiteLLM chỉ là trỏ model qua proxy — tên model mang tiền tố litellm/:\n\n    hermes model litellm/hermes-4\n    hermes model curator litellm/hermes-4-mini\n\nTừ đó mọi cuộc gọi của agent đi qua trạm, được đếm và được giới hạn. Dựng trạm LiteLLM thật là việc của homework.',
     workedExample: {
       code: `hermes model litellm/hermes-4-70b
 hermes model curator litellm/curator-mini
@@ -283,7 +283,7 @@ hermes model curator litellm/hermes-4-mini
     title: 'llama.cpp — self-host model, dữ liệu không rời công ty',
     hook: 'Sếp hỏi câu làm cả phòng khựng lại: "Mấy bản hợp đồng mình đưa AI đọc… đang nằm trên máy chủ của ai?". Nếu câu trả lời là "của nhà cung cấp nước ngoài" thì bài này dành cho phòng bạn: chạy model NGAY TRÊN MÁY MÌNH.',
     theory:
-      'llama.cpp là phần mềm mã nguồn mở chạy model AI trên máy thường — không cần card đồ hoạ đắt tiền, nhờ kỹ thuật nén model (quantization: đổi vài phần trăm chất lượng lấy giảm nhiều lần bộ nhớ).\n\nĐiểm ăn tiền với văn phòng: llama.cpp mở một API GIẢ DẠNG OpenAI (OpenAI-compatible) ngay trên máy bạn. Hermes không cần biết gì đặc biệt — chỉ cần trỏ model vào đó, tiền tố llama-cpp/:\n\n    hermes model llama-cpp/vi-7b\n\nĐánh đổi phải nói thật, không tô hồng:\n- ĐƯỢC: dữ liệu KHÔNG rời máy công ty (hợp đồng, lương, thông tin khách) · không tốn phí API · không phụ thuộc mạng.\n- MẤT: model nhỏ (7B–70B) kém hẳn model lớn thương mại ở việc khó · tốc độ tuỳ máy · tự lo vận hành.\n\nCách dùng khôn của phòng có dữ liệu nhạy cảm: chạy HAI đường — việc chạm dữ liệu mật đi model self-host, việc thường (soạn thảo chung chung) đi model thương mại cho chất lượng. Chọn đường nào cho việc nào chính là một quyết định điều phối.',
+      'llama.cpp là phần mềm mã nguồn mở chạy model AI trên máy thường — không cần card đồ hoạ đắt tiền, nhờ kỹ thuật nén model (quantization: đổi vài phần trăm chất lượng lấy giảm nhiều lần bộ nhớ).\n\nĐiểm ăn tiền với văn phòng: llama.cpp mở một API TƯƠNG THÍCH OpenAI (OpenAI-compatible) ngay trên máy bạn. Hermes không cần biết gì đặc biệt — chỉ cần trỏ model vào đó, tiền tố llama-cpp/:\n\n    hermes model llama-cpp/vi-7b\n\nĐánh đổi phải nói thật, không tô hồng:\n- ĐƯỢC: dữ liệu KHÔNG rời máy công ty (hợp đồng, lương, thông tin khách) · không tốn phí API · không phụ thuộc mạng.\n- MẤT: model nhỏ (7B–70B) kém hẳn model lớn thương mại ở việc khó · tốc độ tuỳ máy · tự lo vận hành.\n\nCách dùng khôn của phòng có dữ liệu nhạy cảm: chạy HAI đường — việc chạm dữ liệu mật đi model self-host, việc thường (soạn thảo chung chung) đi model thương mại cho chất lượng. Chọn đường nào cho việc nào chính là một quyết định điều phối.',
     workedExample: {
       code: `hermes model llama-cpp/vi-7b
 /model`,
@@ -355,7 +355,7 @@ duyet v1
     srsCards: [
       {
         hoi: 'llama.cpp cho văn phòng cái gì mà model thương mại không cho được?',
-        dap: 'Chạy model ngay trên máy công ty qua API giả dạng OpenAI — dữ liệu nhạy cảm (hợp đồng, lương) không rời nhà, không phí API.',
+        dap: 'Chạy model ngay trên máy công ty qua API tương thích OpenAI — dữ liệu nhạy cảm (hợp đồng, lương) không rời nhà, không phí API.',
       },
       {
         hoi: 'Đánh đổi khi self-host model là gì?',

@@ -205,7 +205,7 @@ export const HOA10_C4_LESSONS: ChemLesson[] = [
           id: 'kl',
           x: 210,
           y: 20,
-          text: 'chất khử nhường e  ⇌  chất oxi hoá nhận e (đúng bằng nhau)',
+          text: 'số e chất khử nhường = số e chất oxi hoá nhận',
           size: 11,
           anchor: 'middle',
           fill: 'neutral',

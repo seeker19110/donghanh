@@ -186,7 +186,7 @@ export const TOAN11_C5_LESSONS: MathLesson[] = [
           'Có thể dùng công thức S = u₁/(1 − q) để tính tổng 1 + 3 + 9 + 27 + ... không? Nhập 1 nếu CÓ, 0 nếu KHÔNG.',
         answer: { kind: 'numeric', value: 0 },
         explain:
-          'KHÔNG, vì q = 3 và |q| ≥ 1. Đây là bẫy cố ý: nếu cứ áp công thức sẽ ra 1/(1 − 3) = −1/2, một kết quả vô ' +
+          'KHÔNG, vì q = 3 nên |q| = 3 > 1. Đây là bẫy cố ý: nếu cứ áp công thức sẽ ra 1/(1 − 3) = −1/2, một kết quả vô ' +
           'lý vì ta đang cộng toàn số dương ngày càng lớn. Tổng thực sự tiến ra +∞, dãy phân kỳ. Bài học: công thức ' +
           'tổng vô hạn CHỈ dùng khi |q| < 1, vì nó dựa trên việc qⁿ → 0.',
       },
@@ -241,7 +241,7 @@ export const TOAN11_C5_LESSONS: MathLesson[] = [
       'khoảng (a; b).\n' +
       'Ý nghĩa hình học: đồ thị liên tục đi từ dưới trục hoành lên trên trục hoành thì bắt buộc phải CẮT trục hoành ' +
       'ở đâu đó — không thể "nhảy qua". Đây là công cụ chuẩn để chứng minh phương trình có nghiệm mà không cần giải.\n' +
-      'GIỚI HẠN CỦA ĐỊNH LÍ: nó chỉ khẳng định CÓ nghiệm, không nói có bao nhiêu nghiệm và cũng không chỉ ra nghiệm ' +
+      'HẠN CHẾ CỦA ĐỊNH LÍ: nó chỉ khẳng định CÓ nghiệm, không nói có bao nhiêu nghiệm và cũng không chỉ ra nghiệm ' +
       'ở đâu. Ngoài ra điều kiện liên tục là bắt buộc: hàm 1/x đổi dấu qua 0 nhưng không có nghiệm nào, vì nó gián ' +
       'đoạn tại 0.',
     animation: {

@@ -349,7 +349,7 @@ console.log("So nguoi online:", demOnline(suKien))`,
       ],
       answerIndex: 0,
       explain:
-        'In ra 1 — và cả hai con số của nó đều sai theo hai hướng ngược nhau. An vẫn còn một tab mở nhưng bị xoá khỏi danh sách, vì `Set` không đếm được người có nhiều kết nối. Còn Bình đã mất sóng từ lâu lại vẫn nằm trong danh sách, vì mất sóng thì không có sự kiện "ra" nào được gửi. Danh sách presence dựng bằng vào/ra sẽ vừa thiếu người thật vừa thừa người ma.',
+        'In ra 1 — và con số đó sai theo hai hướng ngược nhau cùng lúc. An vẫn còn một tab mở nhưng bị xoá khỏi danh sách, vì `Set` không đếm được người có nhiều kết nối. Còn Bình đã mất sóng từ lâu lại vẫn nằm trong danh sách, vì mất sóng thì không có sự kiện "ra" nào được gửi. Danh sách presence dựng bằng vào/ra sẽ vừa thiếu người thật vừa thừa người ma.',
     },
     parsons: {
       prompt:

@@ -9,7 +9,7 @@ export const P2U2_LESSONS: ProgrammingLesson[] = [
     title: 'Danh sách — một cái tên chứa được cả menu quán',
     hook: 'Quán bạn có 3 món thì đặt 3 biến gia1, gia2, gia3 còn xoay xở được. Thêm món thứ 12 thì sao? Danh sách (list) cho phép một cái tên duy nhất giữ cả trăm giá trị, và đếm/duyệt/thêm/bớt được.',
     theory:
-      'LIST là dãy giá trị có thứ tự, viết trong dấu ngoặc vuông:\n\ngia = [5000, 15000, 10000]\n\n- Truy cập theo CHỈ SỐ, đếm từ 0: gia[0] là 5000, gia[2] là 10000. Chỉ số âm đếm ngược từ cuối: gia[-1] là phần tử cuối.\n- len(gia) cho số phần tử. Chỉ số hợp lệ chạy từ 0 tới len(gia) - 1; vượt ra là lỗi IndexError.\n- gia.append(20000) thêm vào CUỐI; gia.remove(5000) xoá phần tử ĐẦU TIÊN bằng giá trị đó; gia.pop() lấy ra phần tử cuối.\n- Duyệt: for g in gia: — lấy lần lượt từng GIÁ TRỊ (dùng nhiều nhất). Nếu cần cả vị trí thì for i in range(len(gia)).\n- Có sẵn: sum(gia) tổng, max(gia)/min(gia) lớn nhất/nhỏ nhất, sorted(gia) trả về bản đã sắp xếp.\n\nLát cắt (slice): gia[0:2] lấy từ vị trí 0 tới TRƯỚC vị trí 2 — tức 2 phần tử đầu. Nhớ quy tắc "tới trước", không bao gồm đầu bên phải.',
+      'LIST là dãy giá trị có thứ tự, viết trong dấu ngoặc vuông:\n\ngia = [5000, 15000, 10000]\n\n- Truy cập theo CHỈ SỐ, đếm từ 0: gia[0] là 5000, gia[2] là 10000. Chỉ số âm đếm ngược từ cuối: gia[-1] là phần tử cuối.\n- len(gia) cho số phần tử. Chỉ số hợp lệ chạy từ 0 tới len(gia) - 1; vượt ra là lỗi IndexError.\n- gia.append(20000) thêm vào CUỐI; gia.remove(5000) xoá phần tử ĐẦU TIÊN bằng giá trị đó; gia.pop() lấy ra phần tử cuối.\n- Duyệt: for g in gia: — lấy lần lượt từng GIÁ TRỊ (dùng nhiều nhất). Nếu cần cả vị trí thì for i in range(len(gia)).\n- Có sẵn: sum(gia) tổng, max(gia)/min(gia) lớn nhất/nhỏ nhất, sorted(gia) trả về một list MỚI đã sắp xếp (list gốc giữ nguyên), còn gia.sort() sắp xếp ngay trên list gốc.\n\nLát cắt (slice): gia[0:2] lấy từ vị trí 0 tới TRƯỚC vị trí 2 — tức 2 phần tử đầu. Nhớ quy tắc "tới trước", không bao gồm đầu bên phải.',
     workedExample: {
       code: `# Sổ giá của quán: một list giữ cả menu
 gia = [5000, 15000, 10000]      # 3 món ban đầu
@@ -88,7 +88,7 @@ print(f"Gia cao nhat: {max(gia)} dong")`,
         dap: 'Từ 0. Phần tử "thứ hai" nằm ở chỉ số 1, không phải 2 — đây là chỗ người mới nhầm nhiều nhất. mon[1] lấy phần tử thứ hai trong list mon.',
       },
       {
-        hoi: 'gia.sort() và sorted(gia) khác nhau ở đâu (liên quan U2, cần cho U5)?',
+        hoi: 'gia.sort() và sorted(gia) khác nhau ở đâu?',
         dap: 'sort() sắp NGAY trên list gốc. sorted() trả về list MỚI, list gốc giữ nguyên. Dùng sorted() khi còn cần bản chưa sắp xếp.',
       },
       {

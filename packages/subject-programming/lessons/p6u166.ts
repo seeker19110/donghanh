@@ -69,7 +69,7 @@ export const P6U166_LESSONS: ProgrammingLesson[] = [
     srsCards: [
       {
         hoi: 'Vì sao time split không được trộn dữ liệu tương lai vào train?',
-        dap: 'Vì thông tin tương lai làm điểm đánh giá lạc quan giả tạo và không tồn tại tại thời điểm hệ thống thực sự phải dự báo.',
+        dap: 'Vì thông tin tương lai làm điểm đánh giá lạc quan giả tạo và không tồn tại ở thời điểm hệ thống thực sự phải dự báo.',
       },
       {
         hoi: 'Holdout rỗng nói lên điều gì?',

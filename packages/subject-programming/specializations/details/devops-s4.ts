@@ -42,8 +42,8 @@ export const DEVOPS_S4_DETAIL: SpecStageDetail = {
       objective:
         'Bảo vệ chuỗi cung ứng phần mềm: biết bản chạy trên sản xuất được dựng từ mã nào và không ai chèn được vào giữa.',
       practice: [
-        'Sinh SBOM cho một dịch vụ và tra xem nó đang phụ thuộc gián tiếp vào những gì.',
-        'Ký tạo tác build và bắt bước triển khai từ chối tạo tác không có chữ ký hợp lệ.',
+        'Sinh SBOM (bản kê thành phần phần mềm) cho một dịch vụ và tra xem nó đang phụ thuộc gián tiếp vào những gì.',
+        'Ký tạo tác build (artifact — bản dựng ra rồi đem đi chạy) và bắt bước triển khai từ chối tạo tác không có chữ ký hợp lệ.',
         'Chuyển bí mật về kho tập trung và bật xoay vòng tự động, thử thu hồi một khoá để xem hệ thống xử lý ra sao.',
       ],
       selfCheck: [

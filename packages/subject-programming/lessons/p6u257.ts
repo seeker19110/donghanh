@@ -17,7 +17,7 @@ export const P6U257_LESSONS: ProgrammingLesson[] = [
     title: 'MÔ PHỎNG checklist phát hành: thiếu một mục bắt buộc là trượt cả đợt nộp',
     hook: 'Bị nền tảng trả bài không tốn tiền, nó tốn HAI TUẦN — và hai tuần đó thường rơi đúng vào lịch ra mắt bạn đã hứa.',
     theory:
-      'Mỗi cổng phát hành có một danh sách yêu cầu kỹ thuật bắt buộc, và phần lớn chúng không liên quan tới việc trò chơi có hay hay không: kích thước bản build trong hạn, giữ được tỉ lệ khung hình tối thiểu trên máy cấu hình chuẩn, có tuỳ chọn trợ năng, có màn hình pháp lý, có cách thoát rõ ràng. Cổng này không thương lượng — thiếu một mục là cả đợt nộp bị trả lại, và vòng nộp lại thường mất nhiều ngày. Vì vậy checklist phải được chạy như một cổng TRONG đường ống build, sớm và thường xuyên, chứ không phải một tờ giấy đọc vào đêm trước hạn nộp. Trợ năng không phải mục "làm nếu còn thời gian": nó là điều kiện để một phần người chơi chơi được trò chơi của bạn, và nhiều nền tảng đã đưa nó vào danh sách bắt buộc. Đây là MÔ PHỎNG Python hữu hạn trên danh sách nhãn: không gọi cổng phát hành thật.',
+      'Mỗi cổng phát hành có một danh sách yêu cầu kỹ thuật bắt buộc, và phần lớn chúng không liên quan tới việc trò chơi có hay hay không: kích thước bản build trong hạn, giữ được tỉ lệ khung hình tối thiểu trên máy cấu hình chuẩn, có tuỳ chọn trợ năng, có màn hình pháp lý, có cách thoát rõ ràng. Cổng này không thương lượng — thiếu một mục là cả đợt nộp bị trả lại, và vòng nộp lại thường mất nhiều ngày. Vì vậy checklist phải được chạy như một cổng TRONG đường ống build, sớm và thường xuyên, chứ không phải một tờ giấy đọc vào đêm trước hạn nộp. Trợ năng không phải mục "làm nếu còn thời gian": nó là điều kiện để một bộ phận người chơi tiếp cận được trò chơi của bạn, và nhiều nền tảng đã đưa nó vào danh sách bắt buộc. Đây là MÔ PHỎNG Python hữu hạn trên danh sách nhãn: không gọi cổng phát hành thật.',
     workedExample: {
       code: `# MO PHONG checklist phat hanh; muc bat buoc khai bao truoc.\nBAT_BUOC = {"kich_thuoc_build", "fps_toi_thieu", "tro_nang", "man_hinh_phap_ly"}\nda_co = {"kich_thuoc_build", "fps_toi_thieu", "tro_nang", "man_hinh_phap_ly"}\nthieu = sorted(BAT_BUOC - da_co)\nprint("pass: du checklist" if not thieu else "reject: thieu " + thieu[0])`,
       stdinLines: [],
@@ -177,7 +177,7 @@ except (EOFError, ValueError, KeyError):
           expected: 'pass: chuoi vua khung UI',
           match: 'contains',
           hidden: false,
-          label: 'chuỗi 8 ký tự vừa khung 12',
+          label: 'chuỗi 7 ký tự vừa khung 12',
         },
         {
           stdinLines: ['chuoi:Bat dau choi ngay,khung:12,ngon_ngu:vi'],

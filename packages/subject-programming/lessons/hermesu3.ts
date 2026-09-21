@@ -105,10 +105,10 @@ trangthai
 tuchoi v1 "mo ta khong ro pham vi can sua"`,
       question: 'Việc bị từ chối vì mô tả mập mờ — bài học rút ra áp dụng cho ai?',
       choices: [
-        'Ca dev con nguoi lan agent — mo ta ro la ky luat chung, khong rieng AI',
-        'Chi ap dung cho agent, dev con nguoi tu hieu y',
-        'Chi ap dung khi giao qua Linear, khong ap dung khi noi truc tiep',
-        'Khong ap dung duoc gi, do la loi cua nguoi lam',
+        'Cả dev con người lẫn agent — mô tả rõ là kỷ luật chung, không riêng AI',
+        'Chỉ áp dụng cho agent, dev con người tự hiểu ý',
+        'Chỉ áp dụng khi giao qua Linear, không áp dụng khi nói trực tiếp',
+        'Không rút ra được gì, đó là lỗi của người làm',
       ],
       answerIndex: 0,
       explain:
@@ -169,7 +169,7 @@ duyet v1`,
     unitId: 'hermes-u3',
     language: 'hermes',
     title: 'Bookmark mọi thứ bằng Hermes Agent',
-    hook: 'Bạn lưu một bài viết hay vào "Đọc sau" — sáu tháng sau không nhớ vì sao đã lưu nó. Giao cho agent bookmark thay bạn, nó không chỉ CẤT mà còn TÓM TẮT và GẮN THẺ ngay lúc lưu — tương lai bạn cảm ơn hiện tại bạn.',
+    hook: 'Bạn lưu một bài viết hay vào "Đọc sau" — sáu tháng sau không nhớ vì sao đã lưu nó. Giao cho agent bookmark thay bạn, nó không chỉ CẤT mà còn TÓM TẮT và GẮN THẺ ngay lúc lưu — bạn của sáu tháng sau sẽ cảm ơn bạn của hôm nay.',
     theory:
       'Bookmark tưởng đơn giản (chỉ là lưu link) nhưng cái LÀM NÊN GIÁ TRỊ là xử lý lúc lưu: agent đọc nội dung, tóm tắt hai dòng, gắn thẻ theo chủ đề phòng ban — biến một đường link chết thành một mục tra cứu sống.\n\nSo với ghi chú cuộc họp (bài Memos): bookmark là kho TƯ LIỆU BÊN NGOÀI (bài báo, tài liệu đối thủ, quy định pháp luật mới) — khác kho QUYẾT ĐỊNH NỘI BỘ của Memos. Hai kho phục vụ hai mục đích khác nhau, đừng trộn chung.\n\nQuy trình: giao việc bookmark kèm NGỮ CẢNH (vì sao lưu cái này, liên quan dự án nào) — agent tóm tắt và gắn thẻ theo đúng ngữ cảnh đó. Việc lặp nhiều lần theo cùng một khuôn ("lưu tin ngành, tóm tắt, gắn thẻ theo mảng") chính là ứng viên tốt để đúc thành skill (bài /learn ở C2) — một việc nhỏ nhưng lặp hằng ngày là nơi tự động hoá đáng giá nhất.',
     workedExample: {
@@ -184,10 +184,10 @@ duyet v1
 /learn bookmark-doi-thu`,
       question: 'Việc bookmark lặp lại hằng tuần — dòng lệnh cuối làm gì?',
       choices: [
-        'Dong goi ca quy trinh (doc, tom tat, gan the) thanh ky nang dung lai',
-        'Chi luu rieng bookmark nay vao muc yeu thich',
-        'Xoa bookmark vua tao',
-        'Bao loi vi chua co du lieu de hoc',
+        'Đóng gói cả quy trình (đọc, tóm tắt, gắn thẻ) thành kỹ năng dùng lại',
+        'Chỉ lưu riêng bookmark này vào mục yêu thích',
+        'Xoá bookmark vừa tạo',
+        'Báo lỗi vì chưa có dữ liệu để học',
       ],
       answerIndex: 0,
       explain:
@@ -251,7 +251,7 @@ duyet v1`,
     title: 'Understand-anything — hiểu tài liệu/codebase trước khi giao việc',
     hook: 'Giao việc "sửa module thanh toán" cho agent chưa từng đọc codebase cũng như giao việc "sửa hợp đồng" cho người chưa đọc hợp đồng — cả hai đều đoán mò. Understand-anything là bước ĐỌC HIỂU bắt buộc trước khi giao việc thật.',
     theory:
-      'Trước khi giao một việc phức tạp (sửa module code, rà một bộ hợp đồng), giao một việc NHỎ HƠN trước: yêu cầu agent ĐỌC và TÓM TẮT cấu trúc/nội dung. Chỉ khi bản tóm tắt đó đúng, bạn mới tin việc chính sẽ làm đúng chỗ.\n\nÁp dụng cho hai đối tượng khoá này:\n- Nhân viên văn phòng: giao đọc một bộ hợp đồng dài, tóm tắt điều khoản rủi ro trước khi ký.\n- Người điều phối dev: giao đọc một codebase lạ, tóm tắt module nào làm gì trước khi giao việc sửa.\n\nQuy trình hai bước, không được gộp làm một: ① giao việc ĐỌC HIỂU, nghiệm thu bản tóm tắt trước → ② mới giao việc HÀNH ĐỘNG (sửa/viết) dựa trên hiểu biết đã xác nhận đúng. Gộp làm một là để agent vừa đọc vừa sửa cùng lúc — sai hiểu ở đâu thì việc sửa sai theo đó, mà không ai phát hiện ra vì không có bước dừng lại kiểm tra.',
+      'Trước khi giao một việc phức tạp (sửa module code, rà một bộ hợp đồng), giao một việc NHỎ HƠN trước: yêu cầu agent ĐỌC và TÓM TẮT cấu trúc/nội dung. Chỉ khi bản tóm tắt đó đúng, bạn mới tin việc chính sẽ làm đúng chỗ.\n\nÁp dụng cho hai đối tượng khoá này:\n- Nhân viên văn phòng: giao đọc một bộ hợp đồng dài, tóm tắt điều khoản rủi ro trước khi ký.\n- Người điều phối dev: giao đọc một codebase lạ, tóm tắt module nào làm gì trước khi giao việc sửa.\n\nQuy trình hai bước, không được gộp làm một: ① giao việc ĐỌC HIỂU, nghiệm thu bản tóm tắt trước → ② mới giao việc HÀNH ĐỘNG (sửa/viết) dựa trên hiểu biết đã xác nhận đúng. Gộp làm một là để agent vừa đọc vừa sửa cùng lúc: hiểu sai chỗ nào thì sửa sai đúng chỗ đó, mà không ai phát hiện ra vì không có bước dừng lại kiểm tra.',
     workedExample: {
       code: `giao "doc module thanh toan, tom tat cac ham chinh va luong du lieu"
 duyet v1
@@ -263,10 +263,10 @@ giao "sua ham tinhPhiGiaoHang de tinh dung khi don hang co giam gia"`,
 trangthai`,
       question: 'Việc này gộp "đọc hiểu" và "sửa" làm một bước — rủi ro chính là gì?',
       choices: [
-        'Hieu sai codebase thi sua sai theo, ma khong co buoc dung lai de phat hien',
-        'Agent se tu choi vi lenh qua dai',
-        'Khong co rui ro gi, gop lam mot nhanh hon',
-        'He thong tu tach thanh hai viec rieng',
+        'Hiểu sai codebase thì sửa sai theo, mà không có bước dừng lại để phát hiện',
+        'Agent sẽ từ chối vì lệnh quá dài',
+        'Không có rủi ro gì, gộp làm một nhanh hơn',
+        'Hệ thống tự tách thành hai việc riêng',
       ],
       answerIndex: 0,
       explain:
@@ -348,10 +348,10 @@ duyet v1`,
 trangthai`,
       question: 'Yêu cầu này thiếu điều gì khiến việc khó nghiệm thu?',
       choices: [
-        'Thieu NOI DUNG cu the: ten san pham, tinh nang, loi keu goi',
-        'Thieu mau sac thuong hieu',
-        'Thieu ten skill de dung',
-        'Khong thieu gi, "dep" la du ro rang',
+        'Thiếu NỘI DUNG cụ thể: tên sản phẩm, tính năng, lời kêu gọi',
+        'Thiếu màu sắc thương hiệu',
+        'Thiếu tên skill để dùng',
+        'Không thiếu gì, "đẹp" là đủ rõ ràng',
       ],
       answerIndex: 0,
       explain:

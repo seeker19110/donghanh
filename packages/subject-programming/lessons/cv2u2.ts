@@ -352,7 +352,7 @@ print(chon(20, "chinh xac"))  # o giua -> DETR`,
       choices: ['YOLO', 'khac', 'DETR', 'Báo lỗi'],
       answerIndex: 0,
       explain:
-        'Cả hai điều kiện đều đúng (45 ≥ 30 và ưu tiên là "toc do") nên nhánh đầu chạy. 30 FPS là mốc "thời gian thực" theo cảm nhận mắt người — dưới mức đó video bắt đầu giật, nên đây là con số kỹ thuật có gốc sinh học chứ không tuỳ tiện.',
+        'Cả hai điều kiện đều đúng (45 ≥ 30 và ưu tiên là "toc do") nên nhánh đầu chạy. 30 FPS là mốc quen dùng cho "thời gian thực": phim chiếu rạp 24 hình/giây đã đủ mượt để xem, còn hệ thống phải PHẢN ỨNG theo thời gian thực (xe tự lái, bám bóng) thì thường lấy 30 trở lên cho chắc.',
     },
     parsons: {
       prompt:

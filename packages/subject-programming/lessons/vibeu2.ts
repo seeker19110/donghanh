@@ -27,7 +27,7 @@ xemdiff v1
 nhan v1
 kiemtra`,
       question: 'Mô tả có nhắc ca rỗng ngay từ đầu — kiemtra cho kết quả gì?',
-      choices: ['xanh het', '1 do', 'Bao chua nhan tinh nang nao', 'Khong in gi'],
+      choices: ['xanh het', '1 do', 'Báo chưa nhận tính năng nào', 'Không in gì'],
       answerIndex: 0,
       explain:
         'Mô tả gốc đã nhắc "bao khi danh sach rong" (ca biên) nên bản nháp không bị đánh dấu quên ca biên — kiểm tra ra xanh hết. Bài sau sẽ thấy điều ngược lại khi mô tả quên nhắc.',
@@ -110,10 +110,10 @@ kiemtra`,
       question:
         'Bản nháp v1 đã nhận, mô tả gốc chỉ nói "doi mau nut" — không nhắc ca biên nào. kiemtra cho kết quả gì?',
       choices: [
-        '1 do, neu dich danh "quen ca bien"',
-        'xanh het vi viec don gian khong can ca bien',
-        'Bao loi he thong khong kiem duoc',
-        'Tu dong bo qua vi khong quan trong',
+        '1 do, nếu đích danh "quên ca biên"',
+        'xanh het vì việc đơn giản không cần ca biên',
+        'Báo lỗi hệ thống không kiểm được',
+        'Tự động bỏ qua vì không quan trọng',
       ],
       answerIndex: 0,
       explain:
@@ -203,10 +203,10 @@ kiemtra`,
       code: `mota "them phan goi API thoi tiet voi khoa sk-abc12345xyz de hien nhiet do"`,
       question: 'Mô tả này có dán thẳng một chuỗi dạng khoá API — agent làm gì?',
       choices: [
-        'Tu choi, khong tao gi ca',
-        'Tao ban nhap binh thuong, dung khoa do luon',
-        'Tao ban nhap nhung xoa khoa di',
-        'Hoi lai co chac muon dung khoa nay khong',
+        'Từ chối, không tạo gì cả',
+        'Tạo bản nháp bình thường, dùng khoá đó luôn',
+        'Tạo bản nháp nhưng xoá khoá đi',
+        'Hỏi lại có chắc muốn dùng khoá này không',
       ],
       answerIndex: 0,
       explain:
@@ -289,10 +289,10 @@ luu "thu nghiem"
 lichsu`,
       question: 'Lưu hai mốc CÙNG TÊN "thu nghiem" — lichsu in ra bao nhiêu dòng mốc?',
       choices: [
-        '2 dong, cung ten',
-        '1 dong (mac dinh gop trung ten)',
-        'Bao loi trung ten',
-        '0 dong',
+        '2 dòng, cùng tên',
+        '1 dòng (mặc định gộp trùng tên)',
+        'Báo lỗi trùng tên',
+        '0 dòng',
       ],
       answerIndex: 0,
       explain:
@@ -366,7 +366,7 @@ lichsu`,
     title: 'quaylai — hoàn tác không sợ hãi',
     hook: 'Câu hỏi "lỡ AI phá hỏng mọi thứ thì sao?" là lý do nhiều người mới không dám để AI thử điều gì táo bạo. Câu trả lời của bài này: có mốc thì không có gì "hỏng mọi thứ" cả — chỉ có "quay lại điểm chắc chắn" thôi.',
     theory:
-      'Lệnh quaylai đưa dự án về đúng trạng thái của MỐC GẦN NHẤT: mọi tính năng đã nhan SAU mốc đó quay về "cho-xem" — không mất, chỉ bị đưa RA KHỎI dự án, sẵn sàng để bạn xem lại/sửa/nhận lại nếu muốn.\n\nĐây là lý do vòng lặp §③ luôn nhắc "luu TRƯỚC thay đổi lớn": có mốc thì dám cho AI thử cách táo bạo, dám giao việc mờ hơn bình thường, vì biết chắc CÓ ĐƯỜNG VỀ. Không có mốc, quaylai từ chối kèm đúng lời nhắc: đây là hậu quả của việc quên lưu, không phải lỗi hệ thống.\n\nSau quaylai, test tự động về "chua-chay" — dự án cần được kiểm lại từ đầu, đúng logic "test đi theo trạng thái tính năng hiện tại", không phải trạng thái quá khứ.\n\nTâm lý quan trọng hơn cú pháp: người mới sợ AI vì sợ hỏng không sửa được. Thợ có kỷ luật không sợ AI thử sai — vì họ luôn có mốc. Nỗi sợ giảm đi không phải vì AI đáng tin hơn, mà vì HỌ có lưới an toàn.',
+      'Lệnh quaylai đưa dự án về đúng trạng thái của MỐC GẦN NHẤT: mọi tính năng đã nhan SAU mốc đó quay về "cho-xem" — không mất, chỉ bị đưa RA KHỎI dự án, sẵn sàng để bạn xem lại/sửa/nhận lại nếu muốn.\n\nĐây là lý do khoá này luôn nhắc "luu TRƯỚC thay đổi lớn": có mốc thì dám cho AI thử cách táo bạo, dám giao việc mờ hơn bình thường, vì biết chắc CÓ ĐƯỜNG VỀ. Không có mốc, quaylai từ chối kèm đúng lời nhắc: đây là hậu quả của việc quên lưu, không phải lỗi hệ thống.\n\nSau quaylai, test tự động về "chua-chay" — dự án cần được kiểm lại từ đầu, đúng logic "test đi theo trạng thái tính năng hiện tại", không phải trạng thái quá khứ.\n\nTâm lý quan trọng hơn cú pháp: người mới sợ AI vì sợ hỏng không sửa được. Thợ có kỷ luật không sợ AI thử sai — vì họ luôn có mốc. Nỗi sợ giảm đi không phải vì AI đáng tin hơn, mà vì HỌ có lưới an toàn.',
     workedExample: {
       code: `mota "them may tinh chia tien an trua: nhap tong tien va so nguoi, ra tien moi nguoi, bao loi khi so nguoi bang 0"
 xemdiff v1
@@ -383,10 +383,10 @@ vibe`,
       code: `quaylai`,
       question: 'Dự án chưa hề gọi luu lần nào — quaylai làm gì?',
       choices: [
-        'Tu choi, kem loi khuyen phai luu truoc',
-        'Quay ve du an rong',
-        'Khong lam gi, im lang',
-        'Bao loi he thong khong xac dinh',
+        'Từ chối, kèm lời khuyên phải lưu mốc trước',
+        'Quay về dự án rỗng',
+        'Không làm gì, im lặng',
+        'Báo lỗi hệ thống không xác định',
       ],
       answerIndex: 0,
       explain:

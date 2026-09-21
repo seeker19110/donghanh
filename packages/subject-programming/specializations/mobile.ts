@@ -103,7 +103,7 @@ export const MOBILE_SPECIALIZATION: ProgrammingSpecialization = {
         brief: 'App ghi chi tiêu chạy hoàn toàn offline, có biểu đồ theo tháng.',
         requirements: [
           'Ít nhất 3 màn + điều hướng, giữ trạng thái khi xoay máy',
-          'Dữ liệu bền qua khi tắt app',
+          'Dữ liệu còn nguyên sau khi tắt app rồi mở lại',
           'Cài chạy được trên điện thoại thật, có icon và tên app riêng',
         ],
       },

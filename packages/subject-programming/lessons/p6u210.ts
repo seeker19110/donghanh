@@ -3,7 +3,7 @@
 //
 // Ranh giới cứng của cả chặng (đặc tả `docs/specs/2026-09-17-security-s3-bai-hoc-that.md`):
 // dạy VÌ SAO lỗ hổng tồn tại và CÁCH PHÁT HIỆN, tuyệt đối không cung cấp công cụ khai thác.
-// Vì thế máy ảo ở đây là MÁY ĐỒ CHƠI do chính đặc tả định nghĩa (12 lệnh, không con trỏ thô,
+// Vì thế máy ảo ở đây là MÁY ĐỒ CHƠI do chính đặc tả định nghĩa (13 lệnh, không con trỏ thô,
 // không địa chỉ tuyệt đối), KHÔNG phải một tập lệnh có thật — người học luyện đúng kỹ năng cần
 // có (đọc luồng điều khiển từ mã mức thấp) mà bài không trở thành bảng tra lệnh của máy thật.
 //

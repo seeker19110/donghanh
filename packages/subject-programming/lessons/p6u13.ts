@@ -206,7 +206,7 @@ print(ket_qua, goc)`,
         '[200, 400] [200, 400]',
         '[200, 400] [100, 200]',
         '[100, 200] [100, 200]',
-        'Bao loi vi sua danh sach khi dang duyet',
+        'Báo lỗi vì sửa danh sách khi đang duyệt',
       ],
       answerIndex: 0,
       explain:
@@ -306,7 +306,7 @@ main()`,
       },
       {
         hoi: 'Lợi ích cụ thể nhất của việc tách lõi thuần là gì?',
-        dap: 'Phần đáng test test được bằng một dòng assert — không cần giả lập bàn phím, màn hình hay cơ sở dữ liệu. Ca biên cũng thử được mỗi ca một dòng.',
+        dap: 'Phần đáng test kiểm được bằng một dòng assert — không cần giả lập bàn phím, màn hình hay cơ sở dữ liệu. Ca biên cũng thử được mỗi ca một dòng.',
       },
       {
         hoi: 'Có nên cố biến mọi hàm thành hàm thuần không?',

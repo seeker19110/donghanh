@@ -299,7 +299,7 @@ console.log(JSON.stringify(kiemTraNhieuNguoiDung(NGUOI_DUNG, 2)))`,
       ],
       hints: [
         'coVuotGioiHan: mảng rỗng trả về false NGAY (không có phần tử cuối để lấy mốc) — thiếu dòng này sẽ lỗi runtime khi đọc phần tử cuối của mảng rỗng.',
-        'Cửa sổ 60 giây tính LÙI TỪ MỐC CUỐI CÙNG: `cuoi - 60`, đếm phần tử `t` thoả `t > cuoi - 60` (dùng > , không phải >=).',
+        'Cửa sổ 60 giây tính LÙI TỪ MỐC CUỐI CÙNG: `cuoi - 60`, đếm phần tử `t` thoả `t > cuoi - 60` (dùng >, không phải >=).',
         'kiemTraNhieuNguoiDung: dùng vòng lặp, mỗi phần tử là một mảng thời điểm của MỘT người — gọi coVuotGioiHan(dsThoiDiem, gioiHanMoiPhut) rồi push kết quả boolean.',
       ],
       sampleSolution: `function coVuotGioiHan(danhSachThoiDiemGoi: number[], gioiHanMoiPhut: number): boolean {
@@ -342,7 +342,7 @@ console.log(JSON.stringify(kiemTraNhieuNguoiDung(NGUOI_DUNG, 2)))`,
       },
       {
         hoi: 'Thuật toán cửa sổ trượt (sliding window) kiểm rate limit làm theo mấy bước, là những bước nào?',
-        dap: 'Lấy mốc thời gian gọi CUỐI CÙNG; đếm số lần gọi nằm trong 60 giây gần nhất TÍNH LÙI TỪ mốc đó (điều kiện là > , không phải >=); so đếm đó với ngưỡng cho phép mỗi phút.',
+        dap: 'Lấy mốc thời gian gọi CUỐI CÙNG; đếm số lần gọi nằm trong 60 giây gần nhất TÍNH LÙI TỪ mốc đó (điều kiện là >, không phải >=); so đếm đó với ngưỡng cho phép mỗi phút.',
       },
     ],
   },

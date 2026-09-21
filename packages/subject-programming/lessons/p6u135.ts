@@ -104,7 +104,7 @@ print("cho-phep" if duoc_phep else "tu-choi")`,
     title: 'Bit mask — bật một quyền mà không làm mất các quyền còn lại',
     hook: 'Một hệ có 20 cờ Boolean lưu thành 20 cột vừa cồng kềnh vừa khó truyền qua mạng. Bit mask gom chúng vào một số nguyên, nhưng thao tác sai có thể xóa nhầm quyền khác.',
     theory:
-      'Mỗi cờ chiếm một bit là lũy thừa của hai: DOC=1, GHI=2, QUAN_TRI=4. Bật cờ dùng OR: `flags | mask`. Tắt cờ dùng AND với phủ định: `flags & ~mask`. Kiểm cờ dùng `flags & mask != 0`. XOR chỉ phù hợp khi thật sự muốn đảo trạng thái; dùng XOR để “bật” sẽ vô tình tắt cờ đang bật. Các phép phải giữ nguyên mọi bit không thuộc mask.',
+      'Mỗi cờ chiếm một bit là lũy thừa của hai: DOC=1, GHI=2, QUAN_TRI=4. Bật cờ dùng OR: `flags | mask`. Tắt cờ dùng AND với phủ định: `flags & ~mask`. Kiểm cờ dùng `(flags & mask) != 0`. XOR chỉ phù hợp khi thật sự muốn đảo trạng thái; dùng XOR để “bật” sẽ vô tình tắt cờ đang bật. Các phép phải giữ nguyên mọi bit không thuộc mask.',
     workedExample: {
       code: `DOC, GHI, QUAN_TRI = 1, 2, 4
 quyen = DOC | GHI
@@ -191,7 +191,7 @@ else:
     srsCards: [
       {
         hoi: 'Ba phép bật, tắt và kiểm một cờ trong bit mask là gì?',
-        dap: 'Bật dùng `flags | mask`; tắt dùng `flags & ~mask`; kiểm dùng `flags & mask != 0`.',
+        dap: 'Bật dùng `flags | mask`; tắt dùng `flags & ~mask`; kiểm dùng `(flags & mask) != 0`.',
       },
       {
         hoi: 'Vì sao không dùng XOR khi mục tiêu là chắc chắn bật một cờ?',

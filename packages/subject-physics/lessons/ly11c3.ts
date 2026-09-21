@@ -251,7 +251,7 @@ export const LY11_C3_LESSONS: PhysicsLesson[] = [
     srsCards: [
       {
         hoi: 'Đơn vị Coulomb (C) đo đại lượng vật lí nào?',
-        dap: 'Đo điện tích (lượng điện dịch chuyển).',
+        dap: 'Đo điện tích. Một vật mang điện tích 1 C khi có một điện lượng 1 C chuyển qua nó.',
       },
       {
         hoi: 'Hằng số điện môi ε của chân không có giá trị bằng bao nhiêu?',
@@ -560,7 +560,7 @@ export const LY11_C3_LESSONS: PhysicsLesson[] = [
     srsCards: [
       {
         hoi: 'Vectơ cường độ điện trường gây ra bởi điện tích dương hướng về phía điện tích hay ra xa nó?',
-        dap: 'Hướng thẳng hàng ra xa điện tích dương.',
+        dap: 'Hướng ra xa điện tích dương, dọc theo đường thẳng nối điện tích đó với điểm đang xét.',
       },
       {
         hoi: 'Phát biểu nguyên lí chồng chất điện trường.',
@@ -760,7 +760,7 @@ export const LY11_C3_LESSONS: PhysicsLesson[] = [
     title: 'Điện trường đều',
     hook:
       'Trong khoảng không gian giữa hai tấm kim loại phẳng song song tích điện trái dấu bằng nhau, cường độ điện trường có độ lớn và hướng như nhau tại mọi điểm. ' +
-      'Đó chính là Điện trường đều - môi trường cốt lõi của các máy gia tốc hạt.',
+      'Đó chính là Điện trường đều — mô hình nền của tụ điện phẳng và của các máy gia tốc hạt.',
     theory:
       'ĐỊNH NGHĨA ĐIỆN TRƯỜNG ĐỀU (UNIFORM ELECTRIC FIELD):\n' +
       '— Điện trường đều là điện trường mà vectơ cường độ điện trường tại mọi điểm đều có cùng phương, cùng chiều và cùng độ lớn.\n' +
@@ -1032,14 +1032,14 @@ export const LY11_C3_LESSONS: PhysicsLesson[] = [
     title: 'Thế năng điện',
     hook:
       'Giống như một hòn đá được nâng lên cao có thế năng trọng trường tích luỹ, ' +
-      'một điện tích dương khi bị ép lại gần một điện tích dương khác ngược chiều lực đẩy sẽ tích luỹ Thế năng điện.',
+      'một điện tích dương bị đẩy ngược lại mà vẫn ép được tới gần một điện tích dương khác cũng tích luỹ Thế năng điện.',
     theory:
       'CÔNG CỦA LỰC ĐIỆN TRONG ĐIỆN TRƯỜNG ĐỀU:\n' +
       '— Lực điện tác dụng lên điện tích q đặt trong điện trường đều E là F = q.E.\n' +
       '— Khi q di chuyển từ điểm M đến điểm N, công của lực điện được tính bằng công thức:\n' +
       '  A_MN = q * E * d\n' +
       '  — d: Hình chiếu của quãng đường di chuyển MN lên phương đường sức điện (d > 0 nếu hình chiếu cùng chiều đường sức, d < 0 nếu ngược chiều).\n' +
-      '— Đặc điểm: Công của lực điện thế không phụ thuộc vào hình dạng đường đi từ M đến N mà chỉ phụ thuộc vào vị trí của điểm đầu M và điểm cuối N (lực điện là lực thế).\n\n' +
+      '— Đặc điểm: Công của lực điện không phụ thuộc vào hình dạng đường đi từ M đến N mà chỉ phụ thuộc vào vị trí của điểm đầu M và điểm cuối N (lực điện là lực thế).\n\n' +
       'THẾ NĂNG CỦA ĐIỆN TÍCH TRONG ĐIỆN TRƯỜNG:\n' +
       '— Thế năng của điện tích q tại điểm M đặc trưng cho khả năng sinh công của điện trường khi đặt q tại đó:\n' +
       '  W_M = A_M∞ = q * E * d_M (chọn mốc thế năng ở vô cực hoặc bản âm).',

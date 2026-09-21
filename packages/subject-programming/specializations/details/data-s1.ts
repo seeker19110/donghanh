@@ -97,7 +97,7 @@ export const DATA_S1_DETAIL: SpecStageDetail = {
       objective:
         'Vẽ được biểu đồ nói đúng một ý cho người không kỹ thuật, không dùng thủ thuật trục làm phóng đại khác biệt.',
       practice: [
-        'Vẽ cùng một dữ liệu hai lần, một lần trục cắt gốc một lần không, đặt cạnh nhau xem cảm giác khác thế nào.',
+        'Vẽ cùng một dữ liệu hai lần, một lần trục dọc bắt đầu từ số không, một lần không, đặt cạnh nhau xem cảm giác khác thế nào.',
         'Lấy một biểu đồ đang nhồi bốn ý, tách thành bốn biểu đồ mỗi cái một ý rồi hỏi người ngoài xem cái nào dễ đọc.',
         'Đặt tiêu đề cho mỗi biểu đồ bằng chính KẾT LUẬN chứ không bằng tên hai trục.',
       ],

@@ -231,7 +231,7 @@ console.log(soMucVe(10000, 80, 800, 0, 3))`,
       choices: ['14', '10', '16', '10000'],
       answerIndex: 0,
       explain:
-        'Ở đỉnh: chỉ số đầu = làm tròn xuống(0/80) − 3 = −3, kẹp về 0 (đệm phía trên không có chỗ để dùng). Chỉ số cuối = làm tròn xuống(800/80) + 3 = 10 + 3 = 13. Vậy dựng từ 0 tới 13 là 14 mục — chứ không phải 10.000. Đáp án 10 là bẫy: đó là số mục THẤY ĐƯỢC, còn số mục DỰNG luôn nhiều hơn vì có mục thứ 10 ló ra ở mép dưới cộng với đệm.',
+        'Ở đỉnh: chỉ số đầu = làm tròn xuống(0/80) − 3 = −3, kẹp về 0 (đệm phía trên không có chỗ để dùng). Chỉ số cuối = làm tròn xuống(800/80) + 3 = 10 + 3 = 13. Vậy dựng từ 0 tới 13 là 14 mục — chứ không phải 10.000. Đáp án 10 là bẫy: đó là số mục THẤY ĐƯỢC, còn số mục DỰNG luôn nhiều hơn vì phép tính còn tính cả mục nằm ngay mép dưới khung (mục số 10) rồi cộng thêm đệm.',
     },
     parsons: {
       prompt:

@@ -100,7 +100,7 @@ for hang in anh:
       sampleSolution: `phang = [int(v) for v in input("Anh 4x4 phang: ").split(",")]\nW = 4\nfor i in range(4):\n    hang = phang[i * W:(i + 1) * W]\n    dong = ""\n    for v in hang:\n        if v <= 3:\n            dong += "."\n        elif v <= 6:\n            dong += "+"\n        else:\n            dong += "#"\n    print(dong)`,
     },
     homework:
-      'Tự "chụp" một ảnh 8x8 bằng tay: vẽ chữ cái đầu tên bạn trên giấy kẻ ô 8x8, ô nào có nét ghi 9, ô trống ghi 0. Gõ dãy 64 số đó vào code bài này (sửa W = 8 và vòng lặp 8 hàng) rồi xem máy hiện lại chữ của bạn. Sau đó thử đổi bảng ngưỡng (vd <=1 thành "." ) và trả lời: vì sao cùng một ma trận mà đổi ngưỡng lại ra hình khác hẳn — máy có "nhìn" khác đi không, hay chỉ mắt bạn đọc khác đi?',
+      'Tự "chụp" một ảnh 8x8 bằng tay: vẽ chữ cái đầu tên bạn trên giấy kẻ ô 8x8, ô nào có nét ghi 9, ô trống ghi 0. Gõ dãy 64 số đó vào code bài này (sửa W = 8 và vòng lặp 8 hàng) rồi xem máy hiện lại chữ của bạn. Sau đó thử đổi bảng ngưỡng (vd <=1 thành ".") và trả lời: vì sao cùng một ma trận mà đổi ngưỡng lại ra hình khác hẳn — máy có "nhìn" khác đi không, hay chỉ mắt bạn đọc khác đi?',
     srsCards: [
       {
         hoi: 'Ảnh xám và ảnh màu được biểu diễn bằng con số như thế nào?',

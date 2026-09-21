@@ -83,7 +83,7 @@ print(f"Can bac hai cua 81: {math.sqrt(81)}")`,
       hints: [
         'Đổi chuỗi nhập thành ngày bằng date.fromisoformat(tho) — chuỗi phải đúng dạng YYYY-MM-DD thì hàm này mới nhận.',
         'Trừ hai ngày cho ra timedelta, nhớ lấy .days: con_lai = (dich - moc).days. Quên .days là in ra "364 days, 0:00:00" lệch mẫu đề.',
-        'Số tuần dùng math.ceil(con_lai / 7) — chú ý ceil trả về số nguyên, đừng dùng round vì 365/7 = 52,14 phải cho 53 chứ không phải 52.',
+        'Số tuần dùng math.ceil(con_lai / 7) — chú ý ceil trả về số nguyên, đừng dùng round vì 365/7 = 52.14 phải cho 53 chứ không phải 52.',
       ],
       sampleSolution: `from datetime import date\nimport math\n\nmoc = date(2026, 1, 1)\ntho = input("Ngay dich (YYYY-MM-DD): ")\n\ndich = date.fromisoformat(tho)\ncon_lai = (dich - moc).days\ntuan = math.ceil(con_lai / 7)\n\nprint(f"Con {con_lai} ngay (khoang {tuan} tuan)")`,
     },

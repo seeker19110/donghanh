@@ -52,7 +52,7 @@ export const MATHFORCODE_S4_DETAIL: SpecStageDetail = {
         },
         {
           q: 'Hàm lồi có lợi thế gì cho việc tối ưu?',
-          a: 'Nó chỉ có một cực tiểu, nên tìm được cực tiểu địa phương nào cũng chính là nghiệm tốt nhất.',
+          a: 'Nó không có bẫy cực tiểu địa phương: tìm được cực tiểu địa phương nào thì đó cũng chính là cực tiểu toàn cục.',
         },
         {
           q: 'Dấu hiệu nào cho thấy quá trình học đang kẹt ở cao nguyên phẳng?',

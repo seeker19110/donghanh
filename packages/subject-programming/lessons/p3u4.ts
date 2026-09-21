@@ -39,7 +39,7 @@ export const P3U4_LESSONS: ProgrammingLesson[] = [
     predict: {
       code: `<!doctype html><html lang="vi"><body><ul><li>Mot<li>Hai</ul></body></html>`,
       question:
-        'Đoạn này QUÊN đóng thẻ <li>. Trình duyệt dựng cây DOM ra sao — nó bỏ qua, tự sửa, hay báo lỗi?',
+        'Đoạn này QUÊN đóng thẻ <li>. Trong cây DOM trình duyệt dựng ra, thẻ <li> ĐẦU TIÊN chứa chữ gì?',
       choices: [
         'li "Mot"',
         'li "MotHai"',
@@ -48,7 +48,7 @@ export const P3U4_LESSONS: ProgrammingLesson[] = [
       ],
       answerIndex: 0,
       explain:
-        'HTML rất "khoan dung": trình duyệt tự đóng thẻ giúp bạn, nên vẫn ra HAI thẻ li riêng biệt. Đây là con dao hai lưỡi — code sai vẫn chạy nên bạn không biết mình sai, cho tới hôm gặp trường hợp trình duyệt đoán khác ý mình. Cứ đóng thẻ đầy đủ.',
+        'HTML rất "khoan dung": trình duyệt tự đóng thẻ giúp bạn, nên vẫn ra HAI thẻ li riêng biệt — li đầu chỉ chứa "Mot", còn "Hai" nằm ở li thứ hai. Vì vậy không có chuyện hai chữ dính vào nhau thành "MotHai" hay "Mot Hai", cũng không có chuyện trang trắng: HTML sai cú pháp kiểu này trình duyệt không hề báo lỗi. Đây là con dao hai lưỡi — code sai vẫn chạy nên bạn không biết mình sai, cho tới hôm gặp trường hợp trình duyệt đoán khác ý mình. Cứ đóng thẻ đầy đủ.',
     },
     parsons: {
       prompt: 'Xếp các dòng sau thành bộ khung HTML tối thiểu, đúng thứ tự lồng nhau.',

@@ -92,7 +92,7 @@ export const SECURITY_SPECIALIZATION: ProgrammingSpecialization = {
           title: 'OWASP Top 10 thực hành',
           topics: [
             'Injection, XSS, IDOR, lỗi xác thực/phân quyền',
-            'SSRF, giải tuần tự không an toàn, cấu hình sai',
+            'SSRF, giải tuần tự (deserialization) không an toàn, cấu hình sai',
             'Tự dựng lab dễ tổn thương và tự khai thác',
           ],
         },
@@ -146,7 +146,7 @@ export const SECURITY_SPECIALIZATION: ProgrammingSpecialization = {
           title: 'Mạng và hạ tầng',
           topics: [
             'Quét cổng, nhận dạng dịch vụ, cấu hình sai phổ biến',
-            'Container thoát ly, quyền IAM quá rộng trên cloud',
+            'Thoát ly container (container escape), quyền IAM quá rộng trên cloud',
             'Bí mật lộ trong repo và ảnh container',
           ],
         },

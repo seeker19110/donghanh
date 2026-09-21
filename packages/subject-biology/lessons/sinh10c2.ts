@@ -7,7 +7,7 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
     animation: {
       title: 'Tế bào nhân sơ: cấu tạo đơn giản, tỉ lệ S/V lớn',
       description:
-        'Năm ô lần lượt dựng lại tế bào nhân sơ từ ngoài vào trong: thành tế bào bằng peptidoglycan giữ hình dạng, màng sinh chất kiểm soát chất ra vào, tế bào chất chứa ribosome loại 70S làm nhiệm vụ tổng hợp protein, và vùng nhân chỉ là một phân tử ADN dạng vòng nằm trần trong tế bào chất — KHÔNG có màng nhân bao bọc, đó chính là nghĩa của chữ nhân sơ. Ô cuối nêu hệ quả kích thước: tế bào nhân sơ chỉ 1–5 micromet nên tỉ lệ diện tích bề mặt trên thể tích rất lớn, chất dinh dưỡng khuếch tán vào tới mọi điểm trong tế bào gần như tức thì, nhờ đó chúng trao đổi chất và sinh sản cực nhanh.',
+        'Năm ô lần lượt dựng lại tế bào nhân sơ từ ngoài vào trong: thành tế bào bằng peptidoglycan giữ hình dạng, màng sinh chất kiểm soát chất ra vào, tế bào chất chứa ribosome loại 70S làm nhiệm vụ tổng hợp protein, và vùng nhân chỉ là một phân tử DNA dạng vòng nằm trần trong tế bào chất — KHÔNG có màng nhân bao bọc, đó chính là nghĩa của chữ nhân sơ. Ô cuối nêu hệ quả kích thước: tế bào nhân sơ chỉ 1–5 micromet nên tỉ lệ diện tích bề mặt trên thể tích rất lớn, chất dinh dưỡng khuếch tán vào tới mọi điểm trong tế bào gần như tức thì, nhờ đó chúng trao đổi chất và sinh sản cực nhanh.',
       viewBoxWidth: 538,
       viewBoxHeight: 234,
       durationMs: 6700,
@@ -274,7 +274,7 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
           id: 'p3',
           x: 91,
           y: 200,
-          text: 'ADN vòng, trần',
+          text: 'DNA vòng, trần',
           size: 12,
           anchor: 'middle',
           fill: 'muted',
@@ -386,7 +386,7 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
         },
         { atMs: 1600, text: 'Trong thành là màng sinh chất, kiểm soát chất ra vào.' },
         { atMs: 2700, text: 'Tế bào chất chứa ribosome 70S — nơi tổng hợp protein.' },
-        { atMs: 3800, text: 'Vùng nhân chỉ là ADN vòng nằm trần, KHÔNG có màng nhân bao bọc.' },
+        { atMs: 3800, text: 'Vùng nhân chỉ là DNA vòng nằm trần, KHÔNG có màng nhân bao bọc.' },
         { atMs: 4900, text: 'Vì rất nhỏ nên tỉ lệ S/V lớn, khuếch tán nhanh, sinh sản nhanh.' },
       ],
     },
@@ -408,7 +408,7 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
       '3. Tế bào chất (Cytoplasm): Dung dịch nước (cytosol) chứa các phân tử hữu cơ và ribosome. Không có màng bao. Nơi diễn ra các phản ứng trao đổi chất.\n' +
       '4. Vùng nhân (Nucleoid): Chứa một phân tử DNA vòng kép không gắn với protein histone.\n' +
       '5. Ribosome: Là bào quan duy nhất của tế bào nhân sơ, nhỏ hơn ribosome tế bào nhân thực (70S so với 80S). Nơi tổng hợp protein.\n' +
-      '— Các cấu trúc phụ của một số vi khuẩn: Lông roi (Flagellum - giúp di chuyển), Lông nhung (Pilus/Fimbria - giúp bám dính), Vỏ nhày (Capsule - bảo vệ chống thực bào), Plasmid (DNA vòng nhỏ ngoài NST).',
+      '— Các cấu trúc phụ của một số vi khuẩn: Lông roi (Flagellum - giúp di chuyển), Lông nhung (Pilus/Fimbria - giúp bám dính), Vỏ nhày (Capsule - bảo vệ chống thực bào), Plasmid (phân tử DNA vòng nhỏ nằm ngoài vùng nhân).',
     workedExample: {
       problem:
         'So sánh sự khác nhau cơ bản giữa tế bào nhân sơ và tế bào nhân thực về cấu trúc nhân.',
@@ -690,7 +690,7 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
           correctIds: ['go_1'],
         },
         explain:
-          'Bộ máy Golgi là trung tâm phân loại và đóng gói protein và lipid, đảm bảo chúng được vận chuyển đến đúng địa điểm cần thiết.',
+          'Bộ máy Golgi nhận túi vận chuyển từ lưới nội chất, hoàn thiện rồi dán nhãn địa chỉ cho protein và lipid nên đây là khâu phân loại, đóng gói. Lưới nội chất hạt chỉ tổng hợp protein rồi gửi đi, lysosome tiêu hoá nội bào, còn không bào làm nhiệm vụ dự trữ.',
       },
     ],
     srsCards: [
@@ -716,20 +716,20 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
     hook: 'Sử dụng kính hiển vi, chúng ta sẽ thực sự "nhìn thấy" thế giới tế bào mà mắt thường không bao giờ thấy được: hình dạng tế bào biểu bì hành tây và các bào quan của nó.',
     theory:
       'KÍNH HIỂN VI VÀ KĨ THUẬT LÀM TIÊU BẢN TẾ BÀO:\n' +
-      '1. Kính hiển vi quang học (Light microscope): Dùng ánh sáng thông thường và thấu kính để phóng to mẫu. Độ phóng đại tối đa khoảng 1000-2000 lần. Quan sát được hình dạng và một số bào quan lớn.\n' +
+      '1. Kính hiển vi quang học (Light microscope): Dùng ánh sáng thông thường và thấu kính để phóng to mẫu. Độ phóng đại tối đa khoảng 1000-1500 lần. Quan sát được hình dạng và một số bào quan lớn.\n' +
       '2. Kính hiển vi điện tử (Electron microscope): Dùng chùm electron, độ phóng đại lên đến hàng chục nghìn đến vài triệu lần. Quan sát được cấu trúc chi tiết các bào quan và vật thể nano.\n\n' +
       'QUY TRÌNH LÀM TIÊU BẢN HIỂN VI:\n' +
       '1. Chuẩn bị mẫu: Bóc lớp biểu bì mỏng của hành tây.\n' +
-      '2. Đặt mẫu lên lam kính, nhỏ 1-2 giọt dung dịch nước cất lên mẫu.\n' +
+      '2. Đặt mẫu lên lam kính, nhỏ 1-2 giọt nước cất lên mẫu.\n' +
       '3. Đậy lamela (lá kính) nhẹ nhàng, tránh tạo bọt khí.\n' +
       '4. Nhỏ thuốc nhuộm màu (dung dịch xanh methylene hoặc lugol) vào rìa lamela.\n' +
       '5. Đặt lên bàn kính và quan sát từ vật kính bé (10x) đến vật kính lớn hơn (40x).',
     workedExample: {
       problem: 'Mô tả quy trình quan sát tế bào biểu bì hành tây qua kính hiển vi quang học.',
       steps: [
-        'Bóc một lớp biểu bì mỏng trong suốt từ mặt ngoài vảy hành tây bằng kim mũi giáo và kẹp đầu nhọn.',
+        'Bóc một lớp biểu bì mỏng trong suốt ở mặt trong của vảy hành tây bằng kim mũi giáo và kẹp đầu nhọn.',
         'Đặt nhẹ lớp biểu bì lên giữa lam kính đã được vệ sinh sạch, trải phẳng bằng kim.',
-        'Nhỏ vài giọt nước hoặc thuốc nhuộm xanh methylene 0.5%, đậy lamela bằng cách nghiêng một bên rồi hạ từ từ tránh bọt khí.',
+        'Nhỏ vài giọt nước hoặc thuốc nhuộm xanh methylene 0,5%, đậy lamela bằng cách nghiêng một bên rồi hạ từ từ tránh bọt khí.',
         'Quan sát dưới kính hiển vi ở độ phóng đại 10x, sau đó chuyển sang 40x để quan sát rõ hơn.',
       ],
       answer:
@@ -777,7 +777,7 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
         dap: 'Kính hiển vi quang học (dùng ánh sáng) và kính hiển vi điện tử (dùng chùm electron).',
       },
       {
-        hoi: 'Tại sao khi đậy lamela phải hạ từ từ từ một bên?',
+        hoi: 'Tại sao khi đậy lamela phải nghiêng một cạnh rồi hạ xuống từ từ?',
         dap: 'Để tránh tạo bọt khí trong mẫu, bọt khí sẽ làm biến dạng và khó quan sát tế bào.',
       },
     ],
@@ -796,7 +796,7 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
       'Mỗi giây, hàng tỉ phân tử và ion đang di chuyển qua lớp màng mỏng chỉ bằng vài nanomét này.',
     theory:
       'MÀNG SINH CHẤT (PLASMA MEMBRANE):\n' +
-      '— Cấu trúc khảm lỏng (Fluid mosaic model): Lớp kép phospholipid (fluidic bilayer) với các protein màng rải rác và di động tự do. Có thể có cholesterol (ở tế bào động vật) để ổn định độ lỏng của màng.\n\n' +
+      '— Cấu trúc khảm lỏng (Fluid mosaic model): Lớp kép phospholipid linh động, trên đó các protein màng nằm rải rác và di chuyển được. Có thể có cholesterol (ở tế bào động vật) để ổn định độ lỏng của màng.\n\n' +
       'CÁC CON ĐƯỜNG TRAO ĐỔI CHẤT QUA MÀNG:\n' +
       '1. Khuếch tán thụ động (Passive transport - không cần năng lượng ATP):\n' +
       '   — Khuếch tán đơn giản (Simple diffusion): Các phân tử nhỏ không phân cực, không tích điện (O₂, CO₂, N₂, các phân tử kị nước) thấm trực tiếp qua lớp kép phospholipid từ nơi nồng độ cao sang thấp.\n' +
@@ -805,18 +805,18 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
       '2. Vận chuyển chủ động (Active transport - cần năng lượng ATP):\n' +
       '   — Di chuyển chất từ nơi nồng độ thấp đến cao (ngược gradient) cần protein vận chuyển đặc biệt và ATP.\n' +
       '   — Ví dụ: Bơm Na⁺-K⁺ trong tế bào thần kinh.\n' +
-      '3. Nhập bào (Endocytosis) và Xuất bào (Exocytosis): Vận chuyển các phân tử lớn bằng túi thực bào hoặc xuất bào.\n\n' +
+      '3. Nhập bào (Endocytosis) và xuất bào (Exocytosis): Đưa các phân tử lớn qua màng bằng cách màng biến dạng, gói chất vào túi rồi đưa vào trong hoặc đẩy ra ngoài.\n\n' +
       'HIỆN TƯỢNG CO NGUYÊN SINH VÀ PHẢN CO NGUYÊN SINH:\n' +
       '— Co nguyên sinh (Plasmolysis): Tế bào thực vật đặt trong dung dịch ưu trương, nước rời khỏi không bào, màng sinh chất tách khỏi thành tế bào.\n' +
       '— Phản co nguyên sinh: Tế bào đã co nguyên sinh được đặt vào nước hoặc dung dịch nhược trương, nước thấm vào lại.',
     workedExample: {
       problem:
-        'Giải thích tại sao rau xà lách bị héo khi muối quá mặn, nhưng có thể hồi phục khi ngâm vào nước lạnh?',
+        'Giải thích tại sao rau xà lách bị héo khi bóp muối quá mặn, nhưng có thể hồi phục khi ngâm vào nước lạnh?',
       steps: [
         'Khi rưới muối (hoặc nước muối mặn), tạo ra nồng độ muối bên ngoài cao hơn bên trong tế bào (dung dịch ưu trương bên ngoài).',
         'Theo nguyên lí thẩm thấu, nước từ trong tế bào (nơi nồng độ chất tan thấp hơn) di chuyển ra ngoài, làm tế bào mất nước.',
         'Kết quả: Không bào co lại, tế bào xẹp xuống => rau bị héo (co nguyên sinh).',
-        'Khi ngâm vào nước lạnh: Nồng độ nước bên ngoài cao hơn bên trong tế bào, nước thấm ngược vào tế bào (phản co nguyên sinh), tế bào căng lại, rau hồi phục.',
+        'Khi ngâm vào nước lạnh: Nồng độ chất tan bên ngoài thấp hơn bên trong tế bào, nước thấm ngược vào tế bào (phản co nguyên sinh), tế bào căng lại, rau hồi phục.',
       ],
       answer:
         'Muối tạo dung dịch ưu trương làm nước rời khỏi tế bào (co nguyên sinh). Ngâm nước lạnh làm nước thấm trở lại (phản co nguyên sinh).',
@@ -1246,7 +1246,7 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
     hook: 'Trong bài thực hành này, chúng ta sẽ thực sự quan sát bằng mắt qua kính hiển vi tế bào biểu bì hành tây co lại và phục hồi khi thay đổi môi trường lỏng.',
     theory:
       'THIẾT KẾ THÍ NGHIỆM CO VÀ PHẢN CO NGUYÊN SINH:\n' +
-      '1. Quan sát tế bào bình thường: Bóc biểu bì hành tây màu tím (có màu anthocyanin dễ quan sát), làm tiêu bản với nước cất và quan sát hình dạng tế bào.\n' +
+      '1. Quan sát tế bào bình thường: Bóc biểu bì hành tây màu tím (chứa sắc tố anthocyanin nên dễ quan sát), làm tiêu bản với nước cất và quan sát hình dạng tế bào.\n' +
       '2. Gây co nguyên sinh:\n' +
       '   — Nhỏ dung dịch muối ưu trương (NaCl 10%) vào rìa lamela.\n' +
       '   — Dùng giấy thấm kéo dung dịch vào.\n' +
@@ -1256,14 +1256,14 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
       '   — Quan sát sau 5-10 phút: Nguyên sinh chất phình trở lại và tiếp xúc với thành tế bào (phản co nguyên sinh).',
     workedExample: {
       problem:
-        'Giải thích kết quả quan sát thấy khi nhỏ nước cất vào tiêu bản đã đang ở trạng thái co nguyên sinh.',
+        'Giải thích kết quả quan sát thấy khi nhỏ nước cất vào tiêu bản đang ở trạng thái co nguyên sinh.',
       steps: [
         'Trạng thái ban đầu: Tế bào đang ở trạng thái co nguyên sinh do nồng độ chất tan bên trong tế bào cao hơn môi trường nước cất.',
         'Nguyên lí thẩm thấu: Nước từ môi trường nhược trương (nước cất) thấm qua màng bán thấm vào bên trong tế bào.',
         'Kết quả quan sát: Không bào của tế bào dần dần phình to trở lại, đẩy màng sinh chất về phía thành tế bào. Tế bào trở lại trạng thái bình thường.',
       ],
       answer:
-        'Nước thấm vào tế bào theo thẩm thấu (từ nhược trương sang ưu trương hơn), làm không bào phình to, tế bào hồi phục.',
+        'Nước thấm vào tế bào theo thẩm thấu, từ môi trường nhược trương bên ngoài vào phần ưu trương bên trong, làm không bào phình to nên tế bào hồi phục.',
     },
     checkQuestions: [
       {
@@ -1565,7 +1565,7 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
     lessonNumber: 12,
     title: 'Truyền tin tế bào',
     hook:
-      'Khi bạn thấy mối nguy hiểm, trong mili giây não bộ đã truyền tín hiệu đến khắp cơ thể và tuyến thượng thận tiết ra adrenalin để chuẩn bị cho "chiến hay chạy". ' +
+      'Khi bạn thấy mối nguy hiểm, trong mili giây não bộ đã truyền tín hiệu đến khắp cơ thể và tuyến thượng thận tiết ra adrenaline để chuẩn bị cho "chiến hay chạy". ' +
       'Tế bào giao tiếp với nhau như thế nào?',
     theory:
       'TRUYỀN TIN TẾ BÀO (CELL SIGNALING):\n' +

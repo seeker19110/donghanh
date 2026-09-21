@@ -126,7 +126,7 @@ export const SYSTEMS_S1_DETAIL: SpecStageDetail = {
       id: 'systems-s1-r1',
       text: 'Bộ cấp phát tự viết hỗ trợ đủ cấp phát, giải phóng và gộp hai khối trống liền kề thành một khối lớn.',
       howToProve:
-        'Viết ca kiểm cấp phát rồi giải phòng xen kẽ, in ra danh sách khối trống cho thấy chúng đã gộp.',
+        'Viết ca kiểm cấp phát rồi giải phóng xen kẽ, in ra danh sách khối trống cho thấy chúng đã gộp.',
     },
     {
       id: 'systems-s1-r2',

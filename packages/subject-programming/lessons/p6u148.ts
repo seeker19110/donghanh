@@ -9,7 +9,7 @@ export const P6U148_LESSONS: ProgrammingLesson[] = [
     title: 'MÔ PHỎNG debugger — lần ngược frame tới thao tác gốc',
     hook: 'Lỗi xuất hiện trong `render`, nhưng biến sai đã được tạo ở `parse`. Backtrace hữu ích vì nó nối nơi biểu hiện với chuỗi lời gọi đã đưa dữ liệu tới đó.',
     theory:
-      'Debugger simulator Python này không phải debugger C thật. Một breakpoint MÔ PHỎNG dừng tại event đã chọn để xem frame, tham số và biến cục bộ. Backtrace liệt kê stack frame từ nơi đang dừng ngược về caller. Cách điều tra: xác định invariant bị phá, tìm frame đầu tiên quan sát giá trị sai, rồi lần ngược sự kiện ghi gần nhất tạo ra giá trị đó. Nơi crash là symptom site; thao tác ghi sai trước đó mới có thể là root cause.',
+      'Debugger simulator Python này không phải debugger C thật. Một breakpoint MÔ PHỎNG dừng tại event đã chọn để xem frame, tham số và biến cục bộ. Backtrace liệt kê stack frame từ nơi đang dừng ngược về caller. Cách điều tra: xác định invariant bị phá, tìm frame đầu tiên quan sát giá trị sai, rồi lần ngược sự kiện ghi gần nhất tạo ra giá trị đó. Nơi chương trình sập chỉ là nơi lỗi BIỂU HIỆN (symptom site); thao tác ghi sai trước đó mới có thể là nguyên nhân gốc (root cause).',
     workedExample: {
       code: `# Trace MÔ PHỎNG, không phải phiên debugger thật.
 trace = [

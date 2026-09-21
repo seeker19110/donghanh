@@ -85,7 +85,7 @@ export const P5U5_LESSONS: ProgrammingLesson[] = [
     unitId: 'p5-u5',
     language: 'sql',
     title: 'Thiết kế CSDL: để dữ liệu sai KHÔNG VÀO ĐƯỢC, thay vì đi dọn sau',
-    hook: 'Bảng chi_tiet của quán đang chạy tốt. Nhưng nó cho phép ghi một dòng chi tiết trỏ tới đơn hàng số 99 không tồn tại, với số lượng âm — và SQLite nhận, không nói một lời. Ba tháng nữa, khi báo cáo doanh thu ra số lạ, bạn sẽ đi tìm nguyên nhân ở đúng dòng đó.',
+    hook: 'Bảng chi_tiet của quán đang chạy tốt. Nhưng nó cho phép ghi một dòng chi tiết trỏ tới đơn hàng mã 99 không tồn tại, với số lượng âm — và SQLite nhận, không nói một lời. Ba tháng nữa, khi báo cáo doanh thu ra số lạ, bạn sẽ đi tìm nguyên nhân ở đúng dòng đó.',
     theory:
       'Ở bậc P3 bạn học CÁCH HỎI dữ liệu. Bậc này học CÁCH DỰNG CHỖ CHỨA nó. Bốn thứ, xếp theo thứ tự quan trọng:\n\n1. CHUẨN HOÁ — mỗi sự thật chỉ được ghi ở MỘT chỗ. Nếu tên khách nằm trong cả bảng đơn hàng lẫn bảng khách, thì đến ngày khách đổi tên bạn có hai phiên bản sự thật, và không cách nào biết cái nào đúng. Quy tắc thực dụng cho người mới: thấy một giá trị lặp lại y hệt ở nhiều dòng → nó nên là một bảng riêng, và chỗ cũ chỉ giữ id trỏ sang.\n\n2. KHOÁ CHÍNH (PRIMARY KEY) — câu trả lời cho "cái gì làm một dòng là DUY NHẤT?". Bảng chi_tiet hiện không có khoá chính, nên cùng một món ghi hai dòng cho cùng một đơn cũng không ai cản. Khoá chính ở đây phải là CẶP (don_id, mon_id) — gọi là khoá chính ghép.\n\n3. KHOÁ NGOẠI (FOREIGN KEY) — câu trả lời cho "dòng này trỏ đi đâu, và chỗ đó có thật không?". Viết REFERENCES don_hang(id) là bạn nhờ CSDL canh giùm. Lưu ý riêng của SQLite: nó chỉ THỰC SỰ canh khi bạn bật PRAGMA foreign_keys = ON — mặc định tắt vì lý do tương thích ngược. Rất nhiều dự án khai báo khoá ngoại rồi tưởng mình an toàn.\n\n4. INDEX — cuốn mục lục của bảng. Không có index, tìm một dòng là quét cả bảng, O(n). Có index đúng cột, còn O(log n). Cái giá: mỗi lần ghi phải cập nhật cả mục lục, và index chiếm chỗ. Nên: tạo index cho cột hay dùng để LỌC hoặc để NỐI bảng, đừng tạo bừa cho mọi cột.\n\nCòn một thứ nữa, thuộc về lúc GHI chứ không phải lúc dựng bảng: GIAO DỊCH (transaction). Thêm một đơn hàng thật ra là hai việc — ghi vào don_hang và ghi vào chi_tiet. Nếu điện tắt giữa hai việc đó, bạn có một đơn hàng rỗng nằm trong CSDL mãi mãi. Bọc cả hai trong BEGIN ... COMMIT thì hoặc cả hai cùng vào, hoặc không cái nào vào. ROLLBACK là nút hoàn tác: mọi thứ từ BEGIN tới đó bị xoá sạch như chưa từng xảy ra.\n\nCâu để nhớ cả bài: ràng buộc không phải là thứ làm phiền bạn lúc viết code — nó là thứ cứu bạn lúc 11 giờ đêm đi tìm dữ liệu sai.',
     workedExample: {
@@ -126,7 +126,7 @@ WHERE type = 'index' AND tbl_name = 'chi_tiet_tot';`,
 SELECT COUNT(*) AS rac FROM chi_tiet
 WHERE don_id NOT IN (SELECT id FROM don_hang);`,
       question:
-        'Đơn hàng số 99 không hề tồn tại trong bảng don_hang. Câu lệnh trên cho kết quả gì?',
+        'Đơn hàng mã 99 không hề tồn tại trong bảng don_hang. Câu lệnh trên cho kết quả gì?',
       choices: [
         '1',
         'Bao loi FOREIGN KEY constraint failed',
@@ -182,7 +182,7 @@ WHERE don_id NOT IN (SELECT id FROM don_hang);`,
           expected: 'so_don\n4',
           match: 'contains',
           hidden: false,
-          label: 'Sau ROLLBACK, đơn hàng số 5 biến mất — bảng don_hang vẫn 4 dòng',
+          label: 'Sau ROLLBACK, đơn hàng mã 5 biến mất — bảng don_hang vẫn 4 dòng',
         },
         {
           stdinLines: [],

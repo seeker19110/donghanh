@@ -277,7 +277,7 @@ git push -u origin sua-loi-nho`,
     },
     make: {
       prompt:
-        'Bối cảnh: kho của bạn đã có main, đã push lên origin trước đó.\n\nGõ lệnh chuẩn bị một Pull Request: \n1. Tạo và chuyển sang nhánh tinh-chinh-gia.\n2. Sửa gia.txt thành: tra da 6000 (thay giá cũ).\n3. Commit lời nhắn: Dieu chinh gia tra da\n4. Đẩy ĐÚNG NHÁNH NÀY (không phải main) lên origin.',
+        'Bối cảnh: kho của bạn đã có main, đã push lên origin trước đó.\n\nGõ lệnh chuẩn bị một Pull Request:\n1. Tạo và chuyển sang nhánh tinh-chinh-gia.\n2. Sửa gia.txt thành: tra da 6000 (thay giá cũ).\n3. Commit lời nhắn: Dieu chinh gia tra da\n4. Đẩy ĐÚNG NHÁNH NÀY (không phải main) lên origin.',
       starterCode: `# Kho da co main, da push len origin\n# 1. tao nhanh moi\n\n# 2. sua gia\n\n# 3. commit\n\n# 4. push dung nhanh (khong phai main)\n`,
       testCases: [
         {
@@ -460,7 +460,7 @@ git pull`,
       hints: [
         'git pull trước — nó sẽ báo TU DONG GOP THAT BAI ở gia.txt, đây là điều đúng, không phải lỗi cần sợ.',
         'Ghi đè lại file bằng quyết định cuối cùng: echo "tra da 5800" > gia.txt (xoá sạch nội dung cũ, không giữ dấu <<<<<<< nào).',
-        'Hoàn tất: git add gia.txt rồi git commit -m "Thong nhat gia sau khi ban bac" — commit này KHÔNG cần -m đặc biệt, viết bình thường.',
+        'Hoàn tất: git add gia.txt rồi git commit -m "Thong nhat gia sau khi ban bac" — đây là một commit thường, không cần thêm cờ gì đặc biệt.',
       ],
       sampleSolution: `git pull
 echo "tra da 5800" > gia.txt

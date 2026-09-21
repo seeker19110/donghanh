@@ -142,7 +142,7 @@ console.log("Ca 4:", kiemPhien(p, 9000))
 console.log("Ca 5:", kiemPhien(p, 12000))`,
     },
     homework:
-      'Đăng nhập một app có tài khoản, để yên qua đêm rồi mở lại vào sáng hôm sau. App có bắt đăng nhập lại không? Thử tiếp: đăng nhập xong thì gỡ app rồi cài lại — còn đăng nhập không? Viết 4 câu suy ra: app đó để refresh token sống bao lâu, và nó lưu token ở chỗ sống sót qua lần gỡ cài đặt hay không (kho an toàn của hệ điều hành thì không sống sót, bản sao lưu đám mây thì có).',
+      'Đăng nhập một app có tài khoản, để yên qua đêm rồi mở lại vào sáng hôm sau. App có bắt đăng nhập lại không? Thử tiếp: đăng nhập xong thì gỡ app rồi cài lại — còn đăng nhập không? Viết 4 câu suy ra: app đó để refresh token sống bao lâu, và nó lưu token ở chỗ sống sót qua lần gỡ cài đặt hay không (tuỳ nền tảng: khoá trong Keystore của Android mất khi gỡ app, còn mục trong Keychain của iOS thường vẫn còn; bản sao lưu đám mây cũng có thể khôi phục lại).',
     srsCards: [
       {
         hoi: 'Access token và refresh token khác nhau ở điểm nào về tuổi thọ và nơi lưu?',

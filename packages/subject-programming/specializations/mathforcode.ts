@@ -235,7 +235,7 @@ export const MATHFORCODE_SPECIALIZATION: ProgrammingSpecialization = {
           title: 'Không gian trạng thái và giá trị riêng ở mức trực giác',
           topics: [
             'Ma trận như một phép biến đổi lặp lại trên trạng thái',
-            'Vector riêng là hướng không bị đổi hướng sau phép biến đổi',
+            'Vector riêng là hướng chỉ bị kéo dài hay co lại, không bị xoay đi sau phép biến đổi',
             'Lặp luỹ thừa để tìm hướng chiếm ưu thế, cài bằng vòng lặp đơn giản',
             'PageRank rút gọn: vì sao xếp hạng trang là một bài toán vector riêng',
           ],
@@ -265,7 +265,7 @@ export const MATHFORCODE_SPECIALIZATION: ProgrammingSpecialization = {
           id: 'mathforcode-s4-m1',
           title: 'Đạo hàm và gradient descent',
           topics: [
-            'Đạo hàm là tốc độ đổi, hiểu qua hệ số góc tiếp tuyến',
+            'Đạo hàm là tốc độ thay đổi, hiểu qua hệ số góc của tiếp tuyến',
             'Đạo hàm số bằng sai phân hữu hạn để kiểm tra công thức tay',
             'Cài gradient descent bằng Python thuần cho hàm một biến rồi nhiều biến',
             'Tốc độ học quá lớn gây phân kỳ, quá nhỏ gây chậm — quan sát bằng đồ thị',

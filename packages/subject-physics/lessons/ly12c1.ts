@@ -1059,7 +1059,7 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
     chapterNumber: 1,
     chapterTitle: 'Vật lí nhiệt',
     lessonNumber: 1,
-    title: 'Cấu trúc của chất. Sự chuyển thế',
+    title: 'Cấu trúc của chất. Sự chuyển thể',
     hook:
       'Tại sao nước đá để ngoài phòng lại tan thành nước lỏng, rồi đun nóng nước lỏng lại biến thành hơi nước? ' +
       'Mọi chất quanh ta đều được cấu tạo từ các hạt chuyển động không ngừng, và trạng thái của chúng phụ thuộc vào nhiệt độ và lực liên kết phân tử.',
@@ -1070,11 +1070,11 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
       '3. Giữa các phân tử có các lực tương tác (lực hút và lực đẩy phân tử).\n\n' +
       'BA THỂ CỦA CHẤT (RẮN - LỎNG - KHÍ):\n' +
       '— Thể rắn: Các phân tử ở rất gần nhau, sắp xếp có trật tự, chỉ dao động xung quanh các vị trí cân bằng cố định. Do đó, chất rắn có thể tích và hình dạng xác định.\n' +
-      '— Thể lỏng: Lực liên kết yếu hơn thể rắn, các phân tử dao động quanh các vị trí cân bằng có thể di chuyển (trượt lên nhau). Do đó, chất lỏng có thể tích xác định nhưng hình dạng không xác định (phụ thuộc bình chứa).\n' +
+      '— Thể lỏng: Lực liên kết yếu hơn ở thể rắn, các phân tử vẫn sát nhau nhưng vị trí cân bằng của chúng luôn thay đổi (các phân tử trượt lên nhau và đổi chỗ cho nhau). Do đó, chất lỏng có thể tích xác định nhưng hình dạng không xác định (phụ thuộc bình chứa).\n' +
       '— Thể khí: Lực tương tác phân tử rất yếu, các phân tử ở xa nhau và chuyển động hỗn loạn không ngừng. Chất khí không có thể tích và hình dạng xác định, luôn chiếm toàn bộ thể tích bình chứa.\n\n' +
       'SỰ CHUYỂN THỂ (PHASE TRANSITIONS):\n' +
       '— Nóng chảy (rắn -> lỏng) & Đông đặc (lỏng -> rắn).\n' +
-      '— Hoá hơi (lỏng -> khí - gồm bay hơi ở bề mặt và sôi ở toàn lòng chất lỏng) & Ngưng tụ (khí -> lỏng).\n' +
+      '— Hoá hơi (lỏng -> khí; gồm bay hơi ở bề mặt và sôi ở cả trong lòng chất lỏng) & Ngưng tụ (khí -> lỏng).\n' +
       '— Thăng hoa (rắn -> khí) & Ngưng kết (khí -> rắn).',
     workedExample: {
       problem:
@@ -1082,7 +1082,7 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
       steps: [
         'Nhận xét khoảng cách phân tử ở thể khí: Khoảng cách giữa các phân tử khí rất lớn so với kích thước phân tử.',
         'Nhận xét lực liên kết phân tử: Do khoảng cách lớn nên lực tương tác giữa các phân tử khí rất yếu, hầu như có thể bỏ qua.',
-        'Mô tả chuyển động: Các phân tử khí chuyển động hỗn loạn hoàn toàn không ngừng về mọi phía, va chạm liên tục vào nhau và vào thành bình.',
+        'Mô tả chuyển động: Các phân tử khí chuyển động hỗn loạn không ngừng về mọi phía, va chạm liên tục vào nhau và vào thành bình.',
         'Kết luận: Do chuyển động hỗn loạn tự do và lực liên kết yếu, các phân tử khí tự do lan toả rộng và chiếm toàn bộ thể tích cũng như hình dạng của bất kì bình chứa nào.',
       ],
       answer:
@@ -1481,7 +1481,7 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
       '  — A > 0: Hệ nhận công (bị nén); A < 0: Hệ thực hiện công (sinh công/dãn nở).',
     workedExample: {
       problem:
-        'Một lượng khí bị nén trong xilanh. Người ta thực hiện lên khối khí một công bằng 200 J, ' +
+        'Một lượng khí bị nén trong xi lanh. Người ta thực hiện lên khối khí một công bằng 200 J, ' +
         'đồng thời khối khí toả ra môi trường một nhiệt lượng bằng 150 J. Tính độ biến thiên nội năng ΔU của khối khí.',
       steps: [
         'Xác định dấu của công A: Hệ nhận công từ bên ngoài nên A = +200 J.',
@@ -2506,7 +2506,7 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
     title: 'Nhiệt nóng chảy riêng',
     hook:
       'Khi cục nước đá tan chảy ở 0 °C, nhiệt độ của nó hoàn toàn không tăng thêm dù liên tục nhận nhiệt từ môi trường. ' +
-      'Nhiệt lượng này đã đi đâu? Nó được dùng để phá vỡ các liên kết phân tử rắn chuyển thể sang lỏng.',
+      'Nhiệt lượng này đã đi đâu? Nó được dùng để phá vỡ liên kết giữa các phân tử trong chất rắn, cho chúng chuyển sang thể lỏng.',
     theory:
       'Nhiệt lượng cần cung cấp để làm nóng chảy hoàn toàn một đơn vị khối lượng chất rắn ở nhiệt độ nóng chảy gọi là Nhiệt nóng chảy riêng.\n\n' +
       'CÔNG THỨC NHIỆT NÓNG CHẢY (LATENT HEAT OF FUSION):\n' +
@@ -2572,7 +2572,7 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
     animation: {
       title: 'Hoá hơi ngốn nhiều nhiệt hơn nóng chảy tới gần 7 lần',
       description:
-        'Vẫn 1 kg nước và bếp 1000 W như bài nhiệt nóng chảy, nhưng lần này đun tiếp cho tới khi bay hơi hết, và cả hành trình nằm gọn trên một đồ thị. Chấm sáng đi qua bốn chặng: đá ấm từ −20 °C lên 0 °C (42 s), đoạn nằm ngang thứ nhất ở 0 °C trong khi đá tan (334 s, tốn 334 000 J), nước lỏng ấm từ 0 °C lên 100 °C (420 s), rồi đoạn nằm ngang thứ hai ở 100 °C trong khi nước sôi thành hơi. Hai mũi tên đo bề ngang cho thấy đoạn sôi dài gấp khoảng 6,8 lần đoạn tan: 2 260 000 J so với 334 000 J cho cùng 1 kg. Đó chính là lý do đời thường mà hình động giải thích được: bắc ấm lên bếp thì chỉ vài phút là sôi, nhưng để cạn hết nước trong ấm thì phải mất rất lâu — và cũng vì thế hơi nước ở 100 °C gây bỏng nặng hơn nước sôi ở cùng 100 °C.',
+        'Vẫn 1 kg nước và bếp 1000 W như bài nhiệt nóng chảy, nhưng lần này đun tiếp cho tới khi bay hơi hết, và cả hành trình nằm gọn trên một đồ thị. Chấm sáng đi qua bốn chặng: đá ấm từ −20 °C lên 0 °C (42 s), đoạn nằm ngang thứ nhất ở 0 °C trong khi đá tan (334 s, tốn 334 000 J), nước lỏng ấm từ 0 °C lên 100 °C (420 s), rồi đoạn nằm ngang thứ hai ở 100 °C trong khi nước sôi thành hơi. Hai mũi tên đo bề ngang cho thấy đoạn sôi dài gấp khoảng 6,8 lần đoạn tan: 2 260 000 J so với 334 000 J cho cùng 1 kg. Đó chính là lí do đời thường mà hình động giải thích được: bắc ấm lên bếp thì chỉ vài phút là sôi, nhưng để cạn hết nước trong ấm thì phải mất rất lâu — và cũng vì thế hơi nước ở 100 °C gây bỏng nặng hơn nước sôi ở cùng 100 °C.',
       viewBoxWidth: 440,
       viewBoxHeight: 245,
       durationMs: 8000,
@@ -3334,7 +3334,7 @@ export const LY12_C1_LESSONS: PhysicsLesson[] = [
     checkQuestions: [
       {
         prompt:
-          'Trong hệ trao đổi nhiệt khép kín hoàn hảo không trao đổi với bên ngoài, tổng nhiệt lượng do các vật toả ra luôn như thế nào so với tổng nhiệt lượng thu vào?',
+          'Trong một hệ kín cách nhiệt tốt với bên ngoài, tổng nhiệt lượng do các vật toả ra luôn như thế nào so với tổng nhiệt lượng các vật khác thu vào?',
         choices: [
           { id: 'eq_1', label: 'Bằng nhau' },
           { id: 'eq_2', label: 'Toả ra luôn lớn hơn' },

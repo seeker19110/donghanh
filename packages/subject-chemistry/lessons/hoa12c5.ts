@@ -17,7 +17,7 @@ export const HOA12_C5_LESSONS: ChemLesson[] = [
     theory:
       'THẾ ĐIỆN CỰC CHUẨN (E°):\n' +
       '— Thế điện cực chuẩn của kim loại (E°_Mⁿ⁺/M) đặc trưng cho khả năng khử của kim loại ở trạng thái đơn chất và khả năng oxi hoá của ion kim loại đó trong dung dịch nước ở điều kiện chuẩn.\n' +
-      '— Điện cực chuẩn hydrogen (SHE) được quy ước có thế điện cực bằng 0,00 V ở mọi nhiệt độ.\n' +
+      '— Điện cực hydrogen chuẩn (viết tắt SHE, từ standard hydrogen electrode) được quy ước có thế điện cực bằng 0,00 V, lấy làm mốc so sánh cho mọi điện cực khác.\n' +
       '— Ý nghĩa: Trị số E° càng âm thì kim loại có tính khử càng mạnh, ion của nó có tính oxi hoá càng yếu; trị số E° càng dương thì kim loại có tính khử càng yếu, ion của nó có tính oxi hoá càng mạnh.\n\n' +
       'PIN ĐIỆN HOÁ (Galvanic Cell):\n' +
       '— Là thiết bị chuyển hoá hoá năng của phản ứng oxi hoá - khử tự phát thành điện năng.\n' +
@@ -52,7 +52,7 @@ export const HOA12_C5_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['anode'] },
         explain:
-          'Bất kể trong pin điện hay bình điện phân, ANODE luôn là nơi xảy ra quá trình OXI HOÁ (cực âm trong pin điện hoá).',
+          'Bất kể trong pin điện hay bình điện phân, ANODE luôn là nơi xảy ra quá trình OXI HOÁ; trong pin điện hoá, anode chính là cực âm. Cathode ngược lại là nơi xảy ra quá trình khử. Cầu muối không phải điện cực nên không có phản ứng oxi hoá - khử xảy ra trên đó, nó chỉ dẫn ion để giữ hai dung dịch trung hoà điện.',
       },
       {
         prompt:
@@ -315,8 +315,8 @@ export const HOA12_C5_LESSONS: ChemLesson[] = [
     lessonNumber: 16,
     title: 'Điện phân',
     hook:
-      'Khác với pin điện giải phóng năng lượng hoá học, quá trình điện phân sử dụng năng lượng điện bắt buộc ' +
-      'các phản ứng không tự phát xảy ra, giúp ta luyện nhôm, sản xuất khí clo hay mạ vàng đồ trang sức.',
+      'Pin điện biến hoá năng thành điện năng. Điện phân đi theo chiều ngược lại: dùng dòng điện để ép một phản ứng ' +
+      'vốn không tự xảy ra phải xảy ra. Nhờ nó, con người luyện được nhôm, sản xuất khí chlorine và mạ vàng đồ trang sức.',
     theory:
       'KHÁI NIỆM ĐIỆN PHÂN:\n' +
       '— Điện phân là quá trình oxi hoá - khử xảy ra trên bề mặt các điện cực dưới tác dụng của dòng điện một chiều đi qua chất điện li nóng chảy hoặc dung dịch chất điện li.\n\n' +
@@ -325,7 +325,7 @@ export const HOA12_C5_LESSONS: ChemLesson[] = [
       '— Cathode (cực âm nối với cực âm nguồn điện): Xảy ra quá trình KHỬ (cation nhận electron).\n\n' +
       'ĐIỆN PHÂN NÓNG CHẢY (Luyện kim mạnh):\n' +
       '— Dùng để điều chế các kim loại có tính khử mạnh (như Na, K, Ca, Mg, Al) từ muối halide hoặc oxide nóng chảy.\n' +
-      '   Ví dụ điện phân Al₂O₃ nóng chảy (xúc tác cryolite): 2Al₂O₃ → 4Al (ở cathode) + 3O₂ (ở anode).\n\n' +
+      '   Ví dụ điện phân Al₂O₃ nóng chảy, có thêm cryolite Na₃AlF₆ làm chất trợ chảy để hạ nhiệt độ nóng chảy (không phải chất xúc tác): 2Al₂O₃ → 4Al (ở cathode) + 3O₂ (ở anode).\n\n' +
       'ĐỊNH LUẬT FARADAY VỀ ĐIỆN PHÂN:\n' +
       '— Khối lượng chất giải phóng ở điện cực tỉ lệ thuận với điện lượng đi qua bình điện phân.\n' +
       '— Công thức Faraday: m = (A * I * t) / (n * F).\n' +
@@ -333,7 +333,7 @@ export const HOA12_C5_LESSONS: ChemLesson[] = [
     workedExample: {
       problem:
         'Điện phân dung dịch CuSO₄ với dòng điện có cường độ I = 2,0 A trong thời gian t = 1930 giây. ' +
-        'Tính khối lượng copper (đồng, Cu, M=64) bám vào cathode.',
+        'Tính khối lượng copper (đồng, Cu, M = 64) bám vào cathode.',
       steps: [
         'Xác định phản ứng xảy ra ở cathode (cực âm): ion Cu²⁺ nhận 2e để tạo thành kim loại Cu: Cu²⁺ + 2e → Cu. Số electron trao đổi n = 2.',
         'Áp dụng công thức Faraday: m = (A * I * t) / (n * F).',
@@ -352,7 +352,7 @@ export const HOA12_C5_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['khu'] },
         explain:
-          'Trong mọi bình điện phân, cathode là cực âm, nơi thu hút các cation (+) tới để thực hiện quá trình khử (nhận electron).',
+          'Trong mọi bình điện phân, cathode là cực âm nên hút các cation (+) về phía mình; tới nơi, cation nhận electron, tức là bị khử. Quá trình oxi hoá của anion xảy ra ở phía anode. Còn trung hoà điện tích chỉ là hệ quả chung của cả bình, không phải phản ứng trên điện cực.',
       },
       {
         prompt: 'Hằng số Faraday (F) có giá trị chuẩn bằng bao nhiêu Coulomb/mol?',
@@ -375,7 +375,7 @@ export const HOA12_C5_LESSONS: ChemLesson[] = [
     srsCards: [
       {
         hoi: 'Nguyên tắc điều chế kim loại kiềm, kiềm thổ, nhôm?',
-        dap: 'Điện phân nóng chảy hợp chất của chúng (muối clorua, oxit).',
+        dap: 'Điện phân nóng chảy hợp chất của chúng (muối chloride, oxide).',
       },
       {
         hoi: 'Anode trong bình điện phân nối với cực nào của nguồn điện?',
@@ -579,13 +579,13 @@ export const HOA12_C5_LESSONS: ChemLesson[] = [
     lessonNumber: 17,
     title: 'Ôn tập chương 5 — Pin điện và điện phân',
     hook:
-      'Chương 5 liên kết trực tiếp giữa năng lượng điện và năng lượng hoá học, cung cấp các định luật định lượng ' +
-      'chuẩn xác nhất cho công nghiệp điện hoá và sản xuất kim loại.',
+      'Chương 5 nối hai chiều giữa điện năng và hoá năng: pin đi từ phản ứng ra dòng điện, điện phân đi từ dòng điện ra phản ứng. ' +
+      'Bài này gom lại các công thức dùng để tính toán cho cả hai chiều.',
     theory:
       'TỔNG KẾT KIẾN THỨC CHƯƠNG 5:\n' +
       '1. Thế điện cực chuẩn (E°): Chỉ số so sánh độ mạnh/yếu của cặp oxi hoá - khử so với SHE (0,00 V). E° âm hơn → kim loại tính khử mạnh hơn. E° dương hơn → ion tính oxi hoá mạnh hơn.\n' +
-      '2. Pin điện hoá: Phản ứng tự phát phát ra dòng điện. E°_pin = E°_catot − E°_anot (luôn dương). Cực âm (anode) oxi hoá, cực dương (catot) khử.\n' +
-      '3. Điện phân: Cưỡng bức bằng dòng điện. Cực dương (anode) oxi hoá, cực âm (catot) khử. Điện phân dung dịch NaCl có màng ngăn tạo NaOH, Cl₂ (anode), H₂ (catot).\n' +
+      '2. Pin điện hoá: Phản ứng tự phát phát ra dòng điện. E°_pin = E°_catot − E°_anot (luôn dương). Cực âm (anode) xảy ra oxi hoá, cực dương (cathode) xảy ra khử.\n' +
+      '3. Điện phân: Cưỡng bức bằng dòng điện. Cực dương (anode) xảy ra oxi hoá, cực âm (cathode) xảy ra khử. Điện phân dung dịch NaCl có màng ngăn tạo NaOH, Cl₂ (ở anode) và H₂ (ở cathode).\n' +
       '4. Định luật Faraday: m = A·I·t / (n·F). Tính khối lượng chất thoát ra ở các điện cực.',
     workedExample: {
       problem:
@@ -621,13 +621,13 @@ export const HOA12_C5_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['al'] },
         explain:
-          'Aluminium (Al) có tính khử mạnh, các phương pháp thuỷ luyện hoặc nhiệt luyện không khử được ion Al³⁺. Phải dùng điện phân nóng chảy oxit Al₂O₃.',
+          'Aluminium (Al) có tính khử mạnh, các phương pháp thuỷ luyện hoặc nhiệt luyện không khử được ion Al³⁺. Phải dùng điện phân nóng chảy oxide Al₂O₃. Copper, iron và silver có tính khử yếu hơn nên vẫn điều chế được bằng nhiệt luyện hoặc thuỷ luyện.',
       },
     ],
     srsCards: [
       {
         hoi: 'Suất điện động của pin điện hoá có bao giờ âm không?',
-        dap: 'Không. Suất điện động chuẩn E°_pin của pin điện hoá luôn là một giá trị dương.',
+        dap: 'Không. Vì ta luôn lấy điện cực có E° lớn hơn làm cathode, nên hiệu E°_catot − E°_anot luôn dương. Nếu tính ra số âm thì đã gán nhầm anode với cathode.',
       },
       {
         hoi: 'Tại sao điện phân dung dịch muối ăn cần màng ngăn giữa hai điện cực?',

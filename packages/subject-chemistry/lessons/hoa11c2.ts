@@ -25,7 +25,7 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
       '   — Tác dụng với hydrogen ở nhiệt độ cao, áp suất cao, xúc tác: N₂ + 3H₂ ⇌ 2NH₃ (phản ứng thuận nghịch, toả nhiệt).\n' +
       '   — Tác dụng với kim loại ở nhiệt độ cao (riêng Lithium phản ứng ngay ở nhiệt độ thường): 3Mg + N₂ → Mg₃N₂.\n' +
       '2. Tính khử (thể hiện khi tác dụng với chất oxi hoá mạnh hơn như oxygen):\n' +
-      '   — Ở nhiệt độ rất cao (khoảng 3000 °C hoặc tia lửa điện): N₂ + O₂ ⇌ 2NO (Nitric oxide, khí không màu, hoá nâu ngoài không khí tạo NO₂).',
+      '   — Ở nhiệt độ rất cao (khoảng 3000 °C hoặc tia lửa điện): N₂ + O₂ ⇌ 2NO (nitric oxide, khí không màu, hoá nâu ngoài không khí tạo NO₂).',
     workedExample: {
       problem:
         'Trong công nghiệp, người ta sản xuất NH₃ từ N₂ và H₂ ở nhiệt độ 450 °C, áp suất 200 bar, ' +
@@ -356,12 +356,12 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
     lessonNumber: 5,
     title: 'Ammonia - Muối ammonium',
     hook:
-      'Ammonia là hợp chất nhân tạo quan trọng hàng đầu thế giới, là nguyên liệu sản xuất phân bón đạm ' +
-      'nuôi sống một nửa dân số toàn cầu. Khí này có mùi khai đặc trưng.',
+      'Ammonia là một trong những hoá chất được sản xuất nhiều nhất thế giới, vì nó là nguyên liệu ' +
+      'làm phân đạm nuôi sống khoảng một nửa dân số toàn cầu. Khí này có mùi khai đặc trưng.',
     theory:
       'AMMONIA (NH₃):\n' +
-      '— Cấu tạo: Nguyên tử N liên kết với 3 nguyên tử H bằng liên kết cộng hoá trị phân cực. Phân tử có hình chóp tam giác. Nguyên tử N còn một cặp electron tự do chưa tham gia liên kết.\n' +
-      '— Tính chất vật lí: Khí không màu, mùi khai và sốc, nhẹ hơn không khí. NH₃ tan RẤT NHIỀU trong nước do tạo liên kết hydrogen mạnh với nước.\n' +
+      '— Cấu tạo: Nguyên tử N liên kết với 3 nguyên tử H bằng liên kết cộng hoá trị phân cực. Phân tử có hình chóp tam giác. Nguyên tử N còn một cặp electron chưa tham gia liên kết.\n' +
+      '— Tính chất vật lí: Khí không màu, mùi khai và xốc, nhẹ hơn không khí. NH₃ tan RẤT NHIỀU trong nước do tạo liên kết hydrogen mạnh với nước.\n' +
       '— Tính chất hoá học:\n' +
       '  1. Tính base yếu: Dung dịch NH₃ làm quỳ tím hoá xanh, phenolphthalein hoá hồng. Tác dụng với acid tạo muối ammonium: NH₃ + HCl → NH₄Cl.\n' +
       '  2. Tính khử (do N có số oxi hoá cực tiểu −3): Phản ứng cháy trong oxygen: 4NH₃ + 3O₂ → 2N₂ + 6H₂O (nhiệt độ cao).\n\n' +
@@ -375,7 +375,7 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
         'không màu thoát ra. Viết phương trình ion rút gọn của phản ứng này.',
       steps: [
         'NaOH phân li tạo Na⁺ và OH⁻; NH₄Cl phân li tạo NH₄⁺ và Cl⁻.',
-        'Phản ứng xảy ra giữa ion NH₄⁺ và OH⁻: NH₄⁺ + OH⁻ ⇌ NH₃↑ + H₂O.',
+        'Phản ứng xảy ra giữa ion NH₄⁺ và OH⁻: NH₄⁺ + OH⁻ → NH₃↑ + H₂O.',
         'Khí thoát ra là NH₃ có mùi khai đặc trưng.',
         'Phương trình ion rút gọn thu được là NH₄⁺ + OH⁻ → NH₃ + H₂O.',
       ],
@@ -746,8 +746,8 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
     lessonNumber: 6,
     title: 'Một số hợp chất của nitrogen với oxygen',
     hook:
-      'Axit nitric (HNO₃) là một axit mạnh và chất oxi hoá cực mạnh. Nó có thể hoà tan được cả đồng (Cu) ' +
-      '— kim loại trơ mà axit dạ dày HCl cũng phải "bó tay".',
+      'Acid nitric (HNO₃) vừa là acid mạnh, vừa là chất oxi hoá cực mạnh. Nó hoà tan được cả đồng (Cu) ' +
+      '— kim loại mà acid HCl trong dạ dày cũng phải "bó tay".',
     theory:
       'CÁC OXIDE CỦA NITROGEN (NOx):\n' +
       '— Gồm: N₂O (khí cười), NO (không màu, hoá nâu ngoài không khí), NO₂ (màu nâu đỏ, độc), N₂O₄ (không màu).\n' +
@@ -759,7 +759,7 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
       '   — Oxi hoá hầu hết kim loại (trừ vàng Au, bạch kim Pt) tạo muối nitrate của kim loại có số oxi hoá cao nhất, KHÔNG giải phóng khí H₂.\n' +
       '   — HNO₃ đặc tạo khí NO₂ màu nâu đỏ; HNO₃ loãng tạo khí NO không màu hoá nâu.\n\n' +
       'HIỆN TƯỢNG MƯA ACID:\n' +
-      '— Mưa acid là nước mưa có pH < 5,6, hình thành do các khí khí thải độc hại như SO₂ và NOx tan trong nước mưa tạo thành acid mạnh tương ứng (H₂SO₄, HNO₃).' +
+      '— Mưa acid là nước mưa có pH < 5,6, hình thành do các khí thải độc hại như SO₂ và NOx tan trong nước mưa tạo thành acid mạnh tương ứng (H₂SO₄, HNO₃).' +
       ' Tác hại: tàn phá rừng, huỷ hoại sinh vật thuỷ sinh, ăn mòn công trình kiến trúc bằng đá và kim loại.',
     workedExample: {
       problem:
@@ -770,7 +770,7 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
         'Xác định số oxi hoá thay đổi: Cu (0 → +2); N (+5 → +2 trong NO).',
         'Viết quá trình oxi hoá và khử:\n  Cu → Cu²⁺ + 2e (nhường 2e)\n  N⁺⁵ + 3e → N⁺² (nhận 3e).',
         'Thăng bằng electron: nhân hệ số 3 vào Cu, nhân hệ số 2 vào N⁺².\n  3Cu + 8HNO₃ → 3Cu(NO₃)₂ + 2NO + 4H₂O.',
-        'Kiểm tra cân bằng nguyên tố H và O: vế trái có 8 H, vế phải có 4×2=8 H. Cân bằng hoàn tất.',
+        'Kiểm tra lại H và O: vế trái có 8 H và 24 O; vế phải có 4×2 = 8 H và 18 + 2 + 4 = 24 O. Cân bằng hoàn tất.',
       ],
       answer: '3Cu + 8HNO3 -> 3Cu(NO3)2 + 2NO + 4H2O',
     },
@@ -785,7 +785,7 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['so2'] },
         explain:
-          'SO₂ và NOx (NO, NO₂) do con người thải ra không khí gặp nước mưa, oxygen tạo thành các acid H₂SO₄, HNO₃ rơi xuống gây mưa acid.',
+          'SO₂ và NOx (NO, NO₂) do con người thải ra gặp hơi nước và oxygen trong khí quyển, tạo thành acid H₂SO₄ và HNO₃; chúng theo nước mưa rơi xuống, gây mưa acid.',
       },
       {
         prompt:
@@ -807,7 +807,7 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
         dap: 'Hiện tượng mưa acid (nước mưa có pH < 5,6).',
       },
       {
-        hoi: 'Tính chất đặc trưng của HNO₃ khác axit thường thế nào?',
+        hoi: 'Tính chất đặc trưng của HNO₃ khác acid thường thế nào?',
         dap: 'Tính oxi hoá rất mạnh, tác dụng kim loại tạo muối hoá trị cao nhất và khí (NO, NO₂...), không tạo H₂.',
       },
       { hoi: 'Khí sinh ra khi kim loại tác dụng với HNO₃ đặc?', dap: 'Khí NO₂ màu nâu đỏ.' },
@@ -1284,10 +1284,10 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
       'ĐƠN CHẤT SULFUR (S):\n' +
       '— Cấu tạo: Ở nhiệt độ thường gồm 8 nguyên tử liên kết vòng (S₈), thường viết đơn giản là S.\n' +
       '— Tính chất hoá học: Có số oxi hoá trung gian 0, nên vừa có tính oxi hoá vừa có tính khử.\n' +
-      '  1. Tính oxi hoá: Tác dụng với kim loại tạo muối sulfide: Fe + S → FeS (t °C); tác dụng với thủy ngân ở nhiệt độ thường (dùng để thu gom thủy ngân rơi vỡ): Hg + S → HgS.\n' +
+      '  1. Tính oxi hoá: Tác dụng với kim loại tạo muối sulfide: Fe + S → FeS (t °C); tác dụng với thuỷ ngân ngay ở nhiệt độ thường (dùng để thu gom thuỷ ngân rơi vãi): Hg + S → HgS.\n' +
       '  2. Tính khử: Tác dụng với chất oxi hoá mạnh (như O₂): S + O₂ → SO₂ (t °C).\n\n' +
       'SULFUR DIOXIDE (SO₂):\n' +
-      '— Tính chất vật lí: Khí không màu, mùi hắc, nặng hơn không khí, độc, tan nhiều trong nước tạo dung dịch acid yếu sulfurous (H₂SO₃).\n' +
+      '— Tính chất vật lí: Khí không màu, mùi hắc, nặng hơn không khí, độc, tan nhiều trong nước, tạo dung dịch acid yếu là sulfurous acid (H₂SO₃).\n' +
       '— Tính chất hoá học:\n' +
       '  1. Là acidic oxide: Tác dụng với dung dịch base tạo muối sulfite/hydrogen sulfite.\n' +
       '  2. Tính khử (SO₂ phản ứng với chất oxi hoá mạnh): Làm mất màu nước Bromine: SO₂ + Br₂ + 2H₂O → H₂SO₄ + 2HBr (ứng dụng nhận biết SO₂).\n' +
@@ -1306,7 +1306,7 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
     checkQuestions: [
       {
         prompt:
-          'Ứng dụng thực tế của sulfur để thu gom kim loại độc thủy ngân (Hg) rơi vỡ dựa vào phản ứng nào ở nhiệt độ thường?',
+          'Khi nhiệt kế vỡ, người ta rắc bột sulfur lên thuỷ ngân (Hg) rơi vãi để thu gom. Cách làm này dựa vào phản ứng nào xảy ra ngay ở nhiệt độ thường?',
         choices: [
           { id: 'a', label: 'Hg + S → HgS' },
           { id: 'b', label: '2Hg + O₂ → 2HgO' },
@@ -1314,7 +1314,7 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['a'] },
         explain:
-          'Sulfur (S) phản ứng ngay với thủy ngân (Hg) ở nhiệt độ thường tạo thành muối HgS không bay hơi, không độc, dễ thu dọn.',
+          'Sulfur phản ứng ngay với thuỷ ngân ở nhiệt độ thường tạo HgS — chất rắn không bay hơi nên hết nguy cơ hít phải hơi thuỷ ngân, lại dễ quét dọn. Hai phản ứng còn lại đều cần đốt nóng hoặc cần khí chlorine, không dùng được để xử lý sự cố.',
       },
       {
         prompt: 'Khí SO₂ làm mất màu dung dịch nào sau đây nhờ tính khử của nó?',
@@ -1753,22 +1753,22 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
       'biến đống đường trắng tinh thành một cột than đen xì bốc khói nóng bỏng.',
     theory:
       'SULFURIC ACID (H₂SO₄):\n' +
-      '— Axit loãng: Mang đầy đủ tính chất chung của axit mạnh (đổi màu quỳ tím sang đỏ; tác dụng kim loại trước H giải phóng H₂; tác dụng base, basic oxide, muối).\n' +
-      '— Axit đặc (tính chất đặc biệt):\n' +
+      '— Dung dịch loãng: Mang đầy đủ tính chất chung của acid mạnh (đổi màu quỳ tím sang đỏ; tác dụng với kim loại đứng trước hydrogen, giải phóng H₂; tác dụng với base, basic oxide, muối).\n' +
+      '— Dung dịch đặc (tính chất riêng):\n' +
       '  1. Tính oxi hoá cực mạnh (do S⁺⁶ ở số oxi hoá cao nhất): Tác dụng hầu hết kim loại (trừ Au, Pt) giải phóng sản phẩm khử như SO₂, S, H₂S; không tạo khí H₂. Thụ động hoá Al, Fe, Cr trong H₂SO₄ đặc, nguội.\n' +
-      '  2. Tính háo nước mạnh: Chiếm nước từ chất hữu cơ (như tinh bột, đường...) hoá đen chất đó (cacbon hoá). Khi pha loãng, phải rót TỪ TỪ axit đặc vào nước dọc theo đũa thuỷ tinh và khuấy đều; KHÔNG được làm ngược lại vì sẽ gây nổ bỏng.\n\n' +
+      '  2. Tính háo nước mạnh: Chiếm nước từ chất hữu cơ (như tinh bột, đường...) làm chất đó hoá đen (hoá than). Khi pha loãng, phải rót TỪ TỪ acid đặc vào nước dọc theo đũa thuỷ tinh và khuấy đều; KHÔNG được làm ngược lại, vì nước sẽ sôi bùng và bắn acid ra ngoài gây bỏng nặng.\n\n' +
       'MUỐI SULFATE VÀ NHẬN BIẾT ION SULFATE (SO₄²⁻):\n' +
-      '— Hầu hết các muối sulfate đều dễ tan, ngoại trừ BaSO₄ (kết tủa trắng, không tan trong axit mạnh), PbSO₄, và ít tan như CaSO₄, Ag₂SO₄.\n' +
-      '— Nhận biết ion SO₄²⁻: Dùng ion Ba²⁺ (từ dung dịch BaCl₂ hoặc Ba(OH)₂), phản ứng tạo kết tủa trắng BaSO₄ không tan trong axit mạnh: Ba²⁺ + SO₄²⁻ → BaSO₄↓.',
+      '— Hầu hết muối sulfate đều dễ tan. Ngoại lệ: BaSO₄ và PbSO₄ không tan (BaSO₄ là kết tủa trắng, không tan cả trong acid mạnh); CaSO₄ và Ag₂SO₄ ít tan.\n' +
+      '— Nhận biết ion SO₄²⁻: Dùng ion Ba²⁺ (từ dung dịch BaCl₂ hoặc Ba(OH)₂), phản ứng tạo kết tủa trắng BaSO₄ không tan trong acid mạnh: Ba²⁺ + SO₄²⁻ → BaSO₄↓.',
     workedExample: {
       problem: 'Trình bày cách pha loãng dung dịch H₂SO₄ đặc an toàn trong phòng thí nghiệm.',
       steps: [
         'Chuẩn bị một cốc nước cất.',
-        'Rót từ từ, từng giọt axit H₂SO₄ đặc dọc theo đũa thuỷ tinh vào cốc nước.',
+        'Rót từ từ, từng chút một, acid H₂SO₄ đặc dọc theo đũa thuỷ tinh vào cốc nước.',
         'Khuấy nhẹ đều dung dịch bằng đũa thuỷ tinh.',
-        'Lưu ý tuyệt đối: KHÔNG được rót nước vào axit đặc vì quá trình hoà tan toả nhiệt rất lớn làm nước sôi đột ngột kéo theo các giọt axit đặc bắn ra ngoài gây bỏng cực kỳ nguy hiểm.',
+        'Lưu ý tuyệt đối: KHÔNG được rót nước vào acid đặc. Quá trình hoà tan toả rất nhiều nhiệt, làm nước sôi đột ngột và bắn các giọt acid đặc ra ngoài, gây bỏng rất nguy hiểm.',
       ],
-      answer: 'Rót từ từ axit đặc vào nước',
+      answer: 'Rót từ từ acid đặc vào nước',
     },
     checkQuestions: [
       {
@@ -1782,7 +1782,7 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['ba'] },
         explain:
-          'Dùng Ba²⁺ (như dung dịch BaCl₂) để tạo kết tủa trắng BaSO₄ không tan trong axit mạnh: Ba²⁺ + SO₄²⁻ → BaSO₄↓.',
+          'Dùng Ba²⁺ (như dung dịch BaCl₂) để tạo kết tủa trắng BaSO₄ không tan trong acid mạnh: Ba²⁺ + SO₄²⁻ → BaSO₄↓. Na⁺, Cl⁻ và NO₃⁻ đều không tạo kết tủa với SO₄²⁻.',
       },
       {
         prompt:
@@ -1795,13 +1795,13 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['fe'] },
         explain:
-          'Sắt (Fe), Aluminium (Al), và Chromium (Cr) bị thụ động hoá trong dung dịch axit nitric đặc, nguội và sulfuric acid đặc, nguội.',
+          'Sắt (Fe), nhôm (Al) và chromium (Cr) bị thụ động hoá trong nitric acid đặc, nguội và sulfuric acid đặc, nguội: bề mặt kim loại phủ một lớp oxide bền, che kín không cho phản ứng tiếp. Cu, Zn, Mg không có lớp bảo vệ này.',
       },
     ],
     srsCards: [
       {
         hoi: 'Quy tắc pha loãng H₂SO₄ đặc an toàn?',
-        dap: 'Rót từ từ axit đặc vào nước, không làm ngược lại.',
+        dap: 'Rót từ từ acid đặc vào nước, tuyệt đối không làm ngược lại.',
       },
       {
         hoi: 'Tính chất đặc trưng của H₂SO₄ đặc là gì?',
@@ -1809,7 +1809,7 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
       },
       {
         hoi: 'Thuốc thử và hiện tượng nhận biết ion SO₄²⁻?',
-        dap: 'Dung dịch chứa ion Ba²⁺ (như BaCl₂), tạo kết tủa trắng BaSO₄ không tan trong axit.',
+        dap: 'Dung dịch chứa ion Ba²⁺ (như BaCl₂), tạo kết tủa trắng BaSO₄ không tan trong acid.',
       },
     ],
     animation: {
@@ -2168,21 +2168,21 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
     lessonNumber: 9,
     title: 'Ôn tập chương 2 — Nitrogen - Sulfur',
     hook:
-      'Chương 2 giới thiệu cho chúng ta hai phi kim nhóm A phi thường: Nitrogen và Sulfur. ' +
+      'Chương 2 giới thiệu hai phi kim rất quan trọng: nitrogen và sulfur. ' +
       'Các hợp chất của chúng chi phối cả nông nghiệp và công nghiệp nặng.',
     theory:
       'HỆ THỐNG HOÁ KIẾN THỨC CHƯƠNG 2:\n' +
       '1. Nitrogen (N₂): trơ ở nhiệt độ thường do liên kết ba N≡N. Có cả tính khử và tính oxi hoá.\n' +
       '2. Ammonia (NH₃): phân tử phân cực, có tính base yếu và tính khử. Muối ammonium kém bền nhiệt, giải phóng NH₃ khi đun nóng với kiềm.\n' +
-      '3. Acid Nitric (HNO₃): acid mạnh, chất oxi hoá cực mạnh. Oxi hoá hầu hết kim loại lên hoá trị cao nhất mà không tạo H₂.\n' +
+      '3. Nitric acid (HNO₃): acid mạnh, chất oxi hoá cực mạnh. Oxi hoá hầu hết kim loại lên hoá trị cao nhất mà không tạo H₂.\n' +
       '4. Mưa acid: do khí SO₂ và NOx tan trong nước mưa gây ra.\n' +
       '5. Sulfur (S): vừa có tính oxi hoá vừa có tính khử. SO₂ là acidic oxide, có tính khử (mất màu nước bromine) và tính oxi hoá (phản ứng với H₂S tạo S vàng).\n' +
       '6. Sulfuric acid (H₂SO₄): đặc có tính oxi hoá mạnh và háo nước mạnh. Nhận biết ion SO₄²⁻ bằng kết tủa trắng BaSO₄.',
     workedExample: {
       problem:
-        'Sục khí SO₂ dư vào dung dịch Ba(OH)₂ dư. Cho biết hiện tượng xảy ra và viết phương trình ion rút gọn.',
+        'Sục khí SO₂ vào dung dịch Ba(OH)₂ dư. Cho biết hiện tượng xảy ra và viết phương trình ion rút gọn.',
       steps: [
-        'SO₂ tác dụng với dung dịch kiềm dư Ba(OH)₂ tạo muối trung hoà kết tủa.',
+        'Vì Ba(OH)₂ dư nên SO₂ tạo muối trung hoà là BaSO₃, không tạo muối hydrogen sulfite.',
         'Phương trình phản ứng: SO₂ + Ba(OH)₂ → BaSO₃↓ + H₂O.',
         'Hiện tượng: xuất hiện kết tủa trắng (Barium sulfite, BaSO₃).',
         'Phương trình ion rút gọn: SO₂ + Ba²⁺ + 2OH⁻ → BaSO₃↓ + H₂O.',
@@ -2194,7 +2194,7 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
         prompt: 'Hợp chất nào sau đây của nitrogen thể hiện tính base yếu?',
         choices: [
           { id: 'nh3', label: 'NH₃ (Ammonia)' },
-          { id: 'hno3', label: 'HNO₃ (Acid nitric)' },
+          { id: 'hno3', label: 'HNO₃ (nitric acid)' },
           { id: 'nh4cl', label: 'NH₄Cl (Ammonium chloride)' },
           { id: 'no2', label: 'NO₂' },
         ],
@@ -2212,7 +2212,7 @@ export const HOA11_C2_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['bacl2'] },
         explain:
-          'BaCl₂ phân li ra ion Ba²⁺, ion này kết hợp với SO₄²⁻ tạo kết tủa trắng BaSO₄ không tan trong axit.',
+          'BaCl₂ phân li ra ion Ba²⁺; ion này kết hợp với SO₄²⁻ tạo kết tủa trắng BaSO₄ không tan trong acid. NaCl, HCl và NaNO₃ đều không tạo kết tủa với SO₄²⁻.',
       },
     ],
     srsCards: [

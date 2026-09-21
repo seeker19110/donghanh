@@ -231,11 +231,12 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
           correctIds: ['zero'],
         },
         explain:
-          'Vì điểm đầu và điểm cuối trùng nhau nên khoảng cách giữa chúng bằng 0, dẫn đến độ dịch chuyển bằng 0.',
+          'Chạy hết một vòng thì điểm cuối trùng điểm đầu, khoảng cách giữa chúng bằng 0 nên độ dịch chuyển bằng 0. ' +
+          'Số 314 m là chu vi đường chạy, tức quãng đường đi được, không phải độ dịch chuyển; 100 m chỉ là đường kính sân.',
       },
       {
         prompt:
-          'Một chiếc ô tô đi chuyển 10 km về phía Đông, sau đó quay lại đi 4 km về phía Tây. Tính độ lớn độ dịch chuyển của ô tô.',
+          'Một chiếc ô tô di chuyển 10 km về phía Đông, sau đó quay lại đi 4 km về phía Tây. Tính độ lớn độ dịch chuyển của ô tô.',
         choices: [
           { id: 'sau', label: '6 km' },
           { id: 'muoi_bon', label: '14 km' },
@@ -245,7 +246,9 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
           kind: 'choice',
           correctIds: ['sau'],
         },
-        explain: 'Chọn chiều dương hướng Đông. Độ dịch chuyển d = 10 - 4 = 6 km.',
+        explain:
+          'Chọn chiều dương hướng Đông. Lượt đi là +10 km, lượt về là -4 km, nên độ dịch chuyển d = 10 - 4 = 6 km. ' +
+          'Con số 14 km là quãng đường (cộng cả hai lượt), còn 10 km mới chỉ là lượt đi.',
       },
     ],
     srsCards: [
@@ -374,7 +377,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
     lessonNumber: 5,
     title: 'Tốc độ và vận tốc',
     hook:
-      'Đồng hồ tốc độ trên xe máy chỉ cho bạn biết xe chạy nhanh hay chậm (tốc độ). Nhưng để lái phi cơ an toàn, ' +
+      'Đồng hồ tốc độ trên xe máy chỉ cho bạn biết xe chạy nhanh hay chậm (tốc độ). Nhưng để lái máy bay an toàn, ' +
       'phi công cần biết thêm hướng chuyển động của gió và máy bay (vận tốc). Sự khác nhau giữa chúng là gì?',
     theory:
       'TỐC ĐỘ (SPEED):\n' +
@@ -424,7 +427,8 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
           unit: 'm/s',
         },
         explain:
-          'Bơi xuôi dòng nên vận tốc cộng lại: v = 2 + 0.5 = 2.5 m/s. Đây là công thức cộng vận tốc: vận tốc so với bờ bằng vận tốc so với nước cộng vận tốc của nước so với bờ, cùng chiều thì cộng, ngược chiều thì trừ.',
+          'Bơi xuôi dòng nên hai vận tốc cùng chiều, ta cộng lại: v = 2 + 0,5 = 2,5 m/s. Đây là công thức cộng vận tốc: ' +
+          'vận tốc so với bờ bằng vận tốc so với nước cộng vận tốc của nước so với bờ. Cùng chiều thì cộng, ngược chiều thì trừ.',
       },
     ],
     srsCards: [
@@ -474,7 +478,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
     checkQuestions: [
       {
         prompt:
-          'Thiết bị nào trong phòng thực hành giúp đo thời gian chuyển động của xe sắt đi qua một khoảng cách một cách tự động và chính xác cao?',
+          'Thiết bị nào trong phòng thực hành giúp đo thời gian một chiếc xe đi qua một khoảng cách, vừa tự động vừa chính xác cao?',
         choices: [
           { id: 'stopwatch', label: 'Đồng hồ bấm giây cầm tay' },
           { id: 'gate', label: 'Cổng quang điện kết hợp đồng hồ đo hiện số' },
@@ -496,7 +500,9 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
           unit: 'm/s',
         },
         explain:
-          'Hai cổng quang điện đo đúng quãng đường s và thời gian t đi hết quãng đó, nên tốc độ v = s / t = 0,5 / 0,2 = 2,5 m/s. Đơn vị mét chia giây ra m/s — đề cho quãng đường bằng cm thì phải đổi sang mét TRƯỚC khi chia.',
+          'Hai cổng quang điện cho biết quãng đường s giữa chúng và thời gian t xe đi hết quãng đó, ' +
+          'nên tốc độ v = s / t = 0,5 / 0,2 = 2,5 m/s. Lưu ý đơn vị: mét chia giây mới ra m/s, ' +
+          'nên nếu đề cho quãng đường bằng xăngtimét thì phải đổi sang mét trước khi chia.',
       },
     ],
     srsCards: [
@@ -699,7 +705,9 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
           kind: 'choice',
           correctIds: ['van_toc'],
         },
-        explain: 'Hệ số góc slope = Δd/Δt chính là định nghĩa của vận tốc trung bình.',
+        explain:
+          'Hệ số góc của đồ thị d-t bằng Δd/Δt, đúng bằng định nghĩa của vận tốc. Gia tốc là độ dốc của đồ thị v-t ' +
+          'chứ không phải d-t; còn quãng đường đọc trực tiếp trên trục đứng, không phải từ độ dốc.',
       },
       {
         prompt:
@@ -939,7 +947,8 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
           correctIds: ['cung_chieu'],
         },
         explain:
-          'Chuyển động nhanh dần khi gia tốc cùng hướng với vận tốc để đẩy nhanh vận tốc vật.',
+          'Gia tốc cùng chiều vận tốc thì mỗi giây vận tốc lại được cộng thêm, nên độ lớn vận tốc tăng: đó là nhanh dần. ' +
+          'Ngược chiều (a.v < 0) là chậm dần. Còn gia tốc vuông góc với vận tốc thì chỉ làm đổi hướng, không đổi tốc độ.',
       },
     ],
     srsCards: [
@@ -1151,7 +1160,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
     lessonNumber: 9,
     title: 'Chuyển động thẳng biến đổi đều',
     hook:
-      'Khi một đoàn tàu phanh lại hoặc một chiếc phi cơ cất cánh trên đường băng, vận tốc của chúng tăng hoặc giảm đều đặn. ' +
+      'Khi một đoàn tàu phanh lại hoặc một chiếc máy bay cất cánh trên đường băng, vận tốc của chúng tăng hoặc giảm đều đặn. ' +
       'Đây là chuyển động thẳng biến đổi đều — nền tảng của mọi bài toán cơ học động lực.',
     theory:
       'ĐỊNH NGHĨA CHUYỂN ĐỘNG THẲNG BIẾN ĐỔI ĐỀU:\n' +
@@ -1188,7 +1197,8 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
           correctIds: ['ct_1'],
         },
         explain:
-          'Công thức độc lập thời gian v² - v_o² = 2.a.d rút ra từ t = (v - v_o)/a thay vào phương trình độ dịch chuyển.',
+          'Rút t = (v - v_o)/a từ phương trình vận tốc rồi thay vào d = v_o.t + 0,5.a.t², ta được v² - v_o² = 2.a.d. ' +
+          'Đáp án v - v_o = a.d sai vì vế phải phải là a.t chứ không phải a.d; đáp án còn lại sai dấu, phải là hiệu hai bình phương.',
       },
       {
         prompt:
@@ -1198,7 +1208,8 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
           value: 25,
           unit: 'm',
         },
-        explain: 'Áp dụng công thức d = v_o.t + 0.5.a.t² = 0 * 5 + 0.5 * 2 * 5² = 25 m.',
+        explain:
+          'Xe xuất phát từ trạng thái nghỉ nên v_o = 0. Áp dụng d = v_o.t + 0,5.a.t² = 0 * 5 + 0,5 * 2 * 5² = 25 m.',
       },
     ],
     srsCards: [
@@ -1620,7 +1631,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
     title: 'Thực hành: Đo gia tốc rơi tự do',
     hook:
       'Giá trị g = 9,8 m/s² được ghi trong sách giáo khoa từ đâu mà có? Hãy tự mình thực hành và tính toán ' +
-      'hằng số vũ trụ này ngay tại phòng thí nghiệm trường học.',
+      'chính giá trị này ngay tại phòng thí nghiệm của trường.',
     theory:
       'NGUYÊN TẮC ĐO GIA TỐC RƠI TỰ DO:\n' +
       '— Một quả cầu kim loại được giữ trên cao bằng nam châm điện.\n' +
@@ -1629,7 +1640,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
       '— Từ công thức h = 0,5.g.t² ta suy ra gia tốc rơi tự do thực nghiệm: g = 2.h / t².\n\n' +
       'HẠN CHẾ SAI SỐ TRONG THÍ NGHIỆM:\n' +
       '— Dùng quả cầu sắt nhỏ, khối lượng riêng lớn để giảm thiểu tác dụng sức cản không khí.\n' +
-      '— Đo thời gian t nhiều lần tại mỗi độ cao h để lấy giá trị trung bình, giảm sai số ngẫu nhiên.' +
+      '— Đo thời gian t nhiều lần tại mỗi độ cao h để lấy giá trị trung bình, giảm sai số ngẫu nhiên.\n' +
       '— Vẽ đồ thị h theo t² để tìm g từ hệ số góc của đồ thị.',
     workedExample: {
       problem:
@@ -1839,7 +1850,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
     lessonNumber: 12,
     title: 'Chuyển động ném',
     hook:
-      'Khi một cầu thủ sút bóng bổng hoặc một phi cơ thả hàng cứu trợ, quỹ đạo bay của vật đều là một đường cong tuyệt đẹp. ' +
+      'Khi một cầu thủ sút bóng bổng hoặc một máy bay thả hàng cứu trợ, quỹ đạo bay của vật đều là một đường cong tuyệt đẹp. ' +
       'Làm thế nào để tính toán điểm rơi chính xác của vật ném?',
     theory:
       'CHUYỂN ĐỘNG NÉM NGANG (Chọn hệ trục Ox nằm ngang theo hướng ném, Oy thẳng đứng hướng xuống, gốc tại điểm ném):\n' +
@@ -1877,7 +1888,7 @@ export const LY10_C2_LESSONS: PhysicsLesson[] = [
           correctIds: ['zero'],
         },
         explain:
-          'Theo phương ngang vật không chịu bất kỳ lực nào tác dụng (bỏ qua cản khí) nên gia tốc phương ngang bằng 0.',
+          'Theo phương ngang vật không chịu lực nào tác dụng (bỏ qua cản khí) nên gia tốc phương ngang bằng 0.',
       },
       {
         prompt:

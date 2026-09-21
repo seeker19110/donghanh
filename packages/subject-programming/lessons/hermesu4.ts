@@ -28,7 +28,7 @@ giao "viec B"
 tuchoi v2 "chua du so lieu"
 trangthai`,
       question: 'Quét bảng việc sau các lệnh trên — v2 nằm ở cột nào?',
-      choices: ['tu-choi', 'cho-duyet', 'xong', 'Khong xuat hien tren bang'],
+      choices: ['tu-choi', 'cho-duyet', 'xong', 'Không xuất hiện trên bảng'],
       answerIndex: 0,
       explain:
         'tuchoi chuyển việc sang cột tu-choi — đây là tín hiệu "cần giao lại có sửa", khác hẳn cho-duyet (đang chờ) hay xong (đã xong). Bảng Kanban giúp thấy ngay việc nào đang kẹt.',
@@ -111,10 +111,10 @@ trangthai`,
       question:
         'Lệnh trangthai được gọi ở phiên luong-2 — nó cho thấy việc của CẢ hai luồng hay chỉ luồng hiện tại?',
       choices: [
-        'Ca hai — bang viec la chung, khong theo tung phien',
-        'Chi luong-2, vi dang dung o phien do',
-        'Chi luong-1, vi tao truoc',
-        'Bao loi vi khong cung phien',
+        'Cả hai — bảng việc là chung, không tách theo từng phiên',
+        'Chỉ luong-2, vì đang đứng ở phiên đó',
+        'Chỉ luong-1, vì tạo trước',
+        'Báo lỗi vì không cùng phiên',
       ],
       answerIndex: 0,
       explain:
@@ -193,10 +193,10 @@ duyet v1`,
 trangthai`,
       question: 'Yêu cầu bỏ qua nguồn "cho nhanh" — rủi ro lớn nhất là gì?',
       choices: [
-        'Khong kiem chung duoc thong tin la that hay bi bia',
-        'Ban tom tat se dai hon',
-        'Agent se cham hon vi phai tim nguon',
-        'Khong co rui ro, bo nguon van chinh xac',
+        'Không kiểm chứng được thông tin là thật hay bị bịa',
+        'Bản tóm tắt sẽ dài hơn',
+        'Agent sẽ chậm hơn vì phải tìm nguồn',
+        'Không có rủi ro, bỏ nguồn vẫn chính xác',
       ],
       answerIndex: 0,
       explain:
@@ -275,10 +275,10 @@ giao "lien he khach hang XYZ ve don hang moi"`,
       question:
         'Ở phiên MỚI (khác hẳn phiên đã ghi nhớ), agent còn "nhớ" ngữ cảnh về khách XYZ không?',
       choices: [
-        'Co — do la diem khac session: bo nho dai han song QUA nhieu phien',
-        'Khong, vi phien moi la ngu canh trang moi hoan toan',
-        'Chi nho neu dung lai dung ten phien cu',
-        'Chi nho neu chua qua 24 gio',
+        'Có — đó là điểm khác session: bộ nhớ dài hạn sống QUA nhiều phiên',
+        'Không, vì phiên mới là ngữ cảnh trắng hoàn toàn',
+        'Chỉ nhớ nếu dùng lại đúng tên phiên cũ',
+        'Chỉ nhớ nếu chưa quá 24 giờ',
       ],
       answerIndex: 0,
       explain:
@@ -364,10 +364,10 @@ giao "viec lon: lam toan bo ke hoach marketing quy 4"
 trangthai`,
       question: 'Theo nguyên tắc việc NGUYÊN TỬ của Paperclip, việc này có vấn đề gì?',
       choices: [
-        'Qua lon va mo ho — nen chia thanh nhieu viec nho, doc lap, nghiem thu rieng tung viec',
-        'Khong van de gi, viec lon giao thang cho nhanh',
-        'Phai doi ten thanh "ke hoach" moi giao duoc',
-        'Chi co the giao viec nho hon 5 tu',
+        'Quá lớn và mơ hồ — nên chia thành nhiều việc nhỏ, độc lập, nghiệm thu riêng từng việc',
+        'Không vấn đề gì, việc lớn giao thẳng cho nhanh',
+        'Phải đổi tên thành "ke hoach" mới giao được',
+        'Chỉ có thể giao việc ngắn dưới 5 từ',
       ],
       answerIndex: 0,
       explain:

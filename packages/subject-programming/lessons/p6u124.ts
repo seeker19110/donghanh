@@ -58,7 +58,7 @@ console.log(soatBrief("Lam CAI KIA truoc, phan con lai giu NHU CU"))`,
       choices: [
         'Chua tu chua: nhu cu, cai kia',
         'Chua tu chua: cai kia, nhu cu',
-        'Brief sach, khong con tham chieu treo',
+        'Brief sạch, không còn tham chiếu treo',
         'Chua tu chua: CAI KIA, NHU CU',
       ],
       answerIndex: 0,

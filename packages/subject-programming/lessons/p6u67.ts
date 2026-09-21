@@ -27,7 +27,7 @@ export const P6U67_LESSONS: ProgrammingLesson[] = [
     title: 'Ba lỗi kinh điển: thiếu, trùng, sai kiểu',
     hook: 'Sếp hỏi "tháng này có bao nhiêu khách mới?". Bạn COUNT thẳng lên bảng, ra 1.204. Con số đẹp, nhưng sai — vì trong đó có 40 bản ghi trùng (khách bấm gửi form hai lần), 15 bản ghi thiếu số điện thoại (không tính là "khách" được), và vài dòng tuổi ghi "ba mươi" thay vì 30. Dữ liệu bẩn không báo lỗi khi chạy — nó chỉ âm thầm cho ra CON SỐ SAI mà không ai nghi ngờ.',
     theory:
-      'Trước khi tính bất cứ thống kê nào, dữ liệu phải qua một vòng KIỂM 3 loại lỗi kinh điển:\n\n1. **THIẾU GIÁ TRỊ (missing)** — một trường quan trọng rỗng: `None`, chuỗi rỗng `""`, hoặc các quy ước đánh dấu thiếu như `"N/A"`, `"NULL"`. Ba dạng này đều là "thiếu" dù trông khác nhau — kiểm thiếu mà chỉ so `is None` sẽ bỏ sót hai dạng còn lại.\n\n2. **TRÙNG LẶP (duplicate)** — hai bản ghi thật ra là MỘT, chỉ khác cách ghi. Điểm dễ sai nhất: so trùng bằng cách so TOÀN BỘ dict (từng trường phải giống hệt) sẽ BỎ SÓT rất nhiều trùng lặp thật, vì một trường phụ (thời điểm ghi, giá vừa cập nhật) lệch nhau không có nghĩa là hai khách hàng khác nhau. Cách đúng: so theo **KHOÁ TỰ NHIÊN** — trường (hoặc tổ hợp trường) định danh duy nhất một thực thể trong đời thật (mã khách hàng, số CCCD, email). Gặp khoá đã thấy → bản ghi sau là bản trùng, không tính thêm.\n\n3. **SAI KIỂU (type error)** — giá trị đúng vị trí nhưng sai bản chất: chuỗi số ("ba mươi" thay vì 30) nằm trong cột lẽ ra phải là số, hoặc một trường LUÔN PHẢI DƯƠNG (tuổi, số tiền chi tiêu, số lượng) lại mang giá trị âm — dấu hiệu lỗi nhập liệu hoặc lỗi hệ thống, không phải giá trị hợp lệ.\n\nBa loại lỗi này ĐỘC LẬP với nhau: một bản ghi có thể vừa thiếu vừa sai kiểu; một bản ghi trùng thì KHÔNG cần kiểm hai lỗi kia nữa (nó sẽ bị loại/gộp, kiểm thêm chỉ tốn công và dễ đếm sai — bài Make dưới đây sẽ luyện đúng thói quen này: gặp trùng thì `continue` ngay, không kiểm tiếp).',
+      'Trước khi tính bất cứ thống kê nào, dữ liệu phải qua một vòng KIỂM 3 loại lỗi kinh điển:\n\n1. **THIẾU GIÁ TRỊ (missing)** — một trường quan trọng rỗng: `None`, chuỗi rỗng `""`, hoặc các quy ước đánh dấu thiếu như `"N/A"`, `"NULL"`. Ba dạng này đều là "thiếu" dù trông khác nhau — kiểm thiếu mà chỉ so `is None` sẽ bỏ sót hai dạng còn lại.\n\n2. **TRÙNG LẶP (duplicate)** — hai bản ghi thật ra là MỘT, chỉ khác cách ghi. Điểm dễ sai nhất: so trùng bằng cách so TOÀN BỘ dict (từng trường phải giống hệt) sẽ BỎ SÓT rất nhiều trùng lặp thật, vì một trường phụ (thời điểm ghi, giá vừa cập nhật) lệch nhau không có nghĩa là hai khách hàng khác nhau. Cách đúng: so theo **KHOÁ TỰ NHIÊN** — trường (hoặc tổ hợp trường) định danh duy nhất một thực thể trong đời thật (mã khách hàng, số CCCD, email). Gặp khoá đã thấy → bản ghi sau là bản trùng, không tính thêm.\n\n3. **SAI KIỂU (type error)** — giá trị đúng vị trí nhưng sai bản chất: số viết bằng chữ ("ba mươi" thay vì 30) nằm trong cột lẽ ra phải là số, hoặc một trường LUÔN PHẢI DƯƠNG (tuổi, số tiền chi tiêu, số lượng) lại mang giá trị âm — dấu hiệu lỗi nhập liệu hoặc lỗi hệ thống, không phải giá trị hợp lệ.\n\nBa loại lỗi này ĐỘC LẬP với nhau: một bản ghi có thể vừa thiếu vừa sai kiểu; một bản ghi trùng thì KHÔNG cần kiểm hai lỗi kia nữa (nó sẽ bị loại/gộp, kiểm thêm chỉ tốn công và dễ đếm sai — bài Make dưới đây sẽ luyện đúng thói quen này: gặp trùng thì `continue` ngay, không kiểm tiếp).',
     workedExample: {
       code: `# Mo phong mot bang CSV da doc vao thanh list cac dict
 BAN_GHI = [
@@ -108,7 +108,7 @@ print(so_trung)`,
     },
     make: {
       prompt:
-        'Viết máy quét bản ghi, đếm 3 loại lỗi: thiếu, trùng, sai kiểu.\n\nChương trình đọc:\n- Dòng 1: n (số bản ghi).\n- n dòng tiếp theo, mỗi dòng 4 trường cách nhau dấu "|": ma_kh|ten|tuoi|chi_tieu (tuổi và chi tiêu ở dạng chuỗi số, hoặc rỗng/"N/A" nếu thiếu).\n\nLuật đếm:\n- THIẾU: bất kỳ trong 4 trường là chuỗi rỗng hoặc "N/A".\n- TRÙNG: so theo khoá tự nhiên ma_kh — gặp ma_kh đã thấy thì tính là trùng và BỎ QUA, không kiểm 2 lỗi còn lại cho dòng đó.\n- SAI KIỂU: tuổi không phải chuỗi toàn chữ số (không đổi được sang số nguyên), HOẶC chi tiêu là số âm.\n\nIn đúng 3 dòng:\nThieu: <so>\nTrung: <so>\nSai kieu: <so>\n\nVí dụ n=1, dòng "KH01|An|25|150000" → không lỗi nào → in 3 dòng đều 0.',
+        'Viết máy quét bản ghi, đếm 3 loại lỗi: thiếu, trùng, sai kiểu.\n\nChương trình đọc:\n- Dòng 1: n (số bản ghi).\n- n dòng tiếp theo, mỗi dòng 4 trường cách nhau dấu "|": ma_kh|ten|tuoi|chi_tieu (tuổi và chi tiêu ở dạng chuỗi số, hoặc rỗng/"N/A" nếu thiếu).\n\nLuật đếm:\n- THIẾU: bất kỳ trong 4 trường là chuỗi rỗng hoặc "N/A".\n- TRÙNG: so theo khoá tự nhiên ma_kh — gặp ma_kh đã thấy thì tính là trùng và BỎ QUA, không kiểm 2 lỗi còn lại cho dòng đó.\n- SAI KIỂU: tuổi không đổi được sang số nguyên (cho phép một dấu trừ đứng đầu), HOẶC chi tiêu là số âm.\n\nIn đúng 3 dòng:\nThieu: <so>\nTrung: <so>\nSai kieu: <so>\n\nVí dụ n=1, dòng "KH01|An|25|150000" → không lỗi nào → in 3 dòng đều 0.',
       starterCode: `n = int(input())
 ban_ghi = []
 for _ in range(n):
@@ -171,7 +171,7 @@ for ma_kh, ten, tuoi, chi_tieu in ban_ghi:
         'Duyệt qua từng dòng đã tách sẵn (ma_kh, ten, tuoi, chi_tieu) — cả 4 đều đang là chuỗi.',
         'Kiểm trùng TRƯỚC: nếu ma_kh đã có trong tập da_gap thì so_trung += 1 rồi bỏ qua dòng này (continue), không kiểm 2 lỗi còn lại.',
         'Kiểm thiếu: any(x == "" or x == "N/A" for x in (ma_kh, ten, tuoi, chi_tieu)).',
-        'Kiểm sai kiểu tuổi bằng tuoi.lstrip("-").isdigit() để nhận biết chuỗi không phải số; kiểm chi tiêu âm bằng chi_tieu.lstrip("-").isdigit() and int(chi_tieu) < 0.',
+        'Kiểm sai kiểu tuổi: tuoi.lstrip("-").isdigit() cho biết chuỗi CÓ phải số nguyên không — sai kiểu là khi biểu thức đó cho False, nên nhớ dấu not. Kiểm chi tiêu âm bằng chi_tieu.lstrip("-").isdigit() and int(chi_tieu) < 0.',
         'Nhớ in đúng 3 dòng theo thứ tự Thieu / Trung / Sai kieu, mỗi dòng dạng "Nhan: so".',
       ],
       sampleSolution: `n = int(input())
@@ -289,7 +289,7 @@ print(f"Doi: {ngay} -> {moi}")`,
       ],
       answerIndex: 0,
       explain:
-        'd="5", m="9", y="2026". Kết quả ghép là f"{y}-{m.zfill(2)}-{d.zfill(2)}" = "2026-09-05" — tháng 9 và ngày 5 đều được zfill(2) đệm thành 2 chữ số ("09", "05"), năm đứng đầu theo chuẩn ISO. Đáp án B thiếu đệm số 0 ở tháng, C nhầm vị trí ngày/tháng, D không theo thứ tự ISO (năm phải đứng đầu).',
+        'd="5", m="9", y="2026". Kết quả ghép là f"{y}-{m.zfill(2)}-{d.zfill(2)}" = "2026-09-05" — tháng 9 và ngày 5 đều được zfill(2) đệm thành 2 chữ số ("09", "05"), năm đứng đầu theo chuẩn ISO. Phương án "2026-9-05" thiếu đệm số 0 ở tháng; "2026-05-09" nhầm vị trí ngày với tháng; "05-09-2026" không theo thứ tự ISO (năm phải đứng đầu).',
     },
     parsons: {
       prompt: 'Xếp lại hàm chuẩn hoá ngày về ISO — nhớ đệm số 0 cho tháng và ngày một chữ số.',

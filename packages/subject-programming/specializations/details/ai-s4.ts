@@ -52,8 +52,8 @@ export const AI_S4_DETAIL: SpecStageDetail = {
           a: 'Vì con số đó cố định từ quá khứ, còn chất lượng thật chỉ đo được trên dữ liệu đang tới.',
         },
         {
-          q: 'Phản hồi người dùng dùng thẳng làm dữ liệu huấn luyện có rủi ro gì?',
-          a: 'Phản hồi thiên lệch theo nhóm người chịu phản hồi, dễ tạo vòng lặp tự khẳng định cho chính sai lệch đó.',
+          q: 'Dùng thẳng phản hồi của người dùng làm dữ liệu huấn luyện có rủi ro gì?',
+          a: 'Chỉ một nhóm nhỏ người dùng chịu khó phản hồi, nên dữ liệu lệch theo nhóm đó và dễ tạo vòng lặp tự khẳng định cho chính sai lệch ấy.',
         },
       ],
       doneSignals: [

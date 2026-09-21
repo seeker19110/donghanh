@@ -427,8 +427,8 @@ export const TOAN11_C4_LESSONS: MathLesson[] = [
           'Định lí Thalès trong không gian nói rằng ba mặt phẳng đôi một song song chắn trên hai cát tuyến những ' +
           'đoạn thẳng tương ứng tỉ lệ: AB/A′B′ = BC/B′C′. Thế số: 4/6 = 6/B′C′, suy ra B′C′ = 6·6/4 = 9. Chú ý ' +
           'thứ tự các đoạn phải tương ứng đúng — cặp (AB, A′B′) đi với nhau vì cùng bị chắn bởi mặt phẳng thứ ' +
-          'nhất và thứ hai; ghép nhầm thành AB/BC = A′B′/B′C′ tuy vẫn ra cùng đáp số ở đây nhưng là cách viết ' +
-          'khác của cùng một tỉ lệ, cần hiểu rõ chứ không nên nhớ máy móc.',
+          'nhất và thứ hai. Viết thành AB/BC = A′B′/B′C′ cũng ĐÚNG, vì đó chỉ là cách hoán vị của cùng một tỉ ' +
+          'lệ thức. Điều phải tránh là ghép lệch cặp, chẳng hạn AB/B′C′ = BC/A′B′ — khi đó đáp số sẽ sai.',
       },
       {
         prompt:

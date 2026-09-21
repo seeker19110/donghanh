@@ -157,8 +157,8 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
     title: 'Cường độ dòng điện',
     hook:
       'Tại sao bóng đèn lại lập tức sáng lên ngay khi ta bật công tắc? ' +
-      'Đó là nhờ dòng chảy của hàng tỷ tỷ electron tự do di chuyển có hướng dọc theo dây đồng. ' +
-      'Tốc độ của dòng chảy này chính là Cường độ dòng điện.',
+      'Đó là nhờ dòng chảy của hàng tỉ tỉ electron tự do di chuyển có hướng dọc theo dây đồng. ' +
+      'Độ mạnh của dòng chảy này chính là Cường độ dòng điện.',
     theory:
       'DÒNG ĐIỆN VÀ ĐIỀU KIỆN CÓ DÒNG ĐIỆN:\n' +
       '— Dòng điện là dòng dịch chuyển có hướng của các hạt mang điện tích.\n' +
@@ -178,7 +178,7 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
       '  — e: Độ lớn điện tích của electron (e ≈ 1,6 * 10⁻¹⁹ C).',
     workedExample: {
       problem:
-        'Một dây điện dẫn điện dòng điện không đổi. Trong thời gian t = 3 s, có một lượng điện tích q = 1,5 C ' +
+        'Một dây dẫn có dòng điện không đổi chạy qua. Trong thời gian t = 3 s, có một lượng điện tích q = 1,5 C ' +
         'dịch chuyển qua tiết diện thẳng của dây dẫn. Tính cường độ dòng điện chạy qua dây này.',
       steps: [
         'Xác định các thông số: điện tích q = 1,5 C, thời gian t = 3 s.',
@@ -461,7 +461,7 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
     theory:
       'ĐIỆN TRỞ CỦA VẬT DẪN (RESISTANCE):\n' +
       '— Điện trở R đặc trưng cho mức độ cản trở dòng điện của vật dẫn. Đơn vị: Ohm (Ω).\n\n' +
-      'ĐÌNH LUẬT OHM CHO ĐOẠN MẠCH CHỈ CÓ ĐIỆN TRỞ R:\n' +
+      'ĐỊNH LUẬT OHM CHO ĐOẠN MẠCH CHỈ CÓ ĐIỆN TRỞ R:\n' +
       '— Phát biểu: Cường độ dòng điện chạy qua một vật dẫn tỉ lệ thuận với hiệu điện thế giữa hai đầu vật dẫn và tỉ lệ nghịch với điện trở của nó.\n' +
       '— Công thức: I = U / R  ⇒  R = U / I.\n\n' +
       'ĐIỆN TRỞ CỦA DÂY DẪN KIM LOẠI ĐỒNG TÍNH:\n' +
@@ -736,9 +736,9 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
     theory:
       'BẢN CHẤT CỦA NGUỒN ĐIỆN VÀ LỰC LẠ:\n' +
       '— Nguồn điện duy trì hiệu điện thế giữa hai cực của nó. Bên trong nguồn điện, các hạt mang điện chuyển động ngược chiều lực điện trường ' +
-      'nhờ lực phi tĩnh điện gọi là lực lạ (lực hóa học trong pin, lực từ trong máy phát điện).\n\n' +
+      'nhờ lực phi tĩnh điện gọi là lực lạ (lực hoá học trong pin, lực từ trong máy phát điện).\n\n' +
       'SUẤT ĐIỆN ĐỘNG CỦA NGUỒN ĐIỆN (ELECTROMOTIVE FORCE - EMF):\n' +
-      '— Suất điện động (ξ) đặc trưng cho khả năng thực hiện công của nguồn điện (thực chất là của lực lạ) dịch chuyển điện tích dương từ cực âm sang cực dương bên trong nguồn.\n' +
+      '— Suất điện động (ξ, nhiều tài liệu kí hiệu là E) đặc trưng cho khả năng thực hiện công của nguồn điện (thực chất là của lực lạ) dịch chuyển điện tích dương từ cực âm sang cực dương bên trong nguồn.\n' +
       '— Công thức: ξ = A_lạ / q. Đơn vị: Volt (V).\n' +
       '— Điện trở trong (r): Nguồn điện được cấu tạo từ vật dẫn điện nên bản thân nó cũng có một điện trở cản trở dòng điện gọi là điện trở trong r.\n\n' +
       'ĐỊNH LUẬT OHM CHO TOÀN MẠCH (CLOSED CIRCUIT):\n' +
@@ -1089,7 +1089,7 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
           unit: 'W',
         },
         explain:
-          'Công suất toả nhiệt theo định luật Joule–Lenz: P = R * I² = 20 * 2² = 20 * 4 = 80 W. Chú ý I được BÌNH PHƯƠNG — dòng tăng gấp đôi thì nhiệt toả ra tăng gấp bốn, đó là lý do dây dẫn quá tải nóng lên rất nhanh.',
+          'Công suất toả nhiệt theo định luật Joule–Lenz: P = R * I² = 20 * 2² = 20 * 4 = 80 W. Chú ý I được BÌNH PHƯƠNG — dòng tăng gấp đôi thì nhiệt toả ra tăng gấp bốn, đó là lí do dây dẫn quá tải nóng lên rất nhanh.',
       },
     ],
     srsCards: [
@@ -1335,13 +1335,13 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
       'khi không thể bóc viên pin ra để đo? Ta sử dụng phương pháp đồ thị vôn-ampe.',
     theory:
       'SƠ ĐỒ THÍ NGHIỆM ĐO ξ VÀ r:\n' +
-      '— Mạch điện gồm: Pin cần đo mắc nối tiếp với một ampe kế (đo I), một biến trở R để thay đổi tải và một khóa k.\n' +
+      '— Mạch điện gồm: Pin cần đo mắc nối tiếp với một ampe kế (đo I), một biến trở R để thay đổi tải và một khoá K.\n' +
       '— Mắc một vôn kế song song với hai cực của nguồn pin (đo hiệu điện thế mạch ngoài U).\n\n' +
       'PHƯƠNG PHÁP ĐỒ THỊ (PHƯƠNG PHÁP TOÀN MẠCH):\n' +
       '— Theo định luật Ohm toàn mạch: U = ξ - I * r.\n' +
       '— Tiến hành đo nhiều lần cặp giá trị (U, I) bằng cách thay đổi giá trị biến trở R. Vẽ đồ thị U = f(I) trên hệ trục toạ độ.\n' +
       '— Đặc điểm đồ thị U = f(I): Là một đoạn thẳng nghiêng xuống.\n' +
-      '  — Điểm cắt trục tung (khi dòng điện I = 0): U_max = ξ (đọc được giá trị suất điện động).*\n' +
+      '  — Điểm cắt trục tung (khi dòng điện I = 0): U_max = ξ (đọc được giá trị suất điện động).\n' +
       '  — Độ dốc của đường thẳng chính là giá trị điện trở trong r: r = |ΔU / ΔI|.',
     workedExample: {
       problem:
@@ -1380,7 +1380,7 @@ export const LY11_C4_LESSONS: PhysicsLesson[] = [
           unit: 'ohm', // Note: 'ohm' or 'Ω' are both fine, let's use 'ohm'
         },
         explain:
-          'U = E - I*r ⇔ 1,3 = 1,5 - 0,5*r ⇔ r = 0,4 Ω. Khi mạch hở (I = 0) thì U = E, đó là cách đo suất điện động E bằng vôn kế lý tưởng không qua dòng điện.',
+          'U = E - I*r ⇔ 1,3 = 1,5 - 0,5*r ⇔ r = 0,4 Ω. Khi mạch hở (I = 0) thì U = E, đó là cách đo suất điện động E bằng vôn kế lí tưởng (gần như không lấy dòng của pin).',
       },
     ],
     srsCards: [

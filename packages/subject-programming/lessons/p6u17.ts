@@ -420,7 +420,7 @@ console.log(
 )`,
     },
     homework:
-      'Tìm một màn hình bạn từng viết (hoặc đang viết) có từ hai biến trạng thái boolean/nullable trở lên đi cùng nhau (ví dụ dangTai + loi, hoặc daDang nhap + dangKiemTra). Liệt kê hết các tổ hợp KHÔNG có nghĩa mà kiểu dữ liệu hiện tại vẫn cho phép. Sau đó phác thảo lại bằng một union phân biệt có trường trạng thái duy nhất, và viết nhánh default kiểm vét cạn bằng never cho nó.',
+      'Tìm một màn hình bạn từng viết (hoặc đang viết) có từ hai biến trạng thái boolean/nullable trở lên đi cùng nhau (ví dụ dangTai + loi, hoặc daDangNhap + dangKiemTra). Liệt kê hết các tổ hợp KHÔNG có nghĩa mà kiểu dữ liệu hiện tại vẫn cho phép. Sau đó phác thảo lại bằng một union phân biệt có trường trạng thái duy nhất, và viết nhánh default kiểm vét cạn bằng never cho nó.',
     srsCards: [
       {
         hoi: 'Vì sao ba biến boolean rời rạc (dangTai, loi, duLieu) lại nguy hiểm hơn một union phân biệt?',

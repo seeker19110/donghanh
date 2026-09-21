@@ -11,7 +11,7 @@ export const MATHFORCODE_S2_DETAIL: SpecStageDetail = {
     {
       moduleId: 'mathforcode-s2-m1',
       objective:
-        'Đếm được kích thước không gian tìm cạn trước khi viết vòng lặp, để biết bài toán chạy nổi hay không.',
+        'Đếm được kích thước không gian cần vét cạn trước khi viết vòng lặp, để biết bài toán chạy nổi hay không.',
       practice: [
         'Với ba bài vét cạn khác nhau, tính trước số trường hợp rồi đối chiếu với số vòng lặp đếm được khi chạy.',
         'Sinh bộ ca kiểm phủ hết tổ hợp giá trị của bốn tham số nhị phân và đếm xem có đúng số ca lý thuyết không.',

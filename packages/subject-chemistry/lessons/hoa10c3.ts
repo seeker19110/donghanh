@@ -12,7 +12,7 @@ export const HOA10_C3_LESSONS: ChemLesson[] = [
     lessonNumber: 9,
     title: 'Quy tắc octet',
     hook:
-      'Khí hiếm không bao giờ tự tạo hợp chất với chất khác — chúng "hài lòng" với lớp vỏ ' +
+      'Khí hiếm hầu như không chịu tạo hợp chất với chất khác — chúng "hài lòng" với lớp vỏ ' +
       'electron sẵn có. Mọi nguyên tử khác đều muốn bắt chước sự "hài lòng" đó.',
     theory:
       'QUY TẮC OCTET: trong quá trình hình thành liên kết hoá học, nguyên tử có xu hướng ' +

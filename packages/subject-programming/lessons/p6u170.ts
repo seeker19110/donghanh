@@ -19,7 +19,7 @@ export const P6U170_LESSONS: ProgrammingLesson[] = [
       question: 'Đoạn code in ra gì?',
       choices: ['2', '4', '-4', '9'],
       answerIndex: 1,
-      explain: 'Khoảng cách từ 1 tới 3 là -2 và bình phương là 4.',
+      explain: 'Hiệu 1 trừ 3 bằng -2, bình phương lên thành 4.',
     },
     parsons: {
       prompt: 'Xếp phép finite difference trung tâm.',

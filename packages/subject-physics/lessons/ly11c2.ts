@@ -733,7 +733,8 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
           correctIds: ['ty_1'],
         },
         explain:
-          'Trong chất khí (và lòng chất lỏng), lực đàn hồi chống biến dạng lệch không có, chỉ có biến dạng nén dãn nên chỉ truyền được sóng dọc.',
+          'Chất khí và lòng chất lỏng không có lực đàn hồi chống lại biến dạng lệch (trượt), nên chúng không truyền được sóng ngang. ' +
+          'Chúng chỉ xuất hiện lực đàn hồi khi bị nén hoặc dãn, vì vậy chỉ truyền được sóng dọc.',
       },
       {
         prompt:
@@ -747,7 +748,9 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
           kind: 'choice',
           correctIds: ['dir_1'],
         },
-        explain: 'Sóng ngang có phương dao động vuông góc với phương truyền sóng.',
+        explain:
+          'Sóng ngang có phương dao động vuông góc với phương truyền sóng: sóng trên dây đàn chạy dọc dây, còn từng điểm của dây chỉ rung lên xuống. ' +
+          'Hai phương án còn lại (trùng nhau, song song) đều mô tả phần tử dao động dọc theo phương truyền — đó là định nghĩa của sóng dọc, ví dụ sóng âm trong không khí.',
       },
     ],
     srsCards: [
@@ -774,10 +777,10 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
       'Làm thế nào để xác định nốt nhạc của một chiếc đàn guitar có đúng tần số chuẩn hay không? ' +
       'Trong phòng thí nghiệm, ta sử dụng micrô và dao động kí điện tử để "chụp ảnh" sóng âm và đo đạc tần số.',
     theory:
-      'NGUYÊN LÝ ĐO TẦN SỐ SÓNG ÂM:\n' +
+      'NGUYÊN LÍ ĐO TẦN SỐ SÓNG ÂM:\n' +
       '— Sóng âm từ nguồn phát (ví dụ âm thoa) được thu bằng một micrô. Micrô chuyển dao động áp suất âm thanh thành dao động điện thế cùng tần số.\n' +
-      '— Điện tín hiệu này được đưa vào cổng vào (Y) của dao động kí điện tử.\n\n' +
-      'CÁCH ĐỌC DAO ĐỘNG KÝ:\n' +
+      '— Tín hiệu điện này được đưa vào cổng vào (Y) của dao động kí điện tử.\n\n' +
+      'CÁCH ĐỌC DAO ĐỘNG KÍ:\n' +
       '— Màn hình hiển thị đường cong dạng sin biểu diễn li độ điện áp theo thời gian.\n' +
       '— Ta đếm số ô chia dọc theo trục thời gian (trục nằm ngang) cho một chu kì dao động toàn phần (N ô).\n' +
       '— Nhân số ô N này với hệ số quét thời gian (Time/Div) đã thiết lập trên máy để có chu kì T (giây): T = N * (Time/Div).\n' +
@@ -1134,7 +1137,7 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
       'ĐỊNH NGHĨA SÓNG ĐIỆN TỪ (ELECTROMAGNETIC WAVE):\n' +
       '— Sóng điện từ là điện từ trường lan truyền trong không gian dưới dạng sóng.\n\n' +
       'ĐẶC ĐIỂM CỦA SÓNG ĐIỆN TỪ:\n' +
-      '— Truyền được trong chân không (khác biệt cơ bản với sóng cơ cần môi trường vật chất vật lí). ' +
+      '— Truyền được trong chân không (khác biệt cơ bản với sóng cơ: sóng cơ luôn cần môi trường vật chất). ' +
       'Tốc độ truyền sóng điện từ trong chân không lớn nhất, bằng tốc độ ánh sáng c ≈ 3 * 10⁸ m/s.\n' +
       '— Sóng điện từ là sóng ngang: Vectơ cường độ điện trường E và vectơ cảm ứng từ B luôn vuông góc với nhau và vuông góc với phương truyền sóng v. ' +
       'Ba vectơ E, B, v tạo thành một tam diện thuận.\n' +
@@ -1391,14 +1394,14 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
     lessonNumber: 12,
     title: 'Giao thoa sóng',
     hook:
-      'Khi hai con sóng cùng gặp nhau trên hồ nước, chúng không đơn giản hòa vào nhau. ' +
+      'Khi hai con sóng cùng gặp nhau trên hồ nước, chúng không đơn giản hoà vào nhau. ' +
       'Chúng tạo thành một mạng lưới hình học kì ảo: những điểm sóng vọt lên rất cao xen kẽ những điểm nước phẳng lặng như gương. ' +
       'Hiện tượng này gọi là Giao thoa.',
     theory:
       'NGUỒN KẾT HỢP (COHERENT SOURCES):\n' +
       '— Hai nguồn kết hợp là hai nguồn sóng dao động cùng phương, cùng tần số và có độ lệch pha không đổi theo thời gian.\n' +
       '— Giao thoa là sự gặp nhau của hai sóng từ hai nguồn kết hợp tạo thành các cực đại và cực tiểu cố định trong không gian.\n\n' +
-      'ĐIỀU KIỆN CỰC ĐẠI - CỰC TIỂU GIA THOA (hai nguồn đồng pha):\n' +
+      'ĐIỀU KIỆN CỰC ĐẠI - CỰC TIỂU GIAO THOA (hai nguồn đồng pha):\n' +
       '— Xét một điểm M có khoảng cách tới hai nguồn sóng lần lượt là d₁ và d₂.\n' +
       '1. Cực đại giao thoa: Hai sóng tăng cường lẫn nhau, biên độ cực đại. ' +
       'Hiệu đường đi bằng một số nguyên lần bước sóng: d₂ - d₁ = k.λ (với k = 0, ±1, ±2...).\n' +
@@ -1430,7 +1433,9 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
           kind: 'choice',
           correctIds: ['it_1'],
         },
-        explain: 'Hiệu đường đi của cực đại giao thoa bằng số nguyên lần bước sóng: d₂ - d₁ = kλ.',
+        explain:
+          'Hiệu đường đi của cực đại giao thoa bằng số nguyên lần bước sóng: d₂ - d₁ = kλ. Khi đó hai sóng luôn tới cùng pha nên tăng cường nhau. ' +
+          'Còn (k + 0,5)λ là điều kiện cực tiểu (hai sóng tới ngược pha, triệt tiêu nhau), và kλ/2 gộp lẫn cả cực đại lẫn cực tiểu nên không dùng riêng cho cực đại được.',
       },
       {
         prompt:
@@ -1899,10 +1904,10 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
       'Gảy một sợi dây đàn guitar, âm thanh thánh thót vang lên. Trên dây đàn xuất hiện các điểm đứng im xen kẽ ' +
       'các bó sóng phồng to rung động mãnh liệt. Đó là Sóng dừng, nền tảng vật lí của mọi nhạc cụ dây.',
     theory:
-      'ĐỊNH NGHĨA SÓNG DỰNG (STANDING WAVE):\n' +
+      'ĐỊNH NGHĨA SÓNG DỪNG (STANDING WAVE):\n' +
       '— Sóng dừng là sóng có các nút sóng (điểm luôn đứng yên) và bụng sóng (điểm luôn dao động với biên độ cực đại) cố định trong không gian, ' +
       'sinh ra do sự giao thoa giữa sóng tới và sóng phản xạ trên cùng một phương truyền.\n\n' +
-      'KHOẢNG CÁCH ĐẶC BIỆT TRÊN SÓNG DỰNG:\n' +
+      'KHOẢNG CÁCH ĐẶC BIỆT TRÊN SÓNG DỪNG:\n' +
       '— Khoảng cách giữa hai nút sóng liên tiếp (hoặc hai bụng sóng liên tiếp) bằng nửa bước sóng (λ / 2).\n' +
       '— Khoảng cách giữa một nút sóng và một bụng sóng liên tiếp gần nhất bằng một phần tư bước sóng (λ / 4).\n\n' +
       'ĐIỀU KIỆN ĐỂ CÓ SÓNG DỪNG TRÊN DÂY CHIỀU DÀI L:\n' +
@@ -1972,7 +1977,7 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
     title: 'Bài tập về sóng',
     hook:
       'Luyện tập tổng hợp các bài toán về sóng cơ, giao thoa sóng và sóng dừng ' +
-      'sẽ giúp bạn nhuần nhuyễn kĩ năng giải toán lý thuyết lẫn thực tế.',
+      'sẽ giúp bạn nhuần nhuyễn kĩ năng giải cả bài tập lí thuyết lẫn bài tập thực tế.',
     theory:
       'TỔNG HỢP CÔNG THỨC SÓNG CẦN NHỚ:\n' +
       '— Mối liên hệ chu kì, tần số, tốc độ và bước sóng: λ = v.T = v / f.\n' +
@@ -2261,8 +2266,8 @@ export const LY11_C2_LESSONS: PhysicsLesson[] = [
       'Làm thế nào để đo tốc độ truyền âm của không khí ngay tại lớp học bằng một ống nhựa rỗng đựng nước? ' +
       'Chúng ta sử dụng một âm thoa phát âm thanh chuẩn và tìm các điểm cộng hưởng cột khí.',
     theory:
-      'NGUYÊN LÝ CỘT KHÍ CỘNG HƯỞNG (RESONANCE TUBE):\n' +
-      '— Một ống thủy tinh chứa nước, có thể điều chỉnh độ cao mặt nước để thay đổi chiều dài cột khí L từ mặt nước đến miệng ống.\n' +
+      'NGUYÊN LÍ CỘT KHÍ CỘNG HƯỞNG (RESONANCE TUBE):\n' +
+      '— Một ống thuỷ tinh chứa nước, có thể điều chỉnh độ cao mặt nước để thay đổi chiều dài cột khí L từ mặt nước đến miệng ống.\n' +
       '— Đặt một âm thoa dao động tần số f sát miệng ống. Sóng âm truyền vào ống phản xạ tại mặt nước (đầu cố định - nút sóng) ' +
       'và giao thoa với sóng tới ở miệng ống (đầu tự do - bụng sóng).\n' +
       '— Khi hạ dần mặt nước, âm thanh nghe được đột ngột to lên tại các vị trí cộng hưởng đầu tiên L₁ và thứ hai L₂.\n' +

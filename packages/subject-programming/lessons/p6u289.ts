@@ -79,7 +79,7 @@ export const P6U289_LESSONS = [
     title: 'lộ trình dựa trên yêu cầu thật, không dựa trên người nói to nhất',
     hook: 'Một khách hàng gửi mười email trong một tuần không có nghĩa tính năng họ xin là tính năng cần làm trước.',
     theory:
-      'Xếp ưu tiên lộ trình theo bằng chứng, theo đúng thứ tự: yêu cầu chạm tới ca mất dữ liệu thì làm trước mọi thứ khác; yêu cầu chỉ đến từ một người mà không có ca sử dụng viết ra được thì trả unknown (chưa đủ căn cứ, hỏi thêm) chứ không từ chối thẳng; yêu cầu vượt ra ngoài phạm vi sản phẩm đã công bố thì reject kèm lý do. Ngưỡng "nhiều người" của bài là từ 5 yêu cầu độc lập trở lên — hằng số dạy học.',
+      'Xếp ưu tiên lộ trình theo bằng chứng, theo đúng thứ tự: yêu cầu chạm tới ca mất dữ liệu thì làm trước mọi thứ khác; yêu cầu vượt ra ngoài phạm vi sản phẩm đã công bố thì reject kèm lý do; yêu cầu còn quá ít người xin thì trả unknown (chưa đủ căn cứ, hỏi thêm) chứ không từ chối thẳng. Ngưỡng "nhiều người" của bài là từ 5 yêu cầu độc lập trở lên — hằng số dạy học.',
     workedCode:
       '# MÔ PHỎNG ưu tiên ca mất dữ liệu\ntouches_data_loss = "yes"\nprint("allow: prioritize data loss" if touches_data_loss == "yes" else "allow: schedule normally")',
     predictCode:

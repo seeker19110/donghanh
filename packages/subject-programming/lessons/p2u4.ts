@@ -90,8 +90,8 @@ print(f"Diem cua Dung: {so_diem.get('Dung', 'chua co')}")   # get an toàn`,
       'Về nhà: mở rộng dict thành menu {tên: {"gia": ..., "ton_kho": ...}} (dict lồng dict) rồi in bảng menu đầy đủ. Đây chính là bước dự án của unit này — món hàng có nhiều thuộc tính chứ không chỉ mỗi giá.',
     srsCards: [
       {
-        hoi: 'MENU.get("ca phe", 0) khác MENU["ca phe"] ở chỗ nào khi không có món đó?',
-        dap: 'get() trả về giá trị mặc định (ở đây là 0), chương trình chạy tiếp. Còn MENU["ca phe"] ném lỗi KeyError và chương trình dừng. Dùng get() khi "không có" là chuyện bình thường.',
+        hoi: 'menu.get("ca phe", 0) khác menu["ca phe"] ở chỗ nào khi không có món đó?',
+        dap: 'get() trả về giá trị mặc định (ở đây là 0), chương trình chạy tiếp. Còn menu["ca phe"] ném lỗi KeyError và chương trình dừng. Dùng get() khi "không có" là chuyện bình thường.',
       },
       {
         hoi: 'Gán menu["tra da"] = 6000 khi khoá "tra da" đã tồn tại thì dict có thêm cặp mới không?',

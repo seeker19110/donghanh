@@ -1,4 +1,4 @@
-// details/security-s4.ts — Chi tiết chặng S4 hướng BẢO MẬT ("Chuyên gia — phòng thủ và kiến
+// details/security-s4.ts — Chi tiết chặng S4 hướng AN TOÀN THÔNG TIN ("Chuyên gia — phòng thủ và kiến
 // trúc an toàn"). Bản đồ chặng ở ../security.ts.
 //
 // Luật đạo đức của chặng, ghi ở đây vì nó ràng buộc mọi bài luyện bên dưới: chỉ tấn công hệ

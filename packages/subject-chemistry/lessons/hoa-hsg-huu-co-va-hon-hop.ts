@@ -141,7 +141,8 @@ export const HOA_HSG_HUU_CO_LESSONS: ChemLesson[] = [
       'nhường n mol electron. Số mol electron mà HNO₃ nhận phụ thuộc SẢN PHẨM KHỬ:\n' +
       '   — NO₂: N⁺⁵ + 1e → N⁺⁴, mỗi mol nhận 1 mol e.\n' +
       '   — NO: N⁺⁵ + 3e → N⁺², mỗi mol nhận 3 mol e.\n' +
-      '   — N₂O: mỗi mol nhận 8 mol e.  — N₂: mỗi mol nhận 10 mol e.\n' +
+      '   — N₂O: mỗi mol nhận 8 mol e.\n' +
+      '   — N₂: mỗi mol nhận 10 mol e.\n' +
       '   — NH₄NO₃: mỗi mol nhận 8 mol e (sản phẩm khử KHÔNG phải khí, rất hay bị bỏ sót).\n\n' +
       '2. BẢO TOÀN NGUYÊN TỐ (nitrogen): n(HNO₃ phản ứng) = n(N trong muối) + n(N trong sản ' +
       'phẩm khử). Với muối nitrate của kim loại thì n(NO₃⁻ trong muối) = n(e trao đổi).\n\n' +

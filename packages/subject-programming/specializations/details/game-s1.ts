@@ -131,7 +131,7 @@ export const GAME_S1_DETAIL: SpecStageDetail = {
       id: 'game-s1-r2',
       text: 'Giữ được 60 khung hình mỗi giây ổn định trên máy cấu hình trung bình trong suốt một lượt chơi.',
       howToProve:
-        'Bật hiển thị số khung hình và quay lại toàn bộ lượt chơi cho thấy con số không tụt.',
+        'Bật hiển thị số khung hình và quay video toàn bộ lượt chơi cho thấy con số không tụt.',
     },
     {
       id: 'game-s1-r3',

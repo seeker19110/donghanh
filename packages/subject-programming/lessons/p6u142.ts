@@ -116,7 +116,7 @@ else:
     title: 'Mảng động — một lần đắt, cả chuỗi vẫn rẻ',
     hook: 'Append thường O(1), nhưng có lần phải chép cả mảng. “Thường” có đáng tin không? Hãy cộng toàn bộ số lần sao chép thay vì nhìn lần tệ nhất.',
     theory:
-      'Mảng động giữ capacity. Khi đầy, nó cấp vùng gấp đôi rồi chép `size` phần tử cũ. Với n lần append từ capacity 1, số lần chép là 1 + 2 + 4 + … và luôn nhỏ hơn 2n. Vì tổng chi phí n lần ghi mới cộng số chép là O(n), chi phí khấu hao mỗi append là O(1), dù một append riêng lẻ có thể O(n). Nếu chỉ tăng capacity thêm 1, tổng chép thành 0+1+…+(n−1)=O(n²): đây là negative control cho chính sách tăng gấp đôi.',
+      'Mảng động giữ capacity. Khi đầy, nó cấp vùng gấp đôi rồi chép `size` phần tử cũ. Với n lần append từ capacity 1, số lần chép là 1 + 2 + 4 + … và luôn nhỏ hơn 2n. Vì tổng chi phí n lần ghi mới cộng số chép là O(n), chi phí khấu hao mỗi append là O(1), dù một append riêng lẻ có thể O(n). Nếu chỉ tăng capacity thêm 1, tổng chép thành 0+1+…+(n−1)=O(n²): đây là đối chứng âm (negative control) cho chính sách tăng gấp đôi.',
     workedExample: {
       code: `def dem_sao_chep(n):
     size, capacity, copies = 0, 1, 0

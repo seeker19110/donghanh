@@ -10,8 +10,8 @@ export const TOAN11_C6_LESSONS: MathLesson[] = [
     lessonNumber: 1,
     title: 'Lôgarit và các quy tắc tính',
     hook:
-      'Trận động đất 7 độ Richter mạnh hơn trận 6 độ bao nhiêu lần? Câu trả lời không phải "hơn 1 độ" mà là "mạnh ' +
-      'gấp 10 lần". Độ ồn tính bằng decibel, độ chua pH của nước mắm, độ sáng của các vì sao — tất cả đều dùng cùng ' +
+      'Trận động đất 7 độ Richter mạnh hơn trận 6 độ bao nhiêu lần? Câu trả lời không phải "hơn 1 độ" mà là "biên độ ' +
+      'rung gấp 10 lần". Độ ồn tính bằng decibel, độ chua pH của nước mắm, độ sáng của các vì sao — tất cả đều dùng cùng ' +
       'một thang đo nén những con số khổng lồ về cỡ dễ đọc. Thang đó là lôgarit.',
     theory:
       'ĐỊNH NGHĨA\n' +
@@ -356,7 +356,7 @@ export const TOAN11_C6_LESSONS: MathLesson[] = [
       'aˣ = b (a > 0, a ≠ 1):\n' +
       '— Nếu b > 0: nghiệm duy nhất x = log_a b.\n' +
       '— Nếu b ≤ 0: VÔ NGHIỆM, vì aˣ luôn dương. Đây là bước kiểm tra phải làm đầu tiên.\n\n' +
-      'HAI PHƯƠNG PHÁP GIẢI CHÍNH\n' +
+      'BA PHƯƠNG PHÁP GIẢI CHÍNH\n' +
       '1. ĐƯA VỀ CÙNG CƠ SỐ: aᶠ⁽ˣ⁾ = aᵍ⁽ˣ⁾ ⇔ f(x) = g(x). Được phép "bỏ cơ số" vì hàm mũ ĐƠN ĐIỆU nghiêm ngặt, tức ' +
       'mỗi giá trị chỉ ứng với đúng một số mũ. Ưu tiên cách này khi hai vế viết được về cùng một cơ số.\n' +
       '2. LÔGARIT HOÁ hai vế: dùng khi không đưa được về cùng cơ số, ví dụ 2ˣ = 5 ⇒ x = log₂ 5.\n' +

@@ -365,7 +365,7 @@ viec = [1 + (i * i * 3) % 17 for i in range(n)]
           expected: 'Tiet kiem: 11 don vi',
           match: 'contains',
           hidden: false,
-          label: 'Nhanh hơn hơn một phần tư — không tốn thêm thợ nào',
+          label: 'Nhanh hơn một phần tư — không tốn thêm thợ nào',
         },
         {
           stdinLines: ['12', '4'],

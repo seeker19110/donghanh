@@ -131,8 +131,8 @@ export const LY_HSG_CO_HOC_LESSONS: PhysicsLesson[] = [
     title: 'Hệ quy chiếu phi quán tính và lực quán tính',
     hook:
       'Ngồi trên xe khách đang tăng tốc rời bến, bạn thấy chai nước treo lủng lẳng trước kính lệch hẳn về phía sau và ' +
-      'đứng yên ở vị trí lệch đó suốt thời gian xe tăng tốc. Với bạn, chai nước đang CÂN BẰNG — nhưng ba lực quen thuộc ' +
-      '(trọng lực, lực căng dây) rõ ràng không thể cân bằng nhau khi dây lệch. Vậy có lực thứ ba nào không?',
+      'đứng yên ở vị trí lệch đó suốt thời gian xe tăng tốc. Với bạn, chai nước đang CÂN BẰNG — nhưng hai lực quen thuộc ' +
+      '(trọng lực và lực căng dây) rõ ràng không thể cân bằng nhau khi dây lệch. Vậy còn lực thứ ba nào nữa?',
     theory:
       'HỆ QUY CHIẾU QUÁN TÍNH VÀ PHI QUÁN TÍNH:\n' +
       '— Hệ quy chiếu quán tính là hệ mà trong đó định luật 1 Newton nghiệm đúng (mặt đất, hoặc bất cứ hệ nào chuyển động ' +

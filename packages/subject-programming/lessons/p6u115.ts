@@ -214,7 +214,7 @@ console.log(kiemTraViPhamRanhGioi("feature-thanh-toan", "feature-hoc-tap", QUY_T
       choices: ['false', 'true', 'undefined', 'lỗi runtime'],
       answerIndex: 0,
       explain:
-        'Kết quả là false. Cặp (feature-thanh-toan, feature-hoc-tap) KHÔNG khớp với cặp duy nhất trong quyTacChoPhep (feature-hoc-tap, shared) — thứ tự tuModule/denModule cũng phải khớp đúng chiều, không chỉ khớp tên. Bẫy hay nhầm: thấy "feature-hoc-tap" xuất hiện ở cả quy tắc lẫn lệnh gọi rồi tưởng là hợp lệ — nhưng trong quy tắc nó là ĐÍCH (shared import từ đó), còn trong lệnh gọi nó là ĐÍCH của feature-thanh-toan, hai vai trò khác hẳn nhau và cặp [tu, den] phải khớp NGUYÊN VẸN.',
+        'Kết quả là false. Cặp (feature-thanh-toan, feature-hoc-tap) KHÔNG khớp với cặp duy nhất trong quyTacChoPhep (feature-hoc-tap, shared) — thứ tự tuModule/denModule cũng phải khớp đúng chiều, không chỉ khớp tên. Bẫy hay nhầm: thấy "feature-hoc-tap" xuất hiện ở cả quy tắc lẫn lệnh gọi rồi tưởng là hợp lệ — nhưng trong quy tắc nó đứng ở vai NGUỒN (feature-hoc-tap import shared), còn trong lệnh gọi nó đứng ở vai ĐÍCH (feature-thanh-toan import nó). Hai vai khác hẳn nhau, mà cặp [tu, den] phải khớp NGUYÊN VẸN cả hai vai.',
     },
     parsons: {
       prompt: 'Xếp lại phần kiểm tra cặp import có nằm trong danh sách cho phép hay không.',
@@ -268,7 +268,7 @@ console.log(JSON.stringify(kiemTraViPhamRanhGioi("feature-hoc-tap", "feature-tha
           match: 'contains',
           hidden: false,
           label:
-            'Bốn lượt import, đúng 2 vi phạm: feature-hoc-tap→feature-thanh-toan và core→shared (đảo chiều luật)',
+            'Bốn lượt import, đúng 2 vi phạm: feature-hoc-tap→feature-thanh-toan và core→shared (cặp này không có trong danh sách cho phép)',
         },
         {
           stdinLines: [],
