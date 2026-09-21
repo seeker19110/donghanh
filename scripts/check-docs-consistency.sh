@@ -46,7 +46,8 @@ echo "== 2. Subagent (.claude/agents) frontmatter name: khớp tên file =="
 for f in .claude/agents/*.md; do
   [ -e "$f" ] || continue
   base="$(basename "$f" .md)"
-  nm="$(grep -m1 '^name:' "$f" | sed -E 's/^name:[[:space:]]*//; s/[[:space:]]*$//')"
+  frontmatter="$(sed -n '2,/^---$/p' "$f" | sed '$d')"
+  nm="$(printf '%s\n' "$frontmatter" | grep -m1 '^name:' | sed -E 's/^name:[[:space:]]*//; s/[[:space:]]*$//' || true)"
   if [ -z "$nm" ]; then
     echo "::error file=$f::Thiếu frontmatter 'name:' — Claude Code không nạp được subagent này."
     fail=1
