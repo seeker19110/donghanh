@@ -14,6 +14,7 @@ const QUIZZED_STAGES = [
   'data-s1',
   'data-s2',
   'data-s3',
+  'data-s4',
   'backend-s1',
   'backend-s2',
   'ai-s1',

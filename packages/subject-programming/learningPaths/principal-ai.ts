@@ -202,6 +202,15 @@ export const PRINCIPAL_AI_PATH: LearningPath = {
           requires: ['principal-s1'],
         },
         {
+          // Đợt `data-s4` (đặc tả `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`):
+          // chặng HƯỚNG CHUYÊN SÂU được mượn vào lộ trình, đặt TRƯỚC `principal-s3` vì quyết định
+          // kiến trúc ở s3 phải dựa trên số liệu tin được — chưa quản trị được dữ liệu thì mọi
+          // đánh đổi định lượng đều đang cãi nhau trên con số không ai bảo đảm.
+          stageId: 'data-s4',
+          why: 'Trước khi ra quyết định kiến trúc bằng số, phải bảo đảm được con số đó: ai sở hữu dữ liệu, nó còn tươi không, chỉ số có đúng một định nghĩa không, và xử lý dữ liệu cá nhân có cơ sở pháp lý không.',
+          requires: ['principal-s2'],
+        },
+        {
           stageId: 'principal-s3',
           why: 'Có đặc tả và hiểu cơ chế rồi thì tới lượt RA QUYẾT ĐỊNH kiến trúc — bằng số, ghi lại bằng ADR để người sau hiểu vì sao.',
           requires: ['principal-s2'],
