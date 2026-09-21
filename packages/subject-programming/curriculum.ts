@@ -1017,6 +1017,46 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
           'Legal basis; purpose limitation; retention; ngưỡng k; bias theo nhóm; câu giới hạn',
       },
       {
+        id: 'p6-u234',
+        title: 'Systems S3 — phần cứng quyết định tốc độ: dòng cache và false sharing',
+        topics: 'Cache line; stride; cache_miss_rate; false-sharing; đệm biến nóng',
+      },
+      {
+        id: 'p6-u235',
+        title: 'Systems S3 — đo trước khi sửa: nhiễu vi chuẩn và định luật Amdahl',
+        topics: 'Trung vị; insufficient-samples; noisy; tỉ trọng phần nóng; trần cải thiện',
+      },
+      {
+        id: 'p6-u236',
+        title: 'Systems S3 — bên trong nhân: bộ nhớ ảo, cách ly và chi phí syscall',
+        topics: 'Working set; thrash; page fault; cách ly địa chỉ; gom syscall',
+      },
+      {
+        id: 'p6-u237',
+        title: 'Systems S3 — đồng thời không khoá: hàng rào bộ nhớ và hàng đợi lock-free',
+        topics: 'Memory barrier; race; linearizable; hàng đợi rỗng; tràn capacity',
+      },
+      {
+        id: 'p6-u238',
+        title: 'Systems S4 — trình biên dịch: bảng ký hiệu và hệ thống kiểu',
+        topics: 'Undeclared-var; type-error; số dòng; sinh lệnh IR',
+      },
+      {
+        id: 'p6-u239',
+        title: 'Systems S4 — runtime: mark-sweep và máy ảo ngăn xếp',
+        topics: 'Reachable; chu trình heap; stack-error; khung lời gọi',
+      },
+      {
+        id: 'p6-u240',
+        title: 'Systems S4 — hệ điều hành từ số 0: bảng trang và lập lịch vòng tròn',
+        topics: 'Page table; cách ly tiến trình; context switch; quantum; idle',
+      },
+      {
+        id: 'p6-u241',
+        title: 'Systems S4 — an toàn tầng thấp: canary, ASLR và fuzzing theo độ phủ',
+        topics: 'Overflow-detected; stack canary; W^X; coverage; plateau',
+      },
+      {
         id: 'p6-u178',
         title: 'DevOps S2 — delivery policy và change control',
         topics: 'Approval; change window; rollback; fail closed',
