@@ -1,6 +1,6 @@
 # Đặc tả — `algo-s3` và `algo-s4`: quy hoạch động/kỹ thuật nâng cao và thuật toán trong hệ thống thật
 
-> Ngày: 2026-09-21 · Trạng thái: **CHỜ CHỦ DỰ ÁN DUYỆT**
+> Ngày: 2026-09-21 · Trạng thái: **APPROVED FOR IMPLEMENTATION** (chủ dự án duyệt ngày 2026-09-21)
 > Goal: `GOAL-2026-ASA` (cùng chuỗi `algo-s1`/`algo-s2`), lát cắt đề xuất `M2/S1j` — hai chặng
 > CUỐI của hướng Thuật toán, khép hướng chuyên sâu này lại đủ bốn chặng S1–S4.
 > Khuôn: `docs/templates/dac-ta-tinh-nang.md`, cùng bộ khung với
@@ -276,7 +276,25 @@ npm run build
 - Sau rollback, chạy lại `npm run gen:lesson-index`, test `stageUnits`/lesson và build để xác nhận
   stage trở về trạng thái chưa có bài mà các stage song song vẫn hoạt động.
 
-## ⑧ Quyết định cần chủ dự án duyệt
+## ⑧ Quyết định đã duyệt (chủ dự án, 2026-09-21)
+
+**Chủ dự án đã DUYỆT TOÀN BỘ các mục dưới đây ngày 2026-09-21** (một lượt duyệt chung cho
+cả sáu đặc tả của đợt lấp 19 chặng P6). Ba quyết định xuyên suốt:
+
+1. ✅ **Khoá dải unit id**: `algo-s3` = `p6-u226…u233` (algo-s3 = u226–u229, algo-s4 = u230–u233). Dải này đã được đối chiếu bằng máy với toàn bộ
+   id đã phát hành và với năm đặc tả còn lại của cùng đợt — rời nhau tuyệt đối, không
+   đụng dải cao nhất cũ (`p6-u213`).
+2. ✅ **KHÔNG nối các chặng của lát cắt này vào bất kỳ `learningPaths/*.ts` nào.** Hướng
+   đứng độc lập, học viên vào qua trang hướng chuyên sâu. Lý do: khác `devops-s3` (chỉ
+   thêm một chặng vào lộ trình đang chạy), ở đây phải quyết cho nhiều chặng liên tiếp
+   cùng lúc, đổi mẫu số tiến độ hiển thị ngay từ chặng đầu. Nếu sau này muốn nối thì
+   làm ở một đợt riêng, có đặc tả riêng.
+3. ✅ **Nhịp PR** theo đúng đề xuất ở mục ⑦ của chính đặc tả này.
+
+Các quyết định riêng của lát cắt (nếu mục dưới còn liệt kê) cũng được duyệt theo đúng
+phương án mà đặc tả đề xuất mặc định.
+
+### Danh sách gốc các mục đã đưa ra duyệt
 
 1. **Cấp dải id `p6-u226..p6-u229` cho `algo-s3` và `p6-u230..p6-u233` cho `algo-s4`.** Đã kiểm
    không trùng với mọi unit id hiện có trong `stageUnits.ts`/`lessons.ts` (`grep` không ra kết

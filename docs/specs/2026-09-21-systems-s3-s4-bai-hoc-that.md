@@ -1,6 +1,6 @@
 # Đặc tả — Bài học thật cho `systems-s3` và `systems-s4`
 
-> Ngày: 2026-09-21 · Trạng thái: **CHỜ CHỦ DỰ ÁN DUYỆT**
+> Ngày: 2026-09-21 · Trạng thái: **APPROVED FOR IMPLEMENTATION** (chủ dự án duyệt ngày 2026-09-21)
 > Khuôn: `docs/templates/dac-ta-tinh-nang.md`, theo đúng cấu trúc
 > `docs/specs/2026-09-17-devops-s3-bai-hoc-that.md`.
 > Tiền lệ cùng hướng: `docs/specs/2026-09-16-systems-s1-bai-hoc-that.md`,
@@ -190,7 +190,25 @@ simulator (cache/GC/kernel/fuzzing mô phỏng) với công cụ thật đang ch
 PHỎNG, semantic gate và rubric project (yêu cầu công cụ thật NGOÀI sandbox: perf/valgrind thật,
 QEMU, fuzzer thật) là ba lớp chặn — giữ đúng mô hình đã dùng ở `systems-s1`.
 
-## ⑧ Quyết định cần chủ dự án duyệt
+## ⑧ Quyết định đã duyệt (chủ dự án, 2026-09-21)
+
+**Chủ dự án đã DUYỆT TOÀN BỘ các mục dưới đây ngày 2026-09-21** (một lượt duyệt chung cho
+cả sáu đặc tả của đợt lấp 19 chặng P6). Ba quyết định xuyên suốt:
+
+1. ✅ **Khoá dải unit id**: `systems-s3` = `p6-u234…u237`, `systems-s4` = `p6-u238…u241`. Dải này đã được đối chiếu bằng máy với toàn bộ
+   id đã phát hành và với năm đặc tả còn lại của cùng đợt — rời nhau tuyệt đối, không
+   đụng dải cao nhất cũ (`p6-u213`).
+2. ✅ **KHÔNG nối các chặng của lát cắt này vào bất kỳ `learningPaths/*.ts` nào.** Hướng
+   đứng độc lập, học viên vào qua trang hướng chuyên sâu. Lý do: khác `devops-s3` (chỉ
+   thêm một chặng vào lộ trình đang chạy), ở đây phải quyết cho nhiều chặng liên tiếp
+   cùng lúc, đổi mẫu số tiến độ hiển thị ngay từ chặng đầu. Nếu sau này muốn nối thì
+   làm ở một đợt riêng, có đặc tả riêng.
+3. ✅ **Nhịp PR** theo đúng đề xuất ở mục ⑦ của chính đặc tả này.
+
+Các quyết định riêng của lát cắt (nếu mục dưới còn liệt kê) cũng được duyệt theo đúng
+phương án mà đặc tả đề xuất mặc định.
+
+### Danh sách gốc các mục đã đưa ra duyệt
 
 1. **Cấp dải `p6-u234…p6-u237` cho `systems-s3` và `p6-u238…p6-u241` cho `systems-s4`** — khảo sát
    cho thấy dải này chưa xuất hiện ở đâu trong `packages/subject-programming/` tại thời điểm viết

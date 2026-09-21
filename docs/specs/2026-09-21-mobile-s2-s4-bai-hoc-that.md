@@ -1,6 +1,6 @@
 # Đặc tả — `mobile-s2`/`mobile-s3`/`mobile-s4`: bài học thật cho ba chặng còn thiếu hướng Di động
 
-> Ngày: 2026-09-21 · Trạng thái: **CHỜ CHỦ DỰ ÁN DUYỆT**
+> Ngày: 2026-09-21 · Trạng thái: **APPROVED FOR IMPLEMENTATION** (chủ dự án duyệt ngày 2026-09-21)
 > Tiếp mạch: `docs/specs/2026-08-31-bai-hoc-chang-s1-huong-di-dong.md` (`mobile-s1`, đã merge —
 > `p6-u131..133`, làn `typescript`). Sau đợt này hướng Di động (`packages/subject-programming/specializations/mobile.ts`)
 > có đủ 4/4 chặng bấm "Vào học" được.
@@ -186,7 +186,25 @@ buộc trong đặc tả này, để mở ở mục ⑧). Rollback = revert tr�
 simulator TypeScript với hành vi thật của Android/iOS — comment "MÔ PHỎNG" ở đầu mỗi file
 simulator, gate ngữ nghĩa, và cột "Bài tập về nhà ngoài sandbox" ở mục ③ là ba lớp chặn.
 
-## ⑧ Quyết định cần chủ dự án duyệt
+## ⑧ Quyết định đã duyệt (chủ dự án, 2026-09-21)
+
+**Chủ dự án đã DUYỆT TOÀN BỘ các mục dưới đây ngày 2026-09-21** (một lượt duyệt chung cho
+cả sáu đặc tả của đợt lấp 19 chặng P6). Ba quyết định xuyên suốt:
+
+1. ✅ **Khoá dải unit id**: `mobile-s2` = `p6-u214…u217`, `mobile-s3` = `p6-u218…u221`, `mobile-s4` = `p6-u222…u225`. Dải này đã được đối chiếu bằng máy với toàn bộ
+   id đã phát hành và với năm đặc tả còn lại của cùng đợt — rời nhau tuyệt đối, không
+   đụng dải cao nhất cũ (`p6-u213`).
+2. ✅ **KHÔNG nối các chặng của lát cắt này vào bất kỳ `learningPaths/*.ts` nào.** Hướng
+   đứng độc lập, học viên vào qua trang hướng chuyên sâu. Lý do: khác `devops-s3` (chỉ
+   thêm một chặng vào lộ trình đang chạy), ở đây phải quyết cho nhiều chặng liên tiếp
+   cùng lúc, đổi mẫu số tiến độ hiển thị ngay từ chặng đầu. Nếu sau này muốn nối thì
+   làm ở một đợt riêng, có đặc tả riêng.
+3. ✅ **Nhịp PR** theo đúng đề xuất ở mục ⑦ của chính đặc tả này.
+
+Các quyết định riêng của lát cắt (nếu mục dưới còn liệt kê) cũng được duyệt theo đúng
+phương án mà đặc tả đề xuất mặc định.
+
+### Danh sách gốc các mục đã đưa ra duyệt
 
 1. **Cấp dải id `p6-u214..217` (mobile-s2), `p6-u218..221` (mobile-s3), `p6-u222..225`
    (mobile-s4)** — dải này đã được brief giao việc cấp trước, đặc tả chỉ xác nhận lại; chủ dự án

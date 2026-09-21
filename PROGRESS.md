@@ -429,7 +429,14 @@ không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelo
 - **Môn Toán thiếu hình học không gian và thống kê** — lớp 10 C5; lớp 11 C3, C4, C8; lớp 12 C2, C3,
   và phương trình đường thẳng trong không gian. Đây là mảng mỏng nhất của cả bốn môn STEM.
 - **Môn Sinh chưa có nhánh bồi dưỡng học sinh giỏi** — đợt 2026-09-13 chỉ làm cho Toán/Lí/Hoá.
-- **[2026-09-21] P6 (Lập trình, 14 hướng chuyên sâu) — lệch lớn giữa "đã đặc tả" và "đã có bài học thật".**
+- **[2026-09-21 · CẬP NHẬT cùng ngày, PR đặc tả — `docs/changelog/0396-*.md`] P6 (Lập trình,
+  14 hướng chuyên sâu) — lệch lớn giữa "đã đặc tả" và "đã có bài học thật".**
+  **Phần KẾ HOẠCH đã khép:** 19 chặng thiếu nay đều có đặc tả triển khai đã duyệt
+  (`docs/specs/2026-09-21-{mobile-s2-s4,algo-s3-s4,systems-s3-s4,game-s1-s4,embedded-s1-s4,desktop-s1-s4}-bai-hoc-that.md`,
+  dải unit `p6-u214…u289`), cộng ba chặng đã có đặc tả từ trước (`data-s4`, `security-s3`,
+  `security-s4`) là **đủ 56/56 chặng có đặc tả**. **Nợ còn lại là SOẠN BÀI THẬT** theo nhịp
+  ~9 PR đã chốt. Chủ dự án chốt: KHÔNG nối các chặng này vào `learningPaths/` nào.
+  Hiện trạng đo được lúc ghi nợ:
   Đo bằng cách đối chiếu `packages/subject-programming/specializations/details/` (56/56 file
   S1–S4 × 14 hướng, đủ hết, không placeholder) với `SPEC_STAGE_UNITS` trong
   `specializations/stageUnits.ts` (bảng map chặng → unit bài học thật trong `lessons/`):

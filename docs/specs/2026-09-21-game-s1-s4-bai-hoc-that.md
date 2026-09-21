@@ -1,6 +1,6 @@
 # Đặc tả — Bài học thật cho hướng `game`, trọn bốn chặng S1–S4
 
-> Ngày: 2026-09-21 · Trạng thái: **CHỜ CHỦ DỰ ÁN DUYỆT**
+> Ngày: 2026-09-21 · Trạng thái: **APPROVED FOR IMPLEMENTATION** (chủ dự án duyệt ngày 2026-09-21)
 > Khuôn: `docs/templates/dac-ta-tinh-nang.md`. Tham khảo cấu trúc:
 > `docs/specs/2026-09-17-devops-s3-bai-hoc-that.md`,
 > `docs/specs/2026-09-16-systems-s1-bai-hoc-that.md`,
@@ -235,7 +235,25 @@ Rủi ro lớn nhất là học viên nhầm simulator với engine/mạng thậ
 và rubric bài tập về nhà (yêu cầu dựng bằng Godot/Unity/mạng thật NGOÀI sandbox) là ba lớp
 chặn, giống tiền lệ `systems-s1` ngăn nhầm mô phỏng C với gdb/Valgrind thật.
 
-## ⑧ Quyết định cần chủ dự án duyệt
+## ⑧ Quyết định đã duyệt (chủ dự án, 2026-09-21)
+
+**Chủ dự án đã DUYỆT TOÀN BỘ các mục dưới đây ngày 2026-09-21** (một lượt duyệt chung cho
+cả sáu đặc tả của đợt lấp 19 chặng P6). Ba quyết định xuyên suốt:
+
+1. ✅ **Khoá dải unit id**: `game-s1…s4` = `p6-u242…u257`. Dải này đã được đối chiếu bằng máy với toàn bộ
+   id đã phát hành và với năm đặc tả còn lại của cùng đợt — rời nhau tuyệt đối, không
+   đụng dải cao nhất cũ (`p6-u213`).
+2. ✅ **KHÔNG nối các chặng của lát cắt này vào bất kỳ `learningPaths/*.ts` nào.** Hướng
+   đứng độc lập, học viên vào qua trang hướng chuyên sâu. Lý do: khác `devops-s3` (chỉ
+   thêm một chặng vào lộ trình đang chạy), ở đây phải quyết cho nhiều chặng liên tiếp
+   cùng lúc, đổi mẫu số tiến độ hiển thị ngay từ chặng đầu. Nếu sau này muốn nối thì
+   làm ở một đợt riêng, có đặc tả riêng.
+3. ✅ **Nhịp PR** theo đúng đề xuất ở mục ⑦ của chính đặc tả này.
+
+Các quyết định riêng của lát cắt (nếu mục dưới còn liệt kê) cũng được duyệt theo đúng
+phương án mà đặc tả đề xuất mặc định.
+
+### Danh sách gốc các mục đã đưa ra duyệt
 
 1. **Cấp dải `p6-u242…u257` cho hướng `game`** (16 unit, đã kiểm bằng `grep` là chưa dùng ở
    bất kỳ hướng/chặng nào khác tại thời điểm viết đặc tả này — 2026-09-21).

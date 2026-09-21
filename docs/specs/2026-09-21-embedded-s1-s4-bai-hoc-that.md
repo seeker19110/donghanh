@@ -1,8 +1,7 @@
 # Đặc tả — Bài học thật cho hướng `embedded` (S1–S4)
 
 > Ngày: 2026-09-21
-> Trạng thái: **CHỜ CHỦ DỰ ÁN DUYỆT** (chưa triển khai — không được ghi "Approved for
-> implementation" cho tới khi chủ dự án xác nhận mục ⑧).
+> Trạng thái: **APPROVED FOR IMPLEMENTATION** (chủ dự án duyệt ngày 2026-09-21).
 > Khuôn: `docs/templates/dac-ta-tinh-nang.md`.
 > Tham khảo cấu trúc: `docs/specs/2026-09-17-devops-s3-bai-hoc-that.md`,
 > `docs/specs/2026-09-16-systems-s1-bai-hoc-that.md`.
@@ -214,7 +213,25 @@ unit id đã cấp cho phần rollback. Rủi ro lớn nhất là người học
 chạy trên chip thật; nhãn MÔ PHỎNG trong worked example, semantic gate theo chặng, và rubric bài
 tập về nhà (yêu cầu bo mạch thật NGOÀI sandbox, đã có sẵn trong `embedded.ts`) là ba lớp chặn.
 
-## ⑧ Quyết định cần chủ dự án duyệt
+## ⑧ Quyết định đã duyệt (chủ dự án, 2026-09-21)
+
+**Chủ dự án đã DUYỆT TOÀN BỘ các mục dưới đây ngày 2026-09-21** (một lượt duyệt chung cho
+cả sáu đặc tả của đợt lấp 19 chặng P6). Ba quyết định xuyên suốt:
+
+1. ✅ **Khoá dải unit id**: `embedded-s1…s4` = `p6-u258…u273`. Dải này đã được đối chiếu bằng máy với toàn bộ
+   id đã phát hành và với năm đặc tả còn lại của cùng đợt — rời nhau tuyệt đối, không
+   đụng dải cao nhất cũ (`p6-u213`).
+2. ✅ **KHÔNG nối các chặng của lát cắt này vào bất kỳ `learningPaths/*.ts` nào.** Hướng
+   đứng độc lập, học viên vào qua trang hướng chuyên sâu. Lý do: khác `devops-s3` (chỉ
+   thêm một chặng vào lộ trình đang chạy), ở đây phải quyết cho nhiều chặng liên tiếp
+   cùng lúc, đổi mẫu số tiến độ hiển thị ngay từ chặng đầu. Nếu sau này muốn nối thì
+   làm ở một đợt riêng, có đặc tả riêng.
+3. ✅ **Nhịp PR** theo đúng đề xuất ở mục ⑦ của chính đặc tả này.
+
+Các quyết định riêng của lát cắt (nếu mục dưới còn liệt kê) cũng được duyệt theo đúng
+phương án mà đặc tả đề xuất mặc định.
+
+### Danh sách gốc các mục đã đưa ra duyệt
 
 1. ❓ **Cấp dải id** `p6-u258..u261` (S1), `p6-u262..u265` (S2), `p6-u266..u269` (S3),
    `p6-u270..u273` (S4) cho hướng `embedded` — đúng dải đã ghi trong yêu cầu giao việc, cần xác

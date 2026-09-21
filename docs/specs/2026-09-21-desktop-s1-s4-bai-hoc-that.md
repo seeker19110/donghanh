@@ -1,6 +1,6 @@
 # Đặc tả — `desktop-s1..s4`: bài học thật cho hướng chuyên sâu Desktop
 
-> Ngày: 2026-09-21 · Trạng thái: **CHỜ CHỦ DỰ ÁN DUYỆT**
+> Ngày: 2026-09-21 · Trạng thái: **APPROVED FOR IMPLEMENTATION** (chủ dự án duyệt ngày 2026-09-21)
 > Phạm vi: cả bốn chặng `desktop-s1..desktop-s4` — hướng `desktop` hiện có bản đồ (`specializations/desktop.ts`)
 > và nội dung chi tiết (`specializations/details/desktop-s1..s4.ts`) nhưng CHƯA có bài học nào (`SPEC_STAGE_UNITS`
 > không có khoá `desktop-*`).
@@ -222,7 +222,25 @@ thật (ví dụ tưởng "ký mã" trong bài đã là ký mã thật); nhãn M
 chặng và rubric bài tập về nhà (yêu cầu chạy trên máy/hệ điều hành thật NGOÀI sandbox) là ba lớp
 chặn giống các lát đã duyệt trước đó.
 
-## ⑧ Quyết định cần chủ dự án duyệt
+## ⑧ Quyết định đã duyệt (chủ dự án, 2026-09-21)
+
+**Chủ dự án đã DUYỆT TOÀN BỘ các mục dưới đây ngày 2026-09-21** (một lượt duyệt chung cho
+cả sáu đặc tả của đợt lấp 19 chặng P6). Ba quyết định xuyên suốt:
+
+1. ✅ **Khoá dải unit id**: `desktop-s1…s4` = `p6-u274…u289`. Dải này đã được đối chiếu bằng máy với toàn bộ
+   id đã phát hành và với năm đặc tả còn lại của cùng đợt — rời nhau tuyệt đối, không
+   đụng dải cao nhất cũ (`p6-u213`).
+2. ✅ **KHÔNG nối các chặng của lát cắt này vào bất kỳ `learningPaths/*.ts` nào.** Hướng
+   đứng độc lập, học viên vào qua trang hướng chuyên sâu. Lý do: khác `devops-s3` (chỉ
+   thêm một chặng vào lộ trình đang chạy), ở đây phải quyết cho nhiều chặng liên tiếp
+   cùng lúc, đổi mẫu số tiến độ hiển thị ngay từ chặng đầu. Nếu sau này muốn nối thì
+   làm ở một đợt riêng, có đặc tả riêng.
+3. ✅ **Nhịp PR** theo đúng đề xuất ở mục ⑦ của chính đặc tả này.
+
+Các quyết định riêng của lát cắt (nếu mục dưới còn liệt kê) cũng được duyệt theo đúng
+phương án mà đặc tả đề xuất mặc định.
+
+### Danh sách gốc các mục đã đưa ra duyệt
 
 1. ⬜ Cấp dải `p6-u274…p6-u289` cho hướng `desktop` (bốn chặng, mỗi chặng bốn unit liên tục theo
    thứ tự S1→S4) — chưa có lát nào khác dùng dải này, đã kiểm bằng `grep`.
