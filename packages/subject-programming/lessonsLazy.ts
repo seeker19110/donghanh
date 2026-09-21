@@ -2046,6 +2046,66 @@ export const LESSON_INDEX: readonly LessonSummary[] = [
     srsCardCount: 2,
   },
   {
+    id: 'p6-u206-l1',
+    unitId: 'p6-u206',
+    title:
+      'MÔ PHỎNG cổng ranh giới tin cậy (trust boundary): zero trust và phân đoạn (segmentation)',
+    language: 'python',
+    srsCardCount: 2,
+  },
+  {
+    id: 'p6-u206-l2',
+    unitId: 'p6-u206',
+    title:
+      'MÔ PHỎNG vòng đời khoá (key lifecycle, rotate) và cổng mô hình đe doạ trước khi phát hành',
+    language: 'python',
+    srsCardCount: 2,
+  },
+  {
+    id: 'p6-u207-l1',
+    unitId: 'p6-u207',
+    title: 'MÔ PHỎNG cổng duyệt luật phát hiện (detection rule): ánh xạ ATT&CK và ngưỡng nhiễu',
+    language: 'python',
+    srsCardCount: 2,
+  },
+  {
+    id: 'p6-u207-l2',
+    unitId: 'p6-u207',
+    title:
+      'MÔ PHỎNG trình tự ứng cứu sự cố: ngăn chặn (containment) → diệt trừ (eradication) → phục hồi',
+    language: 'python',
+    srsCardCount: 2,
+  },
+  {
+    id: 'p6-u208-l1',
+    unitId: 'p6-u208',
+    title:
+      'MÔ PHỎNG cổng toàn vẹn chứng cứ (evidence integrity) và chuỗi lưu giữ (chain of custody)',
+    language: 'python',
+    srsCardCount: 2,
+  },
+  {
+    id: 'p6-u208-l2',
+    unitId: 'p6-u208',
+    title: 'MÔ PHỎNG dòng thời gian đa nguồn: chuẩn hoá UTC, gắn cờ bất định và redact báo cáo',
+    language: 'python',
+    srsCardCount: 2,
+  },
+  {
+    id: 'p6-u209-l1',
+    unitId: 'p6-u209',
+    title: 'MÔ PHỎNG sổ rủi ro: khả năng × tác động, residual risk và rủi ro "chấp nhận" hợp lệ',
+    language: 'python',
+    srsCardCount: 2,
+  },
+  {
+    id: 'p6-u209-l2',
+    unitId: 'p6-u209',
+    title: 'MÔ PHỎNG rủi ro bên thứ ba (third-party) và kiểm soát tuân thủ phải có evidence',
+    language: 'python',
+    srsCardCount: 2,
+  },
+  {
     id: 'p6-u274-l1',
     unitId: 'p6-u274',
     title: 'MÔ PHỎNG đo ngân sách gói cài và RAM trước khi chọn nền tảng',
@@ -4144,6 +4204,10 @@ export const UNIT_LOADERS: Readonly<Record<string, () => Promise<ProgrammingLess
   'p6-u203': () => import('./lessons/p6u203.js').then((m) => m.P6U203_LESSONS),
   'p6-u204': () => import('./lessons/p6u204.js').then((m) => m.P6U204_LESSONS),
   'p6-u205': () => import('./lessons/p6u205.js').then((m) => m.P6U205_LESSONS),
+  'p6-u206': () => import('./lessons/p6u206.js').then((m) => m.P6U206_LESSONS),
+  'p6-u207': () => import('./lessons/p6u207.js').then((m) => m.P6U207_LESSONS),
+  'p6-u208': () => import('./lessons/p6u208.js').then((m) => m.P6U208_LESSONS),
+  'p6-u209': () => import('./lessons/p6u209.js').then((m) => m.P6U209_LESSONS),
   'p6-u274': () => import('./lessons/p6u274.js').then((m) => m.P6U274_LESSONS),
   'p6-u275': () => import('./lessons/p6u275.js').then((m) => m.P6U275_LESSONS),
   'p6-u276': () => import('./lessons/p6u276.js').then((m) => m.P6U276_LESSONS),

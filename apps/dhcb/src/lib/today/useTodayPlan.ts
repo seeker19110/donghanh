@@ -23,8 +23,20 @@ import { fetchProgressWithStatus, type ProgrammingLessonProgress } from '../prog
 import { listResumableSessions, type SessionOwner } from '../learningSession'
 import { getDirection } from '../storage'
 import { englishNext, ENGLISH_SUBJECT_ID } from './englishNext'
-import { programmingNext, PROGRAMMING_SUBJECT_ID } from './programmingNext'
+import type { programmingNext as ProgrammingNextFn } from './programmingNext'
 import { resumePointFromSummary, resumeTarget } from './resumePoint'
+
+// `programmingNext` kéo theo LESSON_INDEX (`lessonsLoader.ts`) + `curriculum.ts` — ~40KB gzip
+// dữ liệu môn Lập trình mà Trang chủ chỉ cần đọc, không cần trong chunk khởi động của nó. Import
+// ĐỘNG (không import tĩnh ở đầu file) để Vite tách hẳn chuỗi này khỏi chunk Home: trình duyệt tải
+// nó song song với tiến độ/CEFR ở effect bên dưới thay vì chặn Home tải xong mới chạy được
+// (bài học CI 2026-09-21: CLS `home-clarity-evidence.spec.ts` lệch ngưỡng khi chỉ mục bài học môn
+// Lập trình phình theo mỗi đợt thêm bài — xem docs/changelog/0398-*.md).
+let programmingNextModulePromise: Promise<typeof import('./programmingNext')> | undefined
+function loadProgrammingNext(): Promise<typeof import('./programmingNext')> {
+  programmingNextModulePromise ??= import('./programmingNext')
+  return programmingNextModulePromise
+}
 
 export type TodayPlanState = 'loading' | 'ready' | 'error'
 
@@ -67,6 +79,26 @@ export function useTodayPlan(uid: string): UseTodayPlanResult {
   // `builtAt` chốt một lần lúc gắn hook — resolver là hàm thuần, gọi `Date.now()` trong render
   // làm kết quả đổi theo từng lần vẽ lại.
   const [mountedAt] = useState(() => Date.now())
+  // Module `programmingNext` tải động (xem `loadProgrammingNext` ở trên) — `null` cho tới khi
+  // chunk về xong. `plan` chỉ CHỜ nó khi thật sự có tiến độ Lập trình để tính (xem `useMemo` dưới).
+  const [programmingModule, setProgrammingModule] = useState<{
+    programmingNext: typeof ProgrammingNextFn
+    subjectId: string
+  } | null>(null)
+
+  useEffect(() => {
+    let alive = true
+    loadProgrammingNext().then((m) => {
+      if (alive)
+        setProgrammingModule({
+          programmingNext: m.programmingNext,
+          subjectId: m.PROGRAMMING_SUBJECT_ID,
+        })
+    })
+    return () => {
+      alive = false
+    }
+  }, [])
 
   const progressKey = `${uid}#${reloadKey}`
   const progress = useMemo<readonly ProgrammingLessonProgress[]>(
@@ -118,6 +150,9 @@ export function useTodayPlan(uid: string): UseTodayPlanResult {
 
   const plan = useMemo<TodayPlan | null>(() => {
     if (!uid || !cefrLoaded || progressState === 'loading') return null
+    // Chỉ CHỜ module `programmingNext` khi thật sự có tiến độ Lập trình để tính tín hiệu — người
+    // chưa động vào môn này không phải chờ chunk đó về mới thấy Trang chủ.
+    if (progress.length > 0 && !programmingModule) return null
 
     const owner = ownerOf(uid)
     const sessions = listResumableSessions(owner)
@@ -145,9 +180,10 @@ export function useTodayPlan(uid: string): UseTodayPlanResult {
       isA: getDirection() === 'A',
       srsDue: getSRSStats(uid).due,
     })
-    const programming: ReturnType<typeof programmingNext> = coBangChungLapTrinh
-      ? programmingNext({ progress })
-      : {}
+    const programming: ReturnType<typeof ProgrammingNextFn> =
+      coBangChungLapTrinh && programmingModule
+        ? programmingModule.programmingNext({ progress })
+        : {}
 
     const byId = new Map<string, SubjectSignal>()
     function signalOf(subjectId: string): SubjectSignal {
@@ -162,8 +198,8 @@ export function useTodayPlan(uid: string): UseTodayPlanResult {
     }
 
     if (coBangChungAnh && english.next) Object.assign(signalOf(ENGLISH_SUBJECT_ID), english)
-    if (programming.next || programming.lastEvidenceAt !== undefined) {
-      Object.assign(signalOf(PROGRAMMING_SUBJECT_ID), programming)
+    if (programmingModule && (programming.next || programming.lastEvidenceAt !== undefined)) {
+      Object.assign(signalOf(programmingModule.subjectId), programming)
     }
 
     // Phiên đã sắp theo `updatedAt` giảm dần — lấy phiên mới nhất của mỗi môn.
@@ -185,7 +221,7 @@ export function useTodayPlan(uid: string): UseTodayPlanResult {
       now: mountedAt,
       knownSubjectIds: KNOWN_SUBJECT_IDS,
     })
-  }, [uid, cefrLoaded, levels, circleById, progress, progressState, mountedAt])
+  }, [uid, cefrLoaded, levels, circleById, progress, progressState, mountedAt, programmingModule])
 
   const state: TodayPlanState =
     plan === null ? 'loading' : progressState === 'error' ? 'error' : 'ready'
