@@ -430,11 +430,10 @@ không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelo
   và phương trình đường thẳng trong không gian. Đây là mảng mỏng nhất của cả bốn môn STEM.
 - **Môn Sinh chưa có nhánh bồi dưỡng học sinh giỏi** — đợt 2026-09-13 chỉ làm cho Toán/Lí/Hoá.
 - **[2026-09-21, cập nhật 2026-09-21] P6 (Lập trình, 14 hướng chuyên sâu) — lệch lớn giữa "đã đặc tả" và "đã có bài học thật".**
-  **Tiếp theo của mảng này:** `security-s4` (`p6-u206…u209`, cùng đặc tả
-  `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`, PR thứ hai — phải gộp `main` rồi
-  sinh lại `lessonsLazy.ts`), rồi `security-s3` (`p6-u210…u213`,
-  `docs/specs/2026-09-17-security-s3-bai-hoc-that.md`). Hai chặng này đã có đặc tả **đã duyệt**,
-  chưa thi hành.
+  **Tiếp theo của mảng này:** `security-s3` (`p6-u210…u213`,
+  `docs/specs/2026-09-17-security-s3-bai-hoc-that.md`) — đặc tả **đã duyệt**, chưa thi hành. Nối
+  một chặng vào lộ trình thì nhớ soạn kèm quiz trong `stageQuizzes.ts` (xem ghi chú ở mục `data-s4`
+  dưới đây). (`security-s4` đã trả 2026-09-21, `docs/changelog/0397-*.md`.)
   Đo bằng cách đối chiếu `packages/subject-programming/specializations/details/` (56/56 file
   S1–S4 × 14 hướng, đủ hết, không placeholder) với `SPEC_STAGE_UNITS` trong
   `specializations/stageUnits.ts` (bảng map chặng → unit bài học thật trong `lessons/`):
@@ -443,7 +442,11 @@ không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelo
     (`status/draft/comingSoon`) nào trong code để giao diện báo trước, chỉ suy ra được gián tiếp
     qua mảng rỗng.
   - **mobile chỉ có S1** (S2–S4 = 0 unit).
-  - **security, systems, algo chỉ có S1–S2** (thiếu S3–S4).
+  - **systems, algo chỉ có S1–S2** (thiếu S3–S4).
+  - ~~**security thiếu S3–S4**~~ — **S4 ĐÃ TRẢ 2026-09-21** (`docs/changelog/0397-*.md`):
+    `security-s4` = `p6-u206…u209`, 8 bài, cổng `securityS4Lessons.test.ts` (chặng PHÒNG THỦ, có
+    danh sách từ vựng tấn công bị cấm); nối vào `principal-ai-p5` trước `principal-s3` kèm quiz
+    `security-s4-q1…q5`. **Còn `security-s3`** (`p6-u210…u213`, đặc tả riêng đã duyệt).
   - ~~**data thiếu S4**~~ — **ĐÃ TRẢ 2026-09-21** (`docs/changelog/0396-*.md`): `data-s4` =
     `p6-u202…u205`, 8 bài, cổng `dataS4Lessons.test.ts`; nối vào `principal-ai-p5` trước
     `principal-s3`. Ghi lại cho đợt sau: nối một chặng vào lộ trình `principal-ai` thì **bắt buộc

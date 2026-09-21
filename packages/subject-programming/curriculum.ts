@@ -1017,6 +1017,26 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
           'Legal basis; purpose limitation; retention; ngưỡng k; bias theo nhóm; câu giới hạn',
       },
       {
+        id: 'p6-u206',
+        title: 'Security S4 — kiến trúc an toàn: ranh giới tin cậy, phân đoạn, vòng đời khoá',
+        topics: 'Trust boundary; zero trust; segmentation; key lifecycle; rotate; mô hình đe doạ',
+      },
+      {
+        id: 'p6-u207',
+        title: 'Security S4 — phát hiện và ứng cứu sự cố',
+        topics: 'Detection rule; ATT&CK; dương tính giả; containment; eradication; phục hồi',
+      },
+      {
+        id: 'p6-u208',
+        title: 'Security S4 — điều tra số: toàn vẹn chứng cứ và dòng thời gian',
+        topics: 'Integrity; chain of custody; lệch đồng hồ; UTC; cờ bất định; redact báo cáo',
+      },
+      {
+        id: 'p6-u209',
+        title: 'Security S4 — quản trị và tuân thủ',
+        topics: 'Khả năng × tác động; residual risk; third-party; DPA; kế hoạch rút lui; evidence',
+      },
+      {
         id: 'p6-u178',
         title: 'DevOps S2 — delivery policy và change control',
         topics: 'Approval; change window; rollback; fail closed',
