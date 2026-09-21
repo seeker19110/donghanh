@@ -12,6 +12,7 @@
 // là bài tập viết đặc tả.
 //
 // Dữ liệu là hằng biên dịch: không I/O, không phụ thuộc thời gian.
+import type { LessonAnimation } from '@dhcb/core-contracts/lessonAnimation'
 
 /** Một câu tự kiểm: hỏi và đáp án ngắn (người học tự chấm — tầng này không chấm tự động). */
 export interface SpecSelfCheck {
@@ -31,6 +32,10 @@ export interface SpecModuleDetail {
   selfCheck: SpecSelfCheck[]
   /** 2–3 dấu hiệu QUAN SÁT ĐƯỢC là đã nắm (hành vi, không phải cảm giác). */
   doneSignals: string[]
+  /** Hoạt ảnh minh hoạ cơ chế đang dạy (tái dùng schema chung 4 môn STEM — xem
+   *  `docs/specs/2026-09-21-hoat-anh-mo-phong-bai-hoc.md`). Không bắt buộc: module nào
+   *  hình động không giúp hiểu thêm (vd module thuần kỹ năng viết đặc tả) thì bỏ trống. */
+  animation?: LessonAnimation
 }
 
 /** Một tiêu chí nghiệm thu dự án chặng. */
