@@ -265,7 +265,7 @@ const C1_GRAMMAR_UNITS: GrammarUnitMeta[] = [
           ),
         ],
         tipVi:
-          'Động từ "is/was" chia theo phần đứng sau nếu là mệnh đề chỉ hành động thường để số ít: "What I need is...".',
+          'Động từ chính thường chia số ít "is/was" vì cả cụm "What ..." được coi là MỘT khối ý — kể cả khi phần đứng sau là số nhiều: "What I want is peace and quiet."',
         mistakes: [
           mis(
             'What I want are peace and quiet.',
@@ -657,9 +657,9 @@ const C2_GRAMMAR_UNITS: GrammarUnitMeta[] = [
           'Fronting hay dùng trong văn kể/miêu tả để tạo nhịp; đừng lạm dụng trong văn nói thường ngày.',
         mistakes: [
           mis(
-            'Down the street the parade came marching (sai nhịp).',
+            'Down the street the parade came marching. (đúng ngữ pháp nhưng kém tự nhiên)',
             'Down the street came the parade.',
-            'Khi đưa trạng ngữ chỉ nơi chốn lên đầu, đảo động từ trước chủ ngữ.',
+            'Câu bên trái không sai ngữ pháp, nhưng khi đã đưa trạng ngữ chỉ nơi chốn lên đầu để nhấn, tiếng Anh thường đảo động từ ra trước chủ ngữ cho tự nhiên hơn.',
           ),
         ],
         quiz: [
@@ -782,7 +782,7 @@ const C2_GRAMMAR_UNITS: GrammarUnitMeta[] = [
         explainVi:
           'Rút gọn mệnh đề trạng ngữ bằng phân từ, cho văn viết súc tích:\n' +
           '• "Because he was tired, he left." → "Being tired, he left."\n' +
-          '• "After it was done, ..." → "Done, ...".\n' +
+          '• "Because it was written in a hurry, the letter had mistakes." → "Written in a hurry, the letter had mistakes."\n' +
           '• Cấu trúc TUYỆT ĐỐI giữ chủ ngữ riêng: "The sun having set, we went home."',
         examples: [
           ex('Not knowing the way, we asked for help.', 'Vì không biết đường, chúng tôi hỏi thăm.'),

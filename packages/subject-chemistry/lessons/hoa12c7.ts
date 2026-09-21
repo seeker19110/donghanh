@@ -22,14 +22,14 @@ export const HOA12_C7_LESSONS: ChemLesson[] = [
       'TÍNH CHẤT HOÁ HỌC (Tính khử cực kì mạnh, tăng dần từ Li đến Cs):\n' +
       '— Trong các phản ứng, chúng dễ dàng nhường 1e để đạt cấu hình khí hiếm bền vững, thể hiện số oxi hoá +1.\n' +
       '1. Tác dụng với nước: Phản ứng mãnh liệt ở nhiệt độ thường giải phóng khí H₂ và tạo dung dịch kiềm mạnh: 2M + 2H₂O → 2M⁺ + 2OH⁻ + H₂↑. Vì thế, kim loại kiềm phải được bảo quản bằng cách ngâm ngập trong dầu hoả khan.\n' +
-      '2. Tác dụng với phi kim: Bốc cháy trong khí chlorine, phản ứng mạnh với oxygen tạo oxit hoặc peroxide.\n\n' +
+      '2. Tác dụng với phi kim: Bốc cháy trong khí chlorine, phản ứng mạnh với oxygen tạo oxide hoặc peroxide.\n\n' +
       'MỘT SỐ HỢP CHẤT QUAN TRỌNG:\n' +
       '— NaOH (caustic soda): Chất rắn màu trắng, hút ẩm mạnh, kiềm mạnh dùng trong dệt nhuộm, xà phòng.\n' +
-      '— NaHCO₃ (baking soda): Chất bột trắng, dùng làm bột nở, thuốc đau dạ dày do thừa axit (phản ứng trung hoà nhẹ). Bị nhiệt phân huỷ: 2NaHCO₃ → Na₂CO₃ + CO₂↑ + H₂O (t°).\n' +
+      '— NaHCO₃ (baking soda): Chất bột trắng, dùng làm bột nở và làm thuốc chữa đau dạ dày do thừa acid (nó trung hoà bớt acid trong dạ dày). Bị nhiệt phân huỷ: 2NaHCO₃ → Na₂CO₃ + CO₂↑ + H₂O (t°).\n' +
       '— Na₂CO₃ (soda): Hoá chất cơ bản dùng sản xuất thuỷ tinh, bột giặt, giấy.',
     workedExample: {
       problem:
-        'Cho 4,6 gam kim loại Sodium (Na, M=23) phản ứng hoàn toàn với nước dư. ' +
+        'Cho 4,6 gam kim loại sodium (Na, M = 23) phản ứng hoàn toàn với nước dư. ' +
         'Tính thể tích khí H₂ thoát ra ở điều kiện chuẩn (25 °C, 1 bar, thể tích mol 24,79 L/mol).',
       steps: [
         'Tính số mol Na: n = 4,6 / 23 = 0,2 mol.',
@@ -47,15 +47,15 @@ export const HOA12_C7_LESSONS: ChemLesson[] = [
         choices: [
           { id: 'nuoc', label: 'Nước nguyên chất' },
           { id: 'dauhoa', label: 'Dầu hoả khan' },
-          { id: 'ruou', label: 'Cồn cồn ethanol' },
+          { id: 'ruou', label: 'Cồn (ethanol)' },
         ],
         answer: { kind: 'choice', correctIds: ['dauhoa'] },
         explain:
-          'Kim loại kiềm phản ứng mãnh liệt với nước và cả alcohol. Chúng không phản ứng với hydrocacbon trong dầu hoả nên được bảo quản bằng cách ngâm ngập trong dầu hoả.',
+          'Kim loại kiềm phản ứng mãnh liệt với nước và cả alcohol. Chúng không phản ứng với hydrocarbon trong dầu hoả, nên được bảo quản bằng cách ngâm ngập trong dầu hoả.',
       },
       {
         prompt:
-          'Khi đun nóng chất rắn sodium hydrogencarbonate (NaHCO₃), sản phẩm phân huỷ khí sinh ra là gì?',
+          'Đun nóng chất rắn sodium hydrogencarbonate (NaHCO₃) thì thu được khí nào?',
         choices: [
           { id: 'o2', label: 'Khí oxygen (O₂)' },
           { id: 'co2', label: 'Khí carbon dioxide (CO₂)' },
@@ -63,7 +63,7 @@ export const HOA12_C7_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['co2'] },
         explain:
-          'Phản ứng nhiệt phân baking soda giải phóng khí CO₂ và hơi nước: 2NaHCO₃ → Na₂CO₃ + CO₂↑ + H₂O.',
+          'Nhiệt phân baking soda cho ra khí CO₂ cùng hơi nước và chất rắn Na₂CO₃: 2NaHCO₃ → Na₂CO₃ + CO₂↑ + H₂O. Phản ứng này không sinh O₂ hay H₂ vì trong NaHCO₃ không có sẵn hai khí đó, chính khí CO₂ thoát ra mới làm bánh nở xốp.',
       },
     ],
     srsCards: [
@@ -77,7 +77,7 @@ export const HOA12_C7_LESSONS: ChemLesson[] = [
       },
       {
         hoi: 'Ứng dụng chính của NaHCO₃?',
-        dap: 'Làm bột nở (baking soda), thuốc chữa đau dạ dày do thừa axit.',
+        dap: 'Làm bột nở (baking soda) và thuốc chữa đau dạ dày do thừa acid.',
       },
     ],
     animation: {
@@ -620,8 +620,8 @@ export const HOA12_C7_LESSONS: ChemLesson[] = [
     lessonNumber: 25,
     title: 'Nguyên tố nhóm IIA',
     hook:
-      'Canxi (Calcium) cấu tạo nên bộ xương chắc khoẻ của chúng ta và kiến tạo nên những hang động đá vôi kỳ vĩ.' +
-      ' Các kim loại kiềm thổ này ẩn chứa nhiều quy luật hoá học lý thú.',
+      'Calcium (canxi) tạo nên bộ xương chắc khoẻ của chúng ta, và cũng chính nó tạc nên những hang động đá vôi kì vĩ.' +
+      ' Bài này tìm hiểu nhóm IIA — các kim loại kiềm thổ — cùng hiện tượng nước cứng rất quen thuộc trong đời sống.',
     theory:
       'VỊ TRÍ VÀ CẤU TẠO:\n' +
       '— Nhóm IIA (kim loại kiềm thổ) gồm: Beryllium (Be), Magnesium (Mg), Calcium (Ca), Strontium (Sr), Barium (Ba). Có 2 electron ở lớp ngoài cùng (ns²).\n\n' +
@@ -630,15 +630,15 @@ export const HOA12_C7_LESSONS: ChemLesson[] = [
       '— Phản ứng với nước: Be không phản ứng; Mg phản ứng rất chậm với nước nóng; Ca, Sr, Ba phản ứng mạnh với nước ở nhiệt độ thường tạo dung dịch base: Ca + 2H₂O → Ca(OH)₂ + H₂↑.\n\n' +
       'SỰ TẠO THÀNH THẠCH NHŨ HANG ĐỘNG:\n' +
       '— Giải thích bằng phản ứng thuận nghịch: CaCO₃ + CO₂ + H₂O ⇌ Ca(HCO₃)₂.\n' +
-      '   — Chiều thuận (đun nóng hoặc nhiều CO₂ trong nước mưa): Hoà tan đá vôi tạo hang động.\n' +
-      '   — Chiều nghịch (nhiệt độ giảm, áp suất CO₂ giảm): Kết tủa lại CaCO₃ tạo nên các măng đá, thạch nhũ lấp lánh.\n\n' +
+      '   — Chiều thuận (nước mưa hoà tan nhiều CO₂, nhiệt độ thấp): đá vôi CaCO₃ tan ra thành Ca(HCO₃)₂ tan được, lâu ngày khoét thành hang động.\n' +
+      '   — Chiều nghịch (nước nhỏ giọt trong hang, CO₂ thoát bớt ra không khí, nhiệt độ tăng): CaCO₃ kết tinh trở lại, tích tụ thành thạch nhũ và măng đá.\n\n' +
       'NƯỚC CỨNG (Hard Water):\n' +
       '— Định nghĩa: Là nước chứa nhiều ion Ca²⁺ và Mg²⁺ (nước chứa ít hoặc không chứa các ion này gọi là nước mềm).\n' +
       '— Phân loại:\n' +
-      '  1. Nước cứng tạm thời: Chứa các muối Ca(HCO₃)₂ và Mg(HCO₃)₂. Gọi là tạm thời vì có thể loại bỏ tính cứng đơn giản bằng cách đun sôi (muối hidrocacbonate bị nhiệt phân tạo kết tủa CaCO₃/MgCO₃).\n' +
+      '  1. Nước cứng tạm thời: Chứa các muối Ca(HCO₃)₂ và Mg(HCO₃)₂. Gọi là tạm thời vì có thể loại bỏ tính cứng đơn giản bằng cách đun sôi (muối hydrogencarbonate bị nhiệt phân tạo kết tủa CaCO₃, MgCO₃).\n' +
       '  2. Nước cứng vĩnh cửu: Chứa các ion Ca²⁺, Mg²⁺ cùng với các anion Cl⁻, SO₄²⁻. Đun sôi không làm mất tính cứng.\n' +
       '  3. Nước cứng toàn phần: Gồm cả tính cứng tạm thời và vĩnh cửu.\n' +
-      '— Phương pháp làm mềm nước cứng: Phương pháp kết tủa (dùng các chất kiềm vừa đủ hoặc Na₂CO₃, Na₃PO₄ để tạo kết tủa lọc bỏ) và Phương pháp trao đổi ion (dùng hạt nhựa zeolite thế ion Ca²⁺/Mg²⁺ bằng Na⁺/H⁺).',
+      '— Phương pháp làm mềm nước cứng: Phương pháp kết tủa (dùng các chất kiềm vừa đủ hoặc Na₂CO₃, Na₃PO₄ để tạo kết tủa lọc bỏ) và Phương pháp trao đổi ion (cho nước chảy qua hạt nhựa trao đổi ion hoặc zeolite, ở đó ion Ca²⁺, Mg²⁺ bị giữ lại và đổi chỗ cho Na⁺ hoặc H⁺).',
     workedExample: {
       problem:
         'Giải thích vì sao đun sôi nước có thể làm mềm nước cứng tạm thời, và viết phương trình minh hoạ.',
@@ -1148,12 +1148,12 @@ export const HOA12_C7_LESSONS: ChemLesson[] = [
     lessonNumber: 26,
     title: 'Ôn tập chương 7 — Nguyên tố nhóm IA và nhóm IIA',
     hook:
-      'Chương 7 đúc kết các thuộc tính hoá học của hai nhóm kim loại hoạt động mạnh mẽ nhất bảng tuần hoàn, ' +
-      'ứng dụng thực tế của kiềm và các kỹ thuật xử lý nước cứng trong đời sống.',
+      'Chương 7 nói về hai nhóm kim loại hoạt động mạnh nhất bảng tuần hoàn: nhóm IA và nhóm IIA. ' +
+      'Bài này ôn lại tính chất của chúng, các hợp chất quen thuộc và cách làm mềm nước cứng.',
     theory:
       'TỔNG KẾT KIẾN THỨC CHƯƠNG 7:\n' +
       '1. Kim loại kiềm (nhóm IA): Li, Na, K, Rb, Cs. Cấu hình ns¹. Hoạt tính cực mạnh, phản ứng mãnh liệt với nước tạo dung dịch kiềm mạnh và H₂. Bảo quản bằng cách ngâm dầu hoả. NaOH là kiềm mạnh; NaHCO₃ có tính lưỡng tính yếu, bị nhiệt phân giải phóng CO₂; Na₂CO₃ dùng làm mềm nước và sản xuất thuỷ tinh.\n' +
-      '2. Kim loại kiềm thổ (nhóm IIA): Be, Mg, Ca, Sr, Ba. Cấu hình ns². Be trơ với nước, Mg phản ứng nóng, Ca/Sr/Ba phản ứng nguội. Phản ứng xâm thực đá vôi và tạo thạch nhũ hang động là phản ứng thuận nghịch của hệ CaCO₃/Ca(HCO₃)₂.\n' +
+      '2. Kim loại kiềm thổ (nhóm IIA): Be, Mg, Ca, Sr, Ba. Cấu hình ns². Be không phản ứng với nước, Mg chỉ phản ứng chậm với nước nóng, còn Ca, Sr, Ba phản ứng ngay với nước ở nhiệt độ thường. Phản ứng xâm thực đá vôi và tạo thạch nhũ hang động là phản ứng thuận nghịch của hệ CaCO₃/Ca(HCO₃)₂.\n' +
       '3. Nước cứng: Chứa nhiều Ca²⁺, Mg²⁺. Tạm thời (chứa HCO₃⁻, đun sôi làm mềm được). Vĩnh cửu (chứa Cl⁻, SO₄²⁻, đun sôi không làm mềm được). Làm mềm bằng cách dùng kết tủa (Na₂CO₃, Na₃PO₄) hoặc dùng nhựa trao đổi ion.',
     workedExample: {
       problem:
@@ -1163,7 +1163,7 @@ export const HOA12_C7_LESSONS: ChemLesson[] = [
         'Viết phương trình phản ứng tạo kết tủa: Ca²⁺ + CO₃²⁻ → CaCO₃↓.',
         'Theo phương trình, số mol ion CO₃²⁻ cần dùng bằng số mol Ca²⁺ = 0,01 mol.',
         'Nguồn cung cấp CO₃²⁻ là muối Na₂CO₃, số mol Na₂CO₃ cần = 0,01 mol.',
-        'Tính khối lượng chất tan Na₂CO₃ (M=106) cần dùng: m = 0,01 * 106 = 1,06 gam.',
+        'Tính khối lượng chất tan Na₂CO₃ (M = 106) cần dùng: m = 0,01 * 106 = 1,06 gam.',
         'Tính khối lượng dung dịch Na₂CO₃ 10,6% cần dùng: m_dd = m * 100 / 10,6 = 1,06 * 100 / 10,6 = 10 gam.',
       ],
       answer: '10 gam',
@@ -1179,10 +1179,10 @@ export const HOA12_C7_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['ba'] },
         explain:
-          'Tính khử của kim loại kiềm thổ tăng dần từ Be đến Ba. Barium phản ứng mãnh liệt nhất với nước trong nhóm IIA ở nhiệt độ thường.',
+          'Tính khử của kim loại kiềm thổ tăng dần từ Be đến Ba, nên Ba phản ứng với nước mạnh nhất trong ba chất đã cho. Be không phản ứng với nước, còn Mg chỉ phản ứng chậm với nước nóng.',
       },
       {
-        prompt: 'Chất nào sau đây không thể dùng để làm mềm nước cứng tạm thời?',
+        prompt: 'Chất nào sau đây KHÔNG dùng được để làm mềm nước cứng tạm thời?',
         choices: [
           { id: 'na2co3', label: 'Na₂CO₃' },
           { id: 'hcl', label: 'HCl' },
@@ -1191,7 +1191,7 @@ export const HOA12_C7_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['hcl'] },
         explain:
-          'Axit HCl tác dụng với muối hydrogencarbonate giải phóng CO₂ nhưng không làm kết tủa ion Ca²⁺/Mg²⁺, ngược lại còn làm tăng nồng độ anion Cl⁻ trong nước, không làm mềm nước.',
+          'Acid HCl tác dụng với muối hydrogencarbonate giải phóng CO₂ nhưng không làm kết tủa ion Ca²⁺/Mg²⁺, ngược lại còn làm tăng nồng độ anion Cl⁻ trong nước, không làm mềm nước.',
       },
     ],
     srsCards: [

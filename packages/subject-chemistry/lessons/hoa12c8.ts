@@ -16,16 +16,16 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
       'Tất cả chúng đều là các kim loại chuyển tiếp nhóm d, nằm ở trung tâm bảng tuần hoàn.',
     theory:
       'VỊ TRÍ VÀ CẤU HÌNH ELECTRON NGUYÊN TỬ:\n' +
-      '— Kim loại chuyển tiếp d thuộc các nhóm từ IIIB đến IIIB (nhóm 3 đến 12 trong bảng tuần hoàn), nằm ở chu kì 4, 5, 6, 7.\n' +
-      '— Dãy chuyển tiếp thứ nhất nằm ở chu kì 4, từ Scandium (Sc, Z=21) đến Zinc (Zn, Z=30). Nguyên tử của chúng có cấu hình electron lớp ngoài cùng dạng (n−1)d¹⁻¹⁰ns².\n' +
-      '   * Ngoại lệ cấu hình bán bão hoà và bão hoà bền vững: Chromium (Cr, Z=24): [Ar]3d⁵4s¹; Copper (Cu, Z=29): [Ar]3d¹⁰4s¹.\n\n' +
+      '— Kim loại chuyển tiếp d thuộc các nhóm từ IIIB đến IIB (tức nhóm 3 đến nhóm 12 của bảng tuần hoàn), nằm ở các chu kì 4, 5, 6, 7.\n' +
+      '— Dãy chuyển tiếp thứ nhất nằm ở chu kì 4, từ Scandium (Sc, Z = 21) đến Zinc (Zn, Z = 30). Cấu hình electron hoá trị của chúng có dạng (n−1)d¹⁻¹⁰ns² (electron hoá trị nằm ở cả phân lớp d sát ngoài cùng lẫn phân lớp s ngoài cùng).\n' +
+      '   * Ngoại lệ cấu hình bán bão hoà và bão hoà bền vững: Chromium (Cr, Z = 24): [Ar]3d⁵4s¹; Copper (Cu, Z = 29): [Ar]3d¹⁰4s¹.\n\n' +
       'ĐẶC ĐIỂM TÍNH CHẤT VẬT LÍ:\n' +
-      '— Đều là kim loại. So với kim loại nhóm IA và IIA, kim loại chuyển tiếp d có nhiệt độ nóng chảy cao hơn, độ cứng lớn hơn, khối lượng riêng lớn hơn nhiều vì có sự tham gia liên kết của các electron lớp d.\n\n' +
+      '— Đều là kim loại. So với kim loại nhóm IA và IIA, kim loại chuyển tiếp d có nhiệt độ nóng chảy cao hơn, độ cứng lớn hơn, khối lượng riêng lớn hơn nhiều, vì các electron ở phân lớp d cũng tham gia vào liên kết kim loại.\n\n' +
       'ĐẶC ĐIỂM TÍNH CHẤT HOÁ HỌC:\n' +
       '1. Có nhiều trạng thái oxi hoá khác nhau trong các hợp chất (do các electron 3d có năng lượng gần với 4s, đều có thể tham gia liên kết). Ví dụ: Fe (+2, +3); Cu (+1, +2); Cr (+2, +3, +6); Mn (+2, +4, +6, +7).\n' +
       '2. Các hợp chất thường có màu sắc đặc trưng sinh động: dung dịch muối Cu²⁺ màu xanh lam; Fe³⁺ màu vàng nâu; Fe²⁺ màu xanh lục nhạt; ion MnO₄⁻ màu tím.',
     workedExample: {
-      problem: 'Viết cấu hình electron của nguyên tử Iron (sắt, Fe, Z=26) và cation Fe³⁺.',
+      problem: 'Viết cấu hình electron của nguyên tử Iron (sắt, Fe, Z = 26) và cation Fe³⁺.',
       steps: [
         'Nguyên tử Fe có Z = 26 electron. Viết phân bố electron theo mức năng lượng tăng dần: 1s²2s²2p⁶3s²3p⁶4s²3d⁶.',
         'Sắp xếp lại theo lớp electron để có cấu hình chính thức của Fe: [Ar] 3d⁶ 4s² (trong đó [Ar] viết tắt cho 1s²2s²2p⁶3s²3p⁶).',
@@ -37,7 +37,7 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
     checkQuestions: [
       {
         prompt:
-          'Cấu hình electron hoá trị của nguyên tử Copper (Cu, Z=29) ở trạng thái cơ bản là gì?',
+          'Cấu hình electron hoá trị của nguyên tử Copper (Cu, Z = 29) ở trạng thái cơ bản là gì?',
         choices: [
           { id: 'a', label: '[Ar] 3d⁹ 4s²' },
           { id: 'b', label: '[Ar] 3d¹⁰ 4s¹' },
@@ -45,7 +45,7 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['b'] },
         explain:
-          'Cấu hình electron của Cu là [Ar] 3d¹⁰ 4s¹ nhờ sự chuyển 1 electron từ 4s sang 3d để đạt trạng thái bão hoà 3d¹⁰ cực kì bền vững.',
+          'Theo thứ tự mức năng lượng, Cu lẽ ra là [Ar] 3d⁹ 4s². Nhưng một electron chuyển từ 4s sang 3d để phân lớp d đạt trạng thái bão hoà 3d¹⁰ bền vững hơn, nên cấu hình thật là [Ar] 3d¹⁰ 4s¹. Phương án còn lại sai vì Cu ở chu kì 4 chưa có electron ở phân lớp 4p.',
       },
       {
         prompt:
@@ -57,11 +57,12 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
           { id: 'zn2', label: 'Zn²⁺' },
         ],
         answer: { kind: 'choice', correctIds: ['cu2'] },
-        explain: 'Ion Cu²⁺ ngậm nước tạo phức chất aqua [Cu(H₂O)₆]²⁺ có màu xanh lam đặc trưng.',
+        explain:
+          'Trong nước, ion Cu²⁺ tạo phức chất với các phân tử nước, [Cu(H₂O)₆]²⁺, cho màu xanh lam đặc trưng. Ba ion kia màu khác hẳn: Fe³⁺ vàng nâu, Fe²⁺ xanh lục nhạt, còn Zn²⁺ không màu vì phân lớp 3d đã bão hoà.',
       },
     ],
     srsCards: [
-      { hoi: 'Cấu hình electron của Chromium (Z=24)?', dap: '[Ar] 3d⁵ 4s¹ (bán bão hoà).' },
+      { hoi: 'Cấu hình electron của Chromium (Z = 24)?', dap: '[Ar] 3d⁵ 4s¹ (bán bão hoà).' },
       {
         hoi: 'Tại sao kim loại chuyển tiếp d có nhiều số oxi hoá?',
         dap: 'Vì các electron ở phân lớp sát ngoài cùng (n−1)d có mức năng lượng gần với lớp ngoài cùng ns, dễ tham gia liên kết.',
@@ -1478,13 +1479,13 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
     lessonNumber: 29,
     title: 'Một số tính chất và ứng dụng của phức chất',
     hook:
-      'Nhỏ amoniac vào cốc dung dịch đồng sunfat màu xanh nhạt: lúc đầu kết tủa xuất hiện, ' +
-      'sau đó kết tủa tan rã ra tạo thành dung dịch màu xanh lam thẫm đẹp mắt. Phức chất đã làm thay đổi tính chất hoá học của đồng.',
+      'Nhỏ ammonia (amoniac) vào cốc dung dịch copper(II) sulfate CuSO₄ màu xanh nhạt: đầu tiên có kết tủa, ' +
+      'nhỏ thêm nữa thì kết tủa lại tan hết và dung dịch chuyển màu xanh lam thẫm. Sự tạo phức chất đã làm đổi hẳn tính tan của hợp chất đồng.',
     theory:
       'SỰ TẠO THÀNH PHỨC CHẤT TRONG DUNG DỊCH:\n' +
       '1. Phức chất của Copper (đồng):\n' +
       '   — Khi nhỏ dung dịch NH₃ từ từ vào dung dịch CuSO₄, ban đầu tạo kết tủa xanh nhạt Cu(OH)₂. Khi NH₃ dư, kết tủa tan tạo dung dịch phức chất màu xanh lam thẫm đặc trưng:\n' +
-      '     Cu(OH)₂↓ + 4NH₃ → [Cu(NH₃)₄]²⁺ + 2OH⁻ (dung dịch phức tetraammincopper(II)).\n' +
+      '     Cu(OH)₂↓ + 4NH₃ → [Cu(NH₃)₄]²⁺ + 2OH⁻ (phức chất tetraamminecopper(II)).\n' +
       '2. Phức chất của Silver (bạc):\n' +
       '   — Kết tủa AgCl màu trắng ít tan trong nước, nhưng tan dễ dàng trong dung dịch NH₃ dư nhờ tạo phức chất không màu diamminesilver(I):\n' +
       '     AgCl↓ + 2NH₃ → [Ag(NH₃)₂]⁺ + Cl⁻.\n\n' +
@@ -1496,10 +1497,10 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
       '— Xúc tác trong công nghiệp hoá chất.',
     workedExample: {
       problem:
-        'Giải thích vì sao kết tủa đồng(II) hydroxide Cu(OH)₂ màu xanh nhạt lại tan trong dung dịch amoniac dư.',
+        'Giải thích vì sao kết tủa copper(II) hydroxide Cu(OH)₂ màu xanh nhạt lại tan trong dung dịch ammonia dư.',
       steps: [
         'Cu(OH)₂ là chất rắn kết tủa ít tan trong nước.',
-        'Khi cho amoniac (NH₃) vào dung dịch, phân tử NH₃ có cặp electron tự do trên nguyên tử N nhường vào orbital trống của ion Cu²⁺.',
+        'Khi cho ammonia (NH₃) vào dung dịch, phân tử NH₃ có cặp electron tự do trên nguyên tử N nhường vào orbital trống của ion Cu²⁺.',
         'Phản ứng tạo phức chất [Cu(NH₃)₄]²⁺ tan tốt trong nước theo phương trình:\n  Cu(OH)₂↓ + 4NH₃ → [Cu(NH₃)₄]²⁺ + 2OH⁻.',
         'Nhờ sự hình thành cầu phức tan này, kết tủa xanh nhạt Cu(OH)₂ bị hoà tan hoàn toàn và dung dịch chuyển sang màu xanh lam thẫm.',
       ],
@@ -1508,7 +1509,7 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
     checkQuestions: [
       {
         prompt:
-          'Sự hoà tan kết tủa AgCl màu trắng bằng dung dịch amoniac (NH₃) dư sinh ra phức chất nào sau đây?',
+          'Hoà tan kết tủa AgCl màu trắng bằng dung dịch ammonia (NH₃) dư thì thu được phức chất nào sau đây?',
         choices: [
           { id: 'ag_nh3', label: '[Ag(NH₃)₂]⁺ (không màu)' },
           { id: 'cu_nh3', label: '[Cu(NH₃)₄]²⁺ (xanh thẫm)' },
@@ -1516,7 +1517,7 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['ag_nh3'] },
         explain:
-          'Silver chloride phản ứng với NH₃ tạo phức chất diamminesilver(I) tan tốt, không màu: AgCl + 2NH₃ → [Ag(NH₃)₂]⁺ + Cl⁻.',
+          'Silver chloride phản ứng với NH₃ tạo phức chất diamminesilver(I) tan tốt, không màu: AgCl + 2NH₃ → [Ag(NH₃)₂]⁺ + Cl⁻. Hai phương án kia là phức chất của đồng và của sắt, trong dung dịch này không có hai kim loại đó.',
       },
       {
         prompt:
@@ -2234,11 +2235,11 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
     lessonNumber: 30,
     title: 'Ôn tập chương 8 — Sơ lược về kim loại chuyển tiếp d và phức chất',
     hook:
-      'Chương 8 đúc kết cấu trúc phức tạp và thú vị của thế giới phức chất và kim loại chuyển tiếp d, ' +
-      'nền tảng của hoá vô cơ hiện đại.',
+      'Chương 8 giới thiệu các kim loại chuyển tiếp d và phức chất — hai nội dung giải thích vì sao dung dịch muối kim loại lại có nhiều màu đến thế. ' +
+      'Bài này ôn lại toàn bộ chương.',
     theory:
       'HỆ THỐNG HOÁ KIẾN THỨC CHƯƠNG 8:\n' +
-      '1. Kim loại chuyển tiếp d chu kì 4 (Sc đến Zn): cấu hình lớp ngoài (n−1)d¹⁻¹⁰ns². Cr ([Ar]3d⁵4s¹) và Cu ([Ar]3d¹⁰4s¹) cấu hình đặc biệt. Tính chất: độ cứng cao, nóng chảy cao, nhiều số oxi hoá, hợp chất có màu đặc trưng.\n' +
+      '1. Kim loại chuyển tiếp d chu kì 4 (Sc đến Zn): cấu hình electron hoá trị (n−1)d¹⁻¹⁰ns². Cr ([Ar]3d⁵4s¹) và Cu ([Ar]3d¹⁰4s¹) cấu hình đặc biệt. Tính chất: độ cứng cao, nóng chảy cao, nhiều số oxi hoá, hợp chất có màu đặc trưng.\n' +
       '2. Phức chất: Gồm ion trung tâm (cation d) liên kết phối trí với phối tử ligand (H₂O, NH₃, Cl⁻...). Số phối trí là số liên kết phối trí (2, 4, 6).\n' +
       '3. Sự tạo phức trong nước: Cu(OH)₂ tan trong NH₃ tạo [Cu(NH₃)₄]²⁺ màu xanh lam thẫm; AgCl tan trong NH₃ tạo [Ag(NH₃)₂]⁺ không màu.\n' +
       '4. Hằng số bền K_b càng lớn phức chất càng bền. Ứng dụng phân tích định lượng, giải độc kim loại y học (EDTA), chất xúc tác.',
@@ -2270,14 +2271,14 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['fe'] },
         explain:
-          'Iron (Fe, Z=26) thuộc nhóm VIIIB chu kì 4, thuộc dãy kim loại chuyển tiếp thứ nhất (nhóm d).',
+          'Iron (Fe, Z = 26) nằm ở nhóm VIIIB, chu kì 4, nên thuộc dãy kim loại chuyển tiếp thứ nhất. Sodium, calcium và aluminium đều là nguyên tố nhóm A (IA, IIA, IIIA), không phải kim loại chuyển tiếp.',
       },
     ],
     srsCards: [
-      { hoi: 'Màu của phức chất đồng - amoniac là màu gì?', dap: 'Xanh lam thẫm.' },
+      { hoi: 'Phức chất của đồng với ammonia có màu gì?', dap: 'Màu xanh lam thẫm, đó là phức [Cu(NH₃)₄]²⁺.' },
       {
         hoi: 'Phối tử là gì?',
-        dap: 'Là các phân tử hoặc anion có cặp electron tự do chưa liên kết để nhường phối trí với ion trung tâm.',
+        dap: 'Là phân tử hoặc anion còn cặp electron chưa liên kết, đem cho cặp electron đó vào orbital trống của ion trung tâm để tạo liên kết phối trí.',
       },
       { hoi: 'Số phối trí thường gặp trong phức chất?', dap: '2, 4, và 6.' },
     ],

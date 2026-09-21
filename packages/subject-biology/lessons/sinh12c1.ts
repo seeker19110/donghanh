@@ -9,7 +9,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
     chapterTitle: 'Cơ chế di truyền và biến dị',
     lessonNumber: 1,
     title: 'Gen, mã di truyền và nhân đôi ADN',
-    hook: 'Làm thế nào một tế bào ban đầu có thể nhân bản chính xác hàng tỷ nucleotit để truyền lại bản thiết kế sự sống cho các tế bào con? Đó là nhờ cơ chế nhân đôi ADN vô cùng chuẩn xác.',
+    hook: 'Làm thế nào một tế bào ban đầu có thể nhân bản chính xác hàng tỉ nucleotit để truyền lại bản thiết kế sự sống cho các tế bào con? Đó là nhờ cơ chế nhân đôi ADN vô cùng chuẩn xác.',
     theory:
       'CẤU TRÚC CỦA GEN:\n' +
       '— Gen là một đoạn của phân tử ADN mang thông tin mã hóa cho một sản phẩm nhất định (chuỗi polipeptit hoặc phân tử ARN).\n' +
@@ -17,7 +17,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
       '  + Sinh vật nhân sơ: Vùng mã hóa liên tục (gen không phân mảnh).\n' +
       '  + Sinh vật nhân thực: Vùng mã hóa không liên tục (gen phân mảnh), xen kẽ giữa các đoạn mã hóa axit amin (exon) là các đoạn không mã hóa (intron).\n\n' +
       'MÃ DI TRUYỀN (Genetic code):\n' +
-      '— Mã di truyền là mã bộ ba (codon trên mARN). Có 64 bộ ba, trong đó 61 bộ ba mã hóa cho khoảng 20 loại axit amin.\n' +
+      '— Mã di truyền là mã bộ ba (codon trên mARN). Có 64 bộ ba, trong đó 61 bộ ba mã hóa cho 20 loại axit amin.\n' +
       "— Bộ ba mở đầu: 5'-AUG-3' (mã hóa methionine ở nhân thực, formylmethionine ở nhân sơ).\n" +
       "— Ba bộ ba kết thúc: 5'-UAA-3', 5'-UAG-3', 5'-UGA-3' (không mã hóa axit amin).\n" +
       '— Đặc điểm mã di truyền:\n' +
@@ -76,7 +76,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: "Luôn tổng hợp mạch mới theo chiều 5' -> 3' (tương ứng trượt trên mạch khuôn theo chiều 3' -> 5').",
       },
       {
-        hoi: 'Thế nào là nguyên tắc bán bảo toàn (bán bảo đi) trong nhân đôi ADN?',
+        hoi: 'Thế nào là nguyên tắc bán bảo toàn (semiconservative) trong nhân đôi ADN?',
         dap: 'Trong mỗi phân tử ADN con được tạo ra, có một mạch là của ADN mẹ ban đầu và mạch còn lại được tổng hợp mới từ nguyên liệu môi trường.',
       },
     ],
@@ -346,7 +346,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
       problem:
         'Một gen cấu trúc ở sinh vật nhân sơ có vùng mã hóa chứa 1800 nucleotit tiến hành phiên mã tạo mARN. mARN này dịch mã tạo protein. Tính số bộ ba mã hóa trên mARN và số axit amin có trong phân tử protein cấu trúc hoàn chỉnh.',
       steps: [
-        'Tính số nucleotit trên mạch khuôn mARN: Số nu mARN = N / 2 = 1800 / 2 = 900 nucleotit.',
+        'Tính số nucleotit của mARN: mARN chỉ được phiên mã từ MỘT mạch của gen, nên số nu mARN = N / 2 = 1800 / 2 = 900 nucleotit.',
         'Tính số bộ ba mã hóa: Một bộ ba gồm 3 nu, nên số bộ ba = 900 / 3 = 300 bộ ba.',
         'Tính số axit amin trong chuỗi polipeptit hoàn chỉnh: Số aa = số bộ ba - 1 (bộ ba kết thúc không mã hóa aa) - 1 (axit amin mở đầu bị cắt bỏ sau dịch mã) = 300 - 2 = 298 axit amin.',
       ],
@@ -386,7 +386,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
       },
       {
         hoi: 'Tại sao ở sinh vật nhân thực, mARN sơ khai phải cắt bỏ intron trước khi dịch mã?',
-        dap: 'Vì intron là các đoạn không mang thông tin mã hóa axit amin; chỉ các exon (mạch mã hóa liên tục) mới được nối lại tạo mARN trưởng thành để dịch mã chính xác.',
+        dap: 'Vì intron là các đoạn không mang thông tin mã hóa axit amin; chỉ các exon (các đoạn mang thông tin mã hóa axit amin) mới được nối lại tạo mARN trưởng thành để dịch mã chính xác.',
       },
     ],
     animation: {
@@ -932,7 +932,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
       'KHÁI NIỆM ĐIỀU HÒA HOẠT ĐỘNG CỦA GEN:\n' +
       '— Là quá trình điều hòa lượng sản phẩm của gen (ARN hoặc protein) được tạo ra trong tế bào, giúp tế bào tiết kiệm năng lượng và thích nghi tốt với môi trường.\n\n' +
       'MÔ HÌNH OPERON LAC Ở VI KHUẨN E. COLI (Jacob và Monod phát hiện):\n' +
-      'Operon là cụm các gen cấu trúc có liên quan về chức năng nằm kề nhau, được phân bố chung một cơ chế điều hòa hoạt động.\n' +
+      'Operon là cụm các gen cấu trúc có liên quan về chức năng nằm kề nhau và chịu sự điều hòa chung của một cơ chế duy nhất.\n' +
       '— Cấu trúc Operon Lac gồm:\n' +
       '  + Vùng khởi động (P - promoter): nơi enzyme ARN polimerase liên kết để khởi đầu phiên mã.\n' +
       '  + Vùng vận hành (O - operator): vị trí tương tác của protein ức chế để ngăn cản phiên mã.\n' +
@@ -969,7 +969,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['op_1'] },
         explain:
-          'Vùng khởi động P là trình diện ADN đặc hiệu nơi ARN polimerase nhận biết và liên kết để bắt đầu trượt dọc operon thực hiện phiên mã.',
+          'Vùng khởi động P là trình tự ADN đặc hiệu, nơi ARN polimerase nhận biết và liên kết để bắt đầu trượt dọc operon thực hiện phiên mã.',
       },
       {
         prompt:
@@ -1401,11 +1401,11 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
       '— Alen đột biến: Trạng thái mới của gen sau khi bị đột biến. Thể đột biến là cá thể mang gen đột biến đã biểu hiện ra kiểu hình.\n\n' +
       'CÁC DẠNG ĐỘT BIẾN ĐIỂM CHÍNH:\n' +
       '1. Thay thế một cặp nucleotit (ví dụ thay A-T bằng G-C):\n' +
-      '   — Có thể làm thay đổi 1 axit amin trong chuỗi polipeptit (đột biến sai nghĩa), hoặc làm xuất hiện bộ ba kết thúc sớm (đột biến vô nghĩa), hoặc không đổi axit amin do tính thoái hóa (đột biến đồng nghĩa/im lặng).\n' +
+      '   — Có thể làm thay đổi 1 axit amin trong chuỗi polipeptit (đột biến nhầm nghĩa, còn gọi là sai nghĩa), hoặc làm xuất hiện bộ ba kết thúc sớm (đột biến vô nghĩa), hoặc không đổi axit amin do tính thoái hóa (đột biến đồng nghĩa/im lặng).\n' +
       '2. Mất một cặp nucleotit hoặc Thêm một cặp nucleotit:\n' +
       '   — Gây ra hiện tượng dịch khung đọc mã di truyền (frameshift) kể từ điểm xảy ra đột biến, làm thay đổi toàn bộ trình tự axit amin phía sau, thường làm hỏng chức năng protein.\n\n' +
       'NGUYÊN NHÂN VÀ CƠ CHẾ PHÁT SINH:\n' +
-      '— Nguyên nhân: Tác nhân vật lý (tia tử ngoại UV, tia phóng xạ), tác nhân hóa học (5-bromuracil 5-BU gây thay thế A-T thành G-C), hoặc các tác nhân sinh học (virus) và sự rối loạn tự nhiên trong nhân đôi ADN.\n\n' +
+      '— Nguyên nhân: Tác nhân vật lý (tia tử ngoại UV, tia phóng xạ), tác nhân hóa học (5-bromuracil, viết tắt 5-BU, gây thay thế cặp A-T bằng cặp G-C), hoặc các tác nhân sinh học (virus) và sự rối loạn tự nhiên trong nhân đôi ADN.\n\n' +
       'VAI TRÒ VÀ Ý NGHĨA:\n' +
       '— Đối với tiến hóa: Đột biến gen là nguồn nguyên liệu sơ cấp chủ yếu cung cấp các alen mới cho quá trình chọn lọc tự nhiên.\n' +
       '— Đối với thực tiễn: Tạo ra các đột biến có lợi ở thực vật để chọn giống.',
@@ -1413,9 +1413,9 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
       problem:
         'Một gen cấu trúc có chiều dài 5100 Å có số liên kết hydrogen là 3900. Sau khi bị đột biến điểm dạng thay thế một cặp nucleotit, gen đột biến có 3901 liên kết hydrogen. Xác định số lượng từng loại nucleotit của gen ban đầu và gen đột biến.',
       steps: [
-        'Tính tổng số nucleotit của gen (N): N = (2 × L) / 3.4 = (2 × 5100) / 3.4 = 3000 nucleotit.',
+        'Tính tổng số nucleotit của gen (N): N = (2 × L) / 3,4 = (2 × 5100) / 3,4 = 3000 nucleotit.',
         'Tính số nu từng loại của gen ban đầu: Ta có hệ phương trình: 2A + 2G = 3000 và 2A + 3G = 3900. Giải hệ thu được: G = C = 900; A = T = 1500 - 900 = 600 nucleotit.',
-        'Xác định dạng đột biến điểm: Gen đột biến tăng 1 liên kết hydro (từ 3900 lên 3901) do thay thế 1 cặp nucleotit. Vì cặp G-X có 3 liên kết hydro, cặp A-T có 2 liên kết hydro, đột biến làm tăng 1 liên kết hydro chính là thay thế 1 cặp A-T bằng 1 cặp G-X.',
+        'Xác định dạng đột biến điểm: Gen đột biến tăng 1 liên kết hydro (từ 3900 lên 3901) do thay thế 1 cặp nucleotit. Vì cặp G-C có 3 liên kết hydro còn cặp A-T chỉ có 2, nên đột biến làm tăng đúng 1 liên kết hydro chính là thay thế 1 cặp A-T bằng 1 cặp G-C.',
         'Tính số nu từng loại của gen đột biến: A_đb = T_đb = 600 - 1 = 599 nucleotit; G_đb = C_đb = 900 + 1 = 901 nucleotit.',
       ],
       answer: 'Gen ban đầu: A=T=600, G=C=900; Gen đột biến: A=T=599, G=C=901.',
@@ -1432,7 +1432,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['bu_1'] },
         explain:
-          '5-BU là chất đồng đẳng của thymine, khi xen vào mạch ADN sẽ gây bắt cặp nhầm lẫn dẫn đến thay thế cặp A-T bằng G-X sau 3 lần nhân đôi.',
+          '5-BU là chất đồng đẳng của thymine, khi xen vào mạch ADN sẽ gây bắt cặp nhầm lẫn dẫn đến thay thế cặp A-T bằng cặp G-C sau 3 lần nhân đôi.',
       },
       {
         prompt:
@@ -1701,12 +1701,12 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
     theory:
       'CẤU TRÚC SIÊU VI THỂ CỦA NHIỄM SẮC THỂ (ở nhân thực):\n' +
       '— Sợi nhiễm sắc cấu tạo từ chất nhiễm sắc (ADN quấn quanh các hạt protein histone tạo nucleosome).\n' +
-      '— Mỗi nucleosome gồm 8 phân tử protein histone được quấn quanh bởi 1.75 vòng ADN (khoảng 146 cặp nucleotit).\n' +
+      '— Mỗi nucleosome gồm 8 phân tử protein histone được quấn quanh bởi 1,75 vòng ADN (khoảng 146 cặp nucleotit).\n' +
       '— Các cấp độ co xoắn của NST:\n  + Sợi cơ bản (đường kính 11 nm) → Sợi nhiễm sắc (30 nm) → Sợi siêu xoắn (300 nm) → Cromatid (700 nm) → NST ở kì giữa co xoắn cực đại (1400 nm).\n\n' +
       'CÁC DẠNG ĐỘT BIẾN CẤU TRÚC NHIỄM SẮC THỂ:\n' +
       'Là những biến đổi trong cấu trúc của NST, gồm 4 dạng chính:\n' +
-      '1. Mất đoạn (Deletion): Một đoạn NST bị đứt ra và mất đi.\n   — Hậu quả: Làm giảm số lượng gen trên NST, thường gây chết hoặc giảm sức sống (ở người, mất đoạn vai ngắn NST số 5 gây hội chứng tiếng mèo kêu, mất đoạn NST số 21 gây ung thư máu).\n' +
-      '2. Lặp đoạn (Duplication): Một đoạn NST được lặp lại một hay nhiều lần.\n   — Hậu quả: Làm tăng số lượng bản sao của gen, tăng cường hoặc giảm biểu hiện tính trạng (ở lúa mì, lặp đoạn enzym amilase làm tăng hoạt tính phân giải tinh bột tốt cho sản xuất bia).\n' +
+      '1. Mất đoạn (Deletion): Một đoạn NST bị đứt ra và mất đi.\n   — Hậu quả: Làm giảm số lượng gen trên NST, thường gây chết hoặc giảm sức sống (ở người, mất đoạn vai ngắn NST số 5 gây hội chứng tiếng mèo kêu, mất đoạn NST số 22 gây ung thư máu ác tính).\n' +
+      '2. Lặp đoạn (Duplication): Một đoạn NST được lặp lại một hay nhiều lần.\n   — Hậu quả: Làm tăng số lượng bản sao của gen, tăng cường hoặc giảm biểu hiện tính trạng (ở đại mạch, lặp đoạn gen mã hóa enzyme amylase làm tăng hoạt tính phân giải tinh bột, có lợi cho sản xuất bia).\n' +
       '3. Đảo đoạn (Inversion): Một đoạn NST bị đứt ra, quay 180 độ rồi gắn lại vào vị trí cũ.\n   — Hậu quả: Không làm thay đổi số lượng gen, chỉ thay đổi trật tự sắp xếp của gen trên NST, ít ảnh hưởng sức sống, tạo sự đa dạng giữa các nòi trong loài.\n' +
       '4. Chuyển đoạn (Translocation): Sự trao đổi đoạn giữa các NST không tương đồng (chuyển đoạn tương hỗ, không tương hỗ) hoặc chuyển đoạn trên cùng một NST.\n   — Hậu quả: Thay đổi nhóm gen liên kết, thường gây giảm khả năng sinh sản (thừa hoặc thiếu gen ở giao tử con).',
     workedExample: {
@@ -2213,7 +2213,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         dap: 'Lệch bội là biến đổi số lượng NST xảy ra ở một hoặc một số cặp tương đồng. Đa bội là biến đổi xảy ra ở toàn bộ các cặp NST trong tế bào.',
       },
       {
-        hoi: 'Thế song nhị bội (allodiploid) là gì và hình thành như thế nào?',
+        hoi: 'Thể song nhị bội (amphidiploid) là gì và hình thành như thế nào?',
         dap: 'Là thể dị đa bội mang bộ NST lưỡng bội của hai loài khác nhau (2n_A + 2n_B), được hình thành bằng con đường lai xa kết hợp đa bội hóa.',
       },
     ],
@@ -2297,7 +2297,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
     chapterTitle: 'Tính quy luật của hiện tượng di truyền',
     lessonNumber: 8,
     title: 'Học thuyết di truyền của Mendel',
-    hook: 'Gregor Mendel đã lai hàng vạn cây đậu hà lan trong vườn tu viện để tìm ra những quy luật toán học thống trị sự di truyền tính trạng—nền móng cho toàn bộ ngành Di truyền học hiện đại.',
+    hook: 'Gregor Mendel đã lai hàng vạn cây đậu Hà Lan trong vườn tu viện để tìm ra những quy luật toán học chi phối sự di truyền tính trạng — nền móng cho toàn bộ ngành Di truyền học hiện đại.',
     theory:
       'PHƯƠNG PHÁP NGHIÊN CỨU CỦA MENDEL:\n' +
       '— Phương pháp phân tích các thế hệ lai (độc đáo):\n  1. Chọn đối tượng nghiên cứu thuần chủng, tự thụ phấn nghiêm ngặt và có các cặp tính trạng tương phản rõ rệt (đậu Hà Lan).\n  2. Lai các cặp bố mẹ thuần chủng khác nhau về một hoặc một số cặp tính trạng rồi theo dõi F₁, F₂ và F₃.\n  3. Sử dụng toán thống kê để phân tích số liệu thu được, từ đó rút ra quy luật di truyền.\n\n' +
@@ -2314,7 +2314,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         'Tách riêng từng cặp gen để lai: Phép lai tương đương (Aa × Aa) và (Bb × bb).',
         'Xét cặp 1 (Aa × Aa): Đời con có tỉ lệ kiểu gen là 1/4 AA : 2/4 Aa : 1/4 aa (tỉ lệ 1:2:1); tỉ lệ kiểu hình là 3/4 vàng : 1/4 xanh (tỉ lệ 3:1).',
         'Xét cặp 2 (Bb × bb): Đây là phép lai phân tích, đời con có tỉ lệ kiểu gen là 1/2 Bb : 1/2 bb (tỉ lệ 1:1); tỉ lệ kiểu hình là 1/2 trơn : 1/2 nhăn (tỉ lệ 1:1).',
-        'Nhân tổ hợp kết quả của 2 cặp gen (vì chúng phân li độc lập):\n  + Tỉ lệ kiểu gen: (1 AA : 2 Aa : 1 aa) × (1 Bb : 1 bb) = 1 AABb : 1 Aabb : 2 AaBb : 2 Aabb : 1 aaBb : 1 aabb.\n  + Tỉ lệ kiểu hình: (3 vàng : 1 xanh) × (1 trơn : 1 nhăn) = 3 vàng, trơn : 3 vàng, nhăn : 1 xanh, trơn : 1 xanh, nhăn.',
+        'Nhân tổ hợp kết quả của 2 cặp gen (vì chúng phân li độc lập):\n  + Tỉ lệ kiểu gen: (1 AA : 2 Aa : 1 aa) × (1 Bb : 1 bb) = 1 AABb : 1 AAbb : 2 AaBb : 2 Aabb : 1 aaBb : 1 aabb.\n  + Tỉ lệ kiểu hình: (3 vàng : 1 xanh) × (1 trơn : 1 nhăn) = 3 vàng, trơn : 3 vàng, nhăn : 1 xanh, trơn : 1 xanh, nhăn.',
       ],
       answer:
         'Tỉ lệ kiểu gen: 1:1:2:2:1:1; Tỉ lệ kiểu hình: 3 vàng, trơn : 3 vàng, nhăn : 1 xanh, trơn : 1 xanh, nhăn.',
@@ -2844,7 +2844,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
       'TƯƠNG TÁC GEN (Gene interaction):\n' +
       'Là sự tác động qua lại giữa các gen không alen (nằm ở các lôcut khác nhau) trong quá trình hình thành kiểu hình tính trạng.\n' +
       '1. Tương tác bổ trợ (Complementary interaction):\n' +
-      '   — Hai hay nhiều gen không alen cùng có mặt sẽ tương tác biểu hiện kiểu hình mới khác biệt.\n   — Ví dụ lai hoa dẹt ở bí F₂ phân li tỉ lệ: 9 dẹt : 6 tròn : 1 dài (tương tác bổ trợ 9:6:1), hoặc ở hoa màu F₂: 9 đỏ : 7 trắng (tương tác bổ trợ 9:7).\n' +
+      '   — Hai hay nhiều gen không alen cùng có mặt sẽ tương tác biểu hiện kiểu hình mới khác biệt.\n   — Ví dụ: lai bí cho quả dẹt, F₂ phân li 9 quả dẹt : 6 quả tròn : 1 quả dài (tương tác bổ trợ 9:6:1); hoặc lai hoa, F₂ phân li 9 hoa đỏ : 7 hoa trắng (tương tác bổ trợ 9:7).\n' +
       '2. Tương tác cộng gộp (Cumulative interaction):\n' +
       '   — Mỗi alen trội (của bất kỳ locus nào tham gia) đóng góp một lượng ngang nhau vào sự gia tăng biểu hiện của kiểu hình tính trạng.\n   — Thường gặp ở các tính trạng số lượng (màu da người, năng suất sữa, chiều cao). Ví dụ: da người do 3 cặp gen tương tác cộng gộp quy định.\n\n' +
       'TÁC ĐỘNG ĐA HIỆU CỦA GEN (Pleiotropy):\n' +
@@ -2873,7 +2873,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['tt_1'] },
         explain:
-          'Cá thể dị hợp AaBb lai phân tích với aabb tạo ra tỉ lệ kiểu gen 1 AaBb (đỏ) : 1 Aabb (trắng) : 1 aaBb (trắng) : 1 aabb (trắng), thu được tỉ lệ kiểu hình là 1 đỏ : 3 trắng (1 trội : 3 lặn).',
+          'Cá thể dị hợp AaBb lai phân tích với aabb tạo ra tỉ lệ kiểu gen 1 AaBb (đỏ) : 1 Aabb (trắng) : 1 aaBb (trắng) : 1 aabb (trắng), thu được tỉ lệ kiểu hình là 1 đỏ : 3 trắng — vì chỉ AaBb mới có đủ cả A trội lẫn B trội để tạo sắc tố, ba tổ hợp còn lại đều thiếu ít nhất một trong hai.',
       },
       {
         prompt:
@@ -2892,7 +2892,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
     srsCards: [
       {
         hoi: 'Thế nào là tương tác cộng gộp?',
-        dap: 'Là kiểu tương tác gen trong đó mỗi alen trội của các locus khác nhau đóng góp một lượng đóng góp ngang nhau vào mức độ biểu hiện kiểu hình của tính trạng.',
+        dap: 'Là kiểu tương tác gen trong đó mỗi alen trội của các locus khác nhau đóng góp một lượng ngang nhau vào mức độ biểu hiện kiểu hình của tính trạng.',
       },
       {
         hoi: 'Nêu ví dụ về tác động đa hiệu của gen ở người?',
@@ -2909,7 +2909,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
     chapterTitle: 'Tính quy luật của hiện tượng di truyền',
     lessonNumber: 10,
     title: 'Liên kết gen và hoán vị gen',
-    hook: 'Thomas Morgan đã thí nghiệm lai ruồi giấm để phát hiện ra rằng các gen không luôn phân li độc lập—chúng có thể đi cùng nhau trên một nhiễm sắc thể, hoặc đôi khi hoán đổi vị trí cho nhau qua hiện tượng hoán vị.',
+    hook: 'Thomas Morgan đã thí nghiệm lai ruồi giấm để phát hiện ra rằng các gen không phải lúc nào cũng phân li độc lập — chúng có thể đi cùng nhau trên một nhiễm sắc thể, hoặc đôi khi hoán đổi vị trí cho nhau qua hiện tượng hoán vị.',
     theory:
       'LIÊN KẾT GEN HOÀN TOÀN (Morgan phát hiện ở ruồi giấm):\n' +
       '— Khái niệm: Các gen nằm trên cùng một nhiễm sắc thể di truyền cùng nhau tạo thành một nhóm gen liên kết (số nhóm gen liên kết của loài bằng số NST đơn bội n của loài đó).\n' +

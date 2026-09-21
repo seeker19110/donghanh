@@ -160,7 +160,7 @@ export const APPLIED_KNOWLEDGE_DATABASE: AppliedConcept[] = [
     theorySummary:
       'Công thức pha loãng: $C_1 \\cdot V_1 = C_2 \\cdot V_2$. Nồng độ phần trăm: $C\\% = \\frac{m_{ct}}{m_{dd}} \\cdot 100\\%$.',
     intuitivePrinciple:
-      'Cồn 90° bay hơi quá nhanh và làm đông cứng ngay lập tức lớp vỏ protein bên ngoài của vi khuẩn, vô tình tạo thành một "chiếc khiên" bảo vệ phần lõi bên trong. Cồn 70° có đủ nước để ngấm sâu vào ruột vi khuẩn và tiêu diệt hoàn toàn.',
+      'Cồn 90° bay hơi quá nhanh và làm đông cứng ngay lập tức lớp vỏ protein bên ngoài của vi khuẩn, vô tình tạo thành một "chiếc khiên" bảo vệ phần lõi bên trong. Cồn 70° có đủ nước để thấm sâu vào bên trong tế bào vi khuẩn và tiêu diệt hoàn toàn.',
     realWorldProblem:
       'Trong đợt dịch hoặc khi khử trùng vết thương, bạn chỉ có 1 chai cồn 90° 500ml. Cần thêm bao nhiêu ml nước đun sôi để nguội để biến nó thành cồn 70° chuẩn y tế?',
     industryCareerApp:
@@ -169,7 +169,7 @@ export const APPLIED_KNOWLEDGE_DATABASE: AppliedConcept[] = [
       title: 'Công thức pha chế nước rửa tay khô chuẩn WHO tại nhà',
       duration: '15 phút',
       steps: [
-        'Sử dụng công thức bảo toàn thể tích để tính lượng cồn 96° cần lấy.',
+        'Dùng công thức pha loãng $C_1 \\cdot V_1 = C_2 \\cdot V_2$ để tính lượng cồn 96° cần lấy.',
         'Tính toán lượng Glycerin (dưỡng ẩm) và Oxi già $H_2O_2$ (diệt bào tử vi khuẩn).',
         'Ghi chú nhãn dán an toàn và bảo quản tránh xa nguồn lửa.',
       ],
@@ -256,7 +256,7 @@ export const APPLIED_KNOWLEDGE_DATABASE: AppliedConcept[] = [
       steps: [
         'Nhập mức lương thỏa thuận 12 triệu, 20 triệu, 30 triệu vào bảng phân tích.',
         'Bóc tách 8% BHXH, 1.5% BHYT, 1% BHTN của người lao động.',
-        'Tính mức giảm trừ gia cảnh (11 triệu cho bản thân) để xem có phải đóng thuế TNCN không.',
+        'Tính mức giảm trừ gia cảnh (15,5 triệu/tháng cho bản thân, 6,2 triệu cho mỗi người phụ thuộc) để xem có phải đóng thuế TNCN không.',
       ],
       deliverable: 'Bản phân tích tài chính trước khi đặt bút ký hợp đồng thử việc.',
     },

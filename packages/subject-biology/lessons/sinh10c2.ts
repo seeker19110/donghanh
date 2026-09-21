@@ -1581,7 +1581,7 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
       steps: [
         'Giai đoạn Tiếp nhận: Phân tử adrenaline (ligand) gắn vào thụ thể beta-adrenergic đặc hiệu trên màng tế bào cơ tim.',
         'Giai đoạn Chuyển đổi: Thụ thể thay đổi hình dạng, hoạt hoá G-protein. G-protein hoạt hoá enzyme adenylyl cyclase, enzyme này xúc tác tổng hợp cAMP (second messenger) từ ATP. cAMP khuếch đại tín hiệu bằng cách hoạt hoá protein kinase A.',
-        'Giai đoạn Đáp ứng: Protein kinase A phosphoryl hoá các protein điều tiết tim (ví dụ điều tiết kênh canxi), kết quả là tăng lực co và nhịp tim.',
+        'Giai đoạn Đáp ứng: Protein kinase A phosphoryl hoá các protein điều tiết tim (ví dụ điều tiết kênh calcium), kết quả là tăng lực co và nhịp tim.',
       ],
       answer:
         'Adrenaline gắn thụ thể bề mặt → G-protein → cAMP (second messenger) → kinase A → tăng lực co và nhịp tim.',
@@ -1600,7 +1600,7 @@ export const SINH10_C2_LESSONS: BiologyLesson[] = [
           correctIds: ['tt_1'],
         },
         explain:
-          'Ba giai đoạn của truyền tin tế bào theo thứ tự: Tiếp nhận -> Chuyển đổi -> Đáp ứng.',
+          'Ba giai đoạn của truyền tin tế bào luôn đi theo thứ tự: Tiếp nhận -> Chuyển đổi -> Đáp ứng. Đáp ứng đứng cuối vì tế bào chỉ đổi hoạt động sau khi đã nhận được tín hiệu và truyền xong tín hiệu đó vào bên trong.',
       },
       {
         prompt: 'Hormone steroid (ví dụ testosterone) có thể gắn với thụ thể ở đâu và điều hoà gì?',

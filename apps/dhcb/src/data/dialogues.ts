@@ -1678,7 +1678,11 @@ export const DIALOGUES: Record<string, Dialogue[]> = {
         d('A', 'What would have happened then?', 'Thế thì chuyện gì đã có thể xảy ra?'),
         d('B', 'If I had studied, I would have passed.', 'Nếu tôi đã học, tôi đã đậu rồi.'),
         d('A', 'You still did well in the end.', 'Cuối cùng bạn vẫn làm tốt mà.'),
-        d('B', "True, but I'd have saved a year.", 'Đúng, nhưng tôi đã có thể tiết kiệm được một năm.'),
+        d(
+          'B',
+          "True, but I'd have saved a year.",
+          'Đúng, nhưng tôi đã có thể tiết kiệm được một năm.',
+        ),
         d(
           'A',
           'I regret not learning English earlier.',
@@ -3162,7 +3166,7 @@ export const DIALOGUES: Record<string, Dialogue[]> = {
         d('B', 'Of course! What time?', 'Dĩ nhiên! Mấy giờ?'),
         d('A', 'Around seven in the evening.', 'Khoảng bảy giờ tối.'),
         d('B', 'Should I bring anything?', 'Tôi có cần mang gì không?'),
-        d('A', 'Just yourself and good mood.', 'Chỉ cần bạn và tâm trạng vui.'),
+        d('A', 'Just yourself and a good mood.', 'Chỉ cần bạn đến với tâm trạng vui vẻ.'),
         d('B', 'Who else is coming?', 'Còn ai đến nữa?'),
         d('A', 'Some friends from work.', 'Vài người bạn ở công ty.'),
         d('B', 'Will there be food?', 'Có đồ ăn không?'),
@@ -3433,7 +3437,7 @@ export const DIALOGUES: Record<string, Dialogue[]> = {
         d('A', 'Where would you like to go?', 'Bạn muốn đi đâu?'),
         d('B', 'To the airport, please.', 'Đến sân bay ạ.'),
         d('A', 'Which terminal?', 'Nhà ga số mấy?'),
-        d('B', 'Terminal one.', 'Nhà ga một.'),
+        d('B', 'Terminal one.', 'Nhà ga số một.'),
         d('A', 'Do you have luggage?', 'Bạn có hành lý không?'),
         d('B', 'Yes, two suitcases.', 'Có, hai cái va li.'),
         d('A', 'I will put them in the trunk.', 'Tôi sẽ để vào cốp.'),
@@ -3525,7 +3529,7 @@ export const DIALOGUES: Record<string, Dialogue[]> = {
       'Tìm hiểu về công việc',
       'Asking about a job',
       [
-        d('A', 'What do you do for a living?', 'Bạn làm nghề gì để sống?'),
+        d('A', 'What do you do for a living?', 'Bạn làm nghề gì?'),
         d('B', 'I am a software engineer.', 'Tôi là kỹ sư phần mềm.'),
         d('A', 'Where do you work?', 'Bạn làm việc ở đâu?'),
         d('B', 'At a tech company downtown.', 'Ở một công ty công nghệ trong trung tâm.'),
@@ -3727,7 +3731,7 @@ export const DIALOGUES: Record<string, Dialogue[]> = {
         d('B', 'She really is.', 'Đúng là vậy.'),
         d('A', 'What do you do together?', 'Hai bạn làm gì cùng nhau?'),
         d('B', 'We travel and cook a lot.', 'Chúng tôi đi du lịch và nấu ăn nhiều.'),
-        d('A', 'True friends are rare.', 'Bạn thật sự rất hiếm.'),
+        d('A', 'True friends are rare.', 'Bạn tốt thật sự rất hiếm.'),
         d('B', 'I am lucky to have her.', 'Tôi may mắn có cô ấy.'),
         d('A', 'I would love to meet her.', 'Tôi rất muốn gặp cô ấy.'),
         d('B', 'I will introduce you soon.', 'Tôi sẽ giới thiệu sớm.'),
@@ -4185,8 +4189,8 @@ export const DIALOGUES: Record<string, Dialogue[]> = {
         d('A', "I'm glad you're okay now.", 'Tôi mừng vì giờ bạn ổn rồi.'),
         d(
           'B',
-          'Thanks. I had learned an important lesson.',
-          'Cảm ơn. Tôi đã học được một bài học quan trọng.',
+          'Thanks. By then I had learned an important lesson.',
+          'Cảm ơn. Đến lúc đó tôi đã học được một bài học quan trọng.',
         ),
       ],
       sp('Thanh', 'Thanh'),
@@ -4402,7 +4406,7 @@ export const DIALOGUES: Record<string, Dialogue[]> = {
         d(
           'B',
           'Absolutely. The challenges you mentioned are exactly the ones I enjoy.',
-          'Chắc chắn rồi. Những thử thách anh nêu đúng là điều tôi thích.',
+          'Chắc chắn rồi. Những thử thách chị vừa nêu đúng là điều tôi thích.',
         ),
         d(
           'A',
@@ -4627,7 +4631,7 @@ export const DIALOGUES: Record<string, Dialogue[]> = {
           'It is essential that you take the medicine on time.',
           'Điều cốt yếu là bạn uống thuốc đúng giờ.',
         ),
-        d('A', 'I wish I had seen him earlier.', 'Ước gì tôi đi khám sớm hơn.'),
+        d('A', 'I wish I had seen him earlier.', 'Ước gì tôi đã đi khám sớm hơn.'),
         d(
           'B',
           'He insisted that you not skip any appointment.',
@@ -4737,7 +4741,7 @@ export const DIALOGUES: Record<string, Dialogue[]> = {
         d(
           'A',
           'Our decision to retest everything paid off.',
-          'Quyết định kiểm tra lại mọi thứ của chúng ta rất đáng.',
+          'Quyết định kiểm tra lại mọi thứ của chúng ta đã được đền đáp.',
         ),
         d(
           'B',

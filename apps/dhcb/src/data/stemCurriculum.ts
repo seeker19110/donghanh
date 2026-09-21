@@ -1010,7 +1010,7 @@ export const STEM_CURRICULUM: Record<string, StemGradeCurriculum[]> = {
             {
               id: 'b11_p1',
               title: 'Ý nghĩa của hệ sắc tố quang hợp',
-              prompt: 'Vì sao lá cây đa số có màu xanh lục?',
+              prompt: 'Vì sao phần lớn lá cây có màu xanh lục?',
               difficulty: 'basic',
               solutionSteps: [
                 {

@@ -2737,7 +2737,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
           correctIds: ['k_1'],
         },
         explain:
-          'Khi k = 1, số neutron kích thích phân hạch được duy trì ổn định, công suất phát ra không đổi và có kiểm soát.',
+          'Khi k = 1, số neutron gây phân hạch được duy trì ổn định, nên công suất của lò không đổi và luôn trong tầm kiểm soát.',
       },
     ],
     srsCards: [
