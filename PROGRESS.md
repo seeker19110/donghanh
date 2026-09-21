@@ -921,10 +921,6 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 
 ## Nợ kỹ thuật còn mở
 
-- 🟡 **[2026-09-20 — PR #1064, `docs/changelog/0390-*.md`] `apps/dhcb/src/components/PageHeader.tsx`
-  không còn nơi nào gọi thật sau khi ~57 trang chuyển tiêu đề lên `Layout` — CHƯA XOÁ.** Giữ lại
-  có chủ đích (ngoài phạm vi yêu cầu ban đầu); xoá component + test kèm theo khi có việc khác
-  chạm tới khu vực này, hoặc dọn riêng một đợt nhỏ.
 - 🟡 **[2026-09-20 — PR #1061, `docs/changelog/0388-*.md`] Sửa tương phản theme blue-sky
   (CompanionVoice + StudioDialogue) — CHƯA chụp ảnh Tầng 8b.** Audit + sửa xong 2 lỗi: (1) 6 file
   `CompanionVoice/*` dùng nền cố định `bg-slate-900/90` + chữ `theme-light:` tối → tương phản đo
