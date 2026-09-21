@@ -42,9 +42,11 @@ describe('cầu nối chặng chuyên sâu → unit bài học', () => {
     expect(specHasLessons('embedded')).toBe(false)
   })
 
-  it('game-s1 và game-s2 phủ đủ bốn module mỗi chặng bằng unit thật', () => {
+  it('game-s1 tới game-s4 phủ đủ bốn module mỗi chặng bằng unit thật', () => {
     expect(unitsOfStage('game-s1')).toEqual(['p6-u242', 'p6-u243', 'p6-u244', 'p6-u245'])
     expect(unitsOfStage('game-s2')).toEqual(['p6-u246', 'p6-u247', 'p6-u248', 'p6-u249'])
+    expect(unitsOfStage('game-s3')).toEqual(['p6-u250', 'p6-u251', 'p6-u252', 'p6-u253'])
+    expect(unitsOfStage('game-s4')).toEqual(['p6-u254', 'p6-u255', 'p6-u256', 'p6-u257'])
   })
 
   it('mathforcode-s1 phủ đủ bốn module theo đúng thứ tự bằng bốn unit thật', () => {

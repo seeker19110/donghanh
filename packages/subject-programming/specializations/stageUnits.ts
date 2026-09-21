@@ -118,6 +118,9 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // Đặc tả: `docs/specs/2026-09-21-game-s1-s4-bai-hoc-that.md`.
   'game-s1': ['p6-u242', 'p6-u243', 'p6-u244', 'p6-u245'],
   'game-s2': ['p6-u246', 'p6-u247', 'p6-u248', 'p6-u249'],
+  // Hướng GAME, chặng S3 và S4 — soạn 2026-09-21 (PR thứ hai của cùng đặc tả).
+  'game-s3': ['p6-u250', 'p6-u251', 'p6-u252', 'p6-u253'],
+  'game-s4': ['p6-u254', 'p6-u255', 'p6-u256', 'p6-u257'],
 }
 
 /** Unit của một chặng; mảng RỖNG nghĩa là chặng chưa có bài (giao diện phải nói rõ điều đó). */
