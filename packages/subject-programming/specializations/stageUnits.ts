@@ -106,6 +106,11 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // `docs/specs/2026-09-21-embedded-s1-s4-bai-hoc-that.md`.
   'embedded-s1': ['p6-u258', 'p6-u259', 'p6-u260', 'p6-u261'],
   'embedded-s2': ['p6-u262', 'p6-u263', 'p6-u264', 'p6-u265'],
+  // Hướng Nhúng, chặng S3 và S4 — soạn 2026-09-21 (PR thứ hai của cùng đặc tả): độ tin cậy ·
+  // kiểm thử qua HAL · Linux nhúng · an toàn bộ nhớ; rồi sản xuất · bảo mật thiết bị · vận hành
+  // đội · an toàn chức năng. Hướng `embedded` từ đây đủ cả bốn chặng.
+  'embedded-s3': ['p6-u266', 'p6-u267', 'p6-u268', 'p6-u269'],
+  'embedded-s4': ['p6-u270', 'p6-u271', 'p6-u272', 'p6-u273'],
   'mathforcode-s3': ['p6-u158', 'p6-u159'],
   'mathforcode-s4': ['p6-u160', 'p6-u161'],
   'ai-s2': ['p6-u166', 'p6-u167', 'p6-u168', 'p6-u169'],
