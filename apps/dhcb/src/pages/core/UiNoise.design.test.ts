@@ -138,7 +138,6 @@ const ALLOWED_PULSE_COUNT: Record<string, number> = {
   'components/CompanionVoice/NeuroAffectiveCard.tsx': 1, // đang ở trạng thái flow đỉnh cao
   'components/CompanionVoice/ScenarioHolodeckCard.tsx': 1, // áp lực phiên mô phỏng đang tăng cao
   'components/CompanionVoice/SubconsciousInsightsCard.tsx': 1, // skeleton tải
-  'components/DecisionLedger/OutcomeCalibrationCard.tsx': 1, // skeleton tải
   'components/Home/HomeAiBriefingCard.tsx': 2, // skeleton tải (2 dòng); P1.1 đã bỏ comment chứa tên class
   'components/Home/HomeUniversalAiBar.tsx': 1, // đang lắng nghe (ghi âm)
   'components/Home/TodayCard.tsx': 2, // skeleton "đang tìm việc học hôm nay" (nút + dòng phụ)
