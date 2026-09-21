@@ -138,12 +138,25 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   'mobile-s2': ['p6-u214', 'p6-u215', 'p6-u216', 'p6-u217'],
   'mobile-s3': ['p6-u218', 'p6-u219', 'p6-u220', 'p6-u221'],
   'mobile-s4': ['p6-u222', 'p6-u223', 'p6-u224', 'p6-u225'],
+  // Hướng Thuật toán, hai chặng CUỐI — soạn 2026-09-21, khép hướng nền cắt ngang này lại đủ
+  // bốn chặng S1–S4. Mỗi unit bám đúng một module: u226 = algo-s3-m1 quy hoạch động,
+  // u227 = m2 chuỗi, u228 = m3 toán rời rạc, u229 = m4 cấu trúc truy vấn khoảng;
+  // u230 = algo-s4-m1 cấu trúc xác suất, u231 = m2 NP-khó, u232 = m3 bộ nhớ/song song,
+  // u233 = m4 phỏng vấn và truyền đạt. Đặc tả:
+  // `docs/specs/2026-09-21-algo-s3-s4-bai-hoc-that.md`.
+  'algo-s3': ['p6-u226', 'p6-u227', 'p6-u228', 'p6-u229'],
+  'algo-s4': ['p6-u230', 'p6-u231', 'p6-u232', 'p6-u233'],
   // Hướng An toàn, chặng S4 — soạn 2026-09-21 (4 unit bám đúng 4 module: p6-u206 = m1 kiến trúc
   // an toàn, p6-u207 = m2 phát hiện và ứng cứu, p6-u208 = m3 điều tra số, p6-u209 = m4 quản trị
   // và tuân thủ). Chặng PHÒNG THỦ: chỉ phân loại, quyết định, quy trình — `securityS4Lessons.test.ts`
   // canh bằng danh sách từ vựng tấn công bị cấm. Đặc tả:
   // `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`.
   'security-s4': ['p6-u206', 'p6-u207', 'p6-u208', 'p6-u209'],
+  // Hướng Bảo mật, chặng S3 — dạy VÌ SAO lỗ hổng tồn tại và CÁCH PHÁT HIỆN, không cung cấp công
+  // cụ khai thác (p6-u210 = m1 luồng điều khiển trên máy đồ chơi, p6-u211 = m2 an toàn bộ nhớ,
+  // p6-u212 = m3 fuzzing theo độ phủ, p6-u213 = m4 chuỗi cung ứng/IAM/bảo mật AI). Đặc tả:
+  // `docs/specs/2026-09-17-security-s3-bai-hoc-that.md`.
+  'security-s3': ['p6-u210', 'p6-u211', 'p6-u212', 'p6-u213'],
   // Hướng DESKTOP, chặng S1 và S2 — soạn 2026-09-21. Mỗi unit bám đúng MỘT module của chặng
   // (không gộp): bốn module của desktop-s1 là bốn loại quyết định rời nhau (nền tảng · tệp ·
   // lưu trữ · đóng gói), gộp lại thì ca âm của module này lẫn vào policy của module kia.

@@ -1016,6 +1016,49 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         topics:
           'Legal basis; purpose limitation; retention; ngưỡng k; bias theo nhóm; câu giới hạn',
       },
+      // p6-u226..u229 = chặng algo-s3, p6-u230..u233 = chặng algo-s4 (hướng Thuật toán, hướng
+      // NỀN cắt ngang). Mỗi unit bám đúng một module của chặng. Đặc tả:
+      // `docs/specs/2026-09-21-algo-s3-s4-bai-hoc-that.md`.
+      {
+        id: 'p6-u226',
+        title: 'Thuật toán S3 — quy hoạch động: trạng thái, chuyển và giảm chiều bộ nhớ',
+        topics: 'Ba lô 0/1 bottom-up; LIS một chiều; oracle vét cạn; off-by-one trạng thái',
+      },
+      {
+        id: 'p6-u227',
+        title: 'Thuật toán S3 — chuỗi: KMP, băm hai bộ và khoảng cách chỉnh sửa',
+        topics: 'Bảng fail; khớp chồng nhau; băm đa thức tự viết; va chạm cố ý; edit distance',
+      },
+      {
+        id: 'p6-u228',
+        title: 'Thuật toán S3 — toán rời rạc: mô-đun, sàng và hình học số nguyên',
+        topics: 'Luỹ thừa nhanh; nghịch đảo mô-đun; sàng nguyên tố; tích có hướng số nguyên',
+      },
+      {
+        id: 'p6-u229',
+        title: 'Thuật toán S3 — truy vấn khoảng: cây phân đoạn lười và sparse table',
+        topics: 'Range-add/range-sum; push-down; RMQ tĩnh; từ chối cập nhật sau build',
+      },
+      {
+        id: 'p6-u230',
+        title: 'Thuật toán S4 — cấu trúc xác suất: Bloom filter và tỉ lệ báo nhầm',
+        topics: 'Băm tự viết; không âm tính giả; đo nhiều hạt giống; k=1 so với k=3',
+      },
+      {
+        id: 'p6-u231',
+        title: 'Thuật toán S4 — NP-khó: heuristic, cận trên và cải thiện cục bộ',
+        topics: 'Tham lam theo tỉ suất; cận trên phân số; khai chưa kiểm tối ưu; local search',
+      },
+      {
+        id: 'p6-u232',
+        title: 'Thuật toán S4 — bộ nhớ và song song mô phỏng bằng số học',
+        topics: 'Đếm đổi khối row/column-major; chia tải k phần; không đồng hồ, không thread',
+      },
+      {
+        id: 'p6-u233',
+        title: 'Thuật toán S4 — phỏng vấn và truyền đạt: làm rõ đề, ước lượng, checklist',
+        topics: 'Trường bắt buộc có thứ tự; ước lượng dung lượng; giả định/đánh đổi/ví dụ',
+      },
       {
         id: 'p6-u214',
         title: 'Mobile S2 — mạng ở môi trường xấu: hàng đợi offline và retry',
@@ -1135,6 +1178,26 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         id: 'p6-u209',
         title: 'Security S4 — quản trị và tuân thủ',
         topics: 'Khả năng × tác động; residual risk; third-party; DPA; kế hoạch rút lui; evidence',
+      },
+      {
+        id: 'p6-u210',
+        title: 'Security S3 — đọc luồng điều khiển từ mã mức thấp (máy đồ chơi)',
+        topics: 'Basic block; control flow; unreachable; trần bước; vòng lặp không lối thoát',
+      },
+      {
+        id: 'p6-u211',
+        title: 'Security S3 — vì sao an toàn bộ nhớ là biện pháp gốc rễ',
+        topics: 'Bounds; oob-write; use-after-free; double-free; leak; prevented; memory-safe',
+      },
+      {
+        id: 'p6-u212',
+        title: 'Security S3 — tìm lỗi tự động: fuzzing theo độ phủ và thu nhỏ ca lỗi',
+        topics: 'Coverage; seed; deterministic; not-found; minimize; delta-debugging',
+      },
+      {
+        id: 'p6-u213',
+        title: 'Security S3 — bảo mật hệ thống hiện đại: chuỗi cung ứng, IAM, bảo mật AI',
+        topics: 'Provenance; chữ ký; least privilege; prompt injection; data poisoning; allow-list',
       },
       {
         id: 'p6-u274',

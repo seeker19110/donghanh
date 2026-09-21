@@ -31,7 +31,9 @@ describe('cầu nối chặng chuyên sâu → unit bài học', () => {
   })
 
   it('chặng chưa soạn bài trả về mảng rỗng, không đoán bừa', () => {
-    expect(unitsOfStage('security-s3')).toEqual([])
+    // `security-s3` từng đứng ở đây, nay đã có bài (p6-u210…u213) — dùng một chặng của hướng
+    // `game` vốn chưa soạn bài nào để nhánh "chưa có bài" vẫn được canh.
+    expect(unitsOfStage('game-s1')).toEqual([])
     expect(unitsOfStage('khong-co-huong-nay-s1')).toEqual([])
   })
 
@@ -54,6 +56,14 @@ describe('cầu nối chặng chuyên sâu → unit bài học', () => {
 
   it('algo-s2 phủ đủ bốn module theo đúng thứ tự bằng bốn unit thật', () => {
     expect(unitsOfStage('algo-s2')).toEqual(['p6-u162', 'p6-u163', 'p6-u164', 'p6-u165'])
+  })
+
+  it('algo-s3 phủ đủ bốn module theo đúng thứ tự bằng bốn unit thật', () => {
+    expect(unitsOfStage('algo-s3')).toEqual(['p6-u226', 'p6-u227', 'p6-u228', 'p6-u229'])
+  })
+
+  it('algo-s4 phủ đủ bốn module theo đúng thứ tự bằng bốn unit thật', () => {
+    expect(unitsOfStage('algo-s4')).toEqual(['p6-u230', 'p6-u231', 'p6-u232', 'p6-u233'])
   })
 
   it('systems-s1 phủ đủ bốn module theo đúng thứ tự bằng bốn unit thật', () => {

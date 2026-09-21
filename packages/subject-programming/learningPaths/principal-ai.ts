@@ -159,6 +159,15 @@ export const PRINCIPAL_AI_PATH: LearningPath = {
           requires: ['security-s1'],
         },
         {
+          // Đợt `security-s3` (đặc tả `docs/specs/2026-09-17-security-s3-bai-hoc-that.md`):
+          // đặt NGAY SAU `security-s2`. Chặng dạy vì sao lỗ hổng tồn tại và cách phát hiện —
+          // kiến trúc sư phải thẩm định được lựa chọn ngôn ngữ và tin được kết quả công cụ tìm
+          // lỗi, chứ không phải học cách khai thác.
+          stageId: 'security-s3',
+          why: 'Thẩm định được vì sao "viết cẩn thận" không thay thế được an toàn bộ nhớ, và đọc được kết quả của công cụ tìm lỗi tự động thay vì tin theo lời người khác.',
+          requires: ['security-s2'],
+        },
+        {
           stageId: 'architecture-s1',
           why: 'Ranh giới module & hợp đồng — ngôn ngữ để nói chuyện kiến trúc cho ra đầu ra đũa.',
         },
