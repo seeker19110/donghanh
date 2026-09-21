@@ -129,6 +129,14 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // ca biên của cái này lẫn vào policy của cái kia. Đặc tả:
   // `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`.
   'data-s4': ['p6-u202', 'p6-u203', 'p6-u204', 'p6-u205'],
+  // Hướng GAME, chặng S1 và S2 — soạn 2026-09-21 (4 unit mỗi chặng, bám ĐÚNG một module một
+  // unit: bốn module của `game` không trùng chủ đề nên không gộp như một số hướng khác).
+  // Đặc tả: `docs/specs/2026-09-21-game-s1-s4-bai-hoc-that.md`.
+  'game-s1': ['p6-u242', 'p6-u243', 'p6-u244', 'p6-u245'],
+  'game-s2': ['p6-u246', 'p6-u247', 'p6-u248', 'p6-u249'],
+  // Hướng GAME, chặng S3 và S4 — soạn 2026-09-21 (PR thứ hai của cùng đặc tả).
+  'game-s3': ['p6-u250', 'p6-u251', 'p6-u252', 'p6-u253'],
+  'game-s4': ['p6-u254', 'p6-u255', 'p6-u256', 'p6-u257'],
   // Hướng DI ĐỘNG, chặng S2/S3/S4 — soạn 2026-09-21 (12 unit, mỗi chặng 4 unit ánh xạ 1:1 vào
   // 4 module gốc). KHÁC `mobile-s1` (gộp m3+m4 vì dải id chỉ có 3 chỗ): dải `p6-u214…u225` cấp
   // đủ chỗ nên không gộp module nào — bốn module của mỗi chặng là bốn loại quyết định khác hẳn

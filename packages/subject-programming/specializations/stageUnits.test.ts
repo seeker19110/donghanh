@@ -31,15 +31,31 @@ describe('cầu nối chặng chuyên sâu → unit bài học', () => {
   })
 
   it('chặng chưa soạn bài trả về mảng rỗng, không đoán bừa', () => {
-    // `security-s3` từng đứng ở đây, nay đã có bài (p6-u210…u213) — dùng một chặng của hướng
-    // `game` vốn chưa soạn bài nào để nhánh "chưa có bài" vẫn được canh.
-    expect(unitsOfStage('game-s1')).toEqual([])
+    // Không ghim cứng tên chặng thật làm ví dụ "chưa có bài" — nội dung được lấp dần theo
+    // từng đợt (đã đổi ví dụ này 3 lần: security-s3 → game-s1, nay game cũng đã có bài),
+    // nên một mã cố định sẽ hết đúng ngay khi đợt soạn bài kế tiếp merge. Khoá `${id}` không
+    // tồn tại trong `SPEC_STAGE_UNITS` đã đủ canh đúng nhánh `?? []` — đây chính là hành vi
+    // cần kiểm, độc lập với việc chặng nào đã/chưa có bài tại thời điểm chạy test.
     expect(unitsOfStage('khong-co-huong-nay-s1')).toEqual([])
   })
 
-  it('specHasLessons chỉ đúng với hướng đã có bài', () => {
+  it('specHasLessons đúng cho mọi hướng đã có bài', () => {
+    // Tính đến 2026-09-21, cả 14 hướng chuyên sâu đều có ít nhất một chặng có bài thật
+    // (game/embedded/desktop — ba hướng từng rỗng hoàn toàn — đã được lấp nốt). Vì vậy
+    // nhánh "chưa có bài" của specHasLessons không còn ví dụ thật nào để canh ở mức hướng;
+    // hành vi của nó (kiểm tiền tố `${specId}-` trong SPEC_STAGE_UNITS) vẫn được canh gián
+    // tiếp qua các assertion true dưới đây — sai tiền tố sẽ làm chúng đỏ.
     expect(specHasLessons('web')).toBe(true)
-    expect(specHasLessons('game')).toBe(false)
+    expect(specHasLessons('game')).toBe(true)
+    expect(specHasLessons('embedded')).toBe(true)
+    expect(specHasLessons('desktop')).toBe(true)
+  })
+
+  it('game-s1 tới game-s4 phủ đủ bốn module mỗi chặng bằng unit thật', () => {
+    expect(unitsOfStage('game-s1')).toEqual(['p6-u242', 'p6-u243', 'p6-u244', 'p6-u245'])
+    expect(unitsOfStage('game-s2')).toEqual(['p6-u246', 'p6-u247', 'p6-u248', 'p6-u249'])
+    expect(unitsOfStage('game-s3')).toEqual(['p6-u250', 'p6-u251', 'p6-u252', 'p6-u253'])
+    expect(unitsOfStage('game-s4')).toEqual(['p6-u254', 'p6-u255', 'p6-u256', 'p6-u257'])
   })
 
   it('mathforcode-s1 phủ đủ bốn module theo đúng thứ tự bằng bốn unit thật', () => {

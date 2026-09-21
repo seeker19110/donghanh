@@ -9,7 +9,10 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
 import { getProgrammingLevel } from '@dhcb/subject-programming/curriculum'
 import { unitsOfStage } from '@dhcb/subject-programming/specializations/stageUnits'
-import { getSpecialization } from '@dhcb/subject-programming/specializations/registry'
+import {
+  getSpecialization,
+  PROGRAMMING_SPECIALIZATIONS,
+} from '@dhcb/subject-programming/specializations/registry'
 import { buildSlugSegment } from '@core/slug'
 import ProgrammingSpecializationPage from './ProgrammingSpecializationPage'
 
@@ -51,8 +54,22 @@ describe('ProgrammingSpecializationPage — lối vào bài học', () => {
     }
   })
 
-  it('hướng chưa soạn bài: KHÔNG hiện lối vào nào (không hứa suông)', () => {
-    expect(render('game')).not.toContain(NHAN_VAO_HOC)
+  it('hướng có chặng chưa soạn bài: số lối vào khớp đúng số chặng đã có bài, không thừa không thiếu', () => {
+    // Không ghim cứng tên hướng "chưa soạn bài" — nội dung được lấp dần theo từng đợt (game,
+    // embedded, desktop từng rỗng hoàn toàn, nay đã đủ cả 4 chặng), nên một cái tên cố định sẽ
+    // hết đúng ngay khi đợt soạn bài kế tiếp merge. Thay vào đó, TÌM ĐỘNG một hướng đang có ít
+    // nhất một chặng S1–S4 CHƯA có bài (nếu không tìm được, nghĩa là toàn bộ curriculum đã kín —
+    // bỏ qua bài kiểm để không đỏ oan) rồi chứng minh đúng bất biến cốt lõi: số nút "Vào học"
+    // hiện ra bằng đúng số chặng đã có bài của hướng đó.
+    const huongThieuChang = PROGRAMMING_SPECIALIZATIONS.map((spec) => spec.id).find((specId) =>
+      ['s1', 's2', 's3', 's4'].some((s) => unitsOfStage(`${specId}-${s}`).length === 0),
+    )
+    if (!huongThieuChang) return // toàn bộ curriculum đã kín, không còn ví dụ thật để canh
+    const changDaCoBai = ['s1', 's2', 's3', 's4']
+      .map((s) => `${huongThieuChang}-${s}`)
+      .filter((id) => unitsOfStage(id).length > 0)
+    const html = render(huongThieuChang)
+    expect(html.split(NHAN_VAO_HOC).length - 1).toBe(changDaCoBai.length)
   })
 
   it('link cũ chỉ có mã: chuyển hướng về URL chuẩn thay vì render trang thứ hai', () => {
