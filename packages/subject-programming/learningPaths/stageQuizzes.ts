@@ -1602,6 +1602,79 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
         'Công bố có trách nhiệm cân bằng giữa quyền được biết của cộng đồng và thời gian cần thiết để bên bị ảnh hưởng vá lỗi trước khi thông tin khai thác bị lan rộng.',
     },
   ],
+  // `security-s3` — thêm cùng đợt soạn bài học chặng này (đặc tả
+  // `docs/specs/2026-09-17-security-s3-bai-hoc-that.md`). Năm câu bám bốn module và giữ đúng
+  // ranh giới của chặng: hỏi "phát hiện thế nào", không hỏi "khai thác thế nào".
+  'security-s3': [
+    {
+      id: 'security-s3-q1',
+      prompt: 'Khối cơ bản (basic block) trong đồ thị luồng điều khiển được định nghĩa thế nào?',
+      choices: [
+        'Một dãy lệnh không có lối vào ở giữa và không có lối ra trước khi hết',
+        'Một hàm hoàn chỉnh trong mã nguồn',
+        'Một dãy đúng mười lệnh liên tiếp',
+        'Một vòng lặp cùng toàn bộ thân của nó',
+      ],
+      answerIndex: 0,
+      explain:
+        'Chính hai điều kiện đó khiến cả dãy lệnh cư xử như một nút duy nhất: đã bước vào lệnh đầu thì chắc chắn chạy hết, nên chỉ cần vẽ một ô cho cả khối.',
+    },
+    {
+      id: 'security-s3-q2',
+      prompt:
+        'Một khối không bao giờ tới được (unreachable) trong đồ thị luồng điều khiển nói lên điều gì?',
+      choices: [
+        'Chương trình chắc chắn chạy nhanh hơn vì bỏ qua khối đó',
+        'Hoặc lập trình viên tưởng nhánh đó đang chạy mà không phải, hoặc có mã nằm đó mà không ai định chạy',
+        'Trình biên dịch đã tối ưu xong và không còn gì để xem',
+        'Khối đó luôn luôn là mã chết vô hại',
+      ],
+      answerIndex: 1,
+      explain:
+        'Cả hai khả năng đều là thứ cần phát hiện: một bên là niềm tin sai về hành vi chương trình, một bên là mã tồn tại ngoài ý định của người viết.',
+    },
+    {
+      id: 'security-s3-q3',
+      prompt:
+        'Vì sao ngôn ngữ an toàn bộ nhớ được gọi là biện pháp GỐC RỄ cho lớp lỗi bộ nhớ, thay vì "viết cẩn thận hơn"?',
+      choices: [
+        'Vì nó chạy nhanh hơn nên ít lỗi hơn',
+        'Vì nó phát hiện lỗi sớm hơn ở khâu kiểm thử',
+        'Vì nó bỏ đi yêu cầu bắt con người tự nhớ biên và vòng đời ở mọi dòng, nên cả lớp lỗi không còn tồn tại',
+        'Vì nó cấm hẳn việc cấp phát bộ nhớ động',
+      ],
+      answerIndex: 2,
+      explain:
+        '"Viết cẩn thận" đặt cược vào chỗ con người đã thua sẵn; biện pháp gốc rễ là bỏ đi chính yêu cầu ghi nhớ đó, đổi lại chi phí kiểm lúc chạy và ràng buộc lúc biên dịch.',
+    },
+    {
+      id: 'security-s3-q4',
+      prompt: 'Fuzzer chạy hết ngân sách mà không tìm ra lỗi nào thì phải báo gì?',
+      choices: [
+        'Báo "không có lỗi" vì đã kiểm tra xong',
+        'Báo not-found kèm độ phủ đạt được, vì hết ngân sách không phải là bằng chứng sạch',
+        'Không báo gì và chạy tiếp cho tới khi tìm ra',
+        'Báo lỗi hệ thống vì lượt chạy thất bại',
+      ],
+      answerIndex: 1,
+      explain:
+        'Hai câu "đã kiểm xong và sạch" với "chưa kiểm xong" dẫn tới hai hành động khác nhau; gộp lại là biến việc chưa làm thành một lời bảo đảm mà người đọc sẽ tin.',
+    },
+    {
+      id: 'security-s3-q5',
+      prompt:
+        'Trong hệ AI có truy hồi tài liệu, biện pháp gốc chống tiêm lệnh (prompt injection) là gì?',
+      choices: [
+        'Lọc cho hết những câu có vẻ là chỉ thị trong tài liệu',
+        'Giữ luật: nội dung lấy về luôn là dữ liệu, không bao giờ được leo lên thành lệnh',
+        'Chỉ truy hồi tài liệu do chính đội mình viết',
+        'Tăng kích thước mô hình để nó tự nhận ra câu xấu',
+      ],
+      answerIndex: 1,
+      explain:
+        'Cùng một ý có vô hạn cách diễn đạt nên bộ lọc luôn thua về số lượng; thứ sửa được là VAI TRÒ của nội dung trong hệ thống, không phải hình dạng câu chữ.',
+    },
+  ],
   'architecture-s1': [
     {
       id: 'architecture-s1-q1',
