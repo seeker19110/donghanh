@@ -1117,6 +1117,47 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
         topics: 'Sự đồng ý; PII; chế độ an toàn; bảng ký hiệu; trần kích thước gói',
       },
       {
+        id: 'p6-u282',
+        title: 'Desktop S3 — dữ liệu lớn trên máy đơn: đọc theo luồng, ảo hoá, chỉ mục',
+        topics: 'Ngân sách nạp tệp; ảo hoá danh sách; chỉ mục toàn văn; chỉ mục cũ hơn dữ liệu',
+      },
+      {
+        id: 'p6-u283',
+        title: 'Desktop S3 — tối ưu khởi động và bộ nhớ, và cách đo đáng tin',
+        topics: 'Ngân sách startup; tải lười; RAM lúc nghỉ; trung vị; đủ mẫu; máy cấu hình thấp',
+      },
+      {
+        id: 'p6-u284',
+        title: 'Desktop S3 — hệ plugin: hộp cát, phiên bản API, quyền tối thiểu',
+        topics: 'Sandbox ưu tiên tuyệt đối; khác major; plugin crash không giết host; tập quyền',
+      },
+      {
+        id: 'p6-u285',
+        title: 'Desktop S3 — kiểm thử desktop: ma trận nền tảng và test giao diện ổn định',
+        topics: 'Ba nền mục tiêu; luồng cài đặt; luồng cập nhật; chờ theo điều kiện; ngưỡng flaky',
+      },
+      {
+        id: 'p6-u286',
+        title: 'Desktop S4 — phân phối và cấp phép: kích hoạt offline, chống lùi đồng hồ',
+        topics: 'Clock rollback; license hợp lệ; kích hoạt offline; dùng thử; cửa sổ hoàn tiền',
+      },
+      {
+        id: 'p6-u287',
+        title: 'Desktop S4 — cập nhật an toàn: kênh, tỉ lệ, quay lui và di trú dữ liệu',
+        topics: 'Health-check sau cập nhật; rolloutPercent; sao lưu; chuỗi bước; đường hạ cấp',
+      },
+      {
+        id: 'p6-u288',
+        title: 'Desktop S4 — bảo mật máy khách: chữ ký, quyền tối thiểu, dữ liệu ở lại máy',
+        topics:
+          'Signature; admin rights; phụ thuộc có lỗ hổng; cho phép; mã hoá; phạm vi tối thiểu',
+      },
+      {
+        id: 'p6-u289',
+        title: 'Desktop S4 — hỗ trợ người dùng: triage báo lỗi và lộ trình theo bằng chứng',
+        topics: 'Che nội dung người dùng; gói chẩn đoán; affectedUserCount; mất dữ liệu; phạm vi',
+      },
+      {
         id: 'p6-u178',
         title: 'DevOps S2 — delivery policy và change control',
         topics: 'Approval; change window; rollback; fail closed',
