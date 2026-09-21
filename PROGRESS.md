@@ -436,10 +436,9 @@ không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelo
   (`docs/specs/2026-09-21-{mobile-s2-s4,algo-s3-s4,systems-s3-s4,game-s1-s4,embedded-s1-s4,desktop-s1-s4}-bai-hoc-that.md`,
   dải unit `p6-u214…u289`). Chủ dự án chốt: KHÔNG nối các chặng này vào `learningPaths/` nào.
   **Nợ còn lại thuần là SOẠN BÀI THẬT.** Thứ tự thi hành:
-  1. `security-s4` (`p6-u206…u209`, đặc tả `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`
-     — PR thứ hai của đặc tả đó, `data-s4` đã xong ở PR #1086; phải gộp `main` rồi sinh lại
-     `lessonsLazy.ts`), rồi `security-s3` (`p6-u210…u213`,
-     `docs/specs/2026-09-17-security-s3-bai-hoc-that.md`).
+  1. ~~`security-s4` (`p6-u206…u209`) và `security-s3` (`p6-u210…u213`)~~ — **XONG 2026-09-21**,
+     làm trong CÙNG một PR (`docs/changelog/0397-2026-09-21-bai-hoc-security-s3-s4.md`). Hướng
+     `security` nay đủ bài S1–S4; hai chặng đã nối vào `principal-ai-p4`/`p5` kèm quiz sau chặng.
   2. Ba hướng đang RỖNG HOÀN TOÀN, ưu tiên cao nhất vì học viên chọn vào gặp mảng trắng: `game`
      → `embedded` → `desktop`, mỗi hướng 2 PR (S1+S2 rồi S3+S4).
   3. `mobile` S2–S4, `algo` S3–S4, `systems` S3–S4 — mỗi hướng 1 PR.

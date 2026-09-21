@@ -1017,6 +1017,46 @@ export const PROGRAMMING_LEVELS: ProgrammingLevel[] = [
           'Legal basis; purpose limitation; retention; ngưỡng k; bias theo nhóm; câu giới hạn',
       },
       {
+        id: 'p6-u206',
+        title: 'Security S4 — kiến trúc an toàn: ranh giới tin cậy, zero trust, vòng đời khoá',
+        topics: 'Trust boundary; zero trust; segmentation; key lifecycle; rotate; mô hình đe doạ',
+      },
+      {
+        id: 'p6-u207',
+        title: 'Security S4 — phát hiện và ứng cứu: luật phát hiện và trình tự ba bước',
+        topics: 'Detection rule; ATT&CK; dương tính giả; containment; eradication; phục hồi',
+      },
+      {
+        id: 'p6-u208',
+        title: 'Security S4 — điều tra số: toàn vẹn chứng cứ và dòng thời gian',
+        topics: 'Integrity; chain of custody; chuẩn hoá UTC; cờ bất định; redact báo cáo',
+      },
+      {
+        id: 'p6-u209',
+        title: 'Security S4 — quản trị và tuân thủ: rủi ro tồn dư và luật bằng chứng',
+        topics: 'Residual risk; chủ sở hữu; ngày hết hiệu lực; third-party; evidence; not-reported',
+      },
+      {
+        id: 'p6-u210',
+        title: 'Security S3 — đọc luồng điều khiển từ mã mức thấp (máy đồ chơi)',
+        topics: 'Basic block; control flow; unreachable; trần bước; vòng lặp không lối thoát',
+      },
+      {
+        id: 'p6-u211',
+        title: 'Security S3 — vì sao an toàn bộ nhớ là biện pháp gốc rễ',
+        topics: 'Bounds; oob-write; use-after-free; double-free; leak; prevented; memory-safe',
+      },
+      {
+        id: 'p6-u212',
+        title: 'Security S3 — tìm lỗi tự động: fuzzing theo độ phủ và thu nhỏ ca lỗi',
+        topics: 'Coverage; seed; deterministic; not-found; minimize; delta-debugging',
+      },
+      {
+        id: 'p6-u213',
+        title: 'Security S3 — bảo mật hệ thống hiện đại: chuỗi cung ứng, IAM, bảo mật AI',
+        topics: 'Provenance; chữ ký; least privilege; prompt injection; data poisoning; allow-list',
+      },
+      {
         id: 'p6-u178',
         title: 'DevOps S2 — delivery policy và change control',
         topics: 'Approval; change window; rollback; fail closed',

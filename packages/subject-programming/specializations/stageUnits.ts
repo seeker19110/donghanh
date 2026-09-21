@@ -113,6 +113,15 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // ca biên của cái này lẫn vào policy của cái kia. Đặc tả:
   // `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`.
   'data-s4': ['p6-u202', 'p6-u203', 'p6-u204', 'p6-u205'],
+  // Hướng Bảo mật, chặng S4 — chặng PHÒNG THỦ (4 unit bám đúng 4 module: p6-u206 = m1 kiến trúc
+  // an toàn, p6-u207 = m2 phát hiện và ứng cứu, p6-u208 = m3 điều tra số, p6-u209 = m4 quản trị
+  // và tuân thủ). Đặc tả: `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`.
+  'security-s4': ['p6-u206', 'p6-u207', 'p6-u208', 'p6-u209'],
+  // Hướng Bảo mật, chặng S3 — dạy VÌ SAO lỗ hổng tồn tại và CÁCH PHÁT HIỆN, không cung cấp công
+  // cụ khai thác (p6-u210 = m1 luồng điều khiển trên máy đồ chơi, p6-u211 = m2 an toàn bộ nhớ,
+  // p6-u212 = m3 fuzzing theo độ phủ, p6-u213 = m4 chuỗi cung ứng/IAM/bảo mật AI). Đặc tả:
+  // `docs/specs/2026-09-17-security-s3-bai-hoc-that.md`.
+  'security-s3': ['p6-u210', 'p6-u211', 'p6-u212', 'p6-u213'],
 }
 
 /** Unit của một chặng; mảng RỖNG nghĩa là chặng chưa có bài (giao diện phải nói rõ điều đó). */
