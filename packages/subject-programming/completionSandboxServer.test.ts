@@ -79,11 +79,11 @@ describe('phạm vi chấm-lại-ở-server sau ADR-0008 (không cần python3)'
     expect(isServerRegradableLesson('openclaw-u1-l1')).toBe(true)
   })
 
-  it('B3 — MỌI bài JavaScript/TypeScript/html/dom/fetch nay THUỘC phạm vi (97 bài)', () => {
+  it('B3 — MỌI bài JavaScript/TypeScript/html/dom/fetch nay THUỘC phạm vi (121 bài)', () => {
     const web = PROGRAMMING_LESSONS.filter((l) =>
       ['javascript', 'typescript', 'html', 'dom', 'fetch'].includes(l.language),
     )
-    expect(web).toHaveLength(97)
+    expect(web).toHaveLength(121)
     for (const lesson of web) {
       expect(isServerRegradableLesson(lesson.id), `${lesson.language} (${lesson.id})`).toBe(true)
     }

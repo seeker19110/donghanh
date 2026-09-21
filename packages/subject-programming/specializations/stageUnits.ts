@@ -137,6 +137,15 @@ export const SPEC_STAGE_UNITS: Record<string, string[]> = {
   // Hướng GAME, chặng S3 và S4 — soạn 2026-09-21 (PR thứ hai của cùng đặc tả).
   'game-s3': ['p6-u250', 'p6-u251', 'p6-u252', 'p6-u253'],
   'game-s4': ['p6-u254', 'p6-u255', 'p6-u256', 'p6-u257'],
+  // Hướng DI ĐỘNG, chặng S2/S3/S4 — soạn 2026-09-21 (12 unit, mỗi chặng 4 unit ánh xạ 1:1 vào
+  // 4 module gốc). KHÁC `mobile-s1` (gộp m3+m4 vì dải id chỉ có 3 chỗ): dải `p6-u214…u225` cấp
+  // đủ chỗ nên không gộp module nào — bốn module của mỗi chặng là bốn loại quyết định khác hẳn
+  // nhau, gộp thì ca biên của cái này lẫn vào policy của cái kia. Vẫn làn `typescript` theo đúng
+  // quyết định đã chốt ở `mobile-s1`. Đặc tả:
+  // `docs/specs/2026-09-21-mobile-s2-s4-bai-hoc-that.md`.
+  'mobile-s2': ['p6-u214', 'p6-u215', 'p6-u216', 'p6-u217'],
+  'mobile-s3': ['p6-u218', 'p6-u219', 'p6-u220', 'p6-u221'],
+  'mobile-s4': ['p6-u222', 'p6-u223', 'p6-u224', 'p6-u225'],
   // Hướng Thuật toán, hai chặng CUỐI — soạn 2026-09-21, khép hướng nền cắt ngang này lại đủ
   // bốn chặng S1–S4. Mỗi unit bám đúng một module: u226 = algo-s3-m1 quy hoạch động,
   // u227 = m2 chuỗi, u228 = m3 toán rời rạc, u229 = m4 cấu trúc truy vấn khoảng;
