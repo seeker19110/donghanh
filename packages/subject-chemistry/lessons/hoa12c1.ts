@@ -27,8 +27,8 @@ export const HOA12_C1_LESSONS: ChemLesson[] = [
       'KHÁI NIỆM VÀ PHÂN LOẠI LIPID (CHẤT BÉO):\n' +
       '— Lipid là những hợp chất hữu cơ có trong tế bào sống, không tan trong nước nhưng tan nhiều trong dung môi hữu cơ không phân cực.\n' +
       '— Chất béo (triglyceride) là triester của glycerol với các acid béo (acid đơn chức, mạch carbon dài, không phân nhánh, có số C chẵn từ C12 đến C24).\n' +
-      '— Các acid béo thường gặp: acid palmitic (C₁₅H₃₁COOH), acid stearic (C₁₇H₃₅COOH) (no); acid oleic (C₁₇H₃₃COOH), acid linoleic (C₁₇H₃₁COOH) (không no).\n' +
-      '— Tính chất: Chất béo lỏng (dầu thực vật, chứa nhiều acid béo không no); Chất béo rắn (mỡ động vật, chứa nhiều acid béo no). Phản ứng hiđro hoá chuyển dầu lỏng thành mỡ rắn.',
+      '— Các acid béo thường gặp: palmitic acid (C₁₅H₃₁COOH) và stearic acid (C₁₇H₃₅COOH) là acid béo no; oleic acid (C₁₇H₃₃COOH) và linoleic acid (C₁₇H₃₁COOH) là acid béo không no.\n' +
+      '— Tính chất: Chất béo lỏng (dầu thực vật, chứa nhiều acid béo không no); Chất béo rắn (mỡ động vật, chứa nhiều acid béo no). Phản ứng hydrogen hoá (cộng H₂ vào liên kết đôi, xúc tác Ni) chuyển dầu lỏng thành mỡ rắn.',
     workedExample: {
       problem:
         'Cho 8,8 gam ethyl acetate (CH₃COOC₂H₅, M=88) tác dụng hoàn toàn với dung dịch NaOH vừa đủ, đun nóng. ' +
@@ -62,7 +62,8 @@ export const HOA12_C1_LESSONS: ChemLesson[] = [
           { id: 'glycol', label: 'Ethylene glycol (C₂H₄(OH)₂)' },
         ],
         answer: { kind: 'choice', correctIds: ['glycerol'] },
-        explain: 'Chất béo (triglyceride) là triester của glycerol và các acid béo.',
+        explain:
+          'Chất béo (triglyceride) là triester của glycerol với các acid béo. Glycerol có 3 nhóm −OH nên mới ghép được 3 gốc acid; methanol và ethanol chỉ có 1 nhóm −OH, ethylene glycol có 2 nhóm.',
       },
     ],
     srsCards: [
@@ -483,7 +484,8 @@ export const HOA12_C1_LESSONS: ChemLesson[] = [
           { id: 'ester', label: 'Ester của acid béo và glycerol' },
         ],
         answer: { kind: 'choice', correctIds: ['muoi_natri'] },
-        explain: 'Xà phòng là hỗn hợp các muối sodium hoặc potassium của acid béo.',
+        explain:
+          'Xà phòng là hỗn hợp các muối sodium hoặc potassium của acid béo. Acid béo tự do không tan trong nước nên không giặt rửa được; còn ester của acid béo với glycerol chính là chất béo — nguyên liệu để nấu xà phòng, chưa phải xà phòng.',
       },
       {
         prompt:
@@ -911,12 +913,12 @@ export const HOA12_C1_LESSONS: ChemLesson[] = [
     lessonNumber: 3,
     title: 'Ôn tập chương 1 — Ester - Lipid',
     hook:
-      'Chương 1 trang bị kiến thức về Ester và Lipid, hai lớp chất béo chi phối dinh dưỡng sinh học và ' +
-      'ngành công nghiệp xà phòng tẩy rửa thiết yếu.',
+      'Chương 1 trang bị kiến thức về ester và lipid — hai lớp chất gắn liền với dinh dưỡng hằng ngày ' +
+      'và với ngành công nghiệp xà phòng, chất tẩy rửa.',
     theory:
       'HỆ THỐNG HOÁ KIẾN THỨC CHƯƠNG 1:\n' +
       "1. Ester (RCOOR'): No đơn chức CₙH₂ₙO₂ (n≥2). Thuỷ phân acid (⇌ tạo acid + alcohol), thuỷ phân kiềm (xà phòng hoá → muối + alcohol).\n" +
-      '2. Lipid (chất béo): Triester của glycerol và acid béo. Thể lỏng (không no, dầu ăn), thể rắn (no, mỡ). Phản ứng hidro hoá chuyển lỏng thành rắn.\n' +
+      '2. Lipid (chất béo): Triester của glycerol và acid béo. Thể lỏng (không no, dầu ăn), thể rắn (no, mỡ). Phản ứng hydrogen hoá chuyển chất béo lỏng thành chất béo rắn.\n' +
       '3. Xà phòng: Muối carboxylate của kiềm với acid béo. Mất tác dụng trong nước cứng.\n' +
       '4. Chất giặt rửa tổng hợp: Gốc sulfonate, dùng được trong nước cứng nhờ muối Ca²⁺/Mg²⁺ của nó tan tốt.',
     workedExample: {
@@ -943,17 +945,18 @@ export const HOA12_C1_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['a'] },
         explain:
-          'Ester HCOOC₂H₅ thuỷ phân trong môi trường acid tạo acid formic HCOOH và cồn ethyl alcohol C₂H₅OH.',
+          'Ester HCOOC₂H₅ thuỷ phân trong môi trường acid, cho lại đúng hai chất đã tạo ra nó: formic acid HCOOH và ethanol C₂H₅OH. Muốn có methanol thì phần alcohol phải là −CH₃, còn muốn có acetic acid thì phần acid phải là CH₃COO−.',
       },
       {
         prompt: 'Chất béo triolein có chứa gốc acid béo nào sau đây?',
         choices: [
-          { id: 'palmitic', label: 'Gốc acid palmitic' },
-          { id: 'stearic', label: 'Gốc acid stearic' },
-          { id: 'oleic', label: 'Gốc acid oleic' },
+          { id: 'palmitic', label: 'Gốc palmitic acid' },
+          { id: 'stearic', label: 'Gốc stearic acid' },
+          { id: 'oleic', label: 'Gốc oleic acid' },
         ],
         answer: { kind: 'choice', correctIds: ['oleic'] },
-        explain: 'Triolein là triester của glycerol và acid oleic, có công thức (C₁₇H₃₃COO)₃C₃H₅.',
+        explain:
+          'Tên triolein cho biết ba gốc acid béo đều là oleic acid: chất béo này có công thức (C₁₇H₃₃COO)₃C₃H₅. Gốc palmitic cho tripalmitin, gốc stearic cho tristearin.',
       },
     ],
     srsCards: [

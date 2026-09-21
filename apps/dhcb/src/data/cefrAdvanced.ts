@@ -604,7 +604,7 @@ const C2_GRAMMAR_UNITS: GrammarUnitMeta[] = [
         structure:
           'So + adj + V + S + that ... · Such + be + N + that ... · Only + [cụm] + trợ ĐT + S',
         explainVi:
-          'Các cấu trúc đảo ngữ trang trọng để nhấn mạnh mạnh:\n' +
+          'Các cấu trúc đảo ngữ trang trọng, dùng khi muốn nhấn mạnh thật rõ:\n' +
           '• "So + tính từ" đầu câu: "So great was the noise that we left."\n' +
           '• "Such + be": "Such was her fear that she froze."\n' +
           '• "Only + trạng ngữ" (Only then/Only after/Only by): "Only then did I understand."',

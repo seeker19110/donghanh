@@ -35,7 +35,11 @@
       "en": "\"I will pay a forfeit of a thousand pieces of silver if my strong Ox cannot draw a line of one hundred wagons.\"",
       "vi": "\"Tôi sẽ chịu phạt một ngàn đồng bạc nếu con Bò khỏe của tôi không kéo nổi một hàng một trăm cỗ xe.\""
     },
-    { "p": 2, "en": "The men laughed, and said:", "vi": "Đám đàn ông cười ồ, nói:" },
+    {
+      "p": 2,
+      "en": "The men laughed, and said:",
+      "vi": "Đám đàn ông cười ồ, nói:"
+    },
     {
       "p": 2,
       "en": "\"Very well; bring your Ox, and we will tie a hundred wagons in a line and see your Ox draw them along.\"",
@@ -46,7 +50,11 @@
       "en": "So the man brought his Ox into the village.",
       "vi": "Thế là người đàn ông dắt Bò của mình vào làng."
     },
-    { "p": 3, "en": "A crowd gathered to see the sight.", "vi": "Một đám đông tụ tập tới xem." },
+    {
+      "p": 3,
+      "en": "A crowd gathered to see the sight.",
+      "vi": "Một đám đông tụ tập tới xem."
+    },
     {
       "p": 3,
       "en": "The hundred carts were in line, and the strong Ox was yoked to the first wagon.",
@@ -60,7 +68,7 @@
     {
       "p": 4,
       "en": "\"Get up, you wretch! Get along, you rascal!\"",
-      "vi": "\"Đi đi, đồ khốn khổ! Đi mau, tên vô lại!\""
+      "vi": "\"Đi đi, đồ vô dụng! Đi mau, tên lười nhác!\""
     },
     {
       "p": 5,
@@ -100,15 +108,23 @@
     {
       "p": 7,
       "en": "\"Why did you whip me to-day? You never whipped me before. Why did you call me 'wretch' and 'rascal'? You never called me hard names before.\"",
-      "vi": "\"Sao hôm nay ông lại quất roi tôi? Trước giờ ông chưa bao giờ đánh tôi cả. Sao ông lại gọi tôi là 'đồ khốn khổ' với 'tên vô lại'? Trước giờ ông chưa bao giờ mắng tôi những lời nặng nề như thế.\""
+      "vi": "\"Sao hôm nay ông lại quất roi tôi? Trước giờ ông chưa bao giờ đánh tôi cả. Sao ông lại gọi tôi là 'đồ vô dụng' với 'tên lười nhác'? Trước giờ ông chưa bao giờ mắng tôi những lời nặng nề như thế.\""
     },
-    { "p": 8, "en": "Then the man said:", "vi": "Người đàn ông liền nói:" },
+    {
+      "p": 8,
+      "en": "Then the man said:",
+      "vi": "Người đàn ông liền nói:"
+    },
     {
       "p": 8,
       "en": "\"I will never treat you badly again. I am sorry I whipped you and called you names. I will never do so any more. Forgive me.\"",
       "vi": "\"Ta sẽ không bao giờ đối xử tệ với ngươi nữa. Ta xin lỗi vì đã quất roi và mắng nhiếc ngươi. Ta sẽ không bao giờ làm vậy nữa. Xin hãy tha thứ cho ta.\""
     },
-    { "p": 9, "en": "\"Very well,\" said the Ox.", "vi": "\"Được thôi,\" con Bò nói." },
+    {
+      "p": 9,
+      "en": "\"Very well,\" said the Ox.",
+      "vi": "\"Được thôi,\" con Bò nói."
+    },
     {
       "p": 9,
       "en": "\"To-morrow I will go into the village and draw the one hundred carts for you. You have always been a kind master until to-day. To-morrow you shall gain what you lost.\"",
@@ -139,7 +155,11 @@
       "en": "So again the carts were placed in a line, and the Ox was yoked to the first.",
       "vi": "Thế là các cỗ xe lại được xếp thành hàng, Bò được thắng vào cỗ đầu tiên."
     },
-    { "p": 13, "en": "A crowd came to watch again.", "vi": "Đám đông lại kéo tới xem." },
+    {
+      "p": 13,
+      "en": "A crowd came to watch again.",
+      "vi": "Đám đông lại kéo tới xem."
+    },
     {
       "p": 13,
       "en": "The owner said: \"Good Ox, show how strong you are! You fine, fine creature!\"",

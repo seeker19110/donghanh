@@ -54,8 +54,7 @@ export const HOA12_C7_LESSONS: ChemLesson[] = [
           'Kim loại kiềm phản ứng mãnh liệt với nước và cả alcohol. Chúng không phản ứng với hydrocarbon trong dầu hoả, nên được bảo quản bằng cách ngâm ngập trong dầu hoả.',
       },
       {
-        prompt:
-          'Đun nóng chất rắn sodium hydrogencarbonate (NaHCO₃) thì thu được khí nào?',
+        prompt: 'Đun nóng chất rắn sodium hydrogencarbonate (NaHCO₃) thì thu được khí nào?',
         choices: [
           { id: 'o2', label: 'Khí oxygen (O₂)' },
           { id: 'co2', label: 'Khí carbon dioxide (CO₂)' },

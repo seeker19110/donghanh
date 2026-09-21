@@ -913,7 +913,7 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
       '   — Sản xuất nước mắm, nước tương nhờ phân giải protein của nấm mốc hoặc vi khuẩn hữu ích.\n' +
       '2. Y học:\n' +
       '   — Sản xuất kháng sinh tự nhiên hoặc bán tổng hợp nhờ nấm mốc (Penicillium) hoặc xạ khuẩn (Streptomyces).\n' +
-      '   — Chuyển gen sản xuất hormone (như insulin trị tiểu đường) hoặc interferon trị virus bằng vi khuẩn E. coli.\n' +
+      '   — Chuyển gene sản xuất hormone (như insulin trị tiểu đường) hoặc interferon trị virus bằng vi khuẩn E. coli.\n' +
       '3. Nông nghiệp:\n' +
       '   — Sản xuất phân bón vi sinh (chứa vi khuẩn cố định đạm, phân giải lân).\n' +
       '   — Sản xuất thuốc trừ sâu sinh học (ví dụ vi khuẩn Bacillus thuringiensis - Bt sản xuất tinh thể độc diệt sâu hại).\n' +
@@ -927,12 +927,12 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
       problem:
         'Giải thích tại sao khi làm sữa chua, sữa đặc có đường pha loãng sau một thời gian ủ ấm lại chuyển sang trạng thái đông tụ và có vị chua.',
       steps: [
-        'Vi khuẩn lactic có sẵn trong hộp sữa chua mồi sử dụng đường lactose trong sữa làm nguồn cacbon và năng lượng.',
-        'Quá trình lên men lactic xảy ra: đường lactose chuyển thành axit lactic, làm giảm pH của môi trường sữa xuống mức acid (pH ~ 4.5).',
-        'pH giảm khiến protein casein trong sữa bị đông tụ (kết tủa sinh học), tạo trạng thái mịn dẻo, đồng thời axit lactic tạo vị chua đặc trưng cho sữa chua.',
+        'Vi khuẩn lactic có sẵn trong hộp sữa chua mồi sử dụng đường lactose trong sữa làm nguồn carbon và năng lượng.',
+        'Quá trình lên men lactic xảy ra: đường lactose chuyển thành acid lactic, làm giảm pH của môi trường sữa xuống khoảng 4,5.',
+        'pH giảm khiến protein casein trong sữa bị đông tụ (kết tủa sinh học), tạo trạng thái mịn dẻo, đồng thời acid lactic tạo vị chua đặc trưng cho sữa chua.',
       ],
       answer:
-        'Vi khuẩn lactic lên men đường thành axit lactic làm giảm pH, gây đông tụ protein casein trong sữa và tạo vị chua.',
+        'Vi khuẩn lactic lên men đường thành acid lactic làm giảm pH, gây đông tụ protein casein trong sữa và tạo vị chua.',
     },
     checkQuestions: [
       {
@@ -959,7 +959,7 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['lh_1'] },
         explain:
-          'Muối dưa cà dựa trên quá trình lên men lactic của vi khuẩn lactic có sẵn trên bề mặt lá rau quả, chuyển hóa đường thành axit lactic giúp bảo quản rau quả chống thiu hỏng.',
+          'Muối dưa cà dựa trên quá trình lên men lactic của vi khuẩn lactic có sẵn trên bề mặt lá rau quả, chuyển hóa đường thành acid lactic giúp bảo quản rau quả chống thiu hỏng.',
       },
     ],
     srsCards: [
@@ -1459,11 +1459,11 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
       '— Một số loại virus có thêm vỏ ngoài (envelope): cấu tạo bởi lớp lipid kép tương tự màng sinh chất và các gai glycoprotein nhô ra ngoài, đóng vai trò kháng nguyên giúp hấp phụ đặc hiệu vào tế bào chủ.\n\n' +
       'CHU TRÌNH NHÂN LÊN CỦA VIRUS TRONG TẾ BÀO CHỦ:\n' +
       'Gồm 5 giai đoạn liên tiếp:\n' +
-      '1. Hấp phụ (Attachment): Gai glycoprotein hoặc thụ thể bề mặt của virus liên kết đặc hiệu với các thụ thể trên màng tế bào chủ (như chìa khóa và ổ khóa).\n' +
+      '1. Hấp phụ (Attachment): Gai glycoprotein hoặc protein bề mặt của virus liên kết đặc hiệu với thụ thể trên màng tế bào chủ (như chìa khóa và ổ khóa).\n' +
       '2. Xâm nhập (Entry): Virus đưa toàn bộ hạt virion hoặc chỉ bơm lõi acid nucleic vào bên trong tế bào chất.\n' +
       '3. Sinh tổng hợp (Synthesis): Hệ gene virus điều khiển bộ máy tế bào chủ tổng hợp acid nucleic và các protein vỏ cho virus.\n' +
       '4. Lắp ráp (Assembly): Lõi acid nucleic được lồng vào vỏ capsid để tạo thành các hạt virus mới hoàn chỉnh.\n' +
-      '5. Giải phóng (Release): Các virus mới thoát ra ngoài bằng cách phá hủy làm tan tế bào chủ (chu trình sinh tan - lytic) hoặc nảy chồi ra ngoài từ từ mà không làm tan tế bào chủ ngay lập tức (chu trình tiềm tan - lysogenic).',
+      '5. Giải phóng (Release): Các virus mới thoát ra ngoài bằng cách phá vỡ làm tan tế bào chủ (chu trình sinh tan - lytic), hoặc nảy chồi qua màng từng hạt một nên tế bào chủ chưa chết ngay. Riêng ở nhiều phage còn có chu trình tiềm tan (lysogenic): hệ gene virus gài vào NST vi khuẩn, nhân đôi cùng tế bào chủ và chưa tạo hạt virus mới.',
     workedExample: {
       problem:
         'Hãy phân biệt sự khác nhau giữa chu trình sinh tan (lytic cycle) và chu trình tiềm tan (lysogenic cycle) của bacteriophage (phage - virus ký sinh vi khuẩn).',
@@ -1480,13 +1480,13 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
         prompt: 'Thành phần cấu tạo nào sau đây có ở tất cả các loại virus?',
         choices: [
           { id: 'vr_1', label: 'Vỏ ngoài bằng lipid kép' },
-          { id: 'vr_2', label: 'Lõi axit nucleic và vỏ capsid protein' },
+          { id: 'vr_2', label: 'Lõi acid nucleic và vỏ capsid protein' },
           { id: 'vr_3', label: 'Hệ bào quan ti thể và ribosome' },
           { id: 'vr_4', label: 'Thành peptidoglycan vững chắc' },
         ],
         answer: { kind: 'choice', correctIds: ['vr_2'] },
         explain:
-          'Tất cả các loại virus tối thiểu đều phải có lõi chứa axit nucleic (vật chất di truyền) và lớp vỏ capsid bằng protein bảo vệ bên ngoài. Vỏ ngoài lipid chỉ có ở một số nhóm virus nhất định.',
+          'Tất cả các loại virus tối thiểu đều phải có lõi chứa acid nucleic (vật chất di truyền) và lớp vỏ capsid bằng protein bảo vệ bên ngoài. Vỏ ngoài lipid chỉ có ở một số nhóm virus nhất định.',
       },
       {
         prompt: 'Tại sao virus không thể tự nhân đôi ngoài tế bào chủ?',
@@ -1498,7 +1498,7 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
           },
           {
             id: 'vrc_2',
-            label: 'Vì cấu trúc axit nucleic của chúng bị phân hủy ngay khi ra ngoài không khí',
+            label: 'Vì cấu trúc acid nucleic của chúng bị phân hủy ngay khi ra ngoài không khí',
           },
           { id: 'vrc_3', label: 'Vì vỏ capsid ngăn cản mọi phản ứng hóa học xảy ra' },
           { id: 'vrc_4', label: 'Vì chúng chỉ sống được trong môi trường không có oxy' },
@@ -1766,7 +1766,7 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
       '— Không dùng thuốc kháng sinh điều trị bệnh do virus vì kháng sinh chỉ tác động lên các đích đặc hiệu của vi khuẩn (như tổng hợp vách peptidoglycan, ribosome nhân sơ...).\n\n' +
       'ỨNG DỤNG CỦA VIRUS TRONG Y HỌC VÀ ĐỜI SỐNG:\n' +
       '1. Sản xuất chế phẩm sinh học (interferon, hormone insulin): Sử dụng phage làm vectơ chuyển gene mong muốn vào vi khuẩn để sản xuất số lượng lớn.\n' +
-      '2. Liệu pháp gene (Gene therapy): Dùng virus đã được vô hiệu hóa khả năng gây độc làm xe vận chuyển đưa gene lành tích hợp vào hệ gene người bệnh nhằm sửa chữa các lỗi di truyền.\n' +
+      '2. Liệu pháp gene (Gene therapy): Dùng virus đã được vô hiệu hóa khả năng gây độc làm phương tiện vận chuyển đưa gene lành tích hợp vào hệ gene người bệnh nhằm sửa chữa các lỗi di truyền.\n' +
       '3. Sản xuất thuốc trừ sâu sinh học: Sử dụng các virus diệt côn trùng hại (như Baculovirus) để phun cho cây trồng, an toàn với môi trường và sức khỏe con người.',
     workedExample: {
       problem:
@@ -1791,7 +1791,7 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['pv_1'] },
         explain:
-          'Tiêm vaccine giúp hệ miễn dịch nhận diện trước kháng nguyên của virus, sinh kháng thể tự nhiên và tế bào nhớ, tạo khả năng miễn dịch bền vững phòng bệnh chủ động.',
+          'Tiêm vaccine giúp hệ miễn dịch nhận diện trước kháng nguyên của virus, sinh kháng thể và tế bào nhớ miễn dịch trước khi gặp virus thật, nhờ đó phòng bệnh một cách chủ động.',
       },
       {
         prompt:
@@ -1804,7 +1804,7 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['lh_1'] },
         explain:
-          'Liệu pháp gene sử dụng virus làm vectơ vận chuyển (vector) để đưa gen lành vào tế bào của bệnh nhân bị đột biến gen nhằm sửa chữa lỗi di truyền.',
+          'Liệu pháp gene sử dụng virus làm vectơ vận chuyển (vector) để đưa gene lành vào tế bào của bệnh nhân bị đột biến gene nhằm sửa chữa lỗi di truyền.',
       },
     ],
     srsCards: [
@@ -2223,21 +2223,21 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
       '— Phương pháp dịch tễ cơ bản: Thiết kế phiếu khảo sát, thu thập số liệu từ trạm y tế địa phương, trường học, hộ gia đình về số ca mắc, đối tượng mắc, triệu chứng và đường lây nhiễm.\n' +
       '— Mục tiêu: Đánh giá thực trạng dịch bệnh, vẽ biểu đồ diễn biến ca bệnh theo thời gian, đề xuất các khuyến nghị vệ sinh dịch tễ phù hợp.\n\n' +
       'KỸ THUẬT NHÂN GIỐNG CÂY TRỒNG BẰNG NUÔI CẤY MÔ (TẾ BÀO THỰC VẬT):\n' +
-      'Dựa trên tính toàn năng của tế bào thực vật: Mỗi tế bào sống đều mang toàn bộ lượng thông tin di truyền của loài, dưới điều kiện thích hợp có thể tái biệt hóa hình thành cây con hoàn chỉnh.\n' +
+      'Dựa trên tính toàn năng của tế bào thực vật: Mỗi tế bào sống đều mang toàn bộ lượng thông tin di truyền của loài, trong điều kiện thích hợp có thể phản biệt hóa rồi tái biệt hóa để hình thành cây con hoàn chỉnh.\n' +
       '— Quy trình nhân giống cơ bản:\n' +
       '  1. Chọn và khử trùng mẫu cấy (thường lấy đỉnh sinh trưởng chứa tế bào phân sinh sạch virus).\n' +
       '  2. Nuôi cấy cảm ứng tạo Callus (mô sẹo): Dùng môi trường dinh dưỡng bổ sung auxin và cytokinin ở tỉ lệ cân bằng.\n' +
       '  3. Kích thích phát triển chồi: Tăng tỉ lệ hormone Cytokinin so với Auxin.\n' +
       '  4. Kích thích ra rễ: Tăng tỉ lệ hormone Auxin so với Cytokinin.\n' +
       '  5. Huấn luyện cây con ngoài vườn ươm trước khi đưa ra trồng đại trà.\n' +
-      '— Ý nghĩa: Tạo ra lượng lớn cây con sạch bệnh, đồng đều mặt di truyền, bảo tồn nguồn gene thực vật quý hiếm.',
+      '— Ý nghĩa: Tạo ra lượng lớn cây con sạch bệnh, đồng đều về mặt di truyền, bảo tồn nguồn gene thực vật quý hiếm.',
     workedExample: {
       problem:
         'Trong môi trường nuôi cấy mô tế bào thực vật (Callus), để điều khiển mô sẹo phát triển ra rễ hoặc ra chồi, người ta điều chỉnh tỉ lệ của hai loại hormone nào?',
       steps: [
         'Xác định hai loại hormone sinh trưởng thực vật chủ đạo trong nuôi cấy mô là Auxin (kích thích phân chia và ra rễ) và Cytokinin (kích thích phân chia và biệt hóa chồi).',
         'Nếu muốn kích thích tạo chồi: Tăng nồng độ Cytokinin cao hơn Auxin.',
-        'If muốn kích thích ra rễ: Tăng nồng độ Auxin cao hơn Cytokinin.',
+        'Nếu muốn kích thích ra rễ: Tăng nồng độ Auxin cao hơn Cytokinin.',
       ],
       answer: 'Điều chỉnh tỉ lệ hormone Auxin (ra rễ) và Cytokinin (ra chồi).',
     },
@@ -2272,7 +2272,7 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['yn_1'] },
         explain:
-          'Nuôi cấy mô tế bào cho phép nhân giống vô tính nhanh chóng, tạo hàng loạt cây con có kiểu gen đồng nhất với cây mẹ ban đầu và có thể chọn mẫu sạch virus để sản xuất giống sạch bệnh.',
+          'Nuôi cấy mô tế bào cho phép nhân giống vô tính nhanh chóng, tạo hàng loạt cây con có kiểu gene đồng nhất với cây mẹ ban đầu và có thể chọn mẫu sạch virus để sản xuất giống sạch bệnh.',
       },
     ],
     srsCards: [
@@ -2281,7 +2281,7 @@ export const SINH10_C4_LESSONS: BiologyLesson[] = [
         dap: 'Tỉ lệ Cytokinin / Auxin cao (Cytokinin nhiều hơn Auxin).',
       },
       {
-        hoi: 'Nguyên lý sinh học cốt lõi của nuôi cấy mô tế bào thực vật là gì?',
+        hoi: 'Nguyên lí sinh học cốt lõi của nuôi cấy mô tế bào thực vật là gì?',
         dap: 'Tính toàn năng của tế bào thực vật (totipotency) và khả năng phản biệt hóa, tái biệt hóa của chúng.',
       },
     ],

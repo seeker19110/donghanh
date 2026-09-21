@@ -2275,7 +2275,10 @@ export const HOA12_C8_LESSONS: ChemLesson[] = [
       },
     ],
     srsCards: [
-      { hoi: 'Phức chất của đồng với ammonia có màu gì?', dap: 'Màu xanh lam thẫm, đó là phức [Cu(NH₃)₄]²⁺.' },
+      {
+        hoi: 'Phức chất của đồng với ammonia có màu gì?',
+        dap: 'Màu xanh lam thẫm, đó là phức [Cu(NH₃)₄]²⁺.',
+      },
       {
         hoi: 'Phối tử là gì?',
         dap: 'Là phân tử hoặc anion còn cặp electron chưa liên kết, đem cho cặp electron đó vào orbital trống của ion trung tâm để tạo liên kết phối trí.',

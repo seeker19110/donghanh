@@ -12,8 +12,8 @@ export const HOA11_C6_LESSONS: ChemLesson[] = [
     lessonNumber: 23,
     title: 'Hợp chất carbonyl',
     hook:
-      'Dung dịch formalin dùng để bảo quản xác sinh vật chứa formaldehyde. Nước rửa sơn móng tay có mùi thơm chứa acetone. ' +
-      'Cả hai đều chứa nhóm chức carbonyl linh hoạt bậc nhất trong hoá hữu cơ.',
+      'Dung dịch formalin dùng bảo quản mẫu sinh vật chứa formaldehyde. Nước rửa sơn móng tay có mùi ' +
+      'hăng đặc trưng chứa acetone. Cả hai chất đều mang nhóm chức carbonyl.',
     theory:
       'KHÁI NIỆM VÀ PHÂN LOẠI:\n' +
       '— Hợp chất carbonyl là hợp chất hữu cơ trong phân tử có chứa nhóm carbonyl (C=O).\n' +
@@ -26,7 +26,7 @@ export const HOA11_C6_LESSONS: ChemLesson[] = [
       '2. Phản ứng oxi hoá (chỉ có ở aldehyde, ketone bền vững với chất oxi hoá yếu):\n' +
       '   — Phản ứng tráng bạc: Aldehyde tác dụng với thuốc thử Tollens [Ag(NH₃)₂]OH tạo ra lớp kim loại bạc sáng bóng như gương bám vào thành ống nghiệm (tráng gương):\n' +
       '     R−CHO + 2[Ag(NH₃)₂]OH → R−COONH₄ + 2Ag↓ + 3NH₃ + H₂O (t°).\n' +
-      '     (Riêng HCHO phản ứng tạo ra 4Ag do nhóm −CHO ở cả hai đầu của cấu trúc vô cơ trung gian).\n' +
+      '     (Riêng HCHO cho tới 4Ag từ 1 mol, vì nó bị oxi hoá qua hai nấc: trước thành muối của formic acid, muối này vẫn còn một nguyên tử H đính vào nhóm carbonyl nên tiếp tục tráng bạc lần nữa.)\n' +
       '   — Phản ứng với Cu(OH)₂ trong môi trường kiềm nóng: Aldehyde tạo kết tủa đỏ gạch Cu₂O:\n' +
       '     R−CHO + 2Cu(OH)₂ + NaOH → R−COONa + Cu₂O↓ + 3H₂O (t°).',
     workedExample: {
@@ -52,7 +52,7 @@ export const HOA11_C6_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['co'] },
         explain:
-          'Hợp chất carbonyl đặc trưng bởi nhóm carbonyl C=O. Aldehyde có nhóm −CHO, ketone có nhóm −CO−.',
+          'Hợp chất carbonyl đặc trưng bởi nhóm C=O. Nhóm −OH là của alcohol, còn −CHO (C=O có thêm H) mới là nhóm riêng của aldehyde — chỉ là một trường hợp của nhóm carbonyl, không phải định nghĩa chung.',
       },
       {
         prompt:
@@ -63,14 +63,14 @@ export const HOA11_C6_LESSONS: ChemLesson[] = [
       },
     ],
     srsCards: [
-      { hoi: 'Carbonyl gồm những lớp chất nào?', dap: "Aldehyde (R−CHO) và Ketone (R−CO−R')." },
+      { hoi: 'Carbonyl gồm những lớp chất nào?', dap: "Aldehyde (R−CHO) và ketone (R−CO−R')." },
       {
         hoi: 'Hiện tượng phản ứng tráng bạc của aldehyde?',
         dap: 'Có lớp kim loại bạc (Ag) sáng bóng bám vào thành ống nghiệm.',
       },
       {
         hoi: 'Sự khác biệt khi oxi hoá aldehyde và ketone bằng thuốc thử nhẹ?',
-        dap: 'Aldehyde dễ bị oxi hoá tạo Ag hoặc Cu₂O đỏ gạch, Ketone không phản ứng.',
+        dap: 'Aldehyde dễ bị oxi hoá, tạo Ag hoặc Cu₂O đỏ gạch; ketone không phản ứng.',
       },
     ],
     animation: {
@@ -656,7 +656,7 @@ export const HOA11_C6_LESSONS: ChemLesson[] = [
     title: 'Carboxylic acid',
     hook:
       'Giấm ăn có vị chua thanh nhẹ nhờ chứa acetic acid. Kiến đốt truyền nọc độc formic acid gây sưng rát. ' +
-      'Cả hai đều là những axit hữu cơ thuộc nhóm axit carboxylic.',
+      'Cả hai đều là acid hữu cơ, thuộc nhóm carboxylic acid.',
     theory:
       'KHÁI NIỆM:\n' +
       '— Carboxylic acid là hợp chất hữu cơ trong phân tử có nhóm carboxyl (−COOH) liên kết trực tiếp với nguyên tử carbon hoặc hydrogen.\n' +
@@ -711,7 +711,7 @@ export const HOA11_C6_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['ethyl'] },
         explain:
-          'Phản ứng giữa gốc axetat (CH₃COO−) và gốc etyl (−C₂H₅) tạo ra ethyl acetate (CH₃COOC₂H₅).',
+          'Acetic acid cho gốc acetate CH₃COO−, ethanol cho gốc ethyl −C₂H₅; ghép lại được ethyl acetate CH₃COOC₂H₅. Methyl acetate là ester của methanol, còn propyl acetate là ester của propan-1-ol.',
       },
     ],
     srsCards: [
@@ -1225,8 +1225,8 @@ export const HOA11_C6_LESSONS: ChemLesson[] = [
     lessonNumber: 25,
     title: 'Ôn tập chương 6 — Hợp chất carbonyl - Carboxylic acid',
     hook:
-      'Ôn tập và liên kết hai lớp dẫn xuất chứa oxygen đỉnh cao: hợp chất carbonyl và carboxylic acid, ' +
-      'hoàn thành lộ trình Hoá học hữu cơ lớp 11 của chúng ta.',
+      'Ôn tập và nối lại hai lớp dẫn xuất chứa oxygen quan trọng nhất: hợp chất carbonyl và carboxylic ' +
+      'acid — chặng cuối của phần hoá học hữu cơ lớp 11.',
     theory:
       'TỔNG KẾT KIẾN THỨC CHƯƠNG 6:\n' +
       "1. Hợp chất carbonyl: Có nhóm C=O. Gồm aldehyde (R−CHO) và ketone (R−CO−R').\n" +
@@ -1238,7 +1238,7 @@ export const HOA11_C6_LESSONS: ChemLesson[] = [
         'Nhận biết 3 chất lỏng đựng trong các lọ mất nhãn: acetaldehyde, acetone, và acetic acid bằng ' +
         'các thuốc thử đơn giản.',
       steps: [
-        'Trích mẫu thử của 3 dung dịch.',
+        'Lấy một ít mỗi chất ra ba ống nghiệm làm mẫu thử.',
         'Nhỏ dung dịch NaHCO₃ (hoặc Na₂CO₃) vào 3 mẫu thử ⇒ Mẫu sủi bọt khí CO₂ thoát ra là acetic acid.',
         'Với 2 mẫu còn lại (acetaldehyde, acetone), cho tác dụng với thuốc thử Tollens đun nóng nhẹ.',
         'Mẫu tạo lớp bạc sáng bóng tráng gương bám thành ống nghiệm là acetaldehyde.',
@@ -1257,7 +1257,7 @@ export const HOA11_C6_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['quỳ'] },
         explain:
-          'Acetic acid là một acid nên làm đỏ quỳ và giải phóng khí CO₂ khi gặp muối carbonate. Acetaldehyde và acetone không có tính axit này.',
+          'Acetic acid là một acid nên làm đỏ quỳ tím và giải phóng khí CO₂ khi gặp muối carbonate; acetaldehyde và acetone không có tính acid nên không cho hiện tượng đó. Thuốc thử Tollens chỉ tách riêng được acetaldehyde, còn H₂/Ni thì cả ba chất đều không cho dấu hiệu quan sát được.',
       },
       {
         prompt: 'Chất nào sau đây tham gia phản ứng tráng bạc tạo gương sáng bóng?',
@@ -1274,7 +1274,7 @@ export const HOA11_C6_LESSONS: ChemLesson[] = [
     srsCards: [
       {
         hoi: 'Sản phẩm khử aldehyde và ketone bằng H₂?',
-        dap: 'Aldehyde tạo alcohol bậc I; Ketone tạo alcohol bậc II.',
+        dap: 'Aldehyde tạo alcohol bậc I; ketone tạo alcohol bậc II.',
       },
       {
         hoi: 'Phản ứng dùng để nhận biết tính khử của aldehyde?',

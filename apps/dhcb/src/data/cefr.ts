@@ -3442,7 +3442,10 @@ export const CEFR_LEVELS: CefrLevel[] = [
                 'My brother, who lives in Hue, is a teacher.',
                 'Anh trai tôi, người sống ở Huế, là giáo viên.',
               ),
-              ex('Hanoi, which is the capital, is very old.', 'Hà Nội, vốn là thủ đô, rất cổ kính.'),
+              ex(
+                'Hanoi, which is the capital, is very old.',
+                'Hà Nội, vốn là thủ đô, rất cổ kính.',
+              ),
               ex(
                 'Our manager, who is very kind, helped us.',
                 'Quản lý của chúng tôi, người rất tốt bụng, đã giúp chúng tôi.',
@@ -3844,7 +3847,7 @@ export const CEFR_LEVELS: CefrLevel[] = [
               ),
             ],
             tipVi:
-              'Đảo ngữ chỉ dùng trong văn viết trang trọng hoặc muốn nhấn mạnh mạnh mẽ — không dùng ' +
+              'Đảo ngữ chỉ dùng trong văn viết trang trọng hoặc khi muốn nhấn mạnh thật rõ — không dùng ' +
               'trong hội thoại thường ngày.',
             mistakes: [
               mis(

@@ -3699,7 +3699,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
       '   — Di truyền thẳng: Truyền trực tiếp từ bố cho 100% con trai ở giới dị giao tử XY (ví dụ gen quy định túm lông ở vành tai người).\n\n' +
       'DI TRUYỀN NGOÀI NHÂN (Di truyền tế bào chất / Di truyền theo dòng mẹ):\n' +
       '— Đặc điểm: Các gen nằm trên phân tử ADN dạng vòng kép trong các bào quan ở tế bào chất như ti thể (ở động vật và thực vật) hoặc lục lạp (ở thực vật).\n' +
-      '— Kết quả phép lai thuận nghịch khác nhau: Phép lai thuận nghịch cho đời con 100% có kiểu hình giống cơ thể mẹ gánh vác việc thụ tinh.\n  + Cơ chế: Khi thụ tinh, giao tử đực (tinh trùng) chỉ truyền nhân mà hầu như không truyền tế bào chất, toàn bộ tế bào chất của hợp tử do giao tử cái (trứng) cung cấp.',
+      '— Kết quả phép lai thuận nghịch khác nhau: Đổi vai bố mẹ thì kết quả đổi theo: ở cả hai phép lai, đời con đều có 100% kiểu hình giống CƠ THỂ MẸ.\n  + Cơ chế: Khi thụ tinh, giao tử đực (tinh trùng) chỉ truyền nhân mà hầu như không truyền tế bào chất, toàn bộ tế bào chất của hợp tử do giao tử cái (trứng) cung cấp.',
     workedExample: {
       problem:
         'Tiến hành hai phép lai thuận nghịch ở loài cây hoa phấn:\nPhép lai 1 (Thuận): Mẹ lá xanh đốm trắng × Bố lá xanh bình thường.\nPhép lai 2 (Nghịch): Mẹ lá xanh bình thường × Bố lá xanh đốm trắng.\nHãy dự đoán kết quả kiểu hình ở đời con của hai phép lai và giải thích cơ chế di truyền.',
@@ -4080,7 +4080,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
     theory:
       'QUY TRÌNH LAI HỮU TÍNH Ở THỰC VẬT (lai hoa lưỡng tính):\n' +
       'Để tránh tự thụ phấn ngoài ý muốn, quy trình lai gồm các bước nghiêm ngặt:\n' +
-      '1. Bước 1: Khử đực ở hoa của cây chọn làm mẹ.\n   — Chọn những nụ hoa cái chưa nở (bao phấn chưa chín và chưa giải phóng hạt phấn).\n   — Dùng kẹp y tế tách nhẹ cánh hoa, cắt bỏ toàn bộ nhị đực (bao phấn), chỉ để lại nhụy cái vô hại.\n2. Bước 2: Bảo vệ hoa mẹ.\n   — Bao kín hoa đã khử đực bằng túi nilon hoặc giấy mỏng để ngăn chặn hạt phấn lạ ngoài môi trường bay vào thụ phấn chéo ngoài ý muốn.\n3. Bước 3: Thụ phấn nhân tạo.\n   — Khi nhụy hoa mẹ chín (tiết dịch nhầy ở đầu nhụy), thu hạt phấn từ hoa đực của cây chọn làm bố (bao phấn đã chín và vỡ). Rắc nhẹ hạt phấn này lên đầu nhụy hoa mẹ.\n4. Bước 4: Gắn thẻ theo dõi.\n   — Bao kín hoa lại, gắn nhãn ghi rõ tên bố mẹ, ngày thực hiện lai để theo dõi kết quả thu hoạch hạt lai F₁.',
+      '1. Bước 1: Khử đực ở hoa của cây chọn làm mẹ.\n   — Chọn những nụ hoa cái chưa nở (bao phấn chưa chín và chưa giải phóng hạt phấn).\n   — Dùng kẹp y tế tách nhẹ cánh hoa, cắt bỏ toàn bộ nhị (bao phấn), chỉ giữ lại nhụy — tức cơ quan sinh sản cái.\n2. Bước 2: Bảo vệ hoa mẹ.\n   — Bao kín hoa đã khử đực bằng túi nilon hoặc giấy mỏng để ngăn chặn hạt phấn lạ ngoài môi trường bay vào thụ phấn chéo ngoài ý muốn.\n3. Bước 3: Thụ phấn nhân tạo.\n   — Khi nhụy hoa mẹ chín (tiết dịch nhầy ở đầu nhụy), thu hạt phấn từ hoa đực của cây chọn làm bố (bao phấn đã chín và vỡ). Rắc nhẹ hạt phấn này lên đầu nhụy hoa mẹ.\n4. Bước 4: Gắn thẻ theo dõi.\n   — Bao kín hoa lại, gắn nhãn ghi rõ tên bố mẹ, ngày thực hiện lai để theo dõi kết quả thu hoạch hạt lai F₁.',
     workedExample: {
       problem:
         'Tại sao trong quy trình lai hoa lưỡng tính (như hoa đậu Hà Lan), bước cắt bỏ bao phấn (khử đực) ở cây mẹ bắt buộc phải được thực hiện khi hoa còn ở dạng nụ chưa nở?',
@@ -4100,7 +4100,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
           {
             id: 'lh_1',
             label:
-              'Ngăn chặn hạt phấn lạ ngoài gió hoặc do côn trùng mang đến thụ phấn chéo ngoài ý muốn',
+              'Ngăn hạt phấn lạ do gió hoặc côn trùng mang tới gây thụ phấn chéo ngoài ý muốn',
           },
           { id: 'lh_2', label: 'Giữ nhiệt độ cho hoa ấm áp để mau chín noãn' },
           { id: 'lh_3', label: 'Ngăn không cho ánh sáng chiếu vào hoa làm biến tính sắc tố' },
@@ -5651,21 +5651,21 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
     theory:
       'CÔNG NGHỆ TẾ BÀO THỰC VẬT:\n' +
       '1. Dung hợp tế bào trần (Somatic hybridization):\n' +
-      '   — Cách làm: Loại bỏ thành xenlulozo của tế bào sinh dưỡng hai loài khác nhau tạo tế bào trần, sau đó cho dung hợp tạo tế bào lai. Nuôi cấy tế bào lai phát triển thành cây lai song nhị bội khác loài mà không cần qua sinh sản hữu tính (ví dụ cây Pomato lai giữa khoai tây và cà chua).\n' +
+      '   — Cách làm: Dùng enzyme cellulase loại bỏ thành tế bào (bằng cellulose) của tế bào sinh dưỡng ở hai loài khác nhau tạo tế bào trần, sau đó cho dung hợp tạo tế bào lai. Nuôi cấy tế bào lai phát triển thành cây lai song nhị bội khác loài mà không cần qua sinh sản hữu tính (ví dụ cây Pomato lai giữa khoai tây và cà chua).\n' +
       '2. Nuôi cấy hạt phấn hoặc noãn chưa thụ tinh (đơn bội n):\n' +
       '   — Cách làm: Nuôi hạt phấn (n) trên môi trường nhân tạo tạo mô đơn bội, sau đó xử lý bằng hóa chất colchicine để lưỡng bội hóa tạo dòng lưỡng bội (2n) thuần chủng tuyệt đối về tất cả các gen.\n\n' +
       'CÔNG NGHỆ TẾ BÀO ĐỘNG VẬT:\n' +
       '1. Nhân bản vô tính động vật bằng chuyển nhân (Cloning):\n' +
-      '   — Đại diện: Cừu Dolly (1996).\n   — Ý nghĩa: Nhân nhanh các cá thể động vật quý hiếm hoặc mang gene trị bệnh y học.\n' +
+      '   — Đại diện: Cừu Dolly (1996).\n   — Ý nghĩa: Nhân nhanh các cá thể động vật quý hiếm, hoặc các cá thể mang gene quý dùng trong y học.\n' +
       '2. Cấy truyền phôi (Embryo transfer):\n' +
-      '   — Cách làm: Tách phôi của động vật quý hiếm thành nhiều phôi nhỏ rồi cấy vào tử cung của các con cái nhận mang thai hộ.\n   — Ý nghĩa: Nhân nhanh số lượng con giống quý hiếm từ một phôi ban đầu.',
+      '   — Cách làm: Tách phôi của động vật quý hiếm thành nhiều phôi nhỏ rồi cấy vào tử cung của nhiều con cái khác để chúng mang thai hộ.\n   — Ý nghĩa: Nhân nhanh số lượng con giống quý hiếm từ một phôi ban đầu.',
     workedExample: {
       problem:
         'Hãy mô tả quy trình tạo dòng thực vật lưỡng bội (2n) thuần chủng tuyệt đối về tất cả các gen bằng kỹ thuật nuôi cấy hạt phấn.',
       steps: [
         'Thu hoạch hạt phấn: Lấy các hạt phấn đơn bội (n) từ bao phấn của cây có kiểu gen dị hợp (ví dụ AaBb).',
         'Nuôi cấy in vitro: Nuôi các hạt phấn này trên môi trường dinh dưỡng thích hợp kích thích chúng phân chia tạo mô đơn bội (n).',
-        'Lưỡng bội hóa: Xử lý mô đơn bội bằng hóa chất Colchicine (ức chế thoi vô sắc ngăn phân chia NST), làm bộ NST nhân đôi lên thành lưỡng bội (2n).',
+        'Lưỡng bội hóa: Xử lý mô đơn bội bằng hóa chất colchicine. Colchicine ức chế sự hình thành thoi phân bào, nên NST đã nhân đôi không phân li được về hai cực; kết quả là bộ NST trong tế bào tăng gấp đôi, từ n thành 2n.',
         'Kết quả: Mô lưỡng bội phát triển thành cây con 2n. Vì mọi cặp NST đều nhân đôi từ một bộ đơn bội ban đầu nên cây con tạo ra đồng hợp tử thuần chủng tuyệt đối về tất cả các cặp gen (ví dụ AABB hoặc aabb).',
       ],
       answer:
@@ -5706,7 +5706,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
       },
       {
         hoi: 'Nêu ý nghĩa lớn nhất của kỹ thuật cấy truyền phôi ở bò sữa?',
-        dap: 'Nhân nhanh số lượng con con quý hiếm từ một phôi bò mẹ tốt nhờ nhiều bò mẹ thông thường mang thai hộ.',
+        dap: 'Nhân nhanh số lượng bê giống quý từ một phôi của bò mẹ tốt nhờ nhiều bò mẹ thông thường mang thai hộ.',
       },
     ],
     track: 'core',
@@ -6184,7 +6184,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
     chapterTitle: 'Ứng dụng di truyền học',
     lessonNumber: 18,
     title: 'Chọn giống bằng công nghệ gen',
-    hook: 'Bằng công nghệ gen chuyển, chúng ta đã tạo ra giống lúa vàng chứa vitamin A cứu sống hàng triệu trẻ em thiếu dinh dưỡng, hay những con vi khuẩn E. coli sản xuất hormone insulin trị bệnh tiểu đường.',
+    hook: 'Bằng công nghệ chuyển gen, chúng ta đã tạo ra giống lúa vàng chứa vitamin A cứu sống hàng triệu trẻ em thiếu dinh dưỡng, hay những con vi khuẩn E. coli sản xuất hormone insulin trị bệnh tiểu đường.',
     theory:
       'KHÁI NIỆM VỀ CÔNG NGHỆ GEN:\n' +
       '— Là quy trình tạo ra những tế bào hoặc sinh vật có gen bị biến đổi hoặc có thêm gen mới, từ đó tạo ra những đặc tính mới mong muốn.\n' +
@@ -6202,7 +6202,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
       steps: [
         'Nhận diện cơ chế cắt của restrictase: Enzym restrictase cắt ADN tại những trình tự nucleotit xác định (điểm nhận biết).',
         'Tạo đầu dính: Vết cắt lệch tạo ra các đầu mạch đơn nhô ra gọi là đầu dính (sticky ends) mang trình tự nucleotit bổ sung.',
-        'Kết quả nối: Nếu cắt bằng cùng một loại restrictase, đầu dính của plasmid và đầu dính của gen cần chuyển sẽ có trình tự nucleotit đối xứng bổ sung khớp khít với nhau, tạo điều kiện cho các liên kết hydro hình thành dễ dàng khi bổ sung enzym ligase nối mạch.',
+        'Kết quả nối: Nếu cắt bằng cùng một loại restrictase, đầu dính của plasmid và đầu dính của gen cần chuyển sẽ có trình tự nucleotit bổ sung, tự bắt cặp khớp khít với nhau bằng liên kết hydro; sau đó enzyme ligase nối liền hai mạch bằng liên kết photphodieste bền vững.',
       ],
       answer:
         'Cắt bằng cùng một loại restrictase để tạo ra các đầu dính bổ sung khớp khít với nhau, giúp nối gen vào thể truyền dễ dàng.',
@@ -6223,7 +6223,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
       },
       {
         prompt:
-          'Thành tựu nào sau đây là sản phẩm ứng dụng trực tiếp của công nghệ gen chuyển ở thực vật?',
+          'Thành tựu nào sau đây là sản phẩm ứng dụng trực tiếp của công nghệ chuyển gen ở thực vật?',
         choices: [
           { id: 'tt_1', label: 'Cây bông mang gen Bt kháng sâu hại' },
           { id: 'tt_2', label: 'Cây lai Pomato vừa ra quả cà chua vừa tạo củ khoai tây' },
@@ -6522,7 +6522,7 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
       'KHÁI NIỆM DI TRUYỀN Y HỌC:\n' +
       'Là một nhánh của di truyền học người chuyên nghiên cứu cơ chế phát sinh, chẩn đoán, phòng ngừa và điều trị các bệnh di truyền ở người.\n\n' +
       'CÁC NHÓM BỆNH DI TRUYỀN CHÍNH:\n' +
-      '1. Bệnh di truyền phân tử (đột biến gen):\n   — Bệnh phêninkêtô niệu (PKU): Do đột biến gen mã hóa enzym chuyển hóa axit amin phenylalanine thành tyrosine. Axit amin phenylalanine tích tụ đầu độc tế bào thần kinh gây mất trí trí tuệ.\n   — Bệnh hồng cầu hình liềm, mù màu, máu khó đông.\n2. Hội chứng bệnh liên quan đến đột biến NST (rối loạn số lượng/cấu trúc NST):\n   — Hội chứng Down (3 NST 21), Klinefelter (XXY), Turner (XO), Patau (3 NST 13), Edward (3 NST 18).\n3. Bệnh ung thư (ác tính):\n   — Do đột biến gen tiền ung thư (chuyển thành gen ung thư trội biểu hiện liên tục) hoặc đột biến gen ức chế khối u (gen lặn mất chức năng bảo vệ tế bào), làm tế bào phân chia mất kiểm soát hình thành khối u di căn.\n\n' +
+      '1. Bệnh di truyền phân tử (đột biến gen):\n   — Bệnh phêninkêtô niệu (PKU): Do đột biến gen mã hóa enzym chuyển hóa axit amin phenylalanine thành tyrosine. Axit amin phenylalanine tích tụ trong máu, đầu độc tế bào thần kinh và gây thiểu năng trí tuệ.\n   — Bệnh hồng cầu hình liềm, mù màu, máu khó đông.\n2. Hội chứng bệnh liên quan đến đột biến NST (rối loạn số lượng/cấu trúc NST):\n   — Hội chứng Down (3 NST 21), Klinefelter (XXY), Turner (XO), Patau (3 NST 13), Edward (3 NST 18).\n3. Bệnh ung thư (ác tính):\n   — Do đột biến gen tiền ung thư (chuyển thành gen ung thư trội biểu hiện liên tục) hoặc đột biến gen ức chế khối u (gen lặn mất chức năng bảo vệ tế bào), làm tế bào phân chia mất kiểm soát hình thành khối u di căn.\n\n' +
       'BẢO VỆ VỐN GEN LOÀI NGƯỜI:\n' +
       '— Tư vấn di truyền y học: Phân tích phả hệ, xét nghiệm di truyền đưa ra lời khuyên cho các cặp vợ chồng có nguy cơ sinh con mắc bệnh.\n' +
       '— Sàng lọc trước sinh: Chọc dò dịch ối, sinh thiết tua nhau thai, xét nghiệm máu mẹ (NIPT) để phát hiện dị tật NST từ giai đoạn phôi thai.\n' +

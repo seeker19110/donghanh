@@ -38,7 +38,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   ],
   pink: [
     { en: 'The baby wore a pink hat.', vi: 'Em bé đội mũ hồng.' },
-    { en: 'Pink roses are very popular.', vi: 'Hoa hồng hồng rất phổ biến.' },
+    { en: 'Pink roses are very popular.', vi: 'Hoa hồng màu hồng rất được ưa chuộng.' },
   ],
   brown: [
     { en: 'The dog has a brown coat.', vi: 'Con chó có bộ lông màu nâu.' },
@@ -457,7 +457,10 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     { en: 'He knocked on the door three times.', vi: 'Anh ấy gõ cửa ba lần.' },
   ],
   window: [
-    { en: 'Open the window to let in fresh air.', vi: 'Mở cửa sổ cho không khí vào.' },
+    {
+      en: 'Open the window to let in fresh air.',
+      vi: 'Mở cửa sổ cho không khí trong lành vào nhà.',
+    },
     { en: 'She looked out of the window at the rain.', vi: 'Cô ấy nhìn qua cửa sổ ra cơn mưa.' },
   ],
   ball: [
@@ -649,7 +652,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
   ],
   sugar: [
-    { en: 'This coffee has too much sugar.', vi: 'Cà phê này cho quá nhiều đường.' },
+    { en: 'This coffee has too much sugar.', vi: 'Cà phê này nhiều đường quá.' },
     {
       en: 'Cutting down on sugar is good for your health.',
       vi: 'Giảm đường có lợi cho sức khoẻ bạn.',
@@ -715,7 +718,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   tiger: [
     {
       en: 'The tiger is a symbol of strength and power.',
-      vi: 'Con hổ là biểu tượng của sức mạnh.',
+      vi: 'Con hổ là biểu tượng của sức mạnh và quyền uy.',
     },
     {
       en: 'Tigers are endangered animals in the wild.',
@@ -724,7 +727,10 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   ],
   monkey: [
     { en: 'The monkey swung from branch to branch.', vi: 'Con khỉ đu từ cành này sang cành khác.' },
-    { en: 'Monkeys live in tropical forests and jungles.', vi: 'Khỉ sống trong rừng nhiệt đới.' },
+    {
+      en: 'Monkeys live in tropical forests and jungles.',
+      vi: 'Khỉ sống trong rừng nhiệt đới và rừng rậm.',
+    },
   ],
   snake: [
     {
@@ -876,7 +882,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     { en: 'She loves reading books and cooking.', vi: 'Cô ấy thích đọc sách và nấu ăn.' },
   ],
   we: [
-    { en: 'We are all in this together.', vi: 'Tất cả chúng ta cùng nhau trong việc này.' },
+    { en: 'We are all in this together.', vi: 'Tất cả chúng ta cùng đồng hành trong chuyện này.' },
     {
       en: 'We had a wonderful time last weekend.',
       vi: 'Chúng tôi có khoảng thời gian tuyệt vời cuối tuần trước.',
@@ -890,7 +896,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     { en: 'It is getting very late.', vi: 'Đã muộn lắm rồi.' },
     {
       en: 'It is cold outside today, so wear a jacket.',
-      vi: 'Hôm nay trời lạnh ngoài, hãy mặc áo khoác.',
+      vi: 'Hôm nay bên ngoài trời lạnh, hãy mặc áo khoác.',
     },
   ],
   hello: [
@@ -1009,7 +1015,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   love: [
     {
       en: 'I love spending quality time with my family.',
-      vi: 'Tôi thích dành thời gian chất lượng bên gia đình.',
+      vi: 'Tôi thích dành những khoảng thời gian trọn vẹn bên gia đình.',
     },
     {
       en: 'He loves playing the guitar after work.',
@@ -1110,7 +1116,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
       en: 'Ho Chi Minh City is a very big city.',
       vi: 'Thành phố Hồ Chí Minh là một thành phố rất lớn.',
     },
-    { en: 'She had a big smile on her face.', vi: 'Cô ấy nở một nụ cười rộng trên mặt.' },
+    { en: 'She had a big smile on her face.', vi: 'Cô ấy nở một nụ cười thật tươi.' },
   ],
   small: [
     {
@@ -1645,7 +1651,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   deadline: [
     {
       en: 'We need to meet the deadline — no extensions.',
-      vi: 'Chúng ta phải đáp ứng hạn chót — không gia hạn.',
+      vi: 'Chúng ta phải kịp hạn chót — không gia hạn.',
     },
     {
       en: 'He always finishes his work before the deadline.',
@@ -1831,7 +1837,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   friend: [
     {
       en: 'A true friend stays with you through the hard times.',
-      vi: 'Bạn thật sự ở bên bạn qua những lúc khó khăn.',
+      vi: 'Người bạn thật sự sẽ ở bên ta qua những lúc khó khăn.',
     },
     { en: 'She made many new friends at her new school.', vi: 'Cô ấy kết bạn nhiều ở trường mới.' },
   ],
@@ -1852,7 +1858,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
     {
       en: 'I still keep in touch with my old classmates.',
-      vi: 'Tôi vẫn giữ liên lạc với những bạn cũ.',
+      vi: 'Tôi vẫn giữ liên lạc với các bạn học cũ.',
     },
   ],
   colleague: [
@@ -1916,7 +1922,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
     {
       en: 'She feels a strong sense of belonging in her community.',
-      vi: 'Cô ấy cảm thấy thuộc về cộng đồng của mình rất mạnh mẽ.',
+      vi: 'Cô ấy cảm thấy gắn bó sâu sắc với cộng đồng của mình.',
     },
   ],
   society: [
@@ -1946,7 +1952,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
     {
       en: 'She trusted him completely with her secret.',
-      vi: 'Cô ấy hoàn toàn tin tưởng anh ấy với bí mật của mình.',
+      vi: 'Cô ấy hoàn toàn tin tưởng khi kể bí mật của mình cho anh ấy.',
     },
   ],
   invite: [
@@ -1973,13 +1979,13 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
     {
       en: 'She chats online with her friends every evening.',
-      vi: 'Cô ấy nhắn tin với bạn bè mỗi tối.',
+      vi: 'Cô ấy trò chuyện trực tuyến với bạn bè mỗi tối.',
     },
   ],
   share: [
     {
       en: 'He shared his lunch with a colleague who forgot theirs.',
-      vi: 'Anh ấy chia bữa trưa với đồng nghiệp quên đem cơm.',
+      vi: 'Anh ấy chia bữa trưa với một đồng nghiệp quên mang cơm.',
     },
     {
       en: 'Share both your success and your challenges with your team.',
@@ -1999,7 +2005,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   care: [
     {
       en: "She cares deeply about her friends' well-being.",
-      vi: 'Cô ấy quan tâm sâu sắc đến sức khoẻ của bạn bè.',
+      vi: 'Cô ấy quan tâm sâu sắc đến cuộc sống của bạn bè.',
     },
     {
       en: 'He takes great care of his elderly parents.',
@@ -2075,14 +2081,14 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   homework: [
     {
       en: 'She does her homework right after coming home from school.',
-      vi: 'Cô ấy làm bài tập ngay sau khi về nhà từ trường.',
+      vi: 'Cô ấy làm bài tập ngay sau khi đi học về.',
     },
     { en: 'He forgot to bring his homework to class.', vi: 'Anh ấy quên mang bài tập đến lớp.' },
   ],
   exam: [
     {
       en: 'She prepared for the final exam for two full weeks.',
-      vi: 'Cô ấy ôn thi cuối kỳ trong hai tuần đầy đủ.',
+      vi: 'Cô ấy ôn thi cuối kỳ suốt hai tuần liền.',
     },
     {
       en: 'The exam covers all three chapters we studied.',
@@ -2112,7 +2118,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   notebook: [
     {
       en: 'He filled three notebooks with notes during the semester.',
-      vi: 'Anh ấy lấp đầy ba quyển vở trong suốt học kỳ.',
+      vi: 'Anh ấy viết kín ba quyển vở trong suốt học kỳ.',
     },
     {
       en: 'She colour-codes her notebook for each different subject.',
@@ -2126,7 +2132,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
     {
       en: 'She spent the whole afternoon studying quietly in the library.',
-      vi: 'Cô ấy dành cả buổi chiều học yên tĩnh trong thư viện.',
+      vi: 'Cô ấy dành cả buổi chiều lặng lẽ học trong thư viện.',
     },
   ],
   university: [
@@ -2152,7 +2158,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   question: [
     {
       en: 'He raised his hand confidently to ask a question.',
-      vi: 'Anh ấy tự tin giơ tay hỏi câu hỏi.',
+      vi: 'Anh ấy tự tin giơ tay để đặt câu hỏi.',
     },
     {
       en: 'A thoughtful question shows that you are really thinking.',
@@ -2162,7 +2168,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   answer: [
     {
       en: 'The correct answer was on the tip of her tongue.',
-      vi: 'Câu trả lời đúng đang ở đầu lưỡi của cô ấy.',
+      vi: 'Câu trả lời đúng cứ ở ngay đầu lưỡi mà cô ấy không nói ra được.',
     },
     {
       en: 'She answered every question in the exam correctly.',
@@ -2189,7 +2195,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   knowledge: [
     {
       en: 'Reading widely is the best way to gain knowledge.',
-      vi: 'Đọc rộng là cách tốt nhất để tích lũy kiến thức.',
+      vi: 'Đọc nhiều và đa dạng là cách tốt nhất để tích lũy kiến thức.',
     },
     {
       en: 'He shared his knowledge freely with everyone around him.',
@@ -2431,7 +2437,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
   ],
   shoes: [
-    { en: 'Always tie your shoelaces before running.', vi: 'Luôn buộc dây giày trước khi chạy.' },
+    { en: 'Always tie your shoes before running.', vi: 'Luôn buộc dây giày trước khi chạy.' },
     {
       en: 'She tried on several pairs of shoes before choosing.',
       vi: 'Cô ấy thử nhiều đôi giày trước khi chọn.',
@@ -2468,7 +2474,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
     {
       en: 'He could never find matching socks in the morning.',
-      vi: 'Buổi sáng anh ấy không bao giờ tìm được đôi tất đôi.',
+      vi: 'Buổi sáng anh ấy không bao giờ tìm được hai chiếc tất cùng đôi.',
     },
   ],
   glasses: [
@@ -2621,7 +2627,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   walk: [
     {
       en: 'It is a pleasant ten-minute walk to the park.',
-      vi: 'Đi bộ mười phút dễ chịu đến công viên.',
+      vi: 'Từ đây đến công viên là quãng đi bộ mười phút rất dễ chịu.',
     },
     {
       en: 'She walks her dog twice a day in the neighbourhood.',
@@ -2690,7 +2696,10 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
       en: 'The police officer gave us clear directions to the hotel.',
       vi: 'Cảnh sát chỉ đường rõ ràng đến khách sạn cho chúng tôi.',
     },
-    { en: 'I got confused because the directions were wrong.', vi: 'Tôi bị lạc vì chỉ đường sai.' },
+    {
+      en: 'I got confused because the directions were wrong.',
+      vi: 'Tôi bị rối vì chỉ dẫn đường sai.',
+    },
   ],
   left: [
     { en: 'The post office is on the left side of the road.', vi: 'Bưu điện ở bên trái đường.' },
@@ -2726,7 +2735,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   journey: [
     {
       en: 'The journey from Hanoi to Ho Chi Minh City takes two hours by plane.',
-      vi: 'Hành trình từ Hà Nội đến TP.HCM mất hai tiếng bằng máy bay.',
+      vi: 'Hành trình từ Hà Nội đến Thành phố Hồ Chí Minh mất hai tiếng bằng máy bay.',
     },
     {
       en: 'Learning a language is a long journey but worth it.',
@@ -2793,7 +2802,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
     {
       en: 'I am excited about starting my new job next week.',
-      vi: 'Tôi hào hứng về việc bắt đầu công việc mới tuần sau.',
+      vi: 'Tôi rất háo hức vì tuần sau sẽ bắt đầu công việc mới.',
     },
   ],
   scared: [
@@ -2846,7 +2855,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   lonely: [
     {
       en: 'Moving to a new city can feel lonely at first.',
-      vi: 'Chuyển đến thành phố mới có thể cảm thấy cô đơn lúc đầu.',
+      vi: 'Khi mới chuyển đến thành phố khác, bạn có thể thấy cô đơn.',
     },
     {
       en: 'She felt lonely because all her friends were far away.',
@@ -2865,8 +2874,8 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   ],
   confused: [
     {
-      en: 'The instructions were confusing — I did not know where to start.',
-      vi: 'Hướng dẫn khó hiểu — tôi không biết bắt đầu từ đâu.',
+      en: 'I was confused by the instructions — I did not know where to start.',
+      vi: 'Tôi thấy rối vì bản hướng dẫn — không biết bắt đầu từ đâu.',
     },
     {
       en: 'He looked confused when I asked him that question.',
@@ -2962,7 +2971,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   where: [
     {
       en: 'Where can I find a good coffee shop nearby?',
-      vi: 'Tôi có thể tìm quán cà phê ngon ở gần đây không?',
+      vi: 'Gần đây tôi có thể tìm quán cà phê ngon ở đâu?',
     },
     { en: 'Where are you from originally?', vi: 'Quê gốc của bạn ở đâu?' },
   ],
@@ -3028,7 +3037,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
       en: 'The garden is behind the house — very peaceful.',
       vi: 'Khu vườn ở phía sau nhà — rất yên bình.',
     },
-    { en: 'Do not fall behind in your studies.', vi: 'Đừng để học tập bị trễ.' },
+    { en: 'Do not fall behind in your studies.', vi: 'Đừng để việc học bị tụt lại phía sau.' },
   ],
   between: [
     {
@@ -3272,7 +3281,10 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
       en: 'The course costs five hundred dollars for three months.',
       vi: 'Khoá học này tốn năm trăm đô cho ba tháng.',
     },
-    { en: 'Good health is worth whatever it costs.', vi: 'Sức khoẻ tốt đáng bất kỳ chi phí nào.' },
+    {
+      en: 'Good health is worth whatever it costs.',
+      vi: 'Sức khoẻ tốt thì tốn bao nhiêu cũng đáng.',
+    },
   ],
   wallet: [
     {
@@ -3360,7 +3372,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
     {
       en: 'Dance is a beautiful way to express how you feel.',
-      vi: 'Múa là cách tuyệt đẹp để bộc lộ cảm xúc.',
+      vi: 'Nhảy múa là cách tuyệt đẹp để bộc lộ cảm xúc.',
     },
   ],
   sing: [
@@ -3430,7 +3442,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
     {
       en: 'She scored top marks in the maths exam.',
-      vi: 'Cô ấy đạt điểm tuyệt đối trong kỳ thi toán.',
+      vi: 'Cô ấy đạt điểm cao nhất trong kỳ thi toán.',
     },
   ],
   match: [
@@ -3476,7 +3488,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   trophy: [
     {
       en: 'The coach lifted the trophy above his head and cheered.',
-      vi: 'Huấn luyện viên nâng cúp lên đầu và hò reo.',
+      vi: 'Huấn luyện viên nâng cúp lên quá đầu và hò reo.',
     },
     {
       en: 'She keeps all her trophies on a shelf in her bedroom.',
@@ -3512,7 +3524,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
     {
       en: 'It is brave to try something new, even if you might fail.',
-      vi: 'Thử điều gì đó mới, dù có thể thất bại, là dũng cảm.',
+      vi: 'Dám thử điều mới, dù có thể thất bại, cũng là một sự dũng cảm.',
     },
   ],
   lazy: [
@@ -3568,7 +3580,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   serious: [
     {
       en: 'She is serious about becoming a professional musician.',
-      vi: 'Cô ấy nghiêm túc với mục tiêu trở thành nhạc sĩ chuyên nghiệp.',
+      vi: 'Cô ấy nghiêm túc với mục tiêu trở thành nhạc công chuyên nghiệp.',
     },
     {
       en: 'He looks serious in meetings but is funny outside work.',
@@ -3588,7 +3600,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   loud: [
     {
       en: 'The music was so loud I could not hear my friend speak.',
-      vi: 'Nhạc to đến mức tôi không nghe bạn nói chuyện.',
+      vi: 'Nhạc to đến mức tôi không nghe được bạn mình nói gì.',
     },
     {
       en: 'She has a loud laugh that fills the whole room.',
@@ -3608,7 +3620,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   generous: [
     {
       en: 'He was generous enough to donate half his bonus to charity.',
-      vi: 'Anh ấy hào phóng đủ để hiến một nửa tiền thưởng cho từ thiện.',
+      vi: 'Anh ấy hào phóng đến mức quyên góp một nửa tiền thưởng cho từ thiện.',
     },
     {
       en: 'She is generous with both her time and her advice.',
@@ -3738,7 +3750,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
     {
       en: 'The days are long in June because of the summer solstice.',
-      vi: 'Ngày dài vào tháng Sáu do điểm hạ chí.',
+      vi: 'Ngày dài vào tháng Sáu vì có ngày hạ chí.',
     },
   ],
   July: [
@@ -4034,7 +4046,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
     {
       en: 'She walks around the block every evening to clear her mind.',
-      vi: 'Cô ấy đi bộ quanh khu phố mỗi tối để xua tan căng thẳng.',
+      vi: 'Cô ấy đi bộ quanh khu phố mỗi tối cho đầu óc thư thái.',
     },
   ],
   neighborhood: [
@@ -4054,7 +4066,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
     {
       en: 'She waited at the entrance for her friend to arrive.',
-      vi: 'Cô ấy đợi ở cổng vào cho bạn đến.',
+      vi: 'Cô ấy đợi ở lối vào cho đến khi bạn mình tới.',
     },
   ],
   exit: [
@@ -4069,8 +4081,8 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   ],
   floor: [
     {
-      en: 'The restaurant is on the rooftop floor — great views.',
-      vi: 'Nhà hàng ở tầng thượng — tầm nhìn tuyệt vời.',
+      en: 'The restaurant is on the top floor — great views.',
+      vi: 'Nhà hàng ở tầng trên cùng — tầm nhìn tuyệt vời.',
     },
     {
       en: 'Take the lift to the eighth floor for the meeting room.',
@@ -4106,7 +4118,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
     {
       en: 'Engineers designed the bridge to last a hundred years.',
-      vi: 'Các kỹ sư thiết kế cây cầu để tồn tại một trăm năm.',
+      vi: 'Các kỹ sư thiết kế cây cầu để trụ vững cả trăm năm.',
     },
   ],
   lawyer: [
@@ -4136,7 +4148,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
     {
       en: 'She trained under a famous chef for three years.',
-      vi: 'Cô ấy học dưới sự hướng dẫn của một đầu bếp nổi tiếng ba năm.',
+      vi: 'Cô ấy học nghề ba năm dưới sự hướng dẫn của một đầu bếp nổi tiếng.',
     },
   ],
   driver: [
@@ -4232,11 +4244,11 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   musician: [
     {
       en: 'The musician performed live on the rooftop stage.',
-      vi: 'Nhạc sĩ biểu diễn trực tiếp trên sân khấu mái thượng.',
+      vi: 'Nhạc công biểu diễn trực tiếp trên sân khấu tầng thượng.',
     },
     {
       en: 'She is a talented musician who plays both guitar and piano.',
-      vi: 'Cô ấy là nhạc sĩ tài năng chơi được cả guitar lẫn piano.',
+      vi: 'Cô ấy là nhạc công tài năng, chơi được cả guitar lẫn piano.',
     },
   ],
   actor: [
@@ -4590,7 +4602,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
     {
       en: "She uses a chef's knife for most of her cutting.",
-      vi: 'Cô ấy dùng dao đầu bếp cho hầu hết việc thái chặt.',
+      vi: 'Cô ấy dùng dao đầu bếp cho hầu hết việc thái cắt.',
     },
   ],
   fork: [
@@ -4656,7 +4668,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     },
     {
       en: 'We should all do our part to protect nature.',
-      vi: 'Tất cả chúng ta nên làm phần của mình để bảo vệ thiên nhiên.',
+      vi: 'Tất cả chúng ta đều nên góp phần bảo vệ thiên nhiên.',
     },
   ],
   forest: [
@@ -4722,7 +4734,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   soil: [
     {
       en: 'The rich, dark soil in the Mekong Delta is perfect for farming.',
-      vi: 'Đất màu mỡ, đen ở đồng bằng sông Cửu Long rất thích hợp để trồng trọt.',
+      vi: 'Đất đen màu mỡ ở đồng bằng sông Cửu Long rất thích hợp để trồng trọt.',
     },
     {
       en: 'She tested the soil before planting to check its pH level.',
@@ -4754,12 +4766,15 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
       en: 'She stood at the edge of the water as a wave washed over her feet.',
       vi: 'Cô ấy đứng ở mép nước khi một con sóng ập qua chân.',
     },
-    { en: 'The waves were too strong for swimming that day.', vi: 'Sóng quá mạnh để bơi hôm đó.' },
+    {
+      en: 'The waves were too strong for swimming that day.',
+      vi: 'Hôm đó sóng quá mạnh, không bơi được.',
+    },
   ],
   earth: [
     {
       en: 'We only have one earth, so we must take care of it.',
-      vi: 'Chúng ta chỉ có một Trái Đất, vì vậy phải chăm sóc nó.',
+      vi: 'Chúng ta chỉ có một Trái Đất, vì vậy phải giữ gìn hành tinh này.',
     },
     {
       en: 'The earthquake shook the earth violently for thirty seconds.',
@@ -5004,7 +5019,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   ],
   vacation: [
     { en: 'We are going on vacation next week.', vi: 'Tuần tới chúng tôi đi nghỉ mát.' },
-    { en: 'How did you spend your vacation?', vi: 'Bạn đã nghỉ mát thế nào?' },
+    { en: 'How did you spend your vacation?', vi: 'Bạn đã trải qua kỳ nghỉ thế nào?' },
   ],
   pack: [
     { en: 'I need to pack my bags tonight.', vi: 'Tối nay tôi cần xếp đồ vào túi.' },
@@ -5102,8 +5117,8 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   ],
   series: [
     {
-      en: 'I am watching a new series on the weekend.',
-      vi: 'Cuối tuần tôi đang xem một bộ phim dài tập mới.',
+      en: 'I am watching a new series this weekend.',
+      vi: 'Cuối tuần này tôi xem một bộ phim dài tập mới.',
     },
     { en: 'The series has five seasons.', vi: 'Bộ phim có năm mùa.' },
   ],
@@ -5207,7 +5222,7 @@ export const EXTRA_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   planet: [
     {
       en: 'Earth is the only planet we can live on.',
-      vi: 'Trái Đất là hành tinh duy nhất chúng ta có thể sống.',
+      vi: 'Trái Đất là hành tinh duy nhất chúng ta có thể sinh sống.',
     },
     { en: 'We all share one planet.', vi: 'Tất cả chúng ta chung một hành tinh.' },
   ],

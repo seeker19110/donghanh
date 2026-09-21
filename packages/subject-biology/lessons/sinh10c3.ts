@@ -240,7 +240,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
         'Đường phân: thu lãi 2 ATP.',
         'Chu trình Krebs: thu thêm 2 ATP.',
         'Chuỗi chuyền điện tử: khoảng 26-28 ATP, sinh ra từ 10 NADH và 2 FADH₂ qua phosphoryl hoá oxi hoá.',
-        'Tổng cộng: khoảng 30-32 ATP cho mỗi phân tử glucose. Các sách cũ ghi 36-38 ATP vì tính tròn mỗi NADH được 3 ATP, còn số đo hiện nay thấp hơn do tế bào phải tốn một phần chênh lệch H⁺ để vận chuyển chất qua màng ti thể.'
+        'Tổng cộng: khoảng 30-32 ATP cho mỗi phân tử glucose. Các sách cũ ghi 36-38 ATP vì tính tròn mỗi NADH được 3 ATP, còn số đo hiện nay thấp hơn do tế bào phải tốn một phần chênh lệch H⁺ để vận chuyển chất qua màng ti thể.',
       ],
       answer: 'Khoảng 30-32 ATP cho mỗi phân tử glucose (sách cũ ghi 36-38 ATP).',
     },
@@ -653,7 +653,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['np_1'] },
         explain:
-          'Nguyên phân tạo 2 tế bào con có bộ NST lưỡng bội (2n) giống hệt tế bào mẹ, đảm bảo sự ổn định bộ gen.',
+          'Nguyên phân tạo 2 tế bào con có bộ NST lưỡng bội (2n) giống hệt tế bào mẹ, đảm bảo sự ổn định bộ gene.',
       },
     ],
     srsCards: [
@@ -1404,7 +1404,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
     checkQuestions: [
       {
         prompt:
-          'Tại sao trong thí nghiệm quan sát nguyên phân ở rễ hành tây, người ta phải xử lý mẫu với HCl?',
+          'Tại sao trong thí nghiệm quan sát nguyên phân ở rễ hành tây, người ta phải xử lí mẫu với HCl?',
         choices: [
           { id: 'hcl_1', label: 'Để làm mềm mô, phá bỏ thành tế bào và tách rời các tế bào' },
           { id: 'hcl_2', label: 'Để nhuộm màu NST đặc hiệu' },
@@ -1413,7 +1413,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['hcl_1'] },
         explain:
-          'HCl loãng ở nhiệt độ cao thủy phân các chất kết dính pectin trong thành tế bào thực vật, làm mô mềm ra và giúp các tế bào tách rời khi ép.',
+          'HCl loãng ở nhiệt độ cao thuỷ phân chất pectin gắn kết các tế bào thực vật với nhau, làm mô mềm ra nên khi ép các tế bào tách rời và dàn thành một lớp mỏng, nhìn rõ NST.',
       },
       {
         prompt:
@@ -1432,7 +1432,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
     srsCards: [
       {
         hoi: 'Tại sao phải dùng HCl khi làm tiêu bản quan sát nguyên phân ở thực vật?',
-        dap: 'Để làm mềm mô, thủy phân thành tế bào pectin, giúp tế bào tách rời và dàn mỏng trên lam kính.',
+        dap: 'Để làm mềm mô: HCl thuỷ phân chất pectin gắn giữa các tế bào, giúp tế bào tách rời và dàn mỏng trên lam kính.',
       },
       {
         hoi: 'Khi quan sát tiêu bản, làm thế nào để nhận biết một tế bào đang ở kì giữa của nguyên phân?',
@@ -1921,20 +1921,20 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
       '   — Quy trình: Lấy mô thực vật → nuôi cấy trên môi trường dinh dưỡng vô trùng (hormone thực vật) → mô sẹo → cây hoàn chỉnh.\n' +
       '   — Ứng dụng: Nhân giống nhanh cây sạch bệnh, giữ giống quý.\n' +
       '2. Nhân bản vô tính (Cloning):\n' +
-      '   — Cừu Dolly (1996): Tế bào tuyến vú của cừu trưởng thành được chuyển nhân vào trứng đã bỏ nhân, kích hoạt phát triển → cừu con có bộ gen giống hệt cừu mẹ.\n' +
+      '   — Cừu Dolly (1996): Tế bào tuyến vú của cừu trưởng thành được chuyển nhân vào trứng đã bỏ nhân, kích hoạt phát triển → cừu con có bộ gene giống hệt con cừu cho nhân.\n' +
       '3. Tế bào gốc (Stem cells):\n' +
       '   — Tế bào có khả năng tự phân chia và biệt hoá thành nhiều loại tế bào chuyên biệt.\n' +
-      '   — Ứng dụng: Điều trị bệnh máu, trồng cơ quan nội tạng trong tương lai.',
+      '   — Ứng dụng: Điều trị bệnh về máu, hướng tới tạo mô và cơ quan thay thế trong tương lai.',
     workedExample: {
       problem:
         'Giải thích nguyên lí tính toàn năng của tế bào và ý nghĩa của nó trong công nghệ nuôi cấy mô.',
       steps: [
-        'Tính toàn năng (totipotency): Mỗi tế bào sinh dưỡng của cơ thể đa bào chứa bộ gen đầy đủ như tế bào ban đầu (tế bào hợp tử).',
+        'Tính toàn năng (totipotency): Mỗi tế bào sinh dưỡng của cơ thể đa bào chứa bộ gene đầy đủ như tế bào ban đầu (tế bào hợp tử).',
         'Trong điều kiện nuôi cấy thích hợp (đủ dinh dưỡng, hormone), tế bào có thể biểu hiện lại tất cả gene cần thiết và phát triển thành cơ thể hoàn chỉnh.',
-        'Ứng dụng: Từ 1 mảnh mô nhỏ của cây quý, ta có thể tạo ra hàng nghìn cây con giống nhau bằng nuôi cấy in vitro.',
+        'Ứng dụng: Từ 1 mảnh mô nhỏ của cây quý, ta có thể tạo ra hàng nghìn cây con giống nhau bằng nuôi cấy trong ống nghiệm (in vitro).',
       ],
       answer:
-        'Tính toàn năng: mọi tế bào có đủ thông tin di truyền → từ 1 mô nhỏ nuôi cấy thành nhiều cây con có bộ gen đồng nhất.',
+        'Tính toàn năng: mọi tế bào có đủ thông tin di truyền → từ 1 mô nhỏ nuôi cấy thành nhiều cây con có bộ gene đồng nhất.',
     },
     checkQuestions: [
       {
@@ -1969,7 +1969,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
       },
       {
         hoi: 'Nhân bản vô tính tạo ra cá thể như thế nào?',
-        dap: 'Chuyển nhân tế bào sinh dưỡng vào trứng đã bỏ nhân, kích hoạt phát triển phôi → cá thể có gen giống hệt cá thể cho nhân.',
+        dap: 'Chuyển nhân tế bào sinh dưỡng vào trứng đã bỏ nhân, kích hoạt phát triển phôi → cá thể có bộ gene giống hệt cá thể cho nhân.',
       },
     ],
     track: 'core',

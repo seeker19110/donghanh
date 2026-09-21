@@ -53,7 +53,7 @@
     {
       "p": 5,
       "en": "\"Isn't he here?\" they asked. \"Perhaps he came out of the river in the darkness and went home.\"",
-      "vi": "\"Chàng không ở đây à?\" họ hỏi lại. \"Có lẽ chàng đã lên bờ trong bóng tối rồi về cung rồi chăng.\""
+      "vi": "\"Chàng không ở đây à?\" họ hỏi lại. \"Có lẽ chàng đã lên bờ trong bóng tối và về cung rồi chăng.\""
     },
     {
       "p": 5,
@@ -123,7 +123,7 @@
     {
       "p": 10,
       "en": "On the river's bank a cottonwood-tree grew, and a young Parrot lived in its branches.",
-      "vi": "Trên bờ sông có một cây bông gòn, và một chú Vẹt non sống trên cành cây ấy."
+      "vi": "Trên bờ sông có một cây dương, và một chú Vẹt non sống trên cành cây ấy."
     },
     {
       "p": 10,
@@ -235,7 +235,11 @@
       "en": "Then the Parrot came, saying: \"Father, silver and gold have I none, but if you ever want choice rice, come to where I live and call, 'Parrot!' and I will call all my family and friends together, and we will gather the choicest rice in the fields for you.\"",
       "vi": "Rồi Vẹt tới, nói: \"Thưa cha, con chẳng có vàng bạc gì, nhưng nếu bao giờ cha cần gạo ngon, cha hãy tới chỗ con ở mà gọi 'Vẹt ơi!', con sẽ gọi cả họ hàng bè bạn lại, chúng con sẽ nhặt cho cha những hạt gạo ngon nhất ngoài đồng.\""
     },
-    { "p": 19, "en": "Last came the prince.", "vi": "Cuối cùng mới tới lượt hoàng tử." },
+    {
+      "p": 19,
+      "en": "Last came the prince.",
+      "vi": "Cuối cùng mới tới lượt hoàng tử."
+    },
     {
       "p": 19,
       "en": "In his heart he hated the poor man who had saved his life.",
@@ -246,13 +250,21 @@
       "en": "But he pretended to be as thankful as the animals had been, saying, \"Come to me when I am king, and I will give you great riches.\"",
       "vi": "Nhưng chàng giả vờ biết ơn chẳng kém gì mấy con vật, nói: \"Khi nào ta làm vua, ngươi hãy tới tìm ta, ta sẽ ban cho ngươi của cải lớn.\""
     },
-    { "p": 19, "en": "So saying, he went away.", "vi": "Nói xong, chàng bỏ đi." },
+    {
+      "p": 19,
+      "en": "So saying, he went away.",
+      "vi": "Nói xong, chàng bỏ đi."
+    },
     {
       "p": 20,
       "en": "Not long after this the prince's father died, and Prince Wicked was made king.",
       "vi": "Ít lâu sau, vua cha qua đời, và Hoàng tử Độc Ác được lập làm vua."
     },
-    { "p": 20, "en": "He was then very rich.", "vi": "Từ đó ông ta giàu có vô cùng." },
+    {
+      "p": 20,
+      "en": "He was then very rich.",
+      "vi": "Từ đó ông ta giàu có vô cùng."
+    },
     {
       "p": 21,
       "en": "By and by the poor man said to himself: \"Each of the four whose lives I saved made a promise to me. I will see if they will keep their promises.\"",
@@ -361,7 +373,7 @@
     {
       "p": 35,
       "en": "How can we be sure that he will not have any, or all, of us killed? Let us kill him.\"",
-      "vi": "Làm sao chúng ta chắc được rằng ông ta sẽ không giết bất kỳ ai trong chúng ta, hay giết cả lũ chúng ta? Hãy giết ông ta đi.\""
+      "vi": "Làm sao chúng ta chắc được rằng ông ta sẽ không giết bất kỳ ai trong chúng ta, hay giết tất cả chúng ta? Hãy giết ông ta đi.\""
     },
     {
       "p": 35,
@@ -446,7 +458,7 @@
     {
       "p": 46,
       "en": "Each had the food he liked best of all to eat every day, and so these four lived happily all their lives.",
-      "vi": "Mỗi con hằng ngày đều được ăn đúng món mình thích nhất, và cứ thế bốn người bọn họ sống hạnh phúc trọn đời."
+      "vi": "Mỗi con hằng ngày đều được ăn đúng món mình thích nhất, và cứ thế cả bốn sống hạnh phúc trọn đời."
     }
   ]
 }

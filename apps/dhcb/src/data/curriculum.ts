@@ -983,7 +983,13 @@ const FOUNDATION_BASE: Circle[] = [
         'Bring a coat — it will be rainy.',
         'Mang áo khoác — trời sẽ mưa.',
       ),
-      w('windy', 'adj', 'có gió', 'It is too windy to go outside.', 'Gió to quá, không ra ngoài được.'),
+      w(
+        'windy',
+        'adj',
+        'có gió',
+        'It is too windy to go outside.',
+        'Gió to quá, không ra ngoài được.',
+      ),
       w(
         'foggy',
         'adj',
@@ -1999,7 +2005,13 @@ const FOUNDATION_BASE: Circle[] = [
       ),
       w('street', 'n', 'con đường, phố', 'What street do you live on?', 'Bạn ở phố nào?'),
       w('corner', 'n', 'góc đường', 'Turn left at the corner.', 'Rẽ trái ở góc đường.'),
-      w('block', 'n', 'dãy nhà', 'The school is three blocks away.', 'Trường học cách đây ba dãy nhà.'),
+      w(
+        'block',
+        'n',
+        'dãy nhà',
+        'The school is three blocks away.',
+        'Trường học cách đây ba dãy nhà.',
+      ),
       w(
         'neighborhood',
         'n',
@@ -5940,13 +5952,7 @@ const FOUNDATION_BASE: Circle[] = [
         'Giải đấu bắt đầu tuần sau.',
       ),
       w('medal', 'n', 'huy chương', 'She won a gold medal.', 'Cô ấy giành huy chương vàng.'),
-      w(
-        'fan',
-        'n',
-        'người hâm mộ',
-        'I am a big fan of this team.',
-        'Tôi rất hâm mộ đội này.',
-      ),
+      w('fan', 'n', 'người hâm mộ', 'I am a big fan of this team.', 'Tôi rất hâm mộ đội này.'),
       w('goal', 'n', 'bàn thắng, mục tiêu', 'He scored two goals.', 'Anh ấy ghi hai bàn thắng.'),
       w(
         'penalty',
@@ -8095,7 +8101,7 @@ const FOUNDATION_BASE: Circle[] = [
       },
       {
         en: 'He handled the ambiguous situation with diplomacy and clear articulation.',
-        vi: 'Anh ấy xử lý tình huống mơ hồ đó một cách khéo léo và phát âm rõ ràng.',
+        vi: 'Anh ấy xử lý tình huống mơ hồ đó một cách khéo léo và diễn đạt rõ ràng.',
       },
     ],
   },
@@ -8178,7 +8184,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'quyền nuôi con; sự giam giữ',
         'They share custody of their son.',
-        'Họ chia sẻ quyền nuôi con trai.',
+        'Họ cùng chia quyền nuôi con trai.',
       ),
       w(
         'litigation',
@@ -8259,7 +8265,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'chiến dịch tranh cử',
         'She ran a strong campaign.',
-        'Cô ấy chạy một chiến dịch tranh cử mạnh mẽ.',
+        'Cô ấy tiến hành một chiến dịch tranh cử mạnh mẽ.',
       ),
       w(
         'parliament',
@@ -8489,7 +8495,7 @@ const FOUNDATION_BASE: Circle[] = [
       },
       {
         en: "Her culture shock faded thanks to the locals' hospitality.",
-        vi: 'Sự sốc văn hóa của cô ấy dần biến mất nhờ lòng hiếu khách của người dân địa phương.',
+        vi: 'Cú sốc văn hóa của cô ấy dần qua đi nhờ lòng hiếu khách của người dân địa phương.',
       },
       {
         en: 'The homestay was off the beaten path, far from the embassy.',
@@ -8669,7 +8675,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'chăm sóc bản thân',
         'Self-care is important for wellbeing.',
-        'Chăm sóc bản thân quan trọng cho sự khỏe mạnh.',
+        'Chăm sóc bản thân rất quan trọng cho sự khỏe mạnh.',
       ),
       w(
         'burnout',
@@ -8812,7 +8818,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'giới học thuật',
         'He has spent his career in academia.',
-        'Anh ấy đã dành sự nghiệp trong giới học thuật.',
+        'Anh ấy dành cả sự nghiệp cho giới học thuật.',
       ),
       w(
         'peer review',

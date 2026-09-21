@@ -338,7 +338,8 @@ export const WORD_TRAPS: WordTrap[] = [
     id: 'r-l-5',
     target: 'free',
     traps: ['flee'],
-    tipVi: '"free" có /r/ (lưỡi không chạm vòm miệng) — đổi sang /l/ (lưỡi chạm vòm miệng) sẽ thành "flee".',
+    tipVi:
+      '"free" có /r/ (lưỡi không chạm vòm miệng) — đổi sang /l/ (lưỡi chạm vòm miệng) sẽ thành "flee".',
     group: 'r-l',
   },
   {

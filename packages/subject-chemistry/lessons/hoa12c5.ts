@@ -20,7 +20,7 @@ export const HOA12_C5_LESSONS: ChemLesson[] = [
       '— Điện cực hydrogen chuẩn (viết tắt SHE, từ standard hydrogen electrode) được quy ước có thế điện cực bằng 0,00 V, lấy làm mốc so sánh cho mọi điện cực khác.\n' +
       '— Ý nghĩa: Trị số E° càng âm thì kim loại có tính khử càng mạnh, ion của nó có tính oxi hoá càng yếu; trị số E° càng dương thì kim loại có tính khử càng yếu, ion của nó có tính oxi hoá càng mạnh.\n\n' +
       'PIN ĐIỆN HOÁ (Galvanic Cell):\n' +
-      '— Là thiết bị chuyển hoá hoá năng của phản ứng oxi hoá - khử tự phát thành điện năng.\n' +
+      '— Là thiết bị biến năng lượng của phản ứng oxi hoá - khử tự phát thành điện năng.\n' +
       '— Cấu tạo (ví dụ Pin Daniell Zn-Cu):\n' +
       '  1. Anode (cực âm): làm bằng kim loại có tính khử mạnh hơn (Zn), nơi xảy ra quá trình oxi hoá: Zn → Zn²⁺ + 2e.\n' +
       '  2. Cathode (cực dương): làm bằng kim loại có tính khử yếu hơn (Cu), nơi xảy ra quá trình khử: Cu²⁺ + 2e → Cu.\n' +

@@ -1095,12 +1095,12 @@
       {
         "speaker": "B",
         "en": "I'm so glad you enjoyed it! We're proud of that pool. Can I see your passport or ID for check-in?",
-        "vi": "Tôi rất vui khi anh thích! Chúng tôi tự hào về hồ bơi đó. Tôi có thể xem hộ chiếu hoặc CMND để làm thủ tục không?"
+        "vi": "Tôi rất vui khi anh thích! Chúng tôi tự hào về hồ bơi đó. Tôi có thể xem hộ chiếu hoặc căn cước để làm thủ tục không?"
       },
       {
         "speaker": "A",
         "en": "Of course. Here's my ID card. My partner's too — she's just parking the motorbike.",
-        "vi": "Dĩ nhiên. Đây là CMND của tôi. Và của bạn đời — cô ấy đang đậu xe máy."
+        "vi": "Dĩ nhiên. Đây là căn cước của tôi. Và của bạn đời — cô ấy đang đậu xe máy."
       },
       {
         "speaker": "B",
@@ -1218,7 +1218,7 @@
       {
         "speaker": "A",
         "en": "Yes please. Can you also tell me if there are any additional charges I might not be aware of?",
-        "vi": "Vâng làm ơn. Bạn có thể cho tôi biết liệu có thêm khoản phí nào tôi chưa biết không?"
+        "vi": "Vâng, phiền bạn. Bạn có thể cho tôi biết liệu có thêm khoản phí nào tôi chưa biết không?"
       },
       {
         "speaker": "B",
@@ -1238,7 +1238,7 @@
       {
         "speaker": "A",
         "en": "I'll pay the balance now by card as well. Same Visa, please.",
-        "vi": "Tôi sẽ thanh toán phần còn lại bằng thẻ ngay bây giờ. Vẫn thẻ Visa đó, làm ơn."
+        "vi": "Tôi sẽ thanh toán phần còn lại bằng thẻ ngay bây giờ. Vẫn thẻ Visa đó nhé."
       },
       {
         "speaker": "B",
@@ -1346,7 +1346,7 @@
       {
         "speaker": "A",
         "en": "That sounds smart. You know this city well.",
-        "vi": "Nghe thông minh đó. Bạn biết thành phố này rõ nhỉ."
+        "vi": "Nghe hợp lý đó. Bạn rành thành phố này ghê."
       },
       {
         "speaker": "B",
@@ -1391,7 +1391,7 @@
       {
         "speaker": "B",
         "en": "Two — a son in grade four and a daughter just started kindergarten this year. They keep me very busy!",
-        "vi": "Hai đứa — một trai học lớp bốn và một gái vừa vào mẫu giáo năm nay. Chúng giữ tôi rất bận rộn!"
+        "vi": "Hai đứa — một trai học lớp bốn và một gái vừa vào mẫu giáo năm nay. Hai đứa làm tôi bận tối mắt!"
       },
       {
         "speaker": "A",
@@ -1439,7 +1439,7 @@
       {
         "speaker": "B",
         "en": "Yes it does! Are you going there now? It's about four stops away.",
-        "vi": "Có đấy! Bạn đang đến đó bây giờ không? Còn khoảng bốn trạm nữa."
+        "vi": "Có đấy! Bạn định xuống đó luôn à? Còn khoảng bốn trạm nữa."
       },
       {
         "speaker": "A",
@@ -1464,7 +1464,7 @@
       {
         "speaker": "A",
         "en": "Very different! The people here are so direct and friendly. And the food — don't get me started on the food.",
-        "vi": "Rất khác! Người ở đây thẳng thắn và thân thiện lắm. Và đồ ăn — đừng để tôi bắt đầu nói về đồ ăn."
+        "vi": "Rất khác! Người ở đây thẳng thắn và thân thiện lắm. Và đồ ăn — nói tới đồ ăn thì tôi kể cả ngày."
       },
       {
         "speaker": "B",
@@ -1489,7 +1489,7 @@
       {
         "speaker": "B",
         "en": "That's the right app. Once you know how to set your start and end point, it's very reliable. Shows real-time tracking too.",
-        "vi": "Đó là app đúng. Khi bạn biết cách đặt điểm xuất phát và điểm đến, nó rất đáng tin cậy. Còn hiển thị theo dõi thời gian thực."
+        "vi": "Đúng app đó rồi. Khi bạn biết cách đặt điểm xuất phát và điểm đến, nó rất đáng tin cậy. Còn hiển thị theo dõi thời gian thực."
       },
       {
         "speaker": "A",
@@ -1592,7 +1592,7 @@
       {
         "speaker": "A",
         "en": "Window, please! I love watching the scenery — especially the stretch along the coast near Hue.",
-        "vi": "Cạnh cửa sổ, làm ơn! Tôi thích ngắm cảnh — đặc biệt đoạn dọc bờ biển gần Huế."
+        "vi": "Cho tôi ghế cạnh cửa sổ nhé! Tôi thích ngắm cảnh — đặc biệt đoạn dọc bờ biển gần Huế."
       },
       {
         "speaker": "B",
@@ -1725,7 +1725,7 @@
       {
         "speaker": "B",
         "en": "For Vietnamese citizens, just your national ID card and a minimum initial deposit of one hundred thousand dong.",
-        "vi": "Với công dân Việt Nam, chỉ cần thẻ CMND và khoản tiền gửi ban đầu tối thiểu một trăm nghìn đồng."
+        "vi": "Với công dân Việt Nam, chỉ cần thẻ căn cước công dân và khoản tiền gửi ban đầu tối thiểu một trăm nghìn đồng."
       },
       {
         "speaker": "A",
@@ -1868,7 +1868,7 @@
       {
         "speaker": "A",
         "en": "Okay, thank you. I appreciate you checking.",
-        "vi": "Được, cảm ơn. Tôi cảm kích vì bạn kiểm tra."
+        "vi": "Được, cảm ơn. Cảm ơn bạn đã kiểm tra giúp."
       },
       {
         "speaker": "B",
@@ -2109,7 +2109,7 @@
       {
         "speaker": "B",
         "en": "I'd be very happy to renew with you — you've been a wonderful tenant. Always on time with rent and very considerate.",
-        "vi": "Chị rất vui được gia hạn với em — em là một người thuê tuyệt vời. Luôn đúng hạn tiền thuê và rất biết điều."
+        "vi": "Chị rất vui được gia hạn với em — em là một người thuê tuyệt vời. Luôn đóng tiền thuê đúng hạn và rất ý tứ."
       },
       {
         "speaker": "A",
@@ -2340,7 +2340,7 @@
       {
         "speaker": "A",
         "en": "That's fair — I appreciate you quoting before extra work. Should I do anything to prepare before you arrive?",
-        "vi": "Công bằng đó — tôi cảm kích anh báo giá trước khi làm thêm. Tôi có cần chuẩn bị gì trước khi anh đến không?"
+        "vi": "Hợp lý đó — cảm ơn anh đã báo giá trước khi làm thêm. Tôi có cần chuẩn bị gì trước khi anh đến không?"
       },
       {
         "speaker": "B",
@@ -2561,12 +2561,12 @@
       {
         "speaker": "B",
         "en": "That's a sensible choice — you'll save a good amount and still get a great screen. Shall I proceed with that?",
-        "vi": "Đó là lựa chọn hợp lý — anh tiết kiệm được kha khá mà vẫn có màn hình tốt. Tôi tiến hành với loại đó nhé?"
+        "vi": "Đó là lựa chọn hợp lý — chị tiết kiệm được kha khá mà vẫn có màn hình tốt. Tôi tiến hành với loại đó nhé?"
       },
       {
         "speaker": "A",
         "en": "Yes, please. How long will the repair take?",
-        "vi": "Vâng, làm ơn. Sửa chữa mất bao lâu?"
+        "vi": "Vâng, anh làm giúp tôi nhé. Sửa chữa mất bao lâu?"
       },
       {
         "speaker": "B",
@@ -2624,7 +2624,7 @@
       {
         "speaker": "A",
         "en": "I mainly want to improve my speaking. I can read and write okay, but I freeze up when I have to talk.",
-        "vi": "Tôi chủ yếu muốn cải thiện kỹ năng nói. Tôi đọc và viết khá ổn, nhưng tôi cứng họng khi phải nói."
+        "vi": "Tôi chủ yếu muốn cải thiện kỹ năng nói. Tôi đọc và viết khá ổn, nhưng tôi cứ cứng lưỡi khi phải nói."
       },
       {
         "speaker": "B",
@@ -2737,7 +2737,7 @@
       {
         "speaker": "B",
         "en": "Yes, that's me! Welcome aboard, Khanh. We've been looking forward to having you join the team.",
-        "vi": "Vâng, là chị đây! Chào mừng em, Khánh. Chúng tôi đã mong chờ em gia nhập đội."
+        "vi": "Vâng, là chị đây! Chào mừng em, Khánh. Bọn chị đã mong em gia nhập đội lắm."
       },
       {
         "speaker": "A",
@@ -2782,12 +2782,12 @@
       {
         "speaker": "A",
         "en": "I've used Slack before, so that's familiar at least. Where's the restroom and the pantry?",
-        "vi": "Em dùng Slack trước đây rồi, nên ít nhất cũng quen. Nhà vệ sinh và phòng pantry ở đâu ạ?"
+        "vi": "Em dùng Slack trước đây rồi, nên ít nhất cũng quen. Nhà vệ sinh và phòng bếp nhỏ (pantry) ở đâu ạ?"
       },
       {
         "speaker": "B",
         "en": "The restrooms are down the hall to the left. The pantry's to the right — free coffee, tea, and there's always snacks people share.",
-        "vi": "Nhà vệ sinh ở cuối hành lang bên trái. Pantry ở bên phải — cà phê, trà miễn phí, và luôn có đồ ăn vặt mọi người chia sẻ."
+        "vi": "Nhà vệ sinh ở cuối hành lang bên trái. Phòng bếp nhỏ ở bên phải — cà phê, trà miễn phí, và luôn có đồ ăn vặt mọi người chia sẻ."
       },
       {
         "speaker": "A",
@@ -2802,7 +2802,7 @@
       {
         "speaker": "A",
         "en": "Please do — I'd hate to break it on my first day! What time does everyone usually take lunch?",
-        "vi": "Làm ơn — em không muốn làm hỏng nó vào ngày đầu! Mọi người thường ăn trưa lúc mấy giờ?"
+        "vi": "Chị chỉ giúp em với — em không muốn làm hỏng nó vào ngày đầu! Mọi người thường ăn trưa lúc mấy giờ?"
       },
       {
         "speaker": "B",
