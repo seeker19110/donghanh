@@ -70,11 +70,31 @@
 
 ## 5. Current truth
 
+> **[2026-09-21] §5/§6 dưới đây LỖI THỜI (dừng ở 2026-09-01) trong khi §3 đã ghi M3 (Vật lí
+> 10-12) DONE và M4 (Sinh) IN_PROGRESS — cập nhật lại khi rà nợ kỹ thuật định kỳ.** Bảng milestone
+> ở §3 là nguồn đúng hơn; các dòng dưới đây giữ nguyên văn cũ để không mất dấu vết, chỉ bổ sung
+> đoạn xác nhận mới.
+
 - Commit `main` đã reconcile: `e4ace50` (2026-08-31).
 - Goal gap hiện tại: Đã hoàn thành 100% môn Hoá học (72 bài học cho các lớp 10, 11, 12).
 - Blocker/câu hỏi mở: chưa có giáo viên duyệt nội dung kiến thức — theo quyết định người dùng, vẫn tạo bài học từ bản thảo, đánh dấu rõ cần duyệt sau (`reviewStatus: 'draft'`).
 - Next best slice: M3 — Vật lí 10-12 (85 bài).
 - Quyền hoặc quyết định cần thêm: không có, tiếp tục đợt tiếp theo với môn Vật lí.
+
+**[2026-09-21] Xác nhận lại bằng cách đọc mã thật (không suy đoán):**
+
+- M3 (Vật lí 10-12, 85 bài) đã DONE — khớp §3, changelog `0214`/`0215`/`0216` (2026-09-01, lưu ý
+  trùng số với 3 changelog khác ngày 2026-08-31 của môn Lập trình — không phải lỗi gõ, hai đợt
+  việc song song từng lấy trùng số thứ tự).
+- M4 (Sinh 10-12) **ĐANG DỞ, không phải chưa bắt đầu**: `packages/subject-biology/lessons/`
+  có 9 file chương thật (`sinh10c1..c4`, `sinh11c1..c2`, `sinh12c1..c3`) — Sinh 10 đủ 4 chương,
+  Sinh 11/12 mới một phần. **Không tìm thấy changelog nào ghi lại đợt soạn bài Sinh học** (đã
+  `grep` toàn bộ `docs/changelog/`) — vi phạm quy trình bắt buộc ở CLAUDE.md mục 3 ("tạo PR =
+  coi như đã xong" đòi một file changelog mỗi đợt). Không rõ đây là nợ tài liệu (quên viết
+  changelog) hay nội dung được ghi thẳng ngoài quy trình PR thường — cần chủ dự án xác nhận số
+  chương Sinh 11/12 còn thiếu trước khi giao tiếp phần còn lại của M4.
+- Next best slice thật: hoàn tất phần Sinh 11/12 còn thiếu của M4, VÀ bổ sung changelog còn
+  thiếu cho phần Sinh học đã làm (để không lặp lại khoảng trống bằng chứng này).
 
 ## 6. Iteration log
 
