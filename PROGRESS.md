@@ -1076,26 +1076,6 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   bắt được, vì không có test tích hợp progress.ts→quests.ts). Không còn việc phải làm cho phần
   bảng/hàm chính này.
 
-- 🟡 **[2026-08-28 — rà UI/UX 5 trang trụ cột, xem `docs/changelog/0186-*.md`] Ba việc còn để
-  ngỏ, cần người dùng quyết hoặc tách đợt riêng.**
-  1. ~~**`Career.tsx` vẫn hỏi "Số năm kinh nghiệm"**~~ — ✅ **ĐÓNG 2026-09-03, người dùng chốt
-     "giữ nguyên mọi thứ, thang bậc 5".** Mô tả cũ ("hai thước đo mâu thuẫn sống song song") là
-     **SAI** — đã đọc lại code: `<Field label="Số năm kinh nghiệm">` (dòng 662) là trường của
-     **HỒ SƠ**, một con số cho cả người; còn `PROFICIENCY_BAND_LABELS` hiện dưới nhãn "Bạn đang
-     ở bậc:" (dòng 534) gắn với **TỪNG KỸ NĂNG**. Hai thứ đo hai cấp khác nhau nên **bổ sung
-     nhau, không mâu thuẫn**. Giữ nguyên cả hai, không đổi một dòng mã nào.
-  2. ~~**`Work.tsx`/`Life.tsx` đặt `<Layout>` ở CUỐI JSX** (Career/Startup đặt ở đầu)~~ — ✅
-     **KHÔNG CÒN, đo lại 2026-09-03:** cả bốn file nay đều đặt `<Layout>` ở CUỐI, đã nhất quán
-     (Career 966/970 · Startup 973/977 · Work 997/1001 · Life 992/996 — dòng/tổng dòng).
-  3. ~~**`components/FeedbackModal.tsx` thiếu Escape + bẫy tiêu điểm**~~ — ✅ **ĐÃ XONG, đo lại
-     2026-09-03:** file nay dùng hook `useDialogBehavior` (đủ 6 hành vi hộp thoại: Escape, bẫy
-     tiêu điểm, trả tiêu điểm khi đóng, khoá cuộn nền…), giữ nguyên bố cục riêng đúng như lo
-     ngại ban đầu. Hook đó trước đây **không có test nào**; PR đợt này bổ sung 11 test canh cả
-     6 hành vi (`useDialogBehavior.test.tsx`) — xem `docs/changelog/0254-*.md`.
-
-  Ngoài ra: **4 trang trụ Career/Work/Startup/Life vẫn chưa có bản chiều B** (0/4 file dùng
-  `direction`, toàn bộ chuỗi hardcode tiếng Việt) — cùng loại nợ với mục ngay dưới đây.
-
 - 🟡 **[2026-08-26 — NỢ CÓ CHỦ ĐÍCH, người dùng chốt; TRẢ XONG PHẦN GIAO DIỆN 2026-09-05] Hai
   tính năng mới CHƯA có bản chiều B** (người nước ngoài học tiếng Việt). Người dùng xác nhận:
   "chiều A là ok rồi, chiều B nợ".
