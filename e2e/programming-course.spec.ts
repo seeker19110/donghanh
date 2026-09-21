@@ -62,7 +62,9 @@ test('trang môn Lập trình có lối vào khoá ngắn', async ({ page }) => 
   await gioLapTiendo(page, [])
   await page.goto('/goc-hoc-tap/programming', { waitUntil: 'domcontentloaded' })
 
-  await expect(page.getByText('Khoá ngắn', { exact: false })).toBeVisible()
+  await expect(
+    page.getByText('Khoá học — học ngay, không cần đợi tới bậc', { exact: false }),
+  ).toBeVisible()
   await page.getByRole('button', { name: /Git & GitHub thực hành/ }).click()
   await expect(page).toHaveURL(/\/goc-hoc-tap\/programming\/khoa-hoc\/git(--[a-z0-9-]+)?$/)
 })
