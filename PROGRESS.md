@@ -1348,6 +1348,17 @@ build`: **JS 126,07 / 140 kB = 90,06%** (dư 13,93 kB, gấp gần 3 lần biên
   1 trang CEFR (ngân sách LCP ≤ 2,5s · INP ≤ 200ms · CLS ≤ 0,1), và đọc Sentry (lỗi mới chưa
   xem xét) + `pm2 logs`/số lần restart + dung lượng ổ đĩa.
 
+  **Cập nhật 2026-09-21 (`docs/changelog/0400-*.md`): một hồi quy CLS THẬT đã lộ ra và được sửa**
+  (khác debt gốc ở trên — đây là cổng CI `e2e/home-clarity-evidence.spec.ts` chạy trong sandbox,
+  không phải Lighthouse trên server thật). `useTodayPlan.ts` (Trang chủ) import TĨNH
+  `programmingNext.ts` → kéo `lessonsLoader.ts` (LESSON_INDEX) + `curriculum.ts` (~40KB gzip) vào
+  chunk đồng bộ của Home; tổng chỉ mục tăng dần theo MỌI PR thêm bài học P6 tới lúc CLS vượt
+  ngưỡng (0.1030 > 0.1000, PR #1088). Đã sửa: chuyển sang `import()` động, chỉ chờ khi thật sự có
+  tiến độ Lập trình. Xác nhận bằng build đo được (chunk Home không còn static import các file đó)
+  - chạy lại đúng test E2E đã đỏ → xanh ở máy. **Cảnh báo cho tương lai:** `LESSON_INDEX` là chỉ
+    mục PHẲNG toàn bộ bài học, phình theo mỗi đợt thêm nội dung P6 — nếu tiếp tục đẩy CLS vượt
+    ngưỡng ở nơi khác, cân nhắc tách nhỏ theo bậc/hướng thay vì chỉ vá từng điểm dùng.
+
 - 🟡 **[2026-08-26] Dải nhiễu của eval rộng hơn mức một PR có thể phân biệt được.** Hai lượt
   chạy liên tiếp, cùng prompt · model · bộ đề · `--delay`, cách nhau vài phút: FP-rate 0% →
   5,6%, specificity 100% → 94,4%, Type-hit 86,0% → 76,7%. Chỉ MỘT câu đổi phán đoán
