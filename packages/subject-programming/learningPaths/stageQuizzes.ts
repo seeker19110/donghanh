@@ -697,6 +697,79 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
         'Làm tròn hay thay thế vẫn phát ra tín hiệu về nhóm nhỏ, và người đọc chỉ cần ghép thêm một nguồn nữa là suy ngược ra cá nhân; nén là cách duy nhất không để lại tín hiệu nào.',
     },
   ],
+  // `security-s4` — thêm 2026-09-21 cùng đợt soạn bài học chặng này (đặc tả
+  // `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`). Năm câu bám bốn module:
+  // kiến trúc an toàn (m1), phát hiện và ứng cứu (m2), điều tra số (m3), quản trị tuân thủ (m4).
+  // Chặng PHÒNG THỦ: câu hỏi chỉ về phân loại, quyết định và quy trình.
+  'security-s4': [
+    {
+      id: 'security-s4-q1',
+      prompt: 'Theo zero trust, vì sao "yêu cầu đến từ mạng nội bộ" không đủ để cho qua?',
+      choices: [
+        'Vì mạng nội bộ thường chậm hơn mạng ngoài',
+        'Vì vị trí mạng chỉ nói yêu cầu đi từ đâu, không nói ai đang hỏi và từ thiết bị nào',
+        'Vì mạng nội bộ không ghi được nhật ký truy cập',
+        'Vì địa chỉ nội bộ có thể trùng nhau giữa các vùng',
+      ],
+      answerIndex: 1,
+      explain:
+        'Một máy trong mạng nội bộ bị chiếm là đủ để biến cả vùng đó thành đường vào miễn kiểm tra; tin cậy phải dựa trên danh tính đã xác thực cộng trạng thái thiết bị, bất kể yêu cầu xuất phát từ đâu.',
+    },
+    {
+      id: 'security-s4-q2',
+      prompt: 'Vì sao khoá dùng chung giữa môi trường thử nghiệm và môi trường thật bị từ chối?',
+      choices: [
+        'Vì khoá dùng chung làm chậm quá trình xác thực',
+        'Vì mức bảo vệ của cả hệ tụt xuống bằng mức của môi trường được bảo vệ lỏng nhất',
+        'Vì mỗi môi trường cần thuật toán mã hoá khác nhau',
+        'Vì khoá dùng chung không xoay vòng được',
+      ],
+      answerIndex: 1,
+      explain:
+        'Môi trường thử nghiệm luôn lỏng hơn; dùng chung khoá nghĩa là một lần lộ ở đó là lộ luôn ở môi trường thật, bất kể khoá còn mới đến đâu.',
+    },
+    {
+      id: 'security-s4-q3',
+      prompt:
+        'Một luật phát hiện chạy trên nhật ký fixture mà không trúng ca dương tính nào. Kết luận đúng là gì?',
+      choices: [
+        'Luật an toàn, cứ bật vì nó không gây hại',
+        'Luật là nhiễu, không được bật: nó chỉ tiêu tốn sự chú ý của người trực',
+        'Luật đúng nhưng fixture sai, cứ bật rồi chỉnh sau',
+        'Luật cần được nhân đôi ngưỡng rồi bật lại',
+      ],
+      answerIndex: 1,
+      explain:
+        'Luật không sinh tín hiệu nhưng vẫn sinh báo động sẽ dần dạy cả đội bỏ qua thông báo — đó là tác hại thật, không phải trạng thái trung tính.',
+    },
+    {
+      id: 'security-s4-q4',
+      prompt: 'Vì sao không được diệt trừ nguyên nhân sự cố trước khi thu thập chứng cứ?',
+      choices: [
+        'Vì diệt trừ trước làm mất chứng cứ, và cuộc điều tra sau đó không còn gì để dựa vào',
+        'Vì quy định bắt buộc phải chờ 24 giờ trước khi xử lý',
+        'Vì thu thập chứng cứ nhanh hơn diệt trừ',
+        'Vì chứng cứ chỉ dùng được khi hệ thống còn đang bị ảnh hưởng',
+      ],
+      answerIndex: 0,
+      explain:
+        'Chứng cứ bị xoá cùng lúc với nguyên nhân là mất vĩnh viễn; ngăn chặn giữ phạm vi đứng yên, thu chứng cứ xong mới tới diệt trừ, rồi mới phục hồi.',
+    },
+    {
+      id: 'security-s4-q5',
+      prompt:
+        'Một kiểm soát tuân thủ được khai là "đạt" nhưng không kèm bằng chứng nào. Ghi nhận thế nào?',
+      choices: [
+        'Ghi là đạt, vì người phụ trách đã khai',
+        'Ghi là chưa đạt và mở việc đi làm lại kiểm soát đó',
+        'Ghi là chưa báo cáo được, và mở việc đi thu bằng chứng',
+        'Bỏ kiểm soát đó khỏi bảng cho gọn',
+      ],
+      answerIndex: 2,
+      explain:
+        '"Chưa đạt" và "không có bằng chứng" dẫn tới hai việc khác nhau — một bên đi làm kiểm soát, một bên đi thu bằng chứng; quy khai báo suông thành đạt thì tới lúc cần chẳng có gì dùng được.',
+    },
+  ],
   'backend-s1': [
     {
       id: 'backend-s1-q1',
@@ -1527,6 +1600,79 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
       answerIndex: 1,
       explain:
         'Công bố có trách nhiệm cân bằng giữa quyền được biết của cộng đồng và thời gian cần thiết để bên bị ảnh hưởng vá lỗi trước khi thông tin khai thác bị lan rộng.',
+    },
+  ],
+  // `security-s3` — thêm cùng đợt soạn bài học chặng này (đặc tả
+  // `docs/specs/2026-09-17-security-s3-bai-hoc-that.md`). Năm câu bám bốn module và giữ đúng
+  // ranh giới của chặng: hỏi "phát hiện thế nào", không hỏi "khai thác thế nào".
+  'security-s3': [
+    {
+      id: 'security-s3-q1',
+      prompt: 'Khối cơ bản (basic block) trong đồ thị luồng điều khiển được định nghĩa thế nào?',
+      choices: [
+        'Một dãy lệnh không có lối vào ở giữa và không có lối ra trước khi hết',
+        'Một hàm hoàn chỉnh trong mã nguồn',
+        'Một dãy đúng mười lệnh liên tiếp',
+        'Một vòng lặp cùng toàn bộ thân của nó',
+      ],
+      answerIndex: 0,
+      explain:
+        'Chính hai điều kiện đó khiến cả dãy lệnh cư xử như một nút duy nhất: đã bước vào lệnh đầu thì chắc chắn chạy hết, nên chỉ cần vẽ một ô cho cả khối.',
+    },
+    {
+      id: 'security-s3-q2',
+      prompt:
+        'Một khối không bao giờ tới được (unreachable) trong đồ thị luồng điều khiển nói lên điều gì?',
+      choices: [
+        'Chương trình chắc chắn chạy nhanh hơn vì bỏ qua khối đó',
+        'Hoặc lập trình viên tưởng nhánh đó đang chạy mà không phải, hoặc có mã nằm đó mà không ai định chạy',
+        'Trình biên dịch đã tối ưu xong và không còn gì để xem',
+        'Khối đó luôn luôn là mã chết vô hại',
+      ],
+      answerIndex: 1,
+      explain:
+        'Cả hai khả năng đều là thứ cần phát hiện: một bên là niềm tin sai về hành vi chương trình, một bên là mã tồn tại ngoài ý định của người viết.',
+    },
+    {
+      id: 'security-s3-q3',
+      prompt:
+        'Vì sao ngôn ngữ an toàn bộ nhớ được gọi là biện pháp GỐC RỄ cho lớp lỗi bộ nhớ, thay vì "viết cẩn thận hơn"?',
+      choices: [
+        'Vì nó chạy nhanh hơn nên ít lỗi hơn',
+        'Vì nó phát hiện lỗi sớm hơn ở khâu kiểm thử',
+        'Vì nó bỏ đi yêu cầu bắt con người tự nhớ biên và vòng đời ở mọi dòng, nên cả lớp lỗi không còn tồn tại',
+        'Vì nó cấm hẳn việc cấp phát bộ nhớ động',
+      ],
+      answerIndex: 2,
+      explain:
+        '"Viết cẩn thận" đặt cược vào chỗ con người đã thua sẵn; biện pháp gốc rễ là bỏ đi chính yêu cầu ghi nhớ đó, đổi lại chi phí kiểm lúc chạy và ràng buộc lúc biên dịch.',
+    },
+    {
+      id: 'security-s3-q4',
+      prompt: 'Fuzzer chạy hết ngân sách mà không tìm ra lỗi nào thì phải báo gì?',
+      choices: [
+        'Báo "không có lỗi" vì đã kiểm tra xong',
+        'Báo not-found kèm độ phủ đạt được, vì hết ngân sách không phải là bằng chứng sạch',
+        'Không báo gì và chạy tiếp cho tới khi tìm ra',
+        'Báo lỗi hệ thống vì lượt chạy thất bại',
+      ],
+      answerIndex: 1,
+      explain:
+        'Hai câu "đã kiểm xong và sạch" với "chưa kiểm xong" dẫn tới hai hành động khác nhau; gộp lại là biến việc chưa làm thành một lời bảo đảm mà người đọc sẽ tin.',
+    },
+    {
+      id: 'security-s3-q5',
+      prompt:
+        'Trong hệ AI có truy hồi tài liệu, biện pháp gốc chống tiêm lệnh (prompt injection) là gì?',
+      choices: [
+        'Lọc cho hết những câu có vẻ là chỉ thị trong tài liệu',
+        'Giữ luật: nội dung lấy về luôn là dữ liệu, không bao giờ được leo lên thành lệnh',
+        'Chỉ truy hồi tài liệu do chính đội mình viết',
+        'Tăng kích thước mô hình để nó tự nhận ra câu xấu',
+      ],
+      answerIndex: 1,
+      explain:
+        'Cùng một ý có vô hạn cách diễn đạt nên bộ lọc luôn thua về số lượng; thứ sửa được là VAI TRÒ của nội dung trong hệ thống, không phải hình dạng câu chữ.',
     },
   ],
   'architecture-s1': [

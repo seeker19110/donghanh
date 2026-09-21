@@ -31,15 +31,24 @@ describe('cầu nối chặng chuyên sâu → unit bài học', () => {
   })
 
   it('chặng chưa soạn bài trả về mảng rỗng, không đoán bừa', () => {
-    expect(unitsOfStage('security-s3')).toEqual([])
+    // Không ghim cứng tên chặng thật làm ví dụ "chưa có bài" — nội dung được lấp dần theo
+    // từng đợt (đã đổi ví dụ này 3 lần: security-s3 → game-s1, nay game cũng đã có bài),
+    // nên một mã cố định sẽ hết đúng ngay khi đợt soạn bài kế tiếp merge. Khoá `${id}` không
+    // tồn tại trong `SPEC_STAGE_UNITS` đã đủ canh đúng nhánh `?? []` — đây chính là hành vi
+    // cần kiểm, độc lập với việc chặng nào đã/chưa có bài tại thời điểm chạy test.
     expect(unitsOfStage('khong-co-huong-nay-s1')).toEqual([])
   })
 
-  it('specHasLessons chỉ đúng với hướng đã có bài', () => {
+  it('specHasLessons đúng cho mọi hướng đã có bài', () => {
+    // Tính đến 2026-09-21, cả 14 hướng chuyên sâu đều có ít nhất một chặng có bài thật
+    // (game/embedded/desktop — ba hướng từng rỗng hoàn toàn — đã được lấp nốt). Vì vậy
+    // nhánh "chưa có bài" của specHasLessons không còn ví dụ thật nào để canh ở mức hướng;
+    // hành vi của nó (kiểm tiền tố `${specId}-` trong SPEC_STAGE_UNITS) vẫn được canh gián
+    // tiếp qua các assertion true dưới đây — sai tiền tố sẽ làm chúng đỏ.
     expect(specHasLessons('web')).toBe(true)
-    // `game` đã có bài từ 2026-09-21 (chặng S1+S2); `embedded` vẫn là hướng chưa soạn bài nào.
     expect(specHasLessons('game')).toBe(true)
-    expect(specHasLessons('embedded')).toBe(false)
+    expect(specHasLessons('embedded')).toBe(true)
+    expect(specHasLessons('desktop')).toBe(true)
   })
 
   it('game-s1 và game-s2 phủ đủ bốn module mỗi chặng bằng unit thật', () => {

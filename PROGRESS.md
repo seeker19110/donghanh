@@ -429,33 +429,47 @@ không có cột nguồn, cùng các lỗi gate toàn repo đã ghi ở changelo
 - **Môn Toán thiếu hình học không gian và thống kê** — lớp 10 C5; lớp 11 C3, C4, C8; lớp 12 C2, C3,
   và phương trình đường thẳng trong không gian. Đây là mảng mỏng nhất của cả bốn môn STEM.
 - **Môn Sinh chưa có nhánh bồi dưỡng học sinh giỏi** — đợt 2026-09-13 chỉ làm cho Toán/Lí/Hoá.
-- **[2026-09-21 · CẬP NHẬT cùng ngày, PR đặc tả — `docs/changelog/0396-*.md`] P6 (Lập trình,
+- **[2026-09-21 · CẬP NHẬT cùng ngày, PR đặc tả — `docs/changelog/0396-2026-09-21-dac-ta-19-chang-p6-con-thieu.md`] P6 (Lập trình,
   14 hướng chuyên sâu) — lệch lớn giữa "đã đặc tả" và "đã có bài học thật".**
   **Phần KẾ HOẠCH đã khép: đủ 56/56 chặng có đặc tả.** 19 chặng thiếu nay đều có đặc tả triển
   khai đã duyệt
   (`docs/specs/2026-09-21-{mobile-s2-s4,algo-s3-s4,systems-s3-s4,game-s1-s4,embedded-s1-s4,desktop-s1-s4}-bai-hoc-that.md`,
   dải unit `p6-u214…u289`). Chủ dự án chốt: KHÔNG nối các chặng này vào `learningPaths/` nào.
   **Nợ còn lại thuần là SOẠN BÀI THẬT.** Thứ tự thi hành:
-  1. `security-s4` (`p6-u206…u209`, đặc tả `docs/specs/2026-09-17-data-s4-security-s4-bai-hoc-that.md`
-     — PR thứ hai của đặc tả đó, `data-s4` đã xong ở PR #1086; phải gộp `main` rồi sinh lại
-     `lessonsLazy.ts`), rồi `security-s3` (`p6-u210…u213`,
-     `docs/specs/2026-09-17-security-s3-bai-hoc-that.md`).
+  1. ~~`security-s4` (`p6-u206…u209`)~~ — **XONG 2026-09-21** ở một PR riêng
+     (`docs/changelog/0398-2026-09-21-bai-hoc-chang-security-s4.md`). ~~`security-s3`
+     (`p6-u210…u213`)~~ — **XONG 2026-09-21** (`docs/changelog/0397-2026-09-21-bai-hoc-security-s3-s4.md`).
+     Hướng `security` nay đủ bài S1–S4; cả hai chặng đã nối vào `principal-ai-p4`/`p5` kèm quiz
+     sau chặng. (`data-s4` đã trả ở PR #1086.)
   2. Ba hướng đang RỖNG HOÀN TOÀN, ưu tiên cao nhất vì học viên chọn vào gặp mảng trắng: `game`
-     → `embedded` → `desktop`, mỗi hướng 2 PR (S1+S2 rồi S3+S4).
-  3. `mobile` S2–S4, `algo` S3–S4, `systems` S3–S4 — mỗi hướng 1 PR.
+     → `embedded` → `desktop`, mỗi hướng 2 PR (S1+S2 rồi S3+S4). (`embedded-s1`/`s2` đã trả,
+     `docs/changelog/0397-2026-09-21-bai-hoc-embedded-s1-s2.md`; còn `embedded-s3`/`s4`.)
+  3. `mobile` S2–S4, `algo` S3–S4, ~~`systems` S3–S4~~ — mỗi hướng 1 PR.
+     **`systems` S3–S4 ĐÃ XONG 2026-09-21** (`p6-u234…u241`, 8 unit / 16 bài — hướng Hệ thống
+     nay đủ S1→S4; xem `docs/changelog/0404-2026-09-21-bai-hoc-systems-s3-s4.md`).
 
   Hiện trạng đo được lúc ghi nợ (trước khi `data-s4` xong ở PR #1086):
   Đo bằng cách đối chiếu `packages/subject-programming/specializations/details/` (56/56 file
   S1–S4 × 14 hướng, đủ hết, không placeholder) với `SPEC_STAGE_UNITS` trong
   `specializations/stageUnits.ts` (bảng map chặng → unit bài học thật trong `lessons/`):
   - **3 hướng CHƯA có bài học nào dù đã có đặc tả đủ 4 chặng: game, embedded, desktop** (S1–S4
-    đều 0 unit). **`game` ĐANG TRẢ 2026-09-21** (`docs/changelog/0397-*.md`): `game-s1` =
-    `p6-u242…u245` và `game-s2` = `p6-u246…u249` đã có bài thật + cổng `gameS1S2Lessons.test.ts`;
-    `game-s3`/`game-s4` (`p6-u250…u257`) là PR kế tiếp của cùng đặc tả. Học viên chọn 1 trong 3 hướng này sẽ gặp mảng rỗng — không có cờ trạng thái
+    đều 0 unit). **Cập nhật 2026-09-21: `embedded` VÀ `desktop` ĐỀU ĐÃ TRẢ XONG CẢ BỐN CHẶNG —
+    `embedded-s1` = `p6-u258…u261` và `s2` = `p6-u262…u265` (`docs/changelog/0397-*.md`), `s3` =
+    `p6-u266…u269` và `s4` = `p6-u270…u273` (`docs/changelog/0402-*.md`), tổng 32 bài với bốn
+    cổng `embeddedS1…S4Lessons.test.ts`; `desktop-s1` = `p6-u274…u277` và `s2` = `p6-u278…u281`
+    (`docs/changelog/0399-*.md`), `s3` = `p6-u282…u285` và `s4` = `p6-u286…u289`
+    (`docs/changelog/0401-*.md`). **`game` ĐANG TRẢ 2026-09-21** (`docs/changelog/0397-*.md`):
+    `game-s1` = `p6-u242…u245` và `game-s2` = `p6-u246…u249` đã có bài thật + cổng
+    `gameS1S2Lessons.test.ts`; `game-s3`/`game-s4` (`p6-u250…u257`) là PR kế tiếp của cùng đặc tả.
+    Học viên chọn hướng còn rỗng sẽ gặp mảng rỗng — không có cờ trạng thái
     (`status/draft/comingSoon`) nào trong code để giao diện báo trước, chỉ suy ra được gián tiếp
     qua mảng rỗng.
   - **mobile chỉ có S1** (S2–S4 = 0 unit).
-  - **security, systems, algo chỉ có S1–S2** (thiếu S3–S4).
+  - **systems, algo chỉ có S1–S2** (thiếu S3–S4).
+  - ~~**security thiếu S3–S4**~~ — **S4 ĐÃ TRẢ 2026-09-21** (`docs/changelog/0398-*.md`):
+    `security-s4` = `p6-u206…u209`, 8 bài, cổng `securityS4Lessons.test.ts` (chặng PHÒNG THỦ, có
+    danh sách từ vựng tấn công bị cấm); nối vào `principal-ai-p5` trước `principal-s3` kèm quiz
+    `security-s4-q1…q5`. **Còn `security-s3`** (`p6-u210…u213`, đặc tả riêng đã duyệt).
   - ~~**data thiếu S4**~~ — **ĐÃ TRẢ 2026-09-21** (`docs/changelog/0396-*.md`): `data-s4` =
     `p6-u202…u205`, 8 bài, cổng `dataS4Lessons.test.ts`; nối vào `principal-ai-p5` trước
     `principal-s3`. Ghi lại cho đợt sau: nối một chặng vào lộ trình `principal-ai` thì **bắt buộc
@@ -1340,6 +1354,17 @@ build`: **JS 126,07 / 140 kB = 90,06%** (dư 13,93 kB, gấp gần 3 lần biên
   **Điều kiện gỡ nợ:** từ máy có mạng tới server — chạy Lighthouse trên trang chủ + Dictionary +
   1 trang CEFR (ngân sách LCP ≤ 2,5s · INP ≤ 200ms · CLS ≤ 0,1), và đọc Sentry (lỗi mới chưa
   xem xét) + `pm2 logs`/số lần restart + dung lượng ổ đĩa.
+
+  **Cập nhật 2026-09-21 (`docs/changelog/0400-*.md`): một hồi quy CLS THẬT đã lộ ra và được sửa**
+  (khác debt gốc ở trên — đây là cổng CI `e2e/home-clarity-evidence.spec.ts` chạy trong sandbox,
+  không phải Lighthouse trên server thật). `useTodayPlan.ts` (Trang chủ) import TĨNH
+  `programmingNext.ts` → kéo `lessonsLoader.ts` (LESSON_INDEX) + `curriculum.ts` (~40KB gzip) vào
+  chunk đồng bộ của Home; tổng chỉ mục tăng dần theo MỌI PR thêm bài học P6 tới lúc CLS vượt
+  ngưỡng (0.1030 > 0.1000, PR #1088). Đã sửa: chuyển sang `import()` động, chỉ chờ khi thật sự có
+  tiến độ Lập trình. Xác nhận bằng build đo được (chunk Home không còn static import các file đó)
+  - chạy lại đúng test E2E đã đỏ → xanh ở máy. **Cảnh báo cho tương lai:** `LESSON_INDEX` là chỉ
+    mục PHẲNG toàn bộ bài học, phình theo mỗi đợt thêm nội dung P6 — nếu tiếp tục đẩy CLS vượt
+    ngưỡng ở nơi khác, cân nhắc tách nhỏ theo bậc/hướng thay vì chỉ vá từng điểm dùng.
 
 - 🟡 **[2026-08-26] Dải nhiễu của eval rộng hơn mức một PR có thể phân biệt được.** Hai lượt
   chạy liên tiếp, cùng prompt · model · bộ đề · `--delay`, cách nhau vài phút: FP-rate 0% →
