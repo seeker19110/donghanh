@@ -131,7 +131,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title: 'HSG cấp trường: Thế điện cực chuẩn và sức điện động của pin',
     track: 'advanced',
     advancedTier: 'hsg-truong',
-    hasAnimation: false,
+    hasAnimation: true,
     reviewStatus: 'draft',
     chapterKey: 'hoa-hsg-dien-hoa',
   },

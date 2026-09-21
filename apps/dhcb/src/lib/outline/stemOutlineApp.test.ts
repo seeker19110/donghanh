@@ -106,7 +106,11 @@ describe('buildStemOutlineForApp — lớp tiến độ', () => {
     expect(nut.evidenceSource).toBe('stem.evidence')
     expect(() => OutlineSchema.parse(cay)).not.toThrow()
     // Dấu "Có hoạt ảnh" do app đắp thêm — lớp tiến độ không được ghi đè mất nó.
-    const coHoatAnh = PHYSICS_LOADER.listCoreByGrade('10').filter((b) => b.hasAnimation).length
+    // `cay` gồm cả bài chương trình chuẩn lớp 10 LẪN chuyên đề HSG (xem test đầu file:
+    // la.length = listCoreByGrade + listAdvanced), nên đếm đối chứng phải cộng cả hai.
+    const coHoatAnh =
+      PHYSICS_LOADER.listCoreByGrade('10').filter((b) => b.hasAnimation).length +
+      PHYSICS_LOADER.listAdvanced().filter((b) => b.hasAnimation).length
     expect(cay.nodes.filter((n) => n.hint?.includes('Có hoạt ảnh') === true).length).toBe(coHoatAnh)
   })
 

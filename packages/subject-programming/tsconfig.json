@@ -8,6 +8,9 @@
   "exclude": ["dist", "**/*.test.ts"],
   "references": [
     {
+      "path": "../core-contracts"
+    },
+    {
       "path": "../core-db"
     },
     {

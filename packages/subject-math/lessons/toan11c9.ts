@@ -41,13 +41,17 @@ export const TOAN11_C9_LESSONS: MathLesson[] = [
       "CẢNH BÁO: (u·v)' KHÔNG bằng u'·v'. Kiểm bằng ví dụ: với u = v = x thì (x·x)' = (x²)' = 2x, trong khi " +
       "u'·v' = 1·1 = 1. Khác hẳn nhau. Quy tắc đạo hàm tích có hai số hạng là vì cả hai thừa số đều đang thay đổi.\n" +
       "ĐẠO HÀM HÀM HỢP: [f(u(x))]' = f'(u)·u'(x) — đạo hàm lớp ngoài nhân đạo hàm lớp trong.",
+    // Hoạt ảnh tính SẴN theo hình học thật: đường cong là y = 192 − 6u − 2u² (u = (x−70)/30) trên toạ độ
+    // viewBox; tại MỖI mốc thời gian, điểm B nằm ĐÚNG trên đường cong và cát tuyến được xoay + tịnh tiến
+    // để thực sự đi qua cả A và B. Mốc cuối khớp đúng tiếp tuyến tại A (hệ số góc −14/30 ≈ −0,467).
     animation: {
       title: 'Cát tuyến xoay dần thành tiếp tuyến',
       description:
-        'Trên đồ thị một đường cong có hai điểm: điểm cố định và điểm thứ hai nằm xa hơn về bên phải. Đường thẳng ' +
-        'nối hai điểm là cát tuyến. Khi điểm thứ hai trượt dọc đường cong về sát điểm cố định, cát tuyến xoay dần ' +
-        'và tiến tới một vị trí giới hạn duy nhất, đó chính là tiếp tuyến. Hệ số góc của tiếp tuyến ấy là giá trị ' +
-        'đạo hàm tại điểm cố định.',
+        'Trên đồ thị một đường cong có điểm M cố định và điểm B nằm xa hơn về bên phải. Đường thẳng nối hai điểm ' +
+        'là cát tuyến, hệ số góc của nó bằng Δy/Δx — độ dốc TRUNG BÌNH trên đoạn từ M tới B. Khi B trượt dọc ' +
+        'đường cong về sát M, đường thẳng luôn đi qua đúng hai điểm ấy và xoay dần: độ dốc của nó đi từ −0,80 ' +
+        'qua −0,73; −0,67; −0,60; −0,53; −0,50 rồi tiến tới −0,47. Lúc B trùng M, cát tuyến dừng lại ở đúng một ' +
+        'vị trí giới hạn duy nhất — đó là tiếp tuyến, và hệ số góc giới hạn ấy chính là đạo hàm tại M.',
       viewBoxWidth: 380,
       viewBoxHeight: 240,
       durationMs: 7000,
@@ -85,7 +89,7 @@ export const TOAN11_C9_LESSONS: MathLesson[] = [
             [220, 112],
             [250, 84],
             [280, 52],
-            [310, 26],
+            [310, 16],
           ],
           stroke: 'primary',
           strokeWidth: 3,
@@ -99,10 +103,17 @@ export const TOAN11_C9_LESSONS: MathLesson[] = [
           y2: 40,
           stroke: 'accent',
           strokeWidth: 3,
+          // Đoạn gốc dài 250, tâm (200; 115), hướng −36,87°. Mỗi mốc: rotate = góc(B − A) − (−36,87°),
+          // còn dx/dy đẩy tâm đoạn về vị trí A + 87,5·vector đơn vị AB để đường thẳng tựa đúng lên A và B.
           keyframes: [
-            { atMs: 0, rotate: 0 },
-            { atMs: 5000, rotate: 10 },
-            { atMs: 7000, rotate: 10 },
+            { atMs: 0, rotate: -1.79, dx: -1.67, dy: 2.34 },
+            { atMs: 1000, rotate: 0.62, dx: 0.56, dy: 5.26 },
+            { atMs: 2000, rotate: 3.18, dx: 2.8, dy: 8.46 },
+            { atMs: 3000, rotate: 5.91, dx: 5.03, dy: 11.98 },
+            { atMs: 4000, rotate: 8.8, dx: 7.21, dy: 15.82 },
+            { atMs: 4700, rotate: 10.31, dx: 8.26, dy: 17.87 },
+            { atMs: 5400, rotate: 11.85, dx: 9.29, dy: 20 },
+            { atMs: 7000, rotate: 11.85, dx: 9.29, dy: 20 },
           ],
         },
         { kind: 'circle', id: 'diemCoDinh', cx: 130, cy: 172, r: 6, fill: 'primary' },
@@ -113,17 +124,23 @@ export const TOAN11_C9_LESSONS: MathLesson[] = [
           cy: 52,
           r: 6,
           fill: 'warn',
+          // B luôn nằm TRÊN đường cong: các mốc ứng với u = 7 · 6 · 5 · 4 · 3 · 2,5 · 2 (u = 2 là trùng A).
           keyframes: [
             { atMs: 0, dx: 0, dy: 0 },
-            { atMs: 5000, dx: -120, dy: 100 },
-            { atMs: 7000, dx: -120, dy: 100 },
+            { atMs: 1000, dx: -30, dy: 32 },
+            { atMs: 2000, dx: -60, dy: 60 },
+            { atMs: 3000, dx: -90, dy: 84 },
+            { atMs: 4000, dx: -120, dy: 104 },
+            { atMs: 4700, dx: -135, dy: 112.5 },
+            { atMs: 5400, dx: -150, dy: 120 },
+            { atMs: 7000, dx: -150, dy: 120 },
           ],
         },
         {
           kind: 'label',
           id: 'nhanM',
-          x: 120,
-          y: 196,
+          x: 122,
+          y: 168,
           text: 'M',
           size: 15,
           anchor: 'end',
