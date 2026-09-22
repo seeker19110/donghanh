@@ -983,13 +983,14 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 
 ## Nợ kỹ thuật còn mở
 
-- 🔴 **[2026-09-22 — sự cố, `docs/changelog/0413-*.md`] Deploy VPS đỏ 5 lần liên tiếp vì hết
-  heap Node lúc build (`FATAL ERROR ... JavaScript heap out of memory`), không liên quan nội
-  dung PR.** Đã vá bằng `NODE_OPTIONS=--max-old-space-size=2560` cho bước build trong
-  `scripts/deploy.sh`. **CHƯA XÁC NHẬN TẠI CHỖ** (phiên này không SSH được VPS) — theo dõi lần
-  deploy kế tiếp; đỏ tiếp thì nới thêm hoặc tách bước build. Cũng phát hiện + sửa hai file
-  changelog cùng đánh số `0411` (PR #1108/#1109 merge gần nhau không ai chạy lại
-  `npm run changelog`) — đổi file của PR #1109 sang `0412`.
+- ✅ **ĐÃ ĐÓNG [2026-09-22, xác nhận qua CI — `docs/changelog/0413-*.md`] Deploy VPS đỏ 5 lần
+  liên tiếp vì hết heap Node lúc build (`FATAL ERROR ... JavaScript heap out of memory`),
+  không liên quan nội dung PR.** Vá bằng `NODE_OPTIONS=--max-old-space-size=2560` cho bước
+  build trong `scripts/deploy.sh` (PR #1110). **Xác nhận:** lần deploy đầu tiên sau khi PR
+  merge — run #1061 (`e1db7a89`, workflow id 35696918341) — **xanh**, 06:53:43 → 06:57:35
+  (~3 phút 52 giây, đúng thời lượng một deploy bình thường, không dấu hiệu tràn swap bất
+  thường). Cũng đã sửa hai file changelog cùng đánh số `0411` (PR #1108/#1109 merge gần nhau
+  không ai chạy lại `npm run changelog`) — đổi file của PR #1109 sang `0412`.
 - 🟡 **[2026-09-22 — audit UI/UX sâu, `docs/audit/2026-09-22-danh-gia-sau-ui-ux.md` +
   `docs/changelog/0412-*.md`, PR đợt 0412] Đã xử lý 6 đợt A–F trong một PR.** Nợ còn lại: (1)
   ~44 chỗ `err.message` ngoài Ghi chú chưa đi qua `lib/friendlyError.ts`; (2) Phòng luyện tập vs
