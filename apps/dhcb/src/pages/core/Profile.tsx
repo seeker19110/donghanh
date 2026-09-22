@@ -385,7 +385,7 @@ export default function Profile() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-white text-[15px]">
-                    {isA ? 'Cài đặt học Tiếng Anh' : 'English Learning Settings'}
+                    {isA ? 'Cài đặt' : 'Settings'}
                   </p>
                   <p className="text-xs text-zinc-400 truncate mt-0.5">
                     {isA
