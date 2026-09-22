@@ -11,8 +11,10 @@ import path from 'node:path'
 import * as dotenv from 'dotenv'
 
 // Nạp biến môi trường từ .env — phải chạy trước khi import các handler
-// vì handler đọc process.env ngay lúc module load
-dotenv.config()
+// vì handler đọc process.env ngay lúc module load.
+// quiet: dotenv 18 mặc định in một dòng "injected env ..." mỗi lần nạp; trên production
+// dòng đó chỉ làm bẩn log PM2 nên tắt ở server (script vận hành vẫn để in cho dễ soát).
+dotenv.config({ quiet: true })
 
 import { initSentryServer, captureServerException } from './api/_lib/sentry.js'
 import { registerApiRoutes, applyCommonSecurityHeaders } from './routes.js'
