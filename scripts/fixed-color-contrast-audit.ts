@@ -28,6 +28,7 @@ import {
   AAA,
   checkPairs,
   contrastRatio,
+  parseCssColor,
   parseThemeTokens,
   type ContrastCheck,
   type Rgb,
@@ -36,7 +37,7 @@ import {
 /** Các họ màu Tailwind GỐC (hex cố định). Cố ý KHÔNG gồm `zinc` — dự án đã ánh xạ zinc sang
  *  biến CSS trong `tailwind.config.js`, nên `text-zinc-*` là token chứ không phải màu cứng.
  *  `zinc` được soi RIÊNG bên dưới (mục "thang zinc"), bằng giá trị token thật của từng theme. */
-const FIXED_FAMILIES = [
+export const FIXED_FAMILIES = [
   'slate',
   'gray',
   'neutral',
@@ -60,6 +61,22 @@ const FIXED_FAMILIES = [
   'cyan',
 ] as const
 
+/** 11 bậc chuẩn của mọi họ màu Tailwind. Chỉ dùng cho test canh "bảng màu còn đọc được không"
+ *  (`lib/contrast.test.ts`) — bản thân audit lấy bậc từ class có thật trong mã nguồn. */
+export const PALETTE_STEPS = [
+  '50',
+  '100',
+  '200',
+  '300',
+  '400',
+  '500',
+  '600',
+  '700',
+  '800',
+  '900',
+  '950',
+] as const
+
 /** Hai theme nền sáng — đúng danh sách mà biến thể `theme-light:` áp dụng
  *  (xem `addVariant('theme-light', …)` trong `apps/dhcb/tailwind.config.js`). */
 const LIGHT_THEMES = ['blue-sky', 'kid'] as const
@@ -81,17 +98,32 @@ export type Finding = {
   ratio: number
 }
 
-function hexToRgb(hex: string): Rgb | null {
-  const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim())
-  if (!m) return null
-  const n = parseInt(m[1] as string, 16)
-  return [(n >> 16) & 255, (n >> 8) & 255, n & 255]
-}
-
+/**
+ * Đọc màu `<họ>-<bậc>` từ bảng màu Tailwind ĐANG CÀI.
+ *
+ * Phân biệt HAI trường hợp rất khác nhau — trước 2026-09-22 cả hai đều trả `null` và bị bỏ qua
+ * im lặng, đó là lỗ hổng:
+ *
+ * 1. **Nhãn không tồn tại** (vd `text-amber-1000` do gõ sai, hoặc họ màu Tailwind đã bỏ):
+ *    trả `null`, chỗ gọi bỏ qua — ĐÚNG, vì không có màu nào để đo.
+ * 2. **Có giá trị nhưng bộ đọc không hiểu định dạng**: NÉM LỖI. Đây là lúc cổng bị mù. Tailwind 3
+ *    khai hex, Tailwind 4 khai `oklch(...)`; nếu một ngày bảng màu đổi sang định dạng thứ ba mà
+ *    ta lặng lẽ bỏ qua thì audit báo "0 vi phạm" trên hàng nghìn chỗ chưa từng được kiểm. Thà đỏ
+ *    ồn ào còn hơn xanh giả (bài học audit 2026-09-05 F1 với jsx-a11y).
+ */
 function paletteRgb(family: string, step: string): Rgb | null {
   const fam = (colors as unknown as Record<string, Record<string, string>>)[family]
-  const hex = fam?.[step]
-  return typeof hex === 'string' ? hexToRgb(hex) : null
+  const raw = fam?.[step]
+  if (typeof raw !== 'string') return null
+  const rgb = parseCssColor(raw)
+  if (!rgb) {
+    throw new Error(
+      `Cổng tương phản KHÔNG đọc được màu \`${family}-${step}\` = "${raw}" của bảng màu ` +
+        `Tailwind đang cài. Bỏ qua nó nghĩa là audit báo xanh mà chưa kiểm gì — nên dừng ở đây. ` +
+        `Sửa parseCssColor() ở scripts/lib/contrast.ts để hiểu định dạng này.`,
+    )
+  }
+  return rgb
 }
 
 export function walk(dir: string, out: string[] = []): string[] {

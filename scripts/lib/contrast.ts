@@ -98,3 +98,89 @@ export function checkPairs(
   }
   return out
 }
+
+// ── Đọc màu từ bảng màu của Tailwind ────────────────────────────────────────────────────────
+//
+// VÌ SAO CÓ PHẦN NÀY (2026-09-22): Tailwind 3 khai màu bằng hex (`#b45309`), Tailwind 4 khai
+// bằng `oklch(55.5% 0.163 48.998)`. Cổng `fixed-color-contrast-audit` đọc bảng màu THẲNG từ gói
+// đang cài (`import colors from 'tailwindcss/colors'`), nên khi nâng Tailwind 4 mà bộ đọc chỉ
+// hiểu hex thì mọi màu trả `null` và audit BỎ QUA IM LẶNG cả ~4.141 chỗ — cổng xanh trong khi
+// không kiểm gì. Đó là đúng loại "máy canh trống" mà audit 2026-09-05 (F1) đã bắt được một lần
+// với jsx-a11y. Vì vậy: hiểu CẢ HAI định dạng, và có test canh bắt buộc mọi màu phải đọc được
+// (`contrast.test.ts` — bảng màu đổi định dạng lần nữa thì test ĐỎ, không im lặng).
+
+/** Giải mã gamma sRGB: kênh tuyến tính (0…1) → giá trị 0–255. */
+function encodeSrgbChannel(linear: number): number {
+  const c = linear <= 0.0031308 ? linear * 12.92 : 1.055 * Math.pow(linear, 1 / 2.4) - 0.055
+  return Math.max(0, Math.min(255, Math.round(c * 255)))
+}
+
+/**
+ * `oklch(L% C H)` → RGB sRGB 0–255, theo công thức OKLab của Björn Ottosson.
+ *
+ * Lưu ý về GAMUT: Tailwind 4 chọn màu trong không gian rộng hơn sRGB, nên một số màu quy đổi
+ * ra ngoài sRGB. Ở đây kẹp về biên sRGB — đúng với thứ trình duyệt thật hiển thị trên màn hình
+ * sRGB, tức đúng với thứ WCAG đo.
+ */
+export function oklchToRgb(l: number, c: number, hDeg: number): Rgb {
+  const h = (hDeg * Math.PI) / 180
+  const a = c * Math.cos(h)
+  const b = c * Math.sin(h)
+
+  // OKLab → LMS (khối lập phương)
+  const lCube = l + 0.3963377774 * a + 0.2158037573 * b
+  const mCube = l - 0.1055613458 * a - 0.0638541728 * b
+  const sCube = l - 0.0894841775 * a - 1.291485548 * b
+  const lms: [number, number, number] = [lCube ** 3, mCube ** 3, sCube ** 3]
+
+  // LMS → sRGB tuyến tính
+  const [L, M, S] = lms
+  const rLin = 4.0767416621 * L - 3.3077115913 * M + 0.2309699292 * S
+  const gLin = -1.2684380046 * L + 2.6097574011 * M - 0.3413193965 * S
+  const bLin = -0.0041960863 * L - 0.7034186147 * M + 1.707614701 * S
+
+  return [encodeSrgbChannel(rLin), encodeSrgbChannel(gLin), encodeSrgbChannel(bLin)]
+}
+
+/**
+ * Đọc MỘT giá trị màu CSS của bảng màu Tailwind thành RGB.
+ *
+ * Hỗ trợ: `#rrggbb` / `#rgb` (Tailwind 3), `oklch(L% C H)` (Tailwind 4), `rgb(r g b)`.
+ * Trả `null` khi KHÔNG đọc được — và chỗ gọi phải coi `null` là LỖI CẦN BÁO, không được lặng lẽ
+ * bỏ qua (xem ghi chú đầu mục này).
+ */
+export function parseCssColor(raw: string): Rgb | null {
+  const s = raw.trim().toLowerCase()
+
+  const hex6 = /^#?([0-9a-f]{6})$/.exec(s)
+  if (hex6) {
+    const n = parseInt(hex6[1] as string, 16)
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255]
+  }
+
+  const hex3 = /^#([0-9a-f]{3})$/.exec(s)
+  if (hex3) {
+    const d = hex3[1] as string
+    const dup = (ch: string): number => parseInt(ch + ch, 16)
+    return [dup(d[0] as string), dup(d[1] as string), dup(d[2] as string)]
+  }
+
+  // oklch(55.5% 0.163 48.998) — L có thể là % hoặc số 0…1; bỏ qua phần alpha `/ .5` nếu có.
+  const okl = /^oklch\(\s*([\d.]+)(%?)\s+([\d.]+)\s+([\d.]+)(?:deg)?\s*(?:\/.*)?\)$/.exec(s)
+  if (okl) {
+    const lRaw = Number(okl[1])
+    const l = okl[2] === '%' ? lRaw / 100 : lRaw
+    return oklchToRgb(l, Number(okl[3]), Number(okl[4]))
+  }
+
+  const rgbFn = /^rgba?\(\s*([\d.]+)[\s,]+([\d.]+)[\s,]+([\d.]+)\s*(?:[,/].*)?\)$/.exec(s)
+  if (rgbFn) {
+    return [
+      Math.round(Number(rgbFn[1])),
+      Math.round(Number(rgbFn[2])),
+      Math.round(Number(rgbFn[3])),
+    ]
+  }
+
+  return null
+}
