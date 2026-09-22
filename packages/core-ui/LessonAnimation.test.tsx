@@ -90,6 +90,60 @@ describe('LessonAnimation', () => {
     expect((h.match(/data-animated="true"/g) ?? []).length).toBe(1)
   })
 
+  // Bẫy đã mắc thật (2026-09-22): tên @keyframes từng nằm ở hình CON, còn duration/play-state
+  // nằm ở <g> CHA → không hoạt ảnh nào chạy ở cả 5 môn mà mọi cổng vẫn xanh. CSS animation không
+  // kế thừa, nên đủ bộ thuộc tính phải nằm trên MỘT phần tử: đúng thẻ mang data-animated.
+  it('animation-name nằm trên CHÍNH thẻ mang data-animated (không phải hình con)', () => {
+    const h = html()
+    const g = /<g data-animated="true"[^>]*>/.exec(h)?.[0]
+    expect(g, 'không thấy thẻ g data-animated').toBeTruthy()
+    expect(g).toMatch(/style="animation-name:\s*dhcbAnim/)
+    // Không hình con nào mang animation-name — hai nơi cùng khai là lại lệch nhau về sau.
+    expect(h.match(/animation-name:\s*dhcbAnim/g)?.length).toBe(1)
+  })
+
+  // Bẫy thứ hai cùng ngày: opacity TĨNH ở hình con NHÂN với opacity ĐỘNG ở <g> cha. 159/238
+  // hoạt ảnh viết `opacity: 0` tĩnh + keyframes nâng lên 1 → vô hình vĩnh viễn. Keyframe phải
+  // là nguồn sự thật khi nó điều khiển opacity; hình chỉ animate vị trí vẫn giữ opacity tĩnh.
+  it('keyframe điều khiển opacity thì KHÔNG in opacity tĩnh lên hình con', () => {
+    const an: Spec = {
+      ...spec,
+      shapes: [
+        {
+          kind: 'circle',
+          id: 'hien-muon',
+          cx: 10,
+          cy: 10,
+          r: 3,
+          opacity: 0,
+          keyframes: [
+            { atMs: 0, opacity: 0 },
+            { atMs: 1000, opacity: 0 },
+            { atMs: 1500, opacity: 1 },
+            { atMs: 2000, opacity: 1 },
+          ],
+        },
+        {
+          kind: 'circle',
+          id: 'mo-di-chuyen',
+          cx: 30,
+          cy: 10,
+          r: 3,
+          opacity: 0.4,
+          keyframes: [
+            { atMs: 0, dx: 0 },
+            { atMs: 2000, dx: 50 },
+          ],
+        },
+      ],
+    }
+    const h = renderToStaticMarkup(<LessonAnimation spec={an} />)
+    const hienMuon = /<circle[^>]*cx="10"[^>]*>/.exec(h)![0]
+    expect(hienMuon).not.toMatch(/opacity="0"/)
+    const moDiChuyen = /<circle[^>]*cx="30"[^>]*>/.exec(h)![0]
+    expect(moDiChuyen).toMatch(/opacity="0.4"/)
+  })
+
   it('mốc thời gian đổi thành phần trăm đúng theo durationMs', () => {
     const h = html()
     expect(h).toContain('0.000%')

@@ -205,6 +205,25 @@ và các đợt sau đã soạn nhiều hơn ghi nhận ở đây). Kiểm kê t
   đậm", "đổi màu báo đúng").
 - Còn ngỏ: nhân rộng nội dung (bước 2), môn Anh, 3 animation STEM nháp chưa nối `apps/`.
 
+## Kết quả GĐ2 — bước 2 (2026-09-22, `docs/changelog/0407-*.md`): 10 hoạt ảnh thuật toán + sửa renderer
+
+- **Nhân rộng:** 10 hoạt ảnh mới cho `algo-s1-m2/m3`, `algo-s2-m1..m4`, `algo-s3-m1..m4` (bảng ở
+  changelog). Bỏ qua có chủ đích `algo-s1-m4` và cả `algo-s4` (hình động không giúp hiểu thêm).
+- **Phát hiện lớn: hoạt ảnh CHƯA TỪNG CHẠY ở cả 5 môn** từ khi có renderer (`TRAPS.md` mục 10).
+  Hai lỗi: (1) `animation-name` ở hình con còn duration ở `<g>` cha — CSS animation không kế thừa;
+  (2) opacity tĩnh × opacity động, 159/238 hoạt ảnh mắc. Cả hai sửa ở `core-ui/LessonAnimation.tsx`
+  (đây là sửa LỖI, không phải thêm khả năng biểu đạt — không trái ①), có 2 test canh.
+- **Luật ⑥ bổ sung (bắt buộc cho mọi đợt hoạt ảnh sau):** Tầng 8b cho hoạt ảnh = chụp **≥ 3 mốc
+  thời gian** và so ảnh khác nhau thật; kỹ thuật đáng tin
+  `el.getAnimations().forEach(a => { a.pause(); a.currentTime = t })`. Ảnh cảnh đầu không phân
+  biệt được hoạt ảnh chạy và hoạt ảnh đứng yên. Subagent soạn hoạt ảnh phải tự chụp và ĐỌC ảnh
+  trước khi báo xong; "qua Zod + typecheck" không đủ.
+- **Khuôn dữ liệu đã chốt:** hình "hiện muộn" = keyframes `{atMs:0, opacity:0}` giữ 0 tới ngay
+  trước lúc hiện rồi lên 1, giữ tới `atMs: durationMs`; overlay đánh dấu (viền đúng/đang xét)
+  KHÔNG đặt `fill` đục vì vẽ sau sẽ che hình dưới; mốc quyết định cách nhau ≥ 600ms.
+- Còn ngỏ: rà bằng mắt theo thời gian cho hoạt ảnh Toán (môn STEM duy nhất đã nối `apps/`); môn
+  Anh; 3 môn STEM nháp.
+
 ## Nghiệm thu
 
 - Lệnh đã chạy + kết quả thật: `npm run typecheck` xanh, `npm run lint` xanh (0 cảnh báo),

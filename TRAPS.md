@@ -360,3 +360,67 @@ trạng thái CHƯA cuộn (cuộn rồi thì che là đúng, đó là điểm c
 `center` + dáng `sheet`, cộng một ca canh header vẫn dính sau khi cuộn để bản sửa không âm thầm
 giết tính năng cũ. Test phải là **E2E**: lỗi này không tồn tại trong jsdom vì jsdom không có bố
 cục. Đã tự kiểm là không xanh giả (đặt lại `-mt-6` thì đỏ với `Received: 24`).
+
+## 10. Hoạt ảnh bài học KHÔNG chạy ở 5 môn suốt nhiều tháng — mọi cổng vẫn xanh
+
+**Ngày/PR:** phát hiện 2026-09-22 khi soi ảnh chụp theo thời gian (`docs/changelog/0407-*.md`).
+Lỗi có từ lần đầu viết `packages/core-ui/LessonAnimation.tsx` (đợt 4 môn STEM,
+`docs/specs/2026-09-13-hoan-thien-4-mon-stem.md`), sống qua cả GĐ0/GĐ1 hoạt ảnh (PR #1099) và
+GĐ2 bước 1 (PR #1101).
+
+**Khuôn lỗi:** renderer gắn `animation-name` (biến thiên theo từng hình) bằng inline style lên
+thẻ hình CON, còn `animation-duration`/`iteration-count`/`play-state`/`fill-mode` lại khai bằng
+CSS cho thẻ `<g data-animated='true']` CHA. **CSS animation không kế thừa xuống con.** Kết quả:
+thẻ cha có duration 9s nhưng `animation-name: none`; thẻ con có tên nhưng `animation-duration:
+0s` → không hoạt ảnh nào từng chạy ở Toán/Lí/Hoá/Sinh/Lập trình. Cảnh ở mốc 0 vốn đã đúng nên
+trang trông vẫn "có hình", chỉ là hình đứng yên.
+
+**Vì sao KHÔNG cổng nào bắt được** (điểm đáng nhớ nhất):
+
+- Zod `LessonAnimationSchema` kiểm DỮ LIỆU (id, mốc thời gian, màu) — dữ liệu hoàn toàn hợp lệ.
+- Test renderer (`packages/core-ui/LessonAnimation.test.tsx`) kiểm CHUỖI HTML có `@keyframes`,
+  có `data-animated`, có phần trăm đúng — tất cả đều có mặt, chỉ là nằm sai thẻ.
+- Ảnh chụp Tầng 8b chụp **cảnh đầu** (mốc 0), mà cảnh đầu của một hoạt ảnh đứng yên thì không
+  khác gì cảnh đầu của hoạt ảnh chạy được.
+- jsdom không chạy CSS animation nên test đơn vị không thể phát hiện.
+
+**Cách rà (dùng lại cho mọi nghi ngờ "hoạt ảnh có chạy không"):**
+
+```bash
+# 1. Có animation nào ĐANG chạy thật trên trang không (0 = không chạy):
+#    trong trình duyệt: [...document.querySelectorAll("[data-animated='true']")]
+#      .reduce((n, g) => n + g.getAnimations().length, 0)
+# 2. Chụp ảnh ở NHIỀU mốc thời gian bằng animation-delay âm + play-state paused,
+#    rồi NHÌN từng ảnh — hai mốc khác nhau mà ảnh giống hệt là dấu hiệu đứng yên:
+#      g.style.setProperty('animation-play-state', 'paused', 'important')
+#      g.style.setProperty('animation-delay', `-${t}ms`, 'important')
+```
+
+**Nguyên nhân thứ hai lộ ra NGAY SAU khi sửa nguyên nhân thứ nhất:** opacity TĨNH của hình
+(`opacity: 0` khai trên hình) nằm ở thẻ con, còn opacity ĐỘNG của keyframes chạy trên `<g>` cha
+— hai giá trị **nhân** với nhau. 159/238 hoạt ảnh (rà máy 2026-09-22, chủ yếu Sinh học) viết
+`opacity: 0` tĩnh + keyframes nâng lên 1 với ý "keyframe quyết định lúc hiện" → hình vô hình
+vĩnh viễn (0 × bất kỳ = 0). Khi hoạt ảnh còn đứng yên thì không ai thấy vì mọi thứ đều "chưa
+hiện"; khi hoạt ảnh chạy được thì 4/10 hoạt ảnh Lập trình mới lộ ngay phần động không bao giờ
+hiện.
+
+**Cách sửa:** (1) đủ bộ thuộc tính animation phải nằm trên **CÙNG MỘT phần tử** — nay
+`animation-name` gắn thẳng lên thẻ `<g data-animated='true'>` mang duration/play-state; (2)
+hình có keyframe điều khiển opacity thì **keyframe là nguồn sự thật**, renderer bỏ opacity tĩnh
+trên hình con (hình chỉ animate vị trí vẫn giữ opacity tĩnh làm nền). Sửa ở renderer thay vì
+sửa 159 bộ dữ liệu.
+
+**Cổng chốt chặn:** `packages/core-ui/LessonAnimation.test.tsx` — ca "animation-name nằm trên
+CHÍNH thẻ mang data-animated (không phải hình con)": khớp `<g data-animated="true" ...
+style="animation-name: dhcbAnim...">` và bắt buộc toàn trang chỉ có ĐÚNG MỘT nơi khai
+`animation-name` cho mỗi hình (hai nơi cùng khai là mầm lệch tiếp theo). Đã tự kiểm không xanh
+giả: trả `animation-name` về hình con thì ca này đỏ. Cùng file, ca "keyframe điều khiển opacity
+thì KHÔNG in opacity tĩnh lên hình con" canh nguyên nhân thứ hai.
+
+**Lưu ý khi chụp khung hình để kiểm:** đổi `animation-delay` âm trên animation đã `paused` cho
+kết quả SAI GIẢ ở mốc gần cuối trên Chromium (không tính lại đúng theo delay mới). Cách đáng tin:
+`el.getAnimations().forEach(a => { a.pause(); a.currentTime = t })`.
+
+**Bài học rộng hơn:** với thứ chỉ "đúng" khi CHẠY (hoạt ảnh, chuyển cảnh, hiệu ứng theo thời
+gian), ảnh chụp một khoảnh khắc và test chuỗi HTML đều là **cổng hình thức**. Phải kiểm ở ≥ 3
+mốc thời gian khác nhau và so ảnh khác nhau thật.
