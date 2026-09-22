@@ -229,7 +229,7 @@
     "ipa_en": "/ɛθˈnɪsɪti/",
     "ipa_vi": "/zən˧/",
     "freq": 34276,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "ethnicities" }
   },
   {
@@ -335,7 +335,7 @@
     "ipa_en": "/ɪˌvæpərˈeɪʃən/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 55049,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "evaporations" }
   },
   {
@@ -1375,7 +1375,7 @@
     "ipa_en": "/ɪkˈspænsɪv/",
     "ipa_vi": "/zoŋ˨˩ʔ/",
     "freq": 32851,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "expect",
@@ -1458,7 +1458,7 @@
     "ipa_en": "/ɪkˈspɛndɪʧər/",
     "ipa_vi": "/tɕi˧/",
     "freq": 31249,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "expenditures" }
   },
   {
@@ -2823,7 +2823,8 @@
     "ipa_en": "/ˈfɑrðər/",
     "ipa_vi": "/saː˧/",
     "freq": 6374,
-    "level": "B1"
+    "level": "A2",
+    "base": "far"
   },
   {
     "word": "farthest",
@@ -2833,8 +2834,9 @@
     "ex_vi": "Hành tinh nào xa nhất so với mặt trời?",
     "ipa_en": "/ˈfɑrðɪst/",
     "ipa_vi": "/sa˧/",
-    "level": "B1",
-    "freq": 19233
+    "level": "A2",
+    "freq": 19233,
+    "base": "far"
   },
   {
     "word": "fascinate",
@@ -2949,7 +2951,8 @@
     "ipa_en": "/ˈfæstər/",
     "ipa_vi": "/ɲaːɲ˧/",
     "freq": 1464,
-    "level": "A1"
+    "level": "A1",
+    "base": "fast"
   },
   {
     "word": "fasting",
@@ -3205,7 +3208,7 @@
     "ipa_en": "/fɪrˈfʊli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 36431,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "fearsome",
@@ -3227,7 +3230,7 @@
     "ipa_en": "/ˌfizəˈbɪləti/",
     "ipa_vi": "/tiɲ˦˥/",
     "freq": 43550,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "feasibilities" }
   },
   {
@@ -4840,7 +4843,7 @@
     "ipa_en": "/ˈflætli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 36439,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "flatter",
@@ -7635,7 +7638,7 @@
     "ipa_en": "/ˈfərnɪʃɪŋ/",
     "ipa_vi": "/ɗo˨˩/",
     "freq": 33109,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "furnishings" }
   },
   {
@@ -9938,7 +9941,7 @@
     "ipa_en": "/ˈgəvərnəns/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 43605,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "governances" }
   },
   {
@@ -10669,7 +10672,8 @@
     "ipa_en": "/ˈgreɪtər/",
     "ipa_vi": "/ləːn˦˥/",
     "freq": 3118,
-    "level": "A1"
+    "level": "A1",
+    "base": "great"
   },
   {
     "word": "greatest",
@@ -10680,7 +10684,8 @@
     "ipa_en": "/ˈgreɪtəst/",
     "ipa_vi": "/vi˧˥ʔ/",
     "freq": 1348,
-    "level": "A1"
+    "level": "A1",
+    "base": "great"
   },
   {
     "word": "greatly",
@@ -10726,7 +10731,7 @@
     "ipa_en": "/ˈgridəli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 55479,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "greedy",
@@ -11669,7 +11674,7 @@
     "ipa_en": "/həˈbɪʧuəli/",
     "ipa_vi": "/tʰɛw˧/",
     "freq": 36460,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "hack",
@@ -12249,7 +12254,8 @@
     "ipa_en": "/ˈhæpiər/",
     "ipa_vi": "/haːɲ˨˩ʔ/",
     "freq": 3723,
-    "level": "A1"
+    "level": "A1",
+    "base": "happy"
   },
   {
     "word": "happily",

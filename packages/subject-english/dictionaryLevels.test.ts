@@ -7,8 +7,10 @@ import { describe, it, expect } from 'vitest'
 import {
   findInflectionLevelMismatches,
   findRareEasyOutliers,
+  findUnlinkedInflections,
   findUnsourcedEasyOutliers,
   parseWordlistHeadwords,
+  LEXICALIZED_FORM_ALLOWLIST,
   RARE_EASY_ALLOWLIST,
   RARE_RANK_FLOOR,
   UNSOURCED_EASY_ALLOWLIST,
@@ -76,6 +78,13 @@ describe('thang bậc CEFR của từ điển', () => {
       (o) => `${o.word.trim().toLowerCase()}::${o.pos}`,
     )
     expect(outliers).toEqual([...UNSOURCED_EASY_ALLOWLIST].sort())
+  })
+
+  it('dạng chia không đứng như từ riêng (bigger phải trỏ base=big), trừ mục đã từ vựng hoá', () => {
+    const unlinked = findUnlinkedInflections(entries).map(
+      (u) => `${u.word.toLowerCase()}::${u.pos}`,
+    )
+    expect(unlinked.sort()).toEqual([...LEXICALIZED_FORM_ALLOWLIST].sort())
   })
 
   it('sàn bậc sắp theo hạng GIẢM để mốc khớp đầu tiên là mốc chặt nhất', () => {

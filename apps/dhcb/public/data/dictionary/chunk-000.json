@@ -1089,7 +1089,7 @@
     "ipa_en": "/ˈæktɪˌvɪzəm/",
     "ipa_vi": "/hwaːt̚˨˩ʔ/",
     "freq": 36276,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "activisms" }
   },
   {
@@ -1241,7 +1241,7 @@
     "ipa_en": "/əˌdæptəˈbɪləti/",
     "ipa_vi": "/xaː˧˩˧/",
     "freq": 39255,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "adaptabilities" }
   },
   {
@@ -1276,7 +1276,7 @@
     "ipa_en": "/əˈdæptər/",
     "ipa_vi": "/ɓo˨˩ʔ/",
     "freq": 34734,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "adapters" }
   },
   {
@@ -1731,7 +1731,8 @@
     "ipa_en": "/ædz/",
     "ipa_vi": "/kwaːŋ˧˩˧/",
     "freq": 6827,
-    "level": "B1"
+    "level": "B1",
+    "base": "ad"
   },
   {
     "word": "adult",
@@ -2403,7 +2404,7 @@
     "ipa_en": "/ˈægrəgət/",
     "ipa_vi": "/toŋ˧˩˧/",
     "freq": 35039,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "aggregates" }
   },
   {
@@ -3070,7 +3071,7 @@
     "ipa_en": "/ˌæləˈkeɪʃən/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 35040,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "allocations" }
   },
   {
@@ -3451,7 +3452,8 @@
     "ipa_en": "/əˈləmˌnaɪ/",
     "ipa_vi": "/kɯw˨˩ʔ/",
     "freq": 12826,
-    "level": "C2"
+    "level": "C2",
+    "base": "alumnus"
   },
   {
     "word": "alumnus",
@@ -3864,7 +3866,7 @@
     "ipa_en": "/ˈæmpləˌtud/",
     "ipa_vi": "/ɓiən˧/",
     "freq": 41042,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "amplitudes" }
   },
   {
@@ -4613,7 +4615,7 @@
     "ipa_en": "/ˈæntɪˌbɑdi/",
     "ipa_vi": "/xaːŋ˦˥/",
     "freq": 32520,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "antibodies" }
   },
   {
@@ -5135,7 +5137,7 @@
     "ipa_en": "/ˈæpləkəbəl/",
     "ipa_vi": "/kɔ˦˥/",
     "freq": 31024,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "applicant",
@@ -7353,7 +7355,7 @@
     "ipa_en": "/ɑgˈmɛntəd/",
     "ipa_vi": "/taŋ˧/",
     "freq": 39297,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "august",
@@ -10456,7 +10458,7 @@
     "ipa_en": "/ˌbɪbliˈɑgrəfi/",
     "ipa_vi": "/zaːɲ˧/",
     "freq": 49213,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "bibliographies" }
   },
   {
@@ -10528,7 +10530,8 @@
     "ipa_en": "/ˈbɪgər/",
     "ipa_vi": "/ləːn˦˥/",
     "freq": 1234,
-    "level": "A1"
+    "level": "A1",
+    "base": "big"
   },
   {
     "word": "biggest",
@@ -10539,7 +10542,8 @@
     "ipa_en": "/ˈbɪgəst/",
     "ipa_vi": "/ləːn˦˥/",
     "freq": 1534,
-    "level": "A1"
+    "level": "A1",
+    "base": "big"
   },
   {
     "word": "bike",
@@ -11633,7 +11637,7 @@
     "ipa_en": "/ˈboʊstfəl/",
     "ipa_vi": "/xwaːk̚˦˥/",
     "freq": 34204,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "boat",

@@ -4,8 +4,12 @@
 // vòng cũ không còn khớp).
 //
 // Cách làm: gom mọi câu "mồ côi" (thuộc id vòng đã biến mất, hoặc không còn dùng từ nào của vòng
-// hiện tại / sai khung độ dài / quá 4 từ của vòng) rồi gán lại cho vòng đang THIẾU câu, nếu câu
-// dùng ≥ 1 từ của vòng đó và đúng khung độ dài bậc. Câu không gán được thì bỏ (in số lượng).
+// hiện tại / sai khung độ dài / quá 4 từ của vòng) CỘNG hồ câu `pool` của các lần trước, rồi gán
+// lại cho vòng đang THIẾU câu, nếu câu dùng ≥ 1 từ của vòng đó và đúng khung độ dài bậc.
+//
+// Câu không gán được KHÔNG bị bỏ nữa (sửa 2026-09-22, đợt 0410 — nợ để mở của 0409): nó về `pool`
+// trong cùng file JSON để lần sinh lại vòng sau đem ra dùng. Bỏ thẳng như trước là mất 40 câu
+// viết tay đúng chỉ vì lúc ấy không vòng nào cần.
 // Cuối cùng in danh sách vòng vẫn còn thiếu để viết tay.
 //
 // Bằng chứng lần dùng đầu (2026-09-22, docs/changelog/0409): sinh lại vòng làm 96 vòng hỏng câu
@@ -46,6 +50,7 @@ interface Circle {
 const circles = JSON.parse(fs.readFileSync(CURRICULUM, 'utf8')) as Circle[]
 const file = JSON.parse(fs.readFileSync(SENTENCES, 'utf8')) as {
   sentences: Record<string, Sentence[]>
+  pool?: Sentence[]
 } & Record<string, unknown>
 
 const ids = new Set(circles.map((c) => c.id))
@@ -61,7 +66,7 @@ function fits(s: Sentence, words: string[], lv: CefrLevelId): boolean {
 }
 
 // ── 1. Tách câu còn khớp / câu mồ côi ─────────────────────────────────────
-const loose: Sentence[] = []
+const loose: Sentence[] = [...(file.pool ?? [])]
 const out: Record<string, Sentence[]> = {}
 for (const [id, list] of Object.entries(file.sentences)) {
   if (!ids.has(id)) {
@@ -107,6 +112,14 @@ for (const c of circles) {
 
 // ── 3. Ghi + báo vòng còn thiếu ───────────────────────────────────────────
 // Khoá sắp tăng dần — test HINH_DANG_FILE canh, để diff các đợt sau đọc được.
+// Câu chưa gán được về hồ, khử trùng lặp theo câu tiếng Anh đã chuẩn hoá.
+const poolSeen = new Set<string>()
+file.pool = loose.filter((s) => {
+  const k = normalizeSentence(s.en)
+  if (used.has(k) || poolSeen.has(k)) return false
+  poolSeen.add(k)
+  return true
+})
 file.sentences = Object.fromEntries(
   Object.entries(out).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)),
 )
@@ -122,7 +135,9 @@ for (const c of circles) {
     thieu.push(`${c.id} (${cur.length} câu, phủ ${covered.size} từ)`)
   }
 }
-console.log(`✅ gán lại ${reassigned} câu · bỏ ${loose.length} câu mồ côi không gán được`)
+console.log(
+  `✅ gán lại ${reassigned} câu · ${file.pool.length} câu chưa gán được ĐÃ GIỮ trong pool (không bỏ)`,
+)
 console.log(
   thieu.length === 0
     ? '✅ mọi vòng cefr-* đủ câu mẫu'

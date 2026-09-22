@@ -490,7 +490,8 @@
     "ipa_en": "/laɪd/",
     "ipa_vi": "/ɗaː˧˥ʔ/",
     "freq": 1463,
-    "level": "A2"
+    "level": "A2",
+    "base": "lie"
   },
   {
     "word": "lieutenant",
@@ -1102,7 +1103,7 @@
     "ipa_en": "/lɪkˈwɪdɪti/",
     "ipa_vi": "/tiɲ˦˥/",
     "freq": 50513,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "liquidities" }
   },
   {
@@ -1814,7 +1815,8 @@
     "ipa_en": "/ˈlɔŋgər/",
     "ipa_vi": "/zaːj˨˩/",
     "freq": 763,
-    "level": "A1"
+    "level": "A1",
+    "base": "long"
   },
   {
     "word": "longing",
@@ -2179,7 +2181,8 @@
     "ipa_en": "/loʊər/",
     "ipa_vi": "/tʰəp̚˦˥/",
     "freq": 2045,
-    "level": "B2"
+    "level": "A2",
+    "base": "low"
   },
   {
     "word": "lowest",
@@ -2190,7 +2193,8 @@
     "ipa_en": "/loʊəst/",
     "ipa_vi": "/tʰəp̚˦˥/",
     "freq": 7427,
-    "level": "A2"
+    "level": "A2",
+    "base": "low"
   },
   {
     "word": "lowland",
@@ -2225,7 +2229,7 @@
     "ipa_en": "/ˈlɔɪəli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 35232,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "loyalty",
@@ -3674,7 +3678,7 @@
     "ipa_en": "/ˈmɑrkɪdli/",
     "ipa_vi": "/zɔ˧˥ʔ/",
     "freq": 50590,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "marker",
@@ -3709,7 +3713,7 @@
     "ipa_en": "/ˈmɑrkətər/",
     "ipa_vi": "/ŋɯəj˨˩/",
     "freq": 67477,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "marketers" }
   },
   {
@@ -4051,7 +4055,7 @@
     "ipa_en": "/ˈmæsɪvli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 34024,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "mast",
@@ -4483,7 +4487,7 @@
     "ipa_en": "/ˈminɪŋfəli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 39669,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "meaningless",
@@ -5442,7 +5446,7 @@
     "ipa_en": "/məˈθɑdɪkəli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 31100,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "methodology",
@@ -5746,7 +5750,7 @@
     "ipa_en": "/mɪdˈfildər/",
     "ipa_vi": "/tiən˨˩/",
     "freq": 67731,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "midfielders" }
   },
   {
@@ -5805,7 +5809,7 @@
     "ipa_en": "/ˈmɪdˌwik/",
     "ipa_vi": "/zɯə˧˥ʔ/",
     "freq": 41537,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "midweeks" }
   },
   {
@@ -8255,7 +8259,7 @@
     "ipa_en": "/ˌməltəpləˈkeɪʃən/",
     "ipa_vi": "/fɛp̚˦˥/",
     "freq": 31292,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "multiplications" }
   },
   {
@@ -8325,7 +8329,7 @@
     "ipa_en": "/mˌjunɪsəˈpæləti/",
     "ipa_vi": "/ɗo˧/",
     "freq": 35565,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "municipalities" }
   },
   {
@@ -9582,7 +9586,7 @@
     "ipa_en": "/ˈnutrəli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 68244,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "neutron",
@@ -9663,7 +9667,8 @@
     "ipa_en": "/nuəst/",
     "ipa_vi": "/məːj˦˥/",
     "freq": 7960,
-    "level": "A1"
+    "level": "A1",
+    "base": "new"
   },
   {
     "word": "newly",
@@ -10631,7 +10636,7 @@
     "ipa_en": "/ˈnoʊtɪsəbli/",
     "ipa_vi": "/zɔ˧˥ʔ/",
     "freq": 35570,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "noticeboard",
@@ -12169,7 +12174,8 @@
     "ipa_en": "/ˈoʊldər/",
     "ipa_vi": "/ləːn˦˥/",
     "freq": 1512,
-    "level": "A1"
+    "level": "A1",
+    "base": "old"
   },
   {
     "word": "olive",

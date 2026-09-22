@@ -57,12 +57,18 @@ const GOLDEN_MANUAL_HASH = 'ca7969b3ce30bc7120e050976a4cabc9322ed344984e150812ef
  * (số vòng thiếu câu = 0). Ngưỡng đếm đơn thuần có thể xanh trong khi một vòng mới bị bỏ quên;
  * đối chiếu với TOÀN BỘ FOUNDATION thì không.
  *
- * Hạ tiếp xuống **673** ngày 2026-09-22 (docs/changelog/0409): áp sàn bậc theo tần suất cho 306
+ * Hạ tiếp xuống **671** ngày 2026-09-22 (docs/changelog/0410, cùng ngày, đợt sau): nối `base`
+ * cho 30 dạng chia tìm bằng quét theo `forms` (`bigger`, `died`, `ads`… — bất biến thứ tư
+ * `findUnlinkedInflections`) và thêm mốc C1 cho sàn bậc theo tần suất (128 mục B2 hạng ≥ 30 000
+ * lên C1). 30 từ rời vòng A1–B2 làm tổng vòng giảm đúng 2 (673 → 671, 11 893 → 11 864 từ). Vẫn
+ * **0 vòng thiếu câu mẫu**: 95 câu gán lại (có câu lấy từ `pool`), 12 câu viết tay cho 11 vòng.
+ *
+ * Hạ xuống **673** ngày 2026-09-22 (docs/changelog/0409): áp sàn bậc theo tần suất cho 306
  * nhãn không có nguồn chuẩn + nối `base` cho 12 dạng chia → sinh lại vòng A1–C2, tổng vòng giảm
  * 3 (từ rời A1/A2 làm vài vòng nhỏ gộp lại). Vẫn 0 vòng thiếu câu mẫu: 208 câu cũ được gán lại
  * cho vòng mới bằng `scripts/archive/reassign-circle-sentences.ts`, 31 câu viết tay thêm.
  */
-const MIN_CIRCLES_WITH_SENTENCES = 673
+const MIN_CIRCLES_WITH_SENTENCES = 671
 
 const PUBLIC_JSON = path.resolve(process.cwd(), 'apps/dhcb/public/data/curriculum.json')
 

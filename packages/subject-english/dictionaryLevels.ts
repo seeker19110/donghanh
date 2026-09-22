@@ -160,10 +160,15 @@ export function findRareEasyOutliers(entries: readonly DictLevelEntry[]): string
 //
 // Quy tắc (chỉ áp cho mục KHÔNG có trong CEFR-J/Octanove — nhãn có nguồn chuẩn được giữ nguyên
 // dù hạng thấp, vì CEFR-J chấm theo chủ đề giáo trình, xem RARE_EASY_ALLOWLIST):
-//   hạng ≥ 15 000 → bậc tối thiểu B2 · hạng ≥ 8 000 → bậc tối thiểu B1.
-// Mốc lấy từ phân bố thật của từ điển (2026-09-22): trung vị hạng của B1 là 6 312, của B2 là
-// 11 137, của C1 là 16 838 — một từ hạng 8 000–15 000 nằm giữa B1 và B2, ≥ 15 000 nằm giữa B2
-// và C1. Mục biến thể (`base`) bỏ qua: bậc của nó theo từ gốc (bất biến thứ nhất).
+//   hạng ≥ 30 000 → bậc tối thiểu C1 · ≥ 15 000 → B2 · ≥ 8 000 → B1.
+// Mốc lấy từ phân bố thật của từ điển (đo lại 2026-09-22 sau đợt 0409, trên 12 153 mục): trung
+// vị hạng của B1 là 6 498, của B2 là 12 675, của C1 là 17 853, của C2 là 21 652 — một từ hạng
+// 8 000–15 000 nằm giữa B1 và B2, 15 000–30 000 giữa B2 và C1, ≥ 30 000 vượt cả trung vị C2
+// (mốc 30 000 cũng trùng RARE_RANK_FLOOR: "rất hiếm" thì bậc thấp nhất hợp lý là C1).
+// Mục biến thể (`base`) bỏ qua: bậc của nó theo từ gốc (bất biến thứ nhất).
+//
+// Mốc C1 thêm 2026-09-22 (đợt 0410) — nợ để mở của 0409: khi ấy sàn mới áp tới B2, nên 130 mục
+// hạng ≥ 30 000 vẫn đứng B2 (`viscosity` 39 974, `urbanization` 73 622, `judiciary` 34 016).
 
 export interface UnsourcedLevelFloor {
   minRank: number
@@ -172,6 +177,7 @@ export interface UnsourcedLevelFloor {
 
 /** Sắp theo minRank GIẢM để mốc đầu tiên khớp là mốc chặt nhất. */
 export const UNSOURCED_LEVEL_FLOORS: readonly UnsourcedLevelFloor[] = [
+  { minRank: 30_000, floor: 'C1' },
   { minRank: 15_000, floor: 'B2' },
   { minRank: 8_000, floor: 'B1' },
 ]
@@ -182,6 +188,9 @@ export const UNSOURCED_EASY_ALLOWLIST: readonly string[] = [
   'superhero::n', // truyện tranh, phim thiếu nhi — A2 hợp lý dù hạng 8 794
   'indian::adj', // tính từ quốc gia, cùng nhóm với các tính từ quốc tịch A1/A2
   'mini::adj', // tiền tố quen dùng trong tiếng Việt (mini-mart, minigame)
+  // Hai mục dưới đây thêm cùng mốc C1 (2026-09-22, đợt 0410):
+  'app::n', // chính hội thoại của dự án dùng 50 lần; người Việt nói nguyên chữ "app"
+  'downloads::n', // số lượt tải — cùng gốc với `download` (v, A2), chỉ khác từ loại
 ]
 
 /** Bậc tối thiểu theo hạng tần suất, hoặc null nếu hạng chưa chạm mốc nào. */
@@ -256,4 +265,73 @@ function readFirstCsvField(line: string): string {
     } else out += ch
   }
   return out
+}
+
+// ---------------------------------------------------------------------------
+// Bất biến thứ tư: DẠNG CHIA KHÔNG ĐƯỢC ĐỨNG NHƯ MỘT TỪ RIÊNG.
+//
+// Bất biến thứ nhất chỉ so bậc của mục ĐÃ khai `base`. Nó im lặng với mục là dạng chia thật
+// nhưng KHÔNG khai `base` — và chính những mục đó mới đắt: generator vòng từ vựng bỏ qua mục
+// có `base`, nên mục không khai `base` trở thành MỘT THẺ TỪ VỰNG RIÊNG. Người học A1 phải học
+// "bigger" như từ mới sau khi đã học "big". Đợt 0409 nối tay 12 mục (`heavier`, `posts`…), đợt
+// này quét theo `forms` của từ gốc nên không còn phải nhớ bằng tay: 42 mục, 30 mục nối `base`.
+//
+// Nhận biết giống bất biến thứ nhất (từ gốc tự khai dạng đó trong `forms` + cùng từ loại), nên
+// hai bất biến không thể mâu thuẫn nhau.
+//
+// Ngoại lệ là DANH SÁCH CÓ TÊN, không phải ngưỡng: dạng chia đã TỪ VỰNG HOÁ — mang nghĩa riêng
+// mà từ gốc không có, nên đứng riêng là ĐÚNG (`premises` = mặt bằng ≠ `premise` = tiền đề).
+
+export const LEXICALIZED_FORM_ALLOWLIST: readonly string[] = [
+  'facilities::n', // tiện nghi / khu vệ sinh — nghĩa tập hợp, không phải "nhiều facility"
+  'guts::n', // can đảm (B2) ≠ gut = ruột (C1)
+  'lyrics::n', // lời bài hát ≠ lyric (thơ trữ tình)
+  'nerves::n', // thần kinh, "get on my nerves" ≠ nerve = dây thần kinh đơn lẻ
+  'norms::n', // chuẩn mực xã hội — luôn dùng số nhiều
+  'premises::n', // mặt bằng, khuôn viên ≠ premise = tiền đề
+  'provisions::n', // điều khoản (hợp đồng) ≠ provision = sự cung cấp
+  'sales::n', // doanh số / ngành bán hàng ≠ sale = đợt giảm giá
+  'stairs::n', // cầu thang — người Anh nói số nhiều; "stair" (một bậc) hiếm
+  'terms::n', // điều khoản, "in terms of" ≠ term = học kỳ / thuật ngữ
+  'trousers::n', // dạng thường dùng; "trouser" số ít chỉ gặp trong nghề may (C2)
+  'utilities::n', // hoá đơn điện nước ≠ utility = tính hữu dụng
+]
+
+export interface UnlinkedInflection {
+  word: string
+  pos: string
+  base: string
+}
+
+/**
+ * Mục KHÔNG khai `base` nhưng là dạng chia được một từ gốc khác tự khai trong `forms`, cùng từ
+ * loại. Rỗng (ngoài `LEXICALIZED_FORM_ALLOWLIST`) = đạt bất biến.
+ */
+export function findUnlinkedInflections(entries: readonly DictLevelEntry[]): UnlinkedInflection[] {
+  // Chỉ mục "dạng chia đã khai → mục từ gốc khai nó", dựng MỘT lượt: quét đôi n×n trên 12 000
+  // mục làm cổng chạy quá 5 giây (đã mắc lúc thêm test này).
+  const declaredBy = new Map<string, DictLevelEntry[]>()
+  for (const b of entries) {
+    if (b.base) continue
+    for (const k of FORM_KEYS) {
+      const form = String(b.forms?.[k] ?? '')
+        .trim()
+        .toLowerCase()
+      if (!form) continue
+      const list = declaredBy.get(form)
+      if (list) list.push(b)
+      else declaredBy.set(form, [b])
+    }
+  }
+
+  const out: UnlinkedInflection[] = []
+  for (const e of entries) {
+    if (e.base) continue
+    const word = e.word.trim().toLowerCase()
+    for (const b of declaredBy.get(word) ?? []) {
+      if (b.pos !== e.pos || b.word.trim().toLowerCase() === word) continue
+      out.push({ word: e.word, pos: e.pos, base: b.word })
+    }
+  }
+  return out.sort((a, b) => a.word.localeCompare(b.word) || a.pos.localeCompare(b.pos))
 }
