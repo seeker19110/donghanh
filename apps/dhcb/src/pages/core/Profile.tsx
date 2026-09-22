@@ -13,8 +13,6 @@ import {
   ChevronDown,
   ChevronRight,
   Loader2,
-  StickyNote,
-  Bot,
   Settings,
   Users,
   MessageSquare,
@@ -148,43 +146,14 @@ export default function Profile() {
   const streak = getStreak(user.id)
   const learned = getLearnedCount(user.id)
 
-  const SPECIAL_HUBS = [
-    {
-      // [2026-09-20] Ba thẻ "Sự nghiệp & Khởi nghiệp", "Công việc & Đời sống" và "Mạng lưới cá
-      // nhân" đã bị gỡ cùng trang của chúng. Chỉ còn "Ghi chú" — nửa "Công việc" cũ.
-      path: '/ghi-chu',
-      title: isA ? 'Ghi chú' : 'Notes',
-      desc: isA
-        ? 'Việc cần làm, dự án, cuộc họp & tài liệu'
-        : 'Tasks, projects, meetings & documents',
-      icon: StickyNote,
-      color: 'text-rose-400 theme-light:text-rose-900',
-      bg: 'bg-rose-500/10 border-rose-500/30 hover:border-rose-500/60',
-    },
-    {
-      path: '/goc-hoc-tap',
-      title: isA ? 'Góc học tập' : 'Learning Corner',
-      desc: isA
-        ? 'Toán học, Vật lý, Hóa học, Sinh học & Tiếng Anh'
-        : 'Math, Physics, Chemistry, Biology & English',
-      icon: BookOpen,
-      color: 'text-amber-400 theme-light:text-amber-900',
-      bg: 'bg-amber-500/10 border-amber-500/30 hover:border-amber-500/60',
-    },
-    {
-      path: '/ban-dong-hanh',
-      title: isA ? 'Bạn Đồng Hành' : 'AI Companion',
-      desc: isA
-        ? 'Trợ lý đàm thoại & đề xuất đa lĩnh vực'
-        : 'Multi-domain companion & proposed actions',
-      icon: Bot,
-      color: 'text-teal-400 theme-light:text-teal-900',
-      bg: 'bg-teal-500/10 border-teal-500/30 hover:border-teal-500/60',
-    },
+  // [2026-09-22, audit UI/UX P1-3] Trước đây có HAI khối cách nhau ~150px cùng liệt kê Ghi chú ·
+  // Góc học tập · Bạn Đồng Hành ("Không gian" từ STUDIOS + "Không Gian Chuyên Biệt (Hubs)"). Nay
+  // chỉ còn MỘT khối: STUDIOS + hai đích chưa có trong STUDIOS (Bạn bè · Tin nhắn).
+  const EXTRA_HUBS = [
     {
       path: '/ban-be',
       title: isA ? 'Bạn bè' : 'Friends',
-      desc: isA ? 'Kết bạn qua link/QR — nền tảng cho chat' : 'Add friends via link/QR code',
+      desc: isA ? 'Kết bạn qua link/QR' : 'Add friends via link/QR code',
       icon: Users,
       color: 'text-cyan-400 theme-light:text-cyan-900',
       bg: 'bg-cyan-500/10 border-cyan-500/30 hover:border-cyan-500/60',
@@ -192,7 +161,7 @@ export default function Profile() {
     {
       path: '/tin-nhan',
       title: isA ? 'Tin nhắn' : 'Chat & Direct Messages',
-      desc: isA ? 'Nhắn tin thời gian thực 1-1 với bạn bè' : 'Real-time 1-on-1 chat with friends',
+      desc: isA ? 'Nhắn tin 1-1 với bạn bè' : 'Real-time 1-on-1 chat with friends',
       icon: MessageSquare,
       color: 'text-blue-400 theme-light:text-blue-800',
       bg: 'bg-blue-500/10 border-blue-500/30 hover:border-blue-500/60',
@@ -327,7 +296,6 @@ export default function Profile() {
               </section>
             )}
 
-            {/* ── CÁC KHÔNG GIAN CHUYÊN BIỆT (Specialized Spaces & Hubs) ───────── */}
             {/* ── KHÔNG GIAN (bộ chuyển Studio) ────────────────────────────────
                 [P0-4, 2026-09-17] Bộ chuyển Studio ("⌘K") bị ẩn khỏi header dưới
                 1024px (xem `components/Layout.tsx`) — nội dung của nó chuyển hẳn
@@ -358,19 +326,7 @@ export default function Profile() {
                     </button>
                   )
                 })}
-              </div>
-            </section>
-
-            <section className="space-y-3 animate-fade-in">
-              <div className="flex items-center justify-between">
-                <h2 className="text-sm font-semibold text-white">
-                  {isA ? 'Không Gian Chuyên Biệt (Hubs)' : 'Specialized Spaces'}
-                </h2>
-                <span className="text-xs text-zinc-500">Platform V2</span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {SPECIAL_HUBS.map((hub) => {
+                {EXTRA_HUBS.map((hub) => {
                   const Icon = hub.icon
                   return (
                     <button

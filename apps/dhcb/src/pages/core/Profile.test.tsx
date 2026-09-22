@@ -93,8 +93,14 @@ describe('Profile — mục "Không gian" liệt kê đủ STUDIOS (P0-4 AC-5)',
     for (const title of titles) {
       expect(section?.textContent, `thiếu mục Studio "${title}"`).toContain(title)
     }
-    // Đúng số nút (mỗi Studio một <button>), không thiếu không thừa.
+    // [2026-09-22] Khối "Không Gian Chuyên Biệt (Hubs)" đã gộp vào đây (audit UI/UX P1-3):
+    // ngoài STUDIOS còn đúng 2 đích chưa có trong STUDIOS là Bạn bè · Tin nhắn. Không được
+    // có mục trùng đích.
     const buttons = section?.querySelectorAll('button') ?? []
-    expect(buttons.length).toBe(STUDIOS.length)
+    expect(buttons.length).toBe(STUDIOS.length + 2)
+    expect(section?.textContent).toContain('Bạn bè')
+    expect(section?.textContent).toContain('Tin nhắn')
+    const hs = Array.from(container.querySelectorAll('h2')).map((h) => h.textContent)
+    expect(hs).not.toContain('Không Gian Chuyên Biệt (Hubs)')
   })
 })

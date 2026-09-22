@@ -7,74 +7,24 @@
 // 6 cấp (RoadmapTab) để chọn cấp muốn học.
 // ──────────────────────────────────────────────────────────────────────
 
+import { Link } from 'react-router-dom'
 import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
-import { useState } from 'react'
-import { Target, Brain, Star, ClipboardList } from 'lucide-react'
+import { duongDanTuDien } from '../../../lib/englishRoutes'
+import { Target } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import Layout from '../../../components/Layout'
 import { PageShell } from '@core/PageShell'
 import VocabMilestone from '../../../components/VocabMilestone'
-import StudyPanel, { type StudyTab } from '../../../components/StudyPanel'
 import RoadmapTab from '../../../components/RoadmapTab'
 import { getDirection } from '../../../lib/storage'
 import { useAuth } from '../../../context/useAuth'
-import { useOnboarding } from '../../../lib/onboarding'
-import { countBadgeClass, badgeCount } from '@core/badgeStyles'
-
-type TabDef = {
-  key: StudyTab
-  icon: typeof Target
-  labelA: string
-  labelB: string
-  badge?: number
-  active: string
-}
 
 export default function Learn() {
   usePageTitle('Lộ trình học | Môn Tiếng Anh · Đồng hành cùng bạn')
   const { user } = useAuth()
-  const onboarding = useOnboarding(user?.id) // nhóm tuổi (GĐ 4, PROGRESS.md) — lọc vòng từ vựng
   const isA = getDirection() === 'A'
-  const [tab, setTab] = useState<StudyTab>('today')
-  const [badges, setBadges] = useState({ srsDue: 0, hardCount: 0 })
 
   if (!user) return null
-
-  const TABS: TabDef[] = [
-    {
-      key: 'today',
-      icon: Target,
-      labelA: 'Hôm nay',
-      labelB: 'Today',
-      active:
-        'bg-accent-500/20 text-accent-300 theme-light:text-accent-800 border border-accent-500/40',
-    },
-    {
-      key: 'srs',
-      icon: Brain,
-      labelA: 'Ôn SRS',
-      labelB: 'SRS',
-      badge: badges.srsDue,
-      active: 'bg-sky-500/20 text-sky-300 theme-light:text-sky-800 border border-sky-500/40',
-    },
-    {
-      key: 'hard',
-      icon: Star,
-      labelA: 'Từ khó',
-      labelB: 'Hard',
-      badge: badges.hardCount,
-      active:
-        'bg-amber-500/20 text-amber-300 theme-light:text-amber-800 border border-amber-500/40',
-    },
-    {
-      key: 'quiz',
-      icon: ClipboardList,
-      labelA: 'Kiểm tra',
-      labelB: 'Quiz',
-      active:
-        'bg-violet-500/20 text-violet-300 theme-light:text-violet-800 border border-violet-500/40',
-    },
-  ]
 
   return (
     <div className="min-h-dvh bg-zinc-950">
@@ -95,36 +45,22 @@ export default function Learn() {
         </h1>
         <VocabMilestone userId={user.id} />
 
-        <div className="mb-4">
-          {/* Thanh 4 tab học — kiểu dáng đồng bộ với trang cấp CEFR */}
-          <div className="grid grid-cols-4 gap-1.5 mb-3">
-            {TABS.map(({ key, icon: Icon, labelA, labelB, badge, active }) => (
-              <button
-                key={key}
-                onClick={() => setTab(key)}
-                className={`relative flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-xl text-xs font-medium transition ${
-                  tab === key
-                    ? active
-                    : 'bg-zinc-900 text-zinc-400 border border-zinc-800 hover:text-zinc-200'
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                <span>{isA ? labelA : labelB}</span>
-                {badge != null && badge > 0 && (
-                  <span className={countBadgeClass()}>{badgeCount(badge)}</span>
-                )}
-              </button>
-            ))}
-          </div>
-
-          <StudyPanel
-            uid={user.id}
-            isA={isA}
-            tab={tab}
-            ageGroup={onboarding?.ageGroup}
-            onBadges={setBadges}
-          />
-        </div>
+        {/* [2026-09-22, audit UI/UX P1-4] Bốn tab Hôm nay · Ôn SRS · Từ khó · Kiểm tra + phiên
+            flashcard từng được dựng NGAY ĐÂY, y hệt phần đầu trang Từ điển — người vào "Học theo
+            lộ trình" phải cuộn qua một màn hình flashcard mới thấy bản đồ bậc. Flashcard nay chỉ ở
+            MỘT nơi (Từ điển); trang này giữ đúng việc của nó: mốc từ vựng + bản đồ 6 bậc. */}
+        <Link
+          to={duongDanTuDien()}
+          className="tap-44 mb-4 flex items-center justify-between gap-3 rounded-2xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-sm text-zinc-200 hover:border-accent-500/50 hover:text-white transition"
+        >
+          <span className="flex items-center gap-2">
+            <Target className="w-4 h-4 text-accent-400 theme-light:text-accent-800" />
+            {isA ? 'Ôn từ hôm nay · SRS · Từ khó · Kiểm tra' : 'Today · SRS · Hard words · Quiz'}
+          </span>
+          <span className="text-xs text-zinc-400 whitespace-nowrap">
+            {isA ? 'Mở Từ điển →' : 'Open Dictionary →'}
+          </span>
+        </Link>
 
         <RoadmapTab uid={user.id} isA={isA} />
       </PageShell>

@@ -662,27 +662,17 @@ export default function Practice() {
         </section>
 
         {/* ── TẦNG 4: SỔ TAY LỖI SAI & KHO HỌC LIỆU BỔ TRỢ (Resource & Tool Vault) ── */}
-        <section aria-label="Sổ tay lỗi sai và kho học liệu" className="space-y-3">
+        <section aria-label="Kho học liệu bổ trợ" className="space-y-3">
           <div className="flex items-center justify-between px-1">
             <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400" />
-              4. Sổ Tay Lỗi Sai & Kho Học Liệu Bổ Trợ
+              4. Kho Học Liệu Bổ Trợ
             </h2>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-            {/* Sổ tay lỗi sai */}
-            <button
-              onClick={() => nav(duongDanSoTayLoiSai())}
-              className="tap-44 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-rose-500/40 text-left transition active:scale-[0.98] group"
-            >
-              <div className="w-8 h-8 rounded-xl bg-rose-500/15 text-rose-400 theme-light:text-rose-800 flex items-center justify-center shrink-0 mb-2 group-hover:scale-105 transition">
-                <AlertCircle className="w-4 h-4" />
-              </div>
-              <p className="text-xs font-bold text-white truncate">Sổ Tay Lỗi Sai</p>
-              <p className="text-[11px] text-zinc-400 truncate">Ôn lại điểm sai đa môn</p>
-            </button>
-
+            {/* [2026-09-22, audit UI/UX P2-1] Ô "Sổ Tay Lỗi Sai" ở đây đã gỡ: cùng đích với
+                banner đầu trang, một trang không mở cùng một cửa hai lần. */}
             {/* Từ điển 12k từ */}
             <button
               onClick={() => nav(duongDanTuDien())}
