@@ -12,7 +12,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { ArrowLeft, Check, X } from 'lucide-react'
 import { z } from 'zod'
-import { gradeAnswer } from '@dhcb/core-grading'
+// Import xuyên gói phải trỏ FILE cụ thể (CLAUDE.md mục 6): không gói `@dhcb/*` nào khai entry
+// "." trong `exports`, chỉ khai `"./*"`. Bare import từng chạy được nhờ Rollup dễ tính, nhưng
+// rolldown (Vite 8) kiểm `exports` nghiêm và báo `"." is not exported` — xem changelog 0416.
+import { gradeAnswer } from '@dhcb/core-grading/index'
 import type {
   StemCheckQuestion,
   StemLessonLike,
