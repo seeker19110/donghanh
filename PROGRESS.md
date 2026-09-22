@@ -985,6 +985,19 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 
 ## Nợ kỹ thuật còn mở
 
+- 🟡 **[2026-09-22 — đợt nâng cấp major stack, `docs/changelog/0414-*.md`, ADR 0011] Ba nợ nâng
+  cấp còn lại sau đợt này.** (1) **Vite 7 → 8 CHẶN LẠI, đã hoàn nguyên sạch:** Vite 8 thay Rollup
+  bằng rolldown; build gãy ở `[builtin:vite-alias] rolldown:vite-resolve` (đã loại trừ giả thuyết
+  alias regex — đổi sang alias chuỗi vẫn gãy y nguyên), và `vite-plugin-compression@0.5.1` sinh
+  đường dẫn `.gz` sai (`dist//home/user/.../dist/...`). PR riêng phải làm 3 việc: tìm nguyên nhân
+  thật (nghi 3 plugin tự viết có hook resolve), thay gói compression, và **kiểm
+  `rollupOptions.output.manualChunks` còn đúng nghĩa dưới rolldown — rủi ro lớn nhất vì
+  `.size-limit.json` đo theo TÊN chunk, chunk đổi tên = phép đo sai mà cổng vẫn xanh**.
+  (2) **Node 22 → 26 LTS: hoãn tới sau 2026-10-28** (v22 còn hỗ trợ đến 2027-04-30 nên không gấp;
+  v24 rời Active LTS 2026-10-20 nên nâng lên 24 là nâng vào dòng sắp hạ cấp). Cần việc tay VPS.
+  (3) **Có lint `.cjs` hay không:** flat config mặc định lint cả `.cjs` trong khi cấu hình cũ chạy
+  `--ext ts,tsx,js,mjs`; tạm để `**/*.cjs` trong `ignores` để không lặng lẽ đổi phạm vi.
+  (4) **ESLint 10:** chờ `eslint-plugin-jsx-a11y` mở peer (nay chỉ tới `^9`).
 - ✅ **ĐÃ ĐÓNG [2026-09-22, xác nhận qua CI — `docs/changelog/0413-*.md`] Deploy VPS đỏ 5 lần
   liên tiếp vì hết heap Node lúc build (`FATAL ERROR ... JavaScript heap out of memory`),
   không liên quan nội dung PR.** Vá bằng `NODE_OPTIONS=--max-old-space-size=2560` cho bước
