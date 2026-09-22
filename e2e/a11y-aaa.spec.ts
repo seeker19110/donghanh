@@ -72,6 +72,7 @@ const ROUTES = [
   // (`e2e/helpers/learningUxScreens.ts`, màn `tutor`). Đã có ở cổng AA nhưng thiếu ở
   // AAA: đây là màn ĐỌC (lời giải thích của trợ giảng) nên AAA là chuẩn đúng cho nó.
   '/ban-dong-hanh',
+  '/goc-hoc-tap/english/luyen-nghe', // audit 2026-09-22 P0-1: nhóm gập + tìm kiếm + Xem thêm
 ] as const
 
 // Đếm số phần tử vi phạm NẰM TRONG phần nội dung/tiêu đề (bỏ phần vỏ giao diện).
