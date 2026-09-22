@@ -5,6 +5,7 @@
 // (`worklife/WorkLife.tsx`). Trang gộp và nửa "Đời sống" đã bị gỡ hẳn, nên đây là trang CẤP 1
 // độc lập tại `/ghi-chu` — không còn chế độ `embedded`, không còn tab nào để chọn.
 // Bố cục, kiểu dữ liệu và API (`/api/work`) giữ NGUYÊN, chỉ đổi tên hiển thị.
+import { thongDiepLoiThanThien } from '../../../lib/friendlyError'
 import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { duongDanGhiChuKanban } from '../../../lib/domainRoutes'
@@ -112,7 +113,7 @@ export default function Notes() {
       setDocuments(docData)
       setLoadError(null)
     } catch (err: unknown) {
-      setLoadError(err instanceof Error ? err.message : 'Không thể tải dữ liệu không gian làm việc')
+      setLoadError(thongDiepLoiThanThien(err, 'Không thể tải dữ liệu không gian làm việc'))
     } finally {
       setLoading(false)
     }
@@ -139,7 +140,7 @@ export default function Notes() {
       setProjectForm({ name: '', description: '', deadline: '' })
       toast.success('Đã tạo dự án thành công!')
     } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : 'Lỗi khi tạo dự án')
+      toast.error(thongDiepLoiThanThien(err, 'Lỗi khi tạo dự án'))
     } finally {
       setSubmitting(false)
     }
@@ -161,7 +162,7 @@ export default function Notes() {
       setTaskForm({ title: '', projectId: '', priority: 'medium', dueAt: '' })
       toast.success('Đã tạo công việc!')
     } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : 'Lỗi khi tạo công việc')
+      toast.error(thongDiepLoiThanThien(err, 'Lỗi khi tạo công việc'))
     } finally {
       setSubmitting(false)
     }
@@ -174,7 +175,7 @@ export default function Notes() {
       setTasks((prev) => prev.map((t) => (t.id === task.id ? updated : t)))
       toast.success(nextStatus === 'done' ? 'Đã hoàn thành công việc!' : 'Đã mở lại công việc')
     } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : 'Lỗi khi cập nhật trạng thái')
+      toast.error(thongDiepLoiThanThien(err, 'Lỗi khi cập nhật trạng thái'))
     }
   }
 
@@ -205,7 +206,7 @@ export default function Notes() {
       })
       toast.success('Đã ghi nhận biên bản cuộc họp!')
     } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : 'Lỗi khi lưu cuộc họp')
+      toast.error(thongDiepLoiThanThien(err, 'Lỗi khi lưu cuộc họp'))
     } finally {
       setSubmitting(false)
     }
@@ -228,7 +229,7 @@ export default function Notes() {
       setDocForm({ title: '', projectId: '', documentType: 'spec', summary: '', contentUri: '' })
       toast.success('Đã thêm tài liệu!')
     } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : 'Lỗi khi tạo tài liệu')
+      toast.error(thongDiepLoiThanThien(err, 'Lỗi khi tạo tài liệu'))
     } finally {
       setSubmitting(false)
     }

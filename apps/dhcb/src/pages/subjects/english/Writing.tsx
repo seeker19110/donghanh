@@ -262,18 +262,24 @@ export default function Writing() {
   })
 
   const wordCount = essay.trim().split(/\s+/).filter(Boolean).length
+  // [2026-09-22, audit UI/UX P2-4] Chưa gõ chữ nào thì KHÔNG tô đỏ — phản hồi tiêu cực trước
+  // khi người dùng làm gì là vô nghĩa. Chỉ đỏ khi đã viết mà còn thiếu.
   const wordColor =
-    wordCount < 150
-      ? 'text-red-400 theme-light:text-red-700'
-      : wordCount < 250
-        ? 'text-amber-400 theme-light:text-amber-800'
-        : 'text-accent-400 theme-light:text-accent-800'
+    wordCount === 0
+      ? 'text-zinc-400'
+      : wordCount < 150
+        ? 'text-red-400 theme-light:text-red-700'
+        : wordCount < 250
+          ? 'text-amber-400 theme-light:text-amber-800'
+          : 'text-accent-400 theme-light:text-accent-800'
   const wordHint = isA
-    ? wordCount < 150
-      ? '(tối thiểu 150)'
-      : wordCount < 250
-        ? '(IELTS Task 2: 250+)'
-        : '✓'
+    ? wordCount === 0
+      ? '(cần 150–350 từ)'
+      : wordCount < 150
+        ? '(tối thiểu 150)'
+        : wordCount < 250
+          ? '(IELTS Task 2: 250+)'
+          : '✓'
     : wordCount < 100
       ? '(min. 100 words)'
       : '✓'

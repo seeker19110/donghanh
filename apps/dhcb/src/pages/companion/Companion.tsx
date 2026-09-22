@@ -56,7 +56,7 @@ export default function Companion() {
     {
       id: 'welcome',
       sender: 'companion',
-      text: `Xin chào ${user?.name || 'bạn'}! Tôi là **Bạn Đồng Hành AI** (Personal Companion). Tôi có thể hỗ trợ bạn xuyên suốt các lĩnh vực từ Học tập, Sự nghiệp, Công việc đến Đời sống và Khởi nghiệp. Bạn muốn cùng trao đổi điều gì hôm nay?`,
+      text: `Xin chào ${user?.name || 'bạn'}! Tôi là **Bạn Đồng Hành AI** (Personal Companion). Tôi đi cùng bạn trong việc học (Tiếng Anh, Lập trình, Toán, Lý, Hoá, Sinh) và việc bạn ghi lại ở Ghi chú. Hôm nay bạn muốn bắt đầu từ đâu?`,
       timestamp: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
       domain: 'general',
     },
@@ -70,7 +70,14 @@ export default function Companion() {
   const contextDialog = useDialogBehavior(closeContext, activeContext !== null)
   const [actionLoadingMap, setActionLoadingMap] = useState<Record<string, boolean>>({})
   const [viewMode, setViewMode] = useState<'chat' | 'voice'>('chat')
-  const [embodimentMode, setEmbodimentMode] = useState<EmbodimentMode>('3d_cyber_avatar')
+  // [2026-09-22, audit UI/UX P0-2] Dưới 1024px mặc định "Gọn nhẹ": khung avatar 3D + hai hàng
+  // tab đẩy ô nhập tin nhắn xuống y≈1458px trên trang 1613px (đo 390×844) — việc chính của trang
+  // nằm ngoài màn hình đầu. Người dùng vẫn bật 3D bằng bộ chọn; desktop giữ 3D mặc định.
+  const [embodimentMode, setEmbodimentMode] = useState<EmbodimentMode>(() =>
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches
+      ? 'minimal'
+      : '3d_cyber_avatar',
+  )
   const [proactiveState, setProactiveState] = useState<ProactiveAgentState | null>(null)
 
   // [S10-1 / AC-3] Cùng khuôn `AbortController` với effect lịch sử ngay dưới: lượt cũ bị huỷ
@@ -264,7 +271,9 @@ export default function Companion() {
   }
 
   useEffect(() => {
-    if (activeStudio === 'dialogue') {
+    // Không cuộn khi mới mở trang chỉ có lời chào: cuộn lúc đó đẩy tiêu đề + bộ chọn ra khỏi
+    // màn hình (đo scrollY=753 ở 390px) mà chưa có gì mới để xem.
+    if (activeStudio === 'dialogue' && (messages.length > 1 || loading)) {
       scrollToBottom()
     }
   }, [messages, loading, activeStudio])
@@ -462,7 +471,7 @@ export default function Companion() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100 flex flex-col">
-      <Layout back={true} title="Bạn Đồng Hành Đa Lĩnh Vực" />
+      <Layout back={true} title="Bạn Đồng Hành" />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang danh sách/khu trò chuyện → width="standard";
           giữ nguyên bố cục flex cột full-height qua className.
@@ -471,7 +480,7 @@ export default function Companion() {
           hàng nút Studio — đo được là 3 vi phạm `target-size` ở cổng a11y (nút bị che một phần). */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="!py-4 flex flex-1 flex-col">
         <h1 tabIndex={-1} className="sr-only focus:outline-none">
-          Bạn Đồng Hành Đa Lĩnh Vực
+          Bạn Đồng Hành
         </h1>
 
         <RealtimeTelemetryBar />

@@ -200,9 +200,6 @@ export default function Practice() {
             <div>
               <div className="flex items-center gap-2 mb-0.5">
                 <h3 className="font-bold text-white text-base">Sổ Tay Sửa Lỗi Đa Môn AI</h3>
-                <span className="text-[11px] px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 theme-light:text-rose-800 font-bold border border-rose-500/30">
-                  Smart Mistake Bank
-                </span>
               </div>
               <p className="text-xs text-zinc-300 leading-relaxed max-w-xl">
                 Tự động tổng hợp các bẫy biến đổi Toán - Lý - Hóa, lỗi phát âm IPA, sai ngữ pháp
@@ -253,7 +250,7 @@ export default function Practice() {
                   <div className="flex items-center justify-between gap-1 mb-0.5">
                     <h3 className="font-bold text-white text-sm">Toán Học</h3>
                     <span className="text-[11px] px-1.5 py-0.2 rounded bg-blue-500/15 text-blue-300 theme-light:text-blue-800 font-semibold border border-blue-500/20">
-                      LaTeX OCR
+                      Giải từng bước
                     </span>
                   </div>
                   <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
@@ -307,7 +304,7 @@ export default function Practice() {
                   <div className="flex items-center justify-between gap-1 mb-0.5">
                     <h3 className="font-bold text-white text-sm">Hóa Học</h3>
                     <span className="text-[11px] px-1.5 py-0.2 rounded bg-amber-500/15 text-amber-300 theme-light:text-amber-800 font-semibold border border-amber-500/20">
-                      PTHH Step
+                      Cân bằng phản ứng
                     </span>
                   </div>
                   <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
@@ -425,7 +422,7 @@ export default function Practice() {
                 <div className="flex items-center justify-between gap-1 mb-0.5">
                   <h3 className="font-bold text-white text-sm">Luyện Nói & Chấm Âm IPA</h3>
                   <span className="text-[11px] px-1.5 py-0.2 rounded bg-sky-500/15 text-sky-300 theme-light:text-sky-800 font-semibold border border-sky-500/20">
-                    Live STT
+                    Nghe bạn nói
                   </span>
                 </div>
                 <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
@@ -446,7 +443,7 @@ export default function Practice() {
                 <div className="flex items-center justify-between gap-1 mb-0.5">
                   <h3 className="font-bold text-white text-sm">Luyện Viết & Chấm IELTS</h3>
                   <span className="text-[11px] px-1.5 py-0.2 rounded bg-violet-500/15 text-violet-300 theme-light:text-violet-800 font-semibold border border-violet-500/20">
-                    Band 9.0
+                    Chấm kiểu IELTS
                   </span>
                 </div>
                 <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
@@ -488,7 +485,7 @@ export default function Practice() {
                 <div className="flex items-center justify-between gap-1 mb-0.5">
                   <h3 className="font-bold text-white text-sm">Thư Viện Luyện Nghe</h3>
                   <span className="text-[11px] px-1.5 py-0.2 rounded bg-rose-500/15 text-rose-300 theme-light:text-rose-800 font-semibold border border-rose-500/20">
-                    Chirp3 HD
+                    Giọng bản xứ
                   </span>
                 </div>
                 <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
@@ -662,27 +659,17 @@ export default function Practice() {
         </section>
 
         {/* ── TẦNG 4: SỔ TAY LỖI SAI & KHO HỌC LIỆU BỔ TRỢ (Resource & Tool Vault) ── */}
-        <section aria-label="Sổ tay lỗi sai và kho học liệu" className="space-y-3">
+        <section aria-label="Kho học liệu bổ trợ" className="space-y-3">
           <div className="flex items-center justify-between px-1">
             <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400" />
-              4. Sổ Tay Lỗi Sai & Kho Học Liệu Bổ Trợ
+              4. Kho Học Liệu Bổ Trợ
             </h2>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-            {/* Sổ tay lỗi sai */}
-            <button
-              onClick={() => nav(duongDanSoTayLoiSai())}
-              className="tap-44 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-rose-500/40 text-left transition active:scale-[0.98] group"
-            >
-              <div className="w-8 h-8 rounded-xl bg-rose-500/15 text-rose-400 theme-light:text-rose-800 flex items-center justify-center shrink-0 mb-2 group-hover:scale-105 transition">
-                <AlertCircle className="w-4 h-4" />
-              </div>
-              <p className="text-xs font-bold text-white truncate">Sổ Tay Lỗi Sai</p>
-              <p className="text-[11px] text-zinc-400 truncate">Ôn lại điểm sai đa môn</p>
-            </button>
-
+            {/* [2026-09-22, audit UI/UX P2-1] Ô "Sổ Tay Lỗi Sai" ở đây đã gỡ: cùng đích với
+                banner đầu trang, một trang không mở cùng một cửa hai lần. */}
             {/* Từ điển 12k từ */}
             <button
               onClick={() => nav(duongDanTuDien())}

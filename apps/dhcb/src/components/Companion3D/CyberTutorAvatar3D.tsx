@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Eye, Cpu, ShieldCheck } from 'lucide-react'
 import { Oculus15Viseme, AvatarEmotionType } from '@dhcb/core-contracts/avatarEmbodiment'
 import { VisemeMorphingService } from '@dhcb/core-ai/visemeMorphingService'
 
@@ -31,7 +30,6 @@ export default function CyberTutorAvatar3D({
     isSpeaking && currentIpaPhoneme
       ? VisemeMorphingService.mapIpaToViseme(currentIpaPhoneme)
       : 'sil'
-  const [fps, setFps] = useState(60)
 
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!interactiveGaze || !containerRef.current) return
@@ -55,8 +53,6 @@ export default function CyberTutorAvatar3D({
     if (!ctx) return
 
     let animationFrameId: number
-    let frameCount = 0
-    let lastFpsUpdate = performance.now()
 
     let smoothedWidth = 0.2
     let smoothedHeight = 0.05
@@ -65,13 +61,6 @@ export default function CyberTutorAvatar3D({
     let smoothedGazeY = 0
 
     const render = (now: number) => {
-      frameCount++
-      if (now - lastFpsUpdate >= 1000) {
-        setFps(frameCount)
-        frameCount = 0
-        lastFpsUpdate = now
-      }
-
       const w = canvas.width
       const h = canvas.height
       const cx = w / 2
@@ -299,17 +288,11 @@ export default function CyberTutorAvatar3D({
             />
           </div>
           <span className="text-[11px] font-semibold uppercase tracking-wider text-cyan-300 theme-light:text-cyan-800">
-            {isListening ? 'Listening...' : isSpeaking ? 'Speaking...' : 'Ready / 3D Cyber Tutor'}
+            {isListening ? 'Đang nghe…' : isSpeaking ? 'Đang nói…' : 'Sẵn sàng'}
           </span>
         </div>
-        <div className="flex items-center gap-2 text-[11px] text-zinc-400">
-          <span className="rounded bg-cyan-950/80 px-1.5 py-0.5 border border-cyan-800/40 text-cyan-300 theme-light:text-cyan-800 font-mono">
-            {fps} FPS
-          </span>
-          <span className="rounded bg-zinc-900/80 px-1.5 py-0.5 border border-zinc-800 font-mono uppercase text-zinc-400">
-            Viseme: {activeViseme}
-          </span>
-        </div>
+        {/* [2026-09-22, audit UI/UX P1-1] Đã gỡ chỉ số FPS + "Viseme: SIL": thông tin gỡ lỗi
+            của kỹ sư, không có nghĩa với người học. */}
       </div>
       <canvas
         ref={canvasRef}
@@ -317,20 +300,8 @@ export default function CyberTutorAvatar3D({
         height={300}
         className="h-[280px] w-[320px] max-w-full cursor-crosshair drop-shadow-[0_0_25px_rgba(6,182,212,0.25)]"
       />
-      <div className="mt-1 flex items-center gap-4 text-[11px] text-zinc-400">
-        <div className="flex items-center gap-1.5 text-zinc-300">
-          <Eye className="h-3.5 w-3.5 text-cyan-400 theme-light:text-cyan-800" />
-          <span>Interactive Gaze Active</span>
-        </div>
-        <div className="flex items-center gap-1.5 text-zinc-300">
-          <Cpu className="h-3.5 w-3.5 text-sky-400 theme-light:text-sky-800" />
-          <span>15 Oculus Morphing</span>
-        </div>
-        <div className="flex items-center gap-1.5 text-zinc-300">
-          <ShieldCheck className="h-3.5 w-3.5 text-emerald-400 theme-light:text-emerald-800" />
-          <span>PBR Cyber Shader</span>
-        </div>
-      </div>
+      {/* Ba nhãn "Interactive Gaze Active · 15 Oculus Morphing · PBR Cyber Shader" đã gỡ cùng
+          lý do trên. */}
     </div>
   )
 }

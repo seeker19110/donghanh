@@ -70,6 +70,41 @@ describe('OfflineSyncIndicator', () => {
     expect(container.textContent).toContain('đăng nhập lại')
   })
 
+  // [2026-09-22, audit UI/UX P1-5] Đồng bộ nền bình thường KHÔNG được khoe "Đã đồng bộ…":
+  // dải xanh từng bắn ở mọi trang. Chỉ khoe khi hàng đợi từng bị kẹt vì mất mạng/401.
+  it('có mạng, hàng đợi 1 mục rồi gửi xong → KHÔNG hiện "Đã đồng bộ"', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response('{}', { status: 200 })),
+    )
+    await mount()
+    await act(async () => {
+      enqueue(UID, 'english')
+    })
+    await act(async () => {
+      await flush(UID)
+    })
+    expect(container.textContent).not.toContain('Đã đồng bộ')
+    expect(container.textContent).toBe('')
+  })
+
+  it('mất mạng có mục chờ → có mạng lại và gửi xong → hiện "Đã đồng bộ" (kẹt thật đã qua)', async () => {
+    setOnline(false)
+    enqueue(UID, 'english')
+    await mount()
+    expect(container.textContent).toContain('1 mục chờ đồng bộ')
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response('{}', { status: 200 })),
+    )
+    setOnline(true)
+    await act(async () => {
+      window.dispatchEvent(new Event('online'))
+      await flush(UID)
+    })
+    expect(container.textContent).toContain('Đã đồng bộ dữ liệu học tập thành công!')
+  })
+
   it('hàng đợi của chủ KHÁC đổi → dải này không đổi số', async () => {
     setOnline(false)
     enqueue(UID, 'english')

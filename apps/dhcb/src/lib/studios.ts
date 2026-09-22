@@ -33,10 +33,10 @@ export const STUDIOS: Studio[] = [
   {
     id: 'companion',
     title: 'Bạn Đồng Hành',
-    subtitle: 'Live Voice, 3D Avatar & Socratic AI',
+    subtitle: 'Trò chuyện, gợi ý việc học, nhớ ngữ cảnh của bạn',
     to: '/ban-dong-hanh',
     icon: Sparkles,
-    badge: 'Executive',
+    badge: 'AI',
     color:
       'text-amber-400 theme-light:text-amber-800 bg-amber-500/10 border-amber-500/30 hover:border-amber-500/60',
   },
@@ -56,7 +56,7 @@ export const STUDIOS: Studio[] = [
     subtitle: 'Toán, Lý, Hóa, Sinh & Simulators',
     to: '/goc-hoc-tap',
     icon: Calculator,
-    badge: 'Vision OCR',
+    badge: 'Bài tập',
     color:
       'text-blue-400 theme-light:text-blue-800 bg-blue-500/10 border-blue-500/30 hover:border-blue-500/60',
   },

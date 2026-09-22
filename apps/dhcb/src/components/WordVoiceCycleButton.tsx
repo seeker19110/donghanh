@@ -16,7 +16,9 @@ interface Props {
 function voiceLabel(voice: Voice, isA: boolean): string {
   const gender = VOICE_OPTIONS.find((v) => v.id === voice)?.gender ?? 'female'
   const genderLabel = gender === 'female' ? (isA ? 'Nữ' : 'Female') : isA ? 'Nam' : 'Male'
-  return `${genderLabel} · ${voice}`
+  // [2026-09-22] Không in tên giọng nội bộ của Google ("Kore", "Puck"…): người học chỉ cần
+  // biết đang nghe giọng nam hay nữ.
+  return isA ? `Giọng ${genderLabel.toLowerCase()}` : `${genderLabel} voice`
 }
 
 // Nút DUY NHẤT phát âm 1 từ ở thẻ học từ mới/SRS/Hôm nay (WordCard.tsx).

@@ -137,12 +137,12 @@ export default function Subjects() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-      <Layout onBack={() => nav('/')} title="Không Gian Môn Học & Gia Sư AI" />
+      <Layout onBack={() => nav('/')} title="Góc học tập" />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Lưới môn học → width standard. */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
         <h1 tabIndex={-1} className="sr-only focus:outline-none">
-          Không Gian Môn Học & Gia Sư AI
+          Góc học tập
         </h1>
 
         {/* AI Multi-Subject Diagnostic & Adaptive Recommendation Card */}
@@ -157,8 +157,8 @@ export default function Subjects() {
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-accent-400 theme-light:text-accent-800 bg-accent-500/15 px-2 py-0.5 rounded-full border border-accent-500/25">
-                    AI Socratic Tutor
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-accent-400 theme-light:text-accent-800 bg-accent-500/15 px-2 py-0.5 rounded-full border border-accent-500/25 whitespace-nowrap">
+                    Gia sư AI
                   </span>
                   <span className="text-xs text-zinc-400 font-medium">Học cùng gia sư AI</span>
                 </div>

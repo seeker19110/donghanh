@@ -983,6 +983,12 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 
 ## Nợ kỹ thuật còn mở
 
+- 🟡 **[2026-09-22 — audit UI/UX sâu, `docs/audit/2026-09-22-danh-gia-sau-ui-ux.md` +
+  `docs/changelog/0411-*.md`, PR đợt 0411] Đã xử lý 6 đợt A–F trong một PR.** Nợ còn lại: (1)
+  ~44 chỗ `err.message` ngoài Ghi chú chưa đi qua `lib/friendlyError.ts`; (2) Phòng luyện tập vs
+  Tiếng Anh home vẫn nhiều lối vào cùng đích — chưa chốt trang chủ của từng tính năng; (3) ảnh
+  Hồ sơ 1440px chụp `fullPage` luôn mờ dù đo `opacity=1` — cần một lần nhìn tay trên trình duyệt
+  thật; (4) chưa chụp theme `kid` và các trang cần dữ liệu thật (bảng giá, huy hiệu, Kanban).
 - 🟡 **[2026-09-22 — audit câu chữ toàn dự án + trả nợ, `docs/changelog/0406-*.md` · `0408-*.md`
   · `0409-*.md` · `0410-*.md`, PR #1102 · #1105 · #1106 · PR đợt 0410] Nợ còn lại:** chỉ còn
   **58 câu mẫu viết tay nằm trong hồ `pool`** của `cefrCircleSentences.json` — chưa gán được vòng

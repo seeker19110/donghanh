@@ -1,10 +1,7 @@
 import {
   Sparkles,
   GraduationCap,
-  Briefcase,
   FolderKanban,
-  Rocket,
-  Heart,
   MessageSquare,
   Brain,
   Swords,
@@ -34,47 +31,49 @@ export interface ChatMessage {
   interactiveQuestions?: InteractiveQuestion[]
 }
 
+// [2026-09-22] Chỉ còn HAI trụ thật: Học tập (`learning`) và Ghi chú (`work`). Ba trụ
+// Sự nghiệp · Khởi nghiệp · Đời sống đã gỡ hẳn cả route API lẫn bảng CSDL (migration 0085,
+// CLAUDE.md mục 6) — giữ chip ở đây là hứa thứ hệ thống không còn làm (audit UI/UX 2026-09-22
+// P0-1). Test `studioTypes.test.ts` canh không cho chúng quay lại.
 export const DOMAIN_OPTIONS = [
   { id: 'all', label: 'Tự động', icon: Sparkles, color: 'text-amber-400 bg-amber-400/10' },
   { id: 'learning', label: 'Học tập', icon: GraduationCap, color: 'text-blue-400 bg-blue-400/10' },
-  { id: 'career', label: 'Sự nghiệp', icon: Briefcase, color: 'text-purple-400 bg-purple-400/10' },
   {
     id: 'work',
-    label: 'Công việc',
+    label: 'Ghi chú',
     icon: FolderKanban,
     color: 'text-emerald-400 bg-emerald-400/10',
   },
-  { id: 'startup', label: 'Khởi nghiệp', icon: Rocket, color: 'text-orange-400 bg-orange-400/10' },
-  { id: 'life', label: 'Đời sống', icon: Heart, color: 'text-pink-400 bg-pink-400/10' },
 ]
 
+// Gợi ý nhanh chỉ nhắm việc THẬT của hai trụ còn lại — không mời chào lĩnh vực đã gỡ.
 export const QUICK_PROMPTS = [
+  {
+    label: '⏱️ Hôm nay học gì trong 10 phút?',
+    domain: 'learning',
+    text: 'Tôi có 10 phút. Dựa trên tiến độ của tôi, hôm nay nên học gì trước?',
+  },
   {
     label: '🎯 Đặt mục tiêu IELTS 7.0',
     domain: 'learning',
     text: 'Tôi muốn đặt mục tiêu học IELTS đạt 7.0 trong 6 tháng tới.',
   },
   {
-    label: '💼 Đánh giá khoảng cách kỹ năng',
-    domain: 'career',
-    text: 'Tôi muốn làm Data Analyst, hãy phân tích khoảng cách kỹ năng của tôi.',
+    label: '🧭 Chọn hướng lập trình phù hợp',
+    domain: 'learning',
+    text: 'Tôi mới học lập trình xong bậc P1. Hãy giúp tôi chọn hướng chuyên sâu phù hợp.',
   },
   {
-    label: '🌱 Xây dựng thói quen đọc sách',
-    domain: 'life',
-    text: 'Hãy giúp tôi lên kế hoạch và duy trì thói quen đọc sách 20 phút mỗi tối.',
-  },
-  {
-    label: '🚀 Khảo sát ý tưởng kinh doanh',
-    domain: 'startup',
-    text: 'Tôi có ý tưởng làm app giáo dục AI cho học sinh Việt Nam, cần kiểm chứng gì trước?',
+    label: '📝 Tóm tắt việc còn mở trong Ghi chú',
+    domain: 'work',
+    text: 'Hãy tóm tắt các việc còn mở trong Ghi chú của tôi và gợi ý việc nên làm trước.',
   },
 ]
 
 export const STUDIO_TABS_CONFIG = [
-  { id: 'dialogue' as const, label: 'Đối thoại & Voice', icon: MessageSquare, badge: 'Voice' },
+  { id: 'dialogue' as const, label: 'Đối thoại & Voice', icon: MessageSquare, badge: 'Giọng nói' },
   { id: 'cognitive' as const, label: 'Nhận thức & Ký ức', icon: Brain, badge: 'Socratic' },
   { id: 'labs' as const, label: 'Đấu trường & Labs', icon: Swords, badge: 'STEM' },
-  { id: 'proactive' as const, label: 'Tự trị & Lộ trình', icon: Target, badge: 'Autopilot' },
-  { id: 'synthesis' as const, label: 'Tổng hợp & Studio', icon: Compass, badge: 'V6' },
+  { id: 'proactive' as const, label: 'Tự trị & Lộ trình', icon: Target, badge: 'Tự động' },
+  { id: 'synthesis' as const, label: 'Tổng hợp & Studio', icon: Compass, badge: 'Tổng hợp' },
 ]

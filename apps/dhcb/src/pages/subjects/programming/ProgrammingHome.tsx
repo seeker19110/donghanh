@@ -48,6 +48,14 @@ import {
 } from '../../../lib/programmingRoutes'
 import { PageShell } from '@core/PageShell'
 
+const SO_KHOA_HIEN_TRUOC = 3
+const MUC_LUC = [
+  { id: 'bac-hoc', label: 'Bậc học P1–P5' },
+  { id: 'chuyen-sau', label: 'Chuyên sâu' },
+  { id: 'khoa-ngan', label: 'Khoá ngắn' },
+  { id: 'lo-trinh-muc-tieu', label: 'Lộ trình mục tiêu' },
+] as const
+
 export default function ProgrammingHome() {
   usePageTitle('Môn Lập trình | Đồng hành cùng bạn')
   const nav = useNavigate()
@@ -56,6 +64,9 @@ export default function ProgrammingHome() {
   // Phân biệt "chưa tải xong" với "đã tải, chưa học gì" — hai thứ này hiện khác nhau, nếu gộp
   // thì người học cũ sẽ thấy nhấp nháy chữ "Bắt đầu từ bài 1" trước khi tiến độ về.
   const [fetched, setFetched] = useState(false)
+  // [2026-09-22, audit UI/UX P1-2] 13 khoá ngắn với mô tả 2–4 dòng từng đứng TRƯỚC bậc P1–P6 và
+  // đẩy trang lên 5.671px ở 390px. Nay khối khoá ngắn nằm SAU bậc học, mặc định chỉ hiện 3.
+  const [hienHetKhoa, setHienHetKhoa] = useState(false)
   // Chưa đăng nhập thì không có gì để tải — coi như đã xong ngay, KHÔNG setState trong effect
   // (đặt state đồng bộ trong effect gây render dây chuyền, ESLint chặn).
   const loaded = !user || fetched
@@ -76,6 +87,11 @@ export default function ProgrammingHome() {
   // hiển thị, và `picked` (bậc, ngôn ngữ, cờ đang dở) cho những khối chỉ môn này mới có.
   const { next: item, picked } = programmingNext({ progress })
   const { done, total } = countCompleted(progress)
+  // Tiến độ ĐƯA LÊN ĐẦU là của bậc đang học ("Bậc P1: 0/10 bài"), không phải "0/506 bài" của cả
+  // môn — con số toàn môn làm nản người mới (luật số 1 của sản phẩm: chẩn đoán không phải màn
+  // hình chính). Tổng vẫn ghi nhỏ bên cạnh.
+  const bacDangHoc = picked ? PROGRAMMING_LEVELS.find((l) => l.id === picked.levelId) : undefined
+  const tienDoBac = bacDangHoc ? countCompletedByLevel(progress, bacDangHoc.id) : undefined
   const xongMon = loaded && picked === undefined
 
   // Khoá bậc (GĐ3): Free đi tuần tự P1→P6, VIP vào bậc nào cũng được. Tính ở client CHỈ để
@@ -161,8 +177,20 @@ export default function ProgrammingHome() {
           <div className="flex items-baseline justify-between gap-3 flex-wrap">
             <h2 className="text-sm font-bold text-white">Tiến độ của bạn</h2>
             <p className="text-xs text-zinc-400">
-              <strong className="text-emerald-300 theme-light:text-emerald-800">{done}</strong>/
-              {total} bài
+              {bacDangHoc && tienDoBac ? (
+                <>
+                  Bậc {bacDangHoc.id.toUpperCase()}:{' '}
+                  <strong className="text-emerald-300 theme-light:text-emerald-800">
+                    {tienDoBac.done}
+                  </strong>
+                  /{tienDoBac.total} bài · cả môn {done}/{total}
+                </>
+              ) : (
+                <>
+                  <strong className="text-emerald-300 theme-light:text-emerald-800">{done}</strong>/
+                  {total} bài
+                </>
+              )}
             </p>
           </div>
           <div
@@ -179,6 +207,22 @@ export default function ProgrammingHome() {
             />
           </div>
         </section>
+
+        {/* Mục lục nhảy — trang dài ~6 màn hình ở mobile, cần đường tắt (Tầng 8b câu 2). */}
+        <nav
+          aria-label="Mục lục trang"
+          className="flex gap-2 overflow-x-auto scrollbar-none -mx-1 px-1"
+        >
+          {MUC_LUC.map((m) => (
+            <a
+              key={m.id}
+              href={`#${m.id}`}
+              className="tap-44 inline-flex items-center whitespace-nowrap rounded-full border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs font-semibold text-zinc-300 hover:border-accent-500/60 hover:text-white transition"
+            >
+              {m.label}
+            </a>
+          ))}
+        </nav>
 
         {/* ③ Dự án trục — hiện CHẶNG ĐANG Ở, không còn là thẻ mô tả tĩnh */}
         <section className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5 space-y-3 shadow-sm">
@@ -243,70 +287,12 @@ export default function ProgrammingHome() {
           </button>
         </section>
 
-        {/* ④b Khoá ngắn — cắt ngang bậc, học được ngay không cần đợi tới bậc nào. Đặt sau ba
-            nút tắt vì đây cũng là một "lối tắt", nhưng đủ quan trọng để có khối riêng thay vì
-            chỉ là nút thứ tư. */}
-        {SHORT_COURSES.length > 0 && (
-          <section className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5 space-y-3 shadow-sm">
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-accent-400" aria-hidden="true" />
-              <span>Khoá học — học ngay, không cần đợi tới bậc</span>
-            </h2>
-            {SHORT_COURSES.map((course) => (
-              <button
-                key={course.id}
-                onClick={() => nav(duongDanKhoa(course))}
-                className={`${nutPhu} w-full flex-col items-start !py-3 text-left`}
-              >
-                <span className="flex items-center gap-2 w-full">
-                  <Play className="w-4 h-4 text-accent-400 shrink-0" />
-                  <span className="truncate">{course.title}</span>
-                </span>
-                <span className="text-xs font-normal text-zinc-400 leading-relaxed">
-                  {course.canDo}
-                </span>
-              </button>
-            ))}
-          </section>
-        )}
-
-        {/* ④c Lộ trình mục tiêu — khác hướng chuyên sâu (một trục), lộ trình ghép chặng của
-            NHIỀU hướng thành một con đường tới một đích nghề (ví dụ Kỹ Sư Trưởng AI). Khối
-            riêng để người có mục tiêu rõ tìm thấy ngay, không phải tự lắp từ 14 hướng. */}
-        {LEARNING_PATHS.length > 0 && (
-          <section className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5 space-y-3 shadow-sm">
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Map className="w-5 h-5 text-accent-400" aria-hidden="true" />
-              <span>Lộ trình mục tiêu — một đích nghề, một con đường</span>
-            </h2>
-            <p className="text-sm text-zinc-300 leading-relaxed">
-              Ghép sẵn các chặng của nhiều hướng chuyên sâu thành một con đường có thứ tự, đi từ nền
-              tảng tới đích nghề — mỗi giai đoạn kết bằng một sản phẩm giữ lại được.
-            </p>
-            {LEARNING_PATHS.map((path) => (
-              <button
-                key={path.id}
-                onClick={() => nav(duongDanLoTrinh(path))}
-                className={`${nutPhu} w-full flex-col items-start !py-3 text-left`}
-              >
-                <span className="flex items-center gap-2 w-full">
-                  <Map className="w-4 h-4 text-accent-400 shrink-0" aria-hidden="true" />
-                  <span className="truncate">{path.title}</span>
-                </span>
-                <span className="text-xs font-normal text-zinc-400 leading-relaxed">
-                  {path.tagline}
-                </span>
-              </button>
-            ))}
-          </section>
-        )}
-
         {/* ⑤ Lộ trình 6 bậc — cột mốc, thấy được mình đang ở đâu trên đường dài.
             Nhóm hiển thị theo 4 tầng (chốt trong phiên trò chuyện, không đổi id/route/dữ liệu
             bậc P1-P6 hiện có — chỉ tách JSX theo levelGroups bên dưới):
             Nền tảng (P1) · Cơ bản → Nâng cao (P2-P5) · Chuyên sâu theo nghề (P6/14 hướng, khối
             riêng bên dưới) · Khoá học (đã có khối "Khoá ngắn" ở trên). */}
-        <section className="space-y-3">
+        <section id="bac-hoc" className="scroll-mt-20 space-y-3">
           <h2 className="text-base font-bold text-white flex items-center gap-2">
             <Code2 className="w-5 h-5 text-accent-400" />
             <span>Nền tảng — bắt buộc với mọi lập trình viên</span>
@@ -344,7 +330,10 @@ export default function ProgrammingHome() {
 
         {/* ⑥ Chuyên sâu theo nghề nghiệp — trả lời câu "học xong môn này rồi sao nữa?" ngay tại
             đây, thay vì để học viên tự hỏi lúc gần hết P5. */}
-        <section className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5 space-y-3 shadow-sm">
+        <section
+          id="chuyen-sau"
+          className="scroll-mt-20 bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5 space-y-3 shadow-sm"
+        >
           <h2 className="text-base font-bold text-white flex items-center gap-2">
             <Compass className="w-5 h-5 text-accent-400" aria-hidden="true" />
             <span>Chuyên sâu — theo nghề nghiệp</span>
@@ -368,6 +357,82 @@ export default function ProgrammingHome() {
             <span>Xem {PROGRAMMING_SPECIALIZATIONS.length} hướng chuyên sâu</span>
           </button>
         </section>
+
+        {/* ④b Khoá ngắn — cắt ngang bậc, học được ngay không cần đợi tới bậc nào. Đặt sau ba
+            nút tắt vì đây cũng là một "lối tắt", nhưng đủ quan trọng để có khối riêng thay vì
+            chỉ là nút thứ tư. */}
+        {SHORT_COURSES.length > 0 && (
+          <section
+            id="khoa-ngan"
+            className="scroll-mt-20 bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5 space-y-3 shadow-sm"
+          >
+            <h2 className="text-base font-bold text-white flex items-center gap-2">
+              <BookOpen className="w-5 h-5 text-accent-400" aria-hidden="true" />
+              <span>Khoá học — học ngay, không cần đợi tới bậc</span>
+            </h2>
+            {(hienHetKhoa ? SHORT_COURSES : SHORT_COURSES.slice(0, SO_KHOA_HIEN_TRUOC)).map(
+              (course) => (
+                <button
+                  key={course.id}
+                  onClick={() => nav(duongDanKhoa(course))}
+                  className={`${nutPhu} w-full flex-col items-start !py-3 text-left`}
+                >
+                  <span className="flex items-center gap-2 w-full">
+                    <Play className="w-4 h-4 text-accent-400 shrink-0" />
+                    <span className="truncate">{course.title}</span>
+                  </span>
+                  <span className="text-xs font-normal text-zinc-400 leading-relaxed">
+                    {course.canDo}
+                  </span>
+                </button>
+              ),
+            )}
+            {SHORT_COURSES.length > SO_KHOA_HIEN_TRUOC && (
+              <button
+                type="button"
+                onClick={() => setHienHetKhoa((v) => !v)}
+                aria-expanded={hienHetKhoa}
+                className={`${nutPhu} w-full`}
+              >
+                {hienHetKhoa ? 'Thu gọn' : `Xem tất cả ${SHORT_COURSES.length} khoá`}
+              </button>
+            )}
+          </section>
+        )}
+
+        {/* ④c Lộ trình mục tiêu — khác hướng chuyên sâu (một trục), lộ trình ghép chặng của
+            NHIỀU hướng thành một con đường tới một đích nghề (ví dụ Kỹ Sư Trưởng AI). Khối
+            riêng để người có mục tiêu rõ tìm thấy ngay, không phải tự lắp từ 14 hướng. */}
+        {LEARNING_PATHS.length > 0 && (
+          <section
+            id="lo-trinh-muc-tieu"
+            className="scroll-mt-20 bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5 space-y-3 shadow-sm"
+          >
+            <h2 className="text-base font-bold text-white flex items-center gap-2">
+              <Map className="w-5 h-5 text-accent-400" aria-hidden="true" />
+              <span>Lộ trình mục tiêu — một đích nghề, một con đường</span>
+            </h2>
+            <p className="text-sm text-zinc-300 leading-relaxed">
+              Ghép sẵn các chặng của nhiều hướng chuyên sâu thành một con đường có thứ tự, đi từ nền
+              tảng tới đích nghề — mỗi giai đoạn kết bằng một sản phẩm giữ lại được.
+            </p>
+            {LEARNING_PATHS.map((path) => (
+              <button
+                key={path.id}
+                onClick={() => nav(duongDanLoTrinh(path))}
+                className={`${nutPhu} w-full flex-col items-start !py-3 text-left`}
+              >
+                <span className="flex items-center gap-2 w-full">
+                  <Map className="w-4 h-4 text-accent-400 shrink-0" aria-hidden="true" />
+                  <span className="truncate">{path.title}</span>
+                </span>
+                <span className="text-xs font-normal text-zinc-400 leading-relaxed">
+                  {path.tagline}
+                </span>
+              </button>
+            ))}
+          </section>
+        )}
       </PageShell>
     </div>
   )
