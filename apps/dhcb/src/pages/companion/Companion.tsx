@@ -70,7 +70,14 @@ export default function Companion() {
   const contextDialog = useDialogBehavior(closeContext, activeContext !== null)
   const [actionLoadingMap, setActionLoadingMap] = useState<Record<string, boolean>>({})
   const [viewMode, setViewMode] = useState<'chat' | 'voice'>('chat')
-  const [embodimentMode, setEmbodimentMode] = useState<EmbodimentMode>('3d_cyber_avatar')
+  // [2026-09-22, audit UI/UX P0-2] Dưới 1024px mặc định "Gọn nhẹ": khung avatar 3D + hai hàng
+  // tab đẩy ô nhập tin nhắn xuống y≈1458px trên trang 1613px (đo 390×844) — việc chính của trang
+  // nằm ngoài màn hình đầu. Người dùng vẫn bật 3D bằng bộ chọn; desktop giữ 3D mặc định.
+  const [embodimentMode, setEmbodimentMode] = useState<EmbodimentMode>(() =>
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches
+      ? 'minimal'
+      : '3d_cyber_avatar',
+  )
   const [proactiveState, setProactiveState] = useState<ProactiveAgentState | null>(null)
 
   // [S10-1 / AC-3] Cùng khuôn `AbortController` với effect lịch sử ngay dưới: lượt cũ bị huỷ
@@ -264,7 +271,9 @@ export default function Companion() {
   }
 
   useEffect(() => {
-    if (activeStudio === 'dialogue') {
+    // Không cuộn khi mới mở trang chỉ có lời chào: cuộn lúc đó đẩy tiêu đề + bộ chọn ra khỏi
+    // màn hình (đo scrollY=753 ở 390px) mà chưa có gì mới để xem.
+    if (activeStudio === 'dialogue' && (messages.length > 1 || loading)) {
       scrollToBottom()
     }
   }, [messages, loading, activeStudio])

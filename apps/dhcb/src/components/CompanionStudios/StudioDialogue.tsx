@@ -100,7 +100,7 @@ export default function StudioDialogue({
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <span className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-            Giao diện Hiện thân AI (Embodiment)
+            Hình đại diện
           </span>
           <AvatarEmbodimentSelector currentMode={embodimentMode} onModeChange={setEmbodimentMode} />
         </div>
@@ -490,30 +490,31 @@ export default function StudioDialogue({
               </div>
             )}
 
+            {/* Gợi ý nhanh — nằm TRONG khung chat, ngay dưới lời chào, thay vì dưới ô nhập
+                (audit UI/UX 2026-09-22 P0-2). */}
+            {messages.length <= 3 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 my-2">
+                {QUICK_PROMPTS.map((prompt, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setSelectedDomain(prompt.domain)
+                      handleSend(prompt.text)
+                    }}
+                    className="text-left p-3 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-accent-500/50 text-xs font-medium text-zinc-300 hover:text-white transition-all duration-200 flex items-center justify-between group shadow-sm active:scale-98"
+                  >
+                    <span>{prompt.label}</span>
+                    <ChevronRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-accent-400 group-hover:translate-x-0.5 transition-all" />
+                  </button>
+                ))}
+              </div>
+            )}
+
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Quick Prompts */}
-          {messages.length <= 3 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 my-2">
-              {QUICK_PROMPTS.map((prompt, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    setSelectedDomain(prompt.domain)
-                    handleSend(prompt.text)
-                  }}
-                  className="text-left p-3 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-accent-500/50 text-xs font-medium text-zinc-300 hover:text-white transition-all duration-200 flex items-center justify-between group shadow-sm active:scale-98"
-                >
-                  <span>{prompt.label}</span>
-                  <ChevronRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-accent-400 group-hover:translate-x-0.5 transition-all" />
-                </button>
-              ))}
-            </div>
-          )}
-
           {/* Sticky Input Bar */}
-          <div className="pt-2 sticky bottom-0 bg-zinc-950 pb-24 z-10">
+          <div className="pt-2 sticky bottom-0 bg-zinc-950 pb-[calc(0.5rem+var(--bnav-h))] z-10">
             <form
               onSubmit={(e) => {
                 e.preventDefault()
