@@ -182,17 +182,17 @@ test.describe('Platform V2 Specialized Domain Hubs & Companion E2E', () => {
     // trong thân trang (đợt chuyển PageHeader→Layout, 2026-09-20) — nhắm đúng heading.
     await expect(page.getByRole('heading', { name: 'Bạn Đồng Hành Đa Lĩnh Vực' })).toBeVisible()
 
-    // Chọn Domain Sự nghiệp. `exact: true` vì sidebar desktop (P1-7) nay có nút
-    // 'Mở rộng mục Sự nghiệp & Đời sống' chứa chuỗi con "Sự nghiệp" trùng lặp.
-    await page.getByRole('button', { name: 'Sự nghiệp', exact: true }).click()
+    // [2026-09-22] Chip "Sự nghiệp" đã gỡ khỏi Companion (trụ không còn tồn tại). Chọn miền
+    // "Ghi chú" (id `work`). `exact: true` vì sidebar desktop cũng có mục "Ghi chú".
+    await page.getByRole('button', { name: 'Ghi chú', exact: true }).first().click()
 
     // Gửi tin nhắn
     const input = page.getByPlaceholder(/Nhắn tin cho Bạn Đồng Hành AI/)
-    await input.fill('Tư vấn lộ trình thăng tiến Senior lên Staff')
+    await input.fill('Tóm tắt các việc còn mở của tôi')
     await input.press('Enter')
 
     // Kiểm tra phản hồi
-    await expect(page.getByText('Phản hồi từ Bạn Đồng Hành AI cho miền: career')).toBeVisible()
+    await expect(page.getByText('Phản hồi từ Bạn Đồng Hành AI cho miền: work')).toBeVisible()
 
     // Kiểm tra thẻ Đề xuất hành động (Proposed Action) và nút duyệt
     await expect(page.getByText('Tác vụ đề xuất')).toBeVisible()

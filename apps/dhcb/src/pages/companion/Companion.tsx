@@ -56,7 +56,7 @@ export default function Companion() {
     {
       id: 'welcome',
       sender: 'companion',
-      text: `Xin chào ${user?.name || 'bạn'}! Tôi là **Bạn Đồng Hành AI** (Personal Companion). Tôi có thể hỗ trợ bạn xuyên suốt các lĩnh vực từ Học tập, Sự nghiệp, Công việc đến Đời sống và Khởi nghiệp. Bạn muốn cùng trao đổi điều gì hôm nay?`,
+      text: `Xin chào ${user?.name || 'bạn'}! Tôi là **Bạn Đồng Hành AI** (Personal Companion). Tôi đi cùng bạn trong việc học (Tiếng Anh, Lập trình, Toán, Lý, Hoá, Sinh) và việc bạn ghi lại ở Ghi chú. Hôm nay bạn muốn bắt đầu từ đâu?`,
       timestamp: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
       domain: 'general',
     },
