@@ -1,6 +1,6 @@
 # 0414 — 2026-09-22 — Nâng cấp major stack nền: ESLint 9 flat config, Express 5, size-limit 14, dotenv 18, nodemailer 10 (Vite 8 CHẶN LẠI)
 
-- **PR:** (điền khi tạo) · nhánh `claude/major-upgrade-assessment-qj0bb7`
+- **PR:** #1112 · nhánh `claude/major-upgrade-assessment-qj0bb7`
 - **Loại:** nâng cấp hạ tầng công cụ (`build`/`chore`), không đổi tính năng
 - **Đặc tả/đánh giá:** `docs/specs/2026-09-22-nang-cap-major-stack.md` · ADR
   `docs/adr/0011-nang-eslint-9-flat-config.md`
