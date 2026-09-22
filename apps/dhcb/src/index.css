@@ -557,3 +557,77 @@ html[data-focus='1'] nav.bottom-nav {
     scroll-behavior: auto !important;
   }
 }
+
+/* ===== VÁ: space-y-* mất một bậc khoảng cách khi con đầu là h1.sr-only ============
+   Thêm 2026-09-22, đợt Tầng 8b sau khi nâng Tailwind 4 (docs/changelog/0416-*.md, PR #1116).
+
+   NGUYÊN NHÂN: Tailwind 4 đổi hẳn cách `space-y-*` hoạt động.
+     v3: .space-y-N > :not([hidden]) ~ :not([hidden]) { margin-top: N }   (gán cho con SAU con đầu)
+     v4: .space-y-N > :not(:last-child) { margin-block-end: N }           (gán cho MỌI con trừ con cuối)
+   Toàn dự án dùng khuôn tiêu đề ẩn màn hình `<h1 className="sr-only">` làm CON ĐẦU TIÊN của
+   khung `space-y-*` (54 trang, mẫu ở GuestHome.tsx/Practice.tsx…) — `.sr-only` đặt
+   `position:absolute` nên phần tử đó NGOÀI LUỒNG. Ở v3 điều này vô hại vì v3 không bao giờ gán
+   khoảng cách cho con đầu. Ở v4, con đầu (h1 ngoài luồng) VẪN được gán margin-block-end — margin
+   đó bị mất trắng, không đẩy được phần tử sau nó → mất đúng MỘT bậc `space-y-N` ở đỉnh mọi trang
+   dùng khuôn này (đo được: space-y-6 mất 24px, space-y-5 mất 20px, space-y-4 mất 16px —
+   `docs/changelog/0416-*.md` mục đối chiếu Tầng 8b).
+
+   VÁ: trả margin bị mất về ĐÚNG chỗ v3 từng đặt — cho phần tử NGAY SAU h1, không cho h1 (h1
+   ngoài luồng nên margin của chính nó không tạo ra khoảng cách nhìn thấy được, dù có hay không).
+   Danh sách N lấy từ CSS ĐÃ BIÊN DỊCH thật của bản build hiện tại (không phải bậc "hay dùng"
+   đoán chừng) — bậc nào không xuất hiện trong file này thì không tồn tại trong app, viết thêm
+   cũng vô hại (selector chỉ khớp khi có `.sr-only:first-child` thật).
+
+   Đặt NGOÀI mọi `@layer`: theo CSS Cascade Layers, rule không có layer LUÔN thắng rule có layer
+   bất kể thứ tự khai báo hay độ đặc hiệu — không phụ thuộc `.space-y-*` của Tailwind nằm ở layer
+   nào hay biên dịch trước/sau file này. */
+.space-y-0\.5 > .sr-only:first-child,
+.space-y-1 > .sr-only:first-child,
+.space-y-1\.5 > .sr-only:first-child,
+.space-y-2 > .sr-only:first-child,
+.space-y-2\.5 > .sr-only:first-child,
+.space-y-3 > .sr-only:first-child,
+.space-y-3\.5 > .sr-only:first-child,
+.space-y-4 > .sr-only:first-child,
+.space-y-4\.5 > .sr-only:first-child,
+.space-y-5 > .sr-only:first-child,
+.space-y-6 > .sr-only:first-child,
+.space-y-7 > .sr-only:first-child {
+  margin-block-end: 0;
+}
+.space-y-0\.5 > .sr-only:first-child + * {
+  margin-block-start: calc(var(--spacing) * 0.5);
+}
+.space-y-1 > .sr-only:first-child + * {
+  margin-block-start: var(--spacing);
+}
+.space-y-1\.5 > .sr-only:first-child + * {
+  margin-block-start: calc(var(--spacing) * 1.5);
+}
+.space-y-2 > .sr-only:first-child + * {
+  margin-block-start: calc(var(--spacing) * 2);
+}
+.space-y-2\.5 > .sr-only:first-child + * {
+  margin-block-start: calc(var(--spacing) * 2.5);
+}
+.space-y-3 > .sr-only:first-child + * {
+  margin-block-start: calc(var(--spacing) * 3);
+}
+.space-y-3\.5 > .sr-only:first-child + * {
+  margin-block-start: calc(var(--spacing) * 3.5);
+}
+.space-y-4 > .sr-only:first-child + * {
+  margin-block-start: calc(var(--spacing) * 4);
+}
+.space-y-4\.5 > .sr-only:first-child + * {
+  margin-block-start: calc(var(--spacing) * 4.5);
+}
+.space-y-5 > .sr-only:first-child + * {
+  margin-block-start: calc(var(--spacing) * 5);
+}
+.space-y-6 > .sr-only:first-child + * {
+  margin-block-start: calc(var(--spacing) * 6);
+}
+.space-y-7 > .sr-only:first-child + * {
+  margin-block-start: calc(var(--spacing) * 7);
+}
