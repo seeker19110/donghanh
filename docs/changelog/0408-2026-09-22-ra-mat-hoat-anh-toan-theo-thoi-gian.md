@@ -1,4 +1,4 @@
-# 0408 — 2026-09-22 — Rà bằng mắt theo thời gian 34/34 hoạt ảnh môn Toán, sửa 15
+# 0408 — 2026-09-22 — Rà bằng mắt theo thời gian 34/34 hoạt ảnh môn Toán, sửa 17
 
 > PR: #1104 · Đặc tả: `docs/specs/2026-09-21-hoat-anh-mo-phong-bai-hoc.md`
 > (mục "Kết quả rà mắt Toán") · Bẫy: `TRAPS.md` mục 10 (bẫy thứ ba)
@@ -35,8 +35,10 @@ selector, 0 animation chạy dù client thật chạy — script giải escape k
 | 🟢 Chữ          | `toan12-c3-b1` | "Δ_Q" in dấu gạch dưới thô                                            | "ΔQ" (nhãn + caption)                                                                            |
 | 🟢 Gạch         | `toan11-c6-b1` | "(1; 2)" bị trục Oy gạch                                              | Sang trái trục                                                                                   |
 
-Soi lại đủ 15 dải sau sửa: đúng hết. Còn ngỏ mức nhẹ (ghi ở đặc tả): `toan12-c4-b2` lớp hình
-chữ nhật thô vẫn hiện dưới lớp mịn; `toan12-c5-b2` nhãn "(P): Ax + By…" bị đường tròn cắt qua.
+Soi lại đủ 15 dải sau sửa: đúng hết. **Bổ sung theo yêu cầu chủ dự án (cùng PR):** sửa nốt hai
+lỗi nhẹ — `toan12-c4-b2` ba hình chữ nhật thô mờ về 0,12 khi lớp mịn hiện (không còn hai lớp
+chồng ở cảnh cuối); `toan12-c5-b2` nhãn "(P): Ax + By…" sang mép trái, ba nhãn trạng thái lên
+trên đỉnh mặt cầu (không còn bị đường tròn cắt qua). Soi lại: đúng. → **17/34 sửa, 0 còn ngỏ.**
 
 ## Quyết định
 

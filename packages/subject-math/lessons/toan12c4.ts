@@ -464,6 +464,13 @@ export const TOAN12_C4_LESSONS: MathLesson[] = [
           opacity: 0.5,
           stroke: 'primary',
           strokeWidth: 1,
+          // Lớp thô nhường chỗ cho lớp mịn — soi ảnh 2026-09-22 thấy hai lớp chồng nhau ở cảnh cuối.
+          keyframes: [
+            { atMs: 0, opacity: 0.5 },
+            { atMs: 3000, opacity: 0.5 },
+            { atMs: 4000, opacity: 0.12 },
+            { atMs: 7000, opacity: 0.12 },
+          ],
         },
         {
           kind: 'rect',
@@ -476,6 +483,13 @@ export const TOAN12_C4_LESSONS: MathLesson[] = [
           opacity: 0.5,
           stroke: 'primary',
           strokeWidth: 1,
+          // Lớp thô nhường chỗ cho lớp mịn — soi ảnh 2026-09-22 thấy hai lớp chồng nhau ở cảnh cuối.
+          keyframes: [
+            { atMs: 0, opacity: 0.5 },
+            { atMs: 3000, opacity: 0.5 },
+            { atMs: 4000, opacity: 0.12 },
+            { atMs: 7000, opacity: 0.12 },
+          ],
         },
         {
           kind: 'rect',
@@ -488,6 +502,13 @@ export const TOAN12_C4_LESSONS: MathLesson[] = [
           opacity: 0.5,
           stroke: 'primary',
           strokeWidth: 1,
+          // Lớp thô nhường chỗ cho lớp mịn — soi ảnh 2026-09-22 thấy hai lớp chồng nhau ở cảnh cuối.
+          keyframes: [
+            { atMs: 0, opacity: 0.5 },
+            { atMs: 3000, opacity: 0.5 },
+            { atMs: 4000, opacity: 0.12 },
+            { atMs: 7000, opacity: 0.12 },
+          ],
         },
         {
           kind: 'rect',
