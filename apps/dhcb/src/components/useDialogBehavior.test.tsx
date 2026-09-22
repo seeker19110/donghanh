@@ -144,6 +144,52 @@ describe('useDialogBehavior — sáu hành vi bắt buộc', () => {
     nutMo.remove()
   })
 
+  it('④ nút mở ĐÃ BỊ GỠ khỏi DOM thì tiêu điểm vào <main>, KHÔNG rơi về <body>', async () => {
+    // Ca thật: đóng hộp thoại đồng thời là điều hướng (chọn một kết quả trong panel "Mục lục"
+    // là một <a>), nên trang cũ unmount kèm luôn cái nút mở panel. `focus()` trên phần tử đã
+    // rời DOM là lệnh không làm gì → tiêu điểm rơi về <body>, trình đọc màn hình mất ngữ cảnh.
+    // React 19 đổi thời điểm chạy cleanup nên ca này lộ ra ở e2e/outline-english.spec.ts:119.
+    const main = document.createElement('main')
+    document.body.appendChild(main)
+
+    const nutMo = document.createElement('button')
+    document.body.appendChild(nutMo)
+    nutMo.focus()
+
+    await act(async () => {
+      root.render(<HopThoai onClose={() => {}} />)
+    })
+    // Nút mở biến mất TRƯỚC khi hộp thoại đóng — đúng thứ tự của một lần điều hướng.
+    nutMo.remove()
+
+    await act(async () => {
+      root.unmount()
+    })
+
+    expect(document.activeElement).toBe(main)
+    expect(document.activeElement?.tagName).not.toBe('BODY')
+    // Gắn tabindex=-1 để focus được bằng mã, nhưng KHÔNG đưa <main> vào thứ tự Tab.
+    expect(main.getAttribute('tabindex')).toBe('-1')
+    main.remove()
+  })
+
+  it('④ nút mở bị gỡ và trang KHÔNG có <main> thì không nổ', async () => {
+    const nutMo = document.createElement('button')
+    document.body.appendChild(nutMo)
+    nutMo.focus()
+
+    await act(async () => {
+      root.render(<HopThoai onClose={() => {}} />)
+    })
+    nutMo.remove()
+
+    await expect(
+      act(async () => {
+        root.unmount()
+      }),
+    ).resolves.toBeUndefined()
+  })
+
   it('⑤ bấm ĐÚNG lớp nền thì đóng, bấm phần tử con thì KHÔNG', async () => {
     const onClose = vi.fn()
     await act(async () => {

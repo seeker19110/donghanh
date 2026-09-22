@@ -985,14 +985,25 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 
 ## Nợ kỹ thuật còn mở
 
+- 🟡 **[2026-09-22 — đợt React 19 + Tailwind 4, `docs/changelog/0415-*.md`] Sáu nợ sau đợt nâng
+  framework.** (1) **CHƯA CHỤP ẢNH TẦNG 8B** — Tailwind 4 sinh lại toàn bộ CSS nên đây là đợt chạm
+  giao diện, bắt buộc chụp 1440px + 390px trước/sau; hai cổng a11y 289/289 xanh chỉ chứng minh
+  tương phản + ARIA, KHÔNG chứng minh bố cục/khoảng cách không xê dịch. (2) ~~Vite 8 vẫn chặn~~ →
+  **ĐÃ ĐÓNG ở đợt 0416**, xem bên dưới. (3) **Node 22 → 26 LTS** sau 2026-10-28. (4) **TypeScript 7
+  KHÔNG THỂ nâng**: `@typescript-eslint/parser@8.70.1` khai `typescript: ">=4.8.4 <6.1.0"`, chờ
+  typescript-eslint mở dải. (5) **ESLint 10** chờ `eslint-plugin-jsx-a11y` mở peer (nay `^9`).
+  (6) **Đệm ngân sách mỏng hơn**: Initial JS nới 150 → 160 kB (React 19 +19,46 kB brotli, đã loại
+  trừ nguyên nhân sai đóng gói), dùng 94,7%; CSS nới 20 → 26 kB (Tailwind 4 +5,61 kB), dùng 90,0%.
 - 🟡 **[2026-09-22 — đợt nâng cấp major stack, `docs/changelog/0414-*.md`, ADR 0011] Ba nợ nâng
-  cấp còn lại sau đợt này.** (1) **Vite 7 → 8 CHẶN LẠI, đã hoàn nguyên sạch:** Vite 8 thay Rollup
-  bằng rolldown; build gãy ở `[builtin:vite-alias] rolldown:vite-resolve` (đã loại trừ giả thuyết
-  alias regex — đổi sang alias chuỗi vẫn gãy y nguyên), và `vite-plugin-compression@0.5.1` sinh
-  đường dẫn `.gz` sai (`dist//home/user/.../dist/...`). PR riêng phải làm 3 việc: tìm nguyên nhân
-  thật (nghi 3 plugin tự viết có hook resolve), thay gói compression, và **kiểm
-  `rollupOptions.output.manualChunks` còn đúng nghĩa dưới rolldown — rủi ro lớn nhất vì
-  `.size-limit.json` đo theo TÊN chunk, chunk đổi tên = phép đo sai mà cổng vẫn xanh**.
+  cấp còn lại sau đợt này.** (1) ✅ **Vite 7 → 8 ĐÃ XONG ở đợt 0416** (`docs/changelog/0416-*.md`).
+  Ba lo ngại ghi ở đây **đều sai**, ghi lại vì cả ba đều là bài học về "đọc log rồi đoán":
+  nguyên nhân gãy KHÔNG ở rolldown mà là **một bare import `@dhcb/core-grading` vi phạm quy ước
+  import của chính dự án** (rolldown kiểm `exports` nghiêm, Rollup thì dễ tính) — sửa một dòng ở
+  `apps/dhcb/src/pages/learning/StemLessonView.tsx`; đường dẫn `.gz` "sai" chỉ là **lỗi in log**
+  của plugin, file thật nằm đúng `dist/assets/*.gz`; và `manualChunks` **hoạt động đúng** dưới
+  rolldown (chunk `vendor-sentry` "mất" chỉ vì container không có `VITE_SENTRY_DSN` nên nhánh chết
+  bị xoá — đúng, không phải hồi quy). Thứ thật sự đổi: **không còn sinh file `.br`**, vô hại vì
+  nginx chưa từng có `brotli_static`.
   (2) **Node 22 → 26 LTS: hoãn tới sau 2026-10-28** (v22 còn hỗ trợ đến 2027-04-30 nên không gấp;
   v24 rời Active LTS 2026-10-20 nên nâng lên 24 là nâng vào dòng sắp hạ cấp). Cần việc tay VPS.
   (3) **Có lint `.cjs` hay không:** flat config mặc định lint cả `.cjs` trong khi cấu hình cũ chạy

@@ -24,7 +24,8 @@ const FOCUSABLE =
 export type UseDialogBehaviorResult = {
   /** Gắn vào khung hộp thoại: `<div {...dialogProps}>`. */
   dialogProps: {
-    ref: React.RefObject<HTMLDivElement>
+    // React 19: useRef(null) trả RefObject<T | null> — xem StudioDialogue.tsx.
+    ref: React.RefObject<HTMLDivElement | null>
     role: 'dialog'
     'aria-modal': true
     'aria-labelledby': string
@@ -77,7 +78,28 @@ export function useDialogBehavior(onClose: () => void, open = true): UseDialogBe
 
     return () => {
       document.body.style.overflow = prevOverflow
-      openerRef.current?.focus()
+
+      // Trả tiêu điểm về nút đã mở hộp thoại — NHƯNG chỉ khi nút đó còn nằm trong DOM.
+      // `focus()` trên phần tử đã bị gỡ là lệnh KHÔNG LÀM GÌ, và khi đó tiêu điểm rơi về
+      // <body>: trình đọc màn hình mất ngữ cảnh, người dùng bàn phím phải Tab lại từ đầu trang.
+      //
+      // Xảy ra thật khi việc đóng hộp thoại ĐỒNG THỜI là điều hướng (chọn một kết quả trong
+      // panel "Mục lục" là một <a> — trang cũ unmount kèm luôn cái nút mở panel). Trước React 19
+      // cleanup thường chạy kịp trước khi unmount nên hiếm khi lộ; React 19 đổi thời điểm chạy
+      // cleanup nên `e2e/outline-english.spec.ts:119` bắt đầu đỏ dưới tải full-suite (xanh khi
+      // chạy riêng — đúng dấu hiệu phụ thuộc thời điểm).
+      const opener = openerRef.current
+      if (opener?.isConnected) {
+        opener.focus()
+        return
+      }
+      // Dự phòng: đưa tiêu điểm vào landmark chính của trang mới thay vì để rơi về <body>.
+      // <main> không focus được sẵn nên phải gắn tabindex=-1 (không vào thứ tự Tab, chỉ cho
+      // phép focus bằng mã) — giữ nguyên thuộc tính nếu trang đã tự khai.
+      const main = document.querySelector('main')
+      if (!main) return
+      if (!main.hasAttribute('tabindex')) main.setAttribute('tabindex', '-1')
+      main.focus({ preventScroll: true })
     }
   }, [open])
 

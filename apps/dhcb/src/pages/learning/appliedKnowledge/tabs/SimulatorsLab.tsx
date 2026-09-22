@@ -1,6 +1,8 @@
 // Tab 1 — Phòng thí nghiệm mô phỏng: bảng chọn 10 simulator + simulator đang chọn.
 // Tách từ AppliedKnowledge.tsx (2026-09-06). Chỉ MỘT simulator được mount tại một thời điểm
 // (phương án A), nên giá trị đã nhập không được nhớ khi đổi simulator.
+// React 19 gỡ namespace JSX toàn cục — phải import type JSX từ 'react' thay vì dựa vào global.
+import type { JSX } from 'react'
 import {
   TrendingUp,
   Zap,

@@ -163,7 +163,31 @@ Hệ thống được chuẩn hóa theo 10 bộ quy chuẩn SOTA chuyên biệt 
 - **AI:** gọi qua biến môi trường, ưu tiên model rẻ. Chat qua `/api/agent`. **STT** Whisper qua **Groq hoặc OpenAI** (`/api/stt`, tự chọn theo key). **TTS** Google Cloud qua `/api/tts` (audio cache **mã hóa AES-256-GCM**, lưu Cloudflare R2 qua `STORAGE_DRIVER=r2` trên production — `packages/core-ai/fileStorage.ts`; Web Speech API chỉ là fallback). **Chính sách cache TTS (chốt 2026-08-06): KHÔNG bao giờ tự xoá theo "lâu không dùng" (LRU) — cache `tts_cache`/`pronunciations` giữ vĩnh viễn, chỉ xoá bản ghi orphan (không còn nằm trong dữ liệu app) qua `npm run seed:all -- --verify --clean-orphans --yes`. Gần hết dung lượng R2 thì trả phí thêm, không xoá cache đang dùng. Xem `docs/migration-thoat-ly-supabase.md` mục 3.3.**
 - **Gói dịch vụ (chốt GĐ1, 2026-09-12 — `docs/specs/2026-09-12-gd1-xoa-goi-pro.md`):** ĐÚNG **HAI** gói — `free` và `vip`. Gói `plus`/`pro` đã bị XOÁ (migration `0076`): người đang trả tiền còn hạn được nâng VIP giữ nguyên `plan_expires_at`, hết hạn thì về free. **Free hưởng hạn mức Plus cũ: 30 lượt AI/ngày** tính TỔNG mọi tính năng, cấu hình được ở `/admin` (lưu ở cột DB `app_settings.pro_daily_limit` — cột giữ TÊN cũ, ý nghĩa mới là "hạn mức Free"). VIP là gói trả phí duy nhất, bán qua SePay. Kiểu dữ liệu nguồn sự thật: `packages/core-billing/plan.ts`.
 - **Deploy:** VPS Ubuntu (PM2 + Nginx + Let's Encrypt), đang chạy tại https://en-vi.donghanhcungban.org — xem `docs/deploy-vps-ubuntu.md`. `.com` là domain cũ/redirect.
-- **GIỮ NGUYÊN PHIÊN BẢN — KHÔNG nâng React/TS/Tailwind.** Dự án cố tình dùng **React 18**, **TypeScript 5.x** và **Tailwind 3** (không phải v4). Tài liệu khung có nhắc Tailwind v4 — chỉ để **tham khảo**, KHÔNG áp vào dự án này. Lý do giữ Tailwind 3: v4 chuyển cấu hình sang CSS-first `@theme`, phá pipeline token `--a-*`/`--z-*` đang là nguồn sự thật cho tương phản a11y. **ESLint đã nâng 8 → 9 flat config (`eslint.config.js`) ngày 2026-09-22** — đảo quyết định cũ vì dòng 8 hết hỗ trợ; xem `docs/adr/0011-nang-eslint-9-flat-config.md`. **Đích ESLint là 9.x, KHÔNG phải 10**: `eslint-plugin-jsx-a11y` (cổng a11y bắt buộc) chỉ khai peer tới `^9`.
+- **PHIÊN BẢN STACK (cập nhật 2026-09-22, đợt changelog 0416).** Đã nâng: **React 19** · **Tailwind 4** (qua `@config`, dùng lại cấu hình JS cũ) · **ESLint 9 flat config** · **Express 5** · **Vite 8** (rolldown thay Rollup). Giữ **Node 22** và **TypeScript 5.x**.
+
+  **Ba thứ CHƯA nâng được, và lý do là RÀNG BUỘC THẬT chứ không phải sở thích** — đừng thử lại
+  trước khi ràng buộc mất:
+  - **TypeScript 7**: `@typescript-eslint/parser` (bản mới nhất) khai `typescript: ">=4.8.4 <6.1.0"`.
+    Cài TS 7 là đẩy cổng lint ra ngoài vùng hỗ trợ.
+  - **ESLint 10**: `eslint-plugin-jsx-a11y` (bản mới nhất) chỉ khai peer `eslint: ^…^9`, mà đó là
+    cổng a11y bắt buộc ở mục 4.5. **Đích ESLint là 9.x.** Nền: `docs/adr/0011-nang-eslint-9-flat-config.md`.
+  - **Node 26**: chờ tới sau 2026-10-28 (v22 hỗ trợ đến 2027-04-30 nên không gấp; v24 rời Active
+    LTS 2026-10-20 nên nâng lên 24 là nâng vào dòng sắp hạ cấp).
+
+  **Vite 8 (rolldown) — hai điều phải biết** (nền: `docs/changelog/0416-*.md`):
+  - **Rolldown kiểm `exports` NGHIÊM.** Không gói `@dhcb/*` nào khai entry `"."`, chỉ khai `"./*"`,
+    nên bare import `@dhcb/<gói>` **gãy build** với `"." is not exported`. Đây chính là quy ước
+    import ở cuối mục 6 này — Rollup từng dễ tính bỏ qua, rolldown thì không. Viết đủ
+    `@dhcb/<gói>/<file>`.
+  - **Không còn sinh file `.br`.** Không ảnh hưởng production vì `nginx/en-vi.conf` chỉ có
+    `gzip_static on;`, chưa từng có `brotli_static`.
+
+  **Tailwind 4 dùng `@config`** để giữ nguyên `apps/*/tailwind.config.js` — pipeline token
+  `--a-*`/`--z-*` KHÔNG bị viết lại. Bảng màu v4 khai bằng `oklch()` (kể cả `oklch(L 0 none)` cho
+  thang vô sắc), nên cổng tương phản đọc màu qua `parseCssColor` ở `scripts/lib/contrast.ts`; nó
+  **ném lỗi** khi gặp định dạng lạ thay vì bỏ qua — đừng đổi thành bỏ qua, đó chính là lỗ hổng
+  xanh-giả đã vá ở changelog 0415.
+
 - **Lệnh:** dev `npm run dev` · build `npm run build` · typecheck `npm run typecheck` (gộp cả `tsconfig.json` + `tsconfig.api.json` + `tsconfig.e2e.json`) · lint `npm run lint` (max-warnings 0) · format `npm run format` (Prettier — đang thêm ở bước khung) · test `npm test` (`vitest run`) · E2E `npm run test:e2e` (Playwright) · biên độ ngân sách `npm run budget` (in phần còn lại của size-limit + ngưỡng coverage, cảnh báo khi sắp cạn — cần `dist/` và `coverage/` đã có) · start `npm start` (`tsx apps/server/src/server.ts`) · migration Postgres tự host `npm run migrate:pg` (tự chạy trong `scripts/deploy.sh`, xem `postgres/migrations/README.md`).
 - **Cấu trúc [Cập nhật 2026-08-23, workspace THẬT — PR-S1..S4 phương án B, xem
   `docs/research/dac-ta-cai-to-cau-truc-2026-08-23.md`]:** `apps/dhcb/` (đổi tên từ `apps/english` ở PR-S2b — app NỀN TẢNG, gói `@dhcb/app`) là Vite app ĐẦY ĐỦ

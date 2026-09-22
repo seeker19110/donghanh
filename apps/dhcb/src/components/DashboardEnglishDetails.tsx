@@ -147,7 +147,7 @@ export interface DashboardEnglishDetailsProps {
   // ── Summary (luôn hiển thị, không nằm trong panel hidden) ──────────────────────────────
   srsDue: number
   weeklyCredit: DashboardEnglishDetailsWeeklyCredit
-  weeklyCreditRetryRef: React.RefObject<HTMLButtonElement>
+  weeklyCreditRetryRef: React.RefObject<HTMLButtonElement | null>
   onRetryWeeklyCredit: () => void
   // ── Panel: Hôm nay ──────────────────────────────────────────────────────────────────────
   learnedToday: number
@@ -164,7 +164,7 @@ export interface DashboardEnglishDetailsProps {
   onOpenMistakes: () => void
   // ── Panel: CEFR ─────────────────────────────────────────────────────────────────────────
   cefr: DashboardEnglishDetailsCefr
-  cefrRetryRef: React.RefObject<HTMLButtonElement>
+  cefrRetryRef: React.RefObject<HTMLButtonElement | null>
   onRetryCefr: () => void
   // ── Panel: IELTS ────────────────────────────────────────────────────────────────────────
   writing: DashboardEnglishDetailsWriting
