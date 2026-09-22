@@ -986,9 +986,17 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 ## Nợ kỹ thuật còn mở
 
 - 🟡 **[2026-09-22 — đợt React 19 + Tailwind 4, `docs/changelog/0415-*.md`] Sáu nợ sau đợt nâng
-  framework.** (1) **CHƯA CHỤP ẢNH TẦNG 8B** — Tailwind 4 sinh lại toàn bộ CSS nên đây là đợt chạm
-  giao diện, bắt buộc chụp 1440px + 390px trước/sau; hai cổng a11y 289/289 xanh chỉ chứng minh
-  tương phản + ARIA, KHÔNG chứng minh bố cục/khoảng cách không xê dịch. (2) ~~Vite 8 vẫn chặn~~ →
+  framework.** (1) ✅ **ẢNH TẦNG 8B ĐÃ CHỤP VÀ ĐỐI CHIẾU — tìm ra một hồi quy CSS THẬT, đã vá
+  (PR #1116).** So `main` (React 18/Tailwind 3/Vite 7) với nhánh nâng cấp trên 300 tổ hợp
+  màn×trạng thái×theme×bề rộng: 153/300 ảnh lệch chiều cao 16–24px. Lượt điều tra đầu nghi do
+  animation chưa đóng băng ở chính công cụ chụp (PR #1115 sửa, giả thuyết SAI — vá xong số liệu
+  không đổi). Gốc thật: **Tailwind 4 đổi cơ chế `space-y-*`** từ gán `margin-top` cho con SAU con
+  đầu (v3) sang gán `margin-block-end` cho MỌI con kể cả con đầu (v4); khuôn `<h1 sr-only>` (ẩn
+  màn hình bằng `position:absolute`, dùng ở 54 trang) làm con đầu tiên khiến margin đó mất trắng
+  vì nằm ngoài luồng → mất đúng một bậc `space-y-N` ở đỉnh trang. Vá bằng CSS toàn cục ở
+  `apps/dhcb/src/index.css` (đặt ngoài mọi `@layer` để thắng cascade vô điều kiện), xác nhận lệch
+  về đúng 0px trên 3 route thật, cổng a11y 289/289. Xem `docs/changelog/0416-*.md`.
+  (2) ~~Vite 8 vẫn chặn~~ →
   **ĐÃ ĐÓNG ở đợt 0416**, xem bên dưới. (3) **Node 22 → 26 LTS** sau 2026-10-28. (4) **TypeScript 7
   KHÔNG THỂ nâng**: `@typescript-eslint/parser@8.70.1` khai `typescript: ">=4.8.4 <6.1.0"`, chờ
   typescript-eslint mở dải. (5) **ESLint 10** chờ `eslint-plugin-jsx-a11y` mở peer (nay `^9`).
