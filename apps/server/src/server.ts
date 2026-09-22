@@ -156,12 +156,16 @@ app.use((req, res, next) => {
 // /api/* không khớp route nào ở trên → JSON 404 rõ ràng. Trước đây rơi xuống catch-all
 // SPA bên dưới, trả index.html 200 — client tưởng thành công, khó debug
 // (vá 2026-08-23, đề xuất N1 mục B6).
-app.all('/api/*', (_req, res) => {
+// Express 5 (path-to-regexp mới) KHÔNG còn nhận wildcard '*' trần — phải đặt tên cho nó
+// ('/api/*splat'). Tên splat chỉ để path-to-regexp gọi phần khớp được, code không dùng tới.
+app.all('/api/*splat', (_req, res) => {
   res.status(404).json({ error: 'API route không tồn tại' })
 })
 
 // Mọi route client SPA (Toán, Tiếng Anh, Lộ trình, Luyện nói, Đồng Hành, Simulators, v.v.) đều trả index.html đầy đủ
-app.get('*', (req, res) => {
+// '/{*splat}' = khớp MỌI đường dẫn kể cả '/' (dấu {} làm phần splat thành tùy chọn). Viết
+// '/*splat' sẽ KHÔNG khớp trang gốc '/' — trang chủ trả 404, xem changelog đợt nâng Express 5.
+app.get('/{*splat}', (req, res) => {
   res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate')
   res.setHeader('Pragma', 'no-cache')
   res.setHeader('Expires', '0')
