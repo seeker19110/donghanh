@@ -321,7 +321,7 @@ export const TOAN10_C4_LESSONS: MathLesson[] = [
           kind: 'label',
           id: 'nhan-u',
           x: 228,
-          y: 205,
+          y: 216,
           text: 'u (8)',
           size: 13,
           fill: 'primary',

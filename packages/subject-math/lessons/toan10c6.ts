@@ -402,8 +402,8 @@ export const TOAN10_C6_LESSONS: MathLesson[] = [
         {
           kind: 'label',
           id: 'nhan-dinh',
-          x: 148,
-          y: 186,
+          x: 190,
+          y: 176,
           text: 'đỉnh (2; −1)',
           size: 12,
           fill: 'muted',
@@ -476,8 +476,8 @@ export const TOAN10_C6_LESSONS: MathLesson[] = [
         {
           kind: 'label',
           id: 'dau-trai',
-          x: 70,
-          y: 68,
+          x: 28,
+          y: 100,
           text: 'f(x) > 0',
           size: 13,
           anchor: 'middle',

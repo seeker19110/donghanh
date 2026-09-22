@@ -224,6 +224,20 @@ và các đợt sau đã soạn nhiều hơn ghi nhận ở đây). Kiểm kê t
 - Còn ngỏ: rà bằng mắt theo thời gian cho hoạt ảnh Toán (môn STEM duy nhất đã nối `apps/`); môn
   Anh; 3 môn STEM nháp.
 
+## Kết quả rà mắt Toán (2026-09-22, `docs/changelog/0408-*.md`): 34/34 hoạt ảnh, sửa 15
+
+- Công cụ chính thức cho luật ⑥: `npm run shots:lesson-anim` (`scripts/shots-lesson-animations.ts`)
+  render `LessonAnimation` ra HTML tĩnh (không cần DB), chụp 5 mốc 2/25/50/75/98% và ghép dải
+  `montage/<id>.png`; thoát 1 nếu hoạt ảnh nào có 0 animation chạy. Ảnh ghi ngoài repo.
+- 4 lỗi SAI NỘI DUNG: `rotate` quay quanh tâm hình chứ không quanh đầu mút (`toan11-c1-b1`), nhãn
+  trạng thái không đổi theo ba vị trí (`toan10-c7-b2`), nhãn M/N đứng yên khi MN trượt
+  (`toan11-c4-b2`), chữ tràn viewBox bị cắt (`toan12-c1-b2`). 11 lỗi nhãn đè/cắt/gạch ngang.
+- **Khuôn dữ liệu bổ sung:** hình "quay quanh đầu mút" = `rotate` + `dx/dy` cho trung điểm chạy
+  trên đường tròn r/2; nhãn gọi tên hình động PHẢI mang cùng keyframes tịnh tiến; mỗi trạng thái
+  một nhãn riêng bật/tắt bằng opacity; chữ ≤ ~0,55·size px/ký tự so với `viewBoxWidth`.
+- Hai lỗi nhẹ `toan12-c4-b2` (lớp thô chồng lớp mịn) và `toan12-c5-b2` (nhãn bị đường tròn cắt)
+  cũng đã sửa trong cùng PR theo yêu cầu chủ dự án → không còn mục ngỏ cho Toán.
+
 ## Nghiệm thu
 
 - Lệnh đã chạy + kết quả thật: `npm run typecheck` xanh, `npm run lint` xanh (0 cảnh báo),

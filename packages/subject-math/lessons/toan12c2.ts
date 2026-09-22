@@ -325,8 +325,8 @@ export const TOAN12_C2_LESSONS: MathLesson[] = [
         {
           kind: 'label',
           id: 'nhan-x',
-          x: 24,
-          y: 222,
+          x: 14,
+          y: 214,
           text: 'x',
           size: 14,
           anchor: 'middle',
@@ -362,8 +362,8 @@ export const TOAN12_C2_LESSONS: MathLesson[] = [
         {
           kind: 'label',
           id: 'nhan-o',
-          x: 110,
-          y: 166,
+          x: 106,
+          y: 186,
           text: 'O',
           size: 13,
           fill: 'neutral',
@@ -396,8 +396,8 @@ export const TOAN12_C2_LESSONS: MathLesson[] = [
         {
           kind: 'label',
           id: 'nhan-a',
-          x: 48,
-          y: 212,
+          x: 56,
+          y: 227,
           text: 'A(3; 0; 0)',
           size: 12,
           anchor: 'middle',

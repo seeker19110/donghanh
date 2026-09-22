@@ -148,7 +148,7 @@ export const TOAN10_C3_LESSONS: MathLesson[] = [
         {
           kind: 'label',
           id: 'nhan-b8',
-          x: 86,
+          x: 98,
           y: 124,
           text: 'b = 8',
           size: 13,
@@ -323,11 +323,11 @@ export const TOAN10_C3_LESSONS: MathLesson[] = [
         {
           kind: 'label',
           id: 'nhan-a943',
-          x: 118,
-          y: 106,
+          x: 70,
+          y: 54,
           text: 'a ≈ 9,43',
           size: 14,
-          anchor: 'end',
+          anchor: 'start',
           fill: 'accent',
           opacity: 0,
           keyframes: [
