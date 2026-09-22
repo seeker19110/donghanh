@@ -26,7 +26,7 @@ export const DATA_SPECIALIZATION: ProgrammingSpecialization = {
     contracts: [
       'Hợp đồng dữ liệu giữa đội sinh và đội dùng: schema, độ tươi, ý nghĩa từng trường.',
       'Mỗi bảng phục vụ có chủ sở hữu và mô tả; không có bảng vô chủ.',
-      'Mọi bước biến đổi phải idempotent: chạy lại một ngày cho ra đúng kết quả cũ.',
+      'Mọi bước biến đổi phải lũy đẳng (idempotent): chạy lại một ngày cho ra đúng kết quả cũ.',
       'Một chỉ số chỉ có một định nghĩa; phòng ban muốn khác thì đặt tên khác.',
     ],
     keyDecisions: [
@@ -283,7 +283,7 @@ export const DATA_SPECIALIZATION: ProgrammingSpecialization = {
   careers: ['Data Analyst', 'Analytics Engineer', 'Data Engineer', 'Data Platform Engineer'],
   pitfalls: [
     'Nhảy vào vẽ biểu đồ trước khi kiểm dữ liệu có sạch không',
-    'Pipeline không idempotent rồi nhân đôi doanh thu',
+    'Pipeline không lũy đẳng rồi nhân đôi doanh thu',
     'Mỗi phòng ban một định nghĩa "người dùng hoạt động"',
     'Chỉ học công cụ thời thượng mà SQL còn yếu',
   ],

@@ -40,7 +40,7 @@ export const WEB_S2_DETAIL: SpecStageDetail = {
         'Thiết kế được schema quan hệ có ràng buộc thật và viết migration chạy được từ cơ sở dữ liệu trống.',
       practice: [
         'Dựng schema cửa hàng với khoá ngoại, `not null`, `check` và ràng buộc duy nhất — không để tầng ứng dụng gánh thay.',
-        'Viết migration có phiên bản, chạy từ CSDL trống rồi chạy lại lần hai để kiểm tính lũy đẳng.',
+        'Viết migration có phiên bản, chạy từ CSDL trống rồi chạy lại lần hai để kiểm tính lũy đẳng (idempotent).',
         'Đọc `EXPLAIN` của một truy vấn chậm rồi thêm index đúng chỗ, ghi lại thời gian trước và sau.',
       ],
       selfCheck: [

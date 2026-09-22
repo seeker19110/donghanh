@@ -33,7 +33,7 @@ export const MOBILE_SPECIALIZATION: ProgrammingSpecialization = {
     ],
     contracts: [
       'UI chỉ nhận model của riêng nó, không nhận thẳng model API — đổi API không được làm vỡ màn hình.',
-      'Mọi thao tác ghi khi offline vào hàng đợi có khoá idempotent, đồng bộ lại không nhân đôi.',
+      'Mọi thao tác ghi khi offline vào hàng đợi có khoá lũy đẳng (idempotent), đồng bộ lại không nhân đôi.',
       'Migration CSDL cục bộ bắt buộc có phiên bản: người dùng nhảy từ bản cũ 6 tháng trước lên vẫn phải chạy.',
     ],
     keyDecisions: [

@@ -489,7 +489,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
   'data-s2': [
     {
       id: 'data-s2-q1',
-      prompt: 'Vì sao pipeline ETL/ELT chạy hằng ngày cần được thiết kế "idempotent"?',
+      prompt: 'Vì sao pipeline ETL/ELT chạy hằng ngày cần được thiết kế "lũy đẳng (idempotent)"?',
       choices: [
         'Để chạy nhanh hơn mỗi lần thực thi',
         'Để chạy lại cho cùng một ngày không nhân đôi dữ liệu',
@@ -498,7 +498,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
       ],
       answerIndex: 1,
       explain:
-        'Pipeline chạy bù (backfill) hay chạy lại sau lỗi là chuyện thường — idempotent đảm bảo chạy lại cùng ngày cho ra đúng một bản ghi, không cộng dồn.',
+        'Pipeline chạy bù (backfill) hay chạy lại sau lỗi là chuyện thường — lũy đẳng đảm bảo chạy lại cùng ngày cho ra đúng một bản ghi, không cộng dồn.',
     },
     {
       id: 'data-s2-q2',
@@ -773,7 +773,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
   'backend-s1': [
     {
       id: 'backend-s1-q1',
-      prompt: 'Idempotency key trong API đặt hàng dùng để giải quyết vấn đề gì?',
+      prompt: 'Khoá lũy đẳng trong API đặt hàng dùng để giải quyết vấn đề gì?',
       choices: [
         'Tăng tốc độ xử lý request',
         'Gửi lại cùng một request (do mất mạng, retry) không tạo ra đơn hàng/thu tiền thứ hai',
@@ -782,7 +782,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
       ],
       answerIndex: 1,
       explain:
-        'Client có thể gửi lại request khi không chắc lần trước có thành công (timeout, mất mạng) — idempotency key giúp server nhận diện và trả lại đúng kết quả cũ, không xử lý trùng.',
+        'Client có thể gửi lại request khi không chắc lần trước có thành công (timeout, mất mạng) — khoá lũy đẳng giúp server nhận diện và trả lại đúng kết quả cũ, không xử lý trùng.',
     },
     {
       id: 'backend-s1-q2',
@@ -888,13 +888,13 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
         'Hàng đợi (queue) kiểu "at-least-once" đảm bảo điều gì, và hệ quả là gì cho consumer?',
       choices: [
         'Đảm bảo mỗi message chỉ được xử lý đúng một lần, consumer không cần lo gì thêm',
-        'Đảm bảo message được xử lý ÍT NHẤT một lần (có thể trùng lặp) — consumer bắt buộc phải viết logic idempotent để xử lý trùng an toàn',
+        'Đảm bảo message được xử lý ÍT NHẤT một lần (có thể trùng lặp) — consumer bắt buộc phải viết logic lũy đẳng để xử lý trùng an toàn',
         'Đảm bảo message luôn tới đúng thứ tự gửi đi',
         'Đảm bảo message không bao giờ bị mất kể cả khi consumer crash vĩnh viễn',
       ],
       answerIndex: 1,
       explain:
-        'At-least-once ưu tiên "không mất message" hơn "không trùng" — nếu consumer crash sau khi xử lý nhưng trước khi xác nhận, message sẽ được gửi lại, nên logic xử lý phải idempotent.',
+        'At-least-once ưu tiên "không mất message" hơn "không trùng" — nếu consumer crash sau khi xử lý nhưng trước khi xác nhận, message sẽ được gửi lại, nên logic xử lý phải lũy đẳng.',
     },
     {
       id: 'backend-s2-q5',

@@ -176,7 +176,7 @@ export const WEB_S3_DETAIL: SpecStageDetail = {
     contracts: [
       'Kiểu dữ liệu giữa client và server khai báo một lần, hai phía cùng dùng.',
       'Lỗi trả về có mã máy đọc được; giao diện ánh xạ mã sang câu tiếng Việt.',
-      'Mọi endpoint ghi phải lặp lại an toàn hoặc nêu rõ lý do không cần.',
+      'Mọi endpoint ghi phải lũy đẳng (idempotent) hoặc nêu rõ lý do không cần.',
     ],
     acceptance: [
       'Đạt đủ 5 tiêu chí rubric của chặng, mỗi tiêu chí có bằng chứng chạy được.',

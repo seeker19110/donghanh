@@ -27,7 +27,7 @@ export const BACKEND_SPECIALIZATION: ProgrammingSpecialization = {
       },
       {
         name: 'Việc nền / consumer',
-        role: 'Xử lý sự kiện, việc định kỳ. Phải idempotent vì sẽ bị chạy lại.',
+        role: 'Xử lý sự kiện, việc định kỳ. Phải lũy đẳng (idempotent) vì sẽ bị chạy lại.',
       },
       {
         name: 'Hạ tầng chung',
@@ -37,7 +37,7 @@ export const BACKEND_SPECIALIZATION: ProgrammingSpecialization = {
     contracts: [
       'Mỗi endpoint có schema vào/ra và danh sách mã lỗi; phá vỡ hợp đồng phải ra phiên bản mới.',
       'Sự kiện phát ra là hợp đồng công khai — đổi nghĩa một trường là phá vỡ, kể cả khi kiểu không đổi.',
-      'Mọi thao tác ghi nhận khoá idempotency; consumer giả định at-least-once.',
+      'Mọi thao tác ghi nhận khoá lũy đẳng; consumer giả định at-least-once.',
       'Transaction không được vượt ra ngoài ranh giới một dịch vụ.',
     ],
     keyDecisions: [
@@ -54,7 +54,7 @@ export const BACKEND_SPECIALIZATION: ProgrammingSpecialization = {
     specChecklist: [
       'Điều gì xảy ra khi phụ thuộc timeout — thử lại bao nhiêu lần, rồi sao nữa.',
       'Bất biến nghiệp vụ nào tuyệt đối không được phá (không âm kho, không tính tiền hai lần).',
-      'Thao tác này có idempotent không, khoá idempotency lấy từ đâu.',
+      'Thao tác này có lũy đẳng không, khoá lũy đẳng lấy từ đâu.',
       'Cần chỉ số/log/trace gì để điều tra khi nó hỏng lúc 3 giờ sáng.',
     ],
   },
@@ -108,7 +108,7 @@ export const BACKEND_SPECIALIZATION: ProgrammingSpecialization = {
         brief: 'Dịch vụ CRUD + đặt hàng, có test, log, Docker.',
         requirements: [
           'Mọi endpoint validate input và trả lỗi có mã',
-          'Đặt hàng idempotent — gửi lại cùng key không tạo đơn thứ hai',
+          'Đặt hàng lũy đẳng — gửi lại cùng key không tạo đơn thứ hai',
           '`docker compose up` là chạy được từ máy trắng',
         ],
       },
@@ -142,7 +142,7 @@ export const BACKEND_SPECIALIZATION: ProgrammingSpecialization = {
           id: 'backend-s2-m3',
           title: 'Hàng đợi và việc nền',
           topics: [
-            'Producer/consumer, at-least-once và hệ quả phải idempotent',
+            'Producer/consumer, at-least-once và hệ quả phải lũy đẳng',
             'Dead letter queue, retry có backoff',
             'Việc định kỳ chạy đúng một lần khi có nhiều tiến trình',
           ],
@@ -300,7 +300,7 @@ export const BACKEND_SPECIALIZATION: ProgrammingSpecialization = {
   ],
   pitfalls: [
     'Chia microservice từ ngày đầu khi chưa có vấn đề nào cần chia',
-    'Bỏ qua idempotency rồi tính tiền khách hai lần',
+    'Bỏ qua tính lũy đẳng rồi tính tiền khách hai lần',
     'Tin đồng hồ máy chủ và thứ tự sự kiện qua mạng',
     'Thêm cache để giấu truy vấn chậm thay vì sửa truy vấn',
   ],

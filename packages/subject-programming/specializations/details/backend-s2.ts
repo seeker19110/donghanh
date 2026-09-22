@@ -108,7 +108,7 @@ export const BACKEND_S2_DETAIL: SpecStageDetail = {
     },
     {
       id: 'backend-s2-r2',
-      text: 'Gửi lại cùng khoá lặp-lại-an-toàn không tạo bản ghi thứ hai.',
+      text: 'Gửi lại cùng khoá lũy đẳng (idempotent) không tạo bản ghi thứ hai.',
       howToProve:
         'Test gọi endpoint hai lần với cùng khoá, khẳng định số dòng trong bảng không đổi.',
     },
@@ -147,7 +147,7 @@ export const BACKEND_S2_DETAIL: SpecStageDetail = {
       'Tiến trình xử lý hàng đợi chạy tách khỏi tiến trình phục vụ HTTP.',
     ],
     contracts: [
-      'Mọi endpoint ghi nhận khoá lặp-lại-an-toàn ở tiêu đề yêu cầu và trả cùng kết quả cho cùng khoá.',
+      'Mọi endpoint ghi nhận khoá lũy đẳng ở tiêu đề yêu cầu và trả cùng kết quả cho cùng khoá.',
       'Thông điệp trong hàng đợi có phiên bản schema để đổi định dạng không làm chết tiến trình cũ.',
       'Endpoint kiểm tra sức khoẻ trả trạng thái của CSDL và hàng đợi, không chỉ trả "ok".',
     ],
