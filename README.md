@@ -59,7 +59,7 @@ migration hoặc domain Learning của V2.
 
 ## Cấu hình Hệ thống & Runtime
 
-- **Runtime & Tooling**: Node.js 22, React 19, Tailwind CSS v4 (qua `@config`), ESLint 9 flat config, Express 5 — cập nhật 2026-09-22. Không tự ý nâng cấp framework/tooling khi chưa đánh giá tương thích.
+- **Runtime & Tooling**: Node.js 22, React 19, Vite 8 (rolldown), Tailwind CSS v4 (qua `@config`), ESLint 9 flat config, Express 5 — cập nhật 2026-09-22. Không tự ý nâng cấp framework/tooling khi chưa đánh giá tương thích.
 - **Server VPS Khuyến nghị**: Ubuntu 24.04 (3–4 vCPU, 4–8 GB RAM, PM2 Cluster Mode, PostgreSQL 16+, Redis 7+, Cloudflare R2 cho audio cache).
 - **Client Web/PWA**: Trình duyệt Chromium ≥ 113 (WebGPU cho Edge AI 0ms), Microphone cho STT & Realtime Voice.
 - Xem chi tiết tại: [System Requirements](docs/system-requirements.md) và [Deploy VPS Ubuntu](docs/deploy-vps-ubuntu.md).

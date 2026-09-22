@@ -479,3 +479,52 @@ assert kết quả cuối.
 **Cổng chốt chặn:** viết nguồn sao cho mỗi module chỉ `import()` MỘT lần rồi chia cho các lượt
 (`cacTheStem` nạp ba module trước rồi mới `Promise.all` bốn môn). Ngoài việc test mock được, đây
 cũng là cách đúng: không có lý do gì nạp lại cùng module bốn lần.
+
+## 12. Phần tử nền tối CỐ ĐỊNH nhưng không tự đặt màu chữ → chữ tối trên nền tối, chỉ lộ dưới tải
+
+**Ngày/PR:** 2026-09-22, PR #1114 (`docs/changelog/0416-*.md`) — `apps/dhcb/src/components/CodeEditor.tsx`.
+
+**Khuôn lỗi:** một component render ra khung **RỖNG** rồi mới nhồi nội dung vào sau (CodeMirror,
+Monaco, canvas, thư viện biểu đồ… mount trong `useEffect` và **tự tiêm style của nó**). Khung đó
+đặt nền tối cố định bằng mã màu trần (`bg-[#0a0a0a]` — cố ý không theo theme) nhưng **không đặt
+màu chữ**. Trong cửa sổ từ lúc khung xuất hiện tới lúc thư viện tiêm style, chữ **thừa hưởng** màu
+từ cha — và ở theme nền sáng màu đó là màu **TỐI**. Kết quả: có thật một khoảnh khắc chữ tối trên
+nền gần đen.
+
+**Vì sao khó thấy:** cửa sổ ấy hẹp, máy rảnh thì gần như không tồn tại. Cổng `e2e/a11y.spec.ts`
+quét đúng một thời điểm, nên nó chỉ bắt được khi máy bị tải — ở đây là lượt full suite sau khi
+nâng Vite 8 (Vite 8 chỉ **đổi thời điểm nạp module**, không gây ra lỗi; lỗi có từ trước).
+Rất dễ bị kết luận sai là "flake": chạy riêng test đó 3/3 xanh.
+
+**Cách rà:** `grep -rn 'bg-\[#' apps/ packages/ --include=*.tsx` rồi với mỗi chỗ tìm được, hỏi hai
+câu: (1) phần tử này có lúc nào RỖNG rồi được nhồi nội dung sau không? (2) nó có tự khai
+`text-[...]` cố định không? Thiếu (2) mà có (1) là trúng bẫy. Cẩn thận: `text-white` **KHÔNG** thay
+được — nó map sang token `--c-white` và **bị đảo thành màu tối ở theme nền sáng** (CLAUDE.md mục 4.5).
+
+**Cổng chốt chặn:** `apps/dhcb/src/components/CodeEditor.test.tsx` — **đọc hai mã màu host khai
+rồi ĐO tương phản**, nên đỏ cả khi ai gỡ `text-[...]` lẫn khi đổi sang cặp màu mất tương phản. Cố ý
+KHÔNG dựa vào cổng a11y e2e cho lỗi này: **một cổng chỉ đỏ lúc máy chậm thì không phải cổng.** Đã
+chứng minh nó bắt lỗi thật (gỡ bản sửa → 2/3 test đỏ).
+
+## 13. Đọc DÒNG ĐẦU của lỗi build rồi kết luận nguyên nhân — dòng có thông tin nằm ở `Caused by`
+
+**Ngày/PR:** 2026-09-22, PR #1112 → #1114 (`docs/changelog/0414-*.md` rồi `0416-*.md`).
+
+**Khuôn lỗi:** Vite 8 build gãy, dòng đầu là `[builtin:vite-alias] plugin 'rolldown:vite-resolve'
+threw an error`. Tôi đọc đúng dòng đó, kết luận **"nguyên nhân ở tầng phân giải module của
+rolldown"**, xếp cả bản nâng cấp vào nợ kỹ thuật và viết vào `PROGRESS.md` + mô tả PR. **Sai.**
+Dòng đó chỉ là lớp bọc ngoài cùng. Phần `Caused by` bên dưới nói thẳng nguyên nhân:
+`"." is not exported ... from package packages/core-grading` — tức **một bare import
+`@dhcb/core-grading` vi phạm quy ước import của chính dự án** (CLAUDE.md mục 6). Sửa một dòng là
+xong; cái "nợ kỹ thuật" kia chưa từng tồn tại.
+
+**Giá phải trả:** một bản nâng cấp bị hoãn oan, và một kết luận sai được ghi vào ba tài liệu.
+
+**Cách rà:** khi lỗi đến từ bundler/plugin, **đừng để output bị cắt** (không `| tail`, không
+`| head`) và tìm bằng `grep -A20 -i "caused by"` trước khi nêu bất kỳ giả thuyết nào. Công cụ
+Rust (rolldown, swc, lightningcss) gần như luôn bọc lỗi nhiều lớp: lớp ngoài cho biết **ai** báo,
+lớp trong cho biết **vì sao**.
+
+**Cổng chốt chặn:** không phải cổng máy mà là kỷ luật — CLAUDE.md mục 5 đã cấm đoán. Trước khi
+viết "nguyên nhân là X" vào tài liệu hay mô tả PR, phải dán được **nguyên văn dòng lỗi nói ra X**.
+Không dán được nghĩa là đang đoán.

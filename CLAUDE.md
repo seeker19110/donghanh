@@ -163,7 +163,7 @@ Hệ thống được chuẩn hóa theo 10 bộ quy chuẩn SOTA chuyên biệt 
 - **AI:** gọi qua biến môi trường, ưu tiên model rẻ. Chat qua `/api/agent`. **STT** Whisper qua **Groq hoặc OpenAI** (`/api/stt`, tự chọn theo key). **TTS** Google Cloud qua `/api/tts` (audio cache **mã hóa AES-256-GCM**, lưu Cloudflare R2 qua `STORAGE_DRIVER=r2` trên production — `packages/core-ai/fileStorage.ts`; Web Speech API chỉ là fallback). **Chính sách cache TTS (chốt 2026-08-06): KHÔNG bao giờ tự xoá theo "lâu không dùng" (LRU) — cache `tts_cache`/`pronunciations` giữ vĩnh viễn, chỉ xoá bản ghi orphan (không còn nằm trong dữ liệu app) qua `npm run seed:all -- --verify --clean-orphans --yes`. Gần hết dung lượng R2 thì trả phí thêm, không xoá cache đang dùng. Xem `docs/migration-thoat-ly-supabase.md` mục 3.3.**
 - **Gói dịch vụ (chốt GĐ1, 2026-09-12 — `docs/specs/2026-09-12-gd1-xoa-goi-pro.md`):** ĐÚNG **HAI** gói — `free` và `vip`. Gói `plus`/`pro` đã bị XOÁ (migration `0076`): người đang trả tiền còn hạn được nâng VIP giữ nguyên `plan_expires_at`, hết hạn thì về free. **Free hưởng hạn mức Plus cũ: 30 lượt AI/ngày** tính TỔNG mọi tính năng, cấu hình được ở `/admin` (lưu ở cột DB `app_settings.pro_daily_limit` — cột giữ TÊN cũ, ý nghĩa mới là "hạn mức Free"). VIP là gói trả phí duy nhất, bán qua SePay. Kiểu dữ liệu nguồn sự thật: `packages/core-billing/plan.ts`.
 - **Deploy:** VPS Ubuntu (PM2 + Nginx + Let's Encrypt), đang chạy tại https://en-vi.donghanhcungban.org — xem `docs/deploy-vps-ubuntu.md`. `.com` là domain cũ/redirect.
-- **PHIÊN BẢN STACK (cập nhật 2026-09-22, đợt changelog 0415).** Đã nâng: **React 19** · **Tailwind 4** (qua `@config`, dùng lại cấu hình JS cũ) · **ESLint 9 flat config** · **Express 5**. Giữ **Node 22** và **TypeScript 5.x**.
+- **PHIÊN BẢN STACK (cập nhật 2026-09-22, đợt changelog 0416).** Đã nâng: **React 19** · **Tailwind 4** (qua `@config`, dùng lại cấu hình JS cũ) · **ESLint 9 flat config** · **Express 5** · **Vite 8** (rolldown thay Rollup). Giữ **Node 22** và **TypeScript 5.x**.
 
   **Ba thứ CHƯA nâng được, và lý do là RÀNG BUỘC THẬT chứ không phải sở thích** — đừng thử lại
   trước khi ràng buộc mất:
@@ -173,7 +173,14 @@ Hệ thống được chuẩn hóa theo 10 bộ quy chuẩn SOTA chuyên biệt 
     cổng a11y bắt buộc ở mục 4.5. **Đích ESLint là 9.x.** Nền: `docs/adr/0011-nang-eslint-9-flat-config.md`.
   - **Node 26**: chờ tới sau 2026-10-28 (v22 hỗ trợ đến 2027-04-30 nên không gấp; v24 rời Active
     LTS 2026-10-20 nên nâng lên 24 là nâng vào dòng sắp hạ cấp).
-  - **Vite 8**: build gãy ở rolldown, xem nợ mở trong `PROGRESS.md`.
+
+  **Vite 8 (rolldown) — hai điều phải biết** (nền: `docs/changelog/0416-*.md`):
+  - **Rolldown kiểm `exports` NGHIÊM.** Không gói `@dhcb/*` nào khai entry `"."`, chỉ khai `"./*"`,
+    nên bare import `@dhcb/<gói>` **gãy build** với `"." is not exported`. Đây chính là quy ước
+    import ở cuối mục 6 này — Rollup từng dễ tính bỏ qua, rolldown thì không. Viết đủ
+    `@dhcb/<gói>/<file>`.
+  - **Không còn sinh file `.br`.** Không ảnh hưởng production vì `nginx/en-vi.conf` chỉ có
+    `gzip_static on;`, chưa từng có `brotli_static`.
 
   **Tailwind 4 dùng `@config`** để giữ nguyên `apps/*/tailwind.config.js` — pipeline token
   `--a-*`/`--z-*` KHÔNG bị viết lại. Bảng màu v4 khai bằng `oklch()` (kể cả `oklch(L 0 none)` cho
