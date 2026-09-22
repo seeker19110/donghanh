@@ -24,7 +24,8 @@ const FOCUSABLE =
 export type UseDialogBehaviorResult = {
   /** Gắn vào khung hộp thoại: `<div {...dialogProps}>`. */
   dialogProps: {
-    ref: React.RefObject<HTMLDivElement>
+    // React 19: useRef(null) trả RefObject<T | null> — xem StudioDialogue.tsx.
+    ref: React.RefObject<HTMLDivElement | null>
     role: 'dialog'
     'aria-modal': true
     'aria-labelledby': string

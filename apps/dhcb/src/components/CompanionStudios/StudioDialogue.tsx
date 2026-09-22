@@ -67,8 +67,10 @@ interface StudioDialogueProps {
   actionLoadingMap: Record<string, boolean>
   setActiveContext: (pkg: ContextPackage | null) => void
   getDomainLabel: (domainId?: string) => string
-  messagesEndRef: React.RefObject<HTMLDivElement>
-  inputRef: React.RefObject<HTMLTextAreaElement>
+  // React 19: useRef(null) trả RefObject<T | null>, nên kiểu prop phải nhận null — ref THẬT
+  // SỰ có thể null (trước lần render đầu, sau khi node bị gỡ).
+  messagesEndRef: React.RefObject<HTMLDivElement | null>
+  inputRef: React.RefObject<HTMLTextAreaElement | null>
 }
 
 export default function StudioDialogue({
