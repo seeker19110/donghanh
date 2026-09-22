@@ -985,6 +985,15 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 
 ## Nợ kỹ thuật còn mở
 
+- 🟡 **[2026-09-22 — đợt React 19 + Tailwind 4, `docs/changelog/0415-*.md`] Sáu nợ sau đợt nâng
+  framework.** (1) **CHƯA CHỤP ẢNH TẦNG 8B** — Tailwind 4 sinh lại toàn bộ CSS nên đây là đợt chạm
+  giao diện, bắt buộc chụp 1440px + 390px trước/sau; hai cổng a11y 289/289 xanh chỉ chứng minh
+  tương phản + ARIA, KHÔNG chứng minh bố cục/khoảng cách không xê dịch. (2) **Vite 8 vẫn chặn**
+  (chi tiết ở nợ đợt 0414 bên dưới). (3) **Node 22 → 26 LTS** sau 2026-10-28. (4) **TypeScript 7
+  KHÔNG THỂ nâng**: `@typescript-eslint/parser@8.70.1` khai `typescript: ">=4.8.4 <6.1.0"`, chờ
+  typescript-eslint mở dải. (5) **ESLint 10** chờ `eslint-plugin-jsx-a11y` mở peer (nay `^9`).
+  (6) **Đệm ngân sách mỏng hơn**: Initial JS nới 150 → 160 kB (React 19 +19,46 kB brotli, đã loại
+  trừ nguyên nhân sai đóng gói), dùng 94,7%; CSS nới 20 → 26 kB (Tailwind 4 +5,61 kB), dùng 90,0%.
 - 🟡 **[2026-09-22 — đợt nâng cấp major stack, `docs/changelog/0414-*.md`, ADR 0011] Ba nợ nâng
   cấp còn lại sau đợt này.** (1) **Vite 7 → 8 CHẶN LẠI, đã hoàn nguyên sạch:** Vite 8 thay Rollup
   bằng rolldown; build gãy ở `[builtin:vite-alias] rolldown:vite-resolve` (đã loại trừ giả thuyết
