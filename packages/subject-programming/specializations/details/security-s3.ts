@@ -11,12 +11,12 @@ export const SECURITY_S3_DETAIL: SpecStageDetail = {
       practice: [
         'Dịch ngược một nhị phân nhỏ trong máy ảo cách ly và vẽ lại luồng điều khiển của hàm chính.',
         'Đối chiếu sơ đồ đã vẽ với mã nguồn gốc để tự chấm mình đọc đúng tới đâu.',
-        'Phân tích một mẫu mã độc trong phòng lab đóng, không nối mạng ngoài.',
+        'Làm việc luôn trong máy ảo cách ly không nối mạng ngoài, kể cả với nhị phân mẫu tự biên dịch.',
       ],
       selfCheck: [
         {
-          q: 'Vì sao phân tích mã độc phải làm trong môi trường cách ly?',
-          a: 'Mẫu có thể lây sang máy thật hoặc gọi ra ngoài, làm lộ chính bạn và mạng của bạn.',
+          q: 'Vì sao dịch ngược nhị phân phải làm trong môi trường cách ly, dù là mẫu tự biên dịch?',
+          a: 'Tập thói quen an toàn: chương trình chạy thử có thể ghi/xoá file hoặc gọi ra ngoài; máy ảo cách ly khoanh vùng mọi hậu quả về đúng nơi thí nghiệm.',
         },
         {
           q: 'Nhận ra vòng lặp trong mã máy bằng dấu hiệu nào?',
@@ -146,7 +146,7 @@ export const SECURITY_S3_DETAIL: SpecStageDetail = {
     ],
     invariants: [
       'Không bao giờ thử ngoài phạm vi được phép, kể cả khi thấy lỗ hổng rõ ràng.',
-      'Không mang mẫu mã độc ra khỏi môi trường cách ly.',
+      'Không mang nhị phân thí nghiệm hay công cụ phân tích ra khỏi môi trường cách ly.',
     ],
     conventions: [
       'Mọi thao tác phân tích ghi nhật ký lại để dựng lại được trình tự.',
