@@ -106,8 +106,8 @@ export const TOAN11_C2_LESSONS: MathLesson[] = [
         {
           kind: 'circle',
           id: 'diemCat',
-          cx: 236,
-          cy: 124,
+          cx: 252,
+          cy: 108,
           r: 6,
           fill: 'warn',
           opacity: 0,

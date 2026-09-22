@@ -296,17 +296,17 @@ export const TOAN11_C7_LESSONS: MathLesson[] = [
             {
               atMs: 5000,
               opacity: 1,
-              rotate: 55,
+              rotate: 38,
             },
             {
               atMs: 6000,
               opacity: 1,
-              rotate: 120,
+              rotate: -30,
             },
             {
               atMs: 7000,
               opacity: 1,
-              rotate: 180,
+              rotate: 8,
             },
           ],
         },

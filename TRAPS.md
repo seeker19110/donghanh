@@ -424,3 +424,15 @@ kết quả SAI GIẢ ở mốc gần cuối trên Chromium (không tính lại 
 **Bài học rộng hơn:** với thứ chỉ "đúng" khi CHẠY (hoạt ảnh, chuyển cảnh, hiệu ứng theo thời
 gian), ảnh chụp một khoảnh khắc và test chuỗi HTML đều là **cổng hình thức**. Phải kiểm ở ≥ 3
 mốc thời gian khác nhau và so ảnh khác nhau thật.
+
+**Bẫy thứ ba lộ ra khi rà mắt 34 hoạt ảnh Toán (2026-09-22, `docs/changelog/0408-*.md`):**
+`rotate` trong keyframes xoay quanh **TÂM HÌNH** (`centerOf` — trung điểm đoạn thẳng), KHÔNG
+quanh một đầu mút. Bán kính đường tròn lượng giác `toan11-c1-b1` khai `rotate: 0 → -360` với ý
+"quay quanh gốc O" → thành thanh xoay lơ lửng quanh trung điểm của chính nó, suốt từ khi soạn mà
+Zod không thể biết. Muốn quay quanh đầu mút thì phải mô phỏng: `rotate` quanh trung điểm + `dx/dy`
+cho trung điểm chạy trên đường tròn bán kính r/2 (nhiều mốc, ≤ 20). Cùng lượt rà: nhãn đứng yên
+trong khi hình nó gọi tên trượt đi (`toan11-c4-b2`), nhãn trạng thái chỉ có MỘT bản chữ trong khi
+hình đi qua ba trạng thái (`toan10-c7-b2`), chữ dài hơn `viewBoxWidth` bị cắt (`toan12-c1-b2`).
+Cổng cho lớp lỗi này: `npm run shots:lesson-anim` (chụp 5 mốc × mọi hoạt ảnh một môn, thoát 1
+nếu có hoạt ảnh không chạy) rồi NGƯỜI đọc từng dải ảnh — chưa có máy nào chấm được "nhãn có đi
+theo hình không".

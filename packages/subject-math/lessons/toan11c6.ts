@@ -196,7 +196,7 @@ export const TOAN11_C6_LESSONS: MathLesson[] = [
         {
           kind: 'label',
           id: 'nhan-p1',
-          x: 82,
+          x: 56,
           y: 112,
           text: '(1; 2)',
           size: 12,

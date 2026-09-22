@@ -286,10 +286,11 @@ export const TOAN11_C5_LESSONS: MathLesson[] = [
         {
           kind: 'label',
           id: 'ham',
-          x: 190,
-          y: 40,
+          x: 260,
+          y: 150,
           text: 'f(x) = (x²−1)/(x−1)',
           size: 13,
+          anchor: 'end',
           fill: 'primary',
         },
         {

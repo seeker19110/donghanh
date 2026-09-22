@@ -1002,10 +1002,12 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   Zod + cổng trang, đã chụp Tầng 8b 1440/390 × 2 theme cho `algo-s1-m1`. **GĐ2 bước 2 xong
   (2026-09-22, `docs/changelog/0407-*.md`):** 10 hoạt ảnh mới cho `algo-s1`…`algo-s3` (11/12
   module có hoạt ảnh) + **phát hiện và sửa renderer: hoạt ảnh CHƯA TỪNG CHẠY ở cả 5 môn** (hai lỗi
-  CSS, `TRAPS.md` mục 10), kiểm bằng 55 khung hình theo thời gian. **Còn thiếu:** rà bằng mắt
-  theo thời gian các hoạt ảnh Toán (159 hoạt ảnh STEM nay mới chạy lần đầu, mới kiểm 1 bài), cấu
-  trúc animation cho môn Anh (chưa thiết kế), và 3 animation Vật lý/Hoá/Sinh vì ba môn chưa nối
-  vào `apps/`. Đặc tả: `docs/specs/2026-09-21-hoat-anh-mo-phong-bai-hoc.md`.
+  CSS, `TRAPS.md` mục 10), kiểm bằng 55 khung hình theo thời gian. **Rà mắt Toán xong
+  (2026-09-22, `docs/changelog/0408-*.md`):** 34/34 hoạt ảnh Toán soi 5 mốc thời gian bằng
+  `npm run shots:lesson-anim`, sửa 15 hoạt ảnh (4 sai nội dung, 11 nhãn đè/cắt), soi lại đủ.
+  **Còn thiếu:** cấu trúc animation cho môn Anh (chưa thiết kế), và 3 animation Vật lý/Hoá/Sinh
+  vì ba môn chưa nối vào `apps/` (khi nối thì chạy script trên với `--subject`, cần mở rộng
+  `napHoatAnh`). Đặc tả: `docs/specs/2026-09-21-hoat-anh-mo-phong-bai-hoc.md`.
 - 🟡 **[2026-09-20 — PR #1061, `docs/changelog/0388-*.md`] Sửa tương phản theme blue-sky
   (CompanionVoice + StudioDialogue) — CHƯA chụp ảnh Tầng 8b.** Audit + sửa xong 2 lỗi: (1) 6 file
   `CompanionVoice/*` dùng nền cố định `bg-slate-900/90` + chữ `theme-light:` tối → tương phản đo

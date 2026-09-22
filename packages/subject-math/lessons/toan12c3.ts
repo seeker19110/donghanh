@@ -165,7 +165,7 @@ export const TOAN12_C3_LESSONS: MathLesson[] = [
           id: 'nhanDQ',
           x: 180,
           y: 52,
-          text: 'Δ_Q = Q₃ − Q₁',
+          text: 'ΔQ = Q₃ − Q₁',
           size: 14,
           anchor: 'middle',
           fill: 'neutral',
@@ -194,7 +194,7 @@ export const TOAN12_C3_LESSONS: MathLesson[] = [
         { atMs: 900, text: 'Q₁ cắt ra 25% giá trị nhỏ nhất.' },
         { atMs: 1900, text: 'Q₂ là trung vị, chia mẫu làm đôi.' },
         { atMs: 2900, text: 'Q₃ cắt ra 25% giá trị lớn nhất.' },
-        { atMs: 4600, text: 'Δ_Q = Q₃ − Q₁ đo bề rộng của 50% ở giữa.' },
+        { atMs: 4600, text: 'ΔQ = Q₃ − Q₁ đo bề rộng của 50% ở giữa.' },
       ],
     },
     workedExample: {
