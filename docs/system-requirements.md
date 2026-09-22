@@ -9,13 +9,13 @@ Tài liệu này đặc tả chi tiết các yêu cầu về phần cứng, môi
 > [!IMPORTANT]
 > **Quy tắc bất biến (Project Invariant):** Dự án **KHÔNG tự ý nâng cấp** các framework/tooling cốt lõi lên phiên bản mới hơn khi chưa có đánh giá tương thích và phê duyệt kiến trúc. Mọi cài đặt dependencies phải dùng `npm ci` để bám sát `package-lock.json`.
 
-| Thành phần           | Phiên bản cố định              | Lý do & Ràng buộc kỹ thuật                                                                                                        |
-| :------------------- | :----------------------------- | :-------------------------------------------------------------------------------------------------------------------------------- |
-| **Node.js**          | **v22.x LTS**                  | Chuẩn hóa cho toàn bộ hệ thống ESM, native crypto/fetch, `tsx`, và PM2 Cluster Mode. Không dùng Node 23+ (bản thử nghiệm).        |
-| **React**            | **18.3.x**                     | Giữ ổn định với hệ sinh thái UI, Audio streaming, SSE hooks và component lifecycle. Tránh vỡ khi lên React 19.                    |
-| **Tailwind CSS**     | **v3.4.x**                     | Dự án xây dựng 5 theme màu ngữ nghĩa và design tokens (`--a-*`, `--z-*`) dựa trên engine Tailwind v3. Không nâng lên Tailwind v4. |
-| **ESLint & Tooling** | **ESLint 8 (`.eslintrc.cjs`)** | Giữ tương thích với toàn bộ plugin custom. Không chuyển sang ESLint 9 (Flat config).                                              |
-| **PostgreSQL**       | **15+ / 16+**                  | Hỗ trợ đầy đủ JSONB, Full-text search và kết nối an toàn qua connection pool.                                                     |
+| Thành phần           | Phiên bản cố định                 | Lý do & Ràng buộc kỹ thuật                                                                                                                     |
+| :------------------- | :-------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Node.js**          | **v22.x LTS**                     | Chuẩn hóa cho toàn bộ hệ thống ESM, native crypto/fetch, `tsx`, và PM2 Cluster Mode. Không dùng Node 23+ (bản thử nghiệm).                     |
+| **React**            | **18.3.x**                        | Giữ ổn định với hệ sinh thái UI, Audio streaming, SSE hooks và component lifecycle. Tránh vỡ khi lên React 19.                                 |
+| **Tailwind CSS**     | **v3.4.x**                        | Dự án xây dựng 5 theme màu ngữ nghĩa và design tokens (`--a-*`, `--z-*`) dựa trên engine Tailwind v3. Không nâng lên Tailwind v4.              |
+| **ESLint & Tooling** | **ESLint 9 (`eslint.config.js`)** | Nâng 8 → 9 flat config 2026-09-22 vì dòng 8 hết hỗ trợ (ADR 0011). Đích là 9.x, KHÔNG lên 10: `eslint-plugin-jsx-a11y` chỉ khai peer tới `^9`. |
+| **PostgreSQL**       | **15+ / 16+**                     | Hỗ trợ đầy đủ JSONB, Full-text search và kết nối an toàn qua connection pool.                                                                  |
 
 ---
 

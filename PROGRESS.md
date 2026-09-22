@@ -906,7 +906,9 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   chống 2 request song song cùng đọc "còn lượt" rồi cùng trừ vượt quá số thật. Bảng
   `weekly_ai_credit` (0012) GIỮ NGUYÊN, không xoá — code đã ngừng đọc/ghi, dọn ở migration sau
   khi xác nhận mô hình mới chạy ổn trên production.
-- **Giữ nguyên phiên bản:** Tailwind 3, ESLint 8 (`.eslintrc.cjs`) — không nâng v4/flat config.
+- **Giữ nguyên phiên bản:** Tailwind 3, React 18, TypeScript 5.x — không nâng. ESLint ĐÃ nâng
+  8 → 9 flat config (`eslint.config.js`) ngày 2026-09-22, ADR 0011; đích là 9.x chứ không phải 10
+  vì `eslint-plugin-jsx-a11y` chỉ khai peer tới `^9`.
 - **Bundle-size budget (`size-limit`) thay Lighthouse CI** — Lighthouse không đo được trong môi
   trường sandbox/CI hiện có (`NO_FCP` ở mọi cấu hình). Cân nhắc lại nếu có runner thật sau này.
 - **Zod validate input** đã rollout xong toàn bộ `api/*.ts` (đợt cuối `ai.ts`, dùng Zod v4).
