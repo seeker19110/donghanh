@@ -984,14 +984,14 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 ## Nợ kỹ thuật còn mở
 
 - 🟡 **[2026-09-22 — audit câu chữ toàn dự án + trả nợ, `docs/changelog/0406-*.md` và
-  `0407-*.md`, PR #1102] Nợ còn lại sau khi trả:** (1) **pipeline vòng từ vựng CEFR đứt**:
+  `0408-*.md`, PR #1102] Nợ còn lại sau khi trả:** (1) **pipeline vòng từ vựng CEFR đứt**:
   `gen-a1b2-extra-vocab.ts`/`gen-cefr-c1c2-vocab.ts` xếp vòng theo nghĩa tiếng Việt nên sinh
   lại là phá 1.761 câu mẫu viết tay theo id vòng — tạm dùng
   `scripts/archive/sync-vocab-from-dictionary.ts` chỉ chép trường chữ, cần đặc tả cách sinh vòng
   mới cho từ mới mà không xáo vòng cũ; (2) `level` CEFR lệch ở vài mục từ điển, `pos` của tiền tố
   `pre`; `gen-stem-lesson-index.ts` xuất file chưa qua Prettier; (3) nội dung cần chủ dự án
   quyết: `lessons.json` id=109 nửa sau là thoại mồi, `ft-emperor-clothes` khai A2 nhưng văn bản
-  B2, `my-perseus-4` dòng 105 quan niệm sai lầm thế kỷ 19 trong nguyên tác. ĐÃ TRẢ ở 0407: bộ
+  B2, `my-perseus-4` dòng 105 quan niệm sai lầm thế kỷ 19 trong nguyên tác. ĐÃ TRẢ ở 0408: bộ
   sinh `forms` từ điển (55 mục sai) + cổng canh `dictionaryForms.test.ts`, 3 mục từ không hợp lệ,
   hoạt ảnh `sinh11c2` đặt nhầm bài, `security-s3` trái đặc tả, `ml.ts` prerequisites,
   `idempotent` 3 cách gọi, 4 chương Toán-cho-lập-trình trong `stemCurriculum` chưa từng hiển thị

@@ -266,7 +266,7 @@ describe('formValues — liệt kê chuỗi dạng biến thể', () => {
   })
 })
 
-describe('rà từ điển 2026-09-22 (changelog 0407) — dạng từng bị bịa', () => {
+describe('rà từ điển 2026-09-22 (changelog 0408) — dạng từng bị bịa', () => {
   it('động từ bất quy tắc có tiền tố giữ phần gốc bất quy tắc', () => {
     expect(computeForms('retell', 'v')).toMatchObject({ past: 'retold', irregular: true })
     expect(computeForms('mislead', 'v')).toMatchObject({ past: 'misled' })

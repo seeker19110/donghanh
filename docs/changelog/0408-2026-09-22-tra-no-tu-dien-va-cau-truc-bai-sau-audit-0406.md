@@ -1,6 +1,6 @@
-# 0407 — 2026-09-22 — Trả nợ từ điển + cấu trúc bài phát hiện ở audit 0406
+# 0408 — 2026-09-22 — Trả nợ từ điển + cấu trúc bài phát hiện ở audit 0406
 
-> PR: #1102 (gộp cùng nhánh với đợt 0406 — chủ dự án yêu cầu "triển theo hướng chất lượng tốt
+> PR: #1102 (phần lớn — gộp cùng nhánh với đợt 0406, đã merge) + PR kế tiếp (phần chốt: `security-s3` topics, nhật ký này). Chủ dự án yêu cầu "triển theo hướng chất lượng tốt
 > nhất" ngay sau đợt audit, nhánh phát triển được chỉ định là một, nên mở rộng PR thay vì tách).
 
 ## Việc đã làm
