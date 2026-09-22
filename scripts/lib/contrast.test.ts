@@ -65,6 +65,14 @@ describe('oklch → sRGB', () => {
     expect(parseCssColor('oklch(0.5 0 0)')).toEqual(parseCssColor('oklch(50% 0 0)'))
   })
 
+  it('nhận từ khoá `none` cho thành phần khuyết (Tailwind 4 dùng thật cho thang neutral)', () => {
+    // `oklch(98.5% 0 none)` — hue là `none` vì chroma = 0 thì hue vô nghĩa. Đây là ca mà bản đầu
+    // của parseCssColor BỎ SÓT, và test canh bên dưới đã bắt được lúc nâng Tailwind 4.
+    expect(parseCssColor('oklch(98.5% 0 none)')).toEqual(parseCssColor('oklch(98.5% 0 0)'))
+    expect(parseCssColor('oklch(14.5% 0 none)')).toEqual(parseCssColor('oklch(14.5% 0 0)'))
+    expect(parseCssColor('oklch(50% none none)')).toEqual(parseCssColor('oklch(50% 0 0)'))
+  })
+
   it('bỏ qua phần alpha', () => {
     expect(parseCssColor('oklch(55.5% 0.163 48.998 / 0.4)')).toEqual(
       parseCssColor('oklch(55.5% 0.163 48.998)'),

@@ -1,7 +1,9 @@
 @import '../../../packages/core-ui/theme.css';
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind 4: một dòng @import thay ba chỉ thị @tailwind của v3. */
+@import 'tailwindcss';
+/* Dùng LẠI nguyên cấu hình JS của v3 (ánh xạ zinc/accent/warm/content sang biến CSS,
+   13 keyframes, biến thể theme-light). Đường dẫn TƯƠNG ĐỐI so với file CSS này. */
+@config '../tailwind.config.js';
 
 @layer base {
   html {

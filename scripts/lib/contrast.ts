@@ -166,11 +166,21 @@ export function parseCssColor(raw: string): Rgb | null {
   }
 
   // oklch(55.5% 0.163 48.998) — L có thể là % hoặc số 0…1; bỏ qua phần alpha `/ .5` nếu có.
-  const okl = /^oklch\(\s*([\d.]+)(%?)\s+([\d.]+)\s+([\d.]+)(?:deg)?\s*(?:\/.*)?\)$/.exec(s)
+  //
+  // `none` là từ khoá HỢP LỆ của CSS Color 4 cho một thành phần bị khuyết, và Tailwind 4 dùng nó
+  // thật cho các màu VÔ SẮC: `oklch(98.5% 0 none)` (thang neutral) — hue không có ý nghĩa khi
+  // chroma = 0. Quy về 0 là đúng. Bỏ sót ca này thì 11 bậc `neutral-*` không đọc được; test canh
+  // `contrast.test.ts` đã bắt đúng nó lúc nâng Tailwind 4, trước khi nó kịp gây hại.
+  const num = String.raw`(?:[\d.]+|none)`
+  const okl = new RegExp(
+    String.raw`^oklch\(\s*(${num})(%?)\s+(${num})\s+(${num})(?:deg)?\s*(?:\/.*)?\)$`,
+  ).exec(s)
   if (okl) {
-    const lRaw = Number(okl[1])
+    const part = (v: string | undefined): number =>
+      v === 'none' || v === undefined ? 0 : Number(v)
+    const lRaw = part(okl[1])
     const l = okl[2] === '%' ? lRaw / 100 : lRaw
-    return oklchToRgb(l, Number(okl[3]), Number(okl[4]))
+    return oklchToRgb(l, part(okl[3]), part(okl[4]))
   }
 
   const rgbFn = /^rgba?\(\s*([\d.]+)[\s,]+([\d.]+)[\s,]+([\d.]+)\s*(?:[,/].*)?\)$/.exec(s)
