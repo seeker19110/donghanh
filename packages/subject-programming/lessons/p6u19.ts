@@ -425,7 +425,7 @@ console.log("Lanh:", soatChieu(lanh))
 console.log("La:", soatChieu(laVaTuNhap))`,
     },
     homework:
-      'Chạy `npm run codemap -- cycles` trên repo DHCB (hoặc dự án của bạn) và đọc kết quả. Nếu không có vòng nào, hãy tự tạo một vòng giả trong nhánh tạm: cho hai file bất kỳ import lẫn nhau, chạy lại lệnh và xem công cụ có bắt được không — một cái máy canh mà bạn chưa từng thấy nó báo đỏ thì bạn chưa biết nó có hoạt động hay không. Sau đó mở `.eslintrc.cjs` của dự án, tìm luật cấm `packages/` import `apps/`, và tự trả lời: nếu luật này bị xoá, bao lâu nữa sẽ có người vô tình vi phạm?',
+      'Chạy `npm run codemap -- cycles` trên repo DHCB (hoặc dự án của bạn) và đọc kết quả. Nếu không có vòng nào, hãy tự tạo một vòng giả trong nhánh tạm: cho hai file bất kỳ import lẫn nhau, chạy lại lệnh và xem công cụ có bắt được không — một cái máy canh mà bạn chưa từng thấy nó báo đỏ thì bạn chưa biết nó có hoạt động hay không. Sau đó mở `eslint.config.js` của dự án, tìm luật cấm `packages/` import `apps/`, và tự trả lời: nếu luật này bị xoá, bao lâu nữa sẽ có người vô tình vi phạm?',
     srsCards: [
       {
         hoi: 'Luật phụ thuộc phát biểu thế nào, và lõi được biết gì về hạ tầng?',

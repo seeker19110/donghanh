@@ -63,6 +63,23 @@ trạng thái mà runner CI không có, và cổng ở máy có khi chạy lện
 | **Tạo tác build cũ** | còn `packages/*/dist` từ lần build trước để phân giải kiểu | runner checkout sạch, không có `dist` nào                                              |
 | **Lệnh khác nhau**   | `npm test` (không bật coverage)                            | `npm run test:coverage` (có ngưỡng chặn)                                               |
 
+**Biến thể thứ tư — chiều NGƯỢC LẠI: máy ĐỎ GIẢ** (2026-09-22, phiên nâng cấp major stack, đợt
+changelog 0414). Container phiên mới có `node_modules` chứa **TypeScript 6.0.2** trong khi
+`package-lock.json` ghim **5.9.3**. `npm run typecheck` đỏ ở cả bốn tsconfig với
+`TS5101: Option 'baseUrl' is deprecated and will stop functioning in TypeScript 7.0`.
+
+Cái bẫy nằm ở chỗ **thông báo lỗi rất thuyết phục và chỉ đúng tên file cấu hình thật** — nó mời
+người ta đi thêm `ignoreDeprecations` hoặc gỡ `baseUrl` ở `tsconfig.base.json` ·
+`tsconfig.api.json` · `tsconfig.package.base.json` · `apps/hub/tsconfig.json`. Sửa là **sai**: mã
+nguồn và cấu hình không có vấn đề gì, chỉ công cụ sai phiên bản.
+
+Dấu hiệu nhận ra: lỗi nhắc một phiên bản **cao hơn** phiên bản dự án khai trong `package.json`
+(ở đây `^5.2.2`), và/hoặc lỗi nằm ở file cấu hình mình **không hề sửa** trong đợt việc này.
+
+Cách rà một lệnh: `npx tsc --version` so với
+`grep -A2 '"node_modules/typescript"' package-lock.json`. Lệch thì `npm ci`, rồi chạy lại cổng —
+**đừng sửa file theo lỗi**.
+
 Biến thể "lockfile lệch" nguy hiểm nhất vì nó giết **mọi** job cùng lúc ở bước cài đặt — nhìn
 bảng check thấy toàn đỏ, dễ tưởng nội dung hỏng nặng, trong khi chưa cổng nào kịp chạy.
 
