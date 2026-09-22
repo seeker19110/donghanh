@@ -144,6 +144,24 @@ test.describe('mục lục môn Lập trình — mobile', () => {
   })
 })
 
+// [P2-3, audit 2026-09-22] Trang "Hướng chuyên sâu" dài ~4.556px ở mobile — mục lục nhảy.
+test.describe('mục lục nhảy trang Hướng chuyên sâu — 390px', () => {
+  test.use({ viewport: { width: 390, height: 844 } })
+
+  test('chip mỏ neo hiện và bấm nhảy tới đúng section', async ({ page }) => {
+    await mockLogin(page, 'vi', 'dark-blue')
+    await page.goto('/lap-trinh/huong', { waitUntil: 'domcontentloaded' })
+
+    const nav = page.getByRole('navigation', { name: 'Mục lục trang' })
+    await expect(nav).toBeVisible()
+    const link = nav.getByRole('link', { name: '3 hướng nền' })
+    await expect(link).toBeVisible()
+    await link.click()
+
+    await expect(page.locator('#huong-nen')).toBeInViewport()
+  })
+})
+
 test.describe('mục lục môn Lập trình — 320px', () => {
   test.use({ viewport: { width: 320, height: 568 } })
 

@@ -120,9 +120,11 @@ export function SubjectProgressView({ cards, trangThai, onRetry }: SubjectProgre
               </li>
             ))}
           </ul>
+          {/* [P2-1, audit 2026-09-22] Trước đây mỗi thẻ "chưa đo được" tự lặp lại nguyên câu giải
+              thích — 5 môn thì in 5 lần. Nay thẻ chỉ ghi ngắn, câu giải thích DUY NHẤT ở đây. */}
           <p className="t-caption mt-3 text-content-secondary read-measure">
-            Số ở đây chỉ đếm những mục đã có bằng chứng hoàn thành. Mục chưa có bằng chứng được ghi
-            là “chưa đo được”, không tính thành 0.
+            Số ở đây chỉ đếm những mục đã có kết quả hoàn thành lưu lại. Môn ghi "Chưa bắt đầu" là
+            môn chưa có kết quả nào trên thiết bị/tài khoản hiện tại, không tính thành 0.
           </p>
         </>
       )}
@@ -157,9 +159,7 @@ function TheTienDo({ card }: { card: SubjectProgressCard }) {
           </p>
         </>
       ) : (
-        <p className="t-caption mt-2 text-content-secondary">
-          Chưa đo được — môn này chưa có bằng chứng hoàn thành nào trên thiết bị/tài khoản hiện tại.
-        </p>
+        <p className="t-caption mt-2 text-content-secondary">Chưa bắt đầu</p>
       )}
     </Link>
   )

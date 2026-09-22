@@ -22,6 +22,12 @@ interface Props {
   lockOf?: (levelId: string) => LevelLockInfo | undefined
   /** Câu giải thích hiện dưới ổ khoá ("còn N bài ở P1 nữa là mở"). */
   lockHint?: (info: LevelLockInfo) => string
+  /**
+   * Id bậc khoá KẾ TIẾP của bậc đang học — chỉ bậc này hiện câu giải thích đầy đủ (P2-1, audit
+   * 2026-09-22). Các bậc khoá khác chỉ ghi ngắn "Mở sau P<n-1>", tránh lặp y hệt một câu nhiều
+   * lần khi luật khoá kế thừa cùng `requiredLevelId` cho mọi bậc sau bậc đang dở.
+   */
+  nextLockedLevelId?: string | undefined
 }
 
 /** Vòng tròn tiến độ nhỏ. `size` cố định 40px cho khớp cột mốc. */
@@ -79,6 +85,7 @@ export default function LevelMilestones({
   currentLevelId,
   lockOf,
   lockHint,
+  nextLockedLevelId,
 }: Props) {
   return (
     <ol className="space-y-2">
@@ -88,7 +95,13 @@ export default function LevelMilestones({
         const dangO = level.id === currentLevelId
         const khoa = lockOf?.(level.id)
         const biKhoa = khoa?.locked === true
-        const giaiThich = biKhoa && khoa && lockHint ? lockHint(khoa) : ''
+        const laBacKeTiep = nextLockedLevelId === undefined || level.id === nextLockedLevelId
+        const giaiThich = biKhoa && khoa && lockHint && laBacKeTiep ? lockHint(khoa) : ''
+        // Bậc khoá xa hơn bậc kế tiếp: ghi ngắn gọn "Mở sau P<n-1>" thay vì lặp lại câu đầy đủ.
+        const moSau =
+          biKhoa && !laBacKeTiep && khoa?.requiredLevelId
+            ? `Mở sau ${khoa.requiredLevelId.toUpperCase()}`
+            : ''
         return (
           <li key={level.id} className="relative">
             {/* Đường nối xuống bậc kế — tô đậm khi bậc này đã xong. */}
@@ -105,7 +118,7 @@ export default function LevelMilestones({
               disabled={biKhoa}
               aria-label={
                 biKhoa
-                  ? `Bậc ${level.id.toUpperCase()} ${level.name} — đang khoá. ${giaiThich}`
+                  ? `Bậc ${level.id.toUpperCase()} ${level.name} — đang khoá. ${giaiThich || moSau}`
                   : `Bậc ${level.id.toUpperCase()} ${level.name} — đã xong ${done} trên ${total} bài`
               }
               className={`tap-44 w-full text-left rounded-3xl p-4 transition flex items-start gap-3 active:scale-[0.99] border ${
@@ -140,8 +153,10 @@ export default function LevelMilestones({
                   )}
                 </p>
                 <p className="text-xs text-zinc-400 leading-relaxed">{level.canDo}</p>
-                {/* Ổ khoá CÂM là thứ làm người học bỏ đi — luôn nói rõ còn thiếu bao nhiêu. */}
+                {/* Ổ khoá CÂM là thứ làm người học bỏ đi — bậc kế tiếp nói rõ còn thiếu bao nhiêu,
+                    bậc xa hơn chỉ cần biết mở sau bậc nào (P2-1: tránh lặp câu y hệt nhiều lần). */}
                 {giaiThich && <p className="text-xs text-zinc-100 leading-relaxed">{giaiThich}</p>}
+                {moSau && <p className="text-xs text-zinc-500 leading-relaxed">{moSau}</p>}
                 <div className="flex items-center gap-3 flex-wrap text-[11px] text-zinc-500">
                   <span className="inline-flex items-center gap-1">
                     <Languages className="w-3.5 h-3.5" aria-hidden="true" />{' '}

@@ -52,9 +52,11 @@ export default function ChatPage() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 flex flex-col">
-      <Layout />
+      {/* [P2-2, audit 2026-09-22] Header trước đây chỉ có mũi tên, không tiêu đề/h1. */}
+      <Layout title="Tin nhắn" />
 
       <main className="flex-1 max-w-6xl w-full mx-auto px-0 sm:px-4 pt-2 sm:pt-4 pb-[calc(1rem+var(--bnav-h))] flex flex-col">
+        <h1 className="sr-only">Tin nhắn</h1>
         {/* Khung chat 2 cột trên desktop, 1 cột trên mobile */}
         <div className="flex-1 flex w-full rounded-none sm:rounded-2xl border-0 sm:border border-white/10 bg-zinc-900/40 backdrop-blur-md overflow-hidden shadow-2xl h-[calc(100dvh-3.5rem-var(--bnav-h))] sm:h-[calc(100dvh-5.5rem-var(--bnav-h))]">
           {/* Cột danh sách phòng */}

@@ -59,15 +59,33 @@ describe('SubjectProgressView', () => {
     expect(html).toContain('theo bài đã đạt test')
   })
 
-  it('môn toàn unknown hiện CHỮ "Chưa đo được", tuyệt đối không hiện 0 hay 0%', () => {
+  it('môn toàn unknown hiện CHỮ "Chưa bắt đầu" trên thẻ, tuyệt đối không hiện 0 hay 0%', () => {
     const html = render({
       trangThai: 'ready',
       onRetry: NOOP,
       cards: [the('physics', 'Vật lí', { total: 94, unknown: 94, measured: false })],
     })
-    expect(html).toContain('Chưa đo được')
+    expect(html).toContain('Chưa bắt đầu')
     expect(html).not.toContain('0/94')
     expect(html).not.toContain('0%')
+  })
+
+  it('P2-1: câu giải thích "chưa có kết quả" chỉ in MỘT lần dù nhiều môn unknown', () => {
+    const html = render({
+      trangThai: 'ready',
+      onRetry: NOOP,
+      cards: [
+        the('physics', 'Vật lí', { total: 94, unknown: 94, measured: false }),
+        the('chemistry', 'Hoá học', { total: 50, unknown: 50, measured: false }),
+        the('biology', 'Sinh học', { total: 60, unknown: 60, measured: false }),
+      ],
+    })
+    // Caption tổng cũng nhắc lại cụm "Chưa bắt đầu" một lần khi giải thích quy ước, nên tổng là
+    // 3 (thẻ) + 1 (caption) — không phải 3 lần giải thích ĐẦY ĐỦ lặp lại như trước sửa.
+    const soLanChuaBatDau = html.split('Chưa bắt đầu').length - 1
+    expect(soLanChuaBatDau).toBe(4)
+    const soLanGiaiThich = html.split('chưa có kết quả nào').length - 1
+    expect(soLanGiaiThich).toBe(1)
   })
 
   it('BẤT BIẾN: không có placement / band / mastery / năng lực trong khối', () => {

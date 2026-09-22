@@ -105,6 +105,18 @@ describe('trang Chi tiết môn — trạng thái tải/lỗi', () => {
     expect(goToSubjectsMock).not.toHaveBeenCalled()
   })
 
+  it('P2-2: nhánh lỗi vẫn render <h1> với tên môn lấy từ danh mục STEM tĩnh', async () => {
+    getSubjectDetailsMock.mockRejectedValue(
+      new SubjectApiError('http', 'Máy chủ danh mục môn học đang bảo trì hoặc quá tải (503).', 503),
+    )
+    hien('mathematics')
+    await chay()
+
+    const h1 = container.querySelector('h1')
+    expect(h1).not.toBeNull()
+    expect(h1!.textContent).toBe('Toán')
+  })
+
   it('mất mạng: nói đúng chuyện đã xảy ra, không im lặng', async () => {
     getSubjectDetailsMock.mockRejectedValue(
       new SubjectApiError('network', 'Không kết nối được tới máy chủ để tải danh mục môn học.'),

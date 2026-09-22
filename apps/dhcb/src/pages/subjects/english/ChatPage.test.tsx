@@ -113,6 +113,20 @@ describe('ChatPage Component', () => {
     expect(container.textContent).toContain('2')
   })
 
+  it('P2-2: có <h1>Tin nhắn</h1> — header không được rỗng', async () => {
+    await act(async () => {
+      root.render(
+        <MemoryRouter initialEntries={['/tin-nhan']}>
+          <ChatPage />
+        </MemoryRouter>,
+      )
+    })
+
+    const h1 = container.querySelector('h1')
+    expect(h1).not.toBeNull()
+    expect(h1!.textContent).toBe('Tin nhắn')
+  })
+
   it('shows empty placeholder when no room is selected', async () => {
     await act(async () => {
       root.render(
