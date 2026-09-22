@@ -58,6 +58,9 @@ function FilterChip({
 
 const CEFR_ORDER = ['A2', 'B1', 'B2'] as const
 
+/** Mỗi lần bấm "Xem thêm" hiện thêm bấy nhiêu thẻ truyện (tránh in hết ~65 thẻ 1 lần — P1-5). */
+const PAGE_SIZE = 12
+
 function EmptyState({ isA }: { isA: boolean }) {
   return (
     <div className="text-center py-16 text-zinc-400 text-sm">
@@ -76,6 +79,7 @@ export default function Stories() {
   const [kind, setKind] = useState<StoryKind | null>(null)
   const [level, setLevel] = useState<StoryMeta['level'] | null>(null)
   const [country, setCountry] = useState<string | null>(null)
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
 
   useEffect(() => {
     loadStoryIndex().then(setAll)
@@ -106,19 +110,29 @@ export default function Stories() {
     return [...set]
   }, [byLevel, isA])
 
-  const shown = country
+  const filtered = country
     ? byLevel.filter((s) => (isA ? s.countryVi : s.countryEn) === country)
     : byLevel
+  // Chỉ hiện tối đa `visibleCount` thẻ — tránh in hết ~65 thẻ cùng lúc (P1-5, 17.456px ở 390px).
+  const shown = filtered.slice(0, visibleCount)
+  const remaining = filtered.length - shown.length
 
   function selectKind(next: StoryKind | null) {
     setKind(next)
     setLevel(null) // đổi thể loại thì bỏ lọc cấp + quốc gia cũ (có thể không còn tồn tại)
     setCountry(null)
+    setVisibleCount(PAGE_SIZE) // đổi bộ lọc thì reset về trang đầu
   }
 
   function selectLevel(next: StoryMeta['level'] | null) {
     setLevel(next)
     setCountry(null) // đổi cấp thì bỏ lọc quốc gia cũ (có thể không còn tồn tại)
+    setVisibleCount(PAGE_SIZE)
+  }
+
+  function selectCountry(next: string | null) {
+    setCountry(next)
+    setVisibleCount(PAGE_SIZE)
   }
 
   return (
@@ -191,18 +205,22 @@ export default function Stories() {
                 <FilterChip
                   label={T.phrasesAll}
                   active={country === null}
-                  onClick={() => setCountry(null)}
+                  onClick={() => selectCountry(null)}
                 />
                 {countries.map((c) => (
                   <FilterChip
                     key={c}
                     label={c}
                     active={country === c}
-                    onClick={() => setCountry(country === c ? null : c)}
+                    onClick={() => selectCountry(country === c ? null : c)}
                   />
                 ))}
               </div>
             )}
+            {/* Dòng đếm số truyện đang hiện — cạnh bộ lọc (P1-5). */}
+            <p className="text-xs text-zinc-500 pb-2">
+              {isA ? `${filtered.length} truyện` : `${filtered.length} stories`}
+            </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {shown.map((story) => (
                 <StoryCard
@@ -219,6 +237,16 @@ export default function Stories() {
                 />
               ))}
             </div>
+            {remaining > 0 && (
+              <div className="flex justify-center pt-4">
+                <button
+                  onClick={() => setVisibleCount((n) => n + PAGE_SIZE)}
+                  className="px-4 py-2 rounded-lg text-sm font-medium border border-zinc-800 bg-zinc-900/60 text-zinc-300 hover:text-zinc-100"
+                >
+                  {isA ? `Xem thêm (${remaining} truyện nữa)` : `Show more (${remaining} more)`}
+                </button>
+              </div>
+            )}
           </div>
         )}
       </PageShell>

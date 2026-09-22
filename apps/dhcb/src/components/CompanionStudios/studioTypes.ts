@@ -70,10 +70,13 @@ export const QUICK_PROMPTS = [
   },
 ]
 
+// Nhãn tab nói việc người dùng LÀM, không phải tên kỹ thuật nội bộ (audit UI/UX 2026-09-22
+// P1-3). Tên cũ ("Đối thoại & Voice", "Nhận thức & Ký ức"...) và badge "Socratic" là thuật
+// ngữ sư phạm/kỹ thuật, người học phổ thông không hiểu.
 export const STUDIO_TABS_CONFIG = [
-  { id: 'dialogue' as const, label: 'Đối thoại & Voice', icon: MessageSquare, badge: 'Giọng nói' },
-  { id: 'cognitive' as const, label: 'Nhận thức & Ký ức', icon: Brain, badge: 'Socratic' },
-  { id: 'labs' as const, label: 'Đấu trường & Labs', icon: Swords, badge: 'STEM' },
-  { id: 'proactive' as const, label: 'Tự trị & Lộ trình', icon: Target, badge: 'Tự động' },
-  { id: 'synthesis' as const, label: 'Tổng hợp & Studio', icon: Compass, badge: 'Tổng hợp' },
+  { id: 'dialogue' as const, label: 'Trò chuyện', icon: MessageSquare, badge: 'Giọng nói' },
+  { id: 'cognitive' as const, label: 'Ghi nhớ', icon: Brain, badge: 'Hỏi đáp' },
+  { id: 'labs' as const, label: 'Thử thách', icon: Swords, badge: 'STEM' },
+  { id: 'proactive' as const, label: 'Kế hoạch', icon: Target, badge: 'Tự động' },
+  { id: 'synthesis' as const, label: 'Tổng kết', icon: Compass, badge: 'Tổng hợp' },
 ]

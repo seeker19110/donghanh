@@ -330,10 +330,17 @@ export default function SubjectDetail() {
   // `|| !subject` không thừa: `subject` là biến DẪN XUẤT nên TypeScript không tự thu hẹp nó
   // theo `state.status` ở phần dưới — thiếu vế này là hàng chục chỗ `subject.label` báo lỗi.
   if (state.status !== 'ready' || !subject) {
+    // Header không được rỗng ở nhánh lỗi/tải (P2-2, audit 2026-09-22): tiêu đề lấy từ danh mục
+    // môn STEM tĩnh — không cần chờ manifest động về mới biết tên môn.
+    const tenMonTinh = subjectId ? getStemSubject(subjectId)?.label : undefined
+    const tieuDe = tenMonTinh ?? 'Môn học'
     return (
       <div className="min-h-dvh bg-zinc-950 text-zinc-100">
-        <Layout onBack={() => goToSubjects(nav)} />
+        <Layout title={tenMonTinh} onBack={() => goToSubjects(nav)} />
         <PageShell width="standard" baseWidth="max-w-4xl" className="space-y-6">
+          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+            {tieuDe}
+          </h1>
           {loi ? (
             <LoadError
               message={loi}

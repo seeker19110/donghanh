@@ -4,7 +4,9 @@
 import { useEffect, useState } from 'react'
 import { Flame, GraduationCap, Share2, Loader2, Check } from 'lucide-react'
 import ShareResultCard from './ShareResultCard'
+import LoadError from './LoadError'
 import { useToast } from '@core/ToastProvider'
+import { getAuthHeader } from '@core/authHeader'
 import { getStreak } from '../lib/storage'
 import { getLearnedCount } from '../lib/vocab'
 import { buildProgressShareContent } from '../lib/shareContent'
@@ -51,12 +53,18 @@ export default function QuestsPanel({ isA, userId }: { isA: boolean; userId?: st
   const [status, setStatus] = useState<QuestsStatus | null>(null)
   const [loading, setLoading] = useState(true)
   const [claiming, setClaiming] = useState<string | null>(null)
+  // `fetchQuestsStatus` trả `null` cho CẢ hai trường hợp: chưa đăng nhập VÀ lỗi mạng/API —
+  // phải tách ra ở đây bằng token, không thì người đã đăng nhập gặp lỗi kết nối lại thấy
+  // nhầm câu "Đăng nhập để xem nhiệm vụ nhé." (audit UI/UX P1-2).
+  const [loadError, setLoadError] = useState(false)
 
   // Dùng lại được từ handler (nhận thưởng xong nạp lại) — setLoading(true) đồng bộ
   // trong handler là hợp lệ.
   async function load() {
     setLoading(true)
-    setStatus(await fetchQuestsStatus())
+    const result = await fetchQuestsStatus()
+    setStatus(result)
+    setLoadError(result === null && Boolean(getAuthHeader().Authorization))
     setLoading(false)
   }
 
@@ -64,7 +72,9 @@ export default function QuestsPanel({ isA, userId }: { isA: boolean; userId?: st
   // trong thân effect); `loading` khởi tạo mặc định true nên không cần setLoading(true).
   useEffect(() => {
     const initialLoad = async () => {
-      setStatus(await fetchQuestsStatus())
+      const result = await fetchQuestsStatus()
+      setStatus(result)
+      setLoadError(result === null && Boolean(getAuthHeader().Authorization))
       setLoading(false)
     }
     void initialLoad()
@@ -117,6 +127,21 @@ export default function QuestsPanel({ isA, userId }: { isA: boolean; userId?: st
       <div className="flex items-center justify-center py-10 text-zinc-400">
         <Loader2 className="w-5 h-5 animate-spin" />
       </div>
+    )
+  }
+
+  if (loadError) {
+    return (
+      <LoadError
+        message={isA ? 'Không tải được nhiệm vụ.' : 'Could not load quests.'}
+        hint={
+          isA
+            ? 'Nhiệm vụ và thưởng của bạn vẫn còn nguyên — đây chỉ là lỗi kết nối.'
+            : 'Your quests and rewards are still there — this is just a connection error.'
+        }
+        onRetry={() => void load()}
+        retrying={loading}
+      />
     )
   }
 

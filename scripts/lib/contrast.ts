@@ -39,7 +39,9 @@ export function parseThemeTokens(css: string): ThemeTable {
     const name = block[1] ?? 'dark-blue'
     const body = block[2] ?? ''
     const bucket = (table[name] ??= {})
-    const varRe = /--([a-z0-9-]+):\s*(\d{1,3})\s+(\d{1,3})\s+(\d{1,3})\s*;/g
+    // Nhận cả `R G B` trần (token --z-*/--a-*) lẫn `rgb(R G B)` (ghi đè biến bảng màu
+    // Tailwind `--color-<họ>-<bậc>` theo theme — thêm 2026-09-22, changelog 0418).
+    const varRe = /--([a-z0-9-]+):\s*(?:rgb\()?(\d{1,3})\s+(\d{1,3})\s+(\d{1,3})\)?\s*;/g
     let v: RegExpExecArray | null
     while ((v = varRe.exec(body)) !== null) {
       bucket[v[1] as string] = [Number(v[2]), Number(v[3]), Number(v[4])]

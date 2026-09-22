@@ -98,6 +98,10 @@ export default function ProgrammingHome() {
   // hiển thị — tiến độ thật vẫn do server giữ, và nội dung bài học không phải bí mật.
   const plan = user ? effectivePlan(user.plan) : 'free'
   const lockMap = levelLockMap(user?.id, progress, plan)
+  // [P2-1, audit 2026-09-22] Câu "Còn N bài ở P1 nữa là mở…" lặp y hệt 5 lần (P2..P6) vì luật
+  // khoá kế thừa cùng requiredLevelId. Chỉ bậc KẾ TIẾP bậc đang học mới cần câu giải thích đầy
+  // đủ — bậc xa hơn chỉ cần biết "mở sau bậc nào" theo LevelMilestones bên dưới.
+  const bacKeTiepDangKhoa = PROGRAMMING_LEVELS.find((l) => lockMap.get(l.id)?.locked === true)?.id
 
   // Chặng dự án đang ở = chặng của bậc chứa bài học tiếp; xong môn thì là chặng cuối.
   const changDangO =
@@ -304,6 +308,7 @@ export default function ProgrammingHome() {
             currentLevelId={picked?.levelId}
             lockOf={(levelId) => lockMap.get(levelId)}
             lockHint={loiGiaiThichKhoa}
+            nextLockedLevelId={bacKeTiepDangKhoa}
           />
         </section>
 
@@ -319,6 +324,7 @@ export default function ProgrammingHome() {
             currentLevelId={picked?.levelId}
             lockOf={(levelId) => lockMap.get(levelId)}
             lockHint={loiGiaiThichKhoa}
+            nextLockedLevelId={bacKeTiepDangKhoa}
           />
           {plan === 'free' && (
             <p className="text-xs text-zinc-400 leading-relaxed">
@@ -351,6 +357,7 @@ export default function ProgrammingHome() {
             currentLevelId={picked?.levelId}
             lockOf={(levelId) => lockMap.get(levelId)}
             lockHint={loiGiaiThichKhoa}
+            nextLockedLevelId={bacKeTiepDangKhoa}
           />
           <button onClick={() => nav(`${PROGRAMMING_PREFIX}/huong`)} className={`${nutPhu} w-full`}>
             <Compass className="w-4 h-4 text-accent-400" />

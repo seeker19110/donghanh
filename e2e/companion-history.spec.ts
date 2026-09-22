@@ -87,3 +87,33 @@ test('lịch sử lỗi mạng: im lặng giữ tin chào, KHÔNG làm vỡ tran
   await expect(page.getByText(/Tôi là .*Bạn Đồng Hành AI/)).toHaveCount(1)
   await expect(page.getByPlaceholder(/Nhắn tin cho/)).toBeVisible()
 })
+
+// [audit UI/UX 2026-09-22 P1-1] Ở desktop 1440×900, ô nhập tin nhắn cố định (`sticky bottom-0`)
+// đè lên hàng gợi ý nhanh nằm cuối luồng tin nhắn vì vùng cuộn không chừa đủ chỗ ở ≥1024px
+// (`--bnav-h` = 0 ngoài di động). Canh bằng toạ độ thật: nút gợi ý phải nằm trong khung nhìn
+// VÀ nằm HẲN TRÊN ô nhập (bottom của nút ≤ top của ô nhập).
+test('desktop 1440x900: nút gợi ý nhanh không bị ô nhập tin nhắn che', async ({ page }) => {
+  await mockLogin(page)
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.route('**/api/companion**', (route) => {
+    if (route.request().method() !== 'GET') return route.continue()
+    return route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ messages: [] }),
+    })
+  })
+
+  await page.goto('/ban-dong-hanh')
+
+  const quickPromptBtn = page.getByRole('button', { name: /Hôm nay học gì trong 10 phút\?/ })
+  await expect(quickPromptBtn).toBeInViewport()
+
+  const inputForm = page.locator('form').filter({ has: page.getByPlaceholder(/Nhắn tin cho/) })
+  const promptBox = await quickPromptBtn.boundingBox()
+  const inputBox = await inputForm.boundingBox()
+  expect(promptBox).not.toBeNull()
+  expect(inputBox).not.toBeNull()
+  // Đáy của nút gợi ý phải nằm TRÊN (hoặc chạm) đỉnh của khung ô nhập — không chồng lấn.
+  expect(promptBox!.y + promptBox!.height).toBeLessThanOrEqual(inputBox!.y + 1)
+})

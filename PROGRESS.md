@@ -1031,6 +1031,16 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   Tiếng Anh home vẫn nhiều lối vào cùng đích — chưa chốt trang chủ của từng tính năng; (3) ảnh
   Hồ sơ 1440px chụp `fullPage` luôn mờ dù đo `opacity=1` — cần một lần nhìn tay trên trình duyệt
   thật; (4) chưa chụp theme `kid` và các trang cần dữ liệu thật (bảng giá, huy hiệu, Kanban).
+  **Kiểm lại 2026-09-22 (audit lần 2, `docs/audit/2026-09-22-danh-gia-toan-dien-ui-ux-lan-2.md`,
+  `docs/changelog/0417-*.md`): 5/6 đợt có hiệu lực; (4) đã chụp `kid` (chỉ đổi màu). Nợ mới xếp
+  P0: Luyện nghe 74.309px ở mobile (1.000 thẻ phẳng) và trang VIP mô tả bằng thuật ngữ + hứa
+  Gemini Live chưa kiểm chứng; P1: Companion desktop ô nhập đè gợi ý, Nhiệm vụ báo "Đăng nhập" khi
+  API lỗi, skeleton treo ở Hồ sơ. **ĐÃ SỬA HẾT 6 đợt G–M cùng ngày (`docs/changelog/0419-*.md`,
+  6 commit, cùng PR)** — Luyện nghe 74.309 → 2.159px, Truyện 17.456 → 2.009px, VIP nói bằng lợi
+  ích. Còn mở: P2-5 theme `kid` chỉ đổi màu (câu hỏi sản phẩm); thuật ngữ sót ở EdgeAiIndicator /
+  MemoryPalaceCard / CyberTutorAvatar3D; "Đọc tiếp" ở Truyện cần cơ chế lưu truyện đang đọc;
+  `e2e/home-clarity-evidence.spec.ts:660` đỏ ngẫu nhiên ~1/3 lượt ở ca CLS 0,103 (đã đỏ y hệt
+  trên `main` gốc 0d1d6bf — Tầng 1b, cần làm test ổn định, không phải hồi quy).**
 - 🟡 **[2026-09-22 — audit câu chữ toàn dự án + trả nợ, `docs/changelog/0406-*.md` · `0408-*.md`
   · `0409-*.md` · `0410-*.md`, PR #1102 · #1105 · #1106 · PR đợt 0410] Nợ còn lại:** chỉ còn
   **58 câu mẫu viết tay nằm trong hồ `pool`** của `cefrCircleSentences.json` — chưa gán được vòng

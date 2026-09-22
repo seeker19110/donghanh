@@ -1,4 +1,6 @@
-// apps/dhcb/src/pages/EnglishSettings.tsx — Cài đặt học Tiếng Anh chuyên biệt
+// apps/dhcb/src/pages/EnglishSettings.tsx — Cài đặt: phần Chung (cả app) + phần Môn Tiếng Anh.
+// [2026-09-22, audit P2-4] Tách hai mục bằng h2 vì trang chứa cả cài đặt nền tảng (ngôn ngữ,
+// nhóm tuổi, giọng đọc, âm thanh) lẫn cài đặt riêng môn (tốc độ từ mới, mục tiêu tuần).
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePageTitle } from '../../../lib/usePageTitle'
@@ -97,10 +99,7 @@ export default function EnglishSettings() {
 
   return (
     <div className="min-h-dvh bg-zinc-950">
-      <Layout
-        onBack={() => nav(-1)}
-        title={isA ? 'Cài đặt học Tiếng Anh' : 'English Learning Settings'}
-      />
+      <Layout onBack={() => nav(-1)} title={isA ? 'Cài đặt' : 'Settings'} />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Biểu mẫu cài đặt → width reading, giữ hẹp. */}
       <PageShell
@@ -109,9 +108,12 @@ export default function EnglishSettings() {
         className="!pb-[calc(1.5rem+var(--bnav-h))] space-y-6"
       >
         <h1 tabIndex={-1} className="sr-only focus:outline-none">
-          {isA ? 'Cài đặt học Tiếng Anh' : 'English Learning Settings'}
+          {isA ? 'Cài đặt' : 'Settings'}
         </h1>
 
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-content-secondary pt-2">
+          {isA ? 'Chung — áp dụng cho cả app' : 'General — whole app'}
+        </h2>
         {/* Ngôn ngữ hiển thị & chiều học */}
         <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 animate-fade-in">
           <div className="flex items-center gap-2 mb-3">
@@ -174,70 +176,6 @@ export default function EnglishSettings() {
             {isA
               ? 'Giúp app hiển thị giao diện và nội dung bài học phù hợp với độ tuổi của bạn.'
               : 'Helps customize lesson content and vocabulary to match your age group.'}
-          </p>
-        </section>
-
-        {/* Tốc độ học: số từ mới/ngày */}
-        <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 animate-fade-in">
-          <div className="flex items-center gap-2 mb-3">
-            <Gauge className="w-4 h-4 text-accent-400" />
-            <span className="text-sm font-semibold text-white">
-              {isA ? 'Tốc độ học (từ mới/ngày)' : 'Learning speed (new words/day)'}
-            </span>
-          </div>
-          <div className="grid grid-cols-3 gap-2">
-            {DAILY_SPEEDS.map((s) => (
-              <button
-                key={s}
-                onClick={() => chooseSpeed(s)}
-                aria-pressed={speed === s}
-                className={`flex flex-col items-center justify-center gap-0.5 py-2.5 rounded-xl text-sm font-medium border transition ${
-                  speed === s
-                    ? 'bg-accent-500/20 border-accent-500/60 text-accent-300 theme-light:text-accent-800'
-                    : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700'
-                }`}
-              >
-                <span className="text-base font-bold">{s}</span>
-                <span className="text-[11px]">{isA ? SPEED_LABEL[s].vi : SPEED_LABEL[s].en}</span>
-              </button>
-            ))}
-          </div>
-          <p className="text-xs text-zinc-400 mt-3">
-            {isA
-              ? 'Đổi tốc độ chỉ áp dụng cho các batch từ mới tiếp theo, không ảnh hưởng từ đã học.'
-              : 'Changing speed only affects upcoming batches, not words already learned.'}
-          </p>
-        </section>
-
-        {/* Mục tiêu tuần: số ngày học/tuần */}
-        <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 animate-fade-in">
-          <div className="flex items-center gap-2 mb-3">
-            <CalendarCheck className="w-4 h-4 text-accent-400" />
-            <span className="text-sm font-semibold text-white">
-              {isA ? 'Mục tiêu tuần (số ngày học/tuần)' : 'Weekly goal (study days/week)'}
-            </span>
-          </div>
-          <div className="grid grid-cols-3 gap-2">
-            {WEEKLY_GOALS.map((g) => (
-              <button
-                key={g}
-                onClick={() => chooseWeekGoal(g)}
-                aria-pressed={weekGoal === g}
-                className={`flex flex-col items-center justify-center gap-0.5 py-2.5 rounded-xl text-sm font-medium border transition ${
-                  weekGoal === g
-                    ? 'bg-accent-500/20 border-accent-500/60 text-accent-300 theme-light:text-accent-800'
-                    : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700'
-                }`}
-              >
-                <span className="text-base font-bold">{g}</span>
-                <span className="text-[11px]">{isA ? GOAL_LABEL[g].vi : GOAL_LABEL[g].en}</span>
-              </button>
-            ))}
-          </div>
-          <p className="text-xs text-zinc-400 mt-3">
-            {isA
-              ? 'Tuần tính từ Thứ 2. Ngày có học bất kỳ hoạt động nào (từ vựng, chat, viết, nói) đều được tính.'
-              : 'Weeks start on Monday. Any study activity counts towards your weekly goal.'}
           </p>
         </section>
 
@@ -304,6 +242,73 @@ export default function EnglishSettings() {
             {isA
               ? 'Tiếng "ting" nhỏ khi trả lời đúng/sai và khi đạt mốc (streak, huy hiệu).'
               : 'A small "ting" when you answer right/wrong and when you hit a milestone.'}
+          </p>
+        </section>
+
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-content-secondary pt-2">
+          {isA ? 'Môn Tiếng Anh' : 'English subject'}
+        </h2>
+        {/* Tốc độ học: số từ mới/ngày */}
+        <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 animate-fade-in">
+          <div className="flex items-center gap-2 mb-3">
+            <Gauge className="w-4 h-4 text-accent-400" />
+            <span className="text-sm font-semibold text-white">
+              {isA ? 'Tốc độ học (từ mới/ngày)' : 'Learning speed (new words/day)'}
+            </span>
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            {DAILY_SPEEDS.map((s) => (
+              <button
+                key={s}
+                onClick={() => chooseSpeed(s)}
+                aria-pressed={speed === s}
+                className={`flex flex-col items-center justify-center gap-0.5 py-2.5 rounded-xl text-sm font-medium border transition ${
+                  speed === s
+                    ? 'bg-accent-500/20 border-accent-500/60 text-accent-300 theme-light:text-accent-800'
+                    : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700'
+                }`}
+              >
+                <span className="text-base font-bold">{s}</span>
+                <span className="text-[11px]">{isA ? SPEED_LABEL[s].vi : SPEED_LABEL[s].en}</span>
+              </button>
+            ))}
+          </div>
+          <p className="text-xs text-zinc-400 mt-3">
+            {isA
+              ? 'Đổi tốc độ chỉ áp dụng cho các batch từ mới tiếp theo, không ảnh hưởng từ đã học.'
+              : 'Changing speed only affects upcoming batches, not words already learned.'}
+          </p>
+        </section>
+
+        {/* Mục tiêu tuần: số ngày học/tuần */}
+        <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 animate-fade-in">
+          <div className="flex items-center gap-2 mb-3">
+            <CalendarCheck className="w-4 h-4 text-accent-400" />
+            <span className="text-sm font-semibold text-white">
+              {isA ? 'Mục tiêu tuần (số ngày học/tuần)' : 'Weekly goal (study days/week)'}
+            </span>
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            {WEEKLY_GOALS.map((g) => (
+              <button
+                key={g}
+                onClick={() => chooseWeekGoal(g)}
+                aria-pressed={weekGoal === g}
+                className={`flex flex-col items-center justify-center gap-0.5 py-2.5 rounded-xl text-sm font-medium border transition ${
+                  weekGoal === g
+                    ? 'bg-accent-500/20 border-accent-500/60 text-accent-300 theme-light:text-accent-800'
+                    : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700'
+                }`}
+              >
+                <span className="text-base font-bold">{g}</span>
+                <span className="text-[11px]">{isA ? GOAL_LABEL[g].vi : GOAL_LABEL[g].en}</span>
+              </button>
+            ))}
+          </div>
+          <p className="text-xs text-zinc-400 mt-3">
+            {isA
+              ? 'Tuần tính từ Thứ 2. Ngày có học bất kỳ hoạt động nào (từ vựng, chat, viết, nói) đều được tính.'
+              : 'Weeks start on Monday. Any study activity counts towards your weekly goal.'}
           </p>
         </section>
       </PageShell>

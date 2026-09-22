@@ -13,11 +13,19 @@ export default function ReferralSection({ isA }: { isA: boolean }) {
 
   useEffect(() => {
     let alive = true
-    fetchReferralStats().then((s) => {
-      if (!alive) return
-      setStats(s)
-      setLoading(false)
-    })
+    // [audit UI/UX P1-4] `fetchReferralStats` không có giới hạn thời gian — kết nối treo (không
+    // reject, không resolve) làm khung xám (skeleton) hiện mãi vì `loading` không bao giờ về
+    // false. Đua với một promise timeout 8s: hết giờ coi như lỗi, không hiện skeleton vô hạn.
+    Promise.race([
+      fetchReferralStats(),
+      new Promise<null>((resolve) => setTimeout(() => resolve(null), 8000)),
+    ])
+      .catch(() => null)
+      .then((s) => {
+        if (!alive) return
+        setStats(s)
+        setLoading(false)
+      })
     return () => {
       alive = false
     }

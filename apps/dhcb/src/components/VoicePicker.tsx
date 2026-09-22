@@ -20,6 +20,7 @@ import {
   RANDOM_EXCLUDED_VOICES,
   getAllowedVoices,
   isVoicePromoActive,
+  type VoiceOption,
 } from '../lib/voiceTiers'
 import { getAppSettings } from '../lib/appSettings'
 import { formatDateVN } from '../lib/promoEndingBanner'
@@ -95,6 +96,22 @@ export default function VoicePicker({ plan, isA }: Props) {
     { gender: 'female', label: isA ? 'Giọng nữ' : 'Female voices' },
     { gender: 'male', label: isA ? 'Giọng nam' : 'Male voices' },
   ]
+
+  // Người mới bắt đầu không cần biết tên nội bộ Google ("Kore", "Aoede"...) — hiển thị
+  // "Giọng nữ 1", "Giọng nam 2"... theo đúng thứ tự trong VOICE_OPTIONS (audit UI/UX
+  // 2026-09-22 P1-3). Tên Google thật vẫn giữ trong thuộc tính `title` để không mất thông
+  // tin, chỉ không lộ lên chữ hiển thị chính.
+  const genderIndex: Partial<Record<VoiceOption['id'], number>> = {}
+  ;(['female', 'male'] as const).forEach((g) => {
+    VOICE_OPTIONS.filter((v) => v.gender === g).forEach((v, i) => {
+      genderIndex[v.id] = i + 1
+    })
+  })
+  function voiceLabel(v: VoiceOption): string {
+    const genderWord =
+      v.gender === 'female' ? (isA ? 'Giọng nữ' : 'Female voice') : isA ? 'Giọng nam' : 'Male voice'
+    return `${genderWord} ${genderIndex[v.id]}`
+  }
 
   return (
     <section className="bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-4 animate-fade-in">
@@ -207,7 +224,7 @@ export default function VoicePicker({ plan, isA }: Props) {
                   }`}
                 >
                   {!isAllowed && <Lock className="w-3 h-3 shrink-0" />}
-                  {v.id}
+                  {voiceLabel(v)}
                   {isSeeded && isAllowed && <span aria-hidden>⚡</span>}
                   {isEleven && isAllowed && (
                     <span aria-hidden title="VIP">
@@ -281,7 +298,7 @@ export default function VoicePicker({ plan, isA }: Props) {
                     : 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-700'
                 }`}
               >
-                {v.id}
+                {voiceLabel(v)}
               </button>
             ))}
           </div>

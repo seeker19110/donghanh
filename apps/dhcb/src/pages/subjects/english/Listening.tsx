@@ -4,9 +4,9 @@
 // để dễ phát triển thêm tính năng sau.
 // Xem docs/research/dac-ta-trang-nghe-2026-08-01.md mục 6 + danh-muc-truyen-nghe-2026-08-01.md mục 9.
 import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Play, Square, Eye, EyeOff, ChevronRight } from 'lucide-react'
+import { Play, Square, Eye, EyeOff, ChevronRight, ChevronDown, Search } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import Layout from '../../../components/Layout'
 import { PageShell } from '@core/PageShell'
@@ -19,6 +19,7 @@ import KaraokeText, { KARAOKE_INDENT } from '../../../components/KaraokeText'
 import { useAuth } from '../../../context/useAuth'
 import { useLang } from '../../../context/useLang'
 import { getDirection } from '../../../lib/storage'
+import { getViewedIds, markViewed } from '../../../lib/viewedTracking'
 import { speak, stopSpeaking, unlockAudio, type Voice } from '../../../lib/tts'
 import { pickRandomVoice } from '../../../lib/voiceTiers'
 import type { Plan } from '../../../types'
@@ -94,19 +95,63 @@ export default function Listening() {
 type Lang = ReturnType<typeof useLang>['T']
 
 // ── Tab 1 — Câu thông dụng (chế độ nghe, tái dùng data/patterns) ─────────────
+//
+// [2026-09-22, audit lần 2 P0-1] Trước đây tab này in PHẲNG 1.000 thẻ mẫu câu: đo được trang cao
+// 74.309px ở 390px (88 màn hình cuộn), không tìm kiếm, không nhóm — người dùng mobile không thể
+// tới mẫu thứ 500. Nay: ô tìm kiếm + nhóm theo `category` (mỗi nhóm gập/mở, mở sẵn nhóm đầu) +
+// mỗi nhóm hiện 24 thẻ rồi "Xem thêm" + thẻ "Tiếp tục" mẫu đầu tiên chưa nghe (cùng cơ chế
+// `viewedTracking` như trang Câu thông dụng). Cổng canh: e2e/listening-phrases.spec.ts đo chiều
+// cao trang ở 390px ≤ 4 màn hình.
+const PHRASE_PAGE = 24
+
 function PhrasesTab({ isA, T }: { isA: boolean; T: Lang }) {
+  const { user } = useAuth()
+  const uid = user?.id ?? ''
   const [index, setIndex] = useState<SubjectMeta[] | null>(null)
   const [selected, setSelected] = useState<Subject | null>(null)
   const [opening, setOpening] = useState(false)
   const [showTranslation, setShowTranslation] = useState(false)
+  const [search, setSearch] = useState('')
+  const deferredSearch = useDeferredValue(search)
+  // Nhóm đang mở (null = chưa ai chạm, mở sẵn nhóm đầu tiên) + số thẻ hiện của từng nhóm.
+  const [openGroups, setOpenGroups] = useState<Set<string> | null>(null)
+  const [shownByGroup, setShownByGroup] = useState<Record<string, number>>({})
+  // Bump sau khi mở một mẫu để thẻ "Tiếp tục" tính lại khi quay về danh sách.
+  const [viewedRefresh, setViewedRefresh] = useState(0)
 
   useEffect(() => {
     loadIndex().then(setIndex)
   }, [])
 
+  const nextUnviewed = useMemo(() => {
+    if (!uid || !index || index.length === 0) return null
+    const viewed = getViewedIds('listening', uid)
+    return index.find((m) => !viewed.has(m.starter)) ?? null
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uid, index, viewedRefresh])
+
+  const groups = useMemo(() => {
+    if (!index) return []
+    const q = deferredSearch.trim().toLowerCase()
+    const list = q
+      ? index.filter(
+          (m) => m.starter.toLowerCase().includes(q) || m.category.toLowerCase().includes(q),
+        )
+      : index
+    const byCat = new Map<string, SubjectMeta[]>()
+    for (const m of list) {
+      const arr = byCat.get(m.category)
+      if (arr) arr.push(m)
+      else byCat.set(m.category, [m])
+    }
+    return [...byCat.entries()].map(([category, items]) => ({ category, items }))
+  }, [index, deferredSearch])
+
   async function open(meta: SubjectMeta) {
     setOpening(true)
     const s = await loadSubject(meta)
+    if (uid) markViewed('listening', uid, meta.starter)
+    setViewedRefresh((v) => v + 1)
     setSelected(s)
     setOpening(false)
   }
@@ -131,21 +176,115 @@ function PhrasesTab({ isA, T }: { isA: boolean; T: Lang }) {
     return <EmptyState isA={isA} />
   }
 
+  const searching = deferredSearch.trim().length > 0
+  // Chưa ai chạm (`openGroups === null`) thì mở sẵn nhóm đầu; đang tìm kiếm thì mở hết.
+  const defaultOpen = new Set(groups[0] ? [groups[0].category] : [])
+  const isOpen = (cat: string) => searching || (openGroups ?? defaultOpen).has(cat)
+  const toggle = (cat: string) =>
+    setOpenGroups((prev) => {
+      const next = new Set(prev ?? defaultOpen)
+      if (next.has(cat)) next.delete(cat)
+      else next.add(cat)
+      return next
+    })
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-      {index.map((meta) => (
+    <div className="space-y-4">
+      {nextUnviewed && !searching && (
         <button
-          key={meta.starter}
-          onClick={() => open(meta)}
-          className="text-left bg-zinc-900/80 border border-zinc-800 rounded-xl p-3 hover:bg-zinc-800/60 active:scale-[0.98] transition-all flex items-center justify-between gap-2"
+          onClick={() => open(nextUnviewed)}
+          className="w-full flex items-center gap-3 bg-accent-500/10 hover:bg-accent-500/15 border border-accent-500/30 rounded-2xl px-4 py-3 transition text-left"
         >
-          <div className="min-w-0">
-            <p className="text-xs text-zinc-400 truncate">{meta.category}</p>
-            <p className="font-semibold text-white truncate">{meta.starter}</p>
+          <div className="w-9 h-9 rounded-xl bg-accent-500/20 flex items-center justify-center shrink-0">
+            <Play className="w-4 h-4 text-accent-400 theme-light:text-accent-800" />
           </div>
-          <ChevronRight className="w-4 h-4 text-content-muted shrink-0" />
+          <div className="flex-1 min-w-0">
+            <p className="text-xs text-accent-400 theme-light:text-accent-800 font-medium">
+              {T.phrasesContinue}
+            </p>
+            <p className="text-sm font-semibold text-white truncate">{nextUnviewed.starter}</p>
+          </div>
         </button>
-      ))}
+      )}
+
+      <div className="relative">
+        <Search
+          className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none"
+          aria-hidden="true"
+        />
+        <input
+          id="listening-phrase-search"
+          name="search"
+          type="search"
+          aria-label={T.tabPhrases}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder={T.phrasesSearchPlaceholder}
+          className="w-full bg-zinc-900/80 border border-zinc-800 rounded-xl pl-9 pr-3 py-2.5 text-sm text-white placeholder:text-zinc-400 outline-none focus:border-accent-500/60 focus:bg-zinc-900 transition"
+        />
+      </div>
+
+      {groups.length === 0 ? (
+        <p className="text-sm text-zinc-400 text-center py-6">
+          {isA ? 'Không có mẫu câu nào khớp.' : 'No phrases match.'}
+        </p>
+      ) : (
+        groups.map(({ category, items }, i) => {
+          const opened = isOpen(category)
+          const shown = shownByGroup[category] ?? PHRASE_PAGE
+          const visible = items.slice(0, shown)
+          const panelId = `phrase-group-${i}`
+          return (
+            <section key={category} className="rounded-2xl border border-zinc-800 bg-zinc-900/40">
+              <button
+                type="button"
+                aria-expanded={opened}
+                aria-controls={panelId}
+                onClick={() => toggle(category)}
+                className="tap-44 w-full flex items-center justify-between gap-2 px-4 py-3 text-left"
+              >
+                <span className="font-semibold text-white text-sm">
+                  {category}{' '}
+                  <span className="text-xs font-normal text-zinc-400">· {items.length}</span>
+                </span>
+                <ChevronDown
+                  className={`w-4 h-4 text-content-muted shrink-0 transition-transform ${opened ? 'rotate-180' : ''}`}
+                  aria-hidden="true"
+                />
+              </button>
+              {opened && (
+                <div id={panelId} className="px-3 pb-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                    {visible.map((meta) => (
+                      <button
+                        key={meta.starter}
+                        onClick={() => open(meta)}
+                        className="text-left bg-zinc-900/80 border border-zinc-800 rounded-xl p-3 hover:bg-zinc-800/60 active:scale-[0.98] transition-all flex items-center justify-between gap-2"
+                      >
+                        <p className="font-semibold text-white truncate">{meta.starter}</p>
+                        <ChevronRight className="w-4 h-4 text-content-muted shrink-0" />
+                      </button>
+                    ))}
+                  </div>
+                  {items.length > shown && (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShownByGroup((prev) => ({ ...prev, [category]: shown + PHRASE_PAGE }))
+                      }
+                      className="tap-44 mt-2 w-full rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm font-medium text-zinc-200 hover:bg-zinc-800/60 transition"
+                    >
+                      {isA
+                        ? `Xem thêm (còn ${items.length - shown})`
+                        : `Show more (${items.length - shown} left)`}
+                    </button>
+                  )}
+                </div>
+              )}
+            </section>
+          )
+        })
+      )}
     </div>
   )
 }

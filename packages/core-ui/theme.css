@@ -23,20 +23,37 @@
 [data-theme='dark-blue'] {
   color-scheme: dark;
   --c-white: 255 255 255;
-  --z-50: 245 250 255;
-  --z-100: 232 241 252;
-  --z-200: 210 224 240;
-  --z-300: 184 201 222;
-  /* AAA 7:1 trên nền z-800 (bề mặt nổi) — đo 2026-09-03. */
-  --z-400: 156 176 200;
-  /* AA 4.5:1 trên MỌI bề mặt thật (z-950/900/800). */
-  --z-500: 128 146 170;
-  --z-600: 70 88 118;
-  --z-700: 44 60 90;
-  --z-800: 22 34 60;
-  --z-900: 11 18 38;
-  --z-950: 4 8 22;
-  --glass-bg: 11 18 38;
+  /* Bảng slate-xanh "dịu mắt" lấy từ theme `darkblue` của repo `seeker19110/xboss`
+     (app/globals.css, 2026-09-22, chủ dự án chốt): nền #0e1726, thẻ #182741, thang chữ
+     #bcd0e8 → #7da1d3. Thay bảng navy Sci-Fi cũ (nền #040816) vì quá tối/ngả đen.
+     Accent cyan GIỮ NGUYÊN (quyết định 2026-09-03: tách khỏi xanh lá "đúng"). */
+  --z-50: 246 249 253;
+  --z-100: 236 242 250;
+  --z-200: 218 230 244;
+  --z-300: 188 208 232;
+  /* xboss gốc #92a9cb chỉ 3,96:1 trên nền hover z-700 — nâng lên #a3b8d6 (4,69) để giữ cổng AA
+     `themeContrast.test.ts`; trên z-950/900/800 vẫn AAA (8,9 · 7,4 · 6,1). */
+  --z-400: 163 184 214;
+  /* xboss đậm hoá zinc-500 lên #7da1d3 để đạt AA 4,5:1 trên mọi mặt thẻ (ghi chú gốc). */
+  --z-500: 125 161 211;
+  --z-600: 68 94 137;
+  --z-700: 47 70 108;
+  --z-800: 34 53 84;
+  --z-900: 24 39 65;
+  --z-950: 14 23 38;
+  --glass-bg: 24 39 65;
+  /* Năm màu chữ tím-đỏ ở bậc -400 hụt AA (3,9–4,4:1) trên mặt thẻ z-800 sáng hơn của bảng này
+     — xboss gặp đúng vấn đề và ghi đè 5 biến này lên giá trị -300 (6,1–6,9:1). Tailwind 4 phát
+     `text-red-400` thành `color: var(--color-red-400)` nên ghi đè ở đây có hiệu lực toàn app.
+     Viết dạng `rgb(R G B)` để cả trình duyệt lẫn `parseThemeTokens` (scripts/lib/contrast.ts)
+     đọc được; cổng `fixed-color-contrast-audit` đo theo giá trị ghi đè này thay vì bảng gốc. */
+  --color-red-400: rgb(255 162 162);
+  --color-rose-400: rgb(255 161 173);
+  --color-indigo-400: rgb(163 179 255);
+  --color-violet-400: rgb(196 180 255);
+  --color-purple-400: rgb(218 178 255);
+  /* pink-400 gốc 4,46:1 trên z-800 (thiếu 0,04) — xboss không dùng pink; lấy pink-300 (#f9a8d4). */
+  --color-pink-400: rgb(249 168 212);
   /* Viền ánh lạnh (ngả cyan rất nhẹ) — đường kẻ HUD, thay cho slate xám trung tính. */
   --glass-border: 40 66 98;
   /* accent: cyan (Tailwind cyan) */
@@ -51,7 +68,7 @@
   --a-800: 21 94 117;
   --a-900: 22 78 99;
   --glow-accent: 0.4;
-  --theme-color: #0b1226;
+  --theme-color: #0e1726;
   /* Bo góc gọn hơn Tailwind mặc định một nấc — thẻ trông như tấm panel, không phải viên
      kẹo. CHỈ theme này khai 4 biến `--r-*`; 4 theme còn lại KHÔNG khai gì và tự dùng fallback
      `var(--r-lg, 0.5rem)` khai ngay tại `apps/dhcb/tailwind.config.js` (= đúng mặc định

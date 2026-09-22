@@ -139,6 +139,7 @@ const AUTHED_ROUTES = [
   // nhất về a11y: có chữ trong SVG, có nút tạm dừng, có mô tả thay thế).
   '/goc-hoc-tap/physics/bai-hoc', // danh sách bài: hai nhánh chuẩn/HSG + chọn lớp
   '/goc-hoc-tap/physics/bai-hoc/ly10-c2-b10--su-roi-tu-do', // bài CÓ hoạt ảnh
+  '/goc-hoc-tap/english/luyen-nghe', // Luyện nghe: nhóm gập + tìm kiếm + Xem thêm (audit 2026-09-22 P0-1)
 ]
 for (const route of AUTHED_ROUTES) {
   for (const theme of THEMES) {

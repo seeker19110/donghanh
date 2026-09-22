@@ -295,7 +295,7 @@ export default function Notes() {
           }`}
         >
           <CheckSquare className="w-4 h-4" />
-          Công việc ({tasks.length})
+          Công việc{loading || loadError ? '' : ` (${tasks.length})`}
         </button>
         <button
           onClick={() => setActiveTab('projects')}
@@ -306,7 +306,7 @@ export default function Notes() {
           }`}
         >
           <FolderKanban className="w-4 h-4" />
-          Dự án ({projects.length})
+          Dự án{loading || loadError ? '' : ` (${projects.length})`}
         </button>
         <button
           onClick={() => setActiveTab('meetings')}
@@ -317,7 +317,7 @@ export default function Notes() {
           }`}
         >
           <Users className="w-4 h-4" />
-          Cuộc họp ({meetings.length})
+          Cuộc họp{loading || loadError ? '' : ` (${meetings.length})`}
         </button>
         <button
           onClick={() => setActiveTab('documents')}
@@ -328,7 +328,7 @@ export default function Notes() {
           }`}
         >
           <FileText className="w-4 h-4" />
-          Ghi chú ({documents.length})
+          Ghi chú{loading || loadError ? '' : ` (${documents.length})`}
         </button>
       </div>
 

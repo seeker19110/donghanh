@@ -259,7 +259,7 @@ export default function Practice() {
                 </div>
               </div>
               <div className="flex items-center justify-between text-[11px] text-blue-400 theme-light:text-blue-800 font-medium pt-2 border-t border-zinc-800/80">
-                <span>Giải bài tập & Nhận gợi ý Socratic</span>
+                <span>Giải bài tập & Nhận gợi ý gợi mở</span>
                 <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </div>
             </button>
@@ -277,7 +277,7 @@ export default function Practice() {
                   <div className="flex items-center justify-between gap-1 mb-0.5">
                     <h3 className="font-bold text-white text-sm">Vật Lý</h3>
                     <span className="text-[11px] px-1.5 py-0.2 rounded bg-cyan-500/15 text-cyan-300 theme-light:text-cyan-800 font-semibold border border-cyan-500/20">
-                      Simulators
+                      Thí nghiệm mô phỏng
                     </span>
                   </div>
                   <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
@@ -383,7 +383,7 @@ export default function Practice() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-1 mb-0.5">
-                    <h3 className="font-bold text-white text-sm">10 Simulators STEM</h3>
+                    <h3 className="font-bold text-white text-sm">10 thí nghiệm STEM</h3>
                     <span className="text-[11px] px-1.5 py-0.2 rounded bg-teal-500/15 text-teal-300 theme-light:text-teal-800 font-semibold border border-teal-500/20">
                       Phòng Thí Nghiệm
                     </span>
@@ -452,7 +452,7 @@ export default function Practice() {
               </div>
             </button>
 
-            {/* Chat Đối Thoại Socratic */}
+            {/* Chat Đối Thoại Gợi Mở */}
             <button
               onClick={() => nav(duongDanTroTruyen())}
               className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-accent-500/30 hover:border-accent-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex items-start gap-3.5"
@@ -464,7 +464,7 @@ export default function Practice() {
                 <div className="flex items-center justify-between gap-1 mb-0.5">
                   <h3 className="font-bold text-white text-sm">Chat Đàm Thoại AI</h3>
                   <span className="text-[11px] px-1.5 py-0.2 rounded bg-accent-500/15 text-accent-300 theme-light:text-accent-800 font-semibold border border-accent-500/20">
-                    Socratic
+                    Gợi mở
                   </span>
                 </div>
                 <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
@@ -552,7 +552,7 @@ export default function Practice() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-bold text-white group-hover:text-violet-300 transition-colors truncate">
-                  Nghe & Viết Chính Tả (Dictation)
+                  Nghe & Viết Chính Tả
                 </p>
                 <p className="text-[11px] text-zinc-400 truncate">
                   Nghe từng câu và gõ lại chính xác
@@ -628,7 +628,7 @@ export default function Practice() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-bold text-white group-hover:text-accent-300 transition-colors truncate">
-                  Echo Shadowing (Nói Đè)
+                  Nói Đè Theo Mẫu
                 </p>
                 <p className="text-[11px] text-zinc-400 truncate">
                   Nói đồng thời theo nhịp audio phát

@@ -57,7 +57,7 @@ export default function Companion() {
     {
       id: 'welcome',
       sender: 'companion',
-      text: `Xin chào ${user?.name || 'bạn'}! Tôi là **Bạn Đồng Hành AI** (Personal Companion). Tôi đi cùng bạn trong việc học (Tiếng Anh, Lập trình, Toán, Lý, Hoá, Sinh) và việc bạn ghi lại ở Ghi chú. Hôm nay bạn muốn bắt đầu từ đâu?`,
+      text: `Xin chào ${user?.name || 'bạn'}! Tôi là **Bạn Đồng Hành AI**. Tôi đi cùng bạn trong việc học (Tiếng Anh, Lập trình, Toán, Lý, Hoá, Sinh) và việc bạn ghi lại ở Ghi chú. Hôm nay bạn muốn bắt đầu từ đâu?`,
       timestamp: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
       domain: 'general',
     },
@@ -466,8 +466,11 @@ export default function Companion() {
   }
 
   const getDomainLabel = (domainId?: string) => {
+    // 'general' không nằm trong DOMAIN_OPTIONS (đó là các lĩnh vực cụ thể) — hiện nhãn tiếng
+    // Việt thay vì để lọt chữ tiếng Anh "general" ra bong bóng chat (audit UI/UX P1-1).
+    if (!domainId || domainId === 'general') return 'Chung'
     const found = DOMAIN_OPTIONS.find((d) => d.id === domainId)
-    return found ? found.label : domainId || 'Chung'
+    return found ? found.label : domainId
   }
 
   return (
