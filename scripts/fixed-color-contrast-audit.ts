@@ -218,10 +218,13 @@ export function auditLine(
       if (!tokens) continue
       // Ở theme nền sáng, nếu dòng có sẵn `theme-light:text-…` thì màu THẬT là màu override.
       const isLight = (LIGHT_THEMES as readonly string[]).includes(theme)
+      // Theme có thể ghi đè biến bảng màu Tailwind (`--color-<họ>-<bậc>: rgb(...)` trong
+      // theme.css, cách của xboss) — khi đó màu THẬT ở theme ấy là giá trị ghi đè.
+      const themed = tokens[`color-${family}-${step}`]
       const eff =
         isLight && override
           ? paletteRgb(override[1] as string, override[2] as string)
-          : paletteRgb(family, step)
+          : (themed ?? paletteRgb(family, step))
       if (!eff) continue
       for (const surface of SURFACES) {
         const bg = tokens[surface.token]
