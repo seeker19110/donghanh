@@ -1004,7 +1004,7 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   module có hoạt ảnh) + **phát hiện và sửa renderer: hoạt ảnh CHƯA TỪNG CHẠY ở cả 5 môn** (hai lỗi
   CSS, `TRAPS.md` mục 10), kiểm bằng 55 khung hình theo thời gian. **Rà mắt Toán xong
   (2026-09-22, `docs/changelog/0408-*.md`):** 34/34 hoạt ảnh Toán soi 5 mốc thời gian bằng
-  `npm run shots:lesson-anim`, sửa 15 hoạt ảnh (4 sai nội dung, 11 nhãn đè/cắt), soi lại đủ.
+  `npm run shots:lesson-anim`, sửa 17 hoạt ảnh (4 sai nội dung, 13 nhãn đè/cắt/chồng lớp), soi lại đủ.
   **Còn thiếu:** cấu trúc animation cho môn Anh (chưa thiết kế), và 3 animation Vật lý/Hoá/Sinh
   vì ba môn chưa nối vào `apps/` (khi nối thì chạy script trên với `--subject`, cần mở rộng
   `napHoatAnh`). Đặc tả: `docs/specs/2026-09-21-hoat-anh-mo-phong-bai-hoc.md`.

@@ -235,8 +235,8 @@ và các đợt sau đã soạn nhiều hơn ghi nhận ở đây). Kiểm kê t
 - **Khuôn dữ liệu bổ sung:** hình "quay quanh đầu mút" = `rotate` + `dx/dy` cho trung điểm chạy
   trên đường tròn r/2; nhãn gọi tên hình động PHẢI mang cùng keyframes tịnh tiến; mỗi trạng thái
   một nhãn riêng bật/tắt bằng opacity; chữ ≤ ~0,55·size px/ký tự so với `viewBoxWidth`.
-- Còn ngỏ (chưa sửa, mức nhẹ): `toan12-c4-b2` ba hình chữ nhật thô vẫn hiện dưới lớp mịn ở cảnh
-  cuối; `toan12-c5-b2` nhãn "(P): Ax + By…" bị đường tròn cắt qua ở hai mốc cuối.
+- Hai lỗi nhẹ `toan12-c4-b2` (lớp thô chồng lớp mịn) và `toan12-c5-b2` (nhãn bị đường tròn cắt)
+  cũng đã sửa trong cùng PR theo yêu cầu chủ dự án → không còn mục ngỏ cho Toán.
 
 ## Nghiệm thu
 
