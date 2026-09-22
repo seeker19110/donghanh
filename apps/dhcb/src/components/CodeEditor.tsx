@@ -100,7 +100,15 @@ export default function CodeEditor({ value, onChange, ariaLabel }: Props) {
       // Nền tối cố định (không theo theme) — khớp editorTheme ở trên. KHÔNG đổi sang
       // `bg-zinc-950`: token zinc bị đảo thành màu SÁNG ở các theme nền sáng, trong khi
       // chữ của CodeMirror giữ bảng màu tối → mất tương phản.
-      className="rounded-2xl border border-zinc-800 bg-[#0a0a0a] overflow-hidden"
+      //
+      // `text-[#e5e5e5]` là BẮT BUỘC, không phải trang trí: div này rỗng lúc render, CodeMirror
+      // mới mount vào sau trong effect và tự tiêm style của nó. Trong cửa sổ trước lúc đó, chữ
+      // THỪA HƯỞNG màu từ cha — ở theme nền sáng màu đó là màu TỐI, tức chữ tối trên nền
+      // `#0a0a0a`. Máy nhanh thì cửa sổ hẹp nên không thấy; dưới tải nó rộng ra và cổng
+      // `e2e/a11y.spec.ts` bắt được thật ở `/lap-trinh/du-an` theme=blue-sky (changelog 0416).
+      // Đặt màu chữ sáng cố định ngay trên host thì KHÔNG còn cửa sổ nào tối-trên-tối. Dùng
+      // ĐÚNG `#e5e5e5` của `editorTheme` ở trên để lúc CodeMirror mount không có bước nhảy màu.
+      className="rounded-2xl border border-zinc-800 bg-[#0a0a0a] text-[#e5e5e5] overflow-hidden"
     />
   )
 }
