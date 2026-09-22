@@ -65,11 +65,18 @@ export default function CompanionLinkSection({ isA }: { isA: boolean }) {
 
   useEffect(() => {
     let alive = true
-    fetchCompanionLinks().then((s) => {
-      if (!alive) return
-      setState(s)
-      setLoading(false)
-    })
+    // [audit UI/UX P1-4] Cùng bệnh với ReferralSection: không giới hạn thời gian chờ → kết nối
+    // treo làm khung xám hiện mãi. Đua với timeout 8s, hết giờ coi như lỗi.
+    Promise.race([
+      fetchCompanionLinks(),
+      new Promise<null>((resolve) => setTimeout(() => resolve(null), 8000)),
+    ])
+      .catch(() => null)
+      .then((s) => {
+        if (!alive) return
+        setState(s)
+        setLoading(false)
+      })
     return () => {
       alive = false
     }

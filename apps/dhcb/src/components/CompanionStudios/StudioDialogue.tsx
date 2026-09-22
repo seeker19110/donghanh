@@ -96,6 +96,17 @@ export default function StudioDialogue({
 }: StudioDialogueProps) {
   const lastUserMsg = [...messages].reverse().find((m) => m.sender === 'user')
   const lastCompanionMsg = [...messages].reverse().find((m) => m.sender === 'companion')
+
+  // [audit UI/UX P1-1] Bản cũ: danh sách tin nhắn KHÔNG bị giới hạn chiều cao (chỉ `flex-1`,
+  // không `min-h-0`), nên nó không tự sinh thanh cuộn riêng — cả TRANG cuộn theo document. Ô
+  // nhập `sticky bottom-0` khi đó dính vào ĐÁY MÀN HÌNH bất kể nội dung phía trên đã cuộn tới
+  // đâu, nên hễ trang cao hơn khung nhìn (rất dễ xảy ra ở desktop khi có avatar 3D + bộ lọc +
+  // hàng gợi ý) là ô nhập đè lên đúng phần nội dung đang nằm ở dải cuối khung nhìn — thêm
+  // padding-bottom cho danh sách KHÔNG sửa được vì phần bị che đã tồn tại phía TRÊN, không phải
+  // trong phần đệm mới thêm. Sửa đúng gốc: khung chat có chiều cao GIỚI HẠN
+  // (`h-[min(68dvh,640px)]`), danh sách tin nhắn tự cuộn NỘI BỘ (`min-h-0 overflow-y-auto`), ô
+  // nhập nằm TRONG LUỒNG ở đáy khung (không còn `sticky`) — nhờ vậy nó không bao giờ chồng lên
+  // nội dung phía trên, ở mọi bề rộng màn hình.
   return (
     <div className="space-y-4 flex-1 flex flex-col">
       {/* Avatar & Multimodal Embodiment Section */}
@@ -278,9 +289,12 @@ export default function StudioDialogue({
           </div>
         </div>
       ) : (
-        <>
+        // Khung chat bị GIỚI HẠN chiều cao — xem giải thích dài ở đầu component. Danh sách tin
+        // nhắn (`min-h-0 overflow-y-auto`) cuộn nội bộ TRONG khung này; ô nhập là item cuối
+        // cùng của cột flex, luôn nằm đúng trong luồng, không chồng lên nội dung phía trên.
+        <div className="flex flex-1 flex-col min-h-0 h-[min(68dvh,640px)]">
           {/* Domain Filter Pills */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-2 scrollbar-none border-b border-zinc-800/60">
+          <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-2 scrollbar-none border-b border-zinc-800/60 shrink-0">
             <span className="text-xs text-zinc-400 font-semibold whitespace-nowrap pl-1">
               Lĩnh vực:
             </span>
@@ -304,8 +318,10 @@ export default function StudioDialogue({
             })}
           </div>
 
-          {/* Messages Stream */}
-          <div className="flex-1 space-y-4 overflow-y-auto pr-1 pb-4 min-h-[350px]">
+          {/* Messages Stream — cuộn NỘI BỘ trong khung `h-[min(68dvh,640px)]` ở trên
+              (`min-h-0` bắt buộc để flexbox cho phép item co xuống dưới nội dung tự nhiên
+              của nó, nếu không `overflow-y-auto` không bao giờ kích hoạt). */}
+          <div className="flex-1 min-h-0 space-y-4 overflow-y-auto pr-1 pb-4">
             {messages.map((msg) => {
               const isBot = msg.sender === 'companion'
               return (
@@ -515,8 +531,11 @@ export default function StudioDialogue({
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Sticky Input Bar */}
-          <div className="pt-2 sticky bottom-0 bg-zinc-950 pb-[calc(0.5rem+var(--bnav-h))] z-10">
+          {/* Ô nhập — nằm TRONG luồng ở đáy khung chat bị giới hạn chiều cao (không còn
+              `sticky`, vì `sticky` chỉ hiện đúng khi nó là con của MỘT container cuộn có chiều
+              cao giới hạn; ở đây khung chat chính là container đó, và ô nhập là item cuối cùng
+              của cột flex nên tự nhiên nằm ở đáy). */}
+          <div className="pt-2 shrink-0 bg-zinc-950 pb-[calc(0.5rem+var(--bnav-h))]">
             <form
               onSubmit={(e) => {
                 e.preventDefault()
@@ -554,7 +573,7 @@ export default function StudioDialogue({
               </button>
             </form>
           </div>
-        </>
+        </div>
       )}
     </div>
   )
