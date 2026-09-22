@@ -24,18 +24,29 @@ export default function OfflineSyncIndicator() {
     let alive = true
     // Số mục chờ trước đó — chỉ khi nó TỪ > 0 về 0 mới được khoe "đã đồng bộ xong".
     let previous = uid ? pending(uid) : 0
+    // [2026-09-22, audit UI/UX P1-5] Chỉ khoe "đã đồng bộ" khi trước đó hàng đợi bị KẸT THẬT
+    // (mất mạng hoặc hết phiên đăng nhập) — tức người dùng đã thấy dải cảnh báo và cần biết
+    // nó đã qua. Đồng bộ nền bình thường (mở trang → kéo → đẩy) thì im lặng: audit chụp 20
+    // trang thấy dải xanh bắn ở MỌI trang, chồng lên cả thông báo "Chưa tải được tiến độ".
+    let biKet = false
 
     const refresh = (changedUid?: string) => {
       if (!alive || !uid) return
       if (changedUid !== undefined && changedUid !== uid) return // hàng đợi của chủ khác
       const count = pending(uid)
+      const blocked = isBlockedByAuth(uid)
+      const offline = typeof navigator !== 'undefined' ? !navigator.onLine : false
       setPendingCount(count)
-      setNeedsLogin(isBlockedByAuth(uid))
+      setNeedsLogin(blocked)
+      if (count > 0 && (blocked || offline)) biKet = true
       if (previous > 0 && count === 0) {
-        setJustSynced(true)
-        window.setTimeout(() => {
-          if (alive) setJustSynced(false)
-        }, 4000)
+        if (biKet) {
+          setJustSynced(true)
+          window.setTimeout(() => {
+            if (alive) setJustSynced(false)
+          }, 4000)
+        }
+        biKet = false
       }
       previous = count
     }
