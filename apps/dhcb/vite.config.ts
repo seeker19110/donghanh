@@ -205,6 +205,14 @@ export default defineConfig(({ mode }) => {
         output: {
           // Chiến lược chunk thông minh: nhóm vendor theo tính năng, tránh duplicate code
           manualChunks(id) {
+            // Nhóm riêng: prompt gửi AI (`src/prompts/index.ts`) — chỉ các trang lười (Chat,
+            // Writing, Speaking, Lessons…) import, KHÔNG nạp lúc khởi động. Nếu để Rollup tự
+            // đặt tên, chunk lấy tên file facade là `index-<hash>.js` và bị glob
+            // `dist/js/index-*.js` của `.size-limit.json` đếm NHẦM vào "Initial JS" (đo
+            // 2026-09-22: 4,8 kB brotli tiêu oan ngân sách). Đặt tên riêng để phép đo đúng.
+            if (id.includes('/apps/dhcb/src/prompts/')) {
+              return 'prompts'
+            }
             // Nhóm riêng: Sentry (error tracking) — CHỈ tải khi thực sự cần (dynamic import
             // trong lib/errorTracking.ts, chỉ chạy khi có VITE_SENTRY_DSN). Tách chunk riêng
             // để KHÔNG bị gộp vào vendor-misc (đang tải eager lúc khởi động) — nếu gộp chung,

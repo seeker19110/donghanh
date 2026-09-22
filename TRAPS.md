@@ -436,3 +436,29 @@ hình đi qua ba trạng thái (`toan10-c7-b2`), chữ dài hơn `viewBoxWidth` 
 Cổng cho lớp lỗi này: `npm run shots:lesson-anim` (chụp 5 mốc × mọi hoạt ảnh một môn, thoát 1
 nếu có hoạt ảnh không chạy) rồi NGƯỜI đọc từng dải ảnh — chưa có máy nào chấm được "nhãn có đi
 theo hình không".
+
+## 11. `vi.mock` KHÔNG áp cho các `import()` động chạy ĐỒNG THỜI — chỉ lượt đầu nhận mock
+
+**Ngày/PR:** 2026-09-22, `docs/changelog/0411-*.md` (test cho `apps/dhcb/src/lib/subjectProgressBoard.ts`).
+
+**Khuôn lỗi:** file nguồn nạp dữ liệu bằng `import()` động bên trong một hàm được gọi nhiều
+lần song song (`Promise.all(MON_STEM.map(id => theStem(id)))`, mỗi lượt lại `import('./stemEvidence')`).
+Test `vi.mock('./stemEvidence', ...)` rồi bắt một môn lỗi → môn đó VẪN dựng được thẻ. Log trong
+nguồn cho thấy: `mathematics mock` · `physics real` · `chemistry real` · `biology real` — chỉ
+lượt `import()` ĐẦU nhận bản mock, ba lượt đồng thời còn lại nhận module THẬT.
+
+**Vì sao nguy hiểm:** test XANH GIẢ. Các ca "đường vui" vẫn qua vì module thật cũng trả được
+dữ liệu; mock không hề được gọi mà không có gì báo. Chỉ lộ khi cố làm một lượt sau lỗi.
+
+**Đã thử và KHÔNG ăn thua:** import tĩnh chính module đó ở đầu file test để "làm ấm cache";
+`vi.resetAllMocks()` thay `clearAllMocks()` (cái này sửa một lỗi KHÁC — override của test trước
+rò sang test sau — nhưng không sửa lỗi này).
+
+**Cách rà:** nếu nguồn có `import()` bên trong hàm được gọi song song, thêm tạm
+`console.log('mock' in fn ? 'mock' : 'real')` ngay sau `await import(...)` rồi chạy test — mỗi
+lượt phải in `mock`. Hoặc assert `mock.calls.length` bằng đúng số lượt gọi kỳ vọng, đừng chỉ
+assert kết quả cuối.
+
+**Cổng chốt chặn:** viết nguồn sao cho mỗi module chỉ `import()` MỘT lần rồi chia cho các lượt
+(`cacTheStem` nạp ba module trước rồi mới `Promise.all` bốn môn). Ngoài việc test mock được, đây
+cũng là cách đúng: không có lý do gì nạp lại cùng module bốn lần.

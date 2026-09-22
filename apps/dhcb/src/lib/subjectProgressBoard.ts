@@ -128,30 +128,45 @@ async function theLapTrinh(uid: string, plan: LockPlan): Promise<SubjectProgress
   }
 }
 
-async function theStem(
+const MON_STEM: readonly StemSubjectId[] = ['mathematics', 'physics', 'chemistry', 'biology']
+
+/**
+ * Bốn thẻ STEM dựng chung: ba module dùng chung nạp ĐÚNG MỘT LẦN rồi mới dựng từng môn.
+ * Trước đây mỗi môn tự `import()` lại cùng ba module (4 lượt song song) — thừa, và làm test
+ * không mock được: Vitest chỉ trả bản mock cho lượt import động ĐẦU, ba lượt đồng thời còn lại
+ * nhận module thật (đo 2026-09-22, `subjectProgressBoard.test.ts`). Mỗi môn vẫn dựng trong `try`
+ * riêng (ràng buộc ③).
+ */
+async function cacTheStem(
   uid: string,
-  subjectId: StemSubjectId,
   grade: string,
-): Promise<SubjectProgressCard | undefined> {
+): Promise<ReadonlyArray<SubjectProgressCard | undefined>> {
   const [stemOutline, routes, evidence] = await Promise.all([
     import('./outline/stemOutlineApp'),
     import('./stemLessonRoutes'),
     import('./stemEvidence'),
   ])
-  const subject = routes.STEM_SUBJECTS[subjectId]
-  const { state, status } = await evidence.fetchCompletionState(uid, subjectId)
-  const cay = stemOutline.buildStemOutlineForApp(subject, grade, {
-    state,
-    stateStatus: status,
-  })
-  if (!cay) return undefined
-
-  return {
-    subjectId,
-    subjectLabel: subject.label,
-    href: routes.duongDanDanhSachBai(subjectId),
-    summary: summarizeOutline(cay),
-  }
+  return Promise.all(
+    MON_STEM.map(async (subjectId): Promise<SubjectProgressCard | undefined> => {
+      try {
+        const subject = routes.STEM_SUBJECTS[subjectId]
+        const { state, status } = await evidence.fetchCompletionState(uid, subjectId)
+        const cay = stemOutline.buildStemOutlineForApp(subject, grade, {
+          state,
+          stateStatus: status,
+        })
+        if (!cay) return undefined
+        return {
+          subjectId,
+          subjectLabel: subject.label,
+          href: routes.duongDanDanhSachBai(subjectId),
+          summary: summarizeOutline(cay),
+        }
+      } catch {
+        return undefined
+      }
+    }),
+  )
 }
 
 /** Lớp STEM người học đã khai ở luồng "Bắt đầu" (S05); chưa khai thì lớp mặc định. */
@@ -163,8 +178,6 @@ async function lopStem(uid: string): Promise<string> {
     return LOP_STEM_MAC_DINH
   }
 }
-
-const MON_STEM: readonly StemSubjectId[] = ['mathematics', 'physics', 'chemistry', 'biology']
 
 /**
  * Tiến độ của mọi môn có nội dung, dựng song song.
@@ -189,10 +202,11 @@ export async function buildSubjectProgressBoard(
     }
   }
 
-  const the = await Promise.all([
+  const [anh, lapTrinh, stem] = await Promise.all([
     cong(() => theTiengAnh(uid)),
     cong(() => theLapTrinh(uid, plan)),
-    ...MON_STEM.map((id) => cong(() => theStem(uid, id, grade))),
+    // Ba module STEM nạp hỏng → cả bốn môn STEM vắng mặt, hai môn kia vẫn hiện.
+    cacTheStem(uid, grade).catch((): ReadonlyArray<SubjectProgressCard | undefined> => []),
   ])
-  return the.filter((t): t is SubjectProgressCard => t !== undefined)
+  return [anh, lapTrinh, ...stem].filter((t): t is SubjectProgressCard => t !== undefined)
 }
