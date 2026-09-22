@@ -1638,7 +1638,7 @@ export const UNIT_TRACKS: UnitTrack[] = [
   },
   {
     id: 'chuyen-sau',
-    title: 'chuyên sâu',
+    title: 'Hướng chuyên sâu',
     moTa: 'Nội dung học thật của 14 hướng nghề — chọn một hướng và đi hết bốn chặng của nó.',
     macDinh: true,
   },
