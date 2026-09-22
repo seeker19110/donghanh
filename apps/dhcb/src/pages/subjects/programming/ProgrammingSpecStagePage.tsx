@@ -15,6 +15,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { PageShell } from '@core/PageShell'
+import { LessonAnimation } from '@core/LessonAnimation'
 import {
   Check,
   ClipboardCheck,
@@ -106,6 +107,23 @@ function ModuleBlock({
 
       {detail && (
         <>
+          {/* [GĐ2 hoạt ảnh, 2026-09-22] Hình động minh hoạ CƠ CHẾ đặt ngay sau phần kiến thức và
+              TRƯỚC bài luyện tay: thấy thuật toán chạy rồi mới tự tay viết. Renderer dùng chung
+              với 4 môn STEM — tự lo prefers-reduced-motion + mô tả bằng lời. */}
+          {detail.animation && (
+            <div className="space-y-1.5">
+              <p className="text-xs font-semibold text-zinc-200 uppercase tracking-wide">
+                Hoạt ảnh minh hoạ
+              </p>
+              <LessonAnimation
+                spec={detail.animation}
+                // `[&_svg]:max-w-2xl`: viewBox hoạt ảnh nhỏ (≈440×180) — để `w-full` ở cột 4xl thì ô số
+                // phình gần gấp ba, chữ mô tả bên dưới trông lép (thấy ở ảnh 1440px, Tầng 8b).
+                className="rounded-xl border border-line-subtle bg-surface-card p-3 text-sm leading-relaxed [&_svg]:mx-auto [&_svg]:max-w-2xl"
+              />
+            </div>
+          )}
+
           <div className="space-y-1.5">
             <p className="text-xs font-semibold text-zinc-200 uppercase tracking-wide">
               Tự tay làm

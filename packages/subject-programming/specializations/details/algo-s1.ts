@@ -16,7 +16,7 @@ export const ALGO_S1_DETAIL: SpecStageDetail = {
       animation: {
         title: 'Sắp xếp nổi bọt: so từng cặp liền kề rồi hoán đổi',
         description:
-          'Một mảng sáu số 5, 2, 8, 1, 9, 3 nằm trong sáu ô vuông. Khung viền cam chạy từ trái sang phải, mỗi lúc ôm lấy đúng hai ô liền kề đang được so sánh: nếu số bên trái lớn hơn số bên phải thì hai ô đổi chỗ cho nhau, còn không thì khung đi tiếp. Vòng quét thứ nhất đẩy số lớn nhất là 9 về sát ô cuối và ô đó được viền xanh lá báo đã đúng vị trí vĩnh viễn; vòng thứ hai chốt số 8 vào ô kế cuối; vòng thứ ba chốt nốt phần còn lại và mảng thành 1, 2, 3, 5, 8, 9. Điểm cần thấy: mỗi vòng quét tốn gần n phép so sánh mà chỉ chốt thêm được một số, nên tổng chi phí tăng theo bình phương kích thước mảng.',
+          'Một mảng sáu số 5, 2, 8, 1, 9, 3 nằm trong sáu ô vuông. Khung viền màu nhấn (sáng hơn viền các ô) chạy từ trái sang phải, mỗi lúc ôm lấy đúng hai ô liền kề đang được so sánh: nếu số bên trái lớn hơn số bên phải thì hai ô đổi chỗ cho nhau, còn không thì khung đi tiếp. Vòng quét thứ nhất đẩy số lớn nhất là 9 về sát ô cuối và ô đó được viền xanh lá báo đã đúng vị trí vĩnh viễn; vòng thứ hai chốt số 8 vào ô kế cuối; vòng thứ ba chốt nốt phần còn lại và mảng thành 1, 2, 3, 5, 8, 9. Điểm cần thấy: mỗi vòng quét tốn gần n phép so sánh mà chỉ chốt thêm được một số, nên tổng chi phí tăng theo bình phương kích thước mảng.',
         viewBoxWidth: 440,
         viewBoxHeight: 180,
         durationMs: 9000,
@@ -260,7 +260,7 @@ export const ALGO_S1_DETAIL: SpecStageDetail = {
               { atMs: 9000, dx: -180 },
             ],
           },
-          // Khung cam ôm CẶP đang được so sánh, chạy lại từ đầu mảng ở mỗi vòng quét.
+          // Khung màu nhấn (vai trò `accent`, đổi theo theme — KHÔNG gọi tên màu cụ thể) ôm CẶP đang được so sánh, chạy lại từ đầu mảng ở mỗi vòng quét.
           {
             kind: 'rect',
             id: 'khung-so-sanh',
