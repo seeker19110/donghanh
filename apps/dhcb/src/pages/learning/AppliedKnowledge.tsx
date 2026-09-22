@@ -51,7 +51,7 @@ export default function AppliedKnowledge() {
             }`}
           >
             <Activity className="w-4 h-4" />
-            Phòng Thí Nghiệm Mô Phỏng (10 Simulators)
+            Phòng thí nghiệm mô phỏng (10 mô phỏng)
           </button>
           <button
             onClick={() => setActiveTab('library')}

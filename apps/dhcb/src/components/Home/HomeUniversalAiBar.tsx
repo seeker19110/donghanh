@@ -68,7 +68,7 @@ const PROMPT_CHIPS: PromptChip[] = [
   },
   {
     id: 'simulators',
-    label: '🔬 10 Simulators Đời Sống',
+    label: '🔬 10 thí nghiệm đời sống',
     icon: Activity,
     query: 'Cách tính tiền điện bậc thang EVN và tối ưu công suất',
     badgeColor:
@@ -76,7 +76,7 @@ const PROMPT_CHIPS: PromptChip[] = [
   },
   {
     id: 'companion',
-    label: '🧠 Socratic & Trí nhớ',
+    label: '🧠 Hỏi đáp & ghi nhớ',
     icon: Brain,
     query: 'Cách xây dựng Cung điện Trí nhớ (Memory Palace) để học từ vựng',
     badgeColor:

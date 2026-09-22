@@ -64,16 +64,18 @@ const PLAN_INFO: Record<
     tagline: { vi: 'Đỉnh cao Công nghệ AI', en: 'For serious practice' },
     bullets: [
       {
-        vi: 'Đàm thoại song công Gemini Live Full-Duplex & Phòng học nhóm âm thanh',
-        en: 'Gemini Live Full-Duplex Audio & Audio Co-learning Rooms',
+        // Gemini Live CHƯA kiểm chứng với key thật (nợ mở PROGRESS.md #15) — bắt buộc gắn
+        // nhãn "đang thử nghiệm"/"beta" để không hứa quá lời một tính năng chưa chắc chạy.
+        vi: 'Nói chuyện trực tiếp với gia sư bằng giọng, ngắt lời được như người thật (đang thử nghiệm) · Phòng học nhóm bằng âm thanh',
+        en: 'Talk live with your tutor by voice, interrupt like a real conversation (beta) · Audio co-learning rooms',
       },
       {
-        vi: 'Cung điện Trí nhớ Không gian 3D (Memory Palace Loci)',
-        en: 'Spatial 3D Memory Palace (Method of Loci)',
+        vi: 'Cung điện trí nhớ 3D: ghi nhớ từ vựng theo không gian',
+        en: '3D memory palace: remember vocabulary spatially',
       },
       {
-        vi: '300 lượt AI/ngày + Trọn bộ 14 giọng Chirp3-HD + 2 giọng Studio',
-        en: '300 AI turns/day + All 14 Chirp3-HD + 2 studio voices',
+        vi: '300 lượt AI/ngày (gấp 10 lần gói Free) + 16 giọng đọc bản xứ chất lượng cao',
+        en: '300 AI turns/day (10x the Free plan) + 16 high-quality native voices',
       },
     ],
   },

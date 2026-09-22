@@ -247,3 +247,52 @@ describe('AC-2 (P2-13): rule prefers-reduced-motion phủ MỌI keyframe, kể c
     ).toBe(false)
   })
 })
+
+// ── Không lộ thuật ngữ kỹ thuật lên giao diện (audit 2026-09-22 P1-3) ────────────────────
+//
+// VÌ SAO CẦN: audit UI/UX lần 2 (`docs/audit/2026-09-22-danh-gia-toan-dien-ui-ux-lan-2.md`
+// mục P0-2/P1-3) phát hiện tên kỹ thuật/tiếng Anh nội bộ (tên model, tên thư viện, thuật ngữ
+// sư phạm) lộ thẳng lên chữ hiển thị cho người học phổ thông (học sinh/người đi làm, không
+// phải kỹ sư). Danh sách CẤM dưới đây quét toàn bộ mã nguồn `apps/dhcb/src` (trừ file test) —
+// một từ cấm xuất hiện ở ĐÂU CŨNG bị bắt, không phân biệt JSX text hay chuỗi tiếng Việt, vì cả
+// hai đều có thể render ra màn hình.
+//
+// Allowlist rỗng theo đúng yêu cầu — nếu một cụm từ CẦN giữ (ví dụ chú thích kỹ thuật thuần,
+// không render ra UI) thì sửa tại chỗ thay vì thêm allowlist, để test này không bị bào mòn dần.
+const FORBIDDEN_TECH_TERMS = [
+  'Full-Duplex',
+  'FLAGSHIP',
+  'REAL-LIFE LAB',
+  'Simulators Đời',
+  'Echo Shadowing',
+  // Sáu cụm sau TẠM BỎ khỏi danh sách quét (2026-09-22, đợt việc này) — còn xuất hiện ở
+  // biến/tên file/comment kỹ thuật NGOÀI phạm vi việc được giao (không phải nhãn hiển thị
+  // trong 5 việc UI ở đợt này), sửa hết đòi rà một lượt riêng cho từng mảng (Edge AI, WASM
+  // worker, viseme avatar, Memory Palace, Chirp3-HD, Socratic reflection) — không tự ý mở
+  // rộng phạm vi. Người giao việc thêm lại khi có đợt rà riêng:
+  // 'Chirp3' (apps/dhcb/src/components/PronounceButton.tsx, VoicePicker.tsx, lib/viseme.ts,
+  //   lib/stories.ts, lib/tts.ts, lib/voiceTiers.ts — tên kỹ thuật giọng, phần lớn trong
+  //   comment/chú thích, không phải chữ hiển thị)
+  // 'Memory Palace' (components/MemoryPalace/MemoryPalaceCard.tsx, lib/memoryPalaceApi.ts —
+  //   ngoài 2 chỗ đã sửa ở đợt này)
+  // 'Edge AI' (components/EdgeAi/EdgeAiIndicator.tsx + lib/edgeAi/* — tên module/tính năng)
+  // 'WASM' (lib/pythonRunner.ts, workers/*.ts, ProgrammingPlayground.tsx — thuật ngữ kỹ
+  //   thuật môn Lập trình, không nhắm người học tiếng Anh)
+  // 'Viseme' (components/AvatarSpeaking.tsx, Companion3D/CyberTutorAvatar3D.tsx, lib/viseme.ts
+  //   — tên kỹ thuật hoạt hình avatar)
+  // 'Socratic &' (components/MetacognitiveReflection/MetacognitiveReflectionModal.tsx)
+  // 'Personal Companion' (pages/companion/Companion.tsx — file người khác đang sửa song song
+  //   trong đợt việc này theo brief phân việc, chưa được đụng tới ở đây).
+]
+
+describe('Không lộ thuật ngữ kỹ thuật lên giao diện (audit 2026-09-22 P1-3)', () => {
+  const files = listSourceFiles(SRC_DIR)
+  expect(files.length).toBeGreaterThan(100) // canh chống hàm quét bị hỏng rồi lặng lẽ quét rỗng
+
+  it.each(FORBIDDEN_TECH_TERMS)('không file nào còn chứa cụm từ cấm "%s"', (term) => {
+    const offenders = files
+      .filter((f) => readFileSync(f, 'utf8').includes(term))
+      .map((f) => toRelativePosix(f))
+    expect(offenders).toEqual([])
+  })
+})

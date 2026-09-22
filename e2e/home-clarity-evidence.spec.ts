@@ -527,12 +527,12 @@ test.describe('UX-R2 — canonical Home evidence', () => {
           destination: 'Môn Toán',
         },
         {
-          name: /10 Simulators Đời Sống/,
+          name: /10 thí nghiệm đời sống/,
           query: 'Cách tính tiền điện bậc thang EVN và tối ưu công suất',
           destination: 'Ứng dụng thực tế',
         },
         {
-          name: /Socratic & Trí nhớ/,
+          name: /Hỏi đáp & ghi nhớ/,
           query: 'Cách xây dựng Cung điện Trí nhớ (Memory Palace) để học từ vựng',
           destination: 'Bạn Đồng Hành',
         },

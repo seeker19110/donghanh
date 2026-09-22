@@ -269,9 +269,9 @@ export default function Subjects() {
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-[11px] px-2 py-0.5 rounded bg-accent-500/20 text-accent-300 theme-light:text-accent-800 font-bold">
-                  MỚI: REAL-LIFE LAB
+                  MỚI
                 </span>
-                <span className="text-xs text-zinc-400">10 Simulators Tương Tác</span>
+                <span className="text-xs text-zinc-400">10 thí nghiệm tương tác</span>
               </div>
               <h3 className="text-base font-bold text-white mt-1 group-hover:text-accent-300 transition">
                 Phòng Thí Nghiệm Mô Phỏng & Ứng Dụng Thực Tế
