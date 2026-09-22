@@ -32,12 +32,12 @@
       {
         "speaker": "A",
         "en": "Yes please. Can you also tell me if there are any additional charges I might not be aware of?",
-        "vi": "Vâng làm ơn. Bạn có thể cho tôi biết liệu có thêm khoản phí nào tôi chưa biết không?"
+        "vi": "Vâng, phiền bạn. Bạn có thể cho tôi biết liệu có thêm khoản phí nào tôi chưa biết không?"
       },
       {
         "speaker": "B",
         "en": "Let me pull it up. You had the room at four-four hundred thousand, and the spa booking for two at one million. Plus one minibar item — a bottle of water at thirty thousand.",
-        "vi": "Để tôi tìm hiệu. Anh có tiền phòng bốn triệu bốn trăm nghìn, đặt spa cho hai người một triệu. Thêm một món trong minibar — một chai nước ba mươi nghìn."
+        "vi": "Để tôi tra lại. Anh có tiền phòng bốn triệu bốn trăm nghìn, đặt spa cho hai người một triệu. Thêm một món trong minibar — một chai nước ba mươi nghìn."
       },
       {
         "speaker": "A",
@@ -52,7 +52,7 @@
       {
         "speaker": "A",
         "en": "I'll pay the balance now by card as well. Same Visa, please.",
-        "vi": "Tôi sẽ thanh toán phần còn lại bằng thẻ ngay bây giờ. Vẫn thẻ Visa đó, làm ơn."
+        "vi": "Tôi sẽ thanh toán phần còn lại bằng thẻ ngay bây giờ. Vẫn thẻ Visa đó nhé."
       },
       {
         "speaker": "B",
@@ -154,7 +154,7 @@
       {
         "speaker": "A",
         "en": "That sounds smart. You know this city well.",
-        "vi": "Nghe thông minh đó. Bạn biết thành phố này rõ nhỉ."
+        "vi": "Nghe hợp lý đó. Bạn rành thành phố này ghê."
       },
       {
         "speaker": "B",
@@ -199,7 +199,7 @@
       {
         "speaker": "B",
         "en": "Two — a son in grade four and a daughter just started kindergarten this year. They keep me very busy!",
-        "vi": "Hai đứa — một trai học lớp bốn và một gái vừa vào mẫu giáo năm nay. Chúng giữ tôi rất bận rộn!"
+        "vi": "Hai đứa — một trai học lớp bốn và một gái vừa vào mẫu giáo năm nay. Hai đứa làm tôi bận tối mắt!"
       },
       {
         "speaker": "A",
@@ -241,7 +241,7 @@
       {
         "speaker": "B",
         "en": "Yes it does! Are you going there now? It's about four stops away.",
-        "vi": "Có đấy! Bạn đang đến đó bây giờ không? Còn khoảng bốn trạm nữa."
+        "vi": "Có đấy! Bạn định xuống đó luôn à? Còn khoảng bốn trạm nữa."
       },
       {
         "speaker": "A",
@@ -266,7 +266,7 @@
       {
         "speaker": "A",
         "en": "Very different! The people here are so direct and friendly. And the food — don't get me started on the food.",
-        "vi": "Rất khác! Người ở đây thẳng thắn và thân thiện lắm. Và đồ ăn — đừng để tôi bắt đầu nói về đồ ăn."
+        "vi": "Rất khác! Người ở đây thẳng thắn và thân thiện lắm. Và đồ ăn — nói tới đồ ăn thì tôi kể cả ngày."
       },
       {
         "speaker": "B",
@@ -291,7 +291,7 @@
       {
         "speaker": "B",
         "en": "That's the right app. Once you know how to set your start and end point, it's very reliable. Shows real-time tracking too.",
-        "vi": "Đó là app đúng. Khi bạn biết cách đặt điểm xuất phát và điểm đến, nó rất đáng tin cậy. Còn hiển thị theo dõi thời gian thực."
+        "vi": "Đúng app đó rồi. Khi bạn biết cách đặt điểm xuất phát và điểm đến, nó rất đáng tin cậy. Còn hiển thị theo dõi thời gian thực."
       },
       {
         "speaker": "A",
@@ -388,7 +388,7 @@
       {
         "speaker": "A",
         "en": "Window, please! I love watching the scenery — especially the stretch along the coast near Hue.",
-        "vi": "Cạnh cửa sổ, làm ơn! Tôi thích ngắm cảnh — đặc biệt đoạn dọc bờ biển gần Huế."
+        "vi": "Cho tôi ghế cạnh cửa sổ nhé! Tôi thích ngắm cảnh — đặc biệt đoạn dọc bờ biển gần Huế."
       },
       {
         "speaker": "B",
@@ -515,7 +515,7 @@
       {
         "speaker": "B",
         "en": "For Vietnamese citizens, just your national ID card and a minimum initial deposit of one hundred thousand dong.",
-        "vi": "Với công dân Việt Nam, chỉ cần thẻ CMND và khoản tiền gửi ban đầu tối thiểu một trăm nghìn đồng."
+        "vi": "Với công dân Việt Nam, chỉ cần thẻ căn cước công dân và khoản tiền gửi ban đầu tối thiểu một trăm nghìn đồng."
       },
       {
         "speaker": "A",
@@ -644,7 +644,7 @@
       {
         "speaker": "A",
         "en": "Okay, thank you. I appreciate you checking.",
-        "vi": "Được, cảm ơn. Tôi cảm kích vì bạn kiểm tra."
+        "vi": "Được, cảm ơn. Cảm ơn bạn đã kiểm tra giúp."
       },
       {
         "speaker": "B",
@@ -873,7 +873,7 @@
       {
         "speaker": "B",
         "en": "I'd be very happy to renew with you — you've been a wonderful tenant. Always on time with rent and very considerate.",
-        "vi": "Chị rất vui được gia hạn với em — em là một người thuê tuyệt vời. Luôn đúng hạn tiền thuê và rất biết điều."
+        "vi": "Chị rất vui được gia hạn với em — em là một người thuê tuyệt vời. Luôn đóng tiền thuê đúng hạn và rất ý tứ."
       },
       {
         "speaker": "A",
@@ -1092,7 +1092,7 @@
       {
         "speaker": "A",
         "en": "That's fair — I appreciate you quoting before extra work. Should I do anything to prepare before you arrive?",
-        "vi": "Công bằng đó — tôi cảm kích anh báo giá trước khi làm thêm. Tôi có cần chuẩn bị gì trước khi anh đến không?"
+        "vi": "Hợp lý đó — cảm ơn anh đã báo giá trước khi làm thêm. Tôi có cần chuẩn bị gì trước khi anh đến không?"
       },
       {
         "speaker": "B",

@@ -52,12 +52,12 @@
       {
         "speaker": "B",
         "en": "Here we also commonly ask about marriage and children. Don't be offended!",
-        "vi": "Ở đây chúng tôi cũng thường hỏi về hôn nhân và con cái. Đừng bị xúc phạm!"
+        "vi": "Ở đây chúng tôi cũng hay hỏi về chuyện lập gia đình và con cái. Bạn đừng thấy khó chịu nhé!"
       },
       {
         "speaker": "A",
         "en": "Haha, good to know. What about eating customs?",
-        "vi": "Haha, tốt khi biết. Còn phong tục ăn uống thì sao?"
+        "vi": "Haha, biết vậy hay quá. Còn phong tục ăn uống thì sao?"
       },
       {
         "speaker": "B",
@@ -67,7 +67,7 @@
       {
         "speaker": "A",
         "en": "Like family style! And is it polite to finish everything on your plate?",
-        "vi": "Kiểu gia đình! Và có lịch sự khi ăn hết mọi thứ trên đĩa không?"
+        "vi": "Kiểu ăn chung như trong gia đình! Vậy ăn hết sạch phần của mình có lịch sự không?"
       },
       {
         "speaker": "B",
@@ -178,7 +178,7 @@
       {
         "speaker": "A",
         "en": "In ancient times, tax was based on the width of the shopfront, so they built narrow but deep.",
-        "vi": "Thời cổ đại, thuế được tính theo chiều rộng mặt tiền cửa hàng, nên người ta xây hẹp nhưng sâu."
+        "vi": "Ngày xưa, thuế được tính theo chiều rộng mặt tiền cửa hàng, nên người ta xây hẹp nhưng sâu."
       },
       {
         "speaker": "B",
@@ -234,7 +234,7 @@
       {
         "speaker": "B",
         "en": "No, please sit down. Have you been here before?",
-        "vi": "Chưa, mời ngồi. Bạn đã đến đây trước chưa?"
+        "vi": "Chưa có ai, mời bạn ngồi. Bạn đến đây lần nào chưa?"
       },
       {
         "speaker": "A",
@@ -249,7 +249,7 @@
       {
         "speaker": "A",
         "en": "The broth smells incredible. What's in it?",
-        "vi": "Nước dùng thơm thật không thể tin được. Trong đó có gì vậy?"
+        "vi": "Nước dùng thơm không thể tả. Trong đó có gì vậy?"
       },
       {
         "speaker": "B",
@@ -496,12 +496,12 @@
       {
         "speaker": "B",
         "en": "Now let's try some che. There's a famous che stall around the corner.",
-        "vi": "Bây giờ mình thử che đi. Có một quán che nổi tiếng ở đằng kia."
+        "vi": "Bây giờ mình thử chè đi. Có một quán chè nổi tiếng ở đằng kia."
       },
       {
         "speaker": "A",
         "en": "What is che exactly? Is it like a dessert soup?",
-        "vi": "Che là gì vậy? Có giống súp tráng miệng không?"
+        "vi": "Chè là gì vậy? Có giống súp tráng miệng không?"
       },
       {
         "speaker": "B",
@@ -511,12 +511,12 @@
       {
         "speaker": "A",
         "en": "There are so many types here. What do you recommend?",
-        "vi": "Ở đây có rất nhiều loại. Bạn khuyến nghị gì?"
+        "vi": "Ở đây có rất nhiều loại. Bạn gợi ý món nào?"
       },
       {
         "speaker": "B",
         "en": "Che ba mau — three-colored sweet soup with mung beans, red beans, and coconut milk.",
-        "vi": "Chè ba màu — chè ba màu với đậu xanh, đậu đỏ và nước cốt dừa."
+        "vi": "Chè ba màu — món chè ba lớp với đậu xanh, đậu đỏ và nước cốt dừa."
       },
       {
         "speaker": "A",
@@ -526,7 +526,7 @@
       {
         "speaker": "B",
         "en": "Saigon street food is some of the best in the world, I think.",
-        "vi": "Tôi nghĩ đồ ăn vỉa hè Sài Gòn là một trong những thứ tốt nhất thế giới."
+        "vi": "Tôi nghĩ đồ ăn vỉa hè Sài Gòn ngon vào hàng nhất thế giới."
       },
       {
         "speaker": "A",
@@ -567,7 +567,7 @@
       {
         "speaker": "B",
         "en": "Don't worry! Ha Long Bay is calm. The water is very gentle here.",
-        "vi": "Đừng lo! Vịnh Hạ Long rất yên lặng. Nước ở đây rất êm."
+        "vi": "Đừng lo! Vịnh Hạ Long rất lặng sóng. Nước ở đây rất êm."
       },
       {
         "speaker": "A",
@@ -577,7 +577,7 @@
       {
         "speaker": "B",
         "en": "Over 1,600 limestone islands and islets. Each one has a unique shape.",
-        "vi": "Hơn 1.600 đảo và đảo nhỏ bằng đá vôi. Mỗi hòn có hình dạng độc đáo."
+        "vi": "Hơn 1.600 hòn đảo lớn nhỏ bằng đá vôi. Mỗi hòn có hình dạng độc đáo."
       },
       {
         "speaker": "A",
@@ -728,7 +728,7 @@
       {
         "speaker": "B",
         "en": "Bun bo Hue. It's spicy, rich, and very complex. Very underrated internationally.",
-        "vi": "Bún bò Huế. Nó cay, đậm đà và rất phức tạp. Bị đánh giá thấp quốc tế."
+        "vi": "Bún bò Huế. Món này cay, đậm đà và rất nhiều tầng vị. Ở nước ngoài còn bị đánh giá thấp."
       },
       {
         "speaker": "A",
@@ -738,12 +738,12 @@
       {
         "speaker": "B",
         "en": "Lemongrass-infused beef broth, thick round noodles, and pork hock. The chili oil is fiery.",
-        "vi": "Nước dùng bò có sả, mì tròn dày và giò heo. Dầu ớt rất cay."
+        "vi": "Nước dùng bò nấu sả, sợi bún tròn to và giò heo. Dầu ớt rất cay."
       },
       {
         "speaker": "A",
         "en": "I love spicy food. Where can I find an authentic version?",
-        "vi": "Tôi thích đồ ăn cay. Tôi có thể tìm bản xác thực ở đâu?"
+        "vi": "Tôi thích đồ ăn cay. Tôi tìm được món chuẩn vị ở đâu?"
       },
       {
         "speaker": "B",
@@ -768,7 +768,7 @@
       {
         "speaker": "B",
         "en": "Banh cuon chay — steamed rice rolls with mushroom filling. Absolutely delicious.",
-        "vi": "Bánh cuốn chay — bánh gạo hấp nhân nấm. Ngon tuyệt đối."
+        "vi": "Bánh cuốn chay — bánh cuốn hấp nhân nấm. Ngon tuyệt."
       }
     ],
     "speakerAGender": "male",
@@ -789,7 +789,7 @@
       {
         "speaker": "B",
         "en": "I took it last year and got 7.0. Happy to share what worked for me.",
-        "vi": "Tôi thi năm ngoái và được 7.0. Vui lòng chia sẻ những gì hiệu quả với tôi."
+        "vi": "Tôi thi năm ngoái và được 7.0. Tôi sẵn lòng chia sẻ cách đã hiệu quả với mình."
       },
       {
         "speaker": "A",
@@ -809,7 +809,7 @@
       {
         "speaker": "B",
         "en": "Writing, without a doubt. Task 2 essays require a specific structure and vocabulary.",
-        "vi": "Viết, không cần nghi ngờ. Bài luận Task 2 yêu cầu cấu trúc và từ vựng cụ thể."
+        "vi": "Chắc chắn là phần Viết. Bài luận Task 2 yêu cầu cấu trúc và từ vựng cụ thể."
       },
       {
         "speaker": "A",
@@ -829,7 +829,7 @@
       {
         "speaker": "B",
         "en": "It's achievable but you need to be very consistent. No shortcuts.",
-        "vi": "Có thể đạt được nhưng bạn cần rất nhất quán. Không có đường tắt."
+        "vi": "Đạt được chứ, nhưng bạn phải học thật đều đặn. Không có đường tắt."
       },
       {
         "speaker": "A",
@@ -920,7 +920,7 @@
       {
         "speaker": "B",
         "en": "Gone Girl by Gillian Flynn. I couldn't put it down for two days.",
-        "vi": "Gone Girl của Gillian Flynn. Tôi không thể đặt xuống trong hai ngày."
+        "vi": "Gone Girl của Gillian Flynn. Tôi đọc một mạch hai ngày không rời tay."
       },
       {
         "speaker": "A",
@@ -1051,7 +1051,7 @@
       {
         "speaker": "B",
         "en": "I recommend having 6 months of savings before you quit. That safety net is crucial.",
-        "vi": "Tôi khuyên nên có 6 tháng tiết kiệm trước khi nghỉ. Mạng lưới an toàn đó rất quan trọng."
+        "vi": "Tôi khuyên nên dành đủ tiền sống 6 tháng trước khi nghỉ. Khoản dự phòng đó rất quan trọng."
       },
       { "speaker": "A", "en": "How do you find clients?", "vi": "Bạn tìm khách hàng như thế nào?" },
       {
@@ -1082,12 +1082,12 @@
       {
         "speaker": "A",
         "en": "That's manageable. Do you ever feel lonely working alone?",
-        "vi": "Nghe chấp nhận được. Bạn có bao giờ cảm thấy cô đơn không?"
+        "vi": "Nghe chấp nhận được. Làm việc một mình bạn có thấy cô đơn không?"
       },
       {
         "speaker": "B",
         "en": "Sometimes. I work from co-working spaces twice a week to stay social.",
-        "vi": "Đôi khi. Tôi làm từ không gian làm việc chung hai lần một tuần."
+        "vi": "Đôi khi. Tôi ra không gian làm việc chung hai buổi một tuần cho đỡ lẻ loi."
       },
       {
         "speaker": "A",

@@ -189,12 +189,12 @@
       {
         "speaker": "B",
         "en": "That's a sensible choice — you'll save a good amount and still get a great screen. Shall I proceed with that?",
-        "vi": "Đó là lựa chọn hợp lý — anh tiết kiệm được kha khá mà vẫn có màn hình tốt. Tôi tiến hành với loại đó nhé?"
+        "vi": "Đó là lựa chọn hợp lý — chị tiết kiệm được kha khá mà vẫn có màn hình tốt. Tôi tiến hành với loại đó nhé?"
       },
       {
         "speaker": "A",
         "en": "Yes, please. How long will the repair take?",
-        "vi": "Vâng, làm ơn. Sửa chữa mất bao lâu?"
+        "vi": "Vâng, anh làm giúp tôi nhé. Sửa chữa mất bao lâu?"
       },
       {
         "speaker": "B",
@@ -246,7 +246,7 @@
       {
         "speaker": "A",
         "en": "I mainly want to improve my speaking. I can read and write okay, but I freeze up when I have to talk.",
-        "vi": "Tôi chủ yếu muốn cải thiện kỹ năng nói. Tôi đọc và viết khá ổn, nhưng tôi cứng họng khi phải nói."
+        "vi": "Tôi chủ yếu muốn cải thiện kỹ năng nói. Tôi đọc và viết khá ổn, nhưng tôi cứ cứng lưỡi khi phải nói."
       },
       {
         "speaker": "B",
@@ -353,7 +353,7 @@
       {
         "speaker": "B",
         "en": "Yes, that's me! Welcome aboard, Khanh. We've been looking forward to having you join the team.",
-        "vi": "Vâng, là chị đây! Chào mừng em, Khánh. Chúng tôi đã mong chờ em gia nhập đội."
+        "vi": "Vâng, là chị đây! Chào mừng em, Khánh. Bọn chị đã mong em gia nhập đội lắm."
       },
       {
         "speaker": "A",
@@ -398,12 +398,12 @@
       {
         "speaker": "A",
         "en": "I've used Slack before, so that's familiar at least. Where's the restroom and the pantry?",
-        "vi": "Em dùng Slack trước đây rồi, nên ít nhất cũng quen. Nhà vệ sinh và phòng pantry ở đâu ạ?"
+        "vi": "Em dùng Slack trước đây rồi, nên ít nhất cũng quen. Nhà vệ sinh và phòng bếp nhỏ (pantry) ở đâu ạ?"
       },
       {
         "speaker": "B",
         "en": "The restrooms are down the hall to the left. The pantry's to the right — free coffee, tea, and there's always snacks people share.",
-        "vi": "Nhà vệ sinh ở cuối hành lang bên trái. Pantry ở bên phải — cà phê, trà miễn phí, và luôn có đồ ăn vặt mọi người chia sẻ."
+        "vi": "Nhà vệ sinh ở cuối hành lang bên trái. Phòng bếp nhỏ ở bên phải — cà phê, trà miễn phí, và luôn có đồ ăn vặt mọi người chia sẻ."
       },
       {
         "speaker": "A",
@@ -418,7 +418,7 @@
       {
         "speaker": "A",
         "en": "Please do — I'd hate to break it on my first day! What time does everyone usually take lunch?",
-        "vi": "Làm ơn — em không muốn làm hỏng nó vào ngày đầu! Mọi người thường ăn trưa lúc mấy giờ?"
+        "vi": "Chị chỉ giúp em với — em không muốn làm hỏng nó vào ngày đầu! Mọi người thường ăn trưa lúc mấy giờ?"
       },
       {
         "speaker": "B",
@@ -647,7 +647,7 @@
       {
         "speaker": "B",
         "en": "I appreciate you handling it so professionally, especially during a difficult time. Consider your leave approved.",
-        "vi": "Anh cảm kích em xử lý chuyện này rất chuyên nghiệp, đặc biệt trong thời điểm khó khăn. Coi như đơn nghỉ của em được duyệt."
+        "vi": "Anh rất quý cách em xử lý chuyện này, rất chuyên nghiệp, đặc biệt trong thời điểm khó khăn. Coi như đơn nghỉ của em được duyệt."
       },
       {
         "speaker": "A",
@@ -699,7 +699,7 @@
       {
         "speaker": "B",
         "en": "That's perfectly natural. Let's start simple — could you tell me a bit about yourself and your background?",
-        "vi": "Điều đó hoàn toàn tự nhiên. Mình bắt đầu đơn giản nhé — cô có thể kể một chút về bản thân và xuất thân của cô không?"
+        "vi": "Điều đó hoàn toàn tự nhiên. Mình bắt đầu đơn giản nhé — cô kể một chút về bản thân và quá trình học tập, làm việc của mình nhé?"
       },
       {
         "speaker": "A",
@@ -734,7 +734,7 @@
       {
         "speaker": "A",
         "en": "Honestly, it was really understanding the audience. We tested different messages and doubled down on what resonated emotionally.",
-        "vi": "Thành thật mà nói, đó là thực sự hiểu khán giả. Chúng tôi thử nghiệm các thông điệp khác nhau và tập trung vào cái gây cộng hưởng cảm xúc."
+        "vi": "Thành thật mà nói, đó là hiểu thật kỹ đối tượng khách hàng. Chúng tôi thử nhiều thông điệp khác nhau rồi dồn sức vào thông điệp chạm được cảm xúc."
       },
       {
         "speaker": "B",
@@ -806,12 +806,12 @@
       {
         "speaker": "A",
         "en": "Mainly the salary. The offer is twenty million per month, and I was hoping we could explore some flexibility there.",
-        "vi": "Chủ yếu là lương. Lời mời là hai mươi triệu một tháng, và tôi hy vọng chúng ta có thể tìm hiểu một chút sự linh hoạt ở đó."
+        "vi": "Chủ yếu là lương. Lời mời là hai mươi triệu một tháng, và tôi hy vọng chúng ta có thể linh hoạt thêm một chút ở con số này."
       },
       {
         "speaker": "B",
         "en": "I appreciate you raising it directly. May I ask what figure you had in mind?",
-        "vi": "Tôi trân trọng việc anh nêu trực tiếp. Tôi có thể hỏi anh có con số nào trong đầu không?"
+        "vi": "Cảm ơn anh đã nói thẳng. Tôi có thể hỏi anh có con số nào trong đầu không?"
       },
       {
         "speaker": "A",
@@ -836,7 +836,7 @@
       {
         "speaker": "A",
         "en": "I'd appreciate that — transparency helps both of us.",
-        "vi": "Tôi sẽ cảm kích điều đó — sự minh bạch giúp cả hai chúng ta."
+        "vi": "Tôi rất mong như vậy — sự minh bạch giúp cả hai chúng ta."
       },
       {
         "speaker": "B",
@@ -1070,7 +1070,7 @@
       {
         "speaker": "A",
         "en": "That genuinely helps. What if someone asks a question I can't answer though?",
-        "vi": "Điều đó thực sự giúp ích. Nhưng nếu ai đó hỏi câu mình không trả lời được thì sao?"
+        "vi": "Điều đó thực sự giúp mình. Nhưng nếu ai đó hỏi câu mình không trả lời được thì sao?"
       },
       {
         "speaker": "B",
@@ -1085,7 +1085,7 @@
       {
         "speaker": "B",
         "en": "Being honest actually makes you look more credible, not less. Confidence isn't about having all the answers.",
-        "vi": "Trung thực thực ra làm cậu trông đáng tin hơn, chứ không phải kém đi. Tự tin không phải là có tất cả câu trả lời."
+        "vi": "Thực ra, trung thực làm cậu trông đáng tin hơn, chứ không phải kém đi. Tự tin không phải là có tất cả câu trả lời."
       },
       {
         "speaker": "A",

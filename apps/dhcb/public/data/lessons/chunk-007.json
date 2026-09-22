@@ -47,7 +47,7 @@
       {
         "speaker": "B",
         "en": "You're doing the right thing. Dehydration makes fevers worse. Also, use a damp cloth on her forehead to help bring the temperature down.",
-        "vi": "Bạn làm đúng rồi. Mất nước làm sốt nặng hơn. Cũng nên dùng khăn ướt đắp lên trán bà để giúp hạ nhiệt."
+        "vi": "Cháu làm đúng rồi. Mất nước làm sốt nặng hơn. Cũng nên dùng khăn ướt đắp lên trán bà để giúp hạ nhiệt."
       },
       {
         "speaker": "A",
@@ -62,7 +62,7 @@
       {
         "speaker": "A",
         "en": "Understood. What should she eat? She has no appetite.",
-        "vi": "Hiểu rồi. Bà nên ăn gì? Bà không có cảm giác muốn ăn."
+        "vi": "Hiểu rồi. Bà nên ăn gì ạ? Bà không thấy thèm ăn."
       },
       {
         "speaker": "B",
@@ -97,7 +97,7 @@
       {
         "speaker": "B",
         "en": "Please do. Also make sure you wash your hands frequently — flu is contagious.",
-        "vi": "Nhớ nhé. Bạn cũng nhớ rửa tay thường xuyên — cúm rất dễ lây."
+        "vi": "Nhớ nhé. Cháu cũng nhớ rửa tay thường xuyên — cúm rất dễ lây."
       },
       {
         "speaker": "A",
@@ -107,7 +107,7 @@
       {
         "speaker": "B",
         "en": "You're already doing great. Rest, hydration, and love — those are the best medicines. Your mother is lucky to have a caring son.",
-        "vi": "Bạn đang làm rất tốt. Nghỉ ngơi, nước và tình yêu thương — đó là những loại thuốc tốt nhất. Mẹ bạn may mắn khi có người con quan tâm như vậy."
+        "vi": "Cháu đang làm rất tốt. Nghỉ ngơi, bù nước và tình thương — đó là những loại thuốc tốt nhất. Mẹ cháu may mắn khi có người con chu đáo như vậy."
       }
     ]
   },
@@ -155,7 +155,7 @@
       {
         "speaker": "B",
         "en": "I appreciate that. But honestly, what bothers me more is that you didn't tell me right away. I found out by looking myself.",
-        "vi": "Anh trân trọng điều đó. Nhưng thật ra điều làm anh buồn hơn là em không nói ngay với anh. Anh phải tự nhìn ra."
+        "vi": "Anh ghi nhận điều đó. Nhưng thật ra điều làm anh buồn hơn là em không nói ngay với anh. Anh phải tự nhìn ra."
       },
       {
         "speaker": "A",
@@ -227,7 +227,7 @@
       {
         "speaker": "A",
         "en": "Tuấn, I'm exhausted. This week has been absolutely brutal at work.",
-        "vi": "Tuấn ơi, tao kiệt sức rồi. Tuần này công việc thật sự tàn bạo quá."
+        "vi": "Tuấn ơi, tao kiệt sức rồi. Tuần này ở công ty khắc nghiệt kinh khủng."
       },
       {
         "speaker": "B",
@@ -267,7 +267,7 @@
       {
         "speaker": "A",
         "en": "I know, rationally. But when I'm in the middle of it, I just go into survival mode.",
-        "vi": "Tao biết, về mặt lý trí. Nhưng khi đang trong đó, tao chỉ chạy chế độ sinh tồn thôi."
+        "vi": "Tao biết, về mặt lý trí. Nhưng khi đang ở giữa mớ việc đó, tao chỉ còn biết gắng sống sót qua ngày."
       },
       {
         "speaker": "B",
@@ -297,7 +297,7 @@
       {
         "speaker": "A",
         "en": "That's actually brilliant. I can say the same things but from a strength position, not a complaint.",
-        "vi": "Cái đó thật sự xuất sắc. Tao có thể nói y những điều đó nhưng từ góc độ chủ động, không phải than phiền."
+        "vi": "Cách đó hay thật. Tao có thể nói y những điều đó nhưng từ góc độ chủ động, không phải than phiền."
       },
       {
         "speaker": "B",
@@ -691,7 +691,7 @@
       {
         "speaker": "A",
         "en": "I'd really appreciate that. It's not just the music — there's also a lot of stomping.",
-        "vi": "Tôi rất trân trọng điều đó. Không chỉ nhạc — còn có nhiều tiếng bước chân mạnh."
+        "vi": "Tôi rất cảm ơn. Không chỉ tiếng nhạc — còn có nhiều tiếng bước chân mạnh."
       },
       {
         "speaker": "B",
@@ -736,7 +736,7 @@
       {
         "speaker": "B",
         "en": "Good to know. Again, I'm really sorry for last night.",
-        "vi": "Tốt khi biết điều đó. Một lần nữa, tôi thực sự xin lỗi về tối qua."
+        "vi": "Vậy thì tốt. Một lần nữa, tôi thực sự xin lỗi về tối qua."
       },
       {
         "speaker": "A",
@@ -792,7 +792,7 @@
       {
         "speaker": "A",
         "en": "I have a stiff neck and shoulders. Which would you recommend?",
-        "vi": "Tôi bị cứng cổ và vai. Bạn khuyến nghị loại nào?"
+        "vi": "Tôi bị cứng cổ và vai. Bạn khuyên tôi chọn loại nào?"
       },
       {
         "speaker": "B",
@@ -838,7 +838,7 @@
       {
         "speaker": "A",
         "en": "Medium to firm, please. I want to really feel the tension release.",
-        "vi": "Vừa đến mạnh. Tôi muốn thực sự cảm nhận được sự giải phóng căng thẳng."
+        "vi": "Vừa đến mạnh nhé. Tôi muốn cảm nhận rõ cơ giãn ra."
       },
       {
         "speaker": "B",
@@ -889,12 +889,12 @@
       {
         "speaker": "A",
         "en": "The asking price is 3.5 billion VND. We have 1 billion saved.",
-        "vi": "Giá đặt ra là 3.5 tỷ đồng. Chúng con tiết kiệm được 1 tỷ."
+        "vi": "Giá rao là 3,5 tỷ đồng. Chúng con tiết kiệm được 1 tỷ."
       },
       {
         "speaker": "B",
         "en": "So you'd need a mortgage for 2.5 billion? That's a big commitment.",
-        "vi": "Vậy là các con cần vay thêm 2.5 tỷ? Đó là cam kết lớn."
+        "vi": "Vậy là các con cần vay thêm 2,5 tỷ? Đó là cam kết lớn."
       },
       {
         "speaker": "A",
@@ -939,7 +939,7 @@
       {
         "speaker": "A",
         "en": "We're considering Vietcombank. They offer a 7.5% interest rate for the first 3 years.",
-        "vi": "Chúng con đang xem xét Vietcombank. Họ cung cấp lãi suất 7.5% trong 3 năm đầu."
+        "vi": "Chúng con đang xem xét Vietcombank. Họ cho lãi suất 7,5% trong 3 năm đầu."
       },
       {
         "speaker": "B",
@@ -1007,11 +1007,7 @@
         "en": "Mostly self-studying. I use apps, YouTube, and English podcasts.",
         "vi": "Chủ yếu tự học. Tôi dùng ứng dụng, YouTube và podcast tiếng Anh."
       },
-      {
-        "speaker": "A",
-        "en": "Which podcasts do you recommend?",
-        "vi": "Bạn khuyến nghị podcast nào?"
-      },
+      { "speaker": "A", "en": "Which podcasts do you recommend?", "vi": "Bạn gợi ý podcast nào?" },
       {
         "speaker": "B",
         "en": "I like 'English Learning for Curious Minds' and BBC 6 Minute English.",
@@ -1040,7 +1036,7 @@
       {
         "speaker": "A",
         "en": "Do you have conversation partners online?",
-        "vi": "Bạn có đối tác trò chuyện trực tuyến không?"
+        "vi": "Bạn có bạn luyện nói trực tuyến nào chưa?"
       },
       {
         "speaker": "B",
@@ -1050,7 +1046,7 @@
       {
         "speaker": "A",
         "en": "Me too! Would you like to be study partners? We could video call weekly.",
-        "vi": "Tôi cũng vậy! Bạn muốn trở thành đối tác học không? Chúng ta có thể gọi video mỗi tuần."
+        "vi": "Tôi cũng vậy! Bạn muốn làm bạn học cùng không? Chúng ta có thể gọi video mỗi tuần."
       },
       {
         "speaker": "B",

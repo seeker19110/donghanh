@@ -22,7 +22,7 @@
       {
         "speaker": "A",
         "en": "Let me check... Yes! It's showing at 7:30 PM and 9:45 PM tonight.",
-        "vi": "Để tao xem... Có rồi! Chiều nay chiếu lúc 7 giờ 30 và 9 giờ 45 tối."
+        "vi": "Để tao xem... Có rồi! Tối nay chiếu lúc 7 giờ 30 và 9 giờ 45."
       },
       {
         "speaker": "B",
@@ -130,7 +130,7 @@
       {
         "speaker": "A",
         "en": "The venue holds 8,000. And it looks completely sold out!",
-        "vi": "Sân khấu này chứa được 8,000 người. Và có vẻ như bán vé hết sạch rồi!"
+        "vi": "Địa điểm này chứa được 8.000 người. Và có vẻ như bán vé hết sạch rồi!"
       },
       {
         "speaker": "B",
@@ -170,7 +170,7 @@
       {
         "speaker": "A",
         "en": "She's the real deal. Oh! The lights are dimming! It's starting!",
-        "vi": "Cô ấy thật tài năng. Ồ! Đèn mờ rồi! Bắt đầu rồi!"
+        "vi": "Cô ấy đúng là có nghề. Ồ! Đèn mờ rồi! Bắt đầu rồi!"
       },
       {
         "speaker": "B",
@@ -190,7 +190,7 @@
       {
         "speaker": "A",
         "en": "It's a concert — of course! Everyone screams. That's the whole point!",
-        "vi": "Đây là concert mà — dĩ nhiên rồi! Mọi người đều hét. Đó là điểm mấu chốt!"
+        "vi": "Đây là concert mà — dĩ nhiên rồi! Ai cũng hét mà. Đi concert là để vậy đó!"
       },
       {
         "speaker": "B",
@@ -380,7 +380,7 @@
       {
         "speaker": "A",
         "en": "We trained so hard for this. Our defense looks solid today — I'm cautiously optimistic.",
-        "vi": "Mình đã luyện tập chăm chỉ cho trận này. Hàng phòng thủ hôm nay trông vững chắc — tao thận trọng lạc quan."
+        "vi": "Mình đã luyện tập chăm chỉ cho trận này. Hàng phòng thủ hôm nay trông vững chắc — tao lạc quan nhưng vẫn dè chừng."
       },
       {
         "speaker": "B",
@@ -415,7 +415,7 @@
       {
         "speaker": "B",
         "en": "I KNOW, I was joking! Oh — free kick! This could be it!",
-        "vi": "TÔI BIẾT, tao đùa thôi! À — đá phạt rồi! Cơ hội đây rồi!"
+        "vi": "TAO BIẾT MÀ, tao đùa thôi! À — đá phạt rồi! Cơ hội đây rồi!"
       },
       {
         "speaker": "A",
@@ -435,7 +435,7 @@
       {
         "speaker": "B",
         "en": "WHO CARES! We're winning! Quick — pour the beer, this needs celebrating!",
-        "vi": "AI QUAN TÂM! Mình đang thắng! Nhanh — rót bia đi, cái này cần ăn mừng!"
+        "vi": "KỆ CHỨ! Mình đang thắng! Nhanh — rót bia đi, cái này cần ăn mừng!"
       }
     ]
   },
@@ -466,8 +466,8 @@
       },
       {
         "speaker": "B",
-        "en": "Ah yes, Huy mentioned you'd be coming in! I'm Huy. Thanks for making the trip. Before we look at courses, shall we do a quick placement test?",
-        "vi": "À đúng rồi, Huy — chính là tôi đây! Cảm ơn bạn đã ghé qua. Trước khi xem các khóa học, mình làm bài kiểm tra xếp lớp nhanh nhé?"
+        "en": "Ah yes, I remember our call — I'm Huy. Thanks for making the trip. Before we look at courses, shall we do a quick placement test?",
+        "vi": "À đúng rồi, tôi nhớ cuộc gọi đó — Huy chính là tôi đây. Cảm ơn bạn đã ghé qua. Trước khi xem các khóa học, mình làm bài kiểm tra xếp lớp nhanh nhé?"
       },
       {
         "speaker": "A",
@@ -589,7 +589,7 @@
       {
         "speaker": "B",
         "en": "The question asked about cultural factors, not economic ones. Reading the question carefully is crucial.",
-        "vi": "Câu hỏi hỏi về các yếu tố văn hóa chứ không phải kinh tế. Đọc kỹ câu hỏi rất quan trọng."
+        "vi": "Câu hỏi này hỏi về các yếu tố văn hóa chứ không phải kinh tế. Đọc kỹ câu hỏi rất quan trọng."
       },
       {
         "speaker": "A",
@@ -967,7 +967,7 @@
       {
         "speaker": "B",
         "en": "Found it — PE029384. Entered. And now it's showing the amount: 487,000 VND.",
-        "vi": "Tìm thấy rồi — PE029384. Nhập xong. Và bây giờ nó hiển thị số tiền: 487,000 đồng."
+        "vi": "Tìm thấy rồi — PE029384. Nhập xong. Và bây giờ nó hiển thị số tiền: 487.000 đồng."
       },
       {
         "speaker": "A",
@@ -1070,7 +1070,7 @@
       {
         "speaker": "A",
         "en": "I know exactly what you mean. Some tastes are tied to memories. Now eat before it gets cold!",
-        "vi": "Mẹ hiểu mày muốn nói gì. Có những hương vị gắn liền với ký ức. Bây giờ ăn đi trước khi nguội!"
+        "vi": "Mẹ hiểu con muốn nói gì. Có những hương vị gắn liền với ký ức. Bây giờ ăn đi trước khi nguội!"
       },
       {
         "speaker": "B",
@@ -1095,7 +1095,7 @@
       {
         "speaker": "B",
         "en": "Deal! These Sunday dinners together are my favorite part of the week, Mom. I hope we never stop doing this.",
-        "vi": "Thỏa thuận! Bữa cơm tối Chủ Nhật cùng nhau là phần con yêu thích nhất trong tuần mẹ ơi. Con mong mình không bao giờ bỏ thói quen này."
+        "vi": "Chốt luôn! Bữa cơm tối Chủ Nhật cùng nhau là phần con yêu thích nhất trong tuần mẹ ơi. Con mong mình không bao giờ bỏ thói quen này."
       }
     ]
   }

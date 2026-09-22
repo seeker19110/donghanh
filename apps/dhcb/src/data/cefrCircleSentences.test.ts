@@ -38,8 +38,13 @@ import {
  * Đo lần đầu 2026-09-14 trên nhánh sạch, TRƯỚC khi thêm câu mẫu cho vòng CEFR.
  * Hash đổi = ai đó đã đụng vào vòng thủ công → phải giải trình, KHÔNG sửa hằng số
  * này cho vừa.
+ *
+ * Giải trình lần đổi 2026-09-21 (docs/changelog/0405): đợt audit câu chữ toàn dự án sửa
+ * bản dịch/câu mẫu của một số vòng thủ công trong `curriculum.ts` (nghĩa sai, câu tiếng Anh
+ * sai ngữ pháp, chính tả Anh-Anh/Anh-Mỹ lẫn lộn) — danh sách TỪ của 89 vòng KHÔNG đổi, chỉ
+ * câu mẫu/bản dịch đổi. Hash mới đo trên kết quả sau khi sửa.
  */
-const GOLDEN_MANUAL_HASH = '180882da5ac9220bc7ce4be677c60f1c1a076152975b9e9704da20f9e732552c'
+const GOLDEN_MANUAL_HASH = 'ca7969b3ce30bc7120e050976a4cabc9322ed344984e150812ef418e5fd91563'
 
 /**
  * Số vòng có câu mẫu TỐI THIỂU (chống lùi độ phủ — bất biến #9).

@@ -983,6 +983,17 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 
 ## Nợ kỹ thuật còn mở
 
+- 🟡 **[2026-09-21 — audit câu chữ toàn dự án, `docs/changelog/0405-*.md`] Nợ phát hiện nhưng
+  NGOÀI vùng câu chữ, chưa sửa — chủ dự án quyết:** (1) từ điển `forms`/`pos`/`level` sai hàng
+  loạt do script `gen-word-forms` cũ (`repayed`, `resetted`, `mooses`, `mother-in-laws`, so sánh
+  hơn bịa `liabler/lonest`…), hai từ không tồn tại (`bereftly`, `evokingly`), `gook` là tiếng lóng
+  miệt thị; (2) **pipeline vòng từ vựng CEFR đứt**: `gen-a1b2-extra-vocab.ts`/
+  `gen-cefr-c1c2-vocab.ts` xếp vòng theo nghĩa tiếng Việt nên sinh lại là phá 1.761 câu mẫu viết
+  tay theo id vòng — tạm dùng `scripts/archive/sync-vocab-from-dictionary.ts` chỉ chép trường
+  chữ, cần đặc tả cách sinh vòng mới cho từ mới mà không xáo vòng cũ; (3) lỗi cấu trúc/đặc tả bài
+  (hoạt ảnh `sinh11c2` b24 đặt nhầm bài, `ly12c3` b16/b17 sai chương, `security-s3` tên trái nội
+  dung, `courses/ml.ts` prerequisites rỗng mâu thuẫn mô tả, `lessons.json` id=109/56…) — danh
+  sách đủ ở changelog 0405 mục "Nợ". Đã thêm cổng CI `npm run audit:prose -- --ci` (job `audit`).
 - 🟡 **[2026-09-20 — PR #1061, `docs/changelog/0388-*.md`] Sửa tương phản theme blue-sky
   (CompanionVoice + StudioDialogue) — CHƯA chụp ảnh Tầng 8b.** Audit + sửa xong 2 lỗi: (1) 6 file
   `CompanionVoice/*` dùng nền cố định `bg-slate-900/90` + chữ `theme-light:` tối → tương phản đo
