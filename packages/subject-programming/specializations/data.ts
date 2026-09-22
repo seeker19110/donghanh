@@ -6,7 +6,7 @@ export const DATA_SPECIALIZATION: ProgrammingSpecialization = {
   name: 'Dữ liệu & Phân tích',
   tagline: 'Đường ống dữ liệu tin cậy và những con số dám dựa vào để quyết định.',
   forWho:
-    'Hợp với người thích trả lời câu hỏi bằng bằng chứng và chịu khó làm sạch dữ liệu bẩn. Phần lớn thời gian của nghề là làm sạch, không phải vẽ biểu đồ.',
+    'Hợp với người thích trả lời câu hỏi dựa trên bằng chứng và chịu khó làm sạch dữ liệu bẩn. Phần lớn thời gian của nghề là làm sạch, không phải vẽ biểu đồ.',
   prerequisite: 'p3',
   duration: '9–14 tháng',
   languages: ['Python', 'SQL'],
@@ -26,7 +26,7 @@ export const DATA_SPECIALIZATION: ProgrammingSpecialization = {
     contracts: [
       'Hợp đồng dữ liệu giữa đội sinh và đội dùng: schema, độ tươi, ý nghĩa từng trường.',
       'Mỗi bảng phục vụ có chủ sở hữu và mô tả; không có bảng vô chủ.',
-      'Mọi bước biến đổi phải idempotent: chạy lại một ngày cho ra đúng kết quả cũ.',
+      'Mọi bước biến đổi phải lũy đẳng (idempotent): chạy lại một ngày cho ra đúng kết quả cũ.',
       'Một chỉ số chỉ có một định nghĩa; phòng ban muốn khác thì đặt tên khác.',
     ],
     keyDecisions: [
@@ -87,7 +87,7 @@ export const DATA_SPECIALIZATION: ProgrammingSpecialization = {
           title: 'Trực quan hoá trung thực',
           topics: [
             'Chọn dạng biểu đồ theo câu hỏi',
-            'Trục không cắt gốc gây hiểu sai',
+            'Trục dọc không bắt đầu từ số không gây hiểu sai',
             'Một biểu đồ nói một ý',
           ],
         },
@@ -283,7 +283,7 @@ export const DATA_SPECIALIZATION: ProgrammingSpecialization = {
   careers: ['Data Analyst', 'Analytics Engineer', 'Data Engineer', 'Data Platform Engineer'],
   pitfalls: [
     'Nhảy vào vẽ biểu đồ trước khi kiểm dữ liệu có sạch không',
-    'Pipeline không idempotent rồi nhân đôi doanh thu',
+    'Pipeline không lũy đẳng rồi nhân đôi doanh thu',
     'Mỗi phòng ban một định nghĩa "người dùng hoạt động"',
     'Chỉ học công cụ thời thượng mà SQL còn yếu',
   ],

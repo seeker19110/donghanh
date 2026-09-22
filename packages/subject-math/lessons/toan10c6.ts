@@ -282,7 +282,7 @@ export const TOAN10_C6_LESSONS: MathLesson[] = [
     animation: {
       title: 'Parabol nằm dưới trục hoành đúng trên khoảng giữa hai nghiệm',
       description:
-        'Đồ thị của tam thức f(x) = x² − 4x + 3 được vẽ trên trục toạ độ: bề lõm quay lên vì hệ số a = 1 dương, cắt trục hoành tại hai nghiệm x = 1 và x = 3, đỉnh nằm tại điểm (2; −1) thấp hơn trục hoành. Một điểm chạy dọc đồ thị từ trái sang phải: khi x nhỏ hơn 1 điểm nằm phía trên trục nên f(x) dương; vừa vượt qua x = 1 điểm chìm xuống dưới trục nên f(x) âm; tới x = 3 điểm ngoi lên trên trục và f(x) dương trở lại. Đúng đoạn nằm dưới trục được tô sáng để thấy nó khớp chính xác khoảng mở từ 1 đến 3. Hình động phá cái bẫy học vẹt câu trong trái ngoài cùng: câu ấy chỉ đúng khi a dương, và cái quyết định thật sự là vị trí của parabol so với trục hoành chứ không phải một câu thần chú.',
+        'Đồ thị của tam thức f(x) = x² − 4x + 3 được vẽ trên trục toạ độ: bề lõm quay lên vì hệ số a = 1 dương, cắt trục hoành tại hai nghiệm x = 1 và x = 3, đỉnh nằm tại điểm (2; −1) thấp hơn trục hoành. Một điểm chạy dọc đồ thị từ trái sang phải: khi x nhỏ hơn 1 điểm nằm phía trên trục nên f(x) dương; vừa vượt qua x = 1 điểm chìm xuống dưới trục nên f(x) âm; tới x = 3 điểm ngoi lên trên trục và f(x) dương trở lại. Đúng đoạn nằm dưới trục được tô sáng để thấy nó khớp chính xác khoảng mở từ 1 đến 3. Hình động phá cái bẫy học vẹt câu trong trái ngoài cùng: câu ấy chỉ dùng được khi tam thức có hai nghiệm phân biệt, còn cái quyết định thật sự là vị trí của parabol so với trục hoành chứ không phải một câu thần chú.',
       viewBoxWidth: 300,
       viewBoxHeight: 220,
       durationMs: 7000,

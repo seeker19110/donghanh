@@ -27,7 +27,7 @@
       {
         "speaker": "A",
         "en": "Carrots, spinach, tomatoes, and broccoli. Can you find them?",
-        "vi": "Cà rốt, rau cải, cà chua và bông cải xanh. Con có thể tìm không?"
+        "vi": "Cà rốt, cải bó xôi, cà chua và bông cải xanh. Con có thể tìm không?"
       },
       {
         "speaker": "B",
@@ -189,11 +189,11 @@
         "en": "I volunteer with an environmental group that teaches children in schools.",
         "vi": "Tôi tình nguyện với nhóm môi trường đến trường dạy trẻ em."
       },
-      { "speaker": "A", "en": "What do you teach them?", "vi": "Bạn dạy họ điều gì?" },
+      { "speaker": "A", "en": "What do you teach them?", "vi": "Bạn dạy các em điều gì?" },
       {
         "speaker": "B",
         "en": "Recycling basics, not littering, why trees matter. Simple but important lessons.",
-        "vi": "Kiến thức cơ bản về tái chế, không xả rác, tại sao cây cối quan trọng."
+        "vi": "Kiến thức cơ bản về tái chế, không xả rác, vì sao cây cối quan trọng. Bài học đơn giản mà thiết thực."
       }
     ],
     "speakerAGender": "female",
@@ -219,12 +219,12 @@
       {
         "speaker": "A",
         "en": "Linh is a wonderful student. She's very engaged in class.",
-        "vi": "Linh là học sinh tuyệt vời. Em rất chú chú vào trong lớp."
+        "vi": "Linh là học sinh tuyệt vời. Em rất tích cực tham gia trong lớp."
       },
       {
         "speaker": "B",
         "en": "That's great to hear! She loves school.",
-        "vi": "Thật tốt khi nghe! Con bé yêu học lắm."
+        "vi": "Nghe vậy tôi mừng quá! Con bé thích đi học lắm."
       },
       {
         "speaker": "A",
@@ -254,7 +254,7 @@
       {
         "speaker": "B",
         "en": "What do you recommend I do at home to help her?",
-        "vi": "Bạn khuyến nghị tôi nên làm gì ở nhà để giúp con?"
+        "vi": "Tôi nên làm gì ở nhà để giúp con ạ?"
       },
       {
         "speaker": "A",
@@ -264,7 +264,7 @@
       {
         "speaker": "B",
         "en": "That's manageable. How is her social behavior with classmates?",
-        "vi": "Điều đó có thể thực hiện được. Hành vi xã hội của em với bạn thế nào?"
+        "vi": "Việc đó làm được ạ. Cháu giao tiếp với các bạn trong lớp thế nào?"
       },
       {
         "speaker": "A",
@@ -332,7 +332,7 @@
         "en": "Semi-formal. I want to look elegant but not overdressed.",
         "vi": "Bán trang trọng. Tôi muốn thanh lịch nhưng không quá lộng lẫy."
       },
-      { "speaker": "B", "en": "What's your usual size?", "vi": "Cỡ thường của bạn là gì?" },
+      { "speaker": "B", "en": "What's your usual size?", "vi": "Bạn thường mặc cỡ nào?" },
       {
         "speaker": "A",
         "en": "I'm usually a medium. But I prefer to try before buying.",
@@ -491,7 +491,7 @@
       {
         "speaker": "A",
         "en": "My partner doesn't drink alcohol. Can they substitute wine for something else?",
-        "vi": "Bạn của tôi không uống rượu. Có thể thay bằng thứ khác không?"
+        "vi": "Bạn gái tôi không uống rượu. Có thể thay bằng đồ uống khác không?"
       },
       {
         "speaker": "B",
@@ -506,7 +506,7 @@
       {
         "speaker": "B",
         "en": "Please do! We take allergies very seriously.",
-        "vi": "Vui lòng nêu! Chúng tôi coi trọng dị ứng rất nghiêm túc."
+        "vi": "Anh cứ nói ạ! Chúng tôi rất coi trọng vấn đề dị ứng."
       }
     ],
     "speakerAGender": "male",
@@ -542,7 +542,7 @@
       {
         "speaker": "A",
         "en": "I am, but I'm worried about living alone in a foreign country.",
-        "vi": "Em có, nhưng em lo về việc sống một mình ở nước ngoài."
+        "vi": "Em tự hào chứ, nhưng em lo chuyện sống một mình ở nước ngoài."
       },
       {
         "speaker": "B",
@@ -639,7 +639,7 @@
       {
         "speaker": "A",
         "en": "About 3 months. I adopted her from a shelter two weeks ago.",
-        "vi": "Khoảng 3 tháng. Tôi nhận nuôi từ trại cứu trợ hai tuần trước."
+        "vi": "Khoảng 3 tháng. Tôi nhận nuôi từ trạm cứu hộ hai tuần trước."
       },
       {
         "speaker": "B",
@@ -660,7 +660,7 @@
       {
         "speaker": "B",
         "en": "Not too worried. It's very common in shelter cats. I'll prescribe some eye drops and medication.",
-        "vi": "Không quá lo. Rất phổ biến ở mèo từ trại cứu trợ. Tôi sẽ kê thuốc nhỏ mắt và thuốc."
+        "vi": "Không quá lo. Rất phổ biến ở mèo nhận từ trạm cứu hộ. Tôi sẽ kê thuốc nhỏ mắt và thuốc."
       },
       { "speaker": "A", "en": "Has she been vaccinated?", "vi": "Con bé đã được tiêm phòng chưa?" },
       {
@@ -691,7 +691,7 @@
       {
         "speaker": "A",
         "en": "How often does she need check-ups?",
-        "vi": "Con bé cần khám bao thường xuyên?"
+        "vi": "Bao lâu cần đưa con bé đi khám một lần?"
       },
       {
         "speaker": "B",
@@ -747,7 +747,7 @@
       {
         "speaker": "B",
         "en": "Very much! Everyone has been so welcoming. Is this your first company party too?",
-        "vi": "Rất nhiều! Mọi người rất thân thiện. Đây cũng là tiệc công ty đầu tiên của bạn à?"
+        "vi": "Thích lắm chứ! Mọi người rất cởi mở. Đây cũng là tiệc công ty đầu tiên của bạn à?"
       },
       {
         "speaker": "A",
@@ -762,7 +762,7 @@
       {
         "speaker": "A",
         "en": "That's banh khot — mini savory pancakes with shrimp. A Vietnamese specialty.",
-        "vi": "Đó là bánh khọt — bánh pancake mặn mini với tôm. Đặc sản Việt Nam."
+        "vi": "Đó là bánh khọt — bánh nhỏ chiên giòn nhân tôm. Đặc sản Việt Nam."
       },
       {
         "speaker": "B",
@@ -863,12 +863,12 @@
       {
         "speaker": "A",
         "en": "I understand why that felt personal. I should have been more specific.",
-        "vi": "Tôi hiểu tại sao điều đó cảm thấy cá nhân. Tôi lẽ ra phải cụ thể hơn."
+        "vi": "Tôi hiểu vì sao bạn thấy như bị nhắm vào mình. Tôi lẽ ra phải cụ thể hơn."
       },
       {
         "speaker": "B",
         "en": "I appreciate you saying that. I might have reacted too quickly.",
-        "vi": "Tôi trân trọng khi bạn nói điều đó. Tôi có thể đã phản ứng quá nhanh."
+        "vi": "Cảm ơn bạn đã nói vậy. Có thể tôi cũng đã phản ứng hơi nhanh."
       },
       {
         "speaker": "A",
@@ -903,7 +903,7 @@
       {
         "speaker": "A",
         "en": "I believe in clearing things up quickly. Misunderstandings fester if left too long.",
-        "vi": "Tôi tin vào việc làm sáng tỏ mọi việc nhanh. Hiểu lầm sẽ lan ra nếu để quá lâu."
+        "vi": "Tôi tin vào việc làm sáng tỏ mọi việc nhanh. Hiểu lầm để lâu sẽ thành chuyện lớn."
       },
       {
         "speaker": "B",
@@ -913,17 +913,17 @@
       {
         "speaker": "A",
         "en": "I'm glad to hear that. Your market analysis section was actually very strong.",
-        "vi": "Vui khi nghe. Phần phân tích thị trường của bạn thực sự rất mạnh."
+        "vi": "Tôi mừng khi nghe vậy. Phần phân tích thị trường của bạn thực sự rất tốt."
       },
       {
         "speaker": "B",
         "en": "Thank you. I worked hard on it. I just got defensive when I thought it was being criticized.",
-        "vi": "Cảm ơn. Tôi đã làm việc chăm chỉ. Tôi chỉ bảo vệ khi nghĩ nó bị phê bình."
+        "vi": "Cảm ơn. Tôi đã làm việc chăm chỉ. Tôi chỉ phản ứng phòng thủ khi nghĩ nó bị chê."
       },
       {
         "speaker": "A",
         "en": "That's human. We all feel protective of our work.",
-        "vi": "Điều đó rất con người. Chúng ta đều cảm thấy bảo vệ công việc của mình."
+        "vi": "Đó là tâm lý bình thường. Ai cũng muốn bảo vệ công sức của mình."
       },
       {
         "speaker": "B",
@@ -995,17 +995,17 @@
       {
         "speaker": "B",
         "en": "I changed my phone to English, watched only English content, kept a journal, and found conversation partners.",
-        "vi": "Tôi đổi điện thoại sang tiếng Anh, chỉ xem nội dung tiếng Anh, viết nhật ký và tìm đối tác hội thoại."
+        "vi": "Tôi đổi điện thoại sang tiếng Anh, chỉ xem nội dung tiếng Anh, viết nhật ký và tìm bạn luyện nói."
       },
       {
         "speaker": "A",
         "en": "That's total immersion. Wasn't it difficult at first?",
-        "vi": "Đó là phương pháp ngâm mình hoàn toàn. Lúc đầu có khó không?"
+        "vi": "Đó là cách đắm mình hoàn toàn trong ngôn ngữ. Lúc đầu có khó không?"
       },
       {
         "speaker": "B",
         "en": "Very! The first month I understood almost nothing. But by month three, it clicked.",
-        "vi": "Rất! Tháng đầu tiên tôi hầu như không hiểu gì. Nhưng đến tháng ba, nó bắt đầu vào."
+        "vi": "Rất! Tháng đầu tiên tôi hầu như không hiểu gì. Nhưng đến tháng thứ ba thì mọi thứ bắt đầu thông."
       },
       {
         "speaker": "A",
@@ -1035,7 +1035,7 @@
       {
         "speaker": "B",
         "en": "Being afraid to speak. I would practice silently for weeks then freeze when it was time to talk.",
-        "vi": "Sợ nói. Tôi luyện tập im lặng nhiều tuần rồi bị đông cứng khi đến lúc phải nói."
+        "vi": "Sợ nói. Tôi luyện thầm nhiều tuần rồi lại cứng lưỡi khi đến lúc phải nói."
       },
       {
         "speaker": "A",

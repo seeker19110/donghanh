@@ -39,7 +39,7 @@ export const BACKEND_S1_DETAIL: SpecStageDetail = {
     {
       moduleId: 'backend-s1-m2',
       objective:
-        'Bảo đảm dữ liệu không hỏng khi client gửi bậy hoặc gửi lại: kiểm ở biên, ghi lũy đẳng, thời gian và tiền lưu đúng kiểu.',
+        'Bảo đảm dữ liệu không hỏng khi client gửi bậy hoặc gửi lại: kiểm ở biên, ghi lũy đẳng (idempotent — chạy lại cho cùng kết quả), thời gian và tiền lưu đúng kiểu.',
       practice: [
         'Kiểm mọi thân yêu cầu bằng schema ở đúng một chỗ, thử gửi trường thừa và trường sai kiểu.',
         'Bấm nút đặt hàng hai lần thật nhanh, xác nhận chỉ có một đơn được tạo nhờ khoá lũy đẳng.',

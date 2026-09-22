@@ -349,7 +349,7 @@ print(f"Trung binh: {tong / dem}")`,
       },
       {
         hoi: 'Vì sao phải gọi .strip() cho mỗi dòng khi đọc file?',
-        dap: 'Vì mỗi dòng đọc lên còn dính ký tự xuống dòng \\n ở cuối, làm giá trị cột cuối bị sai khi so sánh chuỗi. strip() cũng cho phép phát hiện dòng RỖNG ở cuối file để bỏ qua trước khi split.',
+        dap: 'Vì mỗi dòng đọc lên còn dính ký tự xuống dòng (newline) ở cuối, làm giá trị cột cuối bị sai khi so sánh chuỗi. strip() cũng cho phép phát hiện dòng RỖNG ở cuối file để bỏ qua trước khi split.',
       },
       {
         hoi: 'CSV là gì và tách một dòng CSV thành cột bằng cách nào?',

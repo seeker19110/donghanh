@@ -319,7 +319,7 @@ export const FORM_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     { en: 'She ate too much cake.', vi: 'Cô ấy ăn quá nhiều bánh.' },
   ],
   'eat|pastPart': [
-    { en: 'Have you eaten yet?', vi: 'Bạn ăn gì chưa?' },
+    { en: 'Have you eaten yet?', vi: 'Bạn đã ăn chưa?' },
     { en: 'All the rice has been eaten.', vi: 'Cơm đã được ăn hết.' },
   ],
   'drink|past': [
@@ -399,7 +399,7 @@ export const FORM_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   ],
   'put|past': [
     { en: 'I put the keys on the table.', vi: 'Tôi để chìa khóa trên bàn.' },
-    { en: 'She put the baby to bed.', vi: 'Cô ấy đặt em bé đi ngủ.' },
+    { en: 'She put the baby to bed.', vi: 'Cô ấy cho em bé đi ngủ.' },
   ],
   'hit|past': [
     { en: 'The ball hit the window.', vi: 'Quả bóng đập vào cửa sổ.' },
@@ -499,7 +499,7 @@ export const FORM_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   ],
   'bad|comparative': [
     { en: 'The traffic is worse in the morning.', vi: 'Giao thông tệ hơn vào buổi sáng.' },
-    { en: 'His cold got worse overnight.', vi: 'Cơn cảm của anh ấy nặng hơn qua một đêm.' },
+    { en: 'His cold got worse overnight.', vi: 'Qua một đêm, bệnh cảm của anh ấy nặng hơn.' },
   ],
   'bad|superlative': [
     { en: 'That was the worst day of my life.', vi: 'Đó là ngày tồi tệ nhất đời tôi.' },
@@ -802,7 +802,7 @@ export const FORM_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     { en: 'Dad is cooking breakfast in the kitchen.', vi: 'Bố đang nấu bữa sáng trong bếp.' },
     {
       en: 'She is cooking a special meal tonight.',
-      vi: 'Tối nay cô ấy đang nấu một bữa đặc biệt.',
+      vi: 'Tối nay cô ấy sẽ nấu một bữa đặc biệt.',
     },
   ],
   'work|ving': [
@@ -841,12 +841,12 @@ export const FORM_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     { en: 'They are drinking coffee on the balcony.', vi: 'Họ đang uống cà phê ngoài ban công.' },
   ],
   'come|ving': [
-    { en: 'My friends are coming to my house tonight.', vi: 'Tối nay bạn bè đang đến nhà tôi.' },
+    { en: 'My friends are coming to my house tonight.', vi: 'Tối nay bạn bè sẽ đến nhà tôi.' },
     { en: 'A storm is coming this way.', vi: 'Một cơn bão đang kéo đến hướng này.' },
   ],
   'see|ving': [
     { en: 'I am seeing the doctor this afternoon.', vi: 'Chiều nay tôi đi khám bác sĩ.' },
-    { en: 'She is seeing her old friends this week.', vi: 'Tuần này cô ấy đang gặp lại bạn cũ.' },
+    { en: 'She is seeing her old friends this week.', vi: 'Tuần này cô ấy sẽ gặp lại bạn cũ.' },
   ],
   'take|ving': [
     { en: 'He is taking photos of the sunset.', vi: 'Anh ấy đang chụp ảnh hoàng hôn.' },
@@ -1191,7 +1191,7 @@ export const FORM_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   ],
   'beat|past': [
     { en: 'Our team beat theirs last week.', vi: 'Tuần trước đội tôi thắng đội họ.' },
-    { en: 'She beat me at chess yesterday.', vi: 'Hôm qua cô ấy thắng tôi cờ vua.' },
+    { en: 'She beat me at chess yesterday.', vi: 'Hôm qua cô ấy thắng tôi trong ván cờ vua.' },
   ],
   'bend|past': [
     { en: 'He bent down to pick up the coin.', vi: 'Anh ấy cúi xuống nhặt đồng xu.' },
@@ -1278,7 +1278,7 @@ export const FORM_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   'have|past': [
     {
       en: 'We had a great time at the party.',
-      vi: 'Chúng tôi có khoảng thời gian vui ở bữa tiệc.',
+      vi: 'Chúng tôi đã có khoảng thời gian rất vui ở bữa tiệc.',
     },
     { en: 'I had breakfast at seven this morning.', vi: 'Sáng nay tôi ăn sáng lúc bảy giờ.' },
   ],
@@ -1319,7 +1319,7 @@ export const FORM_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   ],
   'outgrow|past': [
     { en: 'He outgrew his shoes in a month.', vi: 'Anh ấy lớn nhanh, một tháng đã chật giày.' },
-    { en: 'She outgrew her old bicycle.', vi: 'Cô bé lớn hơn chiếc xe đạp cũ của mình.' },
+    { en: 'She outgrew her old bicycle.', vi: 'Cô bé lớn lên, chiếc xe đạp cũ không còn vừa nữa.' },
   ],
   'overcome|past': [
     { en: 'She overcame her fear of flying.', vi: 'Cô ấy vượt qua nỗi sợ đi máy bay.' },
@@ -1337,7 +1337,10 @@ export const FORM_EXAMPLES: Record<string, [ExPair, ExPair]> = {
       en: 'The car overtook the truck on the highway.',
       vi: 'Chiếc xe vượt xe tải trên đường cao tốc.',
     },
-    { en: 'Their sales overtook ours last year.', vi: 'Năm ngoái doanh số họ vượt qua chúng tôi.' },
+    {
+      en: 'Their sales overtook ours last year.',
+      vi: 'Năm ngoái doanh số của họ đã vượt doanh số của chúng tôi.',
+    },
   ],
   'overthrow|past': [
     { en: 'The people overthrew the cruel king.', vi: 'Người dân lật đổ vị vua tàn ác.' },
@@ -1427,10 +1430,10 @@ export const FORM_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   ],
   'stick|past': [
     { en: 'The stamp stuck to the envelope.', vi: 'Con tem dính vào phong bì.' },
-    { en: 'The car stuck in the mud.', vi: 'Chiếc xe mắc kẹt trong bùn.' },
+    { en: 'The car got stuck in the mud.', vi: 'Chiếc xe mắc kẹt trong bùn.' },
   ],
   'stink|past': [
-    { en: 'The old fish stank terribly.', vi: 'Con cá cũ bốc mùi kinh khủng.' },
+    { en: 'The old fish stank terribly.', vi: 'Con cá để lâu bốc mùi kinh khủng.' },
     { en: 'His shoes stank after the game.', vi: 'Giày anh ấy hôi sau trận đấu.' },
   ],
   'swear|past': [
@@ -1525,7 +1528,7 @@ export const FORM_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     { en: 'She has gotten much better at English.', vi: 'Cô ấy đã giỏi tiếng Anh hơn nhiều.' },
   ],
   'outgrow|pastPart': [
-    { en: 'He has outgrown all his clothes.', vi: 'Cậu bé đã lớn hơn hết quần áo của mình.' },
+    { en: 'He has outgrown all his clothes.', vi: 'Cậu bé đã lớn, quần áo cũ không còn vừa nữa.' },
     { en: 'She has outgrown her old toys.', vi: 'Cô bé đã quá lớn so với đồ chơi cũ.' },
   ],
   'overcome|pastPart': [
@@ -1537,7 +1540,10 @@ export const FORM_EXAMPLES: Record<string, [ExPair, ExPair]> = {
       en: 'We have been overtaken by a faster car.',
       vi: 'Chúng tôi bị một chiếc xe nhanh hơn vượt qua.',
     },
-    { en: 'Our sales have overtaken last year.', vi: 'Doanh số của chúng tôi đã vượt năm ngoái.' },
+    {
+      en: 'Our sales have overtaken last year’s total.',
+      vi: 'Doanh số của chúng tôi đã vượt con số năm ngoái.',
+    },
   ],
   'overthrow|pastPart': [
     { en: 'The king has been overthrown.', vi: 'Nhà vua đã bị lật đổ.' },
@@ -1578,7 +1584,7 @@ export const FORM_EXAMPLES: Record<string, [ExPair, ExPair]> = {
     { en: 'She has sewn a new curtain.', vi: 'Cô ấy đã may một cái rèm mới.' },
   ],
   'shake|pastPart': [
-    { en: 'He was badly shaken by the accident.', vi: 'Anh ấy hoảng loạn vì vụ tai nạn.' },
+    { en: 'He was badly shaken by the accident.', vi: 'Anh ấy bàng hoàng sau vụ tai nạn.' },
     { en: 'They have shaken hands on the deal.', vi: 'Họ đã bắt tay chốt thỏa thuận.' },
   ],
   'show|pastPart': [
@@ -1654,7 +1660,10 @@ export const FORM_EXAMPLES: Record<string, [ExPair, ExPair]> = {
   ],
   'crisis|plural': [
     { en: 'The country faced many crises.', vi: 'Đất nước đối mặt nhiều cuộc khủng hoảng.' },
-    { en: 'Both crises were solved quickly.', vi: 'Cả hai khủng hoảng đều được giải quyết nhanh.' },
+    {
+      en: 'Both crises were solved quickly.',
+      vi: 'Cả hai cuộc khủng hoảng đều được giải quyết nhanh.',
+    },
   ],
   'criterion|plural': [
     { en: 'There are five criteria for the job.', vi: 'Có năm tiêu chí cho công việc này.' },

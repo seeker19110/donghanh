@@ -1,4 +1,4 @@
-// details/web-s2.ts — Chi tiết chặng S2 hướng WEB ("Full-stack thật sự").
+// details/web-s2.ts — Chi tiết chặng S2 hướng WEB ("Full-stack — có backend của mình").
 // Bản đồ chặng (module, dự án) nằm ở ../web.ts; file này chỉ bổ sung phần THI HÀNH ĐƯỢC:
 // mục tiêu · bài luyện tay · câu tự kiểm · dấu hiệu đã nắm · rubric nghiệm thu · đặc tả mẫu.
 import type { SpecStageDetail } from '../stageDetailTypes.js'
@@ -40,7 +40,7 @@ export const WEB_S2_DETAIL: SpecStageDetail = {
         'Thiết kế được schema quan hệ có ràng buộc thật và viết migration chạy được từ cơ sở dữ liệu trống.',
       practice: [
         'Dựng schema cửa hàng với khoá ngoại, `not null`, `check` và ràng buộc duy nhất — không để tầng ứng dụng gánh thay.',
-        'Viết migration có phiên bản, chạy từ CSDL trống rồi chạy lại lần hai để kiểm tính lũy đẳng.',
+        'Viết migration có phiên bản, chạy từ CSDL trống rồi chạy lại lần hai để kiểm tính lũy đẳng (idempotent).',
         'Đọc `EXPLAIN` của một truy vấn chậm rồi thêm index đúng chỗ, ghi lại thời gian trước và sau.',
       ],
       selfCheck: [

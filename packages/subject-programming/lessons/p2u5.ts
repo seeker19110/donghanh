@@ -95,7 +95,7 @@ for ten, g in theo_gia:
       },
       {
         hoi: 'Comprehension [g for g in gia if g >= 10000] tương đương với đoạn code vòng lặp nào?',
-        dap: 'cao = []\\nfor g in gia:\\n    if g >= 10000:\\n        cao.append(g). Comprehension chỉ là cách viết gọn của "duyệt, lọc, tạo list mới" — kết quả y hệt nhưng ngắn và ít lỗi cú pháp hơn.',
+        dap: 'Tương đương 4 dòng vòng lặp: cao = [] trước, rồi for g in gia: if g >= 10000: cao.append(g). Comprehension chỉ là cách viết gọn của "duyệt, lọc, tạo list mới" — kết quả y hệt nhưng ngắn và ít lỗi cú pháp hơn.',
       },
       {
         hoi: 'sorted(mon, key=lambda m: m[1]) dùng để làm gì?',

@@ -35,7 +35,7 @@ export const WEB_SPECIALIZATION: ProgrammingSpecialization = {
       'Kiểu dữ liệu giữa frontend và backend định nghĩa MỘT LẦN ở gói hợp đồng dùng chung, cả hai bên import.',
       'Response luôn validate lúc chạy ở client — server đúng không có nghĩa mạng giữa đường không hỏng.',
       'Lỗi trả về có mã máy đọc được; UI ánh xạ mã sang câu tiếng Việt, không so khớp chuỗi.',
-      'Mọi endpoint ghi phải idempotent hoặc nêu rõ vì sao không cần.',
+      'Mọi endpoint ghi phải lũy đẳng (idempotent) hoặc nêu rõ vì sao không cần.',
     ],
     keyDecisions: [
       'Render ở server hay client cho từng loại trang — quyết định này khoá luôn SEO và thời gian hiển thị đầu.',
@@ -131,7 +131,7 @@ export const WEB_SPECIALIZATION: ProgrammingSpecialization = {
           id: 'web-s2-m1',
           title: 'API HTTP tử tế',
           topics: [
-            'REST: tài nguyên, mã trạng thái, phân trang, idempotency',
+            'REST: tài nguyên, mã trạng thái, phân trang, lũy đẳng',
             'Validate mọi input ở server — không tin client',
             'Lỗi có mã máy đọc được, không chỉ chuỗi tiếng Việt',
           ],

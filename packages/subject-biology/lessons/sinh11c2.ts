@@ -170,7 +170,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
     chapterTitle: 'Cảm ứng ở sinh vật',
     lessonNumber: 13,
     title: 'Cảm ứng ở thực vật',
-    hook: 'Tại sao ngọn cây luôn hướng về phía cửa sổ có ánh sáng, còn rễ cây lại đâm sâu xuống đất? Đó là do đặc tính hướng động cảm ứng ở thực vật.',
+    hook: 'Tại sao ngọn cây luôn hướng về phía cửa sổ có ánh sáng, còn rễ cây lại đâm sâu xuống đất? Đó là nhờ hướng động — kiểu cảm ứng giúp cây sinh trưởng về phía có lợi cho mình.',
     theory:
       'KHÁI NIỆM CẢM ỨNG Ở THỰC VẬT:\n' +
       '— Cảm ứng ở thực vật là khả năng tiếp nhận và phản ứng lại các kích thích của môi trường (ánh sáng, trọng lực, nước, hóa chất, cơ học) để tồn tại và phát triển.\n\n' +
@@ -244,7 +244,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
     hook: 'Hãy tự tay gieo những hạt đậu và quan sát phản ứng uốn cong tìm ánh sáng hay cắm rễ xuống đất của chúng thông qua các thí nghiệm trực quan sinh động.',
     theory:
       'THÍ NGHIỆM CHỨNG MINH HƯỚNG SÁNG CỦA THÂN CÂY:\n' +
-      '— Chuẩn bị: Gieo hạt đậu xanh trong hai hộp catton: Hộp A bịt kín hoàn toàn; Hộp B khoét một lỗ tròn đường kính 2 cm ở thành bên. Đặt cả hai hộp ở nơi có ánh sáng mặt trời chiếu vào lỗ khoét.\n' +
+      '— Chuẩn bị: Gieo hạt đậu xanh trong hai hộp bìa các-tông: Hộp A bịt kín hoàn toàn; Hộp B khoét một lỗ tròn đường kính 2 cm ở thành bên. Đặt cả hai hộp ở cùng một chỗ có nắng, xoay hộp B sao cho ánh sáng chiếu thẳng vào lỗ khoét.\n' +
       '— Tiến hành: Tưới ẩm đất hàng ngày. Sau 3-5 ngày, mở hộp quan sát.\n' +
       '— Hiện tượng: Cây trong hộp A mọc vống thẳng lên, thân yếu, lá có màu nhạt (vàng úa). Cây trong hộp B mọc nghiêng và ngọn uốn cong hướng ra ngoài qua lỗ khoét.\n\n' +
       'THÍ NGHIỆM CHỨNG MINH HƯỚNG TRỌNG LỰC CỦA RỄ CÂY:\n' +
@@ -280,7 +280,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
       },
       {
         prompt:
-          'Tại sao ngọn cây đậu xanh trồng trong hộp catton khoét một lỗ bên thành lại uốn cong hướng ra ngoài lỗ?',
+          'Tại sao ngọn cây đậu xanh trồng trong hộp bìa các-tông khoét một lỗ ở thành bên lại uốn cong hướng ra ngoài lỗ?',
         choices: [
           {
             id: 'lk_1',
@@ -301,8 +301,8 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         dap: 'Xảy ra trong điều kiện tối hoàn toàn (thiếu ánh sáng), cây tập trung năng lượng kéo dài thân tìm sáng.',
       },
       {
-        hoi: 'Tại sao giấy cobalt chloride đổi màu ở thí nghiệm thoát hơi nước lại liên quan đến cảm ứng thực vật?',
-        dap: 'Gián tiếp đo hoạt động đóng mở khí khổng - một phản ứng cảm ứng của lá đối với sự thay đổi độ ẩm và ánh sáng.',
+        hoi: 'Vì sao rễ cây bị xoay nằm ngang lại uốn cong đâm trở xuống đất?',
+        dap: 'Vì rễ có tính hướng trọng lực dương: auxin dồn xuống mặt dưới của rễ, ở nồng độ cao lại ức chế mặt dưới sinh trưởng nên mặt trên dài nhanh hơn, làm rễ cong xuống.',
       },
     ],
     track: 'core',
@@ -330,13 +330,13 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
       '4. Đường dẫn truyền li tâm (Sợi thần kinh vận động mang lệnh đi).\n' +
       '5. Bộ phận thực hiện (Cơ co bóp hoặc Tuyến tiết dịch).\n\n' +
       'PHÂN LOẠI PHẢN XẠ:\n' +
-      '— Phản xạ không điều kiện: Phản xạ bẩm sinh, di truyền, bền vững, mang tính chủng loại, do tủy sống hoặc não dưới điều khiển (ví dụ: rụt tay khi nóng, tiết nước bọt khi thức ăn chạm lưỡi).\n' +
+      '— Phản xạ không điều kiện: Phản xạ bẩm sinh, di truyền, bền vững, mang tính chủng loại, do tủy sống hoặc trụ não điều khiển (ví dụ: rụt tay khi nóng, tiết nước bọt khi thức ăn chạm lưỡi).\n' +
       '— Phản xạ có điều kiện: Phản xạ học tập được, hình thành trong đời sống cá thể, không bền vững (dễ mất nếu không củng cố), do vỏ não điều khiển (ví dụ: nghe tiếng còi xe biết tránh đường, tiết nước bọt khi nghe nhắc đến chanh chua).',
     workedExample: {
       problem:
         'Hãy phân tích đường đi của luồng thông tin thần kinh trong cung phản xạ rụt tay khi ngón tay vô tình chạm vào một cái gai nhọn.',
       steps: [
-        'Tiếp nhận kích thích: Gai nhọn đâm vào da kích thích thụ thể đau (thụ thể cơ học) ở da đầu ngón tay.',
+        'Tiếp nhận kích thích: Gai nhọn đâm vào da kích thích các thụ thể đau ở da đầu ngón tay.',
         'Dẫn truyền hướng tâm: Xung thần kinh xuất hiện truyền theo sợi cảm giác của dây thần kinh tủy đi vào tủy sống (trung ương thần kinh).',
         'Xử lý thông tin: Tủy sống phân tích xung động, qua tế bào thần kinh trung gian chuyển tín hiệu sang sợi vận động.',
         'Dẫn truyền li tâm và thực hiện: Xung thần kinh truyền theo sợi vận động đến nhóm cơ cánh tay (bộ phận thực hiện), kích thích cơ co kéo tay rụt lại ngay lập tức.',
@@ -598,7 +598,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
       '— Tiến trình: Cho người được đo ngồi trong phòng tối nhẹ. Dùng đèn pin chiếu nhẹ từ bên cạnh vào mắt họ trong vài giây rồi tắt.\n' +
       '— Hiện tượng: Khi chiếu đèn, đồng tử (con ngươi) co nhỏ lại rõ rệt; khi tắt đèn, đồng tử dãn to ra.\n\n' +
       'KHẢO SÁT TẬP TÍNH HỌC TẬP (PHẢN XẠ CÓ ĐIỀU KIỆN) Ở ĐỘNG VẬT:\n' +
-      '— Quan sát cách huấn luyện cá cảnh (cá vàng) nổi lên ăn khi gõ vào thành bể. m thanh gõ (kích thích có điều kiện) kết hợp lặp lại nhiều lần với việc cho ăn (kích thích không điều kiện) giúp cá hình thành phản xạ nổi lên ngay khi nghe tiếng gõ mà chưa có thức ăn.',
+      '— Quan sát cách huấn luyện cá cảnh (cá vàng) nổi lên ăn khi gõ vào thành bể. Âm thanh gõ (kích thích có điều kiện) kết hợp lặp lại nhiều lần với việc cho ăn (kích thích không điều kiện) giúp cá hình thành phản xạ nổi lên ngay khi nghe tiếng gõ mà chưa có thức ăn.',
     workedExample: {
       problem:
         'Hãy giải thích cơ chế của phản xạ co đồng tử mắt khi bị ánh sáng mạnh chiếu thẳng vào dưới góc độ các bộ phận của cung phản xạ.',
@@ -614,7 +614,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
     checkQuestions: [
       {
         prompt:
-          'Khi gõ nhẹ búa cao su vào gân cơ dưới xương bánh chè ở đầu gối, cẳng chân tự động đá lên phía trước. Trung ương thần kinh điều khiển phản xạ này nằm ở đâu?',
+          'Khi gõ nhẹ búa cao su vào dây chằng dưới xương bánh chè ở đầu gối, cẳng chân tự động đá lên phía trước. Trung ương thần kinh điều khiển phản xạ này nằm ở đâu?',
         choices: [
           { id: 'bg_1', label: 'Tủy sống' },
           { id: 'bg_2', label: 'Vỏ đại não' },
@@ -985,7 +985,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
       'MÔ PHÂN SINH (Meristems):\n' +
       'Là nhóm các tế bào thực vật chưa phân hóa, luôn duy trì khả năng phân chia nguyên phân tạo tế bào mới. Gồm các nhóm chính:\n' +
       '1. Mô phân sinh đỉnh (nằm ở đỉnh rễ, đỉnh ngọn thân): Giúp cây sinh trưởng sơ cấp (kéo dài chiều dài của thân, rễ). Có ở cả cây Một lá mầm và Hai lá mầm.\n' +
-      '2. Mô phân sinh bên (tầng phát sinh mạch dẫn, tầng phát sinh vỏ): Giúp cây sinh trưởng thứ cấp (làm thân, rễ to ngang ra). Chỉ có ở cây Hai lá mầm gỗ lâu năm, hình thành các vòng năm gỗ.\n' +
+      '2. Mô phân sinh bên (tầng phát sinh mạch dẫn, tầng phát sinh vỏ): Giúp cây sinh trưởng thứ cấp (làm thân, rễ to ngang ra). Chủ yếu có ở cây Hai lá mầm thân gỗ lâu năm, hình thành các vòng năm gỗ.\n' +
       '3. Mô phân sinh lóng: Giúp kéo dài các lóng của thân (chỉ có ở cây Một lá mầm như tre, mía, lúa).\n\n' +
       'HORMONE THỰC VẬT (Phytohormones):\n' +
       '— Nhóm kích thích sinh trưởng:\n  + Auxin (IAA): Kích thích giãn dài tế bào thân, tạo rễ phụ, gây hiện tượng ưu thế đỉnh (ức chế chồi bên).\n  + Gibberellin (GA): Kích thích kéo dài thân lóng, phá ngủ hạt, kích nảy mầm.\n  + Cytokinin: Kích thích phân chia tế bào mạnh mẽ, kích thích tạo chồi, làm chậm lão hóa lá.\n— Nhóm ức chế sinh trưởng:\n  + Abscisic acid (ABA): Kích thích rụng lá, gây ngủ của hạt, điều khiển đóng khí khổng khi cây thiếu nước.\n  + Ethylene (dạng khí): Thúc đẩy quá trình chín của quả, gây rụng lá, hoa.\n\n' +
@@ -1102,7 +1102,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         dap: 'Để hạn chế chuối tự giải phóng khí ethylene gây chín đồng loạt, mềm nhũn dễ dập nát trên đường đi; khi đến nơi tiêu thụ mới dùng ethylene để thúc chín.',
       },
       {
-        hoi: 'Vẽ sơ đồ 4 pha của đường cong sinh trưởng thực vật hình chữ S?',
+        hoi: 'Nêu 4 pha của đường cong sinh trưởng hình chữ S ở thực vật?',
         dap: 'Pha chậm đầu -> Pha nhanh lũy thừa -> Pha chậm lại -> Pha bão hòa/ngừng tăng trưởng.',
       },
     ],
@@ -1435,7 +1435,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
     chapterTitle: 'Sinh trưởng và phát triển ở sinh vật',
     lessonNumber: 19,
     title: 'Sinh trưởng và phát triển ở động vật',
-    hook: 'Một chú nòng nọc rụng đuôi, mọc chân nhảy lên cạn thành chú ếch xanh, hay sâu bướm lột xác hóa nhộng thành bướm xinh đẹp. Đó là những quá trình phát triển biến thái đầy kỳ diệu.',
+    hook: 'Một chú nòng nọc tiêu biến dần cái đuôi, mọc chân rồi nhảy lên cạn thành chú ếch xanh, hay sâu bướm lột xác hóa nhộng thành bướm xinh đẹp. Đó là những quá trình phát triển biến thái đầy kỳ diệu.',
     theory:
       'CÁC KIỂU PHÁT TRIỂN Ở ĐỘNG VẬT:\n' +
       '1. Phát triển không qua biến thái:\n' +
@@ -2104,7 +2104,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
       '— Hình thức tự nhiên (sinh sản sinh dưỡng): Sinh sản bằng bào tử (rêu, dương xỉ) hoặc bằng các cơ quan sinh dưỡng như rễ củ (khoai lang), thân bò (dâu tây), thân rễ (gừng), lá (thuốc bỏng).\n' +
       '— Hình thức nhân tạo (ứng dụng): Giâm cành, chiết cành, ghép cành, ghép mắt và nuôi cấy mô tế bào thực vật.\n\n' +
       'SINH SẢN HỮU TÍNH Ở THỰC VẬT HẠT KÍN (có thụ tinh):\n' +
-      '1. Cấu tạo hoa: Nhị hoa (gồm chỉ nhị và bao phấn chứa hạt phấn - giao tử đực) và Nhụy hoa (gồm đầu nhụy, vòi nhụy và bầu nhụy chứa noãn - giao tử cái).\n' +
+      '1. Cấu tạo hoa: Nhị hoa gồm chỉ nhị và bao phấn; trong bao phấn có các hạt phấn, nơi sinh ra giao tử đực. Nhụy hoa gồm đầu nhụy, vòi nhụy và bầu nhụy; trong bầu nhụy có noãn, bên trong noãn là túi phôi chứa tế bào trứng (giao tử cái).\n' +
       '2. Thụ phấn (Pollination): Sự phát tán hạt phấn từ bao phấn tiếp xúc với đầu nhụy (tự thụ phấn hoặc thụ phấn chéo nhờ gió, nước, côn trùng).\n' +
       '3. Thụ tinh kép (Double Fertilization - đặc trưng của thực vật hạt kín):\n' +
       '   Hạt phấn nảy mầm trên đầu nhụy mọc ra ống phấn đi vào noãn qua lỗ noãn. Tế bào sinh sản trong ống phấn nguyên phân tạo 2 giao tử đực (tinh trùng):\n' +
@@ -2170,7 +2170,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
     chapterTitle: 'Sinh sản ở sinh vật',
     lessonNumber: 22,
     title: 'Thực hành: Nhân giống vô tính ở thực vật và thụ phấn nhân tạo',
-    hook: 'Lập tức biến các kiến thức lý thuyết sinh sản thành hành động thực tế: cắm cành giâm ra rễ, quấn bầu đất chiết cành bưởi, hoặc tự thụ phấn chéo cho hoa bí.',
+    hook: 'Đem kiến thức về sinh sản ra làm thật: cắm cành giâm cho ra rễ, quấn bầu đất chiết cành bưởi, hay tự tay thụ phấn chéo cho hoa bí.',
     theory:
       'KỸ THUẬT GIÂM CÀNH thực tế:\n' +
       '— Chọn cành bánh tẻ (khỏe mạnh, không quá non hay già). Cắt đoạn dài 15-20 cm nghiêng góc 45 độ ngay dưới mắt chồi (giúp tăng diện tích tiếp xúc hút nước).\n' +
@@ -2182,7 +2182,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
       'KỸ THUẬT THỰC HÀNH GHÉP MẮT (GHÉP CHỮ T):\n' +
       '— Trên gốc ghép, rạch vỏ hình chữ T, dùng mũi dao cạy nhẹ vỏ hai bên chữ T.\n' +
       '— Cắt lấy mắt ghép (có kèm một mảnh vỏ nhỏ và chồi ngủ) từ cây giống tốt. Luồn mắt ghép vào khe chữ T trên gốc ghép sao cho các lớp cambium áp sát nhau. Buộc chặt nilon giữ ẩm.\n\n' +
-      'THỦ PHẤN NHÂN TẠO:\n' +
+      'THỤ PHẤN NHÂN TẠO:\n' +
       '— Hái hoa đực mới nở của cây bí/bầu, ngắt bỏ cánh hoa phơi bao phấn. Quét nhẹ bao phấn đực lên đầu nhụy của hoa cái đã nở chín vào buổi sáng sớm (khi đầu nhụy còn dịch nhầy bám dính tốt).',
     workedExample: {
       problem:
@@ -2198,7 +2198,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
     checkQuestions: [
       {
         prompt:
-          'Trong kỹ thuật ghép cành hoặc ghép mắt, điều kiện tiên quyết quyết định sự sống sót liền sẹo của mối ghép là:',
+          'Trong kỹ thuật ghép cành hoặc ghép mắt, điều kiện tiên quyết để mối ghép sống được và liền sẹo là:',
         choices: [
           {
             id: 'gp_1',
@@ -2651,10 +2651,10 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
     hook: 'Từ những quả trứng thụ tinh ngoài nước đến sự bảo vệ phôi thai tuyệt đối trong tử cung mẹ qua nhau thai, động vật đã tiến hóa những cơ chế sinh sản vô cùng kỳ diệu.',
     theory:
       'SINH SẢN VÔ TÍNH Ở ĐỘNG VẬT (không có sự kết hợp giao tử):\n' +
-      '— Phân đôi (Fission): Tế bào mẹ co thắt phân chia thành 2 cá thể con bằng nhau (ở trùng biến hình, trùng đế giày, ruột khoang).\n' +
+      '— Phân đôi (Fission): Tế bào mẹ co thắt phân chia thành 2 cá thể con bằng nhau (ở trùng biến hình, trùng đế giày, trùng roi).\n' +
       '— Nảy chồi (Budding): Một phần cơ thể mẹ phát triển lồi ra thành chồi, lớn lên tách ra thành cá thể độc lập (ở thủy tức, san hô).\n' +
       '— Phân mảnh (Fragmentation): Cơ thể mẹ tách ra thành nhiều mảnh, mỗi mảnh tái sinh thành một cơ thể mới (ở bọt biển, sao biển, giun dẹp).\n' +
-      '— Trinh sản (Parthenogenesis): Trứng không qua thụ tinh phát triển trực tiếp thành cá thể mới đơn bội (n) (ví dụ ong đực, kiến đực, một số loài rệp và thằn lằn).\n\n' +
+      '— Trinh sản (Parthenogenesis): Trứng không qua thụ tinh vẫn phát triển thành cá thể mới (ở ong và kiến, cá thể đó là con đực đơn bội n; ngoài ra còn gặp ở một số loài rệp và thằn lằn).\n\n' +
       'SINH SẢN HỮU TÍNH Ở ĐỘNG VẬT (có kết hợp giao tử đực n và cái n):\n' +
       '1. Các hình thức thụ tinh:\n' +
       '   — Thụ tinh ngoài: Trứng và tinh trùng gặp nhau ngoài cơ thể con cái (trong nước, gặp ở cá, lưỡng cư). Hiệu suất thấp, cần nhiều giao tử.\n' +
@@ -2720,6 +2720,83 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
   },
   {
     id: 'sinh11-c4-b24',
+    grade: '11',
+    chapterNumber: 4,
+    chapterTitle: 'Sinh sản ở sinh vật',
+    lessonNumber: 24,
+    title:
+      'Thực hành: Khảo sát hiện tượng thụ tinh ở động vật và tìm hiểu các biện pháp tránh thai',
+    hook: 'Tìm hiểu các biện pháp tránh thai khoa học hiện đại, cơ chế hoạt động của bao cao su, thuốc nội tiết hay vòng tránh thai để bảo vệ sức khỏe sinh sản.',
+    theory:
+      'CƠ CHẾ CỦA CÁC BIỆN PHÁP TRÁNH THAI HIỆN ĐẠI:\n' +
+      '1. Bao cao su (Condom):\n' +
+      '   — Cơ chế: Ngăn chặn cơ học không cho tinh trùng tiếp xúc với trứng.\n' +
+      '   — Ưu điểm nổi bật: Là biện pháp duy nhất ngăn ngừa hiệu quả các bệnh lây truyền qua đường tình dục (STDs/STIs như HIV, lậu, giang mai, sùi mào gà).\n' +
+      '2. Viên uống tránh thai hàng ngày (nội tiết):\n' +
+      '   — Cơ chế: Chứa progesterone và estrogen phối hợp nồng độ thấp. Duy trì lượng hormone này ổn định trong máu gây phản hồi ngược âm tính lên tuyến yên và vùng dưới đồi, ức chế tiết FSH và LH, ngăn cản sự chín rụng trứng.\n' +
+      '3. Dụng cụ tử cung (Vòng tránh thai - IUD):\n' +
+      '   — Cơ chế: Đặt vào buồng tử cung gây phản ứng viêm nhẹ vô trùng tại chỗ, làm thay đổi niêm mạc tử cung khiến phôi không thể bám vào để làm tổ.\n' +
+      '4. Thắt ống dẫn tinh (ở nam) / Thắt ống dẫn trứng (ở nữ):\n' +
+      '   — Cơ chế: Cắt và cột hai đầu ống dẫn để chặn đường di chuyển của giao tử (tinh trùng/trứng). Biện pháp đình sản vĩnh viễn có hiệu quả tránh thai gần như 100%.\n' +
+      '5. Tính chu kỳ kinh nguyệt (tránh ngày rụng trứng): Tránh quan hệ tình dục vào giai đoạn quanh ngày rụng trứng (ngày 14 đối với chu kỳ 28 ngày). Tuy nhiên hiệu quả thấp do chu kỳ dễ bị dao động bởi stress, sức khỏe.',
+    workedExample: {
+      problem:
+        'Giải thích tại sao việc sử dụng thuốc tránh thai hằng ngày chứa estrogen và progesterone nhân tạo lại có thể ngăn chặn hiệu quả sự mang thai.',
+      steps: [
+        'Nhận diện thành phần thuốc: Thuốc chứa hàm lượng nhỏ estrogen và progesterone.',
+        'Phân tích cơ chế sinh lý: Khi uống thuốc hàng ngày, nồng độ các hormone này trong máu được duy trì ổn định ở mức tương đối cao.',
+        'Liên hệ ngược âm tính: Nồng độ hormone cao phát tín hiệu ngược ức chế vùng dưới đồi giảm tiết GnRH và thùy trước tuyến yên giảm tiết FSH, LH.',
+        'Kết quả: Thiếu FSH nang trứng không lớn lên được; thiếu LH trứng không chín rụng, không có hiện tượng rụng trứng thì không thể thụ thai.',
+      ],
+      answer:
+        'Thuốc tránh thai duy trì Estrogen/Progesterone cao trong máu để ức chế ngược tuyến yên ngừng tiết FSH và LH, ngăn cản hoàn toàn sự rụng trứng.',
+    },
+    checkQuestions: [
+      {
+        prompt:
+          'Biện pháp tránh thai nào sau đây có khả năng ngăn ngừa đồng thời cả mang thai ngoài ý muốn và các bệnh lây truyền qua đường tình dục (STDs)?',
+        choices: [
+          { id: 'ct_1', label: 'Bao cao su' },
+          { id: 'ct_2', label: 'Viên uống tránh thai hàng ngày' },
+          { id: 'ct_3', label: 'Dụng cụ tử cung (vòng tránh thai)' },
+          { id: 'ct_4', label: 'Thắt ống dẫn trứng' },
+        ],
+        answer: { kind: 'choice', correctIds: ['ct_1'] },
+        explain:
+          'Bao cao su tạo màng ngăn vật lý ngăn cản sự tiếp xúc dịch sinh dục và máu giữa hai cơ thể, phòng tránh lây nhiễm tác nhân bệnh như virus HIV, vi khuẩn lậu, giang mai.',
+      },
+      {
+        prompt: 'Thắt ống dẫn tinh ở nam giới ngăn cản sự mang thai bằng cách nào?',
+        choices: [
+          {
+            id: 'to_1',
+            label:
+              'Chặn đường di chuyển của tinh trùng từ tinh hoàn ra túi tinh, khiến tinh dịch xuất ra không chứa tinh trùng',
+          },
+          { id: 'to_2', label: 'Ngăn chặn tinh hoàn sản sinh ra tinh trùng và testosterone' },
+          { id: 'to_3', label: 'Làm tinh trùng bị tiêu hủy ngay khi vừa sinh ra' },
+          { id: 'to_4', label: 'Làm mất đi khả năng cương cứng của dương vật' },
+        ],
+        answer: { kind: 'choice', correctIds: ['to_1'] },
+        explain:
+          'Thắt ống dẫn tinh chỉ cắt đứt đường đi của tinh trùng từ tinh hoàn lên niệu đạo để xuất ra ngoài. Tinh hoàn vẫn sinh tinh bình thường (tinh trùng tự tiêu hủy trong ống dẫn) và vẫn tiết testosterone bình thường, không ảnh hưởng sinh lý nam.',
+      },
+    ],
+    srsCards: [
+      {
+        hoi: 'Viên thuốc tránh thai hàng ngày ức chế rụng trứng bằng cách nào?',
+        dap: 'Duy trì nồng độ estrogen và progesterone trong máu để ức chế ngược tuyến yên tiết FSH và LH (các hormone kích thích chín rụng trứng).',
+      },
+      {
+        hoi: 'Cơ chế tránh thai của vòng tránh thai (IUD) là gì?',
+        dap: 'Ngăn cản phôi thai làm tổ ở niêm mạc tử cung bằng cách gây phản ứng viêm nhẹ vô trùng tại chỗ.',
+      },
+    ],
+    track: 'core',
+    reviewStatus: 'draft',
+  },
+  {
+    id: 'sinh11-c5-b25',
     animation: {
       title: 'Bốn hệ cơ quan nối với nhau qua dòng máu',
       description:
@@ -2920,83 +2997,6 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
       ],
     },
     grade: '11',
-    chapterNumber: 4,
-    chapterTitle: 'Sinh sản ở sinh vật',
-    lessonNumber: 24,
-    title:
-      'Thực hành: Khảo sát hiện tượng thụ tinh ở động vật và tìm hiểu các biện pháp tránh thai',
-    hook: 'Tìm hiểu các biện pháp tránh thai khoa học hiện đại, cơ chế hoạt động của bao cao su, thuốc nội tiết hay vòng tránh thai để bảo vệ sức khỏe sinh sản.',
-    theory:
-      'CƠ CHẾ CỦA CÁC BIỆN PHÁP TRÁNH THAI HIỆN ĐẠI:\n' +
-      '1. Bao cao su (Condom):\n' +
-      '   — Cơ chế: Ngăn chặn cơ học không cho tinh trùng tiếp xúc với trứng.\n' +
-      '   — Ưu điểm nổi bật: Là biện pháp duy nhất ngăn ngừa hiệu quả các bệnh lây truyền qua đường tình dục (STDs/STIs như HIV, lậu, giang mai, sùi mào gà).\n' +
-      '2. Viên uống tránh thai hàng ngày (nội tiết):\n' +
-      '   — Cơ chế: Chứa progesterone và estrogen phối hợp nồng độ thấp. Duy trì lượng hormone này ổn định trong máu gây phản hồi ngược âm tính lên tuyến yên và vùng dưới đồi, ức chế tiết FSH và LH, ngăn cản sự chín rụng trứng.\n' +
-      '3. Dụng cụ tử cung (Vòng tránh thai - IUD):\n' +
-      '   — Cơ chế: Đặt vào buồng tử cung gây phản ứng viêm nhẹ vô trùng tại chỗ, làm thay đổi niêm mạc tử cung khiến hợp tử không thể bám vào làm tổ.\n' +
-      '4. Thắt ống dẫn tinh (ở nam) / Thắt ống dẫn trứng (ở nữ):\n' +
-      '   — Cơ chế: Cắt và cột hai đầu ống dẫn để chặn đường di chuyển của giao tử (tinh trùng/trứng). Biện pháp đình sản vĩnh viễn có hiệu quả tránh thai gần như 100%.\n' +
-      '5. Tính chu kỳ kinh nguyệt (tránh ngày rụng trứng): Tránh quan hệ tình dục vào giai đoạn quanh ngày rụng trứng (ngày 14 đối với chu kỳ 28 ngày). Tuy nhiên hiệu quả thấp do chu kỳ dễ bị dao động bởi stress, sức khỏe.',
-    workedExample: {
-      problem:
-        'Giải thích tại sao việc sử dụng thuốc tránh thai hằng ngày chứa estrogen và progesterone nhân tạo lại có thể ngăn chặn hiệu quả sự mang thai.',
-      steps: [
-        'Nhận diện thành phần thuốc: Thuốc chứa hàm lượng nhỏ estrogen và progesterone.',
-        'Phân tích cơ chế sinh lý: Khi uống thuốc hàng ngày, nồng độ các hormone này trong máu được duy trì ổn định ở mức tương đối cao.',
-        'Liên hệ ngược âm tính: Nồng độ hormone cao phát tín hiệu ngược ức chế vùng dưới đồi giảm tiết GnRH và thùy trước tuyến yên giảm tiết FSH, LH.',
-        'Kết quả: Thiếu FSH nang trứng không lớn lên được; thiếu LH trứng không chín rụng, không có hiện tượng rụng trứng thì không thể thụ thai.',
-      ],
-      answer:
-        'Thuốc tránh thai duy trì Estrogen/Progesterone cao trong máu để ức chế ngược tuyến yên ngừng tiết FSH và LH, ngăn cản hoàn toàn sự rụng trứng.',
-    },
-    checkQuestions: [
-      {
-        prompt:
-          'Biện pháp tránh thai nào sau đây có khả năng ngăn ngừa đồng thời cả mang thai ngoài ý muốn và các bệnh lây truyền qua đường tình dục (STDs)?',
-        choices: [
-          { id: 'ct_1', label: 'Bao cao su' },
-          { id: 'ct_2', label: 'Viên uống tránh thai hàng ngày' },
-          { id: 'ct_3', label: 'Dụng cụ tử cung (vòng tránh thai)' },
-          { id: 'ct_4', label: 'Thắt ống dẫn trứng' },
-        ],
-        answer: { kind: 'choice', correctIds: ['ct_1'] },
-        explain:
-          'Bao cao su tạo màng ngăn vật lý ngăn cản sự tiếp xúc dịch sinh dục và máu giữa hai cơ thể, phòng tránh lây nhiễm tác nhân bệnh như virus HIV, vi khuẩn lậu, giang mai.',
-      },
-      {
-        prompt: 'Thắt ống dẫn tinh ở nam giới ngăn cản sự mang thai bằng cách nào?',
-        choices: [
-          {
-            id: 'to_1',
-            label:
-              'Chặn đường di chuyển của tinh trùng từ tinh hoàn ra túi tinh, khiến tinh dịch xuất ra không chứa tinh trùng',
-          },
-          { id: 'to_2', label: 'Ngăn chặn tinh hoàn sản sinh ra tinh trùng và testosterone' },
-          { id: 'to_3', label: 'Làm tinh trùng bị tiêu hủy ngay khi vừa sinh ra' },
-          { id: 'to_4', label: 'Làm mất đi khả năng cương cứng của dương vật' },
-        ],
-        answer: { kind: 'choice', correctIds: ['to_1'] },
-        explain:
-          'Thắt ống dẫn tinh chỉ cắt đứt đường đi của tinh trùng từ tinh hoàn lên niệu đạo để xuất ra ngoài. Tinh hoàn vẫn sinh tinh bình thường (tinh trùng tự tiêu hủy trong ống dẫn) và vẫn tiết testosterone bình thường, không ảnh hưởng sinh lý nam.',
-      },
-    ],
-    srsCards: [
-      {
-        hoi: 'Viên thuốc tránh thai hàng ngày ức chế rụng trứng bằng cách nào?',
-        dap: 'Duy trì nồng độ estrogen và progesterone trong máu để ức chế ngược tuyến yên tiết FSH và LH (các hormone kích thích chín rụng trứng).',
-      },
-      {
-        hoi: 'Cơ chế tránh thai của vòng tránh thai (IUD) là gì?',
-        dap: 'Ngăn cản phôi thai làm tổ ở niêm mạc tử cung bằng cách gây phản ứng viêm nhẹ vô trùng tại chỗ.',
-      },
-    ],
-    track: 'core',
-    reviewStatus: 'draft',
-  },
-  {
-    id: 'sinh11-c5-b25',
-    grade: '11',
     chapterNumber: 5,
     chapterTitle:
       'Mối quan hệ giữa các quá trình sinh lý trong cơ thể sinh vật và ngành nghề liên quan',
@@ -3063,7 +3063,7 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         dap: 'Vì cơ thể là một thể thống nhất, các hệ cơ quan hoạt động phụ thuộc lẫn nhau; sự ngưng trệ của một khâu sẽ làm mất cân bằng nội môi toàn cơ thể.',
       },
       {
-        hoi: 'Hai hệ cơ quan nào đóng vai trò chủ đạo điều hòa hoạt động của thực vật và động vật?',
+        hoi: 'Ở thực vật và ở động vật, cái gì giữ vai trò chủ đạo điều hòa mọi hoạt động sống?',
         dap: 'Ở thực vật: Hệ hormone thực vật. Ở động vật: Hệ thần kinh và hệ nội tiết.',
       },
     ],

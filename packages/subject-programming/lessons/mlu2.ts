@@ -294,8 +294,7 @@ print("Giu lai:", "A" if va >= vb else "B")`,
           expected: 'Giu lai: A',
           match: 'contains',
           hidden: true,
-          label:
-            'Ca ẩn: hai trục có PHƯƠNG SAI BẰNG NHAU hệt nhau (0.6666...) — quy ước hoà thì giữ A',
+          label: 'Ca ẩn: hai trục có PHƯƠNG SAI BẰNG NHAU (đều 0.6666...) — quy ước hoà thì giữ A',
         },
       ],
       hints: [
@@ -515,7 +514,7 @@ for i, p in enumerate(diem):
     srsCards: [
       {
         hoi: 'Điểm LÕI trong DBSCAN được định nghĩa thế nào?',
-        dap: 'Một điểm là điểm lõi nếu trong bán kính eps quanh nó (tính cả chính nó) có ÍT NHẤT min_pts điểm khác. Điểm lõi là "trung tâm" của cụm; điểm không phải điểm lõi và không nằm trong bán kính của điểm lõi nào bị coi là nhiễu.',
+        dap: 'Một điểm là điểm lõi nếu trong bán kính eps quanh nó (tính cả chính nó) có ÍT NHẤT min_pts điểm. Điểm lõi là "trung tâm" của cụm; điểm không phải điểm lõi và không nằm trong bán kính của điểm lõi nào bị coi là nhiễu.',
       },
       {
         hoi: 'DBSCAN khác k-means ở hai điểm quan trọng nào?',

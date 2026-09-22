@@ -9,7 +9,7 @@ export const P1U4_LESSONS: ProgrammingLesson[] = [
     unitId: 'p1-u4',
     language: 'python',
     title: 'Rẽ nhánh if — tính tiền điện bậc thang EVN',
-    hook: 'Cuối tháng nhìn hoá đơn tiền điện, bạn có bao giờ thắc mắc vì sao dùng gấp đôi số điện mà tiền lại hơn gấp đôi? Vì giá điện tính theo BẬC THANG — dùng càng nhiều, phần vượt càng đắt. Hôm nay bạn sẽ dạy máy tính tính đúng hoá đơn đó.',
+    hook: 'Cuối tháng nhìn hoá đơn tiền điện, bạn có bao giờ thắc mắc vì sao dùng gấp đôi số điện mà tiền lại hơn gấp đôi? Vì giá điện tính theo BẬC THANG — dùng càng nhiều, phần vượt càng đắt. Hôm nay bạn sẽ dạy máy tính cách tính đúng hoá đơn đó.',
     theory:
       'Chương trình không phải lúc nào cũng chạy thẳng một mạch — có lúc phải RẼ NHÁNH: "nếu thế này thì làm A, nếu không thì làm B".\n\nPython rẽ nhánh bằng if / elif / else:\n\n- if (nếu): kiểm tra một điều kiện — đúng thì chạy khối lệnh thụt lề bên dưới.\n- elif (nếu không thì nếu): kiểm tra điều kiện TIẾP THEO, chỉ khi các điều kiện trên sai.\n- else (còn lại): chạy khi mọi điều kiện trên đều sai.\n\nĐiều kiện là phép so sánh: <= (nhỏ hơn hoặc bằng), < , >= , > , == (bằng), != (khác). Kết quả so sánh là boolean: True hoặc False.\n\nQuan trọng: Python đọc các nhánh TỪ TRÊN XUỐNG và chỉ chạy NHÁNH ĐẦU TIÊN đúng — nên với bậc thang, ta kiểm bậc thấp trước, bậc cao sau.',
     workedExample: {
@@ -36,7 +36,7 @@ print(f"Gửi {so_gio} giờ, trả {tien} đồng")`,
     },
     parsons: {
       prompt:
-        'Xếp các dòng sau thành chương trình xếp loại nước dùng: dưới 100 kWh in "Dùng tiết kiệm", từ 100 tới dưới 300 in "Bình thường", còn lại in "Dùng nhiều".',
+        'Xếp các dòng sau thành chương trình xếp loại mức dùng điện: dưới 100 kWh in "Dùng tiết kiệm", từ 100 tới dưới 300 in "Bình thường", còn lại in "Dùng nhiều".',
       lines: [
         'so_kwh = int(input("Số điện tháng này? "))',
         'if so_kwh < 100:',

@@ -273,7 +273,8 @@ print(f"Du doan: {gan_nhat}")`,
           expected: 'Lop phu hop: beginner',
           match: 'contains',
           hidden: true,
-          label: 'Ca ẩn: điểm lưng chừng (6,6) — gần (2,4) hơn (10,8)',
+          label:
+            'Ca ẩn: (6,6) cách ĐỀU (2,4) và (10,8) — khi hoà, vòng lặp giữ người xét trước nên ra beginner',
         },
       ],
       hints: [

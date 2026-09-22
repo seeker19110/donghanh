@@ -132,7 +132,7 @@ for loai, mota in sap_xep:
       choices: ['bao_mat', 'hieu_nang', 'dung_dan', 'phong_cach'],
       answerIndex: 0,
       explain:
-        'sorted() theo key UU_TIEN sắp lại toàn bộ danh sách bất kể thứ tự gốc — bao_mat có ưu tiên 0 (thấp nhất), nên luôn lên đầu dù trong dữ liệu gốc nó đứng sau hieu_nang.',
+        'sorted() theo key UU_TIEN sắp lại toàn bộ danh sách bất kể thứ tự gốc — bao_mat mang số ưu tiên 0 — số NHỎ NHẤT nên được xếp lên đầu, dù trong dữ liệu gốc nó đứng sau hieu_nang. Ở đây số nhỏ nghĩa là rủi ro cao, phải đọc trước.',
     },
     parsons: {
       prompt:

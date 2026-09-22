@@ -329,7 +329,7 @@ console.log("Ca 5:", congThuVien({ ...tot, majorMoi: 3, ghiChu: "bo ham cu doiTi
       'Chọn một phần logic dùng chung mà một bộ công cụ đa nền tảng KHÔNG đáp ứng nổi (thường là thứ cần cảm biến hoặc xử lý nặng). Viết một module gốc thật cho nó ở ít nhất một nền tảng, nối vào qua cầu nối, rồi ĐO: cùng một phép tính chạy qua cầu nối và chạy thuần bên dùng chung chênh nhau bao nhiêu mili-giây. Con số đó là căn cứ duy nhất đáng tin cho tranh luận "có nên viết native không".',
     srsCards: [
       {
-        hoi: 'Tăng số major trong đánh số phiên bản ngữ nghĩa nghĩa là gì?',
+        hoi: 'Tăng số major trong đánh số phiên bản ngữ nghĩa có nghĩa là gì?',
         dap: 'Nghĩa là có thay đổi phá vỡ: mã đang chạy của người dùng thư viện sẽ hỏng nếu họ nâng lên mà không sửa gì, khác hẳn minor (thêm tính năng) và patch (sửa lỗi).',
       },
       {

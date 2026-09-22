@@ -141,7 +141,7 @@ else:
         dap: 'Thuật toán, toàn bộ tham số và seed ban đầu phải giống nhau; chỉ cùng seed nhưng khác thuật toán chưa đủ.',
       },
       {
-        hoi: 'Vì sao LCG không phù hợp để sinh bí mật mật mã?',
+        hoi: 'Vì sao LCG không phù hợp để sinh bí mật dùng trong mật mã?',
         dap: 'Trạng thái và quy luật tuyến tính có thể bị suy đoán từ đầu ra, nên tính tái hiện hữu ích cho test lại trở thành điểm yếu bảo mật.',
       },
     ],

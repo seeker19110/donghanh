@@ -105,7 +105,7 @@ except (EOFError, ValueError):
     unitId: 'p6-u188',
     language: 'python',
     title: 'MÔ PHỎNG secret exposure: rotate hoặc revoke, không in secret',
-    hook: 'Khi một dấu hiệu credential bị lộ xuất hiện, ưu tiên là containment và owner—not copy giá trị nhạy cảm vào ticket.',
+    hook: 'Khi một dấu hiệu credential bị lộ xuất hiện, ưu tiên là khoanh vùng thiệt hại (containment) và tìm đúng người chịu trách nhiệm, chứ không phải chép giá trị nhạy cảm vào ticket.',
     theory:
       'Fixture redacted chỉ mang `artifact-state|credential-state|owner-state`; không có giá trị secret và chương trình tuyệt đối không in secret. Nếu artifact exposed và credential active, recommendation là rotate; nếu credential revoked, recommendation là confirm-revocation. Mọi state khác hợp lệ cần manual-review; thiếu hoặc sai state bị từ chối.',
     workedExample: {

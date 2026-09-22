@@ -16,7 +16,7 @@ export const HOA12_C2_LESSONS: ChemLesson[] = [
       'Đây là hai nguồn năng lượng carbohydrate đơn giản nhất nuôi sống tế bào.',
     theory:
       'PHÂN LOẠI CARBOHYDRATE:\n' +
-      '— Carbohydrate (gluxit, saccarit) là những hợp chất hữu cơ tạp chức, thường có công thức chung Cₙ(H₂O)ₘ.\n' +
+      '— Carbohydrate (tên gọi cũ: gluxit, saccarit) là những hợp chất hữu cơ tạp chức, thường có công thức chung Cₙ(H₂O)ₘ.\n' +
       '— Chia làm 3 nhóm chính: Monosaccharide (không bị thuỷ phân, vd: glucose, fructose); Disaccharide (thuỷ phân tạo 2 monosaccharide, vd: saccharose, maltose); Polysaccharide (thuỷ phân tạo nhiều monosaccharide, vd: tinh bột, cellulose).\n\n' +
       'GLUCOSE VÀ FRUCTOSE (C₆H₁₂O₆ = 180):\n' +
       '— Glucose và fructose là hai chất đồng phân của nhau.\n' +
@@ -54,7 +54,7 @@ export const HOA12_C2_LESSONS: ChemLesson[] = [
       },
       {
         prompt:
-          'Khi hiđro hoá hoàn toàn glucose bằng khí H₂ (xúc tác Ni, đun nóng), sản phẩm hữu cơ thu được là gì?',
+          'Khi hydrogen hoá hoàn toàn glucose bằng khí H₂ (xúc tác Ni, đun nóng), sản phẩm hữu cơ thu được là gì?',
         choices: [
           { id: 'gluconic', label: 'Gluconic acid' },
           { id: 'sorbitol', label: 'Sorbitol' },
@@ -62,7 +62,7 @@ export const HOA12_C2_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['sorbitol'] },
         explain:
-          'Nhóm aldehyde (−CHO) của glucose bị cộng hydrogen khử thành nhóm alcohol (−CH₂OH), tạo ra hexanol 6 chức là sorbitol.',
+          'Nhóm −CHO của glucose bị hydrogen khử thành nhóm −CH₂OH, cho sorbitol C₆H₁₄O₆ — một polyalcohol 6 chức. Gluconic acid là sản phẩm khi OXI HOÁ nhóm −CHO, còn ethanol là sản phẩm của phản ứng lên men, không phải của phản ứng cộng H₂.',
       },
     ],
     srsCards: [
@@ -600,7 +600,7 @@ export const HOA12_C2_LESSONS: ChemLesson[] = [
         'Tính số mol saccharose: n = 3,42 / 342 = 0,01 mol.',
         'Viết phương trình thuỷ phân: Saccharose + H₂O → Glucose + Fructose.',
         'Số mol sản phẩm: n(glucose) = 0,01 mol; n(fructose) = 0,01 mol.',
-        'Cho sản phẩm tác dụng với Tollens: cả glucose và fructose đều tráng bạc (tỉ lệ 1:2).',
+        'Cho sản phẩm tác dụng với thuốc thử Tollens: cả glucose và fructose đều tráng bạc, mỗi mol đường cho 2 mol Ag.',
         'Tổng số mol Ag sinh ra: nAg = 2 * n(glucose) + 2 * n(fructose) = 2 * 0,01 + 2 * 0,01 = 0,04 mol.',
       ],
       answer: '0,04 mol',
@@ -636,7 +636,7 @@ export const HOA12_C2_LESSONS: ChemLesson[] = [
         hoi: 'Tại sao saccharose không có phản ứng tráng bạc trực tiếp?',
         dap: 'Vì phân tử không có nhóm aldehyde (−CHO) tự do.',
       },
-      { hoi: 'Sản phẩm thuỷ phân saccharose gồm những gì?', dap: 'Glucose và Fructose.' },
+      { hoi: 'Sản phẩm thuỷ phân saccharose gồm những gì?', dap: 'Glucose và fructose.' },
     ],
     animation: {
       title: 'Thuỷ phân saccharose: liên kết glycoside đứt, nhóm CHO được giải phóng',
@@ -1097,7 +1097,7 @@ export const HOA12_C2_LESSONS: ChemLesson[] = [
         'Nhận biết dung dịch hồ tinh bột và dung dịch glucose đựng trong hai lọ mất nhãn bằng một thuốc thử ' +
         'đơn giản ở nhiệt độ thường.',
       steps: [
-        'Trích mẫu thử của hai dung dịch.',
+        'Lấy một ít mỗi dung dịch ra hai ống nghiệm làm mẫu thử.',
         'Nhỏ vài giọt dung dịch iodine (I₂) vào hai mẫu thử.',
         'Mẫu xuất hiện màu xanh tím đặc trưng là hồ tinh bột (do cấu trúc lò xo của amylose hấp phụ iodine).',
         'Mẫu không có hiện tượng gì ở nhiệt độ thường là glucose.',
@@ -1114,7 +1114,7 @@ export const HOA12_C2_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['iodine'] },
         explain:
-          'Iodine len lỏi vào các kẽ xoắn lò xo của tinh bột tạo liên kết hấp phụ màu xanh tím đặc trưng.',
+          'Phân tử iodine chui vào lòng xoắn lò xo của amylose và bị hấp phụ ở đó, cho màu xanh tím đặc trưng. Cu(OH)₂ và thuốc thử Tollens đều không cho dấu hiệu gì với tinh bột, vì tinh bột không có nhóm −CHO tự do.',
       },
       {
         prompt: 'Cellulose trinitrate được sản xuất từ phản ứng giữa cellulose và chất nào?',
@@ -1636,8 +1636,8 @@ export const HOA12_C2_LESSONS: ChemLesson[] = [
     lessonNumber: 7,
     title: 'Ôn tập chương 2 — Carbohydrate',
     hook:
-      'Chương 2 tổng hợp bức tranh toàn cảnh về Carbohydrate — nguồn dinh dưỡng và vật liệu ' +
-      'sinh học cốt lõi liên kết chặt chẽ mọi sự sống.',
+      'Chương 2 dựng lại bức tranh toàn cảnh về carbohydrate — vừa là nguồn năng lượng chính của cơ thể, ' +
+      'vừa là vật liệu dựng nên thân cây, sợi bông và trang giấy.',
     theory:
       'TỔNG KẾT SO SÁNH CÁC CARBOHYDRATE THƯỜNG GẶP:\n' +
       '1. Monosaccharide: Glucose và Fructose (C₆H₁₂O₆). Đều hoà tan Cu(OH)₂ xanh lam, đều tráng bạc (fructose tráng bạc trong môi trường kiềm).\n' +
@@ -1647,7 +1647,7 @@ export const HOA12_C2_LESSONS: ChemLesson[] = [
       problem:
         'Nhận biết 4 dung dịch mất nhãn sau bằng phương pháp hoá học: glycerol, glucose, saccharose, và hồ tinh bột.',
       steps: [
-        'Trích các mẫu thử.',
+        'Lấy một ít mỗi dung dịch ra bốn ống nghiệm làm mẫu thử.',
         'Dùng dung dịch iodine ở nhiệt độ thường: mẫu hoá xanh tím là hồ tinh bột.',
         'Với 3 mẫu còn lại, nhỏ dung dịch Cu(OH)₂ ở nhiệt độ thường: cả 3 đều hoà tan tạo dung dịch xanh lam thẫm.',
         'Đun nóng nhẹ 3 ống nghiệm xanh lam: chỉ có mẫu glucose xuất hiện kết tủa đỏ gạch Cu₂O (do có nhóm −CHO). Hai mẫu kia không đổi màu.',
@@ -1665,7 +1665,7 @@ export const HOA12_C2_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['glu'] },
         explain:
-          'Glucose là monosaccharide, phân tử đường đơn giản nhất nên không bị thuỷ phân nhỏ hơn.',
+          'Glucose là monosaccharide — đường đơn, không ghép từ các gốc đường nhỏ hơn, nên không thuỷ phân được. Saccharose ghép từ hai gốc đường, còn tinh bột ghép từ rất nhiều gốc glucose, nên cả hai đều bị thuỷ phân.',
       },
       {
         prompt:
@@ -1677,7 +1677,7 @@ export const HOA12_C2_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['a'] },
         explain:
-          'Chỉ cần nhỏ vài giọt iodine, nếu có tinh bột pha loãng giò chả, dung dịch sẽ chuyển màu xanh tím đặc trưng.',
+          'Chỉ cần nhỏ vài giọt dung dịch iodine: nếu trong nước giò chả có tinh bột thì lập tức xuất hiện màu xanh tím đặc trưng. Thuốc thử Tollens chỉ phát hiện nhóm −CHO, còn NaOH không cho dấu hiệu nào nhìn thấy được.',
       },
     ],
     srsCards: [

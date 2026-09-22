@@ -19,7 +19,7 @@ export const OPENCLAW_U4_LESSONS: ProgrammingLesson[] = [
     title: 'openclaw agents — mỗi vai một agent',
     hook: 'Một trợ lý vừa trả lời khách hàng vừa ghi chú họp riêng của bạn — sớm muộn nó cũng lẫn lộn ngữ cảnh. OpenClaw cho tách hẳn: mỗi "vai" một agent riêng, workspace riêng, bộ nhớ riêng, không đụng nhau.',
     theory:
-      'Một AGENT trong OpenClaw là một "nhân cách" riêng biệt: bộ nhớ, workspace, và (bài sau) kênh ghim đều TÁCH BIỆT với các agent khác — dù tất cả vẫn chạy chung một Gateway. Bốn lệnh:\n    openclaw agents list             — xem tất cả agent hiện có\n    openclaw agents add <ten>        — tạo agent mới\n    openclaw agents delete <ten>     — xoá một agent (KHÔNG xoá được agent "mac-dinh")\n\nMáy luôn có sẵn MỘT agent tên "mac-dinh" ngay từ đầu — mọi chat/kênh chưa ghim (bài sau) đều thuộc về nó. Agent "mac-dinh" không xoá được vì luôn cần một nơi để mọi thứ chưa phân loại rơi vào.\n\nVí dụ chia vai thực tế: agent "cham-khach" chỉ nhớ hội thoại với khách hàng, không bao giờ thấy ghi chú họp nội bộ; agent "tro-ly-ca-nhan" chỉ phục vụ một mình bạn. Tách vai không chỉ để đỡ lẫn lộn — còn là ranh giới RIÊNG TƯ: dữ liệu của agent này không rò sang agent kia.',
+      'Một AGENT trong OpenClaw là một "nhân cách" riêng biệt: bộ nhớ, workspace, và (bài sau) kênh ghim đều TÁCH BIỆT với các agent khác — dù tất cả vẫn chạy chung một Gateway. Ba lệnh:\n    openclaw agents list             — xem tất cả agent hiện có\n    openclaw agents add <ten>        — tạo agent mới\n    openclaw agents delete <ten>     — xoá một agent (KHÔNG xoá được agent "mac-dinh")\n\nMáy luôn có sẵn MỘT agent tên "mac-dinh" ngay từ đầu — mọi chat/kênh chưa ghim (bài sau) đều thuộc về nó. Agent "mac-dinh" không xoá được vì luôn cần một nơi để mọi thứ chưa phân loại rơi vào.\n\nVí dụ chia vai thực tế: agent "cham-khach" chỉ nhớ hội thoại với khách hàng, không bao giờ thấy ghi chú họp nội bộ; agent "tro-ly-ca-nhan" chỉ phục vụ một mình bạn. Tách vai không chỉ để đỡ lẫn lộn — còn là ranh giới RIÊNG TƯ: dữ liệu của agent này không rò sang agent kia.',
     workedExample: {
       code: `openclaw onboard
 openclaw agents list
@@ -274,7 +274,7 @@ openclaw doctor`,
     title: 'Tổng kết — checklist "trợ lý của tôi đã an toàn chưa?"',
     hook: 'Ba chương, một trợ lý chạy trên máy bạn, biết nghe nhiều kênh, biết tự động hoá, có nhiều vai. Bài cuối không dạy lệnh mới — nó ráp LẠI mọi lệnh đã học thành đúng MỘT checklist bạn chạy trước khi giao trợ lý cho việc thật.',
     theory:
-      'Checklist an toàn cuối khoá — bốn câu hỏi, mỗi câu một lệnh (hoặc một cặp lệnh) đã học:\n\n1. HỆ THỐNG CÓ KHOẺ KHÔNG? → `openclaw doctor` — không còn dòng [CHU Y] nào chưa xử lý.\n2. AI ĐANG NÓI CHUYỆN ĐƯỢC VỚI TRỢ LÝ? → `openclaw channel list` — soát TỪNG kênh: dmPolicy đúng ý định, allowFrom chỉ có đúng người cần, không thừa không thiếu.\n3. VIỆC CHẠM MÁY THẬT CÓ AI DUYỆT KHÔNG? → nhớ lại luật sư phạm số 2 (chương C2): mọi hành động máy thật LUÔN qua hàng chờ, không có "agent tự làm luôn" — nếu bạn thấy agent tự làm việc chạm máy thật mà không hỏi, đó là dấu hiệu bất thường cần kiểm ngay.\n4. MỖI VAI CÓ ĐÚNG RANH GIỚI CỦA NÓ KHÔNG? → `openclaw agents list` — mỗi agent chỉ ghim đúng kênh của vai đó, không lẫn.\n\nĐây không phải checklist làm MỘT LẦN rồi quên — chạy lại mỗi khi thêm kênh mới, thêm agent mới, hoặc đơn giản là định kỳ hằng tháng. Trợ lý càng làm được nhiều việc, checklist càng đáng chạy thường xuyên hơn, không phải ít hơn.',
+      'Checklist an toàn cuối khoá — bốn câu hỏi, mỗi câu một lệnh (hoặc một cặp lệnh) đã học:\n\n1. HỆ THỐNG CÓ KHOẺ KHÔNG? → `openclaw doctor` — không còn dòng [CHU Y] nào chưa xử lý.\n2. NHỮNG AI ĐANG NÓI CHUYỆN ĐƯỢC VỚI TRỢ LÝ? → `openclaw channel list` — soát TỪNG kênh: dmPolicy đúng ý định, allowFrom chỉ có đúng người cần, không thừa không thiếu.\n3. VIỆC CHẠM MÁY THẬT CÓ AI DUYỆT KHÔNG? → nhớ lại luật sư phạm số 2 (chương C2): mọi hành động máy thật LUÔN qua hàng chờ, không có "agent tự làm luôn" — nếu bạn thấy agent tự làm việc chạm máy thật mà không hỏi, đó là dấu hiệu bất thường cần kiểm ngay.\n4. MỖI VAI CÓ ĐÚNG RANH GIỚI CỦA NÓ KHÔNG? → `openclaw agents list` — mỗi agent chỉ ghim đúng kênh của vai đó, không lẫn.\n\nĐây không phải checklist làm MỘT LẦN rồi quên — chạy lại mỗi khi thêm kênh mới, thêm agent mới, hoặc đơn giản là định kỳ hằng tháng. Trợ lý càng làm được nhiều việc, checklist càng đáng chạy thường xuyên hơn, không phải ít hơn.',
     workedExample: {
       code: `openclaw onboard
 openclaw gateway start
@@ -304,7 +304,7 @@ openclaw agents list`,
     },
     parsons: {
       prompt:
-        'Xếp đúng 4 bước checklist an toàn cuối khoá theo thứ tự đã học: khám hệ thống → soát kênh → soát agent.',
+        'Xếp đúng các bước CÓ LỆNH của checklist an toàn cuối khoá, theo thứ tự đã học: khám hệ thống → soát kênh → soát agent.',
       lines: ['openclaw doctor', 'openclaw channel list', 'openclaw agents list'],
     },
     make: {
@@ -372,7 +372,7 @@ openclaw agents list`,
     srsCards: [
       {
         hoi: 'Bốn câu hỏi của checklist an toàn cuối khoá, mỗi câu ứng với lệnh nào?',
-        dap: '① Hệ thống khoẻ? → doctor. ② Ai nói chuyện được? → channel list. ③ Việc máy thật có ai duyệt? → nhớ luật hàng chờ duyệt. ④ Vai có đúng ranh giới? → agents list.',
+        dap: '① Hệ thống khoẻ? → doctor. ② Những ai nói chuyện được? → channel list. ③ Việc máy thật có ai duyệt? → nhớ luật hàng chờ duyệt. ④ Vai có đúng ranh giới? → agents list.',
       },
       {
         hoi: 'Checklist an toàn này chạy MỘT LẦN là đủ hay cần lặp lại?',

@@ -3,8 +3,8 @@
 // Đặc tả: `docs/specs/2026-08-31-khoa-hoc-ky-su-truong-ai.md`. Khác hướng `ai` (một trục
 // chuyên môn), đích của lộ trình này là NGƯỜI RA QUYẾT ĐỊNH về hệ AI: nắm nhiều trục kỹ thuật
 // cùng lúc (toán → dữ liệu → AI → vận hành) và biết đặc tả/đánh giá/dẫn dắt. Toàn bộ giai đoạn
-// P1–P4 lắp từ chặng ĐÃ CÓ của 8 hướng; chỉ giai đoạn P5 "Tầm trưởng" là nội dung mới (đợt 4,
-// đang soạn — stages rỗng theo đúng hợp đồng ở types.ts).
+// P1–P4 lắp từ chặng ĐÃ CÓ của 8 hướng; riêng giai đoạn P5 "Tầm trưởng" dùng 4 chặng nội dung
+// mới soạn ở đợt 4 (`principal-s1…s4`, xem `learningPaths/pathStages.ts`).
 import type { LearningPath } from './types.js'
 
 export const PRINCIPAL_AI_PATH: LearningPath = {
@@ -74,7 +74,7 @@ export const PRINCIPAL_AI_PATH: LearningPath = {
         },
         {
           stageId: 'data-s3',
-          why: 'Phân tích & trực quan — biết đặt câu hỏi cho dữ liệu trước khi đưa vào mô hình.',
+          why: 'Quy mô và thời gian thực — dữ liệu huấn luyện lớn hơn RAM và luồng gần thời gian thực là chuyện thường của hệ AI.',
           requires: ['data-s2'],
         },
         {
@@ -83,7 +83,7 @@ export const PRINCIPAL_AI_PATH: LearningPath = {
         },
         {
           stageId: 'backend-s2',
-          why: 'CSDL, auth, hàng đợi — bộ khung backend mà mọi sản phẩm AI thật đều cần.',
+          why: 'Dữ liệu và đồng thời — schema chịu được truy vấn thật, và xử lý đúng khi nhiều yêu cầu tranh nhau một bản ghi.',
           requires: ['backend-s1'],
         },
       ],
@@ -136,7 +136,7 @@ export const PRINCIPAL_AI_PATH: LearningPath = {
         },
         {
           stageId: 'devops-s2',
-          why: 'Giám sát, log, cảnh báo — hệ AI hỏng theo cách âm thầm, phải có mắt nhìn nó.',
+          why: 'Container và CI/CD — đóng gói một lần rồi chạy được ở mọi môi trường, có đường quay lui khi bản mới hỏng.',
           requires: ['devops-s1'],
         },
         {
@@ -169,11 +169,11 @@ export const PRINCIPAL_AI_PATH: LearningPath = {
         },
         {
           stageId: 'architecture-s1',
-          why: 'Ranh giới module & hợp đồng — ngôn ngữ để nói chuyện kiến trúc cho ra đầu ra đũa.',
+          why: 'Ranh giới module & hợp đồng — ngôn ngữ chung để bàn chuyện kiến trúc cho rõ ràng, không nói chung chung.',
         },
         {
           stageId: 'architecture-s2',
-          why: 'Đánh đổi kiến trúc — mọi quyết định của kỹ sư trưởng là một phép cân đánh đổi.',
+          why: 'Hợp đồng & mô hình miền — gọi đúng tên khái niệm nghiệp vụ và kiểm hợp đồng dữ liệu ngay tại ranh giới.',
           requires: ['architecture-s1'],
         },
         {

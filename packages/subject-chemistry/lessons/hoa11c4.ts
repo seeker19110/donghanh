@@ -918,17 +918,17 @@ export const HOA11_C4_LESSONS: ChemLesson[] = [
       '   — Cộng H₂ (t°, Ni) tạo cyclohexane.\n' +
       '   — Cộng Cl₂ (chiếu sáng) tạo thuốc trừ sâu 666 (hexachlorocyclohexane C₆H₆Cl₆).\n' +
       '3. Phản ứng oxi hoá mạch nhánh của alkylbenzene:\n' +
-      '   — Toluene phản ứng với dung dịch KMnO₄ khi đun nóng, làm mất màu thuốc tím tạo kali benzoate (C₆H₅COOK) và kết tủa đen MnO₂. Benzene không phản ứng.',
+      '   — Toluene phản ứng với dung dịch KMnO₄ khi đun nóng, làm mất màu thuốc tím tạo potassium benzoate (C₆H₅COOK) và kết tủa đen MnO₂. Benzene không phản ứng.',
     workedExample: {
       problem:
         'Trình bày phương pháp hoá học đơn giản để phân biệt hai chất lỏng không màu đựng riêng biệt: ' +
-        'Benzene và Toluene.',
+        'benzene và toluene.',
       steps: [
-        'Trích mẫu thử của hai chất lỏng.',
+        'Lấy một ít mỗi chất lỏng ra hai ống nghiệm làm mẫu thử.',
         'Nhỏ dung dịch thuốc tím KMnO₄ vào từng mẫu thử ở nhiệt độ thường ⇒ cả hai đều không phản ứng, không mất màu thuốc tím.',
         'Đun nóng nhẹ cả hai ống nghiệm.',
-        'Ống nghiệm chứa Toluene xuất hiện kết tủa đen MnO₂ và làm mất màu tím của KMnO₄ (do oxi hoá nhóm −CH₃ thành −COOK).',
-        'Ống nghiệm chứa Benzene vẫn giữ nguyên màu tím của KMnO₄ vì nhân benzene bền, không bị KMnO₄ oxi hoá kể cả khi đun nóng.',
+        'Ống nghiệm chứa toluene bị mất màu tím của KMnO₄ và xuất hiện kết tủa đen MnO₂ (do nhóm −CH₃ bị oxi hoá thành −COOK).',
+        'Ống nghiệm chứa benzene vẫn giữ nguyên màu tím của KMnO₄, vì nhân benzene bền, không bị KMnO₄ oxi hoá kể cả khi đun nóng.',
       ],
       answer: 'Dùng dung dịch KMnO₄ đun nóng',
     },
@@ -955,7 +955,7 @@ export const HOA11_C4_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['car'] },
         explain:
-          'Toluene bị oxi hoá bởi KMnO₄ nóng tạo thành muối kali benzoate C₆H₅COOK, axit hoá sẽ thu được axit benzoic C₆H₅COOH.',
+          'Toluene bị KMnO₄ nóng oxi hoá nhóm −CH₃ thành muối potassium benzoate C₆H₅COOK; acid hoá muối này thì thu được benzoic acid C₆H₅COOH. Phản ứng đi thẳng tới nhóm carboxyl, không dừng lại ở aldehyde hay alcohol.',
       },
     ],
     srsCards: [
@@ -965,7 +965,7 @@ export const HOA11_C4_LESSONS: ChemLesson[] = [
       },
       {
         hoi: 'Hiện tượng phân biệt benzene và toluene bằng KMnO₄?',
-        dap: 'Toluene làm mất màu KMnO₄ khi đun nóng, Benzene thì không.',
+        dap: 'Toluene làm mất màu KMnO₄ khi đun nóng, còn benzene thì không.',
       },
       {
         hoi: 'Quy tắc thế vào toluene khác benzene thế nào?',
@@ -1449,8 +1449,8 @@ export const HOA11_C4_LESSONS: ChemLesson[] = [
     lessonNumber: 18,
     title: 'Ôn tập chương 4 — Hydrocarbon',
     hook:
-      'Ôn tập và đối chiếu 4 nhóm hydrocarbon quan trọng nhất: Saturated (no), Unsaturated (không no) và Aromatic (thơm). ' +
-      'Sự khác biệt cấu trúc tạo nên tính chất hoá học đặc trưng.',
+      'Ôn tập và đối chiếu bốn dãy hydrocarbon quan trọng nhất: alkane (no), alkene và alkyne (không no), ' +
+      'arene (thơm). Khác biệt về cấu tạo tạo nên tính chất hoá học đặc trưng của từng dãy.',
     theory:
       'TỔNG KẾT SO SÁNH CÁC LỚP HYDROCARBON:\n' +
       '1. Alkane (CₙH₂ₙ₊₂): Chỉ chứa liên kết đơn C−C, C−H. Phản ứng thế halogen (chiếu sáng) đặc trưng. Đốt cháy cho nCO₂ < nH₂O.\n' +
@@ -1493,11 +1493,11 @@ export const HOA11_C4_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['brom'] },
         explain:
-          'Ethylene phản ứng cộng với bromine làm mất màu nước bromine, còn ethane không phản ứng ở điều kiện thường.',
+          'Ethylene có liên kết đôi nên cộng ngay với bromine, làm mất màu nước bromine; ethane chỉ có liên kết đơn nên không phản ứng ở điều kiện thường. Na và HCl đều không phản ứng với cả hai khí này.',
       },
     ],
     srsCards: [
-      { hoi: 'Hydrocarbon làm mất màu nước bromine?', dap: 'Alkene và Alkyne.' },
+      { hoi: 'Hydrocarbon làm mất màu nước bromine?', dap: 'Alkene và alkyne.' },
       {
         hoi: 'Chất dùng phân biệt alk-1-yne với các alkyne khác?',
         dap: 'Dung dịch AgNO₃ trong NH₃ (tạo kết tủa vàng nhạt).',

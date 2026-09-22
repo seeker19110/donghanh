@@ -227,7 +227,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
     chapterTitle: 'Bằng chứng và cơ chế tiến hoá',
     lessonNumber: 20,
     title: 'Bằng chứng tiến hoá',
-    hook: 'Tại sao xương cánh chim, xương tay người và xương vây cá voi lại có cùng cấu trúc xương nền tương tự? Đây là bằng chứng giải phẫu so sánh hùng hồn nhất cho thuyết tiến hoá chung.',
+    hook: 'Cánh chim, tay người và vây cá voi làm ba việc hoàn toàn khác nhau, vậy mà bên trong lại xếp cùng một bộ xương theo cùng một thứ tự. Vì sao vậy? Đây chính là bằng chứng giải phẫu so sánh mạnh nhất cho thấy các loài có chung một tổ tiên.',
     theory:
       'BẰNG CHỨNG GIẢI PHẪU SO SÁNH:\n' +
       '— Cơ quan tương đồng (Homologous organs): Các cơ quan ở các loài khác nhau có cùng nguồn gốc phát sinh nhưng có thể thực hiện các chức năng hoàn toàn khác nhau do đã phân hoá thích nghi với môi trường sống khác nhau.\n' +
@@ -585,8 +585,8 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
         dap: '1. Các loài có nguồn gốc chung từ tổ tiên và phân nhánh dần; 2. Chọn lọc tự nhiên là động lực chủ yếu của tiến hoá.',
       },
       {
-        hoi: 'Tại sao chọn lọc tự nhiên tác động lên quần thể mà không tác động lên cá thể?',
-        dap: 'Vì chọn lọc tự nhiên thay đổi tần số allele trong quần thể qua nhiều thế hệ, còn cá thể đã có kiểu gen cố định từ khi sinh ra không thể thay đổi trong đời.',
+        hoi: 'Chọn lọc tự nhiên tác động lên cá thể, vậy vì sao đơn vị tiến hoá lại là quần thể?',
+        dap: 'Vì chọn lọc tự nhiên giữ lại hay đào thải TỪNG cá thể qua kiểu hình của nó, nhưng mỗi cá thể có kiểu gen cố định từ khi sinh ra nên bản thân nó không tiến hoá. Cái thay đổi qua các thế hệ là tần số alen của cả quần thể — vì vậy quần thể mới là đơn vị tiến hoá.',
       },
     ],
     track: 'core',
@@ -840,8 +840,10 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
       '4. Chọn lọc tự nhiên (Natural selection):\n' +
       '   — Nhân tố tiến hoá duy nhất có hướng và tạo ra thích nghi.\n' +
       '   — Loại bỏ các kiểu gen có sức sống và khả năng sinh sản thấp hơn.\n' +
-      '5. Cách ly sinh sản (Reproductive isolation):\n' +
-      '   — Ngăn cản dòng gene giữa các quần thể, là điều kiện tiên quyết để các quần thể tiến hoá độc lập và hình thành loài mới.',
+      '5. Giao phối không ngẫu nhiên (Non-random mating):\n' +
+      '   — Gồm tự thụ phấn, giao phối gần, giao phối có chọn lọc. Làm tăng tỉ lệ kiểu gen đồng hợp và giảm tỉ lệ kiểu gen dị hợp qua các thế hệ.\n' +
+      '   — Lưu ý: nhân tố này KHÔNG làm đổi tần số alen, chỉ làm đổi thành phần kiểu gen — nhưng vẫn là nhân tố tiến hoá vì nó thay đổi cấu trúc di truyền của quần thể.\n\n' +
+      'PHÂN BIỆT dễ nhầm: CÁCH LI SINH SẢN không nằm trong 5 nhân tố tiến hoá. Nó là điều kiện ngăn dòng gene giữa các quần thể, giúp các quần thể tiến hoá độc lập, nên thuộc về cơ chế HÌNH THÀNH LOÀI MỚI (học ở bài sau).',
     workedExample: {
       problem:
         'Tại sao quần thể nhỏ dễ bị biến động di truyền (genetic drift) hơn quần thể lớn? Cho ví dụ.',
@@ -883,7 +885,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
     srsCards: [
       {
         hoi: 'Kể tên 5 nhân tố tiến hoá chính theo thuyết tổng hợp hiện đại?',
-        dap: '1. Đột biến; 2. Di nhập gen; 3. Biến động di truyền; 4. Chọn lọc tự nhiên; 5. Cách ly sinh sản.',
+        dap: '1. Đột biến; 2. Di nhập gen; 3. Biến động di truyền (yếu tố ngẫu nhiên); 4. Chọn lọc tự nhiên; 5. Giao phối không ngẫu nhiên. (Cách li sinh sản KHÔNG phải nhân tố tiến hoá — nó thuộc cơ chế hình thành loài mới.)',
       },
       {
         hoi: 'Biến động di truyền (Genetic drift) xảy ra mạnh nhất trong điều kiện nào?',
@@ -1316,7 +1318,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
       steps: [
         'Ở thực vật: Cây đa bội (4n) hình thành từ tế bào lưỡng bội (2n) vẫn có thể tự thụ phấn hoặc thụ phấn chéo với cây đa bội khác cùng dạng và tạo ra hạt giống hữu thụ. Chúng bị cách ly sinh sản ngay tức thì với cây lưỡng bội ban đầu vì con lai giữa 4n và 2n sẽ là 3n bất thụ.',
         'Ở động vật: Đa bội hoá ở động vật rất hiếm và hầu như gây chết vì hầu hết cơ chế xác định giới tính dựa vào NST giới tính sẽ bị rối loạn nghiêm trọng khi đa bội hoá.',
-        'Kết luận: Thực vật dễ hình thành loài bằng đa bội hóa vì khả năng tự thụ phấn và không bị rối loạn xác định giới tính.',
+        'Kết luận: Thực vật dễ hình thành loài bằng đa bội hoá vì khả năng tự thụ phấn và không bị rối loạn xác định giới tính.',
       ],
       answer:
         'Thực vật có thể tự thụ phấn và không bị rối loạn xác định giới tính khi đa bội hoá, tạo loài mới ngay lập tức.',
@@ -1353,7 +1355,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
         dap: 'Nhóm quần thể có thể giao phối với nhau sinh ra con hữu thụ, bị cách ly sinh sản hoàn toàn với các nhóm khác.',
       },
       {
-        hoi: 'Tại sao cần có cách ly địa lý trước khi hình thành cách ly sinh sản?',
+        hoi: 'Trong con đường hình thành loài khác khu, vì sao cách ly địa lý phải xảy ra trước cách ly sinh sản?',
         dap: 'Vì cách ly địa lý ngăn dòng gene giữa các quần thể, để chọn lọc tự nhiên và biến động di truyền tích luỹ sự sai khác di truyền theo từng hướng khác nhau cho đến khi hai quần thể không còn giao phối được nữa.',
       },
     ],
@@ -1365,7 +1367,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
     animation: {
       title: 'Trục thời gian 4,6 tỉ năm của sự sống trên Trái Đất',
       description:
-        'Một trục ngang trải từ 4,6 tỉ năm trước tới hiện tại, các mốc lớn hiện lần lượt theo đúng vị trí thời gian. Trái Đất hình thành cách nay 4,6 tỉ năm. Sự sống đầu tiên là tế bào nhân sơ xuất hiện khoảng 3,5 tỉ năm trước. Vi khuẩn lam quang hợp thải oxygen làm khí quyển đổi hẳn thành phần vào khoảng 2,4 tỉ năm trước. Tế bào nhân thực xuất hiện khoảng 2,1 tỉ năm trước, sinh vật đa bào muộn hơn nữa. Chỉ tới khoảng 541 triệu năm trước mới bùng nổ động vật ở đại Cổ sinh, khủng long thống trị đại Trung sinh, và chi Người xuất hiện cách nay khoảng 2,5 triệu năm — một vạch mảnh sát mép phải trục. Điều mà một danh sách các đại địa chất không truyền nổi: gần ba phần tư lịch sử sự sống chỉ có sinh vật đơn bào, còn toàn bộ lịch sử loài người chỉ là một sợi tóc ở cuối trục.',
+        'Một trục ngang trải từ 4,6 tỉ năm trước tới hiện tại, các mốc lớn hiện lần lượt theo đúng vị trí thời gian. Trái Đất hình thành cách nay 4,6 tỉ năm. Sự sống đầu tiên là tế bào nhân sơ, xuất hiện khoảng 3,5 tỉ năm trước. Vi khuẩn lam quang hợp thải oxygen làm khí quyển đổi hẳn thành phần vào khoảng 2,4 tỉ năm trước. Tế bào nhân thực xuất hiện khoảng 2,1 tỉ năm trước, sinh vật đa bào muộn hơn nữa. Chỉ tới khoảng 541 triệu năm trước mới bùng nổ động vật ở đại Cổ sinh, khủng long thống trị đại Trung sinh, và chi Người xuất hiện cách nay khoảng 2,5 triệu năm — một vạch mảnh sát mép phải trục. Điều mà một danh sách các đại địa chất không truyền nổi: gần ba phần tư lịch sử sự sống chỉ có sinh vật đơn bào, còn toàn bộ lịch sử loài người chỉ là một sợi tóc ở cuối trục.',
       viewBoxWidth: 520,
       viewBoxHeight: 240,
       durationMs: 10000,
@@ -1563,7 +1565,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
     chapterTitle: 'Sự phát sinh và phát triển sự sống trên Trái Đất',
     lessonNumber: 24,
     title: 'Nguồn gốc sự sống và tiến hoá của sinh giới qua các đại địa chất',
-    hook: 'Từ một môi trường nguyên thuỷ giàu hoá chất nhưng không có oxy, sự sống trên Trái Đất đã xuất hiện cách đây khoảng 3.8 tỷ năm và tiến hoá qua hàng trăm triệu năm thành muôn loài như ngày nay.',
+    hook: 'Từ một môi trường nguyên thuỷ giàu hoá chất nhưng không có oxy, sự sống trên Trái Đất đã xuất hiện cách đây khoảng 3,8 tỉ năm và tiến hoá qua hàng trăm triệu năm thành muôn loài như ngày nay.',
     theory:
       'NGUỒN GỐC SỰ SỐNG (Thuyết tiến hoá hoá học):\n' +
       '— Thuyết tiến hoá hoá học (Oparin – Haldane): Sự sống hình thành theo 3 giai đoạn từ vật chất vô sinh dưới điều kiện Trái Đất nguyên thuỷ (không có oxy, giàu CH₄, NH₃, H₂O, H₂, tia tử ngoại mạnh, sét...).\n' +
@@ -1571,8 +1573,8 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
       '  2. Tiến hoá tiền sinh học: Các polymer liên kết tạo ra giọt coaxecva (coacervate) — cấu trúc có màng ngăn cách với môi trường ngoài và chứa enzyme thô sơ.\n' +
       '  3. Tiến hoá sinh học: Hình thành tế bào sơ khai có khả năng tự nhân bản ADN và trao đổi chất.\n\n' +
       'CÁC ĐẠI ĐỊA CHẤT LƯỢC SỬ:\n' +
-      '— Đại Thái cổ (~3.8 tỷ năm trước): Xuất hiện tế bào nhân sơ đầu tiên (vi khuẩn cổ, vi khuẩn lam).\n' +
-      '— Đại Nguyên sinh (~2.5 tỷ → 540 triệu năm): Xuất hiện tế bào nhân thực đơn bào. Oxi bắt đầu tích luỹ trong khí quyển do vi khuẩn lam quang hợp.\n' +
+      '— Đại Thái cổ (~3,8 tỉ năm trước): Xuất hiện tế bào nhân sơ đầu tiên (vi khuẩn cổ, vi khuẩn lam).\n' +
+      '— Đại Nguyên sinh (~2,5 tỉ → 540 triệu năm): Xuất hiện tế bào nhân thực đơn bào. Oxi bắt đầu tích luỹ trong khí quyển do vi khuẩn lam quang hợp.\n' +
       '— Đại Cổ sinh (~541 → 252 triệu năm): Bùng nổ sinh vật đa bào. Thực vật, động vật tiến hoá lên cạn. Cuối đại xảy ra tuyệt chủng hàng loạt lớn nhất trong lịch sử (96% loài biển).\n' +
       '— Đại Trung sinh (~252 → 66 triệu năm): Kỷ nguyên của khủng long. Xuất hiện thú túi, chim, thực vật hạt kín. Kết thúc bởi thiên thạch + núi lửa gây tuyệt chủng khủng long.\n' +
       '— Đại Tân sinh (~66 triệu năm → nay): Thú nhau và linh trưởng bùng nổ. Khí hậu mát dần. Xuất hiện người hiện đại (Homo sapiens) khoảng 300.000 năm trước.',
@@ -1581,7 +1583,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
         'Chứng minh thí nghiệm Miller–Urey (1953) hỗ trợ thuyết tiến hoá hoá học về nguồn gốc sự sống như thế nào.',
       steps: [
         'Thiết kế thí nghiệm: Stanley Miller và Harold Urey tái tạo điều kiện khí quyển Trái Đất nguyên thuỷ trong bình thuỷ tinh kín (hỗn hợp khí CH₄, NH₃, H₂, H₂O), cung cấp năng lượng bằng tia lửa điện mô phỏng sét.',
-        'Kết quả: Sau 1 tuần, phân tích dung dịch thu được 20 loại amino acid khác nhau và nhiều phân tử hữu cơ đơn giản khác.',
+        'Kết quả: Sau khoảng một tuần, trong dung dịch thu được đã xuất hiện một số loại amino acid (glycine, alanine, acid aspartic…) cùng nhiều phân tử hữu cơ đơn giản khác. Lưu ý: thí nghiệm KHÔNG tạo ra đủ 20 loại amino acid của protein, và cũng không tạo ra sự sống — nó chỉ chứng minh bước đầu tiên là có thật.',
         'Ý nghĩa: Chứng minh thực nghiệm rằng các phân tử hữu cơ là nền tảng của sự sống có thể tự hình thành từ chất vô cơ dưới điều kiện vật lý mà không cần sự can thiệp của sinh vật sống trước đó.',
       ],
       answer:
@@ -1607,7 +1609,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
           { id: 'kl_1', label: 'Đại Trung sinh (252-66 triệu năm)' },
           { id: 'kl_2', label: 'Đại Cổ sinh (541-252 triệu năm)' },
           { id: 'kl_3', label: 'Đại Tân sinh (66 triệu năm đến nay)' },
-          { id: 'kl_4', label: 'Đại Nguyên sinh (2.5 tỷ-541 triệu năm)' },
+          { id: 'kl_4', label: 'Đại Nguyên sinh (2,5 tỉ – 541 triệu năm)' },
         ],
         answer: { kind: 'choice', correctIds: ['kl_1'] },
         explain:
@@ -2234,7 +2236,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
     chapterTitle: 'Sinh thái học cá thể và quần thể',
     lessonNumber: 26,
     title: 'Quần thể sinh vật và các đặc trưng cơ bản',
-    hook: 'Tại sao dân số thế giới tăng chậm trong hàng ngàn năm nhưng chỉ mất 200 năm gần đây đã tăng từ 1 tỷ lên 8 tỷ người? Câu trả lời nằm trong học thuyết sinh trưởng quần thể.',
+    hook: 'Tại sao dân số thế giới tăng chậm trong hàng ngàn năm nhưng chỉ mất 200 năm gần đây đã tăng từ 1 tỉ lên 8 tỉ người? Câu trả lời nằm trong học thuyết sinh trưởng quần thể.',
     theory:
       'QUẦN THỂ (Population):\n' +
       '— Là tập hợp cá thể cùng loài, sống trong một khoảng không gian nhất định, có khả năng sinh sản và tạo thế hệ mới.\n\n' +
@@ -2321,7 +2323,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
       '1. Quan hệ cộng sinh (Mutualism +/+): Cả hai loài đều có lợi. VD: Nốt sần Rhizobium-đậu, tảo-nấm (địa y), cá hề-hải quỳ.\n' +
       '2. Quan hệ hội sinh (Commensalism +/0): Một loài có lợi, loài kia không lợi không hại. VD: Phong lan bám cây gỗ lớn, cá ép bám cá mập.\n' +
       '3. Quan hệ ký sinh (Parasitism +/-): Một loài có lợi (ký sinh trùng), một loài bị hại (vật chủ). VD: Sán ký sinh trong ruột người; virus ký sinh tế bào.\n' +
-      '4. Quan hệ ức chế - cảm nhiễm (Amensalism 0/-): Một loài ức chế loài khác mà bản thân không bị ảnh hưởng. VD: Nấm penicillium tiết penicillin ức chế vi khuẩn.\n' +
+      '4. Quan hệ ức chế - cảm nhiễm (Amensalism 0/-): Một loài ức chế loài khác mà bản thân không bị ảnh hưởng. VD: Nấm Penicillium tiết penicillin ức chế vi khuẩn.\n' +
       '5. Quan hệ cạnh tranh (Competition -/-): Hai loài cùng khai thác nguồn sống hạn chế và cản trở lẫn nhau. VD: Lúa và cỏ dại, sư tử và báo săn mồi cùng vùng.\n' +
       '6. Quan hệ sinh vật ăn thịt (Predation +/-): Loài ăn thịt có lợi, con mồi bị hại. Điều tiết kích thước quần thể con mồi.',
     workedExample: {
@@ -2353,7 +2355,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
         choices: [
           { id: 'hs_1', label: 'Cá ép bám dưới bụng cá mập để được di chuyển và kiếm ăn' },
           { id: 'hs_2', label: 'Tảo và nấm tạo địa y' },
-          { id: 'hs_3', label: 'Nấm penicillium ức chế vi khuẩn' },
+          { id: 'hs_3', label: 'Nấm Penicillium ức chế vi khuẩn' },
           { id: 'hs_4', label: 'Sư tử và linh cẩu tranh giành mồi' },
         ],
         answer: { kind: 'choice', correctIds: ['hs_1'] },
@@ -2364,7 +2366,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
     srsCards: [
       {
         hoi: 'Loài chủ chốt (keystone species) là gì?',
-        dap: 'Loài có ảnh hưởng cực lớn đến cấu trúc và đa dạng của quần xã, không tương xứng với số lượng ít ỏi của chúng. Ví dụ: rái cá biển kiểm soát nhím biển kiểm soát rong biển.',
+        dap: 'Loài có ảnh hưởng cực lớn đến cấu trúc và đa dạng của quần xã, không tương xứng với số lượng ít ỏi của chúng. Ví dụ: rái cá biển ăn nhím biển; nhờ đó nhím không ăn trụi rừng tảo bẹ, cả quần xã tảo bẹ được giữ lại.',
       },
       {
         hoi: 'Phân biệt cạnh tranh (competition) và ký sinh (parasitism)?',
@@ -3238,7 +3240,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
     chapterTitle: 'Hệ sinh thái, sinh quyển và bảo vệ môi trường',
     lessonNumber: 29,
     title: 'Chu trình sinh địa hoá và sinh quyển',
-    hook: 'Carbon trong CO₂ bạn thở ra ngày hôm nay có thể đã từng là một phần của cơ thể khủng long 65 triệu năm trước. Đó là nhờ chu trình tuần hoàn vật chất kỳ diệu trong sinh quyển.',
+    hook: 'Carbon trong CO₂ bạn thở ra ngày hôm nay có thể đã từng là một phần của cơ thể khủng long 66 triệu năm trước. Đó là nhờ chu trình tuần hoàn vật chất kỳ diệu trong sinh quyển.',
     theory:
       'SINH QUYỂN (Biosphere):\n' +
       '— Là toàn bộ các hệ sinh thái trên Trái Đất, bao gồm lớp không khí, nước và đất nơi sự sống tồn tại.\n\n' +
@@ -3251,8 +3253,8 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
       '— Carbon trong than đá, dầu mỏ (nhiên liệu hoá thạch) bị giữ lại qua hàng triệu năm; đốt cháy nhiên liệu giải phóng CO₂ → tăng hiệu ứng nhà kính.\n\n' +
       'CHU TRÌNH NITROGEN:\n' +
       '— N₂ chiếm 78% khí quyển nhưng hầu hết sinh vật không sử dụng trực tiếp được.\n' +
-      '— Cố định nitrogen: Vi khuẩn cố định đạm (Rhizobium, Azotobacter) chuyển N₂ → NH₃/NH₄⁺ (dạng mà thực vật hấp thụ được) hoặc sét sét → NO₃⁻.\n' +
-      '— Phân giải nitrogen: Vi khuẩn nitrat hoá NH₄⁺ → NO₂⁻ → NO₃⁻ (dạng thực vật ưa). Vi khuẩn phản nitrat hoá NO₃⁻ → N₂ (trả lại khí quyển).\n\n' +
+      '— Cố định nitrogen: Vi khuẩn cố định đạm (Rhizobium, Azotobacter) chuyển N₂ → NH₃/NH₄⁺ (dạng mà thực vật hấp thụ được). Ngoài ra, sét trong khí quyển cũng oxi hoá một phần N₂ thành NO rồi NO₂, theo nước mưa xuống đất thành NO₃⁻.\n' +
+      '— Nitrat hoá: vi khuẩn nitrat hoá (Nitrosomonas, Nitrobacter) oxi hoá NH₄⁺ → NO₂⁻ → NO₃⁻ — đây là dạng cây hấp thụ nhiều nhất.\n— Phản nitrat hoá: vi khuẩn phản nitrat hoá khử NO₃⁻ → N₂ trả lại khí quyển, khép kín chu trình (nhưng cũng làm đất mất đạm khi ngập úng, thiếu khí).\n\n' +
       'CHU TRÌNH NƯỚC:\n' +
       '— Bay hơi (từ biển, đất) → Ngưng tụ (mây) → Mưa → Thấm đất, chảy mặt về biển.',
     workedExample: {
@@ -3291,7 +3293,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['cc_1'] },
         explain:
-          'Đại dương hấp thụ và lưu trữ lượng CO₂ khổng lồ dưới dạng hòa tan và đá vôi từ vỏ sinh vật biển — bể chứa carbon lớn nhất và quan trọng nhất điều tiết khí hậu.',
+          'Đại dương hấp thụ và lưu trữ lượng CO₂ khổng lồ dưới dạng hoà tan và đá vôi từ vỏ sinh vật biển — bể chứa carbon lớn nhất và quan trọng nhất điều tiết khí hậu.',
       },
     ],
     srsCards: [
@@ -3314,7 +3316,7 @@ export const SINH12_C2_LESSONS: BiologyLesson[] = [
     chapterTitle: 'Hệ sinh thái, sinh quyển và bảo vệ môi trường',
     lessonNumber: 30,
     title: 'Bảo vệ đa dạng sinh học và môi trường',
-    hook: 'Mỗi ngày, Trái Đất mất đi khoảng 30-150 loài sinh vật do hoạt động của con người. Bảo vệ đa dạng sinh học không chỉ là đạo đức mà còn là điều kiện sống còn của chính chúng ta.',
+    hook: 'Mỗi ngày, Trái Đất mất đi khoảng 30–150 loài sinh vật do hoạt động của con người. Bảo vệ đa dạng sinh học không chỉ là đạo đức mà còn là điều kiện sống còn của chính chúng ta.',
     theory:
       'ĐA DẠNG SINH HỌC (Biodiversity):\n' +
       '— Bao gồm: Đa dạng di truyền (genetic diversity), đa dạng loài (species diversity), đa dạng hệ sinh thái (ecosystem diversity).\n\n' +

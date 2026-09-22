@@ -11,7 +11,7 @@ export const AI_S3_DETAIL: SpecStageDetail = {
       practice: [
         'Huấn luyện tới khi khớp trọn một tập nhỏ 100 mẫu — phép thử chuẩn để biết đường ống không hỏng.',
         'Lập danh sách phép thử theo thứ tự cho tình huống mất mát không giảm, rồi áp dụng đúng thứ tự đó.',
-        'Thử ba lịch học tốc độ khác nhau trên cùng dữ liệu và ghi lại đường cong mất mát.',
+        'Thử ba lịch điều chỉnh tốc độ học khác nhau trên cùng dữ liệu và ghi lại đường cong mất mát.',
       ],
       selfCheck: [
         {

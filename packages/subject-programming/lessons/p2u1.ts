@@ -30,7 +30,7 @@ print(f"Ca ngay: {sang + chieu} dong")   # return cho phép cộng tiếp`,
       choices: ['15', '5', '10', 'Báo lỗi'],
       answerIndex: 1,
       explain:
-        'Hàm cộng_thêm có sửa x, nhưng x là biến NỘI BỘ của hàm — sửa nó không đụng tới biến so bên ngoài. Hơn nữa kết quả return không được gán vào đâu cả (phải viết so = cong_them(so) mới đổi được). Nên so vẫn là 5.',
+        'Hàm cong_them có sửa x, nhưng x là biến NỘI BỘ của hàm — sửa nó không đụng tới biến so bên ngoài. Hơn nữa kết quả return không được gán vào đâu cả (phải viết so = cong_them(so) mới đổi được). Nên so vẫn là 5.',
     },
     parsons: {
       prompt:

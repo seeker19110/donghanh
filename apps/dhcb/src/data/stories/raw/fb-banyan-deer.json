@@ -13,7 +13,7 @@
     "vi": "Opus dịch tay 2026 từ bản public domain"
   },
   "moralEn": "A king who lays his own head on the block to spare a mother and her child teaches mercy more powerfully than any law — and even the hunter-king was changed by it.",
-  "moralVi": "Một vị vua tự đặt đầu mình lên thớt để cứu một người mẹ cùng đứa con dạy về lòng nhân từ mạnh mẽ hơn bất cứ đạo luật nào — và ngay cả vị vua đi săn cũng được cảm hóa bởi điều ấy.",
+  "moralVi": "Một vị vua tự đặt đầu mình lên thớt để cứu một hươu mẹ cùng con nhỏ dạy về lòng nhân từ mạnh mẽ hơn bất cứ đạo luật nào — và ngay cả vị vua đi săn cũng được điều ấy cảm hóa.",
   "lines": [
     {
       "p": 0,
@@ -25,7 +25,11 @@
       "en": "His eyes were like round jewels, his horns were white as silver, his mouth was red like a flower, his hoofs were bright and hard.",
       "vi": "Mắt nó như hai viên ngọc tròn, sừng trắng như bạc, miệng đỏ như một đóa hoa, móng guốc sáng bóng và cứng cáp."
     },
-    { "p": 0, "en": "He had a large body and a fine tail.", "vi": "Thân nó to lớn, đuôi đẹp đẽ." },
+    {
+      "p": 0,
+      "en": "He had a large body and a fine tail.",
+      "vi": "Thân nó to lớn, đuôi đẹp đẽ."
+    },
     {
       "p": 1,
       "en": "He lived in a forest and was king of a herd of five hundred Banyan Deer.",
@@ -36,7 +40,11 @@
       "en": "Near by lived another herd of Deer, called the Monkey Deer.",
       "vi": "Gần đó có một đàn Hươu khác sinh sống, gọi là đàn Hươu Khỉ."
     },
-    { "p": 1, "en": "They, too, had a king.", "vi": "Chúng cũng có một vị vua của mình." },
+    {
+      "p": 1,
+      "en": "They, too, had a king.",
+      "vi": "Chúng cũng có một vị vua của mình."
+    },
     {
       "p": 2,
       "en": "The king of that country was fond of hunting the Deer and eating deer meat.",
@@ -122,7 +130,11 @@
       "en": "Fewer Deer will be lost this way.\"",
       "vi": "Làm vậy thì số Hươu mất đi sẽ ít hơn.\""
     },
-    { "p": 9, "en": "The Monkey Deer agreed.", "vi": "Vua Hươu Khỉ đồng ý." },
+    {
+      "p": 9,
+      "en": "The Monkey Deer agreed.",
+      "vi": "Vua Hươu Khỉ đồng ý."
+    },
     {
       "p": 9,
       "en": "Each day the Deer whose turn it was would go and lie down, placing its head on the block.",
@@ -148,7 +160,11 @@
       "en": "Then I will go and put my head on the block.\"",
       "vi": "Khi ấy tôi sẽ tự đi đặt đầu mình lên thớt.\""
     },
-    { "p": 11, "en": "But the king did not help her.", "vi": "Nhưng vị vua ấy chẳng giúp nàng." },
+    {
+      "p": 11,
+      "en": "But the king did not help her.",
+      "vi": "Nhưng vị vua ấy chẳng giúp nàng."
+    },
     {
       "p": 11,
       "en": "He told her that if the lot had fallen to her she must die.",
@@ -194,7 +210,11 @@
       "en": "\"King of the Banyan Deer! I never saw such kindness and mercy. Rise up.",
       "vi": "\"Vua Hươu cây Đa! Ta chưa từng thấy tấm lòng nhân hậu và bao dung đến thế. Hãy đứng dậy đi."
     },
-    { "p": 17, "en": "I grant your life and hers.", "vi": "Ta tha mạng cho ngươi và cho cả nàng." },
+    {
+      "p": 17,
+      "en": "I grant your life and hers.",
+      "vi": "Ta tha mạng cho ngươi và cho cả nàng."
+    },
     {
       "p": 17,
       "en": "Nor will I hunt any more the Deer in either park or forest.\"",

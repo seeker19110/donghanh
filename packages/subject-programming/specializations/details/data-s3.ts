@@ -44,7 +44,7 @@ export const DATA_S3_DETAIL: SpecStageDetail = {
         },
         {
           q: 'Đúng một lần đắt ở chỗ nào?',
-          a: 'Phải giữ trạng thái và phối hợp giữa các bước, nên chậm và phức tạp hơn cách lặp lại an toàn.',
+          a: 'Phải giữ trạng thái và phối hợp giữa các bước, nên chậm và phức tạp hơn cách lũy đẳng (idempotent).',
         },
       ],
       doneSignals: [

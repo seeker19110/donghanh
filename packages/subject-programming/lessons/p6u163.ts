@@ -43,7 +43,7 @@ print("prefix:" + ",".join(sorted(w for w in words if w.startswith(prefix))[:3])
     },
     make: {
       prompt:
-        'MÔ PHỎNG trie prefix trên kho cố định ant,ape,apple,bat,banana,band,bandit,cat. Đọc một prefix chữ thường ASCII. In prefix: cộng tối đa BA từ bắt đầu bằng prefix, sort tăng dần và ngăn bằng dấu phẩy; nếu không có từ thì in prefix:empty. Prefix rỗng, có số, dấu cách hoặc ký tự khác in tu-choi. Không dùng file, network hay thư viện trie; đây là mô hình hữu hạn để kiểm hợp đồng ordering, không đo hiệu năng trie/BST thật.',
+        'MÔ PHỎNG trie prefix trên kho cố định ant,ape,apple,bat,banana,band,bandit,cat. Đọc một prefix chữ thường ASCII. In prefix: rồi tối đa BA từ bắt đầu bằng prefix, sort tăng dần và ngăn bằng dấu phẩy; nếu không có từ thì in prefix:empty. Prefix rỗng, có số, dấu cách hoặc ký tự khác in tu-choi. Không dùng file, network hay thư viện trie; đây là mô hình hữu hạn để kiểm hợp đồng ordering, không đo hiệu năng trie/BST thật.',
       starterCode: `prefix = input().strip()
 words = ["ant", "ape", "apple", "bat", "banana", "band", "bandit", "cat"]
 

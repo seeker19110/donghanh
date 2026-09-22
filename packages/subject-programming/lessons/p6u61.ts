@@ -170,7 +170,7 @@ console.log("Server sai: " + SERVER_SAI.map(maTrangThai).join(" "))`,
       hints: [
         'Dùng switch trên t.loai. Nhóm chúng theo ba họ trước: 2xx đã làm xong, 4xx người gọi sai, 5xx server sai.',
         'Ba ca 2xx: taoMoi → 201 (vừa tạo tài nguyên mới), khongThan → 204 (xong, không có thân), còn lại mới là 200.',
-        'Bốn ca 4xx dễ lẫn: thanDiDang → 400, chuaDangNhap → 401, khongDuQuyen → 403, trungDon → 409, saiNghiepVu → 422. Riêng khongDuQuyen có cờ giauSuTonTai: bật thì trả 404 để người gọi không dò được id.',
+        'Năm ca 4xx dễ lẫn: thanDiDang → 400, chuaDangNhap → 401, khongDuQuyen → 403, trungDon → 409, saiNghiepVu → 422. Riêng khongDuQuyen có cờ giauSuTonTai: bật thì trả 404 để người gọi không dò được id.',
         'Hai ca 5xx: loiTrongCode → 500, phuThuocQuaTai → 503 (dịch vụ tạm không phục vụ được). Nếu phía sau trả về phản hồi hỏng thì mới là 502.',
       ],
       sampleSolution: `type TinhHuong =
@@ -282,7 +282,7 @@ const trang2ConTro = SAU.filter((d) => d.id < conTro).slice(0, 2)
 const ten = (ds: Don[]) => ds.map((d) => d.ten).join(",")
 console.log("Offset  trang1=" + ten(trang1Offset) + " trang2=" + ten(trang2Offset))
 console.log("Con tro trang1=" + ten(trang1ConTro) + " trang2=" + ten(trang2ConTro))
-// Offset: "d" hiện LẠI ở trang 2 (đã thấy ở trang 1) và "c" thì mất hút.
+// Offset: "d" hiện LẠI ở trang 2 dù người dùng đã thấy nó ở trang 1.
 // Con trỏ: đi tiếp đúng từ chỗ đã dừng, bản ghi mới chen vào không ảnh hưởng gì.`,
       stdinLines: [],
     },

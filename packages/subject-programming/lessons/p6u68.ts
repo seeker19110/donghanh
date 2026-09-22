@@ -58,7 +58,7 @@ print(trung_vi([7, 1, 3, 9]))`,
       choices: ['5.0', '4.0', '3.0', '7.0'],
       answerIndex: 0,
       explain:
-        'Sắp xếp [7,1,3,9] thành [1,3,7,9]. n=4 (chẵn), giua = 4//2 = 2. Lấy trung bình 2 giá trị giữa là vị trí 1 và 2 tức 3 và 7 → (3+7)/2 = 5.0. "3.0" và "7.0" chỉ là MỘT trong hai giá trị giữa, không phải trung vị đúng.',
+        'Sắp xếp [7,1,3,9] thành [1,3,7,9]. n=4 (chẵn), giua = 4//2 = 2. Lấy trung bình 2 giá trị giữa là vị trí 1 và 2 tức 3 và 7 → (3+7)/2 = 5.0. "3.0" và "7.0" chỉ là MỘT trong hai giá trị giữa; "4.0" là kết quả khi lấy nhầm cặp (1 và 7) thay vì cặp đứng giữa.',
     },
     parsons: {
       prompt: 'Xếp lại hàm tính trung vị — nhớ xử lý riêng trường hợp số phần tử chẵn/lẻ.',

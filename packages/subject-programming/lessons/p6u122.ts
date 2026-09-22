@@ -74,9 +74,9 @@ console.log([...canChay].sort().join(","))`,
       question: 'Tác vụ b hỏng. Danh sách tác vụ phải chạy lại gồm những gì?',
       choices: [
         'b,c',
-        'Ca bon tac vu deu phai chay lai',
-        'Chi mot minh tac vu b',
-        'Tac vu a va b vi a nam truoc',
+        'Cả bốn tác vụ đều phải chạy lại',
+        'Chỉ một mình tác vụ b',
+        'Tác vụ a và b, vì a nằm trước b',
       ],
       answerIndex: 0,
       explain:
@@ -281,7 +281,7 @@ console.log("Ma rong:", coMaRong, "| Tien am:", coTienAm, "| Khop tong:", tongKh
         'Nguồn báo tổng 100.000đ nhưng kho chỉ có hai dòng 50.000 + 30.000. Ba kiểm in ra gì?',
       choices: [
         'Ma rong: false | Tien am: false | Khop tong: false',
-        'Ba kiem deu dat vi tung dong deu hop le',
+        'Cả ba kiểm đều đạt vì từng dòng đều hợp lệ',
         'Ma rong: true | Tien am: false | Khop tong: false',
         'Ma rong: false | Tien am: true | Khop tong: true',
       ],

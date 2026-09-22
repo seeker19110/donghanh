@@ -686,20 +686,21 @@ export const TOAN10_C4_LESSONS: MathLesson[] = [
     },
     workedExample: {
       problem:
-        'Trong mặt phẳng toạ độ cho A(1; 2), B(4; 3), C(2; 5). Chứng minh tam giác ABC vuông tại A và tính diện tích.',
+        'Trong mặt phẳng toạ độ cho A(1; 2), B(4; 3), C(2; 5). Hỏi tam giác ABC có vuông tại A không? ' +
+        'Tính diện tích tam giác ABC.',
       steps: [
         'Bước 1 — Chuyển giả thiết hình học thành vectơ toạ độ: AB→ = (4−1; 3−2) = (3; 1) và AC→ = (2−1; 5−2) = (1; 3). ' +
           'Chọn hai vectơ cùng xuất phát từ A vì ta cần xét góc TẠI A.',
         'Bước 2 — Kiểm tra vuông góc bằng tích vô hướng (nhanh hơn nhiều so với tính ba cạnh rồi dùng Pythagore đảo): ' +
-          'AB→ · AC→ = 3·1 + 1·3 = 6. Kết quả khác 0 nên góc A KHÔNG vuông — giả thiết của đề chưa đúng với dữ liệu.',
-        'Bước 3 — Kết luận trung thực và tính góc thật: |AB→| = √10, |AC→| = √10, nên ' +
+          'AB→ · AC→ = 3·1 + 1·3 = 6. Kết quả khác 0 nên góc A KHÔNG vuông.',
+        'Bước 3 — Tính luôn góc A để thấy nó lệch bao nhiêu so với góc vuông: |AB→| = √10, |AC→| = √10, nên ' +
           'cosA = 6/(√10·√10) = 0,6, suy ra góc A ≈ 53,13°. Tam giác cân tại A chứ không vuông tại A.',
         'Bước 4 — Tính diện tích bằng công thức S = (1/2)·|AB→|·|AC→|·sinA. Từ cosA = 0,6 suy ra sinA = 0,8, nên ' +
           'S = 0,5 · √10 · √10 · 0,8 = 4.',
-        'Bước 5 — Bài học rút ra: luôn KIỂM CHỨNG giả thiết bằng tính toán thay vì tin ngay vào lời đề; tích vô ' +
-          'hướng bằng 6 ≠ 0 là bằng chứng dứt khoát.',
+        'Bước 5 — Bài học rút ra: tích vô hướng cho câu trả lời dứt khoát về góc vuông — bằng 0 thì vuông, khác ' +
+          '0 thì không. Ở đây nó bằng 6 nên kết luận "không vuông" là chắc chắn, không cần vẽ hình để đoán.',
       ],
-      answer: 'Tam giác không vuông tại A (góc A ≈ 53,13°); diện tích bằng 4.',
+      answer: 'Tam giác KHÔNG vuông tại A (góc A ≈ 53,13°); diện tích bằng 4.',
     },
     checkQuestions: [
       {

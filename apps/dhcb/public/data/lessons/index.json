@@ -1012,7 +1012,7 @@
   {
     "id": 102,
     "title": "Thuê xe máy",
-    "situation": "Hoa muốn thuê xe máy đi thăm quan thành phố.",
+    "situation": "Hoa muốn thuê xe máy đi tham quan thành phố.",
     "turnCount": 20,
     "speakerAGender": "female",
     "speakerBGender": "male",
@@ -1081,8 +1081,8 @@
   },
   {
     "id": 109,
-    "title": "Đăng ký thẻ thư viện",
-    "situation": "Sinh viên Phương đăng ký mượn sách ở thư viện.",
+    "title": "Gọi món ở quán ăn Việt",
+    "situation": "Một thực khách gọi món tại quán ăn Việt và hỏi nhân viên về món phở.",
     "turnCount": 20,
     "speakerAGender": "female",
     "speakerBGender": "female",

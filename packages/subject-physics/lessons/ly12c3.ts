@@ -2309,7 +2309,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
         'Thay số: |etc| = 0.2 * |-2| / 0.1.',
         'Tính toán: |etc| = 4 V.',
       ],
-      answer: 'etc_magnitude = 4 V.',
+      answer: '|e_tc| = 4 V.',
     },
     checkQuestions: [
       {
@@ -2337,7 +2337,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
           unit: 'V',
         },
         explain:
-          'Suất điện động tự cảm chỉ sinh ra khi dòng qua ống dây BIẾN THIÊN, và tỉ lệ với tốc độ biến thiên ấy: |e_tc| = L * |di/dt| = 0,5 * 10 = 5 V. Dòng không đổi thì di/dt = 0 nên không có suất điện động tự cảm, dù dòng lớn đến đâu.',
+          'Suất điện động tự cảm chỉ sinh ra khi dòng qua ống dây BIẾN THIÊN, và tỉ lệ với tốc độ biến thiên ấy: |e_tc| = L * |di/dt| = 0.5 * 10 = 5 V. Dòng không đổi thì di/dt = 0 nên không có suất điện động tự cảm, dù dòng lớn đến đâu.',
       },
     ],
     srsCards: [
@@ -2814,7 +2814,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
     lessonNumber: 17,
     title: 'Máy biến áp. Truyền tải điện năng đi xa',
     hook:
-      'Các nhà máy điện thường phát ra điện thế hàng kilôvôn, nhưng để truyền tải điện năng đi xa hàng trăm kilômét, người ta phải nâng điện áp lên hàng trăm kilôvôn, ' +
+      'Các nhà máy điện thường phát ra điện áp cỡ vài chục kilôvôn, nhưng để truyền tải điện năng đi xa hàng trăm kilômét, người ta phải nâng điện áp lên hàng trăm kilôvôn, ' +
       'sau đó lại hạ xuống 220 V để đưa vào gia đình sử dụng. Thiết bị thực hiện nhiệm vụ này một cách hiệu quả là máy biến áp.',
     theory:
       'MÁY BIẾN ÁP:\n' +
@@ -3313,18 +3313,18 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
     title: 'Ứng dụng của từ trường',
     hook:
       'Làm thế nào một đoàn tàu cao tốc Maglev nặng hàng chục tấn có thể "lơ lửng" trên không trung và lao đi với vận tốc 600 km/h? ' +
-      'Làm sao máy chụp MRI có thể nhìn thấy chi tiết tế bào não mà không cần phẫu thuật? Tất cả là nhờ các ứng dụng kỳ diệu của từ trường.',
+      'Làm sao máy chụp MRI có thể nhìn rõ từng cấu trúc bên trong não mà không cần phẫu thuật? Tất cả là nhờ các ứng dụng kỳ diệu của từ trường.',
     theory:
       'NAM CHÂM ĐIỆN CÔNG NGHIỆP:\n' +
       '— Cấu tạo gồm cuộn dây điện quấn quanh lõi sắt non. Lõi sắt non làm tăng từ trường lên nhiều lần và mất hết từ tính khi ngắt điện.\n' +
       '— Ứng dụng: Cần cẩu điện hút kim loại vụn.\n\n' +
       'ĐỘNG CƠ ĐIỆN VÀ LOA ĐIỆN:\n' +
       '— Động cơ điện: Biến đổi điện năng thành cơ năng dựa trên lực từ tác dụng lên cuộn dây mang điện đặt trong từ trường làm rotor quay.\n' +
-      '— Loa điện: Dòng điện xoay chiều âm tần chạy vào cuộn dây đặt trong từ trường biến thiên làm rung màng loa tạo sóng âm.\n\n' +
+      '— Loa điện: Dòng điện âm tần chạy vào cuộn dây đặt trong từ trường của một nam châm vĩnh cửu. Dòng điện đổi chiều liên tục nên lực từ cũng đổi chiều liên tục, kéo cuộn dây và màng loa rung lên, tạo ra sóng âm.\n\n' +
       'TÀU ĐỆM TỪ (MAGLEV):\n' +
-      '— Sử dụng lực đẩy và lực hút từ trường của nam châm siêu dẫn cực mạnh để nâng tàu lơ lửng trên đường ray (triệt tiêu ma sát) và đẩy tàu tiến lên.\n\n' +
+      '— Sử dụng lực đẩy và lực hút từ trường của nam châm siêu dẫn cực mạnh để nâng tàu lơ lửng trên đường ray (gần như không còn ma sát với đường ray) và đẩy tàu tiến lên.\n\n' +
       'CHỤP CỘNG HƯỞNG TỪ (MRI):\n' +
-      '— Sử dụng từ trường mạnh của nam châm siêu dẫn và sóng vô tuyến để định hướng lại mômen từ nguyên tử hydro trong cơ thể tạo ảnh sắc nét.',
+      '— Sử dụng từ trường mạnh của nam châm siêu dẫn và sóng vô tuyến để định hướng lại mômen từ của hạt nhân nguyên tử hydro trong cơ thể, từ đó dựng nên ảnh sắc nét.',
     workedExample: {
       problem: 'Nêu nguyên lí hoạt động cơ bản của loa điện dùng trong các thiết bị âm thanh.',
       steps: [
@@ -3367,7 +3367,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
           correctIds: ['v_1'],
         },
         explain:
-          'Sắt non (soft iron) có độ thẩm từ cao, dễ bị nhiễm từ mạnh nhưng cũng nhanh chóng mất từ tính khi ngắt dòng điện.',
+          'Sắt non (soft iron) có độ từ thẩm cao, dễ bị nhiễm từ mạnh nhưng cũng nhanh chóng mất từ tính khi ngắt dòng điện.',
       },
     ],
     srsCards: [
@@ -3420,7 +3420,7 @@ export const LY12_C3_LESSONS: PhysicsLesson[] = [
           unit: 'V',
         },
         explain:
-          'Cùng công thức tự cảm: e_tc = L * |di/dt| = 0,1 * 20 = 2 V. Dấu trừ trong công thức đầy đủ (định luật Lenz) chỉ nói suất điện động CHỐNG LẠI sự biến thiên của dòng; đề hỏi ĐỘ LỚN nên lấy trị tuyệt đối.',
+          'Cùng công thức tự cảm: e_tc = L * |di/dt| = 0.1 * 20 = 2 V. Dấu trừ trong công thức đầy đủ (định luật Lenz) chỉ nói suất điện động CHỐNG LẠI sự biến thiên của dòng; đề hỏi ĐỘ LỚN nên lấy trị tuyệt đối.',
       },
       {
         prompt:

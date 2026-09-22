@@ -15,7 +15,8 @@ import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+// Script nằm ở scripts/archive/ nên gốc repo lùi HAI cấp.
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const SRC = path.join(ROOT, 'apps/dhcb/src/data/lessons.json')
 const OUT_DIR = process.argv[2]
   ? path.resolve(process.argv[2])

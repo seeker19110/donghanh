@@ -12,7 +12,7 @@ type LessonInput = {
   predictAnswer: number
   predictExplain: string
   makePrompt: string
-  /** Factories normalize this to `contains`, so callers cannot accidentally use runner-unsafe exact matching. */
+  /** Factory tự chuẩn hoá về `contains`, để người soạn không lỡ dùng so khớp tuyệt đối (runner echo stdin). */
   testCases: Array<
     Omit<ProgrammingLesson['make']['testCases'][number], 'match'> & {
       match?: ProgrammingLesson['make']['testCases'][number]['match']
@@ -35,7 +35,7 @@ export function devopsSimulation(input: LessonInput): ProgrammingLesson {
     workedExample: { code: input.workedCode, stdinLines: [] },
     predict: {
       code: input.predictCode,
-      question: 'Trace MÔ PHỎNG in gì?',
+      question: 'Chạy MÔ PHỎNG này thì in ra dòng gì?',
       choices: input.predictChoices,
       answerIndex: input.predictAnswer,
       explain: input.predictExplain,

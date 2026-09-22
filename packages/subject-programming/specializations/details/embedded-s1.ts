@@ -126,7 +126,7 @@ export const EMBEDDED_S1_DETAIL: SpecStageDetail = {
       id: 'embedded-s1-r1',
       text: 'Thiết bị đọc được ít nhất hai cảm biến qua bus hai dây và hiển thị giá trị lên màn hình tại chỗ.',
       howToProve:
-        'Quay lại cảnh thiết bị đang chạy hiển thị cả hai giá trị và thay đổi theo môi trường thật.',
+        'Quay video thiết bị đang chạy, cho thấy cả hai giá trị và chúng thay đổi theo môi trường thật.',
     },
     {
       id: 'embedded-s1-r2',
@@ -144,7 +144,7 @@ export const EMBEDDED_S1_DETAIL: SpecStageDetail = {
       id: 'embedded-s1-r4',
       text: 'Ngưỡng cảnh báo tại chỗ hoạt động đúng ở cả hai chiều vượt ngưỡng và trở lại bình thường.',
       howToProve:
-        'Tác động thật lên cảm biến để vượt ngưỡng rồi thả về, quay lại cảnh cảnh báo bật và tắt.',
+        'Tác động thật lên cảm biến để vượt ngưỡng rồi thả về, quay video lúc cảnh báo bật và lúc cảnh báo tắt.',
     },
   ],
   specBrief: {

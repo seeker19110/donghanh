@@ -32,7 +32,7 @@ print(f"So hoc sinh dat: {so_dat}")`,
     },
     parsons: {
       prompt:
-        'Xếp các dòng sau thành chương trình đếm xem từ 1 đến n có bao nhiêu số CHẴN (chia hết cho 2), giữ đúng thụt lề.',
+        'Xếp các dòng sau thành chương trình đếm xem từ 1 đến n có bao nhiêu số CHẴN, giữ đúng thụt lề. (Phép % lấy SỐ DƯ của phép chia, nên i % 2 == 0 nghĩa là i chia hết cho 2.)',
       lines: [
         'n = int(input("Đếm số chẵn tới số mấy? "))',
         'dem = 0',

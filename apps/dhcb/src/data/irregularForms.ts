@@ -104,6 +104,7 @@ export const IRREGULAR_VERBS: Record<string, [string, string]> = {
   sell: ['sold', 'sold'],
   send: ['sent', 'sent'],
   set: ['set', 'set'],
+  rid: ['rid', 'rid'],
   sew: ['sewed', 'sewn'],
   shake: ['shook', 'shaken'],
   shine: ['shone', 'shone'],
@@ -263,7 +264,27 @@ export const IRREGULAR_PLURALS: Record<string, string> = {
   volcano: 'volcanoes', // volcanos cũng đúng
   // Gấp đôi phụ âm cuối trước -es (quiz→quizzes, gas→gasses/gases)
   quiz: 'quizzes',
+  // Danh từ bất biến bổ sung (rà từ điển 2026-09-22, changelog 0407)
+  bison: 'bison',
+  moose: 'moose',
 }
+
+// ── Danh từ đuôi -ch đọc /k/ → số nhiều +s (không +es): monarch→monarchs ─────────
+// Quy tắc +es cho -ch chỉ đúng khi "ch" đọc /tʃ/ (watch→watches). Các từ gốc Hy Lạp
+// đọc /k/ phải liệt kê tay vì chính tả không phân biệt được.
+export const CH_AS_K_NOUNS = new Set<string>([
+  'monarch',
+  'stomach',
+  'epoch',
+  'patriarch',
+  'matriarch',
+  'oligarch',
+  'hierarch',
+  'tech',
+  'loch',
+  'conch',
+  'eunuch',
+])
 
 // ── Danh từ CHỈ CÓ SỐ NHIỀU (plurale tantum) — không có số ít, không chia thêm ──
 // UI KHÔNG hiện "số nhiều" cho các từ này (chúng đã là số nhiều sẵn).
@@ -377,6 +398,78 @@ export const IRREGULAR_COMPARATIVES: Record<string, [string, string]> = {
   much: ['more', 'most'],
   many: ['more', 'most'],
 }
+
+// ── Tính từ KHÔNG có dạng so sánh -er/-est ────────────────────────────────────
+// Gồm (a) tính từ phân loại/tuyệt đối (main, next, sole, dead…) không so sánh được,
+// (b) tính từ 1 âm tiết theo quy ước dùng "more/most" (liable, prior, real, wrong…),
+// (c) từ mà dạng -er trùng một từ khác hẳn nghĩa (numb→number, own→owner, lone→loner).
+// Thêm từ vào đây khi rà thấy bộ sinh bịa dạng (changelog 0407).
+export const NON_GRADABLE_ADJECTIVES = new Set<string>([
+  'main',
+  'next',
+  'last',
+  'first',
+  'final',
+  'lone',
+  'sole',
+  'only',
+  'chief',
+  'key',
+  'mere',
+  'prime',
+  'daily',
+  'weekly',
+  'monthly',
+  'yearly',
+  'liable',
+  'non',
+  'numb',
+  'own',
+  'due',
+  'dead',
+  'live',
+  'same',
+  'such',
+  'whole',
+  'half',
+  'wrong',
+  'right',
+  'real',
+  'ill',
+  'sheer',
+  'apt',
+  'prior',
+  'inner',
+  'outer',
+  'upper',
+  'lower',
+  'utter',
+  'extra',
+  'entire',
+  'total',
+  'male',
+  'female',
+  'left',
+  'other',
+  'top',
+  'unique',
+  'perfect',
+  'complete',
+  'absolute',
+  'infinite',
+  'fatal',
+  'pregnant',
+  'single',
+  'married',
+  'blind',
+  'deaf',
+  'mobile',
+  'urban',
+  'rural',
+  'nuclear',
+  'solar',
+  'lunar',
+])
 
 // ── Danh từ KHÔNG ĐẾM ĐƯỢC phổ biến (không có số nhiều) ───────────────────────
 // UI hiện "(danh từ không đếm được)" thay vì bịa số nhiều. Danh sách giáo khoa thông dụng.

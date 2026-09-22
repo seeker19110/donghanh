@@ -24,7 +24,7 @@ export const BACKEND_S3_DETAIL: SpecStageDetail = {
         },
       ],
       doneSignals: [
-        'Trước khi retry bạn luôn hỏi thao tác đó có lặp lại an toàn không.',
+        'Trước khi retry bạn luôn hỏi thao tác đó có lũy đẳng (idempotent) không.',
         'Thiết kế của bạn nêu rõ dữ liệu chỗ nào chấp nhận nhất quán cuối cùng.',
       ],
     },
@@ -140,7 +140,7 @@ export const BACKEND_S3_DETAIL: SpecStageDetail = {
     ],
     contracts: [
       'Thông điệp giữa các dịch vụ có schema có phiên bản, thêm trường không phá bản cũ.',
-      'Mọi thao tác ghi qua mạng phải lặp lại an toàn bằng khoá idempotency.',
+      'Mọi thao tác ghi qua mạng phải lũy đẳng nhờ khoá lũy đẳng đi kèm.',
     ],
     acceptance: [
       'Đạt đủ bốn tiêu chí rubric với bằng chứng chạy thật, không phải mô tả.',

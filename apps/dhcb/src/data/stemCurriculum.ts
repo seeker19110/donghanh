@@ -262,7 +262,7 @@ export const STEM_CURRICULUM: Record<string, StemGradeCurriculum[]> = {
     },
     {
       grade: 'university',
-      gradeLabel: 'Đại học & Cao cấp',
+      gradeLabel: 'Đại học & Cao cấp (gồm Toán ứng dụng trong Lập trình)',
       chapters: [
         {
           id: 'm_uni_c1',
@@ -292,12 +292,9 @@ export const STEM_CURRICULUM: Record<string, StemGradeCurriculum[]> = {
             },
           ],
         },
-      ],
-    },
-    {
-      grade: 'university',
-      gradeLabel: 'Đại học — Toán ứng dụng trong Lập trình',
-      chapters: [
+        // Nhóm chương `mfc_*` (Toán ứng dụng trong Lập trình) nằm CHUNG mục `university`:
+        // giao diện chọn khối bằng `curriculumList.find(g => g.grade === selectedGrade)` nên
+        // hai mục cùng `grade: 'university'` sẽ khiến mục thứ hai không bao giờ hiển thị được.
         {
           id: 'mfc_c1',
           title: 'Chương 1: Toán rời rạc nền tảng — biểu diễn số và logic',
@@ -384,12 +381,12 @@ export const STEM_CURRICULUM: Record<string, StemGradeCurriculum[]> = {
                 },
                 {
                   title: 'Bước 2: Tính giá trị Q',
-                  detail: 'Nhân 23 thừa số trên cho Q ≈ 0,4927.',
+                  detail: 'Nhân 23 thừa số trên cho Q ≈ 0.4927.',
                 },
                 {
                   title: 'Bước 3: Lấy phần bù',
                   detail: 'Xác suất có va chạm là phần còn lại.',
-                  formula: 'P = 1 - Q ≈ 0,5073 (khoảng 50,7%)',
+                  formula: 'P = 1 - Q ≈ 0.5073 (khoảng 50.7%)',
                 },
                 {
                   title: 'Bước 4: Ý nghĩa với code',
@@ -476,7 +473,7 @@ export const STEM_CURRICULUM: Record<string, StemGradeCurriculum[]> = {
               id: 'mfc_p4',
               title: 'Một bước gradient descent trên hàm bậc hai',
               prompt:
-                'Cho f(x) = x^2 - 4x + 7, điểm khởi đầu x_0 = 0 và tốc độ học η = 0,1. Tính x_1, x_2 và cho biết dãy đang tiến về đâu.',
+                'Cho f(x) = x^2 - 4x + 7, điểm khởi đầu x_0 = 0 và tốc độ học η = 0.1. Tính x_1, x_2 và cho biết dãy đang tiến về đâu.',
               difficulty: 'basic',
               solutionSteps: [
                 {
@@ -487,17 +484,17 @@ export const STEM_CURRICULUM: Record<string, StemGradeCurriculum[]> = {
                 {
                   title: 'Bước 2: Cập nhật lần 1',
                   detail: "f'(0) = -4, đi ngược hướng gradient nên x tăng.",
-                  formula: 'x_1 = 0 - 0,1 * (-4) = 0,4',
+                  formula: 'x_1 = 0 - 0.1 * (-4) = 0.4',
                 },
                 {
                   title: 'Bước 3: Cập nhật lần 2',
-                  detail: "f'(0,4) = 2*0,4 - 4 = -3,2.",
-                  formula: 'x_2 = 0,4 - 0,1 * (-3,2) = 0,72',
+                  detail: "f'(0.4) = 2*0.4 - 4 = -3.2.",
+                  formula: 'x_2 = 0.4 - 0.1 * (-3.2) = 0.72',
                 },
                 {
                   title: 'Bước 4: Kết luận',
                   detail:
-                    "Cực tiểu thật nằm ở f'(x) = 0 ⇔ x = 2. Dãy 0 → 0,4 → 0,72 đang tiến dần về 2; hàm lồi nên chỉ có một cực tiểu và thuật toán chắc chắn hội tụ với η đủ nhỏ.",
+                    "Cực tiểu thật nằm ở f'(x) = 0 ⇔ x = 2. Dãy 0 → 0.4 → 0.72 đang tiến dần về 2; hàm lồi nên chỉ có một cực tiểu và thuật toán chắc chắn hội tụ với η đủ nhỏ.",
                 },
               ],
             },
@@ -1010,7 +1007,7 @@ export const STEM_CURRICULUM: Record<string, StemGradeCurriculum[]> = {
             {
               id: 'b11_p1',
               title: 'Ý nghĩa của hệ sắc tố quang hợp',
-              prompt: 'Vì sao lá cây đa số có màu xanh lục?',
+              prompt: 'Vì sao phần lớn lá cây có màu xanh lục?',
               difficulty: 'basic',
               solutionSteps: [
                 {

@@ -291,7 +291,11 @@
         "en": "Then you may need an invitation letter.",
         "vi": "Vậy anh có thể cần thư mời."
       },
-      { "speaker": "A", "en": "My cousin can write one for me.", "vi": "Anh họ tôi viết được." },
+      {
+        "speaker": "A",
+        "en": "My cousin can write one for me.",
+        "vi": "Anh họ tôi viết thư mời cho tôi được."
+      },
       {
         "speaker": "B",
         "en": "Great. You'll also apply online.",

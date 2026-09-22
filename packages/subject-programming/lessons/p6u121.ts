@@ -1,7 +1,7 @@
 // lessons/p6u121.ts — P6-U121: HƯỚNG DỮ LIỆU, chặng S2 — Mô hình hoá kho dữ liệu
 // (module `data-s2-m2`).
 //
-// u117 dạy ĐƯA dữ liệu vào kho cho đúng và chạy lại được. Unit này trả lời câu kế tiếp:
+// u120 dạy ĐƯA dữ liệu vào kho cho đúng và chạy lại được. Unit này trả lời câu kế tiếp:
 // đưa vào rồi thì XẾP thế nào để người phân tích tự trả lời được câu hỏi của họ. Hai bài:
 // star schema (bảng sự kiện + bảng chiều) và chiều biến đổi chậm (SCD type 2) — thứ quyết
 // định báo cáo quá khứ của bạn có kể đúng lịch sử hay không.
@@ -83,9 +83,9 @@ for (const [nhom, tien] of ketQua) console.log(nhom + "=" + tien)`,
         'Sự kiện thứ hai trỏ tới sản phẩm id 9 — id này KHÔNG có trong bảng chiều. Chương trình in ra gì?',
       choices: [
         'Do uong=50000\nKhong ro=30000',
-        'Chi mot dong: Do uong=50000, su kien mo coi bi bo qua',
-        'Chi mot dong: Do uong=80000, gop het vao nhom co san',
-        'Chuong trinh dung lai vi khong tim thay id 9',
+        'Chỉ một dòng: Do uong=50000, sự kiện mồ côi bị bỏ qua',
+        'Chỉ một dòng: Do uong=80000, gộp hết vào nhóm có sẵn',
+        'Chương trình dừng lại vì không tìm thấy id 9',
       ],
       answerIndex: 0,
       explain:

@@ -12,7 +12,7 @@ export const P1U10_LESSONS: ProgrammingLesson[] = [
     title: 'Milestone chặng P1 — ráp lại thành máy bán nước tự động',
     hook: 'Bạn đã học đủ 4 "viên gạch" của lập trình: biến, nhập/xuất, rẽ nhánh if, vòng lặp. Bài này không dạy gì mới — mà thử thách bạn RÁP cả 4 viên gạch đó lại thành một chương trình thật sự hữu ích: một cái MÁY BÁN NƯỚC TỰ ĐỘNG.',
     theory:
-      'Một chương trình "làm được việc" thường có khuôn quen thuộc:\n\n1. Khởi tạo BIẾN TÍCH LŨY trước vòng lặp (ví dụ tổng doanh thu = 0) — vì nó cần "nhớ" giá trị qua nhiều lượt lặp.\n\n2. Dùng VÒNG LẶP (for/while) để lặp lại một việc nhiều lần mà không phải copy code — ví dụ lặp qua từng lượt khách mua hàng.\n\n3. Trong mỗi lượt lặp, dùng INPUT để nhận dữ liệu người dùng, rồi dùng IF/ELIF/ELSE để RẼ NHÁNH theo dữ liệu đó — ví dụ chọn đúng loại nước, kiểm tra đủ tiền hay không.\n\n4. Cập nhật biến tích lũy TRONG vòng lặp (ví dụ cộng dồn doanh thu mỗi lần bán được).\n\n5. In KẾT QUẢ TỔNG SAU KHI vòng lặp đã chạy xong — không in ở trong vòng lặp, vì lúc đó dữ liệu chưa đầy đủ.\n\nĐây chính xác là khuôn bạn sẽ dùng lại ở mọi chương trình lớn hơn về sau — kể cả dự án "Cửa hàng của tôi" bạn đang xây song song.',
+      'Một chương trình "làm được việc" thường có khuôn quen thuộc:\n\n1. Khởi tạo BIẾN TÍCH LUỸ trước vòng lặp (ví dụ tổng doanh thu = 0) — vì nó cần "nhớ" giá trị qua nhiều lượt lặp.\n\n2. Dùng VÒNG LẶP (for/while) để lặp lại một việc nhiều lần mà không phải copy code — ví dụ lặp qua từng lượt khách mua hàng.\n\n3. Trong mỗi lượt lặp, dùng INPUT để nhận dữ liệu người dùng, rồi dùng IF/ELIF/ELSE để RẼ NHÁNH theo dữ liệu đó — ví dụ chọn đúng loại nước, kiểm tra đủ tiền hay không.\n\n4. Cập nhật biến tích luỹ TRONG vòng lặp (ví dụ cộng dồn doanh thu mỗi lần bán được).\n\n5. In KẾT QUẢ TỔNG SAU KHI vòng lặp đã chạy xong — không in ở trong vòng lặp, vì lúc đó dữ liệu chưa đầy đủ.\n\nĐây chính xác là khuôn bạn sẽ dùng lại ở mọi chương trình lớn hơn về sau — kể cả dự án "Cửa hàng của tôi" bạn đang xây song song.',
     workedExample: {
       code: `# Trạm đèn giao thông mini: lặp 3 lượt, mỗi lượt nhập màu đèn rồi in hành động tương ứng
 for luot in range(1, 4):                       # lặp đúng 3 lượt: luot = 1, 2, 3
@@ -32,7 +32,7 @@ for luot in range(1, 4):                       # lặp đúng 3 lượt: luot = 
       choices: ['3', '11', '12', '13'],
       answerIndex: 2,
       explain:
-        'i chạy lần lượt 0, 1, 2. i=0 (khác 1) → tong = 0+1 = 1. i=1 → tong = 1+10 = 11. i=2 (khác 1) → tong = 11+1 = 12. In ra 12 — tổng được TÍCH LŨY qua từng vòng lặp, y như biến tổng doanh thu trong bài máy bán nước.',
+        'i chạy lần lượt 0, 1, 2. i=0 (khác 1) → tong = 0+1 = 1. i=1 → tong = 1+10 = 11. i=2 (khác 1) → tong = 11+1 = 12. In ra 12 — tổng được TÍCH LUỸ qua từng vòng lặp, y như biến tổng doanh thu trong bài máy bán nước.',
     },
     parsons: {
       prompt:

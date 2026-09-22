@@ -98,7 +98,7 @@ console.log("5" == 5, "5" === 5);        // true false — luôn dùng ===`,
       hints: [
         'Khung hàm JavaScript: function tinhTien(gia, soLuong) { ... return ...; } — dấu ngoặc nhọn thay cho thụt lề, và nhớ dấu chấm phẩy cuối câu lệnh.',
         'Bên trong hàm: const tong = gia * soLuong; rồi if (tong >= 100000) { return Math.floor((tong * 90) / 100); } cuối cùng return tong. JavaScript không có toán tử // như Python nên phải dùng Math.floor.',
-        'In kết quả bằng chuỗi dấu huyền: console.log(`Thanh tien: ${tinhTien(gia, soLuong)} dong`). Nếu output của bạn ra kiểu "Thanh tien: 150003 dong" thì bạn đã quên Number() — đó là phép NỐI CHUỖI chứ không phải phép cộng.',
+        'In kết quả bằng chuỗi dấu huyền: console.log(`Thanh tien: ${tinhTien(gia, soLuong)} dong`). Nếu kết quả in ra là hai con số dính liền nhau một cách lạ mắt (ví dụ "150003" thay vì một số tiền hợp lý) thì bạn đã quên Number() ở đâu đó — dấu + đang NỐI CHUỖI chứ không cộng số.',
       ],
       sampleSolution:
         'function tinhTien(gia, soLuong) {\n  const tong = gia * soLuong;\n  if (tong >= 100000) {\n    return Math.floor((tong * 90) / 100);\n  }\n  return tong;\n}\n\nconst gia = Number(input("Gia mot mon: "));\nconst soLuong = Number(input("So luong: "));\nconsole.log(`Thanh tien: ${tinhTien(gia, soLuong)} dong`);',

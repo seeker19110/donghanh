@@ -28,8 +28,8 @@ export const LY10_C1_LESSONS: PhysicsLesson[] = [
         'về sự rơi tự do của Galileo Galilei và Aristotle.',
       steps: [
         'Aristotle dùng suy luận định tính đưa ra lí thuyết: Vật nặng rơi nhanh hơn vật nhẹ (phương pháp lí thuyết chưa kiểm chứng).',
-        'Galileo Galilei hoài nghi giả thuyết trên và đã làm thí nghiệm thả các quả cầu có khối lượng khác nhau từ tháp nghiêng Pisa ' +
-          '(phương pháp thực nghiệm). Thí nghiệm chứng minh chúng chạm đất gần như cùng lúc.',
+        'Galileo Galilei hoài nghi giả thuyết trên. Theo giai thoại nổi tiếng, ông thả các quả cầu có khối lượng khác nhau ' +
+          'từ tháp nghiêng Pisa (phương pháp thực nghiệm) và thấy chúng chạm đất gần như cùng lúc.',
         'Kết luận: Trong Vật lí, phương pháp thực nghiệm đóng vai trò quyết định để kiểm chứng và bác bỏ hay công nhận một lí thuyết.',
       ],
       answer:
@@ -48,7 +48,8 @@ export const LY10_C1_LESSONS: PhysicsLesson[] = [
           correctIds: ['lt'],
         },
         explain:
-          'Phương pháp lí thuyết dùng suy luận và toán học; phương pháp thực nghiệm dùng thí nghiệm và số liệu đo.',
+          'Phương pháp lí thuyết dùng suy luận và mô hình toán học nên chọn "lí thuyết" là đúng. Phương pháp thực ' +
+          'nghiệm thì khác: nó dựa vào thí nghiệm và số liệu đo, không phải vào lập luận toán học.',
       },
       {
         prompt:
@@ -126,7 +127,7 @@ export const LY10_C1_LESSONS: PhysicsLesson[] = [
           correctIds: ['dien_ap'],
         },
         explain:
-          'Cắm thiết bị vào nguồn điện không phù hợp (ví dụ thiết bị 110V cắm vào ổ 220V) sẽ gây cháy nổ, hỏng hòn.',
+          'Cắm thiết bị vào nguồn điện không phù hợp (ví dụ thiết bị 110V cắm vào ổ 220V) sẽ gây cháy nổ, hỏng thiết bị.',
       },
       {
         prompt:
@@ -166,7 +167,7 @@ export const LY10_C1_LESSONS: PhysicsLesson[] = [
     title: 'Thực hành tính sai số trong phép đo. Ghi kết quả đo',
     hook:
       'Không có phép đo Vật lí nào thu được kết quả hoàn hảo 100%. Mọi số liệu thực tế luôn kèm theo một độ lệch gọi là sai số. ' +
-      'Học cách tính và trình bày sai số là kỹ năng căn bản nhất để phân biệt khoa học thực thụ với suy đoán.',
+      'Học cách tính và trình bày sai số là kĩ năng căn bản nhất để phân biệt khoa học thực thụ với suy đoán.',
     theory:
       'PHÉP ĐO TRỰC TIẾP VÀ PHÉP ĐO GIÁN TIẾP:\n' +
       '— Phép đo trực tiếp: Đọc kết quả trực tiếp từ dụng cụ đo (đo chiều dài bằng thước, đo thời gian bằng đồng hồ).\n' +
@@ -222,7 +223,9 @@ export const LY10_C1_LESSONS: PhysicsLesson[] = [
           correctIds: ['ghi_1'],
         },
         explain:
-          'Kết quả đo được viết dưới dạng L = L̄ ± ΔL kèm theo đơn vị đo ở cuối hoặc đặt cả cụm trong ngoặc.',
+          'Kết quả đo luôn viết dạng L = L̄ ± ΔL kèm đơn vị. Cách 2 sai vì dấu "+" chỉ nêu sai lệch về một phía, ' +
+          'trong khi giá trị thật có thể lớn hơn hoặc nhỏ hơn L̄. Cách 3 sai vì đặt đơn vị vào giữa, tách rời sai số ' +
+          'khỏi đơn vị của nó.',
       },
     ],
     srsCards: [

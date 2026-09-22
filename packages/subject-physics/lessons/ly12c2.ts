@@ -10,7 +10,7 @@ export const LY12_C2_LESSONS: PhysicsLesson[] = [
     animation: {
       title: 'Nén khí đẳng nhiệt: chấm trượt dọc hypebol p·V = hằng số',
       description:
-        'Đồ thị áp suất p theo thể tích V của một lượng khí giữ ở nhiệt độ không đổi. Chấm sáng xuất phát ở trạng thái V = 8 lít, p = 3 atm rồi trượt dần sang trái khi ta nén khí: qua V = 6 thì p lên 4 atm, qua V = 4 thì p lên 6 atm, tới V = 2 lít thì p đã là 12 atm. Tích p·V ở mọi điểm đều đúng bằng 24, nên đường biểu diễn là một HYPEBOL cong lõm về phía gốc chứ không phải đường thẳng dốc xuống — đây là chỗ vẽ sai nhiều nhất khi làm bài. Nhìn hai cặp đường gióng: thể tích giảm 4 lần thì áp suất tăng đúng 4 lần, quan hệ tỉ lệ NGHỊCH. Càng nén nhỏ, đường càng dựng đứng, tức là nén thêm một chút nữa thì áp suất vọt lên rất nhanh — lý do bơm xe càng về cuối càng nặng tay.',
+        'Đồ thị áp suất p theo thể tích V của một lượng khí giữ ở nhiệt độ không đổi. Chấm sáng xuất phát ở trạng thái V = 8 lít, p = 3 atm rồi trượt dần sang trái khi ta nén khí: qua V = 6 thì p lên 4 atm, qua V = 4 thì p lên 6 atm, tới V = 2 lít thì p đã là 12 atm. Tích p·V ở mọi điểm đều đúng bằng 24, nên đường biểu diễn là một HYPEBOL cong lõm về phía gốc chứ không phải đường thẳng dốc xuống — đây là chỗ vẽ sai nhiều nhất khi làm bài. Nhìn hai cặp đường gióng: thể tích giảm 4 lần thì áp suất tăng đúng 4 lần, quan hệ tỉ lệ NGHỊCH. Càng nén nhỏ, đường càng dựng đứng, tức là nén thêm một chút nữa thì áp suất vọt lên rất nhanh — lí do bơm xe càng về cuối càng nặng tay.',
       viewBoxWidth: 440,
       viewBoxHeight: 240,
       durationMs: 6000,
@@ -368,7 +368,7 @@ export const LY12_C2_LESSONS: PhysicsLesson[] = [
       '— Quá trình đẳng nhiệt: Quá trình biến đổi trạng thái của một lượng khí khi nhiệt độ được giữ không đổi.\n' +
       '— Định luật Boyle: Trong quá trình đẳng nhiệt của một lượng khí xác định, áp suất tỉ lệ nghịch với thể tích:\n' +
       '  p.V = hằng số  (hay  p1.V1 = p2.V2)\n' +
-      '— Đường đẳng nhiệt: Trong hệ toạ độ (p, V), đường đẳng nhiệt là một nhánh của đường hyperbol.\n\n' +
+      '— Đường đẳng nhiệt: Trong hệ toạ độ (p, V), đường đẳng nhiệt là một nhánh của đường hypebol.\n\n' +
       'QUÁ TRÌNH ĐẲNG ÁP VÀ ĐỊNH LUẬT CHARLES:\n' +
       '— Quá trình đẳng áp: Quá trình biến đổi trạng thái của một lượng khí khi áp suất được giữ không đổi.\n' +
       '— Định luật Charles: Trong quá trình đẳng áp của một lượng khí xác định, thể tích tỉ lệ thuận với nhiệt độ tuyệt đối:\n' +
@@ -799,12 +799,12 @@ export const LY12_C2_LESSONS: PhysicsLesson[] = [
     theory:
       'KHÁI NIỆM KHÍ LÍ TƯỞNG VÀ KHÍ THỰC:\n' +
       '— Khí lí tưởng: Là chất khí trong đó các phân tử được coi là các chất điểm, chỉ tương tác với nhau khi va chạm đàn hồi.\n' +
-      '— Khí thực: Các khí tồn tại trong thực tế (như oxy, nitơ, cacbonic). Ở nhiệt độ và áp suất thông thường, khí thực gần đúng coi là khí lí tưởng.\n\n' +
+      '— Khí thực: Các khí tồn tại trong thực tế (như oxi, nitơ, cacbonic). Ở nhiệt độ và áp suất thông thường, khí thực gần đúng coi là khí lí tưởng.\n\n' +
       'PHƯƠNG TRÌNH TRẠNG THÁI CỦA KHÍ LÍ TƯỞNG (PHƯƠNG TRÌNH CLAPEYRON):\n' +
       '— Với một lượng khí xác định chuyển từ trạng thái 1 (p1, V1, T1) sang trạng thái 2 (p2, V2, T2):\n' +
       '  p1.V1 / T1 = p2.V2 / T2 = hằng số\n\n' +
       'PHƯƠNG TRÌNH CLAPEYRON - MENDELEEV:\n' +
-      '— Với một lượng khí bất kỳ có khối lượng m, số mol n = m / M:\n' +
+      '— Với một lượng khí bất kì có khối lượng m, số mol n = m / M:\n' +
       '  p.V = n.R.T = (m / M).R.T\n' +
       'Trong đó:\n' +
       '— p: Áp suất (Pa).\n' +
@@ -837,7 +837,7 @@ export const LY12_C2_LESSONS: PhysicsLesson[] = [
           correctIds: ['r_1'],
         },
         explain:
-          'Trong hệ SI, hằng số khí R = 8.31 J/(mol.K). R xuất hiện trong phương trình trạng thái khí lý tưởng pV = nRT, với T phải lấy theo nhiệt độ tuyệt đối (Kelvin), không phải °C.',
+          'Trong hệ SI, hằng số khí R = 8.31 J/(mol.K). R xuất hiện trong phương trình trạng thái khí lí tưởng pV = nRT, với T phải lấy theo nhiệt độ tuyệt đối (Kelvin), không phải °C.',
       },
       {
         prompt:
@@ -872,7 +872,7 @@ export const LY12_C2_LESSONS: PhysicsLesson[] = [
     animation: {
       title: 'Áp suất chất khí sinh ra từ hàng tỉ cú va vào thành bình',
       description:
-        'Một bình kín chứa sáu phân tử khí (vẽ tượng trưng cho hàng tỉ tỉ phân tử thật). Nửa đầu cảnh là khí ở nhiệt độ thấp: mỗi phân tử đi những bước ngắn, thỉnh thoảng mới chạm thành bình, và bốn mũi tên áp suất ở thành phải ngắn. Nửa sau nhiệt độ tăng: vẫn đúng sáu phân tử đó, vẫn cùng bình ấy, nhưng chúng đi những quãng dài hơn hẳn trong cùng khoảng thời gian, va vào thành dày hơn và mạnh hơn, nên bốn mũi tên áp suất dài ra và đậm lên. Hình động trả lời câu hỏi cốt lõi của thuyết động học phân tử: áp suất KHÔNG phải một chất lỏng vô hình ép lên thành bình, nó là tổng lực của vô số cú va đập của phân tử trong mỗi giây. Vì động năng trung bình của phân tử tỉ lệ với nhiệt độ tuyệt đối T, cứ hâm nóng khí trong bình kín là áp suất tăng — đó là lý do lon nước ngọt hay bình xịt để gần lửa có thể nổ.',
+        'Một bình kín chứa sáu phân tử khí (vẽ tượng trưng cho hàng tỉ tỉ phân tử thật). Nửa đầu cảnh là khí ở nhiệt độ thấp: mỗi phân tử đi những bước ngắn, thỉnh thoảng mới chạm thành bình, và bốn mũi tên áp suất ở thành phải ngắn. Nửa sau nhiệt độ tăng: vẫn đúng sáu phân tử đó, vẫn cùng bình ấy, nhưng chúng đi những quãng dài hơn hẳn trong cùng khoảng thời gian, va vào thành dày hơn và mạnh hơn, nên bốn mũi tên áp suất dài ra và đậm lên. Hình động trả lời câu hỏi cốt lõi của thuyết động học phân tử: áp suất KHÔNG phải một chất lỏng vô hình ép lên thành bình, nó là tổng lực của vô số cú va đập của phân tử trong mỗi giây. Vì động năng trung bình của phân tử tỉ lệ với nhiệt độ tuyệt đối T, cứ hâm nóng khí trong bình kín là áp suất tăng — đó là lí do lon nước ngọt hay bình xịt để gần lửa có thể nổ.',
       viewBoxWidth: 440,
       viewBoxHeight: 255,
       durationMs: 6400,
@@ -1651,14 +1651,14 @@ export const LY12_C2_LESSONS: PhysicsLesson[] = [
     title: 'Thuyết động học phân tử chất khí',
     hook:
       'Khi đứng trước gió hoặc bơm lốp xe, chúng ta cảm nhận được áp suất khí như một lực liên tục. ' +
-      'Thực chất, áp suất này là kết quả của hàng tỷ tỷ hạt phân tử siêu nhỏ đang bắn phá và va đập liên tục vào da hay thành lốp xe.',
+      'Thực chất, áp suất này là kết quả của hàng tỉ tỉ hạt phân tử siêu nhỏ đang bắn phá và va đập liên tục vào da hay thành lốp xe.',
     theory:
       'NỘI DUNG CƠ BẢN CỦA THUYẾT ĐỘNG HỌC PHÂN TỬ CHẤT KHÍ:\n' +
       '— Các chất khí được cấu tạo từ các phân tử có kích thước rất nhỏ so với khoảng cách giữa chúng.\n' +
       '— Các phân tử khí chuyển động hỗn loạn không ngừng; chuyển động này càng nhanh thì nhiệt độ của chất khí càng cao.\n' +
       '— Khi chuyển động hỗn loạn, các phân tử khí va chạm vào nhau và va chạm vào thành bình gây ra áp suất lên thành bình.\n\n' +
       'CÔNG THỨC TÍNH ÁP SUẤT KHÍ THEO MÔ HÌNH ĐỘNG HỌC PHÂN TỬ:\n' +
-      '  p = (1/3).μ.v_rms² = (1/3).ρ.v_rms²\n' +
+      '  p = (1/3).ρ.v_rms²\n' +
       'Trong đó:\n' +
       '— ρ: Khối lượng riêng của chất khí (kg/m³).\n' +
       '— v_rms²: Trung bình bình phương tốc độ của các phân tử khí (m²/s²).\n\n' +

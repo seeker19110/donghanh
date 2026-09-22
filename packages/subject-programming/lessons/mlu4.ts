@@ -77,7 +77,8 @@ print(forward([4, 1, 2]))`,
           expected: 'Output: 0.5',
           match: 'contains',
           hidden: true,
-          label: 'Ca ẩn: tổng 1.5 trừ bias 1.0 → 0.5, đúng biên dương rất nhỏ',
+          label:
+            'Ca ẩn: tổng có trọng số 1.5, cộng bias -1.0 → 0.5 (dương sát ngưỡng, ReLU giữ nguyên)',
         },
       ],
       hints: [

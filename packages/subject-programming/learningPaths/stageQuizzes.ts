@@ -49,7 +49,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
       ],
       answerIndex: 2,
       explain:
-        'Tràn số là lỗi âm thầm nguy hiểm — nhiều ngôn ngữ (C, cũ hơn) không tự báo, kết quả sai lặng lẽ.',
+        'Tràn số là lỗi âm thầm nguy hiểm: nhiều ngôn ngữ (như C) không báo gì cả, chương trình chạy tiếp với một kết quả sai. Nó không làm chương trình dừng lại, cũng không tự đổi sang số thực — hai phương án đó đều sai.',
     },
     {
       id: 'mathforcode-s1-q3',
@@ -70,7 +70,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
       ],
       answerIndex: 1,
       explain:
-        'Đây là bẫy kinh điển khi chuyển code giữa hai ngôn ngữ — phải kiểm tra lại logic dùng modulo với số âm.',
+        'Python lấy dư cùng dấu với SỐ CHIA: -7 % 3 = 2. C (từ chuẩn C99) cắt phần thập phân về phía 0 nên phần dư cùng dấu với số bị chia: -7 % 3 = -1. Cùng một biểu thức, hai kết quả khác nhau — đây là bẫy kinh điển khi chuyển code giữa hai ngôn ngữ.',
     },
     {
       id: 'mathforcode-s1-q5',
@@ -489,7 +489,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
   'data-s2': [
     {
       id: 'data-s2-q1',
-      prompt: 'Vì sao pipeline ETL/ELT chạy hằng ngày cần được thiết kế "idempotent"?',
+      prompt: 'Vì sao pipeline ETL/ELT chạy hằng ngày cần được thiết kế "lũy đẳng (idempotent)"?',
       choices: [
         'Để chạy nhanh hơn mỗi lần thực thi',
         'Để chạy lại cho cùng một ngày không nhân đôi dữ liệu',
@@ -498,7 +498,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
       ],
       answerIndex: 1,
       explain:
-        'Pipeline chạy bù (backfill) hay chạy lại sau lỗi là chuyện thường — idempotent đảm bảo chạy lại cùng ngày cho ra đúng một bản ghi, không cộng dồn.',
+        'Pipeline chạy bù (backfill) hay chạy lại sau lỗi là chuyện thường — lũy đẳng đảm bảo chạy lại cùng ngày cho ra đúng một bản ghi, không cộng dồn.',
     },
     {
       id: 'data-s2-q2',
@@ -740,7 +740,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
       ],
       answerIndex: 1,
       explain:
-        'Luật không sinh tín hiệu nhưng vẫn sinh báo động sẽ dần dạy cả đội bỏ qua thông báo — đó là tác hại thật, không phải trạng thái trung tính.',
+        'Một luật không bắt được ca thật nào mà vẫn kêu ở các ca bình thường sẽ dần dạy cả đội bỏ qua thông báo — đó là tác hại thật, không phải trạng thái trung tính.',
     },
     {
       id: 'security-s4-q4',
@@ -773,7 +773,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
   'backend-s1': [
     {
       id: 'backend-s1-q1',
-      prompt: 'Idempotency key trong API đặt hàng dùng để giải quyết vấn đề gì?',
+      prompt: 'Khoá lũy đẳng trong API đặt hàng dùng để giải quyết vấn đề gì?',
       choices: [
         'Tăng tốc độ xử lý request',
         'Gửi lại cùng một request (do mất mạng, retry) không tạo ra đơn hàng/thu tiền thứ hai',
@@ -782,7 +782,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
       ],
       answerIndex: 1,
       explain:
-        'Client có thể gửi lại request khi không chắc lần trước có thành công (timeout, mất mạng) — idempotency key giúp server nhận diện và trả lại đúng kết quả cũ, không xử lý trùng.',
+        'Client có thể gửi lại request khi không chắc lần trước có thành công (timeout, mất mạng) — khoá lũy đẳng giúp server nhận diện và trả lại đúng kết quả cũ, không xử lý trùng.',
     },
     {
       id: 'backend-s1-q2',
@@ -888,13 +888,13 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
         'Hàng đợi (queue) kiểu "at-least-once" đảm bảo điều gì, và hệ quả là gì cho consumer?',
       choices: [
         'Đảm bảo mỗi message chỉ được xử lý đúng một lần, consumer không cần lo gì thêm',
-        'Đảm bảo message được xử lý ÍT NHẤT một lần (có thể trùng lặp) — consumer bắt buộc phải viết logic idempotent để xử lý trùng an toàn',
+        'Đảm bảo message được xử lý ÍT NHẤT một lần (có thể trùng lặp) — consumer bắt buộc phải viết logic lũy đẳng để xử lý trùng an toàn',
         'Đảm bảo message luôn tới đúng thứ tự gửi đi',
         'Đảm bảo message không bao giờ bị mất kể cả khi consumer crash vĩnh viễn',
       ],
       answerIndex: 1,
       explain:
-        'At-least-once ưu tiên "không mất message" hơn "không trùng" — nếu consumer crash sau khi xử lý nhưng trước khi xác nhận, message sẽ được gửi lại, nên logic xử lý phải idempotent.',
+        'At-least-once ưu tiên "không mất message" hơn "không trùng" — nếu consumer crash sau khi xử lý nhưng trước khi xác nhận, message sẽ được gửi lại, nên logic xử lý phải lũy đẳng.',
     },
     {
       id: 'backend-s2-q5',
@@ -917,7 +917,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
       prompt: 'RAG (Retrieval-Augmented Generation) giải quyết chủ yếu vấn đề gì của LLM?',
       choices: [
         'Tốc độ suy luận chậm',
-        'Trả lời dựa trên tài liệu/kiến thức mà mô hình chưa từng huấn luyện',
+        'Trả lời dựa trên tài liệu/kiến thức mà mô hình chưa từng được học lúc huấn luyện',
         'Chi phí GPU khi huấn luyện',
         'Giao diện người dùng đẹp hơn',
       ],
@@ -1258,16 +1258,17 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
   'devops-s2': [
     {
       id: 'devops-s2-q1',
-      prompt: 'Vì sao nên dùng ảnh Docker nhiều tầng (multi-stage build) với ảnh gốc tối thiểu?',
+      prompt:
+        'Vì sao nên dựng ảnh Docker theo nhiều giai đoạn (multi-stage build) với ảnh gốc tối thiểu?',
       choices: [
         'Để ảnh build nhanh hơn tuyệt đối trong mọi trường hợp',
         'Để tách phần công cụ build (compiler, dependency dev) khỏi ảnh chạy thật — ảnh cuối nhỏ hơn, ít bề mặt tấn công hơn',
-        'Vì Docker bắt buộc phải dùng nhiều tầng',
+        'Vì Docker bắt buộc phải dùng nhiều giai đoạn',
         'Để không cần viết Dockerfile riêng cho từng môi trường',
       ],
       answerIndex: 1,
       explain:
-        'Multi-stage build giữ lại chỉ những gì cần để CHẠY ứng dụng ở tầng cuối, bỏ hết công cụ build — ảnh nhỏ hơn, khởi động nhanh hơn, và ít lỗ hổng bảo mật hơn.',
+        'Build nhiều giai đoạn chỉ giữ lại những gì cần để CHẠY ứng dụng ở giai đoạn cuối, bỏ hết công cụ build — ảnh nhỏ hơn, khởi động nhanh hơn, và ít lỗ hổng bảo mật hơn.',
     },
     {
       id: 'devops-s2-q2',
@@ -1285,7 +1286,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
     },
     {
       id: 'devops-s2-q3',
-      prompt: 'Deploy theo kiểu xanh–lam (blue-green) hoạt động như thế nào?',
+      prompt: 'Triển khai kiểu blue-green (xanh lam – xanh lục) hoạt động như thế nào?',
       choices: [
         'Xoá hệ thống cũ trước rồi mới dựng hệ thống mới',
         'Dựng song song một phiên bản mới (green) cạnh phiên bản đang chạy (blue), rồi chuyển traffic sang khi đã kiểm tra ổn — quay lui bằng cách chuyển traffic ngược lại',
@@ -1294,7 +1295,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
       ],
       answerIndex: 1,
       explain:
-        'Blue-green giữ nguyên bản cũ chạy song song cho tới khi bản mới được xác nhận ổn — nếu có sự cố, chỉ cần trỏ traffic về lại bản cũ, rollback gần như tức thì.',
+        'Blue-green giữ bản cũ (blue) chạy song song cho tới khi bản mới được xác nhận ổn — nếu có sự cố, chỉ cần trỏ traffic về lại bản cũ, rollback gần như tức thì.',
     },
     {
       id: 'devops-s2-q4',
@@ -1435,7 +1436,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
       ],
       answerIndex: 1,
       explain:
-        'Chữ ký trả lời "ai tạo ra", SBOM trả lời "gồm những gì", xuất xứ trả lời "quy trình nào sinh ra", còn digest trả lời "có đúng nội dung đó không". Digest khai báo lệch digest đo lại nghĩa là tạo tác đã bị thay giữa đường.',
+        'Chữ ký trả lời "ai tạo ra", SBOM trả lời "gồm những gì", xuất xứ trả lời "quy trình nào sinh ra", còn digest trả lời "có đúng nội dung đó không". Digest khai báo mà lệch với digest đo lại nghĩa là tạo tác đã bị thay giữa đường.',
     },
     {
       id: 'devops-s4-q4',
@@ -1553,7 +1554,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
       prompt: 'Vì sao lỗi LOGIC NGHIỆP VỤ (business logic flaw) khó bị máy quét tự động phát hiện?',
       choices: [
         'Vì máy quét không hỗ trợ giao thức HTTPS',
-        'Vì lỗi logic nghiệp vụ đòi hỏi hiểu QUY TẮC riêng của ứng dụng (ví dụ: đặt hàng số lượng âm để được hoàn tiền dương) — máy quét chỉ dò được mẫu lỗi kỹ thuật đã biết',
+        'Vì lỗi logic nghiệp vụ đòi hỏi hiểu QUY TẮC riêng của ứng dụng (ví dụ: đặt mua số lượng âm để được hoàn tiền dương) — máy quét chỉ dò được mẫu lỗi kỹ thuật đã biết',
         'Vì lỗi logic nghiệp vụ luôn nằm trong code phía client',
         'Vì máy quét chỉ chạy được trên Windows',
       ],
@@ -1755,7 +1756,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
       ],
       answerIndex: 1,
       explain:
-        'Ngữ cảnh giới hạn thừa nhận rằng ép một khái niệm nghiệp vụ dùng chung một định nghĩa cho mọi miền sẽ tạo ra model méo mó — mỗi miền được giữ mô hình riêng phù hợp với chính nó.',
+        'Ngữ cảnh giới hạn thừa nhận rằng ép một khái niệm nghiệp vụ dùng chung một định nghĩa cho mọi miền sẽ tạo ra mô hình méo mó — mỗi miền được giữ mô hình riêng phù hợp với chính nó.',
     },
     {
       id: 'architecture-s2-q2',
@@ -1782,7 +1783,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
       ],
       answerIndex: 1,
       explain:
-        'Thêm trường tuỳ chọn không phá bên gọi cũ; đổi/xoá nghĩa bắt buộc phải theo lối "mở rộng rồi mới thu hẹp" — chạy song song hai bản để bên gọi có thời gian chuyển đổi.',
+        'Thêm trường tuỳ chọn không phá bên gọi cũ; đổi/xoá nghĩa là bắt buộc phải theo lối "mở rộng rồi mới thu hẹp" — chạy song song hai bản để bên gọi có thời gian chuyển đổi.',
     },
     {
       id: 'architecture-s2-q4',
@@ -1909,7 +1910,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
     },
     {
       id: 'architecture-s4-q3',
-      prompt: 'Kiến trúc "rữa dần" (architecture erosion) xảy ra như thế nào?',
+      prompt: 'Kiến trúc "xói mòn dần" (architecture erosion) xảy ra như thế nào?',
       choices: [
         'Do một quyết định sai lầm lớn duy nhất tại một thời điểm',
         'Do tích luỹ nhiều ngoại lệ nhỏ, mỗi lần đều được biện minh là "chỉ lần này thôi" — không có cổng tự động chặn lại',
@@ -1918,7 +1919,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
       ],
       answerIndex: 1,
       explain:
-        'Kiến trúc hiếm khi sập vì một quyết định lớn — nó rữa dần qua vô số ngoại lệ nhỏ được cho qua, nên cần cổng tự động (lint, test canh gác) thay vì trông cậy vào kỷ luật cá nhân từng người.',
+        'Kiến trúc hiếm khi sập vì một quyết định lớn — nó xói mòn dần qua vô số ngoại lệ nhỏ được cho qua, nên cần cổng tự động (lint, test canh gác) thay vì trông cậy vào kỷ luật cá nhân từng người.',
     },
     {
       id: 'architecture-s4-q4',
@@ -2073,7 +2074,7 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
     {
       id: 'principal-s2-q5',
       prompt:
-        'Vì sao "allowlist" tool an toàn hơn cho agent tự do gọi bất kỳ hàm nào nó "nghĩ ra"?',
+        'Vì sao giới hạn tool bằng allowlist (danh sách cho phép) an toàn hơn việc để agent tự do gọi bất kỳ hàm nào nó "nghĩ ra"?',
       choices: [
         'Allowlist chạy nhanh hơn về mặt kỹ thuật',
         'Allowlist giới hạn agent chỉ được chạy các hành động đã được RÀ SOÁT trước — chặn hành vi ngoài ý định',
@@ -2143,13 +2144,13 @@ const STAGE_QUIZZES: Record<string, StageQuizQuestion[]> = {
       prompt: 'Một phương án model bị coi là "áp đảo" (dominated) khi nào?',
       choices: [
         'Khi nó đắt nhất trong danh sách',
-        'Khi tồn tại phương án khác vừa RẺ HƠN HOẶC BẰNG vừa TỐT HƠN HOẶC BẰNG, và chặt hơn ở ít nhất một tiêu chí',
+        'Khi tồn tại phương án khác vừa RẺ HƠN HOẶC BẰNG vừa TỐT HƠN HOẶC BẰNG, và hơn hẳn ở ít nhất một tiêu chí',
         'Khi nó là model mới nhất trên thị trường',
         'Khi không ai từng dùng thử nó',
       ],
       answerIndex: 1,
       explain:
-        'Phương án bị áp đảo là phương án mà bạn không có lý do gì để chọn — luôn có phương án khác tốt hơn hoặc bằng ở MỌI tiêu chí, nên loại nó khỏi cân nhắc.',
+        'Phương án bị áp đảo là phương án không còn lý do gì để chọn: có một phương án khác tốt ngang bằng hoặc hơn ở MỌI tiêu chí VÀ hơn hẳn ở ít nhất một tiêu chí. Chỉ ngang bằng ở mọi tiêu chí thì chưa gọi là bị áp đảo — lúc đó hai phương án tương đương nhau.',
     },
   ],
   'principal-s4': [

@@ -44,7 +44,7 @@ export const DEVOPS_SPECIALIZATION: ProgrammingSpecialization = {
     keyDecisions: [
       'Dịch vụ quản lý sẵn hay tự vận hành — đánh đổi giữa tiền và thời gian đội ngũ.',
       'Ranh giới môi trường: chung tài khoản hay tách; ảnh hưởng trực tiếp tới bán kính thiệt hại.',
-      'Chiến lược phát hành: xanh–lam, theo tỷ lệ, hay thay thế thẳng.',
+      'Chiến lược phát hành: xanh lam – xanh lục (blue–green), theo tỷ lệ, hay thay thế thẳng.',
       'RPO/RTO chấp nhận được — quyết định này định giá toàn bộ phần sao lưu.',
     ],
     nfrs: [
@@ -73,7 +73,7 @@ export const DEVOPS_SPECIALIZATION: ProgrammingSpecialization = {
           topics: [
             'Tiến trình, dịch vụ systemd, nhật ký journald',
             'Quyền, người dùng, SSH khoá công khai',
-            'Chẩn đoán: CPU, RAM, đĩa, mô tả tệp cạn kiệt',
+            'Chẩn đoán: CPU, RAM, đĩa, cạn mô tả tệp (file descriptor)',
           ],
         },
         {
@@ -136,7 +136,7 @@ export const DEVOPS_SPECIALIZATION: ProgrammingSpecialization = {
           topics: [
             'Cổng chất lượng: lint, test, build, quét bảo mật',
             'Tạo tác có phiên bản, phát hành tái lập được',
-            'Deploy xanh–lam / theo tỷ lệ và rollback nhanh',
+            'Deploy xanh lam – xanh lục (blue–green), theo tỷ lệ và rollback nhanh',
           ],
         },
         {

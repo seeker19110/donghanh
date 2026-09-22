@@ -5,7 +5,7 @@ export const P6U179_LESSONS = [
   devopsSimulation({
     id: 'p6-u179-l1',
     unitId: 'p6-u179',
-    title: 'quality gate song song va artifact immutable',
+    title: 'quality gate song song và artifact bất biến (immutable)',
     hook: 'Một bản build “xanh” nhưng gắn artifact của commit khác vẫn có thể đưa sai mã nguồn ra môi trường canary.',
     theory:
       'Quality gate có thể chạy song song (test và lint), nhưng promotion chỉ xảy ra khi mọi evidence pass. Artifact immutable phải có digest và phải gắn đúng commit đang xét; thiếu hoặc mismatch thì fail closed, không promote.',
@@ -59,7 +59,7 @@ export const P6U179_LESSONS = [
   devopsSimulation({
     id: 'p6-u179-l2',
     unitId: 'p6-u179',
-    title: 'canary health threshold va rollback fail closed',
+    title: 'ngưỡng sức khoẻ canary và rollback fail closed',
     hook: 'Canary chỉ phục vụ một phần traffic để phát hiện lỗi sớm; bỏ qua health threshold biến rollout nhỏ thành rủi ro lớn.',
     theory:
       'Canary chỉ promote khi health đạt threshold đã khai báo. Khi health thấp hơn threshold, rollback là hành động an toàn; nếu rollback evidence không sẵn sàng, trạng thái phải bị chặn fail closed thay vì tiếp tục rollout.',

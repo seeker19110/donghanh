@@ -182,7 +182,7 @@ export const AI_SPECIALIZATION: ProgrammingSpecialization = {
           title: 'Nền tảng học sâu',
           topics: [
             'Lan truyền ngược, hàm mất mát, bộ tối ưu',
-            'Chuẩn hoá, dropout, lịch học tốc độ',
+            'Chuẩn hoá, dropout, lịch điều chỉnh tốc độ học (learning rate schedule)',
             'Gỡ lỗi huấn luyện: mất mát không giảm thì làm gì',
           ],
         },

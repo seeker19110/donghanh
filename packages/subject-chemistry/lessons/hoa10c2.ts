@@ -569,8 +569,9 @@ export const HOA10_C2_LESSONS: ChemLesson[] = [
       'TÍNH KIM LOẠI / PHI KIM:\n' +
       '— Trong một chu kì (trái → phải): tính kim loại GIẢM, tính phi kim TĂNG.\n' +
       '— Trong một nhóm (trên → dưới): tính kim loại TĂNG, tính phi kim GIẢM.\n\n' +
-      'Nguyên tố có độ âm điện lớn nhất trong bảng tuần hoàn: Fluorine (F). Nguyên tố có tính ' +
-      'kim loại mạnh nhất (trừ nguyên tố phóng xạ): Francium (Fr) — ở nhóm IA, chu kì lớn.',
+      'Nguyên tố có độ âm điện lớn nhất trong bảng tuần hoàn là Fluorine (F). Nguyên tố có ' +
+      'tính kim loại mạnh nhất là Francium (Fr, nhóm IA, chu kì 7); nhưng Fr phóng xạ và cực ' +
+      'hiếm, nên khi xét các kim loại bền người ta lấy Caesium (Cs) làm mốc mạnh nhất.',
     workedExample: {
       problem: 'So sánh bán kính nguyên tử của Na (Z=11) và Mg (Z=12) — cả hai đều thuộc chu kì 3.',
       steps: [
@@ -1111,7 +1112,8 @@ export const HOA10_C2_LESSONS: ChemLesson[] = [
         'tổng quát nào? (biết nguyên tố nhóm VA chu kì 3 là Phosphorus, P).',
       steps: [
         'Hoá trị cao nhất với oxygen = số thứ tự nhóm A. Nhóm VA ⇒ hoá trị cao nhất = V.',
-        'Oxide có công thức X₂O_y sao cho hoá trị X × 2 = hoá trị O × y (quy tắc hoá trị).',
+        'Oxide cao nhất có dạng X₂Oy, với quy tắc hoá trị: 2 × (hoá trị của X) = y × (hoá ' +
+          'trị của O).',
         'Với hoá trị X = V (5), oxygen hoá trị II: 5×2 = 2×y ⇒ y = 5.',
         'Công thức: P₂O₅.',
       ],
@@ -1456,8 +1458,8 @@ export const HOA10_C2_LESSONS: ChemLesson[] = [
         'kim loại hay phi kim, và hoá trị cao nhất với oxygen.',
       steps: [
         'X ở nhóm IIA ⇒ có 2 electron lớp ngoài cùng, dễ NHƯỜNG electron ⇒ X là KIM LOẠI.',
-        'Nhóm IIA nằm ở đầu bảng tuần hoàn (cùng nhóm IA) ⇒ tính kim loại khá mạnh (Ca là ' +
-          'kim loại kiềm thổ).',
+        'Nhóm IIA nằm ở phía đầu bảng tuần hoàn, ngay cạnh nhóm IA ⇒ tính kim loại khá mạnh ' +
+          '(Ca thuộc nhóm kim loại kiềm thổ).',
         'Hoá trị cao nhất với oxygen = số thứ tự nhóm A = II.',
         'Kết luận: X là kim loại (thực tế là Calcium — Ca), hoá trị cao nhất với oxygen là II ' +
           '(oxide CaO).',
@@ -1488,7 +1490,10 @@ export const HOA10_C2_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['a'] },
         explain:
-          'Đây chính là Ý NGHĨA quan trọng nhất của bảng tuần hoàn — công cụ dự đoán tính chất mà không cần nhớ riêng từng nguyên tố.',
+          'Vị trí ô cho biết Z, số thứ tự chu kì cho biết số lớp electron, số thứ tự nhóm A ' +
+          'cho biết số electron lớp ngoài cùng — đủ để viết cấu hình electron rồi suy ra tính ' +
+          'chất hoá học cơ bản. Các phương án còn lại đều bó hẹp bảng tuần hoàn vào một mẩu ' +
+          'thông tin rời rạc (tên gọi, khối lượng riêng), bỏ mất giá trị dự đoán của nó.',
       },
     ],
     srsCards: [

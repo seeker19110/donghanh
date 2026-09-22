@@ -156,7 +156,7 @@ export const BACKEND_S4_DETAIL: SpecStageDetail = {
       'Đường ống sao lưu và quy trình khôi phục.',
     ],
     contracts: [
-      'Mọi endpoint ghi phải lặp lại an toàn hoặc nêu rõ vì sao không cần.',
+      'Mọi endpoint ghi phải lũy đẳng (idempotent) hoặc nêu rõ vì sao không cần.',
       'Lỗi trả về có mã máy đọc được và không lộ chi tiết nội bộ ra ngoài.',
       'Di trú schema chia thành các bước tương thích ngược với bản mã đang chạy.',
     ],

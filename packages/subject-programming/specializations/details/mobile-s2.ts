@@ -20,7 +20,7 @@ export const MOBILE_S2_DETAIL: SpecStageDetail = {
         },
         {
           q: 'Đơn hàng gửi lại sau khi có mạng có nguy cơ gì?',
-          a: 'Có thể tạo đơn trùng nếu lần gửi trước đã tới server; phải kèm khoá lặp-lại-an-toàn.',
+          a: 'Có thể tạo đơn trùng nếu lần gửi trước đã tới server; phải kèm khoá lũy đẳng (idempotent).',
         },
       ],
       doneSignals: [
@@ -148,7 +148,7 @@ export const MOBILE_S2_DETAIL: SpecStageDetail = {
       'Màn hình đăng nhập, danh sách món, chi tiết đơn.',
     ],
     contracts: [
-      'Mỗi đơn tạo ở máy khách sinh khoá lặp-lại-an-toàn ngay trên máy, gửi kèm mọi lần thử lại.',
+      'Mỗi đơn tạo ở máy khách sinh khoá lũy đẳng ngay trên máy, gửi kèm mọi lần thử lại.',
       'Dữ liệu cục bộ có cột thời điểm đồng bộ để biết đang xem bản cũ tới mức nào.',
       'Lỗi mạng và lỗi nghiệp vụ tách bạch: một cái cho thử lại, một cái phải báo người dùng.',
     ],

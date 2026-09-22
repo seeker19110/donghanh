@@ -338,7 +338,8 @@ export const WORD_TRAPS: WordTrap[] = [
     id: 'r-l-5',
     target: 'free',
     traps: ['flee'],
-    tipVi: '"free" có /r/ (lưỡi không chạm), khác "flee" có thêm /l/ (lưỡi chạm vòm miệng).',
+    tipVi:
+      '"free" có /r/ (lưỡi không chạm vòm miệng) — đổi sang /l/ (lưỡi chạm vòm miệng) sẽ thành "flee".',
     group: 'r-l',
   },
   {
@@ -362,14 +363,14 @@ export const WORD_TRAPS: WordTrap[] = [
     target: 'vest',
     traps: ['west'],
     tipVi:
-      '"v" trong "vest" là môi trên chạm răng dưới, đẩy hơi rung (âm /v/) — khác "west" (/w/), môi tròn lại không chạm răng.',
+      '"v" trong "vest" là răng trên chạm nhẹ môi dưới rồi đẩy hơi có rung (âm /v/) — khác "west" (/w/), môi chúm tròn và không chạm răng.',
     group: 'v-w',
   },
   {
     id: 'v-w-2',
     target: 'vet',
     traps: ['wet'],
-    tipVi: '"vet" cần môi trên chạm răng dưới cho âm /v/, không chúm tròn môi như "wet" (/w/).',
+    tipVi: '"vet" cần răng trên chạm môi dưới cho âm /v/, không chúm tròn môi như "wet" (/w/).',
     group: 'v-w',
   },
   {

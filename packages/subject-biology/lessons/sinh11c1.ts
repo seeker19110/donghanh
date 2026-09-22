@@ -466,7 +466,7 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['dl_1'] },
         explain:
-          'Thoát hơi nước ở lá tạo ra một sự hụt nước liên tục, kéo thế nước ở lá xuống thấp và tạo ra lực kéo hút nước từ dưới rễ lên trên thân lá một cách mạnh mẽ nhất.',
+          'Hơi nước thoát ra ở lá làm tế bào lá hụt nước, thế nước ở lá hạ xuống rất thấp. Chênh lệch thế nước đó kéo cả cột nước từ rễ lên thân, lên lá. Áp suất rễ chỉ đẩy nước lên được vài mét, còn lực liên kết giữa các phân tử nước chỉ giữ cho cột nước khỏi đứt chứ không tự kéo nước lên.',
       },
       {
         prompt: 'Dòng mạch rây ở thực vật có đặc điểm cấu tạo nào sau đây?',
@@ -719,8 +719,8 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
       'THÍ NGHIỆM CO NGUYÊN SINH VÀ PHẢN CO NGUYÊN SINH:\n' +
       '— Nguyên tắc: Dựa trên sự di chuyển của nước qua màng sinh chất bán thấm tùy thuộc vào thế nước của môi trường ngoài tế bào.\n' +
       '— Tiến trình thí nghiệm co nguyên sinh:\n' +
-      '  1. Bóc lớp biểu bì mặt sau lá cây thuốc bỏng hoặc hành ta nhuộm màu tím, đặt lên lam kính có giọt nước cất, đậy lamen và quan sát dưới kính hiển vi. Tế bào bình thường căng nước.\n' +
-      '  2. Nhỏ dung dịch sucrose 10% hoặc NaCl loãng vào một rìa lamen, dùng giấy thấm hút nước ở rìa đối diện để kéo dung dịch muối vào tế bào biểu bì. Quan sát: không bào co nhỏ lại, màng sinh chất tách dần khỏi thành tế bào (hiện tượng co nguyên sinh).\n' +
+      '  1. Bóc lớp biểu bì mặt dưới lá cây thuốc bỏng, hoặc lớp biểu bì vảy củ hành tía (loại hành có màu tím tự nhiên), đặt lên lam kính có giọt nước cất, đậy lamen và quan sát dưới kính hiển vi. Tế bào bình thường căng nước.\n' +
+      '  2. Nhỏ dung dịch sucrose 10% hoặc NaCl loãng vào một rìa lamen, dùng giấy thấm hút nước ở rìa đối diện để kéo dung dịch lan qua khắp mẫu biểu bì. Quan sát: không bào co nhỏ lại, màng sinh chất tách dần khỏi thành tế bào (hiện tượng co nguyên sinh).\n' +
       '— Tiến trình phản co nguyên sinh: Nhỏ tiếp nước cất vào một rìa lamen, thấm dung dịch muối ra. Quan sát: nước thẩm thấu vào tế bào làm không bào và tế bào chất nở ra sát thành tế bào.\n\n' +
       'THÍ NGHIỆM SO SÁNH TỐC ĐỘ THOÁT HƠI NƯỚC Ở HAI MẶT LÁ:\n' +
       '— Nguyên tắc: Cobalt chloride (CoCl₂) khi khô có màu xanh da trời, khi gặp nước chuyển sang màu hồng.\n' +
@@ -812,7 +812,7 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
         'Hãy so sánh đặc điểm quang hợp của ba nhóm thực vật C3, C4 và CAM về thời gian mở khí khổng và hiệu suất quang hợp.',
       steps: [
         'So sánh thời gian mở khí khổng: C3 và C4 mở khí khổng vào ban ngày để lấy CO₂ trực tiếp; CAM mở khí khổng vào ban đêm để tránh mất nước và đóng vào ban ngày.',
-        'So sánh hiệu suất quang hợp: Thực vật C4 có hiệu suất quang hợp cao nhất do không có hô hấp sáng; thực vật C3 có hiệu suất trung bình; thực vật CAM có hiệu suất thấp nhất vì sinh trưởng trong môi trường hạn chế nước cực đoan.',
+        'So sánh hiệu suất quang hợp: Thực vật C4 có hiệu suất cao nhất do không có hô hấp sáng; thực vật C3 ở mức trung bình; thực vật CAM thấp nhất vì ban ngày phải đóng khí khổng nên lượng CO₂ lấy vào rất ít.',
       ],
       answer: 'Khí khổng: C3, C4 mở ban ngày, CAM mở ban đêm. Hiệu suất quang hợp: C4 > C3 > CAM.',
     },
@@ -1602,7 +1602,7 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
     chapterTitle: 'Trao đổi chất và chuyển hoá năng lượng ở sinh vật',
     lessonNumber: 7,
     title: 'Thực hành: Một số thí nghiệm về hô hấp ở thực vật',
-    hook: 'Làm thế nào để chứng minh hạt đang nảy mầm tỏa nhiệt ấm áp, hay chứng tỏ hô hấp hấp thụ khí oxi làm giọt nước màu dịch chuyển?',
+    hook: 'Làm thế nào để chứng minh hạt đang nảy mầm tỏa nhiệt ấm áp, hay chứng tỏ hạt hút khí oxi khi hô hấp làm giọt nước màu dịch chuyển?',
     theory:
       'THÍ NGHIỆM CHỨNG MINH HÔ HẤP TỎA NHIỆT:\n' +
       '— Nguyên tắc: Quá trình hô hấp giải phóng một phần năng lượng dưới dạng nhiệt năng. Hạt nảy mầm có tốc độ hô hấp cực lớn.\n' +
@@ -2810,8 +2810,8 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
       'ĐO HUYẾT ÁP Ở NGƯỜI:\n' +
       '— Dụng cụ: Huyết áp kế cơ (hoặc điện tử) và ống nghe y tế.\n' +
       '— Các bước tiến hành đo bằng huyết áp kế cơ:\n' +
-      '  1. Người được đo nằm hoặc ngồi thoải mái, quấn bao cao su quanh bắp tay phía trên khuỷu tay 2-3 cm. Đặt loa ống nghe lên vị trí động mạch cánh tay.\n  2. Bơm khí vào bao cao su đến khi đồng hồ chỉ khoảng 160-180 mmHg để ép dừng hoàn toàn dòng máu động mạch.\n  3. Xả hơi từ từ qua van xả khí. Khi bắt đầu nghe thấy tiếng đập đầu tiên qua ống nghe, ghi lại số chỉ đồng hồ (Huyết áp tâm thu - tối đa).\n  4. Tiếp tục xả hơi. Khi tiếng đập nhỏ dần rồi biến mất hoàn toàn, ghi lại số chỉ đồng hồ (Huyết áp tâm trương - tối thiểu).\n  5. Kết quả bình thường ở thanh niên khỏe mạnh là khoảng 120/80 mmHg.\n\n' +
-      'ĐẾM NHỊP TIM VÀ ĐO NHIỆT ĐỘ CƠ THỂ:\n' +
+      '  1. Người được đo nằm hoặc ngồi thoải mái, quấn vòng bít (túi hơi cao su của huyết áp kế) quanh bắp tay, phía trên khuỷu tay 2-3 cm. Đặt loa ống nghe lên vị trí động mạch cánh tay.\n  2. Bơm khí vào vòng bít đến khi đồng hồ chỉ khoảng 160-180 mmHg để ép dừng hoàn toàn dòng máu động mạch.\n  3. Xả hơi từ từ qua van xả khí. Khi bắt đầu nghe thấy tiếng đập đầu tiên qua ống nghe, ghi lại số chỉ đồng hồ (Huyết áp tâm thu - tối đa).\n  4. Tiếp tục xả hơi. Khi tiếng đập nhỏ dần rồi biến mất hoàn toàn, ghi lại số chỉ đồng hồ (Huyết áp tâm trương - tối thiểu).\n  5. Kết quả bình thường ở thanh niên khỏe mạnh là khoảng 120/80 mmHg.\n\n' +
+      'ĐẾM NHỊP TIM (BẮT MẠCH):\n' +
       '— Đếm nhịp tim: Dùng ngón trỏ và ngón giữa ấn nhẹ vào động mạch quay ở cổ tay hoặc động mạch cảnh ở cổ để đếm số nhịp mạch đập trong 1 phút.\n\n' +
       'QUAN SÁT DÒNG MÁU Ở ĐUÔI CÁ VÀNG DƯỚI KÍNH HIỂN VI:\n' +
       '— Cách làm: Quấn con cá vàng nhỏ trong bông ẩm để giữ ẩm cho da, chừa phần đuôi. Đặt cá lên đĩa Petri hoặc lam kính lớn, dàn mỏng vây đuôi, nhỏ một giọt nước cất và đặt lamen lên.\n' +
@@ -2839,7 +2839,7 @@ export const SINH11_C1_LESSONS: BiologyLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['ha_1'] },
         explain:
-          'Khi xả khí, áp lực bao cao su giảm bằng huyết áp tâm thu, dòng máu bắt đầu lách qua chỗ hẹp gây ra tiếng đập đầu tiên nghe thấy được.',
+          'Khi xả khí, áp lực trong vòng bít giảm xuống bằng huyết áp tâm thu, dòng máu bắt đầu lách qua chỗ hẹp gây ra tiếng đập đầu tiên nghe thấy được.',
       },
       {
         prompt:

@@ -604,7 +604,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     title:
       'Thực hành: Khảo sát hiện tượng thụ tinh ở động vật và tìm hiểu các biện pháp tránh thai',
     track: 'core',
-    hasAnimation: true,
+    hasAnimation: false,
     reviewStatus: 'draft',
     chapterKey: 'sinh11c2',
   },
@@ -617,7 +617,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     lessonNumber: 25,
     title: 'Mối quan hệ giữa các quá trình sinh lý trong cơ thể sinh vật',
     track: 'core',
-    hasAnimation: false,
+    hasAnimation: true,
     reviewStatus: 'draft',
     chapterKey: 'sinh11c2',
   },

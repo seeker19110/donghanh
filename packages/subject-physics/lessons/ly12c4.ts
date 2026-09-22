@@ -470,7 +470,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
     hook: 'Tại tâm của mỗi nguyên tử có một hạt nhân vô cùng nhỏ bé và đậm đặc, chiếm tới hơn 99.9% khối lượng nguyên tử nhưng kích thước chỉ bằng một phần một trăm nghìn kích thước nguyên tử.',
     theory:
       'KÍCH THƯỚC HẠT NHÂN:\n' +
-      '— Hạt nhân nguyên tử có kích thước rất nhỏ so với kích thước nguyên tử (khoảng 10⁵ lần nhỏ hơn).\n' +
+      '— Hạt nhân nguyên tử có kích thước rất nhỏ so với kích thước nguyên tử (nhỏ hơn khoảng 10⁵ lần).\n' +
       '— Bán kính hạt nhân R được ước lượng phụ thuộc vào số khối A theo công thức: R ≈ 1.2 * 10⁻¹⁵ * A^(1/3) (m).\n\n' +
       'CẤU TẠO HẠT NHÂN:\n' +
       '— Hạt nhân được cấu tạo từ các hạt nucleon, gồm hai loại:\n' +
@@ -940,7 +940,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
       'LỰC HẠT NHÂN (LỰC TƯƠNG TÁC MẠNH):\n' +
       '— Lực hạt nhân: Là lực hút gắn kết các nucleon trong hạt nhân để tạo thành một cấu trúc bền vững.\n' +
       '— Đặc điểm:\n' +
-      '  + Không có cùng bản chất với lực tĩnh điện hay lực hấp dẫn.\n  + Là lực tương tác ngắn, chỉ có tác dụng trong phạm vi kích thước hạt nhân (khoảng 10⁻¹⁵ m).\n  + Không phụ thuộc vào điện tích của nucleon (lực hút giữa p-p, n-n, p-n có độ lớn như nhau).\n\n' +
+      '  + Không có cùng bản chất với lực tĩnh điện hay lực hấp dẫn.\n  + Là lực tầm ngắn: chỉ có tác dụng trong phạm vi cỡ kích thước hạt nhân (khoảng 10⁻¹⁵ m), ra xa hơn là gần như không còn.\n  + Không phụ thuộc vào điện tích của nucleon (lực hút giữa p-p, n-n, p-n có độ lớn như nhau).\n\n' +
       'ĐỘ HỤT KHỐI (delta m):\n' +
       '— Khối lượng của một hạt nhân luôn nhỏ hơn tổng khối lượng của các nucleon cấu tạo nên nó một lượng là delta m:\n' +
       '  dm = [Z * mp + (A - Z) * mn] - m_hn > 0\n\n' +
@@ -1524,7 +1524,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
       '— Phản ứng tự phát: Quá trình phân rã của một hạt nhân không bền vững tự động biến đổi thành hạt nhân khác (phóng xạ).\n' +
       '— Phản ứng kích thích: Quá trình các hạt nhân tương tác với nhau để biến đổi thành các hạt nhân khác.\n\n' +
       'CÁC ĐỊNH LUẬT BẢO TOÀN TRONG PHẢN ỨNG HẠT NHÂN:\n' +
-      'Xét phản ứng: A1_Z1 A + A2_Z2 B -> A3_Z3 C + A4_Z4 D\n' +
+      'Xét phản ứng: _Z1^A1 A + _Z2^A2 B -> _Z3^A3 C + _Z4^A4 D\n' +
       '— Định luật bảo toàn số khối (số nucleon): A1 + A2 = A3 + A4\n' +
       '— Định luật bảo toàn điện tích (số hiệu Z): Z1 + Z2 = Z3 + Z4\n' +
       '— Định luật bảo toàn động lượng: p_A + p_B = p_C + p_D\n' +
@@ -2693,7 +2693,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
       'PHẢN ỨNG NHIỆT HẠCH:\n' +
       '— Định nghĩa: Phản ứng nhiệt hạch là phản ứng kết hợp hai hạt nhân rất nhẹ (đồng vị H) thành hạt nhân nặng hơn ở nhiệt độ cực kì cao (hàng chục đến hàng trăm triệu độ C).\n' +
       '— Phương trình tiêu biểu: _1^2 H + _1^3 H -> _2^4 He + _0^1 n + 17.6 MeV.\n' +
-      '— Ưu điểm: Năng lượng toả ra cực lớn, nguồn nhiên liệu vô tận, sạch và ít phế thải phóng xạ.',
+      '— Ưu điểm: Năng lượng toả ra cực lớn, nguồn nhiên liệu gần như vô tận (đồng vị hiđrô lấy từ nước biển), sạch và ít phế thải phóng xạ hơn phân hạch.',
     workedExample: {
       problem:
         'Trình bày điều kiện để thực hiện phản ứng nhiệt hạch trên Trái Đất và nêu khó khăn lớn nhất hiện nay.',
@@ -2737,7 +2737,7 @@ export const LY12_C4_LESSONS: PhysicsLesson[] = [
           correctIds: ['k_1'],
         },
         explain:
-          'Khi k = 1, số neutron kích thích phân hạch được duy trì ổn định, công suất phát ra không đổi và có kiểm soát.',
+          'Khi k = 1, số neutron gây phân hạch được duy trì ổn định, nên công suất của lò không đổi và luôn trong tầm kiểm soát.',
       },
     ],
     srsCards: [

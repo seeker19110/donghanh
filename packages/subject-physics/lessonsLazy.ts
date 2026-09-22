@@ -731,7 +731,7 @@ export const LESSON_INDEX: StemLessonSummary[] = [
     chapterNumber: 1,
     chapterTitle: 'Vật lí nhiệt',
     lessonNumber: 1,
-    title: 'Cấu trúc của chất. Sự chuyển thế',
+    title: 'Cấu trúc của chất. Sự chuyển thể',
     track: 'core',
     hasAnimation: true,
     reviewStatus: 'draft',

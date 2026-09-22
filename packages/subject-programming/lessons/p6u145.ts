@@ -131,7 +131,7 @@ print(int(brute), int(fast))`,
     title: 'Differential test có seed — lỗi ngẫu nhiên phải tái hiện được',
     hook: '“CI thỉnh thoảng đỏ” không phải báo lỗi có thể điều tra. Một differential test tốt dừng ở lệch đầu tiên và đưa đúng seed cùng input để chạy lại.',
     theory:
-      'Tạo bộ sinh riêng bằng `rng = random.Random(seed)`, không gọi random toàn cục. Mỗi trial sinh ca nhỏ để oracle O(n²) vẫn nhanh, so với bản O(n), dừng ngay ở khác biệt đầu tiên và in seed, mảng, target. Nếu không lệch, vẫn in seed và số lượt đã kiểm. Chạy ít nhất 100 trial giúp mở rộng ca phủ nhưng không thay thế các ca biên viết tay. Negative control là một bản lỗi cố ý thêm x trước khi kiểm; ca `[1]`, target 2 phải làm harness đỏ, chứng minh bộ kiểm không “xanh rỗng”.',
+      'Tạo bộ sinh riêng bằng `rng = random.Random(seed)`, không gọi random toàn cục. Mỗi trial sinh ca nhỏ để oracle O(n²) vẫn nhanh, so với bản O(n), dừng ngay ở khác biệt đầu tiên và in seed, mảng, target. Nếu không lệch, vẫn in seed và số lượt đã kiểm. Chạy ít nhất 100 trial giúp mở rộng ca phủ nhưng không thay thế các ca biên viết tay. Đối chứng âm (negative control) là một bản lỗi cố ý thêm x trước khi kiểm; ca `[1]`, target 2 phải làm harness đỏ, chứng minh bộ kiểm không “xanh rỗng”.',
     workedExample: {
       code: `import random
 

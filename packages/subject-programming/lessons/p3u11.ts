@@ -351,7 +351,7 @@ grep LOI a.txt || echo "sach se"`,
     },
     make: {
       prompt:
-        'DỰ ÁN NHỎ CỦA UNIT: viết script bao_cao.sh nhận tên file nhật ký làm tham số và in ra báo cáo.\n\nScript phải làm ĐÚNG ba việc, theo thứ tự:\n1. Đếm số dòng LOI trong file $1, in: Co <số> dong LOI\n2. In loại lỗi nhiều nhất bằng công thức dây chuyền đã học (grep | sort | uniq -c | sort -rn | head -n 1).\n3. Nếu số dòng LOI lớn hơn 2 thì in: CANH BAO\n   ngược lại in: BINH THUONG\n\nSau khi tạo file, nhớ CẤP QUYỀN CHẠY rồi gọi nó với tham số nhat_ky.txt (file đã có sẵn).\n\nMẹo viết script bằng echo: dùng NHÁY ĐƠN để giữ nguyên $1 và $SO trong file — nháy kép sẽ khiến chúng bị thay giá trị ngay lúc ghi, và script của bạn thành file rỗng nghĩa.',
+        'DỰ ÁN NHỎ CỦA UNIT: viết script bao_cao.sh nhận tên file nhật ký làm tham số và in ra báo cáo.\n\nScript phải làm ĐÚNG ba việc, theo thứ tự:\n1. Đếm số dòng LOI trong file $1, in: Co <số> dong LOI\n2. In loại lỗi nhiều nhất bằng công thức dây chuyền đã học (grep | sort | uniq -c | sort -rn | head -n 1).\n3. Nếu số dòng LOI lớn hơn 2 thì in: CANH BAO\n   ngược lại in: BINH THUONG\n\nSau khi tạo file, nhớ CẤP QUYỀN CHẠY rồi gọi nó với tham số nhat_ky.txt (file đã có sẵn).\n\nMẹo viết script bằng echo: dùng NHÁY ĐƠN để giữ nguyên $1 và $SO trong file — nháy kép sẽ khiến chúng bị thay bằng giá trị ngay lúc ghi (thường là rỗng), và script của bạn mất sạch biến.',
       starterCode: `# tao tung dong cua script bang echo '...' >> bao_cao.sh (nho nhay DON)\n\n# cap quyen chay\n\n# goi script voi tham so nhat_ky.txt\n`,
       testCases: [
         {

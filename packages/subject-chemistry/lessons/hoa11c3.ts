@@ -16,7 +16,7 @@ export const HOA11_C3_LESSONS: ChemLesson[] = [
       'từ hợp chất hữu cơ. Hoá học hữu cơ chính là hoá học của nguyên tố Carbon.',
     theory:
       'KHÁI NIỆM HỢP CHẤT HỮU CƠ VÀ HOÁ HỌC HỮU CƠ:\n' +
-      '— Hợp chất hữu cơ là hợp chất của carbon (trừ một số chất vô cơ đơn giản như CO, CO₂, muối carbonate, xyanua, carbide...).\n' +
+      '— Hợp chất hữu cơ là hợp chất của carbon (trừ một số chất vô cơ đơn giản như CO, CO₂, muối carbonate, muối cyanide, carbide...).\n' +
       '— Hoá học hữu cơ là ngành hoá học nghiên cứu các hợp chất hữu cơ.\n\n' +
       'PHÂN LOẠI HỢP CHẤT HỮU CƠ:\n' +
       '— Hydrocarbon: chỉ chứa hai nguyên tố Carbon (C) và Hydrogen (H) trong phân tử (ví dụ: CH₄, C₂H₄, C₆H₆).\n' +
@@ -66,7 +66,7 @@ export const HOA11_C3_LESSONS: ChemLesson[] = [
     srsCards: [
       {
         hoi: 'Định nghĩa hợp chất hữu cơ?',
-        dap: 'Là hợp chất của carbon (trừ một số ít như CO, CO₂, muối carbonate, xyanua...).',
+        dap: 'Là hợp chất của carbon (trừ một số ít như CO, CO₂, muối carbonate, muối cyanide...).',
       },
       {
         hoi: 'Phân loại hợp chất hữu cơ gồm hai nhóm lớn nào?',
@@ -88,8 +88,8 @@ export const HOA11_C3_LESSONS: ChemLesson[] = [
     lessonNumber: 11,
     title: 'Phương pháp tách biệt và tinh chế hợp chất hữu cơ',
     hook:
-      'Làm thế nào để lấy được tinh dầu hoa bưởi nguyên chất từ hoa bưởi tươi, hay tách cồn ra khỏi ' +
-      'hỗn hợp rượu nước? Các nhà hoá học dùng các phương pháp vật lí tinh vi dựa trên sự khác biệt tính chất của các chất.',
+      'Làm thế nào để lấy tinh dầu nguyên chất từ hoa bưởi tươi, hay tách cồn ra khỏi hỗn hợp cồn và ' +
+      'nước? Nhà hoá học dùng các phương pháp vật lí dựa trên khác biệt về tính chất giữa các chất.',
     theory:
       'PHƯƠNG PHÁP CHƯNG CẤT (Distillation):\n' +
       '— Nguyên lí: Dựa trên sự khác biệt về NHIỆT ĐỘ SÔI của các chất trong hỗn hợp lỏng.\n' +
@@ -108,7 +108,7 @@ export const HOA11_C3_LESSONS: ChemLesson[] = [
         'không tan vào nhau), ta nên dùng phương pháp tách biệt nào?',
       steps: [
         'Hỗn hợp cần tách gồm hai chất lỏng không tan vào nhau: tinh dầu xả (nhẹ hơn, nổi ở trên) và nước (ở dưới).',
-        'Tính chất không tan vào nhau của hai chất lỏng phân lớp rất thích hợp cho phương pháp chiết lỏng - lỏng.',
+        'Hai chất lỏng không tan vào nhau nên tách thành hai lớp riêng — đúng điều kiện để dùng phương pháp chiết lỏng - lỏng.',
         'Ta cho hỗn hợp vào phễu chiết, để yên cho phân lớp rõ rệt.',
         'Mở khoá phễu chiết để nước chảy hết ra ngoài, thu lấy lớp tinh dầu xả còn lại trong phễu.',
       ],
@@ -126,7 +126,7 @@ export const HOA11_C3_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['soi'] },
         explain:
-          'Phương pháp chưng cất dựa trên sự khác biệt về nhiệt độ sôi của các chất lỏng trong hỗn hợp.',
+          'Chưng cất dựa trên khác biệt về nhiệt độ sôi: chất sôi ở nhiệt độ thấp hơn bay hơi trước rồi được ngưng tụ lại. Khác biệt về độ tan là cơ sở của phương pháp chiết và kết tinh, còn khối lượng riêng hay kích thước hạt không quyết định thứ tự bay hơi.',
       },
       {
         prompt:
@@ -538,8 +538,8 @@ export const HOA11_C3_LESSONS: ChemLesson[] = [
     lessonNumber: 13,
     title: 'Cấu tạo hoá học hợp chất hữu cơ',
     hook:
-      'Ethanol (cồn) và Dimethyl ether đều có cùng công thức phân tử C₂H₆O. Nhưng ethanol là chất lỏng ' +
-      'uống được, còn dimethyl ether là chất khí gây mê. Sự khác biệt nằm ở cách sắp xếp liên kết các nguyên tử.',
+      'Ethanol (cồn) và dimethyl ether có cùng công thức phân tử C₂H₆O. Nhưng ethanol là chất lỏng, còn ' +
+      'dimethyl ether là chất khí dùng làm nhiên liệu. Khác biệt nằm ở trật tự liên kết giữa các nguyên tử.',
     theory:
       'THUYẾT CẤU TẠO HOÁ HỌC (Butlerov):\n' +
       '1. Trong phân tử hợp chất hữu cơ, các nguyên tử liên kết với nhau theo ĐÚNG THỨ TỰ và bằng hoá trị của chúng. Carbon luôn có hoá trị IV, Hydrogen hoá trị I, Oxygen hoá trị II, Nitrogen hoá trị III.\n' +
@@ -570,7 +570,7 @@ export const HOA11_C3_LESSONS: ChemLesson[] = [
         prompt: 'Trong hợp chất hữu cơ, nguyên tử Carbon luôn có hoá trị bằng bao nhiêu?',
         answer: { kind: 'numeric', value: 4 },
         explain:
-          'Theo thuyết cấu tạo hoá học, Carbon luôn thể hiện hoá trị IV trong mọi hợp chất hữu cơ.',
+          'Theo thuyết cấu tạo hoá học, carbon luôn thể hiện hoá trị IV trong mọi hợp chất hữu cơ, tức luôn tạo đúng 4 liên kết.',
       },
       {
         prompt:
@@ -583,7 +583,7 @@ export const HOA11_C3_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['dongphan'] },
         explain:
-          'Đồng phân là những chất khác nhau có cùng công thức phân tử nhưng khác cấu tạo hoá học.',
+          'Đồng phân là những chất khác nhau có cùng công thức phân tử nhưng khác cấu tạo hoá học. Đồng đẳng thì khác công thức phân tử (hơn kém nhau nhóm −CH₂−); đồng vị nói về nguyên tử cùng số proton khác số neutron, không phải hợp chất.',
       },
     ],
     srsCards: [

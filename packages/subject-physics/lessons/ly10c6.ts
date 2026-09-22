@@ -171,7 +171,7 @@ export const LY10_C6_LESSONS: PhysicsLesson[] = [
     lessonNumber: 31,
     title: 'Động học của chuyển động tròn đều',
     hook:
-      'Cánh quạt phong điện khổng lồ quay đều đặn hay Mặt Trăng quay quanh Trái Đất đều vẽ nên những đường tròn kì diệu. ' +
+      'Cánh quạt tua bin điện gió quay đều đặn, hay Mặt Trăng quay quanh Trái Đất, đều vạch nên những đường tròn. ' +
       'Làm thế nào để tính toán quãng đường và tốc độ quay của chúng?',
     theory:
       'ĐỊNH NGHĨA CHUYỂN ĐỘNG TRÒN ĐỀU:\n' +
@@ -210,7 +210,9 @@ export const LY10_C6_LESSONS: PhysicsLesson[] = [
           kind: 'choice',
           correctIds: ['ct_1'],
         },
-        explain: 'Tốc độ dài bằng tốc độ góc nhân với bán kính quỹ đạo: v = ωr.',
+        explain:
+          'Tốc độ dài bằng tốc độ góc nhân bán kính: v = ωr. Bán kính càng lớn thì cùng một góc quét ứng với cung ' +
+          'càng dài, nên v phải TỈ LỆ THUẬN với r — hai phương án kia đều làm sai quan hệ đó.',
       },
       {
         prompt:
@@ -463,7 +465,7 @@ export const LY10_C6_LESSONS: PhysicsLesson[] = [
           'Trước khi đứt, lực duy nhất theo phương ngang là lực căng dây HƯỚNG VÀO TÂM; không hề có lực nào đẩy hòn đá ra xa. ' +
           'Cái mà ta quen gọi "lực ly tâm" chỉ là cảm giác của người ngồi trong hệ quay (hệ quy chiếu phi quán tính), không phải lực do vật nào tác dụng. ' +
           'Khi dây đứt, hợp lực theo phương ngang bằng 0, nên theo định luật 1 Newton hòn đá giữ nguyên vectơ vận tốc mà nó đang có — mà vận tốc trong chuyển động tròn luôn nằm theo phương TIẾP TUYẾN. ' +
-          'Vì thế nó đi thẳng đều theo tiếp tuyến; càng đi thì càng xa tâm, và chính điều này khiến ta lầm tưởng có lực đẩy ra. Đây cũng là lý do bùn văng khỏi bánh xe theo phương tiếp tuyến.',
+          'Vì thế nó đi thẳng đều theo tiếp tuyến; càng đi thì càng xa tâm, và chính điều này khiến ta lầm tưởng có lực đẩy ra. Đây cũng là lí do bùn văng khỏi bánh xe theo phương tiếp tuyến.',
       },
     ],
     srsCards: [

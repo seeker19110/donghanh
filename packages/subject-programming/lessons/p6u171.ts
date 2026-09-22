@@ -99,7 +99,7 @@ export const P6U171_LESSONS: ProgrammingLesson[] = [
     predict: {
       code: `print(0.25 * 4 + 0.75 * 0)`,
       question: 'Weighted sum in ra gì?',
-      choices: ['zero', '1.0', 'three', 'four'],
+      choices: ['0.0', '1.0', '3.0', '4.0'],
       answerIndex: 1,
       explain: 'Chỉ phần tử đầu đóng góp 0.25 nhân 4.',
     },

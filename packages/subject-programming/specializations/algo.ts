@@ -176,7 +176,7 @@ export const ALGO_SPECIALIZATION: ProgrammingSpecialization = {
           topics: [
             'Trạng thái, chuyển trạng thái, thứ tự tính',
             'Từ đệ quy có nhớ tới lặp, tối ưu bộ nhớ',
-            'Các họ bài kinh điển: ba lô, LIS, chia đoạn',
+            'Các họ bài kinh điển: ba lô, dãy con tăng dài nhất (LIS), chia đoạn',
           ],
         },
         {
@@ -239,7 +239,7 @@ export const ALGO_SPECIALIZATION: ProgrammingSpecialization = {
           title: 'Tối ưu và NP-khó',
           topics: [
             'Nhận ra bài NP-khó và ngừng tìm lời giải hoàn hảo',
-            'Xấp xỉ, heuristic, luyện kim mô phỏng',
+            'Xấp xỉ, heuristic, mô phỏng luyện kim (simulated annealing)',
             'Quy hoạch tuyến tính mức dùng được',
           ],
         },

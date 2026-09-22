@@ -166,7 +166,7 @@ const FOUNDATION_BASE: Circle[] = [
       w('mouth', 'n', 'miệng', 'Open your mouth.', 'Há miệng ra.'),
       w('tooth', 'n', 'răng', 'Brush your teeth.', 'Đánh răng đi.'),
       w('hand', 'n', 'bàn tay', 'Wash your hands.', 'Rửa tay đi.'),
-      w('arm', 'n', 'cánh tay', 'He broke his arm.', 'Anh ấy bị gãy tay.'),
+      w('arm', 'n', 'cánh tay', 'He broke his arm.', 'Anh ấy bị gãy cánh tay.'),
       w('leg', 'n', 'chân (cẳng)', 'My legs are tired.', 'Chân tôi mỏi.'),
       w('foot', 'n', 'bàn chân', 'My foot hurts.', 'Bàn chân tôi đau.'),
       w('finger', 'n', 'ngón tay', 'I cut my finger.', 'Tôi bị đứt tay.'),
@@ -191,7 +191,7 @@ const FOUNDATION_BASE: Circle[] = [
       w('food', 'n', 'thức ăn', 'The food is delicious.', 'Món ăn rất ngon.'),
       w('water', 'n', 'nước', 'I drink water every day.', 'Tôi uống nước mỗi ngày.'),
       w('rice', 'n', 'cơm, gạo', 'We eat rice every day.', 'Chúng tôi ăn cơm mỗi ngày.'),
-      w('bread', 'n', 'bánh mì', 'I eat bread for breakfast.', 'Tôi ăn bánh mì sáng.'),
+      w('bread', 'n', 'bánh mì', 'I eat bread for breakfast.', 'Tôi ăn bánh mì vào bữa sáng.'),
       w('meat', 'n', 'thịt', 'She does not eat meat.', 'Cô ấy không ăn thịt.'),
       w('fish', 'n', 'cá', 'This fish is fresh.', 'Con cá này tươi.'),
       w('egg', 'n', 'trứng', 'I want two eggs.', 'Tôi muốn hai quả trứng.'),
@@ -258,7 +258,7 @@ const FOUNDATION_BASE: Circle[] = [
       w('week', 'n', 'tuần', 'See you next week.', 'Hẹn gặp tuần sau.'),
       w('month', 'n', 'tháng', 'I am busy this month.', 'Tháng này tôi bận.'),
       w('year', 'n', 'năm', 'Happy New Year!', 'Chúc mừng năm mới!'),
-      w('hour', 'n', 'giờ (60 phút)', 'I wait one hour.', 'Tôi đợi một tiếng.'),
+      w('hour', 'n', 'giờ (60 phút)', 'I wait for one hour.', 'Tôi đợi một tiếng.'),
       w('minute', 'n', 'phút', 'Wait a minute.', 'Đợi một phút.'),
       w('today', 'adv', 'hôm nay', 'Today is Monday.', 'Hôm nay là thứ Hai.'),
       w('tomorrow', 'adv', 'ngày mai', 'See you tomorrow.', 'Hẹn gặp ngày mai.'),
@@ -442,7 +442,7 @@ const FOUNDATION_BASE: Circle[] = [
       w('developer', 'n', 'lập trình viên', 'She is a developer.', 'Cô ấy là lập trình viên.'),
       w('server', 'n', 'máy chủ', 'The server is down.', 'Máy chủ đang bị sự cố.'),
       w('data', 'n', 'dữ liệu', 'We have a lot of data.', 'Chúng tôi có rất nhiều dữ liệu.'),
-      w('network', 'n', 'mạng lưới', 'The network is secure.', 'Mạng lưới an toàn.'),
+      w('network', 'n', 'mạng (máy tính)', 'The network is secure.', 'Mạng này an toàn.'),
       w('update', 'v', 'cập nhật', 'Please update your software.', 'Hãy cập nhật phần mềm.'),
       w('download', 'v', 'tải xuống', 'Download the file here.', 'Tải tệp tại đây.'),
       w('upload', 'v', 'tải lên', 'Upload the photo to the cloud.', 'Tải ảnh lên đám mây.'),
@@ -492,7 +492,7 @@ const FOUNDATION_BASE: Circle[] = [
       w('patient', 'n', 'bệnh nhân', 'The patient is recovering.', 'Bệnh nhân đang hồi phục.'),
       w('fever', 'n', 'sốt', 'I have a fever.', 'Tôi bị sốt.'),
       w('headache', 'n', 'đau đầu', 'I have a headache.', 'Tôi bị đau đầu.'),
-      w('allergy', 'n', 'dị ứng', 'I am allergic to peanuts.', 'Tôi dị ứng với lạc.'),
+      w('allergy', 'n', 'dị ứng', 'I have a peanut allergy.', 'Tôi bị dị ứng với lạc.'),
       w('vaccine', 'n', 'vắc-xin', 'Get your vaccine today.', 'Tiêm vắc-xin ngay hôm nay.'),
       w('surgery', 'n', 'phẫu thuật', 'The surgery was successful.', 'Ca phẫu thuật thành công.'),
       w('diagnosis', 'n', 'chẩn đoán', 'The diagnosis is correct.', 'Chẩn đoán chính xác.'),
@@ -622,13 +622,13 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'đàm phán',
         'Good communication helps in negotiation.',
-        'Giao tiếp tốt hỗ trợ đàm phán.',
+        'Giao tiếp tốt giúp ích khi đàm phán.',
       ),
       w(
         'presentation',
         'n',
         'thuyết trình',
-        'She practised her presentation many times.',
+        'She practiced her presentation many times.',
         'Cô ấy luyện thuyết trình nhiều lần.',
       ),
       w(
@@ -897,7 +897,7 @@ const FOUNDATION_BASE: Circle[] = [
         'subject',
         'n',
         'môn học',
-        'My favourite subject is English.',
+        'My favorite subject is English.',
         'Môn học yêu thích của tôi là tiếng Anh.',
       ),
       w(
@@ -955,7 +955,7 @@ const FOUNDATION_BASE: Circle[] = [
     sentences: [
       { en: 'The exam is next Monday.', vi: 'Kỳ thi là thứ Hai tuần sau.' },
       { en: 'Have you done your homework yet?', vi: 'Bạn làm bài tập về nhà chưa?' },
-      { en: 'What is your favourite subject?', vi: 'Môn học yêu thích của bạn là gì?' },
+      { en: 'What is your favorite subject?', vi: 'Môn học yêu thích của bạn là gì?' },
       { en: "Let's go to the library together.", vi: 'Cùng đến thư viện đi.' },
     ],
   },
@@ -983,7 +983,13 @@ const FOUNDATION_BASE: Circle[] = [
         'Bring a coat — it will be rainy.',
         'Mang áo khoác — trời sẽ mưa.',
       ),
-      w('windy', 'adj', 'có gió', 'It is too windy to go outside.', 'Gió to quá để ra ngoài.'),
+      w(
+        'windy',
+        'adj',
+        'có gió',
+        'It is too windy to go outside.',
+        'Gió to quá, không ra ngoài được.',
+      ),
       w(
         'foggy',
         'adj',
@@ -1094,7 +1100,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'tất, vớ',
         'I cannot find a matching pair of socks.',
-        'Tôi không tìm được đôi tất đôi.',
+        'Tôi không tìm được hai chiếc tất cùng đôi.',
       ),
       w('glasses', 'n', 'kính mắt', 'She forgot her glasses at home.', 'Cô ấy để quên kính ở nhà.'),
       w('wear', 'v', 'mặc, đeo, đội', 'What do you wear to work?', 'Bạn mặc gì đi làm?'),
@@ -1148,7 +1154,7 @@ const FOUNDATION_BASE: Circle[] = [
       { en: 'What size do you wear?', vi: 'Bạn mặc cỡ mấy?' },
       { en: 'I need to buy new clothes.', vi: 'Tôi cần mua quần áo mới.' },
       { en: 'Wear a jacket — it is cold today.', vi: 'Mặc áo khoác đi — hôm nay lạnh.' },
-      { en: 'That dress looks great on you.', vi: 'Cái váy đó trông thật đẹp trên bạn.' },
+      { en: 'That dress looks great on you.', vi: 'Bạn mặc cái váy đó trông thật đẹp.' },
     ],
   },
 
@@ -1210,7 +1216,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'giao thông',
         'The traffic is very heavy right now.',
-        'Giao thông đang rất đông.',
+        'Đường đang rất đông xe.',
       ),
       w(
         'journey',
@@ -1249,7 +1255,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'cảm xúc',
         'It is okay to show your emotions.',
-        'Không sao khi thể hiện cảm xúc.',
+        'Thể hiện cảm xúc là chuyện bình thường.',
       ),
       w(
         'angry',
@@ -1294,7 +1300,7 @@ const FOUNDATION_BASE: Circle[] = [
         'adj',
         'cô đơn',
         'Living alone can feel lonely.',
-        'Sống một mình có thể cảm thấy cô đơn.',
+        'Sống một mình đôi khi thấy cô đơn.',
       ),
       w(
         'grateful',
@@ -1363,7 +1369,7 @@ const FOUNDATION_BASE: Circle[] = [
         'How do you spell that word?',
         'Bạn đánh vần từ đó như thế nào?',
       ),
-      w('which', 'pron', 'cái nào', 'Which colour do you prefer?', 'Bạn thích màu nào hơn?'),
+      w('which', 'pron', 'cái nào', 'Which color do you prefer?', 'Bạn thích màu nào hơn?'),
       w('in', 'prep', 'trong, ở trong', 'The keys are in the bag.', 'Chìa khóa ở trong túi.'),
       w('on', 'prep', 'trên, lên', 'The book is on the table.', 'Cuốn sách trên bàn.'),
       w('at', 'prep', 'tại, ở, lúc', "I arrive at seven o'clock.", 'Tôi đến lúc bảy giờ.'),
@@ -1476,7 +1482,7 @@ const FOUNDATION_BASE: Circle[] = [
         'The bill came to thirty dollars.',
         'Hóa đơn tổng cộng ba mươi đô.',
       ),
-      w('change', 'n', 'tiền thối', 'Here is your change.', 'Đây là tiền thối của bạn.'),
+      w('change', 'n', 'tiền thừa trả lại', 'Here is your change.', 'Đây là tiền thừa của bạn.'),
       w(
         'shop',
         'n/v',
@@ -1531,7 +1537,7 @@ const FOUNDATION_BASE: Circle[] = [
         'run',
         'v',
         'chạy',
-        'She runs five kilometres each morning.',
+        'She runs five kilometers each morning.',
         'Cô ấy chạy năm km mỗi sáng.',
       ),
       w('jump', 'v', 'nhảy', 'The child jumped for joy.', 'Đứa bé nhảy vì vui.'),
@@ -1549,7 +1555,7 @@ const FOUNDATION_BASE: Circle[] = [
         'v',
         'nhảy múa',
         'She dances at the studio twice a week.',
-        'Cô ấy học nhảy hai lần mỗi tuần.',
+        'Cô ấy nhảy ở phòng tập hai lần mỗi tuần.',
       ),
       w('sing', 'v', 'hát', 'He sings in the school choir.', 'Cậu ấy hát trong đội hợp xướng.'),
       w('draw', 'v', 'vẽ', 'She draws portraits in her free time.', 'Cô ấy vẽ chân dung lúc rảnh.'),
@@ -1564,8 +1570,8 @@ const FOUNDATION_BASE: Circle[] = [
         'hobby',
         'n',
         'sở thích',
-        'Reading is my favourite hobby.',
-        'Đọc sách là sở thích yêu thích của tôi.',
+        'Reading is my favorite hobby.',
+        'Đọc sách là sở thích lớn nhất của tôi.',
       ),
       w('win', 'v', 'thắng', 'Our team won the match.', 'Đội chúng tôi thắng trận.'),
       w(
@@ -1607,10 +1613,10 @@ const FOUNDATION_BASE: Circle[] = [
       ),
     ],
     sentences: [
-      { en: 'What is your favourite sport?', vi: 'Bạn thích thể thao nào nhất?' },
+      { en: 'What is your favorite sport?', vi: 'Bạn thích thể thao nào nhất?' },
       { en: 'I go swimming every Saturday.', vi: 'Tôi đi bơi mỗi thứ Bảy.' },
       { en: 'Our team won the match.', vi: 'Đội chúng tôi thắng trận.' },
-      { en: 'Drawing is my favourite hobby.', vi: 'Vẽ là sở thích yêu thích của tôi.' },
+      { en: 'Drawing is my favorite hobby.', vi: 'Vẽ là sở thích lớn nhất của tôi.' },
     ],
   },
 
@@ -1689,7 +1695,7 @@ const FOUNDATION_BASE: Circle[] = [
         'adj',
         'yên lặng, trầm tính',
         'She is quiet but very smart.',
-        'Cô ấy trầm lặng nhưng rất thông minh.',
+        'Cô ấy trầm tính nhưng rất thông minh.',
       ),
       w(
         'loud',
@@ -1724,7 +1730,7 @@ const FOUNDATION_BASE: Circle[] = [
         'adj',
         'nhút nhát',
         'She was too shy to ask for help.',
-        'Cô ấy quá nhút nhát để nhờ giúp đỡ.',
+        'Cô ấy nhút nhát quá nên không dám nhờ giúp đỡ.',
       ),
       w(
         'friendly',
@@ -1738,7 +1744,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'tính cách',
         'Good character is more important than talent.',
-        'Nhân cách tốt quan trọng hơn tài năng.',
+        'Tính cách tốt quan trọng hơn tài năng.',
       ),
       w(
         'personality',
@@ -1765,7 +1771,7 @@ const FOUNDATION_BASE: Circle[] = [
     sentences: [
       { en: 'She is kind and generous.', vi: 'Cô ấy tốt bụng và hào phóng.' },
       { en: 'Always be honest with yourself.', vi: 'Luôn trung thực với bản thân.' },
-      { en: 'He has a great sense of humour.', vi: 'Anh ấy có khiếu hài hước tuyệt vời.' },
+      { en: 'He has a great sense of humor.', vi: 'Anh ấy có khiếu hài hước tuyệt vời.' },
       { en: 'A positive attitude changes everything.', vi: 'Thái độ tích cực thay đổi tất cả.' },
     ],
   },
@@ -1945,7 +1951,7 @@ const FOUNDATION_BASE: Circle[] = [
         'church',
         'n',
         'nhà thờ',
-        'There is an old church in the city centre.',
+        'There is an old church in the city center.',
         'Có một nhà thờ cổ ở trung tâm thành phố.',
       ),
       w(
@@ -1999,7 +2005,13 @@ const FOUNDATION_BASE: Circle[] = [
       ),
       w('street', 'n', 'con đường, phố', 'What street do you live on?', 'Bạn ở phố nào?'),
       w('corner', 'n', 'góc đường', 'Turn left at the corner.', 'Rẽ trái ở góc đường.'),
-      w('block', 'n', 'dãy nhà', 'The school is three blocks away.', 'Trường học cách ba dãy nhà.'),
+      w(
+        'block',
+        'n',
+        'dãy nhà',
+        'The school is three blocks away.',
+        'Trường học cách đây ba dãy nhà.',
+      ),
       w(
         'neighborhood',
         'n',
@@ -2046,7 +2058,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'luật sư',
         'She hired a lawyer to help her.',
-        'Cô ấy thuê luật sư để giúp đỡ.',
+        'Cô ấy thuê luật sư để giúp mình.',
       ),
       w(
         'accountant',
@@ -2128,9 +2140,9 @@ const FOUNDATION_BASE: Circle[] = [
       w(
         'musician',
         'n',
-        'nhạc sĩ',
+        'nhạc công, nghệ sĩ âm nhạc',
         'The musician plays the piano every night.',
-        'Nhạc sĩ chơi đàn piano mỗi tối.',
+        'Nhạc công chơi đàn piano mỗi tối.',
       ),
       w(
         'actor',
@@ -2180,7 +2192,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'quả táo',
         'An apple a day keeps the doctor away.',
-        'Một quả táo mỗi ngày giúp ít gặp bác sĩ hơn.',
+        'Mỗi ngày một quả táo thì ít phải gặp bác sĩ.',
       ),
       w(
         'banana',
@@ -2260,7 +2272,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'ngô, bắp',
         'We grilled corn on the barbecue.',
-        'Chúng tôi nướng ngô trên vỉa nướng.',
+        'Chúng tôi nướng ngô trên bếp nướng.',
       ),
       w(
         'pumpkin',
@@ -2303,10 +2315,10 @@ const FOUNDATION_BASE: Circle[] = [
       },
       {
         en: 'I eat fruit every morning for breakfast.',
-        vi: 'Tôi ăn trái cây mỗi sáng để làm bữa sáng.',
+        vi: 'Tôi ăn trái cây vào bữa sáng mỗi ngày.',
       },
       {
-        en: 'Garlic and onion give the dish its flavour.',
+        en: 'Garlic and onion give the dish its flavor.',
         vi: 'Tỏi và hành tây tạo nên hương vị cho món ăn.',
       },
     ],
@@ -2498,7 +2510,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'ngôi sao',
         'You can see many stars in the countryside.',
-        'Bạn có thể thấy nhiều sao ở ngoài nông thôn.',
+        'Ở vùng nông thôn, bạn có thể thấy rất nhiều sao.',
       ),
       w(
         'rock',
@@ -2594,8 +2606,8 @@ const FOUNDATION_BASE: Circle[] = [
         'passport',
         'n',
         'hộ chiếu',
-        "Don't forget your passport at the airport.",
-        'Đừng quên hộ chiếu ở sân bay.',
+        'Show your passport at the airport.',
+        'Xuất trình hộ chiếu ở sân bay.',
       ),
       w('luggage', 'n', 'hành lý', 'My luggage is too heavy.', 'Hành lý của tôi nặng quá.'),
       w(
@@ -2666,14 +2678,14 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'kỳ nghỉ',
         'We are on vacation this week.',
-        'Tuần này chúng tôi đang nghỉ phép.',
+        'Tuần này chúng tôi đang đi nghỉ.',
       ),
       w(
         'pack',
         'v',
         'xếp đồ, đóng gói',
         'Remember to pack warm clothes.',
-        'Nhớ xếp theo quần áo ấm.',
+        'Nhớ xếp quần áo ấm vào hành lý.',
       ),
       w(
         'destination',
@@ -3080,7 +3092,7 @@ const FOUNDATION_BASE: Circle[] = [
       w('charge', 'v', 'sạc (pin)', 'I need to charge my phone.', 'Tôi cần sạc điện thoại.'),
       w('battery', 'n', 'pin', 'My battery is low.', 'Pin của tôi sắp hết.'),
       w('dial', 'v', 'bấm số gọi', 'Dial this number to reach me.', 'Bấm số này để gọi cho tôi.'),
-      w('hang up', 'v', 'cúp máy', 'Please don’t hang up.', 'Làm ơn đừng cúp máy.'),
+      w('hang up', 'v', 'cúp máy', "Please don't hang up.", 'Làm ơn đừng cúp máy.'),
     ],
     sentences: [
       { en: 'Can I call you later?', vi: 'Tôi gọi cho bạn sau được không?' },
@@ -3250,7 +3262,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'phong tục',
         'It is a local custom to remove your shoes.',
-        'Đó là phong tục địa phương khi cởi giày.',
+        'Cởi giày là phong tục ở địa phương này.',
       ),
       w(
         'ceremony',
@@ -3457,7 +3469,7 @@ const FOUNDATION_BASE: Circle[] = [
         'adv',
         'trong khi đó',
         'Meanwhile, the rain got heavier.',
-        'Trong khi đó, mưa càng nặng hạt hơn.',
+        'Trong khi đó, mưa nặng hạt hơn.',
       ),
       w(
         'eventually',
@@ -3989,11 +4001,11 @@ const FOUNDATION_BASE: Circle[] = [
       },
       {
         en: 'My sister is a teenager, but my brother is still a toddler.',
-        vi: 'Em gái tôi là thiếu niên, còn em trai tôi vẫn còn là trẻ mới biết đi.',
+        vi: 'Em gái tôi đang tuổi thiếu niên, còn em trai tôi thì mới biết đi.',
       },
       {
         en: 'Three generations of people live in this house.',
-        vi: 'Ba thế hệ người sống trong ngôi nhà này.',
+        vi: 'Ba thế hệ cùng sống trong ngôi nhà này.',
       },
     ],
   },
@@ -4172,7 +4184,7 @@ const FOUNDATION_BASE: Circle[] = [
       },
       { en: 'The kids want ice cream and candy.', vi: 'Bọn trẻ muốn ăn kem và kẹo.' },
       {
-        en: 'I made a sandwich and a cup of juice for lunch.',
+        en: 'I made a sandwich and a glass of juice for lunch.',
         vi: 'Tôi làm bánh mì kẹp và một ly nước ép cho bữa trưa.',
       },
     ],
@@ -4283,8 +4295,8 @@ const FOUNDATION_BASE: Circle[] = [
         'reading',
         'n',
         'việc đọc sách',
-        'Reading is my favourite hobby.',
-        'Đọc sách là sở thích yêu thích của tôi.',
+        'Reading is my favorite hobby.',
+        'Đọc sách là sở thích lớn nhất của tôi.',
       ),
       w('drawing', 'n', 'việc vẽ', 'She spends hours drawing.', 'Cô ấy dành hàng giờ để vẽ.'),
       w(
@@ -4539,7 +4551,7 @@ const FOUNDATION_BASE: Circle[] = [
       w('rest', 'v/n', 'nghỉ ngơi', 'You should rest more.', 'Bạn nên nghỉ ngơi nhiều hơn.'),
     ],
     sentences: [
-      { en: 'I have a flu, a sore throat, and a cough.', vi: 'Tôi bị cúm, đau họng và ho.' },
+      { en: 'I have the flu, a sore throat, and a cough.', vi: 'Tôi bị cúm, đau họng và ho.' },
       {
         en: 'You look ill. You should rest and take a pill.',
         vi: 'Bạn trông không khỏe. Bạn nên nghỉ ngơi và uống thuốc.',
@@ -5035,7 +5047,7 @@ const FOUNDATION_BASE: Circle[] = [
         'adj',
         'chu đáo, biết quan tâm',
         'A good teacher is considerate.',
-        'Một giáo viên giỏi thì chu đáo.',
+        'Giáo viên giỏi luôn biết quan tâm học trò.',
       ),
       w(
         'impatient',
@@ -5067,7 +5079,7 @@ const FOUNDATION_BASE: Circle[] = [
         'adj',
         'tham vọng, có chí lớn',
         'He is very ambitious about his career.',
-        'Anh ấy rất có chí về sự nghiệp.',
+        'Anh ấy rất có chí tiến thủ trong sự nghiệp.',
       ),
       w(
         'humble',
@@ -5116,7 +5128,7 @@ const FOUNDATION_BASE: Circle[] = [
         'adj',
         'nói nhiều, lắm lời',
         'My sister is very talkative.',
-        'Em gái tôi rất nói nhiều.',
+        'Em gái tôi nói rất nhiều.',
       ),
     ],
     sentences: [
@@ -5312,7 +5324,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'sếp, ông/bà chủ',
         'My boss is very supportive.',
-        'Sếp tôi rất biết ủng hộ nhân viên.',
+        'Sếp tôi rất hỗ trợ nhân viên.',
       ),
       w(
         'employee',
@@ -5650,7 +5662,7 @@ const FOUNDATION_BASE: Circle[] = [
       },
       {
         en: 'He hired a tutor to help before the final lecture.',
-        vi: 'Anh ấy thuê một gia sư để giúp đỡ trước buổi giảng cuối.',
+        vi: 'Anh ấy thuê gia sư kèm thêm trước buổi giảng cuối.',
       },
     ],
   },
@@ -5869,7 +5881,7 @@ const FOUNDATION_BASE: Circle[] = [
         'genre',
         'n',
         'thể loại',
-        'What is your favourite film genre?',
+        'What is your favorite film genre?',
         'Thể loại phim yêu thích của bạn là gì?',
       ),
       w(
@@ -5940,13 +5952,7 @@ const FOUNDATION_BASE: Circle[] = [
         'Giải đấu bắt đầu tuần sau.',
       ),
       w('medal', 'n', 'huy chương', 'She won a gold medal.', 'Cô ấy giành huy chương vàng.'),
-      w(
-        'fan',
-        'n',
-        'người hâm mộ',
-        'I am a big fan of this team.',
-        'Tôi là fan cuồng nhiệt của đội này.',
-      ),
+      w('fan', 'n', 'người hâm mộ', 'I am a big fan of this team.', 'Tôi rất hâm mộ đội này.'),
       w('goal', 'n', 'bàn thắng, mục tiêu', 'He scored two goals.', 'Anh ấy ghi hai bàn thắng.'),
       w(
         'penalty',
@@ -6053,7 +6059,7 @@ const FOUNDATION_BASE: Circle[] = [
         'ashamed',
         'adj',
         'hổ thẹn',
-        'She was ashamed of her behaviour.',
+        'She was ashamed of her behavior.',
         'Cô ấy hổ thẹn về hành vi của mình.',
       ),
       w(
@@ -6124,7 +6130,7 @@ const FOUNDATION_BASE: Circle[] = [
         'adj',
         'cảm thấy bị xúc phạm',
         'He was offended by the comment.',
-        'Anh ấy cảm thấy bị xúc phạm bởi bình luận đó.',
+        'Anh ấy thấy bị xúc phạm vì bình luận đó.',
       ),
       w(
         'motivated',
@@ -6356,7 +6362,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'giờ cao điểm',
         'The roads are busy during rush hour.',
-        'Đường xá đông đúc vào giờ cao điểm.',
+        'Đường sá đông đúc vào giờ cao điểm.',
       ),
       w(
         'overcrowded',
@@ -6384,7 +6390,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'việc xây dựng',
         'There is construction on this street.',
-        'Con đường này đang xây dựng.',
+        'Con đường này đang có công trình xây dựng.',
       ),
       w(
         'resident',
@@ -6777,7 +6783,7 @@ const FOUNDATION_BASE: Circle[] = [
     sentences: [
       {
         en: 'After the misunderstanding, they apologized and reconciled.',
-        vi: 'Sau khi hiểu lầm, họ xin lỗi và làm hòa.',
+        vi: 'Sau vụ hiểu lầm, họ xin lỗi và làm hòa.',
       },
       {
         en: 'Loyalty and commitment are important in any relationship.',
@@ -6921,7 +6927,7 @@ const FOUNDATION_BASE: Circle[] = [
       },
       {
         en: 'We need to tackle this issue and resolve it quickly.',
-        vi: 'Chúng ta cần giải quyết vấn đề này và xử lý nhanh chóng.',
+        vi: 'Chúng ta cần bắt tay vào vấn đề này và xử lý nó nhanh chóng.',
       },
     ],
   },
@@ -7023,7 +7029,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'hậu cần, logistics',
         'Logistics is a key part of the business.',
-        'Logistics là phần quan trọng của việc kinh doanh.',
+        'Logistics là một phần quan trọng của hoạt động kinh doanh.',
       ),
       w(
         'inventory',
@@ -7036,8 +7042,8 @@ const FOUNDATION_BASE: Circle[] = [
         'turnover',
         'n',
         'doanh thu; tỷ lệ thay đổi nhân sự',
-        'The company had a high turnover last year.',
-        'Công ty có doanh thu cao năm ngoái.',
+        'The company had a high staff turnover last year.',
+        'Năm ngoái công ty có tỷ lệ nhân viên nghỉ việc cao.',
       ),
       w(
         'bankruptcy',
@@ -7136,7 +7142,7 @@ const FOUNDATION_BASE: Circle[] = [
       w(
         'firmware',
         'n',
-        'phần dẻo, firmware',
+        'phần sụn, firmware',
         'Update the firmware regularly.',
         'Cập nhật firmware thường xuyên.',
       ),
@@ -7461,7 +7467,7 @@ const FOUNDATION_BASE: Circle[] = [
         'adj/n',
         'thẩm mỹ',
         'The building has a modern aesthetic.',
-        'Tòa nhà có vẻ thẩm mỹ hiện đại.',
+        'Tòa nhà mang tính thẩm mỹ hiện đại.',
       ),
       w('abstract', 'adj', 'trừu tượng', 'She paints abstract art.', 'Cô ấy vẽ tranh trừu tượng.'),
       w(
@@ -7566,7 +7572,7 @@ const FOUNDATION_BASE: Circle[] = [
     sentences: [
       {
         en: 'The composer wrote a symphony performed by a full orchestra.',
-        vi: 'Nhà soạn nhạc viết một bản giao hưởng do dàn nhạc đầy đủ biểu diễn.',
+        vi: 'Nhà soạn nhạc viết một bản giao hưởng do cả dàn nhạc biểu diễn.',
       },
       {
         en: "The curator praised the artisan's craftsmanship in the new installation.",
@@ -8095,7 +8101,7 @@ const FOUNDATION_BASE: Circle[] = [
       },
       {
         en: 'He handled the ambiguous situation with diplomacy and clear articulation.',
-        vi: 'Anh ấy xử lý tình huống mơ hồ đó một cách khéo léo và phát âm rõ ràng.',
+        vi: 'Anh ấy xử lý tình huống mơ hồ đó một cách khéo léo và diễn đạt rõ ràng.',
       },
     ],
   },
@@ -8178,7 +8184,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'quyền nuôi con; sự giam giữ',
         'They share custody of their son.',
-        'Họ chia sẻ quyền nuôi con trai.',
+        'Họ cùng chia quyền nuôi con trai.',
       ),
       w(
         'litigation',
@@ -8259,7 +8265,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'chiến dịch tranh cử',
         'She ran a strong campaign.',
-        'Cô ấy chạy một chiến dịch tranh cử mạnh mẽ.',
+        'Cô ấy tiến hành một chiến dịch tranh cử mạnh mẽ.',
       ),
       w(
         'parliament',
@@ -8489,7 +8495,7 @@ const FOUNDATION_BASE: Circle[] = [
       },
       {
         en: "Her culture shock faded thanks to the locals' hospitality.",
-        vi: 'Sự sốc văn hóa của cô ấy dần biến mất nhờ lòng hiếu khách của người dân địa phương.',
+        vi: 'Cú sốc văn hóa của cô ấy dần qua đi nhờ lòng hiếu khách của người dân địa phương.',
       },
       {
         en: 'The homestay was off the beaten path, far from the embassy.',
@@ -8669,7 +8675,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'chăm sóc bản thân',
         'Self-care is important for wellbeing.',
-        'Chăm sóc bản thân quan trọng cho sự khỏe mạnh.',
+        'Chăm sóc bản thân rất quan trọng cho sự khỏe mạnh.',
       ),
       w(
         'burnout',
@@ -8812,7 +8818,7 @@ const FOUNDATION_BASE: Circle[] = [
         'n',
         'giới học thuật',
         'He has spent his career in academia.',
-        'Anh ấy đã dành sự nghiệp trong giới học thuật.',
+        'Anh ấy dành cả sự nghiệp cho giới học thuật.',
       ),
       w(
         'peer review',

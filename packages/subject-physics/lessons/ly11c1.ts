@@ -10,7 +10,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
     animation: {
       title: 'Dao động điều hoà là hình chiếu của chuyển động tròn đều',
       description:
-        'Bên trái: điểm M chạy tròn đều trên đường tròn bán kính A với tốc độ góc ω. Bên phải nó là điểm P — hình chiếu của M lên trục thẳng đứng đi qua tâm. Khi M quay đều, P chạy lên chạy xuống quanh tâm O: nhanh nhất khi đi qua O (lúc M ở ngang, toàn bộ vận tốc của M chiếu hết lên trục) và đứng khựng lại ở hai đầu (lúc M ở trên/dưới cùng, vận tốc của M nằm ngang nên chiếu xuống bằng 0). Khoảng cách từ P tới O chính là A·cos(ωt + φ) theo đúng định nghĩa cosin trong tam giác vuông — đó là lý do li độ của dao động điều hoà là hàm cosin chứ không phải một hàm nào khác. Đồ thị bên phải vẽ lại vị trí của P theo thời gian, cho ra đúng một đường hình sin.',
+        'Bên trái: điểm M chạy tròn đều trên đường tròn bán kính A với tốc độ góc ω. Bên phải nó là điểm P — hình chiếu của M lên trục thẳng đứng đi qua tâm. Khi M quay đều, P chạy lên chạy xuống quanh tâm O: nhanh nhất khi đi qua O (lúc M ở ngang, toàn bộ vận tốc của M chiếu hết lên trục) và đứng khựng lại ở hai đầu (lúc M ở trên/dưới cùng, vận tốc của M nằm ngang nên chiếu xuống bằng 0). Khoảng cách từ P tới O chính là A·cos(ωt + φ) theo đúng định nghĩa cosin trong tam giác vuông — đó là lí do li độ của dao động điều hoà là hàm cosin chứ không phải một hàm nào khác. Đồ thị bên phải vẽ lại vị trí của P theo thời gian, cho ra đúng một đường hình sin.',
       viewBoxWidth: 420,
       viewBoxHeight: 240,
       durationMs: 4000,
@@ -186,7 +186,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
       '— Dao động cơ là chuyển động lặp đi lặp lại của một vật quanh một vị trí cân bằng xác định.\n' +
       '— Dao động tuần hoàn là dao động mà sau những khoảng thời gian bằng nhau gọi là chu kì, vật trở lại vị trí cũ theo hướng cũ.\n\n' +
       'DAO ĐỘNG ĐIỀU HOÀ (SIMPLE HARMONIC MOTION):\n' +
-      '— Là dao động tuần hoàn mà li độ (tọa độ của vật tính từ vị trí cân bằng) là một hàm cosin hoặc sin của thời gian.\n' +
+      '— Là dao động tuần hoàn mà li độ (toạ độ của vật tính từ vị trí cân bằng) là một hàm cosin hoặc sin của thời gian.\n' +
       '— Phương trình li độ: x = A.cos(ωt + φ).\n\n' +
       'CÁC ĐẠI LƯỢNG TRONG PHƯƠNG TRÌNH:\n' +
       '1. x: Li độ của vật (đơn vị: m hoặc cm). Biểu diễn khoảng cách và chiều lệch từ vị trí cân bằng.\n' +
@@ -224,7 +224,9 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
           kind: 'choice',
           correctIds: ['da_1'],
         },
-        explain: 'A là biên độ dao động, biểu thị độ lệch cực đại của vật khỏi vị trí cân bằng.',
+        explain:
+          'A là biên độ: độ lệch lớn nhất của vật khỏi vị trí cân bằng, nên A luôn dương. Tần số góc là ω — ' +
+          'đại lượng nhân với t bên trong hàm cosin; còn pha ban đầu là φ, số hạng cộng thêm bên trong hàm cosin.',
       },
       {
         prompt:
@@ -505,7 +507,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
     theory:
       'ĐƯỜNG TRÒN LƯỢNG GIÁC (REFERENCE CIRCLE):\n' +
       '— Một điểm M chuyển động tròn đều trên đường tròn bán kính A với tốc độ góc ω.\n' +
-      '— Hình chiếu P của điểm M lên đường kính nằm ngang của đường tròn sẽ dao động điều hoà quanh tâm O với phương trình x = A.cos(ωt + φ).\n' +
+      '— Hình chiếu P của điểm M lên một đường kính của đường tròn sẽ dao động điều hoà quanh tâm O với phương trình x = A.cos(ωt + φ).\n' +
       '— Do đó, biên độ dao động bằng đúng bán kính đường tròn (A = R), và tần số góc của dao động bằng đúng tốc độ góc quay của M.\n\n' +
       'ĐỘ LỆCH PHA GIỮA HAI DAO ĐỘNG (PHASE DIFFERENCE):\n' +
       '— Cho hai dao động cùng tần số góc: x₁ = A₁.cos(ωt + φ₁) và x₂ = A₂.cos(ωt + φ₂).\n' +
@@ -522,7 +524,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
       steps: [
         'Xác định pha ban đầu của dao động 1: φ₁ = π/4 rad.',
         'Xác định pha ban đầu của dao động 2: φ₂ = -π/4 rad.',
-        'Tính độ lệch pha Δφ = φ₁ - φ₂ = π/4 - (-π/4) = π/2 rad.',
+        'Tính độ lệch pha của dao động 1 so với dao động 2: Δφ = φ₁ - φ₂ = π/4 - (-π/4) = π/2 rad.',
         'Vì Δφ = π/2 nên hai dao động này vuông pha với nhau, cụ thể dao động 1 sớm pha hơn dao động 2 một góc π/2 rad.',
       ],
       answer: 'Δφ = π/2 rad (Hai dao động vuông pha).',
@@ -541,7 +543,9 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
           correctIds: ['ph_1'],
         },
         explain:
-          'Δφ = φ₁ - φ₂ = π/3 - (-2π/3) = π rad. Khi độ lệch pha bằng số lẻ lần π thì hai dao động ngược pha.',
+          'Độ lệch pha Δφ = φ₂ - φ₁ = -2π/3 - π/3 = -π rad. Độ lệch bằng một số lẻ lần π nên hai dao động NGƯỢC pha: ' +
+          'khi dao động này ở biên dương thì dao động kia ở biên âm. Cùng pha đòi hỏi Δφ = 2kπ, còn vuông pha đòi hỏi ' +
+          'Δφ = (2k+1)π/2.',
       },
       {
         prompt:
@@ -877,7 +881,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
     title: 'Vận tốc, gia tốc trong dao động điều hoà',
     hook:
       'Trong lúc vật dao động điều hoà qua lại, tốc độ của nó thay đổi thế nào? Gia tốc của nó hướng về đâu? ' +
-      'Phương trình đạo hàm thời gian sẽ tiết lộ những quy luật động học này.',
+      'Phép đạo hàm theo thời gian sẽ cho ta câu trả lời.',
     theory:
       'VẬN TỐC TRONG DAO ĐỘNG ĐIỀU HOÀ (VELOCITY):\n' +
       '— Vận tốc v là đạo hàm bậc nhất của li độ theo thời gian:\n' +
@@ -989,7 +993,8 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
           correctIds: ['ind_1'],
         },
         explain:
-          'Hệ thức độc lập thời gian bắt nguồn từ hệ thức lượng giác cos²α + sin²α = 1: A² = x² + v²/ω².',
+          'Hệ thức này bắt nguồn từ đẳng thức lượng giác cos²α + sin²α = 1, cho A² = x² + v²/ω². ' +
+          'Nhân với ω² (thay vì chia) sẽ sai đơn vị, còn cộng thẳng x với v/ω là quên rằng phải cộng các BÌNH PHƯƠNG.',
       },
       {
         prompt:
@@ -1000,7 +1005,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
           unit: 'm/s',
         },
         explain:
-          'Ở vị trí cân bằng x = 0, vật đi theo chiều dương đạt vận tốc cực đại: v = ω * A = 10 * 0,05 = 0.5 m/s.',
+          'Ở vị trí cân bằng x = 0, vật đi theo chiều dương đạt vận tốc cực đại: v = ω * A = 10 * 0,05 = 0,5 m/s.',
       },
     ],
     srsCards: [
@@ -1660,7 +1665,7 @@ export const LY11_C1_LESSONS: PhysicsLesson[] = [
           unit: 'cm',
         },
         explain:
-          'Thế năng bằng 3 lần động năng tức W_đ = 1/3 W_t (n = 1/3) ⇒ x = ± A * √3 / 2 = 10 * 1.732 / 2 = 8,66 cm.',
+          'Thế năng bằng 3 lần động năng tức W_đ = 1/3 W_t (n = 1/3) ⇒ x = ± A * √3 / 2 = 10 * 1,732 / 2 = 8,66 cm.',
       },
     ],
     srsCards: [

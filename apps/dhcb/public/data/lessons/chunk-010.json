@@ -47,7 +47,7 @@
       {
         "speaker": "B",
         "en": "Friday morning we have a slot at nine-thirty. Does that suit you?",
-        "vi": "Sáng thứ Sáu chúng tôi có chỗ lúc chín giờ rưỡi. Bạn có phù hợp không?"
+        "vi": "Sáng thứ Sáu chúng tôi có chỗ lúc chín giờ rưỡi. Giờ đó có tiện cho bạn không?"
       },
       {
         "speaker": "A",
@@ -114,7 +114,7 @@
   {
     "id": 102,
     "title": "Thuê xe máy",
-    "situation": "Hoa muốn thuê xe máy đi thăm quan thành phố.",
+    "situation": "Hoa muốn thuê xe máy đi tham quan thành phố.",
     "speakerAGender": "female",
     "speakerBGender": "male",
     "speakerAName": { "vi": "Hoa", "en": "Hoa" },
@@ -144,7 +144,7 @@
       {
         "speaker": "A",
         "en": "Automatic, please. I'm not very confident with manual gears.",
-        "vi": "Xe tay ga, làm ơn. Tôi không tự tin lắm với xe số."
+        "vi": "Cho tôi xe tay ga nhé. Tôi không tự tin lắm với xe số."
       },
       {
         "speaker": "B",
@@ -190,12 +190,12 @@
       {
         "speaker": "A",
         "en": "This Vision looks a bit worn. How old is it?",
-        "vi": "Chiếc Vision này trông có vẻ cũ. Nó bao nhiêu tuổi rồi?"
+        "vi": "Chiếc Vision này trông có vẻ cũ. Xe đời nào vậy anh?"
       },
       {
         "speaker": "B",
         "en": "It's a 2020 model, so four years old. The engine is fully serviced though — no issues.",
-        "vi": "Đây là model 2020, vậy bốn năm tuổi. Nhưng động cơ đã được bảo dưỡng đầy đủ — không có vấn đề gì."
+        "vi": "Xe đời 2020, tức là dùng được bốn năm rồi. Nhưng động cơ đã được bảo dưỡng đầy đủ — không có vấn đề gì."
       },
       { "speaker": "A", "en": "And the Freego?", "vi": "Còn chiếc Freego?" },
       {
@@ -527,7 +527,7 @@
       {
         "speaker": "B",
         "en": "Sure! That's very trusting of you — I appreciate that.",
-        "vi": "Được! Bạn thật tin tưởng — tôi cảm kích điều đó."
+        "vi": "Được! Bạn tin tưởng mình quá — mình quý điều đó lắm."
       },
       {
         "speaker": "A",
@@ -542,7 +542,7 @@
       {
         "speaker": "A",
         "en": "I really appreciate it. One thing — if the alarm goes off for any reason, the code is one-two-three-four. Just key it in and it'll stop.",
-        "vi": "Tôi thực sự trân trọng điều đó. Một điều nữa — nếu chuông báo động kêu vì lý do gì, mã là một-hai-ba-bốn. Chỉ cần nhập vào là sẽ tắt."
+        "vi": "Cảm ơn bạn nhiều lắm. Một điều nữa — nếu chuông báo động kêu vì lý do gì, mã là một-hai-ba-bốn. Chỉ cần nhập vào là sẽ tắt."
       },
       {
         "speaker": "B",
@@ -735,8 +735,8 @@
   },
   {
     "id": 109,
-    "title": "Đăng ký thẻ thư viện",
-    "situation": "Sinh viên Phương đăng ký mượn sách ở thư viện.",
+    "title": "Gọi món ở quán ăn Việt",
+    "situation": "Một thực khách gọi món tại quán ăn Việt và hỏi nhân viên về món phở.",
     "speakerAGender": "female",
     "speakerBGender": "female",
     "speakerAName": { "vi": "Phương", "en": "Phuong" },

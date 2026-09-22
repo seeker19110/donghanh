@@ -633,7 +633,7 @@ export const HOA11_C1_LESSONS: ChemLesson[] = [
       { hoi: 'Kc thay đổi khi nào?', dap: 'Chỉ thay đổi khi nhiệt độ thay đổi.' },
       {
         hoi: 'Chất xúc tác có làm cân bằng chuyển dịch không?',
-        dap: 'Không. Chất xúc tác chỉ làm phản ứng nhanh đạt tới trạng thái cân bằng hơn (tăng cả vt và vn lên cùng số lần).',
+        dap: 'Không. Chất xúc tác chỉ giúp hệ đạt tới trạng thái cân bằng nhanh hơn (tăng cả vt và vn cùng một số lần).',
       },
       {
         hoi: 'Tại sao chuẩn độ acid-base cần chất chỉ thị?',

@@ -277,7 +277,7 @@ fun main() {
       },
       {
         hoi: 'Kotlin dùng gì thay cho toán tử ba ngôi của C/Java?',
-        dap: 'Vì `if` ở Kotlin là BIỂU THỨC, tự trả về giá trị: val muc = if (t >= 50000) "lon" else "nho". Không cần thêm cú pháp riêng.',
+        dap: 'Dùng thẳng `if/else`, vì ở Kotlin `if` là BIỂU THỨC nên tự trả về giá trị: val muc = if (t >= 50000) "lon" else "nho". Không cần thêm cú pháp riêng.',
       },
       {
         hoi: 'Khi nào `when` bắt buộc phải có nhánh else?',

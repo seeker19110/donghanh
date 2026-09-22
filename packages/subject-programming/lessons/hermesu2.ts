@@ -28,10 +28,10 @@ export const HERMES_U2_LESSONS: ProgrammingLesson[] = [
 /goal "giam chi phi API"`,
       question: 'Đặt goal thứ hai khi goal thứ nhất còn sống — agent phản ứng thế nào?',
       choices: [
-        'Bao loi, doi go ro /goal thay',
-        'Lang le thay goal cu',
-        'Chay ca hai goal song song',
-        'Tu gop hai goal lam mot',
+        'Báo lỗi, đòi gõ rõ /goal thay',
+        'Lặng lẽ thay goal cũ',
+        'Chạy cả hai goal song song',
+        'Tự gộp hai goal làm một',
       ],
       answerIndex: 0,
       explain:
@@ -121,10 +121,10 @@ tuchoi v1 "giong qua cung, khach lau nam"
 /learn email-nhac-han`,
       question: 'Việc vừa bị TỪ CHỐI mà đã /learn ngay — kỹ năng đúc ra sẽ thế nào?',
       choices: [
-        'Dong goi ca cach lam CHUA dat — sai vinh vien',
-        'Agent tu sua cho dat roi moi dong goi',
-        '/learn bao loi vi viec chua duoc duyet',
-        'Ky nang chi luu ly do tu choi',
+        'Đóng gói cả cách làm CHƯA đạt — sai vĩnh viễn',
+        'Agent tự sửa cho đạt rồi mới đóng gói',
+        '/learn báo lỗi vì việc chưa được duyệt',
+        'Kỹ năng chỉ lưu lý do từ chối',
       ],
       answerIndex: 0,
       explain:
@@ -200,7 +200,7 @@ duyet v1
     title: 'LiteLLM — một proxy quản mọi model, kiểm soát chi phí cả phòng',
     hook: 'Phòng 8 người dùng AI, mỗi người một khoá API riêng — cuối tháng kế toán cầm 8 hoá đơn không biết ai đốt tiền vào đâu, và một bạn lỡ commit khoá lên Git. LiteLLM gom tất cả về MỘT cửa: một đầu mối, một hoá đơn, một chỗ khoá van.',
     theory:
-      'LiteLLM là PROXY — trạm trung chuyển đứng giữa mọi người dùng và mọi nhà cung cấp model. Thay vì mỗi người cầm khoá API thật, tất cả trỏ vào LiteLLM, và LiteLLM mới cầm khoá thật đi gọi Anthropic/OpenAI/Nous…\n\nVì sao một phòng nên có nó:\n1. MỘT hoá đơn — thấy ai dùng bao nhiêu, model nào tốn nhất.\n2. Đặt TRẦN chi tiêu theo người/nhóm — hết ngân sách là van tự khoá, không có bất ngờ cuối tháng.\n3. Khoá API thật chỉ nằm MỘT chỗ (trên máy chủ proxy) — nhân viên không ai cầm, không ai lỡ làm lộ.\n4. Đổi nhà cung cấp không ai phải cấu hình lại — đổi ở proxy là xong.\n\nVới Hermes, nối vào LiteLLM chỉ là trỏ model qua proxy — tên model mang tiền tố litellm/: \n\n    hermes model litellm/hermes-4\n    hermes model curator litellm/hermes-4-mini\n\nTừ đó mọi cuộc gọi của agent đi qua trạm, được đếm và được giới hạn. Dựng trạm LiteLLM thật là việc của homework.',
+      'LiteLLM là PROXY — trạm trung chuyển đứng giữa mọi người dùng và mọi nhà cung cấp model. Thay vì mỗi người cầm khoá API thật, tất cả trỏ vào LiteLLM, và LiteLLM mới cầm khoá thật đi gọi Anthropic/OpenAI/Nous…\n\nVì sao một phòng nên có nó:\n1. MỘT hoá đơn — thấy ai dùng bao nhiêu, model nào tốn nhất.\n2. Đặt TRẦN chi tiêu theo người/nhóm — hết ngân sách là van tự khoá, không có bất ngờ cuối tháng.\n3. Khoá API thật chỉ nằm MỘT chỗ (trên máy chủ proxy) — nhân viên không ai cầm, không ai lỡ làm lộ.\n4. Đổi nhà cung cấp không ai phải cấu hình lại — đổi ở proxy là xong.\n\nVới Hermes, nối vào LiteLLM chỉ là trỏ model qua proxy — tên model mang tiền tố litellm/:\n\n    hermes model litellm/hermes-4\n    hermes model curator litellm/hermes-4-mini\n\nTừ đó mọi cuộc gọi của agent đi qua trạm, được đếm và được giới hạn. Dựng trạm LiteLLM thật là việc của homework.',
     workedExample: {
       code: `hermes model litellm/hermes-4-70b
 hermes model curator litellm/curator-mini
@@ -213,10 +213,10 @@ hermes model curator litellm/curator-mini
       question:
         'Trỏ model chính qua proxy nhưng QUÊN curator — chuyện gì với chi phí nén ngữ cảnh?',
       choices: [
-        'Cuoc goi cua curator van di thang, KHONG qua tram dem',
-        'Curator tu di qua proxy theo model chinh',
-        'Curator ngung hoat dong',
-        'Khong sao, curator khong ton tien',
+        'Cuộc gọi của curator vẫn đi thẳng, KHÔNG qua trạm đếm',
+        'Curator tự đi qua proxy theo model chính',
+        'Curator ngừng hoạt động',
+        'Không sao, curator không tốn tiền',
       ],
       answerIndex: 0,
       explain:
@@ -283,7 +283,7 @@ hermes model curator litellm/hermes-4-mini
     title: 'llama.cpp — self-host model, dữ liệu không rời công ty',
     hook: 'Sếp hỏi câu làm cả phòng khựng lại: "Mấy bản hợp đồng mình đưa AI đọc… đang nằm trên máy chủ của ai?". Nếu câu trả lời là "của nhà cung cấp nước ngoài" thì bài này dành cho phòng bạn: chạy model NGAY TRÊN MÁY MÌNH.',
     theory:
-      'llama.cpp là phần mềm mã nguồn mở chạy model AI trên máy thường — không cần card đồ hoạ đắt tiền, nhờ kỹ thuật nén model (quantization: đổi vài phần trăm chất lượng lấy giảm nhiều lần bộ nhớ).\n\nĐiểm ăn tiền với văn phòng: llama.cpp mở một API GIẢ DẠNG OpenAI (OpenAI-compatible) ngay trên máy bạn. Hermes không cần biết gì đặc biệt — chỉ cần trỏ model vào đó, tiền tố llama-cpp/:\n\n    hermes model llama-cpp/vi-7b\n\nĐánh đổi phải nói thật, không tô hồng:\n- ĐƯỢC: dữ liệu KHÔNG rời máy công ty (hợp đồng, lương, thông tin khách) · không tốn phí API · không phụ thuộc mạng.\n- MẤT: model nhỏ (7B–70B) kém hẳn model lớn thương mại ở việc khó · tốc độ tuỳ máy · tự lo vận hành.\n\nCách dùng khôn của phòng có dữ liệu nhạy cảm: chạy HAI đường — việc chạm dữ liệu mật đi model self-host, việc thường (soạn thảo chung chung) đi model thương mại cho chất lượng. Chọn đường nào cho việc nào chính là một quyết định điều phối.',
+      'llama.cpp là phần mềm mã nguồn mở chạy model AI trên máy thường — không cần card đồ hoạ đắt tiền, nhờ kỹ thuật nén model (quantization: đổi vài phần trăm chất lượng lấy giảm nhiều lần bộ nhớ).\n\nĐiểm ăn tiền với văn phòng: llama.cpp mở một API TƯƠNG THÍCH OpenAI (OpenAI-compatible) ngay trên máy bạn. Hermes không cần biết gì đặc biệt — chỉ cần trỏ model vào đó, tiền tố llama-cpp/:\n\n    hermes model llama-cpp/vi-7b\n\nĐánh đổi phải nói thật, không tô hồng:\n- ĐƯỢC: dữ liệu KHÔNG rời máy công ty (hợp đồng, lương, thông tin khách) · không tốn phí API · không phụ thuộc mạng.\n- MẤT: model nhỏ (7B–70B) kém hẳn model lớn thương mại ở việc khó · tốc độ tuỳ máy · tự lo vận hành.\n\nCách dùng khôn của phòng có dữ liệu nhạy cảm: chạy HAI đường — việc chạm dữ liệu mật đi model self-host, việc thường (soạn thảo chung chung) đi model thương mại cho chất lượng. Chọn đường nào cho việc nào chính là một quyết định điều phối.',
     workedExample: {
       code: `hermes model llama-cpp/vi-7b
 /model`,
@@ -294,10 +294,10 @@ hermes model curator litellm/hermes-4-mini
 /model`,
       question: 'Sau lệnh này, việc agent đọc hợp đồng sẽ chạy ở đâu?',
       choices: [
-        'Tren may minh — du lieu khong roi cong ty',
-        'Van len may chu nha cung cap, chi doi ten',
-        'Nua tren may, nua tren may chu',
-        'Khong chay duoc vi thieu card do hoa',
+        'Trên máy mình — dữ liệu không rời công ty',
+        'Vẫn lên máy chủ nhà cung cấp, chỉ đổi tên',
+        'Nửa trên máy, nửa trên máy chủ',
+        'Không chạy được vì thiếu card đồ hoạ',
       ],
       answerIndex: 0,
       explain:
@@ -355,7 +355,7 @@ duyet v1
     srsCards: [
       {
         hoi: 'llama.cpp cho văn phòng cái gì mà model thương mại không cho được?',
-        dap: 'Chạy model ngay trên máy công ty qua API giả dạng OpenAI — dữ liệu nhạy cảm (hợp đồng, lương) không rời nhà, không phí API.',
+        dap: 'Chạy model ngay trên máy công ty qua API tương thích OpenAI — dữ liệu nhạy cảm (hợp đồng, lương) không rời nhà, không phí API.',
       },
       {
         hoi: 'Đánh đổi khi self-host model là gì?',
@@ -386,10 +386,10 @@ hermes`,
       code: `hermes`,
       question: 'Chị kế toán cần tra cứu nhanh chính sách thuế — nên đưa chị ấy vào cửa nào?',
       choices: [
-        'Open WebUI — hoi-dap khong can terminal',
-        'Hermes CLI — go lenh cho chuyen nghiep',
-        'Bat chi ay hoc /new va giao viec',
-        'Khong cua nao, in tai lieu ra giay',
+        'Open WebUI — hỏi-đáp không cần terminal',
+        'Hermes CLI — gõ lệnh cho chuyên nghiệp',
+        'Bắt chị ấy học /new và giao việc',
+        'Không cửa nào, in tài liệu ra giấy',
       ],
       answerIndex: 0,
       explain:

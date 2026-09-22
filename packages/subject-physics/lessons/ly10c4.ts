@@ -170,7 +170,7 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
     lessonNumber: 23,
     title: 'Năng lượng. Công cơ học',
     hook:
-      'Gắng sức đẩy một bức tường đá nặng suốt một tiếng đồng hồ khiến bạn mệt lử, nhưng dưới góc nhìn Vật lí, bạn lại chưa thực hiện bất kỳ một "công" nào. ' +
+      'Gắng sức đẩy một bức tường đá nặng suốt một tiếng đồng hồ khiến bạn mệt lử, nhưng dưới góc nhìn Vật lí, bạn lại chưa thực hiện một "công" nào. ' +
       'Tại sao định nghĩa về công trong Vật lí lại nghiêm ngặt đến vậy?',
     theory:
       'NĂNG LƯỢNG (ENERGY):\n' +
@@ -211,7 +211,9 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
           correctIds: ['ct_1'],
         },
         explain:
-          'Công cơ học được định nghĩa bằng tích độ lớn lực, quãng đường dịch chuyển và cosin góc hợp giữa hướng lực và hướng dịch chuyển.',
+          'Công bằng tích của độ lớn lực, quãng đường dịch chuyển và cos của góc giữa lực với hướng dịch chuyển. ' +
+          'Phải là cos vì chỉ THÀNH PHẦN lực cùng phương chuyển động mới sinh công; dùng sin thì lực vuông góc ' +
+          '(α = 90°) lại cho công cực đại, trái với thực tế. Công thức A = F * s chỉ là trường hợp riêng khi α = 0°.',
       },
       {
         prompt:
@@ -221,7 +223,9 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
           value: -100,
           unit: 'J',
         },
-        explain: 'A = F_ms * s * cos(180°) = 20 * 5 * (-1) = -100 J. Đây là công cản.',
+        explain:
+          'Lực ma sát ngược hướng chuyển động nên α = 180°, cos 180° = -1. Vậy A = F_ms * s * cos(180°) = 20 * 5 * (-1) = -100 J. ' +
+          'Dấu âm cho biết đây là công cản: lực ma sát lấy bớt năng lượng của vật chứ không cấp thêm.',
       },
     ],
     srsCards: [
@@ -403,7 +407,8 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
       '— Công suất là đại lượng đặc trưng cho tốc độ thực hiện công của lực, đo bằng công thực hiện được trong một đơn vị thời gian.\n' +
       '— Công thức tính công suất trung bình: 𝒫 = A / t.\n' +
       '— Đơn vị đo trong hệ SI: Watt (kí hiệu là W), với 1 W = 1 J/s.\n' +
-      '  — Các đơn vị ngoài hệ SI thường dùng: mã lực (Horsepower, HP). Ở Pháp: 1 HP ≈ 736 W, ở Anh: 1 HP ≈ 746 W.\n\n' +
+      '  — Đơn vị ngoài hệ SI thường gặp là mã lực: mã lực Anh (horsepower, HP) có 1 HP ≈ 746 W, ' +
+      'còn mã lực Pháp (cheval-vapeur, CV) có 1 CV ≈ 736 W.\n\n' +
       'MỐI LIÊN HỆ GIỮA CÔNG SUẤT, LỰC VÀ VẬN TỐC:\n' +
       '— Khi lực F cùng hướng với vận tốc v của vật, ta có: 𝒫 = A / t = (F.s) / t = F.v.\n' +
       '— Công thức này giải thích tại sao khi xe lên dốc, để tăng lực kéo F giúp xe leo dốc khỏe hơn, người lái xe phải về số thấp để giảm vận tốc v của xe (giữ công suất 𝒫 động cơ tối đa không đổi).',
@@ -637,7 +642,9 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
           kind: 'choice',
           correctIds: ['ct_1'],
         },
-        explain: 'Động năng tỉ lệ thuận với khối lượng m và bình phương vận tốc v: W_đ = 0,5.m.v².',
+        explain:
+          'Động năng tỉ lệ thuận với khối lượng m và với BÌNH PHƯƠNG vận tốc: W_đ = 0,5.m.v². Vì thế vận tốc tăng gấp đôi ' +
+          'thì động năng tăng gấp bốn — hai phương án chỉ có v bậc nhất đều không mô tả được điều đó.',
       },
       {
         prompt:
@@ -658,7 +665,7 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
       },
       {
         hoi: 'Giá trị thế năng trọng trường phụ thuộc vào việc chọn đại lượng nào làm chuẩn?',
-        dap: 'Phụ thuộc vào việc chọn gốc toạ độ (mốc thế năng bằng 0).',
+        dap: 'Phụ thuộc vào mốc thế năng đã chọn, tức vị trí quy ước có thế năng bằng 0.',
       },
     ],
     track: 'core',
@@ -798,7 +805,7 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
     title: 'Cơ năng và định luật bảo toàn cơ năng',
     hook:
       'Khi tàu lượn siêu tốc lao dốc từ đỉnh cao nhất, nó chạy nhanh dần lên. Thế năng tích tụ ở đỉnh đã biến đi đâu? ' +
-      'Nó chuyển hóa thành động năng dưới sự giám sát của định luật bảo toàn cơ năng.',
+      'Nó đã chuyển hoá thành động năng, đúng theo định luật bảo toàn cơ năng.',
     theory:
       'KHÁI NIỆM CƠ NĂNG (MECHANICAL ENERGY):\n' +
       '— Cơ năng (W) là tổng động năng và thế năng của vật: W = W_đ + W_t = 0,5.m.v² + m.g.h.\n\n' +
@@ -1047,7 +1054,9 @@ export const LY10_C4_LESSONS: PhysicsLesson[] = [
           kind: 'choice',
           correctIds: ['ct_1'],
         },
-        explain: 'Hiệu suất bằng tỉ số phần có ích chia cho tổng thể toàn phần nhân với 100%.',
+        explain:
+          'Hiệu suất bằng phần CÓ ÍCH chia cho phần TOÀN PHẦN rồi nhân 100%. Đảo ngược tỉ số sẽ luôn cho kết quả ' +
+          'lớn hơn 100%, điều không thể xảy ra; còn nhân hai đại lượng với nhau thì không ra một tỉ số phần trăm nào cả.',
       },
       {
         prompt:

@@ -428,7 +428,7 @@ inKetQua("Thang 2 (vi pham)", 1000000, 0.999, 1200)
 inKetQua("Dich vu nho", 5000, 0.99, 60)`,
     },
     homework:
-      'Chọn một dịch vụ trực tuyến bạn dùng hằng ngày (email, ngân hàng số, app gọi xe…) — thử tra "SLA" hoặc "uptime" công khai của nó (nhiều công ty công bố, vd "99.9% uptime"). Tính thử: nếu dịch vụ đó phục vụ 10 triệu request/tháng, ngân sách lỗi theo SLO đó là bao nhiêu request? Viết 2-3 câu: bạn nghĩ con số đó lớn hay nhỏ so với quy mô thật của dịch vụ, và vì sao chỉ tăng SLO thêm 0.09% (từ 99.9% lên 99.99%) lại được xem là một bước nhảy vọt về độ khó kỹ thuật.',
+      'Chọn một dịch vụ trực tuyến bạn dùng hằng ngày (email, ứng dụng ngân hàng, app gọi xe…) — thử tra "SLA" hoặc "uptime" công khai của nó (nhiều công ty công bố, vd "99.9% uptime"). Tính thử: nếu dịch vụ đó phục vụ 10 triệu request/tháng, ngân sách lỗi theo SLO đó là bao nhiêu request? Viết 2-3 câu: bạn nghĩ con số đó lớn hay nhỏ so với quy mô thật của dịch vụ, và vì sao chỉ tăng SLO thêm 0.09% (từ 99.9% lên 99.99%) lại được xem là một bước nhảy vọt về độ khó kỹ thuật.',
     srsCards: [
       {
         hoi: 'SLI, SLO, error budget khác nhau ở điểm nào?',

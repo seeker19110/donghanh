@@ -56,7 +56,7 @@ export const ARCHITECTURE_S3_DETAIL: SpecStageDetail = {
     {
       moduleId: 'architecture-s3-m3',
       objective:
-        'Nghiệm thu được kết quả của người khác theo tầng và bằng bằng chứng, không bằng cảm nhận khi đọc diff.',
+        'Nghiệm thu được kết quả của người khác theo tầng và dựa trên bằng chứng, không bằng cảm nhận khi đọc diff.',
       practice: [
         'Viết bộ test canh gác cho bất biến kiến trúc trước khi giao việc.',
         'Review theo tầng: đúng hợp đồng, đúng ranh giới, đúng ca biên, rồi mới tới phong cách.',

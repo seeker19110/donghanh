@@ -119,7 +119,7 @@ else:
     title: 'Prefix và binary search — chốt quy ước biên',
     hook: 'Phần lớn lỗi tìm kiếm nhị phân không nằm ở ý tưởng chia đôi, mà ở một dấu `<` hay `+1`. Viết rõ khoảng nửa mở và điều kiện đơn điệu trước khi lặp.',
     theory:
-      'Prefix dùng `p[0]=0`, `p[i+1]=p[i]+a[i]`; tổng đoạn nửa mở [l,r) là `p[r]-p[l]`, kể cả đoạn rỗng. Binary search trên mảng đã sort có thể tìm vị trí đầu tiên `a[i] >= x` bằng khoảng [lo,hi), cập nhật `hi=mid` khi đúng và `lo=mid+1` khi sai. Đổi điều kiện sẽ tìm vị trí cuối `a[i] <= x`. Binary search trên đáp án cần hàm `feasible(x)` đơn điệu; ví dụ capacity lớn hơn không thể làm việc vận chuyển khó hơn. Negative control `lo=mid` trong bài tìm nhỏ nhất có thể kẹt khi hi=lo+1.',
+      'Prefix dùng `p[0]=0`, `p[i+1]=p[i]+a[i]`; tổng đoạn nửa mở [l,r) là `p[r]-p[l]`, kể cả đoạn rỗng. Binary search trên mảng đã sort có thể tìm vị trí đầu tiên `a[i] >= x` bằng khoảng [lo,hi), cập nhật `hi=mid` khi đúng và `lo=mid+1` khi sai. Đổi điều kiện sẽ tìm vị trí cuối `a[i] <= x`. Binary search trên đáp án cần hàm `feasible(x)` đơn điệu; ví dụ capacity lớn hơn không thể làm việc vận chuyển khó hơn. Đối chứng âm (negative control): viết `lo=mid` trong bài tìm nhỏ nhất có thể làm vòng lặp kẹt khi hi=lo+1.',
     workedExample: {
       code: `a = [3, -1, 4, 2]
 prefix = [0]

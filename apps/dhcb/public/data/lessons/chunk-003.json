@@ -42,7 +42,7 @@
       {
         "speaker": "A",
         "en": "Good thinking. What about the hotel — is it close to the client's office?",
-        "vi": "Suy nghĩ tốt. Còn khách sạn — có gần văn phòng khách hàng không?"
+        "vi": "Tính kỹ đó. Còn khách sạn — có gần văn phòng khách hàng không?"
       },
       {
         "speaker": "B",
@@ -92,7 +92,7 @@
       {
         "speaker": "A",
         "en": "Sure, I'm happy to. I'll make sure the demo runs smoothly and prepare a backup in case of technical issues.",
-        "vi": "Được, mình rất sẵn lòng. Mình sẽ đảm bảo demo chạy mượt và chuẩn bị phương án dự phòng phòng khi có sự cố kỹ thuật."
+        "vi": "Được, mình rất sẵn lòng. Mình sẽ đảm bảo demo chạy mượt và chuẩn bị phương án dự phòng cho trường hợp có sự cố kỹ thuật."
       },
       {
         "speaker": "B",
@@ -189,7 +189,7 @@
       {
         "speaker": "B",
         "en": "Good to know. Where do I buy replacement filters?",
-        "vi": "Tốt khi biết. Tôi mua bộ lọc thay thế ở đâu?"
+        "vi": "Biết vậy thì tốt. Tôi mua bộ lọc thay thế ở đâu?"
       },
       {
         "speaker": "A",
@@ -209,7 +209,7 @@
       {
         "speaker": "B",
         "en": "Delivery to my door? That's excellent service. I appreciate that.",
-        "vi": "Giao tận nhà? Dịch vụ tuyệt vời đó. Tôi cảm kích điều đó."
+        "vi": "Giao tận nhà? Dịch vụ tuyệt vời đó. Tôi rất cảm ơn."
       },
       {
         "speaker": "A",
@@ -348,7 +348,7 @@
       {
         "speaker": "A",
         "en": "Hello, I bought a blender from your store last week and it's already not working properly. I'd like to exchange it.",
-        "vi": "Xin chào, tôi mua một cái máy xay sinh tố từ cửa hàng tuần trước và nó đã không hoạt động đúng cách rồi. Tôi muốn đổi nó."
+        "vi": "Xin chào, tôi mua một cái máy xay sinh tố từ cửa hàng tuần trước và nó đã trục trặc rồi. Tôi muốn đổi nó."
       },
       {
         "speaker": "B",
@@ -505,7 +505,7 @@
       {
         "speaker": "B",
         "en": "The good news is it was released this morning and is now out for delivery. It should arrive by tomorrow afternoon.",
-        "vi": "Tin tốt là nó đã được giải phóng sáng nay và hiện đang trên đường giao. Nó sẽ đến vào chiều mai."
+        "vi": "Tin tốt là kiện hàng đã rời trung tâm phân loại sáng nay và hiện đang trên đường giao. Nó sẽ đến vào chiều mai."
       },
       {
         "speaker": "A",
@@ -550,7 +550,7 @@
       {
         "speaker": "A",
         "en": "I really appreciate that. Honestly, I was prepared to be annoyed, but you've handled this so well.",
-        "vi": "Tôi thực sự cảm kích điều đó. Thành thật mà nói, tôi đã chuẩn bị tâm lý bực bội, nhưng chị xử lý việc này quá tốt."
+        "vi": "Tôi thực sự cảm ơn chị. Thành thật mà nói, tôi đã chuẩn bị tâm lý bực bội, nhưng chị xử lý việc này quá tốt."
       },
       {
         "speaker": "B",
@@ -637,7 +637,7 @@
       {
         "speaker": "B",
         "en": "Good thinking. These are dated yesterday, so they're nice and fresh. Into the trolley they go.",
-        "vi": "Suy nghĩ tốt. Cái này ghi ngày hôm qua, nên tươi ngon. Cho vào xe đẩy nào."
+        "vi": "Cẩn thận đó. Cái này ghi ngày hôm qua, nên tươi ngon. Cho vào xe đẩy nào."
       },
       {
         "speaker": "A",
@@ -662,7 +662,7 @@
       {
         "speaker": "A",
         "en": "Ha! Let's be sensible. We can each pick one treat. What's yours?",
-        "vi": "Ha! Mình hợp lý nào. Mỗi đứa chọn một món. Của cậu là gì?"
+        "vi": "Ha! Mình tiết chế nào. Mỗi đứa chọn một món. Của cậu là gì?"
       },
       {
         "speaker": "B",
@@ -718,7 +718,7 @@
       },
       {
         "speaker": "B",
-        "en": "The morning glory is excellent, and these tomatoes just came in from Da Lat — really sweet.",
+        "en": "The sweet potato leaves are excellent, and these tomatoes just came in from Da Lat — really sweet.",
         "vi": "Rau lang ngon lắm, và mấy quả cà chua này vừa từ Đà Lạt về — ngọt lắm."
       },
       {
@@ -831,7 +831,7 @@
       {
         "speaker": "B",
         "en": "That's good to hear about the food. It looks like the restaurant marked the smoothie as prepared, but it wasn't handed to the driver.",
-        "vi": "Tốt khi nghe về đồ ăn. Có vẻ nhà hàng đánh dấu sinh tố đã làm xong, nhưng không đưa cho tài xế."
+        "vi": "May là đồ ăn vẫn ổn. Có vẻ nhà hàng đánh dấu sinh tố đã làm xong, nhưng không đưa cho tài xế."
       },
       {
         "speaker": "A",
@@ -876,7 +876,7 @@
       {
         "speaker": "A",
         "en": "Perfect. I appreciate you sorting that out so quickly.",
-        "vi": "Hoàn hảo. Tôi cảm kích chị giải quyết nhanh như vậy."
+        "vi": "Hoàn hảo. Cảm ơn chị đã giải quyết nhanh như vậy."
       },
       {
         "speaker": "B",
@@ -1111,7 +1111,7 @@
       {
         "speaker": "B",
         "en": "You've got it exactly right! Anything else, or just the one drink?",
-        "vi": "Em ghi nhớ chính xác luôn! Còn gì nữa không, hay chỉ một ly thôi?"
+        "vi": "Em nhắc lại chính xác luôn! Còn gì nữa không, hay chỉ một ly thôi?"
       }
     ]
   }

@@ -21,7 +21,7 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { computeForms, formValues } from '../../apps/dhcb/src/lib/wordForms.ts'
+import { computeForms, formValues, lookupIrregularVerb } from '../../apps/dhcb/src/lib/wordForms.ts'
 import {
   IRREGULAR_VERBS,
   IRREGULAR_PLURALS,
@@ -29,7 +29,8 @@ import {
 } from '../../apps/dhcb/src/data/irregularForms.ts'
 import type { DictEntry } from '../../apps/dhcb/src/types.ts'
 
-const PROJECT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+// Script nằm ở scripts/archive/ nên gốc repo lùi HAI cấp.
+const PROJECT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const DICT_DIR = process.env.DICT_DIR
   ? path.resolve(PROJECT_ROOT, process.env.DICT_DIR)
   : path.join(PROJECT_ROOT, 'apps/dhcb/public/data/dictionary')
@@ -178,7 +179,7 @@ function main(): void {
     if (e.pos === 'v') {
       // Động từ bất quy tắc GỐC (feed, sing…) không bao giờ là dạng chia quy tắc của từ
       // khác — guard tránh bắt oan kiểu feed ← fee[n]+"d".
-      if (IRREGULAR_VERBS[w]) return undefined
+      if (lookupIrregularVerb(w)) return undefined
       return pickOwner(w, inflectionOwners.get(w)) ?? pickOwner(w, hypotheticalOwners.get(w))
     }
     if (e.pos === 'n') {

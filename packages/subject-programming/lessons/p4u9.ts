@@ -209,7 +209,7 @@ gia_mao = client.post("/don", json={"mon_id": 1, "so_luong": 2, "gia": 1})
 print("GIA MAO:", gia_mao.json()["thanh_tien"])`,
     },
     homework:
-      'Chạy API của bạn bằng uvicorn như ở U8, rồi tự đóng vai "client xấu": mở dòng lệnh và gửi thẳng một đơn hàng số lượng âm bằng curl —\n  curl -X POST http://127.0.0.1:8000/don -H "Content-Type: application/json" -d \'{"mon_id":1,"so_luong":-5}\'\nKhông có trang web nào ở đây cả, và server của bạn vẫn phải từ chối. Sau đó thử gửi kèm "gia": 1 xem thành tiền có bị đổi không. Ghi lại: nếu bạn chỉ chặn ở giao diện thì hai lần thử này sẽ ra sao?',
+      'Chạy API của bạn bằng uvicorn như ở U8, rồi tự đóng vai "client xấu": mở dòng lệnh và gửi thẳng một đơn hàng có số lượng âm bằng curl —\n  curl -X POST http://127.0.0.1:8000/don -H "Content-Type: application/json" -d \'{"mon_id":1,"so_luong":-5}\'\nKhông có trang web nào ở đây cả, và server của bạn vẫn phải từ chối. Sau đó thử gửi kèm "gia": 1 xem thành tiền có bị đổi không. Ghi lại: nếu bạn chỉ chặn ở giao diện thì hai lần thử này sẽ ra sao?',
     srsCards: [
       {
         hoi: '"Hợp đồng dữ liệu" giữa frontend và backend gồm những gì?',

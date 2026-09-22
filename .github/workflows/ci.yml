@@ -158,6 +158,8 @@ jobs:
       # docs/research/audit-chat-luong-bai-hoc-2026-08-31.md.
       - name: Chất lượng nội dung bài học (audit:lessons)
         run: npm run audit:lessons -- --ci
+      - name: Câu chữ nội dung học (audit:prose)
+        run: npm run audit:prose -- --ci
 
       # Gate chống đặc tả "nói suông" (thêm 2026-09-19, tham khảo spec-compiler của
       # seeker19110/projects-template): mọi đường dẫn trong cột "Đường dẫn file" của mục

@@ -83,7 +83,7 @@ export const PRINCIPAL_AI_DIAGNOSTIC: DiagnosticQuestion[] = [
     prompt: 'RAG (Retrieval-Augmented Generation) giải quyết chủ yếu vấn đề gì của LLM?',
     choices: [
       'Tốc độ suy luận chậm',
-      'Trả lời dựa trên tài liệu/kiến thức mà mô hình chưa được huấn luyện',
+      'Trả lời dựa trên tài liệu/kiến thức mà mô hình chưa từng được học lúc huấn luyện',
       'Chi phí GPU khi huấn luyện',
       'Giao diện người dùng',
     ],

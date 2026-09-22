@@ -49,7 +49,7 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['alcohol'] },
         explain:
-          'Ethyl chloride phản ứng thế nucleophilic với dung dịch NaOH (thuỷ phân) tạo ra ethanol (CH₃-CH₂-OH) là một alcohol.',
+          'Đun với dung dịch NaOH, nguyên tử Cl bị thay bằng nhóm −OH (phản ứng thuỷ phân), tạo ethanol CH₃-CH₂-OH — một alcohol. Muốn tách HCl để được alkene thì phải dùng KOH trong ethanol, không phải NaOH trong nước.',
       },
       {
         prompt:
@@ -397,7 +397,7 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['ket'] },
         explain:
-          'Alcohol bậc I bị CuO oxi hoá tạo aldehyde, còn alcohol bậc II bị oxi hoá tạo ketone.',
+          'Nguyên tử carbon mang nhóm −OH của alcohol bậc II còn đúng một H, nên khi bị CuO lấy đi sẽ thành nhóm C=O nằm giữa mạch, tức ketone. Aldehyde là sản phẩm của alcohol bậc I; CuO không oxi hoá tiếp tới carboxylic acid và cũng không tách nước tạo alkene.',
       },
     ],
     srsCards: [
@@ -853,7 +853,7 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
     title: 'Phenol',
     hook:
       'Phenol là chất sát trùng lâu đời nhất loài người tìm ra, nhưng nó có thể gây bỏng da nghiêm trọng. ' +
-      'Khác với alcohol, phenol có tính axit yếu do ảnh hưởng qua lại của vòng benzene.',
+      'Khác với alcohol, phenol có tính acid yếu do ảnh hưởng qua lại giữa vòng benzene và nhóm −OH.',
     theory:
       'KHÁI NIỆM:\n' +
       '— Phenol là những hợp chất hữu cơ trong phân tử có nhóm hydroxyl (−OH) liên kết trực tiếp với nguyên tử carbon của vòng benzene. Chất đơn giản nhất là C₆H₅OH (phenol).\n\n' +
@@ -872,7 +872,7 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
         'Sục khí carbon dioxide (CO₂) vào dung dịch muối sodium phenolate (C₆H₅ONa) không màu. ' +
         'Nêu hiện tượng xảy ra và viết phương trình hoá học của phản ứng.',
       steps: [
-        'Phenol là một axit rất yếu (yếu hơn carbonic acid H₂CO₃).',
+        'Phenol là một acid rất yếu, yếu hơn cả carbonic acid H₂CO₃.',
         'Khi sục khí CO₂ vào dung dịch muối sodium phenolate, carbonic acid sinh ra từ CO₂ và H₂O sẽ đẩy phenol ra khỏi muối.',
         'Phản ứng: C₆H₅ONa + CO₂ + H₂O → C₆H₅OH + NaHCO₃.',
         'Phenol sinh ra ít tan trong nước lạnh ở điều kiện thường nên dung dịch không màu ban đầu trở nên vẩn đục.',
@@ -882,7 +882,7 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
     checkQuestions: [
       {
         prompt:
-          'Nhỏ nước bromine vào dung dịch phenol, xuất hiện hiện tượng gì ngay ở nhiệt độ thường?',
+          'Nhỏ nước bromine vào dung dịch phenol thì quan sát thấy hiện tượng gì ngay ở nhiệt độ thường?',
         choices: [
           { id: 'khi', label: 'Có khí mùi hắc thoát ra' },
           { id: 'tua_trang', label: 'Xuất hiện kết tủa màu trắng' },
@@ -891,7 +891,7 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['tua_trang'] },
         explain:
-          'Phenol tác dụng cực kỳ nhạy với nước bromine tạo kết tủa trắng 2,4,6-tribromophenol.',
+          'Nhóm −OH hoạt hoá vòng benzene mạnh nên phenol phản ứng ngay với nước bromine ở nhiệt độ thường, cho kết tủa trắng 2,4,6-tribromophenol. Kết tủa vàng là dấu hiệu của phản ứng với HNO₃ đặc, còn phản ứng này không sinh khí nào.',
       },
       {
         prompt:
@@ -903,7 +903,7 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['naoh'] },
         explain:
-          'Phenol có tính acid yếu đủ phản ứng với kiềm NaOH tạo muối tan. Ethanol trung tính không phản ứng với NaOH.',
+          'Phenol có tính acid yếu, đủ để phản ứng với kiềm NaOH tạo muối sodium phenolate tan. Ethanol trung tính nên không phản ứng với NaOH — dù cả hai đều tác dụng được với Na và đều cháy được trong oxygen.',
       },
     ],
     srsCards: [
@@ -912,7 +912,7 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
         dap: 'Hợp chất hữu cơ có nhóm −OH đính trực tiếp vào nguyên tử carbon của vòng benzene.',
       },
       {
-        hoi: 'Vì sao phenol có tính axit lớn hơn alcohol?',
+        hoi: 'Vì sao phenol có tính acid mạnh hơn alcohol?',
         dap: 'Do vòng benzene hút electron làm liên kết O−H phân cực mạnh hơn.',
       },
       {
@@ -1433,20 +1433,20 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
     lessonNumber: 22,
     title: 'Ôn tập chương 5 — Dẫn xuất halogen - Alcohol - Phenol',
     hook:
-      'Chương 5 hệ thống hoá các dẫn xuất chứa oxi và halogen, thiết lập chiếc cầu nối trung gian ' +
-      'quan trọng từ hydrocarbon sang các hợp chất carbonyl tiếp theo.',
+      'Chương 5 hệ thống hoá các dẫn xuất chứa oxygen và halogen — cầu nối từ hydrocarbon sang các ' +
+      'hợp chất carbonyl sẽ học tiếp ở chương sau.',
     theory:
       'TỔNG KẾT SO SÁNH DẪN XUẤT HALOGEN, ALCOHOL, PHENOL:\n' +
       '1. Dẫn xuất halogen (R−X): Có phản ứng thế halogen bằng −OH (NaOH loãng, t°) và phản ứng tách HX (KOH/ethanol, t° - tuân theo quy tắc Zaitsev).\n' +
       '2. Alcohol (R−OH): Có nhóm −OH gắn carbon no. Nhiệt độ sôi cao nhờ liên kết hydrogen. Tác dụng với Na. Oxi hoá bởi CuO tạo aldehyde (bậc I) hoặc ketone (bậc II). Tách nước tạo alkene (170 °C) hoặc ether (140 °C).\n' +
-      '3. Phenol (C₆H₅OH): Có nhóm −OH gắn trực tiếp vòng benzene. Có tính axit yếu (tác dụng NaOH, bị CO₂ đẩy ra). Dễ thế vòng thơm (phản ứng nước bromine tạo kết tủa trắng, phản ứng HNO₃ đặc tạo kết tủa vàng).\n' +
+      '3. Phenol (C₆H₅OH): Có nhóm −OH gắn trực tiếp vòng benzene. Có tính acid yếu (tác dụng với NaOH, bị CO₂ đẩy ra khỏi muối). Dễ thế vòng thơm (phản ứng nước bromine tạo kết tủa trắng, phản ứng HNO₃ đặc tạo kết tủa vàng).\n' +
       '4. Polyalcohol kề nhau (như glycerol): Tác dụng được với Cu(OH)₂ ở nhiệt độ thường tạo dung dịch xanh lam thẫm (phản ứng đặc trưng nhận biết polyalcohol có nhóm −OH kề nhau).',
     workedExample: {
       problem:
         'Nhận biết 3 chất lỏng không màu đựng trong 3 lọ mất nhãn: ethanol, glycerol và phenol bằng ' +
         'thuốc thử phù hợp.',
       steps: [
-        'Trích mẫu thử của 3 chất lỏng.',
+        'Lấy một ít mỗi chất lỏng ra ba ống nghiệm làm mẫu thử.',
         'Nhỏ dung dịch nước bromine vào các mẫu thử ⇒ Mẫu tạo kết tủa trắng là phenol.',
         'Với 2 mẫu còn lại (ethanol, glycerol), nhỏ dung dịch Cu(OH)₂ ở nhiệt độ thường vào.',
         'Mẫu hoà tan Cu(OH)₂ tạo dung dịch màu xanh lam thẫm là glycerol (polyalcohol có các nhóm −OH kề nhau).',
@@ -1476,7 +1476,7 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['phe'] },
         explain:
-          'Phenol có tính axit yếu nên phản ứng được với NaOH, đồng thời có nhân thơm hoạt hoá nên phản ứng được với nước bromine tạo kết tủa trắng.',
+          'Phenol có tính acid yếu nên phản ứng được với NaOH; nhóm −OH lại hoạt hoá vòng thơm nên phenol còn phản ứng ngay với nước bromine, cho kết tủa trắng. Ethanol và glycerol đều trung tính, không tác dụng với NaOH.',
       },
     ],
     srsCards: [
@@ -1486,7 +1486,7 @@ export const HOA11_C5_LESSONS: ChemLesson[] = [
       },
       {
         hoi: 'Chất nào phản ứng được với dung dịch kiềm NaOH?',
-        dap: 'Phenol (axit yếu), còn alcohol thì không.',
+        dap: 'Phenol (acid yếu), còn alcohol thì không.',
       },
       {
         hoi: 'Sản phẩm của phản ứng tách nước alcohol ở 170 °C và 140 °C?',

@@ -260,7 +260,7 @@ console.log("Ket qua:", tronNhieuDuong(run).join(","))
 const run = taoRun([9, 3, 7, 1, 8, 2, 5], 3)
 console.log(run.map((r) => r.join("")).join(" "))`,
       question: 'Chia [9,3,7,1,8,2,5] thành run 3 phần tử rồi sắp từng run: được những run nào?',
-      choices: ['379 128 5', '123 578 9', '937 182 5', 'Mot run duy nhat da sap: 1235789'],
+      choices: ['379 128 5', '123 578 9', '937 182 5', 'Một run duy nhất đã sắp: 1235789'],
       answerIndex: 0,
       explain:
         'Cắt trước, sắp sau — và chỉ sắp BÊN TRONG từng khối: [9,3,7] thành [3,7,9], [1,8,2] thành [1,2,8], [5] giữ nguyên. Toàn bộ dãy CHƯA hề được sắp; đó là việc của bước trộn. Nhầm lẫn hay gặp là tưởng bước tạo run đã cho kết quả cuối — nếu vậy thì đã chẳng cần bước hai.',

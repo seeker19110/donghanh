@@ -27,7 +27,7 @@ export const HERMES_U1_LESSONS: ProgrammingLesson[] = [
       code: `hermes`,
       question:
         'Vừa dựng xong, chưa cấu hình gì thêm — dòng "gateway telegram" in ra trạng thái nào?',
-      choices: ['chua-cau-hinh', 'da-cau-hinh', 'dang-chay', 'Khong in dong nao ve gateway'],
+      choices: ['chua-cau-hinh', 'da-cau-hinh', 'dang-chay', 'Không in dòng nào về gateway'],
       answerIndex: 0,
       explain:
         'Gateway (cổng nối Telegram) phải tự tay cấu hình bằng "hermes gateway setup" — mới dựng thì luôn là chua-cau-hinh. Đây là chủ ý an toàn: agent không tự nối đi đâu khi chưa được bảo.',
@@ -99,7 +99,7 @@ hermes model curator hermes-4-mini
       code: `hermes model hermes-4-405b
 /model`,
       question: 'Chỉ đổi model chính, không đụng curator — /model in ra curator nào?',
-      choices: ['hermes-4-mini', 'hermes-4-405b', 'tieu-hao-thap', 'Khong in dong curator'],
+      choices: ['hermes-4-mini', 'hermes-4-405b', 'tieu-hao-thap', 'Không in dòng curator'],
       answerIndex: 0,
       explain:
         'Curator mặc định là hermes-4-mini và KHÔNG đổi theo model chính — hai bộ não độc lập, đổi cái nào phải gõ lệnh cho cái đó. Quên đổi curator là quên một nửa hoá đơn.',
@@ -172,7 +172,7 @@ hermes model curator tieu-hao-thap
     predict: {
       code: `/permission`,
       question: 'Chưa từng đổi gì — /permission in ra chế độ quyền nào?',
-      choices: ['hoi', 'tu-do', 'chua-cau-hinh', 'Bao loi vi thieu tham so'],
+      choices: ['hoi', 'tu-do', 'chua-cau-hinh', 'Báo lỗi vì thiếu tham số'],
       answerIndex: 0,
       explain:
         'Mặc định là "hoi": việc nhạy cảm agent phải hỏi lại bạn trước khi làm. Đây là lưới an toàn — bài An toàn (C4) sẽ cho thấy tắt nó đi thì mất gì.',
@@ -243,10 +243,10 @@ hermes gateway start`,
       code: `hermes gateway start`,
       question: 'Chưa từng chạy setup mà bật start luôn — chuyện gì xảy ra?',
       choices: [
-        'Bao loi: gateway chua duoc cau hinh, chay setup truoc',
-        'Gateway van chay, dung token mac dinh',
-        'Hermes tu mo @BotFather de tao bot',
-        'Khong in gi ca',
+        'Báo lỗi: gateway chưa được cấu hình, chạy setup trước',
+        'Gateway vẫn chạy, dùng token mặc định',
+        'Hermes tự mở @BotFather để tạo bot',
+        'Không in gì cả',
       ],
       answerIndex: 0,
       explain:
@@ -320,7 +320,7 @@ hermes profile`,
       code: `hermes profile create thu-ky
 hermes profile`,
       question: 'Sau khi tạo profile "thu-ky", danh sách in ra đánh dấu * ở đâu?',
-      choices: ['* thu-ky', '* mac-dinh', 'Ca hai deu co *', 'Khong co dau * nao'],
+      choices: ['* thu-ky', '* mac-dinh', 'Cả hai đều có *', 'Không có dấu * nào'],
       answerIndex: 0,
       explain:
         'Tạo profile là CHUYỂN SANG nó luôn — dấu * (đang dùng) nằm ở thu-ky, còn mac-dinh vẫn trong danh sách nhưng không còn active.',
@@ -397,10 +397,10 @@ hermes profile`,
       code: `/resume ke-hoach-quy-4`,
       question: 'Chưa từng có phiên tên ke-hoach-quy-4 — lệnh này cho ra gì?',
       choices: [
-        'Loi: khong co phien do, goi y /new ke-hoach-quy-4',
-        'Tu dong tao phien moi ten do',
-        'Quay ve phien-1',
-        'Khong in gi',
+        'Lỗi: không có phiên đó, gợi ý /new ke-hoach-quy-4',
+        'Tự động tạo phiên mới tên đó',
+        'Quay về phien-1',
+        'Không in gì',
       ],
       answerIndex: 0,
       explain:
@@ -475,10 +475,10 @@ hermes profile`,
       code: `/learn tom-tat-tai-lieu`,
       question: 'Kỹ năng tom-tat-tai-lieu ĐÃ CÓ SẴN trong kho — /learn trùng tên thì sao?',
       choices: [
-        'Bao loi: ky nang da co',
-        'Ghi de ky nang cu',
-        'Tao ban thu hai cung ten',
-        'Doi ten tu dong thanh tom-tat-tai-lieu-2',
+        'Báo lỗi: kỹ năng đã có',
+        'Ghi đè kỹ năng cũ',
+        'Tạo bản thứ hai cùng tên',
+        'Đổi tên tự động thành tom-tat-tai-lieu-2',
       ],
       answerIndex: 0,
       explain:

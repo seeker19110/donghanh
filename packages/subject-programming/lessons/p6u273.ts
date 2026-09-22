@@ -69,7 +69,7 @@ export const P6U273_LESSONS = [
     title: 'checklist chuẩn và tính đầy đủ của quy trình',
     hook: 'Quy trình thiếu một bước vẫn chạy trơn tru — đúng cho tới lần đầu tiên bước đó là bước quan trọng.',
     theory:
-      'Tài liệu xưởng theo một chuẩn nào đó là một danh sách bước bắt buộc; thiếu bước là quy trình chưa đầy đủ, không phải quy trình gọn nhẹ. Simulator chỉ so số bước đã có với số bước bắt buộc để rèn thói quen coi tính đầy đủ là thứ kiểm được bằng máy. Con số bắt buộc lấy từ chuẩn áp dụng, MÔ PHỎNG này không thay cho việc đọc chuẩn thật.',
+      'Quy trình xưởng viết theo một chuẩn kỹ thuật thực chất là một danh sách bước bắt buộc; thiếu bước là quy trình chưa đầy đủ, không phải quy trình gọn nhẹ. Simulator chỉ so số bước đã có với số bước bắt buộc để rèn thói quen coi tính đầy đủ là thứ kiểm được bằng máy. Con số bắt buộc lấy từ chuẩn áp dụng, MÔ PHỎNG này không thay cho việc đọc chuẩn thật.',
     workedCode:
       '# MÔ PHỎNG tính đầy đủ của checklist\nsteps, required = 9, 12\nprint("reject: incomplete procedure" if steps < required else "allow: procedure complete")',
     predictCode:

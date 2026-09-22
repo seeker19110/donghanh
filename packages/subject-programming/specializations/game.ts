@@ -83,7 +83,7 @@ export const GAME_SPECIALIZATION: ProgrammingSpecialization = {
           id: 'game-s1-m3',
           title: 'Cảm giác chơi',
           topics: [
-            'Gia tốc, hệ số ma sát, thời gian bỏ qua khi rơi (coyote time)',
+            'Gia tốc, hệ số ma sát, khoảng ân hạn vẫn nhảy được sau khi rời mép (coyote time)',
             'Phản hồi: rung màn, hạt, âm thanh',
             'Vòng phản hồi chơi thử → chỉnh số → chơi lại',
           ],
@@ -182,7 +182,7 @@ export const GAME_SPECIALIZATION: ProgrammingSpecialization = {
           id: 'game-s3-m2',
           title: 'Shader',
           topics: [
-            'GLSL/HLSL cơ bản, biến đồng nhất, kết cấu',
+            'GLSL/HLSL cơ bản, biến đồng nhất (uniform), ảnh kết cấu (texture)',
             'Chiếu sáng, bóng đổ, hậu xử lý',
             'Hiệu ứng: nước, lửa, hoà tan',
           ],
@@ -192,7 +192,7 @@ export const GAME_SPECIALIZATION: ProgrammingSpecialization = {
           title: 'Hiệu năng',
           topics: [
             'Ngân sách khung hình, profiler CPU và GPU',
-            'Cache-friendly data layout, gộp bộ nhớ',
+            'Bố cục dữ liệu thân thiện với cache, gộp bộ nhớ',
             'Cắt tỉa (culling), mức chi tiết (LOD), tải nội dung theo luồng',
           ],
         },

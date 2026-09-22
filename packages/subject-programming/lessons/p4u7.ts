@@ -101,7 +101,7 @@ ten_tinh = input("Nhap ten tinh: ")
         },
       ],
       hints: [
-        'Nhớ lý thuyết: kiểm status_code TRƯỚC, chỉ gọi .json() sau khi đã biết mã là gì bạn cần.',
+        'Nhớ lý thuyết: kiểm status_code TRƯỚC, chỉ gọi .json() sau khi đã biết mã trạng thái là mã nào.',
         'Ba nhánh if/elif/else theo đúng thứ tự: == 200, == 404, else (bắt hết phần còn lại, kể cả 500).',
         'Chuỗi input đặc biệt "__loi_server__" không phải tên tỉnh thật — nó chỉ là tín hiệu để chương trình đổi sang gọi /loi-server thay vì /thoi-tiet, giúp bài test được nhánh lỗi server mà không cần một tỉnh nào thật sự bị hỏng trong dữ liệu mẫu.',
         'Khung tham chiếu:\n\nif ten_tinh == "__loi_server__":\n    res = requests.get(requests.BASE + "/loi-server")\nelse:\n    res = requests.get(requests.BASE + "/thoi-tiet?tinh=" + ten_tinh)\n\nif res.status_code == 200:\n    d = res.json()\n    print(f"OK {d[\'tinh\']}: {d[\'nhiet_do\']} do")\nelif res.status_code == 404:\n    print(f"KHONG CO: {ten_tinh}")\nelse:\n    print(f"LOI SERVER: {res.status_code}")',

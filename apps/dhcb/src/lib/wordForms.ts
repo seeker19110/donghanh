@@ -20,9 +20,48 @@ import {
   NO_PLURAL_NOUNS,
   F_TO_VES_SUFFIXES,
   MAN_SUFFIX_EXCEPTIONS,
+  CH_AS_K_NOUNS,
+  NON_GRADABLE_ADJECTIVES,
 } from '../data/irregularForms'
 
 const VOWELS = new Set(['a', 'e', 'i', 'o', 'u'])
+
+// Tiền tố ghép với động từ bất quy tắc mà dạng chia giữ nguyên phần gốc:
+// retell→retold, mislead→misled, repay→repaid, reset→reset, overlay→overlaid.
+// Chỉ nhận khi phần gốc còn lại ≥ 3 chữ và CÓ trong bảng bất quy tắc (tránh "reap"→"re"+"ap").
+const IRREGULAR_PREFIXES = [
+  're',
+  'mis',
+  'over',
+  'under',
+  'out',
+  'fore',
+  'with',
+  'un',
+  'off',
+  'up',
+  'pre',
+  'inter',
+]
+// Từ TRÔNG NHƯ tiền tố + gốc bất quy tắc nhưng KHÔNG chia theo gốc: relay (truyền tiếp) →
+// relayed, reprove → reproved, behave → behaved. Rà thật trên từ điển 2026-09-22.
+const NOT_PREFIXED_IRREGULAR = new Set<string>(['relay', 'reprove', 'behave', 'rebound'])
+
+// Tra bảng bất quy tắc, kể cả dạng có tiền tố. Trả undefined nếu là động từ quy tắc.
+export function lookupIrregularVerb(word: string): [string, string] | undefined {
+  const w = word.toLowerCase()
+  const direct = IRREGULAR_VERBS[w]
+  if (direct) return direct
+  if (NOT_PREFIXED_IRREGULAR.has(w)) return undefined
+  for (const pre of IRREGULAR_PREFIXES) {
+    if (w.length > pre.length + 2 && w.startsWith(pre)) {
+      const stem = w.slice(pre.length)
+      const irr = IRREGULAR_VERBS[stem]
+      if (irr) return [pre + irr[0], pre + irr[1]]
+    }
+  }
+  return undefined
+}
 
 function isVowel(ch: string): boolean {
   return VOWELS.has(ch)
@@ -77,6 +116,10 @@ const MULTISYLLABLE_DOUBLING = new Set<string>([
   'control',
   'patrol',
   'propel',
+  'repel',
+  'dispel',
+  'excel',
+  'impel',
   'compel',
   'expel',
   'rebel',
@@ -106,6 +149,10 @@ function shouldDoubleFinal(word: string): boolean {
 export function pluralize(word: string): string {
   const w = word.toLowerCase()
   if (IRREGULAR_PLURALS[w]) return IRREGULAR_PLURALS[w]!
+  // Danh từ ghép kiểu "mother-in-law" → chia phần đầu: mothers-in-law.
+  if (w.includes('-in-law')) return pluralize(w.slice(0, w.indexOf('-in-law'))) + '-in-law'
+  // -ch đọc /k/ (monarch, stomach) → +s, không +es.
+  if (CH_AS_K_NOUNS.has(w)) return w + 's'
   // Từ ghép đuôi -man/-woman → -men/-women (fireman→firemen), trừ ngoại lệ (human→humans).
   if (!MAN_SUFFIX_EXCEPTIONS.has(w)) {
     if (w.length > 5 && w.endsWith('woman')) return w.slice(0, -5) + 'women'
@@ -145,6 +192,8 @@ export function gerund(word: string): string {
   if (/(ee|oe|ye)$/.test(w)) return w + 'ing'
   // bỏ e câm cuối (make→making, write→writing) — trừ trường hợp trên
   if (w.endsWith('e')) return w.slice(0, -1) + 'ing'
+  // -ic → -icking (mimic→mimicking, panic→panicking, picnic→picnicking)
+  if (w.endsWith('ic')) return w + 'king'
   if (shouldDoubleFinal(w)) return w + w[w.length - 1] + 'ing'
   return w + 'ing'
 }
@@ -154,6 +203,7 @@ export function pastRegular(word: string): string {
   const w = word.toLowerCase()
   if (w.endsWith('e')) return w + 'd' // like→liked
   if (/[^aeiou]y$/.test(w)) return w.slice(0, -1) + 'ied' // try→tried (nguyên âm+y: play→played)
+  if (w.endsWith('ic')) return w + 'ked' // mimic→mimicked
   if (shouldDoubleFinal(w)) return w + w[w.length - 1] + 'ed' // stop→stopped
   return w + 'ed'
 }
@@ -166,6 +216,8 @@ export function comparativeForms(
   const w = word.toLowerCase()
   const irr = IRREGULAR_COMPARATIVES[w]
   if (irr) return { comparative: irr[0], superlative: irr[1] }
+  // Tính từ phân loại/tuyệt đối hoặc dạng -er trùng từ khác (main, lone, numb…) → không có.
+  if (NON_GRADABLE_ADJECTIVES.has(w)) return null
 
   // Tính từ phân từ đuôi -ied (fried, dried) KHÔNG có dạng -er/-est ("frieder" sai) —
   // heuristic âm tiết đếm chúng là 1 âm tiết nên phải chặn riêng trước.
@@ -216,7 +268,7 @@ export function computeForms(word: string, pos: string): WordForms | undefined {
     if (NO_INFLECTION.has(w)) return undefined
     const v3s = thirdPerson(w)
     const ving = gerund(w)
-    const irr = IRREGULAR_VERBS[w]
+    const irr = lookupIrregularVerb(w)
     let past: string
     let pastPart: string
     let irregular = false

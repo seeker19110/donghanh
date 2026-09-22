@@ -27,10 +27,10 @@ trienkhai`,
 trienkhai`,
       question: 'Bạn vừa nhan v1 xong (chưa kiemtra lần nào) — trienkhai ngay cho kết quả gì?',
       choices: [
-        'Tu choi vi test dang "chua-chay"',
-        'Trien khai thanh cong, tu dong kiem truoc',
-        'Bao loi khong co gi de trien khai',
-        'Trien khai nhung canh bao rui ro',
+        'Từ chối vì test đang ở trạng thái "chua-chay"',
+        'Triển khai thành công, tự động kiểm trước',
+        'Báo lỗi không có gì để triển khai',
+        'Triển khai nhưng cảnh báo rủi ro',
       ],
       answerIndex: 0,
       explain:
@@ -190,10 +190,10 @@ trienkhai`,
       question:
         'Người dùng vừa báo lỗi, bạn CHƯA kiemtra để xác nhận — bấm trienkhai lại ngay có ổn không?',
       choices: [
-        'Bi chan vi test chua duoc kiem lai sau bao loi',
-        'Duoc, vi truoc do da tung trien khai roi',
-        'Duoc, vi loi nguoi dung bao khong lien quan test',
-        'He thong tu dong sua loi truoc khi trien khai',
+        'Bị chặn vì test chưa được kiểm lại sau khi báo lỗi',
+        'Được, vì trước đó đã từng triển khai rồi',
+        'Được, vì lỗi người dùng báo không liên quan test',
+        'Hệ thống tự động sửa lỗi trước khi triển khai',
       ],
       answerIndex: 0,
       explain:
@@ -280,7 +280,7 @@ nhan v2
 vibe`,
       question:
         'Sau khi nhận đủ hai tính năng nhỏ, "tinh nang da nhan" trong bảng trạng thái là bao nhiêu?',
-      choices: ['2', '1', '0', 'Khong xac dinh vi chua kiem tra'],
+      choices: ['2', '1', '0', 'Không xác định vì chưa kiểm tra'],
       answerIndex: 0,
       explain:
         'Hai tính năng, mỗi cái là một mota riêng và đều đã nhan — "tinh nang da nhan" đếm đúng theo số lần nhan thành công, không phụ thuộc đã kiemtra hay chưa.',

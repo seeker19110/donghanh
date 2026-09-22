@@ -1,8 +1,8 @@
-// lessons/p6u96.ts — Chặng "principal-s2: He tac tu & MCP", unit p6-u96 "Vong lap agent toi
-// gian" (docs/specs/2026-08-31-dot-4-p5-tam-truong.md muc principal-s2).
+// lessons/p6u96.ts — Chặng "principal-s2: Hệ tác tử & MCP", unit p6-u96 "Vòng lặp agent tối
+// giản" (docs/specs/2026-08-31-dot-4-p5-tam-truong.md mục principal-s2).
 //
-// Ca 2 bai deu language: 'javascript' vi mo phong agent goi tool hop tu nhien voi object JS
-// (bang ten -> ham). Chay qua wrapJavaScript()/node:vm nhu moi bai JS khac (jsPrelude.ts).
+// Cả 2 bài đều language: 'javascript' vì mô phỏng agent gọi tool hợp tự nhiên với object JS
+// (bảng tên -> hàm). Chạy qua wrapJavaScript()/node:vm như mọi bài JS khác (jsPrelude.ts).
 import type { ProgrammingLesson } from '../lessonTypes.js'
 
 export const P6_U96_LESSONS: ProgrammingLesson[] = [
@@ -10,10 +10,10 @@ export const P6_U96_LESSONS: ProgrammingLesson[] = [
     id: 'p6-u96-l1',
     unitId: 'p6-u96',
     language: 'javascript',
-    title: 'Vong lap agent toi gian — bang tool va dispatch theo ten',
-    hook: 'ChatGPT tra loi duoc "hom nay Ha Noi bao nhieu do" khong phai vi no biet thoi tiet — no GOI MOT TOOL (ham lay du lieu thoi tiet) roi doc ket qua. Ban dau tien cua moi agent: mot BANG TOOL anh xa ten -> ham, va mot ham dispatch tra bang theo dung ten duoc goi.',
+    title: 'Vòng lặp agent tối giản — bảng tool và dispatch theo tên',
+    hook: 'ChatGPT trả lời được "hôm nay Hà Nội bao nhiêu độ" không phải vì nó biết thời tiết — nó GỌI MỘT TOOL (công cụ: một hàm lấy dữ liệu thời tiết) rồi đọc kết quả. Bản đầu tiên của mọi agent chỉ gồm hai thứ: một BẢNG TOOL ánh xạ tên sang hàm, và một hàm dispatch (điều phối) tra bảng theo đúng tên được gọi.',
     theory:
-      'AGENT (tac tu) o muc don gian nhat khong co gi huyen bi: no la mot CHUONG TRINH co the goi TOOL (ham) theo TEN, thay vi chi chay mot duong logic cung.\n\nHai manh ghep can co:\n1. BANG TOOL — mot object JS anh xa TEN CHUOI sang HAM: { congTien: (x) => x + 10, ... }. Moi tool la mot ham binh thuong, chi khac la no duoc goi GIAN TIEP qua ten.\n2. DISPATCH — ham nhan vao ten + tham so, TRA BANG de tim ham tuong ung roi goi no. tools[ten] tra ve ham neu co, hoac undefined neu ten khong ton tai trong bang.\n\nDiem mau chot de agent AN TOAN: KHONG bao gio gia dinh tool luon ton tai. Ten tool co the sai chinh ta, bi AI "bia" ra, hoac chua duoc dang ky — dispatch phai KIEM tools[ten] === undefined truoc, tra ve LOI RO RANG thay vi de chuong trinh sap (goi undefined nhu ham se nem TypeError kho hieu).\n\nDay chinh la buoc dau cua vong lap agent day du (nghi -> goi tool -> doc ket qua -> lap, hoc o bai sau): moi lan "nghi xong mot buoc", agent can MOT LAN dispatch nhu the nay.',
+      'AGENT (tác tử) ở mức đơn giản nhất không có gì huyền bí: nó là một CHƯƠNG TRÌNH có thể gọi TOOL (công cụ — thực chất là một hàm) theo TÊN, thay vì chỉ chạy một đường logic cứng.\n\nHai mảnh ghép cần có:\n1. BẢNG TOOL — một object JavaScript ánh xạ TÊN (chuỗi) sang HÀM: { congTien: (x) => x + 10, ... }. Mỗi tool là một hàm bình thường, chỉ khác ở chỗ nó được gọi GIÁN TIẾP qua tên.\n2. DISPATCH (điều phối) — hàm nhận vào tên tool cùng tham số, TRA BẢNG để tìm hàm tương ứng rồi gọi hàm đó. tools[ten] trả về hàm nếu có, hoặc undefined nếu tên không tồn tại trong bảng.\n\nĐiểm mấu chốt để agent AN TOÀN: đừng bao giờ giả định tool luôn tồn tại. Tên tool có thể sai chính tả, bị AI "bịa" ra, hoặc chưa được đăng ký. Vì vậy dispatch phải KIỂM tools[ten] === undefined trước, rồi trả về LỖI RÕ RÀNG thay vì để chương trình sập (gọi undefined như gọi hàm sẽ ném TypeError khó hiểu).\n\nĐây chính là bước đầu của vòng lặp agent đầy đủ (nghĩ -> gọi tool -> đọc kết quả -> lặp, học ở bài sau): mỗi lần "nghĩ xong một bước", agent cần MỘT LẦN dispatch như thế này.',
     workedExample: {
       code: `// Bang tool: ten -> ham xu ly
 const tools = {
@@ -38,15 +38,15 @@ console.log(goiTool("xyz", 5));     // "xyz" khong co trong bang`,
       code: `const tools = { nhan2: (x) => x * 2 };
 const ham = tools["nhan2"];
 console.log(ham(7));`,
-      question: 'Doan code tra bang tools theo ten "nhan2" roi goi ham do voi 7. In ra gi?',
+      question: 'Đoạn code tra bảng tools theo tên "nhan2" rồi gọi hàm đó với 7. In ra gì?',
       choices: ['14', '7', 'undefined', 'NaN'],
       answerIndex: 0,
       explain:
-        'tools["nhan2"] tra ve ham (x) => x * 2, goi voi 7 ra 14. Day chinh la co che dispatch: KHONG goi thang nhan2(7) trong code, ma tra bang qua chuoi ten roi moi goi.',
+        'tools["nhan2"] trả về hàm (x) => x * 2; gọi hàm đó với 7 được 14, nên đáp án là 14. Phương án 7 là nhầm với chính tham số đầu vào; undefined chỉ xảy ra nếu tên tool không có trong bảng; NaN chỉ xảy ra khi phép nhân gặp giá trị không phải số. Đây chính là cơ chế dispatch: không gọi thẳng nhan2(7) trong code, mà tra bảng qua chuỗi tên rồi mới gọi.',
     },
     parsons: {
       prompt:
-        'Xep dung ham dispatch: dinh nghia bang tool -> tra bang theo ten -> kiem khong co -> goi ham.',
+        'Xếp đúng hàm dispatch: định nghĩa bảng tool -> tra bảng theo tên -> kiểm trường hợp không có -> gọi hàm.',
       lines: [
         'const tools = { cong10: (x) => x + 10, nhan2: (x) => x * 2 };',
         'function goiTool(ten, thamSo) {',
@@ -60,7 +60,7 @@ console.log(ham(7));`,
     },
     make: {
       prompt:
-        'Viet ham dispatch goi tool theo ten, co san bang tool "cong10" (cong 10 vao tham so) va "nhan2" (nhan doi tham so).\n\nChuong trinh doc 2 dong input():\n- Dong 1: ten tool (chuoi).\n- Dong 2: tham so (mot so).\n\nNeu ten tool KHONG co trong bang, in dung 1 dong:\nLoi: khong co tool <ten>\n\nNeu co, in dung 1 dong:\nKet qua: <ket qua sau khi ap dung tool>',
+        'Viết hàm dispatch gọi tool theo tên, có sẵn bảng tool "cong10" (cộng 10 vào tham số) và "nhan2" (nhân đôi tham số).\n\nChương trình đọc 2 dòng input():\n- Dòng 1: tên tool (chuỗi).\n- Dòng 2: tham số (một số).\n\nNếu tên tool KHÔNG có trong bảng, in đúng 1 dòng:\nLoi: khong co tool <ten>\n\nNếu có, in đúng 1 dòng:\nKet qua: <ket qua sau khi ap dung tool>',
       starterCode: `const tools = {
   cong10: (x) => x + 10,
   nhan2: (x) => x * 2,
@@ -77,27 +77,27 @@ const thamSo = Number(input(""));
           expected: 'Ket qua: 15',
           match: 'contains',
           hidden: false,
-          label: 'cong10 voi tham so 5 -> 15',
+          label: 'cong10 với tham số 5 -> 15',
         },
         {
           stdinLines: ['nhan2', '8'],
           expected: 'Ket qua: 16',
           match: 'contains',
           hidden: false,
-          label: 'nhan2 voi tham so 8 -> 16',
+          label: 'nhan2 với tham số 8 -> 16',
         },
         {
           stdinLines: ['xyz', '3'],
           expected: 'Loi: khong co tool xyz',
           match: 'contains',
           hidden: true,
-          label: 'Ca an: ten tool khong co trong bang -> loi ro rang',
+          label: 'Ca ẩn: tên tool không có trong bảng -> báo lỗi rõ ràng',
         },
       ],
       hints: [
-        'Bang tool da co san o starterCode — dung tools[ten] de tra, dung tu viet if/else so sanh tung ten.',
-        'tools[ten] tra ve undefined khi ten khong ton tai trong object — kiem === undefined truoc khi goi ham.',
-        'console.log("Loi: khong co tool " + ten) hoac console.log("Ket qua: " + tools[ten](thamSo)) — nho Number(input("")) de tham so la so, khong phai chuoi.',
+        'Bảng tool đã có sẵn ở starterCode — hãy dùng tools[ten] để tra, đừng tự viết if/else so sánh từng tên.',
+        'tools[ten] trả về undefined khi tên không tồn tại trong object — kiểm === undefined trước khi gọi hàm.',
+        'In bằng console.log("Loi: khong co tool " + ten) hoặc console.log("Ket qua: " + tools[ten](thamSo)) — nhớ Number(input("")) để tham số là số, không phải chuỗi.',
       ],
       sampleSolution: `const tools = {
   cong10: (x) => x + 10,
@@ -113,19 +113,19 @@ if (ham === undefined) {
 }`,
     },
     homework:
-      'Nghi ra 3 tool that su huu ich cho mot "tro ly hoc tap" (vd: tra tu dien, tinh diem trung binh, doi don vi). Voi moi tool, viet ten + mot cau mo ta no lam gi + no can may tham so. Day chinh la nhung gi ban se can khi lam viec voi MCP (bai sau) — moi tool that deu bat dau tu mot mo ta ro rang nhu the nay.',
+      'Nghĩ ra 3 tool thật sự hữu ích cho một "trợ lý học tập" (ví dụ: tra từ điển, tính điểm trung bình, đổi đơn vị). Với mỗi tool, viết tên, một câu mô tả nó làm gì, và nó cần mấy tham số. Đây chính là những gì bạn sẽ cần khi làm việc với MCP (Model Context Protocol — chuẩn khai báo tool cho AI, học ở bài sau): mọi tool thật đều bắt đầu từ một mô tả rõ ràng như thế này.',
     srsCards: [
       {
-        hoi: 'Bang tool cua agent la gi?',
-        dap: 'Mot object JS anh xa TEN CHUOI sang HAM xu ly (vd { cong10: (x) => x + 10 }). Agent goi tool GIAN TIEP qua ten, khong goi thang ten ham trong code.',
+        hoi: 'Bảng tool của agent là gì?',
+        dap: 'Một object JavaScript ánh xạ TÊN (chuỗi) sang HÀM xử lý (ví dụ { cong10: (x) => x + 10 }). Agent gọi tool GIÁN TIẾP qua tên, không gọi thẳng tên hàm trong code.',
       },
       {
-        hoi: 'Vi sao dispatch phai kiem tools[ten] === undefined truoc khi goi?',
-        dap: 'Ten tool co the sai hoac chua dang ky. Goi thang mot gia tri undefined nhu ham se nem loi kho hieu; kiem truoc cho phep tra ve thong bao loi RO RANG ("khong co tool <ten>") thay vi sap chuong trinh.',
+        hoi: 'Vì sao dispatch phải kiểm tools[ten] === undefined trước khi gọi?',
+        dap: 'Tên tool có thể sai hoặc chưa được đăng ký. Gọi một giá trị undefined như gọi hàm sẽ ném lỗi khó hiểu; kiểm trước cho phép trả về thông báo lỗi RÕ RÀNG ("khong co tool <ten>") thay vì làm sập chương trình.',
       },
       {
-        hoi: 'Dispatch theo ten khac goi ham truc tiep o diem nao?',
-        dap: 'Goi truc tiep: ten ham co dinh trong code luc viet (nhan2(7)). Dispatch: ten la MOT CHUOI DU LIEU (co the tu input, tu AI), tra bang luc CHAY roi moi goi — cho phep them/bot tool ma khong sua logic goi.',
+        hoi: 'Dispatch theo tên khác gọi hàm trực tiếp ở điểm nào?',
+        dap: 'Gọi trực tiếp: tên hàm cố định trong code lúc viết (nhan2(7)). Dispatch: tên là MỘT CHUỖI DỮ LIỆU (có thể đến từ input hoặc từ AI), tra bảng lúc CHẠY rồi mới gọi — nhờ vậy thêm hay bớt tool mà không phải sửa logic gọi.',
       },
     ],
   },
@@ -133,10 +133,10 @@ if (ham === undefined) {
     id: 'p6-u96-l2',
     unitId: 'p6-u96',
     language: 'javascript',
-    title: 'Vong lap agent nhieu buoc — dieu kien dung',
-    hook: 'Mot agent that khong dung sau MOT lan goi tool — no lap: goi tool, doc ket qua, quyet dinh buoc tiep theo, cho toi khi xong VIEC hoac het gioi han an toan. Thieu dieu kien dung ro rang, agent co the lap vo han va dot tien API that.',
+    title: 'Vòng lặp agent nhiều bước — điều kiện dừng',
+    hook: 'Một agent thật không dừng sau MỘT lần gọi tool — nó lặp: gọi tool, đọc kết quả, quyết định bước tiếp theo, cho tới khi xong VIỆC hoặc chạm giới hạn an toàn. Thiếu điều kiện dừng rõ ràng, agent có thể lặp vô hạn và đốt tiền API thật.',
     theory:
-      'VONG LAP AGENT day du: nghi -> goi tool -> doc ket qua -> lap. Bai truoc da cai xong "goi tool"; bai nay cai phan VONG LAP + DIEU KIEN DUNG.\n\nMot vong lap agent AN TOAN can HAI dieu kien dung, khong duoc thieu cai nao:\n1. Dung "tu nhien" — gap mot tool dac biet bao "xong" (hoac ket qua cho thay viec da hoan thanh). Day la duong dung binh thuong.\n2. Dung "an toan" — chay het so buoc toi da cho phep, du chua gap "xong". Day la LUOI CHAN chong lap vo han khi logic sai hoac AI cu "nghi" mai khong quyet dinh xong.\n\nMoi buoc trong vong lap nen duoc GHI LOG (so thu tu buoc, tool nao, ket qua gi) — day la thu duy nhat giup nguoi debug hieu agent da lam gi khi no chay sai. Vong lap khong log gi ca la mot hop den khong ai sua duoc.\n\nKhi mot buoc GAP LOI (tool khong ton tai) trong luc dang chay nhieu buoc, cach an toan la DUNG NGAY chu khong chay tiep cac buoc con lai — vi buoc sau co the phu thuoc vao ket qua buoc truoc, chay tiep tren du lieu sai la lam moi thu te hon.',
+      'VÒNG LẶP AGENT đầy đủ: nghĩ -> gọi tool -> đọc kết quả -> lặp. Bài trước đã cài xong phần "gọi tool"; bài này cài phần VÒNG LẶP và ĐIỀU KIỆN DỪNG.\n\nMột vòng lặp agent AN TOÀN cần HAI điều kiện dừng, không được thiếu cái nào:\n1. Dừng "tự nhiên" — gặp một tool đặc biệt báo "xong", hoặc kết quả cho thấy việc đã hoàn thành. Đây là đường dừng bình thường.\n2. Dừng "an toàn" — chạy hết số bước tối đa cho phép, dù chưa gặp "xong". Đây là LƯỚI CHẶN chống lặp vô hạn khi logic sai hoặc khi AI cứ "nghĩ" mãi mà không quyết định là xong.\n\nMỗi bước trong vòng lặp nên được GHI LOG (số thứ tự bước, tool nào, kết quả gì). Log là thứ duy nhất giúp người sửa lỗi hiểu agent đã làm gì khi nó chạy sai. Vòng lặp không ghi log gì cả là một hộp đen không ai sửa được.\n\nKhi một bước GẶP LỖI (ví dụ tool không tồn tại) giữa lúc đang chạy nhiều bước, cách an toàn là DỪNG NGAY chứ không chạy tiếp các bước còn lại — vì bước sau thường phụ thuộc vào kết quả bước trước, chạy tiếp trên dữ liệu sai chỉ làm mọi thứ tệ hơn.',
     workedExample: {
       code: `// Vong lap agent nhieu buoc, dung khi gap "xong" hoac het danh sach
 const tools = {
@@ -171,15 +171,15 @@ chayAgent(["cong10", "nhan2", "xong", "cong10"]);`,
 giaTri = giaTri + 10;
 giaTri = giaTri * 2;
 console.log(giaTri);`,
-      question: 'Bat dau tu 0, cong 10 roi nhan 2 — in ra gi?',
+      question: 'Bắt đầu từ 0, cộng 10 rồi nhân 2 — in ra gì?',
       choices: ['20', '10', '40', '30'],
       answerIndex: 0,
       explain:
-        '(0 + 10) * 2 = 20. Day dung cong thuc ap dung tuan tu tung tool len giaTri nhu vong lap agent lam.',
+        '(0 + 10) * 2 = 20 nên đáp án là 20. Phương án 10 là dừng lại ở bước cộng mà quên nhân; 40 là nhầm thứ tự thành (0 + 10) * 2 * 2; 30 là nhầm phép nhân thành nhân 3. Đây đúng là cách vòng lặp agent áp dụng tuần tự từng tool lên giaTri.',
     },
     parsons: {
       prompt:
-        'Xep dung vong lap nhieu buoc: duyet tung ten -> gap "xong" thi dung -> khong thi ap dung tool va log.',
+        'Xếp đúng vòng lặp nhiều bước: duyệt từng tên -> gặp "xong" thì dừng -> nếu không thì áp dụng tool và ghi log.',
       lines: [
         'for (let i = 0; i < danhSachTool.length; i++) {',
         '    const ten = danhSachTool[i];',
@@ -195,7 +195,7 @@ console.log(giaTri);`,
     },
     make: {
       prompt:
-        'Mo phong agent chay nhieu buoc voi bang tool "cong10"/"nhan2" nhu bai truoc.\n\nChuong trinh doc 1 dong input(): danh sach ten tool cach nhau dau phay, vi du "cong10,nhan2,xong,cong10".\n\nChay lan luot tu gia tri 0. Voi MOI buoc, in dung 1 dong:\nBuoc <so thu tu tu 1>: <ten tool> -> <gia tri sau khi ap dung>\n\nKhi gap tool "xong": in dung 1 dong "Buoc <so>: xong -> dung" ROI DUNG NGAY (khong chay tiep cac tool con lai trong danh sach).\n\nKhi gap ten tool LA (khong co trong bang): in dung 1 dong "Buoc <so>: loi <ten>" ROI DUNG NGAY.\n\nNeu het danh sach ma chua gap "xong" hay loi thi vong lap tu ket thuc binh thuong.',
+        'Mô phỏng agent chạy nhiều bước với bảng tool "cong10"/"nhan2" như bài trước.\n\nChương trình đọc 1 dòng input(): danh sách tên tool cách nhau bởi dấu phẩy, ví dụ "cong10,nhan2,xong,cong10".\n\nChạy lần lượt từ giá trị 0. Với MỖI bước, in đúng 1 dòng:\nBuoc <so thu tu tu 1>: <ten tool> -> <gia tri sau khi ap dung>\n\nKhi gặp tool "xong": in đúng 1 dòng "Buoc <so>: xong -> dung" RỒI DỪNG NGAY (không chạy tiếp các tool còn lại trong danh sách).\n\nKhi gặp tên tool LẠ (không có trong bảng): in đúng 1 dòng "Buoc <so>: loi <ten>" RỒI DỪNG NGAY.\n\nNếu hết danh sách mà chưa gặp "xong" hay lỗi thì vòng lặp tự kết thúc bình thường.',
       starterCode: `const tools = {
   cong10: (x) => x + 10,
   nhan2: (x) => x * 2,
@@ -213,27 +213,27 @@ let giaTri = 0;
           expected: 'Buoc 1: cong10 -> 10\nBuoc 2: nhan2 -> 20\nBuoc 3: xong -> dung',
           match: 'contains',
           hidden: false,
-          label: 'Dung dung luc "xong", khong chay them tool thu 4',
+          label: 'Dừng đúng lúc gặp "xong", không chạy thêm tool thứ 4',
         },
         {
           stdinLines: ['nhan2,cong10'],
           expected: 'Buoc 1: nhan2 -> 0\nBuoc 2: cong10 -> 10',
           match: 'contains',
           hidden: false,
-          label: 'Het danh sach ma khong gap "xong" thi tu ket thuc',
+          label: 'Hết danh sách mà không gặp "xong" thì tự kết thúc',
         },
         {
           stdinLines: ['cong10,xyz,nhan2'],
           expected: 'Buoc 1: cong10 -> 10\nBuoc 2: loi xyz',
           match: 'contains',
           hidden: true,
-          label: 'Ca an: gap tool la thi bao loi va dung ngay, khong chay buoc 3',
+          label: 'Ca ẩn: gặp tool lạ thì báo lỗi và dừng ngay, không chạy bước 3',
         },
       ],
       hints: [
-        'Dung vong for voi bien dem i tu 0, buoc hien thi la i + 1 (so thu tu tu 1, khong phai tu 0).',
-        'Kiem "xong" TRUOC khi tra bang tools — day la ten dac biet, khong phai ten tool that.',
-        'Kiem tools[ten] === undefined de bat ten la; dung "return" (hoac "break" neu ham khong bao boc trong function rieng) de dung han vong lap ngay khi gap "xong" hoac loi.',
+        'Dùng vòng for với biến đếm i từ 0, số bước hiển thị là i + 1 (đánh số từ 1, không phải từ 0).',
+        'Kiểm "xong" TRƯỚC khi tra bảng tools — đây là tên đặc biệt, không phải tên một tool thật.',
+        'Kiểm tools[ten] === undefined để bắt tên lạ; dùng "break" (hoặc "return" nếu vòng lặp nằm trong một hàm riêng) để dừng hẳn ngay khi gặp "xong" hoặc gặp lỗi.',
       ],
       sampleSolution: `const tools = {
   cong10: (x) => x + 10,
@@ -258,19 +258,19 @@ for (let i = 0; i < danhSach.length; i++) {
 }`,
     },
     homework:
-      'Vong lap bai nay dung khi het danh sach — trong doi that agent khong co "danh sach san", no phai TU QUYET DINH buoc tiep theo dua tren ket qua buoc truoc. Hay viet 3-4 cau: neu ban them mot GIOI HAN SO BUOC TOI DA (vi du toi da 5 buoc) vao dung logic hien tai, ban se sua dieu kien vong lap for o dau, va vi sao gioi han nay can thiet du agent "co ve" luon dung dung luc?',
+      'Vòng lặp bài này dừng khi hết danh sách. Trong đời thật agent không có sẵn danh sách, nó phải TỰ QUYẾT ĐỊNH bước tiếp theo dựa trên kết quả bước trước. Hãy viết 3-4 câu trả lời: nếu thêm một GIỚI HẠN SỐ BƯỚC TỐI ĐA (ví dụ tối đa 5 bước) vào đúng logic hiện tại, bạn sẽ sửa điều kiện của vòng for ở đâu, và vì sao giới hạn này vẫn cần thiết dù agent "có vẻ" luôn dừng đúng lúc?',
     srsCards: [
       {
-        hoi: 'Vong lap agent day du gom 4 buoc nao?',
-        dap: 'Nghi -> goi tool -> doc ket qua -> lap. Lap lai tu dau cho toi khi dat dieu kien dung.',
+        hoi: 'Vòng lặp agent đầy đủ gồm 4 bước nào?',
+        dap: 'Nghĩ -> gọi tool -> đọc kết quả -> lặp. Lặp lại từ đầu cho tới khi đạt điều kiện dừng.',
       },
       {
-        hoi: 'Vi sao vong lap agent can HAI dieu kien dung, khong chi mot?',
-        dap: 'Dung "tu nhien" (gap tin hieu hoan thanh nhu tool "xong") xu ly ca binh thuong; dung "an toan" (gioi han so buoc toi da) la luoi chan chong lap vo han khi logic sai hoac agent khong bao gio quyet dinh xong.',
+        hoi: 'Vì sao vòng lặp agent cần HAI điều kiện dừng, không chỉ một?',
+        dap: 'Dừng "tự nhiên" (gặp tín hiệu hoàn thành như tool "xong") lo ca bình thường; dừng "an toàn" (giới hạn số bước tối đa) là lưới chặn chống lặp vô hạn khi logic sai hoặc khi agent không bao giờ quyết định là xong.',
       },
       {
-        hoi: 'Khi mot buoc trong vong lap agent gap loi (vd tool khong ton tai), nen lam gi?',
-        dap: 'Dung ngay, khong chay tiep cac buoc con lai — vi cac buoc sau thuong phu thuoc ket qua buoc truoc, chay tiep tren du lieu sai chi lam tinh trang te hon. Ghi log ro buoc nao loi de nguoi debug hieu duoc.',
+        hoi: 'Khi một bước trong vòng lặp agent gặp lỗi (ví dụ tool không tồn tại), nên làm gì?',
+        dap: 'Dừng ngay, không chạy tiếp các bước còn lại — vì các bước sau thường phụ thuộc kết quả bước trước, chạy tiếp trên dữ liệu sai chỉ làm tình trạng tệ hơn. Nhớ ghi log rõ bước nào lỗi để người sửa lỗi lần ra được.',
       },
     ],
   },

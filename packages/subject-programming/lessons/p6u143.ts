@@ -156,7 +156,7 @@ print(dem)`,
     },
     make: {
       prompt:
-        'Đọc m dương, một dòng khóa nguyên cách nhau bởi khoảng trắng (có thể rỗng), rồi khóa cần tìm. Chèn mọi khóa vào chaining theo `key % m`, giữ cả khóa trùng chỉ một lần. In `co comparisons` hoặc `khong comparisons` với số so sánh trong đúng bucket.',
+        'Đọc m dương, một dòng khóa nguyên cách nhau bởi khoảng trắng (có thể rỗng), rồi khóa cần tìm. Chèn mọi khóa vào chaining theo `key % m`, khóa trùng chỉ lưu một lần. In `co comparisons` hoặc `khong comparisons` với số so sánh trong đúng bucket.',
       starterCode: `m = int(input())
 keys_line = input().strip()
 target = int(input())
@@ -213,7 +213,7 @@ else:
     print("co" if found else "khong", comparisons)`,
     },
     homework:
-      'Chèn 1, 5, 9, 13 vào 4 bucket, đo lookup từng khóa; sau đó tăng lên 8 bucket và giải thích chain ngắn đi thế nào. Giữ ca va chạm như negative control cho cài đặt chỉ lưu một khóa mỗi bucket.',
+      'Chèn 1, 5, 9, 13 vào 4 bucket, đo lookup từng khóa; sau đó tăng lên 8 bucket và giải thích chain ngắn đi thế nào. Giữ ca va chạm như đối chứng âm (negative control) cho cài đặt chỉ lưu một khóa mỗi bucket.',
     srsCards: [
       {
         hoi: 'Chaining xử lý hai khóa có cùng hash ra sao?',

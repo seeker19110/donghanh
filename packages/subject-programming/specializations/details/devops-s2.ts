@@ -39,7 +39,7 @@ export const DEVOPS_S2_DETAIL: SpecStageDetail = {
       ],
       selfCheck: [
         {
-          q: 'Vì sao tạo tác phát hành phải có phiên bản cố định?',
+          q: 'Vì sao bản dựng phát hành (artifact) phải có phiên bản cố định?',
           a: 'Để biết chính xác bản đang chạy là commit nào và quay lui về đúng thứ đã chạy được, không phải build lại.',
         },
         {

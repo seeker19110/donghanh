@@ -122,9 +122,9 @@ export const TOAN12_C20_LESSONS: MathLesson[] = [
     lessonNumber: 2,
     title: 'Bất biến và đơn biến trong bài toán tổ hợp',
     hook:
-      'Trên bảng viết các số 1, 2, 3, ..., 100. Mỗi lượt, xoá hai số bất kỳ rồi viết thay vào hiệu của chúng. Sau 99 ' +
-      'lượt còn đúng một số. Số cuối cùng ấy có thể bằng 0 không? Ta không thể thử hết hàng tỉ cách xoá — nhưng chỉ ' +
-      'cần nhìn ra MỘT đại lượng không bao giờ thay đổi là trả lời được trong ba dòng.',
+      'Trên bảng viết các số 1, 2, 3, ..., 100. Mỗi lượt, xoá hai số bất kỳ rồi viết thay vào trị tuyệt đối của ' +
+      'hiệu hai số ấy. Sau 99 lượt còn đúng một số. Số cuối cùng ấy có thể bằng 0 không? Ta không thể thử hết ' +
+      'hàng tỉ cách xoá — nhưng chỉ cần nhìn ra MỘT đại lượng không bao giờ thay đổi là trả lời được trong ba dòng.',
     theory:
       'Ý TƯỞNG CỦA BẤT BIẾN (invariant)\n' +
       'Khi một quá trình có vô số cách thực hiện, đừng cố duyệt hết. Hãy tìm một đại lượng KHÔNG ĐỔI qua mỗi bước. ' +

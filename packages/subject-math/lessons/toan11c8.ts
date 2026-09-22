@@ -433,7 +433,7 @@ export const TOAN11_C8_LESSONS: MathLesson[] = [
       'kiện (học ở lớp 12). Trước khi nhân, luôn tự hỏi: hai biến cố này có tác động lẫn nhau không? Dấu hiệu ' +
       'độc lập quen thuộc: hai phép thử tách rời, hai thiết bị chạy riêng, rút CÓ hoàn lại.\n\n' +
       'MỞ RỘNG CHO NHIỀU BIẾN CỐ\n' +
-      'Nếu các biến cố A₁, A₂, …, Aₙ đôi một độc lập và độc lập toàn bộ thì\n' +
+      'Nếu các biến cố A₁, A₂, …, Aₙ độc lập với nhau (không biến cố nào ảnh hưởng tới biến cố nào) thì\n' +
       'P(A₁ ∩ A₂ ∩ … ∩ Aₙ) = P(A₁)·P(A₂)·…·P(Aₙ).\n' +
       'Ví dụ tung đồng xu cân đối ba lần: xác suất cả ba lần đều ra mặt sấp là 0,5 · 0,5 · 0,5 = 0,125.\n\n' +
       'HAI HỆ QUẢ DÙNG NHIỀU NHẤT KHI GIẢI BÀI\n' +

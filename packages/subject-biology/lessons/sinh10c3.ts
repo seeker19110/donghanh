@@ -149,7 +149,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
     chapterTitle: 'Chuyển hoá năng lượng trong tế bào',
     lessonNumber: 13,
     title: 'Khái quát về chuyển hoá vật chất và năng lượng',
-    hook: 'Ngay cả khi ngủ, cơ thể bạn vẫn tiêu thụ năng lượng. Tế bào không bao giờ nghỉ ngơi—chúng không ngừng chuyển hoá năng lượng từ thức ăn thành ATP để duy trì sự sống.',
+    hook: 'Ngay cả khi ngủ, cơ thể bạn vẫn tiêu thụ năng lượng. Tế bào không bao giờ nghỉ ngơi — chúng không ngừng chuyển hoá năng lượng từ thức ăn thành ATP để duy trì sự sống.',
     theory:
       'CHUYỂN HOÁ VẬT CHẤT VÀ NĂNG LƯỢNG:\n' +
       '— Chuyển hoá (Metabolism): Toàn bộ các phản ứng hoá học xảy ra trong tế bào và cơ thể sống.\n' +
@@ -220,14 +220,14 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
     chapterTitle: 'Chuyển hoá năng lượng trong tế bào',
     lessonNumber: 14,
     title: 'Phân giải và tổng hợp các chất trong tế bào',
-    hook: 'Khi bạn chạy bộ, cơ thể đốt cháy glucose và mỡ để lấy năng lượng. Khi bạn ngủ, cơ thể dùng năng lượng đó để tổng hợp protein phục hồi cơ. Hai quá trình này—hô hấp tế bào và quang hợp—là trụ cột của sự sống.',
+    hook: 'Khi bạn chạy bộ, cơ thể đốt cháy glucose và mỡ để lấy năng lượng. Khi bạn ngủ, cơ thể dùng năng lượng đó để tổng hợp protein phục hồi cơ. Hai quá trình này — hô hấp tế bào và quang hợp — là trụ cột của sự sống.',
     theory:
       'HÔ HẤP TẾ BÀO (CELLULAR RESPIRATION):\n' +
       '— Phương trình tổng quát: C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + Năng lượng (ATP + Nhiệt).\n' +
       '— Ba giai đoạn chính:\n' +
       '  1. Đường phân (Glycolysis): Xảy ra trong tế bào chất. Glucose (6C) → 2 Pyruvate (3C) + 2 ATP + 2 NADH.\n' +
       '  2. Chu trình Krebs (Citric acid cycle): Xảy ra trong chất nền ty thể. Pyruvate → CO₂ + ATP + NADH + FADH₂.\n' +
-      '  3. Chuỗi chuyền điện tử (Electron Transport Chain): Xảy ra trên màng trong ty thể. NADH/FADH₂ → 32-34 ATP + H₂O.\n\n' +
+      '  3. Chuỗi chuyền điện tử (Electron Transport Chain): Xảy ra trên màng trong ty thể. NADH/FADH₂ → khoảng 26-28 ATP + H₂O.\n\n' +
       'QUANG HỢP (PHOTOSYNTHESIS) - Chỉ ở sinh vật có lục lạp:\n' +
       '— Phương trình tổng quát: 6CO₂ + 6H₂O + Ánh sáng → C₆H₁₂O₆ + 6O₂.\n' +
       '— Hai giai đoạn:\n' +
@@ -237,12 +237,12 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
       problem:
         'Tính số phân tử ATP tối đa có thể tổng hợp được từ 1 phân tử glucose qua hô hấp hiếu khí.',
       steps: [
-        'Đường phân: 2 ATP (thực tế).\n',
-        'Chu trình Krebs: 2 ATP.\n',
-        'Chuỗi chuyền điện tử: ~32-34 ATP từ 10 NADH và 2 FADH₂ qua phosphoryl hóa oxy hóa.\n',
-        'Tổng cộng: ~36-38 ATP/glucose. Trong thực tế tế bào, hiệu suất thực thường khoảng 30-32 ATP.',
+        'Đường phân: thu lãi 2 ATP.',
+        'Chu trình Krebs: thu thêm 2 ATP.',
+        'Chuỗi chuyền điện tử: khoảng 26-28 ATP, sinh ra từ 10 NADH và 2 FADH₂ qua phosphoryl hoá oxi hoá.',
+        'Tổng cộng: khoảng 30-32 ATP cho mỗi phân tử glucose. Các sách cũ ghi 36-38 ATP vì tính tròn mỗi NADH được 3 ATP, còn số đo hiện nay thấp hơn do tế bào phải tốn một phần chênh lệch H⁺ để vận chuyển chất qua màng ti thể.',
       ],
-      answer: 'Khoảng 36-38 ATP/glucose (lý thuyết), thực tế khoảng 30-32 ATP.',
+      answer: 'Khoảng 30-32 ATP cho mỗi phân tử glucose (sách cũ ghi 36-38 ATP).',
     },
     checkQuestions: [
       {
@@ -255,7 +255,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['hr_1'] },
         explain:
-          'Chuỗi chuyền điện tử tạo ra ~32-34 ATP trong khi đường phân và Krebs mỗi giai đoạn chỉ tạo 2 ATP.',
+          'Chuỗi chuyền điện tử tạo khoảng 26-28 ATP, trong khi đường phân và chu trình Krebs mỗi giai đoạn chỉ thu 2 ATP. Lí do: hai giai đoạn đầu chủ yếu nạp năng lượng vào NADH và FADH₂, phải tới chuỗi chuyền điện tử số năng lượng đó mới được đổi thành ATP.',
       },
       {
         prompt: 'Sản phẩm phụ của quang hợp được thải ra ngoài môi trường là:',
@@ -277,7 +277,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
       },
       {
         hoi: 'Quang hợp và hô hấp tế bào là hai quá trình đối nghịch như thế nào?',
-        dap: 'Quang hợp: CO₂ + H₂O + ánh sáng → C₆H₁₂O₆ + O₂ (tích lũy năng lượng). Hô hấp: C₆H₁₂O₆ + O₂ → CO₂ + H₂O + ATP (giải phóng năng lượng).',
+        dap: 'Quang hợp: CO₂ + H₂O + ánh sáng → C₆H₁₂O₆ + O₂ (tích luỹ năng lượng). Hô hấp: C₆H₁₂O₆ + O₂ → CO₂ + H₂O + ATP (giải phóng năng lượng).',
       },
     ],
     animation: {
@@ -543,7 +543,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
         'Thiết kế thí nghiệm kiểm tra ảnh hưởng của nhiệt độ lên hoạt tính của enzyme amylase trong nước bọt.',
       steps: [
         'Chuẩn bị 3 ống nghiệm: Ống A (4°C), Ống B (37°C), Ống C (70°C).',
-        'Cho vào mỗi ống 2ml hồ tinh bột 1% + 1ml nước bọt pha loãng 1:10.',
+        'Cho vào mỗi ống 2 ml hồ tinh bột 1% và 1 ml nước bọt pha loãng 1:10.',
         'Ủ mỗi ống ở nhiệt độ tương ứng trong 10 phút.',
         'Nhỏ 2 giọt dung dịch iốt vào mỗi ống và quan sát màu sắc. Ống không xanh tím = tinh bột bị phân giải = enzyme hoạt động.',
       ],
@@ -588,7 +588,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
       },
       {
         hoi: 'Mỗi enzyme có một pH tối ưu riêng. pH tối ưu của amylase nước bọt là bao nhiêu?',
-        dap: 'pH trung tính, khoảng 6.7 - 7.0.',
+        dap: 'pH trung tính, khoảng 6,7 - 7,0.',
       },
     ],
     track: 'core',
@@ -614,8 +614,8 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
       '— Từ 1 tế bào mẹ (2n) → 2 tế bào con (2n) có bộ NST giống hệt tế bào mẹ.\n' +
       '— Vai trò: Tăng số lượng tế bào (sinh trưởng, sinh sản), tái sinh mô.\n' +
       '— 4 kì phân bào:\n' +
-      '  1. Kì đầu (Prophase): NST co xoắn cực đại, thoi phân bào hình thành, màng nhân tan.\n' +
-      '  2. Kì giữa (Metaphase): NST xếp thành hàng ở mặt phẳng xích đạo tế bào.\n' +
+      '  1. Kì đầu (Prophase): NST bắt đầu co xoắn, thoi phân bào hình thành, màng nhân tiêu biến.\n' +
+      '  2. Kì giữa (Metaphase): NST co xoắn cực đại và xếp thành một hàng ở mặt phẳng xích đạo tế bào.\n' +
       '  3. Kì sau (Anaphase): Chromatid tách nhau, di chuyển về 2 cực tế bào.\n' +
       '  4. Kì cuối (Telophase): Màng nhân hình thành, NST giãn xoắn, tế bào chất phân chia.\n' +
       '— Kết quả: 1 tế bào mẹ (2n) → 2 tế bào con (2n).',
@@ -653,7 +653,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['np_1'] },
         explain:
-          'Nguyên phân tạo 2 tế bào con có bộ NST lưỡng bội (2n) giống hệt tế bào mẹ, đảm bảo sự ổn định bộ gen.',
+          'Nguyên phân tạo 2 tế bào con có bộ NST lưỡng bội (2n) giống hệt tế bào mẹ, đảm bảo sự ổn định bộ gene.',
       },
     ],
     srsCards: [
@@ -976,15 +976,15 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
     lessonNumber: 17,
     title: 'Giảm phân',
     hook:
-      'Giảm phân là "bí quyết" của sinh sản hữu tính—nó tạo ra trứng và tinh trùng với nửa bộ nhiễm sắc thể. ' +
+      'Giảm phân là "bí quyết" của sinh sản hữu tính — nó tạo ra trứng và tinh trùng với nửa bộ nhiễm sắc thể. ' +
       'Khi hai tế bào đơn bội kết hợp, bộ NST lại trở về đủ số.',
     theory:
       'GIẢM PHÂN (MEIOSIS):\n' +
       '— Mục tiêu: Tạo ra tế bào sinh dục (giao tử) có bộ NST đơn bội (n = một nửa).\n' +
       '— Diễn ra trong các cơ quan sinh dục.\n' +
       '— Gồm 2 lần phân bào liên tiếp:\n\n' +
-      'GIẢM PHÂN I (Phân li đồng dạng):\n' +
-      '— Kì đầu I: NST kép cùng dạng (tương đồng) bắt cặp, trao đổi đoạn (crossing-over). Thoi phân bào hình thành.\n' +
+      'GIẢM PHÂN I (lần phân bào giảm nhiễm):\n' +
+      '— Kì đầu I: Hai NST kép trong mỗi cặp tương đồng bắt đôi với nhau (tiếp hợp) và có thể trao đổi đoạn cho nhau (crossing-over). Thoi phân bào hình thành.\n' +
       '— Kì giữa I: Các cặp NST tương đồng xếp ngẫu nhiên ở mặt phẳng xích đạo.\n' +
       '— Kì sau I: Các NST kép tương đồng phân li về 2 cực.\n' +
       '— Kì cuối I: 2 tế bào con với n NST kép.\n\n' +
@@ -992,7 +992,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
       '— Tách chromatid chị em, tạo 4 tế bào con (n NST đơn).\n' +
       '— Kết quả: Từ 1 tế bào (2n) → 4 tế bào con (n).\n\n' +
       'Ý NGHĨA:\n' +
-      '— Duy trì bộ NST ổn định qua các thế hệ sinh hữu tính.\n' +
+      '— Duy trì bộ NST của loài ổn định qua các thế hệ sinh sản hữu tính.\n' +
       '— Tăng biến dị di truyền (nhờ crossing-over và phân li độc lập các cặp NST tương đồng).',
     workedExample: {
       problem:
@@ -1387,8 +1387,8 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
     theory:
       'QUY TRÌNH LÀM TIÊU BẢN QUAN SÁT NGUYÊN PHÂN (RỄ HÀNH TÂY):\n' +
       '1. Chuẩn bị: Cắt 1 cm đỉnh rễ hành tây đang mọc (đỉnh rễ có nhiều tế bào đang phân chia tích cực).\n' +
-      '2. Xử lí hoá chất (thuốc nhuộm): Cố định mẫu bằng dung dịch Carnoy (ethanol:acid acetic 3:1), sau đó nhuộm bằng thuốc nhuộm Carmine hoặc Giemsa để NST bắt màu đỏ/tím.\n' +
-      '3. Xử lí mô mềm: Ngâm đỉnh rễ trong HCl 1N ở 60°C trong 8-12 phút để làm mềm mô và tách rời tế bào.\n' +
+      '2. Cố định mẫu: Ngâm đỉnh rễ trong dung dịch Carnoy (ethanol và acid acetic theo tỉ lệ 3:1) để giữ nguyên hình dạng NST.\n' +
+      '3. Làm mềm mô: Ngâm đỉnh rễ trong HCl 1N ở 60 °C khoảng 8-12 phút cho mô rã ra, các tế bào tách rời nhau rồi mới nhuộm bằng carmine hoặc Giemsa để NST bắt màu đỏ hoặc tím.\n' +
       '4. Làm tiêu bản ép: Đặt đỉnh rễ lên lam kính, giọt glycerol + thuốc nhuộm, đậy lamela và ép nhẹ.\n' +
       '5. Quan sát: Tìm kiếm các tế bào đang ở các kì khác nhau của nguyên phân dưới vật kính 40x hoặc 100x.',
     workedExample: {
@@ -1404,7 +1404,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
     checkQuestions: [
       {
         prompt:
-          'Tại sao trong thí nghiệm quan sát nguyên phân ở rễ hành tây, người ta phải xử lý mẫu với HCl?',
+          'Tại sao trong thí nghiệm quan sát nguyên phân ở rễ hành tây, người ta phải xử lí mẫu với HCl?',
         choices: [
           { id: 'hcl_1', label: 'Để làm mềm mô, phá bỏ thành tế bào và tách rời các tế bào' },
           { id: 'hcl_2', label: 'Để nhuộm màu NST đặc hiệu' },
@@ -1413,7 +1413,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
         ],
         answer: { kind: 'choice', correctIds: ['hcl_1'] },
         explain:
-          'HCl loãng ở nhiệt độ cao thủy phân các chất kết dính pectin trong thành tế bào thực vật, làm mô mềm ra và giúp các tế bào tách rời khi ép.',
+          'HCl loãng ở nhiệt độ cao thuỷ phân chất pectin gắn kết các tế bào thực vật với nhau, làm mô mềm ra nên khi ép các tế bào tách rời và dàn thành một lớp mỏng, nhìn rõ NST.',
       },
       {
         prompt:
@@ -1432,7 +1432,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
     srsCards: [
       {
         hoi: 'Tại sao phải dùng HCl khi làm tiêu bản quan sát nguyên phân ở thực vật?',
-        dap: 'Để làm mềm mô, thủy phân thành tế bào pectin, giúp tế bào tách rời và dàn mỏng trên lam kính.',
+        dap: 'Để làm mềm mô: HCl thuỷ phân chất pectin gắn giữa các tế bào, giúp tế bào tách rời và dàn mỏng trên lam kính.',
       },
       {
         hoi: 'Khi quan sát tiêu bản, làm thế nào để nhận biết một tế bào đang ở kì giữa của nguyên phân?',
@@ -1921,20 +1921,20 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
       '   — Quy trình: Lấy mô thực vật → nuôi cấy trên môi trường dinh dưỡng vô trùng (hormone thực vật) → mô sẹo → cây hoàn chỉnh.\n' +
       '   — Ứng dụng: Nhân giống nhanh cây sạch bệnh, giữ giống quý.\n' +
       '2. Nhân bản vô tính (Cloning):\n' +
-      '   — Cừu Dolly (1996): Tế bào tuyến vú của cừu trưởng thành được chuyển nhân vào trứng đã bỏ nhân, kích hoạt phát triển → cừu con có bộ gen giống hệt cừu mẹ.\n' +
+      '   — Cừu Dolly (1996): Tế bào tuyến vú của cừu trưởng thành được chuyển nhân vào trứng đã bỏ nhân, kích hoạt phát triển → cừu con có bộ gene giống hệt con cừu cho nhân.\n' +
       '3. Tế bào gốc (Stem cells):\n' +
       '   — Tế bào có khả năng tự phân chia và biệt hoá thành nhiều loại tế bào chuyên biệt.\n' +
-      '   — Ứng dụng: Điều trị bệnh máu, trồng cơ quan nội tạng trong tương lai.',
+      '   — Ứng dụng: Điều trị bệnh về máu, hướng tới tạo mô và cơ quan thay thế trong tương lai.',
     workedExample: {
       problem:
         'Giải thích nguyên lí tính toàn năng của tế bào và ý nghĩa của nó trong công nghệ nuôi cấy mô.',
       steps: [
-        'Tính toàn năng (totipotency): Mỗi tế bào sinh dưỡng của cơ thể đa bào chứa bộ gen đầy đủ như tế bào ban đầu (tế bào hợp tử).',
+        'Tính toàn năng (totipotency): Mỗi tế bào sinh dưỡng của cơ thể đa bào chứa bộ gene đầy đủ như tế bào ban đầu (tế bào hợp tử).',
         'Trong điều kiện nuôi cấy thích hợp (đủ dinh dưỡng, hormone), tế bào có thể biểu hiện lại tất cả gene cần thiết và phát triển thành cơ thể hoàn chỉnh.',
-        'Ứng dụng: Từ 1 mảnh mô nhỏ của cây quý, ta có thể tạo ra hàng nghìn cây con giống nhau bằng nuôi cấy in vitro.',
+        'Ứng dụng: Từ 1 mảnh mô nhỏ của cây quý, ta có thể tạo ra hàng nghìn cây con giống nhau bằng nuôi cấy trong ống nghiệm (in vitro).',
       ],
       answer:
-        'Tính toàn năng: mọi tế bào có đủ thông tin di truyền → từ 1 mô nhỏ nuôi cấy thành nhiều cây con có bộ gen đồng nhất.',
+        'Tính toàn năng: mọi tế bào có đủ thông tin di truyền → từ 1 mô nhỏ nuôi cấy thành nhiều cây con có bộ gene đồng nhất.',
     },
     checkQuestions: [
       {
@@ -1969,7 +1969,7 @@ export const SINH10_C3_LESSONS: BiologyLesson[] = [
       },
       {
         hoi: 'Nhân bản vô tính tạo ra cá thể như thế nào?',
-        dap: 'Chuyển nhân tế bào sinh dưỡng vào trứng đã bỏ nhân, kích hoạt phát triển phôi → cá thể có gen giống hệt cá thể cho nhân.',
+        dap: 'Chuyển nhân tế bào sinh dưỡng vào trứng đã bỏ nhân, kích hoạt phát triển phôi → cá thể có bộ gene giống hệt cá thể cho nhân.',
       },
     ],
     track: 'core',

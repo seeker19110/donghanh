@@ -1,4 +1,4 @@
-// details/security-s1.ts — Chi tiết chặng S1 hướng BẢO MẬT ("Nền tảng và tư duy phòng thủ").
+// details/security-s1.ts — Chi tiết chặng S1 hướng AN TOÀN THÔNG TIN ("Nền tảng và tư duy phòng thủ").
 // Bản đồ chặng nằm ở ../security.ts; file này bổ sung phần THI HÀNH ĐƯỢC.
 //
 // LUẬT ĐẠO ĐỨC, áp cho toàn bộ nội dung dưới đây và mọi chặng sau của hướng này:

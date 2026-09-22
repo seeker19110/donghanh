@@ -29,10 +29,10 @@ export const TOAN12_C2_LESSONS: MathLesson[] = [
       'MN→ + NP→ = MP→.\n' +
       'VÌ SAO ĐÚNG: đi từ M tới N rồi từ N tới P thì kết quả cuối cùng của hành trình đúng bằng đi thẳng từ M tới P. ' +
       'Vectơ ghi lại ĐỘ DỜI, mà độ dời thì cộng dồn được — đó là toàn bộ lí do, không phải quy ước.\n' +
-      'Hệ quả hay dùng: MN→ = −NM→, và MN→ = OM→ ngược dấu cộng ON→, tức MN→ = ON→ − OM→ với O là điểm tuỳ ý.\n\n' +
+      'Hệ quả hay dùng: MN→ = −NM→; và với điểm O tuỳ ý thì MN→ = ON→ − OM→ (chèn thêm điểm O vào giữa).\n\n' +
       'PHÉP TRỪ\n' +
-      'a⃗ − b⃗ = a⃗ + (−b⃗). Với hai vectơ chung điểm đầu: OA→ − OB→ = BA→. Nhớ mẹo "đầu trừ đuôi": kết quả chạy TỪ ' +
-      'điểm cuối của vectơ bị trừ TỚI điểm cuối của vectơ đứng trước.\n\n' +
+      'a⃗ − b⃗ = a⃗ + (−b⃗). Với hai vectơ chung điểm đầu: OA→ − OB→ = BA→. Cách nhớ: hiệu chạy TỪ điểm cuối của ' +
+      'vectơ đứng SAU (vectơ trừ) TỚI điểm cuối của vectơ đứng TRƯỚC.\n\n' +
       'NHÂN VECTƠ VỚI MỘT SỐ\n' +
       'Với số thực k ≠ 0, vectơ k·a⃗ cùng phương với a⃗, có độ dài |k|·|a⃗|; cùng hướng khi k > 0, ngược hướng khi ' +
       'k < 0. Do đó hai vectơ khác 0⃗ CÙNG PHƯƠNG khi và chỉ khi tồn tại k sao cho b⃗ = k·a⃗ — đây là công cụ chuẩn ' +
@@ -838,8 +838,8 @@ export const TOAN12_C2_LESSONS: MathLesson[] = [
     lessonNumber: 4,
     title: 'Ứng dụng toạ độ: khoảng cách giữa hai điểm và góc giữa hai đường thẳng',
     hook:
-      'Hai máy bay bay trong vùng trời Nội Bài, radar báo về vị trí mỗi chiếc bằng ba con số: kinh độ quy đổi, vĩ ' +
-      'độ quy đổi và độ cao. Kiểm soát viên phải trả lời trong một giây: hai chiếc cách nhau bao xa, hai đường bay ' +
+      'Hai máy bay đang bay trong vùng trời Nội Bài, radar báo về vị trí mỗi chiếc bằng ba con số: kinh độ quy ' +
+      'đổi, vĩ độ quy đổi và độ cao. Kiểm soát viên phải trả lời trong một giây: hai chiếc cách nhau bao xa, hai đường bay ' +
       'chếch nhau góc nào. Cả hai câu hỏi ấy đều quy về một phép tính toạ độ duy nhất.',
     theory:
       'KHOẢNG CÁCH GIỮA HAI ĐIỂM\n' +

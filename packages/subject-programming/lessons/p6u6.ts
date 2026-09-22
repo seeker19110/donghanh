@@ -255,7 +255,7 @@ fun main() {
         },
       ],
       hints: [
-        'Đếm theo điều kiện: `so.count { it.nhom == null }`. Chú ý so sánh với null bằng `==`, không phải `!= null`.',
+        'Đếm theo điều kiện: `so.count { it.nhom == null }`. Đề hỏi số khoản CHƯA xếp nhóm, nên điều kiện là `== null`, đừng viết nhầm thành `!= null`.',
         'Khoản đắt nhất: `so.maxByOrNull { it.soTien }` trả về kiểu CÓ THỂ null (sổ rỗng thì không có max), nên phải `?.ten ?: "(so trong)"`.',
         'Lọc rồi cộng là nối hai phép: `so.filter { it.nhom == "an" }.sumOf { it.soTien }`.',
         'Nhớ bọc `${...}` trong chuỗi mẫu khi bên trong có lời gọi hàm.',

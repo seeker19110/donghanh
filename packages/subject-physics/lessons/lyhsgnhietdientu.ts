@@ -34,7 +34,7 @@ export const LY_HSG_NHIET_DIEN_TU_LESSONS: PhysicsLesson[] = [
       'lượng trao đổi, A′ = Q_thu − |Q_toả|. Công không "từ đâu ra" cả — nó là phần nhiệt lượng không bị trả lại nguồn lạnh.\n' +
       '2. Công của cả chu trình bằng DIỆN TÍCH HÌNH KÍN trên giản đồ p–V. Đi theo chiều KIM ĐỒNG HỒ thì A′ > 0 (động cơ nhiệt, ' +
       'khí sinh công); đi NGƯỢC chiều kim đồng hồ thì A′ < 0 (máy lạnh, phải tốn công bên ngoài).\n' +
-      '3. Diện tích ấy chỉ phụ thuộc HÌNH DẠNG đường đi, nên hai chu trình có cùng hai điểm đầu cuối vẫn cho công khác nhau — ' +
+      '3. Diện tích ấy chỉ phụ thuộc HÌNH DẠNG đường đi, nên hai quá trình có cùng điểm đầu và cùng điểm cuối vẫn cho công khác nhau — ' +
       'công là hàm của QUÁ TRÌNH, khác hẳn nội năng vốn là hàm của TRẠNG THÁI.\n\n' +
       'GIỚI HẠN: mọi công thức ở đây dành cho khí lí tưởng và quá trình đủ chậm để mỗi thời điểm khí có một áp suất xác định ' +
       '(quá trình cân bằng). Quá trình nổ hoặc giãn tự do vào chân không không vẽ được thành đường liền trên giản đồ p–V.',

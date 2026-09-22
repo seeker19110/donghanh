@@ -108,7 +108,7 @@ export const MATHFORCODE_S3_DETAIL: SpecStageDetail = {
         },
         {
           q: 'Lặp luỹ thừa hội tụ về vector riêng nào?',
-          a: 'Về vector riêng ứng với giá trị riêng có độ lớn lớn nhất, vì thành phần đó lấn át sau nhiều vòng.',
+          a: 'Về vector riêng ứng với giá trị riêng có trị tuyệt đối lớn nhất, vì thành phần đó lấn át sau nhiều vòng.',
         },
         {
           q: 'Vì sao xếp hạng trang web lại quy về bài toán vector riêng?',

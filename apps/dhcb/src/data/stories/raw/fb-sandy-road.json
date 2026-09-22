@@ -13,7 +13,7 @@
     "vi": "Opus dịch tay 2026 từ bản public domain"
   },
   "moralEn": "\"We must not give up!\" — when everyone else lay down in despair, the merchant kept looking, and the boy kept striking; one more blow of the hammer was all that stood between them and water.",
-  "moralVi": "\"Chúng ta không được bỏ cuộc!\" — khi mọi người khác đã nằm xuống tuyệt vọng, người lái buôn vẫn tiếp tục tìm kiếm, và cậu bé vẫn tiếp tục nện búa; chỉ thêm một nhát búa nữa thôi là ngăn cách giữa họ và dòng nước mát.",
+  "moralVi": "\"Chúng ta không được bỏ cuộc!\" — khi mọi người khác đã nằm xuống tuyệt vọng, người lái buôn vẫn tiếp tục tìm kiếm, và cậu bé vẫn tiếp tục nện búa; chỉ còn đúng một nhát búa nữa thôi là họ chạm tới dòng nước mát.",
   "lines": [
     {
       "p": 0,
@@ -75,7 +75,11 @@
       "en": "They unyoked the oxen, and fed them.",
       "vi": "Họ tháo ách cho bò, rồi cho chúng ăn."
     },
-    { "p": 4, "en": "They built fires and cooked the rice.", "vi": "Họ nhóm lửa, nấu cơm." },
+    {
+      "p": 4,
+      "en": "They built fires and cooked the rice.",
+      "vi": "Họ nhóm lửa, nấu cơm."
+    },
     {
       "p": 4,
       "en": "Then they spread a great awning over all the carts and the oxen, and the men lay down under it to rest until sunset.",
@@ -131,7 +135,11 @@
       "en": "Soon he was fast asleep, because he had not slept for many nights, and the light had been so strong in the daytime that he had not slept well then.",
       "vi": "Chẳng mấy chốc anh ngủ say, bởi đã nhiều đêm liền anh chẳng được ngủ, mà ban ngày ánh nắng lại chói chang tới mức anh cũng chẳng ngủ ngon được."
     },
-    { "p": 9, "en": "All night long the oxen went on.", "vi": "Suốt đêm, đàn bò cứ thế đi tới." },
+    {
+      "p": 9,
+      "en": "All night long the oxen went on.",
+      "vi": "Suốt đêm, đàn bò cứ thế đi tới."
+    },
     {
       "p": 9,
       "en": "Near daybreak, the pilot awoke and looked at the last stars fading in the light.",
@@ -227,10 +235,26 @@
       "en": "The boy stood up straight and raised the hammer high above his head and hit the rock as hard as ever he could.",
       "vi": "Cậu bé đứng thẳng người, giơ cao chiếc búa quá đầu, rồi nện xuống tảng đá bằng hết sức bình sinh."
     },
-    { "p": 15, "en": "He would not give in.", "vi": "Cậu nhất định không chịu bỏ cuộc." },
-    { "p": 15, "en": "They must be saved.", "vi": "Mọi người nhất định phải được cứu." },
-    { "p": 15, "en": "Down came the hammer.", "vi": "Chiếc búa giáng xuống." },
-    { "p": 15, "en": "This time the rock broke.", "vi": "Lần này tảng đá vỡ ra." },
+    {
+      "p": 15,
+      "en": "He would not give in.",
+      "vi": "Cậu nhất định không chịu bỏ cuộc."
+    },
+    {
+      "p": 15,
+      "en": "They must be saved.",
+      "vi": "Mọi người nhất định phải được cứu."
+    },
+    {
+      "p": 15,
+      "en": "Down came the hammer.",
+      "vi": "Chiếc búa giáng xuống."
+    },
+    {
+      "p": 15,
+      "en": "This time the rock broke.",
+      "vi": "Lần này tảng đá vỡ ra."
+    },
     {
       "p": 15,
       "en": "And the boy had hardly time to get out of the well before it was full of cool water.",

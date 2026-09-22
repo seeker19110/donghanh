@@ -13,7 +13,7 @@
     "vi": "Opus dịch tay 2026 từ bản public domain"
   },
   "moralEn": "The Fishes trusted a hungry stranger and were eaten one by one; the Crab kept a grip of his own and lived. Beware of help offered by someone who profits from your trust.",
-  "moralVi": "Đàn Cá tin lời một kẻ lạ đang đói bụng nên bị ăn thịt từng con một; còn Cua tự giữ lấy thế bám của mình nên sống sót. Hãy cảnh giác với sự giúp đỡ đến từ kẻ được lợi nhờ lòng tin của bạn.",
+  "moralVi": "Đàn Cá tin lời một kẻ lạ đang đói bụng nên bị ăn thịt từng con một; còn Cua tự mình bám chắc nên sống sót. Hãy cảnh giác với sự giúp đỡ đến từ kẻ được lợi nhờ lòng tin của bạn.",
   "lines": [
     {
       "p": 0,
@@ -93,14 +93,18 @@
     {
       "p": 13,
       "en": "\"See how cool and shady it is here,\" he said, \"and how much larger the pond is, and how full it is!\"",
-      "vi": "\"Ngươi xem ở đây mát mẻ râm mát thế nào,\" nó nói, \"ao rộng hơn bao nhiêu, mà nước lại đầy tràn!\""
+      "vi": "\"Ngươi xem ở đây mát mẻ, rợp bóng thế nào,\" nó nói, \"ao rộng hơn bao nhiêu, mà nước lại đầy tràn!\""
     },
     {
       "p": 14,
       "en": "\"Yes!\" said the big Fish, \"take me back to the little pond and I'll tell the other Fishes all about it.\"",
       "vi": "\"Đúng thật!\" con Cá lớn nói, \"đưa tôi về cái ao nhỏ đi, tôi sẽ kể hết cho đàn Cá kia nghe.\""
     },
-    { "p": 14, "en": "So back they went.", "vi": "Thế là cả hai quay về." },
+    {
+      "p": 14,
+      "en": "So back they went.",
+      "vi": "Thế là cả hai quay về."
+    },
     {
       "p": 15,
       "en": "The Fishes all wanted to go when they heard the big Fish talk about the fine pond which he had seen.",
@@ -176,9 +180,21 @@
       "en": "The Crane knew about the tight grip of the Crabs, and he did not like to have the Crab hold on with his claws.",
       "vi": "Sếu biết rõ cái kẹp chắc nịch của loài Cua, nên chẳng thích để Cua bám vào bằng càng chút nào."
     },
-    { "p": 24, "en": "But he was hungry, so he said:", "vi": "Nhưng nó đang đói, nên nói:" },
-    { "p": 25, "en": "\"Very well, hold tight.\"", "vi": "\"Được thôi, bám cho chắc vào.\"" },
-    { "p": 26, "en": "And off went the Crane with the Crab.", "vi": "Thế là Sếu mang Cua bay đi." },
+    {
+      "p": 24,
+      "en": "But he was hungry, so he said:",
+      "vi": "Nhưng nó đang đói, nên nói:"
+    },
+    {
+      "p": 25,
+      "en": "\"Very well, hold tight.\"",
+      "vi": "\"Được thôi, bám cho chắc vào.\""
+    },
+    {
+      "p": 26,
+      "en": "And off went the Crane with the Crab.",
+      "vi": "Thế là Sếu mang Cua bay đi."
+    },
     {
       "p": 27,
       "en": "When they reached the place where the Crane had eaten the Fishes, the Crane said:",
