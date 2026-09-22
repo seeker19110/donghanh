@@ -200,9 +200,6 @@ export default function Practice() {
             <div>
               <div className="flex items-center gap-2 mb-0.5">
                 <h3 className="font-bold text-white text-base">Sổ Tay Sửa Lỗi Đa Môn AI</h3>
-                <span className="text-[11px] px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 theme-light:text-rose-800 font-bold border border-rose-500/30">
-                  Smart Mistake Bank
-                </span>
               </div>
               <p className="text-xs text-zinc-300 leading-relaxed max-w-xl">
                 Tự động tổng hợp các bẫy biến đổi Toán - Lý - Hóa, lỗi phát âm IPA, sai ngữ pháp
@@ -253,7 +250,7 @@ export default function Practice() {
                   <div className="flex items-center justify-between gap-1 mb-0.5">
                     <h3 className="font-bold text-white text-sm">Toán Học</h3>
                     <span className="text-[11px] px-1.5 py-0.2 rounded bg-blue-500/15 text-blue-300 theme-light:text-blue-800 font-semibold border border-blue-500/20">
-                      LaTeX OCR
+                      Giải từng bước
                     </span>
                   </div>
                   <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
@@ -307,7 +304,7 @@ export default function Practice() {
                   <div className="flex items-center justify-between gap-1 mb-0.5">
                     <h3 className="font-bold text-white text-sm">Hóa Học</h3>
                     <span className="text-[11px] px-1.5 py-0.2 rounded bg-amber-500/15 text-amber-300 theme-light:text-amber-800 font-semibold border border-amber-500/20">
-                      PTHH Step
+                      Cân bằng phản ứng
                     </span>
                   </div>
                   <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
@@ -425,7 +422,7 @@ export default function Practice() {
                 <div className="flex items-center justify-between gap-1 mb-0.5">
                   <h3 className="font-bold text-white text-sm">Luyện Nói & Chấm Âm IPA</h3>
                   <span className="text-[11px] px-1.5 py-0.2 rounded bg-sky-500/15 text-sky-300 theme-light:text-sky-800 font-semibold border border-sky-500/20">
-                    Live STT
+                    Nghe bạn nói
                   </span>
                 </div>
                 <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
@@ -446,7 +443,7 @@ export default function Practice() {
                 <div className="flex items-center justify-between gap-1 mb-0.5">
                   <h3 className="font-bold text-white text-sm">Luyện Viết & Chấm IELTS</h3>
                   <span className="text-[11px] px-1.5 py-0.2 rounded bg-violet-500/15 text-violet-300 theme-light:text-violet-800 font-semibold border border-violet-500/20">
-                    Band 9.0
+                    Chấm kiểu IELTS
                   </span>
                 </div>
                 <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
@@ -488,7 +485,7 @@ export default function Practice() {
                 <div className="flex items-center justify-between gap-1 mb-0.5">
                   <h3 className="font-bold text-white text-sm">Thư Viện Luyện Nghe</h3>
                   <span className="text-[11px] px-1.5 py-0.2 rounded bg-rose-500/15 text-rose-300 theme-light:text-rose-800 font-semibold border border-rose-500/20">
-                    Chirp3 HD
+                    Giọng bản xứ
                   </span>
                 </div>
                 <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">

@@ -156,8 +156,8 @@ export default function EnglishHome() {
               <div>
                 <h2 className="text-base font-bold text-white flex items-center gap-2">
                   {isA ? 'Gia Sư Tiếng Anh Song Ngữ' : 'Bilingual English Tutor'}
-                  <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 theme-light:text-emerald-800 font-bold border border-emerald-500/30">
-                    CEFR A1–C2
+                  <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 theme-light:text-emerald-800 font-bold border border-emerald-500/30 whitespace-nowrap">
+                    A1–C2
                   </span>
                 </h2>
                 <p className="text-xs text-zinc-400">

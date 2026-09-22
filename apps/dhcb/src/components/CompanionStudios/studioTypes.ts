@@ -71,9 +71,9 @@ export const QUICK_PROMPTS = [
 ]
 
 export const STUDIO_TABS_CONFIG = [
-  { id: 'dialogue' as const, label: 'Đối thoại & Voice', icon: MessageSquare, badge: 'Voice' },
+  { id: 'dialogue' as const, label: 'Đối thoại & Voice', icon: MessageSquare, badge: 'Giọng nói' },
   { id: 'cognitive' as const, label: 'Nhận thức & Ký ức', icon: Brain, badge: 'Socratic' },
   { id: 'labs' as const, label: 'Đấu trường & Labs', icon: Swords, badge: 'STEM' },
-  { id: 'proactive' as const, label: 'Tự trị & Lộ trình', icon: Target, badge: 'Autopilot' },
-  { id: 'synthesis' as const, label: 'Tổng hợp & Studio', icon: Compass, badge: 'V6' },
+  { id: 'proactive' as const, label: 'Tự trị & Lộ trình', icon: Target, badge: 'Tự động' },
+  { id: 'synthesis' as const, label: 'Tổng hợp & Studio', icon: Compass, badge: 'Tổng hợp' },
 ]

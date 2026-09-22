@@ -201,9 +201,9 @@ export default function Landing() {
               Tiếng Anh chỉ là một môn ở đây
             </h2>
             <p className="mt-1.5 text-sm text-zinc-300 theme-light:text-zinc-700">
-              Cùng một tài khoản, bạn còn học Lập trình, Toán, Lý, Hoá, Sinh và ghi việc ở Ghi chú
-              — cùng Bạn Đồng Hành, người bạn AI nhớ ngữ cảnh học của bạn qua mọi môn. Không phải
-              mua thêm gói nào.
+              Cùng một tài khoản, bạn còn học Lập trình, Toán, Lý, Hoá, Sinh và ghi việc ở Ghi chú —
+              cùng Bạn Đồng Hành, người bạn AI nhớ ngữ cảnh học của bạn qua mọi môn. Không phải mua
+              thêm gói nào.
             </p>
             <a
               href="https://www.donghanhcungban.org"

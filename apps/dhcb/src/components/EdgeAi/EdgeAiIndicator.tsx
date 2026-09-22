@@ -34,10 +34,10 @@ export const EdgeAiIndicator: React.FC<EdgeAiIndicatorProps> = ({ className = ''
         )}
         <span>
           {isWebGpu
-            ? 'Edge AI WebGPU (0ms)'
+            ? 'Chấm ngay trên máy'
             : capability.inferenceMode === 'wasm'
-              ? 'Edge AI WASM'
-              : 'Cloud AI Gateway'}
+              ? 'Chấm trên máy'
+              : 'Chấm qua máy chủ'}
         </span>
       </button>
 

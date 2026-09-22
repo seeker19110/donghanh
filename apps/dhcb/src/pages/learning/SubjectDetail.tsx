@@ -639,7 +639,7 @@ export default function SubjectDetail() {
                         ) : (
                           <>
                             <Sparkles className="w-4 h-4" />
-                            <span>Giải từ ảnh Vision OCR</span>
+                            <span>Giải từ ảnh chụp đề</span>
                           </>
                         )}
                       </button>

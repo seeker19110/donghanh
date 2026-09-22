@@ -462,7 +462,7 @@ export default function Companion() {
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-100 flex flex-col">
-      <Layout back={true} title="Bạn Đồng Hành Đa Lĩnh Vực" />
+      <Layout back={true} title="Bạn Đồng Hành" />
 
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trang danh sách/khu trò chuyện → width="standard";
           giữ nguyên bố cục flex cột full-height qua className.
@@ -471,7 +471,7 @@ export default function Companion() {
           hàng nút Studio — đo được là 3 vi phạm `target-size` ở cổng a11y (nút bị che một phần). */}
       <PageShell width="standard" baseWidth="max-w-4xl" className="!py-4 flex flex-1 flex-col">
         <h1 tabIndex={-1} className="sr-only focus:outline-none">
-          Bạn Đồng Hành Đa Lĩnh Vực
+          Bạn Đồng Hành
         </h1>
 
         <RealtimeTelemetryBar />

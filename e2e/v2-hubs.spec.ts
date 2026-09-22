@@ -180,7 +180,7 @@ test.describe('Platform V2 Specialized Domain Hubs & Companion E2E', () => {
     await page.goto('/ban-dong-hanh')
     // `getByText` khớp CẢ tiêu đề ở thanh header (`Layout title=`) LẪN `<h1 sr-only>` cùng chữ
     // trong thân trang (đợt chuyển PageHeader→Layout, 2026-09-20) — nhắm đúng heading.
-    await expect(page.getByRole('heading', { name: 'Bạn Đồng Hành Đa Lĩnh Vực' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Bạn Đồng Hành', exact: true })).toBeVisible()
 
     // [2026-09-22] Chip "Sự nghiệp" đã gỡ khỏi Companion (trụ không còn tồn tại). Chọn miền
     // "Ghi chú" (id `work`). `exact: true` vì sidebar desktop cũng có mục "Ghi chú".

@@ -14,24 +14,24 @@ export default function AvatarEmbodimentSelector({
   const modes = [
     {
       id: '3d_cyber_avatar' as const,
-      label: '3D Cyber Avatar',
+      label: 'Nhân vật 3D',
       icon: Bot,
-      desc: 'Robot Nữ 3D, mắt dõi theo & 15 Visemes Morphing',
-      badge: 'V4 Flagship',
+      desc: 'Nhân vật 3D nhìn theo bạn, khẩu hình khớp lời nói',
+      badge: 'Đẹp nhất',
     },
     {
       id: 'live_orb' as const,
-      label: 'Audio Orb',
+      label: 'Quả cầu âm thanh',
       icon: Radio,
       desc: 'Quả cầu hiệu ứng theo trạng thái ghi âm/trả lời',
-      badge: 'Voice',
+      badge: 'Nhẹ',
     },
     {
       id: 'minimal' as const,
       label: 'Gọn nhẹ',
       icon: Sparkles,
       desc: 'Chế độ văn bản tối giản tiết kiệm pin',
-      badge: 'Lite',
+      badge: 'Tiết kiệm pin',
     },
   ]
 

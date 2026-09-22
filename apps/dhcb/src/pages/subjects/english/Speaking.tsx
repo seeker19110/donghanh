@@ -222,6 +222,12 @@ function SetupScreen({
               </button>
             ))}
           </div>
+          {/* [2026-09-22] Đồng bộ với trang Trò chuyện: mỗi mức có một dòng giải thích. */}
+          <p className="text-xs text-zinc-400 mt-2 text-center">
+            {isA
+              ? LEVELS.find((l) => l.value === level)?.descA
+              : LEVELS.find((l) => l.value === level)?.descB}
+          </p>
         </div>
 
         {error && (
