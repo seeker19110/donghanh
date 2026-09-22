@@ -984,10 +984,16 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 ## Nợ kỹ thuật còn mở
 
 - 🟡 **[2026-09-22 — audit câu chữ toàn dự án + trả nợ, `docs/changelog/0406-*.md` · `0408-*.md`
-  · `0409-*.md`, PR #1102 · #1105 · PR đợt 0409] Nợ còn lại:** (1) sàn bậc theo tần suất mới áp
-  tới B2 — B1 hạng ≥ 30 000 chưa xét lên C1; (2) dạng chia còn đứng như từ riêng trong vòng
-  (`sung`, `designs`…) ngoài 12 mục đã nối `base` — cần quét theo `forms` của từ gốc; (3) 40 câu
-  mẫu mồ côi đã bỏ khi sinh lại vòng. **ĐÃ TRẢ (0408 + 0409):** bộ sinh `forms` (55 mục +
+  · `0409-*.md` · `0410-*.md`, PR #1102 · #1105 · #1106 · PR đợt 0410] Nợ còn lại:** chỉ còn
+  **58 câu mẫu viết tay nằm trong hồ `pool`** của `cefrCircleSentences.json` — chưa gán được vòng
+  nào, nhưng KHÔNG mất: mỗi lần sinh lại vòng script lấy hồ ra thử trước khi viết câu mới. Ngoài
+  ra nội dung học vẫn chưa có người có chuyên môn sư phạm đọc lại (ngoài tầm mọi cổng máy).
+  **ĐÃ TRẢ (0410) — ba nợ của 0409 đóng hết:** mốc thứ ba của sàn bậc theo tần suất (hạng ≥ 30 000
+  → C1, 128 mục B2 lên C1, ngoại lệ có tên `app::n`/`downloads::n`); **bất biến thứ tư của thang
+  bậc** — dạng chia không được đứng như từ riêng, quét theo `forms` (`findUnlinkedInflections`:
+  42 mục → 30 nối `base`, 12 mục từ vựng hoá vào `LEXICALIZED_FORM_ALLOWLIST`); hồ `pool` cho câu
+  mẫu + **cứu lại 40 câu 0409 đã bỏ**, vòng sinh lại 673 → 671 (95 câu gán lại, 12 câu viết tay,
+  0 vòng thiếu). **ĐÃ TRẢ (0408 + 0409):** bộ sinh `forms` (55 mục +
   `grandchildren`), cổng `dictionaryForms.test.ts`; **bất biến thứ ba của thang bậc** — nhãn không
   có nguồn CEFR-J/Octanove phải tôn trọng sàn theo hạng tần suất (`UNSOURCED_LEVEL_FLOORS`, 306
   mục nâng bậc, 12 dạng chia nối `base`), vòng sinh lại 676 → 673, câu mẫu gán lại bằng

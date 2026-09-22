@@ -411,7 +411,7 @@
     "ipa_en": "/ˈræŋkɪŋz/",
     "ipa_vi": "/ɓaːŋ˧˩˧/",
     "freq": 47046,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "rap",
@@ -2161,7 +2161,7 @@
     "ipa_en": "/rɪˈfəndəbəl/",
     "ipa_vi": "/kɔ˦˥/",
     "freq": 38808,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "refurbish",
@@ -2525,7 +2525,7 @@
     "ipa_en": "/ˌriɪmˈbərsmənt/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 40283,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "reimbursements" }
   },
   {
@@ -2585,7 +2585,7 @@
     "ipa_en": "/ˌriɪnˈstɑl/",
     "ipa_vi": "/kaːj˨˩/",
     "freq": 57397,
-    "level": "B2",
+    "level": "C1",
     "forms": { "v3s": "reinstalls", "ving": "reinstalling", "past": "reinstalled" }
   },
   {
@@ -2901,7 +2901,7 @@
     "ipa_en": "/rɪˈlaɪəns/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 31324,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "reliances" }
   },
   {
@@ -3134,7 +3134,7 @@
     "ipa_en": "/riˈmɛrɪʤ/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 51204,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "remarriages" }
   },
   {
@@ -3348,7 +3348,7 @@
     "ipa_en": "/riˈnuəbəl/",
     "ipa_vi": "/kɔ˦˥/",
     "freq": 38548,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "renewal",
@@ -3383,7 +3383,7 @@
     "ipa_en": "/ˈrɛnəˌveɪt/",
     "ipa_vi": "/sɯə˧˩˧/",
     "freq": 32028,
-    "level": "B2",
+    "level": "C1",
     "forms": { "v3s": "renovates", "ving": "renovating", "past": "renovated" }
   },
   {
@@ -4976,7 +4976,7 @@
     "ipa_en": "/ˈrɛvərənt/",
     "ipa_vi": "/ton˧/",
     "freq": 34377,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "reverse",
@@ -5469,7 +5469,7 @@
     "ipa_en": "/ˈrɪʤɪdli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 38135,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "rim",
@@ -7633,7 +7633,7 @@
     "ipa_en": "/ˈsæʧərˌeɪt/",
     "ipa_vi": "/laːm˨˩/",
     "freq": 35320,
-    "level": "B2",
+    "level": "C1",
     "forms": { "v3s": "saturates", "ving": "saturating", "past": "saturated" }
   },
   {
@@ -9460,7 +9460,7 @@
     "ipa_en": "/ˈsɛlfləslaɪ/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 41771,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "sell",
@@ -10445,7 +10445,7 @@
     "ipa_en": "/ʃeɪl/",
     "ipa_vi": "/ɗaː˦˥/",
     "freq": 37247,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "shales" }
   },
   {
@@ -10502,7 +10502,7 @@
     "ipa_en": "/ʃeɪmˈfʊli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 31141,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "shampoo",
@@ -10714,7 +10714,7 @@
     "ipa_en": "/ˈʃipɪʃ/",
     "ipa_vi": "/ŋɯəŋ˨˩ʔ/",
     "freq": 44166,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "sheer",
@@ -11567,7 +11567,7 @@
     "ipa_en": "/ˈʃaɪli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 38158,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "shyness",

@@ -494,7 +494,7 @@
     "ipa_en": "/kraɪˈtɪriə/",
     "ipa_vi": "/tiəw˧/",
     "freq": 12669,
-    "level": "B2",
+    "level": "C1",
     "base": "criterion"
   },
   {
@@ -506,7 +506,7 @@
     "ipa_en": "/kraɪˈtɪriən/",
     "ipa_vi": "/tiəw˧/",
     "freq": 33929,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "criteria", "irregular": true }
   },
   {
@@ -1178,7 +1178,7 @@
     "ipa_en": "/ˈkjumjələtɪv/",
     "ipa_vi": "/tic̚˦˥/",
     "freq": 34247,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "cunning",
@@ -2497,7 +2497,7 @@
     "ipa_en": "/diˈbəg/",
     "ipa_vi": "/ɣəː˧˥ʔ/",
     "freq": 35750,
-    "level": "B2",
+    "level": "C1",
     "forms": { "v3s": "debugs", "ving": "debuging", "past": "debuged" }
   },
   {
@@ -2509,7 +2509,7 @@
     "ipa_en": "/dəˈbəgər/",
     "ipa_vi": "/koŋ˧/",
     "freq": 52281,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "debuggers" }
   },
   {
@@ -3472,7 +3472,7 @@
     "ipa_en": "/dɪˈlɪvərəbəl/",
     "ipa_vi": "/saːn˧˩˧/",
     "freq": 63428,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "deliverables" }
   },
   {
@@ -4217,7 +4217,7 @@
     "ipa_en": "/ˌdɛzɪgˈneɪʃən/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 34257,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "designations" }
   },
   {
@@ -5173,7 +5173,8 @@
     "ipa_en": "/daɪd/",
     "ipa_vi": "/ɗaː˧˥ʔ/",
     "freq": 568,
-    "level": "A2"
+    "level": "A2",
+    "base": "die"
   },
   {
     "word": "diesel",
@@ -6066,7 +6067,7 @@
     "ipa_en": "/dɪˈskleɪmər/",
     "ipa_vi": "/twiên˧/",
     "freq": 46170,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "disclaimers" }
   },
   {
@@ -6268,7 +6269,7 @@
     "ipa_en": "/ˈdɪskəs/",
     "ipa_vi": "/mon˧/",
     "freq": 33573,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "discuses" }
   },
   {
@@ -6398,7 +6399,7 @@
     "ipa_en": "/dɪsˈhɑrtənd/",
     "ipa_vi": "/naːn˧˩˧/",
     "freq": 54787,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "dishonest",
@@ -6584,7 +6585,7 @@
     "ipa_en": "/ˈdɪspərɪt/",
     "ipa_vi": "/xaːk̚˦˥/",
     "freq": 39445,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "dispatch",
@@ -7195,7 +7196,7 @@
     "ipa_en": "/dɪˈvərsəˌfaɪ/",
     "ipa_vi": "/ɗaː˧/",
     "freq": 30572,
-    "level": "B2",
+    "level": "C1",
     "forms": { "v3s": "diversifies", "ving": "diversifying", "past": "diversified" }
   },
   {
@@ -8054,7 +8055,7 @@
     "ipa_en": "/ˈdaʊnpɔr/",
     "ipa_vi": "/mɯə˧/",
     "freq": 49763,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "downpours" }
   },
   {
@@ -9612,7 +9613,8 @@
     "ipa_en": "/ˈiziər/",
     "ipa_vi": "/ze˧˥ʔ/",
     "freq": 1565,
-    "level": "A1"
+    "level": "A1",
+    "base": "easy"
   },
   {
     "word": "easiest",
@@ -9623,7 +9625,8 @@
     "ipa_en": "/ˈiziəst/",
     "ipa_vi": "/ze˧˥ʔ/",
     "freq": 7879,
-    "level": "A1"
+    "level": "A1",
+    "base": "easy"
   },
   {
     "word": "easily",
@@ -10412,7 +10415,7 @@
     "ipa_en": "/ɪˈlɛktərət/",
     "ipa_vi": "/kɯ˧˩˧/",
     "freq": 37147,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "electorates" }
   },
   {
@@ -10665,7 +10668,7 @@
     "ipa_en": "/ˌɛlɪʤəˈbɪlɪti/",
     "ipa_vi": "/tɯ˧/",
     "freq": 32149,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "eligibilities" }
   },
   {

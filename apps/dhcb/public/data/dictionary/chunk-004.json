@@ -1440,7 +1440,8 @@
     "ipa_en": "/haɪər/",
     "ipa_vi": "/kaːw˧/",
     "freq": 2044,
-    "level": "A1"
+    "level": "A1",
+    "base": "high"
   },
   {
     "word": "highest",
@@ -1451,7 +1452,8 @@
     "ipa_en": "/haɪəst/",
     "ipa_vi": "/kaːw˧/",
     "freq": 3686,
-    "level": "A1"
+    "level": "A1",
+    "base": "high"
   },
   {
     "word": "highland",
@@ -2609,7 +2611,8 @@
     "ipa_en": "/ˈhɑtəst/",
     "ipa_vi": "/nɔŋ˦˥/",
     "freq": 6004,
-    "level": "A1"
+    "level": "A1",
+    "base": "hot"
   },
   {
     "word": "hour",
@@ -3629,7 +3632,7 @@
     "ipa_en": "/ˌaɪˈkɑnɪk/",
     "ipa_vi": "/kɔ˦˥/",
     "freq": 35194,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "icy",
@@ -3767,7 +3770,7 @@
     "ipa_en": "/ˌaɪdiəˈlɑʤɪkəl/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 39596,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "ideology",
@@ -3976,7 +3979,7 @@
     "ipa_en": "/ˌɪˈlɛʤəbəl/",
     "ipa_vi": "/xɔ˦˥/",
     "freq": 36896,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "illness",
@@ -4470,7 +4473,7 @@
     "ipa_en": "/ˌɪmpləmɛnˈteɪʃən/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 36485,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "implementations" }
   },
   {
@@ -4506,7 +4509,7 @@
     "ipa_en": "/ˌɪmˈplɪsət/",
     "ipa_vi": "/ŋəm˨˩/",
     "freq": 30590,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "implied",
@@ -4723,7 +4726,7 @@
     "ipa_en": "/ˌɪmˈprɛsɪvli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 43682,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "imprison",
@@ -5663,7 +5666,7 @@
     "ipa_en": "/ˌɪnɪkˈwɑləti/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 50333,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "inequalities" }
   },
   {
@@ -6044,7 +6047,7 @@
     "ipa_en": "/ˌɪnˈfɔrməli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 32349,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "information",
@@ -7138,7 +7141,7 @@
     "ipa_en": "/ˈɪnsəˌleɪt/",
     "ipa_vi": "/kaːc̚˦˥/",
     "freq": 31434,
-    "level": "B2",
+    "level": "C1",
     "forms": { "v3s": "insulates", "ving": "insulating", "past": "insulated" }
   },
   {
@@ -7198,7 +7201,7 @@
     "ipa_en": "/ɪnt/",
     "ipa_vi": "/viət̚˦˥/",
     "freq": 55886,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "ints" }
   },
   {
@@ -8326,7 +8329,7 @@
     "ipa_en": "/ˌɪnˈvɪgərˌeɪtɪd/",
     "ipa_vi": "/tɕaːn˨˩/",
     "freq": 39626,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "invincible",
@@ -8487,7 +8490,7 @@
     "ipa_en": "/ˈɪnwərdli/",
     "ipa_vi": "/tɕɔŋ˧/",
     "freq": 37944,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "ipo",
@@ -8520,7 +8523,7 @@
     "ipa_en": "/ˌɪˈræki/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 44776,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "irate",
@@ -9476,7 +9479,7 @@
     "ipa_en": "/ˈʤɔɪntli/",
     "ipa_vi": "/kuŋ˨˩/",
     "freq": 32877,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "joke",
@@ -9570,7 +9573,7 @@
     "ipa_en": "/ˈʤɔɪfəli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 36514,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "jubilant",
@@ -9639,7 +9642,7 @@
     "ipa_en": "/ʤuˈdɪʃiˌɛri/",
     "ipa_vi": "/ŋaːɲ˨˩/",
     "freq": 34016,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "judiciaries" }
   },
   {
@@ -11275,7 +11278,8 @@
     "ipa_en": "/ˈlɑrʤər/",
     "ipa_vi": "/ləːn˦˥/",
     "freq": 4982,
-    "level": "A1"
+    "level": "A1",
+    "base": "large"
   },
   {
     "word": "largest",
@@ -11286,7 +11290,8 @@
     "ipa_en": "/ˈlɑrʤəst/",
     "ipa_vi": "/ləːn˦˥/",
     "freq": 5115,
-    "level": "A1"
+    "level": "A1",
+    "base": "large"
   },
   {
     "word": "lark",
@@ -11445,7 +11450,8 @@
     "ipa_en": "/ˈleɪtəst/",
     "ipa_vi": "/məːj˦˥/",
     "freq": 2782,
-    "level": "A2"
+    "level": "A1",
+    "base": "late"
   },
   {
     "word": "latin",
@@ -12283,7 +12289,7 @@
     "ipa_en": "/ˈlɛgɪŋ/",
     "ipa_vi": "/kwən˨˩/",
     "freq": 56097,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "leggings" }
   },
   {

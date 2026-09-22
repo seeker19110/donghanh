@@ -323,7 +323,7 @@
     "ipa_en": "/ˈɑptɪməl/",
     "ipa_vi": "/toj˦˥/",
     "freq": 30484,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "optimism",
@@ -369,7 +369,7 @@
     "ipa_en": "/ˌɑptɪˈmɪstɪkəli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 68586,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "optimize",
@@ -1479,7 +1479,7 @@
     "ipa_en": "/ˈoʊvərˌkraʊdɪŋ/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 41602,
-    "level": "B2",
+    "level": "C1",
     "forms": { "uncountable": true }
   },
   {
@@ -1921,7 +1921,7 @@
     "ipa_en": "/ˌɑksəˈdeɪʃən/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 32471,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "oxidations" }
   },
   {
@@ -2773,7 +2773,8 @@
     "ipa_en": "/pərˈæmətərz/",
     "ipa_vi": "/tʰoŋ˧/",
     "freq": 14434,
-    "level": "C2"
+    "level": "C2",
+    "base": "parameter"
   },
   {
     "word": "paramount",
@@ -2961,7 +2962,7 @@
     "ipa_en": "/ˌpɑrləˈmɛntəri/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 33167,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "parody",
@@ -3309,7 +3310,7 @@
     "ipa_en": "/ˈpæsɪvli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 41621,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "passport",
@@ -4016,7 +4017,7 @@
     "ipa_en": "/ˈpilər/",
     "ipa_vi": "/zuŋ˨˩ʔ/",
     "freq": 30490,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "peelers" }
   },
   {
@@ -4711,7 +4712,7 @@
     "ipa_en": "/pərˈsɪstəntli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 35588,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "person",
@@ -7346,7 +7347,7 @@
     "ipa_en": "/ˈpɑpjəˌleɪt/",
     "ipa_vi": "/siɲ˧/",
     "freq": 33175,
-    "level": "B2",
+    "level": "C1",
     "forms": { "v3s": "populates", "ving": "populating", "past": "populated" }
   },
   {
@@ -8203,7 +8204,7 @@
     "ipa_en": "/prɪˌsɪpɪˈteɪʃən/",
     "ipa_vi": "/lɯəŋ˨˩ʔ/",
     "freq": 30623,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "precipitations" }
   },
   {
@@ -8504,7 +8505,7 @@
     "ipa_en": "/prihit/",
     "ipa_vi": "/laːm˨˩/",
     "freq": 46976,
-    "level": "B2",
+    "level": "C1",
     "forms": { "v3s": "preheats", "ving": "preheating", "past": "preheated" }
   },
   {
@@ -9145,7 +9146,7 @@
     "ipa_en": "/ˈpraɪsɪŋ/",
     "ipa_vi": "/viək̚˨˩ʔ/",
     "freq": 31313,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "pricings" }
   },
   {
@@ -11385,7 +11386,7 @@
     "ipa_en": "/pjʊˈreɪ/",
     "ipa_vi": "/mɔn˦˥/",
     "freq": 36597,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "purees" }
   },
   {
@@ -11715,7 +11716,7 @@
     "ipa_en": "/kˈwɑntɪˌteɪtɪv/",
     "ipa_vi": "/ɗiɲ˨˩ʔ/",
     "freq": 52725,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "quantity",

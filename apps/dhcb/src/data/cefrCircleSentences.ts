@@ -28,6 +28,16 @@ const fileSchema = z.object({
   levelsDone: z.array(z.enum(['a1', 'a2', 'b1', 'b2', 'c1', 'c2'])).min(1),
   /** circleId → 3–5 câu song ngữ. */
   sentences: z.record(z.string(), z.array(sentenceSchema)),
+  /**
+   * HỒ CÂU MỒ CÔI: câu VIẾT TAY hiện chưa gán được vòng nào (sinh lại vòng làm id vòng dịch
+   * chuyển, câu không còn khớp từ/khung độ dài của vòng nào đang thiếu).
+   *
+   * Vì sao phải có: trước đợt 0410, `reassign-circle-sentences.ts` BỎ THẲNG các câu này — đợt
+   * 0409 mất 40 câu viết tay đúng và dùng được, chỉ vì lúc ấy không vòng nào cần. Giữ chúng ở
+   * đây thì lần sinh lại vòng sau chúng được đem ra dùng lại, không ai phải viết lại.
+   * KHÔNG ghép vào vòng nào — app chỉ đọc `sentences`.
+   */
+  pool: z.array(sentenceSchema).default([]),
 })
 
 export type CircleSentencesFile = z.infer<typeof fileSchema>
@@ -37,6 +47,10 @@ export const CEFR_CIRCLE_SENTENCES_FILE: CircleSentencesFile = fileSchema.parse(
 /** Bản đồ `circleId → câu[]`. */
 export const CEFR_CIRCLE_SENTENCES: Record<string, { en: string; vi: string }[]> =
   CEFR_CIRCLE_SENTENCES_FILE.sentences
+
+/** Hồ câu mồ côi — chỉ script sinh lại vòng dùng, giao diện KHÔNG đọc. */
+export const CEFR_CIRCLE_SENTENCE_POOL: { en: string; vi: string }[] =
+  CEFR_CIRCLE_SENTENCES_FILE.pool
 
 /** Các bậc CEFR đã có câu mẫu đầy đủ. */
 export const CEFR_SENTENCE_LEVELS_DONE: CefrLevelId[] = CEFR_CIRCLE_SENTENCES_FILE.levelsDone

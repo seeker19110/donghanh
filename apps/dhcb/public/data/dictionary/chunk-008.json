@@ -787,7 +787,8 @@
     "ipa_en": "/sˈmɔlər/",
     "ipa_vi": "/ɲɔ˧˩˧/",
     "freq": 3542,
-    "level": "A1"
+    "level": "A1",
+    "base": "small"
   },
   {
     "word": "smart",
@@ -2555,7 +2556,7 @@
     "ipa_en": "/ˈspɛrɪŋli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 39870,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "spark",
@@ -4581,7 +4582,8 @@
     "ipa_en": "/stæts/",
     "ipa_vi": "/viət̚˦˥/",
     "freq": 14907,
-    "level": "B1"
+    "level": "B1",
+    "base": "stat"
   },
   {
     "word": "statue",
@@ -5034,7 +5036,7 @@
     "ipa_en": "/ˈstərnli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 47313,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "stethoscope",
@@ -5200,7 +5202,7 @@
     "ipa_en": "/ˈstɪnʤinɪs/",
     "ipa_vi": "/tiɲ˦˥/",
     "freq": 52860,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "stinginesses" }
   },
   {
@@ -5635,7 +5637,7 @@
     "ipa_en": "/streɪnər/",
     "ipa_vi": "/kaːj˦˥/",
     "freq": 31608,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "strainers" }
   },
   {
@@ -6881,7 +6883,7 @@
     "ipa_en": "/səbˈtrækʃən/",
     "ipa_vi": "/fɛp̚˦˥/",
     "freq": 36073,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "subtractions" }
   },
   {
@@ -7032,7 +7034,8 @@
     "ipa_en": "/səkt/",
     "ipa_vi": "/kwaː˦˥/",
     "freq": 4347,
-    "level": "B2"
+    "level": "B2",
+    "base": "suck"
   },
   {
     "word": "sucking",
@@ -7089,7 +7092,8 @@
     "ipa_en": "/sud/",
     "ipa_vi": "/ɗaː˧˥ʔ/",
     "freq": 7009,
-    "level": "B2"
+    "level": "B2",
+    "base": "sue"
   },
   {
     "word": "suffer",
@@ -9714,7 +9718,7 @@
     "ipa_en": "/ˈtɛrəf/",
     "ipa_vi": "/tʰuê˦˥/",
     "freq": 39908,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "tariffs" }
   },
   {
@@ -9880,7 +9884,7 @@
     "ipa_en": "/tækˈseɪʃən/",
     "ipa_vi": "/tʰuê˦˥/",
     "freq": 30747,
-    "level": "B2",
+    "level": "C1",
     "forms": { "plural": "taxations" }
   },
   {
@@ -10567,7 +10571,7 @@
     "ipa_en": "/ˈtɛndəˌraɪz/",
     "ipa_vi": "/laːm˨˩/",
     "freq": 39916,
-    "level": "B2",
+    "level": "C1",
     "forms": { "v3s": "tenderizes", "ving": "tenderizing", "past": "tenderized" }
   },
   {
@@ -10662,7 +10666,7 @@
     "ipa_en": "/ˈtɛnsli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 72439,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "tension",
@@ -11876,7 +11880,7 @@
     "ipa_en": "/ˈθɔtfəli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 32992,
-    "level": "B2"
+    "level": "C1"
   },
   {
     "word": "thoughtless",
