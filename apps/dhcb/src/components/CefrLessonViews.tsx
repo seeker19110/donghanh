@@ -10,6 +10,7 @@
 // component chỉ export component).
 // ──────────────────────────────────────────────────────────────────────
 
+import { thongDiepLoiThanThien } from '../lib/friendlyError'
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuizKeyboard } from '@dhcb/core-ui/useQuizKeyboard'
@@ -1069,7 +1070,9 @@ export function DialogueView({
       incrementUsage(userId, 'speakingCount')
       rpThrottle()
     } catch (e) {
-      setRpError(e instanceof Error ? e.message : isA ? 'Lỗi không xác định' : 'Unknown error')
+      setRpError(
+        thongDiepLoiThanThien(e, isA ? 'Lỗi không xác định' : 'Unknown error', isA ? 'vi' : 'en'),
+      )
     }
     setRpEvaluating(false)
   }

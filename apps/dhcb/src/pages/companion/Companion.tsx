@@ -1,4 +1,5 @@
 import { useCallback, useState, useRef, useEffect, Suspense } from 'react'
+import { thongDiepLoiThanThien } from '../../lib/friendlyError'
 import { useNavigate } from 'react-router-dom'
 import { Layers, X } from 'lucide-react'
 import { usePageTitle } from '../../lib/usePageTitle'
@@ -395,8 +396,8 @@ export default function Companion() {
       // không biết client rời; đúng luật hiện hành, xem đặc tả S10 AC-2.)
       if (err instanceof Error && err.name === 'AbortError') return
       // Gửi lỗi thì GIỮ nháp: người dùng còn thử lại được, không mất câu hỏi.
-      const message = err instanceof Error ? err.message : String(err)
-      toast.error(message || 'Lỗi khi gửi yêu cầu tới Companion')
+      const message = thongDiepLoiThanThien(err, 'Lỗi khi gửi yêu cầu tới Companion')
+      toast.error(message)
       setMessages((prev) =>
         prev.map((m) =>
           m.id === botMsgId && !m.text
@@ -430,8 +431,8 @@ export default function Companion() {
         }),
       )
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err)
-      toast.error(message || 'Lỗi khi xác nhận tác vụ')
+      const message = thongDiepLoiThanThien(err, 'Lỗi khi xác nhận tác vụ')
+      toast.error(message)
     } finally {
       setActionLoadingMap((prev) => ({ ...prev, [action.id]: false }))
     }
@@ -457,8 +458,8 @@ export default function Companion() {
         }),
       )
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err)
-      toast.error(message || 'Lỗi khi từ chối tác vụ')
+      const message = thongDiepLoiThanThien(err, 'Lỗi khi từ chối tác vụ')
+      toast.error(message)
     } finally {
       setActionLoadingMap((prev) => ({ ...prev, [action.id]: false }))
     }

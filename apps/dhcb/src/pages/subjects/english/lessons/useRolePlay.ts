@@ -1,6 +1,7 @@
 // apps/dhcb/src/pages/subjects/english/lessons/useRolePlay.ts — state + logic chế độ "Đóng vai",
 // tách từ LessonView.tsx (2026-09-06). Mã trong hook GIỮ NGUYÊN, chỉ đổi chỗ: thứ hook cần từ
 // trình phát (ref tốc độ/giọng, đặt dòng đang đọc, sáng chữ) nhận qua tham số.
+import { thongDiepLoiThanThien } from '../../../../lib/friendlyError'
 import { useState, useRef, useEffect } from 'react'
 import type { MutableRefObject } from 'react'
 import { getUsage, incrementUsage } from '../../../../lib/storage'
@@ -250,7 +251,9 @@ export function useRolePlay({
       incrementUsage(userId, 'speakingCount')
       rpThrottle()
     } catch (e) {
-      setRpError(e instanceof Error ? e.message : isA ? 'Lỗi không xác định' : 'Unknown error')
+      setRpError(
+        thongDiepLoiThanThien(e, isA ? 'Lỗi không xác định' : 'Unknown error', isA ? 'vi' : 'en'),
+      )
     }
     setRpEvaluating(false)
   }

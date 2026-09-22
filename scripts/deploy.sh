@@ -75,7 +75,24 @@ echo "── [5/7] Chạy migration Postgres tự host còn thiếu ────
 npm run migrate:pg
 
 echo "── [6/7] Build ──────────────────────────────────"
-npm run build
+# [2026-09-22, incident] 5 lần deploy liên tiếp sập ĐÚNG cùng chữ ký lỗi:
+#   FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed
+#   - JavaScript heap out of memory   (heap chạm ~1.48 GB rồi crash, exit 134)
+# KHÁC sự cố 2026-08-26 (kernel OOM killer giết tiến trình vì RAM/swap thật sự cạn — đã vá
+# bằng scripts/setup-swap.sh): đây là process V8 TỰ BÁO "hết heap" trước khi chạm trần vật
+# lý — VPS 3GB RAM + swap 6G vẫn còn chỗ, nhưng Node không biết dùng, vì KHÔNG file nào
+# trong build đặt `--max-old-space-size` nên V8 tự chọn mức cũ dựa trên RAM máy, không tính
+# swap. `tsc -b` 16 workspace + `vite build` project ngày càng lớn (thêm bài học/hoạt ảnh
+# liên tục) đã vượt mức đó. Repo build được ở CI (runner ~7GB, V8 tự nới đủ) nên không lộ ra
+# tới khi chạy trên VPS thật.
+# Sửa: nới trần heap CHỈ cho bước build này (không đổi hành vi `npm run build` ở máy dev/CI —
+# nơi RAM luôn dư, cờ này vô hại). Chọn 2560 MB (không phải trọn 3GB vật lý): app CŨ vẫn
+# đang phục vụ traffic thật qua PM2 suốt lúc build (zero-downtime reload chỉ diễn ra ở bước
+# [7/7], sau khi build xong) — để cả cap chạm sát trần RAM vật lý sẽ đẩy MỌI tiến trình sang
+# swap cùng lúc, có thể làm app đang chạy giật. 2560 MB vẫn dư hơn 1 GB so với đỉnh crash đo
+# được (~1,48 GB); nếu có lúc build cần hơn thì tràn sang swap (chậm hơn vài chục giây, không
+# crash) — đúng tinh thần swap đã lập ở Bước 3a.
+NODE_OPTIONS="${NODE_OPTIONS:-} --max-old-space-size=2560" npm run build
 
 echo "── Cập nhật .env (nếu cần) ───────────────────────"
 ENV_FILE="$APP_DIR/.env"
