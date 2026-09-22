@@ -397,8 +397,8 @@ async function captureEvidence(
     const promptNames = [
       'Luyện phát âm AI',
       'Giải Toán & STEM',
-      '10 Simulators Đời Sống',
-      'Socratic & Trí nhớ',
+      '10 thí nghiệm đời sống',
+      'Hỏi đáp & ghi nhớ',
     ]
     const chips = mainControls.filter((control) =>
       promptNames.some((name) => control.textContent?.includes(name)),
