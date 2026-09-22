@@ -5,6 +5,7 @@
 //
 // Sau khi ĐẠT, mở nút tuỳ chọn "Giải thích lại cho Bạn Đồng Hành" — MỘT lượt hội thoại qua
 // /api/agent (mode 'chat', đếm lượt Free/Pro hiện hành, KHÔNG lưu lại nội dung hội thoại).
+import { thongDiepLoiThanThien } from '../lib/friendlyError'
 import { useState } from 'react'
 import { CheckCircle2, XCircle, MessageCircle, Loader2 } from 'lucide-react'
 import {
@@ -188,7 +189,7 @@ function CompanionCheckIn({ stageName, topics }: { stageName: string; topics: st
       )
       setQuestion(text)
     } catch (e) {
-      setErr(e instanceof Error ? e.message : 'Không hỏi được Bạn Đồng Hành lúc này.')
+      setErr(thongDiepLoiThanThien(e, 'Không hỏi được Bạn Đồng Hành lúc này.'))
     } finally {
       setLoading(false)
     }
@@ -211,7 +212,7 @@ function CompanionCheckIn({ stageName, topics }: { stageName: string; topics: st
       )
       setReply(text)
     } catch (e) {
-      setErr(e instanceof Error ? e.message : 'Không phản hồi được lúc này.')
+      setErr(thongDiepLoiThanThien(e, 'Không phản hồi được lúc này.'))
     } finally {
       setLoading(false)
     }

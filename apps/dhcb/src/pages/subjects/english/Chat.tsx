@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from 'react'
+import { thongDiepLoiThanThien } from '../../../lib/friendlyError'
 import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
 import { useSearchParams } from 'react-router-dom'
 import { usePageTitle } from '../../../lib/usePageTitle'
@@ -578,7 +579,11 @@ export default function Chat() {
       throttle() // Rate limit sau lần gọi thành công
     } catch (e) {
       if (!mountedRef.current) return
-      const msg = e instanceof Error ? e.message : isA ? 'Lỗi không xác định' : 'Unknown error'
+      const msg = thongDiepLoiThanThien(
+        e,
+        isA ? 'Lỗi không xác định' : 'Unknown error',
+        isA ? 'vi' : 'en',
+      )
       setError(msg)
       toast.error(msg)
     }
@@ -660,7 +665,11 @@ export default function Chat() {
       throttle() // Rate limit sau lần gọi thành công
     } catch (e) {
       if (!mountedRef.current) return
-      const msg = e instanceof Error ? e.message : isA ? 'Lỗi không xác định' : 'Unknown error'
+      const msg = thongDiepLoiThanThien(
+        e,
+        isA ? 'Lỗi không xác định' : 'Unknown error',
+        isA ? 'vi' : 'en',
+      )
       setError(msg)
       toast.error(msg)
     }
@@ -738,7 +747,11 @@ export default function Chat() {
       throttle()
     } catch (e) {
       if (!mountedRef.current) return
-      const msg = e instanceof Error ? e.message : isA ? 'Lỗi không xác định' : 'Unknown error'
+      const msg = thongDiepLoiThanThien(
+        e,
+        isA ? 'Lỗi không xác định' : 'Unknown error',
+        isA ? 'vi' : 'en',
+      )
       setError(msg)
       toast.error(msg)
     }

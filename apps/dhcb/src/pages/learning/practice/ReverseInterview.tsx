@@ -1,5 +1,6 @@
 // apps/dhcb/src/pages/learning/practice/ReverseInterview.tsx — tách từ pages/learning/Practice.tsx (1.752 dòng) ngày 2026-09-06, mã GIỮ NGUYÊN.
 
+import { thongDiepLoiThanThien } from '../../../lib/friendlyError'
 import { useMemo, useRef, useState } from 'react'
 import { Mic, Square, Sparkles } from 'lucide-react'
 import { getUsage, incrementUsage } from '../../../lib/storage'
@@ -127,7 +128,9 @@ export function ReverseInterview({
       incrementUsage(user.id, 'speakingCount')
       if (ai.score >= 60) setPassCount((c) => c + 1)
     } catch (e) {
-      setError(e instanceof Error ? e.message : isA ? 'Có lỗi xảy ra' : 'Something went wrong')
+      setError(
+        thongDiepLoiThanThien(e, isA ? 'Có lỗi xảy ra' : 'Something went wrong', isA ? 'vi' : 'en'),
+      )
     } finally {
       setGrading(false)
     }

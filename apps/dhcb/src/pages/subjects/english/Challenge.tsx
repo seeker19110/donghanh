@@ -3,6 +3,7 @@
 // tuần (lib/weeklyGoal.ts). Mỗi ngày quay 1 video ngắn theo chủ đề gợi ý → audio gửi
 // /api/stt nhận diện → AI (prompts/challenge.ts) khen + sửa lỗi + gợi ý câu nâng cấp.
 // Video KHÔNG upload — chỉ lưu trên máy (IndexedDB, lib/challengeVideo.ts).
+import { thongDiepLoiThanThien } from '../../../lib/friendlyError'
 import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
 import { useEffect, useRef, useState } from 'react'
 import { Video, Mic, RotateCcw, Send, Square, Type, Trophy, Check, Volume2 } from 'lucide-react'
@@ -602,7 +603,11 @@ export default function Challenge() {
       setReRecording(false)
       setStage('idle')
     } catch (e) {
-      const m = e instanceof Error ? e.message : isA ? 'Lỗi không xác định' : 'Unknown error'
+      const m = thongDiepLoiThanThien(
+        e,
+        isA ? 'Lỗi không xác định' : 'Unknown error',
+        isA ? 'vi' : 'en',
+      )
       setSubmitError(m)
       toast.error(m)
       setStage(isTyped ? 'typed' : recording ? 'reviewing' : 'idle')

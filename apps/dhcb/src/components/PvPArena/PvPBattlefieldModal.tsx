@@ -1,4 +1,5 @@
 // apps/dhcb/src/components/PvPArena/PvPBattlefieldModal.tsx — Sân Đấu Đối Kháng 1v1 PvP Trực Tiếp 60 FPS.
+import { thongDiepLoiThanThien } from '../../lib/friendlyError'
 import { useState, useEffect, useRef } from 'react'
 import { useDialogBehavior } from '../useDialogBehavior'
 import { X, Zap, Flame, Timer, Sparkles, CheckCircle2, XCircle } from 'lucide-react'
@@ -113,7 +114,7 @@ export default function PvPBattlefieldModal({
     } catch (err) {
       // Không rõ trận còn sống không (network chớp giữa chừng) — cho người chơi thử lại
       // ngay lượt này thay vì treo cứng màn hình.
-      toast.error(err instanceof Error ? err.message : 'Gửi câu trả lời thất bại. Bấm để thử lại.')
+      toast.error(thongDiepLoiThanThien(err, 'Gửi câu trả lời thất bại. Bấm để thử lại.'))
       setSelectedOption(null)
       setIsSubmitting(false)
     }

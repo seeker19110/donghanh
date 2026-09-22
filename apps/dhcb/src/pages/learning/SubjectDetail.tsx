@@ -1,4 +1,5 @@
 // apps/dhcb/src/pages/SubjectDetail.tsx — Specialized AI STEM Step Solver & Subject Studio
+import { thongDiepLoiThanThien } from '../../lib/friendlyError'
 import { useEffect, useState, useRef } from 'react'
 import { Navigate, useParams, useNavigate, useLocation, Link } from 'react-router-dom'
 import {
@@ -105,7 +106,7 @@ export default function SubjectDetail() {
         })),
       )
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Lỗi phân tích ảnh đề bài'
+      const msg = thongDiepLoiThanThien(err, 'Lỗi phân tích ảnh đề bài')
       alert(msg)
     } finally {
       setSolving(false)

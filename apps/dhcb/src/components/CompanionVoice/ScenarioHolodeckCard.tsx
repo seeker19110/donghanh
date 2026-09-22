@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { thongDiepLoiThanThien } from '../../lib/friendlyError'
 import {
   Users,
   Flame,
@@ -59,7 +60,7 @@ export default function ScenarioHolodeckCard() {
       const data = await res.json()
       setActiveSession(data.session)
     } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : 'Lỗi bắt đầu phiên')
+      setErrorMsg(thongDiepLoiThanThien(err, 'Lỗi bắt đầu phiên'))
     } finally {
       setIsLoading(false)
     }
@@ -88,7 +89,7 @@ export default function ScenarioHolodeckCard() {
       const data = await res.json()
       setActiveSession(data.updatedSession)
     } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : 'Lỗi gửi lượt phản hồi')
+      setErrorMsg(thongDiepLoiThanThien(err, 'Lỗi gửi lượt phản hồi'))
     } finally {
       setIsLoading(false)
     }
@@ -110,7 +111,7 @@ export default function ScenarioHolodeckCard() {
       const data = await res.json()
       setActiveSession(data.session)
     } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : 'Lỗi tổng kết')
+      setErrorMsg(thongDiepLoiThanThien(err, 'Lỗi tổng kết'))
     } finally {
       setIsLoading(false)
     }

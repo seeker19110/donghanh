@@ -1,4 +1,5 @@
 // apps/dhcb/src/components/IntegrationsModal.tsx — Modal đồng bộ Google Calendar & Notion.
+import { thongDiepLoiThanThien } from '../lib/friendlyError'
 import { useState } from 'react'
 import { Calendar, FileText, ExternalLink, Check, AlertCircle, X } from 'lucide-react'
 import { executeIntegrationSync } from '../lib/integrationsApi'
@@ -59,7 +60,7 @@ export default function IntegrationsModal({ isOpen, onClose, itemData }: Integra
         window.open(res.externalUrl, '_blank', 'noopener,noreferrer')
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Không thể đồng bộ Google Calendar'
+      const msg = thongDiepLoiThanThien(err, 'Không thể đồng bộ Google Calendar')
       setStatusMessage({ type: 'error', text: msg })
     } finally {
       setSyncing(null)
@@ -88,7 +89,7 @@ export default function IntegrationsModal({ isOpen, onClose, itemData }: Integra
         url: res.externalUrl,
       })
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Không thể xuất sang Notion'
+      const msg = thongDiepLoiThanThien(err, 'Không thể xuất sang Notion')
       setStatusMessage({ type: 'error', text: msg })
     } finally {
       setSyncing(null)
