@@ -184,15 +184,15 @@ export const SECURITY_SPECIALIZATION: ProgrammingSpecialization = {
           topics: [
             'Đọc assembly, nhận dạng cấu trúc điều khiển',
             'Ghidra/IDA mức làm việc được',
-            'Phân tích mã độc trong môi trường cách ly',
+            'Dựng lại luồng điều khiển của nhị phân MẪU tự biên dịch trong máy ảo cách ly',
           ],
         },
         {
           id: 'security-s3-m2',
-          title: 'Khai thác bộ nhớ',
+          title: 'Lỗi bộ nhớ và cách phát hiện',
           topics: [
             'Tràn ngăn xếp/đống, use-after-free',
-            'Vượt qua ASLR/DEP mức khái niệm, ROP',
+            'ASLR/DEP/stack canary bảo vệ khỏi lớp lỗi nào (không dựng cách vượt)',
             'Vì sao ngôn ngữ an toàn bộ nhớ là biện pháp gốc rễ',
           ],
         },
