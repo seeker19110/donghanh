@@ -51,3 +51,11 @@ mục đã cập nhật.
   còn đúng cấu hình 2026-08-26 hay không — sửa dựa trên đọc log CI, chưa đo tại chỗ.
 - Nếu sau lần deploy tới vẫn đỏ với heap cao hơn 2560 MB, cần nới thêm hoặc tách bước
   `tsc -b`/`vite build` chạy tuần tự giải phóng bộ nhớ giữa các bước thay vì `&&` liền mạch.
+
+## Cập nhật 2026-09-22 06:57 — đã xác nhận trên deploy thật
+
+PR #1110 (chứa cờ `NODE_OPTIONS=--max-old-space-size=2560`) merge lúc 06:53. Lần deploy tự động
+kế tiếp — workflow run **#1061** (commit `e1db7a89`, id `35696918341`) — **xanh**, hoàn tất
+`06:53:43 → 06:57:35` (~3 phút 52 giây), khớp thời lượng một deploy thành công bình thường
+(đối chứng: run #1055 thành công trước đó ~2 phút 23 giây; #1061 chậm hơn một chút vì cùng lúc
+build cả batch trả nợ err.message, không phải do tràn swap). Đóng nợ trong `PROGRESS.md`.
