@@ -10914,7 +10914,7 @@
     "ipa_vi": "/ɓɔ˨˩/",
     "freq": 29377,
     "level": "C2",
-    "forms": { "plural": "bisons" }
+    "forms": { "plural": "bison", "irregular": true }
   },
   {
     "word": "bit",
@@ -11250,8 +11250,7 @@
     "ipa_en": "/blaɪnd/",
     "ipa_vi": "/mu˨˩/",
     "freq": 1401,
-    "level": "B1",
-    "forms": { "comparative": "blinder", "superlative": "blindest" }
+    "level": "B1"
   },
   {
     "word": "blindly",
@@ -12647,8 +12646,7 @@
     "ipa_en": "/æpt/",
     "ipa_vi": "/tʰic̚˦˥/",
     "level": "C1",
-    "freq": 12786,
-    "forms": { "comparative": "apter", "superlative": "aptest" }
+    "freq": 12786
   },
   {
     "word": "arduously",
@@ -12693,16 +12691,6 @@
     "ipa_vi": "/kwiən˦˥/",
     "level": "C1",
     "freq": 38309
-  },
-  {
-    "word": "bereftly",
-    "pos": "adv",
-    "vi": "một cách trống vắng, mất mát",
-    "ex_en": "She wandered bereftly through the empty house after the funeral.",
-    "ex_vi": "Cô lang thang trong ngôi nhà trống vắng một cách hụt hẫng sau đám tang.",
-    "ipa_en": "/bɪˈrɛftli/",
-    "ipa_vi": "/mot̚˨˩ʔ/",
-    "level": "C2"
   },
   {
     "word": "blurb",
@@ -13046,16 +13034,6 @@
     "level": "C1",
     "freq": 24574,
     "forms": { "plural": "estimations" }
-  },
-  {
-    "word": "evokingly",
-    "pos": "adv",
-    "vi": "một cách gợi nhớ, gợi cảm xúc",
-    "ex_en": "The old photographs spoke evokingly of a lost era.",
-    "ex_vi": "Những bức ảnh cũ gợi lên một cách sâu lắng về một thời đã mất.",
-    "ipa_en": "/ɪˈvoʊkɪŋli/",
-    "ipa_vi": "/mot̚˨˩ʔ/",
-    "level": "C2"
   },
   {
     "word": "exotically",

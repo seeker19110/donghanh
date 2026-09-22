@@ -5892,15 +5892,14 @@
   },
   {
     "word": "upscale",
-    "pos": "v",
-    "vi": "nâng quy mô; (adj) cao cấp",
+    "pos": "adj",
+    "vi": "cao cấp, sang trọng (khu vực, nhà hàng)",
     "ex_en": "The restaurant has an upscale atmosphere.",
-    "ex_vi": "Nhà hàng có không gian cao cấp.",
+    "ex_vi": "Nhà hàng có không khí sang trọng.",
     "ipa_en": "/ˈəpˌskeɪl/",
     "ipa_vi": "/nəŋ˧/",
     "freq": 23468,
-    "level": "C2",
-    "forms": { "v3s": "upscales", "ving": "upscaling", "past": "upscaled" }
+    "level": "C2"
   },
   {
     "word": "upset",
@@ -9541,8 +9540,7 @@
     "ipa_en": "/ˈwikli/",
     "ipa_vi": "/haːŋ˨˩/",
     "freq": 7200,
-    "level": "A2",
-    "forms": { "comparative": "weeklier", "superlative": "weekliest" }
+    "level": "A2"
   },
   {
     "word": "weep",
@@ -9768,8 +9766,7 @@
     "ipa_en": "/wər/",
     "ipa_vi": "/ɗaː˧˥ʔ/",
     "freq": 98,
-    "level": "A1",
-    "forms": { "v3s": "weres", "ving": "wering", "past": "wered" }
+    "level": "A1"
   },
   {
     "word": "west",
@@ -10215,8 +10212,7 @@
     "ipa_en": "/hoʊl/",
     "ipa_vi": "/twaːn˨˩/",
     "freq": 285,
-    "level": "A2",
-    "forms": { "comparative": "wholer", "superlative": "wholest" }
+    "level": "A2"
   },
   {
     "word": "wholeheartedly",
@@ -11053,7 +11049,7 @@
     "ipa_vi": "/tɕiw˨˩ʔ/",
     "freq": 13311,
     "level": "C1",
-    "forms": { "v3s": "withstands", "ving": "withstanding", "past": "withstanded" }
+    "forms": { "v3s": "withstands", "ving": "withstanding", "past": "withstood", "irregular": true }
   },
   {
     "word": "witness",
@@ -11927,8 +11923,7 @@
     "ipa_en": "/rɔŋ/",
     "ipa_vi": "/saːj˧/",
     "freq": 217,
-    "level": "A1",
-    "forms": { "comparative": "wronger", "superlative": "wrongest" }
+    "level": "A1"
   },
   {
     "word": "wrongly",

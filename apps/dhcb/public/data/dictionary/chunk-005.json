@@ -301,8 +301,7 @@
     "ipa_en": "/ˈlaɪəbəl/",
     "ipa_vi": "/kɔ˦˥/",
     "freq": 5419,
-    "level": "B1",
-    "forms": { "comparative": "liabler", "superlative": "liablest" }
+    "level": "B1"
   },
   {
     "word": "liar",
@@ -1738,8 +1737,7 @@
     "ipa_en": "/loʊn/",
     "ipa_vi": "/ɗəːn˧/",
     "freq": 6661,
-    "level": "C2",
-    "forms": { "comparative": "loner", "superlative": "lonest" }
+    "level": "C2"
   },
   {
     "word": "loneliness",
@@ -2885,8 +2883,7 @@
     "ipa_en": "/meɪn/",
     "ipa_vi": "/tɕiɲ˦˥/",
     "freq": 1485,
-    "level": "B1",
-    "forms": { "comparative": "mainer", "superlative": "mainest" }
+    "level": "B1"
   },
   {
     "word": "mainland",
@@ -5186,8 +5183,7 @@
     "ipa_en": "/mɪr/",
     "ipa_vi": "/tɕi˧˩˧/",
     "freq": 5122,
-    "level": "B1",
-    "forms": { "comparative": "merer", "superlative": "merest" }
+    "level": "B1"
   },
   {
     "word": "merely",
@@ -6083,7 +6079,7 @@
     "ipa_vi": "/ɓat̚˦˥/",
     "freq": 19753,
     "level": "B2",
-    "forms": { "v3s": "mimics", "ving": "mimicing", "past": "mimiced" }
+    "forms": { "v3s": "mimics", "ving": "mimicking", "past": "mimicked" }
   },
   {
     "word": "min",
@@ -6456,7 +6452,7 @@
     "ipa_vi": "/ɗaɲ˦˥/",
     "level": "B1",
     "freq": 20217,
-    "forms": { "v3s": "misleads", "ving": "misleading", "past": "misleaded" }
+    "forms": { "v3s": "misleads", "ving": "misleading", "past": "misled", "irregular": true }
   },
   {
     "word": "misleading",
@@ -7152,7 +7148,7 @@
     "ipa_vi": "/kwən˧/",
     "freq": 19360,
     "level": "C1",
-    "forms": { "plural": "monarches" }
+    "forms": { "plural": "monarchs" }
   },
   {
     "word": "monarchy",
@@ -7353,8 +7349,7 @@
     "ipa_en": "/ˈmənθli/",
     "ipa_vi": "/haːŋ˨˩/",
     "freq": 9373,
-    "level": "B1",
-    "forms": { "comparative": "monthlier", "superlative": "monthliest" }
+    "level": "B1"
   },
   {
     "word": "monument",
@@ -7461,7 +7456,7 @@
     "ipa_vi": "/naːj˧/",
     "freq": 6458,
     "level": "C2",
-    "forms": { "plural": "mooses" }
+    "forms": { "plural": "moose", "irregular": true }
   },
   {
     "word": "mop",
@@ -7743,7 +7738,7 @@
     "ipa_en": "/ˈməðərɪnˌlɔ/",
     "ipa_vi": "/mɛ˨˩ʔ/",
     "level": "B2",
-    "forms": { "plural": "mother-in-laws" }
+    "forms": { "plural": "mothers-in-law" }
   },
   {
     "word": "motherboard",
@@ -9772,8 +9767,7 @@
     "ipa_en": "/nɛkst/",
     "ipa_vi": "/tiəp̚˦˥/",
     "freq": 254,
-    "level": "B1",
-    "forms": { "comparative": "nexter", "superlative": "nextest" }
+    "level": "B1"
   },
   {
     "word": "next-door",
@@ -10228,8 +10222,7 @@
     "ipa_en": "/nɑn/",
     "ipa_vi": "/xoŋ˧/",
     "freq": 8223,
-    "level": "A1",
-    "forms": { "comparative": "nonner", "superlative": "nonnest" }
+    "level": "A1"
   },
   {
     "word": "non-smoking",
@@ -10978,8 +10971,7 @@
     "ipa_en": "/nəm/",
     "ipa_vi": "/te˧/",
     "freq": 6989,
-    "level": "C1",
-    "forms": { "comparative": "number", "superlative": "numbest" }
+    "level": "C1"
   },
   {
     "word": "number",
@@ -13115,7 +13107,7 @@
     "ipa_vi": "/vuj˧/",
     "level": "C2",
     "freq": 19279,
-    "forms": { "v3s": "frolics", "ving": "frolicing", "past": "froliced" }
+    "forms": { "v3s": "frolics", "ving": "frolicking", "past": "frolicked" }
   },
   {
     "word": "geologically",

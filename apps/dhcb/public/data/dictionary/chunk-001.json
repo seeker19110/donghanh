@@ -1022,7 +1022,7 @@
     "ipa_en": "/ˈbrəðərɪnˌlɔ/",
     "ipa_vi": "/aːɲ˧/",
     "level": "B2",
-    "forms": { "plural": "brother-in-laws" }
+    "forms": { "plural": "brothers-in-law" }
   },
   {
     "word": "brotherhood",
@@ -11131,11 +11131,11 @@
   {
     "word": "cookie",
     "pos": "n",
-    "vi": "cookie (dữ liệu trình duyệt)",
-    "ex_en": "The website uses cookies to remember your preferences.",
-    "ex_vi": "Trang web sử dụng cookie để ghi nhớ tùy chọn của bạn.",
+    "vi": "bánh quy; cookie (dữ liệu trình duyệt)",
+    "ex_en": "She baked a batch of chocolate chip cookies.",
+    "ex_vi": "Cô ấy nướng một mẻ bánh quy sô-cô-la.",
     "ipa_en": "/ˈkʊki/",
-    "ipa_vi": "/kookie˧/",
+    "ipa_vi": "/ɓaɲ˦˥/",
     "freq": 3025,
     "level": "A1",
     "forms": { "plural": "cookies" }

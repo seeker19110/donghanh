@@ -8,7 +8,7 @@ export const ML_COURSE: ShortCourse = {
   canDo:
     'Đi trọn bản đồ Machine Learning: học có giám sát (hồi quy, phân loại), không giám sát (gom cụm, giảm chiều, luật kết hợp), ensemble/tăng cường/các kiểu học lai, tới học sâu và AI tạo sinh — mọi thuật toán lõi TỰ CÀI bằng Python thuần để hiểu ruột, không chỉ gọi thư viện. Dành cho người đã biết Python căn bản, muốn hiểu học máy từ gốc trước khi đi chuyên sâu.',
   duration: '4–6 tuần, nên biết Python căn bản trước (biến, hàm, vòng lặp, list)',
-  prerequisites: [],
+  prerequisites: ['Khoá Python / AI Cơ Bản (pyai) hoặc biết Python căn bản (biến, hàm, vòng lặp, list)'],
   chapters: [
     {
       id: 'ml-c1',

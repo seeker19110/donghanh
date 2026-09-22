@@ -1,4 +1,4 @@
-// details/security-s3.ts — Chi tiết chặng S3 hướng AN TOÀN THÔNG TIN ("Bảo mật tấn công chuyên sâu").
+// details/security-s3.ts — Chi tiết chặng S3 hướng AN TOÀN THÔNG TIN ("Cơ chế lỗ hổng và kỹ thuật phát hiện").
 import type { SpecStageDetail } from '../stageDetailTypes.js'
 
 export const SECURITY_S3_DETAIL: SpecStageDetail = {

@@ -3941,8 +3941,7 @@
     "ipa_en": "/ɪl/",
     "ipa_vi": "/om˦˥/",
     "level": "A2",
-    "freq": 2530,
-    "forms": { "comparative": "iller", "superlative": "illest" }
+    "freq": 2530
   },
   {
     "word": "illegal",
@@ -11332,8 +11331,7 @@
     "ipa_en": "/læst/",
     "ipa_vi": "/kuəj˦˥/",
     "freq": 172,
-    "level": "B1",
-    "forms": { "comparative": "laster", "superlative": "lastest" }
+    "level": "B1"
   },
   {
     "word": "last-minute",
@@ -13503,7 +13501,7 @@
     "ipa_vi": "/fu˧˩˧/",
     "level": "C2",
     "freq": 22374,
-    "forms": { "v3s": "overlays", "ving": "overlaying", "past": "overlayed" }
+    "forms": { "v3s": "overlays", "ving": "overlaying", "past": "overlaid", "irregular": true }
   },
   {
     "word": "paradoxically",

@@ -173,8 +173,9 @@ export const SECURITY_SPECIALIZATION: ProgrammingSpecialization = {
     {
       id: 'security-s3',
       tier: 's3',
-      name: 'Bảo mật tấn công chuyên sâu',
-      canDo: 'Phân tích nhị phân, viết fuzzer, hiểu và tái hiện lỗ hổng bộ nhớ.',
+      name: 'Cơ chế lỗ hổng và kỹ thuật phát hiện',
+      canDo:
+        'Đọc được luồng điều khiển từ mã mức thấp, phát hiện lỗi bộ nhớ bằng bộ kiểm tra tự viết, và tìm lỗi bằng fuzzer theo độ phủ kèm ca lỗi tối giản.',
       duration: '12–14 tuần',
       modules: [
         {

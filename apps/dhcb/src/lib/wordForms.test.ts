@@ -265,3 +265,42 @@ describe('formValues — liệt kê chuỗi dạng biến thể', () => {
     expect(formValues(f).sort()).toEqual(['goes', 'going', 'gone', 'went'])
   })
 })
+
+describe('rà từ điển 2026-09-22 (changelog 0407) — dạng từng bị bịa', () => {
+  it('động từ bất quy tắc có tiền tố giữ phần gốc bất quy tắc', () => {
+    expect(computeForms('retell', 'v')).toMatchObject({ past: 'retold', irregular: true })
+    expect(computeForms('mislead', 'v')).toMatchObject({ past: 'misled' })
+    expect(computeForms('repay', 'v')).toMatchObject({ past: 'repaid' })
+    expect(computeForms('reset', 'v')).toMatchObject({ past: 'reset', ving: 'resetting' })
+    expect(computeForms('overlay', 'v')).toMatchObject({ past: 'overlaid' })
+    expect(computeForms('rid', 'v')).toMatchObject({ past: 'rid' })
+    // KHÔNG bắt oan: "reap" không phải re+ap, "under" không phải un+der
+    expect(computeForms('reap', 'v')).toMatchObject({ past: 'reaped' })
+    expect(computeForms('relay', 'v')).toMatchObject({ past: 'relayed' })
+    expect(computeForms('behave', 'v')).toMatchObject({ past: 'behaved' })
+    expect(computeForms('outshine', 'v')).toMatchObject({ past: 'outshone' })
+  })
+  it('-ic → -icking/-icked', () => {
+    expect(gerund('mimic')).toBe('mimicking')
+    expect(pastRegular('frolic')).toBe('frolicked')
+    expect(gerund('panic')).toBe('panicking')
+  })
+  it('gấp đôi phụ âm cho động từ đa âm tiết nhấn cuối bổ sung', () => {
+    expect(pastRegular('repel')).toBe('repelled')
+    expect(gerund('excel')).toBe('excelling')
+  })
+  it('số nhiều: -ch đọc /k/, -in-law, bất biến', () => {
+    expect(pluralize('monarch')).toBe('monarchs')
+    expect(pluralize('stomach')).toBe('stomachs')
+    expect(pluralize('watch')).toBe('watches')
+    expect(pluralize('mother-in-law')).toBe('mothers-in-law')
+    expect(pluralize('moose')).toBe('moose')
+    expect(pluralize('bison')).toBe('bison')
+  })
+  it('tính từ không cấp độ → không sinh -er/-est', () => {
+    for (const w of ['main', 'next', 'lone', 'liable', 'numb', 'own', 'sole', 'dead']) {
+      expect(comparativeForms(w), w).toBeNull()
+    }
+    expect(comparativeForms('big')).toEqual({ comparative: 'bigger', superlative: 'biggest' })
+  })
+})

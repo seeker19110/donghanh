@@ -1258,7 +1258,7 @@
     "ipa_vi": "/vɯət̚˨˩ʔ/",
     "level": "B2",
     "freq": 43912,
-    "forms": { "v3s": "outshines", "ving": "outshining", "past": "outshined" }
+    "forms": { "v3s": "outshines", "ving": "outshining", "past": "outshone", "irregular": true }
   },
   {
     "word": "outside",
@@ -1809,15 +1809,14 @@
   },
   {
     "word": "ow",
-    "pos": "n",
+    "pos": "interj",
     "vi": "tiếng kêu 'ái' (khi đau)",
     "ex_en": "She shouted \"Ow!\" when she stubbed her toe.",
     "ex_vi": "Cô ấy hét lên \"Ái!\" khi vấp phải ngón chân.",
     "ipa_en": "/aʊ/",
     "ipa_vi": "/tiəŋ˦˥/",
     "level": "B2",
-    "freq": 1193,
-    "forms": { "plural": "ows" }
+    "freq": 1193
   },
   {
     "word": "owe",
@@ -1863,8 +1862,7 @@
     "ipa_en": "/oʊn/",
     "ipa_vi": "/kua˧˩˧/",
     "freq": 251,
-    "level": "A1",
-    "forms": { "comparative": "owner", "superlative": "ownest" }
+    "level": "A1"
   },
   {
     "word": "owned",
@@ -9227,8 +9225,7 @@
     "ipa_en": "/praɪm/",
     "ipa_vi": "/tɕiɲ˦˥/",
     "freq": 2842,
-    "level": "B2",
-    "forms": { "comparative": "primer", "superlative": "primest" }
+    "level": "B2"
   },
   {
     "word": "prime minister",
@@ -9377,8 +9374,7 @@
     "ipa_en": "/praɪər/",
     "ipa_vi": "/tɕɯək̚˦˥/",
     "freq": 4944,
-    "level": "B2",
-    "forms": { "comparative": "priorer", "superlative": "priorest" }
+    "level": "B2"
   },
   {
     "word": "prioritize",

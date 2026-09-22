@@ -2720,6 +2720,83 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
   },
   {
     id: 'sinh11-c4-b24',
+    grade: '11',
+    chapterNumber: 4,
+    chapterTitle: 'Sinh sản ở sinh vật',
+    lessonNumber: 24,
+    title:
+      'Thực hành: Khảo sát hiện tượng thụ tinh ở động vật và tìm hiểu các biện pháp tránh thai',
+    hook: 'Tìm hiểu các biện pháp tránh thai khoa học hiện đại, cơ chế hoạt động của bao cao su, thuốc nội tiết hay vòng tránh thai để bảo vệ sức khỏe sinh sản.',
+    theory:
+      'CƠ CHẾ CỦA CÁC BIỆN PHÁP TRÁNH THAI HIỆN ĐẠI:\n' +
+      '1. Bao cao su (Condom):\n' +
+      '   — Cơ chế: Ngăn chặn cơ học không cho tinh trùng tiếp xúc với trứng.\n' +
+      '   — Ưu điểm nổi bật: Là biện pháp duy nhất ngăn ngừa hiệu quả các bệnh lây truyền qua đường tình dục (STDs/STIs như HIV, lậu, giang mai, sùi mào gà).\n' +
+      '2. Viên uống tránh thai hàng ngày (nội tiết):\n' +
+      '   — Cơ chế: Chứa progesterone và estrogen phối hợp nồng độ thấp. Duy trì lượng hormone này ổn định trong máu gây phản hồi ngược âm tính lên tuyến yên và vùng dưới đồi, ức chế tiết FSH và LH, ngăn cản sự chín rụng trứng.\n' +
+      '3. Dụng cụ tử cung (Vòng tránh thai - IUD):\n' +
+      '   — Cơ chế: Đặt vào buồng tử cung gây phản ứng viêm nhẹ vô trùng tại chỗ, làm thay đổi niêm mạc tử cung khiến phôi không thể bám vào để làm tổ.\n' +
+      '4. Thắt ống dẫn tinh (ở nam) / Thắt ống dẫn trứng (ở nữ):\n' +
+      '   — Cơ chế: Cắt và cột hai đầu ống dẫn để chặn đường di chuyển của giao tử (tinh trùng/trứng). Biện pháp đình sản vĩnh viễn có hiệu quả tránh thai gần như 100%.\n' +
+      '5. Tính chu kỳ kinh nguyệt (tránh ngày rụng trứng): Tránh quan hệ tình dục vào giai đoạn quanh ngày rụng trứng (ngày 14 đối với chu kỳ 28 ngày). Tuy nhiên hiệu quả thấp do chu kỳ dễ bị dao động bởi stress, sức khỏe.',
+    workedExample: {
+      problem:
+        'Giải thích tại sao việc sử dụng thuốc tránh thai hằng ngày chứa estrogen và progesterone nhân tạo lại có thể ngăn chặn hiệu quả sự mang thai.',
+      steps: [
+        'Nhận diện thành phần thuốc: Thuốc chứa hàm lượng nhỏ estrogen và progesterone.',
+        'Phân tích cơ chế sinh lý: Khi uống thuốc hàng ngày, nồng độ các hormone này trong máu được duy trì ổn định ở mức tương đối cao.',
+        'Liên hệ ngược âm tính: Nồng độ hormone cao phát tín hiệu ngược ức chế vùng dưới đồi giảm tiết GnRH và thùy trước tuyến yên giảm tiết FSH, LH.',
+        'Kết quả: Thiếu FSH nang trứng không lớn lên được; thiếu LH trứng không chín rụng, không có hiện tượng rụng trứng thì không thể thụ thai.',
+      ],
+      answer:
+        'Thuốc tránh thai duy trì Estrogen/Progesterone cao trong máu để ức chế ngược tuyến yên ngừng tiết FSH và LH, ngăn cản hoàn toàn sự rụng trứng.',
+    },
+    checkQuestions: [
+      {
+        prompt:
+          'Biện pháp tránh thai nào sau đây có khả năng ngăn ngừa đồng thời cả mang thai ngoài ý muốn và các bệnh lây truyền qua đường tình dục (STDs)?',
+        choices: [
+          { id: 'ct_1', label: 'Bao cao su' },
+          { id: 'ct_2', label: 'Viên uống tránh thai hàng ngày' },
+          { id: 'ct_3', label: 'Dụng cụ tử cung (vòng tránh thai)' },
+          { id: 'ct_4', label: 'Thắt ống dẫn trứng' },
+        ],
+        answer: { kind: 'choice', correctIds: ['ct_1'] },
+        explain:
+          'Bao cao su tạo màng ngăn vật lý ngăn cản sự tiếp xúc dịch sinh dục và máu giữa hai cơ thể, phòng tránh lây nhiễm tác nhân bệnh như virus HIV, vi khuẩn lậu, giang mai.',
+      },
+      {
+        prompt: 'Thắt ống dẫn tinh ở nam giới ngăn cản sự mang thai bằng cách nào?',
+        choices: [
+          {
+            id: 'to_1',
+            label:
+              'Chặn đường di chuyển của tinh trùng từ tinh hoàn ra túi tinh, khiến tinh dịch xuất ra không chứa tinh trùng',
+          },
+          { id: 'to_2', label: 'Ngăn chặn tinh hoàn sản sinh ra tinh trùng và testosterone' },
+          { id: 'to_3', label: 'Làm tinh trùng bị tiêu hủy ngay khi vừa sinh ra' },
+          { id: 'to_4', label: 'Làm mất đi khả năng cương cứng của dương vật' },
+        ],
+        answer: { kind: 'choice', correctIds: ['to_1'] },
+        explain:
+          'Thắt ống dẫn tinh chỉ cắt đứt đường đi của tinh trùng từ tinh hoàn lên niệu đạo để xuất ra ngoài. Tinh hoàn vẫn sinh tinh bình thường (tinh trùng tự tiêu hủy trong ống dẫn) và vẫn tiết testosterone bình thường, không ảnh hưởng sinh lý nam.',
+      },
+    ],
+    srsCards: [
+      {
+        hoi: 'Viên thuốc tránh thai hàng ngày ức chế rụng trứng bằng cách nào?',
+        dap: 'Duy trì nồng độ estrogen và progesterone trong máu để ức chế ngược tuyến yên tiết FSH và LH (các hormone kích thích chín rụng trứng).',
+      },
+      {
+        hoi: 'Cơ chế tránh thai của vòng tránh thai (IUD) là gì?',
+        dap: 'Ngăn cản phôi thai làm tổ ở niêm mạc tử cung bằng cách gây phản ứng viêm nhẹ vô trùng tại chỗ.',
+      },
+    ],
+    track: 'core',
+    reviewStatus: 'draft',
+  },
+  {
+    id: 'sinh11-c5-b25',
     animation: {
       title: 'Bốn hệ cơ quan nối với nhau qua dòng máu',
       description:
@@ -2919,83 +2996,6 @@ export const SINH11_C2_LESSONS: BiologyLesson[] = [
         },
       ],
     },
-    grade: '11',
-    chapterNumber: 4,
-    chapterTitle: 'Sinh sản ở sinh vật',
-    lessonNumber: 24,
-    title:
-      'Thực hành: Khảo sát hiện tượng thụ tinh ở động vật và tìm hiểu các biện pháp tránh thai',
-    hook: 'Tìm hiểu các biện pháp tránh thai khoa học hiện đại, cơ chế hoạt động của bao cao su, thuốc nội tiết hay vòng tránh thai để bảo vệ sức khỏe sinh sản.',
-    theory:
-      'CƠ CHẾ CỦA CÁC BIỆN PHÁP TRÁNH THAI HIỆN ĐẠI:\n' +
-      '1. Bao cao su (Condom):\n' +
-      '   — Cơ chế: Ngăn chặn cơ học không cho tinh trùng tiếp xúc với trứng.\n' +
-      '   — Ưu điểm nổi bật: Là biện pháp duy nhất ngăn ngừa hiệu quả các bệnh lây truyền qua đường tình dục (STDs/STIs như HIV, lậu, giang mai, sùi mào gà).\n' +
-      '2. Viên uống tránh thai hàng ngày (nội tiết):\n' +
-      '   — Cơ chế: Chứa progesterone và estrogen phối hợp nồng độ thấp. Duy trì lượng hormone này ổn định trong máu gây phản hồi ngược âm tính lên tuyến yên và vùng dưới đồi, ức chế tiết FSH và LH, ngăn cản sự chín rụng trứng.\n' +
-      '3. Dụng cụ tử cung (Vòng tránh thai - IUD):\n' +
-      '   — Cơ chế: Đặt vào buồng tử cung gây phản ứng viêm nhẹ vô trùng tại chỗ, làm thay đổi niêm mạc tử cung khiến phôi không thể bám vào để làm tổ.\n' +
-      '4. Thắt ống dẫn tinh (ở nam) / Thắt ống dẫn trứng (ở nữ):\n' +
-      '   — Cơ chế: Cắt và cột hai đầu ống dẫn để chặn đường di chuyển của giao tử (tinh trùng/trứng). Biện pháp đình sản vĩnh viễn có hiệu quả tránh thai gần như 100%.\n' +
-      '5. Tính chu kỳ kinh nguyệt (tránh ngày rụng trứng): Tránh quan hệ tình dục vào giai đoạn quanh ngày rụng trứng (ngày 14 đối với chu kỳ 28 ngày). Tuy nhiên hiệu quả thấp do chu kỳ dễ bị dao động bởi stress, sức khỏe.',
-    workedExample: {
-      problem:
-        'Giải thích tại sao việc sử dụng thuốc tránh thai hằng ngày chứa estrogen và progesterone nhân tạo lại có thể ngăn chặn hiệu quả sự mang thai.',
-      steps: [
-        'Nhận diện thành phần thuốc: Thuốc chứa hàm lượng nhỏ estrogen và progesterone.',
-        'Phân tích cơ chế sinh lý: Khi uống thuốc hàng ngày, nồng độ các hormone này trong máu được duy trì ổn định ở mức tương đối cao.',
-        'Liên hệ ngược âm tính: Nồng độ hormone cao phát tín hiệu ngược ức chế vùng dưới đồi giảm tiết GnRH và thùy trước tuyến yên giảm tiết FSH, LH.',
-        'Kết quả: Thiếu FSH nang trứng không lớn lên được; thiếu LH trứng không chín rụng, không có hiện tượng rụng trứng thì không thể thụ thai.',
-      ],
-      answer:
-        'Thuốc tránh thai duy trì Estrogen/Progesterone cao trong máu để ức chế ngược tuyến yên ngừng tiết FSH và LH, ngăn cản hoàn toàn sự rụng trứng.',
-    },
-    checkQuestions: [
-      {
-        prompt:
-          'Biện pháp tránh thai nào sau đây có khả năng ngăn ngừa đồng thời cả mang thai ngoài ý muốn và các bệnh lây truyền qua đường tình dục (STDs)?',
-        choices: [
-          { id: 'ct_1', label: 'Bao cao su' },
-          { id: 'ct_2', label: 'Viên uống tránh thai hàng ngày' },
-          { id: 'ct_3', label: 'Dụng cụ tử cung (vòng tránh thai)' },
-          { id: 'ct_4', label: 'Thắt ống dẫn trứng' },
-        ],
-        answer: { kind: 'choice', correctIds: ['ct_1'] },
-        explain:
-          'Bao cao su tạo màng ngăn vật lý ngăn cản sự tiếp xúc dịch sinh dục và máu giữa hai cơ thể, phòng tránh lây nhiễm tác nhân bệnh như virus HIV, vi khuẩn lậu, giang mai.',
-      },
-      {
-        prompt: 'Thắt ống dẫn tinh ở nam giới ngăn cản sự mang thai bằng cách nào?',
-        choices: [
-          {
-            id: 'to_1',
-            label:
-              'Chặn đường di chuyển của tinh trùng từ tinh hoàn ra túi tinh, khiến tinh dịch xuất ra không chứa tinh trùng',
-          },
-          { id: 'to_2', label: 'Ngăn chặn tinh hoàn sản sinh ra tinh trùng và testosterone' },
-          { id: 'to_3', label: 'Làm tinh trùng bị tiêu hủy ngay khi vừa sinh ra' },
-          { id: 'to_4', label: 'Làm mất đi khả năng cương cứng của dương vật' },
-        ],
-        answer: { kind: 'choice', correctIds: ['to_1'] },
-        explain:
-          'Thắt ống dẫn tinh chỉ cắt đứt đường đi của tinh trùng từ tinh hoàn lên niệu đạo để xuất ra ngoài. Tinh hoàn vẫn sinh tinh bình thường (tinh trùng tự tiêu hủy trong ống dẫn) và vẫn tiết testosterone bình thường, không ảnh hưởng sinh lý nam.',
-      },
-    ],
-    srsCards: [
-      {
-        hoi: 'Viên thuốc tránh thai hàng ngày ức chế rụng trứng bằng cách nào?',
-        dap: 'Duy trì nồng độ estrogen và progesterone trong máu để ức chế ngược tuyến yên tiết FSH và LH (các hormone kích thích chín rụng trứng).',
-      },
-      {
-        hoi: 'Cơ chế tránh thai của vòng tránh thai (IUD) là gì?',
-        dap: 'Ngăn cản phôi thai làm tổ ở niêm mạc tử cung bằng cách gây phản ứng viêm nhẹ vô trùng tại chỗ.',
-      },
-    ],
-    track: 'core',
-    reviewStatus: 'draft',
-  },
-  {
-    id: 'sinh11-c5-b25',
     grade: '11',
     chapterNumber: 5,
     chapterTitle:

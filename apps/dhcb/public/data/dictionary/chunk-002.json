@@ -1782,8 +1782,7 @@
     "ipa_en": "/ˈdeɪli/",
     "ipa_vi": "/haːŋ˨˩/",
     "freq": 3187,
-    "level": "A2",
-    "forms": { "comparative": "dailier", "superlative": "dailiest" }
+    "level": "A2"
   },
   {
     "word": "dairy",
@@ -2193,7 +2192,7 @@
     "ipa_en": "/ˈdɔtərɪnˌlɔ/",
     "ipa_vi": "/kɔn˧/",
     "level": "B2",
-    "forms": { "plural": "daughter-in-laws" }
+    "forms": { "plural": "daughters-in-law" }
   },
   {
     "word": "dawn",
@@ -2299,8 +2298,7 @@
     "ipa_en": "/dɛd/",
     "ipa_vi": "/ɗaː˧˥ʔ/",
     "freq": 257,
-    "level": "A2",
-    "forms": { "comparative": "deader", "superlative": "deadest" }
+    "level": "A2"
   },
   {
     "word": "deadline",
@@ -2335,8 +2333,7 @@
     "ipa_en": "/dɛf/",
     "ipa_vi": "/ɗiək̚˦˥/",
     "freq": 3346,
-    "level": "B1",
-    "forms": { "comparative": "deafer", "superlative": "deafest" }
+    "level": "B1"
   },
   {
     "word": "deal",
@@ -8970,8 +8967,7 @@
     "ipa_en": "/du/",
     "ipa_vi": "/ɗen˦˥/",
     "freq": 1441,
-    "level": "A1",
-    "forms": { "comparative": "duer", "superlative": "duest" }
+    "level": "A1"
   },
   {
     "word": "duel",
@@ -13262,7 +13258,7 @@
   },
   {
     "word": "enviable",
-    "pos": "adv",
+    "pos": "adj",
     "vi": "đáng ghen tị, đáng thèm muốn",
     "ex_en": "She has built an enviable career in international law.",
     "ex_vi": "Cô đã xây dựng một sự nghiệp đáng ghen tị trong ngành luật quốc tế.",

@@ -830,7 +830,7 @@
     "ipa_vi": "/suət̚˦˥/",
     "freq": 20511,
     "level": "B2",
-    "forms": { "v3s": "excels", "ving": "exceling", "past": "exceled" }
+    "forms": { "v3s": "excels", "ving": "excelling", "past": "excelled" }
   },
   {
     "word": "excellence",
@@ -3019,7 +3019,7 @@
     "ipa_en": "/ˈfɑðərɪnˌlɔ/",
     "ipa_vi": "/ɓo˦˥/",
     "level": "B2",
-    "forms": { "plural": "father-in-laws" }
+    "forms": { "plural": "fathers-in-law" }
   },
   {
     "word": "fatigue",
@@ -4558,8 +4558,7 @@
     "ipa_en": "/fərst/",
     "ipa_vi": "/ɗəw˨˩/",
     "freq": 150,
-    "level": "A1",
-    "forms": { "comparative": "firster", "superlative": "firstest" }
+    "level": "A1"
   },
   {
     "word": "first-floor",
@@ -5865,11 +5864,11 @@
   {
     "word": "ford",
     "pos": "n",
-    "vi": "Ford (tên hãng xe)",
-    "ex_en": "He drives a Ford car.",
-    "ex_vi": "Anh ấy lái một chiếc xe Ford.",
+    "vi": "chỗ cạn lội qua sông",
+    "ex_en": "The travelers crossed the river at a shallow ford.",
+    "ex_vi": "Những người lữ hành băng qua sông ở một chỗ cạn.",
     "ipa_en": "/fɔrd/",
-    "ipa_vi": "/ford˧/",
+    "ipa_vi": "/tɕo˦˥/",
     "freq": 3969,
     "level": "B1",
     "forms": { "plural": "fords" }
@@ -9788,18 +9787,6 @@
     "level": "B2",
     "freq": 8869,
     "forms": { "plural": "goodwills" }
-  },
-  {
-    "word": "gook",
-    "pos": "n",
-    "vi": "chất nhầy, chất bẩn dính",
-    "ex_en": "There was some sticky gook stuck to the bottom of the pan.",
-    "ex_vi": "Có một ít chất nhầy dính ở đáy chảo.",
-    "ipa_en": "/ɡʊk/",
-    "ipa_vi": "/tɕət̚˦˥/",
-    "level": "B2",
-    "freq": 15871,
-    "forms": { "plural": "gooks" }
   },
   {
     "word": "goose",

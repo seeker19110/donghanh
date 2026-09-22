@@ -1613,8 +1613,7 @@
     "ipa_en": "/soʊl/",
     "ipa_vi": "/zwi˧/",
     "freq": 6653,
-    "level": "B1",
-    "forms": { "comparative": "soler", "superlative": "solest" }
+    "level": "B1"
   },
   {
     "word": "solely",
@@ -1957,7 +1956,7 @@
     "ipa_en": "/ˈsənɪnˌlɔ/",
     "ipa_vi": "/kɔn˧/",
     "level": "B2",
-    "forms": { "plural": "son-in-laws" }
+    "forms": { "plural": "sons-in-law" }
   },
   {
     "word": "song",
@@ -5362,7 +5361,7 @@
     "ipa_vi": "/ɓuŋ˨˩ʔ/",
     "freq": 1758,
     "level": "A2",
-    "forms": { "plural": "stomaches" }
+    "forms": { "plural": "stomachs" }
   },
   {
     "word": "stomachache",
@@ -7010,8 +7009,7 @@
     "ipa_en": "/səʧ/",
     "ipa_vi": "/ɲɯ˧/",
     "freq": 354,
-    "level": "A2",
-    "forms": { "comparative": "sucher", "superlative": "suchest" }
+    "level": "A2"
   },
   {
     "word": "suck",
@@ -10056,7 +10054,7 @@
     "ipa_vi": "/koŋ˧/",
     "freq": 5877,
     "level": "B2",
-    "forms": { "plural": "teches" }
+    "forms": { "plural": "techs" }
   },
   {
     "word": "technical",

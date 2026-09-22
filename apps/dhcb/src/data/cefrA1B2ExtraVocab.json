@@ -27306,11 +27306,11 @@
         {
           "word": "ford",
           "pos": "n",
-          "vi": "Ford (tên hãng xe)",
-          "ex_en": "He drives a Ford car.",
-          "ex_vi": "Anh ấy lái một chiếc xe Ford.",
+          "vi": "chỗ cạn lội qua sông",
+          "ex_en": "The travelers crossed the river at a shallow ford.",
+          "ex_vi": "Những người lữ hành băng qua sông ở một chỗ cạn.",
           "ipa_en": "/fɔrd/",
-          "ipa_vi": "/ford˧/",
+          "ipa_vi": "/tɕo˦˥/",
           "freq": 3969,
           "level": "B1",
           "forms": { "plural": "fords" }
@@ -52702,7 +52702,7 @@
         },
         {
           "word": "ow",
-          "pos": "n",
+          "pos": "interj",
           "vi": "tiếng kêu 'ái' (khi đau)",
           "ex_en": "She shouted \"Ow!\" when she stubbed her toe.",
           "ex_vi": "Cô ấy hét lên \"Ái!\" khi vấp phải ngón chân.",
@@ -62982,18 +62982,6 @@
           "freq": 15864,
           "level": "B2",
           "forms": { "plural": "dissertations" }
-        },
-        {
-          "word": "gook",
-          "pos": "n",
-          "vi": "chất nhầy, chất bẩn dính",
-          "ex_en": "There was some sticky gook stuck to the bottom of the pan.",
-          "ex_vi": "Có một ít chất nhầy dính ở đáy chảo.",
-          "ipa_en": "/ɡʊk/",
-          "ipa_vi": "/tɕət̚˦˥/",
-          "level": "B2",
-          "freq": 15871,
-          "forms": { "plural": "gooks" }
         }
       ],
       "sentences": []

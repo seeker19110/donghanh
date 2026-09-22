@@ -1032,7 +1032,7 @@
         },
         {
           "word": "enviable",
-          "pos": "adv",
+          "pos": "adj",
           "vi": "đáng ghen tị, đáng thèm muốn",
           "ex_en": "She has built an enviable career in international law.",
           "ex_vi": "Cô đã xây dựng một sự nghiệp đáng ghen tị trong ngành luật quốc tế.",
@@ -17362,16 +17362,6 @@
           "ipa_en": "/ˌʌndɪˈmɑnstrətɪv/",
           "ipa_vi": "/kin˦˥/",
           "freq": 73138
-        },
-        {
-          "word": "evokingly",
-          "pos": "adv",
-          "vi": "một cách gợi nhớ, gợi cảm xúc",
-          "ex_en": "The old photographs spoke evokingly of a lost era.",
-          "ex_vi": "Những bức ảnh cũ gợi lên một cách sâu lắng về một thời đã mất.",
-          "ipa_en": "/ɪˈvoʊkɪŋli/",
-          "ipa_vi": "/mot̚˨˩ʔ/",
-          "level": "C2"
         },
         {
           "word": "glory in",
@@ -34177,10 +34167,10 @@
         },
         {
           "word": "upscale",
-          "pos": "v",
-          "vi": "nâng quy mô; (adj) cao cấp",
+          "pos": "adj",
+          "vi": "cao cấp, sang trọng (khu vực, nhà hàng)",
           "ex_en": "The restaurant has an upscale atmosphere.",
-          "ex_vi": "Nhà hàng có không gian cao cấp.",
+          "ex_vi": "Nhà hàng có không khí sang trọng.",
           "ipa_en": "/ˈəpˌskeɪl/",
           "ipa_vi": "/nəŋ˧/",
           "freq": 23468,
@@ -42615,16 +42605,6 @@
           "ex_en": "She arduously trained for the marathon every day.",
           "ex_vi": "Cô ấy tập luyện một cách vất vả cho cuộc thi marathon mỗi ngày.",
           "ipa_en": "/ˈɑːrʤuəsli/",
-          "ipa_vi": "/mot̚˨˩ʔ/",
-          "level": "C2"
-        },
-        {
-          "word": "bereftly",
-          "pos": "adv",
-          "vi": "một cách trống vắng, mất mát",
-          "ex_en": "She wandered bereftly through the empty house after the funeral.",
-          "ex_vi": "Cô lang thang trong ngôi nhà trống vắng một cách hụt hẫng sau đám tang.",
-          "ipa_en": "/bɪˈrɛftli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "level": "C2"
         },

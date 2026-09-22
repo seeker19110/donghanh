@@ -859,8 +859,7 @@
     "ipa_en": "/ril/",
     "ipa_vi": "/tʰət̚˨˩ʔ/",
     "freq": 260,
-    "level": "A1",
-    "forms": { "comparative": "realer", "superlative": "realest" }
+    "level": "A1"
   },
   {
     "word": "realise",
@@ -3468,7 +3467,7 @@
     "ipa_vi": "/tɕa˧˩˧/",
     "level": "B1",
     "freq": 6700,
-    "forms": { "v3s": "repays", "ving": "repaying", "past": "repayed" }
+    "forms": { "v3s": "repays", "ving": "repaying", "past": "repaid", "irregular": true }
   },
   {
     "word": "repeal",
@@ -3515,7 +3514,7 @@
     "ipa_vi": "/ɗəj˧˩˧/",
     "freq": 21395,
     "level": "C1",
-    "forms": { "v3s": "repels", "ving": "repeling", "past": "repeled" }
+    "forms": { "v3s": "repels", "ving": "repelling", "past": "repelled" }
   },
   {
     "word": "repertoire",
@@ -4060,7 +4059,7 @@
     "ipa_vi": "/ɗat̚˨˩ʔ/",
     "freq": 8978,
     "level": "A2",
-    "forms": { "v3s": "resets", "ving": "resetting", "past": "resetted" }
+    "forms": { "v3s": "resets", "ving": "resetting", "past": "reset", "irregular": true }
   },
   {
     "word": "reside",
@@ -4703,7 +4702,7 @@
     "ipa_vi": "/ke˧˩˧/",
     "level": "B1",
     "freq": 70519,
-    "forms": { "v3s": "retells", "ving": "retelling", "past": "retelled" }
+    "forms": { "v3s": "retells", "ving": "retelling", "past": "retold", "irregular": true }
   },
   {
     "word": "retention",
@@ -5291,7 +5290,7 @@
     "ipa_vi": "/lwaːj˨˩ʔ/",
     "freq": 1149,
     "level": "B1",
-    "forms": { "v3s": "rids", "ving": "ridding", "past": "ridded" }
+    "forms": { "v3s": "rids", "ving": "ridding", "past": "rid", "irregular": true }
   },
   {
     "word": "riddle",
@@ -5391,8 +5390,7 @@
     "ipa_en": "/raɪt/",
     "ipa_vi": "/ɗuŋ˦˥/",
     "freq": 45,
-    "level": "A1",
-    "forms": { "comparative": "righter", "superlative": "rightest" }
+    "level": "A1"
   },
   {
     "word": "right-hand",
@@ -7303,8 +7301,7 @@
     "ipa_en": "/seɪm/",
     "ipa_vi": "/zoŋ˦˥/",
     "freq": 274,
-    "level": "A1",
-    "forms": { "comparative": "samer", "superlative": "samest" }
+    "level": "A1"
   },
   {
     "word": "sample",
@@ -10725,8 +10722,7 @@
     "ipa_en": "/ʃɪr/",
     "ipa_vi": "/hwaːn˨˩/",
     "level": "B1",
-    "freq": 7266,
-    "forms": { "comparative": "sheerer", "superlative": "sheerest" }
+    "freq": 7266
   },
   {
     "word": "sheet",
@@ -12221,8 +12217,7 @@
     "ipa_en": "/ˈsɪŋgəl/",
     "ipa_vi": "/ɗok̚˨˩ʔ/",
     "freq": 991,
-    "level": "A2",
-    "forms": { "comparative": "singler", "superlative": "singlest" }
+    "level": "A2"
   },
   {
     "word": "singles",
@@ -12314,7 +12309,7 @@
     "ipa_en": "/ˈsɪstərɪnˌlɔ/",
     "ipa_vi": "/tɕi˨˩ʔ/",
     "level": "B2",
-    "forms": { "plural": "sister-in-laws" }
+    "forms": { "plural": "sisters-in-law" }
   },
   {
     "word": "sit",
@@ -13395,7 +13390,13 @@
     "ipa_vi": "/ɗan˧/",
     "level": "C2",
     "freq": 66550,
-    "forms": { "v3s": "interweaves", "ving": "interweaving", "past": "interweaved" }
+    "forms": {
+      "v3s": "interweaves",
+      "ving": "interweaving",
+      "past": "interwove",
+      "pastPart": "interwoven",
+      "irregular": true
+    }
   },
   {
     "word": "jargon",
