@@ -1,4 +1,4 @@
-# 0411 — 2026-09-22 — Đánh giá sâu UI/UX (80 ảnh Tầng 8b) + xử lý 6 đợt A–F trong một PR
+# 0412 — 2026-09-22 — Đánh giá sâu UI/UX (80 ảnh Tầng 8b) + xử lý 6 đợt A–F trong một PR
 
 > PR: (đợt này), nhánh `claude/ui-ux-deep-review-bbgqf8`. Chủ dự án yêu cầu "đánh giá sâu UI/UX"
 > rồi "xử lý đi". Báo cáo đầy đủ ở `docs/audit/2026-09-22-danh-gia-sau-ui-ux.md` (mục 3 xếp

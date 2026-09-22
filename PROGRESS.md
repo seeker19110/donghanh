@@ -984,7 +984,7 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 ## Nợ kỹ thuật còn mở
 
 - 🟡 **[2026-09-22 — audit UI/UX sâu, `docs/audit/2026-09-22-danh-gia-sau-ui-ux.md` +
-  `docs/changelog/0411-*.md`, PR đợt 0411] Đã xử lý 6 đợt A–F trong một PR.** Nợ còn lại: (1) ĐÃ TRẢ cùng PR —
+  `docs/changelog/0412-*.md`, PR đợt 0412] Đã xử lý 6 đợt A–F trong một PR.** Nợ còn lại: (1) ĐÃ TRẢ cùng PR —
   34 chỗ `err.message` người dùng thấy đã qua `lib/friendlyError.ts`, admin/console/worker giữ thô có chủ đích; (2) Phòng luyện tập vs
   Tiếng Anh home vẫn nhiều lối vào cùng đích — chưa chốt trang chủ của từng tính năng; (3) ảnh
   Hồ sơ 1440px chụp `fullPage` luôn mờ dù đo `opacity=1` — cần một lần nhìn tay trên trình duyệt
@@ -1228,6 +1228,13 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 
 - 🟡 **[ĐO LẠI 2026-09-14 — mô tả "ngân sách BUNDLE nay rộng" ĐÃ LỖI THỜI] Cả COVERAGE lẫn
   BUNDLE nay đều mỏng.**
+
+  **[2026-09-22 — nới đệm, `docs/changelog/0411-*.md`]** JS **136,73 → 131,99 / 150 kB (88,0%)**
+  nhờ sửa phép đo: chunk lười `src/prompts` mang tên `index-*.js` bị glob `.size-limit.json` đếm
+  nhầm 4,8 kB (đã đặt tên `prompts-*`). Branches **90,07 → 90,48%** (đệm 1,07 → 1,48 điểm) nhờ
+  test mới cho `security.ts` (đường Redis), `chatFallback.ts`, `subjectProgressBoard.ts`. Vẫn
+  🟡: CSS 17,80 / 20 kB (89%) chưa đụng; branches dư 1,48 điểm là đủ cho PR cỡ vừa, chưa phải
+  thoải mái. Số bên dưới là đo CŨ, giữ để so xu hướng.
 
   Đo 2026-09-14 (build sạch): **JS 135,09 / 140 kB = 96,5%** — vượt ngưỡng cảnh báo 95% mà
   `docs/framework/QUY-TRINH-AUDIT.md` Tầng 1 đặt ra, chỉ còn 4,9 kB nên tính năng nhỏ kế tiếp
