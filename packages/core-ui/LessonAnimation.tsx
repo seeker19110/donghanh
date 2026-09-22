@@ -73,15 +73,19 @@ function keyframesCss(
   return `@keyframes ${name} {\n${steps.join('\n')}\n}`
 }
 
-function Shape({ shape, animName }: { shape: AnimationShape; animName?: string }) {
-  const style = animName ? { animationName: animName } : undefined
+function Shape({ shape }: { shape: AnimationShape }) {
   const stroke = color(shape.stroke, 'none')
+  // Opacity TĨNH của hình nằm trên thẻ con, opacity ĐỘNG (keyframes) chạy trên <g> cha — hai
+  // giá trị NHÂN với nhau. 159/238 hoạt ảnh (rà 2026-09-22) viết `opacity: 0` tĩnh + keyframes
+  // nâng lên 1 với ý "keyframe quyết định lúc hiện" → nếu giữ opacity tĩnh thì hình vô hình vĩnh
+  // viễn (0 × bất kỳ = 0). Vì thế: hình có keyframe điều khiển opacity thì keyframe là nguồn sự
+  // thật, bỏ opacity tĩnh; hình chỉ có keyframe vị trí (dx/dy…) vẫn giữ opacity tĩnh làm nền.
+  const keyframeDieuKhienOpacity = shape.keyframes?.some((k) => k.opacity !== undefined) ?? false
   const common = {
-    style,
     stroke,
     strokeWidth: shape.strokeWidth,
     strokeDasharray: shape.dash,
-    opacity: shape.opacity,
+    opacity: keyframeDieuKhienOpacity ? undefined : shape.opacity,
   }
 
   switch (shape.kind) {
@@ -219,11 +223,24 @@ ${css}
             </marker>
           ))}
         </defs>
-        {spec.shapes.map((shape) => (
-          <g key={shape.id} data-animated={animNames.has(shape.id) ? 'true' : undefined}>
-            <Shape shape={shape} animName={animNames.get(shape.id)} />
-          </g>
-        ))}
+        {spec.shapes.map((shape) => {
+          const animName = animNames.get(shape.id)
+          // `animation-name` PHẢI nằm trên CHÍNH thẻ <g> mang data-animated, vì duration /
+          // iteration / play-state được gán cho <g> qua CSS ở trên và CSS animation KHÔNG kế
+          // thừa xuống con. Bẫy đã mắc thật (2026-09-22, docs/changelog/0407-*.md): trước đây
+          // tên nằm ở hình con → hình con có tên nhưng duration 0s, <g> có duration nhưng không
+          // tên → KHÔNG hoạt ảnh nào từng chạy ở cả 4 môn STEM lẫn Lập trình, mà mọi cổng (Zod,
+          // snapshot HTML, ảnh chụp cảnh đầu) vẫn xanh vì cảnh đầu vốn đúng.
+          return (
+            <g
+              key={shape.id}
+              data-animated={animName ? 'true' : undefined}
+              style={animName ? { animationName: animName } : undefined}
+            >
+              <Shape shape={shape} />
+            </g>
+          )
+        })}
       </svg>
 
       <figcaption className="mt-2 space-y-2">
