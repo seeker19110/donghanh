@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
 import { mockLogin, type ThemeName } from './auth'
 import { muteTts } from './tts'
-import { waitForStableDom } from './axe'
+import { freezeAnimations, waitForStableDom } from './axe'
 
 // ──────────────────────────────────────────────────────────────────────────────
 // MỘT NGUỒN SỰ THẬT cho "sáu màn mẫu" của goal learning-ux (spec S13 §③.1).
@@ -399,6 +399,13 @@ export async function moManHinh(
     await setup.install(page)
     await waitForStableDom(page)
   }
+  // Đóng băng animation/transition SAU KHI DOM đã ổn định — cùng thứ tự `scan()` ở
+  // `e2e/a11y.spec.ts` dùng. Thiếu bước này, ảnh chụp có thể rơi đúng khung giữa của
+  // `animate-fade-in`/`fade-up` (opacity/translate chưa về trạng thái cuối): phát
+  // hiện được ở đợt 0416 khi diff Tầng 8b báo lệch chiều cao ~16-24px và độ mờ khác
+  // nhau CHỈ ở ba màn có phần tử `animate-*` (`today`, `outline`, `tutor`) — không
+  // phải hồi quy bố cục của bản nâng cấp, mà là lỗ hổng có sẵn của chính công cụ này.
+  await freezeAnimations(page)
   return true
 }
 
