@@ -245,7 +245,7 @@
     "ipa_en": "/ˈbrændɪŋ/",
     "ipa_vi": "/səj˧/",
     "freq": 20328,
-    "level": "A2",
+    "level": "B2",
     "forms": { "plural": "brandings" }
   },
   {
@@ -926,7 +926,7 @@
     "ipa_en": "/ˈbroʊkər/",
     "ipa_vi": "/ŋɯəj˨˩/",
     "freq": 8377,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "brokers" }
   },
   {
@@ -2685,7 +2685,7 @@
     "ipa_en": "/ˈkænɪstər/",
     "ipa_vi": "/hop̚˨˩ʔ/",
     "freq": 14392,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "canisters" }
   },
   {
@@ -3214,7 +3214,7 @@
     "ipa_en": "/kərˈɛs/",
     "ipa_vi": "/vuət̚˦˥/",
     "freq": 14774,
-    "level": "A2",
+    "level": "B1",
     "forms": { "v3s": "caresses", "ving": "caressing", "past": "caressed" }
   },
   {
@@ -3868,7 +3868,7 @@
     "ipa_en": "/ˈkɔʃəsli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 27098,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "cavalry",
@@ -4151,7 +4151,7 @@
     "ipa_en": "/ˈsɛnsəs/",
     "ipa_vi": "/ɗiəw˨˩/",
     "freq": 14703,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "censuses" }
   },
   {
@@ -4754,7 +4754,7 @@
     "ipa_en": "/ˈʧɑrʤər/",
     "ipa_vi": "/ɓo˨˩ʔ/",
     "freq": 15740,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "chargers" }
   },
   {
@@ -7139,7 +7139,7 @@
     "ipa_en": "/ˈkoʊdər/",
     "ipa_vi": "/ŋɯəj˨˩/",
     "freq": 42957,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "coders" }
   },
   {
@@ -7444,7 +7444,7 @@
     "ipa_en": "/kəˈlɛktəbəlz/",
     "ipa_vi": "/ɗo˨˩/",
     "freq": 26070,
-    "level": "A1"
+    "level": "B2"
   },
   {
     "word": "collection",
@@ -7478,7 +7478,7 @@
     "ipa_en": "/kəˈlɛktɪvli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 21744,
-    "level": "A1"
+    "level": "B2"
   },
   {
     "word": "collector",
@@ -8264,7 +8264,7 @@
     "ipa_en": "/ˈkɑmprəbəl/",
     "ipa_vi": "/kɔ˦˥/",
     "freq": 25016,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "comparative",
@@ -9427,7 +9427,7 @@
     "ipa_en": "/kənˌfɪgjərˈeɪʃən/",
     "ipa_vi": "/kəw˦˥/",
     "freq": 17987,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "configurations" }
   },
   {
@@ -9640,7 +9640,7 @@
     "ipa_en": "/kənˈgrɛʃənəl/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 11705,
-    "level": "A1"
+    "level": "B1"
   },
   {
     "word": "congressman",
@@ -9663,7 +9663,7 @@
     "ipa_en": "/ˈkɑnɪkəl/",
     "ipa_vi": "/hiɲ˨˩/",
     "freq": 39391,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "conjecture",
@@ -9803,7 +9803,7 @@
     "ipa_en": "/ˈkɑnʃəsli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 16617,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "consciousness",
@@ -9953,7 +9953,7 @@
     "ipa_en": "/kənˈsɪdərət/",
     "ipa_vi": "/ɓiət̚˦˥/",
     "freq": 8643,
-    "level": "A2"
+    "level": "B1"
   },
   {
     "word": "consideration",
@@ -10011,7 +10011,7 @@
     "ipa_en": "/kənˈsɪstənsi/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 20039,
-    "level": "A2",
+    "level": "B2",
     "forms": { "plural": "consistencies" }
   },
   {
@@ -10034,7 +10034,7 @@
     "ipa_en": "/kənˈsɪstəntli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 18782,
-    "level": "A2"
+    "level": "B2"
   },
   {
     "word": "consolation",
@@ -10222,7 +10222,7 @@
     "ipa_en": "/ˌkɑnstəˈtuʃənəl/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 11219,
-    "level": "A2"
+    "level": "B1"
   },
   {
     "word": "constrain",
@@ -10892,7 +10892,7 @@
     "ipa_en": "/kənˈtroʊlər/",
     "ipa_vi": "/ŋɯəj˨˩/",
     "freq": 15198,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "controllers" }
   },
   {
@@ -11256,7 +11256,7 @@
     "ipa_en": "/koʊˌɔrdəˈneɪʃən/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 15901,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "coordinations" }
   },
   {
@@ -11847,7 +11847,7 @@
     "ipa_en": "/ˈkaʊnsəllɔr/",
     "ipa_vi": "/wi˧˩˧/",
     "freq": 19668,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "councillors" }
   },
   {
@@ -12118,7 +12118,7 @@
     "ipa_en": "/ˈkərtiəs/",
     "ipa_vi": "/lic̚˨˩ʔ/",
     "freq": 15662,
-    "level": "A2"
+    "level": "B2"
   },
   {
     "word": "courtesy",

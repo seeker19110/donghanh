@@ -179,6 +179,11 @@ export const IRREGULAR_PLURALS: Record<string, string> = {
   man: 'men',
   woman: 'women',
   child: 'children',
+  // Danh từ ghép với child chia ở phần gốc (rà từ điển 2026-09-22: `grandchilds` lọt vào forms).
+  grandchild: 'grandchildren',
+  stepchild: 'stepchildren',
+  godchild: 'godchildren',
+  schoolchild: 'schoolchildren',
   person: 'people',
   foot: 'feet',
   tooth: 'teeth',

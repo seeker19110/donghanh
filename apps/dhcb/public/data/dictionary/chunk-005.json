@@ -289,7 +289,7 @@
     "ipa_en": "/ˌlaɪəˈbɪlɪti/",
     "ipa_vi": "/tɕaːc̚˦˥/",
     "freq": 9167,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "liabilities" }
   },
   {
@@ -431,7 +431,7 @@
     "ipa_en": "/ˈlaɪsənst/",
     "ipa_vi": "/ɗɯək̚˨˩ʔ/",
     "freq": 9837,
-    "level": "A2"
+    "level": "B1"
   },
   {
     "word": "lichen",
@@ -817,7 +817,7 @@
     "ipa_en": "/ˈlaɪmˌstoʊn/",
     "ipa_vi": "/ɗaː˦˥/",
     "freq": 23952,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "limestones" }
   },
   {
@@ -1090,7 +1090,7 @@
     "ipa_en": "/ˈlɪkwɪˌdeɪt/",
     "ipa_vi": "/tʰaːɲ˧/",
     "freq": 20054,
-    "level": "B1",
+    "level": "B2",
     "forms": { "v3s": "liquidates", "ving": "liquidating", "past": "liquidated" }
   },
   {
@@ -1102,7 +1102,7 @@
     "ipa_en": "/lɪkˈwɪdɪti/",
     "ipa_vi": "/tiɲ˦˥/",
     "freq": 50513,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "liquidities" }
   },
   {
@@ -1198,7 +1198,7 @@
     "ipa_en": "/ˈlɪtərəsi/",
     "ipa_vi": "/xaː˧˩˧/",
     "freq": 24588,
-    "level": "A2",
+    "level": "B2",
     "forms": { "plural": "literacies" }
   },
   {
@@ -1691,7 +1691,7 @@
     "ipa_en": "/ləˈʤɪstɪks/",
     "ipa_vi": "/həw˨˩ʔ/",
     "freq": 20790,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "logo",
@@ -1825,7 +1825,7 @@
     "ipa_en": "/ˈlɔŋɪŋ/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 9638,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "longings" }
   },
   {
@@ -2039,7 +2039,7 @@
     "ipa_en": "/ˈloʊtəs/",
     "ipa_vi": "/hwaː˧/",
     "freq": 11785,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "lotuses" }
   },
   {
@@ -2225,7 +2225,7 @@
     "ipa_en": "/ˈlɔɪəli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 35232,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "loyalty",
@@ -2564,7 +2564,7 @@
     "ipa_en": "/məˈʃinəri/",
     "ipa_vi": "/maːj˦˥/",
     "freq": 8332,
-    "level": "A2",
+    "level": "B1",
     "forms": { "uncountable": true }
   },
   {
@@ -2871,7 +2871,7 @@
     "ipa_en": "/ˈmeɪlɪŋ/",
     "ipa_vi": "/viək̚˨˩ʔ/",
     "freq": 15014,
-    "level": "A2",
+    "level": "B2",
     "forms": { "plural": "mailings" }
   },
   {
@@ -3270,7 +3270,7 @@
     "ipa_en": "/meɪn/",
     "ipa_vi": "/ɓəːm˨˩/",
     "freq": 22678,
-    "level": "A1",
+    "level": "B2",
     "forms": { "plural": "manes" }
   },
   {
@@ -3390,7 +3390,7 @@
     "ipa_en": "/ˈmænər/",
     "ipa_vi": "/ziɲ˧/",
     "freq": 8689,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "manors" }
   },
   {
@@ -3462,7 +3462,7 @@
     "ipa_en": "/məˈnʊr/",
     "ipa_vi": "/fən˧/",
     "freq": 11647,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "manures" }
   },
   {
@@ -3709,7 +3709,7 @@
     "ipa_en": "/ˈmɑrkətər/",
     "ipa_vi": "/ŋɯəj˨˩/",
     "freq": 67477,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "marketers" }
   },
   {
@@ -4678,7 +4678,7 @@
     "ipa_en": "/ˈmidiən/",
     "ipa_vi": "/tɕuŋ˧/",
     "freq": 27056,
-    "level": "A1",
+    "level": "B2",
     "forms": { "plural": "medians" }
   },
   {
@@ -4912,7 +4912,7 @@
     "ipa_en": "/ˈmɛmˌbreɪn/",
     "ipa_vi": "/maːŋ˨˩/",
     "freq": 16468,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "membranes" }
   },
   {
@@ -5337,7 +5337,7 @@
     "ipa_en": "/ˈmitə/",
     "ipa_vi": "/tɯ˨˩ʔ/",
     "freq": 26983,
-    "level": "A1"
+    "level": "B2"
   },
   {
     "word": "metabolism",
@@ -5372,7 +5372,7 @@
     "ipa_en": "/məˈtælɪk/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 15016,
-    "level": "A2"
+    "level": "B2"
   },
   {
     "word": "metaphor",
@@ -5395,7 +5395,7 @@
     "ipa_en": "/ˈmitiər/",
     "ipa_vi": "/tʰiən˧/",
     "freq": 8523,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "meteors" }
   },
   {
@@ -5746,7 +5746,7 @@
     "ipa_en": "/mɪdˈfildər/",
     "ipa_vi": "/tiən˨˩/",
     "freq": 67731,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "midfielders" }
   },
   {
@@ -5794,7 +5794,7 @@
     "ipa_en": "/ˈmɪdˌweɪ/",
     "ipa_vi": "/zɯə˧˥ʔ/",
     "freq": 11181,
-    "level": "A1"
+    "level": "B1"
   },
   {
     "word": "midweek",
@@ -6264,7 +6264,7 @@
     "ipa_en": "/ˈmɪnɪstri/",
     "ipa_vi": "/ɓo˨˩ʔ/",
     "freq": 8102,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "ministries" }
   },
   {
@@ -6533,7 +6533,7 @@
     "ipa_en": "/ˈmɪʃəˌnɛri/",
     "ipa_vi": "/ɲaː˨˩/",
     "freq": 11436,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "missionaries" }
   },
   {
@@ -6727,7 +6727,7 @@
     "ipa_en": "/ˈmɪksər/",
     "ipa_vi": "/maːj˦˥/",
     "freq": 16729,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "mixers" }
   },
   {
@@ -7123,7 +7123,7 @@
     "ipa_en": "/moʊˈmɛntəm/",
     "ipa_vi": "/ɗoŋ˨˩ʔ/",
     "freq": 12944,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "momentums" }
   },
   {
@@ -7195,7 +7195,7 @@
     "ipa_en": "/ˈmɑnəˌtɛri/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 17232,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "monetize",
@@ -7372,7 +7372,7 @@
     "ipa_en": "/ˌmɑnjəˈmɛnəl/",
     "ipa_vi": "/tɔ˧/",
     "freq": 16896,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "mood",
@@ -9536,7 +9536,7 @@
     "ipa_en": "/ˈnɛtˌwərkɪŋ/",
     "ipa_vi": "/zaːw˧/",
     "freq": 23802,
-    "level": "B1",
+    "level": "B2",
     "forms": { "uncountable": true }
   },
   {
@@ -9582,7 +9582,7 @@
     "ipa_en": "/ˈnutrəli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 68244,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "neutron",
@@ -9918,7 +9918,7 @@
     "ipa_en": "/ˈnaɪtɪŋgeɪl/",
     "ipa_vi": "/tɕim˧/",
     "freq": 9652,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "nightingales" }
   },
   {
@@ -10035,7 +10035,7 @@
     "ipa_en": "/ˈnaɪtrəʤən/",
     "ipa_vi": "/nitơ˧/",
     "freq": 15838,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "nitrogens" }
   },
   {
@@ -10222,7 +10222,7 @@
     "ipa_en": "/nɑn/",
     "ipa_vi": "/xoŋ˧/",
     "freq": 8223,
-    "level": "A1"
+    "level": "B1"
   },
   {
     "word": "non-smoking",
@@ -10527,7 +10527,7 @@
     "ipa_en": "/ˈnoʊtəbli/",
     "ipa_vi": "/ɗak̚˨˩ʔ/",
     "freq": 26160,
-    "level": "A1"
+    "level": "B2"
   },
   {
     "word": "notch",
@@ -10653,7 +10653,7 @@
     "ipa_en": "/ˌnoʊtəfəˈkeɪʃən/",
     "ipa_vi": "/tʰoŋ˧/",
     "freq": 22305,
-    "level": "A1",
+    "level": "B2",
     "forms": { "plural": "notifications" }
   },
   {
@@ -11693,7 +11693,7 @@
     "ipa_en": "/əˈkərəns/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 15912,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "occurrences" }
   },
   {
@@ -12386,7 +12386,7 @@
     "ipa_en": "/ˈɔnˌsɛt/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 18993,
-    "level": "A2",
+    "level": "B2",
     "forms": { "plural": "onsets" }
   },
   {

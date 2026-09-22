@@ -56,8 +56,13 @@ const GOLDEN_MANUAL_HASH = 'ca7969b3ce30bc7120e050976a4cabc9322ed344984e150812ef
  * Kèm theo, bất biến này nay kiểm điều MẠNH HƠN một con số đếm: MỌI vòng đều phải có câu mẫu
  * (số vòng thiếu câu = 0). Ngưỡng đếm đơn thuần có thể xanh trong khi một vòng mới bị bỏ quên;
  * đối chiếu với TOÀN BỘ FOUNDATION thì không.
+ *
+ * Hạ tiếp xuống **673** ngày 2026-09-22 (docs/changelog/0409): áp sàn bậc theo tần suất cho 306
+ * nhãn không có nguồn chuẩn + nối `base` cho 12 dạng chia → sinh lại vòng A1–C2, tổng vòng giảm
+ * 3 (từ rời A1/A2 làm vài vòng nhỏ gộp lại). Vẫn 0 vòng thiếu câu mẫu: 208 câu cũ được gán lại
+ * cho vòng mới bằng `scripts/archive/reassign-circle-sentences.ts`, 31 câu viết tay thêm.
  */
-const MIN_CIRCLES_WITH_SENTENCES = 676
+const MIN_CIRCLES_WITH_SENTENCES = 673
 
 const PUBLIC_JSON = path.resolve(process.cwd(), 'apps/dhcb/public/data/curriculum.json')
 

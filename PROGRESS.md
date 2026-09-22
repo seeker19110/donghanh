@@ -983,19 +983,19 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 
 ## Nợ kỹ thuật còn mở
 
-- 🟡 **[2026-09-22 — audit câu chữ toàn dự án + trả nợ, `docs/changelog/0406-*.md` và
-  `0408-*.md`, PR #1102] Nợ còn lại sau khi trả:** (1) **pipeline vòng từ vựng CEFR đứt**:
-  `gen-a1b2-extra-vocab.ts`/`gen-cefr-c1c2-vocab.ts` xếp vòng theo nghĩa tiếng Việt nên sinh
-  lại là phá 1.761 câu mẫu viết tay theo id vòng — tạm dùng
-  `scripts/archive/sync-vocab-from-dictionary.ts` chỉ chép trường chữ, cần đặc tả cách sinh vòng
-  mới cho từ mới mà không xáo vòng cũ; (2) `level` CEFR lệch ở vài mục từ điển, `pos` của tiền tố
-  `pre`; `gen-stem-lesson-index.ts` xuất file chưa qua Prettier; (3) nội dung cần chủ dự án
-  quyết: `lessons.json` id=109 nửa sau là thoại mồi, `ft-emperor-clothes` khai A2 nhưng văn bản
-  B2, `my-perseus-4` dòng 105 quan niệm sai lầm thế kỷ 19 trong nguyên tác. ĐÃ TRẢ ở 0408: bộ
-  sinh `forms` từ điển (55 mục sai) + cổng canh `dictionaryForms.test.ts`, 3 mục từ không hợp lệ,
-  hoạt ảnh `sinh11c2` đặt nhầm bài, `security-s3` trái đặc tả, `ml.ts` prerequisites,
-  `idempotent` 3 cách gọi, 4 chương Toán-cho-lập-trình trong `stemCurriculum` chưa từng hiển thị
-  được (trùng `grade`). Cổng CI mới `npm run audit:prose -- --ci` (job `audit`).
+- 🟡 **[2026-09-22 — audit câu chữ toàn dự án + trả nợ, `docs/changelog/0406-*.md` · `0408-*.md`
+  · `0409-*.md`, PR #1102 · #1105 · PR đợt 0409] Nợ còn lại:** (1) sàn bậc theo tần suất mới áp
+  tới B2 — B1 hạng ≥ 30 000 chưa xét lên C1; (2) dạng chia còn đứng như từ riêng trong vòng
+  (`sung`, `designs`…) ngoài 12 mục đã nối `base` — cần quét theo `forms` của từ gốc; (3) 40 câu
+  mẫu mồ côi đã bỏ khi sinh lại vòng. **ĐÃ TRẢ (0408 + 0409):** bộ sinh `forms` (55 mục +
+  `grandchildren`), cổng `dictionaryForms.test.ts`; **bất biến thứ ba của thang bậc** — nhãn không
+  có nguồn CEFR-J/Octanove phải tôn trọng sàn theo hạng tần suất (`UNSOURCED_LEVEL_FLOORS`, 306
+  mục nâng bậc, 12 dạng chia nối `base`), vòng sinh lại 676 → 673, câu mẫu gán lại bằng
+  `reassign-circle-sentences.ts` (208 cứu + 31 viết tay) → **pipeline vòng từ vựng có quy trình
+  rõ** (CLAUDE.md §8); `pre` xoá; `lessons.json` 109 viết lại nửa sau; `ft-emperor-clothes` → B2;
+  `my-perseus-4` chú thích người dịch; `gen-stem-lesson-index` tự Prettier; `stemCurriculum`
+  phân cách nghìn; Tầng 8b tab Đại học đã nhìn (5 chương hiện, bỏ tiền tố "Chương N:" trùng số).
+  Cổng CI `npm run audit:prose -- --ci` (job `audit`).
 - 🟡 **[2026-09-21 — PR #1099, `docs/changelog/0405-*.md`] Hoạt ảnh mô phỏng bài học — GĐ0+GĐ1
   xong, GĐ2 (nhân rộng) CHƯA quyết.** Hạ tầng `LessonAnimationSchema` xác nhận đủ dùng, mở rộng
   sang môn Lập trình, 5 animation thí điểm (4 mới + 1 sửa lỗi hình học có sẵn) đã qua Zod +

@@ -303,7 +303,8 @@
     "ipa_en": "/ˈkrɛdɪts/",
     "ipa_vi": "/ləːj˨˩/",
     "freq": 8826,
-    "level": "A2"
+    "level": "A2",
+    "base": "credit"
   },
   {
     "word": "creek",
@@ -989,7 +990,7 @@
     "ipa_en": "/ˈkjubɪk/",
     "ipa_vi": "/ləp̚˨˩ʔ/",
     "freq": 18763,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "cubicle",
@@ -1457,7 +1458,7 @@
     "ipa_en": "/kərvd/",
     "ipa_vi": "/kɔŋ˧/",
     "freq": 22364,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "cushion",
@@ -2287,7 +2288,7 @@
     "ipa_en": "/ˈdæzəlɪŋ/",
     "ipa_vi": "/tɕɔj˦˥/",
     "freq": 15122,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "dead",
@@ -2460,7 +2461,7 @@
     "ipa_en": "/dɪˈbrif/",
     "ipa_vi": "/hɔp̚˨˩ʔ/",
     "freq": 16276,
-    "level": "B1",
+    "level": "B2",
     "forms": { "v3s": "debriefs", "ving": "debriefing", "past": "debriefed" }
   },
   {
@@ -2496,7 +2497,7 @@
     "ipa_en": "/diˈbəg/",
     "ipa_vi": "/ɣəː˧˥ʔ/",
     "freq": 35750,
-    "level": "B1",
+    "level": "B2",
     "forms": { "v3s": "debugs", "ving": "debuging", "past": "debuged" }
   },
   {
@@ -2508,7 +2509,7 @@
     "ipa_en": "/dəˈbəgər/",
     "ipa_vi": "/koŋ˧/",
     "freq": 52281,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "debuggers" }
   },
   {
@@ -2744,7 +2745,7 @@
     "ipa_en": "/dɪˈkoʊd/",
     "ipa_vi": "/zaːj˧˩˧/",
     "freq": 16788,
-    "level": "B1",
+    "level": "B2",
     "forms": { "v3s": "decodes", "ving": "decoding", "past": "decoded" }
   },
   {
@@ -2993,7 +2994,7 @@
     "ipa_en": "/dɪˈfɔlt/",
     "ipa_vi": "/mak̚˨˩ʔ/",
     "freq": 17406,
-    "level": "A2",
+    "level": "B2",
     "forms": { "plural": "defaults" }
   },
   {
@@ -3322,7 +3323,7 @@
     "ipa_en": "/ˌdɛləˈgeɪʃən/",
     "ipa_vi": "/ɗwaːn˨˩/",
     "freq": 14693,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "delegations" }
   },
   {
@@ -3471,7 +3472,7 @@
     "ipa_en": "/dɪˈlɪvərəbəl/",
     "ipa_vi": "/saːn˧˩˧/",
     "freq": 63428,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "deliverables" }
   },
   {
@@ -3767,7 +3768,7 @@
     "ipa_en": "/ˈdɛnsɪti/",
     "ipa_vi": "/mət̚˨˩ʔ/",
     "freq": 14321,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "densities" }
   },
   {
@@ -4192,7 +4193,7 @@
     "ipa_en": "/ˈdɛzɪgˌneɪt/",
     "ipa_vi": "/tɕi˧˩˧/",
     "freq": 22326,
-    "level": "A2",
+    "level": "B2",
     "forms": { "v3s": "designates", "ving": "designating", "past": "designated" }
   },
   {
@@ -4204,7 +4205,7 @@
     "ipa_en": "/ˈdɛzɪgˌneɪtɪd/",
     "ipa_vi": "/ɗɯək̚˨˩ʔ/",
     "freq": 10184,
-    "level": "A2",
+    "level": "B2",
     "base": "designate"
   },
   {
@@ -4252,7 +4253,8 @@
     "ipa_en": "/dɪˈzaɪnz/",
     "ipa_vi": "/tʰiət̚˦˥/",
     "freq": 8968,
-    "level": "A1"
+    "level": "B1",
+    "base": "design"
   },
   {
     "word": "desirable",
@@ -4779,7 +4781,7 @@
     "ipa_en": "/dɪˈvɛləpər/",
     "ipa_vi": "/ɲaː˨˩/",
     "freq": 18420,
-    "level": "A2",
+    "level": "B2",
     "forms": { "plural": "developers" }
   },
   {
@@ -4815,7 +4817,7 @@
     "ipa_en": "/dɪˌvɛləpˈmɛnəl/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 27897,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "device",
@@ -5206,7 +5208,7 @@
     "ipa_en": "/ˈdaɪəˌtɛri/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 28311,
-    "level": "A2"
+    "level": "B2"
   },
   {
     "word": "diff",
@@ -5510,7 +5512,7 @@
     "ipa_en": "/dɪˈmɛnʃənəl/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 16835,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "diminish",
@@ -6064,7 +6066,7 @@
     "ipa_en": "/dɪˈskleɪmər/",
     "ipa_vi": "/twiên˧/",
     "freq": 46170,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "disclaimers" }
   },
   {
@@ -6088,7 +6090,7 @@
     "ipa_en": "/dɪˈskloʊʒər/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 17467,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "disclosures" }
   },
   {
@@ -6266,7 +6268,7 @@
     "ipa_en": "/ˈdɪskəs/",
     "ipa_vi": "/mon˧/",
     "freq": 33573,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "discuses" }
   },
   {
@@ -6525,7 +6527,7 @@
     "ipa_en": "/dɪsˈmɪsəl/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 16400,
-    "level": "A1",
+    "level": "B2",
     "forms": { "plural": "dismissals" }
   },
   {
@@ -6582,7 +6584,7 @@
     "ipa_en": "/ˈdɪspərɪt/",
     "ipa_vi": "/xaːk̚˦˥/",
     "freq": 39445,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "dispatch",
@@ -6901,7 +6903,7 @@
     "ipa_en": "/dɪˈstɪŋkt/",
     "ipa_vi": "/ziəŋ˧/",
     "freq": 9255,
-    "level": "A2"
+    "level": "B1"
   },
   {
     "word": "distinction",
@@ -6924,7 +6926,7 @@
     "ipa_en": "/dɪˈstɪŋktɪv/",
     "ipa_vi": "/ɗak̚˨˩ʔ/",
     "freq": 13704,
-    "level": "A2"
+    "level": "B1"
   },
   {
     "word": "distinctly",
@@ -7193,7 +7195,7 @@
     "ipa_en": "/dɪˈvərsəˌfaɪ/",
     "ipa_vi": "/ɗaː˧/",
     "freq": 30572,
-    "level": "B1",
+    "level": "B2",
     "forms": { "v3s": "diversifies", "ving": "diversifying", "past": "diversified" }
   },
   {
@@ -7458,7 +7460,7 @@
     "ipa_en": "/ˈdɑktərət/",
     "ipa_vi": "/hɔk̚˨˩ʔ/",
     "freq": 18388,
-    "level": "A1",
+    "level": "B2",
     "forms": { "plural": "doctorates" }
   },
   {
@@ -7470,7 +7472,7 @@
     "ipa_en": "/ˈdɔktərɪn/",
     "ipa_vi": "/hɔk̚˨˩ʔ/",
     "freq": 19151,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "doctrines" }
   },
   {
@@ -8228,7 +8230,7 @@
     "ipa_en": "/ˈdreɪnɪʤ/",
     "ipa_vi": "/he˨˩ʔ/",
     "freq": 18389,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "drainages" }
   },
   {
@@ -8455,7 +8457,7 @@
     "ipa_en": "/ˈdrɛsər/",
     "ipa_vi": "/tu˧˩˧/",
     "freq": 8449,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "dressers" }
   },
   {
@@ -8825,7 +8827,7 @@
     "ipa_en": "/ˈdrəmər/",
     "ipa_vi": "/ŋɯəj˨˩/",
     "freq": 8342,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "drummers" }
   },
   {
@@ -9470,7 +9472,8 @@
     "ipa_en": "/ˈərliəst/",
     "ipa_vi": "/səːm˦˥/",
     "freq": 10888,
-    "level": "A2"
+    "level": "A1",
+    "base": "early"
   },
   {
     "word": "earlobe",
@@ -10352,7 +10355,7 @@
     "ipa_en": "/ˈɛldəst/",
     "ipa_vi": "/ləːn˦˥/",
     "freq": 13948,
-    "level": "A1"
+    "level": "B1"
   },
   {
     "word": "elect",
@@ -10991,7 +10994,7 @@
     "ipa_en": "/ɪˈmɪʃən/",
     "ipa_vi": "/xi˦˥/",
     "freq": 24764,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "emissions" }
   },
   {
@@ -11141,7 +11144,7 @@
     "ipa_en": "/ˌɛmˈpɪrɪkəl/",
     "ipa_vi": "/zɯə˨˩ʔ/",
     "freq": 25594,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "employ",
@@ -12180,7 +12183,7 @@
     "ipa_en": "/ˈɛnviəs/",
     "ipa_vi": "/ɣaːɲ˧/",
     "freq": 15410,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "environment",
@@ -12425,7 +12428,7 @@
     "ipa_en": "/ɪkˈwɪvələnt/",
     "ipa_vi": "/tɯəŋ˧/",
     "freq": 10094,
-    "level": "A2"
+    "level": "B1"
   },
   {
     "word": "era",
@@ -12460,7 +12463,7 @@
     "ipa_en": "/ɪˈreɪsər/",
     "ipa_vi": "/kuk̚˨˩ʔ/",
     "freq": 17509,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "erasers" }
   },
   {
@@ -12483,7 +12486,7 @@
     "ipa_en": "/ɪˈroʊʒən/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 23480,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "erosions" }
   },
   {

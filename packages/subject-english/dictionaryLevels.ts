@@ -147,3 +147,113 @@ export function findRareEasyOutliers(entries: readonly DictLevelEntry[]): string
     .map((e) => `${e.word.trim().toLowerCase()}::${e.pos}`)
     .sort()
 }
+
+// ---------------------------------------------------------------------------
+// Bất biến thứ ba: NHÃN KHÔNG CÓ NGUỒN phải tôn trọng SÀN BẬC THEO TẦN SUẤT.
+//
+// Nhãn bậc của từ điển đến từ 3 tầng (scripts/tag-cefr-levels.ts): CEFR-J/Octanove (nguồn
+// chuẩn, tin) → Words-CEFR-Dataset (nội suy, tin thấp) → AI ước lượng. Đợt rà câu chữ
+// 2026-09-21 (docs/changelog/0406) thấy tầng 2–3 gắn A1 cho `momentum` (hạng 12 944),
+// `tenure` (12 754), `mane` (22 678), `congressional` (11 705)… — từ mà người học A1 tiếng Việt
+// không thể gặp trong giáo trình nào. Cổng RARE_RANK_FLOOR (≥ 30 000) không bắt được vì các từ
+// này chỉ "khá hiếm", chưa "rất hiếm".
+//
+// Quy tắc (chỉ áp cho mục KHÔNG có trong CEFR-J/Octanove — nhãn có nguồn chuẩn được giữ nguyên
+// dù hạng thấp, vì CEFR-J chấm theo chủ đề giáo trình, xem RARE_EASY_ALLOWLIST):
+//   hạng ≥ 15 000 → bậc tối thiểu B2 · hạng ≥ 8 000 → bậc tối thiểu B1.
+// Mốc lấy từ phân bố thật của từ điển (2026-09-22): trung vị hạng của B1 là 6 312, của B2 là
+// 11 137, của C1 là 16 838 — một từ hạng 8 000–15 000 nằm giữa B1 và B2, ≥ 15 000 nằm giữa B2
+// và C1. Mục biến thể (`base`) bỏ qua: bậc của nó theo từ gốc (bất biến thứ nhất).
+
+export interface UnsourcedLevelFloor {
+  minRank: number
+  floor: CefrWordLevel
+}
+
+/** Sắp theo minRank GIẢM để mốc đầu tiên khớp là mốc chặt nhất. */
+export const UNSOURCED_LEVEL_FLOORS: readonly UnsourcedLevelFloor[] = [
+  { minRank: 15_000, floor: 'B2' },
+  { minRank: 8_000, floor: 'B1' },
+]
+
+// Ngoại lệ CÓ TÊN (không phải ngưỡng số): từ hạng thấp vì ngữ liệu viết ít dùng, nhưng người
+// học nhỏ tuổi/nhập môn gặp sớm theo chủ đề gia đình, giải trí.
+export const UNSOURCED_EASY_ALLOWLIST: readonly string[] = [
+  'superhero::n', // truyện tranh, phim thiếu nhi — A2 hợp lý dù hạng 8 794
+  'indian::adj', // tính từ quốc gia, cùng nhóm với các tính từ quốc tịch A1/A2
+  'mini::adj', // tiền tố quen dùng trong tiếng Việt (mini-mart, minigame)
+]
+
+/** Bậc tối thiểu theo hạng tần suất, hoặc null nếu hạng chưa chạm mốc nào. */
+export function unsourcedLevelFloor(freq: number | undefined): CefrWordLevel | null {
+  if (typeof freq !== 'number') return null
+  for (const m of UNSOURCED_LEVEL_FLOORS) if (freq >= m.minRank) return m.floor
+  return null
+}
+
+export interface UnsourcedEasyOutlier {
+  word: string
+  pos: string
+  level: CefrWordLevel
+  freq: number
+  floor: CefrWordLevel
+}
+
+/**
+ * Mục KHÔNG có trong nguồn chuẩn (`sourcedHeadwords` = headword CEFR-J + Octanove, chữ thường)
+ * mà bậc đang gán THẤP HƠN sàn theo tần suất. Rỗng (ngoài allowlist) = đạt bất biến.
+ */
+export function findUnsourcedEasyOutliers(
+  entries: readonly DictLevelEntry[],
+  sourcedHeadwords: ReadonlySet<string>,
+): UnsourcedEasyOutlier[] {
+  const out: UnsourcedEasyOutlier[] = []
+  for (const e of entries) {
+    if (!e.level || e.base || typeof e.freq !== 'number') continue
+    const word = e.word.trim().toLowerCase()
+    if (sourcedHeadwords.has(word)) continue
+    const floor = unsourcedLevelFloor(e.freq)
+    if (!floor) continue
+    if (ENTRY_LEVELS.indexOf(e.level) >= ENTRY_LEVELS.indexOf(floor)) continue
+    out.push({ word: e.word, pos: e.pos, level: e.level, freq: e.freq, floor })
+  }
+  return out.sort((a, b) => a.word.localeCompare(b.word) || a.pos.localeCompare(b.pos))
+}
+
+/**
+ * Đọc cột `headword` của một file CSV wordlist (CEFR-J / Octanove) thành tập chữ thường.
+ * Headword dạng "a.m./A.M./am/AM" tách theo "/" thành từng biến thể. Trường có dấu nháy kép
+ * (nghĩa chứa dấu phẩy) được tách đúng — không dùng `split(',')` thô.
+ */
+export function parseWordlistHeadwords(csv: string): Set<string> {
+  const out = new Set<string>()
+  const lines = csv.split(/\r?\n/)
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i]
+    if (!line) continue
+    const first = readFirstCsvField(line)
+    for (const h of first.split('/')) {
+      const w = h.trim().toLowerCase()
+      if (w) out.add(w)
+    }
+  }
+  return out
+}
+
+function readFirstCsvField(line: string): string {
+  if (!line.startsWith('"')) {
+    const i = line.indexOf(',')
+    return i < 0 ? line : line.slice(0, i)
+  }
+  let out = ''
+  for (let i = 1; i < line.length; i++) {
+    const ch = line[i]
+    if (ch === '"') {
+      if (line[i + 1] === '"') {
+        out += '"'
+        i++
+      } else break
+    } else out += ch
+  }
+  return out
+}

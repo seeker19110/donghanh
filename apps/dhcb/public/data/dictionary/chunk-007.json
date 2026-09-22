@@ -411,7 +411,7 @@
     "ipa_en": "/ˈræŋkɪŋz/",
     "ipa_vi": "/ɓaːŋ˧˩˧/",
     "freq": 47046,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "rap",
@@ -598,7 +598,7 @@
     "ipa_en": "/ˈreɪʃiˌoʊ/",
     "ipa_vi": "/ti˧˩˧/",
     "freq": 8984,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "ratios" }
   },
   {
@@ -633,7 +633,7 @@
     "ipa_en": "/ˌræʃəˈnæl/",
     "ipa_vi": "/li˦˥/",
     "freq": 27670,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "rationales" }
   },
   {
@@ -905,7 +905,7 @@
     "ipa_en": "/ˌriəˈlɪstɪkli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 24545,
-    "level": "A1"
+    "level": "B2"
   },
   {
     "word": "reality",
@@ -1045,7 +1045,7 @@
     "ipa_en": "/ˈrizənɪŋ/",
     "ipa_vi": "/ləp̚˨˩ʔ/",
     "freq": 12506,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "reasonings" }
   },
   {
@@ -1116,7 +1116,7 @@
     "ipa_en": "/riˈbut/",
     "ipa_vi": "/xəːj˧˩˧/",
     "freq": 22809,
-    "level": "B1",
+    "level": "B2",
     "forms": { "v3s": "reboots", "ving": "rebooting", "past": "rebooted" }
   },
   {
@@ -2161,7 +2161,7 @@
     "ipa_en": "/rɪˈfəndəbəl/",
     "ipa_vi": "/kɔ˦˥/",
     "freq": 38808,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "refurbish",
@@ -2585,7 +2585,7 @@
     "ipa_en": "/ˌriɪnˈstɑl/",
     "ipa_vi": "/kaːj˨˩/",
     "freq": 57397,
-    "level": "B1",
+    "level": "B2",
     "forms": { "v3s": "reinstalls", "ving": "reinstalling", "past": "reinstalled" }
   },
   {
@@ -2832,7 +2832,8 @@
     "ipa_en": "/rɪˈlisɪz/",
     "ipa_vi": "/ɓaːn˧˩˧/",
     "freq": 12776,
-    "level": "A2"
+    "level": "B1",
+    "base": "release"
   },
   {
     "word": "relentless",
@@ -2877,7 +2878,7 @@
     "ipa_en": "/riˌlaɪəˈbɪləti/",
     "ipa_vi": "/ɗo˨˩ʔ/",
     "freq": 29751,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "reliabilities" }
   },
   {
@@ -2900,7 +2901,7 @@
     "ipa_en": "/rɪˈlaɪəns/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 31324,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "reliances" }
   },
   {
@@ -3205,7 +3206,7 @@
     "ipa_en": "/riˈmɪʃən/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 18620,
-    "level": "A1",
+    "level": "B2",
     "forms": { "plural": "remissions" }
   },
   {
@@ -3217,7 +3218,7 @@
     "ipa_en": "/rimɪks/",
     "ipa_vi": "/ɓaːn˧˩˧/",
     "freq": 29604,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "remixes" }
   },
   {
@@ -3263,7 +3264,7 @@
     "ipa_en": "/rɪˈmuvəl/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 11684,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "removals" }
   },
   {
@@ -3347,7 +3348,7 @@
     "ipa_en": "/riˈnuəbəl/",
     "ipa_vi": "/kɔ˦˥/",
     "freq": 38548,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "renewal",
@@ -3358,7 +3359,7 @@
     "ipa_en": "/rɪˈnuəl/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 17820,
-    "level": "A1",
+    "level": "B2",
     "forms": { "plural": "renewals" }
   },
   {
@@ -3573,7 +3574,7 @@
     "ipa_en": "/riˈpleɪ/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 15802,
-    "level": "A1",
+    "level": "B2",
     "forms": { "plural": "replays" }
   },
   {
@@ -3621,7 +3622,8 @@
     "ipa_en": "/rɪˈplaɪz/",
     "ipa_vi": "/kəw˧/",
     "freq": 23526,
-    "level": "A2"
+    "level": "B1",
+    "base": "reply"
   },
   {
     "word": "reply",
@@ -3788,7 +3790,7 @@
     "ipa_en": "/ˌriprəˈdəkʃən/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 14177,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "reproductions" }
   },
   {
@@ -3800,7 +3802,7 @@
     "ipa_en": "/ˌriprəˈdəktɪv/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 16897,
-    "level": "A2"
+    "level": "B2"
   },
   {
     "word": "reprove",
@@ -3988,7 +3990,7 @@
     "ipa_en": "/rɪˈzɛntfəl/",
     "ipa_vi": "/waːn˦˥/",
     "freq": 23004,
-    "level": "A2"
+    "level": "B2"
   },
   {
     "word": "resentment",
@@ -3999,7 +4001,7 @@
     "ipa_en": "/rɪˈzɛntmənt/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 14020,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "resentments" }
   },
   {
@@ -4058,7 +4060,7 @@
     "ipa_en": "/ˈrisɛt/",
     "ipa_vi": "/ɗat̚˨˩ʔ/",
     "freq": 8978,
-    "level": "A2",
+    "level": "B1",
     "forms": { "v3s": "resets", "ving": "resetting", "past": "reset", "irregular": true }
   },
   {
@@ -4383,7 +4385,7 @@
     "ipa_en": "/rɪˈspɛktɪv/",
     "ipa_vi": "/tɯəŋ˧/",
     "freq": 19440,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "respiration",
@@ -4475,7 +4477,7 @@
     "ipa_en": "/rɪˈspɑnsɪv/",
     "ipa_vi": "/ɗaːp̚˦˥/",
     "freq": 19757,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "rest",
@@ -5865,7 +5867,7 @@
     "ipa_en": "/ˌroʊˈbɑtɪks/",
     "ipa_vi": "/ŋaːɲ˨˩/",
     "freq": 23288,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "robust",
@@ -8211,7 +8213,7 @@
     "ipa_vi": "/hɔk̚˨˩ʔ/",
     "level": "A2",
     "freq": 60033,
-    "forms": { "plural": "schoolchilds" }
+    "forms": { "plural": "schoolchildren", "irregular": true }
   },
   {
     "word": "schoolgirl",
@@ -8829,7 +8831,8 @@
     "ipa_en": "/ˈsərʧɪz/",
     "ipa_vi": "/lɯət̚˨˩ʔ/",
     "freq": 15000,
-    "level": "A2"
+    "level": "B1",
+    "base": "search"
   },
   {
     "word": "searching",
@@ -8887,7 +8890,7 @@
     "ipa_en": "/ˈsizənɪŋ/",
     "ipa_vi": "/zaː˧/",
     "freq": 23860,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "seasonings" }
   },
   {
@@ -9241,7 +9244,7 @@
     "ipa_en": "/ˈsimɪŋli/",
     "ipa_vi": "/zɯəŋ˨˩/",
     "freq": 11466,
-    "level": "A2"
+    "level": "B1"
   },
   {
     "word": "seen",
@@ -9435,7 +9438,7 @@
     "ipa_en": "/ˈsɛlfɪʃlaɪ/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 26499,
-    "level": "A1"
+    "level": "B2"
   },
   {
     "word": "selfless",
@@ -10223,7 +10226,7 @@
     "ipa_en": "/soʊɪŋ/",
     "ipa_vi": "/viək̚˨˩ʔ/",
     "freq": 8043,
-    "level": "A2",
+    "level": "B1",
     "forms": { "uncountable": true }
   },
   {
@@ -10499,7 +10502,7 @@
     "ipa_en": "/ʃeɪmˈfʊli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 31141,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "shampoo",
@@ -11575,7 +11578,7 @@
     "ipa_en": "/ˈʃaɪnəs/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 23009,
-    "level": "A1",
+    "level": "B2",
     "forms": { "plural": "shynesses" }
   },
   {
@@ -14229,7 +14232,7 @@
     "ex_vi": "Bản báo cáo có ba phần phụ lục.",
     "ipa_en": "/əˈpɛndəsiz/",
     "ipa_vi": "/ɲɯŋ˧˥ʔ/",
-    "level": "A2",
+    "level": "B1",
     "base": "appendix"
   }
 ]

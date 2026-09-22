@@ -12564,8 +12564,8 @@
       "en": "Phuong"
     },
     "speakerBName": {
-      "vi": "Thủ thư",
-      "en": "Librarian"
+      "vi": "Khách",
+      "en": "Customer"
     },
     "turns": [
       {
@@ -12620,53 +12620,53 @@
       },
       {
         "speaker": "A",
-        "en": "Can you explain that in more detail?",
-        "vi": "Bạn có thể giải thích chi tiết hơn không?"
+        "en": "Would you like something to drink with your pho?",
+        "vi": "Bạn muốn uống gì kèm phở không?"
       },
       {
         "speaker": "B",
-        "en": "Of course. Let me give you an example.",
-        "vi": "Tất nhiên. Để tôi đưa ra ví dụ."
+        "en": "Yes, an iced tea, please. Not too sweet.",
+        "vi": "Có, cho tôi một trà đá. Đừng ngọt quá nhé."
       },
       {
         "speaker": "A",
-        "en": "That's very helpful, thank you.",
-        "vi": "Điều đó rất hữu ích, cảm ơn bạn."
+        "en": "Sure. Would you like it with or without lime?",
+        "vi": "Được. Bạn muốn có chanh hay không chanh?"
       },
       {
         "speaker": "B",
-        "en": "You're welcome. Do you have more questions?",
-        "vi": "Không có gì. Bạn còn câu hỏi nào không?"
+        "en": "With lime, please. And could I have some chili sauce on the side?",
+        "vi": "Có chanh nhé. Và cho tôi thêm ít tương ớt để riêng được không?"
       },
       {
         "speaker": "A",
-        "en": "Yes, I have one more question.",
-        "vi": "Có, tôi còn một câu hỏi nữa."
+        "en": "Of course. The pho will take about ten minutes.",
+        "vi": "Tất nhiên. Phở sẽ mất khoảng mười phút."
       },
       {
         "speaker": "B",
-        "en": "Go ahead, I'm here to help.",
-        "vi": "Cứ hỏi, tôi ở đây để giúp."
+        "en": "That's fine. Is there a restroom here?",
+        "vi": "Không sao. Ở đây có nhà vệ sinh không?"
       },
       {
         "speaker": "A",
-        "en": "What do you recommend for a beginner?",
-        "vi": "Bạn gợi ý gì cho người mới bắt đầu?"
+        "en": "Yes, it's at the back, next to the kitchen.",
+        "vi": "Có, ở phía sau, cạnh nhà bếp."
       },
       {
         "speaker": "B",
-        "en": "I suggest starting with the basics.",
-        "vi": "Tôi gợi ý bắt đầu với những điều cơ bản."
+        "en": "Thank you. Oh, do you take credit cards?",
+        "vi": "Cảm ơn. À, quán có nhận thẻ tín dụng không?"
       },
       {
         "speaker": "A",
-        "en": "How long does it usually take?",
-        "vi": "Thường mất bao lâu?"
+        "en": "We do. You can also pay by QR code.",
+        "vi": "Có. Bạn cũng có thể thanh toán bằng mã QR."
       },
       {
         "speaker": "B",
-        "en": "It depends on your dedication.",
-        "vi": "Tùy thuộc vào sự cố gắng của bạn."
+        "en": "Great. Thanks so much for your help!",
+        "vi": "Tuyệt. Cảm ơn bạn đã giúp nhiều nhé!"
       }
     ]
   },

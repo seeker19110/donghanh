@@ -411,7 +411,7 @@
     "ipa_en": "/ˈhɛdər/",
     "ipa_vi": "/fən˨˩/",
     "freq": 24687,
-    "level": "A2",
+    "level": "B2",
     "forms": { "plural": "headers" }
   },
   {
@@ -554,7 +554,8 @@
     "ipa_en": "/ˈhɛlθiər/",
     "ipa_vi": "/xwɛ˧˩˧/",
     "freq": 15391,
-    "level": "A1"
+    "level": "A1",
+    "base": "healthy"
   },
   {
     "word": "healthy",
@@ -751,7 +752,8 @@
     "ipa_en": "/ˈhɛviər/",
     "ipa_vi": "/naŋ˨˩ʔ/",
     "freq": 10936,
-    "level": "A1"
+    "level": "A1",
+    "base": "heavy"
   },
   {
     "word": "heavily",
@@ -1020,7 +1022,7 @@
     "ipa_en": "/ˈhɛlpləsli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 29569,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "hem",
@@ -1820,7 +1822,7 @@
     "ipa_en": "/haɪv/",
     "ipa_vi": "/to˧˩˧/",
     "freq": 17657,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "hives" }
   },
   {
@@ -2571,7 +2573,7 @@
     "ipa_en": "/ˈhoʊstɪŋ/",
     "ipa_vi": "/zic̚˨˩ʔ/",
     "freq": 11544,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "hostings" }
   },
   {
@@ -3474,7 +3476,7 @@
     "ipa_en": "/ˌhaɪpərˈtɛnʃən/",
     "ipa_vi": "/kaːw˧/",
     "freq": 22787,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "hypertensions" }
   },
   {
@@ -4252,7 +4254,7 @@
     "ipa_en": "/ˈɪmənənt/",
     "ipa_vi": "/sap̚˦˥/",
     "freq": 10654,
-    "level": "A2"
+    "level": "B1"
   },
   {
     "word": "immoral",
@@ -4721,7 +4723,7 @@
     "ipa_en": "/ˌɪmˈprɛsɪvli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 43682,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "imprison",
@@ -4938,7 +4940,7 @@
     "ipa_en": "/ˌɪnˈkeɪpəbəl/",
     "ipa_vi": "/xoŋ˧/",
     "freq": 8703,
-    "level": "A1"
+    "level": "B1"
   },
   {
     "word": "incense",
@@ -5089,7 +5091,7 @@
     "ipa_en": "/ˌɪnkənˈsɪstənt/",
     "ipa_vi": "/xoŋ˧/",
     "freq": 16699,
-    "level": "A2"
+    "level": "B2"
   },
   {
     "word": "inconvenience",
@@ -5422,7 +5424,7 @@
     "ipa_en": "/ˌɪnˈdɪfərəns/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 16717,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "indifferences" }
   },
   {
@@ -6098,7 +6100,7 @@
     "ipa_en": "/ˌɪnfrəˈstrəkʧər/",
     "ipa_vi": "/kəː˧/",
     "freq": 15993,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "infrastructures" }
   },
   {
@@ -6681,7 +6683,7 @@
     "ipa_en": "/ˌɪnsɪˈkjʊrɪti/",
     "ipa_vi": "/kaːm˧˩˧/",
     "freq": 16718,
-    "level": "A2",
+    "level": "B2",
     "forms": { "plural": "insecurities" }
   },
   {
@@ -6867,7 +6869,7 @@
     "ipa_en": "/ˌɪnstəˈbɪlɪti/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 17273,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "instabilities" }
   },
   {
@@ -7055,7 +7057,7 @@
     "ipa_en": "/ˌɪnstɪˈtuʃənəl/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 29103,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "instruct",
@@ -7114,7 +7116,7 @@
     "ipa_en": "/ˌɪnstrəˈmɛnəl/",
     "ipa_vi": "/kɔ˦˥/",
     "freq": 13852,
-    "level": "A2"
+    "level": "B1"
   },
   {
     "word": "insufficient",
@@ -7148,7 +7150,7 @@
     "ipa_en": "/ˌɪnsəˈleɪʃən/",
     "ipa_vi": "/ləːp̚˦˥/",
     "freq": 17446,
-    "level": "A2",
+    "level": "B2",
     "forms": { "plural": "insulations" }
   },
   {
@@ -7196,7 +7198,7 @@
     "ipa_en": "/ɪnt/",
     "ipa_vi": "/viət̚˦˥/",
     "freq": 55886,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "ints" }
   },
   {
@@ -7380,7 +7382,7 @@
     "ipa_en": "/ˌɪnˈtɛnsɪti/",
     "ipa_vi": "/mɯk̚˦˥/",
     "freq": 10454,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "intensities" }
   },
   {
@@ -7984,7 +7986,7 @@
     "ipa_en": "/ˈɪntrəkət/",
     "ipa_vi": "/fɯk̚˦˥/",
     "freq": 17050,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "intrigue",
@@ -8485,7 +8487,7 @@
     "ipa_en": "/ˈɪnwərdli/",
     "ipa_vi": "/tɕɔŋ˧/",
     "freq": 37944,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "ipo",
@@ -8687,7 +8689,7 @@
     "ipa_en": "/ˌɪrəˈgeɪʃən/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 18991,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "irrigations" }
   },
   {
@@ -9851,7 +9853,7 @@
     "ipa_en": "/ˌʤəstəfəˈkeɪʃən/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 18163,
-    "level": "A1",
+    "level": "B2",
     "forms": { "plural": "justifications" }
   },
   {
@@ -9863,7 +9865,7 @@
     "ipa_en": "/ˈʤəstəˌfaɪd/",
     "ipa_vi": "/kɔ˦˥/",
     "freq": 10498,
-    "level": "A1"
+    "level": "B1"
   },
   {
     "word": "justify",
@@ -11617,7 +11619,7 @@
     "ipa_en": "/ˈlɔfəli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 16798,
-    "level": "A2"
+    "level": "B2"
   },
   {
     "word": "lawmaker",
@@ -11988,6 +11990,7 @@
     "ipa_vi": "/ɓiən˦˥/",
     "freq": 9043,
     "level": "A1",
+    "base": "learn",
     "forms": { "v3s": "learnts", "ving": "learnting", "past": "learnted" }
   },
   {
@@ -12280,7 +12283,7 @@
     "ipa_en": "/ˈlɛgɪŋ/",
     "ipa_vi": "/kwən˨˩/",
     "freq": 56097,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "leggings" }
   },
   {
