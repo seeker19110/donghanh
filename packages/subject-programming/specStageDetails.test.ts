@@ -5,6 +5,7 @@
 // lỗi soạn nội dung hay gặp: chép lại tên module thay vì viết mục tiêu, quên howToProve, và
 // copy-paste giữa các hướng.
 import { describe, it, expect } from 'vitest'
+import { LessonAnimationSchema } from '@dhcb/core-contracts/lessonAnimation'
 import { PROGRAMMING_SPECIALIZATIONS } from './specializations/registry.js'
 import {
   SPEC_STAGE_DETAILS,
@@ -112,6 +113,25 @@ describe('chi tiết chặng — khuôn dạng từng module', () => {
       for (const s of [...m.practice, ...m.doneSignals]) {
         expect(s.trim().length, `${m.moduleId}: ô rỗng`).toBeGreaterThan(10)
       }
+    }
+  })
+
+  // Hoạt ảnh là DỮ LIỆU khai báo được vẽ bởi một renderer duy nhất (`core-ui/LessonAnimation`);
+  // kiểu TypeScript không kiểm được các ràng buộc chạy-thật của schema (id hình trùng, keyframe
+  // vượt `durationMs`, mô tả quá ngắn cho người tắt hoạt ảnh…). Bốn môn STEM canh việc này qua
+  // `lessonSchema` của từng gói; môn Lập trình gắn `animation` vào interface thuần nên phải canh
+  // ở đây — cùng cổng, cùng lý do (docs/specs/2026-09-21-hoat-anh-mo-phong-bai-hoc.md ③).
+  it('mọi hoạt ảnh module qua LessonAnimationSchema (Zod strict), và có ít nhất một module có', () => {
+    const withAnimation = allModules.filter((m) => m.animation !== undefined)
+    expect(withAnimation.length, 'GĐ1 đã soạn algo-s1-m1 — không được mất').toBeGreaterThan(0)
+    for (const m of withAnimation) {
+      const parsed = LessonAnimationSchema.safeParse(m.animation)
+      expect(
+        parsed.success,
+        `${m.moduleId}: animation không qua schema — ${
+          parsed.success ? '' : JSON.stringify(parsed.error.issues, null, 1)
+        }`,
+      ).toBe(true)
     }
   })
 })

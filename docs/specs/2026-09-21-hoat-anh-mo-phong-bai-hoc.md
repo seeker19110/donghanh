@@ -190,6 +190,21 @@ và các đợt sau đã soạn nhiều hơn ghi nhận ở đây). Kiểm kê t
   chỉ xác nhận đúng kỹ thuật (schema + toán/lý/hoá đúng), không thay cho bước duyệt đó.
 - Nơi render animation của môn Lập trình trong UI **vẫn chưa xác định** (để ngỏ, như GĐ0 đã ghi).
 
+## Kết quả GĐ2 — bước 1 (2026-09-22, `docs/changelog/0406-*.md`): nối UI môn Lập trình
+
+- **Nơi render đã chốt:** `apps/dhcb/src/pages/subjects/programming/ProgrammingSpecStagePage.tsx`,
+  trong `ModuleBlock` — sau mục "Kiến thức", trước "Tự tay làm". Dùng nguyên renderer
+  `packages/core-ui/LessonAnimation.tsx`, không sửa renderer (đúng ①); bề rộng SVG giới hạn
+  `max-w-2xl` ở tầng gọi vì viewBox nhỏ mà cột 4xl rộng.
+- **Cổng Zod cho môn Lập trình nay có thật:** `packages/subject-programming/specStageDetails.test.ts`
+  chạy `LessonAnimationSchema.safeParse` cho mọi `module.animation` (GĐ1 mới có kiểu TS, chưa có cổng
+  chạy-thật này). Cổng trang: `ProgrammingSpecStagePage.test.tsx`.
+- **Tầng 8b đã chụp** cho `algo-s1-m1` (1440 + 390 × blue-sky/dark-blue) — phát hiện và sửa: mô tả
+  gọi "khung viền cam" trong khi màu là token `accent` đổi theo theme → **luật mới cho mọi
+  animation: mô tả bằng lời KHÔNG gọi tên màu cụ thể**, chỉ mô tả tương đối ("sáng hơn", "viền
+  đậm", "đổi màu báo đúng").
+- Còn ngỏ: nhân rộng nội dung (bước 2), môn Anh, 3 animation STEM nháp chưa nối `apps/`.
+
 ## Nghiệm thu
 
 - Lệnh đã chạy + kết quả thật: `npm run typecheck` xanh, `npm run lint` xanh (0 cảnh báo),

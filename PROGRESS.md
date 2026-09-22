@@ -986,11 +986,12 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 - 🟡 **[2026-09-21 — PR #1099, `docs/changelog/0405-*.md`] Hoạt ảnh mô phỏng bài học — GĐ0+GĐ1
   xong, GĐ2 (nhân rộng) CHƯA quyết.** Hạ tầng `LessonAnimationSchema` xác nhận đủ dùng, mở rộng
   sang môn Lập trình, 5 animation thí điểm (4 mới + 1 sửa lỗi hình học có sẵn) đã qua Zod +
-  typecheck + lint + test toàn repo. **Còn thiếu:** quyết định phạm vi GĐ2 (nhân rộng bao nhiêu
-  bài/môn, ai duyệt nội dung chuyên môn), cấu trúc animation cho môn Anh (chưa thiết kế), nơi
-  hiển thị animation Lập trình trong UI (dữ liệu có ở `algo-s1-m1` nhưng chưa có component
-  render), và kiểm chứng bằng mắt (Tầng 8b) cho cả 5 animation vì Vật lý/Hoá/Sinh chưa nối vào
-  `apps/`. Đặc tả: `docs/specs/2026-09-21-hoat-anh-mo-phong-bai-hoc.md`.
+  typecheck + lint + test toàn repo. **GĐ2 bước 1 xong (2026-09-22, `docs/changelog/0406-*.md`):**
+  animation Lập trình đã có nơi hiển thị (`ProgrammingSpecStagePage` → từng `ModuleBlock`), có cổng
+  Zod + cổng trang, đã chụp Tầng 8b 1440/390 × 2 theme cho `algo-s1-m1`. **Còn thiếu:** quyết
+  định phạm vi nhân rộng (bao nhiêu bài/môn, ai duyệt nội dung chuyên môn), cấu trúc animation cho
+  môn Anh (chưa thiết kế), và kiểm chứng bằng mắt cho 3 animation Vật lý/Hoá/Sinh vì ba môn chưa
+  nối vào `apps/`. Đặc tả: `docs/specs/2026-09-21-hoat-anh-mo-phong-bai-hoc.md`.
 - 🟡 **[2026-09-20 — PR #1061, `docs/changelog/0388-*.md`] Sửa tương phản theme blue-sky
   (CompanionVoice + StudioDialogue) — CHƯA chụp ảnh Tầng 8b.** Audit + sửa xong 2 lỗi: (1) 6 file
   `CompanionVoice/*` dùng nền cố định `bg-slate-900/90` + chữ `theme-light:` tối → tương phản đo
