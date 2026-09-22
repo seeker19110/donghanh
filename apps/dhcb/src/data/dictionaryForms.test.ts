@@ -1,4 +1,4 @@
-// Cổng canh DỮ LIỆU `forms` của từ điển (thêm 2026-09-22, docs/changelog/0407).
+// Cổng canh DỮ LIỆU `forms` của từ điển (thêm 2026-09-22, docs/changelog/0408).
 //
 // VÌ SAO: trường `forms` (số nhiều, V-s/V-ing/quá khứ, so sánh hơn/nhất) được SINH bằng
 // `npm run gen:word-forms` rồi commit thẳng vào `public/data/dictionary/chunk-*.json`. Không có

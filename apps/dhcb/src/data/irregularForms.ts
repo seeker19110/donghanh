@@ -264,7 +264,7 @@ export const IRREGULAR_PLURALS: Record<string, string> = {
   volcano: 'volcanoes', // volcanos cũng đúng
   // Gấp đôi phụ âm cuối trước -es (quiz→quizzes, gas→gasses/gases)
   quiz: 'quizzes',
-  // Danh từ bất biến bổ sung (rà từ điển 2026-09-22, changelog 0407)
+  // Danh từ bất biến bổ sung (rà từ điển 2026-09-22, changelog 0408)
   bison: 'bison',
   moose: 'moose',
 }
@@ -403,7 +403,7 @@ export const IRREGULAR_COMPARATIVES: Record<string, [string, string]> = {
 // Gồm (a) tính từ phân loại/tuyệt đối (main, next, sole, dead…) không so sánh được,
 // (b) tính từ 1 âm tiết theo quy ước dùng "more/most" (liable, prior, real, wrong…),
 // (c) từ mà dạng -er trùng một từ khác hẳn nghĩa (numb→number, own→owner, lone→loner).
-// Thêm từ vào đây khi rà thấy bộ sinh bịa dạng (changelog 0407).
+// Thêm từ vào đây khi rà thấy bộ sinh bịa dạng (changelog 0408).
 export const NON_GRADABLE_ADJECTIVES = new Set<string>([
   'main',
   'next',
