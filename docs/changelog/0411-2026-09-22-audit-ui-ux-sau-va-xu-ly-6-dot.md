@@ -60,7 +60,11 @@ Cổng: typecheck ✅ · lint 0 cảnh báo ✅ · prettier ✅ · unit test cá
 - Ảnh Hồ sơ 1440px vẫn "mờ toàn bộ" ở cả trước và sau; đo bằng máy thì `opacity=1` mọi phần tử
   sau 2,5s (`animate-fade-in` fill `both`). Kết luận: hiện tượng của cách chụp `fullPage`, không
   phải lỗi trang — nhưng chưa chứng minh được bằng ảnh, nên ghi lại.
-- `thongDiepLoiThanThien` mới áp ở Ghi chú; còn ~44 chỗ `err.message` khác trong app chưa đi qua
-  hàm này (việc cơ học, đợt sau).
+- **ĐÃ TRẢ trong cùng PR (commit sau):** `thongDiepLoiThanThien` có thêm tham số `lang` (chiều B
+  nhận câu tiếng Anh) và áp cho **34 chỗ / 19 file** người dùng nhìn thấy (Chat · Speaking ·
+  Writing · Challenge · Companion · PvP · League · Holodeck · MemoryPalace · Integrations…).
+  **Cố ý giữ nguyên** 15 chỗ còn lại: 12 ở `components/admin/*` (người vận hành cần chuỗi thô),
+  3 `console.warn` trong `lib/` (không lên UI) và `workers/pyodideWorker.ts` (lỗi Python là nội
+  dung học).
 - Lặp giữa Phòng luyện tập và Tiếng Anh home (cùng đích ≥ 3 lối vào) chỉ gỡ phần trong cùng
   trang; câu hỏi "trang nào là nhà của tính năng nào" chưa chốt.

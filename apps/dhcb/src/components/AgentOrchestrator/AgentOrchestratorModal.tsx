@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { thongDiepLoiThanThien } from '../../lib/friendlyError'
 import { useDialogBehavior } from '../useDialogBehavior'
 import { X, Bot, Play, RefreshCw, CheckCircle2, AlertCircle, ShieldCheck } from 'lucide-react'
 import type {
@@ -74,7 +75,7 @@ export default function AgentOrchestratorModal({ onClose, onSessionCreated }: Pr
       setActiveSession(session)
       onSessionCreated(session)
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Không thể khởi chạy Agent')
+      setError(thongDiepLoiThanThien(err, 'Không thể khởi chạy Agent'))
     } finally {
       setLoading(false)
     }

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from 'react'
+import { thongDiepLoiThanThien } from '../../../lib/friendlyError'
 import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
 import { useSearchParams } from 'react-router-dom'
 import { usePageTitle } from '../../../lib/usePageTitle'
@@ -721,7 +722,11 @@ export default function Speaking() {
         setError(isA ? 'Không nghe rõ, thử nói lại nhé.' : "Didn't catch that, try again.")
         return
       }
-      const m = e instanceof Error ? e.message : isA ? 'Lỗi nhận diện giọng nói' : 'STT error'
+      const m = thongDiepLoiThanThien(
+        e,
+        isA ? 'Lỗi nhận diện giọng nói' : 'STT error',
+        isA ? 'vi' : 'en',
+      )
       setError(m)
       toast.error(m)
     }
@@ -808,7 +813,11 @@ export default function Speaking() {
       }
     } catch (e) {
       if (!mountedRef.current) return
-      const m = e instanceof Error ? e.message : 'Error'
+      const m = thongDiepLoiThanThien(
+        e,
+        isA ? 'Có lỗi xảy ra' : 'Something went wrong',
+        isA ? 'vi' : 'en',
+      )
       setError(m)
       toast.error(m)
     }
@@ -977,7 +986,11 @@ export default function Speaking() {
       }
     } catch (e) {
       if (!mountedRef.current) return
-      const m = e instanceof Error ? e.message : 'Error'
+      const m = thongDiepLoiThanThien(
+        e,
+        isA ? 'Có lỗi xảy ra' : 'Something went wrong',
+        isA ? 'vi' : 'en',
+      )
       setError(m)
       toast.error(m)
     }
@@ -1049,7 +1062,11 @@ export default function Speaking() {
       throttle()
     } catch (e) {
       if (!mountedRef.current) return
-      const m = e instanceof Error ? e.message : isA ? 'Lỗi không xác định' : 'Unknown error'
+      const m = thongDiepLoiThanThien(
+        e,
+        isA ? 'Lỗi không xác định' : 'Unknown error',
+        isA ? 'vi' : 'en',
+      )
       setError(m)
       toast.error(m)
     }

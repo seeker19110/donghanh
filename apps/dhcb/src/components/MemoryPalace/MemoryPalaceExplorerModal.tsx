@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { thongDiepLoiThanThien } from '../../lib/friendlyError'
 import { useDialogBehavior } from '../useDialogBehavior'
 import { X, Sparkles, MapPin, CheckCircle2, Key, Plus } from 'lucide-react'
 import {
@@ -86,7 +87,7 @@ export default function MemoryPalaceExplorerModal({ onClose }: MemoryPalaceExplo
         setState({ ...state, rooms: updatedRooms })
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Lỗi kiểm tra trí nhớ'
+      const msg = thongDiepLoiThanThien(err, 'Lỗi kiểm tra trí nhớ')
       alert(msg)
     } finally {
       setIsVerifying(false)
@@ -108,7 +109,7 @@ export default function MemoryPalaceExplorerModal({ onClose }: MemoryPalaceExplo
       setIsCreatingRoom(false)
       setNewRoomName('')
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Lỗi tạo phòng mới'
+      const msg = thongDiepLoiThanThien(err, 'Lỗi tạo phòng mới')
       alert(msg)
     }
   }

@@ -12,6 +12,12 @@ describe('thongDiepLoiThanThien', () => {
     expect(thongDiepLoiThanThien(new Error('HTTP error 500'))).toMatch(/sự cố/)
     expect(thongDiepLoiThanThien(new Error('HTTP 401'))).toMatch(/đăng nhập/)
   })
+  it('chiều B: câu tiếng Anh', () => {
+    expect(thongDiepLoiThanThien(new Error('Failed to fetch'), 'x', 'en')).toMatch(/connection/)
+    expect(thongDiepLoiThanThien(new Error('Daily limit reached for chat'), 'x', 'en')).toBe(
+      'Daily limit reached for chat',
+    )
+  })
   it('giữ nguyên câu tiếng Việt có dấu do server viết', () => {
     expect(thongDiepLoiThanThien(new Error('Tên dự án không được để trống'))).toBe(
       'Tên dự án không được để trống',
@@ -22,5 +28,6 @@ describe('thongDiepLoiThanThien', () => {
       'Có lỗi xảy ra, thử lại sau.',
     )
     expect(thongDiepLoiThanThien(undefined, 'X')).toBe('X')
+    expect(thongDiepLoiThanThien('chuoi loi khong phai Error', 'X')).toBe('X')
   })
 })

@@ -1,4 +1,5 @@
 // apps/dhcb/src/components/PvPArena/PvPArenaLobbyModal.tsx — Sảnh Chờ & Bảng Xếp Hạng Đấu Trường PvP.
+import { thongDiepLoiThanThien } from '../../lib/friendlyError'
 import { useState, useEffect } from 'react'
 import { useDialogBehavior } from '../useDialogBehavior'
 import { X, Trophy, Flame, Swords, ChevronRight } from 'lucide-react'
@@ -54,7 +55,7 @@ export default function PvPArenaLobbyModal({ onClose }: PvPArenaLobbyModalProps)
       setActiveMatch(match)
     } catch (err) {
       setIsMatching(false)
-      toast.error(err instanceof Error ? err.message : 'Không ghép được trận đấu. Thử lại nhé.')
+      toast.error(thongDiepLoiThanThien(err, 'Không ghép được trận đấu. Thử lại nhé.'))
     }
   }
 

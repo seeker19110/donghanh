@@ -1,6 +1,7 @@
 // src/components/LeagueSection.tsx — Giải đấu tuần (② M5): bảng xếp hạng + opt-in nickname.
 // Dùng trong trang Challenge (nộp challenge = hoạt động ghi điểm cao nhất của giải, ② M5b).
 // Điểm/hạng luôn đọc từ /api/leaderboard (server) — component này KHÔNG tự tính gì.
+import { thongDiepLoiThanThien } from '../lib/friendlyError'
 import { useEffect, useRef, useState } from 'react'
 import { Trophy, LogOut } from 'lucide-react'
 import {
@@ -38,7 +39,9 @@ export default function LeagueSection({ isA }: { isA: boolean }) {
         setNickname(res.me.nickname ?? '')
       })
       .catch((e: unknown) => {
-        setError(e instanceof Error ? e.message : isA ? 'Lỗi tải dữ liệu' : 'Failed to load')
+        setError(
+          thongDiepLoiThanThien(e, isA ? 'Lỗi tải dữ liệu' : 'Failed to load', isA ? 'vi' : 'en'),
+        )
       })
       .finally(() => setLoading(false))
   }
@@ -56,7 +59,9 @@ export default function LeagueSection({ isA }: { isA: boolean }) {
         setNickname(res.me.nickname ?? '')
       })
       .catch((e: unknown) => {
-        setError(e instanceof Error ? e.message : isA ? 'Lỗi tải dữ liệu' : 'Failed to load')
+        setError(
+          thongDiepLoiThanThien(e, isA ? 'Lỗi tải dữ liệu' : 'Failed to load', isA ? 'vi' : 'en'),
+        )
       })
       .finally(() => setLoading(false))
   }, [isA])
@@ -77,7 +82,9 @@ export default function LeagueSection({ isA }: { isA: boolean }) {
       toast.success(isA ? 'Đã tham gia giải đấu tuần!' : 'Joined the weekly league!')
       load()
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : isA ? 'Lỗi không xác định' : 'Unknown error')
+      toast.error(
+        thongDiepLoiThanThien(e, isA ? 'Lỗi không xác định' : 'Unknown error', isA ? 'vi' : 'en'),
+      )
     } finally {
       setBusy(false)
     }
@@ -90,7 +97,9 @@ export default function LeagueSection({ isA }: { isA: boolean }) {
       toast.info(isA ? 'Đã rời giải đấu tuần.' : 'Left the weekly league.')
       load()
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : isA ? 'Lỗi không xác định' : 'Unknown error')
+      toast.error(
+        thongDiepLoiThanThien(e, isA ? 'Lỗi không xác định' : 'Unknown error', isA ? 'vi' : 'en'),
+      )
     } finally {
       setBusy(false)
     }

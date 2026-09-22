@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { thongDiepLoiThanThien } from '../../lib/friendlyError'
 import { X, Sparkles, Brain, AlertTriangle, Lightbulb, ChevronRight } from 'lucide-react'
 import {
   fetchDailySocraticPrompt,
@@ -64,7 +65,7 @@ export default function MetacognitiveReflectionModal({
       setHistory((prev) => [result, ...prev])
       setUserText('')
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Lỗi khi lưu phản tỉnh'
+      const msg = thongDiepLoiThanThien(err, 'Lỗi khi lưu phản tỉnh')
       alert(msg)
     } finally {
       setIsSubmitting(false)

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { thongDiepLoiThanThien } from '../../../lib/friendlyError'
 import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
 import { PenLine, Send, RotateCcw, ChevronDown, Trophy } from 'lucide-react'
 import { usePageTitle } from '../../../lib/usePageTitle'
@@ -373,7 +374,11 @@ export default function Writing() {
       // Huy hiệu mới (kỹ năng — ② M2) — bài viết vừa được chấm + lưu.
       for (const a of checkNewAchievements(user.id)) toast.success(achievementMessage(a, isA))
     } catch (e) {
-      const m = e instanceof Error ? e.message : isA ? 'Lỗi không xác định' : 'Unknown error'
+      const m = thongDiepLoiThanThien(
+        e,
+        isA ? 'Lỗi không xác định' : 'Unknown error',
+        isA ? 'vi' : 'en',
+      )
       setError(m)
       toast.error(m)
     }
