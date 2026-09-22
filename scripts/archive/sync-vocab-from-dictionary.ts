@@ -7,7 +7,7 @@
 // từ vào vòng theo CHỦ ĐỀ suy từ nghĩa tiếng Việt (scripts/lib/vocabTopics.ts), nên chỉ sửa
 // nghĩa một từ cũng đủ xáo thành phần hàng chục vòng, kéo theo bộ câu mẫu VIẾT TAY theo id
 // vòng (src/data/cefrCircleSentences.json) lệch hết. Phát hiện 2026-09-21 khi audit câu chữ
-// (docs/changelog/0405). Script này là đường an toàn: sửa từ điển → chạy nó → vòng giữ nguyên,
+// (docs/changelog/0406). Script này là đường an toàn: sửa từ điển → chạy nó → vòng giữ nguyên,
 // chữ trong vòng cập nhật.
 //
 // Chạy: npx tsx scripts/archive/sync-vocab-from-dictionary.ts

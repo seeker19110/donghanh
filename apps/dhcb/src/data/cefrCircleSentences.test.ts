@@ -39,7 +39,7 @@ import {
  * Hash đổi = ai đó đã đụng vào vòng thủ công → phải giải trình, KHÔNG sửa hằng số
  * này cho vừa.
  *
- * Giải trình lần đổi 2026-09-21 (docs/changelog/0405): đợt audit câu chữ toàn dự án sửa
+ * Giải trình lần đổi 2026-09-21 (docs/changelog/0406): đợt audit câu chữ toàn dự án sửa
  * bản dịch/câu mẫu của một số vòng thủ công trong `curriculum.ts` (nghĩa sai, câu tiếng Anh
  * sai ngữ pháp, chính tả Anh-Anh/Anh-Mỹ lẫn lộn) — danh sách TỪ của 89 vòng KHÔNG đổi, chỉ
  * câu mẫu/bản dịch đổi. Hash mới đo trên kết quả sau khi sửa.

@@ -1,4 +1,4 @@
-# 0405 — 2026-09-21 — Audit câu chữ nội dung học TOÀN DỰ ÁN (49 lát, 5 tiêu chuẩn)
+# 0406 — 2026-09-21 — Audit câu chữ nội dung học TOÀN DỰ ÁN (49 lát, 5 tiêu chuẩn)
 
 > PR: (điền khi merge) · Yêu cầu chủ dự án: "audit chất lượng nội dung bài học, bài viết trên từng
 > câu chữ, ưu tiên dễ hiểu, sửa cho đúng ngữ nghĩa và chuẩn nghiệp vụ sư phạm, kiểm tra và sửa

@@ -4,7 +4,7 @@
 // kiểm tham chiếu/slug. Còn một lớp lỗi không cổng nào bắt: chính tả tiếng Việt sai chuẩn
 // ("chuẩn đoán", "bổ xung", "xử dụng"…), từ lặp đôi ("của của"), dấu câu sai khoảng trắng,
 // câu tiếng Việt gõ không dấu lọt vào phần chữ cho người học đọc. Máy quét này bắt lớp đó;
-// phần "dễ hiểu / đúng sư phạm" vẫn phải người (hoặc AI) đọc tay — xem docs/changelog/0405.
+// phần "dễ hiểu / đúng sư phạm" vẫn phải người (hoặc AI) đọc tay — xem docs/changelog/0406.
 //
 // Chạy: npx tsx scripts/audit-prose.ts          (in báo cáo, thoát 0)
 //       npx tsx scripts/audit-prose.ts --ci     (thoát 1 nếu còn lỗi mức LỖI)
