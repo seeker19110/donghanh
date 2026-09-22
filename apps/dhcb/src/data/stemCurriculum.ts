@@ -297,7 +297,7 @@ export const STEM_CURRICULUM: Record<string, StemGradeCurriculum[]> = {
         // hai mục cùng `grade: 'university'` sẽ khiến mục thứ hai không bao giờ hiển thị được.
         {
           id: 'mfc_c1',
-          title: 'Chương 1: Toán rời rạc nền tảng — biểu diễn số và logic',
+          title: 'Toán rời rạc nền tảng — biểu diễn số và logic',
           description:
             'Hệ nhị phân, số bù 2, dấu phẩy động IEEE 754, đại số Boolean, số học modulo và cách đọc Big-O bằng ngôn ngữ toán.',
           keyFormulas: [
@@ -349,7 +349,7 @@ export const STEM_CURRICULUM: Record<string, StemGradeCurriculum[]> = {
         },
         {
           id: 'mfc_c2',
-          title: 'Chương 2: Tổ hợp và xác suất cho lập trình viên',
+          title: 'Tổ hợp và xác suất cho lập trình viên',
           description:
             'Đếm số trường hợp trước khi vét cạn, xác suất va chạm bảng băm, kỳ vọng, số giả ngẫu nhiên và thống kê mô tả khi đo hiệu năng.',
           keyFormulas: [
@@ -399,7 +399,7 @@ export const STEM_CURRICULUM: Record<string, StemGradeCurriculum[]> = {
         },
         {
           id: 'mfc_c3',
-          title: 'Chương 3: Đại số tuyến tính ứng dụng trong đồ hoạ và dữ liệu',
+          title: 'Đại số tuyến tính ứng dụng trong đồ hoạ và dữ liệu',
           description:
             'Vector và tích vô hướng, ma trận biến đổi 2D, toạ độ thuần nhất, hệ phương trình tuyến tính và ý tưởng vector riêng.',
           keyFormulas: [
@@ -449,7 +449,7 @@ export const STEM_CURRICULUM: Record<string, StemGradeCurriculum[]> = {
         },
         {
           id: 'mfc_c4',
-          title: 'Chương 4: Giải tích và tối ưu cho AI/ML',
+          title: 'Giải tích và tối ưu cho AI/ML',
           description:
             'Đạo hàm và gradient, thuật toán gradient descent, hàm mất mát, đạo hàm riêng và ý tưởng lan truyền ngược.',
           keyFormulas: [
@@ -896,12 +896,12 @@ export const STEM_CURRICULUM: Record<string, StemGradeCurriculum[]> = {
               solutionSteps: [
                 {
                   title: 'Bước 1: Đồng nhất đơn vị',
-                  detail: 'ΔH = -50.000 J/mol; T = 298 K; ΔS = -100 J/(mol·K)',
+                  detail: 'ΔH = -50 000 J/mol; T = 298 K; ΔS = -100 J/(mol·K)',
                 },
                 {
                   title: 'Bước 2: Tính ΔG',
                   detail:
-                    'ΔG = -50.000 - (298 * -100) = -50.000 + 29.800 = -20.200 J/mol = -20.2 kJ/mol < 0.',
+                    'ΔG = -50 000 - (298 * -100) = -50 000 + 29 800 = -20 200 J/mol = -20.2 kJ/mol < 0.',
                   formula: 'ΔG = -20.2 kJ/mol < 0 ⇒ Phản ứng tự diễn biến ở 298 K',
                 },
               ],
@@ -1079,7 +1079,7 @@ export const STEM_CURRICULUM: Record<string, StemGradeCurriculum[]> = {
                 {
                   title: 'Bước 1: Áp dụng công thức PCR lý tưởng',
                   detail:
-                    'Số bản sao = 100 * 2^25 ≈ 100 * 33.554.432 = 3.355.443.200 (khoảng 3.35 tỷ bản sao).',
+                    'Số bản sao = 100 * 2^25 ≈ 100 * 33 554 432 = 3 355 443 200 (khoảng 3.35 tỷ bản sao).',
                   formula: 'N ≈ 3.355 * 10^9 bản sao DNA',
                 },
               ],

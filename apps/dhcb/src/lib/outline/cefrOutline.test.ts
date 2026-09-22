@@ -35,7 +35,9 @@ const hoatDong = (outline: { nodes: readonly { kind: string }[] }) =>
 describe('buildCefrOutline — dữ liệu cefr.json thật', () => {
   it('số unit mỗi cấp đúng bằng dữ liệu thật', () => {
     const dem = Object.fromEntries(levels.map((l) => [l.id, l.units.length]))
-    expect(dem).toEqual({ A1: 15, A2: 27, B1: 40, B2: 43, C1: 32, C2: 44 })
+    // Số unit đổi khi sinh lại vòng từ vựng (2026-09-22, docs/changelog/0409: 306 mục nâng bậc,
+    // vòng A1/A2 co lại, B2 nở ra). Đổi số ở đây PHẢI đi kèm một đợt sinh lại vòng có nhật ký.
+    expect(dem).toEqual({ A1: 13, A2: 24, B1: 39, B2: 45, C1: 32, C2: 44 })
     for (const level of levels) {
       const outline = buildCefrOutline(level, ctxRong())
       OutlineSchema.parse(outline)

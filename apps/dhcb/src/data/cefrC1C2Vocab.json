@@ -1,7 +1,7 @@
 {
   "_note": "SINH TỰ ĐỘNG bởi scripts/gen-cefr-c1c2-vocab.ts từ từ điển đã gắn nhãn CEFR. KHÔNG sửa tay — chạy lại script để cập nhật.",
   "c1WordCount": 1261,
-  "c2WordCount": 2294,
+  "c2WordCount": 2292,
   "circles": [
     {
       "id": "cefr-c1-business-1",
@@ -5669,7 +5669,7 @@
           "ipa_vi": "/kwən˧/",
           "freq": 19360,
           "level": "C1",
-          "forms": { "plural": "monarches" }
+          "forms": { "plural": "monarchs" }
         },
         {
           "word": "entree",
@@ -8748,7 +8748,12 @@
           "ipa_vi": "/tɕiw˨˩ʔ/",
           "freq": 13311,
           "level": "C1",
-          "forms": { "v3s": "withstands", "ving": "withstanding", "past": "withstanded" }
+          "forms": {
+            "v3s": "withstands",
+            "ving": "withstanding",
+            "past": "withstood",
+            "irregular": true
+          }
         },
         {
           "word": "undermine",
@@ -9369,7 +9374,7 @@
           "ipa_vi": "/ɗəj˧˩˧/",
           "freq": 21395,
           "level": "C1",
-          "forms": { "v3s": "repels", "ving": "repeling", "past": "repeled" }
+          "forms": { "v3s": "repels", "ving": "repelling", "past": "repelled" }
         },
         {
           "word": "impersonate",
@@ -10522,8 +10527,7 @@
           "ipa_en": "/nəm/",
           "ipa_vi": "/te˧/",
           "freq": 6989,
-          "level": "C1",
-          "forms": { "comparative": "number", "superlative": "numbest" }
+          "level": "C1"
         },
         {
           "word": "meaningless",
@@ -11280,8 +11284,7 @@
           "ipa_en": "/æpt/",
           "ipa_vi": "/tʰic̚˦˥/",
           "level": "C1",
-          "freq": 12786,
-          "forms": { "comparative": "apter", "superlative": "aptest" }
+          "freq": 12786
         },
         {
           "word": "solemnly",
@@ -15832,18 +15835,6 @@
           "forms": { "plural": "chromes" }
         },
         {
-          "word": "gnu",
-          "pos": "n",
-          "vi": "linh dương đầu bò",
-          "ex_en": "A gnu grazed calmly on the open plain.",
-          "ex_vi": "Một con linh dương đầu bò thong thả gặm cỏ trên đồng cỏ rộng.",
-          "ipa_en": "/nu/",
-          "ipa_vi": "/liɲ˧/",
-          "freq": 19674,
-          "level": "C2",
-          "forms": { "plural": "gnus" }
-        },
-        {
           "word": "methodology",
           "pos": "n",
           "vi": "phương pháp luận",
@@ -15948,16 +15939,7 @@
           "freq": 31631,
           "level": "C2",
           "forms": { "plural": "anthologies" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-science_tech-2",
-      "titleVi": "Khoa học & công nghệ 2",
-      "titleEn": "Science & technology 2",
-      "emoji": "🔬",
-      "words": [
+        },
         {
           "word": "inducement",
           "pos": "n",
@@ -15969,7 +15951,16 @@
           "level": "C2",
           "freq": 32176,
           "forms": { "plural": "inducements" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-science_tech-2",
+      "titleVi": "Khoa học & công nghệ 2",
+      "titleEn": "Science & technology 2",
+      "emoji": "🔬",
+      "words": [
         {
           "word": "chronology",
           "pos": "n",
@@ -16684,7 +16675,7 @@
           "ipa_vi": "/ɓɔ˨˩/",
           "freq": 29377,
           "level": "C2",
-          "forms": { "plural": "bisons" }
+          "forms": { "plural": "bison", "irregular": true }
         },
         {
           "word": "reptilian",
@@ -16775,18 +16766,6 @@
           "ipa_vi": "/tʰuək̚˨˩ʔ/",
           "level": "C2",
           "freq": 45822
-        },
-        {
-          "word": "lynx",
-          "pos": "n",
-          "vi": "linh miêu",
-          "ex_en": "A lynx hunts alone in the forest.",
-          "ex_vi": "Linh miêu săn mồi đơn độc trong rừng.",
-          "ipa_en": "/lɪŋks/",
-          "ipa_vi": "/mɛw˨˩/",
-          "freq": 67335,
-          "level": "C2",
-          "forms": { "plural": "lynxes" }
         },
         {
           "word": "ruminant",
@@ -17663,17 +17642,6 @@
           "level": "C2",
           "freq": 35699,
           "forms": { "v3s": "alludes", "ving": "alluding", "past": "alluded" }
-        },
-        {
-          "word": "rhetorically",
-          "pos": "adv",
-          "level": "C2",
-          "vi": "theo kiểu câu hỏi tu từ (không cần trả lời)",
-          "ex_en": "\"Do you think I have all day?\" she asked rhetorically.",
-          "ex_vi": "\"Cô nghĩ tôi có cả ngày để chờ sao?\" cô ấy hỏi kiểu tu từ, không đợi trả lời.",
-          "ipa_en": "/rɪˈtɔrɪkli/",
-          "ipa_vi": "/mot̚˨˩ʔ/",
-          "freq": 40744
         },
         {
           "word": "allusion",
@@ -18687,7 +18655,7 @@
           "ipa_vi": "/naːj˧/",
           "freq": 6458,
           "level": "C2",
-          "forms": { "plural": "mooses" }
+          "forms": { "plural": "moose", "irregular": true }
         },
         {
           "word": "assassination",
@@ -24946,16 +24914,16 @@
           "forms": { "plural": "prisms" }
         },
         {
-          "word": "alleyway",
+          "word": "gnu",
           "pos": "n",
-          "vi": "con hẻm, ngõ nhỏ",
-          "ex_en": "The café is hidden in a narrow alleyway.",
-          "ex_vi": "Quán cà phê nằm khuất trong một con hẻm nhỏ.",
-          "ipa_en": "/ˈæliˌweɪ/",
-          "ipa_vi": "/kɔn˧/",
-          "freq": 19726,
+          "vi": "linh dương đầu bò",
+          "ex_en": "A gnu grazed calmly on the open plain.",
+          "ex_vi": "Một con linh dương đầu bò thong thả gặm cỏ trên đồng cỏ rộng.",
+          "ipa_en": "/nu/",
+          "ipa_vi": "/liɲ˧/",
+          "freq": 19674,
           "level": "C2",
-          "forms": { "plural": "alleyways" }
+          "forms": { "plural": "gnus" }
         }
       ],
       "sentences": []
@@ -24966,6 +24934,18 @@
       "titleEn": "Advanced nouns 37",
       "emoji": "📦",
       "words": [
+        {
+          "word": "alleyway",
+          "pos": "n",
+          "vi": "con hẻm, ngõ nhỏ",
+          "ex_en": "The café is hidden in a narrow alleyway.",
+          "ex_vi": "Quán cà phê nằm khuất trong một con hẻm nhỏ.",
+          "ipa_en": "/ˈæliˌweɪ/",
+          "ipa_vi": "/kɔn˧/",
+          "freq": 19726,
+          "level": "C2",
+          "forms": { "plural": "alleyways" }
+        },
         {
           "word": "saga",
           "pos": "n",
@@ -25143,7 +25123,16 @@
           "freq": 20058,
           "level": "C2",
           "forms": { "plural": "snares" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-38",
+      "titleVi": "Danh từ nâng cao 38",
+      "titleEn": "Advanced nouns 38",
+      "emoji": "📦",
+      "words": [
         {
           "word": "duckling",
           "pos": "n",
@@ -25155,16 +25144,7 @@
           "freq": 20119,
           "level": "C2",
           "forms": { "plural": "ducklings" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-38",
-      "titleVi": "Danh từ nâng cao 38",
-      "titleEn": "Advanced nouns 38",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "fennel",
           "pos": "n",
@@ -25344,7 +25324,16 @@
           "freq": 20424,
           "level": "C2",
           "forms": { "plural": "thatches" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-39",
+      "titleVi": "Danh từ nâng cao 39",
+      "titleEn": "Advanced nouns 39",
+      "emoji": "📦",
+      "words": [
         {
           "word": "hurdle",
           "pos": "n",
@@ -25356,16 +25345,7 @@
           "freq": 20514,
           "level": "C2",
           "forms": { "plural": "hurdles" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-39",
-      "titleVi": "Danh từ nâng cao 39",
-      "titleEn": "Advanced nouns 39",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "cartilage",
           "pos": "n",
@@ -25545,7 +25525,16 @@
           "freq": 20955,
           "level": "C2",
           "forms": { "plural": "autisms" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-40",
+      "titleVi": "Danh từ nâng cao 40",
+      "titleEn": "Advanced nouns 40",
+      "emoji": "📦",
+      "words": [
         {
           "word": "fawn",
           "pos": "n",
@@ -25557,16 +25546,7 @@
           "freq": 20958,
           "level": "C2",
           "forms": { "plural": "fawns" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-40",
-      "titleVi": "Danh từ nâng cao 40",
-      "titleEn": "Advanced nouns 40",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "cpu",
           "pos": "n",
@@ -25746,7 +25726,16 @@
           "freq": 21652,
           "level": "C2",
           "forms": { "plural": "windowsills" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-41",
+      "titleVi": "Danh từ nâng cao 41",
+      "titleEn": "Advanced nouns 41",
+      "emoji": "📦",
+      "words": [
         {
           "word": "knapsack",
           "pos": "n",
@@ -25758,16 +25747,7 @@
           "freq": 21719,
           "level": "C2",
           "forms": { "plural": "knapsacks" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-41",
-      "titleVi": "Danh từ nâng cao 41",
-      "titleEn": "Advanced nouns 41",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "chassis",
           "pos": "n",
@@ -25947,7 +25927,16 @@
           "freq": 22443,
           "level": "C2",
           "forms": { "plural": "wheelbarrows" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-42",
+      "titleVi": "Danh từ nâng cao 42",
+      "titleEn": "Advanced nouns 42",
+      "emoji": "📦",
+      "words": [
         {
           "word": "snorkel",
           "pos": "n",
@@ -25959,16 +25948,7 @@
           "freq": 22473,
           "level": "C2",
           "forms": { "plural": "snorkels" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-42",
-      "titleVi": "Danh từ nâng cao 42",
-      "titleEn": "Advanced nouns 42",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "playoff",
           "pos": "n",
@@ -26148,7 +26128,16 @@
           "freq": 22989,
           "level": "C2",
           "forms": { "plural": "hinges" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-43",
+      "titleVi": "Danh từ nâng cao 43",
+      "titleEn": "Advanced nouns 43",
+      "emoji": "📦",
+      "words": [
         {
           "word": "blight",
           "pos": "n",
@@ -26160,16 +26149,7 @@
           "level": "C2",
           "freq": 23025,
           "forms": { "plural": "blights" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-43",
-      "titleVi": "Danh từ nâng cao 43",
-      "titleEn": "Advanced nouns 43",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "enamel",
           "pos": "n",
@@ -26349,7 +26329,16 @@
           "freq": 23677,
           "level": "C2",
           "forms": { "plural": "tunics" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-44",
+      "titleVi": "Danh từ nâng cao 44",
+      "titleEn": "Advanced nouns 44",
+      "emoji": "📦",
+      "words": [
         {
           "word": "camaraderie",
           "pos": "n",
@@ -26361,16 +26350,7 @@
           "freq": 23786,
           "level": "C2",
           "forms": { "plural": "camaraderies" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-44",
-      "titleVi": "Danh từ nâng cao 44",
-      "titleEn": "Advanced nouns 44",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "keypad",
           "pos": "n",
@@ -26550,7 +26530,16 @@
           "freq": 24485,
           "level": "C2",
           "forms": { "plural": "kayaks" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-45",
+      "titleVi": "Danh từ nâng cao 45",
+      "titleEn": "Advanced nouns 45",
+      "emoji": "📦",
+      "words": [
         {
           "word": "turnaround",
           "pos": "n",
@@ -26562,16 +26551,7 @@
           "freq": 24553,
           "level": "C2",
           "forms": { "plural": "turnarounds" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-45",
-      "titleVi": "Danh từ nâng cao 45",
-      "titleEn": "Advanced nouns 45",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "lapel",
           "pos": "n",
@@ -26751,7 +26731,16 @@
           "ipa_vi": "/təŋ˨˩/",
           "freq": 25330,
           "forms": { "plural": "stratospheres" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-46",
+      "titleVi": "Danh từ nâng cao 46",
+      "titleEn": "Advanced nouns 46",
+      "emoji": "📦",
+      "words": [
         {
           "word": "duplex",
           "pos": "n",
@@ -26763,16 +26752,7 @@
           "freq": 25346,
           "level": "C2",
           "forms": { "plural": "duplexes" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-46",
-      "titleVi": "Danh từ nâng cao 46",
-      "titleEn": "Advanced nouns 46",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "embargo",
           "pos": "n",
@@ -26952,7 +26932,16 @@
           "freq": 25788,
           "level": "C2",
           "forms": { "plural": "tugboats" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-47",
+      "titleVi": "Danh từ nâng cao 47",
+      "titleEn": "Advanced nouns 47",
+      "emoji": "📦",
+      "words": [
         {
           "word": "agility",
           "pos": "n",
@@ -26964,16 +26953,7 @@
           "level": "C2",
           "freq": 25790,
           "forms": { "plural": "agilities" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-47",
-      "titleVi": "Danh từ nâng cao 47",
-      "titleEn": "Advanced nouns 47",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "kiosk",
           "pos": "n",
@@ -27153,7 +27133,16 @@
           "freq": 26256,
           "level": "C2",
           "forms": { "plural": "newlyweds" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-48",
+      "titleVi": "Danh từ nâng cao 48",
+      "titleEn": "Advanced nouns 48",
+      "emoji": "📦",
+      "words": [
         {
           "word": "lacquer",
           "pos": "n",
@@ -27165,16 +27154,7 @@
           "freq": 26308,
           "level": "C2",
           "forms": { "plural": "lacquers" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-48",
-      "titleVi": "Danh từ nâng cao 48",
-      "titleEn": "Advanced nouns 48",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "centipede",
           "pos": "n",
@@ -27354,7 +27334,16 @@
           "level": "C2",
           "freq": 27137,
           "forms": { "plural": "materialisms" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-49",
+      "titleVi": "Danh từ nâng cao 49",
+      "titleEn": "Advanced nouns 49",
+      "emoji": "📦",
+      "words": [
         {
           "word": "snowfall",
           "pos": "n",
@@ -27366,16 +27355,7 @@
           "freq": 27253,
           "level": "C2",
           "forms": { "plural": "snowfalls" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-49",
-      "titleVi": "Danh từ nâng cao 49",
-      "titleEn": "Advanced nouns 49",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "windfall",
           "pos": "n",
@@ -27554,7 +27534,16 @@
           "freq": 28013,
           "level": "C2",
           "forms": { "plural": "kilns" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-50",
+      "titleVi": "Danh từ nâng cao 50",
+      "titleEn": "Advanced nouns 50",
+      "emoji": "📦",
+      "words": [
         {
           "word": "goblet",
           "pos": "n",
@@ -27566,16 +27555,7 @@
           "freq": 28053,
           "level": "C2",
           "forms": { "plural": "goblets" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-50",
-      "titleVi": "Danh từ nâng cao 50",
-      "titleEn": "Advanced nouns 50",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "stucco",
           "pos": "n",
@@ -27755,7 +27735,16 @@
           "freq": 29169,
           "level": "C2",
           "forms": { "plural": "caveats" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-51",
+      "titleVi": "Danh từ nâng cao 51",
+      "titleEn": "Advanced nouns 51",
+      "emoji": "📦",
+      "words": [
         {
           "word": "condensation",
           "pos": "n",
@@ -27767,16 +27756,7 @@
           "freq": 29171,
           "level": "C2",
           "forms": { "plural": "condensations" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-51",
-      "titleVi": "Danh từ nâng cao 51",
-      "titleEn": "Advanced nouns 51",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "fluctuation",
           "pos": "n",
@@ -27955,7 +27935,16 @@
           "freq": 29811,
           "level": "C2",
           "forms": { "plural": "demotions" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-52",
+      "titleVi": "Danh từ nâng cao 52",
+      "titleEn": "Advanced nouns 52",
+      "emoji": "📦",
+      "words": [
         {
           "word": "bicep",
           "pos": "n",
@@ -27967,16 +27956,7 @@
           "freq": 29894,
           "level": "C2",
           "forms": { "plural": "biceps" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-52",
-      "titleVi": "Danh từ nâng cao 52",
-      "titleEn": "Advanced nouns 52",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "antithesis",
           "pos": "n",
@@ -28156,7 +28136,16 @@
           "ipa_vi": "/kɛ˧˩˧/",
           "freq": 30863,
           "forms": { "plural": "vandals" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-53",
+      "titleVi": "Danh từ nâng cao 53",
+      "titleEn": "Advanced nouns 53",
+      "emoji": "📦",
+      "words": [
         {
           "word": "router",
           "pos": "n",
@@ -28168,16 +28157,7 @@
           "freq": 30916,
           "level": "C2",
           "forms": { "plural": "routers" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-53",
-      "titleVi": "Danh từ nâng cao 53",
-      "titleEn": "Advanced nouns 53",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "prong",
           "pos": "n",
@@ -28357,7 +28337,16 @@
           "freq": 31757,
           "level": "C2",
           "forms": { "plural": "rinds" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-54",
+      "titleVi": "Danh từ nâng cao 54",
+      "titleEn": "Advanced nouns 54",
+      "emoji": "📦",
+      "words": [
         {
           "word": "trowel",
           "pos": "n",
@@ -28369,16 +28358,7 @@
           "freq": 31794,
           "level": "C2",
           "forms": { "plural": "trowels" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-54",
-      "titleVi": "Danh từ nâng cao 54",
-      "titleEn": "Advanced nouns 54",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "tentacle",
           "pos": "n",
@@ -28558,7 +28538,16 @@
           "freq": 32515,
           "level": "C2",
           "forms": { "plural": "windowpanes" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-55",
+      "titleVi": "Danh từ nâng cao 55",
+      "titleEn": "Advanced nouns 55",
+      "emoji": "📦",
+      "words": [
         {
           "word": "impresario",
           "pos": "n",
@@ -28570,16 +28559,7 @@
           "level": "C2",
           "freq": 32606,
           "forms": { "plural": "impresarios" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-55",
-      "titleVi": "Danh từ nâng cao 55",
-      "titleEn": "Advanced nouns 55",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "chalkboard",
           "pos": "n",
@@ -28758,7 +28738,16 @@
           "freq": 33691,
           "level": "C2",
           "forms": { "plural": "chrysanthemums" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-56",
+      "titleVi": "Danh từ nâng cao 56",
+      "titleEn": "Advanced nouns 56",
+      "emoji": "📦",
+      "words": [
         {
           "word": "brouhaha",
           "pos": "n",
@@ -28770,16 +28759,7 @@
           "level": "C2",
           "freq": 33891,
           "forms": { "plural": "brouhahas" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-56",
-      "titleVi": "Danh từ nâng cao 56",
-      "titleEn": "Advanced nouns 56",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "etching",
           "pos": "n",
@@ -28958,7 +28938,16 @@
           "freq": 34636,
           "level": "C2",
           "forms": { "plural": "cisterns" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-57",
+      "titleVi": "Danh từ nâng cao 57",
+      "titleEn": "Advanced nouns 57",
+      "emoji": "📦",
+      "words": [
         {
           "word": "floe",
           "pos": "n",
@@ -28970,16 +28959,7 @@
           "level": "C2",
           "freq": 34651,
           "forms": { "plural": "floes" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-57",
-      "titleVi": "Danh từ nâng cao 57",
-      "titleEn": "Advanced nouns 57",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "lentil",
           "pos": "n",
@@ -29159,7 +29139,16 @@
           "ipa_vi": "/tʰɔj˦˥/",
           "freq": 35639,
           "forms": { "plural": "snobberies" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-58",
+      "titleVi": "Danh từ nâng cao 58",
+      "titleEn": "Advanced nouns 58",
+      "emoji": "📦",
+      "words": [
         {
           "word": "cobweb",
           "pos": "n",
@@ -29171,16 +29160,7 @@
           "freq": 35734,
           "level": "C2",
           "forms": { "plural": "cobwebs" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-58",
-      "titleVi": "Danh từ nâng cao 58",
-      "titleEn": "Advanced nouns 58",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "hoodie",
           "pos": "n",
@@ -29360,7 +29340,16 @@
           "freq": 36738,
           "level": "C2",
           "forms": { "plural": "volts" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-59",
+      "titleVi": "Danh từ nâng cao 59",
+      "titleEn": "Advanced nouns 59",
+      "emoji": "📦",
+      "words": [
         {
           "word": "wattage",
           "pos": "n",
@@ -29372,16 +29361,7 @@
           "freq": 36740,
           "level": "C2",
           "forms": { "plural": "wattages" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-59",
-      "titleVi": "Danh từ nâng cao 59",
-      "titleEn": "Advanced nouns 59",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "motherboard",
           "pos": "n",
@@ -29561,7 +29541,16 @@
           "freq": 37379,
           "level": "C2",
           "forms": { "plural": "recliners" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-60",
+      "titleVi": "Danh từ nâng cao 60",
+      "titleEn": "Advanced nouns 60",
+      "emoji": "📦",
+      "words": [
         {
           "word": "foreword",
           "pos": "n",
@@ -29573,16 +29562,7 @@
           "freq": 37437,
           "level": "C2",
           "forms": { "plural": "forewords" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-60",
-      "titleVi": "Danh từ nâng cao 60",
-      "titleEn": "Advanced nouns 60",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "gearbox",
           "pos": "n",
@@ -29762,7 +29742,16 @@
           "freq": 38545,
           "level": "C2",
           "forms": { "plural": "refractions" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-61",
+      "titleVi": "Danh từ nâng cao 61",
+      "titleEn": "Advanced nouns 61",
+      "emoji": "📦",
+      "words": [
         {
           "word": "salamander",
           "pos": "n",
@@ -29774,16 +29763,7 @@
           "freq": 38556,
           "level": "C2",
           "forms": { "plural": "salamanders" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-61",
-      "titleVi": "Danh từ nâng cao 61",
-      "titleEn": "Advanced nouns 61",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "locomotion",
           "pos": "n",
@@ -29962,8 +29942,17 @@
           "ipa_vi": "/kɔn˧/",
           "freq": 39881,
           "level": "C2",
-          "forms": { "plural": "stepchilds" }
-        },
+          "forms": { "plural": "stepchildren", "irregular": true }
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-62",
+      "titleVi": "Danh từ nâng cao 62",
+      "titleEn": "Advanced nouns 62",
+      "emoji": "📦",
+      "words": [
         {
           "word": "surrealist",
           "pos": "n",
@@ -29975,16 +29964,7 @@
           "ipa_vi": "/ŋɯəj˨˩/",
           "freq": 39900,
           "forms": { "plural": "surrealists" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-62",
-      "titleVi": "Danh từ nâng cao 62",
-      "titleEn": "Advanced nouns 62",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "thumbnail",
           "pos": "n",
@@ -30164,7 +30144,16 @@
           "freq": 40701,
           "level": "C2",
           "forms": { "plural": "glasswares" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-63",
+      "titleVi": "Danh từ nâng cao 63",
+      "titleEn": "Advanced nouns 63",
+      "emoji": "📦",
+      "words": [
         {
           "word": "crystallization",
           "pos": "n",
@@ -30176,16 +30165,7 @@
           "freq": 40802,
           "level": "C2",
           "forms": { "plural": "crystallizations" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-63",
-      "titleVi": "Danh từ nâng cao 63",
-      "titleEn": "Advanced nouns 63",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "compiler",
           "pos": "n",
@@ -30365,7 +30345,16 @@
           "freq": 42017,
           "level": "C2",
           "forms": { "plural": "banknotes" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-64",
+      "titleVi": "Danh từ nâng cao 64",
+      "titleEn": "Advanced nouns 64",
+      "emoji": "📦",
+      "words": [
         {
           "word": "kilowatt",
           "pos": "n",
@@ -30377,16 +30366,7 @@
           "freq": 42218,
           "level": "C2",
           "forms": { "plural": "kilowatts" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-64",
-      "titleVi": "Danh từ nâng cao 64",
-      "titleEn": "Advanced nouns 64",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "portent",
           "pos": "n",
@@ -30566,7 +30546,16 @@
           "ipa_vi": "/ɗwaːn˨˩ʔ/",
           "freq": 44206,
           "forms": { "plural": "snippets" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-65",
+      "titleVi": "Danh từ nâng cao 65",
+      "titleEn": "Advanced nouns 65",
+      "emoji": "📦",
+      "words": [
         {
           "word": "spire",
           "pos": "n",
@@ -30578,16 +30567,7 @@
           "freq": 44225,
           "level": "C2",
           "forms": { "plural": "spires" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-65",
-      "titleVi": "Danh từ nâng cao 65",
-      "titleEn": "Advanced nouns 65",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "confabulation",
           "pos": "n",
@@ -30767,7 +30747,16 @@
           "freq": 46485,
           "level": "C2",
           "forms": { "plural": "housemates" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-66",
+      "titleVi": "Danh từ nâng cao 66",
+      "titleEn": "Advanced nouns 66",
+      "emoji": "📦",
+      "words": [
         {
           "word": "kayaking",
           "pos": "n",
@@ -30779,16 +30768,7 @@
           "freq": 46590,
           "level": "C2",
           "forms": { "uncountable": true }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-66",
-      "titleVi": "Danh từ nâng cao 66",
-      "titleEn": "Advanced nouns 66",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "philanthropy",
           "pos": "n",
@@ -30968,7 +30948,16 @@
           "freq": 49183,
           "level": "C2",
           "forms": { "plural": "bedsheets" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-67",
+      "titleVi": "Danh từ nâng cao 67",
+      "titleEn": "Advanced nouns 67",
+      "emoji": "📦",
+      "words": [
         {
           "word": "benchmark",
           "pos": "n",
@@ -30980,16 +30969,7 @@
           "freq": 49197,
           "level": "C2",
           "forms": { "plural": "benchmarks" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-67",
-      "titleVi": "Danh từ nâng cao 67",
-      "titleEn": "Advanced nouns 67",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "dissemination",
           "pos": "n",
@@ -31169,7 +31149,16 @@
           "ipa_vi": "/sɯ˨˩ʔ/",
           "freq": 52867,
           "forms": { "plural": "subsistences" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-68",
+      "titleVi": "Danh từ nâng cao 68",
+      "titleEn": "Advanced nouns 68",
+      "emoji": "📦",
+      "words": [
         {
           "word": "tachometer",
           "pos": "n",
@@ -31181,16 +31170,7 @@
           "freq": 52880,
           "level": "C2",
           "forms": { "plural": "tachometers" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-68",
-      "titleVi": "Danh từ nâng cao 68",
-      "titleEn": "Advanced nouns 68",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "tinder",
           "pos": "n",
@@ -31370,7 +31350,16 @@
           "freq": 57879,
           "level": "C2",
           "forms": { "plural": "solutes" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-69",
+      "titleVi": "Danh từ nâng cao 69",
+      "titleEn": "Advanced nouns 69",
+      "emoji": "📦",
+      "words": [
         {
           "word": "truism",
           "pos": "n",
@@ -31382,16 +31371,7 @@
           "ipa_vi": "/sɯ˨˩ʔ/",
           "freq": 58423,
           "forms": { "plural": "truisms" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-69",
-      "titleVi": "Danh từ nâng cao 69",
-      "titleEn": "Advanced nouns 69",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "turbocharger",
           "pos": "n",
@@ -31571,18 +31551,6 @@
           "level": "C2",
           "freq": 66308,
           "forms": { "plural": "incongruities" }
-        },
-        {
-          "word": "indolence",
-          "pos": "n",
-          "vi": "sự lười biếng",
-          "ex_en": "His indolence eventually cost him his job at the firm.",
-          "ex_vi": "Sự lười biếng của anh ta cuối cùng khiến anh mất việc tại công ty.",
-          "ipa_en": "/ˈɪndələns/",
-          "ipa_vi": "/sɯ˨˩ʔ/",
-          "level": "C2",
-          "freq": 66349,
-          "forms": { "plural": "indolences" }
         }
       ],
       "sentences": []
@@ -31594,6 +31562,18 @@
       "emoji": "📦",
       "words": [
         {
+          "word": "indolence",
+          "pos": "n",
+          "vi": "sự lười biếng",
+          "ex_en": "His indolence eventually cost him his job at the firm.",
+          "ex_vi": "Sự lười biếng của anh ta cuối cùng khiến anh mất việc tại công ty.",
+          "ipa_en": "/ˈɪndələns/",
+          "ipa_vi": "/sɯ˨˩ʔ/",
+          "level": "C2",
+          "freq": 66349,
+          "forms": { "plural": "indolences" }
+        },
+        {
           "word": "leavening",
           "pos": "n",
           "vi": "men nở",
@@ -31604,6 +31584,18 @@
           "level": "C2",
           "freq": 67058,
           "forms": { "plural": "leavenings" }
+        },
+        {
+          "word": "lynx",
+          "pos": "n",
+          "vi": "linh miêu",
+          "ex_en": "A lynx hunts alone in the forest.",
+          "ex_vi": "Linh miêu săn mồi đơn độc trong rừng.",
+          "ipa_en": "/lɪŋks/",
+          "ipa_vi": "/mɛw˨˩/",
+          "freq": 67335,
+          "level": "C2",
+          "forms": { "plural": "lynxes" }
         },
         {
           "word": "malleability",
@@ -31756,7 +31748,16 @@
           "ipa_vi": "/viət̚˦˥/",
           "level": "C2",
           "forms": { "plural": "avgs" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-71",
+      "titleVi": "Danh từ nâng cao 71",
+      "titleEn": "Advanced nouns 71",
+      "emoji": "📦",
+      "words": [
         {
           "word": "circumnavigation",
           "pos": "n",
@@ -31778,16 +31779,7 @@
           "ipa_vi": "/sɯ˨˩ʔ/",
           "level": "C2",
           "forms": { "plural": "drabnesses" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-71",
-      "titleVi": "Danh từ nâng cao 71",
-      "titleEn": "Advanced nouns 71",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "flightiness",
           "pos": "n",
@@ -31941,7 +31933,16 @@
           "ipa_vi": "/sɯ˨˩ʔ/",
           "level": "C2",
           "forms": { "plural": "fabulations" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-72",
+      "titleVi": "Danh từ nâng cao 72",
+      "titleEn": "Advanced nouns 72",
+      "emoji": "📦",
+      "words": [
         {
           "word": "hydropower",
           "pos": "n",
@@ -31963,16 +31964,7 @@
           "ipa_vi": "/mɯk̚˦˥/",
           "level": "C2",
           "forms": { "plural": "livabilities" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-72",
-      "titleVi": "Danh từ nâng cao 72",
-      "titleEn": "Advanced nouns 72",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "logout",
           "pos": "n",
@@ -32126,7 +32118,16 @@
           "ipa_vi": "/sot̚˦˥/",
           "level": "C2",
           "forms": { "plural": "tahinis" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-noun-73",
+      "titleVi": "Danh từ nâng cao 73",
+      "titleEn": "Advanced nouns 73",
+      "emoji": "📦",
+      "words": [
         {
           "word": "angularity",
           "pos": "n",
@@ -32148,16 +32149,7 @@
           "ipa_vi": "/maːj˦˥/",
           "level": "C2",
           "forms": { "plural": "colliders" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-noun-73",
-      "titleVi": "Danh từ nâng cao 73",
-      "titleEn": "Advanced nouns 73",
-      "emoji": "📦",
-      "words": [
+        },
         {
           "word": "retrospection",
           "pos": "n",
@@ -33866,7 +33858,7 @@
           "ipa_vi": "/vuj˧/",
           "level": "C2",
           "freq": 19279,
-          "forms": { "v3s": "frolics", "ving": "frolicing", "past": "froliced" }
+          "forms": { "v3s": "frolics", "ving": "frolicking", "past": "frolicked" }
         },
         {
           "word": "coax",
@@ -34067,7 +34059,12 @@
           "ipa_vi": "/fu˧˩˧/",
           "level": "C2",
           "freq": 22374,
-          "forms": { "v3s": "overlays", "ving": "overlaying", "past": "overlayed" }
+          "forms": {
+            "v3s": "overlays",
+            "ving": "overlaying",
+            "past": "overlaid",
+            "irregular": true
+          }
         },
         {
           "word": "solicit",
@@ -34166,18 +34163,6 @@
           "forms": { "v3s": "emulates", "ving": "emulating", "past": "emulated" }
         },
         {
-          "word": "upscale",
-          "pos": "adj",
-          "vi": "cao cấp, sang trọng (khu vực, nhà hàng)",
-          "ex_en": "The restaurant has an upscale atmosphere.",
-          "ex_vi": "Nhà hàng có không khí sang trọng.",
-          "ipa_en": "/ˈəpˌskeɪl/",
-          "ipa_vi": "/nəŋ˧/",
-          "freq": 23468,
-          "level": "C2",
-          "forms": { "v3s": "upscales", "ving": "upscaling", "past": "upscaled" }
-        },
-        {
           "word": "shimmer",
           "pos": "v",
           "level": "C2",
@@ -34247,16 +34232,7 @@
           "ipa_vi": "/kwaː˦˥/",
           "freq": 24122,
           "level": "C2"
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-verb-11",
-      "titleVi": "Động từ nâng cao 11",
-      "titleEn": "Advanced verbs 11",
-      "emoji": "🏃",
-      "words": [
+        },
         {
           "word": "replenish",
           "pos": "v",
@@ -34268,7 +34244,16 @@
           "freq": 24244,
           "level": "C2",
           "forms": { "v3s": "replenishes", "ving": "replenishing", "past": "replenished" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-verb-11",
+      "titleVi": "Động từ nâng cao 11",
+      "titleEn": "Advanced verbs 11",
+      "emoji": "🏃",
+      "words": [
         {
           "word": "assimilate",
           "pos": "v",
@@ -34448,16 +34433,7 @@
           "ipa_vi": "/fu˧˩˧/",
           "freq": 26730,
           "forms": { "v3s": "prostrates", "ving": "prostrating", "past": "prostrated" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-verb-12",
-      "titleVi": "Động từ nâng cao 12",
-      "titleEn": "Advanced verbs 12",
-      "emoji": "🏃",
-      "words": [
+        },
         {
           "word": "acquaint",
           "pos": "v",
@@ -34469,7 +34445,16 @@
           "freq": 27020,
           "level": "C2",
           "forms": { "v3s": "acquaints", "ving": "acquainting", "past": "acquainted" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-verb-12",
+      "titleVi": "Động từ nâng cao 12",
+      "titleEn": "Advanced verbs 12",
+      "emoji": "🏃",
+      "words": [
         {
           "word": "deter",
           "pos": "v",
@@ -34649,16 +34634,7 @@
           "freq": 29026,
           "level": "C2",
           "forms": { "v3s": "poaches", "ving": "poaching", "past": "poached" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-verb-13",
-      "titleVi": "Động từ nâng cao 13",
-      "titleEn": "Advanced verbs 13",
-      "emoji": "🏃",
-      "words": [
+        },
         {
           "word": "thwart",
           "pos": "v",
@@ -34670,7 +34646,16 @@
           "freq": 29054,
           "level": "C2",
           "forms": { "v3s": "thwarts", "ving": "thwarting", "past": "thwarted" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-verb-13",
+      "titleVi": "Động từ nâng cao 13",
+      "titleEn": "Advanced verbs 13",
+      "emoji": "🏃",
+      "words": [
         {
           "word": "decrypt",
           "pos": "v",
@@ -34850,16 +34835,7 @@
           "freq": 31708,
           "level": "C2",
           "forms": { "v3s": "mediates", "ving": "mediating", "past": "mediated" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-verb-14",
-      "titleVi": "Động từ nâng cao 14",
-      "titleEn": "Advanced verbs 14",
-      "emoji": "🏃",
-      "words": [
+        },
         {
           "word": "besiege",
           "pos": "v",
@@ -34871,7 +34847,16 @@
           "level": "C2",
           "freq": 31741,
           "forms": { "v3s": "besieges", "ving": "besieging", "past": "besieged" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-verb-14",
+      "titleVi": "Động từ nâng cao 14",
+      "titleEn": "Advanced verbs 14",
+      "emoji": "🏃",
+      "words": [
         {
           "word": "wane",
           "pos": "v",
@@ -35051,16 +35036,7 @@
           "freq": 35159,
           "level": "C2",
           "forms": { "v3s": "excavates", "ving": "excavating", "past": "excavated" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-verb-15",
-      "titleVi": "Động từ nâng cao 15",
-      "titleEn": "Advanced verbs 15",
-      "emoji": "🏃",
-      "words": [
+        },
         {
           "word": "instigate",
           "pos": "v",
@@ -35072,7 +35048,16 @@
           "freq": 35207,
           "level": "C2",
           "forms": { "v3s": "instigates", "ving": "instigating", "past": "instigated" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-verb-15",
+      "titleVi": "Động từ nâng cao 15",
+      "titleEn": "Advanced verbs 15",
+      "emoji": "🏃",
+      "words": [
         {
           "word": "incise",
           "pos": "v",
@@ -35252,16 +35237,7 @@
           "freq": 38106,
           "level": "C2",
           "forms": { "v3s": "reclines", "ving": "reclining", "past": "reclined" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-verb-16",
-      "titleVi": "Động từ nâng cao 16",
-      "titleEn": "Advanced verbs 16",
-      "emoji": "🏃",
-      "words": [
+        },
         {
           "word": "repeal",
           "pos": "v",
@@ -35273,7 +35249,16 @@
           "freq": 38122,
           "level": "C2",
           "forms": { "v3s": "repeals", "ving": "repealing", "past": "repealed" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-verb-16",
+      "titleVi": "Động từ nâng cao 16",
+      "titleEn": "Advanced verbs 16",
+      "emoji": "🏃",
+      "words": [
         {
           "word": "supersede",
           "pos": "v",
@@ -35453,16 +35438,7 @@
           "level": "C2",
           "freq": 41256,
           "forms": { "v3s": "dissembles", "ving": "dissembling", "past": "dissembled" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-verb-17",
-      "titleVi": "Động từ nâng cao 17",
-      "titleEn": "Advanced verbs 17",
-      "emoji": "🏃",
-      "words": [
+        },
         {
           "word": "obligate",
           "pos": "v",
@@ -35474,7 +35450,16 @@
           "freq": 41588,
           "level": "C2",
           "forms": { "v3s": "obligates", "ving": "obligating", "past": "obligated" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-verb-17",
+      "titleVi": "Động từ nâng cao 17",
+      "titleEn": "Advanced verbs 17",
+      "emoji": "🏃",
+      "words": [
         {
           "word": "vindicate",
           "pos": "v",
@@ -35658,16 +35643,7 @@
           "freq": 46243,
           "level": "C2",
           "forms": { "v3s": "embeds", "ving": "embeding", "past": "embeded" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-verb-18",
-      "titleVi": "Động từ nâng cao 18",
-      "titleEn": "Advanced verbs 18",
-      "emoji": "🏃",
-      "words": [
+        },
         {
           "word": "fidget",
           "pos": "v",
@@ -35679,7 +35655,16 @@
           "freq": 46318,
           "level": "C2",
           "forms": { "v3s": "fidgets", "ving": "fidgeting", "past": "fidgeted" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-verb-18",
+      "titleVi": "Động từ nâng cao 18",
+      "titleEn": "Advanced verbs 18",
+      "emoji": "🏃",
+      "words": [
         {
           "word": "tantalize",
           "pos": "v",
@@ -35859,16 +35844,7 @@
           "freq": 55769,
           "level": "C2",
           "forms": { "v3s": "immunizes", "ving": "immunizing", "past": "immunized" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-verb-19",
-      "titleVi": "Động từ nâng cao 19",
-      "titleEn": "Advanced verbs 19",
-      "emoji": "🏃",
-      "words": [
+        },
         {
           "word": "necessitate",
           "pos": "v",
@@ -35880,7 +35856,16 @@
           "freq": 56528,
           "level": "C2",
           "forms": { "v3s": "necessitates", "ving": "necessitating", "past": "necessitated" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-verb-19",
+      "titleVi": "Động từ nâng cao 19",
+      "titleEn": "Advanced verbs 19",
+      "emoji": "🏃",
+      "words": [
         {
           "word": "plagiarize",
           "pos": "v",
@@ -36047,7 +36032,13 @@
           "ipa_vi": "/ɗan˧/",
           "level": "C2",
           "freq": 66550,
-          "forms": { "v3s": "interweaves", "ving": "interweaving", "past": "interweaved" }
+          "forms": {
+            "v3s": "interweaves",
+            "ving": "interweaving",
+            "past": "interwove",
+            "pastPart": "interwoven",
+            "irregular": true
+          }
         },
         {
           "word": "prise",
@@ -36060,16 +36051,7 @@
           "ipa_vi": "/ɓəj˧˩˧/",
           "freq": 69678,
           "forms": { "v3s": "prises", "ving": "prising", "past": "prised" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-verb-20",
-      "titleVi": "Động từ nâng cao 20",
-      "titleEn": "Advanced verbs 20",
-      "emoji": "🏃",
-      "words": [
+        },
         {
           "word": "cosset",
           "pos": "v",
@@ -36080,7 +36062,16 @@
           "ipa_vi": "/nuoŋ˧/",
           "level": "C2",
           "forms": { "v3s": "cossets", "ving": "cosseting", "past": "cosseted" }
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-verb-20",
+      "titleVi": "Động từ nâng cao 20",
+      "titleEn": "Advanced verbs 20",
+      "emoji": "🏃",
+      "words": [
         {
           "word": "decentralize",
           "pos": "v",
@@ -36563,8 +36554,7 @@
           "ipa_en": "/loʊn/",
           "ipa_vi": "/ɗəːn˧/",
           "freq": 6661,
-          "level": "C2",
-          "forms": { "comparative": "loner", "superlative": "lonest" }
+          "level": "C2"
         },
         {
           "word": "reckless",
@@ -38965,6 +38955,17 @@
           "level": "C2"
         },
         {
+          "word": "upscale",
+          "pos": "adj",
+          "vi": "cao cấp, sang trọng (khu vực, nhà hàng)",
+          "ex_en": "The restaurant has an upscale atmosphere.",
+          "ex_vi": "Nhà hàng có không khí sang trọng.",
+          "ipa_en": "/ˈəpˌskeɪl/",
+          "ipa_vi": "/nəŋ˧/",
+          "freq": 23468,
+          "level": "C2"
+        },
+        {
           "word": "menacing",
           "pos": "adj",
           "vi": "đe dọa",
@@ -39096,17 +39097,6 @@
           "ipa_en": "/ˈvɛnəməs/",
           "ipa_vi": "/kɔ˦˥/",
           "freq": 23969
-        },
-        {
-          "word": "diagonal",
-          "pos": "adj",
-          "vi": "chéo, theo đường chéo",
-          "ex_en": "He drew a diagonal line across the page.",
-          "ex_vi": "Anh ấy vẽ một đường chéo trên trang giấy.",
-          "ipa_en": "/daɪˈægənəl/",
-          "ipa_vi": "/ɗɯəŋ˨˩/",
-          "freq": 24029,
-          "level": "C2"
         }
       ],
       "sentences": []
@@ -39117,6 +39107,17 @@
       "titleEn": "Adjectives & adverbs 16",
       "emoji": "🎭",
       "words": [
+        {
+          "word": "diagonal",
+          "pos": "adj",
+          "vi": "chéo, theo đường chéo",
+          "ex_en": "He drew a diagonal line across the page.",
+          "ex_vi": "Anh ấy vẽ một đường chéo trên trang giấy.",
+          "ipa_en": "/daɪˈægənəl/",
+          "ipa_vi": "/ɗɯəŋ˨˩/",
+          "freq": 24029,
+          "level": "C2"
+        },
         {
           "word": "philippine",
           "pos": "adj",
@@ -39283,7 +39284,16 @@
           "ipa_vi": "/ɗaː˧˥ʔ/",
           "freq": 25070,
           "level": "C2"
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-modifier-17",
+      "titleVi": "Tính từ & trạng từ 17",
+      "titleEn": "Adjectives & adverbs 17",
+      "emoji": "🎭",
+      "words": [
         {
           "word": "glossy",
           "pos": "adj",
@@ -39295,16 +39305,7 @@
           "freq": 25091,
           "level": "C2",
           "forms": { "comparative": "glossier", "superlative": "glossiest" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-modifier-17",
-      "titleVi": "Tính từ & trạng từ 17",
-      "titleEn": "Adjectives & adverbs 17",
-      "emoji": "🎭",
-      "words": [
+        },
         {
           "word": "precocious",
           "pos": "adj",
@@ -39471,17 +39472,6 @@
           "ipa_vi": "/vɯŋ˧˥ʔ/",
           "freq": 26109,
           "level": "C2"
-        },
-        {
-          "word": "abundantly",
-          "pos": "adv",
-          "vi": "dồi dào, rõ ràng (là)",
-          "ex_en": "It was abundantly clear that she was upset.",
-          "ex_vi": "Rõ ràng là cô ấy đang buồn bực.",
-          "ipa_en": "/əˈbʌndəntli/",
-          "ipa_vi": "/zoj˨˩/",
-          "level": "C2",
-          "freq": 26447
         }
       ],
       "sentences": []
@@ -39492,6 +39482,17 @@
       "titleEn": "Adjectives & adverbs 18",
       "emoji": "🎭",
       "words": [
+        {
+          "word": "abundantly",
+          "pos": "adv",
+          "vi": "dồi dào, rõ ràng (là)",
+          "ex_en": "It was abundantly clear that she was upset.",
+          "ex_vi": "Rõ ràng là cô ấy đang buồn bực.",
+          "ipa_en": "/əˈbʌndəntli/",
+          "ipa_vi": "/zoj˨˩/",
+          "level": "C2",
+          "freq": 26447
+        },
         {
           "word": "hesitant",
           "pos": "adj",
@@ -39657,17 +39658,6 @@
           "ipa_vi": "/suj˧/",
           "level": "C2",
           "freq": 27214
-        },
-        {
-          "word": "arguably",
-          "pos": "adv",
-          "vi": "có thể nói là",
-          "ex_en": "This is arguably his best film.",
-          "ex_vi": "Có thể nói đây là bộ phim hay nhất của anh ấy.",
-          "ipa_en": "/ˈɑrgjuəbli/",
-          "ipa_vi": "/kɔ˦˥/",
-          "freq": 27609,
-          "level": "C2"
         }
       ],
       "sentences": []
@@ -39678,6 +39668,17 @@
       "titleEn": "Adjectives & adverbs 19",
       "emoji": "🎭",
       "words": [
+        {
+          "word": "arguably",
+          "pos": "adv",
+          "vi": "có thể nói là",
+          "ex_en": "This is arguably his best film.",
+          "ex_vi": "Có thể nói đây là bộ phim hay nhất của anh ấy.",
+          "ipa_en": "/ˈɑrgjuəbli/",
+          "ipa_vi": "/kɔ˦˥/",
+          "freq": 27609,
+          "level": "C2"
+        },
         {
           "word": "attuned",
           "pos": "adj",
@@ -39845,17 +39846,6 @@
           "ipa_vi": "/tɕe˧/",
           "level": "C2",
           "freq": 29543
-        },
-        {
-          "word": "gratefully",
-          "pos": "adv",
-          "vi": "một cách biết ơn",
-          "ex_en": "She gratefully accepted the gift.",
-          "ex_vi": "Cô ấy biết ơn đón nhận món quà.",
-          "ipa_en": "/ˈgreɪtfəli/",
-          "ipa_vi": "/mot̚˨˩ʔ/",
-          "freq": 29564,
-          "level": "C2"
         }
       ],
       "sentences": []
@@ -39866,6 +39856,17 @@
       "titleEn": "Adjectives & adverbs 20",
       "emoji": "🎭",
       "words": [
+        {
+          "word": "gratefully",
+          "pos": "adv",
+          "vi": "một cách biết ơn",
+          "ex_en": "She gratefully accepted the gift.",
+          "ex_vi": "Cô ấy biết ơn đón nhận món quà.",
+          "ipa_en": "/ˈgreɪtfəli/",
+          "ipa_vi": "/mot̚˨˩ʔ/",
+          "freq": 29564,
+          "level": "C2"
+        },
         {
           "word": "thrifty",
           "pos": "adj",
@@ -40031,17 +40032,6 @@
           "ipa_en": "/ˌrɛtroʊˈspɛktɪv/",
           "ipa_vi": "/hoj˨˩/",
           "freq": 30633
-        },
-        {
-          "word": "grassroots",
-          "pos": "adj",
-          "vi": "từ cơ sở, từ quần chúng",
-          "ex_en": "A grassroots movement started the campaign.",
-          "ex_vi": "Một phong trào từ cơ sở đã khởi xướng chiến dịch.",
-          "ipa_en": "/ˈgræsˈruts/",
-          "ipa_vi": "/tɯ˨˩/",
-          "freq": 30776,
-          "level": "C2"
         }
       ],
       "sentences": []
@@ -40052,6 +40042,17 @@
       "titleEn": "Adjectives & adverbs 21",
       "emoji": "🎭",
       "words": [
+        {
+          "word": "grassroots",
+          "pos": "adj",
+          "vi": "từ cơ sở, từ quần chúng",
+          "ex_en": "A grassroots movement started the campaign.",
+          "ex_vi": "Một phong trào từ cơ sở đã khởi xướng chiến dịch.",
+          "ipa_en": "/ˈgræsˈruts/",
+          "ipa_vi": "/tɯ˨˩/",
+          "freq": 30776,
+          "level": "C2"
+        },
         {
           "word": "counterproductive",
           "pos": "adj",
@@ -40216,17 +40217,6 @@
           "ipa_vi": "/noj˧˩˧/",
           "freq": 32241,
           "level": "C2"
-        },
-        {
-          "word": "unsurpassed",
-          "pos": "adj",
-          "level": "C2",
-          "vi": "không ai sánh bằng, vô song",
-          "ex_en": "The chef's skill in French cuisine remains unsurpassed in the city.",
-          "ex_vi": "Tài nấu ăn Pháp của đầu bếp này vẫn không ai sánh bằng trong thành phố.",
-          "ipa_en": "/ˌʌnsərˈpæst/",
-          "ipa_vi": "/xoŋ˧/",
-          "freq": 32280
         }
       ],
       "sentences": []
@@ -40237,6 +40227,17 @@
       "titleEn": "Adjectives & adverbs 22",
       "emoji": "🎭",
       "words": [
+        {
+          "word": "unsurpassed",
+          "pos": "adj",
+          "level": "C2",
+          "vi": "không ai sánh bằng, vô song",
+          "ex_en": "The chef's skill in French cuisine remains unsurpassed in the city.",
+          "ex_vi": "Tài nấu ăn Pháp của đầu bếp này vẫn không ai sánh bằng trong thành phố.",
+          "ipa_en": "/ˌʌnsərˈpæst/",
+          "ipa_vi": "/xoŋ˧/",
+          "freq": 32280
+        },
         {
           "word": "interracial",
           "pos": "adj",
@@ -40401,17 +40402,6 @@
           "ipa_vi": "/xoŋ˧/",
           "freq": 33944,
           "level": "C2"
-        },
-        {
-          "word": "interlocking",
-          "pos": "adj",
-          "vi": "khớp vào nhau",
-          "ex_en": "The puzzle pieces have interlocking edges that snap firmly together.",
-          "ex_vi": "Các mảnh ghép có các cạnh khớp vào nhau và gắn chặt với nhau.",
-          "ipa_en": "/ˌɪntərˈlɒkɪŋ/",
-          "ipa_vi": "/xɤp̚˦˥/",
-          "level": "C2",
-          "freq": 34008
         }
       ],
       "sentences": []
@@ -40422,6 +40412,17 @@
       "titleEn": "Adjectives & adverbs 23",
       "emoji": "🎭",
       "words": [
+        {
+          "word": "interlocking",
+          "pos": "adj",
+          "vi": "khớp vào nhau",
+          "ex_en": "The puzzle pieces have interlocking edges that snap firmly together.",
+          "ex_vi": "Các mảnh ghép có các cạnh khớp vào nhau và gắn chặt với nhau.",
+          "ipa_en": "/ˌɪntərˈlɒkɪŋ/",
+          "ipa_vi": "/xɤp̚˦˥/",
+          "level": "C2",
+          "freq": 34008
+        },
         {
           "word": "ponderous",
           "pos": "adj",
@@ -40588,17 +40589,6 @@
           "ipa_vi": "/kəw˨˩/",
           "level": "C2",
           "freq": 35261
-        },
-        {
-          "word": "perpendicular",
-          "pos": "adj",
-          "vi": "vuông góc",
-          "ex_en": "The wall is perpendicular to the floor.",
-          "ex_vi": "Bức tường vuông góc với sàn nhà.",
-          "ipa_en": "/ˌpərpənˈdɪkjələr/",
-          "ipa_vi": "/vuəŋ˧/",
-          "freq": 35273,
-          "level": "C2"
         }
       ],
       "sentences": []
@@ -40609,6 +40599,17 @@
       "titleEn": "Adjectives & adverbs 24",
       "emoji": "🎭",
       "words": [
+        {
+          "word": "perpendicular",
+          "pos": "adj",
+          "vi": "vuông góc",
+          "ex_en": "The wall is perpendicular to the floor.",
+          "ex_vi": "Bức tường vuông góc với sàn nhà.",
+          "ipa_en": "/ˌpərpənˈdɪkjələr/",
+          "ipa_vi": "/vuəŋ˧/",
+          "freq": 35273,
+          "level": "C2"
+        },
         {
           "word": "sweltering",
           "pos": "adj",
@@ -40774,17 +40775,6 @@
           "ipa_vi": "/kɔ˦˥/",
           "freq": 37143,
           "level": "C2"
-        },
-        {
-          "word": "syrian",
-          "pos": "adj",
-          "vi": "thuộc Syria",
-          "ex_en": "They welcomed a Syrian family.",
-          "ex_vi": "Họ đã chào đón một gia đình người Syria.",
-          "ipa_en": "/ˈsɪriən/",
-          "ipa_vi": "/tʰuək̚˨˩ʔ/",
-          "freq": 37479,
-          "level": "C2"
         }
       ],
       "sentences": []
@@ -40795,6 +40785,17 @@
       "titleEn": "Adjectives & adverbs 25",
       "emoji": "🎭",
       "words": [
+        {
+          "word": "syrian",
+          "pos": "adj",
+          "vi": "thuộc Syria",
+          "ex_en": "They welcomed a Syrian family.",
+          "ex_vi": "Họ đã chào đón một gia đình người Syria.",
+          "ipa_en": "/ˈsɪriən/",
+          "ipa_vi": "/tʰuək̚˨˩ʔ/",
+          "freq": 37479,
+          "level": "C2"
+        },
         {
           "word": "commensurate",
           "pos": "adj",
@@ -40960,7 +40961,16 @@
           "ipa_vi": "/kɔ˦˥/",
           "level": "C2",
           "freq": 38732
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-modifier-26",
+      "titleVi": "Tính từ & trạng từ 26",
+      "titleEn": "Adjectives & adverbs 26",
+      "emoji": "🎭",
+      "words": [
         {
           "word": "terse",
           "pos": "adj",
@@ -40972,16 +40982,7 @@
           "freq": 38850,
           "level": "C2",
           "forms": { "comparative": "terser", "superlative": "tersest" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-modifier-26",
-      "titleVi": "Tính từ & trạng từ 26",
-      "titleEn": "Adjectives & adverbs 26",
-      "emoji": "🎭",
-      "words": [
+        },
         {
           "word": "aghast",
           "pos": "adj",
@@ -41146,17 +41147,6 @@
           "ipa_vi": "/vo˧/",
           "level": "C2",
           "freq": 40001
-        },
-        {
-          "word": "tacit",
-          "pos": "adj",
-          "level": "C2",
-          "vi": "ngầm hiểu, không nói ra",
-          "ex_en": "There was a tacit agreement not to discuss the divorce.",
-          "ex_vi": "Có một sự ngầm hiểu là sẽ không nói về vụ ly hôn.",
-          "ipa_en": "/ˈtæsɪt/",
-          "ipa_vi": "/ŋəm˨˩/",
-          "freq": 40347
         }
       ],
       "sentences": []
@@ -41168,6 +41158,17 @@
       "emoji": "🎭",
       "words": [
         {
+          "word": "tacit",
+          "pos": "adj",
+          "level": "C2",
+          "vi": "ngầm hiểu, không nói ra",
+          "ex_en": "There was a tacit agreement not to discuss the divorce.",
+          "ex_vi": "Có một sự ngầm hiểu là sẽ không nói về vụ ly hôn.",
+          "ipa_en": "/ˈtæsɪt/",
+          "ipa_vi": "/ŋəm˨˩/",
+          "freq": 40347
+        },
+        {
           "word": "cohesive",
           "pos": "adj",
           "vi": "gắn kết, chặt chẽ",
@@ -41177,6 +41178,17 @@
           "ipa_vi": "/ɣan˦˥/",
           "freq": 40672,
           "level": "C2"
+        },
+        {
+          "word": "rhetorically",
+          "pos": "adv",
+          "level": "C2",
+          "vi": "theo kiểu câu hỏi tu từ (không cần trả lời)",
+          "ex_en": "\"Do you think I have all day?\" she asked rhetorically.",
+          "ex_vi": "\"Cô nghĩ tôi có cả ngày để chờ sao?\" cô ấy hỏi kiểu tu từ, không đợi trả lời.",
+          "ipa_en": "/rɪˈtɔrɪkli/",
+          "ipa_vi": "/mot̚˨˩ʔ/",
+          "freq": 40744
         },
         {
           "word": "surreptitious",
@@ -41320,7 +41332,16 @@
           "ipa_vi": "/ve˨˩/",
           "level": "C2",
           "freq": 43167
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-modifier-28",
+      "titleVi": "Tính từ & trạng từ 28",
+      "titleEn": "Adjectives & adverbs 28",
+      "emoji": "🎭",
+      "words": [
         {
           "word": "drizzly",
           "pos": "adj",
@@ -41344,16 +41365,7 @@
           "freq": 43620,
           "level": "C2",
           "forms": { "comparative": "gustier", "superlative": "gustiest" }
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-modifier-28",
-      "titleVi": "Tính từ & trạng từ 28",
-      "titleEn": "Adjectives & adverbs 28",
-      "emoji": "🎭",
-      "words": [
+        },
         {
           "word": "malleable",
           "pos": "adj",
@@ -41509,7 +41521,16 @@
           "ipa_vi": "/tʰwi˧˩˧/",
           "freq": 45235,
           "level": "C2"
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-modifier-29",
+      "titleVi": "Tính từ & trạng từ 29",
+      "titleEn": "Adjectives & adverbs 29",
+      "emoji": "🎭",
+      "words": [
         {
           "word": "polysyllabic",
           "pos": "adj",
@@ -41531,16 +41552,7 @@
           "ipa_en": "/ˈsæləvɛri/",
           "ipa_vi": "/tʰuək̚˨˩ʔ/",
           "freq": 45342
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-modifier-29",
-      "titleVi": "Tính từ & trạng từ 29",
-      "titleEn": "Adjectives & adverbs 29",
-      "emoji": "🎭",
-      "words": [
+        },
         {
           "word": "unexcused",
           "pos": "adj",
@@ -41694,7 +41706,16 @@
           "ipa_vi": "/ko˧˩˧/",
           "level": "C2",
           "freq": 48381
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-modifier-30",
+      "titleVi": "Tính từ & trạng từ 30",
+      "titleEn": "Adjectives & adverbs 30",
+      "emoji": "🎭",
+      "words": [
         {
           "word": "hesitantly",
           "pos": "adv",
@@ -41716,16 +41737,7 @@
           "ipa_vi": "/tʰuək̚˨˩ʔ/",
           "level": "C2",
           "freq": 49077
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-modifier-30",
-      "titleVi": "Tính từ & trạng từ 30",
-      "titleEn": "Adjectives & adverbs 30",
-      "emoji": "🎭",
-      "words": [
+        },
         {
           "word": "blubbery",
           "pos": "adj",
@@ -41879,7 +41891,16 @@
           "ipa_en": "/prəˈmoʊtəbəl/",
           "ipa_vi": "/kɔ˦˥/",
           "freq": 51057
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-modifier-31",
+      "titleVi": "Tính từ & trạng từ 31",
+      "titleEn": "Adjectives & adverbs 31",
+      "emoji": "🎭",
+      "words": [
         {
           "word": "proportionally",
           "pos": "adv",
@@ -41901,16 +41922,7 @@
           "ipa_en": "/ˈræptʃərəs/",
           "ipa_vi": "/ɗəj˨˩/",
           "freq": 51133
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-modifier-31",
-      "titleVi": "Tính từ & trạng từ 31",
-      "titleEn": "Adjectives & adverbs 31",
-      "emoji": "🎭",
-      "words": [
+        },
         {
           "word": "squirmy",
           "pos": "adj",
@@ -42065,7 +42077,16 @@
           "ipa_vi": "/mot̚˨˩ʔ/",
           "level": "C2",
           "freq": 54800
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-modifier-32",
+      "titleVi": "Tính từ & trạng từ 32",
+      "titleEn": "Adjectives & adverbs 32",
+      "emoji": "🎭",
+      "words": [
         {
           "word": "dully",
           "pos": "adv",
@@ -42087,16 +42108,7 @@
           "ipa_vi": "/tʰic̚˦˥/",
           "freq": 55483,
           "level": "C2"
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-modifier-32",
-      "titleVi": "Tính từ & trạng từ 32",
-      "titleEn": "Adjectives & adverbs 32",
-      "emoji": "🎭",
-      "words": [
+        },
         {
           "word": "hermetic",
           "pos": "adj",
@@ -42250,7 +42262,16 @@
           "ipa_en": "/suˈpɜrfluəsli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "freq": 58107
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-modifier-33",
+      "titleVi": "Tính từ & trạng từ 33",
+      "titleEn": "Adjectives & adverbs 33",
+      "emoji": "🎭",
+      "words": [
         {
           "word": "tangential",
           "pos": "adj",
@@ -42272,16 +42293,7 @@
           "ipa_en": "/təˈneɪʃəsli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "freq": 58223
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-modifier-33",
-      "titleVi": "Tính từ & trạng từ 33",
-      "titleEn": "Adjectives & adverbs 33",
-      "emoji": "🎭",
-      "words": [
+        },
         {
           "word": "treacherously",
           "pos": "adv",
@@ -42435,7 +42447,16 @@
           "ipa_vi": "/maŋ˧/",
           "level": "C2",
           "freq": 66261
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-modifier-34",
+      "titleVi": "Tính từ & trạng từ 34",
+      "titleEn": "Adjectives & adverbs 34",
+      "emoji": "🎭",
+      "words": [
         {
           "word": "ingenuously",
           "pos": "adv",
@@ -42457,16 +42478,7 @@
           "ipa_vi": "/hwaːj˨˩/",
           "level": "C2",
           "freq": 68419
-        }
-      ],
-      "sentences": []
-    },
-    {
-      "id": "cefr-c2-modifier-34",
-      "titleVi": "Tính từ & trạng từ 34",
-      "titleEn": "Adjectives & adverbs 34",
-      "emoji": "🎭",
-      "words": [
+        },
         {
           "word": "paediatric",
           "pos": "adj",
@@ -42617,16 +42629,6 @@
           "ipa_en": "/kəˈloʊkwiəli/",
           "ipa_vi": "/tʰɛɔ˧/",
           "level": "C2"
-        },
-        {
-          "word": "kinetically",
-          "pos": "adv",
-          "vi": "một cách động học",
-          "ex_en": "The molecules are kinetically stable at room temperature.",
-          "ex_vi": "Các phân tử ổn định về mặt động học ở nhiệt độ phòng.",
-          "ipa_en": "/kɪˈnɛtɪkli/",
-          "ipa_vi": "/mot̚˨˩ʔ/",
-          "level": "C2"
         }
       ],
       "sentences": []
@@ -42637,6 +42639,16 @@
       "titleEn": "Adjectives & adverbs 35",
       "emoji": "🎭",
       "words": [
+        {
+          "word": "kinetically",
+          "pos": "adv",
+          "vi": "một cách động học",
+          "ex_en": "The molecules are kinetically stable at room temperature.",
+          "ex_vi": "Các phân tử ổn định về mặt động học ở nhiệt độ phòng.",
+          "ipa_en": "/kɪˈnɛtɪkli/",
+          "ipa_vi": "/mot̚˨˩ʔ/",
+          "level": "C2"
+        },
         {
           "word": "laudatory",
           "pos": "adj",
@@ -42786,16 +42798,6 @@
           "ipa_en": "/ˌkɔːriəˈɡræfɪkəl/",
           "ipa_vi": "/tʰuək̚˨˩ʔ/",
           "level": "C2"
-        },
-        {
-          "word": "confrontationally",
-          "pos": "adv",
-          "vi": "một cách gây hấn, đối đầu",
-          "ex_en": "He responded confrontationally to every criticism.",
-          "ex_vi": "Anh ấy phản ứng một cách gây hấn với mọi lời chỉ trích.",
-          "ipa_en": "/ˌkɒnfrʌnˈteɪʃənəli/",
-          "ipa_vi": "/mot̚˨˩ʔ/",
-          "level": "C2"
         }
       ],
       "sentences": []
@@ -42806,6 +42808,16 @@
       "titleEn": "Adjectives & adverbs 36",
       "emoji": "🎭",
       "words": [
+        {
+          "word": "confrontationally",
+          "pos": "adv",
+          "vi": "một cách gây hấn, đối đầu",
+          "ex_en": "He responded confrontationally to every criticism.",
+          "ex_vi": "Anh ấy phản ứng một cách gây hấn với mọi lời chỉ trích.",
+          "ipa_en": "/ˌkɒnfrʌnˈteɪʃənəli/",
+          "ipa_vi": "/mot̚˨˩ʔ/",
+          "level": "C2"
+        },
         {
           "word": "deficiently",
           "pos": "adv",
@@ -42955,16 +42967,6 @@
           "ipa_en": "/ɑːrˈkeɪnli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "level": "C2"
-        },
-        {
-          "word": "deviantly",
-          "pos": "adv",
-          "vi": "một cách lệch lạc",
-          "ex_en": "The character behaves deviantly throughout the story.",
-          "ex_vi": "Nhân vật hành xử một cách lệch lạc xuyên suốt câu chuyện.",
-          "ipa_en": "/ˈdiːviəntli/",
-          "ipa_vi": "/mot̚˨˩ʔ/",
-          "level": "C2"
         }
       ],
       "sentences": []
@@ -42975,6 +42977,16 @@
       "titleEn": "Adjectives & adverbs 37",
       "emoji": "🎭",
       "words": [
+        {
+          "word": "deviantly",
+          "pos": "adv",
+          "vi": "một cách lệch lạc",
+          "ex_en": "The character behaves deviantly throughout the story.",
+          "ex_vi": "Nhân vật hành xử một cách lệch lạc xuyên suốt câu chuyện.",
+          "ipa_en": "/ˈdiːviəntli/",
+          "ipa_vi": "/mot̚˨˩ʔ/",
+          "level": "C2"
+        },
         {
           "word": "genomically",
           "pos": "adv",
@@ -43125,16 +43137,6 @@
           "ipa_en": "/ˈɑːpjələntli/",
           "ipa_vi": "/saː˧/",
           "level": "C2"
-        },
-        {
-          "word": "patronizingly",
-          "pos": "adv",
-          "vi": "kẻ cả",
-          "ex_en": "She spoke patronizingly to the intern, as if he knew nothing.",
-          "ex_vi": "Cô ấy nói một cách kẻ cả với thực tập sinh, như thể anh ta chẳng biết gì.",
-          "ipa_en": "/ˈpeɪtrəˌnaɪzɪŋli/",
-          "ipa_vi": "/kɛ˧˩˧/",
-          "level": "C2"
         }
       ],
       "sentences": []
@@ -43145,6 +43147,16 @@
       "titleEn": "Adjectives & adverbs 38",
       "emoji": "🎭",
       "words": [
+        {
+          "word": "patronizingly",
+          "pos": "adv",
+          "vi": "kẻ cả",
+          "ex_en": "She spoke patronizingly to the intern, as if he knew nothing.",
+          "ex_vi": "Cô ấy nói một cách kẻ cả với thực tập sinh, như thể anh ta chẳng biết gì.",
+          "ipa_en": "/ˈpeɪtrəˌnaɪzɪŋli/",
+          "ipa_vi": "/kɛ˧˩˧/",
+          "level": "C2"
+        },
         {
           "word": "ponderously",
           "pos": "adv",
@@ -43294,7 +43306,16 @@
           "ipa_en": "/ɪnˈkoʊɪtli/",
           "ipa_vi": "/mot̚˨˩ʔ/",
           "level": "C2"
-        },
+        }
+      ],
+      "sentences": []
+    },
+    {
+      "id": "cefr-c2-modifier-39",
+      "titleVi": "Tính từ & trạng từ 39",
+      "titleEn": "Adjectives & adverbs 39",
+      "emoji": "🎭",
+      "words": [
         {
           "word": "melodiously",
           "pos": "adv",
@@ -44093,7 +44114,12 @@
       "titleVi": "Tính từ & trạng từ (8)",
       "titleEn": "Adjectives & adverbs (8)",
       "emoji": "🎭",
-      "circleIds": ["cefr-c2-modifier-36", "cefr-c2-modifier-37", "cefr-c2-modifier-38"]
+      "circleIds": [
+        "cefr-c2-modifier-36",
+        "cefr-c2-modifier-37",
+        "cefr-c2-modifier-38",
+        "cefr-c2-modifier-39"
+      ]
     },
     {
       "id": "cefr-c2-topic-other",

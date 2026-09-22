@@ -7,6 +7,7 @@
 // Quên thì `lessonsLazy.test.ts` của môn tương ứng sẽ đỏ với đúng câu nhắc đó.
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import prettier from 'prettier'
 
 interface SubjectSpec {
   dir: string
@@ -97,7 +98,10 @@ async function main(): Promise<void> {
   for (const spec of SUBJECTS) {
     const content = await buildSubject(spec)
     const out = resolve(spec.dir, 'lessonsLazy.ts')
-    writeFileSync(out, content, 'utf8')
+    // Định dạng bằng Prettier ngay khi sinh (giống gen-lesson-index.ts) — trước đây phải nhớ chạy
+    // `prettier --write` tay sau mỗi lần sinh, quên là CI job `static` đỏ (nợ ghi ở changelog 0408).
+    const prettierConfig = (await prettier.resolveConfig(out)) ?? {}
+    writeFileSync(out, await prettier.format(content, { ...prettierConfig, filepath: out }), 'utf8')
     const count = content.split('\n').filter((l) => l.startsWith('  { id:')).length
     console.log(`${out} — ${count} bài`)
   }

@@ -818,7 +818,7 @@
     "ipa_en": "/ɪkˈsidɪŋli/",
     "ipa_vi": "/vo˧/",
     "freq": 17740,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "excel",
@@ -944,7 +944,7 @@
     "ipa_en": "/ɪkˈsɛsɪvli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 23481,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "exchange",
@@ -1375,7 +1375,7 @@
     "ipa_en": "/ɪkˈspænsɪv/",
     "ipa_vi": "/zoŋ˨˩ʔ/",
     "freq": 32851,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "expect",
@@ -1528,7 +1528,7 @@
     "ipa_en": "/ɪkˌspɛrɪˈmɛntəl/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 8009,
-    "level": "A2"
+    "level": "B1"
   },
   {
     "word": "expert",
@@ -2428,7 +2428,7 @@
     "ipa_en": "/ˈfɛrnəs/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 11740,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "fairnesses" }
   },
   {
@@ -2960,7 +2960,7 @@
     "ipa_en": "/ˈfæstɪŋ/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 23087,
-    "level": "A1",
+    "level": "B2",
     "forms": { "uncountable": true }
   },
   {
@@ -3205,7 +3205,7 @@
     "ipa_en": "/fɪrˈfʊli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 36431,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "fearsome",
@@ -3298,7 +3298,7 @@
     "ipa_en": "/ˈfiʧərd/",
     "ipa_vi": "/ɗɯək̚˨˩ʔ/",
     "freq": 15541,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "february",
@@ -3332,7 +3332,7 @@
     "ipa_en": "/ˌfɛdərˈeɪʃən/",
     "ipa_vi": "/liən˧/",
     "freq": 8086,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "federations" }
   },
   {
@@ -3523,7 +3523,7 @@
     "ipa_en": "/ˈfɛnsɪŋ/",
     "ipa_vi": "/mon˧/",
     "freq": 14688,
-    "level": "A2",
+    "level": "B1",
     "forms": { "uncountable": true }
   },
   {
@@ -4110,7 +4110,7 @@
     "ipa_en": "/fəˈleɪ/",
     "ipa_vi": "/miəŋ˦˥/",
     "freq": 24803,
-    "level": "A1",
+    "level": "B2",
     "forms": { "plural": "fillets" }
   },
   {
@@ -4216,7 +4216,7 @@
     "ipa_en": "/fəˈnæli/",
     "ipa_vi": "/fən˨˩/",
     "freq": 10574,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "finales" }
   },
   {
@@ -4404,7 +4404,7 @@
     "ipa_en": "/ˈfaɪˌnaɪt/",
     "ipa_vi": "/hɯw˧˥ʔ/",
     "freq": 21717,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "fir",
@@ -4744,7 +4744,7 @@
     "ipa_en": "/ˈflægˌʃɪp/",
     "ipa_vi": "/saːn˧˩˧/",
     "freq": 17807,
-    "level": "A1",
+    "level": "B2",
     "forms": { "plural": "flagships" }
   },
   {
@@ -4840,7 +4840,7 @@
     "ipa_en": "/ˈflætli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 36439,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "flatter",
@@ -5100,7 +5100,7 @@
     "ipa_en": "/flɪŋ/",
     "ipa_vi": "/nɛm˦˥/",
     "freq": 8512,
-    "level": "A1",
+    "level": "B1",
     "forms": { "v3s": "flings", "ving": "flinging", "past": "flinged" }
   },
   {
@@ -5426,7 +5426,7 @@
     "ipa_en": "/flaɪər/",
     "ipa_vi": "/təː˨˩/",
     "freq": 8717,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "flyers" }
   },
   {
@@ -6070,7 +6070,7 @@
     "ipa_en": "/fərˈgɛtfəl/",
     "ipa_vi": "/haːj˧/",
     "freq": 20274,
-    "level": "A1"
+    "level": "B2"
   },
   {
     "word": "forgive",
@@ -6308,7 +6308,7 @@
     "ipa_en": "/ˈfɔrtrəs/",
     "ipa_vi": "/faːw˦˥/",
     "freq": 8735,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "fortresses" }
   },
   {
@@ -6365,7 +6365,7 @@
     "ipa_en": "/ˈfɔrəm/",
     "ipa_vi": "/ziən˧˥ʔ/",
     "freq": 11753,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "forums" }
   },
   {
@@ -6622,7 +6622,7 @@
     "ipa_en": "/ˈfreɪmˌwərk/",
     "ipa_vi": "/xuŋ˧/",
     "freq": 27124,
-    "level": "A2",
+    "level": "B2",
     "forms": { "plural": "frameworks" }
   },
   {
@@ -7624,7 +7624,7 @@
     "ipa_en": "/ˈfərnɪʃt/",
     "ipa_vi": "/kɔ˦˥/",
     "freq": 15641,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "furnishing",
@@ -7635,7 +7635,7 @@
     "ipa_en": "/ˈfərnɪʃɪŋ/",
     "ipa_vi": "/ɗo˨˩/",
     "freq": 33109,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "furnishings" }
   },
   {
@@ -7931,7 +7931,7 @@
     "ipa_en": "/ˈgeɪmɪŋ/",
     "ipa_vi": "/tɕəːj˧/",
     "freq": 10256,
-    "level": "A1",
+    "level": "B1",
     "forms": { "uncountable": true }
   },
   {
@@ -10043,7 +10043,7 @@
     "ipa_en": "/ˈgreɪsfəli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 15114,
-    "level": "A2"
+    "level": "B2"
   },
   {
     "word": "gracefulness",
@@ -10196,7 +10196,7 @@
     "ipa_vi": "/tɕaːw˦˥/",
     "freq": 13846,
     "level": "A2",
-    "forms": { "plural": "grandchilds" }
+    "forms": { "plural": "grandchildren", "irregular": true }
   },
   {
     "word": "grandchildren",
@@ -10208,7 +10208,7 @@
     "ipa_vi": "/kaːk̚˦˥/",
     "freq": 8037,
     "level": "A2",
-    "forms": { "plural": "grandchildrens" }
+    "base": "grandchild"
   },
   {
     "word": "granddad",
@@ -10928,7 +10928,7 @@
     "ipa_en": "/grɪl/",
     "ipa_vi": "/lɯəj˦˥/",
     "freq": 28535,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "grilles" }
   },
   {
@@ -11987,7 +11987,7 @@
     "ipa_en": "/ˈhændˌbʊk/",
     "ipa_vi": "/saːc̚˦˥/",
     "freq": 17326,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "handbooks" }
   },
   {

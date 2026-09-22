@@ -7,145 +7,54 @@
   },
   "levelsDone": ["a1", "a2", "b1", "b2", "c1", "c2"],
   "sentences": {
-    "cefr-a1-health_med-1": [
-      {
-        "en": "I am sick today, so I stay home.",
-        "vi": "Hôm nay tôi bị ốm nên tôi ở nhà."
-      },
-      {
-        "en": "Walking every morning is good for your health.",
-        "vi": "Đi bộ mỗi sáng tốt cho sức khỏe của bạn."
-      },
-      {
-        "en": "Dr. Lan says smoking is very bad.",
-        "vi": "Bác sĩ Lan nói hút thuốc rất có hại."
-      }
-    ],
     "cefr-a1-modifier-1": [
-      {
-        "en": "I am very tired now.",
-        "vi": "Bây giờ tôi rất mệt."
-      },
-      {
-        "en": "There is some rice left here.",
-        "vi": "Ở đây vẫn còn một ít cơm."
-      },
-      {
-        "en": "She is not back yet, okay?",
-        "vi": "Cô ấy chưa về, được chứ?"
-      }
+      { "en": "I am very tired now.", "vi": "Bây giờ tôi rất mệt." },
+      { "en": "There is some rice left here.", "vi": "Ở đây vẫn còn một ít cơm." },
+      { "en": "She is not back yet, okay?", "vi": "Cô ấy chưa về, được chứ?" }
     ],
     "cefr-a1-modifier-2": [
-      {
-        "en": "Maybe we will go out tonight.",
-        "vi": "Có lẽ tối nay chúng ta sẽ đi chơi."
-      },
-      {
-        "en": "She always wears the same hat.",
-        "vi": "Cô ấy luôn đội cùng một chiếc mũ."
-      },
-      {
-        "en": "Dinner is ready and it smells nice.",
-        "vi": "Bữa tối đã sẵn sàng và thơm lắm."
-      }
+      { "en": "Maybe we will go out tonight.", "vi": "Có lẽ tối nay chúng ta sẽ đi chơi." },
+      { "en": "She always wears the same hat.", "vi": "Cô ấy luôn đội cùng một chiếc mũ." },
+      { "en": "Dinner is ready and it smells nice.", "vi": "Bữa tối đã sẵn sàng và thơm lắm." }
     ],
     "cefr-a1-modifier-3": [
-      {
-        "en": "I am glad you came so soon.",
-        "vi": "Tôi mừng vì bạn đến sớm thế."
-      },
-      {
-        "en": "The young boy is afraid of dogs.",
-        "vi": "Cậu bé nhỏ tuổi đó sợ chó."
-      },
+      { "en": "I am glad you came so soon.", "vi": "Tôi mừng vì bạn đến sớm thế." },
+      { "en": "The young boy is afraid of dogs.", "vi": "Cậu bé nhỏ tuổi đó sợ chó." },
       {
         "en": "This lesson is important for each student.",
         "vi": "Bài học này quan trọng với mỗi học sinh."
       }
     ],
     "cefr-a1-modifier-4": [
-      {
-        "en": "My phone screen is broken again.",
-        "vi": "Màn hình điện thoại của tôi lại bị vỡ."
-      },
-      {
-        "en": "We usually wake up early on Monday.",
-        "vi": "Thứ Hai chúng tôi thường dậy sớm."
-      },
-      {
-        "en": "This book is interesting but difficult.",
-        "vi": "Cuốn sách này thú vị nhưng khó."
-      }
+      { "en": "My phone screen is broken again.", "vi": "Màn hình điện thoại của tôi lại bị vỡ." },
+      { "en": "We usually wake up early on Monday.", "vi": "Thứ Hai chúng tôi thường dậy sớm." },
+      { "en": "This book is interesting but difficult.", "vi": "Cuốn sách này thú vị nhưng khó." }
     ],
     "cefr-a1-modifier-5": [
-      {
-        "en": "Pho is my favorite warm dish.",
-        "vi": "Phở là món nóng tôi thích nhất."
-      },
-      {
-        "en": "The shop is closed on Sunday.",
-        "vi": "Cửa hàng đóng cửa vào Chủ nhật."
-      },
-      {
-        "en": "My older brother runs faster than me.",
-        "vi": "Anh trai tôi chạy nhanh hơn tôi."
-      }
+      { "en": "Pho is my favorite warm dish.", "vi": "Phở là món nóng tôi thích nhất." },
+      { "en": "The shop is closed on Sunday.", "vi": "Cửa hàng đóng cửa vào Chủ nhật." },
+      { "en": "My older brother runs faster than me.", "vi": "Anh trai tôi chạy nhanh hơn tôi." }
     ],
     "cefr-a1-modifier-6": [
-      {
-        "en": "Please read the note below carefully.",
-        "vi": "Hãy đọc kỹ ghi chú bên dưới."
-      },
+      { "en": "Please read the note below carefully.", "vi": "Hãy đọc kỹ ghi chú bên dưới." },
       {
         "en": "This game is more exciting than that one.",
         "vi": "Trò chơi này hấp dẫn hơn trò kia."
       },
-      {
-        "en": "My little room is smaller than yours.",
-        "vi": "Phòng nhỏ của tôi bé hơn phòng bạn."
-      }
+      { "en": "My little room is smaller than yours.", "vi": "Phòng nhỏ của tôi bé hơn phòng bạn." }
     ],
     "cefr-a1-modifier-7": [
-      {
-        "en": "June is the hottest month in Hue.",
-        "vi": "Tháng Sáu là tháng nóng nhất ở Huế."
-      },
+      { "en": "June is the hottest month in Hue.", "vi": "Tháng Sáu là tháng nóng nhất ở Huế." },
       {
         "en": "My elementary teacher is strict but kind.",
         "vi": "Cô giáo tiểu học của tôi nghiêm nhưng tốt bụng."
       },
-      {
-        "en": "Please leave the last line blank.",
-        "vi": "Xin để trống dòng cuối cùng."
-      }
-    ],
-    "cefr-a1-modifier-8": [
-      {
-        "en": "This bag is heavier than mine.",
-        "vi": "Cái túi này nặng hơn túi của tôi."
-      },
-      {
-        "en": "Thankfully the rain stopped before noon.",
-        "vi": "May mắn là mưa tạnh trước buổi trưa."
-      },
-      {
-        "en": "My forgetful uncle smiled shyly at us.",
-        "vi": "Ông chú hay quên của tôi cười bẽn lẽn với chúng tôi."
-      }
+      { "en": "Please leave the last line blank.", "vi": "Xin để trống dòng cuối cùng." }
     ],
     "cefr-a1-noun-1": [
-      {
-        "en": "My mom and dad went to the market.",
-        "vi": "Mẹ và bố tôi đi chợ."
-      },
-      {
-        "en": "That kid has a good idea.",
-        "vi": "Đứa trẻ đó có một ý tưởng hay."
-      },
-      {
-        "en": "Tell me a fun story, please.",
-        "vi": "Kể cho tôi một câu chuyện vui đi."
-      }
+      { "en": "My mom and dad went to the market.", "vi": "Mẹ và bố tôi đi chợ." },
+      { "en": "That kid has a good idea.", "vi": "Đứa trẻ đó có một ý tưởng hay." },
+      { "en": "Tell me a fun story, please.", "vi": "Kể cho tôi một câu chuyện vui đi." }
     ],
     "cefr-a1-noun-10": [
       {
@@ -166,154 +75,57 @@
         "en": "Each worker brings a tool to the site.",
         "vi": "Mỗi công nhân mang một dụng cụ tới công trường."
       },
-      {
-        "en": "My family had a picnic near the lake.",
-        "vi": "Gia đình tôi đi dã ngoại gần hồ."
-      },
+      { "en": "My family had a picnic near the lake.", "vi": "Gia đình tôi đi dã ngoại gần hồ." },
       {
         "en": "I bought a pencil and a burger.",
         "vi": "Tôi mua một cái bút chì và một cái bánh mì kẹp."
       }
     ],
     "cefr-a1-noun-12": [
-      {
-        "en": "He rides an old bicycle to market.",
-        "vi": "Anh ấy đạp chiếc xe đạp cũ ra chợ."
-      },
-      {
-        "en": "Playing the drum is a useful skill.",
-        "vi": "Chơi trống là một kỹ năng hữu ích."
-      },
-      {
-        "en": "She cleans the table with a cloth.",
-        "vi": "Cô ấy lau bàn bằng một miếng vải."
-      }
+      { "en": "He rides an old bicycle to market.", "vi": "Anh ấy đạp chiếc xe đạp cũ ra chợ." },
+      { "en": "Playing the drum is a useful skill.", "vi": "Chơi trống là một kỹ năng hữu ích." },
+      { "en": "She cleans the table with a cloth.", "vi": "Cô ấy lau bàn bằng một miếng vải." }
     ],
     "cefr-a1-noun-13": [
-      {
-        "en": "My hometown has a small bookstore.",
-        "vi": "Quê tôi có một hiệu sách nhỏ."
-      },
+      { "en": "My hometown has a small bookstore.", "vi": "Quê tôi có một hiệu sách nhỏ." },
       {
         "en": "Our neighbour gave the children biscuits.",
         "vi": "Người hàng xóm cho bọn trẻ mấy cái bánh quy."
       },
-      {
-        "en": "I look up new words in the dictionary.",
-        "vi": "Tôi tra từ mới trong từ điển."
-      }
+      { "en": "I look up new words in the dictionary.", "vi": "Tôi tra từ mới trong từ điển." }
     ],
     "cefr-a1-noun-14": [
-      {
-        "en": "The children fly a kite in the field.",
-        "vi": "Bọn trẻ thả diều ngoài cánh đồng."
-      },
-      {
-        "en": "Mum wears an apron in the kitchen.",
-        "vi": "Mẹ mặc tạp dề trong bếp."
-      },
-      {
-        "en": "I draw a straight line with my ruler.",
-        "vi": "Tôi kẻ một đường thẳng bằng cây thước."
-      }
-    ],
-    "cefr-a1-noun-15": [
-      {
-        "en": "The lotus opens early in the morning.",
-        "vi": "Hoa sen nở sớm vào buổi sáng."
-      },
-      {
-        "en": "A pink petal fell into the water.",
-        "vi": "Một cánh hoa hồng rơi xuống nước."
-      },
-      {
-        "en": "We play volleyball after class.",
-        "vi": "Chúng tôi chơi bóng chuyền sau giờ học."
-      }
-    ],
-    "cefr-a1-noun-16": [
-      {
-        "en": "My grandparents live in a quiet township.",
-        "vi": "Ông bà tôi sống ở một thị trấn yên tĩnh."
-      },
-      {
-        "en": "I paid the bill with a credit card.",
-        "vi": "Tôi trả tiền bằng thẻ tín dụng."
-      },
-      {
-        "en": "We bought a rattan chair and a dvd.",
-        "vi": "Chúng tôi mua một cái ghế mây và một đĩa DVD."
-      }
+      { "en": "The children fly a kite in the field.", "vi": "Bọn trẻ thả diều ngoài cánh đồng." },
+      { "en": "Mum wears an apron in the kitchen.", "vi": "Mẹ mặc tạp dề trong bếp." },
+      { "en": "We play volleyball after class.", "vi": "Chúng tôi chơi bóng chuyền sau giờ học." }
     ],
     "cefr-a1-noun-2": [
-      {
-        "en": "Wait a moment, I have a plan.",
-        "vi": "Đợi một chút, tôi có kế hoạch rồi."
-      },
-      {
-        "en": "Good luck with your dream job!",
-        "vi": "Chúc bạn may mắn với công việc mơ ước!"
-      },
-      {
-        "en": "He drew a picture of a ball.",
-        "vi": "Cậu ấy vẽ một bức tranh quả bóng."
-      }
+      { "en": "Wait a moment, I have a plan.", "vi": "Đợi một chút, tôi có kế hoạch rồi." },
+      { "en": "Good luck with your dream job!", "vi": "Chúc bạn may mắn với công việc mơ ước!" },
+      { "en": "He drew a picture of a ball.", "vi": "Cậu ấy vẽ một bức tranh quả bóng." }
     ],
     "cefr-a1-noun-3": [
-      {
-        "en": "I wrote the list on a paper.",
-        "vi": "Tôi viết danh sách lên một tờ giấy."
-      },
-      {
-        "en": "My sister passed the college test.",
-        "vi": "Chị tôi đã đậu bài kiểm tra đại học."
-      },
-      {
-        "en": "The smell of pho fills the building.",
-        "vi": "Mùi phở lan khắp tòa nhà."
-      }
+      { "en": "I wrote the list on a paper.", "vi": "Tôi viết danh sách lên một tờ giấy." },
+      { "en": "My sister passed the college test.", "vi": "Chị tôi đã đậu bài kiểm tra đại học." },
+      { "en": "The smell of pho fills the building.", "vi": "Mùi phở lan khắp tòa nhà." }
     ],
     "cefr-a1-noun-4": [
-      {
-        "en": "The sun is hot in the field.",
-        "vi": "Mặt trời nóng gắt ngoài cánh đồng."
-      },
-      {
-        "en": "We rest at home every weekend.",
-        "vi": "Cuối tuần nào chúng tôi cũng nghỉ ở nhà."
-      },
+      { "en": "The sun is hot in the field.", "vi": "Mặt trời nóng gắt ngoài cánh đồng." },
+      { "en": "We rest at home every weekend.", "vi": "Cuối tuần nào chúng tôi cũng nghỉ ở nhà." },
       {
         "en": "Please take this seat near the glass door.",
         "vi": "Mời bạn ngồi chỗ này gần cửa kính."
       }
     ],
     "cefr-a1-noun-5": [
-      {
-        "en": "The rain and wind came last night.",
-        "vi": "Mưa và gió kéo đến đêm qua."
-      },
-      {
-        "en": "Grandma poured a cup of green tea.",
-        "vi": "Bà rót một cốc trà xanh."
-      },
-      {
-        "en": "I left a note near the bottle.",
-        "vi": "Tôi để lại một mẩu ghi chú cạnh cái chai."
-      }
+      { "en": "The rain and wind came last night.", "vi": "Mưa và gió kéo đến đêm qua." },
+      { "en": "Grandma poured a cup of green tea.", "vi": "Bà rót một cốc trà xanh." },
+      { "en": "I left a note near the bottle.", "vi": "Tôi để lại một mẩu ghi chú cạnh cái chai." }
     ],
     "cefr-a1-noun-6": [
-      {
-        "en": "He put the file on his desk.",
-        "vi": "Anh ấy đặt hồ sơ lên bàn làm việc."
-      },
-      {
-        "en": "The boys play football on the hill.",
-        "vi": "Mấy cậu bé chơi bóng đá trên đồi."
-      },
-      {
-        "en": "I keep a pair of keys in my pocket.",
-        "vi": "Tôi để một đôi chìa khóa trong túi."
-      }
+      { "en": "He put the file on his desk.", "vi": "Anh ấy đặt hồ sơ lên bàn làm việc." },
+      { "en": "The boys play football on the hill.", "vi": "Mấy cậu bé chơi bóng đá trên đồi." },
+      { "en": "I keep a pair of keys in my pocket.", "vi": "Tôi để một đôi chìa khóa trong túi." }
     ],
     "cefr-a1-noun-7": [
       {
@@ -330,46 +142,19 @@
       }
     ],
     "cefr-a1-noun-8": [
-      {
-        "en": "My son rides his bike to school.",
-        "vi": "Con trai tôi đạp xe đến trường."
-      },
-      {
-        "en": "Mum is cleaning the old couch.",
-        "vi": "Mẹ đang dọn cái ghế sofa cũ."
-      },
-      {
-        "en": "She took a photo near the tower.",
-        "vi": "Cô ấy chụp một bức ảnh gần tòa tháp."
-      }
+      { "en": "My son rides his bike to school.", "vi": "Con trai tôi đạp xe đến trường." },
+      { "en": "Mum is cleaning the old couch.", "vi": "Mẹ đang dọn cái ghế sofa cũ." },
+      { "en": "She took a photo near the tower.", "vi": "Cô ấy chụp một bức ảnh gần tòa tháp." }
     ],
     "cefr-a1-noun-9": [
-      {
-        "en": "The students sit in a circle.",
-        "vi": "Các học sinh ngồi thành một vòng tròn."
-      },
-      {
-        "en": "My pet dog waits by the temple.",
-        "vi": "Con chó cưng của tôi đợi bên ngôi chùa."
-      },
-      {
-        "en": "We ate beef noodles after swimming.",
-        "vi": "Chúng tôi ăn phở bò sau khi bơi."
-      }
+      { "en": "The students sit in a circle.", "vi": "Các học sinh ngồi thành một vòng tròn." },
+      { "en": "My pet dog waits by the temple.", "vi": "Con chó cưng của tôi đợi bên ngôi chùa." },
+      { "en": "We ate beef noodles after swimming.", "vi": "Chúng tôi ăn phở bò sau khi bơi." }
     ],
     "cefr-a1-other-1": [
-      {
-        "en": "This is a gift from my mother.",
-        "vi": "Đây là món quà từ mẹ tôi."
-      },
-      {
-        "en": "Tell me about your new school.",
-        "vi": "Kể cho tôi nghe về trường mới của bạn."
-      },
-      {
-        "en": "I called him but he was busy.",
-        "vi": "Tôi đã gọi cho anh ấy nhưng anh ấy bận."
-      }
+      { "en": "This is a gift from my mother.", "vi": "Đây là món quà từ mẹ tôi." },
+      { "en": "Tell me about your new school.", "vi": "Kể cho tôi nghe về trường mới của bạn." },
+      { "en": "I called him but he was busy.", "vi": "Tôi đã gọi cho anh ấy nhưng anh ấy bận." }
     ],
     "cefr-a1-other-2": [
       {
@@ -380,10 +165,7 @@
         "en": "We walked around the lake after lunch.",
         "vi": "Chúng tôi đi dạo quanh hồ sau bữa trưa."
       },
-      {
-        "en": "Nothing is better than a bowl of pho.",
-        "vi": "Không gì ngon bằng một bát phở."
-      }
+      { "en": "Nothing is better than a bowl of pho.", "vi": "Không gì ngon bằng một bát phở." }
     ],
     "cefr-a1-other-3": [
       {
@@ -414,46 +196,28 @@
       }
     ],
     "cefr-a1-verb-1": [
-      {
-        "en": "Let me show you the road home.",
-        "vi": "Để tôi chỉ cho bạn đường về nhà."
-      },
+      { "en": "Let me show you the road home.", "vi": "Để tôi chỉ cho bạn đường về nhà." },
       {
         "en": "You should ask your teacher for help.",
         "vi": "Bạn nên hỏi thầy cô để được giúp đỡ."
       },
-      {
-        "en": "I can hear the rain outside.",
-        "vi": "Tôi nghe thấy tiếng mưa bên ngoài."
-      }
+      { "en": "I can hear the rain outside.", "vi": "Tôi nghe thấy tiếng mưa bên ngoài." }
     ],
     "cefr-a1-verb-2": [
       {
         "en": "We live near the river and grow rice.",
         "vi": "Chúng tôi sống gần sông và trồng lúa."
       },
-      {
-        "en": "I will visit my grandparents this summer.",
-        "vi": "Hè này tôi sẽ về thăm ông bà."
-      },
+      { "en": "I will visit my grandparents this summer.", "vi": "Hè này tôi sẽ về thăm ông bà." },
       {
         "en": "The children laugh and enjoy the game.",
         "vi": "Bọn trẻ cười vang và thích thú với trò chơi."
       }
     ],
     "cefr-a1-verb-3": [
-      {
-        "en": "Please fill this form with a pen.",
-        "vi": "Xin điền vào mẫu đơn này bằng bút."
-      },
-      {
-        "en": "I brush my teeth and wash my face.",
-        "vi": "Tôi đánh răng và rửa mặt."
-      },
-      {
-        "en": "We travel to Hue by train.",
-        "vi": "Chúng tôi đi Huế bằng tàu hỏa."
-      }
+      { "en": "Please fill this form with a pen.", "vi": "Xin điền vào mẫu đơn này bằng bút." },
+      { "en": "I brush my teeth and wash my face.", "vi": "Tôi đánh răng và rửa mặt." },
+      { "en": "We travel to Hue by train.", "vi": "Chúng tôi đi Huế bằng tàu hỏa." }
     ],
     "cefr-a2-arts_culture-1": [
       {
@@ -465,8 +229,8 @@
         "vi": "Họa sĩ đã học kiến trúc và lịch sử âm nhạc ở Ý."
       },
       {
-        "en": "My brother is a talented violinist in the city orchestra.",
-        "vi": "Anh trai tôi là một nghệ sĩ vĩ cầm tài năng trong dàn nhạc thành phố."
+        "en": "The picturesque village drew painters from every corner of the country.",
+        "vi": "Ngôi làng đẹp như tranh thu hút các họa sĩ từ khắp mọi miền đất nước."
       }
     ],
     "cefr-a2-business-1": [
@@ -544,10 +308,7 @@
         "en": "Even the youngest kids can learn this song.",
         "vi": "Ngay cả những đứa trẻ nhỏ nhất cũng có thể học bài hát này."
       },
-      {
-        "en": "I am still waiting for the bus to arrive.",
-        "vi": "Tôi vẫn đang chờ xe buýt đến."
-      },
+      { "en": "I am still waiting for the bus to arrive.", "vi": "Tôi vẫn đang chờ xe buýt đến." },
       {
         "en": "We have talked about this before, but let's move ahead anyway.",
         "vi": "Chúng ta đã bàn về việc này rồi, nhưng dù sao cũng hãy tiến lên đi."
@@ -597,30 +358,16 @@
     ],
     "cefr-a2-modifier-13": [
       {
-        "en": "The chef wisely served grilled fish with fresh lemon.",
-        "vi": "Đầu bếp khôn ngoan phục vụ cá nướng kèm chanh tươi."
-      },
-      {
         "en": "She gracefully walked across the empty indoor stage.",
         "vi": "Cô ấy bước qua sân khấu trong nhà trống vắng một cách duyên dáng."
       },
       {
         "en": "After a sleepless night, he felt uncertain about the exam results.",
         "vi": "Sau một đêm mất ngủ, anh ấy cảm thấy không chắc chắn về kết quả kỳ thi."
-      }
-    ],
-    "cefr-a2-modifier-14": [
+      },
       {
         "en": "The playful puppy chased its tail around the yard.",
         "vi": "Chú chó con tinh nghịch đuổi theo cái đuôi của mình quanh sân."
-      },
-      {
-        "en": "He thoughtfully chose an inexpensive gift for his sister.",
-        "vi": "Anh ấy chu đáo chọn một món quà rẻ tiền cho em gái mình."
-      },
-      {
-        "en": "The manager consistently reviewed every report before signing it.",
-        "vi": "Người quản lý liên tục xem xét mọi báo cáo trước khi ký."
       }
     ],
     "cefr-a2-modifier-2": [
@@ -733,20 +480,6 @@
       {
         "en": "Nowadays, mobile phones feel more convenient than old maps.",
         "vi": "Ngày nay, điện thoại di động tiện lợi hơn nhiều so với bản đồ giấy cũ."
-      }
-    ],
-    "cefr-a2-nature_env-1": [
-      {
-        "en": "This strange creature drinks only mineral water.",
-        "vi": "Sinh vật kỳ lạ này chỉ uống nước khoáng."
-      },
-      {
-        "en": "The energetic children planted trees for reforestation.",
-        "vi": "Những đứa trẻ tràn đầy năng lượng đã trồng cây để tái trồng rừng."
-      },
-      {
-        "en": "The new machine is powered by solar energy.",
-        "vi": "Chiếc máy mới được cung cấp năng lượng bằng năng lượng mặt trời."
       }
     ],
     "cefr-a2-noun-1": [
@@ -947,33 +680,23 @@
     ],
     "cefr-a2-noun-22": [
       {
-        "en": "The publishing house needed authorization before printing the book.",
-        "vi": "Nhà xuất bản cần được cấp phép trước khi in cuốn sách."
-      },
-      {
         "en": "The psychologist admired the mountain scenery as a plane roared overhead.",
         "vi": "Nhà tâm lý học ngắm cảnh núi non khi một chiếc máy bay gầm rú trên đầu."
       },
       {
         "en": "She used wool and flour while dreaming of being a superstar.",
         "vi": "Cô ấy dùng len và bột mì trong khi mơ trở thành một ngôi sao lớn."
+      },
+      {
+        "en": "The traveler ignored the rumour and faced the consequence later.",
+        "vi": "Người du khách phớt lờ tin đồn và phải chịu hậu quả sau đó."
       }
     ],
     "cefr-a2-noun-23": [
       {
-        "en": "The traveler ignored the rumour and faced the consequence later.",
-        "vi": "Người du khách phớt lờ tin đồn và phải chịu hậu quả sau đó."
-      },
-      {
         "en": "By lunchtime, she felt a deep longing for the quiet landscape.",
         "vi": "Đến giờ ăn trưa, cô cảm thấy khao khát sâu sắc muốn về vùng quê yên tĩnh."
       },
-      {
-        "en": "He kept his patent papers safely inside the old cupboard.",
-        "vi": "Anh ấy cất giấy tờ bằng sáng chế an toàn trong chiếc tủ cũ."
-      }
-    ],
-    "cefr-a2-noun-24": [
       {
         "en": "My granddad taught me new vocabulary from an old textbook.",
         "vi": "Ông tôi đã dạy tôi từ vựng mới từ một cuốn sách giáo khoa cũ."
@@ -981,27 +704,13 @@
       {
         "en": "The receptionist praised her creativity and fairness at work.",
         "vi": "Lễ tân được khen ngợi vì sự sáng tạo và công bằng trong công việc."
-      },
-      {
-        "en": "For the finale, the chef served curry, seafood, and a light omelet.",
-        "vi": "Cho tiết mục cuối cùng, đầu bếp phục vụ cà ri, hải sản và một món trứng ốp la nhẹ."
       }
     ],
-    "cefr-a2-noun-25": [
-      {
-        "en": "She wrote a short summary and saved it in a folder.",
-        "vi": "Cô ấy viết một bản tóm tắt ngắn và lưu nó vào một thư mục."
-      },
-      {
-        "en": "The successor honored every ancestor according to the old timetable.",
-        "vi": "Người kế nhiệm đã tôn vinh từng tổ tiên theo đúng lịch trình cũ."
-      },
+    "cefr-a2-noun-24": [
       {
         "en": "He filled the canister with a liter of petrol for the tram.",
         "vi": "Anh ấy đổ đầy một lít xăng vào bình chứa cho chiếc xe điện."
-      }
-    ],
-    "cefr-a2-noun-26": [
+      },
       {
         "en": "The learner wrote every verb on the old blackboard.",
         "vi": "Người học đã viết từng động từ lên tấm bảng đen cũ."
@@ -1009,13 +718,9 @@
       {
         "en": "She took the escalator instead of the stair to save time.",
         "vi": "Cô ấy đi thang cuốn thay vì đi cầu thang bộ để tiết kiệm thời gian."
-      },
-      {
-        "en": "His prediction about the mosque tour turned out to be right.",
-        "vi": "Dự đoán của anh ấy về chuyến tham quan nhà thờ Hồi giáo hóa ra là đúng."
       }
     ],
-    "cefr-a2-noun-27": [
+    "cefr-a2-noun-25": [
       {
         "en": "The traveller bought a guidebook at the small bookshop.",
         "vi": "Người du khách đã mua một cuốn sách hướng dẫn tại hiệu sách nhỏ."
@@ -1029,21 +734,11 @@
         "vi": "Cô ấy mặc áo khoác parka ấm và trả hai mươi euro cho phần nhân bánh."
       }
     ],
-    "cefr-a2-noun-28": [
-      {
-        "en": "The teacher explained the difference between a noun and an adjective.",
-        "vi": "Giáo viên đã giải thích sự khác nhau giữa danh từ và tính từ."
-      },
-      {
-        "en": "The businesswoman drove under the overpass near the roundabout every weekday.",
-        "vi": "Nữ doanh nhân lái xe qua cầu vượt gần vòng xuyến vào mỗi ngày trong tuần."
-      },
+    "cefr-a2-noun-26": [
       {
         "en": "He enjoys cycling and badminton instead of skateboarding on the steppe.",
         "vi": "Anh ấy thích đạp xe và cầu lông hơn là trượt ván trên thảo nguyên."
-      }
-    ],
-    "cefr-a2-noun-29": [
+      },
       {
         "en": "The footballer put his headphone on the wooden bookshelf.",
         "vi": "Cầu thủ bóng đá đặt tai nghe của mình lên kệ sách gỗ."
@@ -1051,10 +746,34 @@
       {
         "en": "A sudden downpour caused overcrowding on the busy motorway.",
         "vi": "Một cơn mưa lớn bất ngờ gây ra tình trạng quá tải trên đường cao tốc đông đúc."
+      }
+    ],
+    "cefr-a2-noun-27": [
+      {
+        "en": "We waited at the bus stop near the department store.",
+        "vi": "Chúng tôi đợi ở trạm xe buýt gần cửa hàng bách hóa."
       },
       {
-        "en": "Add one tablespoon and half a kilogram to the recipe.",
-        "vi": "Thêm một muỗng canh và nửa kilogram vào công thức nấu ăn."
+        "en": "The main course came with a cold soft drink.",
+        "vi": "Món chính được dọn kèm một ly nước ngọt mát lạnh."
+      },
+      {
+        "en": "My pen friend sent a photo of her sitting room.",
+        "vi": "Bạn qua thư của tôi gửi ảnh phòng khách của cô ấy."
+      }
+    ],
+    "cefr-a2-noun-28": [
+      {
+        "en": "He showed his id card and driving licence at the gate.",
+        "vi": "Anh ấy xuất trình thẻ căn cước và bằng lái xe ở cổng."
+      },
+      {
+        "en": "The tour guide showed us the grocery store and the car park.",
+        "vi": "Hướng dẫn viên du lịch đã chỉ chúng tôi tới cửa hàng tạp hóa và bãi đỗ xe."
+      },
+      {
+        "en": "She wore make-up and listened to classical music at the sports centre.",
+        "vi": "Cô ấy trang điểm và nghe nhạc cổ điển tại trung tâm thể thao."
       }
     ],
     "cefr-a2-noun-3": [
@@ -1069,34 +788,6 @@
       {
         "en": "Do me a favor, sweetheart, and drive south not north.",
         "vi": "Làm ơn giúp anh một việc, em yêu, hãy lái xe về hướng nam chứ không phải hướng bắc."
-      }
-    ],
-    "cefr-a2-noun-30": [
-      {
-        "en": "We waited at the bus stop near the department store.",
-        "vi": "Chúng tôi đợi ở trạm xe buýt gần cửa hàng bách hóa."
-      },
-      {
-        "en": "The main course came with a cold soft drink.",
-        "vi": "Món chính được dọn kèm một ly nước ngọt mát lạnh."
-      },
-      {
-        "en": "My pen friend sent a photo of her sitting room.",
-        "vi": "Bạn qua thư của tôi gửi ảnh phòng khách của cô ấy."
-      }
-    ],
-    "cefr-a2-noun-31": [
-      {
-        "en": "He showed his id card and driving licence at the gate.",
-        "vi": "Anh ấy xuất trình thẻ căn cước và bằng lái xe ở cổng."
-      },
-      {
-        "en": "The tour guide showed us the grocery store and the car park.",
-        "vi": "Hướng dẫn viên du lịch đã chỉ chúng tôi tới cửa hàng tạp hóa và bãi đỗ xe."
-      },
-      {
-        "en": "She wore make-up and listened to classical music at the sports centre.",
-        "vi": "Cô ấy trang điểm và nghe nhạc cổ điển tại trung tâm thể thao."
       }
     ],
     "cefr-a2-noun-4": [
@@ -1211,6 +902,20 @@
         "vi": "Họ giữ tiền cho riêng mình thay vì đưa cho chúng tôi."
       }
     ],
+    "cefr-a2-other-3": [
+      {
+        "en": "In my view, this method is very logical.",
+        "vi": "Theo quan điểm của tôi, phương pháp này rất logic."
+      },
+      {
+        "en": "Scientists postulate new theoretical ideas in their studies.",
+        "vi": "Các nhà khoa học đưa ra giả thuyết mới trong các nghiên cứu của họ."
+      },
+      {
+        "en": "Her studies follow a logical method from start to finish.",
+        "vi": "Các nghiên cứu của cô ấy theo một phương pháp logic từ đầu đến cuối."
+      }
+    ],
     "cefr-a2-science_tech-1": [
       {
         "en": "Silver is a shiny metal used in machinery.",
@@ -1223,20 +928,6 @@
       {
         "en": "He is physically fit and bought a new pc and digital camera.",
         "vi": "Anh ấy khỏe mạnh về thể chất và đã mua một chiếc pc cùng máy ảnh kỹ thuật số mới."
-      }
-    ],
-    "cefr-a2-thinking-1": [
-      {
-        "en": "In my view, this method is very logical.",
-        "vi": "Theo quan điểm của tôi, phương pháp này rất logic."
-      },
-      {
-        "en": "Scientists postulate new theoretical ideas in their studies.",
-        "vi": "Các nhà khoa học đưa ra giả thuyết mới trong các nghiên cứu của họ."
-      },
-      {
-        "en": "Her studies follow a logical method from start to finish.",
-        "vi": "Các nghiên cứu của cô ấy theo một phương pháp logic từ đầu đến cuối."
       }
     ],
     "cefr-a2-verb-1": [
@@ -1337,20 +1028,6 @@
         "vi": "Họ cùng nhau động não ý tưởng mới và cố gắng dự đoán tương lai."
       }
     ],
-    "cefr-a2-verb-8": [
-      {
-        "en": "The storm began to uproot trees and terrify the villagers.",
-        "vi": "Cơn bão bắt đầu bật gốc cây cối và làm dân làng khiếp sợ."
-      },
-      {
-        "en": "This class will mostly consist of learning to debug and designate tasks.",
-        "vi": "Lớp học này chủ yếu gồm việc học gỡ lỗi và phân công nhiệm vụ."
-      },
-      {
-        "en": "Birds chirp outside while we braise the meat and insulate the roof.",
-        "vi": "Chim hót bên ngoài trong khi chúng tôi hầm thịt và cách nhiệt mái nhà."
-      }
-    ],
     "cefr-b1-arts_culture-1": [
       {
         "en": "The novelist is known for her artistic and literary talent.",
@@ -1407,20 +1084,6 @@
         "vi": "Người mẹ lo lắng chờ đợi đầy bồn chồn bên ngoài phòng bệnh viện."
       }
     ],
-    "cefr-b1-emotion-2": [
-      {
-        "en": "Despite her nervousness, she spoke excitedly about the trip.",
-        "vi": "Dù lo lắng, cô ấy vẫn hào hứng kể về chuyến đi."
-      },
-      {
-        "en": "He looked unafraid, though inwardly he trembled fearfully.",
-        "vi": "Anh ấy trông không sợ hãi, dù trong lòng anh run rẩy đầy sợ hãi."
-      },
-      {
-        "en": "Inwardly nervous, the unafraid climber excitedly reached the summit.",
-        "vi": "Trong lòng hồi hộp, người leo núi không hề sợ hãi đã hào hứng lên tới đỉnh."
-      }
-    ],
     "cefr-b1-health_med-1": [
       {
         "en": "The surgeon performed a difficult operation at the clinic.",
@@ -1445,8 +1108,8 @@
         "vi": "Chính trị gia đó bị buộc chịu trách nhiệm pháp lý về vụ tai nạn."
       },
       {
-        "en": "The court ruled that his statutory rights had been violated.",
-        "vi": "Tòa án phán quyết rằng các quyền theo luật định của anh ta đã bị xâm phạm."
+        "en": "The new statute gives the ministry more authority over local politics.",
+        "vi": "Đạo luật mới trao cho bộ nhiều quyền hơn đối với chính trị địa phương."
       }
     ],
     "cefr-b1-modifier-1": [
@@ -1627,8 +1290,8 @@
         "vi": "Chuyến leo dốc để lại vô số khoảnh khắc đáng nhớ."
       },
       {
-        "en": "The soothing Mediterranean sunset felt calm and lasting.",
-        "vi": "Hoàng hôn Địa Trung Hải êm dịu mang lại cảm giác bình yên và lâu bền."
+        "en": "Working indoors is typically less stressful than a steep outdoor climb.",
+        "vi": "Làm việc trong nhà thường ít căng thẳng hơn một chuyến leo dốc ngoài trời."
       }
     ],
     "cefr-b1-modifier-21": [
@@ -1637,12 +1300,12 @@
         "vi": "Giáo viên đưa ra phản hồi mang tính xây dựng tuyệt vời."
       },
       {
-        "en": "He was formally warned for disrespectful behavior at work.",
-        "vi": "Anh bị cảnh cáo chính thức vì hành vi thiếu tôn trọng ở nơi làm việc."
-      },
-      {
         "en": "The stylish Australian visitor enjoyed outdoors activities afterward.",
         "vi": "Vị khách Úc thời thượng tận hưởng các hoạt động ngoài trời sau đó."
+      },
+      {
+        "en": "The soothing Mediterranean sunset felt calm and lasting.",
+        "vi": "Hoàng hôn Địa Trung Hải êm dịu mang lại cảm giác bình yên và lâu bền."
       }
     ],
     "cefr-b1-modifier-22": [
@@ -1651,12 +1314,12 @@
         "vi": "Ban đầu, công thức được chỉnh sửa có vẻ đậm đà khác thường."
       },
       {
-        "en": "The children read the poem aloud, respectfully, at the party.",
-        "vi": "Bọn trẻ đọc bài thơ thật to, lễ phép, tại bữa tiệc."
-      },
-      {
         "en": "The crowd publicly praised the vivid, photographic memory of the winner.",
         "vi": "Đám đông công khai khen ngợi trí nhớ sống động như ảnh chụp của người chiến thắng."
+      },
+      {
+        "en": "He was formally warned for disrespectful behavior at work.",
+        "vi": "Anh bị cảnh cáo chính thức vì hành vi thiếu tôn trọng ở nơi làm việc."
       }
     ],
     "cefr-b1-modifier-23": [
@@ -1665,12 +1328,12 @@
         "vi": "Người hướng dẫn đáng tin cậy lịch sự dẫn họ qua con đường sương mù."
       },
       {
-        "en": "Unexpectedly, the disastrous storm made the road dangerously inconvenient.",
-        "vi": "Bất ngờ, trận bão thảm khốc khiến con đường trở nên nguy hiểm và bất tiện."
+        "en": "The children read the poem aloud, respectfully, at the party.",
+        "vi": "Bọn trẻ đọc bài thơ thật to, lễ phép, tại bữa tiệc."
       },
       {
-        "en": "The rope was tied tightly around the circular tower.",
-        "vi": "Sợi dây được buộc chặt quanh toà tháp hình tròn."
+        "en": "The anchorman wore a waistcoat while reading the footnote aloud.",
+        "vi": "Người dẫn chương trình tin tức mặc áo gilê khi đọc to phần chú thích."
       }
     ],
     "cefr-b1-modifier-24": [
@@ -1679,12 +1342,12 @@
         "vi": "Đội trưởng người Ireland dũng cảm dẫn dắt đội qua trận đấu bão táp."
       },
       {
-        "en": "It was tragically unclear who should be held accountable.",
-        "vi": "Thật đáng buồn là không rõ ai phải chịu trách nhiệm."
+        "en": "The chef wisely served grilled fish with fresh lemon.",
+        "vi": "Đầu bếp khôn ngoan phục vụ cá nướng kèm chanh tươi."
       },
       {
-        "en": "The evident signs were hopelessly scattered randomly inland.",
-        "vi": "Những dấu hiệu rõ ràng nằm rải rác một cách vô vọng và ngẫu nhiên vào sâu trong đất liền."
+        "en": "Unexpectedly, the disastrous storm made the road dangerously inconvenient.",
+        "vi": "Bất ngờ, trận bão thảm khốc khiến con đường trở nên nguy hiểm và bất tiện."
       }
     ],
     "cefr-b1-modifier-25": [
@@ -1693,12 +1356,12 @@
         "vi": "Thị trấn thịnh vượng đó thường xuyên xuất hiện trong các chương trình du lịch."
       },
       {
-        "en": "Owing to his uncontrollable spending, the man became penniless.",
-        "vi": "Do chi tiêu không kiểm soát, người đàn ông đó trở nên trắng tay."
+        "en": "It was tragically unclear who should be held accountable.",
+        "vi": "Thật đáng buồn là không rõ ai phải chịu trách nhiệm."
       },
       {
-        "en": "The furnished apartment was subsequently rented at a moderate price.",
-        "vi": "Căn hộ có nội thất sau đó được cho thuê với giá vừa phải."
+        "en": "The evident signs were hopelessly scattered randomly inland.",
+        "vi": "Những dấu hiệu rõ ràng nằm rải rác một cách vô vọng và ngẫu nhiên vào sâu trong đất liền."
       }
     ],
     "cefr-b1-modifier-26": [
@@ -1711,8 +1374,8 @@
         "vi": "Người công nhân không lương cảm thấy hụt hơi sau khi liên tục khuân vác đồ."
       },
       {
-        "en": "It is undeniable that the widespread spill left the beach exceedingly oily.",
-        "vi": "Không thể phủ nhận rằng vụ tràn dầu lan rộng đã khiến bãi biển nhớp nháp dầu vô cùng."
+        "en": "Owing to his uncontrollable spending, the man became penniless.",
+        "vi": "Do chi tiêu không kiểm soát, người đàn ông đó trở nên trắng tay."
       }
     ],
     "cefr-b1-modifier-27": [
@@ -1773,20 +1436,6 @@
     ],
     "cefr-b1-modifier-30": [
       {
-        "en": "He stood motionless as the thunderous noise echoed noisily nearby.",
-        "vi": "Anh đứng bất động khi tiếng ồn như sấm vang lên ầm ĩ gần đó."
-      },
-      {
-        "en": "She involuntarily shook after hurriedly running through the storm.",
-        "vi": "Cô run rẩy không kiểm soát được sau khi vội vã chạy qua cơn bão."
-      },
-      {
-        "en": "That conical hat seemed expansive, but shoppers found it shamefully uninteresting.",
-        "vi": "Chiếc mũ hình nón đó trông có vẻ rộng rãi, nhưng người mua thấy nó đáng buồn là chẳng thú vị gì."
-      }
-    ],
-    "cefr-b1-modifier-31": [
-      {
         "en": "The brand-new manager impressively finished the report feverishly.",
         "vi": "Người quản lý mới toanh đã hoàn thành báo cáo một cách ấn tượng và hối hả."
       },
@@ -1797,20 +1446,6 @@
       {
         "en": "They finally met face-to-face after the uninterested meeting ended.",
         "vi": "Cuối cùng họ cũng gặp mặt trực tiếp sau khi cuộc họp thiếu hào hứng kết thúc."
-      }
-    ],
-    "cefr-b1-modifier-32": [
-      {
-        "en": "He was an old-fashioned, well-dressed man who lived next door to us.",
-        "vi": "Anh là một người đàn ông cổ điển, ăn mặc chỉnh tề sống ngay bên cạnh nhà chúng tôi."
-      },
-      {
-        "en": "This self-service kiosk offers an up-to-date, printable menu.",
-        "vi": "Máy tự phục vụ này cung cấp thực đơn cập nhật, có thể in được."
-      },
-      {
-        "en": "She now works part-time selling out-of-date printers downtown.",
-        "vi": "Giờ cô làm việc bán thời gian bán những máy in đã lỗi thời ở trung tâm thành phố."
       }
     ],
     "cefr-b1-modifier-4": [
@@ -2257,8 +1892,8 @@
         "vi": "Sự chuẩn bị kỹ lưỡng đã giảm nguy hiểm cho mọi thợ lặn gần rạn san hô."
       },
       {
-        "en": "The farmer used an old tractor to plow the field.",
-        "vi": "Người nông dân dùng chiếc máy kéo cũ để cày ruộng."
+        "en": "The publishing house needed authorization before printing the book.",
+        "vi": "Nhà xuất bản cần được cấp phép trước khi in cuốn sách."
       }
     ],
     "cefr-b1-noun-32": [
@@ -2299,22 +1934,22 @@
         "vi": "Học sinh đó gặp khó khăn với môn toán nhưng thể hiện động lực thực sự."
       },
       {
-        "en": "The goalkeeper's firm handshake showed real certainty and distinction as a defender.",
-        "vi": "Cái bắt tay chắc chắn của thủ môn cho thấy sự chắc chắn và khác biệt rõ rệt khi làm hậu vệ."
+        "en": "The essayist wrote about urbanization and the timeliness of using carbon dioxide filters.",
+        "vi": "Người viết tiểu luận viết về đô thị hóa và tính kịp thời của việc dùng bộ lọc khí carbon dioxide."
       }
     ],
     "cefr-b1-noun-35": [
-      {
-        "en": "The librarian gave a useful insight during the workshop.",
-        "vi": "Người thủ thư đã đưa ra một nhận định hữu ích trong buổi hội thảo."
-      },
       {
         "en": "He boiled water in the kettle and chopped cabbage for dinner.",
         "vi": "Anh ấy đun nước trong ấm và thái bắp cải để nấu bữa tối."
       },
       {
-        "en": "Her determination earned her a bronze medal in the singles final.",
-        "vi": "Sự quyết tâm của cô ấy đã giành được huy chương đồng ở nội dung đơn."
+        "en": "The goalkeeper's firm handshake showed real certainty and distinction as a defender.",
+        "vi": "Cái bắt tay chắc chắn của thủ môn cho thấy sự chắc chắn và khác biệt rõ rệt khi làm hậu vệ."
+      },
+      {
+        "en": "The slender, gradual slope suited the hikers who joined the hourly walking tour.",
+        "vi": "Con dốc hẹp, thoai thoải phù hợp với những người đi bộ tham gia tour dạo mỗi giờ."
       }
     ],
     "cefr-b1-noun-36": [
@@ -2323,15 +1958,29 @@
         "vi": "Người sáng tạo ra ứng dụng đã tập xong buổi thể dục buổi sáng trước khi xem lại bản thảo."
       },
       {
+        "en": "The librarian gave a useful insight during the workshop.",
+        "vi": "Người thủ thư đã đưa ra một nhận định hữu ích trong buổi hội thảo."
+      },
+      {
+        "en": "Her determination earned her a bronze medal in the singles final.",
+        "vi": "Sự quyết tâm của cô ấy đã giành được huy chương đồng ở nội dung đơn."
+      }
+    ],
+    "cefr-b1-noun-37": [
+      {
         "en": "There was a shortage of hydrogen near the old furnace.",
         "vi": "Có tình trạng thiếu hụt khí hydro gần lò nung cũ."
       },
       {
         "en": "He poured water from the jug into a saucer with quiet efficiency.",
         "vi": "Anh ấy rót nước từ chiếc bình vào đĩa lót tách một cách hiệu quả."
+      },
+      {
+        "en": "The manuscript in the appendix showed a clear tendency toward unity.",
+        "vi": "Bản thảo ở phần phụ lục cho thấy một xu hướng rõ ràng hướng tới sự thống nhất."
       }
     ],
-    "cefr-b1-noun-37": [
+    "cefr-b1-noun-38": [
       {
         "en": "She goes jogging near the harbour every morning before work.",
         "vi": "Cô ấy chạy bộ gần bến cảng mỗi sáng trước khi đi làm."
@@ -2345,32 +1994,18 @@
         "vi": "Người đưa thư lách qua đống gỗ nặng chất trước ngôi nhà mới."
       }
     ],
-    "cefr-b1-noun-38": [
+    "cefr-b1-noun-39": [
+      {
+        "en": "He kept his patent papers safely inside the old cupboard.",
+        "vi": "Anh ấy cất giấy tờ bằng sáng chế an toàn trong chiếc tủ cũ."
+      },
+      {
+        "en": "For the finale, the chef served curry, seafood, and a light omelet.",
+        "vi": "Cho tiết mục cuối cùng, đầu bếp phục vụ cà ri, hải sản và một món trứng ốp la nhẹ."
+      },
       {
         "en": "The pilot studied the plane's takeoff and glide before the flight simulation.",
         "vi": "Phi công nghiên cứu quá trình cất cánh và lượn của máy bay trước khi mô phỏng chuyến bay."
-      },
-      {
-        "en": "New employees get a workplace orientation on their first day at the organisation.",
-        "vi": "Nhân viên mới được định hướng về nơi làm việc vào ngày đầu tiên tại tổ chức."
-      },
-      {
-        "en": "She wore a warm jumper over her sweatshirt while cooking broccoli for dinner.",
-        "vi": "Cô ấy mặc áo len ấm bên ngoài áo nỉ khi nấu bông cải xanh cho bữa tối."
-      }
-    ],
-    "cefr-b1-noun-39": [
-      {
-        "en": "She grows tomatoes on a stem inside the greenhouse behind the house.",
-        "vi": "Cô trồng cà chua trên thân cây trong nhà kính phía sau nhà."
-      },
-      {
-        "en": "His encouragement helped her overcome boredom and fight for prosperity.",
-        "vi": "Sự động viên của anh ấy giúp cô vượt qua sự nhàm chán và phấn đấu vì sự thịnh vượng."
-      },
-      {
-        "en": "We reached a crossroads and had to take a long detour past the old tile factory.",
-        "vi": "Chúng tôi đến một ngã tư và phải đi đường vòng dài qua nhà máy gạch cũ."
       }
     ],
     "cefr-b1-noun-4": [
@@ -2389,9 +2024,30 @@
     ],
     "cefr-b1-noun-40": [
       {
+        "en": "She wore a warm jumper over her sweatshirt while cooking broccoli for dinner.",
+        "vi": "Cô ấy mặc áo len ấm bên ngoài áo nỉ khi nấu bông cải xanh cho bữa tối."
+      },
+      {
+        "en": "She grows tomatoes on a stem inside the greenhouse behind the house.",
+        "vi": "Cô trồng cà chua trên thân cây trong nhà kính phía sau nhà."
+      },
+      {
+        "en": "His encouragement helped her overcome boredom and fight for prosperity.",
+        "vi": "Sự động viên của anh ấy giúp cô vượt qua sự nhàm chán và phấn đấu vì sự thịnh vượng."
+      }
+    ],
+    "cefr-b1-noun-41": [
+      { "en": "The lotus opens early in the morning.", "vi": "Hoa sen nở sớm vào buổi sáng." },
+      {
+        "en": "We reached a crossroads and had to take a long detour past the old tile factory.",
+        "vi": "Chúng tôi đến một ngã tư và phải đi đường vòng dài qua nhà máy gạch cũ."
+      },
+      {
         "en": "The teacher's aide gave clear instructions before the midterm exam.",
         "vi": "Trợ giảng đưa ra hướng dẫn rõ ràng trước kỳ thi giữa kỳ."
-      },
+      }
+    ],
+    "cefr-b1-noun-42": [
       {
         "en": "Farmers keep livestock and sell the surplus to local consumers.",
         "vi": "Nông dân nuôi gia súc và bán phần dư thừa cho người tiêu dùng địa phương."
@@ -2399,13 +2055,13 @@
       {
         "en": "His eyesight worsened after years working near the noisy dishwasher factory.",
         "vi": "Thị lực của anh ấy kém đi sau nhiều năm làm việc gần nhà máy máy rửa bát ồn ào."
-      }
-    ],
-    "cefr-b1-noun-41": [
+      },
       {
         "en": "She kept a carton of raspberry juice by his bedside every morning.",
         "vi": "Cô đặt một hộp nước ép mâm xôi bên cạnh giường anh ấy mỗi sáng."
-      },
+      }
+    ],
+    "cefr-b1-noun-43": [
       {
         "en": "The reservoir supplies a large quantity of water for consumption in the valley.",
         "vi": "Hồ chứa nước cung cấp một lượng lớn nước để sử dụng trong thung lũng."
@@ -2413,12 +2069,16 @@
       {
         "en": "Their exploration of the waterfall led to an unexpected accomplishment for the team.",
         "vi": "Chuyến khám phá thác nước của họ đã mang lại một thành tựu bất ngờ cho cả đội."
-      }
-    ],
-    "cefr-b1-noun-42": [
+      },
       {
         "en": "The company issued a new directive about calcium levels in seaweed farming.",
         "vi": "Công ty ban hành chỉ thị mới về hàm lượng canxi trong việc nuôi trồng rong biển."
+      }
+    ],
+    "cefr-b1-noun-44": [
+      {
+        "en": "The successor honored every ancestor according to the old timetable.",
+        "vi": "Người kế nhiệm đã tôn vinh từng tổ tiên theo đúng lịch trình cũ."
       },
       {
         "en": "The lifeguard served refreshments at the canteen after the flooding warning.",
@@ -2429,7 +2089,7 @@
         "vi": "Người quản trị kiểm tra danh bạ để tìm thông tin liên hệ của nghệ sĩ giải trí."
       }
     ],
-    "cefr-b1-noun-43": [
+    "cefr-b1-noun-45": [
       {
         "en": "The quake caused a painful reconstruction and years of hardship for the town.",
         "vi": "Trận động đất gây ra một cuộc tái thiết đau thương và nhiều năm khó khăn cho thị trấn."
@@ -2443,7 +2103,7 @@
         "vi": "Việc tái chế các xi lanh cũ giúp giảm ô nhiễm, và nhà máy đo từng mẻ với độ chính xác thực sự."
       }
     ],
-    "cefr-b1-noun-44": [
+    "cefr-b1-noun-46": [
       {
         "en": "The zoo's tall giraffe has a beautiful stripe pattern near its neck.",
         "vi": "Con hươu cao cổ cao lớn của sở thú có hoa văn sọc đẹp gần cổ."
@@ -2457,7 +2117,7 @@
         "vi": "Cô hoàn thành việc ủi đồ trước khi gói bưu kiện và bộ quần áo để giao."
       }
     ],
-    "cefr-b1-noun-45": [
+    "cefr-b1-noun-47": [
       {
         "en": "Her willingness to help with housework impressed the whole family.",
         "vi": "Sự sẵn lòng giúp việc nhà của cô ấy khiến cả gia đình ấn tượng."
@@ -2471,7 +2131,7 @@
         "vi": "Sơ đồ nhấn mạnh sự phối hợp giữa các giáo viên mầm non."
       }
     ],
-    "cefr-b1-noun-46": [
+    "cefr-b1-noun-48": [
       {
         "en": "The newcomer waited in a long queue outside the agriculture office.",
         "vi": "Người mới đến xếp hàng dài bên ngoài văn phòng nông nghiệp."
@@ -2485,10 +2145,10 @@
         "vi": "Anh ấy dùng kìm để sửa chiếc đồng hồ đeo tay cũ trước bữa tiệc của tay golf."
       }
     ],
-    "cefr-b1-noun-47": [
+    "cefr-b1-noun-49": [
       {
-        "en": "The firefighter stopped by the roadside to check the drainage system.",
-        "vi": "Người lính cứu hỏa dừng lại bên lề đường để kiểm tra hệ thống thoát nước."
+        "en": "Inwardly nervous, the unafraid climber excitedly reached the summit.",
+        "vi": "Trong lòng hồi hộp, người leo núi không hề sợ hãi đã hào hứng lên tới đỉnh."
       },
       {
         "en": "A famous mathematician wrote the new handbook on nutrition and safeguard rules.",
@@ -2497,34 +2157,6 @@
       {
         "en": "Bees bring nectar back to the hive every fortnight in great abundance.",
         "vi": "Ong mang mật hoa về tổ mỗi hai tuần với số lượng dồi dào."
-      }
-    ],
-    "cefr-b1-noun-48": [
-      {
-        "en": "The historian studied a graph showing similarity between two ancient doctrines.",
-        "vi": "Nhà sử học nghiên cứu một biểu đồ cho thấy sự tương đồng giữa hai học thuyết cổ."
-      },
-      {
-        "en": "A sudden snowstorm forced the climber to leave her snowboard behind.",
-        "vi": "Một trận bão tuyết bất ngờ buộc người leo núi phải bỏ lại ván trượt tuyết."
-      },
-      {
-        "en": "Protesters showed solidarity with the councillor after answering the questionnaire.",
-        "vi": "Người biểu tình thể hiện sự đoàn kết với ủy viên hội đồng sau khi trả lời bảng câu hỏi."
-      }
-    ],
-    "cefr-b1-noun-49": [
-      {
-        "en": "The guitarist writes a blog about tourism and local nightlife.",
-        "vi": "Người chơi guitar viết blog về du lịch và đời sống về đêm ở địa phương."
-      },
-      {
-        "en": "Every participant in the robotics contest made a careful calculation.",
-        "vi": "Mỗi thí sinh tham gia cuộc thi robot đều tính toán cẩn thận."
-      },
-      {
-        "en": "The shopper's carelessness left her wallet at the campsite near the coast.",
-        "vi": "Sự bất cẩn của người mua sắm khiến cô bỏ quên ví ở khu cắm trại gần bờ biển."
       }
     ],
     "cefr-b1-noun-5": [
@@ -2547,12 +2179,12 @@
         "vi": "Huấn luyện viên khen ngợi tinh thần thể thao của anh và tóm tắt ngắn gọn về trận đấu."
       },
       {
-        "en": "The old storyteller showed fondness for his motherland and its ancient sundial.",
-        "vi": "Người kể chuyện già thể hiện tình yêu quê hương và chiếc đồng hồ mặt trời cổ."
+        "en": "That conical hat seemed expansive, but shoppers found it shamefully uninteresting.",
+        "vi": "Chiếc mũ hình nón đó trông có vẻ rộng rãi, nhưng người mua thấy nó đáng buồn là chẳng thú vị gì."
       },
       {
-        "en": "Her stubbornness caused real annoyance during the arbitration meeting.",
-        "vi": "Sự bướng bỉnh của cô gây ra sự khó chịu thực sự trong buổi hòa giải."
+        "en": "The historian studied a graph showing similarity between two ancient doctrines.",
+        "vi": "Nhà sử học nghiên cứu một biểu đồ cho thấy sự tương đồng giữa hai học thuyết cổ."
       }
     ],
     "cefr-b1-noun-51": [
@@ -2561,12 +2193,12 @@
         "vi": "Nông dân tập trung trên cánh đồng để cùng động não về các kiểu mưa."
       },
       {
-        "en": "The goalkeeper's reliability made up for the team's limitation in defense.",
-        "vi": "Sự đáng tin cậy của thủ môn bù đắp cho hạn chế phòng ngự của đội."
+        "en": "The old storyteller showed fondness for his motherland and its ancient sundial.",
+        "vi": "Người kể chuyện già thể hiện tình yêu quê hương và chiếc đồng hồ mặt trời cổ."
       },
       {
-        "en": "Her procrastination meant she had to photocopy the theorem notes at midnight.",
-        "vi": "Sự trì hoãn của cô khiến cô phải photocopy ghi chú định lý lúc nửa đêm."
+        "en": "Her stubbornness caused real annoyance during the arbitration meeting.",
+        "vi": "Sự bướng bỉnh của cô gây ra sự khó chịu thực sự trong buổi hòa giải."
       }
     ],
     "cefr-b1-noun-52": [
@@ -2613,23 +2245,19 @@
     ],
     "cefr-b1-noun-55": [
       {
-        "en": "She checked the exchange rate at the cashpoint before her flight check-in.",
-        "vi": "Cô kiểm tra tỷ giá hối đoái tại cây rút tiền trước khi làm thủ tục lên máy bay."
-      },
-      {
         "en": "The film-maker sent his cv with a full stop after every sentence.",
         "vi": "Nhà làm phim gửi sơ yếu lý lịch của mình với dấu chấm sau mỗi câu."
       },
       {
         "en": "Their new house has central heating and air conditioning for every season.",
         "vi": "Ngôi nhà mới của họ có hệ thống sưởi trung tâm và điều hòa không khí cho mọi mùa."
-      }
-    ],
-    "cefr-b1-noun-56": [
+      },
       {
         "en": "The travel agent pinned the flight schedule on the noticeboard near the check-in counter.",
         "vi": "Đại lý du lịch ghim lịch bay lên bảng thông báo gần quầy làm thủ tục check-in."
-      },
+      }
+    ],
+    "cefr-b1-noun-56": [
       {
         "en": "My little brother spends his pocket money on chewing gum and ice skating lessons.",
         "vi": "Em trai tôi dùng tiền tiêu vặt để mua kẹo cao su và học trượt băng."
@@ -2637,20 +2265,10 @@
       {
         "en": "She wore a navy blue jacket and lost the remote control in the chest of drawers.",
         "vi": "Cô mặc áo khoác màu xanh navy và làm mất điều khiển từ xa trong tủ ngăn kéo."
-      }
-    ],
-    "cefr-b1-noun-57": [
+      },
       {
         "en": "He posted a short video clip on the message board at the fire station.",
         "vi": "Anh ấy đăng một đoạn video ngắn lên bảng tin tại trạm cứu hỏa."
-      },
-      {
-        "en": "The office is on the first floor, right above the ground floor lobby.",
-        "vi": "Văn phòng nằm ở tầng một, ngay phía trên sảnh tầng trệt."
-      },
-      {
-        "en": "She showed her identity card to the guard on the ground floor before entering.",
-        "vi": "Cô đưa thẻ căn cước cho bảo vệ ở tầng trệt trước khi vào."
       }
     ],
     "cefr-b1-noun-6": [
@@ -2883,19 +2501,15 @@
         "vi": "Giáo viên cố gắng đơn giản hóa và sửa lại bài học để không khiến học sinh choáng ngợp."
       },
       {
-        "en": "Engineers had to reboot the system to avert a serious failure.",
-        "vi": "Kỹ sư phải khởi động lại hệ thống để tránh một sự cố nghiêm trọng."
-      },
-      {
         "en": "Scientists classify and characterize each species to help purify their research data.",
         "vi": "Các nhà khoa học phân loại và mô tả đặc điểm từng loài để giúp làm sạch dữ liệu nghiên cứu."
-      }
-    ],
-    "cefr-b1-verb-16": [
+      },
       {
         "en": "The benefits clearly outweigh the risks, so please summarize the report by Friday.",
         "vi": "Lợi ích rõ ràng vượt trội hơn rủi ro, vậy hãy tóm tắt báo cáo trước thứ Sáu."
-      },
+      }
+    ],
+    "cefr-b1-verb-16": [
       {
         "en": "She likes to sunbathe and doze on the beach every summer afternoon.",
         "vi": "Cô thích tắm nắng và ngủ gật trên bãi biển mỗi chiều hè."
@@ -2903,20 +2517,10 @@
       {
         "en": "The flood devastated the village and horrified everyone who saw the damage.",
         "vi": "Trận lũ đã tàn phá ngôi làng và khiến mọi người chứng kiến đều kinh hoàng."
-      }
-    ],
-    "cefr-b1-verb-17": [
+      },
       {
         "en": "He had to reinstall the software before he could retell the whole story.",
         "vi": "Anh phải cài lại phần mềm trước khi có thể kể lại toàn bộ câu chuyện."
-      },
-      {
-        "en": "Germany worked hard to reunify the country after decades of division.",
-        "vi": "Nước Đức đã nỗ lực thống nhất lại đất nước sau nhiều thập kỷ chia cắt."
-      },
-      {
-        "en": "She used to walk to school, and you ought to try it too.",
-        "vi": "Cô từng đi bộ đến trường, và bạn cũng nên thử điều đó."
       }
     ],
     "cefr-b1-verb-2": [
@@ -3391,8 +2995,8 @@
         "vi": "Khu nghỉ dưỡng sang trọng luôn đúng giờ và sẵn sàng phục vụ."
       },
       {
-        "en": "Her unrealistic, disorganized plan felt insufficient and unsure.",
-        "vi": "Kế hoạch thiếu thực tế, lộn xộn của cô có vẻ chưa đủ và không chắc chắn."
+        "en": "The furnished apartment was subsequently rented at a moderate price.",
+        "vi": "Căn hộ có nội thất sau đó được cho thuê với giá vừa phải."
       }
     ],
     "cefr-b2-modifier-24": [
@@ -3401,15 +3005,29 @@
         "vi": "Điệu nhảy giàu nhịp điệu, sáng tạo đã gây ấn tượng với cả đám đông."
       },
       {
+        "en": "The unofficial, rampant rumor left him utterly bewildered.",
+        "vi": "Tin đồn không chính thức, lan tràn khiến anh hoàn toàn bối rối."
+      },
+      {
+        "en": "Her unrealistic, disorganized plan felt insufficient and unsure.",
+        "vi": "Kế hoạch thiếu thực tế, lộn xộn của cô có vẻ chưa đủ và không chắc chắn."
+      }
+    ],
+    "cefr-b2-modifier-25": [
+      {
+        "en": "It is undeniable that the widespread spill left the beach exceedingly oily.",
+        "vi": "Không thể phủ nhận rằng vụ tràn dầu lan rộng đã khiến bãi biển nhớp nháp dầu vô cùng."
+      },
+      {
         "en": "The transient guest waited patiently for the waterproof tent.",
         "vi": "Vị khách tạm trú kiên nhẫn chờ đợi chiếc lều chống nước."
       },
       {
-        "en": "The unofficial, rampant rumor left him utterly bewildered.",
-        "vi": "Tin đồn không chính thức, lan tràn khiến anh hoàn toàn bối rối."
+        "en": "An impartial judge must think objectively and act independently.",
+        "vi": "Một thẩm phán công bằng phải suy nghĩ khách quan và hành động độc lập."
       }
     ],
-    "cefr-b2-modifier-25": [
+    "cefr-b2-modifier-26": [
       {
         "en": "The astonished crowd found the ending truly unimaginable.",
         "vi": "Đám đông kinh ngạc thấy cái kết thực sự khó tưởng tượng."
@@ -3423,7 +3041,11 @@
         "vi": "Giai điệu vượt thời gian, không thể nhầm lẫn ấy vang lên đầy kịch tính giữa hành lang bệnh viện trắng vô trùng."
       }
     ],
-    "cefr-b2-modifier-26": [
+    "cefr-b2-modifier-27": [
+      {
+        "en": "The manager consistently reviewed every report before signing it.",
+        "vi": "Người quản lý liên tục xem xét mọi báo cáo trước khi ký."
+      },
       {
         "en": "The hospitable host offered a beneficial, skillful lesson.",
         "vi": "Chủ nhà hiếu khách đưa ra một bài học hữu ích, khéo léo."
@@ -3431,52 +3053,34 @@
       {
         "en": "The undersea cave felt breezy yet oddly fearsome.",
         "vi": "Hang động dưới biển có gió mát nhưng lại đáng sợ một cách lạ lùng."
-      },
-      {
-        "en": "Her indispensable, appreciative attitude helped the loosely connected neighboring teams work together.",
-        "vi": "Thái độ trân trọng, không thể thiếu của cô giúp các đội bên cạnh vốn gắn kết lỏng lẻo làm việc cùng nhau."
-      }
-    ],
-    "cefr-b2-modifier-27": [
-      {
-        "en": "The slender, gradual slope suited the hikers who joined the hourly walking tour.",
-        "vi": "Con dốc hẹp, thoai thoải phù hợp với những người đi bộ tham gia tour dạo mỗi giờ."
-      },
-      {
-        "en": "Her spiteful, hastily written note seemed nominal at best.",
-        "vi": "Ghi chú cay nghiệt, viết vội của cô chỉ mang tính hình thức là cùng."
-      },
-      {
-        "en": "The benevolent nurse refreshed the patient's compulsory adverse reaction chart.",
-        "vi": "Y tá nhân hậu cập nhật lại bảng phản ứng phụ bắt buộc của bệnh nhân."
       }
     ],
     "cefr-b2-modifier-28": [
       {
-        "en": "She showed vigorous determination during every morning training session before the marathon.",
-        "vi": "Cô ấy thể hiện sự quyết tâm mạnh mẽ trong mỗi buổi tập sáng trước giải marathon."
+        "en": "My forgetful uncle smiled shyly at us.",
+        "vi": "Ông chú hay quên của tôi cười bẽn lẽn với chúng tôi."
       },
       {
-        "en": "The interim manager foolishly approved the budget without checking the numbers.",
-        "vi": "Người quản lý tạm thời đã ngớ ngẩn phê duyệt ngân sách mà không kiểm tra số liệu."
+        "en": "Her indispensable, appreciative attitude helped the loosely connected neighboring teams work together.",
+        "vi": "Thái độ trân trọng, không thể thiếu của cô giúp các đội bên cạnh vốn gắn kết lỏng lẻo làm việc cùng nhau."
       },
       {
-        "en": "Regrettably, the turbulent flight forced the crew to cancel the meal service.",
-        "vi": "Đáng tiếc là chuyến bay quá xóc buộc phi hành đoàn phải hủy phục vụ bữa ăn."
+        "en": "Her spiteful, hastily written note seemed nominal at best.",
+        "vi": "Ghi chú cay nghiệt, viết vội của cô chỉ mang tính hình thức là cùng."
       }
     ],
     "cefr-b2-modifier-29": [
       {
-        "en": "The reflective glass on the tower reduced glare for pedestrians below.",
-        "vi": "Lớp kính phản chiếu trên tòa tháp giúp giảm chói cho người đi bộ bên dưới."
+        "en": "Thankfully the rain stopped before noon.",
+        "vi": "May mắn là mưa tạnh trước buổi trưa."
       },
       {
-        "en": "Two nations signed a bilateral agreement to boost trade simultaneously in both directions.",
-        "vi": "Hai quốc gia đã ký một hiệp định song phương để cùng lúc thúc đẩy thương mại theo cả hai chiều."
+        "en": "The benevolent nurse refreshed the patient's compulsory adverse reaction chart.",
+        "vi": "Y tá nhân hậu cập nhật lại bảng phản ứng phụ bắt buộc của bệnh nhân."
       },
       {
-        "en": "The old printer became ineffective after years of heavy daily use.",
-        "vi": "Chiếc máy in cũ trở nên kém hiệu quả sau nhiều năm sử dụng nặng hằng ngày."
+        "en": "She showed vigorous determination during every morning training session before the marathon.",
+        "vi": "Cô ấy thể hiện sự quyết tâm mạnh mẽ trong mỗi buổi tập sáng trước giải marathon."
       }
     ],
     "cefr-b2-modifier-3": [
@@ -3495,37 +3099,75 @@
     ],
     "cefr-b2-modifier-30": [
       {
-        "en": "The picturesque village drew painters from every corner of the country.",
-        "vi": "Ngôi làng đẹp như tranh thu hút các họa sĩ từ khắp mọi miền đất nước."
+        "en": "Regrettably, the turbulent flight forced the crew to cancel the meal service.",
+        "vi": "Đáng tiếc là chuyến bay quá xóc buộc phi hành đoàn phải hủy phục vụ bữa ăn."
       },
+      {
+        "en": "The reflective glass on the tower reduced glare for pedestrians below.",
+        "vi": "Lớp kính phản chiếu trên tòa tháp giúp giảm chói cho người đi bộ bên dưới."
+      },
+      {
+        "en": "The plan is feasible if we work systematically and, lastly, keep prices affordable.",
+        "vi": "Kế hoạch khả thi nếu chúng ta làm việc có hệ thống và, cuối cùng, giữ giá ở mức hợp lý."
+      }
+    ],
+    "cefr-b2-modifier-31": [
+      {
+        "en": "Two nations signed a bilateral agreement to boost trade simultaneously in both directions.",
+        "vi": "Hai quốc gia đã ký một hiệp định song phương để cùng lúc thúc đẩy thương mại theo cả hai chiều."
+      },
+      {
+        "en": "The old printer became ineffective after years of heavy daily use.",
+        "vi": "Chiếc máy in cũ trở nên kém hiệu quả sau nhiều năm sử dụng nặng hằng ngày."
+      },
+      {
+        "en": "Sales rose sharply, and the interactive display was hugely popular.",
+        "vi": "Doanh số tăng vọt, và màn hình tương tác được ưa chuộng vô cùng."
+      }
+    ],
+    "cefr-b2-modifier-32": [
       {
         "en": "He frantically searched his bag after realizing he had lost his passport.",
         "vi": "Anh ấy cuống cuồng lục tìm trong túi sau khi nhận ra mình đã đánh mất hộ chiếu."
       },
       {
-        "en": "The costume designer chose a gaudy, sequined jacket for the final scene.",
-        "vi": "Người thiết kế trang phục chọn một chiếc áo khoác lòe loẹt đính sequin cho cảnh cuối."
+        "en": "The clinic launched a preventive program to reduce winter flu cases citywide.",
+        "vi": "Phòng khám triển khai một chương trình phòng ngừa nhằm giảm số ca cúm mùa đông khắp thành phố."
+      },
+      {
+        "en": "Realistically, the picturesque village is unsuitable for a large factory.",
+        "vi": "Nói một cách thực tế, ngôi làng đẹp như tranh không phù hợp cho một nhà máy lớn."
       }
     ],
-    "cefr-b2-modifier-31": [
+    "cefr-b2-modifier-33": [
       {
-        "en": "The resort was overbooked, so several guests had to wait in the lobby.",
-        "vi": "Khu nghỉ dưỡng bị đặt quá tải, nên vài vị khách phải chờ ở sảnh."
+        "en": "The costume designer chose a gaudy, sequined jacket for the final scene.",
+        "vi": "Người thiết kế trang phục chọn một chiếc áo khoác lòe loẹt đính sequin cho cảnh cuối."
       },
       {
         "en": "Her heartwarming story about the rescued dog moved the whole audience to tears.",
         "vi": "Câu chuyện ấm lòng của cô về chú chó được cứu đã khiến cả khán phòng rơi nước mắt."
       },
       {
-        "en": "Additionally, the new employee proved remarkably adaptable to the team's fast pace.",
-        "vi": "Ngoài ra, nhân viên mới tỏ ra vô cùng dễ thích ứng với nhịp độ nhanh của cả nhóm."
+        "en": "The rectangular chart, notably, made the numerical data easier to read.",
+        "vi": "Biểu đồ hình chữ nhật, đáng chú ý là, giúp dữ liệu dạng số dễ đọc hơn."
       }
     ],
-    "cefr-b2-modifier-32": [
+    "cefr-b2-modifier-34": [
+      {
+        "en": "Additionally, the new employee proved remarkably adaptable to the team's fast pace.",
+        "vi": "Ngoài ra, nhân viên mới tỏ ra vô cùng dễ thích ứng với nhịp độ nhanh của cả nhóm."
+      },
       {
         "en": "The elderly monk was praised for his ageless patience with every visitor.",
         "vi": "Vị sư già được ca ngợi vì sự kiên nhẫn bất chấp tuổi tác với mọi khách thăm."
       },
+      {
+        "en": "The dietary advice was predominantly about sugar; additionally, it covered salt.",
+        "vi": "Lời khuyên về chế độ ăn chủ yếu nói về đường; ngoài ra, nó còn đề cập đến muối."
+      }
+    ],
+    "cefr-b2-modifier-35": [
       {
         "en": "She listened attentively as the coach explained the new training schedule.",
         "vi": "Cô chăm chú lắng nghe khi huấn luyện viên giải thích lịch tập luyện mới."
@@ -3533,12 +3175,16 @@
       {
         "en": "The ship sailed southward for three days before reaching the tropical port.",
         "vi": "Con tàu đi về hướng nam suốt ba ngày trước khi cập cảng nhiệt đới."
+      },
+      {
+        "en": "The bustling market was elegantly decorated and skillfully lit.",
+        "vi": "Khu chợ nhộn nhịp được trang trí thanh lịch và thắp sáng khéo léo."
       }
     ],
-    "cefr-b2-modifier-33": [
+    "cefr-b2-modifier-36": [
       {
-        "en": "The clinic launched a preventive program to reduce winter flu cases citywide.",
-        "vi": "Phòng khám triển khai một chương trình phòng ngừa nhằm giảm số ca cúm mùa đông khắp thành phố."
+        "en": "He thoughtfully chose an inexpensive gift for his sister.",
+        "vi": "Anh ấy chu đáo chọn một món quà rẻ tiền cho em gái mình."
       },
       {
         "en": "The two departments jointly funded the research project this year.",
@@ -3549,11 +3195,7 @@
         "vi": "Cô ấy trả lời các câu hỏi một cách chu đáo và tự tin trong suốt buổi phỏng vấn dài."
       }
     ],
-    "cefr-b2-modifier-34": [
-      {
-        "en": "The senator gave a purposeful speech aimed at winning back undecided voters.",
-        "vi": "Vị thượng nghị sĩ có một bài phát biểu đầy mục đích nhằm giành lại các cử tri còn do dự."
-      },
+    "cefr-b2-modifier-37": [
       {
         "en": "Conversely, the smaller company reported a surprising rise in quarterly profits.",
         "vi": "Ngược lại, công ty nhỏ hơn lại báo cáo mức tăng lợi nhuận theo quý bất ngờ."
@@ -3561,13 +3203,13 @@
       {
         "en": "His handwriting was so illegible that the nurse read it twice.",
         "vi": "Chữ viết tay của anh ấy khó đọc đến mức y tá phải đọc lại hai lần."
+      },
+      {
+        "en": "Broadly speaking, a frugal traveler habitually avoids expensive hotels.",
+        "vi": "Nói chung, một du khách tiết kiệm thường có thói quen tránh những khách sạn đắt tiền."
       }
     ],
-    "cefr-b2-modifier-35": [
-      {
-        "en": "The reality app used augmented graphics to guide hikers along the trail.",
-        "vi": "Ứng dụng thực tế dùng đồ họa tăng cường để dẫn đường cho người leo núi trên tuyến đường mòn."
-      },
+    "cefr-b2-modifier-38": [
       {
         "en": "He greeted the visitors coldly and then stared out the window.",
         "vi": "Anh ấy chào khách một cách lạnh lùng rồi nhìn ra ngoài cửa sổ."
@@ -3575,9 +3217,13 @@
       {
         "en": "The volunteers worked selflessly through three successive weekends.",
         "vi": "Các tình nguyện viên làm việc quên mình suốt ba cuối tuần liên tiếp."
+      },
+      {
+        "en": "The densely packed shelves held breakable vases and conical lamps.",
+        "vi": "Những kệ hàng xếp dày đặc chứa các bình hoa dễ vỡ và đèn hình nón."
       }
     ],
-    "cefr-b2-modifier-36": [
+    "cefr-b2-modifier-39": [
       {
         "en": "The museum restored a mediaeval tapestry that had faded badly over centuries.",
         "vi": "Bảo tàng đã phục chế một tấm thảm thêu thời trung cổ đã phai màu nặng qua nhiều thế kỷ."
@@ -3589,48 +3235,6 @@
       {
         "en": "He gave a sheepish smile after arriving late once again.",
         "vi": "Anh ấy cười ngượng nghịu sau khi lại đến muộn một lần nữa."
-      }
-    ],
-    "cefr-b2-modifier-37": [
-      {
-        "en": "The crowd stood wordlessly as the national anthem began to play.",
-        "vi": "Đám đông đứng lặng thinh khi quốc ca bắt đầu vang lên."
-      },
-      {
-        "en": "Her inborn sense of balance made the gymnastic routine look easy.",
-        "vi": "Khả năng giữ thăng bằng bẩm sinh khiến bài thể dục dụng cụ của cô ấy trông thật dễ dàng."
-      },
-      {
-        "en": "The team felt disheartened after markedly worse results this season.",
-        "vi": "Cả đội thấy nản lòng sau những kết quả tệ hơn hẳn mùa này."
-      }
-    ],
-    "cefr-b2-modifier-38": [
-      {
-        "en": "He impolitely interrupted the meeting to answer a personal phone call.",
-        "vi": "Anh ta bất lịch sự ngắt lời cuộc họp để nghe một cuộc gọi cá nhân."
-      },
-      {
-        "en": "They booked a last-minute flight after their original plans fell through.",
-        "vi": "Họ đặt một chuyến bay vào phút chót sau khi kế hoạch ban đầu bị đổ vỡ."
-      },
-      {
-        "en": "The fans waited tensely while the referee reviewed the final goal.",
-        "vi": "Người hâm mộ hồi hộp chờ trong lúc trọng tài xem lại bàn thắng cuối cùng."
-      }
-    ],
-    "cefr-b2-modifier-39": [
-      {
-        "en": "The child held the picture book upside down and laughed.",
-        "vi": "Đứa trẻ cầm ngược quyển sách tranh và cười."
-      },
-      {
-        "en": "She felt fed up with the wearisome paperwork by Friday afternoon.",
-        "vi": "Cô ấy thấy chán ngán với đống giấy tờ mệt mỏi vào chiều thứ Sáu."
-      },
-      {
-        "en": "He wore an oversize coat and worn-out boots to the market.",
-        "vi": "Anh ấy mặc áo khoác quá khổ và đi đôi giày mòn vẹt ra chợ."
       }
     ],
     "cefr-b2-modifier-4": [
@@ -3645,6 +3249,62 @@
       {
         "en": "The gently spoken judge gave the ultimate, harmless verdict.",
         "vi": "Vị thẩm phán nói năng nhẹ nhàng đưa ra phán quyết vô hại và cuối cùng."
+      }
+    ],
+    "cefr-b2-modifier-40": [
+      {
+        "en": "Her inborn sense of balance made the gymnastic routine look easy.",
+        "vi": "Khả năng giữ thăng bằng bẩm sinh khiến bài thể dục dụng cụ của cô ấy trông thật dễ dàng."
+      },
+      {
+        "en": "The team felt disheartened after markedly worse results this season.",
+        "vi": "Cả đội thấy nản lòng sau những kết quả tệ hơn hẳn mùa này."
+      },
+      {
+        "en": "The teacher sternly reminded us that the paperless goal is achievable.",
+        "vi": "Cô giáo nghiêm khắc nhắc chúng tôi rằng mục tiêu không dùng giấy là có thể đạt được."
+      }
+    ],
+    "cefr-b2-modifier-41": [
+      {
+        "en": "The crowd stood wordlessly as the national anthem began to play.",
+        "vi": "Đám đông đứng lặng thinh khi quốc ca bắt đầu vang lên."
+      },
+      {
+        "en": "The fans waited tensely while the referee reviewed the final goal.",
+        "vi": "Người hâm mộ hồi hộp chờ trong lúc trọng tài xem lại bàn thắng cuối cùng."
+      },
+      {
+        "en": "She spoke optimistically, though her uneasily shifting eyes said otherwise.",
+        "vi": "Cô nói một cách lạc quan, dù đôi mắt đảo bồn chồn lại nói điều ngược lại."
+      }
+    ],
+    "cefr-b2-modifier-42": [
+      {
+        "en": "He impolitely interrupted the meeting to answer a personal phone call.",
+        "vi": "Anh ta bất lịch sự ngắt lời cuộc họp để nghe một cuộc gọi cá nhân."
+      },
+      {
+        "en": "They booked a last-minute flight after their original plans fell through.",
+        "vi": "Họ đặt một chuyến bay vào phút chót sau khi kế hoạch ban đầu bị đổ vỡ."
+      },
+      {
+        "en": "The child held the picture book upside down and laughed.",
+        "vi": "Đứa trẻ cầm ngược quyển sách tranh và cười."
+      }
+    ],
+    "cefr-b2-modifier-43": [
+      {
+        "en": "He wore an oversize coat and worn-out boots to the market.",
+        "vi": "Anh ấy mặc áo khoác quá khổ và đi đôi giày mòn vẹt ra chợ."
+      },
+      {
+        "en": "The well-built goalkeeper found a well-paid job abroad.",
+        "vi": "Thủ môn vạm vỡ tìm được một công việc lương cao ở nước ngoài."
+      },
+      {
+        "en": "Her well-organized desk made the whole office look tidy.",
+        "vi": "Bàn làm việc ngăn nắp của cô khiến cả văn phòng trông gọn gàng."
       }
     ],
     "cefr-b2-modifier-5": [
@@ -4279,6 +3939,20 @@
     ],
     "cefr-b2-noun-45": [
       {
+        "en": "The handbook explains how digestion and metabolism change with age.",
+        "vi": "Cuốn cẩm nang giải thích sự tiêu hóa và trao đổi chất thay đổi thế nào theo tuổi tác."
+      },
+      {
+        "en": "Political unrest and instability forced the jeweler to close his shop.",
+        "vi": "Bất ổn chính trị và tình trạng bất ổn buộc người thợ kim hoàn phải đóng cửa hàng."
+      },
+      {
+        "en": "Students in the dormitory planned an outing to a poultry farm.",
+        "vi": "Sinh viên trong ký túc xá lên kế hoạch đi chơi ở một trang trại gia cầm."
+      }
+    ],
+    "cefr-b2-noun-46": [
+      {
         "en": "The craftsman spread the tablecloth with a gleam of pride and described it in warm prose.",
         "vi": "Người thợ thủ công trải khăn bàn với ánh mắt tự hào và tả lại nó bằng lời văn ấm áp."
       },
@@ -4291,60 +3965,43 @@
         "vi": "Thầy dạy judo uống vội một ngụm nước trước khi tìm chỗ ở mới gần nhà máy lọc dầu."
       }
     ],
-    "cefr-b2-noun-46": [
+    "cefr-b2-noun-47": [
+      { "en": "A pink petal fell into the water.", "vi": "Một cánh hoa hồng rơi xuống nước." },
+      {
+        "en": "The firefighter stopped by the roadside to check the drainage system.",
+        "vi": "Người lính cứu hỏa dừng lại bên lề đường để kiểm tra hệ thống thoát nước."
+      },
       {
         "en": "The stylist trimmed my eyelash and toenail with quiet competence.",
         "vi": "Thợ làm đẹp tỉa lông mi và móng chân của tôi một cách thành thạo, lặng lẽ."
-      },
+      }
+    ],
+    "cefr-b2-noun-48": [
       {
-        "en": "Engineers tested the turbine's circuitry and acceleration during the verification process.",
-        "vi": "Các kỹ sư kiểm tra mạch điện và độ tăng tốc của tua bin trong quá trình xác minh."
+        "en": "Protesters showed solidarity with the councillor after answering the questionnaire.",
+        "vi": "Người biểu tình thể hiện sự đoàn kết với ủy viên hội đồng sau khi trả lời bảng câu hỏi."
       },
       {
         "en": "The renovation required a small modification to the barley storage building.",
         "vi": "Việc cải tạo đòi hỏi một thay đổi nhỏ đối với nhà kho chứa lúa mạch."
+      },
+      {
+        "en": "A sudden landslide near the mausoleum caused a small tremor in the village.",
+        "vi": "Một trận lở đất bất ngờ gần lăng mộ đã gây ra một cơn rung nhẹ trong làng."
       }
     ],
-    "cefr-b2-noun-47": [
+    "cefr-b2-noun-49": [
+      {
+        "en": "The senator gave a purposeful speech aimed at winning back undecided voters.",
+        "vi": "Vị thượng nghị sĩ có một bài phát biểu đầy mục đích nhằm giành lại các cử tri còn do dự."
+      },
       {
         "en": "The lecturer explained the complexity of each syllable during the recruitment lecture.",
         "vi": "Giảng viên giải thích sự phức tạp của từng âm tiết trong buổi giảng tuyển dụng."
       },
       {
-        "en": "A sudden landslide near the mausoleum caused a small tremor in the village.",
-        "vi": "Một trận lở đất bất ngờ gần lăng mộ đã gây ra một cơn rung nhẹ trong làng."
-      },
-      {
         "en": "The old prefect sold his watch at a pawnshop after the heavy rainstorm.",
         "vi": "Viên quan già đã bán chiếc đồng hồ ở tiệm cầm đồ sau cơn mưa bão nặng nề."
-      }
-    ],
-    "cefr-b2-noun-48": [
-      {
-        "en": "The workman rode his motorbike to the outskirts to fix the utilities.",
-        "vi": "Người thợ chạy xe máy ra ngoại ô để sửa các tiện ích công cộng."
-      },
-      {
-        "en": "With perseverance, the nominee tried to hone her skills before the final appraisal.",
-        "vi": "Với sự kiên trì, ứng viên được đề cử cố gắng mài giũa kỹ năng trước kỳ đánh giá cuối cùng."
-      },
-      {
-        "en": "A rhinoceros seemed to prance past the tulip garden during the store's giveaway.",
-        "vi": "Một con tê giác dường như nhảy nhót qua vườn hoa tulip trong dịp cửa hàng tặng quà."
-      }
-    ],
-    "cefr-b2-noun-49": [
-      {
-        "en": "The teacher used a stopwatch to time our excursion along the coastline.",
-        "vi": "Giáo viên dùng đồng hồ bấm giờ để tính thời gian chuyến đi dã ngoại dọc bờ biển."
-      },
-      {
-        "en": "Every follower watched in amazement as the artist made a colorful collage.",
-        "vi": "Mọi người theo dõi đều kinh ngạc khi nghệ sĩ tạo ra một bức tranh cắt dán đầy màu sắc."
-      },
-      {
-        "en": "A new bestseller book explained how mobility and width affect a runner's sneaker choice.",
-        "vi": "Một cuốn sách bán chạy mới giải thích cách độ linh hoạt và bề rộng ảnh hưởng đến việc chọn giày chạy."
       }
     ],
     "cefr-b2-noun-5": [
@@ -4363,6 +4020,34 @@
     ],
     "cefr-b2-noun-50": [
       {
+        "en": "The workman rode his motorbike to the outskirts to fix the utilities.",
+        "vi": "Người thợ chạy xe máy ra ngoại ô để sửa các tiện ích công cộng."
+      },
+      {
+        "en": "With perseverance, the nominee tried to hone her skills before the final appraisal.",
+        "vi": "Với sự kiên trì, ứng viên được đề cử cố gắng mài giũa kỹ năng trước kỳ đánh giá cuối cùng."
+      },
+      {
+        "en": "A rhinoceros seemed to prance past the tulip garden during the store's giveaway.",
+        "vi": "Một con tê giác dường như nhảy nhót qua vườn hoa tulip trong dịp cửa hàng tặng quà."
+      }
+    ],
+    "cefr-b2-noun-51": [
+      {
+        "en": "The teacher used a stopwatch to time our excursion along the coastline.",
+        "vi": "Giáo viên dùng đồng hồ bấm giờ để tính thời gian chuyến đi dã ngoại dọc bờ biển."
+      },
+      {
+        "en": "Every follower watched in amazement as the artist made a colorful collage.",
+        "vi": "Mọi người theo dõi đều kinh ngạc khi nghệ sĩ tạo ra một bức tranh cắt dán đầy màu sắc."
+      },
+      {
+        "en": "A new bestseller book explained how mobility and width affect a runner's sneaker choice.",
+        "vi": "Một cuốn sách bán chạy mới giải thích cách độ linh hoạt và bề rộng ảnh hưởng đến việc chọn giày chạy."
+      }
+    ],
+    "cefr-b2-noun-52": [
+      {
         "en": "The applicant's punctuality and originality impressed everyone in the athletics office.",
         "vi": "Sự đúng giờ và tính sáng tạo của ứng viên gây ấn tượng với mọi người trong văn phòng thể thao."
       },
@@ -4375,7 +4060,11 @@
         "vi": "Cấp bậc quản lý của công ty đặt câu hỏi về tính sẵn có và hợp lệ của công việc làm thêm của anh."
       }
     ],
-    "cefr-b2-noun-51": [
+    "cefr-b2-noun-53": [
+      {
+        "en": "Every participant in the robotics contest made a careful calculation.",
+        "vi": "Mỗi thí sinh tham gia cuộc thi robot đều tính toán cẩn thận."
+      },
       {
         "en": "The newscaster wore a warm cardigan while reporting the allegation of dishonesty.",
         "vi": "Người dẫn tin mặc áo len cardigan ấm áp khi đưa tin về cáo buộc gian dối."
@@ -4383,13 +4072,13 @@
       {
         "en": "Her aspiration for mastery showed in every careful stroke of the paintbrush.",
         "vi": "Khát vọng tinh thông của cô thể hiện qua từng nét cọ cẩn thận."
-      },
+      }
+    ],
+    "cefr-b2-noun-54": [
       {
         "en": "The booklet's preface explained how compost improves soil effectiveness.",
         "vi": "Lời tựa của cuốn sách nhỏ giải thích cách phân ủ cải thiện hiệu quả của đất."
-      }
-    ],
-    "cefr-b2-noun-52": [
+      },
       {
         "en": "Traffic came to a standstill after the motorist hit the road restriction sign.",
         "vi": "Giao thông tê liệt sau khi người lái xe tông vào biển báo hạn chế đường."
@@ -4397,13 +4086,23 @@
       {
         "en": "The pessimist called showbiz a stimulant for shallow illustration rather than art.",
         "vi": "Người bi quan gọi làng giải trí là chất kích thích cho sự minh họa hời hợt hơn là nghệ thuật."
+      }
+    ],
+    "cefr-b2-noun-55": [
+      {
+        "en": "My grandparents live in a quiet township.",
+        "vi": "Ông bà tôi sống ở một thị trấn yên tĩnh."
+      },
+      {
+        "en": "The businesswoman drove under the overpass near the roundabout every weekday.",
+        "vi": "Nữ doanh nhân lái xe qua cầu vượt gần vòng xuyến vào mỗi ngày trong tuần."
       },
       {
         "en": "A shoplifter was caught near the textile stall selling soybean products.",
         "vi": "Một kẻ trộm cắp trong cửa hàng bị bắt gần quầy vải bán các sản phẩm đậu nành."
       }
     ],
-    "cefr-b2-noun-53": [
+    "cefr-b2-noun-56": [
       {
         "en": "The educator corrected the undergraduate's misconception about computing and physics.",
         "vi": "Nhà giáo dục sửa lại quan niệm sai lầm của sinh viên đại học về tin học và vật lý."
@@ -4417,7 +4116,7 @@
         "vi": "Người tổ chức giúp công nhân sơn lại chiếc bập bênh cũ trước lễ hội."
       }
     ],
-    "cefr-b2-noun-54": [
+    "cefr-b2-noun-57": [
       {
         "en": "The shopkeeper felt contentment and vigor after finishing his certification course.",
         "vi": "Người chủ cửa hàng cảm thấy hài lòng và tràn đầy sinh lực sau khi hoàn thành khóa học chứng chỉ."
@@ -4431,10 +4130,10 @@
         "vi": "Các nhà khoa học nghiên cứu trầm tích còn lại sau vụ phun trào núi lửa bất ngờ."
       }
     ],
-    "cefr-b2-noun-55": [
+    "cefr-b2-noun-58": [
       {
-        "en": "The anchorman wore a waistcoat while reading the footnote aloud.",
-        "vi": "Người dẫn chương trình tin tức mặc áo gilê khi đọc to phần chú thích."
+        "en": "Her procrastination meant she had to photocopy the theorem notes at midnight.",
+        "vi": "Sự trì hoãn của cô khiến cô phải photocopy ghi chú định lý lúc nửa đêm."
       },
       {
         "en": "Her eyelid began to droop after the long broadband outage.",
@@ -4445,7 +4144,11 @@
         "vi": "Một lính dù tìm thấy một bia mộ cũ gần cánh đồng gai dầu."
       }
     ],
-    "cefr-b2-noun-56": [
+    "cefr-b2-noun-59": [
+      {
+        "en": "The goalkeeper's reliability made up for the team's limitation in defense.",
+        "vi": "Sự đáng tin cậy của thủ môn bù đắp cho hạn chế phòng ngự của đội."
+      },
       {
         "en": "The dandelion grew wild beside a patch of leeks.",
         "vi": "Cây bồ công anh mọc hoang bên cạnh một luống tỏi tây."
@@ -4453,52 +4156,6 @@
       {
         "en": "Her soliloquy left the whole audience in astonishment.",
         "vi": "Lời độc thoại của cô khiến cả khán phòng phải kinh ngạc."
-      },
-      {
-        "en": "The spreadsheet listed every guideline for eligibility clearly.",
-        "vi": "Bảng tính liệt kê rõ ràng mọi hướng dẫn về điều kiện đủ tiêu chuẩn."
-      }
-    ],
-    "cefr-b2-noun-57": [
-      {
-        "en": "With firmness, the teacher explained the correct use of an apostrophe and a hyphen.",
-        "vi": "Với sự kiên quyết, giáo viên giải thích cách dùng đúng dấu nháy đơn và dấu gạch nối."
-      },
-      {
-        "en": "The proponent of forestry made an inference about rising centigrade temperatures.",
-        "vi": "Người ủng hộ ngành lâm nghiệp đưa ra suy luận về nhiệt độ bách phân đang tăng."
-      },
-      {
-        "en": "My countryman grows aubergine using an aggregate of aluminium tools on his farm.",
-        "vi": "Đồng hương của tôi trồng cà tím bằng cách dùng một tập hợp các công cụ nhôm trên trang trại."
-      }
-    ],
-    "cefr-b2-noun-58": [
-      {
-        "en": "Every villager in the municipality praised the emergence of a new workbench factory.",
-        "vi": "Mọi dân làng trong khu tự quản đều khen ngợi sự xuất hiện của một nhà máy làm bàn thợ mới."
-      },
-      {
-        "en": "A single keystroke can trigger the consolidation of thousands of downloads.",
-        "vi": "Chỉ một lần gõ phím có thể kích hoạt việc hợp nhất hàng nghìn lượt tải xuống."
-      },
-      {
-        "en": "The skateboarder found a clever synonym for coherence during his English essay.",
-        "vi": "Người chơi ván trượt tìm ra một từ đồng nghĩa khéo léo cho sự mạch lạc trong bài luận tiếng Anh."
-      }
-    ],
-    "cefr-b2-noun-59": [
-      {
-        "en": "The anchorperson interviewed a broadcaster about the practicality of video conferencing.",
-        "vi": "Người dẫn chương trình phỏng vấn một phát thanh viên về tính thực tiễn của hội nghị truyền hình."
-      },
-      {
-        "en": "The factory smokestack released steam above the grey shale quarry.",
-        "vi": "Ống khói nhà máy nhả hơi nước phía trên mỏ đá phiến xám."
-      },
-      {
-        "en": "The pawnbroker requested a reimbursement for the duplication of the old microcomputer.",
-        "vi": "Chủ tiệm cầm đồ yêu cầu hoàn tiền cho việc nhân bản chiếc vi máy tính cũ."
       }
     ],
     "cefr-b2-noun-6": [
@@ -4517,6 +4174,62 @@
     ],
     "cefr-b2-noun-60": [
       {
+        "en": "The spreadsheet listed every guideline for eligibility clearly.",
+        "vi": "Bảng tính liệt kê rõ ràng mọi hướng dẫn về điều kiện đủ tiêu chuẩn."
+      },
+      {
+        "en": "With firmness, the teacher explained the correct use of an apostrophe and a hyphen.",
+        "vi": "Với sự kiên quyết, giáo viên giải thích cách dùng đúng dấu nháy đơn và dấu gạch nối."
+      },
+      {
+        "en": "The proponent of forestry made an inference about rising centigrade temperatures.",
+        "vi": "Người ủng hộ ngành lâm nghiệp đưa ra suy luận về nhiệt độ bách phân đang tăng."
+      }
+    ],
+    "cefr-b2-noun-61": [
+      {
+        "en": "My countryman grows aubergine using an aggregate of aluminium tools on his farm.",
+        "vi": "Đồng hương của tôi trồng cà tím bằng cách dùng một tập hợp các công cụ nhôm trên trang trại."
+      },
+      {
+        "en": "A single keystroke can trigger the consolidation of thousands of downloads.",
+        "vi": "Chỉ một lần gõ phím có thể kích hoạt việc hợp nhất hàng nghìn lượt tải xuống."
+      },
+      {
+        "en": "The judiciary set a strict criterion for the allocation of public funds.",
+        "vi": "Ngành tư pháp đặt ra một tiêu chí nghiêm ngặt cho việc phân bổ ngân quỹ công."
+      }
+    ],
+    "cefr-b2-noun-62": [
+      {
+        "en": "The storm began to uproot trees and terrify the villagers.",
+        "vi": "Cơn bão bắt đầu bật gốc cây cối và làm dân làng khiếp sợ."
+      },
+      {
+        "en": "Every villager in the municipality praised the emergence of a new workbench factory.",
+        "vi": "Mọi dân làng trong khu tự quản đều khen ngợi sự xuất hiện của một nhà máy làm bàn thợ mới."
+      },
+      {
+        "en": "The skateboarder found a clever synonym for coherence during his English essay.",
+        "vi": "Người chơi ván trượt tìm ra một từ đồng nghĩa khéo léo cho sự mạch lạc trong bài luận tiếng Anh."
+      }
+    ],
+    "cefr-b2-noun-63": [
+      {
+        "en": "The anchorperson interviewed a broadcaster about the practicality of video conferencing.",
+        "vi": "Người dẫn chương trình phỏng vấn một phát thanh viên về tính thực tiễn của hội nghị truyền hình."
+      },
+      {
+        "en": "The factory smokestack released steam above the grey shale quarry.",
+        "vi": "Ống khói nhà máy nhả hơi nước phía trên mỏ đá phiến xám."
+      },
+      {
+        "en": "The pawnbroker requested a reimbursement for the duplication of the old microcomputer.",
+        "vi": "Chủ tiệm cầm đồ yêu cầu hoàn tiền cho việc nhân bản chiếc vi máy tính cũ."
+      }
+    ],
+    "cefr-b2-noun-64": [
+      {
         "en": "The housemaster studied the feasibility of the school's modernization project.",
         "vi": "Thầy quản nhiệm ký túc xá nghiên cứu tính khả thi của dự án hiện đại hóa trường học."
       },
@@ -4529,11 +4242,21 @@
         "vi": "Cô di chuyển con trỏ thật dứt khoát rõ ràng trong lúc kiểm tra chức năng của phần mềm mới."
       }
     ],
-    "cefr-b2-noun-61": [
+    "cefr-b2-noun-65": [
       {
         "en": "The spokeswoman explained the accessibility and simplification of the new retailer app.",
         "vi": "Nữ phát ngôn viên giải thích khả năng tiếp cận và sự đơn giản hóa của ứng dụng bán lẻ mới."
       },
+      {
+        "en": "A sudden downpour soaked the labourer before he could reach the rafter.",
+        "vi": "Một trận mưa như trút bất chợt làm người công nhân ướt sũng trước khi anh kịp với tới xà nhà."
+      },
+      {
+        "en": "The cursor froze during buffering, so she opened the debugger.",
+        "vi": "Con trỏ chuột đứng hình trong lúc tải đệm, nên cô mở công cụ gỡ lỗi."
+      }
+    ],
+    "cefr-b2-noun-66": [
       {
         "en": "An islander showed great gracefulness while selling handicraft near the coast.",
         "vi": "Một người dân đảo thể hiện sự duyên dáng lớn khi bán đồ thủ công gần bờ biển."
@@ -4541,23 +4264,27 @@
       {
         "en": "Despite his tiredness, the poet read one final stanza with quiet cosiness.",
         "vi": "Dù mệt mỏi, nhà thơ vẫn đọc khổ thơ cuối cùng với sự ấm cúng lặng lẽ."
+      },
+      {
+        "en": "The retailer improved accessibility for every habitant of the subcontinent.",
+        "vi": "Nhà bán lẻ cải thiện khả năng tiếp cận cho mọi cư dân của tiểu lục địa."
       }
     ],
-    "cefr-b2-noun-62": [
+    "cefr-b2-noun-67": [
       {
         "en": "My brother-in-law paid with his debit card for the new wallboard.",
         "vi": "Anh rể tôi thanh toán bằng thẻ ghi nợ để mua tấm ốp tường mới."
       },
       {
-        "en": "The essayist wrote about urbanization and the timeliness of using carbon dioxide filters.",
-        "vi": "Người viết tiểu luận viết về đô thị hóa và tính kịp thời của việc dùng bộ lọc khí carbon dioxide."
-      },
-      {
         "en": "The examinee mixed up the second person and third person when using an exclamation mark.",
         "vi": "Thí sinh nhầm lẫn ngôi thứ hai và ngôi thứ ba khi dùng dấu chấm than."
+      },
+      {
+        "en": "Rapid urbanization raised carbon dioxide levels, so the essayist called for simplification of city planning.",
+        "vi": "Đô thị hóa nhanh làm tăng mức khí carbon đioxit, nên người viết tiểu luận kêu gọi đơn giản hóa quy hoạch thành phố."
       }
     ],
-    "cefr-b2-noun-63": [
+    "cefr-b2-noun-68": [
       {
         "en": "As a grown-up, she finally bought her own real estate.",
         "vi": "Khi trưởng thành, cô đã tự mua được bất động sản cho riêng mình."
@@ -4571,7 +4298,7 @@
         "vi": "Mẹ vợ anh làm việc chặt chẽ với văn phòng của thủ tướng."
       }
     ],
-    "cefr-b2-noun-64": [
+    "cefr-b2-noun-69": [
       {
         "en": "My sister-in-law practices martial art near the old worktable in the garage.",
         "vi": "Chị dâu tôi tập võ thuật gần chiếc bàn làm việc cũ trong nhà để xe."
@@ -4667,6 +4394,20 @@
       {
         "en": "The cyberschool taught sociology, while the antivirus protected students' work online.",
         "vi": "Trường học trực tuyến dạy xã hội học, trong khi phần mềm diệt virus bảo vệ bài làm của học sinh trên mạng."
+      }
+    ],
+    "cefr-b2-science_tech-3": [
+      {
+        "en": "My little brother feeds his cyberpet every morning before school.",
+        "vi": "Em trai tôi cho thú cưng ảo ăn mỗi sáng trước khi đi học."
+      },
+      {
+        "en": "Students at the cyberschool attend hi-tech classes from home.",
+        "vi": "Học sinh của trường học trực tuyến tham gia các lớp công nghệ cao ngay tại nhà."
+      },
+      {
+        "en": "The high-tech lab builds nano machines smaller than a grain of dust.",
+        "vi": "Phòng thí nghiệm công nghệ cao chế tạo những cỗ máy na-nô nhỏ hơn một hạt bụi."
       }
     ],
     "cefr-b2-society-1": [
@@ -4871,26 +4612,26 @@
         "vi": "Thành phố dự định cải tạo lại khu chợ cũ và trang bị cho mỗi sạp hàng hệ thống chiếu sáng và kệ đàng hoàng."
       },
       {
-        "en": "He began to stammer nervously when the manager asked why he chose to downsize the whole department.",
-        "vi": "Anh bắt đầu ấp úng lo lắng khi quản lý hỏi vì sao anh lại quyết định thu nhỏ cả phòng ban."
-      },
-      {
         "en": "New rules will penalize shops that mistreat their staff or fail to renovate unsafe kitchens on time.",
         "vi": "Quy định mới sẽ phạt các cửa hàng ngược đãi nhân viên hoặc không kịp cải tạo bếp không an toàn."
+      },
+      {
+        "en": "The reality app used augmented graphics to guide hikers along the trail.",
+        "vi": "Ứng dụng thực tế dùng đồ họa tăng cường để dẫn đường cho người leo núi trên tuyến đường mòn."
       }
     ],
     "cefr-b2-verb-21": [
       {
-        "en": "The old sculptor loved to personify the river as a gentle old man in every statue he carved.",
-        "vi": "Nhà điêu khắc già thích nhân cách hóa dòng sông thành một ông lão hiền từ trong mỗi bức tượng ông tạc."
-      },
-      {
-        "en": "The new lamps seemed to animate the whole garden, and their soft glow began to outshine the old streetlights.",
-        "vi": "Những chiếc đèn mới dường như làm sống động cả khu vườn, và ánh sáng dịu nhẹ của chúng bắt đầu vượt trội hơn đèn đường cũ."
-      },
-      {
         "en": "He was caught trying to burgle the shop, and the clerk could not help but exclaim in shock.",
         "vi": "Anh ta bị bắt quả tang khi đang định đột nhập cửa hàng để trộm cắp, và người bán hàng không kìm được tiếng kêu kinh ngạc."
+      },
+      {
+        "en": "This class will mostly consist of learning to debug and designate tasks.",
+        "vi": "Lớp học này chủ yếu gồm việc học gỡ lỗi và phân công nhiệm vụ."
+      },
+      {
+        "en": "Birds chirp outside while we braise the meat and insulate the roof.",
+        "vi": "Chim hót bên ngoài trong khi chúng tôi hầm thịt và cách nhiệt mái nhà."
       }
     ],
     "cefr-b2-verb-22": [
@@ -4903,8 +4644,22 @@
         "vi": "Thầy giáo già thường nhẹ nhàng trách nhở những học sinh vội phán xét bạn bè mà chẳng có bằng chứng thật sự."
       },
       {
+        "en": "The old sculptor loved to personify the river as a gentle old man in every statue he carved.",
+        "vi": "Nhà điêu khắc già thích nhân cách hóa dòng sông thành một ông lão hiền từ trong mỗi bức tượng ông tạc."
+      }
+    ],
+    "cefr-b2-verb-23": [
+      {
+        "en": "The resort was overbooked, so several guests had to wait in the lobby.",
+        "vi": "Khu nghỉ dưỡng bị đặt quá tải, nên vài vị khách phải chờ ở sảnh."
+      },
+      {
         "en": "The factory plans to mechanize several tasks in order to popularize its low-cost furniture across the region.",
         "vi": "Nhà máy dự định cơ giới hóa một số công đoạn để phổ biến rộng rãi dòng nội thất giá rẻ của mình khắp vùng."
+      },
+      {
+        "en": "Good teachers instil curiosity and never prejudge a quiet student.",
+        "vi": "Giáo viên giỏi gieo vào học sinh lòng ham hiểu biết và không bao giờ phán xét trước một học sinh trầm lặng."
       }
     ],
     "cefr-b2-verb-3": [
@@ -6737,8 +6492,22 @@
         "vi": "Anh khoát tay tự hạ thấp mình trước lời khen, khăng khăng rằng cả bài phát biểu chỉ là ứng khẩu tại chỗ."
       },
       {
+        "en": "The clerk moved sluggishly and answered every question patronizingly.",
+        "vi": "Nhân viên quầy di chuyển lờ đờ và trả lời mọi câu hỏi với giọng kẻ cả."
+      }
+    ],
+    "cefr-c2-modifier-39": [
+      {
         "en": "The singer's voice sounded melodiously calm, drifting gently over the quiet audience.",
         "vi": "Giọng hát của ca sĩ nghe du dương êm ái, nhẹ nhàng lan tỏa khắp khán phòng yên tĩnh."
+      },
+      {
+        "en": "The report was revelatory, though the data had been collected patchily across the regions.",
+        "vi": "Bản báo cáo mang tính khai sáng, dù dữ liệu được thu thập không đồng đều giữa các vùng."
+      },
+      {
+        "en": "He spent an unharried afternoon fishing, then redundantly explained the same story twice.",
+        "vi": "Anh dành một buổi chiều thảnh thơi đi câu, rồi kể lại cùng một câu chuyện hai lần một cách dư thừa."
       }
     ],
     "cefr-c2-modifier-4": [

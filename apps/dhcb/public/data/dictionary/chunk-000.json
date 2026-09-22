@@ -644,7 +644,7 @@
     "ipa_en": "/əˈkɔrdəns/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 13541,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "accordances" }
   },
   {
@@ -1055,7 +1055,7 @@
     "ipa_en": "/ˌæktəˈveɪʃən/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 19095,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "activations" }
   },
   {
@@ -1089,7 +1089,7 @@
     "ipa_en": "/ˈæktɪˌvɪzəm/",
     "ipa_vi": "/hwaːt̚˨˩ʔ/",
     "freq": 36276,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "activisms" }
   },
   {
@@ -1241,7 +1241,7 @@
     "ipa_en": "/əˌdæptəˈbɪləti/",
     "ipa_vi": "/xaː˧˩˧/",
     "freq": 39255,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "adaptabilities" }
   },
   {
@@ -1276,7 +1276,7 @@
     "ipa_en": "/əˈdæptər/",
     "ipa_vi": "/ɓo˨˩ʔ/",
     "freq": 34734,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "adapters" }
   },
   {
@@ -2460,7 +2460,7 @@
     "ipa_en": "/ˈeɪʤɪŋ/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 10243,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "agings" }
   },
   {
@@ -2836,7 +2836,7 @@
     "ipa_en": "/ˈælgərˌɪðəm/",
     "ipa_vi": "/tʰuət̚˨˩ʔ/",
     "freq": 23971,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "algorithms" }
   },
   {
@@ -3070,7 +3070,7 @@
     "ipa_en": "/ˌæləˈkeɪʃən/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 35040,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "allocations" }
   },
   {
@@ -3668,7 +3668,7 @@
     "ipa_en": "/əˈmɛnd/",
     "ipa_vi": "/sɯə˧˩˧/",
     "freq": 20185,
-    "level": "B1",
+    "level": "B2",
     "forms": { "v3s": "amends", "ving": "amending", "past": "amended" }
   },
   {
@@ -4016,7 +4016,7 @@
     "ipa_en": "/ˌænəˈlɪtɪkəl/",
     "ipa_vi": "/fən˧/",
     "freq": 22611,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "analyze",
@@ -4613,7 +4613,7 @@
     "ipa_en": "/ˈæntɪˌbɑdi/",
     "ipa_vi": "/xaːŋ˦˥/",
     "freq": 32520,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "antibodies" }
   },
   {
@@ -4945,7 +4945,7 @@
     "ipa_en": "/æp/",
     "ipa_vi": "/ɯŋ˦˥/",
     "freq": 38295,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "apps" }
   },
   {
@@ -4957,7 +4957,7 @@
     "ipa_en": "/ˌæpərˈætəs/",
     "ipa_vi": "/ɓo˨˩ʔ/",
     "freq": 13949,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "apparatuses" }
   },
   {
@@ -5039,7 +5039,7 @@
     "ipa_en": "/əˈpɛndɪks/",
     "ipa_vi": "/fən˨˩/",
     "freq": 10168,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "appendices", "irregular": true }
   },
   {
@@ -5510,7 +5510,7 @@
     "ipa_en": "/ˌɑrbɪˈtreɪʃən/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 25878,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "arbitrations" }
   },
   {
@@ -7492,7 +7492,7 @@
     "ipa_en": "/ˌɔθərəˈzeɪʃən/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 8398,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "authorizations" }
   },
   {
@@ -7760,7 +7760,7 @@
     "ipa_en": "/əˈvərt/",
     "ipa_vi": "/ŋan˧/",
     "freq": 22662,
-    "level": "B1",
+    "level": "B2",
     "forms": { "v3s": "averts", "ving": "averting", "past": "averted" }
   },
   {
@@ -9627,7 +9627,7 @@
     "ipa_en": "/ˈbɛdɪŋ/",
     "ipa_vi": "/tɕan˧/",
     "freq": 20187,
-    "level": "A1",
+    "level": "B2",
     "forms": { "plural": "beddings" }
   },
   {
@@ -9883,7 +9883,7 @@
     "ipa_en": "/bɪˈheɪvjərəl/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 13746,
-    "level": "A2"
+    "level": "B1"
   },
   {
     "word": "behaviour",
@@ -10292,7 +10292,7 @@
     "ipa_en": "/ˈbeɪtə/",
     "ipa_vi": "/fiən˧/",
     "freq": 8665,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "betas" }
   },
   {
@@ -10456,7 +10456,7 @@
     "ipa_en": "/ˌbɪbliˈɑgrəfi/",
     "ipa_vi": "/zaːɲ˧/",
     "freq": 49213,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "bibliographies" }
   },
   {
@@ -10976,7 +10976,7 @@
     "ipa_en": "/ˈbɪtərnəs/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 14414,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "bitternesses" }
   },
   {
@@ -11633,7 +11633,7 @@
     "ipa_en": "/ˈboʊstfəl/",
     "ipa_vi": "/xwaːk̚˦˥/",
     "freq": 34204,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "boat",
@@ -11656,7 +11656,7 @@
     "ipa_en": "/ˈbɑdəli/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 11470,
-    "level": "A1"
+    "level": "B1"
   },
   {
     "word": "body",

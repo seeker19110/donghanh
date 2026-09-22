@@ -1692,7 +1692,7 @@
     "ipa_en": "/ˌsɑləˈdɛrəti/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 19820,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "solidarities" }
   },
   {
@@ -1991,7 +1991,7 @@
     "ipa_en": "/ˈsɑnɪk/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 12099,
-    "level": "A1"
+    "level": "B1"
   },
   {
     "word": "sonnet",
@@ -2202,7 +2202,7 @@
     "ipa_en": "/ˈsaʊndli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 21095,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "sounds",
@@ -2748,7 +2748,7 @@
     "ipa_en": "/ˈspɛʃəlz/",
     "ipa_vi": "/mɔn˦˥/",
     "freq": 11755,
-    "level": "A1"
+    "level": "B1"
   },
   {
     "word": "specialty",
@@ -3514,7 +3514,7 @@
     "ipa_en": "/ˈspɔrtɪŋ/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 9141,
-    "level": "A1"
+    "level": "B1"
   },
   {
     "word": "sportsmanship",
@@ -4370,7 +4370,7 @@
     "ipa_en": "/ˈstɑrtər/",
     "ipa_vi": "/mɔn˦˥/",
     "freq": 9889,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "starters" }
   },
   {
@@ -4559,7 +4559,7 @@
     "ipa_en": "/stəˈtɪstɪkəl/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 18413,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "statistics",
@@ -4616,7 +4616,7 @@
     "ipa_en": "/ˈstæʧut/",
     "ipa_vi": "/luət̚˨˩ʔ/",
     "freq": 12217,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "statutes" }
   },
   {
@@ -4628,7 +4628,7 @@
     "ipa_en": "/ˈstæʧəˌtɔri/",
     "ipa_vi": "/tʰɛw˧/",
     "freq": 18201,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "staunch",
@@ -4892,7 +4892,7 @@
     "ipa_vi": "/kɔn˧/",
     "freq": 39881,
     "level": "C2",
-    "forms": { "plural": "stepchilds" }
+    "forms": { "plural": "stepchildren", "irregular": true }
   },
   {
     "word": "stepdaughter",
@@ -4939,7 +4939,7 @@
     "ipa_en": "/stɛp/",
     "ipa_vi": "/ɗoŋ˨˩/",
     "freq": 28812,
-    "level": "A2",
+    "level": "B2",
     "forms": { "plural": "steppes" }
   },
   {
@@ -5813,7 +5813,7 @@
     "ipa_en": "/ˈstrimɪŋ/",
     "ipa_vi": "/faːt̚˦˥/",
     "freq": 17980,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "streamings" }
   },
   {
@@ -6209,7 +6209,7 @@
     "ipa_en": "/ˈstəbərnəs/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 24192,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "stubbornnesses" }
   },
   {
@@ -6563,7 +6563,7 @@
     "ipa_en": "/səˈbʤɛktɪv/",
     "ipa_vi": "/tɕu˧˩˧/",
     "freq": 16414,
-    "level": "A1"
+    "level": "B2"
   },
   {
     "word": "subjunctive",
@@ -6586,7 +6586,7 @@
     "ipa_en": "/ˈsəˌblɛt/",
     "ipa_vi": "/tɕɔ˧/",
     "freq": 22774,
-    "level": "A1",
+    "level": "B2",
     "forms": { "v3s": "sublets", "ving": "subleting", "past": "subleted" }
   },
   {
@@ -6634,7 +6634,7 @@
     "ipa_en": "/səbˈmɪʃən/",
     "ipa_vi": "/sɯ˨˩ʔ/",
     "freq": 16748,
-    "level": "A1",
+    "level": "B2",
     "forms": { "plural": "submissions" }
   },
   {
@@ -6729,7 +6729,7 @@
     "ipa_en": "/ˈsəbsəkwənt/",
     "ipa_vi": "/tiəp̚˦˥/",
     "freq": 15388,
-    "level": "A2"
+    "level": "B2"
   },
   {
     "word": "subsequently",
@@ -6740,7 +6740,7 @@
     "ipa_en": "/ˈsəbsəkwəntli/",
     "ipa_vi": "/saːw˧/",
     "freq": 16233,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "subside",
@@ -6881,7 +6881,7 @@
     "ipa_en": "/səbˈtrækʃən/",
     "ipa_vi": "/fɛp̚˦˥/",
     "freq": 36073,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "subtractions" }
   },
   {
@@ -6997,7 +6997,7 @@
     "ipa_en": "/səkˈsɛsər/",
     "ipa_vi": "/ŋɯəj˨˩/",
     "freq": 13172,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "successors" }
   },
   {
@@ -9027,7 +9027,7 @@
     "ipa_en": "/ˌsɪstəˈmætɪkli/",
     "ipa_vi": "/mot̚˨˩ʔ/",
     "freq": 21588,
-    "level": "A2"
+    "level": "B2"
   },
   {
     "word": "systemic",
@@ -9714,7 +9714,7 @@
     "ipa_en": "/ˈtɛrəf/",
     "ipa_vi": "/tʰuê˦˥/",
     "freq": 39908,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "tariffs" }
   },
   {
@@ -9880,7 +9880,7 @@
     "ipa_en": "/tækˈseɪʃən/",
     "ipa_vi": "/tʰuê˦˥/",
     "freq": 30747,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "taxations" }
   },
   {
@@ -9904,7 +9904,7 @@
     "ipa_en": "/ˈtækˌspeɪər/",
     "ipa_vi": "/ŋɯəj˨˩/",
     "freq": 22972,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "taxpayers" }
   },
   {
@@ -10226,7 +10226,7 @@
     "ipa_en": "/tɛl/",
     "ipa_vi": "/viət̚˦˥/",
     "freq": 21841,
-    "level": "A2",
+    "level": "B2",
     "forms": { "plural": "tels" }
   },
   {
@@ -10520,7 +10520,7 @@
     "ipa_en": "/ˈtɛnənt/",
     "ipa_vi": "/ŋɯəj˨˩/",
     "freq": 9281,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "tenants" }
   },
   {
@@ -10567,7 +10567,7 @@
     "ipa_en": "/ˈtɛndəˌraɪz/",
     "ipa_vi": "/laːm˨˩/",
     "freq": 39916,
-    "level": "B1",
+    "level": "B2",
     "forms": { "v3s": "tenderizes", "ving": "tenderizing", "past": "tenderized" }
   },
   {
@@ -10614,7 +10614,7 @@
     "ipa_en": "/ˈtɛnəmənt/",
     "ipa_vi": "/xu˧/",
     "freq": 21100,
-    "level": "A1",
+    "level": "B2",
     "forms": { "plural": "tenements" }
   },
   {
@@ -10638,7 +10638,7 @@
     "ipa_en": "/ˈtɛnər/",
     "ipa_vi": "/zɔŋ˨˩ʔ/",
     "freq": 13783,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "tenors" }
   },
   {
@@ -10709,7 +10709,7 @@
     "ipa_en": "/ˈtɛntətɪv/",
     "ipa_vi": "/taːm˨˩ʔ/",
     "freq": 24715,
-    "level": "B1"
+    "level": "B2"
   },
   {
     "word": "tenth",
@@ -10731,7 +10731,7 @@
     "ipa_en": "/ˈtɛnjər/",
     "ipa_vi": "/ɲiəm˨˩ʔ/",
     "freq": 12754,
-    "level": "A1",
+    "level": "B1",
     "forms": { "plural": "tenures" }
   },
   {
@@ -11083,7 +11083,7 @@
     "ipa_en": "/ˈtɛksʧər/",
     "ipa_vi": "/ket̚˦˥/",
     "freq": 13252,
-    "level": "A2",
+    "level": "B1",
     "forms": { "plural": "textures" }
   },
   {
@@ -11141,7 +11141,7 @@
     "ipa_en": "/ˈθæŋkfəli/",
     "ipa_vi": "/maːj˧/",
     "freq": 21013,
-    "level": "A1"
+    "level": "B2"
   },
   {
     "word": "thanks",
@@ -11334,7 +11334,7 @@
     "ipa_en": "/θiˈɑləʤi/",
     "ipa_vi": "/tʰən˨˩/",
     "freq": 20824,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "theologies" }
   },
   {
@@ -11346,7 +11346,7 @@
     "ipa_en": "/ˈθɪrəm/",
     "ipa_vi": "/ɗiɲ˨˩ʔ/",
     "freq": 29275,
-    "level": "B1",
+    "level": "B2",
     "forms": { "plural": "theorems" }
   },
   {
@@ -11358,7 +11358,7 @@
     "ipa_en": "/ˌθiərˈɛtɪkəl/",
     "ipa_vi": "/tʰuək̚˨˩ʔ/",
     "freq": 12370,
-    "level": "A2"
+    "level": "B1"
   },
   {
     "word": "theorist",
@@ -11472,7 +11472,7 @@
     "ipa_en": "/ˌðɛˈrəv/",
     "ipa_vi": "/kua˧˩˧/",
     "freq": 17593,
-    "level": "A2"
+    "level": "B2"
   },
   {
     "word": "thermal",
