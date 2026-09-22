@@ -1,6 +1,6 @@
 # 0408 — 2026-09-22 — Rà bằng mắt theo thời gian 34/34 hoạt ảnh môn Toán, sửa 15
 
-> PR: (điền khi merge) · Đặc tả: `docs/specs/2026-09-21-hoat-anh-mo-phong-bai-hoc.md`
+> PR: #1104 · Đặc tả: `docs/specs/2026-09-21-hoat-anh-mo-phong-bai-hoc.md`
 > (mục "Kết quả rà mắt Toán") · Bẫy: `TRAPS.md` mục 10 (bẫy thứ ba)
 
 ## Việc đã làm
