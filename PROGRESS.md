@@ -164,6 +164,13 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
 
 ## Tiếp theo
 
+- **[2026-09-23] Kế hoạch nâng cấp UI/UX và sư phạm sau audit**:
+  [goal 5 đợt](docs/goals/2026-09-23-uiux-su-pham.md) và
+  [baseline F1–F8](docs/research/2026-09-23-uiux-su-pham-baseline.md).
+  Chủ sản phẩm đã yêu cầu triển khai; S01 phục hồi tải xếp lớp đã sửa cục bộ; subagent đã gỡ blocker môi trường/lint, full gate Node 22 đạt; chờ review/tích hợp (chi tiết trong goal/changelog 0420).
+  Bước đầu: review tài liệu, rồi sửa Placement kẹt khi tải lỗi; tiếp đến lưu hồ sơ,
+  đúng môn/ngôn ngữ/câu hỏi, accessibility, nhịp học và nghiệm thu người học thật.
+
 > Mỗi mục 1 PR, dừng xin duyệt ở mỗi cổng (CLAUDE.md mục 3). Mục đã ✅ KHÔNG nằm ở đây — xem
 > `docs/changelog/`. Viết lại toàn bộ ngày 2026-09-06 theo kết luận đánh giá sâu: **kỹ thuật
 > đã khoẻ, cái thiếu là bằng chứng người học thật; ưu tiên chiều sâu hơn chiều rộng.**
