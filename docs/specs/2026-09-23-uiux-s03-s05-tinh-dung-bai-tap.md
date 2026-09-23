@@ -343,7 +343,6 @@ không làm S05 hay tuyên bố nghiệm thu thiết bị thật.
 | Sửa  | `apps/dhcb/src/pages/learning/Practice.tsx`                  | Màu heading, truyền nhãn nút thoát mode                                  |
 | Sửa  | `apps/dhcb/src/pages/learning/practice/VocabListenGuess.tsx` | Màu tiến độ câu đạt 7:1 trên ba theme                                    |
 | Sửa  | `apps/dhcb/src/pages/learning/practice/GameChrome.tsx`       | Accessible name vi/en và target 44px                                     |
-| Sửa  | `e2e/practice-direction.spec.ts`                             | Canh focus keyboard và tên nút thoát                                     |
 
 Evidence before: QA head `db54c74827717b144f2cf399a62fe19cc20df359`, 30 trạng
 thái ba theme/năm viewport không tràn ngang, nhưng focus mode/đáp án vô hình;
