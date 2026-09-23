@@ -167,8 +167,17 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
 - **[2026-09-23] Kế hoạch nâng cấp UI/UX và sư phạm sau audit**:
   [goal 5 đợt](docs/goals/2026-09-23-uiux-su-pham.md) và
   [baseline F1–F8](docs/research/2026-09-23-uiux-su-pham-baseline.md).
-  S01 phục hồi tải xếp lớp (#1120), S03 ôn đúng môn (#1121) và S11a đích câu hỏi từ sổ lỗi (#1124) đã tích hợp sau CI xanh. Bộ chuẩn bị S09–S12 (#1123) đã merge, chưa phải nghiệm thu người học.
-  S02 lưu hồ sơ (#1125), S07a quyền zoom (#1126) và S06 phần cổng/tương phản accessibility (#1122) đã qua CI và merge. Follow-up S06 đang BLOCKED_IMPLEMENTATION_APPROVAL theo [audit điều kiện duyệt](docs/research/2026-09-23-s06-follow-up-approval-audit.md); đợt follow-up chỉ sửa tài liệu. Review #1128 đã tích hợp vào [spec S04/S05](docs/specs/2026-09-23-uiux-s03-s05-tinh-dung-bai-tap.md): S04 được duyệt theo ủy quyền, chỉ triển khai sau PR spec merge; S05 Draft chờ S04 và chốt acceptance chuyên môn. Source S04/S05, S08 và nghiệm thu rộng còn mở; xem Current truth trong goal, không suy hoàn tất từ approval.
+  S01–S04 và S08 đã có source trên `main`; S06 phần cổng, S07a mở zoom và S11a sửa deep-link
+  cũng đã merge. [#1137](https://github.com/seeker19110/donghanh/pull/1137) đạt quality/e2e
+  trước merge; CI trên merge commit còn chạy lúc cập nhật. S04/S08 vẫn thiếu bằng chứng
+  screen reader/thiết bị thật; S04 còn thiếu zoom/microphone thật. S05 Draft sau audit design
+  [#1138](https://github.com/seeker19110/donghanh/pull/1138); S06/S07 partial theo
+  [audit S06](docs/research/2026-09-23-s06-follow-up-approval-audit.md) và
+  [audit S07](docs/research/2026-09-23-s07-followup-evidence-gap.md); #1142 đã merge, báo cáo
+  một ca Chrome 200% ba theme trên sheet Vật lí, chưa đủ ma trận S07. S09 Draft do B1 còn mở
+  dù B2/B3 đã có contract. S10 chờ chuyên gia rà mẫu, S12 chờ pilot ngày 7/14.
+  Bước tiếp theo: audit/điều kiện duyệt S05 và thu bằng chứng accessibility còn thiếu;
+  xem trạng thái và giới hạn nghiệm thu trong goal, không coi source merge là goal hoàn tất.
 
 > Mỗi mục 1 PR, dừng xin duyệt ở mỗi cổng (CLAUDE.md mục 3). Mục đã ✅ KHÔNG nằm ở đây — xem
 > `docs/changelog/`. Viết lại toàn bộ ngày 2026-09-06 theo kết luận đánh giá sâu: **kỹ thuật
