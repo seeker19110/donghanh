@@ -14,7 +14,7 @@ import { usePageTitle } from '../../lib/usePageTitle'
 import { useAuth } from '../../context/useAuth'
 import FlashcardReview, { type FlashcardItem } from '../../components/FlashcardReview'
 import {
-  getDueStemCards,
+  getDueStemCardsForSubject,
   hydrateStemCards,
   reviewStemCard,
   duongDanBaiCuaThe,
@@ -22,24 +22,48 @@ import {
   type StemSrsCardRef,
 } from '../../lib/stemSrs'
 import { docCapTuQuery } from '../../lib/reviewRoutes'
-import { getStemSubject, duongDanDanhSachBai } from '../../lib/stemLessonRoutes'
+import { getStemSubject, duongDanDanhSachBai, type StemSubject } from '../../lib/stemLessonRoutes'
 import { type Rating } from '../../lib/srs'
 
 export default function StemReview() {
   const { subjectId } = useParams<{ subjectId: string }>()
   const subject = getStemSubject(subjectId)
-  const nav = useNavigate()
   const { user } = useAuth()
   const [searchParams] = useSearchParams()
   usePageTitle(subject ? `Ôn thẻ môn ${subject.label}` : 'Ôn tập')
 
   const cap = useMemo(() => docCapTuQuery(searchParams), [searchParams])
 
+  if (!subject) return <Navigate to="/goc-hoc-tap" replace />
+
+  // Đổi người học/môn/cap là phiên mới: bỏ ngay thẻ và tiến độ của phiên cũ,
+  // kể cả trước khi effect nạp nội dung mới chạy.
+  return (
+    <StemReviewSession
+      key={`${user?.id ?? ''}:${subject.id}:${cap ?? ''}`}
+      uid={user?.id}
+      subject={subject}
+      cap={cap}
+    />
+  )
+}
+
+function StemReviewSession({
+  uid,
+  subject,
+  cap,
+}: {
+  uid: string | undefined
+  subject: StemSubject
+  cap: number | undefined
+}) {
+  const nav = useNavigate()
+
   // Chốt hàng đợi MỘT LẦN lúc vào phiên (như ProgrammingReview): chấm xong một thẻ là nó hết
   // đến hạn, tính lại sau mỗi lần chấm thì danh sách tụt dần dưới chân người học.
   const hangDoiRef = useMemo<StemSrsCardRef[] | null>(
-    () => (user && subject ? getDueStemCards(user.id, cap) : null),
-    [user, subject, cap],
+    () => (uid ? getDueStemCardsForSubject(uid, subject.id, cap) : null),
+    [uid, subject.id, cap],
   )
 
   const [hangDoi, setHangDoi] = useState<StemSrsCard[] | 'error' | null>(null)
@@ -59,8 +83,6 @@ export default function StemReview() {
     }
   }, [hangDoiRef, lanThu])
 
-  if (!subject) return <Navigate to="/goc-hoc-tap" replace />
-
   const daNap = hangDoi !== null && hangDoi !== 'error' ? hangDoi : []
   const cards: FlashcardItem[] = daNap.map((c) => ({
     key: c.key,
@@ -71,8 +93,8 @@ export default function StemReview() {
 
   // Ghi kết quả đi ĐÚNG hàm cũ (reviewStemCard → reviewWord → pushProgress) — không đường mới.
   const cham = (key: string, rating: Rating) => {
-    if (!user) return
-    reviewStemCard(user.id, key, rating)
+    if (!uid || !daNap.some((card) => card.key === key)) return
+    reviewStemCard(uid, key, rating)
   }
 
   return (
