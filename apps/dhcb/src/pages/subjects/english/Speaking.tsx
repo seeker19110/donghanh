@@ -1,3 +1,4 @@
+import { buttonClass } from '@core/buttonStyles'
 import { useState, useRef, useEffect, useMemo } from 'react'
 import { thongDiepLoiThanThien } from '../../../lib/friendlyError'
 import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
@@ -213,11 +214,8 @@ function SetupScreen({
                   levelTouched.current = true
                   setLevel(l.value)
                 }}
-                className={`py-2.5 rounded-2xl text-xs font-semibold border transition-all duration-200 active:scale-95 ${
-                  level === l.value
-                    ? 'bg-gradient-to-r from-sky-500 to-indigo-600 border-transparent text-white shadow-md shadow-sky-500/25 ring-1 ring-sky-400/40'
-                    : 'bg-zinc-950/70 border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
-                }`}
+                aria-pressed={level === l.value}
+                className={buttonClass({ variant: level === l.value ? 'primary' : 'ghost' })}
               >
                 {isA ? l.labelA : l.labelB}
               </button>
@@ -241,7 +239,7 @@ function SetupScreen({
           onClick={() => onStart(situation, level)}
           disabled={loading}
           aria-label={isA ? 'Bắt đầu luyện nói' : 'Start speaking practice'}
-          className="w-full bg-gradient-to-r from-sky-500 via-cyan-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 disabled:opacity-60 text-white font-bold py-3.5 rounded-2xl text-sm transition-all duration-200 active:scale-98 flex items-center justify-center gap-2 shadow-lg mt-2"
+          className={buttonClass({ fullWidth: true, size: 'lg', className: 'mt-2' })}
         >
           {loading ? (
             <>

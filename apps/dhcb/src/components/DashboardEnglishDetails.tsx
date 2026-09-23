@@ -261,7 +261,7 @@ export default function DashboardEnglishDetails({
             <Link
               to={englishSubjectHref}
               aria-label="về trang môn"
-              className="underline underline-offset-2 text-accent-300 theme-light:text-accent-800 hover:text-white"
+              className="underline underline-offset-2 text-accent-300 theme-light:text-accent-900 hover:text-white theme-light:hover:text-accent-950"
             >
               trang môn
             </Link>
@@ -273,7 +273,7 @@ export default function DashboardEnglishDetails({
             <Link
               to={englishSubjectHref}
               aria-label="go to subject page"
-              className="underline underline-offset-2 text-accent-300 theme-light:text-accent-800 hover:text-white"
+              className="underline underline-offset-2 text-accent-300 theme-light:text-accent-900 hover:text-white theme-light:hover:text-accent-950"
             >
               subject page
             </Link>

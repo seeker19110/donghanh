@@ -249,7 +249,7 @@ export default function ProgrammingLevelPage() {
                       >
                         <div className="flex items-start justify-between gap-3">
                           <p className="text-sm font-bold text-white">
-                            <span className="text-zinc-500 mr-2">Chương {idx + 1}</span>
+                            <span className="text-zinc-300 mr-2">Chương {idx + 1}</span>
                             {unit.title}
                           </p>
                           {lessons.length === 0 ? (
@@ -267,7 +267,7 @@ export default function ProgrammingLevelPage() {
                           <span>{unit.topics}</span>
                         </p>
                         {unit.projectStep && (
-                          <p className="text-xs text-accent-300 theme-light:text-accent-800 leading-relaxed flex items-start gap-1.5">
+                          <p className="text-xs text-accent-300 theme-light:text-accent-900 leading-relaxed flex items-start gap-1.5">
                             <Hammer className="w-3.5 h-3.5 shrink-0 mt-0.5" />
                             <span>
                               <strong>Dự án:</strong> {unit.projectStep}

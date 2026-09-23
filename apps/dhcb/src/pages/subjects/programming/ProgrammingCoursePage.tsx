@@ -182,7 +182,7 @@ export default function ProgrammingCoursePage() {
                           </p>
                         )}
                         <p className="text-sm font-bold text-white">
-                          <span className="text-zinc-500 mr-2">Chương {idx + 1}</span>
+                          <span className="text-zinc-300 mr-2">Chương {idx + 1}</span>
                           {chapter.title}
                         </p>
                       </div>

@@ -307,7 +307,7 @@ export default function StudioDialogue({
                   onClick={() => setSelectedDomain(d.id)}
                   className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 shrink-0 ${
                     isSelected
-                      ? 'bg-gradient-to-r from-accent-500 to-accent-600 text-white shadow-md shadow-accent-500/25 ring-1 ring-accent-400/40 scale-105'
+                      ? 'bg-accent-500 text-black shadow-md shadow-accent-500/25 ring-1 ring-accent-400/40 scale-105'
                       : 'bg-zinc-900/90 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 border border-zinc-800/80'
                   }`}
                 >
@@ -345,7 +345,7 @@ export default function StudioDialogue({
                     {isBot && (msg.domain || msg.intent) && (
                       <div className="flex flex-wrap items-center gap-2 mb-3 pb-2.5 border-b border-zinc-800/70 text-[11px]">
                         {msg.domain && (
-                          <span className="px-2.5 py-0.5 rounded-full bg-accent-500/15 text-accent-300 theme-light:text-accent-800 border border-accent-500/25 font-semibold">
+                          <span className="px-2.5 py-0.5 rounded-full bg-accent-500/15 text-accent-300 theme-light:text-accent-900 border border-accent-500/25 font-semibold">
                             {getDomainLabel(msg.domain)}
                           </span>
                         )}
@@ -482,9 +482,7 @@ export default function StudioDialogue({
                       </div>
                     )}
 
-                    <div className="text-[11px] text-zinc-400 text-right mt-2 opacity-80">
-                      {msg.timestamp}
-                    </div>
+                    <div className="text-[11px] text-zinc-400 text-right mt-2">{msg.timestamp}</div>
                   </div>
 
                   {!isBot && (

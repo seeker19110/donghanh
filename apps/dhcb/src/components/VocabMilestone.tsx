@@ -46,7 +46,10 @@ export default function VocabMilestone({ userId, refreshKey }: Props) {
           <span className="text-sm font-semibold text-white">Mốc từ vựng</span>
         </div>
         <span className="text-xs text-zinc-400">
-          <strong className="text-accent-300">{learned.toLocaleString('vi-VN')}</strong> từ đã thuộc
+          <strong className="text-accent-300 theme-light:text-accent-900">
+            {learned.toLocaleString('vi-VN')}
+          </strong>{' '}
+          từ đã thuộc
         </span>
       </div>
 
@@ -80,7 +83,8 @@ export default function VocabMilestone({ userId, refreshKey }: Props) {
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
         {current ? (
           <span className="text-zinc-300">
-            Trình độ: <strong className="text-accent-300">{current.label}</strong>
+            Trình độ:{' '}
+            <strong className="text-accent-300 theme-light:text-accent-900">{current.label}</strong>
             <span className="text-zinc-400"> ({current.cefr})</span>
           </span>
         ) : (

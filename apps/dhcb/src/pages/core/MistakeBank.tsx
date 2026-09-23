@@ -1,3 +1,4 @@
+import { buttonClass } from '@core/buttonStyles'
 import { useState, useCallback, useEffect } from 'react'
 import { duongDanMonTiengAnh } from '../../lib/subjectsHost'
 import { duongDanLuyenViet, duongDanTroTruyen } from '../../lib/englishRoutes'
@@ -160,7 +161,7 @@ function ReviewCard({
           </p>
           <button
             onClick={() => setRevealed(true)}
-            className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-accent-600 to-accent-500 hover:from-accent-500 hover:to-teal-400 text-white font-semibold py-3 rounded-xl text-sm transition active:scale-[0.98]"
+            className={buttonClass({ fullWidth: true, size: 'lg' })}
           >
             <Eye className="w-4 h-4" />
             {isA ? 'Xem đáp án' : 'Reveal answer'}
@@ -217,10 +218,7 @@ function ReviewCard({
               <RotateCcw className="w-4 h-4" />
               {isA ? 'Vẫn khó' : 'Still hard'}
             </button>
-            <button
-              onClick={onRemembered}
-              className="tap-44 flex-1 flex items-center justify-center gap-1.5 bg-gradient-to-r from-accent-600 to-accent-500 hover:from-accent-500 hover:to-teal-400 text-white font-semibold rounded-xl py-2.5 text-sm transition active:scale-[0.98]"
-            >
+            <button onClick={onRemembered} className={buttonClass({ className: 'flex-1' })}>
               <Check className="w-4 h-4" />
               {isA ? 'Đã nhớ' : 'Got it'}
             </button>
@@ -476,10 +474,7 @@ export default function MistakeBank() {
                   : 'When you practise Chat, Writing or Speaking and the AI corrects you, the mistake lands here to review.'}
               </p>
               <div className="flex gap-2 justify-center">
-                <button
-                  onClick={() => nav(duongDanTroTruyen())}
-                  className="tap-44 text-sm bg-gradient-to-r from-accent-600 to-accent-500 text-white font-medium px-4 py-2.5 rounded-xl transition active:scale-[0.98]"
-                >
+                <button onClick={() => nav(duongDanTroTruyen())} className={buttonClass()}>
                   {isA ? 'Luyện Chat →' : 'Practise Chat →'}
                 </button>
                 <button
@@ -564,10 +559,7 @@ export default function MistakeBank() {
                           {isA ? 'Ôn lại' : 'Review again'}
                         </button>
                       )}
-                      <button
-                        onClick={() => nav('/tien-do')}
-                        className="text-sm bg-gradient-to-r from-accent-600 to-accent-500 text-white font-medium px-4 py-2.5 rounded-xl transition active:scale-[0.98] flex items-center gap-1.5"
-                      >
+                      <button onClick={() => nav('/tien-do')} className={buttonClass()}>
                         {isA ? 'Xem tiến độ' : 'View progress'}
                         <ArrowRight className="w-4 h-4" />
                       </button>

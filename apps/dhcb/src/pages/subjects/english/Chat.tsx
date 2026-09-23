@@ -1,3 +1,4 @@
+import { buttonClass } from '@core/buttonStyles'
 import { useState, useRef, useEffect, useMemo } from 'react'
 import { thongDiepLoiThanThien } from '../../../lib/friendlyError'
 import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
@@ -145,12 +146,8 @@ function SetupScreen({
                   levelTouched.current = true
                   setLevel(l.value)
                 }}
-                // GIỮ transition-all: đổi cả màu nền/viền LẪN transform (active:scale).
-                className={`py-2.5 rounded-2xl text-xs font-semibold border transition-all duration-200 active:scale-95 ${
-                  level === l.value
-                    ? 'bg-gradient-to-r from-accent-600 to-accent-500 border-transparent text-white shadow-md shadow-accent-500/25 ring-1 ring-accent-400/40'
-                    : 'bg-zinc-950/70 border-zinc-800 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
-                }`}
+                aria-pressed={level === l.value}
+                className={buttonClass({ variant: level === l.value ? 'primary' : 'ghost' })}
               >
                 {isA ? l.labelA : l.labelB}
               </button>
@@ -169,11 +166,10 @@ function SetupScreen({
           </div>
         )}
 
-        {/* GIỮ transition-all: gradient nền đổi khi hover + transform khi active. */}
         <button
           onClick={() => onStart(situation, level)}
           disabled={loading}
-          className="w-full bg-gradient-to-r from-accent-600 via-accent-500 to-indigo-600 hover:from-accent-500 hover:to-indigo-500 disabled:opacity-60 text-white font-bold py-3.5 rounded-2xl text-sm transition-all duration-200 active:scale-98 flex items-center justify-center gap-2 shadow-lg mt-2"
+          className={buttonClass({ fullWidth: true, size: 'lg', className: 'mt-2' })}
         >
           {loading ? (
             <>

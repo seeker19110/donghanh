@@ -2,8 +2,18 @@ import { test, expect, type Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import { mockLogin, type ThemeName } from './helpers/auth'
 import { openLiveLocationTrip } from './helpers/location'
+import { mockLessonContrastSample } from './helpers/lessonContrastFixture'
 import { freezeAnimations, waitForStableDom } from './helpers/axe'
-import { collectAaaFindings } from './helpers/aaaFindings'
+import {
+  AAA_RULE_IDS,
+  AAA_TAGS,
+  collectAaaFindings,
+  classifyAaaTarget,
+  measuredAa,
+  type AaaResolution,
+} from './helpers/aaaFindings'
+import axe from 'axe-core'
+import { remeasureContrast, type ContrastRemeasurement } from './helpers/remeasureContrast'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // QUÉT WCAG 2.x mức AAA — bổ sung cho e2e/a11y.spec.ts (file kia gác mức A/AA).
@@ -20,8 +30,6 @@ import { collectAaaFindings } from './helpers/aaaFindings'
 // --z-300/--z-400 của cả 5 theme (xem apps/dhcb/src/index.css + PROGRESS.md), nên
 // KHÔNG còn baseline nào — thêm màn hình mới mà rớt 7:1 là fail ngay.
 // ─────────────────────────────────────────────────────────────────────────────
-
-const AAA_TAGS = ['wcag2aaa', 'wcag21aaa', 'wcag22aaa']
 
 // Quét CẢ 5 theme (4 theme chính + "Nhi đồng") vì tương phản phụ thuộc bộ token màu.
 const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'kid']
@@ -70,21 +78,192 @@ const ROUTES = [
   '/goc-hoc-tap/english/luyen-nghe', // audit 2026-09-22 P0-1: nhóm gập + tìm kiếm + Xem thêm
 ] as const
 
-async function scanAaa(page: Page) {
+test.beforeEach(async ({ page }) => {
+  await page.route('**/api/programming/progress**', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify(
+        route.request().method() === 'GET'
+          ? { lessons: [] }
+          : { ok: true, replayed: false, lessons: [] },
+      ),
+    }),
+  )
+})
+
+async function scanAaa(page: Page, remainingRefreshes = 1): Promise<string[]> {
+  await expect(
+    page.getByRole('status').filter({ hasText: /^Đang đồng bộ dữ liệu \(\d+ mục\)\.\.\.$/ }),
+  ).toHaveCount(0)
   await freezeAnimations(page)
-  const results = await new AxeBuilder({ page }).withTags(AAA_TAGS).analyze()
-  // Axe AAA bỏ qua ratio chưa xác định do minThreshold; rule AA cung cấp incomplete.
-  const contrast = await new AxeBuilder({ page }).withRules(['color-contrast']).analyze()
-  return collectAaaFindings(page, {
-    violations: results.violations,
-    incomplete: [...results.incomplete, ...contrast.incomplete],
+  await waitForStableDom(page)
+  const watcher = await page.evaluateHandle(() => {
+    let mutations = 0
+    const details: {
+      type: string
+      attribute: string | null
+      target: string
+      added: string[]
+      removed: string[]
+    }[] = []
+    const record = (records: MutationRecord[]) => {
+      mutations += records.length
+      for (const item of records) {
+        if (details.length < 20)
+          details.push({
+            type: item.type,
+            attribute: item.attributeName,
+            added: [...item.addedNodes]
+              .slice(0, 2)
+              .map((node) =>
+                node instanceof Element
+                  ? node.outerHTML.slice(0, 500)
+                  : (node.textContent?.slice(0, 500) ?? node.nodeName),
+              ),
+            removed: [...item.removedNodes]
+              .slice(0, 2)
+              .map((node) =>
+                node instanceof Element
+                  ? node.outerHTML.slice(0, 500)
+                  : (node.textContent?.slice(0, 500) ?? node.nodeName),
+              ),
+            target:
+              item.target instanceof Element
+                ? item.target.outerHTML.slice(0, 1000)
+                : item.target.nodeName,
+          })
+      }
+    }
+    const observer = new MutationObserver((records) => {
+      record(records)
+    })
+    observer.observe(document.documentElement, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      characterData: true,
+    })
+    return {
+      stop: () => {
+        record(observer.takeRecords())
+        observer.disconnect()
+        return { mutations, details }
+      },
+    }
   })
+  try {
+    // Union rõ ràng: withRules sau withTags sẽ ghi đè tags, không phải phép hợp.
+    const results = await new AxeBuilder({ page }).withRules(AAA_RULE_IDS).analyze()
+    const resolutions: AaaResolution[] = []
+    const unresolvedMeasurements: { target: axe.NodeResult['target']; reason: string }[] = []
+    let findings = await collectAaaFindings(page, results, {
+      passes: results.passes,
+      snapshotStable: true,
+      resolutions,
+      unresolvedMeasurements,
+    })
+    const { mutations, details: mutationDetails } = await watcher.evaluate((state) => state.stop())
+    if (mutations > 0) {
+      resolutions.length = 0
+      findings = await collectAaaFindings(page, results)
+      findings.push(`unresolved: DOM changed during scan (${mutations} mutations)`)
+    }
+    const remeasurements: ContrastRemeasurement[] = []
+    if (mutations === 0) {
+      const cache = new Map<string, ContrastRemeasurement>()
+      for (const rule of results.incomplete) {
+        if (!['color-contrast', 'color-contrast-enhanced'].includes(rule.id)) continue
+        for (const node of rule.nodes) {
+          const key = JSON.stringify(node.target)
+          const prefix = `incomplete: ${rule.id} target=${key} (`
+          if (!findings.some((finding) => finding.startsWith(prefix))) continue
+          const classification = await classifyAaaTarget(page, node.target)
+          if (classification !== 'content' && classification !== 'chrome') continue
+          let measurement = cache.get(key)
+          if (!measurement) {
+            measurement = await remeasureContrast(page, node.target, () =>
+              classifyAaaTarget(page, node.target),
+            )
+            cache.set(key, measurement)
+            remeasurements.push(measurement)
+          }
+          if (!measurement.stable || measurement.reason || !measurement.results) continue
+          const measuredClassification = measurement.classification
+          if (measuredClassification !== 'content' && measuredClassification !== 'chrome') continue
+          const rerun = measurement.results
+          if (
+            rerun.violations.some(
+              (item) =>
+                (item.id === 'color-contrast' || measuredClassification === 'content') &&
+                item.nodes.some((item) => JSON.stringify(item.target) === key),
+            )
+          )
+            continue
+          if (measurement.halo?.status === 'measured' && measurement.halo.ratio >= 7) {
+            const halo = measurement.halo
+            resolutions.push({
+              target: node.target,
+              incompleteRule: rule.id,
+              resolvedBy: halo.method,
+              foreground: halo.foreground,
+              background: halo.background,
+              ratio: halo.ratio,
+              strokeWidth: halo.strokeWidth,
+            })
+            findings = findings.filter((finding) => !finding.startsWith(prefix))
+            continue
+          }
+          const pass = rerun.passes
+            .find((item) => item.id === 'color-contrast')
+            ?.nodes.find((item) => JSON.stringify(item.target) === key)
+          const colors = pass ? measuredAa(pass) : null
+          if (colors && colors.ratio >= (measuredClassification === 'content' ? 7 : 4.5)) {
+            resolutions.push({
+              target: node.target,
+              incompleteRule: rule.id,
+              resolvedBy: 'scroll-exact-contrast',
+              ...colors,
+            })
+            findings = findings.filter((finding) => !finding.startsWith(prefix))
+          }
+        }
+      }
+    }
+    await test.info().attach('axe-aaa-evidence', {
+      body: JSON.stringify({
+        url: page.url(),
+        remainingRefreshes,
+        mutations,
+        mutationDetails,
+        violations: results.violations,
+        incomplete: results.incomplete,
+        resolutions,
+        remeasurements,
+        unresolvedMeasurements,
+      }),
+      contentType: 'application/json',
+    })
+    if (remeasurements.some((measurement) => measurement.scrollChanged)) {
+      if (remainingRefreshes === 0) {
+        findings.push('unresolved: page changed again while scrolling after fresh full-page scan')
+      } else {
+        // Giữ mọi finding cũ; full-page scan mới phải bắt cả nội dung lazy append ngoài target.
+        findings.push(...(await scanAaa(page, remainingRefreshes - 1)))
+      }
+    }
+    return [...new Set(findings)]
+  } finally {
+    await watcher.evaluate((state) => state.stop())
+    await watcher.dispose()
+  }
 }
 
 for (const theme of THEMES) {
   for (const route of ROUTES) {
     test(`a11y AAA (nội dung + tiêu đề): ${route} theme=${theme}`, async ({ page }) => {
       await mockLogin(page, 'vi', theme)
+      if (route === '/bai-hoc') await mockLessonContrastSample(page)
       await page.goto(route, { waitUntil: 'domcontentloaded' })
       // Dữ liệu curriculum/từ điển tính OFFLINE ở client (networkidle không giúp) nên
       // chờ cố định cho render xong — cùng cách làm với e2e/a11y.spec.ts.
@@ -235,6 +414,54 @@ for (const theme of THEMES) {
 
 // Controls chạy qua cùng collector của gate, không cần server/provider.
 test.describe('S06a negative controls', () => {
+  test('lazy append chữ tương phản thấp ngoài target vẫn chặn toàn trang', async ({ page }) => {
+    await page.setContent(
+      '<html lang="vi"><head><title>Scroll toàn trang</title></head><body style="color:#111;background:white"><div id="scroller" style="height:100px;overflow:auto;background:linear-gradient(white,#eee)"><div style="height:40px"></div><p id="target" style="font-size:20px;line-height:40px;height:100px">Nội dung đích đủ dài và đủ tương phản</p></div></body></html>',
+    )
+    await page.evaluate(() => {
+      document.querySelector('#scroller')!.addEventListener(
+        'scroll',
+        () => {
+          ;(document.querySelector('#scroller') as HTMLElement).style.background = 'white'
+          const low = document.createElement('p')
+          low.id = 'new-low-contrast'
+          low.style.cssText = 'color:#aaa;background:white'
+          low.textContent = 'Chữ mới tải thêm không đủ tương phản'
+          document.body.append(low)
+        },
+        { once: true },
+      )
+    })
+    const initial = await new AxeBuilder({ page }).withRules(AAA_RULE_IDS).analyze()
+    expect(
+      initial.incomplete.some((rule) => rule.nodes.some((node) => node.target.includes('#target'))),
+    ).toBe(true)
+    const findings = await scanAaa(page)
+    await expect(page.locator('#new-low-contrast')).toHaveCount(1)
+    expect(findings.some((finding) => finding.includes('new-low-contrast'))).toBe(true)
+  })
+  test('giữ toàn bộ rules AAA và thêm AA contrast', () => {
+    for (const rule of axe.getRules(AAA_TAGS)) expect(AAA_RULE_IDS).toContain(rule.ruleId)
+    expect(AAA_RULE_IDS).toContain('color-contrast-enhanced')
+    expect(AAA_RULE_IDS).toContain('color-contrast')
+  })
+  test('snapshot ổn định mới được kết luận; DOM đổi phải báo chưa kết luận', async ({ page }) => {
+    await page.setContent(
+      '<html lang="vi"><head><title>Control</title></head><body style="background:white;color:#111"><p>Chữ đọc đạt</p></body></html>',
+    )
+    expect(await scanAaa(page)).toEqual([])
+    const interval = await page.evaluate(() =>
+      window.setInterval(() => {
+        document.body.dataset.tick = String(performance.now())
+      }, 10),
+    )
+    try {
+      const findings = await scanAaa(page)
+      expect(findings.some((finding) => finding.includes('DOM changed during scan'))).toBe(true)
+    } finally {
+      await page.evaluate((id) => window.clearInterval(id), interval)
+    }
+  })
   test('bắt chữ inline, link văn xuôi và heading trong header; giữ AA cho nút', async ({
     page,
   }) => {
@@ -246,6 +473,7 @@ test.describe('S06a negative controls', () => {
         <p><a id="link" href="#" style="color:inherit">Liên kết trong văn xuôi</a></p>
         <header><h2 style="font:16px Arial"><span id="heading">Tiêu đề đọc</span></h2></header>
         <nav><p><a href="#" style="color:inherit"><span id="nav">Nhãn điều hướng</span></a></p></nav>
+        <details><summary id="summary" style="font:16px Arial;color:#666;background:white">Nhãn mở chi tiết AA</summary><p>Chi tiết</p></details>
         <button id="button" style="font:16px Arial;color:#666;background:white">Nút AA</button>
         <p id="pass" style="color:#333">Chữ đạt AAA</p>
       </main></body></html>
@@ -263,6 +491,64 @@ test.describe('S06a negative controls', () => {
     expect(findings.some((finding) => finding.includes('#button'))).toBe(false)
     expect(findings.some((finding) => finding.includes('#pass'))).toBe(false)
     expect(findings.some((finding) => finding.includes('#nav'))).toBe(false)
+    expect(findings.some((finding) => finding.includes('#summary'))).toBe(false)
+  })
+
+  test('chỉ kết luận chrome short-text từ phép đo AA cùng snapshot', async ({ page }) => {
+    await page.setContent(`<html lang="vi"><head><title>Control</title></head><body style="background:white">
+      <button id="short" style="color:#666;background:white;font:16px Arial">1</button>
+      <button id="bad" style="color:#aaa;background:white;font:16px Arial">Nút sai AA</button>
+      <p id="reading" style="color:#666;font:16px Arial">Chữ đọc vẫn cần 7:1</p>
+      <button id="unknown" style="color:#666;background:linear-gradient(white,black);font:16px Arial">1</button>
+    </body></html>`)
+    const results = await new AxeBuilder({ page }).withRules(AAA_RULE_IDS).analyze()
+    expect(
+      results.incomplete.some((rule) => rule.nodes.some((node) => node.target.includes('#short'))),
+    ).toBe(true)
+    const resolutions: AaaResolution[] = []
+    const unresolvedMeasurements: { target: axe.NodeResult['target']; reason: string }[] = []
+    const findings = await collectAaaFindings(page, results, {
+      passes: results.passes,
+      snapshotStable: true,
+      resolutions,
+      unresolvedMeasurements,
+    })
+    expect(resolutions).toEqual([
+      expect.objectContaining({ target: ['#short'], resolvedBy: 'color-contrast' }),
+    ])
+    expect(findings.some((finding) => finding.includes('#short'))).toBe(false)
+    expect(findings.some((finding) => finding.includes('#bad'))).toBe(true)
+    expect(findings.some((finding) => finding.includes('#reading'))).toBe(true)
+    expect(findings.some((finding) => finding.includes('#unknown'))).toBe(true)
+    const stale = await collectAaaFindings(page, results, {
+      passes: results.passes,
+      snapshotStable: false,
+      resolutions: [],
+    })
+    expect(stale.some((finding) => finding.includes('#short'))).toBe(true)
+    const unmeasured = await collectAaaFindings(page, results, {
+      passes: [],
+      snapshotStable: true,
+      resolutions: [],
+    })
+    expect(unmeasured.some((finding) => finding.includes('#short'))).toBe(true)
+  })
+
+  test('tiêu đề lớn và ví dụ đọc trong nút vẫn cần 7:1', async ({ page }) => {
+    await page.setContent(`<html lang="vi"><head><title>Control</title></head><body style="background:white">
+      <h1 id="large" style="font:32px Arial;color:#666">Tiêu đề lớn</h1>
+      <button id="label" style="font:16px Arial;color:#666;background:white">Nhãn nút AA</button>
+      <button style="font:16px Arial;color:#666;background:white"><span data-reading-content id="example">Ví dụ học để đọc</span></button>
+    </body></html>`)
+    const results = await new AxeBuilder({ page }).withRules(AAA_RULE_IDS).analyze()
+    const findings = await collectAaaFindings(page, results)
+    expect(
+      findings.some(
+        (finding) => finding.includes('project-reading-7') && finding.includes('#large'),
+      ),
+    ).toBe(true)
+    expect(findings.some((finding) => finding.includes('#example'))).toBe(true)
+    expect(findings.some((finding) => finding.includes('#label'))).toBe(false)
   })
 
   test('không bỏ qua target biến mất, target lồng hoặc incomplete thật', async ({ page }) => {
@@ -295,3 +581,29 @@ test.describe('S06a negative controls', () => {
     expect(empty).toEqual([expect.stringContaining('no target evidence')])
   })
 })
+
+for (const theme of THEMES) {
+  test(`a11y AAA: hai mặt thẻ từ theme=${theme}`, async ({ page }) => {
+    await mockLogin(page, 'vi', theme)
+    await page.goto('/tu-dien', { waitUntil: 'domcontentloaded' })
+    const card = page.locator('button.flip-scene').first()
+    const front = card.locator('.flip-face').first()
+    const back = card.locator('.flip-back')
+    await expect(front).toBeVisible()
+    await expect(back).toBeHidden()
+    await expect(card).toHaveAttribute('aria-pressed', 'false')
+    expect(await scanAaa(page), `Mặt trước thẻ từ theme=${theme}`).toEqual([])
+    await card.focus()
+    await page.keyboard.press('Enter')
+    await expect(card).toHaveAttribute('aria-pressed', 'true')
+    await expect(card).toBeFocused()
+    await expect(front).toBeHidden()
+    await expect(back).toBeVisible()
+    await waitForStableDom(page)
+    expect(await scanAaa(page), `Mặt sau thẻ từ theme=${theme}`).toEqual([])
+    await page.keyboard.press('Space')
+    await expect(card).toHaveAttribute('aria-pressed', 'false')
+    await expect(front).toBeVisible()
+    await expect(back).toBeHidden()
+  })
+}

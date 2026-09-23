@@ -810,7 +810,7 @@ export function TodayLesson({
       {circle && (
         <div className="flex items-center justify-center gap-1.5 text-xs text-zinc-400 mb-2">
           {circleLevel && (
-            <span className="px-1.5 py-0.5 rounded bg-accent-500/15 text-accent-300 theme-light:text-accent-800 font-bold text-[11px]">
+            <span className="px-1.5 py-0.5 rounded bg-accent-500/15 text-accent-300 theme-light:text-accent-900 font-bold text-[11px]">
               {circleLevel}
             </span>
           )}
