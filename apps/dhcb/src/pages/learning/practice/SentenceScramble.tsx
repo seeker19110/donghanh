@@ -20,12 +20,15 @@ function normalizeForCompare(s: string): string {
 export function SentenceScramble({
   pool,
   isA,
+  uiLang,
   onExit,
 }: {
   pool: DictEntry[]
   isA: boolean
+  uiLang: 'vi' | 'en'
   onExit: () => void
 }) {
+  const isUiVi = uiLang === 'vi'
   const sentences = useMemo(() => pickExampleSentences(pool, isA, 4, 8, SESSION_SIZE), [pool, isA])
 
   const [idx, setIdx] = useState(0)
@@ -53,7 +56,7 @@ export function SentenceScramble({
   if (sentences.length < 3) {
     return (
       <p className="text-sm text-zinc-400 text-center py-8">
-        {isA ? 'Chưa đủ câu ví dụ phù hợp để sắp xếp.' : 'Not enough example sentences yet.'}
+        {isUiVi ? 'Chưa đủ câu ví dụ phù hợp để sắp xếp.' : 'Not enough example sentences yet.'}
       </p>
     )
   }
@@ -63,7 +66,7 @@ export function SentenceScramble({
       <GameResult
         score={score}
         total={sentences.length}
-        isA={isA}
+        uiLang={uiLang}
         onRetry={() => {
           setIdx(0)
           setScore(0)
@@ -102,13 +105,13 @@ export function SentenceScramble({
         onClick={() => void speak(target, isA ? 'en-US' : 'vi-VN')}
         className="mx-auto flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-800 text-zinc-300 text-xs hover:bg-zinc-700 transition"
       >
-        <Volume2 className="w-4 h-4" /> {isA ? 'Nghe câu' : 'Listen'}
+        <Volume2 className="w-4 h-4" /> {isUiVi ? 'Nghe câu' : 'Listen'}
       </button>
 
       <div className="min-h-14 flex flex-wrap gap-2 p-3 rounded-xl border border-zinc-700/60 bg-zinc-900/50">
         {built.length === 0 && (
           <span className="text-xs text-zinc-500">
-            {isA ? 'Bấm các từ bên dưới theo đúng thứ tự' : 'Tap the words below in order'}
+            {isUiVi ? 'Bấm các từ bên dưới theo đúng thứ tự' : 'Tap the words below in order'}
           </span>
         )}
         {built.map((w, i) => (
@@ -139,20 +142,20 @@ export function SentenceScramble({
           className={`text-center text-sm font-medium ${checked ? 'text-emerald-400 theme-light:text-emerald-800' : 'text-rose-400 theme-light:text-rose-800'}`}
         >
           {checked
-            ? isA
+            ? isUiVi
               ? 'Chính xác! 🎉'
               : 'Correct! 🎉'
-            : `${isA ? 'Đáp án đúng' : 'Correct answer'}: ${target}`}
+            : `${isUiVi ? 'Đáp án đúng' : 'Correct answer'}: ${target}`}
         </p>
       )}
 
       {checked === null ? (
         <Button onClick={check} disabled={bank.length > 0} fullWidth>
-          {isA ? 'Kiểm tra' : 'Check'}
+          {isUiVi ? 'Kiểm tra' : 'Check'}
         </Button>
       ) : (
         <Button onClick={() => setIdx((i) => i + 1)} fullWidth>
-          {isA ? 'Câu tiếp theo →' : 'Next →'}
+          {isUiVi ? 'Câu tiếp theo →' : 'Next →'}
         </Button>
       )}
     </div>

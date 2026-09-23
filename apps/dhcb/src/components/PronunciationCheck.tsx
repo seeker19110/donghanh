@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Mic, Square, Loader2, RotateCcw, Volume2 } from 'lucide-react'
 import { startListening, isSTTSupported } from '../lib/stt'
 import { scorePronunciation, pronounceFeedback, scoreWords } from '../lib/pronounceScore'
@@ -11,20 +11,38 @@ interface Props {
   target: string
   lang: 'en' | 'vi'
   isA: boolean
+  uiLang?: 'vi' | 'en'
 }
 
 // Nút chấm phát âm: bấm nói → STT nghe → highlight từng từ đúng/sai + điểm tổng.
-export default function PronunciationCheck({ target, lang, isA }: Props) {
+export default function PronunciationCheck({
+  target,
+  lang,
+  isA,
+  uiLang = isA ? 'vi' : 'en',
+}: Props) {
+  const uiVi = uiLang === 'vi'
   const [status, setStatus] = useState<'idle' | 'listening'>('idle')
   const [score, setScore] = useState<number | null>(null)
   const [heard, setHeard] = useState('')
   const [words, setWords] = useState<WordScore[]>([])
   const [error, setError] = useState('')
   const stopRef = useRef<(() => void) | null>(null)
+  const generationRef = useRef(0)
+
+  useEffect(
+    () => () => {
+      generationRef.current += 1
+      stopRef.current?.()
+      stopRef.current = null
+    },
+    [],
+  )
 
   if (!isSTTSupported()) return null
 
   function start() {
+    const generation = ++generationRef.current
     setScore(null)
     setHeard('')
     setWords([])
@@ -34,26 +52,22 @@ export default function PronunciationCheck({ target, lang, isA }: Props) {
       lang,
       () => {},
       (last) => {
+        if (generation !== generationRef.current) return
+        generationRef.current += 1
         setStatus('idle')
         if (last.trim()) {
           setHeard(last)
           setScore(scorePronunciation(target, last))
           setWords(scoreWords(target, last))
         } else {
-          setError(isA ? 'Không nghe rõ, thử lại nhé.' : 'Did not catch that, try again.')
+          setError('unclear')
         }
       },
       (err) => {
+        if (generation !== generationRef.current) return
+        generationRef.current += 1
         setStatus('idle')
-        setError(
-          err === 'no-speech'
-            ? isA
-              ? 'Không nghe thấy gì.'
-              : 'No speech detected.'
-            : isA
-              ? 'Lỗi micro, thử lại.'
-              : 'Mic error, try again.',
-        )
+        setError(err === 'no-speech' ? 'no-speech' : 'mic')
       },
     )
   }
@@ -93,11 +107,11 @@ export default function PronunciationCheck({ target, lang, isA }: Props) {
         {status === 'listening' ? (
           <>
             <Square className="w-4 h-4" />{' '}
-            {isA ? 'Đang nghe... bấm để dừng' : 'Listening... tap to stop'}
+            {uiVi ? 'Đang nghe... bấm để dừng' : 'Listening... tap to stop'}
           </>
         ) : (
           <>
-            <Mic className="w-4 h-4" /> {isA ? 'Chấm phát âm' : 'Check pronunciation'}
+            <Mic className="w-4 h-4" /> {uiVi ? 'Chấm phát âm' : 'Check pronunciation'}
           </>
         )}
       </button>
@@ -106,7 +120,7 @@ export default function PronunciationCheck({ target, lang, isA }: Props) {
       {status === 'listening' && (
         <span className="flex items-center gap-1 text-xs text-zinc-400">
           <Loader2 className="w-3 h-3 animate-spin" />{' '}
-          {isA ? `Hãy đọc: "${target}"` : `Say: "${target}"`}
+          {uiVi ? `Hãy đọc: "${target}"` : `Say: "${target}"`}
         </span>
       )}
 
@@ -136,7 +150,7 @@ export default function PronunciationCheck({ target, lang, isA }: Props) {
 
           {/* Câu người dùng đọc */}
           <p className="text-xs text-zinc-400">
-            {isA ? 'Bạn đọc' : 'You said'}: "<span className="text-zinc-400">{heard}</span>"
+            {uiVi ? 'Bạn đọc' : 'You said'}: "<span className="text-zinc-400">{heard}</span>"
           </p>
 
           {/* Gợi ý huấn luyện viên lỗi: vì sao sai + nút nghe lại từ đúng */}
@@ -149,7 +163,7 @@ export default function PronunciationCheck({ target, lang, isA }: Props) {
                 >
                   <button
                     onClick={() => void speak(tip.word, lang === 'en' ? 'en-US' : 'vi-VN')}
-                    aria-label={isA ? `Nghe lại từ "${tip.word}"` : `Listen to "${tip.word}"`}
+                    aria-label={uiVi ? `Nghe lại từ "${tip.word}"` : `Listen to "${tip.word}"`}
                     className="tap-44 flex-shrink-0 text-amber-300 theme-light:text-amber-900 hover:text-amber-200 transition"
                   >
                     <Volume2 className="w-4 h-4" />
@@ -167,7 +181,7 @@ export default function PronunciationCheck({ target, lang, isA }: Props) {
             onClick={start}
             className="tap-44 flex items-center gap-1 text-xs text-zinc-400 hover:text-zinc-300 transition mx-auto px-1"
           >
-            <RotateCcw className="w-3 h-3" /> {isA ? 'Thử lại' : 'Try again'}
+            <RotateCcw className="w-3 h-3" /> {uiVi ? 'Thử lại' : 'Try again'}
           </button>
         </div>
       )}
@@ -179,15 +193,29 @@ export default function PronunciationCheck({ target, lang, isA }: Props) {
             {score}% · {fb.label}
           </p>
           <p className="text-xs text-zinc-400 mt-0.5">
-            {isA ? 'Bạn đọc' : 'You said'}: "{heard}"
+            {uiVi ? 'Bạn đọc' : 'You said'}: "{heard}"
           </p>
         </div>
       )}
 
-      {error && <p className="text-xs text-rose-400 theme-light:text-rose-900/80">{error}</p>}
+      {error && (
+        <p className="text-xs text-rose-400 theme-light:text-rose-900/80">
+          {uiVi
+            ? error === 'unclear'
+              ? 'Không nghe rõ, thử lại nhé.'
+              : error === 'no-speech'
+                ? 'Không nghe thấy gì.'
+                : 'Lỗi micro, thử lại.'
+            : error === 'unclear'
+              ? 'Did not catch that, try again.'
+              : error === 'no-speech'
+                ? 'No speech detected.'
+                : 'Mic error, try again.'}
+        </p>
+      )}
 
       {/* Chấm chi tiết bằng AI (① Giai đoạn 2, Azure) — CHỈ tiếng Anh, Azure chưa hỗ trợ vi-VN */}
-      {lang === 'en' && <DetailedPronunciationCheck target={target} isA={isA} />}
+      {lang === 'en' && <DetailedPronunciationCheck target={target} isA={isA} uiLang={uiLang} />}
     </div>
   )
 }

@@ -9,21 +9,24 @@ import { GameResult } from './GameChrome'
 export function PronounceList({
   items,
   isA,
+  uiLang,
   lang,
   onExit,
 }: {
   items: string[]
   isA: boolean
+  uiLang: 'vi' | 'en'
   lang: 'en' | 'vi'
   onExit: () => void
 }) {
+  const uiVi = uiLang === 'vi'
   const [idx, setIdx] = useState(0)
   const current = items[idx]
 
   if (items.length === 0) {
     return (
       <p className="text-sm text-zinc-400 text-center py-8">
-        {isA ? 'Chưa đủ nội dung để luyện.' : 'Not enough content yet.'}
+        {uiVi ? 'Chưa đủ nội dung để luyện.' : 'Not enough content yet.'}
       </p>
     )
   }
@@ -33,7 +36,7 @@ export function PronounceList({
       <GameResult
         score={items.length}
         total={items.length}
-        isA={isA}
+        uiLang={uiLang}
         onRetry={() => setIdx(0)}
         onExit={onExit}
       />
@@ -46,9 +49,9 @@ export function PronounceList({
         {idx + 1}/{items.length}
       </p>
       <p className="text-center text-lg font-semibold text-white px-2">{current}</p>
-      <PronunciationCheck key={current} target={current} lang={lang} isA={isA} />
+      <PronunciationCheck key={current} target={current} lang={lang} isA={isA} uiLang={uiLang} />
       <Button onClick={() => setIdx((i) => i + 1)} fullWidth>
-        {isA ? 'Tiếp theo →' : 'Next →'}
+        {uiVi ? 'Tiếp theo →' : 'Next →'}
       </Button>
     </div>
   )

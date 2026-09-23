@@ -1,6 +1,6 @@
 // apps/dhcb/src/pages/learning/practice/Shadowing.tsx — tách từ pages/learning/Practice.tsx (1.752 dòng) ngày 2026-09-06, mã GIỮ NGUYÊN.
 
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Mic, Square } from 'lucide-react'
 import { scorePronunciation, scoreWords, type WordScore } from '../../../lib/pronounceScore'
 import { speak } from '../../../lib/tts'
@@ -16,12 +16,15 @@ const SHADOW_PASS_THRESHOLD = 70
 export function Shadowing({
   pool,
   isA,
+  uiLang,
   onExit,
 }: {
   pool: DictEntry[]
   isA: boolean
+  uiLang: 'vi' | 'en'
   onExit: () => void
 }) {
+  const uiVi = uiLang === 'vi'
   const sentences = useMemo(() => pickExampleSentences(pool, isA, 3, 10, SESSION_SIZE), [pool, isA])
   const [idx, setIdx] = useState(0)
   const [passCount, setPassCount] = useState(0)
@@ -31,12 +34,22 @@ export function Shadowing({
   const [words, setWords] = useState<WordScore[]>([])
   const [error, setError] = useState('')
   const stopRef = useRef<(() => void) | null>(null)
+  const generationRef = useRef(0)
   const target = sentences[idx]
+
+  useEffect(
+    () => () => {
+      generationRef.current += 1
+      stopRef.current?.()
+      stopRef.current = null
+    },
+    [],
+  )
 
   if (!isSTTSupported()) {
     return (
       <p className="text-sm text-zinc-400 text-center py-8">
-        {isA
+        {uiVi
           ? 'Trình duyệt không hỗ trợ nhận giọng nói — dùng Chrome hoặc Edge.'
           : 'Your browser does not support speech recognition — use Chrome or Edge.'}
       </p>
@@ -46,7 +59,7 @@ export function Shadowing({
   if (sentences.length < 3) {
     return (
       <p className="text-sm text-zinc-400 text-center py-8">
-        {isA ? 'Chưa đủ câu ví dụ để luyện shadowing.' : 'Not enough sentences yet.'}
+        {uiVi ? 'Chưa đủ câu ví dụ để luyện shadowing.' : 'Not enough sentences yet.'}
       </p>
     )
   }
@@ -56,8 +69,11 @@ export function Shadowing({
       <GameResult
         score={passCount}
         total={sentences.length}
-        isA={isA}
+        uiLang={uiLang}
         onRetry={() => {
+          generationRef.current += 1
+          stopRef.current?.()
+          stopRef.current = null
           setIdx(0)
           setPassCount(0)
           setScore(null)
@@ -70,6 +86,7 @@ export function Shadowing({
 
   function start() {
     if (!target) return
+    const generation = ++generationRef.current
     setHeard('')
     setScore(null)
     setWords([])
@@ -82,9 +99,11 @@ export function Shadowing({
       isA ? 'en' : 'vi',
       () => {},
       (last) => {
+        if (generation !== generationRef.current) return
+        generationRef.current += 1
         setStatus('idle')
         if (!last.trim()) {
-          setError(isA ? 'Không nghe rõ, thử lại nhé.' : 'Did not catch that, try again.')
+          setError('unclear')
           return
         }
         setHeard(last)
@@ -94,8 +113,10 @@ export function Shadowing({
         if (s >= SHADOW_PASS_THRESHOLD) setPassCount((c) => c + 1)
       },
       () => {
+        if (generation !== generationRef.current) return
+        generationRef.current += 1
         setStatus('idle')
-        setError(isA ? 'Lỗi micro, thử lại.' : 'Mic error, try again.')
+        setError('mic')
       },
     )
   }
@@ -124,13 +145,15 @@ export function Shadowing({
           {status === 'active' ? (
             <>
               <Square className="w-5 h-5" />
-              <span className="text-sm font-medium">{isA ? 'Đang nói đè...' : 'Shadowing...'}</span>
+              <span className="text-sm font-medium">
+                {uiVi ? 'Đang nói đè...' : 'Shadowing...'}
+              </span>
             </>
           ) : (
             <>
               <Mic className="w-5 h-5" />
               <span className="text-sm font-medium">
-                {isA ? 'Bắt đầu — nghe & nói đè theo' : 'Start — listen & speak along'}
+                {uiVi ? 'Bắt đầu — nghe & nói đè theo' : 'Start — listen & speak along'}
               </span>
             </>
           )}
@@ -159,17 +182,41 @@ export function Shadowing({
             ))}
           </div>
           <p className="text-xs text-zinc-400">
-            {isA ? 'Bạn nói' : 'You said'}: "{heard}"
+            {uiVi ? 'Bạn nói' : 'You said'}: "{heard}"
           </p>
         </div>
       )}
       {error && (
-        <p className="text-xs text-rose-400/80 theme-light:text-rose-800/80 text-center">{error}</p>
+        <p className="text-xs text-rose-400/80 theme-light:text-rose-800/80 text-center">
+          {uiVi
+            ? error === 'unclear'
+              ? 'Không nghe rõ, thử lại nhé.'
+              : error === 'mic'
+                ? 'Lỗi micro, thử lại.'
+                : error === 'limit'
+                  ? 'Đã đạt giới hạn lượt — thử lại sau.'
+                  : 'Không chấm được câu trả lời — thử lại.'
+            : error === 'unclear'
+              ? 'Did not catch that, try again.'
+              : error === 'mic'
+                ? 'Mic error, try again.'
+                : error === 'limit'
+                  ? 'Usage limit reached — try again later.'
+                  : 'Could not grade your answer — try again.'}
+        </p>
       )}
 
       {score !== null && (
-        <Button onClick={() => setIdx((i) => i + 1)} fullWidth>
-          {isA ? 'Câu tiếp theo →' : 'Next →'}
+        <Button
+          onClick={() => {
+            generationRef.current += 1
+            stopRef.current?.()
+            stopRef.current = null
+            setIdx((i) => i + 1)
+          }}
+          fullWidth
+        >
+          {uiVi ? 'Câu tiếp theo →' : 'Next →'}
         </Button>
       )}
     </div>

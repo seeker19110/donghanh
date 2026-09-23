@@ -27,7 +27,12 @@ export type PronounceAssessOutcome =
   | { ok: true; result: PronounceAssessResult }
   // fallback:true = nên rơi về Giai đoạn 1 (chưa cấu hình / hết lượt) — KHÁC lỗi cứng
   // (audio hỏng, mạng lỗi) chỉ nên báo người dùng thử lại.
-  | { ok: false; fallback: boolean; message: string }
+  | {
+      ok: false
+      fallback: boolean
+      message: string
+      errorCode?: 'audio_processing' | 'network' | 'assessment_unavailable' | 'assessment_failed'
+    }
 
 function toBase64(buffer: ArrayBuffer): string {
   const bytes = new Uint8Array(buffer)
@@ -40,6 +45,7 @@ function toBase64(buffer: ArrayBuffer): string {
 export async function assessPronunciationClient(
   audioBlob: Blob,
   referenceText: string,
+  options: { includeErrorCode?: boolean } = {},
 ): Promise<PronounceAssessOutcome> {
   let wavBuffer: ArrayBuffer
   try {
@@ -48,6 +54,7 @@ export async function assessPronunciationClient(
     return {
       ok: false,
       fallback: false,
+      ...(options.includeErrorCode ? { errorCode: 'audio_processing' as const } : {}),
       message: thongDiepLoiThanThien(e, 'Không xử lý được bản ghi âm'),
     }
   }
@@ -61,7 +68,12 @@ export async function assessPronunciationClient(
       body: JSON.stringify({ audio_b64: toBase64(wavBuffer), referenceText }),
     })
   } catch {
-    return { ok: false, fallback: false, message: 'Không kết nối được máy chủ' }
+    return {
+      ok: false,
+      fallback: false,
+      ...(options.includeErrorCode ? { errorCode: 'network' as const } : {}),
+      message: 'Không kết nối được máy chủ',
+    }
   }
 
   if (!resp.ok) {
@@ -69,6 +81,13 @@ export async function assessPronunciationClient(
     return {
       ok: false,
       fallback: !!body.fallback,
+      ...(options.includeErrorCode
+        ? {
+            errorCode: body.fallback
+              ? ('assessment_unavailable' as const)
+              : ('assessment_failed' as const),
+          }
+        : {}),
       message: body.error ?? `Lỗi chấm phát âm (${resp.status})`,
     }
   }
