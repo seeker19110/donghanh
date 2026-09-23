@@ -1,7 +1,7 @@
 # 0420 — Khôi phục bài xếp lớp sau lỗi tải câu hỏi
 
 - Ngày: 2026-09-23.
-- Base: `1d9e247e`; PR [#1120](https://github.com/seeker19110/donghanh/pull/1120), đặt trên PR tài liệu [#1119](https://github.com/seeker19110/donghanh/pull/1119); chưa merge/deploy.
+- Base: `1d9e247e`; PR [#1120](https://github.com/seeker19110/donghanh/pull/1120), hiện có base `main` sau khi PR tài liệu [#1119](https://github.com/seeker19110/donghanh/pull/1119) đã merge; source S01 chưa merge/deploy.
 - Goal: [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), S01/F1.
 
 ## Thay đổi
@@ -75,3 +75,7 @@ Kết quả này bổ sung lịch sử lỗi ở trên, không xóa hoặc biế
 Người dùng đã cho phép push/mở PR. Tài liệu ở #1119, source S01 ở #1120 (base #1119).
 Full gate ở trên là kết quả local; CI remote đang chạy cho commit đã push. Metadata
 thiếu hai heading được sửa ở mô tả PR, không hạ gate hoặc giả phê duyệt đặc tả.
+
+## Reconcile main ngày 23/09
+
+Tích hợp `main` tại `f07820aa`, giữ cập nhật Pyodide từ main và bằng chứng S01 mới hơn trong hai tài liệu bị add/add conflict. #1119 đã merge; #1120 có base main. CI đã đạt trên commit trước khi reconcile; commit giải quyết xung đột cần CI mới, không dùng kết quả local cũ để khẳng định lượt mới đạt.

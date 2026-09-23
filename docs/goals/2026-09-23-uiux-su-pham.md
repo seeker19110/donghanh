@@ -275,3 +275,10 @@ kiểm thử source hoặc nghiệm thu sư phạm. S01 vẫn là slice source �
   nhánh #1119; cần tích hợp tài liệu trước rồi đổi base #1120 sang main.
 - Commit tài liệu `62692ab6`; commit source `34418feb`. Metadata thiếu hai heading đã
   được bổ sung đúng template; chờ kết quả CI, không đổi trạng thái spec thành Approved.
+
+### Iteration 5 — Kiểm tra merge và giải quyết xung đột
+
+- Reconcile `main` tại `f07820aa`; #1119 đã merge, #1120 đã đổi base sang main.
+- Giải quyết hai add/add conflict tài liệu bằng cách giữ bằng chứng mới hơn; giữ cập nhật dependency Pyodide từ main. Không có source conflict.
+- #1121, #1122, #1123 không có xung đột Git tại thời điểm kiểm tra. #1122 còn lỗi CI accessibility; không coi mergeable là đã qua quality gate.
+- Commit reconcile cần CI mới. Source S01 chưa merge/deploy; kết quả gate cũ vẫn chỉ là bằng chứng cho commit cũ.
