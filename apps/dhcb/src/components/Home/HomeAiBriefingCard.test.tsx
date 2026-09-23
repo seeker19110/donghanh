@@ -109,7 +109,7 @@ describe('HomeAiBriefingCard — thẻ AI tập trung (đợt C)', () => {
     expect(
       el.querySelector('[aria-label="Lời chào của Bạn Đồng Hành"]')?.parentElement?.parentElement
         ?.className,
-    ).toContain('min-h-[80px]')
+    ).toContain('min-h-[98px]')
   })
 
   it('API lỗi: vẫn có câu dự phòng, không vỡ thẻ', async () => {
