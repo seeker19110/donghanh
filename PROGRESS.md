@@ -168,7 +168,7 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
   [goal 5 đợt](docs/goals/2026-09-23-uiux-su-pham.md) và
   [baseline F1–F8](docs/research/2026-09-23-uiux-su-pham-baseline.md).
   S01 phục hồi tải xếp lớp (#1120), S03 ôn đúng môn (#1121) và S11a đích câu hỏi từ sổ lỗi (#1124) đã tích hợp sau CI xanh. Bộ chuẩn bị S09–S12 (#1123) đã merge, chưa phải nghiệm thu người học.
-  S02 lưu hồ sơ (#1125), S07a quyền zoom (#1126) và S06 phần cổng/tương phản accessibility (#1122) đã qua CI và merge. S04/S05/S08 và phần trải nghiệm/nghiệm thu rộng còn mở; xem Current truth trong goal, không dùng checklist cũ để suy hoàn tất.
+  S02 lưu hồ sơ (#1125), S07a quyền zoom (#1126) và S06 phần cổng/tương phản accessibility (#1122) đã qua CI và merge. Review #1128 đã tích hợp vào [spec S04/S05](docs/specs/2026-09-23-uiux-s03-s05-tinh-dung-bai-tap.md): S04 được duyệt theo ủy quyền, chỉ triển khai sau PR spec merge; S05 Draft chờ S04 và chốt acceptance chuyên môn. Source S04/S05, S08 và nghiệm thu rộng còn mở; xem Current truth trong goal, không suy hoàn tất từ approval.
 
 > Mỗi mục 1 PR, dừng xin duyệt ở mỗi cổng (CLAUDE.md mục 3). Mục đã ✅ KHÔNG nằm ở đây — xem
 > `docs/changelog/`. Viết lại toàn bộ ngày 2026-09-06 theo kết luận đánh giá sâu: **kỹ thuật
