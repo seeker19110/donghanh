@@ -457,7 +457,7 @@
       "source": "packages/subject-programming/lessons/p1u1.ts#predict/workedExample",
       "question": "Tạo lệnh in Xin chao",
       "input": "print(\"Xin chao\")",
-      "expectedReason": "Công nhận kết quả cụ thể. Thiếu dấu đóng ngoặc; tự kiểm cặp ngoặc.",
+      "expectedReason": "Lệnh print hợp lệ: cặp dấu ngoặc và dấu nháy đã đóng đủ; chỉ công nhận đúng cú pháp trong câu đã nhập.",
       "feedbackLanguage": "vi",
       "level": "P1",
       "mode": "practice",
