@@ -4,7 +4,7 @@
 | ----------------- | ---------------------------------------------------------------------------------------------------------------- |
 | Goal ID           | GOAL-2026-0923-UIUX-PEDAGOGY                                                                                     |
 | Owner             | Chủ sản phẩm Đồng Hành; agent phụ trách kế hoạch và bằng chứng kỹ thuật                                          |
-| Trạng thái        | WAITING — S01 full gate local đạt, đang mở PR để review/CI                                                       |
+| Trạng thái        | WAITING — S01 full gate local đạt, PR #1119/#1120 đã mở, chờ review/CI                                           |
 | Bắt đầu           | 2026-09-23                                                                                                       |
 | Target review     | Sau từng slice; tổng lịch được ước lượng lại sau M1                                                              |
 | Quyền được cấp    | Lập kế hoạch, tự quyết phương án và triển khai local, push và mở PR đã được cho phép; chưa có quyền merge/deploy |
@@ -81,8 +81,7 @@ retention, gamification mở rộng. Không âm thầm mở rộng những mục
 ## 3. Milestones và slices
 
 Mỗi S là một PR nhỏ dự kiến; tách thêm nếu impact map cho thấy phạm vi quá lớn.
-S00 là PR tài liệu; S01–S12 là 12 slice kỹ thuật/nghiệm thu. Chưa có issue/PR nào
-được tạo. S01 đang WAITING sau full gate cục bộ; các slice còn lại chưa triển khai, không phải DONE.
+S00 là PR tài liệu; S01–S12 là 12 slice kỹ thuật/nghiệm thu. Đã mở PR #1119 (tài liệu) và #1120 (S01 đặt trên nhánh tài liệu). S01 đang WAITING sau full gate cục bộ; các slice còn lại chưa triển khai, không phải DONE.
 
 | ID     | Outcome/AC                                                | Dependency    | Spec                                                  | Issue/PR | State    | Evidence cần có                                                                                   |
 | ------ | --------------------------------------------------------- | ------------- | ----------------------------------------------------- | -------- | -------- | ------------------------------------------------------------------------------------------------- |
@@ -197,7 +196,7 @@ hiện có. Việc gửi lời mời pilot, truy cập production và triển kh
 
 ## 6. Current truth
 
-- `main` đã reconcile: `1d9e247e`; branch triển khai `codex/uiux-pedagogy-upgrade-plan`.
+- `main` đã reconcile: `1d9e247e`; branch triển khai `codex/placement-load-recovery`, base tài liệu `codex/uiux-pedagogy-upgrade-plan`.
 - Baseline: [nghiên cứu 23/09](../research/2026-09-23-uiux-su-pham-baseline.md).
 - Goal gap: F1 đã có bản sửa local, full gate đạt; chưa đóng trước review/merge. F2–F8 còn mở; M3/M4 cần spec; M5 chưa có pilot.
 - Quyết định sản phẩm trong kế hoạch đã chọn, không có câu hỏi cần chặn việc lập kế hoạch.
@@ -270,3 +269,16 @@ kiểm thử source hoặc nghiệm thu sư phạm. S01 vẫn là slice source �
   tài liệu. Chỉ PR S01 thay source; đặc tả phần sau vẫn Draft.
 - Full gate local ở iteration 3 là bằng chứng hiện có; chờ CI cho commit đã push.
 - Chưa cấp quyền merge/deploy; không coi push hoặc mở PR là hoàn thành goal.
+
+- PR đã mở và gắn vào task: [#1119 — tài liệu](https://github.com/seeker19110/donghanh/pull/1119),
+  [#1120 — S01](https://github.com/seeker19110/donghanh/pull/1120). #1120 đang đặt trên
+  nhánh #1119; cần tích hợp tài liệu trước rồi đổi base #1120 sang main.
+- Commit tài liệu `62692ab6`; commit source `34418feb`. Metadata thiếu hai heading đã
+  được bổ sung đúng template; chờ kết quả CI, không đổi trạng thái spec thành Approved.
+
+### Iteration 5 — Kiểm tra merge và giải quyết xung đột
+
+- Reconcile `main` tại `f07820aa`; #1119 đã merge, #1120 đã đổi base sang main.
+- Giải quyết hai add/add conflict tài liệu bằng cách giữ bằng chứng mới hơn; giữ cập nhật dependency Pyodide từ main. Không có source conflict.
+- #1121, #1122, #1123 không có xung đột Git tại thời điểm kiểm tra. #1122 còn lỗi CI accessibility; không coi mergeable là đã qua quality gate.
+- Commit reconcile cần CI mới. Source S01 chưa merge/deploy; kết quả gate cũ vẫn chỉ là bằng chứng cho commit cũ.

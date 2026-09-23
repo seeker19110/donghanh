@@ -2,11 +2,46 @@
 
 export type { DialogueLine, Dialogue, SpeakerName } from './dialogues'
 import type { Dialogue } from './dialogues'
+import { z } from 'zod'
+
+const speakerSchema = z.object({ vi: z.string(), en: z.string() })
+const dialoguesSchema = z.record(
+  z.string(),
+  z.array(
+    z.object({
+      titleVi: z.string(),
+      titleEn: z.string(),
+      speakerA: speakerSchema.optional(),
+      speakerB: speakerSchema.optional(),
+      speakerAGender: z.enum(['female', 'male']).optional(),
+      speakerBGender: z.enum(['female', 'male']).optional(),
+      lines: z.array(z.object({ who: z.enum(['A', 'B']), en: z.string(), vi: z.string() })),
+    }),
+  ),
+)
+
+export const DIALOGUES_TIMEOUT_MS = 15_000
 
 let _promise: Promise<Record<string, Dialogue[]>> | null = null
 
 function loadDialogues(): Promise<Record<string, Dialogue[]>> {
-  if (!_promise) _promise = fetch('/data/dialogues.json').then((r) => r.json())
+  if (!_promise) {
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), DIALOGUES_TIMEOUT_MS)
+    const pending = (async () => {
+      try {
+        const response = await fetch('/data/dialogues.json', { signal: controller.signal })
+        if (!response.ok) throw new Error(`Dialogues HTTP ${response.status}`)
+        return dialoguesSchema.parse(await response.json())
+      } finally {
+        clearTimeout(timeout)
+      }
+    })()
+    _promise = pending
+    void pending.catch(() => {
+      if (_promise === pending) _promise = null
+    })
+  }
   return _promise
 }
 
