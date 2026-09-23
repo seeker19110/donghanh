@@ -26,6 +26,7 @@ và dự án tuân theo [Semantic Versioning](https://semver.org/lang/vi/).
 
 ### Fixed (Sửa)
 
+- **S08 quiz accessibility**: Câu hỏi và đáp án có tên/trạng thái đọc được, thông báo đúng/sai bằng chữ, focus tới câu mới/kết quả; phím tắt không chiếm nút hoặc hộp thoại và thao tác chấm không ghi lặp.
 -
 
 ### Removed (Bỏ)

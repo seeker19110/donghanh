@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { act } from 'react'
+import { act, StrictMode } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { resolveQuizKey, useQuizKeyboard, type QuizKeyInput } from './useQuizKeyboard.js'
 
@@ -92,6 +92,169 @@ function Harness({
 }
 
 describe('useQuizKeyboard (hook)', () => {
+  async function mountKeyboard(answered: boolean) {
+    const onPick = vi.fn()
+    const onNext = vi.fn()
+    await act(async () => {
+      root.render(<Harness optionCount={4} onPick={onPick} onNext={onNext} answered={answered} />)
+    })
+    return { onPick, onNext }
+  }
+
+  function press(target: EventTarget, key: string, opts: KeyboardEventInit = {}) {
+    const event = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true, ...opts })
+    target.dispatchEvent(event)
+    return event
+  }
+
+  it.each(['1', 'Enter', ' '])('bỏ repeat, modifier và IME cho phím %s', async (key) => {
+    const { onPick, onNext } = await mountKeyboard(key !== '1')
+    for (const opts of [
+      { repeat: true },
+      { ctrlKey: true },
+      { altKey: true },
+      { metaKey: true },
+      { shiftKey: true },
+      { isComposing: true },
+    ]) {
+      expect(press(window, key, opts).defaultPrevented).toBe(false)
+    }
+    expect(onPick).not.toHaveBeenCalled()
+    expect(onNext).not.toHaveBeenCalled()
+  })
+
+  it.each(['1', 'Enter', ' '])('tôn trọng control đã preventDefault cho %s', async (key) => {
+    const { onPick, onNext } = await mountKeyboard(key !== '1')
+    const control = document.createElement('div')
+    container.appendChild(control)
+    control.addEventListener('keydown', (event) => event.preventDefault())
+    expect(press(control, key).defaultPrevented).toBe(true)
+    expect(onPick).not.toHaveBeenCalled()
+    expect(onNext).not.toHaveBeenCalled()
+  })
+
+  it.each([
+    '<button><span>Nghe lại</span></button>',
+    '<a href="/exit"><span>Thoát</span></a>',
+    '<details><summary><span>Mở</span></summary></details>',
+    '<div role="button"><span>Mở</span></div>',
+    '<div role="slider"><span>Âm lượng</span></div>',
+    '<div tabindex="0"><span>Control</span></div>',
+    '<button><svg><path /></svg></button>',
+  ])('Enter/Space không chiếm control hoặc phần tử con: %s', async (markup) => {
+    const { onNext } = await mountKeyboard(true)
+    const host = document.createElement('div')
+    host.innerHTML = markup
+    container.appendChild(host)
+    const target = host.querySelector('span, path')!
+    expect(press(target, 'Enter').defaultPrevented).toBe(false)
+    expect(press(target, ' ').defaultPrevented).toBe(false)
+    expect(onNext).not.toHaveBeenCalled()
+  })
+
+  it('phím số vẫn chọn đáp án khi focus trong button', async () => {
+    const { onPick, onNext } = await mountKeyboard(false)
+    const button = document.createElement('button')
+    container.appendChild(button)
+    button.focus()
+    expect(press(button, '3').defaultPrevented).toBe(true)
+    expect(onPick).toHaveBeenCalledExactlyOnceWith(2)
+    expect(onNext).not.toHaveBeenCalled()
+  })
+
+  it('Enter sau khi chọn trên nút đáp án sang câu kế, nhưng nút khác giữ phím gốc', async () => {
+    const { onNext } = await mountKeyboard(true)
+    const answer = document.createElement('button')
+    answer.dataset.quizOption = ''
+    container.appendChild(answer)
+    expect(press(answer, 'Enter').defaultPrevented).toBe(true)
+    expect(onNext).toHaveBeenCalledTimes(1)
+
+    const replay = document.createElement('button')
+    container.appendChild(replay)
+    expect(press(replay, 'Enter').defaultPrevented).toBe(false)
+    expect(onNext).toHaveBeenCalledTimes(1)
+  })
+
+  it.each([
+    '<input />',
+    '<textarea></textarea>',
+    '<select><option>1</option></select>',
+    '<div contenteditable=""><span>Soạn thảo</span></div>',
+    '<div contenteditable="plaintext-only"><span>Soạn thảo</span></div>',
+    '<div role="textbox"><span>Soạn thảo</span></div>',
+  ])('vùng nhập giữ cả phím số và Enter/Space: %s', async (markup) => {
+    for (const answered of [false, true]) {
+      const { onPick, onNext } = await mountKeyboard(answered)
+      const host = document.createElement('div')
+      host.innerHTML = markup
+      container.appendChild(host)
+      const target = host.querySelector('span') ?? host.firstElementChild!
+      for (const key of ['1', 'Enter', ' ']) {
+        expect(press(target, key).defaultPrevented).toBe(false)
+      }
+      expect(onPick).not.toHaveBeenCalled()
+      expect(onNext).not.toHaveBeenCalled()
+      host.remove()
+    }
+  })
+
+  it.each(['<dialog open></dialog>', '<div role="dialog" aria-modal="true"></div>'])(
+    'modal giữ phím, kể cả lúc focus chưa chuyển vào modal: %s',
+    async (markup) => {
+      for (const answered of [false, true]) {
+        const { onPick, onNext } = await mountKeyboard(answered)
+        const host = document.createElement('div')
+        host.innerHTML = markup
+        container.appendChild(host)
+        for (const target of [window, host.firstElementChild!]) {
+          for (const key of ['1', 'Enter', ' ']) {
+            expect(press(target, key).defaultPrevented).toBe(false)
+          }
+        }
+        expect(onPick).not.toHaveBeenCalled()
+        expect(onNext).not.toHaveBeenCalled()
+        host.remove()
+      }
+    },
+  )
+
+  it('modal đã đóng/ẩn không khóa shortcut', async () => {
+    const { onPick } = await mountKeyboard(false)
+    const host = document.createElement('div')
+    host.innerHTML = '<dialog></dialog><div hidden><div aria-modal="true"></div></div>'
+    container.appendChild(host)
+    expect(press(window, '1').defaultPrevented).toBe(true)
+    expect(onPick).toHaveBeenCalledExactlyOnceWith(0)
+  })
+
+  it('một event chỉ dispatch một lần qua nhiều listener và StrictMode', async () => {
+    const first = vi.fn()
+    const second = vi.fn()
+    await act(async () => {
+      root.render(
+        <StrictMode>
+          <Harness optionCount={4} onPick={first} answered={false} />
+          <Harness optionCount={4} onPick={second} answered={false} />
+        </StrictMode>,
+      )
+    })
+    expect(press(window, '2').defaultPrevented).toBe(true)
+    expect(first).toHaveBeenCalledExactlyOnceWith(1)
+    expect(second).not.toHaveBeenCalled()
+  })
+
+  it('rerender dùng callback và trạng thái mới, không giữ listener cũ', async () => {
+    const before = await mountKeyboard(false)
+    const after = await mountKeyboard(true)
+    expect(press(window, '2').defaultPrevented).toBe(false)
+    expect(press(window, 'Enter').defaultPrevented).toBe(true)
+    expect(before.onPick).not.toHaveBeenCalled()
+    expect(before.onNext).not.toHaveBeenCalled()
+    expect(after.onPick).not.toHaveBeenCalled()
+    expect(after.onNext).toHaveBeenCalledTimes(1)
+  })
+
   it('phím số gọi onPick với đúng chỉ số', async () => {
     const onPick = vi.fn()
     await act(async () => {

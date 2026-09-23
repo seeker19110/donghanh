@@ -9,7 +9,7 @@
 // Điều kiện DỰ THI do trang cấp (CefrLevelPage) kiểm tra trước khi cho vào đây.
 // ──────────────────────────────────────────────────────────────────────
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { GraduationCap, RotateCcw, ArrowLeft } from 'lucide-react'
 import type { CefrLevel } from '../data/cefr'
 import type { AgeGroup } from '../types'
@@ -92,6 +92,23 @@ export default function CefrExam({
   }, [level, attempt, isA, uid, ageGroup, grammarSources])
 
   const q = questions?.[current]
+  const steps = useMemo(
+    () => ({ questions, picked: new Set<number>(), advanced: new Set<number>() }),
+    [questions],
+  )
+  const resultHeading = useRef<HTMLHeadingElement>(null)
+  const questionContainer = useRef<HTMLDivElement>(null)
+  const restartFocus = useRef(false)
+  useEffect(() => {
+    if (done) resultHeading.current?.focus()
+    else if (questions && restartFocus.current) {
+      const heading = questionContainer.current?.querySelector<HTMLElement>('h2[tabindex="-1"]')
+      if (heading) {
+        restartFocus.current = false
+        heading.focus()
+      }
+    }
+  }, [done, questions])
 
   // Tự phát audio khi vào 1 câu NGHE (và dừng audio khi rời câu/màn).
   useEffect(() => {
@@ -128,11 +145,22 @@ export default function CefrExam({
   }
 
   function pick(opt: string) {
-    if (selected === null) setSelected(opt)
+    if (
+      done ||
+      !q ||
+      selected !== null ||
+      steps.picked.has(current) ||
+      steps.advanced.has(current) ||
+      !q.options.includes(opt)
+    )
+      return
+    steps.picked.add(current)
+    setSelected(opt)
   }
 
   function next() {
-    if (!q || !questions) return
+    if (done || !q || !questions || selected === null || steps.advanced.has(current)) return
+    steps.advanced.add(current)
     const ok = selected === q.correct
     const newAnswers = [...answers, ok]
     setAnswers(newAnswers)
@@ -170,7 +198,10 @@ export default function CefrExam({
   }
 
   function retry() {
+    restartFocus.current = true
     stopSpeaking()
+    setQuestions(null)
+    setDone(false)
     setAttempt((a) => a + 1) // → useEffect dựng đề MỚI
   }
 
@@ -184,9 +215,9 @@ export default function CefrExam({
       <div className="animate-fade-in space-y-4">
         <div className="glass rounded-2xl p-8 text-center space-y-2">
           <p className="text-5xl">{s.passed ? '🎓' : '📚'}</p>
-          <p className="text-2xl font-bold text-white">
+          <h2 ref={resultHeading} tabIndex={-1} className="text-2xl font-bold text-white">
             {s.correct}/{s.total} · {s.pct}%
-          </p>
+          </h2>
           {s.passed ? (
             <>
               <p className={`font-semibold ${accent.text}`}>
@@ -267,7 +298,7 @@ export default function CefrExam({
   if (!q) return null
 
   return (
-    <div className="animate-fade-in space-y-4">
+    <div ref={questionContainer} className="animate-fade-in space-y-4">
       {/* Đầu bài: nút thoát + tiến độ */}
       <div className="flex items-center justify-between">
         <button
