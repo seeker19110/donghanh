@@ -182,6 +182,7 @@ export default function ExamQuestionCard({
           return (
             <button
               key={opt}
+              data-quiz-option
               type="button"
               ref={(node) => {
                 optionRefs.current[optIdx] = node

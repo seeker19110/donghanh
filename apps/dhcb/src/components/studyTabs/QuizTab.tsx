@@ -313,6 +313,7 @@ export function QuizTab({
           return (
             <button
               key={opt}
+              data-quiz-option
               ref={(node) => {
                 optionButtons.current[optIdx] = node
               }}

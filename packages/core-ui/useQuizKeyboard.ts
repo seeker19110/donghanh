@@ -121,7 +121,8 @@ export function useQuizKeyboard({
       if (
         (event.key === 'Enter' || event.key === ' ') &&
         target instanceof Element &&
-        target.closest(INTERACTIVE_TARGET)
+        target.closest(INTERACTIVE_TARGET) &&
+        !(answered && target.closest('[data-quiz-option]'))
       )
         return
 

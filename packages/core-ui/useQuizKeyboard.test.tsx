@@ -162,6 +162,20 @@ describe('useQuizKeyboard (hook)', () => {
     expect(onNext).not.toHaveBeenCalled()
   })
 
+  it('Enter sau khi chọn trên nút đáp án sang câu kế, nhưng nút khác giữ phím gốc', async () => {
+    const { onNext } = await mountKeyboard(true)
+    const answer = document.createElement('button')
+    answer.dataset.quizOption = ''
+    container.appendChild(answer)
+    expect(press(answer, 'Enter').defaultPrevented).toBe(true)
+    expect(onNext).toHaveBeenCalledTimes(1)
+
+    const replay = document.createElement('button')
+    container.appendChild(replay)
+    expect(press(replay, 'Enter').defaultPrevented).toBe(false)
+    expect(onNext).toHaveBeenCalledTimes(1)
+  })
+
   it.each([
     '<input />',
     '<textarea></textarea>',
