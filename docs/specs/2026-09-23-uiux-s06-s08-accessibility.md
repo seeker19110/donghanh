@@ -1,11 +1,11 @@
 # S06–S08 — Cổng tương phản, zoom và phản hồi quiz
 
-| Thuộc tính       | Giá trị                                                                                       |
-| ---------------- | --------------------------------------------------------------------------------------------- |
-| Goal             | [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), M2/S06–S08                           |
-| Trạng thái       | **S08 Approved for implementation** — chưa nghiệm thu; S06 đã merge, S07 còn ma trận thủ công |
-| Baseline         | [Audit 23/09](../research/2026-09-23-uiux-su-pham-baseline.md), SHA `1d9e247e`                |
-| Đơn vị giao việc | Ba PR riêng: S06, S07, S08; không gộp source vào PR đặc tả                                    |
+| Thuộc tính       | Giá trị                                                                                                        |
+| ---------------- | -------------------------------------------------------------------------------------------------------------- |
+| Goal             | [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), M2/S06–S08                                            |
+| Trạng thái       | **S08 và S07b hẹp Approved for implementation** — chưa nghiệm thu; S06 đã merge, S07 rộng còn ma trận thủ công |
+| Baseline         | [Audit 23/09](../research/2026-09-23-uiux-su-pham-baseline.md), SHA `1d9e247e`                                 |
+| Đơn vị giao việc | Ba PR riêng: S06, S07, S08; không gộp source vào PR đặc tả                                                     |
 
 ## 1. Phạm vi và phụ thuộc
 
@@ -111,6 +111,27 @@ Viewport test hoặc `deviceScaleFactor` không thay bằng chứng zoom trình 
 Cần ghi OS/browser/device, mức zoom, thao tác, kết quả và ảnh trước/sau ở 390/1440;
 bổ sung ảnh 320 khi có reflow và bằng chứng bàn phím ảo trên thiết bị thật. Nếu chưa
 có thiết bị hoặc người kiểm, ghi WAITING, không đánh dấu AC tương ứng đạt.
+
+### Quyết định S07b — bố cục tab CEFR ở 320 px
+
+**Approved for implementation (chỉ S07b, 24/09/2026).** Primary Codex review mã
+`CefrLevelPage.tsx`, impact map và [probe 320/768](../research/2026-09-24-s07-width-matrix.md)
+theo quyền người dùng đã giao tự quyết phương án và triển khai. Đây là quyết định
+thiết kế kỹ thuật nội bộ; không phải phê duyệt chuyên gia bên ngoài, bằng chứng thiết
+bị thật hay nghiệm thu S07 rộng. PR đặc tả phải merge trước PR source.
+
+- Sửa duy nhất hàng sáu tab của trang cấp CEFR: dưới 340 CSS px dùng ba cột/hai hàng;
+  từ 340 px giữ sáu cột. Cả sáu vùng bấm phải ≥44×44 CSS px ở 320 và 390, ba theme,
+  Page zoom 200%. Không thêm cuộn ngang hoặc che tab.
+- Giữ đúng thứ tự DOM, nhãn và `aria-pressed`, `?tab=` thắng nháp khi mở, keyboard
+  activation/focus, bài/quiz đang dở và dữ liệu học. Không đổi quiz builder, chấm
+  điểm, progress, API hay owner.
+- Test hồi quy đo box/hit của sáu tab ở 320/390 với ba theme; kiểm không tràn ngang,
+  chuyển tab bằng click và bàn phím. Dùng Node 22/full gate và E2E theo `AGENTS.md`.
+  Nếu phép đo browser trái probe, dừng source và sửa bằng chứng; không nới ngưỡng.
+- Nút điều hướng shared 36×36, heading Quiz, focus/modal, pinch và bàn phím ảo nằm
+  ngoài S07b; ghi theo dõi riêng. S07 rộng vẫn **PARTIAL / WAITING**, chỉ AC vùng
+  tab được kiểm sau source, không suy toàn ma trận đạt.
 
 ## 4. S08 — Quiz phản hồi bằng chữ và trình đọc màn hình
 
