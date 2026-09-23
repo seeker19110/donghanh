@@ -18,7 +18,7 @@ và gate machine-checkable. Giữ nguyên token/theme hiện hữu và các audi
 ## 2. Vấn đề, người dùng và bằng chứng
 
 - Persona/job-to-be-done: learner, companion user, admin/reviewer; agent triển khai UI.
-- Pain point: `ui-ux-craftsman` giàu guideline nhưng phần quyết định còn prose-heavy; dễ chọn
+- Pain point: `ui-ux` giàu guideline nhưng phần quyết định còn prose-heavy; dễ chọn
   pattern/motion/density trước khi xác định context.
 - Repo đã có 3 theme, semantic token, a11y/AAA, contrast audit, anti-AI-UI rules và E2E.
 - Upstream UI/UX Pro Max có giá trị ở query contract, conditional reasoning, stack-aware guidance,
@@ -30,7 +30,7 @@ và gate machine-checkable. Giữ nguyên token/theme hiện hữu và các audi
 
 - App chính: `apps/dhcb`; app Hub: `apps/hub`.
 - Theme source of truth: `packages/core-ui/theme.css`, app mapping trong Tailwind/index CSS.
-- UI agent: `.agents/skills/ui-ux-craftsman/SKILL.md`.
+- UI agent: `.agents/skills/ui-ux/SKILL.md`.
 - UI auto-rule: `.agents/rules/ui-ux-guidelines.md`.
 - Gate: `scripts/fixed-color-contrast-audit.test.ts`,
   `apps/dhcb/src/lib/themeContrast.test.ts`, `scripts/a11y-gate-policy.test.ts`, Playwright axe.
