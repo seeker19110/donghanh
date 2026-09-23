@@ -58,7 +58,6 @@ for (const man of LEARNING_UX_SCREENS) {
           const { violations } = await new AxeBuilder({ page })
             .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
             // Dự án CHỦ ĐỘNG khoá zoom — cùng ngoại lệ với `a11y.spec.ts`.
-            .disableRules(['meta-viewport'])
             .analyze()
 
           const daGhiNo = NO_AA[man.id] ?? []

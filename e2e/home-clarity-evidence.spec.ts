@@ -330,7 +330,6 @@ async function assertA11y(page: Page): Promise<void> {
   const aa = await new AxeBuilder({ page })
     .include('main')
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
-    .disableRules(['meta-viewport'])
     .analyze()
   expect(aa.violations.map((violation) => `${violation.id} (${violation.impact})`)).toEqual([])
 

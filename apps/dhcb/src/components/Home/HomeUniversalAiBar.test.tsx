@@ -39,7 +39,15 @@ function authValue(kind: 'anonymous' | 'guest' | 'account'): AuthContextValue {
     kind === 'anonymous'
       ? null
       : ({ id: kind === 'guest' ? 'guest_abc' : 'user-1', name: 'Test' } as User)
-  return { user, loading: false, refresh: async () => {}, isGuest: kind === 'guest' }
+  return {
+    user,
+    loading: false,
+    refresh: async () => {},
+    refreshVerified: async () => {
+      throw new Error('Không dùng trong fixture này')
+    },
+    isGuest: kind === 'guest',
+  }
 }
 
 async function render(kind: 'anonymous' | 'guest' | 'account' = 'account', isDesktop = false) {

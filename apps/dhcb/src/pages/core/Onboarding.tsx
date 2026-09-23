@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { getStoredToken } from '@core/authHeader'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import {
   Plane,
@@ -81,9 +82,14 @@ const GOALS: {
 const MINUTES = [5, 10, 20, 30] as const
 
 export default function Onboarding() {
+  const { user } = useAuth()
+  return <OnboardingForm key={user?.id ?? ''} />
+}
+
+function OnboardingForm() {
   const nav = useNavigate()
   const location = useLocation()
-  const { user, refresh } = useAuth()
+  const { user, refreshVerified } = useAuth()
   // Tới từ /placement sau khi làm bài test xếp lớp: đã biết trình độ đề xuất →
   // bỏ qua bước chọn trình độ thủ công (vẫn cho quay lại step 0 nếu muốn đổi ý).
   const presetLevel = (location.state as { presetLevel?: OnboardLevel } | null)?.presetLevel
@@ -100,6 +106,16 @@ export default function Onboarding() {
   const [goal, setGoal] = useState<OnboardGoal>('daily')
   const [minutes, setMinutes] = useState<number>(10)
   const [saving, setSaving] = useState(false)
+  const [saved, setSaved] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
+  const pending = useRef(false)
+  const mounted = useRef(false)
+  useEffect(() => {
+    mounted.current = true
+    return () => {
+      mounted.current = false
+    }
+  }, [])
 
   usePageTitle('Làm quen | Đồng hành cùng bạn')
 
@@ -110,16 +126,43 @@ export default function Onboarding() {
   }, [step])
 
   async function finish() {
-    if (!user) return
+    if (!user || pending.current) return
+    pending.current = true
     setSaving(true)
-    await saveOnboarding({ level, goal, dailyMinutes: minutes, ageGroup })
-    // U-3: dùng lại dữ liệu vừa khai ngay trong app — cache local để Chat/Speaking
-    // đọc được trình độ, và map phút/ngày → tốc độ học từ vựng (5/10/20 từ/ngày).
-    cacheOnboarding(user.id, { level, goal, dailyMinutes: minutes, ageGroup })
-    setDailySpeed(user.id, minutesToSpeed(minutes))
-    await refresh()
-    // Về đúng trang chủ của MÔN vừa chọn (Tiếng Anh → /goc-hoc-tap/english), không phải Home.
-    nav(subjectHomePath(subjectId || 'english'), { replace: true })
+    setSaveError(null)
+    const token = getStoredToken()
+    let didSave = saved
+    try {
+      if (!didSave) {
+        const outcome = await saveOnboarding({ level, goal, dailyMinutes: minutes, ageGroup })
+        if (!mounted.current || token !== getStoredToken()) return
+        if (!outcome.ok) {
+          setSaveError('Chưa xác nhận được việc lưu hồ sơ. Lựa chọn của bạn vẫn còn; hãy thử lại.')
+          return
+        }
+        cacheOnboarding(user.id, { level, goal, dailyMinutes: minutes, ageGroup })
+        setDailySpeed(user.id, minutesToSpeed(minutes))
+        didSave = true
+        setSaved(true)
+      }
+      const verified = await refreshVerified(user.id)
+      if (!mounted.current || token !== getStoredToken()) return
+      if (verified.id !== user.id || !verified.onboarded) {
+        setSaveError('Hồ sơ đã lưu, nhưng chưa xác nhận được phiên học. Hãy thử đọc lại phiên.')
+        return
+      }
+      nav(subjectHomePath(subjectId || 'english'), { replace: true })
+    } catch {
+      if (mounted.current)
+        setSaveError(
+          didSave
+            ? 'Hồ sơ đã lưu, nhưng chưa đọc lại được phiên đăng nhập. Hãy thử đọc lại phiên.'
+            : 'Chưa xác nhận được việc lưu hồ sơ. Lựa chọn của bạn vẫn còn; hãy thử lại.',
+        )
+    } finally {
+      pending.current = false
+      if (mounted.current) setSaving(false)
+    }
   }
 
   return (
@@ -136,6 +179,7 @@ export default function Onboarding() {
             {listSupportedSubjects().map((sub) => (
               <li key={sub.id}>
                 <button
+                  disabled={saving || saved}
                   type="button"
                   onClick={() => {
                     setSubjectId(sub.id)
@@ -179,6 +223,7 @@ export default function Onboarding() {
           <div className="space-y-3">
             {AGE_GROUPS.map((a) => (
               <button
+                disabled={saving || saved}
                 key={a.value}
                 onClick={() => setAgeGroup(a.value)}
                 aria-pressed={ageGroup === a.value}
@@ -198,14 +243,15 @@ export default function Onboarding() {
             ))}
           </div>
           <button
+            disabled={saving || saved}
             onClick={() => (isEnglish ? setStep(1) : void finish())}
-            disabled={saving}
             className="mt-6 w-full bg-accent-500 hover:bg-accent-400 disabled:opacity-60 text-black font-semibold py-3 rounded-2xl flex items-center justify-center gap-2 transition"
           >
             {isEnglish ? 'Tiếp theo' : saving ? 'Đang lưu...' : 'Bắt đầu học! 🚀'}
             {isEnglish && <ChevronRight className="w-4 h-4" />}
           </button>
           <button
+            disabled={saving || saved}
             type="button"
             onClick={() => setSubjectId('')}
             className="mt-3 w-full text-sm text-zinc-400 hover:text-white py-2"
@@ -221,6 +267,7 @@ export default function Onboarding() {
           <h1 className="text-2xl font-bold text-white mb-1">Trình độ của bạn?</h1>
           <p className="text-zinc-400 text-sm mb-4">AI sẽ điều chỉnh độ khó phù hợp.</p>
           <button
+            disabled={saving || saved}
             onClick={() => nav('/placement', { state: { from: 'onboarding' } })}
             className="w-full flex items-center gap-3 p-4 mb-4 rounded-2xl border border-accent-500/40 bg-accent-500/10 text-left hover:bg-accent-500/15 transition-all"
           >
@@ -235,6 +282,7 @@ export default function Onboarding() {
           <div className="space-y-3">
             {LEVELS.map((l) => (
               <button
+                disabled={saving || saved}
                 key={l.value}
                 onClick={() => setLevel(l.value)}
                 className={`w-full flex items-center gap-4 p-4 rounded-2xl border transition-all ${
@@ -253,6 +301,7 @@ export default function Onboarding() {
             ))}
           </div>
           <button
+            disabled={saving || saved}
             onClick={() => setStep(2)}
             className="mt-6 w-full bg-accent-500 hover:bg-accent-400 text-black font-semibold py-3 rounded-2xl flex items-center justify-center gap-2 transition"
           >
@@ -269,6 +318,7 @@ export default function Onboarding() {
               <Sparkles className="w-3.5 h-3.5 shrink-0" />
               Đã xếp trình độ từ bài test —{' '}
               <button
+                disabled={saving || saved}
                 onClick={() => setStep(1)}
                 className="underline underline-offset-2 hover:text-accent-200"
               >
@@ -296,6 +346,7 @@ export default function Onboarding() {
               }
               return (
                 <button
+                  disabled={saving || saved}
                   key={g.value}
                   onClick={() => setGoal(g.value)}
                   className={`w-full flex items-center gap-4 p-4 rounded-2xl border transition-all ${
@@ -322,12 +373,14 @@ export default function Onboarding() {
           </div>
           <div className="flex gap-3 mt-6">
             <button
+              disabled={saving || saved}
               onClick={() => setStep(1)}
               className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-medium py-3 rounded-2xl transition"
             >
               Quay lại
             </button>
             <button
+              disabled={saving || saved}
               onClick={() => setStep(3)}
               className="flex-1 bg-accent-500 hover:bg-accent-400 text-black font-semibold py-3 rounded-2xl flex items-center justify-center gap-2 transition"
             >
@@ -347,6 +400,7 @@ export default function Onboarding() {
           <div className="grid grid-cols-2 gap-3">
             {MINUTES.map((m) => (
               <button
+                disabled={saving || saved}
                 key={m}
                 onClick={() => setMinutes(m)}
                 className={`p-5 rounded-2xl border text-center transition-all ${
@@ -363,19 +417,35 @@ export default function Onboarding() {
           </div>
           <div className="flex gap-3 mt-6">
             <button
+              disabled={saving || saved}
               onClick={() => setStep(2)}
               className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-medium py-3 rounded-2xl transition"
             >
               Quay lại
             </button>
             <button
+              disabled={saving || saved}
               onClick={finish}
-              disabled={saving}
               className="flex-1 bg-accent-500 hover:bg-accent-400 disabled:opacity-60 text-black font-semibold py-3 rounded-2xl flex items-center justify-center gap-2 transition"
             >
               {saving ? 'Đang lưu...' : 'Bắt đầu học! 🚀'}
             </button>
           </div>
+        </div>
+      )}
+      {saveError && (
+        <div className="w-full max-w-sm mt-4 space-y-3">
+          <p role="alert" className="text-sm text-content leading-relaxed">
+            {saveError}
+          </p>
+          <button
+            type="button"
+            disabled={saving}
+            onClick={() => void finish()}
+            className="tap-44 w-full rounded-2xl bg-accent-500 px-4 py-3 font-semibold text-black hover:bg-accent-400 disabled:opacity-60 transition-colors"
+          >
+            {saving ? 'Đang xác nhận…' : saved ? 'Thử đọc lại phiên' : 'Thử lưu lại'}
+          </button>
         </div>
       )}
     </div>

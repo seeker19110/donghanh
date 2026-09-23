@@ -230,7 +230,6 @@ for (const theme of THEMES) {
     const { violations } = await new AxeBuilder({ page })
       .include('section[aria-label="Gợi ý nơi học"]')
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
-      .disableRules(['meta-viewport'])
       .analyze()
     expect(violations.map((v) => `${v.id} (${v.impact})`)).toEqual([])
   })

@@ -5,8 +5,7 @@ import { openLiveLocationTrip } from './helpers/location'
 import { muteTts } from './helpers/tts'
 import { freezeAnimations, waitForStableDom } from './helpers/axe'
 
-// Quét a11y bằng axe-core (WCAG 2.0/2.1/2.2 A & AA). Loại 'meta-viewport' vì dự án
-// CHỦ ĐỘNG khóa zoom (đánh đổi 1 mục a11y, bù bằng sàn chữ ≥11px — CLAUDE.md mục 8).
+// Quét a11y bằng axe-core (WCAG 2.0/2.1/2.2 A & AA), gồm quyền phóng to viewport.
 //
 // [2026-08-04] Cổng SIẾT THÀNH TUYỆT ĐỐI: 0 vi phạm A/AA ở MỌI mức tác động
 // (critical/serious/moderate/minor), thay cho cổng cũ kiểu "không tệ hơn hiện tại"
@@ -19,7 +18,6 @@ async function scan(page: Page) {
   await freezeAnimations(page)
   const { violations } = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
-    .disableRules(['meta-viewport'])
     .analyze()
   // Kèm target CSS selector của phần tử đầu tiên — không có nó, log CI chỉ nói "rớt ở đâu đó
   // trên trang" mà không nói RÕ chỗ nào, buộc phải đoán mò hoặc chờ thêm một vòng CI.

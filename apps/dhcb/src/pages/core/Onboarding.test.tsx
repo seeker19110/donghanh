@@ -10,17 +10,24 @@ import Onboarding from './Onboarding'
 
 ;(globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
 
-const saveOnboardingMock = vi.hoisted(() => vi.fn(async () => undefined))
-const refreshMock = vi.hoisted(() => vi.fn(async () => undefined))
+const saveOnboardingMock = vi.hoisted(() =>
+  vi.fn<(data: unknown) => Promise<{ ok: boolean }>>(async () => ({ ok: true })),
+)
+const cacheMock = vi.hoisted(() => vi.fn())
+const speedMock = vi.hoisted(() => vi.fn())
+const refreshMock = vi.hoisted(() => vi.fn(async () => ({ id: 'u1', onboarded: true })))
 vi.mock('../../lib/cloud', () => ({ saveOnboarding: saveOnboardingMock }))
 vi.mock('../../lib/analytics', () => ({ track: () => undefined }))
 vi.mock('../../lib/onboarding', () => ({
-  cacheOnboarding: () => undefined,
+  cacheOnboarding: cacheMock,
   minutesToSpeed: () => 10,
 }))
-vi.mock('../../lib/curriculum', () => ({ setDailySpeed: () => undefined }))
+vi.mock('../../lib/curriculum', () => ({ setDailySpeed: speedMock }))
 vi.mock('../../context/useAuth', () => ({
-  useAuth: () => ({ user: { id: 'u1', name: 'An', onboarded: false }, refresh: refreshMock }),
+  useAuth: () => ({
+    user: { id: 'u1', name: 'An', onboarded: false },
+    refreshVerified: refreshMock,
+  }),
 }))
 vi.mock('../../components/SubjectIllustration', () => ({ default: () => null }))
 
@@ -29,7 +36,10 @@ describe('Onboarding — chọn môn trước', () => {
   let root: Root
 
   beforeEach(() => {
-    saveOnboardingMock.mockClear()
+    saveOnboardingMock.mockReset().mockResolvedValue({ ok: true })
+    refreshMock.mockReset().mockResolvedValue({ id: 'u1', onboarded: true })
+    cacheMock.mockReset()
+    speedMock.mockReset()
     container = document.createElement('div')
     document.body.appendChild(container)
     root = createRoot(container)
@@ -104,5 +114,80 @@ describe('Onboarding — chọn môn trước', () => {
     expect(container.textContent).toContain('Bước 1 / 4')
     act(() => nut(/Tiếp theo/).click())
     expect(container.textContent).toContain('Bước 2 / 4')
+  })
+  it('POST lỗi giữ lựa chọn nhóm tuổi, không cache/nav; retry giữ payload', async () => {
+    saveOnboardingMock.mockResolvedValueOnce({ ok: false })
+    hien()
+    act(() => nut(/Toán học/).click())
+    act(() => nut(/Thiếu niên/).click())
+    act(() => nut(/Bắt đầu học/).click())
+    await chay()
+    expect(container.querySelector('[role="alert"]')?.textContent).toContain('Chưa xác nhận')
+    expect(nut(/Thiếu niên/).getAttribute('aria-pressed')).toBe('true')
+    expect(cacheMock).not.toHaveBeenCalled()
+    expect(speedMock).not.toHaveBeenCalled()
+    expect(refreshMock).not.toHaveBeenCalled()
+    expect(container.textContent).not.toContain('TRANG-TOAN')
+    act(() => nut(/Thử lưu lại/).click())
+    await chay()
+    expect(saveOnboardingMock.mock.calls[0]![0]).toEqual(saveOnboardingMock.mock.calls[1]![0])
+    expect(cacheMock).toHaveBeenCalledTimes(1)
+    expect(container.textContent).toContain('TRANG-TOAN')
+  })
+
+  it('POST đã lưu, refresh lỗi: retry chỉ đọc phiên và không ghi cache hai lần', async () => {
+    refreshMock.mockRejectedValueOnce(new Error('offline'))
+    hien()
+    act(() => nut(/Toán học/).click())
+    act(() => nut(/Bắt đầu học/).click())
+    await chay()
+    expect(container.querySelector('[role="alert"]')?.textContent).toContain('Hồ sơ đã lưu')
+    expect(container.textContent).not.toContain('TRANG-TOAN')
+    act(() => nut(/Thử đọc lại phiên/).click())
+    await chay()
+    expect(saveOnboardingMock).toHaveBeenCalledTimes(1)
+    expect(cacheMock).toHaveBeenCalledTimes(1)
+    expect(speedMock).toHaveBeenCalledTimes(1)
+    expect(refreshMock).toHaveBeenCalledTimes(2)
+    expect(container.textContent).toContain('TRANG-TOAN')
+  })
+
+  it.each([
+    { id: 'u2', onboarded: true },
+    { id: 'u1', onboarded: false },
+  ])(
+    'không điều hướng khi refresh chưa xác nhận đúng người và onboarding: %j',
+    async (verified) => {
+      refreshMock.mockResolvedValueOnce(verified)
+      hien()
+      act(() => nut(/Toán học/).click())
+      act(() => nut(/Bắt đầu học/).click())
+      await chay()
+      expect(container.textContent).not.toContain('TRANG-TOAN')
+      expect(container.querySelector('[role="alert"]')?.textContent).toContain('Hồ sơ đã lưu')
+    },
+  )
+
+  it('double click chỉ một POST; unmount không ghi cache hoặc đọc phiên', async () => {
+    let resolve!: (result: { ok: boolean }) => void
+    saveOnboardingMock.mockReturnValueOnce(
+      new Promise((done) => {
+        resolve = done
+      }),
+    )
+    hien()
+    act(() => nut(/Toán học/).click())
+    act(() => {
+      const button = nut(/Bắt đầu học/)
+      button.click()
+      button.click()
+    })
+    expect(saveOnboardingMock).toHaveBeenCalledTimes(1)
+    expect(nut(/Đang lưu/).disabled).toBe(true)
+    act(() => root.render(<p>ĐÃ-RỜI-TRANG</p>))
+    await act(async () => resolve({ ok: true }))
+    expect(cacheMock).not.toHaveBeenCalled()
+    expect(refreshMock).not.toHaveBeenCalled()
+    expect(container.textContent).toBe('ĐÃ-RỜI-TRANG')
   })
 })

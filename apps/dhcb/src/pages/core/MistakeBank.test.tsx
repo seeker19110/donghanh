@@ -80,7 +80,15 @@ describe('MistakeBank', () => {
     await act(async () => {
       root.render(
         <AuthContext.Provider
-          value={{ user: NGUOI, loading: false, isGuest: false, refresh: async () => {} }}
+          value={{
+            user: NGUOI,
+            loading: false,
+            isGuest: false,
+            refresh: async () => {},
+            refreshVerified: async () => {
+              throw new Error('Không dùng trong fixture này')
+            },
+          }}
         >
           <LangContext.Provider
             value={{ lang: 'vi', toggleLang: () => {}, setLang: () => {}, T: viTexts }}
