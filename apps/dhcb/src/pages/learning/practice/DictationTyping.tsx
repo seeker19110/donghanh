@@ -14,12 +14,15 @@ import { GameResult } from './GameChrome'
 export function DictationTyping({
   pool,
   isA,
+  uiLang,
   onExit,
 }: {
   pool: DictEntry[]
   isA: boolean
+  uiLang: 'vi' | 'en'
   onExit: () => void
 }) {
+  const isUiVi = uiLang === 'vi'
   const items = useMemo<DictationItem[]>(
     () => buildDictationItems(isA, [], pool, SESSION_SIZE),
     [pool, isA],
@@ -37,7 +40,7 @@ export function DictationTyping({
   if (items.length < 3) {
     return (
       <p className="text-sm text-zinc-400 text-center py-8">
-        {isA ? 'Chưa đủ câu ví dụ để luyện chính tả.' : 'Not enough sentences yet.'}
+        {isUiVi ? 'Chưa đủ câu ví dụ để luyện chính tả.' : 'Not enough sentences yet.'}
       </p>
     )
   }
@@ -47,7 +50,7 @@ export function DictationTyping({
       <GameResult
         score={score}
         total={items.length}
-        isA={isA}
+        uiLang={uiLang}
         onRetry={() => {
           setIdx(0)
           setScore(0)
@@ -77,14 +80,14 @@ export function DictationTyping({
           className="flex items-center gap-2 px-6 py-4 rounded-2xl bg-accent-500/15 border border-accent-500/30 text-accent-300 theme-light:text-accent-800 hover:bg-accent-500/25 transition"
         >
           <Volume2 className="w-6 h-6" />
-          <span className="text-sm font-medium">{isA ? 'Nghe câu' : 'Play sentence'}</span>
+          <span className="text-sm font-medium">{isUiVi ? 'Nghe câu' : 'Play sentence'}</span>
         </button>
       </div>
       <input
         value={typed}
         onChange={(e) => setTyped(e.target.value)}
         disabled={checked !== null}
-        placeholder={isA ? 'Gõ lại những gì bạn nghe được...' : 'Type what you heard...'}
+        placeholder={isUiVi ? 'Gõ lại những gì bạn nghe được...' : 'Type what you heard...'}
         className="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-700 text-white text-sm placeholder:text-zinc-500 focus:outline-none focus:border-accent-500"
       />
       {checked !== null && (
@@ -95,13 +98,13 @@ export function DictationTyping({
             {checked}%
           </p>
           <p className="text-xs text-zinc-400">
-            {isA ? 'Câu đúng' : 'Correct sentence'}: "{current.text}"
+            {isUiVi ? 'Câu đúng' : 'Correct sentence'}: "{current.text}"
           </p>
         </div>
       )}
       {checked === null ? (
         <Button onClick={check} disabled={!typed.trim()} fullWidth>
-          {isA ? 'Kiểm tra' : 'Check'}
+          {isUiVi ? 'Kiểm tra' : 'Check'}
         </Button>
       ) : (
         <Button
@@ -112,7 +115,7 @@ export function DictationTyping({
           }}
           fullWidth
         >
-          {isA ? 'Câu tiếp theo →' : 'Next →'}
+          {isUiVi ? 'Câu tiếp theo →' : 'Next →'}
         </Button>
       )}
     </div>

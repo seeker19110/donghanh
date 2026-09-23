@@ -12,12 +12,15 @@ import { GameResult } from './GameChrome'
 export function FillBlankQuiz({
   pool,
   isA,
+  uiLang,
   onExit,
 }: {
   pool: DictEntry[]
   isA: boolean
+  uiLang: 'vi' | 'en'
   onExit: () => void
 }) {
+  const isUiVi = uiLang === 'vi'
   const items = useMemo(() => {
     return shuffle(pool)
       .filter((w) => (isA ? w.ex_en : w.ex_vi))
@@ -45,7 +48,7 @@ export function FillBlankQuiz({
   if (items.length < 4) {
     return (
       <p className="text-sm text-zinc-400 text-center py-8">
-        {isA ? 'Chưa đủ câu ví dụ để luyện điền từ.' : 'Not enough sentences yet.'}
+        {isUiVi ? 'Chưa đủ câu ví dụ để luyện điền từ.' : 'Not enough sentences yet.'}
       </p>
     )
   }
@@ -55,7 +58,7 @@ export function FillBlankQuiz({
       <GameResult
         score={score}
         total={items.length}
-        isA={isA}
+        uiLang={uiLang}
         onRetry={() => {
           setIdx(0)
           setScore(0)
@@ -110,7 +113,7 @@ export function FillBlankQuiz({
           }}
           fullWidth
         >
-          {isA ? 'Câu tiếp theo →' : 'Next →'}
+          {isUiVi ? 'Câu tiếp theo →' : 'Next →'}
         </Button>
       )}
     </div>

@@ -13,12 +13,15 @@ import { GameResult } from './GameChrome'
 export function VocabListenGuess({
   pool,
   isA,
+  uiLang,
   onExit,
 }: {
   pool: DictEntry[]
   isA: boolean
+  uiLang: 'vi' | 'en'
   onExit: () => void
 }) {
+  const isUiVi = uiLang === 'vi'
   const items = useMemo(() => shuffle(pool).slice(0, SESSION_SIZE), [pool])
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
@@ -38,7 +41,7 @@ export function VocabListenGuess({
   if (items.length < 4) {
     return (
       <p className="text-sm text-zinc-400 text-center py-8">
-        {isA
+        {isUiVi
           ? 'Chưa đủ từ vựng đã học để luyện — hãy học thêm từ mới nhé.'
           : 'Not enough learned words yet — learn more words first.'}
       </p>
@@ -50,7 +53,7 @@ export function VocabListenGuess({
       <GameResult
         score={score}
         total={items.length}
-        isA={isA}
+        uiLang={uiLang}
         onRetry={() => {
           setIdx(0)
           setScore(0)
@@ -82,7 +85,7 @@ export function VocabListenGuess({
           className="flex items-center gap-2 px-6 py-4 rounded-2xl bg-accent-500/15 border border-accent-500/30 text-accent-300 theme-light:text-accent-800 hover:bg-accent-500/25 transition"
         >
           <Volume2 className="w-6 h-6" />
-          <span className="text-sm font-medium">{isA ? 'Nghe lại' : 'Play again'}</span>
+          <span className="text-sm font-medium">{isUiVi ? 'Nghe lại' : 'Play again'}</span>
         </button>
       </div>
       <div className="grid grid-cols-1 gap-2.5">
@@ -117,7 +120,7 @@ export function VocabListenGuess({
           }}
           fullWidth
         >
-          {isA ? 'Câu tiếp theo →' : 'Next →'}
+          {isUiVi ? 'Câu tiếp theo →' : 'Next →'}
         </Button>
       )}
     </div>

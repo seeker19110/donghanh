@@ -92,4 +92,20 @@ describe('assessPronunciationClient', () => {
     const outcome = await assessPronunciationClient(new Blob(['x']), 'hello')
     expect(outcome).toEqual({ ok: false, fallback: false, message: 'Không kết nối được máy chủ' })
   })
+
+  it('opt-in errorCode giữ consumer cũ và phân biệt fallback với lỗi cứng', async () => {
+    vi.stubGlobal(
+      'fetch',
+      async () =>
+        new Response(JSON.stringify({ error: 'tạm ngưng', fallback: true }), { status: 503 }),
+    )
+    const outcome = await assessPronunciationClient(new Blob(['x']), 'hello', {
+      includeErrorCode: true,
+    })
+    expect(outcome).toMatchObject({
+      ok: false,
+      fallback: true,
+      errorCode: 'assessment_unavailable',
+    })
+  })
 })

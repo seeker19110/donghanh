@@ -53,6 +53,7 @@ import PvPArenaCard from '../../components/PvPArena/PvPArenaCard.js'
 import { useLang } from '../../context/useLang'
 import { useAuth } from '../../context/useAuth'
 import { loadCurriculum, getLearningPath } from '../../lib/curriculum'
+import { getDirection } from '../../lib/storage'
 import { getLearnedWords } from '../../lib/vocab'
 import type { DictEntry } from '../../types'
 import { shuffle } from '@dhcb/core-contracts/shuffle'
@@ -70,109 +71,181 @@ import { ReverseInterview } from './practice/ReverseInterview'
 
 // ── Trang chính ─────────────────────────────────────────────────────────
 export default function Practice() {
-  usePageTitle('Luyện tập | Đồng hành cùng bạn')
   const nav = useNavigate()
   const { user } = useAuth()
-  // [Slice 04] Chữ giao diện theo ngôn ngữ giao diện, không theo chiều học Tiếng Anh.
-  const isA = useLang().lang === 'vi'
+  const ownerToken = useMemo(() => ({ owner: user?.id }), [user?.id])
+  const uiLang: 'vi' | 'en' = useLang().lang === 'vi' ? 'vi' : 'en'
+  const isUiVi = uiLang === 'vi'
+  usePageTitle(isUiVi ? 'Luyện tập | Đồng hành cùng bạn' : 'Practice | Your Companion')
   const [mode, setMode] = useState<Mode>('hub')
   const [pool, setPool] = useState<DictEntry[]>([])
+  const [poolState, setPoolState] = useState<'loading' | 'ready' | 'error'>('loading')
+  const [poolOwner, setPoolOwner] = useState<string | undefined>(undefined)
+  const [retryPool, setRetryPool] = useState(0)
+  const [session, setSession] = useState<{
+    ownerToken: object
+    direction: 'A' | 'B'
+    pool: DictEntry[]
+    pronunciationItems: string[]
+  } | null>(null)
 
   useEffect(() => {
-    loadCurriculum().then(() => {
-      const learned = getLearnedWords(user?.id ?? '')
-      const path = getLearningPath()
-      let p = path.filter((w) => learned.has(w.word.toLowerCase()))
-      if (p.length < 12) p = path.slice(0, 80)
-      setPool(p)
-    })
-  }, [user?.id])
+    let active = true
+    loadCurriculum()
+      .then(() => {
+        if (!active) return
+        const learned = getLearnedWords(user?.id ?? '')
+        const path = getLearningPath()
+        let p = path.filter((w) => learned.has(w.word.toLowerCase()))
+        if (p.length < 12) p = path.slice(0, 80)
+        setPool(p)
+        setPoolOwner(user?.id)
+        setPoolState('ready')
+      })
+      .catch(() => {
+        if (active) {
+          setPoolOwner(user?.id)
+          setPoolState('error')
+        }
+      })
+    return () => {
+      active = false
+    }
+  }, [user?.id, retryPool])
 
-  const sentencePool = useMemo(() => pool.filter((w) => (isA ? w.ex_en : w.ex_vi)), [pool, isA])
+  function openMode(nextMode: Exclude<Mode, 'hub'>) {
+    if (poolState !== 'ready' || poolOwner !== user?.id) return
+    const direction = getDirection() === 'B' ? 'B' : 'A'
+    const learningIsA = direction === 'A'
+    const sentencePool = pool.filter((w) => (learningIsA ? w.ex_en : w.ex_vi))
+    const pronunciationItems =
+      nextMode === 'pronounce-words'
+        ? shuffle(pool)
+            .slice(0, SESSION_SIZE)
+            .map((w) => (learningIsA ? w.word : w.vi))
+        : nextMode === 'read-aloud'
+          ? shuffle(sentencePool)
+              .slice(0, SESSION_SIZE)
+              .map((w) => (learningIsA ? w.ex_en : w.ex_vi))
+          : []
+    setSession({ ownerToken, direction, pool: [...pool], pronunciationItems })
+    setMode(nextMode)
+  }
 
-  if (mode !== 'hub') {
+  function closeMode() {
+    setSession(null)
+    setMode('hub')
+  }
+
+  const activeMode = session?.ownerToken === ownerToken ? mode : 'hub'
+  const poolReadyForUser = poolState === 'ready' && poolOwner === user?.id
+  const learningIsA = session?.direction !== 'B'
+  const sentencePool = useMemo(
+    () => session?.pool.filter((w) => (session.direction === 'A' ? w.ex_en : w.ex_vi)) ?? [],
+    [session],
+  )
+
+  if (activeMode !== 'hub' && session) {
     const titles: Record<Exclude<Mode, 'hub'>, [string, string]> = {
       'vocab-listen': [
-        isA ? 'Nghe đoán từ vựng' : 'Listen & guess',
-        isA ? 'Nghe rồi chọn nghĩa đúng' : 'Listen then pick the meaning',
+        isUiVi ? 'Nghe đoán từ vựng' : 'Listen & guess',
+        isUiVi ? 'Nghe rồi chọn nghĩa đúng' : 'Listen then pick the meaning',
       ],
       scramble: [
-        isA ? 'Sắp xếp câu' : 'Sentence scramble',
-        isA ? 'Ghép từ đúng thứ tự' : 'Put the words in order',
+        isUiVi ? 'Sắp xếp câu' : 'Sentence scramble',
+        isUiVi ? 'Ghép từ đúng thứ tự' : 'Put the words in order',
       ],
       dictation: [
-        isA ? 'Nghe & viết lại' : 'Listen & write',
-        isA ? 'Nghe rồi gõ lại câu' : 'Listen then type the sentence',
+        isUiVi ? 'Nghe & viết lại' : 'Listen & write',
+        isUiVi ? 'Nghe rồi gõ lại câu' : 'Listen then type the sentence',
       ],
       fillblank: [
-        isA ? 'Điền từ trắc nghiệm' : 'Fill in the blank',
-        isA ? 'Chọn từ đúng cho câu' : 'Pick the right word',
+        isUiVi ? 'Điền từ trắc nghiệm' : 'Fill in the blank',
+        isUiVi ? 'Chọn từ đúng cho câu' : 'Pick the right word',
       ],
       'pronounce-words': [
-        isA ? 'Chấm phát âm từ vựng' : 'Word pronunciation',
-        isA ? 'Đọc to từng từ, AI chấm điểm' : 'Read each word aloud',
+        isUiVi ? 'Chấm phát âm từ vựng' : 'Word pronunciation',
+        isUiVi ? 'Đọc to từng từ, AI chấm điểm' : 'Read each word aloud',
       ],
       'read-aloud': [
-        isA ? 'Đọc lại câu' : 'Read the sentence',
-        isA ? 'Đọc to cả câu, AI chấm điểm' : 'Read the sentence aloud',
+        isUiVi ? 'Đọc lại câu' : 'Read the sentence',
+        isUiVi ? 'Đọc to cả câu, AI chấm điểm' : 'Read the sentence aloud',
       ],
       shadowing: [
-        isA ? 'Shadowing' : 'Shadowing',
-        isA ? 'Nghe & nói đè theo ngay khi audio phát' : 'Speak along as the audio plays',
+        isUiVi ? 'Shadowing' : 'Shadowing',
+        isUiVi ? 'Nghe & nói đè theo ngay khi audio phát' : 'Speak along as the audio plays',
       ],
       interview: [
-        isA ? 'Phỏng vấn ngược' : 'Reverse interview',
-        isA ? 'AI hỏi, bạn trả lời nói, AI chấm nội dung' : 'AI asks, you answer, AI grades',
+        isUiVi ? 'Phỏng vấn ngược' : 'Reverse interview',
+        isUiVi ? 'AI hỏi, bạn trả lời nói, AI chấm nội dung' : 'AI asks, you answer, AI grades',
       ],
     }
-    const [title, sub] = titles[mode]
+    const [title, sub] = titles[activeMode]
     return (
       <>
-        <Layout onBack={() => setMode('hub')} />
+        <Layout onBack={closeMode} />
         {/* [2026-09-02, đợt 4 thiết kế lại desktop] Bài luyện tập 1 lượt → width reading. */}
         <PageShell
           width="reading"
           baseWidth="max-w-2xl"
           className="!pb-[calc(1.5rem+var(--bnav-h))]"
         >
-          <MiniHeader title={title} sub={sub} onBack={() => setMode('hub')} />
-          {mode === 'vocab-listen' && (
-            <VocabListenGuess pool={pool} isA={isA} onExit={() => setMode('hub')} />
-          )}
-          {mode === 'scramble' && (
-            <SentenceScramble pool={sentencePool} isA={isA} onExit={() => setMode('hub')} />
-          )}
-          {mode === 'dictation' && (
-            <DictationTyping pool={sentencePool} isA={isA} onExit={() => setMode('hub')} />
-          )}
-          {mode === 'fillblank' && (
-            <FillBlankQuiz pool={sentencePool} isA={isA} onExit={() => setMode('hub')} />
-          )}
-          {mode === 'pronounce-words' && (
-            <PronounceList
-              items={shuffle(pool)
-                .slice(0, SESSION_SIZE)
-                .map((w) => (isA ? w.word : w.vi))}
-              isA={isA}
-              lang={isA ? 'en' : 'vi'}
-              onExit={() => setMode('hub')}
+          <MiniHeader title={title} sub={sub} onBack={closeMode} />
+          {activeMode === 'vocab-listen' && (
+            <VocabListenGuess
+              pool={session.pool}
+              isA={learningIsA}
+              uiLang={uiLang}
+              onExit={closeMode}
             />
           )}
-          {mode === 'read-aloud' && (
-            <PronounceList
-              items={shuffle(sentencePool)
-                .slice(0, SESSION_SIZE)
-                .map((w) => (isA ? w.ex_en : w.ex_vi))}
-              isA={isA}
-              lang={isA ? 'en' : 'vi'}
-              onExit={() => setMode('hub')}
+          {activeMode === 'scramble' && (
+            <SentenceScramble
+              pool={sentencePool}
+              isA={learningIsA}
+              uiLang={uiLang}
+              onExit={closeMode}
             />
           )}
-          {mode === 'shadowing' && (
-            <Shadowing pool={sentencePool} isA={isA} onExit={() => setMode('hub')} />
+          {activeMode === 'dictation' && (
+            <DictationTyping
+              pool={sentencePool}
+              isA={learningIsA}
+              uiLang={uiLang}
+              onExit={closeMode}
+            />
           )}
-          {mode === 'interview' && user && (
-            <ReverseInterview isA={isA} user={user} onExit={() => setMode('hub')} />
+          {activeMode === 'fillblank' && (
+            <FillBlankQuiz
+              pool={sentencePool}
+              isA={learningIsA}
+              uiLang={uiLang}
+              onExit={closeMode}
+            />
+          )}
+          {activeMode === 'pronounce-words' && (
+            <PronounceList
+              items={session.pronunciationItems}
+              isA={learningIsA}
+              uiLang={uiLang}
+              lang={learningIsA ? 'en' : 'vi'}
+              onExit={closeMode}
+            />
+          )}
+          {activeMode === 'read-aloud' && (
+            <PronounceList
+              items={session.pronunciationItems}
+              isA={learningIsA}
+              uiLang={uiLang}
+              lang={learningIsA ? 'en' : 'vi'}
+              onExit={closeMode}
+            />
+          )}
+          {activeMode === 'shadowing' && (
+            <Shadowing pool={sentencePool} isA={learningIsA} uiLang={uiLang} onExit={closeMode} />
+          )}
+          {activeMode === 'interview' && user && (
+            <ReverseInterview isA={learningIsA} uiLang={uiLang} user={user} onExit={closeMode} />
           )}
         </PageShell>
       </>
@@ -183,12 +256,14 @@ export default function Practice() {
     <>
       <Layout
         back={false}
-        title={isA ? 'Phòng Luyện Tập Đa Môn & Sửa Lỗi' : 'Multi-Subject Practice & Mistake Studio'}
+        title={
+          isUiVi ? 'Phòng Luyện Tập Đa Môn & Sửa Lỗi' : 'Multi-Subject Practice & Mistake Studio'
+        }
       />
       {/* [2026-09-02, đợt 4 thiết kế lại desktop] Trung tâm luyện tập, nhiều thẻ → width standard. */}
       <PageShell width="standard" baseWidth="max-w-3xl" className="space-y-7">
         <h1 tabIndex={-1} className="sr-only focus:outline-none">
-          {isA ? 'Phòng Luyện Tập Đa Môn & Sửa Lỗi' : 'Multi-Subject Practice & Mistake Studio'}
+          {isUiVi ? 'Phòng Luyện Tập Đa Môn & Sửa Lỗi' : 'Multi-Subject Practice & Mistake Studio'}
         </h1>
 
         {/* ── BANNER SPOTLIGHT: SỔ TAY SỬA LỖI ĐA MÔN & CUNG ĐIỆN TRÍ NHỚ ── */}
@@ -497,18 +572,45 @@ export default function Practice() {
         </section>
 
         {/* ── TẦNG 3: 8 BÀI TẬP PHẢN XẠ NHANH (Interactive Drill Studio) ── */}
-        <section aria-label="Bài tập tương tác nhanh" className="space-y-3">
+        <section
+          aria-label={isUiVi ? 'Bài tập tương tác nhanh' : 'Quick interactive exercises'}
+          className="space-y-3"
+        >
+          {(poolState === 'loading' || poolOwner !== user?.id) && (
+            <p role="status" className="text-sm text-zinc-300">
+              {isUiVi ? 'Đang tải nội dung luyện tập…' : 'Loading practice content…'}
+            </p>
+          )}
+          {poolState === 'error' && poolOwner === user?.id && (
+            <div role="alert" className="flex items-center gap-3 text-sm text-zinc-200">
+              <span>
+                {isUiVi ? 'Chưa tải được nội dung luyện tập.' : 'Could not load practice content.'}
+              </span>
+              <button
+                type="button"
+                className="underline underline-offset-2"
+                onClick={() => {
+                  setPoolState('loading')
+                  setPool([])
+                  setRetryPool((n) => n + 1)
+                }}
+              >
+                {isUiVi ? 'Thử lại' : 'Retry'}
+              </button>
+            </div>
+          )}
           <div className="flex items-center justify-between px-1">
             <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-sky-400" />
-              3. 8 Chế Độ Luyện Tập Phản Xạ Nhanh
+              {isUiVi ? '3. 8 Chế Độ Luyện Tập Phản Xạ Nhanh' : '3. Eight quick practice modes'}
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             {/* 1. Nghe đoán từ */}
             <button
-              onClick={() => setMode('vocab-listen')}
+              disabled={!poolReadyForUser}
+              onClick={() => openMode('vocab-listen')}
               className="tap-44 flex items-center gap-3 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-zinc-700 text-left transition active:scale-[0.98] group"
             >
               <div className="w-9 h-9 rounded-xl bg-sky-500/15 text-sky-400 theme-light:text-sky-800 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
@@ -516,16 +618,19 @@ export default function Practice() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-bold text-white group-hover:text-sky-300 transition-colors truncate">
-                  Nghe Đoán Từ Vựng
+                  {isUiVi ? 'Nghe Đoán Từ Vựng' : 'Listen and guess vocabulary'}
                 </p>
-                <p className="text-[11px] text-zinc-400 truncate">Nghe phát âm, chọn nghĩa đúng</p>
+                <p className="text-[11px] text-zinc-400 truncate">
+                  {isUiVi ? 'Nghe phát âm, chọn nghĩa đúng' : 'Listen and choose the meaning'}
+                </p>
               </div>
               <ChevronRight className="w-4 h-4 text-zinc-500 shrink-0" />
             </button>
 
             {/* 2. Sắp xếp câu */}
             <button
-              onClick={() => setMode('scramble')}
+              disabled={!poolReadyForUser}
+              onClick={() => openMode('scramble')}
               className="tap-44 flex items-center gap-3 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-zinc-700 text-left transition active:scale-[0.98] group"
             >
               <div className="w-9 h-9 rounded-xl bg-indigo-500/15 text-indigo-400 theme-light:text-indigo-800 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
@@ -533,10 +638,12 @@ export default function Practice() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-bold text-white group-hover:text-indigo-300 transition-colors truncate">
-                  Sắp Xếp Câu Hoàn Chỉnh
+                  {isUiVi ? 'Sắp Xếp Câu Hoàn Chỉnh' : 'Put the sentence in order'}
                 </p>
                 <p className="text-[11px] text-zinc-400 truncate">
-                  Ghép từ ngữ thành câu chuẩn ngữ pháp
+                  {isUiVi
+                    ? 'Ghép từ ngữ thành câu chuẩn ngữ pháp'
+                    : 'Arrange words into a sentence'}
                 </p>
               </div>
               <ChevronRight className="w-4 h-4 text-zinc-500 shrink-0" />
@@ -544,7 +651,8 @@ export default function Practice() {
 
             {/* 3. Nghe viết chính tả */}
             <button
-              onClick={() => setMode('dictation')}
+              disabled={!poolReadyForUser}
+              onClick={() => openMode('dictation')}
               className="tap-44 flex items-center gap-3 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-zinc-700 text-left transition active:scale-[0.98] group"
             >
               <div className="w-9 h-9 rounded-xl bg-violet-500/15 text-violet-400 theme-light:text-violet-800 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
@@ -552,10 +660,12 @@ export default function Practice() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-bold text-white group-hover:text-violet-300 transition-colors truncate">
-                  Nghe & Viết Chính Tả
+                  {isUiVi ? 'Nghe & Viết Chính Tả' : 'Listen and type'}
                 </p>
                 <p className="text-[11px] text-zinc-400 truncate">
-                  Nghe từng câu và gõ lại chính xác
+                  {isUiVi
+                    ? 'Nghe từng câu và gõ lại chính xác'
+                    : 'Listen to each sentence and type it'}
                 </p>
               </div>
               <ChevronRight className="w-4 h-4 text-zinc-500 shrink-0" />
@@ -563,7 +673,8 @@ export default function Practice() {
 
             {/* 4. Điền từ trắc nghiệm */}
             <button
-              onClick={() => setMode('fillblank')}
+              disabled={!poolReadyForUser}
+              onClick={() => openMode('fillblank')}
               className="tap-44 flex items-center gap-3 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-zinc-700 text-left transition active:scale-[0.98] group"
             >
               <div className="w-9 h-9 rounded-xl bg-emerald-500/15 text-emerald-400 theme-light:text-emerald-800 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
@@ -571,10 +682,12 @@ export default function Practice() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-bold text-white group-hover:text-emerald-300 transition-colors truncate">
-                  Điền Từ Ngữ Cảnh
+                  {isUiVi ? 'Điền Từ Ngữ Cảnh' : 'Fill in the blank'}
                 </p>
                 <p className="text-[11px] text-zinc-400 truncate">
-                  Chọn từ chính xác để hoàn chỉnh câu
+                  {isUiVi
+                    ? 'Chọn từ chính xác để hoàn chỉnh câu'
+                    : 'Choose the word that completes the sentence'}
                 </p>
               </div>
               <ChevronRight className="w-4 h-4 text-zinc-500 shrink-0" />
@@ -582,7 +695,8 @@ export default function Practice() {
 
             {/* 5. Chấm phát âm từ */}
             <button
-              onClick={() => setMode('pronounce-words')}
+              disabled={!poolReadyForUser}
+              onClick={() => openMode('pronounce-words')}
               className="tap-44 flex items-center gap-3 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-zinc-700 text-left transition active:scale-[0.98] group"
             >
               <div className="w-9 h-9 rounded-xl bg-amber-500/15 text-amber-400 theme-light:text-amber-800 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
@@ -590,10 +704,10 @@ export default function Practice() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-bold text-white group-hover:text-amber-300 transition-colors truncate">
-                  Chấm Phát Âm Từ Vựng
+                  {isUiVi ? 'Chấm Phát Âm Từ Vựng' : 'Word pronunciation'}
                 </p>
                 <p className="text-[11px] text-zinc-400 truncate">
-                  Đọc to từ vựng, AI chấm điểm chuẩn
+                  {isUiVi ? 'Đọc to từ vựng, AI chấm điểm chuẩn' : 'Read words aloud for feedback'}
                 </p>
               </div>
               <ChevronRight className="w-4 h-4 text-zinc-500 shrink-0" />
@@ -601,7 +715,8 @@ export default function Practice() {
 
             {/* 6. Đọc diễn cảm cả câu */}
             <button
-              onClick={() => setMode('read-aloud')}
+              disabled={!poolReadyForUser}
+              onClick={() => openMode('read-aloud')}
               className="tap-44 flex items-center gap-3 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-zinc-700 text-left transition active:scale-[0.98] group"
             >
               <div className="w-9 h-9 rounded-xl bg-rose-500/15 text-rose-400 theme-light:text-rose-800 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
@@ -609,10 +724,12 @@ export default function Practice() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-bold text-white group-hover:text-rose-300 transition-colors truncate">
-                  Đọc Lại Câu Ví Dụ
+                  {isUiVi ? 'Đọc Lại Câu Ví Dụ' : 'Read example sentences'}
                 </p>
                 <p className="text-[11px] text-zinc-400 truncate">
-                  Rèn ngữ điệu và nối âm tự nhiên
+                  {isUiVi
+                    ? 'Rèn ngữ điệu và nối âm tự nhiên'
+                    : 'Practice intonation and connected speech'}
                 </p>
               </div>
               <ChevronRight className="w-4 h-4 text-zinc-500 shrink-0" />
@@ -620,7 +737,8 @@ export default function Practice() {
 
             {/* 7. Shadowing */}
             <button
-              onClick={() => setMode('shadowing')}
+              disabled={!poolReadyForUser}
+              onClick={() => openMode('shadowing')}
               className="tap-44 flex items-center gap-3 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-zinc-700 text-left transition active:scale-[0.98] group"
             >
               <div className="w-9 h-9 rounded-xl bg-accent-500/15 text-accent-400 theme-light:text-accent-800 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
@@ -628,10 +746,10 @@ export default function Practice() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-bold text-white group-hover:text-accent-300 transition-colors truncate">
-                  Nói Đè Theo Mẫu
+                  {isUiVi ? 'Nói Đè Theo Mẫu' : 'Shadow the model'}
                 </p>
                 <p className="text-[11px] text-zinc-400 truncate">
-                  Nói đồng thời theo nhịp audio phát
+                  {isUiVi ? 'Nói đồng thời theo nhịp audio phát' : 'Speak along with the audio'}
                 </p>
               </div>
               <ChevronRight className="w-4 h-4 text-zinc-500 shrink-0" />
@@ -639,7 +757,8 @@ export default function Practice() {
 
             {/* 8. Phỏng vấn ngược */}
             <button
-              onClick={() => setMode('interview')}
+              disabled={!poolReadyForUser}
+              onClick={() => openMode('interview')}
               className="tap-44 flex items-center gap-3 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-zinc-700 text-left transition active:scale-[0.98] group"
             >
               <div className="w-9 h-9 rounded-xl bg-purple-500/15 text-purple-400 theme-light:text-purple-800 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
@@ -647,10 +766,12 @@ export default function Practice() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-bold text-white group-hover:text-purple-300 transition-colors truncate">
-                  Phỏng Vấn Ngược AI
+                  {isUiVi ? 'Phỏng Vấn Ngược AI' : 'Reverse interview'}
                 </p>
                 <p className="text-[11px] text-zinc-400 truncate">
-                  AI đặt câu hỏi, bạn trả lời bằng giọng nói
+                  {isUiVi
+                    ? 'AI đặt câu hỏi, bạn trả lời bằng giọng nói'
+                    : 'Answer AI questions by voice'}
                 </p>
               </div>
               <ChevronRight className="w-4 h-4 text-zinc-500 shrink-0" />

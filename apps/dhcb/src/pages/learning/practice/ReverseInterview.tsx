@@ -1,7 +1,6 @@
 // apps/dhcb/src/pages/learning/practice/ReverseInterview.tsx — tách từ pages/learning/Practice.tsx (1.752 dòng) ngày 2026-09-06, mã GIỮ NGUYÊN.
 
-import { thongDiepLoiThanThien } from '../../../lib/friendlyError'
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Mic, Square, Sparkles } from 'lucide-react'
 import { getUsage, incrementUsage } from '../../../lib/storage'
 import { startListening, isSTTSupported } from '../../../lib/stt'
@@ -27,13 +26,16 @@ interface InterviewFeedback {
 // (LIMITS trong types.ts) — KHÔNG thêm cột đếm mới.
 export function ReverseInterview({
   isA,
+  uiLang,
   user,
   onExit,
 }: {
   isA: boolean
+  uiLang: 'vi' | 'en'
   user: User
   onExit: () => void
 }) {
+  const uiVi = uiLang === 'vi'
   const topics = useMemo(() => shuffle(CHALLENGE_TOPICS).slice(0, INTERVIEW_ROUNDS), [])
   const [idx, setIdx] = useState(0)
   const [passCount, setPassCount] = useState(0)
@@ -44,12 +46,23 @@ export function ReverseInterview({
   const [error, setError] = useState('')
   const [limitHit, setLimitHit] = useState(false)
   const stopRef = useRef<(() => void) | null>(null)
+  const generationRef = useRef(0)
+  const gradingRef = useRef(false)
   const topic = topics[idx]
+
+  useEffect(
+    () => () => {
+      generationRef.current += 1
+      stopRef.current?.()
+      stopRef.current = null
+    },
+    [],
+  )
 
   if (!isSTTSupported()) {
     return (
       <p className="text-sm text-zinc-400 text-center py-8">
-        {isA
+        {uiVi
           ? 'Trình duyệt không hỗ trợ nhận giọng nói — dùng Chrome hoặc Edge.'
           : 'Your browser does not support speech recognition — use Chrome or Edge.'}
       </p>
@@ -61,8 +74,11 @@ export function ReverseInterview({
       <GameResult
         score={passCount}
         total={topics.length}
-        isA={isA}
+        uiLang={uiLang}
         onRetry={() => {
+          generationRef.current += 1
+          stopRef.current?.()
+          stopRef.current = null
           setIdx(0)
           setPassCount(0)
           setResult(null)
@@ -74,6 +90,7 @@ export function ReverseInterview({
   }
 
   function startAnswer() {
+    const generation = ++generationRef.current
     setTranscript('')
     setResult(null)
     setError('')
@@ -82,16 +99,18 @@ export function ReverseInterview({
       isA ? 'en' : 'vi',
       () => {},
       (last) => {
+        if (generation !== generationRef.current) return
         setListening(false)
         if (!last.trim()) {
-          setError(isA ? 'Không nghe rõ, thử lại nhé.' : 'Did not catch that, try again.')
+          setError('unclear')
           return
         }
         setTranscript(last)
       },
       () => {
+        if (generation !== generationRef.current) return
         setListening(false)
-        setError(isA ? 'Lỗi micro, thử lại.' : 'Mic error, try again.')
+        setError('mic')
       },
     )
   }
@@ -102,7 +121,7 @@ export function ReverseInterview({
   }
 
   async function grade() {
-    if (!topic) return
+    if (!topic || gradingRef.current) return
     // Free plan: server tự chặn theo kho lượt tuần (không suy được từ localStorage) —
     // chỉ chặn TRƯỚC ở client cho gói trả phí, giống Speaking.tsx.
     const plan = effectivePlan(user.plan)
@@ -111,6 +130,8 @@ export function ReverseInterview({
       setLimitHit(true)
       return
     }
+    gradingRef.current = true
+    const generation = generationRef.current
     setGrading(true)
     setError('')
     try {
@@ -124,22 +145,24 @@ export function ReverseInterview({
       )
       const ai = parseJson<InterviewFeedback>(raw)
       if (!ai) throw new Error('parse')
-      setResult(ai)
       incrementUsage(user.id, 'speakingCount')
-      if (ai.score >= 60) setPassCount((c) => c + 1)
+      if (generation === generationRef.current) {
+        setResult(ai)
+        if (ai.score >= 60) setPassCount((c) => c + 1)
+      }
     } catch (e) {
-      setError(
-        thongDiepLoiThanThien(e, isA ? 'Có lỗi xảy ra' : 'Something went wrong', isA ? 'vi' : 'en'),
-      )
+      if (generation === generationRef.current)
+        setError(e instanceof Error && /429|limit|quota/i.test(e.message) ? 'limit' : 'request')
     } finally {
-      setGrading(false)
+      gradingRef.current = false
+      if (generation === generationRef.current) setGrading(false)
     }
   }
 
   if (limitHit) {
     return (
       <p className="text-sm text-zinc-400 text-center py-8">
-        {isA
+        {uiVi
           ? 'Bạn đã dùng hết lượt Nói hôm nay — quay lại vào ngày mai hoặc nâng cấp gói.'
           : 'You have used all your speaking turns today — come back tomorrow or upgrade.'}
       </p>
@@ -153,7 +176,7 @@ export function ReverseInterview({
       </p>
       <div className="text-center space-y-1">
         <p className="text-[11px] uppercase tracking-wide text-accent-400 theme-light:text-accent-800 font-semibold">
-          {isA ? 'AI hỏi' : 'AI asks'}
+          {uiVi ? 'AI hỏi' : 'AI asks'}
         </p>
         <p className="text-lg font-semibold text-white px-2">
           {isA ? topic.titleEn : topic.titleVi}
@@ -174,14 +197,14 @@ export function ReverseInterview({
             <>
               <Square className="w-5 h-5" />
               <span className="text-sm font-medium">
-                {isA ? 'Đang nghe... bấm để dừng' : 'Listening... tap to stop'}
+                {uiVi ? 'Đang nghe... bấm để dừng' : 'Listening... tap to stop'}
               </span>
             </>
           ) : (
             <>
               <Mic className="w-5 h-5" />
               <span className="text-sm font-medium">
-                {isA ? 'Trả lời bằng giọng nói' : 'Answer by voice'}
+                {uiVi ? 'Trả lời bằng giọng nói' : 'Answer by voice'}
               </span>
             </>
           )}
@@ -191,7 +214,7 @@ export function ReverseInterview({
       {transcript && !result && (
         <div className="text-center space-y-3">
           <p className="text-xs text-zinc-400">
-            {isA ? 'Bạn trả lời' : 'You answered'}: "{transcript}"
+            {uiVi ? 'Bạn trả lời' : 'You answered'}: "{transcript}"
           </p>
           <button
             onClick={() => void grade()}
@@ -200,10 +223,10 @@ export function ReverseInterview({
           >
             <Sparkles className="w-4 h-4" />
             {grading
-              ? isA
+              ? uiVi
                 ? 'Đang chấm...'
                 : 'Grading...'
-              : isA
+              : uiVi
                 ? 'AI chấm điểm'
                 : 'Grade with AI'}
           </button>
@@ -220,19 +243,43 @@ export function ReverseInterview({
           <p className="text-sm text-zinc-200">{result.feedback}</p>
           {result.correction && (
             <p className="text-xs text-amber-300/90 theme-light:text-amber-800/90">
-              {isA ? 'Gợi ý câu tốt hơn' : 'Better version'}: {result.correction}
+              {uiVi ? 'Gợi ý câu tốt hơn' : 'Better version'}: {result.correction}
             </p>
           )}
         </div>
       )}
 
       {error && (
-        <p className="text-xs text-rose-400/80 theme-light:text-rose-800/80 text-center">{error}</p>
+        <p className="text-xs text-rose-400/80 theme-light:text-rose-800/80 text-center">
+          {uiVi
+            ? error === 'unclear'
+              ? 'Không nghe rõ, thử lại nhé.'
+              : error === 'mic'
+                ? 'Lỗi micro, thử lại.'
+                : error === 'limit'
+                  ? 'Đã đạt giới hạn lượt — thử lại sau.'
+                  : 'Không chấm được câu trả lời — thử lại.'
+            : error === 'unclear'
+              ? 'Did not catch that, try again.'
+              : error === 'mic'
+                ? 'Mic error, try again.'
+                : error === 'limit'
+                  ? 'Usage limit reached — try again later.'
+                  : 'Could not grade your answer — try again.'}
+        </p>
       )}
 
       {result && (
-        <Button onClick={() => setIdx((i) => i + 1)} fullWidth>
-          {isA ? 'Câu hỏi tiếp theo →' : 'Next question →'}
+        <Button
+          onClick={() => {
+            generationRef.current += 1
+            stopRef.current?.()
+            stopRef.current = null
+            setIdx((i) => i + 1)
+          }}
+          fullWidth
+        >
+          {uiVi ? 'Câu hỏi tiếp theo →' : 'Next question →'}
         </Button>
       )}
     </div>
