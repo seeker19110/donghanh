@@ -89,7 +89,8 @@
     "review:status": "tsx scripts/review-status.ts",
     "export:review-queue": "tsx scripts/export-review-queue.ts",
     "review:sync": "tsx scripts/review-sync.ts",
-    "size:chunks": "tsx scripts/check-lesson-chunks.ts"
+    "size:chunks": "tsx scripts/check-lesson-chunks.ts",
+    "check:ui-ux": "vitest run scripts/ui-ux-decision-contract.test.ts scripts/a11y-gate-policy.test.ts scripts/contrast-audit.test.ts scripts/fixed-color-contrast-audit.test.ts apps/dhcb/src/lib/themeContrast.test.ts packages/core-ui/theme.test.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1137.0",
