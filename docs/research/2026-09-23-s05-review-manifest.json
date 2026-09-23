@@ -1,0 +1,2474 @@
+{
+  "schemaVersion": 1,
+  "purpose": "S05 pre-approval offline expert/Product review; accepted real-data samples only",
+  "sourceCommit": "9c3e2fa27d9da5b4ea5675f7abaec4abe3af2106",
+  "dictionaryTree": "0e9a2f1ef11d5ab8ed2bbfac46a31dab452abd3a",
+  "datasetDigest": "45ea26ee3066549e9aba97d3c05dc6a4a98b25c40e1d11d86516b33de36bbb65",
+  "ruleVersion": "s05-offline-v1",
+  "seed": "s05-v1",
+  "scriptSha256": "9e2b17b25bc46f652b2ea712cb14996482b008b2ee4522ecd719300fcf51a3a4",
+  "sourceArtifactSha256": {
+    "candidates": "51f076a3c16258e1dbacc574d0cf6989e6ee1d77dec7772df5109907c183c4a4",
+    "offlineManifest": "2ab083ebd4ca31e162671f7b6be59ec36f72ff9a90d55fa10a039c32b9366b54"
+  },
+  "caveat": "Offline script is independent of unapproved runtime builder; technical PASS is structural only.",
+  "expertStatus": "WAITING_EXPERT_REVIEW",
+  "productAcceptance": {
+    "status": "WAITING_EXPERT_REVIEW",
+    "productReviewer": null,
+    "signedAt": null,
+    "unresolved": [
+      "S05 spec Draft",
+      "runtime builder parity",
+      "40-sample expert review",
+      "learner-pool fixture",
+      "source UI/CI gates"
+    ]
+  },
+  "directions": {
+    "A": [
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-009.json#204",
+        "sourceWord": "trim",
+        "pos": "v",
+        "rank": "00128c7dd873a36bafa198d059ce7cbc16ac257b3cde5e21fbf6baac8ea366ba",
+        "tags": ["form_only"],
+        "sentenceNfc": "He trimmed the hedges in the yard.",
+        "span": {
+          "start": 3,
+          "end": 10
+        },
+        "answer": "trimmed",
+        "blanked": "He _____ the hedges in the yard.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-009.json#204:d3",
+            "label": "conditionally",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#1111"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-009.json#204:correct",
+            "label": "trimmed",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#204"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-009.json#204:d1",
+            "label": "detail",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#384"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-009.json#204:d2",
+            "label": "himself",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#135"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-009.json#204:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-002.json#934",
+        "sourceWord": "emit",
+        "pos": "v",
+        "rank": "0051f35b40bfda2e9cdce5705e100c73469884d37d8fb0c47636f8c688432a33",
+        "tags": ["form_only"],
+        "sentenceNfc": "The lamp emits a soft light.",
+        "span": {
+          "start": 9,
+          "end": 14
+        },
+        "answer": "emits",
+        "blanked": "The lamp _____ a soft light.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-002.json#934:d2",
+            "label": "remorselessly",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#1186"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-002.json#934:correct",
+            "label": "emits",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#934"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-002.json#934:d1",
+            "label": "awkward",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-000.json#680"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-002.json#934:d3",
+            "label": "witness",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#947"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-002.json#934:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-008.json#1062",
+        "sourceWord": "capital letter",
+        "pos": "n",
+        "rank": "011a1a6484a21a1cff5cdbd22a609028b29d19869adac241c4c5c485fe6c4ff6",
+        "tags": ["answer_multiword"],
+        "sentenceNfc": "Start each sentence with a capital letter.",
+        "span": {
+          "start": 27,
+          "end": 41
+        },
+        "answer": "capital letter",
+        "blanked": "Start each sentence with a _____.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-008.json#1062:d2",
+            "label": "unenviably",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#1170"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-008.json#1062:d3",
+            "label": "norm",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-005.json#881"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-008.json#1062:correct",
+            "label": "capital letter",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-008.json#1062"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-008.json#1062:d1",
+            "label": "fencing",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#301"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-008.json#1062:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-003.json#1060",
+        "sourceWord": "all right",
+        "pos": "adv",
+        "rank": "021e11e419defe91a9e61fbb98de925cc764d610ca325deed144c4ff19753e80",
+        "tags": ["answer_multiword"],
+        "sentenceNfc": "Don't worry, everything will be all right.",
+        "span": {
+          "start": 32,
+          "end": 41
+        },
+        "answer": "all right",
+        "blanked": "Don't worry, everything will be _____.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-003.json#1060:d2",
+            "label": "unlimited",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#439"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-003.json#1060:correct",
+            "label": "all right",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#1060"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-003.json#1060:d3",
+            "label": "bishop",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-000.json#929"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-003.json#1060:d1",
+            "label": "handball",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#1014"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-003.json#1060:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-007.json#486",
+        "sourceWord": "roadworks",
+        "pos": "n",
+        "rank": "000b7a2f54f30bed3d2eb7536aadd0c5f55e249feb9389d35466ea481cdb3ae1",
+        "tags": [],
+        "sentenceNfc": "Roadworks slowed traffic all morning.",
+        "span": {
+          "start": 0,
+          "end": 9
+        },
+        "answer": "Roadworks",
+        "blanked": "_____ slowed traffic all morning.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-007.json#486:d1",
+            "label": "creation",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#14"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-007.json#486:d2",
+            "label": "classified",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-001.json#524"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-007.json#486:correct",
+            "label": "Roadworks",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-007.json#486"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-007.json#486:d3",
+            "label": "inflict",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#511"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-007.json#486:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-008.json#717",
+        "sourceWord": "swedish",
+        "pos": "adj",
+        "rank": "000febd3798c2ac9f2bb9945bbe9c509a8053a1c9e4e6ee597efb8a00e28ea7c",
+        "tags": [],
+        "sentenceNfc": "She studies Swedish design.",
+        "span": {
+          "start": 12,
+          "end": 19
+        },
+        "answer": "Swedish",
+        "blanked": "She studies _____ design.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-008.json#717:d2",
+            "label": "fairness",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#208"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-008.json#717:d3",
+            "label": "science fiction",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#1075"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-008.json#717:correct",
+            "label": "Swedish",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-008.json#717"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-008.json#717:d1",
+            "label": "boulevard",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-000.json#1045"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-008.json#717:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-009.json#747",
+        "sourceWord": "want",
+        "pos": "v",
+        "rank": "001065760f305e0ba96ba8008277bbfdbe29f677f8c182eff66beb717cb8df16",
+        "tags": [],
+        "sentenceNfc": "I want a cup of coffee.",
+        "span": {
+          "start": 2,
+          "end": 6
+        },
+        "answer": "want",
+        "blanked": "I _____ a cup of coffee.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-009.json#747:d1",
+            "label": "bowl",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-000.json#1055"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-009.json#747:d3",
+            "label": "melodiously",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#1151"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-009.json#747:correct",
+            "label": "want",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#747"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-009.json#747:d2",
+            "label": "efficiency",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#861"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-009.json#747:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-005.json#455",
+        "sourceWord": "metabolism",
+        "pos": "n",
+        "rank": "0011e3baf7960de95412dbd5a57bbd745a4db0df16d8b448180e4ae6b5b98df0",
+        "tags": [],
+        "sentenceNfc": "Exercise can boost your metabolism.",
+        "span": {
+          "start": 24,
+          "end": 34
+        },
+        "answer": "metabolism",
+        "blanked": "Exercise can boost your _____.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-005.json#455:d3",
+            "label": "curly",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#112"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-005.json#455:d1",
+            "label": "abusive",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-000.json#30"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-005.json#455:correct",
+            "label": "metabolism",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-005.json#455"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-005.json#455:d2",
+            "label": "vogue",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#697"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-005.json#455:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-005.json#360",
+        "sourceWord": "matrix",
+        "pos": "n",
+        "rank": "0015d72a9667394ed38687064524ca78a9057602a18360c7676f9c409954da50",
+        "tags": [],
+        "sentenceNfc": "This is a math matrix problem.",
+        "span": {
+          "start": 15,
+          "end": 21
+        },
+        "answer": "matrix",
+        "blanked": "This is a math _____ problem.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-005.json#360:d2",
+            "label": "mitt",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-005.json#568"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-005.json#360:d1",
+            "label": "ethos",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#1121"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-005.json#360:correct",
+            "label": "matrix",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-005.json#360"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-005.json#360:d3",
+            "label": "responsible",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-007.json#377"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-005.json#360:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-004.json#165",
+        "sourceWord": "hollow",
+        "pos": "adj",
+        "rank": "001ac13c1a57be5b403619f087a01dfb9b6ae02d195038bc36153120a9c1458c",
+        "tags": [],
+        "sentenceNfc": "The old tree trunk was completely hollow.",
+        "span": {
+          "start": 34,
+          "end": 40
+        },
+        "answer": "hollow",
+        "blanked": "The old tree trunk was completely _____.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-004.json#165:d2",
+            "label": "monotony",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-001.json#1141"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-004.json#165:correct",
+            "label": "hollow",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#165"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-004.json#165:d1",
+            "label": "folk",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#471"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-004.json#165:d3",
+            "label": "inertia",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#488"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-004.json#165:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-001.json#147",
+        "sourceWord": "bus",
+        "pos": "n",
+        "rank": "001bbddc569c9d9fe3de4d56a1fd0822f839a1214ca3ed699a27d35fd1133e99",
+        "tags": [],
+        "sentenceNfc": "I take the bus to school.",
+        "span": {
+          "start": 11,
+          "end": 14
+        },
+        "answer": "bus",
+        "blanked": "I take the _____ to school.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-001.json#147:d3",
+            "label": "voyage",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#719"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-001.json#147:d1",
+            "label": "flask",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#411"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-001.json#147:correct",
+            "label": "bus",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-001.json#147"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-001.json#147:d2",
+            "label": "analyse",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-000.json#342"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-001.json#147:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-007.json#752",
+        "sourceWord": "seatbelt",
+        "pos": "n",
+        "rank": "001c3dc3de60f32e40b59e4502a8e4edde469890da5ca9e3c14f1c3a505d7ef1",
+        "tags": [],
+        "sentenceNfc": "Please fasten your seatbelt before takeoff.",
+        "span": {
+          "start": 19,
+          "end": 27
+        },
+        "answer": "seatbelt",
+        "blanked": "Please fasten your _____ before takeoff.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-007.json#752:d2",
+            "label": "eye",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#181"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-007.json#752:d1",
+            "label": "written",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#1019"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-007.json#752:d3",
+            "label": "jade",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#776"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-007.json#752:correct",
+            "label": "seatbelt",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-007.json#752"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-007.json#752:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-002.json#100",
+        "sourceWord": "cunning",
+        "pos": "adj",
+        "rank": "001f247abe3592d3242bcda63305f81eae2da7ca874394f4e74d638f30b6b91b",
+        "tags": [],
+        "sentenceNfc": "The fox is known for being cunning.",
+        "span": {
+          "start": 27,
+          "end": 34
+        },
+        "answer": "cunning",
+        "blanked": "The fox is known for being _____.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-002.json#100:d1",
+            "label": "hiphop",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#142"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-002.json#100:d2",
+            "label": "protective",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-006.json#902"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-002.json#100:d3",
+            "label": "akin",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-000.json#234"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-002.json#100:correct",
+            "label": "cunning",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#100"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-002.json#100:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-004.json#744",
+        "sourceWord": "irresistible",
+        "pos": "adj",
+        "rank": "0020011cac8f31528164d0a2a4aa1c688621ff4487990ac7f0ceaddfb8743665",
+        "tags": [],
+        "sentenceNfc": "The smell of fresh bread was irresistible.",
+        "span": {
+          "start": 29,
+          "end": 41
+        },
+        "answer": "irresistible",
+        "blanked": "The smell of fresh bread was _____.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-004.json#744:d2",
+            "label": "vampire",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#561"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-004.json#744:correct",
+            "label": "irresistible",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#744"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-004.json#744:d3",
+            "label": "cedar",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-001.json#336"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-004.json#744:d1",
+            "label": "deposit",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#334"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-004.json#744:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-008.json#60",
+        "sourceWord": "sluggish",
+        "pos": "adj",
+        "rank": "002327d272897ebb54bf7e8a971e8b2473ba83acebd5a34b26586e9cd617eb7b",
+        "tags": [],
+        "sentenceNfc": "The economy has been sluggish this year.",
+        "span": {
+          "start": 21,
+          "end": 29
+        },
+        "answer": "sluggish",
+        "blanked": "The economy has been _____ this year.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-008.json#60:d3",
+            "label": "enterprise",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#1014"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-008.json#60:d1",
+            "label": "decade",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#215"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-008.json#60:correct",
+            "label": "sluggish",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-008.json#60"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-008.json#60:d2",
+            "label": "surrounding",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-008.json#690"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-008.json#60:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-004.json#1148",
+        "sourceWord": "lethargically",
+        "pos": "adv",
+        "rank": "0042c50836faf591b16ababd8dfa5ddee4e97af127309c6b7aa1d8aa1bb932be",
+        "tags": [],
+        "sentenceNfc": "He moved lethargically around the office after lunch.",
+        "span": {
+          "start": 9,
+          "end": 22
+        },
+        "answer": "lethargically",
+        "blanked": "He moved _____ around the office after lunch.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-004.json#1148:correct",
+            "label": "lethargically",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#1148"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-004.json#1148:d1",
+            "label": "commend",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#1109"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-004.json#1148:d3",
+            "label": "vacancy",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#542"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-004.json#1148:d2",
+            "label": "gather",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#693"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-004.json#1148:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-008.json#357",
+        "sourceWord": "standby",
+        "pos": "adj",
+        "rank": "004ab089efb65ff471d14677c8af3f187fb2f135e371afb6bbd5a346e3706e5a",
+        "tags": [],
+        "sentenceNfc": "Keep a standby generator in case of a power cut.",
+        "span": {
+          "start": 7,
+          "end": 14
+        },
+        "answer": "standby",
+        "blanked": "Keep a _____ generator in case of a power cut.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-008.json#357:correct",
+            "label": "standby",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-008.json#357"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-008.json#357:d1",
+            "label": "unobtrusive",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#1197"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-008.json#357:d3",
+            "label": "veteran",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#618"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-008.json#357:d2",
+            "label": "hearty",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#57"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-008.json#357:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-009.json#1049",
+        "sourceWord": "youth",
+        "pos": "n",
+        "rank": "004c3ef8a8c509f0b7c0ce1696363593ef76e78a516ae6055693e59d5fcf9161",
+        "tags": [],
+        "sentenceNfc": "She spent her youth in the countryside.",
+        "span": {
+          "start": 14,
+          "end": 19
+        },
+        "answer": "youth",
+        "blanked": "She spent her _____ in the countryside.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-009.json#1049:d3",
+            "label": "mushroom",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-005.json#717"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-009.json#1049:d1",
+            "label": "cubicle",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#84"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-009.json#1049:d2",
+            "label": "deliberate",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#284"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-009.json#1049:correct",
+            "label": "youth",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#1049"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-009.json#1049:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-004.json#615",
+        "sourceWord": "insulin",
+        "pos": "n",
+        "rank": "004fce4d1121788474b8fc38873e2d713b3676b498c22dd67e31ba706ded89f3",
+        "tags": [],
+        "sentenceNfc": "Diabetics often need to inject insulin.",
+        "span": {
+          "start": 31,
+          "end": 38
+        },
+        "answer": "insulin",
+        "blanked": "Diabetics often need to inject _____.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-004.json#615:d1",
+            "label": "first-floor",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#390"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-004.json#615:correct",
+            "label": "insulin",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#615"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-004.json#615:d3",
+            "label": "handbook",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#1015"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-004.json#615:d2",
+            "label": "played",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-006.json#532"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-004.json#615:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-003.json#1204",
+        "sourceWord": "salivary",
+        "pos": "adj",
+        "rank": "00502279209f81059fdbe2a1a6345d5496583c17fa859c63e11275808917b33c",
+        "tags": [],
+        "sentenceNfc": "The salivary glands produce saliva to help digestion.",
+        "span": {
+          "start": 4,
+          "end": 12
+        },
+        "answer": "salivary",
+        "blanked": "The _____ glands produce saliva to help digestion.",
+        "options": [
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-003.json#1204:d1",
+            "label": "tumor",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#254"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-003.json#1204:d3",
+            "label": "empower",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#951"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-003.json#1204:d2",
+            "label": "fascinate",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#243"
+          },
+          {
+            "id": "A:apps/dhcb/public/data/dictionary/chunk-003.json#1204:correct",
+            "label": "salivary",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#1204"
+          }
+        ],
+        "correctOptionId": "A:apps/dhcb/public/data/dictionary/chunk-003.json#1204:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      }
+    ],
+    "B": [
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-006.json#68",
+        "sourceWord": "ornament",
+        "pos": "n",
+        "rank": "00042f6354aad5479271f811ac166364611d8174e92b0791c0d20e0fa8a57253",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Họ treo đồ trang trí lên cây thông Noel.",
+        "span": {
+          "start": 8,
+          "end": 20
+        },
+        "answer": "đồ trang trí",
+        "blanked": "Họ treo _____ lên cây thông Noel.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-006.json#68:d3",
+            "label": "đã xem",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#641"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-006.json#68:d1",
+            "label": "kinh ngạc, sửng sốt",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-000.json#575"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-006.json#68:d2",
+            "label": "tội phản quốc",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#173"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-006.json#68:correct",
+            "label": "đồ trang trí",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-006.json#68"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-006.json#68:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-006.json#163",
+        "sourceWord": "oxidation",
+        "pos": "n",
+        "rank": "0015dcc2c37675adebcdca12e431581b614050e7475b976ff526751eea2d16c3",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Gỉ sét được gây ra bởi sự oxy hóa của sắt.",
+        "span": {
+          "start": 23,
+          "end": 33
+        },
+        "answer": "sự oxy hóa",
+        "blanked": "Gỉ sét được gây ra bởi _____ của sắt.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-006.json#163:correct",
+            "label": "sự oxy hóa",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-006.json#163"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-006.json#163:d3",
+            "label": "tình trạng có sẵn",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-000.json#657"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-006.json#163:d1",
+            "label": "từ vựng",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#692"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-006.json#163:d2",
+            "label": "vuông góc",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-006.json#391"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-006.json#163:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-007.json#789",
+        "sourceWord": "selected",
+        "pos": "v",
+        "rank": "003107a28d664a0b248edcee77a472710d73c41a966ae287ab38c7b79245cb32",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Cô ấy đã được chọn vào đội.",
+        "span": {
+          "start": 6,
+          "end": 18
+        },
+        "answer": "đã được chọn",
+        "blanked": "Cô ấy _____ vào đội.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-007.json#789:d3",
+            "label": "vụ lừa đảo",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-007.json#667"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-007.json#789:d2",
+            "label": "bưu điện",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#1084"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-007.json#789:correct",
+            "label": "đã được chọn",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-007.json#789"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-007.json#789:d1",
+            "label": "sự diễn giải",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#665"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-007.json#789:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-005.json#895",
+        "sourceWord": "nostril",
+        "pos": "n",
+        "rank": "003c837fcf96b08f39c6ec564d0abc1d049204662d5f407b6b5f9fa7415949b1",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Anh ấy hít thở sâu qua lỗ mũi.",
+        "span": {
+          "start": 23,
+          "end": 29
+        },
+        "answer": "lỗ mũi",
+        "blanked": "Anh ấy hít thở sâu qua _____.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-005.json#895:d1",
+            "label": "một cách rộng rãi, nói chung",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-001.json#72"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-005.json#895:correct",
+            "label": "lỗ mũi",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-005.json#895"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-005.json#895:d2",
+            "label": "đồng (đơn vị tiền tệ Việt Nam)",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#656"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-005.json#895:d3",
+            "label": "đỉnh/hàng đầu",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#66"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-005.json#895:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-000.json#225",
+        "sourceWord": "air",
+        "pos": "n",
+        "rank": "0043d86dae3228a0f5678034914bf2336ec2db24c906bfce23f2ec3bcd436b19",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Không khí ở đây rất trong lành.",
+        "span": {
+          "start": 0,
+          "end": 9
+        },
+        "answer": "Không khí",
+        "blanked": "_____ ở đây rất trong lành.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-000.json#225:d2",
+            "label": "trượt",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-008.json#44"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-000.json#225:d3",
+            "label": "theo thứ tự thời gian",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-001.json#483"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-000.json#225:correct",
+            "label": "Không khí",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-000.json#225"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-000.json#225:d1",
+            "label": "đĩa lót (chén)",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-007.json#648"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-000.json#225:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-009.json#1044",
+        "sourceWord": "young",
+        "pos": "adj",
+        "rank": "005bdf1706faffe5909acd634fe377ef423abb062f40fa8efc1b3d0abb906194",
+        "tags": ["answer_diacritic"],
+        "sentenceNfc": "Cô ấy trông rất trẻ.",
+        "span": {
+          "start": 16,
+          "end": 19
+        },
+        "answer": "trẻ",
+        "blanked": "Cô ấy trông rất _____.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-009.json#1044:d1",
+            "label": "tâm trí",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-005.json#520"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-009.json#1044:d2",
+            "label": "sự thương lượng, đàm phán",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-005.json#794"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-009.json#1044:d3",
+            "label": "con rắn",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-008.json#85"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-009.json#1044:correct",
+            "label": "trẻ",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#1044"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-009.json#1044:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-003.json#713",
+        "sourceWord": "generalize",
+        "pos": "v",
+        "rank": "00620690ef2356164e3c288aa575fd5ed18378defab3e184b555a21b66dc5638",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Bạn không nên khái quát hóa chỉ dựa trên một trải nghiệm.",
+        "span": {
+          "start": 14,
+          "end": 27
+        },
+        "answer": "khái quát hóa",
+        "blanked": "Bạn không nên _____ chỉ dựa trên một trải nghiệm.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-003.json#713:d3",
+            "label": "phong thái tự tin",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#1166"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-003.json#713:correct",
+            "label": "khái quát hóa",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#713"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-003.json#713:d2",
+            "label": "chú ý, quan tâm",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-000.json#607"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-003.json#713:d1",
+            "label": "mối quan hệ",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-007.json#228"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-003.json#713:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-006.json#848",
+        "sourceWord": "progression",
+        "pos": "n",
+        "rank": "0070214ce54924c3fbffd5582af1da1ab128538f73319dfd651b1fa9ba7f8dbe",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Căn bệnh có sự tiến triển chậm.",
+        "span": {
+          "start": 12,
+          "end": 25
+        },
+        "answer": "sự tiến triển",
+        "blanked": "Căn bệnh có _____ chậm.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-006.json#848:correct",
+            "label": "sự tiến triển",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-006.json#848"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-006.json#848:d2",
+            "label": "phi thường",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#1159"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-006.json#848:d3",
+            "label": "xấu (hình thức)",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#308"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-006.json#848:d1",
+            "label": "nhiễm sắc thể",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-001.json#480"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-006.json#848:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-009.json#830",
+        "sourceWord": "well-known",
+        "pos": "adj",
+        "rank": "007dbf822ca672d4342d13298d9e5ed37560f661648b1ea174aab56d7071dccd",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Anh ấy là một ca sĩ nổi tiếng.",
+        "span": {
+          "start": 20,
+          "end": 29
+        },
+        "answer": "nổi tiếng",
+        "blanked": "Anh ấy là một ca sĩ _____.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-009.json#830:d1",
+            "label": "loài khỉ không đuôi",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-000.json#419"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-009.json#830:d3",
+            "label": "con hàu",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-006.json#165"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-009.json#830:d2",
+            "label": "miếu, đền thờ nhỏ",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-007.json#967"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-009.json#830:correct",
+            "label": "nổi tiếng",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#830"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-009.json#830:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-004.json#1035",
+        "sourceWord": "lecturer",
+        "pos": "n",
+        "rank": "00861907944d802c158843da16cf777f48610c51a3f3eda44769c096a5a75c4e",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Giảng viên giải thích chủ đề rất rõ ràng.",
+        "span": {
+          "start": 0,
+          "end": 10
+        },
+        "answer": "Giảng viên",
+        "blanked": "_____ giải thích chủ đề rất rõ ràng.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-004.json#1035:correct",
+            "label": "Giảng viên",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#1035"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-004.json#1035:d1",
+            "label": "đỉnh núi, hội nghị cấp cao",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-008.json#625"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-004.json#1035:d2",
+            "label": "trìu mến, âu yếm",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-000.json#183"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-004.json#1035:d3",
+            "label": "mệt mỏi",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#19"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-004.json#1035:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-003.json#476",
+        "sourceWord": "following",
+        "pos": "adj",
+        "rank": "008ac23d6aaa20b637fda012dfe5741aa4c8cbc0f7a03eeebe034612f4ea0926",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Xin hãy đọc hướng dẫn sau đây.",
+        "span": {
+          "start": 22,
+          "end": 29
+        },
+        "answer": "sau đây",
+        "blanked": "Xin hãy đọc hướng dẫn _____.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-003.json#476:d2",
+            "label": "cây bạch dương",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-000.json#922"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-003.json#476:correct",
+            "label": "sau đây",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#476"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-003.json#476:d1",
+            "label": "đáng tiếc là, thật không may",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-007.json#202"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-003.json#476:d3",
+            "label": "ông trùm",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#1145"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-003.json#476:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-002.json#385",
+        "sourceWord": "detailed",
+        "pos": "adj",
+        "rank": "008c9e4dca9bff98d56a65b0d235f30f90bf2c06cc07e89eacafbb8c68bab180",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Xin hãy cho tôi một bản báo cáo chi tiết.",
+        "span": {
+          "start": 32,
+          "end": 40
+        },
+        "answer": "chi tiết",
+        "blanked": "Xin hãy cho tôi một bản báo cáo _____.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-002.json#385:d3",
+            "label": "nóng ẩm khó chịu",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-005.json#697"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-002.json#385:d2",
+            "label": "từ nay trở đi",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#91"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-002.json#385:d1",
+            "label": "nồng nhiệt, thịnh soạn",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#57"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-002.json#385:correct",
+            "label": "chi tiết",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#385"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-002.json#385:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-001.json#533",
+        "sourceWord": "cleaner",
+        "pos": "n",
+        "rank": "0093e0ba808736935fa47b63a2eb128de70e60d803bc4f626eb5b1eaddc4537e",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Người dọn dẹp hút bụi văn phòng mỗi sáng.",
+        "span": {
+          "start": 0,
+          "end": 13
+        },
+        "answer": "Người dọn dẹp",
+        "blanked": "_____ hút bụi văn phòng mỗi sáng.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-001.json#533:correct",
+            "label": "Người dọn dẹp",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-001.json#533"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-001.json#533:d2",
+            "label": "bia mộ",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#895"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-001.json#533:d3",
+            "label": "làm suy yếu, phá hoại",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#357"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-001.json#533:d1",
+            "label": "sự phục hồi",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-007.json#137"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-001.json#533:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-005.json#166",
+        "sourceWord": "lorry",
+        "pos": "n",
+        "rank": "009c79068b568db8d5eaf0af40e3b75663314f99fdfe6eff03ecaac1b1cdba0f",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Xe tải đã giao hàng đến cửa hàng.",
+        "span": {
+          "start": 0,
+          "end": 6
+        },
+        "answer": "Xe tải",
+        "blanked": "_____ đã giao hàng đến cửa hàng.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-005.json#166:d1",
+            "label": "biểu cảm, giàu diễn cảm",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#154"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-005.json#166:d3",
+            "label": "ảnh đại diện",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-000.json#660"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-005.json#166:correct",
+            "label": "Xe tải",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-005.json#166"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-005.json#166:d2",
+            "label": "cột sống",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-008.json#268"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-005.json#166:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-000.json#41",
+        "sourceWord": "accepted",
+        "pos": "v",
+        "rank": "00ad40a082bee3eea259bf890f5ec5e1883113fbb3310dd7768d69a8dbbd9b49",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Bài viết của cô ấy đã được chấp nhận.",
+        "span": {
+          "start": 19,
+          "end": 36
+        },
+        "answer": "đã được chấp nhận",
+        "blanked": "Bài viết của cô ấy _____.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-000.json#41:correct",
+            "label": "đã được chấp nhận",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-000.json#41"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-000.json#41:d1",
+            "label": "thư/bưu phẩm",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-005.json#242"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-000.json#41:d2",
+            "label": "hệ thống vệ sinh, công tác vệ sinh môi trường",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-007.json#629"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-000.json#41:d3",
+            "label": "chim sẻ nhỏ (họ sẻ)",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#366"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-000.json#41:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-006.json#706",
+        "sourceWord": "predict",
+        "pos": "v",
+        "rank": "00b9f8e43ec0958d2f13ffe9102107b67e4d60324ae9b648c55515e59766f217",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Các chuyên gia dự đoán mưa lớn vào cuối tuần này.",
+        "span": {
+          "start": 15,
+          "end": 22
+        },
+        "answer": "dự đoán",
+        "blanked": "Các chuyên gia _____ mưa lớn vào cuối tuần này.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-006.json#706:d2",
+            "label": "một cách chính xác",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-000.json#68"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-006.json#706:d1",
+            "label": "tính thể chất",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#1163"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-006.json#706:correct",
+            "label": "dự đoán",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-006.json#706"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-006.json#706:d3",
+            "label": "bạn thân",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-001.json#101"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-006.json#706:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-003.json#1158",
+        "sourceWord": "perceptively",
+        "pos": "adv",
+        "rank": "00c66fc877f9070eedaf29a660fd6e1b87386a56105377954c0b3e903d57361d",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Cô ấy đã tinh ý chỉ ra lỗ hổng trong lập luận của anh ta.",
+        "span": {
+          "start": 9,
+          "end": 15
+        },
+        "answer": "tinh ý",
+        "blanked": "Cô ấy đã _____ chỉ ra lỗ hổng trong lập luận của anh ta.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-003.json#1158:d2",
+            "label": "có thể so sánh được",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-001.json#697"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-003.json#1158:d1",
+            "label": "đi bộ",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#735"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-003.json#1158:correct",
+            "label": "tinh ý",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#1158"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-003.json#1158:d3",
+            "label": "một cách cứng nhắc",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-007.json#462"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-003.json#1158:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-001.json#1160",
+        "sourceWord": "stressfully",
+        "pos": "adv",
+        "rank": "00d70f41b217459f3439835944e60702db29759722d7db58a2bd068bdb53d8ed",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Cả nhóm làm việc một cách căng thẳng để kịp thời hạn gấp.",
+        "span": {
+          "start": 17,
+          "end": 36
+        },
+        "answer": "một cách căng thẳng",
+        "blanked": "Cả nhóm làm việc _____ để kịp thời hạn gấp.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-001.json#1160:d1",
+            "label": "nguồn",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-008.json#192"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-001.json#1160:d2",
+            "label": "khốn khổ, tồi tệ",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#1012"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-001.json#1160:d3",
+            "label": "tương xứng, phù hợp (với mức độ)",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-004.json#1099"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-001.json#1160:correct",
+            "label": "một cách căng thẳng",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-001.json#1160"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-001.json#1160:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-009.json#89",
+        "sourceWord": "tour guide",
+        "pos": "n",
+        "rank": "00db892d8bc4abb098b927817681b76daba371c89e6825e864189a8a9de8b12c",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Hướng dẫn viên du lịch của chúng tôi giải thích lịch sử của ngôi đền.",
+        "span": {
+          "start": 0,
+          "end": 22
+        },
+        "answer": "Hướng dẫn viên du lịch",
+        "blanked": "_____ của chúng tôi giải thích lịch sử của ngôi đền.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-009.json#89:d3",
+            "label": "lòng tốt, sự tốt lành",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-003.json#827"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-009.json#89:correct",
+            "label": "Hướng dẫn viên du lịch",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-009.json#89"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-009.json#89:d2",
+            "label": "sự đi xuống, dòng dõi",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-002.json#347"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-009.json#89:d1",
+            "label": "bếp trưởng, đầu bếp",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-001.json#432"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-009.json#89:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      },
+      {
+        "entryRef": "apps/dhcb/public/data/dictionary/chunk-008.json#841",
+        "sourceWord": "teacher",
+        "pos": "n",
+        "rank": "011a7e6296abd1c74b35fd01c625397f0df608c1e6ca17d034e4a0e22f2f4ff3",
+        "tags": ["answer_multiword", "answer_diacritic"],
+        "sentenceNfc": "Giáo viên của tôi rất tốt bụng.",
+        "span": {
+          "start": 0,
+          "end": 9
+        },
+        "answer": "Giáo viên",
+        "blanked": "_____ của tôi rất tốt bụng.",
+        "options": [
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-008.json#841:correct",
+            "label": "Giáo viên",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-008.json#841"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-008.json#841:d2",
+            "label": "thuộc xúc giác, cảm nhận qua sờ chạm",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-008.json#781"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-008.json#841:d3",
+            "label": "người xây dựng, thợ xây",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-001.json#109"
+          },
+          {
+            "id": "B:apps/dhcb/public/data/dictionary/chunk-008.json#841:d1",
+            "label": "má",
+            "sourceRef": "apps/dhcb/public/data/dictionary/chunk-001.json#424"
+          }
+        ],
+        "correctOptionId": "B:apps/dhcb/public/data/dictionary/chunk-008.json#841:correct",
+        "primaryReason": "accepted",
+        "technical": {
+          "status": "PASS",
+          "spanBoundary": true,
+          "roundTrip": true,
+          "uniqueLabels": true,
+          "uniqueIds": true,
+          "correctIdCount": 1,
+          "resultEvidence": "offline-script",
+          "checker": "audit-fillblank.mjs",
+          "checkedAt": null
+        },
+        "expert": {
+          "status": "WAITING_EXPERT_REVIEW",
+          "reviewerName": null,
+          "qualificationOrRole": null,
+          "reviewedAt": null,
+          "targetMeaning": "WAITING_EXPERT_REVIEW",
+          "grammarNaturalness": "WAITING_EXPERT_REVIEW",
+          "ageSuitability": "WAITING_EXPERT_REVIEW",
+          "ambiguityNotes": null,
+          "restorationTaskSuitability": "WAITING_EXPERT_REVIEW",
+          "rationale": null
+        }
+      }
+    ]
+  }
+}
