@@ -3,6 +3,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { mockLogin, type ThemeName } from './helpers/auth'
 import { openLiveLocationTrip } from './helpers/location'
 import { freezeAnimations, waitForStableDom } from './helpers/axe'
+import { collectAaaFindings } from './helpers/aaaFindings'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // QUÉT WCAG 2.x mức AAA — bổ sung cho e2e/a11y.spec.ts (file kia gác mức A/AA).
@@ -21,12 +22,6 @@ import { freezeAnimations, waitForStableDom } from './helpers/axe'
 // ─────────────────────────────────────────────────────────────────────────────
 
 const AAA_TAGS = ['wcag2aaa', 'wcag21aaa', 'wcag22aaa']
-
-// "Nội dung và tiêu đề": phần tử chữ để ĐỌC.
-const CONTENT_SELECTOR =
-  'h1,h2,h3,h4,h5,h6,p,li,dt,dd,blockquote,figcaption,td,th,article,main > div'
-// Loại phần "vỏ giao diện" (điều hướng, nút bấm, nhãn ô nhập…) — nhóm này chỉ buộc AA.
-const CHROME_ANCESTOR = 'nav,header,footer,button,a,[role="button"],[role="tab"],label,input,select'
 
 // Quét CẢ 5 theme (4 theme chính + "Nhi đồng") vì tương phản phụ thuộc bộ token màu.
 const THEMES: ThemeName[] = ['dark-blue', 'blue-sky', 'kid']
@@ -75,30 +70,15 @@ const ROUTES = [
   '/goc-hoc-tap/english/luyen-nghe', // audit 2026-09-22 P0-1: nhóm gập + tìm kiếm + Xem thêm
 ] as const
 
-// Đếm số phần tử vi phạm NẰM TRONG phần nội dung/tiêu đề (bỏ phần vỏ giao diện).
-async function countContentNodes(page: Page, targets: string[]): Promise<number> {
-  return page.evaluate(
-    ({ targets, content, chrome }) =>
-      targets.filter((t) => {
-        const el = t ? document.querySelector(t) : null
-        return !!el && el.matches(content) && !el.closest(chrome)
-      }).length,
-    { targets, content: CONTENT_SELECTOR, chrome: CHROME_ANCESTOR },
-  )
-}
-
 async function scanAaa(page: Page) {
   await freezeAnimations(page)
-  const { violations } = await new AxeBuilder({ page }).withTags(AAA_TAGS).analyze()
-
-  const violated: string[] = []
-  for (const v of violations) {
-    const targets = v.nodes.map((n) => (Array.isArray(n.target) ? String(n.target[0]) : ''))
-    const n = await countContentNodes(page, targets)
-    if (n === 0) continue // chỉ dính phần vỏ giao diện → thuộc phạm vi cổng AA
-    violated.push(`${v.id} (${n} phần tử)`)
-  }
-  return violated
+  const results = await new AxeBuilder({ page }).withTags(AAA_TAGS).analyze()
+  // Axe AAA bỏ qua ratio chưa xác định do minThreshold; rule AA cung cấp incomplete.
+  const contrast = await new AxeBuilder({ page }).withRules(['color-contrast']).analyze()
+  return collectAaaFindings(page, {
+    violations: results.violations,
+    incomplete: [...results.incomplete, ...contrast.incomplete],
+  })
 }
 
 for (const theme of THEMES) {
@@ -252,3 +232,66 @@ for (const theme of THEMES) {
     expect(violated, `Vi phạm WCAG AAA trên màn kết quả bài STEM, theme=${theme}.`).toEqual([])
   })
 }
+
+// Controls chạy qua cùng collector của gate, không cần server/provider.
+test.describe('S06a negative controls', () => {
+  test('bắt chữ inline, link văn xuôi và heading trong header; giữ AA cho nút', async ({
+    page,
+  }) => {
+    await page.setContent(`
+      <html lang="vi"><head><title>Control</title></head><body style="background:white">
+      <main style="font:16px Arial;color:#666">
+        <p><span id="span">Chữ đọc trong span</span></p>
+        <p><em id="em">Chữ đọc trong em</em></p>
+        <p><a id="link" href="#" style="color:inherit">Liên kết trong văn xuôi</a></p>
+        <header><h2 style="font:16px Arial"><span id="heading">Tiêu đề đọc</span></h2></header>
+        <nav><p><a href="#" style="color:inherit"><span id="nav">Nhãn điều hướng</span></a></p></nav>
+        <button id="button" style="font:16px Arial;color:#666;background:white">Nút AA</button>
+        <p id="pass" style="color:#333">Chữ đạt AAA</p>
+      </main></body></html>
+    `)
+    const results = await new AxeBuilder({ page })
+      .withRules(['color-contrast-enhanced', 'color-contrast'])
+      .analyze()
+    const findings = await collectAaaFindings(page, results)
+    for (const id of ['span', 'em', 'link', 'heading']) {
+      expect(
+        findings.some((finding) => finding.includes(`#${id}`)),
+        id,
+      ).toBe(true)
+    }
+    expect(findings.some((finding) => finding.includes('#button'))).toBe(false)
+    expect(findings.some((finding) => finding.includes('#pass'))).toBe(false)
+    expect(findings.some((finding) => finding.includes('#nav'))).toBe(false)
+  })
+
+  test('không bỏ qua target biến mất, target lồng hoặc incomplete thật', async ({ page }) => {
+    await page.setContent(`
+      <html lang="vi"><head><title>Control</title></head><body>
+      <p id="gradient" style="color:black;background:linear-gradient(white,black)">Nền chưa kết luận</p>
+      <p id="removed" style="color:#666;background:white">Chữ sẽ biến mất</p>
+      </body></html>
+    `)
+    const results = await new AxeBuilder({ page })
+      .withRules(['color-contrast-enhanced', 'color-contrast'])
+      .analyze()
+    expect(results.incomplete.flatMap((rule) => rule.nodes).length).toBeGreaterThan(0)
+    await page.locator('#removed').evaluate((el) => el.remove())
+    const findings = await collectAaaFindings(page, results)
+    expect(findings.some((finding) => finding.startsWith('incomplete:'))).toBe(true)
+    expect(findings.some((finding) => finding.includes('missing target'))).toBe(true)
+    const rule = results.violations[0]
+    expect(rule).toBeDefined()
+    const nested = await collectAaaFindings(page, {
+      incomplete: [],
+      violations: [{ ...rule, nodes: [{ ...rule.nodes[0], target: ['#frame', '#child'] }] }],
+    })
+    expect(nested).toEqual([expect.stringContaining('unsupported target')])
+    expect(nested[0]).toContain('["#frame","#child"]')
+    const empty = await collectAaaFindings(page, {
+      violations: [],
+      incomplete: [{ ...rule, nodes: [] }],
+    })
+    expect(empty).toEqual([expect.stringContaining('no target evidence')])
+  })
+})
