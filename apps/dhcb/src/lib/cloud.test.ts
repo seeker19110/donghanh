@@ -181,43 +181,68 @@ describe('pullUserData', () => {
 })
 
 describe('saveOnboarding', () => {
-  it('thành công → gọi đúng URL/method/body', async () => {
-    const fetchMock = vi.fn(async (url: string, init: RequestInit) => {
-      expect(url).toBe('/api/profile')
+  const payload = { level: 'beginner', goal: 'daily', dailyMinutes: 15 }
+  it('chỉ xác nhận success khi server trả ok=true, giữ đúng URL/method/body', async () => {
+    const fetchMock = vi.fn(async (_url: string, init: RequestInit) => {
+      expect(JSON.parse(init.body as string)).toEqual({ action: 'onboarding', ...payload })
       expect(init.method).toBe('POST')
-      expect(JSON.parse(init.body as string)).toEqual({
-        action: 'onboarding',
-        level: 'A1',
-        goal: 'du lịch',
-        dailyMinutes: 15,
-      })
-      return new Response('{}', { status: 200 })
+      expect(init.signal).toBeInstanceOf(AbortSignal)
+      return Response.json({ ok: true })
     })
     vi.stubGlobal('fetch', fetchMock)
-    await saveOnboarding({ level: 'A1', goal: 'du lịch', dailyMinutes: 15 })
+    expect(await saveOnboarding(payload)).toEqual({ ok: true })
     expect(fetchMock).toHaveBeenCalledTimes(1)
+    expect(fetchMock.mock.calls[0]![0]).toBe('/api/profile')
   })
-
-  it('HTTP lỗi → chỉ console.warn, không ném lỗi', async () => {
+  it.each([400, 401, 403, 429, 500])(
+    'HTTP %i trả lỗi rõ ràng, không tự retry hoặc log dữ liệu',
+    async (status) => {
+      const fetchMock = vi.fn(async () => new Response('err', { status }))
+      vi.stubGlobal('fetch', fetchMock)
+      expect(await saveOnboarding(payload)).toEqual({ ok: false, reason: 'http', status })
+      expect(fetchMock).toHaveBeenCalledTimes(1)
+      expect(console.warn).not.toHaveBeenCalled()
+    },
+  )
+  it.each(['{}', '{"ok":false}', '{"ok":"true"}', '<html>error</html>'])(
+    '2xx với body %s không báo đã lưu',
+    async (body) => {
+      vi.stubGlobal(
+        'fetch',
+        vi.fn(async () => new Response(body)),
+      )
+      expect(await saveOnboarding(payload)).toEqual({ ok: false, reason: 'invalid-response' })
+    },
+  )
+  it('offline trả lỗi; retry chủ động gửi nguyên payload', async () => {
+    const fetchMock = vi
+      .fn()
+      .mockRejectedValueOnce(new Error('offline'))
+      .mockResolvedValueOnce(Response.json({ ok: true }))
+    vi.stubGlobal('fetch', fetchMock)
+    expect(await saveOnboarding(payload)).toEqual({ ok: false, reason: 'network' })
+    expect(await saveOnboarding(payload)).toEqual({ ok: true })
+    expect(fetchMock.mock.calls[0]![1].body).toBe(fetchMock.mock.calls[1]![1].body)
+  })
+  it('timeout kết thúc pending sau 15 giây và abort request', async () => {
+    vi.useFakeTimers()
     vi.stubGlobal(
       'fetch',
-      vi.fn(async () => new Response('err', { status: 500 })),
+      vi.fn(
+        (_url, init: RequestInit) =>
+          new Promise<Response>((_resolve, reject) => {
+            init.signal!.addEventListener('abort', () =>
+              reject(new DOMException('Aborted', 'AbortError')),
+            )
+          }),
+      ),
     )
-    await expect(
-      saveOnboarding({ level: 'A1', goal: 'du lịch', dailyMinutes: 15 }),
-    ).resolves.toBeUndefined()
-    expect(console.warn).toHaveBeenCalled()
-  })
-
-  it('fetch reject → chỉ console.warn, không ném lỗi', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(async () => {
-        throw new Error('network down')
-      }),
-    )
-    await expect(
-      saveOnboarding({ level: 'A1', goal: 'du lịch', dailyMinutes: 15 }),
-    ).resolves.toBeUndefined()
+    try {
+      const result = saveOnboarding(payload)
+      await vi.advanceTimersByTimeAsync(15_000)
+      expect(await result).toEqual({ ok: false, reason: 'timeout' })
+    } finally {
+      vi.useRealTimers()
+    }
   })
 })

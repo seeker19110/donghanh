@@ -191,7 +191,15 @@ describe('trang bài học STEM', () => {
   function boc(nguoi: User | null, duongDan: string, isGuest = false) {
     return (
       <AuthContext.Provider
-        value={{ user: nguoi, loading: false, isGuest, refresh: async () => {} }}
+        value={{
+          user: nguoi,
+          loading: false,
+          isGuest,
+          refresh: async () => {},
+          refreshVerified: async () => {
+            throw new Error('Không dùng trong fixture này')
+          },
+        }}
       >
         <MemoryRouter initialEntries={[duongDan]}>
           <Routes>
