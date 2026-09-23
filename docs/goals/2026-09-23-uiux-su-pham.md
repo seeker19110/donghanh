@@ -81,7 +81,7 @@ retention, gamification mở rộng. Không âm thầm mở rộng những mục
 ## 3. Milestones và slices
 
 Mỗi S là một PR nhỏ dự kiến; tách thêm nếu impact map cho thấy phạm vi quá lớn.
-S00 là PR tài liệu; S01–S12 là 12 slice kỹ thuật/nghiệm thu. Đối chiếu `main` tại `55945d26`: S00/S01/S02/S03/S04/S08 đã merge; S06 phần cổng, S07a và S11a là các phần đã merge. Các phần còn lại theo bảng và bằng chứng hiện hành bên dưới; không suy ra hoàn tất milestone từ một phần đã tích hợp.
+S00 là PR tài liệu; S01–S12 là 12 slice kỹ thuật/nghiệm thu. Đối chiếu `main` tại `9c3e2fa2`: S00/S01/S02/S03/S04/S08 đã merge; S06 phần cổng, S07a và S11a là các phần đã merge. Các phần còn lại theo bảng và bằng chứng hiện hành bên dưới; không suy ra hoàn tất milestone từ một phần đã tích hợp.
 
 | ID     | Outcome/AC                                                | Dependency    | Spec                                         | Issue/PR | State                      | Evidence cần có                                                                                   |
 | ------ | --------------------------------------------------------- | ------------- | -------------------------------------------- | -------- | -------------------------- | ------------------------------------------------------------------------------------------------- |
@@ -196,7 +196,7 @@ hiện có. Việc gửi lời mời pilot, truy cập production và triển kh
 
 ## 6. Current truth
 
-- `main` đã reconcile tại `55945d26` (merge #1137): S01 (#1120), S02 (#1125), S03 (#1121), S04 (#1137), S08 (#1133), S06 phần cổng/tương phản (#1122), S07a quyền zoom (#1126), bộ prototype/rubric/protocol (#1123) và S11a sửa đích câu hỏi (#1124) đã tích hợp. Required quality/e2e của #1137 xanh trước merge; CI trên merge commit đang chạy khi lập checkpoint.
+- `main` đã reconcile tại `9c3e2fa2` (merge #1142 sau #1137): S01 (#1120), S02 (#1125), S03 (#1121), S04 (#1137), S08 (#1133), S06 phần cổng/tương phản (#1122), S07a quyền zoom (#1126), bộ prototype/rubric/protocol (#1123) và S11a sửa đích câu hỏi (#1124) đã tích hợp. Required quality/e2e của #1137 và #1142 xanh trước merge; CI trên merge commit #1137 đang chạy khi lập checkpoint.
 - Baseline: [nghiên cứu 23/09](../research/2026-09-23-uiux-su-pham-baseline.md).
 - S02 lưu hồ sơ có source và kiểm thử tại [#1125](https://github.com/seeker19110/donghanh/pull/1125); head `4a34e704` đạt quality/e2e/metadata, đã merge tại `021b3dae`.
 - S06 tại [#1122](https://github.com/seeker19110/donghanh/pull/1122) đã merge `b0c424c0`: cổng inline/incomplete, 7:1 cho chữ đọc kể cả heading lớn, phép đo nhãn SVG và phần tử ngoài vùng cuộn. Full CI của head cuối đạt quality/e2e, 6/6 E2E shards; kiểm thiết bị/screen reader thật và toàn ma trận S07/S08 chưa có.
@@ -204,7 +204,7 @@ hiện có. Việc gửi lời mời pilot, truy cập production và triển kh
 - S04 spec [#1134](https://github.com/seeker19110/donghanh/pull/1134) và QA amendment [#1141](https://github.com/seeker19110/donghanh/pull/1141) đã merge trước source [#1137](https://github.com/seeker19110/donghanh/pull/1137). Unit/E2E mock và QA ba theme ở 320/390/1440 CSS px đã kiểm focus/tương phản; AC04 chưa nghiệm thu đầy đủ vì chưa kiểm zoom thật, screen reader, microphone và thiết bị thật.
 - S08 source [#1133](https://github.com/seeker19110/donghanh/pull/1133) đã merge với quality/e2e xanh. Bằng chứng mock không thay thế NVDA/VoiceOver hay thiết bị thật.
 - S05 vẫn Draft: [#1138](https://github.com/seeker19110/donghanh/pull/1138) chỉ chốt thiết kế audit offline/manifest; chưa đo coverage đạt chuẩn hoặc có duyệt chuyên gia mẫu B. S06/S07 vẫn PARTIAL theo audit [#1139](https://github.com/seeker19110/donghanh/pull/1139)/[#1140](https://github.com/seeker19110/donghanh/pull/1140); không suy ra Approved follow-up S06 từ approval S08.
-- [#1142](https://github.com/seeker19110/donghanh/pull/1142) đang mở khi lập checkpoint, chỉ sửa báo cáo S07. Trên một sheet mục lục Vật lí, Chrome 153 headless/Windows dùng Page zoom thật 100→200% (780→390 CSS px, DPR 1→2), ba theme: focus thấy được, 20 target hiển thị/theme ≥44px, không tràn ngang. Đây là ca browser zoom có dữ liệu mock, chưa chứng minh toàn ma trận, pinch, browser khác hoặc thiết bị thật; S07 vẫn PARTIAL. Báo cáo/JSON nằm ngoài repo, không coi PR đang mở là đã merge.
+- [#1142](https://github.com/seeker19110/donghanh/pull/1142) đã merge tại `9c3e2fa2`, chỉ sửa báo cáo S07. Trên một sheet mục lục Vật lí, Chrome 153 headless/Windows dùng Page zoom thật 100→200% (780→390 CSS px, DPR 1→2), ba theme: focus thấy được, 20 target hiển thị/theme ≥44px, không tràn ngang. Đây là ca browser zoom có dữ liệu mock, chưa chứng minh toàn ma trận, pinch, browser khác hoặc thiết bị thật; S07 vẫn PARTIAL. Báo cáo/JSON nằm ngoài repo.
 - S09 vẫn Draft: review [#1135](https://github.com/seeker19110/donghanh/pull/1135), B2/B3 đóng ở mức thiết kế tại [#1136](https://github.com/seeker19110/donghanh/pull/1136), B1 phụ thuộc M1/M2 còn mở. S10 cần chuyên gia rà 40 mẫu; S11a không hoàn tất S11 rộng; S12 cần thiết bị thật, người học và số đo ngày 7/14. Không có bằng chứng chuyên gia hoặc pilot.
 - Next best slice: hoàn tất audit/điều kiện duyệt S05 sau S04, đồng thời thu bằng chứng accessibility còn thiếu; không bắt đầu S09 source khi B1 chưa đóng.
 
@@ -375,8 +375,8 @@ Không có source/test mới hoặc kết quả contrast mới. Xem
 
 ### Iteration 14 — checkpoint sau S04 source
 
-- Base `55945d26` sau #1137; #1133–#1141 liên quan đã đối chiếu trạng thái merge.
-  #1137 đạt quality/e2e và sáu shard trước merge; CI trên merge commit đang chạy
+- Base `9c3e2fa2` sau #1137 và #1142; #1133–#1142 liên quan đã đối chiếu trạng thái merge.
+  #1137 và #1142 đạt quality/e2e trước merge; CI trên merge commit #1137 đang chạy
   tại thời điểm cập nhật, không gán kết quả PR cho CI của `main`.
 - Gap: S04 source và S08 source đã tích hợp, nhưng AC04/S08 AT chưa đủ kiểm thật.
   #1142 thêm một ca Chrome zoom 200% cho S07 nhưng chưa đóng ma trận. S05 còn
