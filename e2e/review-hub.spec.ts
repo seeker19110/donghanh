@@ -103,3 +103,54 @@ test('quay lại sau khi bỏ bẵng: nút "Ôn thẻ" trỏ về hub với cap 
   await page.getByRole('button', { name: /Ôn 1 thẻ/ }).click()
   await expect(page).toHaveURL(/\/goc-hoc-tap\/on-tap\?cap=5/)
 })
+
+const stemFixtures = [
+  { subject: 'mathematics', lesson: 'toan10-c1-b1', question: 'Khi nào mệnh đề P ⇒ Q sai?' },
+  {
+    subject: 'physics',
+    lesson: 'ly10-c1-b1',
+    question: 'Hai phương pháp nghiên cứu cơ bản của Vật lí học là gì?',
+  },
+  {
+    subject: 'chemistry',
+    lesson: 'hoa10-c2-b5',
+    question: 'Nguyên tố xếp trong bảng tuần hoàn theo chiều tăng dần đại lượng gì?',
+  },
+  {
+    subject: 'biology',
+    lesson: 'sinh10-c1-b1',
+    question: 'Đối tượng nghiên cứu của Sinh học là gì?',
+  },
+]
+
+for (const fixture of stemFixtures) {
+  test(`S03: ${fixture.subject} lọc trước cap=1 và mở đúng bài`, async ({ page }) => {
+    const due = Date.now() - 86_400_000
+    const cards = Object.fromEntries(
+      stemFixtures.map((other) => [
+        `stem:${other.subject}:${other.lesson}:0`,
+        theQuaHan(due - (other.subject === fixture.subject ? 0 : 1000)),
+      ]),
+    )
+    await seedSrs(page, cards)
+    await mockLogin(page, 'vi')
+    await page.goto(`/goc-hoc-tap/${fixture.subject}/on-tap?cap=1`)
+    await expect(page.getByText(fixture.question, { exact: true })).toBeVisible()
+    for (const other of stemFixtures.filter((other) => other.subject !== fixture.subject)) {
+      await expect(page.getByText(other.question, { exact: true })).toHaveCount(0)
+    }
+    await page.getByRole('button', { name: 'Mở lại bài này' }).click()
+    await expect(page).toHaveURL(
+      new RegExp(`/goc-hoc-tap/${fixture.subject}/bai-hoc/${fixture.lesson}--`),
+    )
+  })
+}
+
+test('S03: môn rỗng không mượn thẻ môn khác', async ({ page }) => {
+  await seedSrs(page, { 'stem:physics:ly10-c1-b1:0': theQuaHan(Date.now() - 86_400_000) })
+  await mockLogin(page, 'vi')
+  await page.goto('/goc-hoc-tap/chemistry/on-tap?cap=1')
+  await expect(page.getByText('Hôm nay không có thẻ nào tới hạn')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Xem bài học môn Hoá học' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Xem đáp án' })).toHaveCount(0)
+})

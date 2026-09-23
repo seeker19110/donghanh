@@ -103,6 +103,20 @@ export function getDueStemCards(uid: string, limit?: number): StemSrsCardRef[] {
   return getDueBy(uid, getAllStemCards(uid), (c) => c.key, limit)
 }
 
+/** Lọc môn trước giới hạn phiên để thẻ môn khác không chiếm chỗ trong hàng đợi. */
+export function getDueStemCardsForSubject(
+  uid: string,
+  subjectId: StemSubjectId,
+  limit?: number,
+): StemSrsCardRef[] {
+  return getDueBy(
+    uid,
+    getAllStemCards(uid).filter((card) => card.subjectId === subjectId),
+    (card) => card.key,
+    limit,
+  )
+}
+
 /**
  * Nạp nội dung cho các thẻ trong hàng đợi — chỉ tải ĐÚNG những bài có thẻ đến hạn. Thẻ mà bài
  * không còn (nội dung đã sửa, bớt thẻ) bị bỏ khỏi kết quả thay vì hiện thẻ trống.
