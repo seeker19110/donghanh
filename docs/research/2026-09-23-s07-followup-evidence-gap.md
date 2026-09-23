@@ -20,10 +20,25 @@
 
 Playwright viewport 320px chỉ giúp tái hiện áp lực reflow trong CI; nó không phải bằng chứng browser zoom 200%. Ca browser zoom cần ghi phiên bản browser/OS, mức zoom thực, thao tác bàn phím và ảnh trước/sau. Pinch và bàn phím ảo cần thiết bị thật, ghi model/OS/browser. Không có dữ liệu thiết bị thật trong lượt audit này.
 
+## Kết quả kiểm browser zoom thật ngày 2026-09-23
+
+Chạy Chromium/Chrome 153 headless trên Windows, dữ liệu đăng nhập và API giả lập, tại route Vật lí nêu trên. Dùng chính mục **Page zoom** trong `chrome://settings/appearance` đặt 100% rồi 200% trên cùng một browser profile; không dùng `setViewportSize`, `deviceScaleFactor` hoặc `visualViewport` để giả zoom. Kích thước cửa sổ giữ 780×844 px: `devicePixelRatio` tăng 1→2, `innerWidth` giảm 780→390 CSS px, `innerHeight` 844→422 CSS px, `visualViewport.scale` giữ 1. Đây là bằng chứng browser zoom, không phải pinch zoom.
+
+| Kiểm tra trên sheet, ba theme dark-blue/blue-sky/kid                    | Kết quả tại `main` `55945d26` (PR #1137)                                                                                                                                                                                                     |
+| ----------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Mở trigger bằng Enter, Escape trả focus về trigger, chọn bài bằng Enter | Đạt 3/3 theme; sau chuyển bài, focus tới `h1` mới.                                                                                                                                                                                           |
+| Focus liên kết đầu/cuối; vị trí so với sticky header và mép viewport    | Đạt 3/3; `:focus-visible` và `outline-style: solid`, phần tử không bị che, tâm trỏ tới chính liên kết hoặc phần tử con.                                                                                                                      |
+| Vùng chạm đang hiển thị trong sheet                                     | 20 phần tử tương tác/theme; không có vùng nào dưới 44×44 CSS px; trigger cao 46 px, nút đóng 44 px, liên kết được focus cao khoảng 45,9 px. Liên kết thuộc chương đang thu gọn có box 0×0 và **không** được tính là vùng chạm đang hiển thị. |
+| Reflow/che khuất                                                        | `scrollWidth − clientWidth = 0` ở document và sheet; sticky header không chồng nội dung đầu (`0` px). Tab/Shift+Tab từ liên kết đầu/cuối vẫn nằm trong dialog.                                                                               |
+
+Đối chứng trước merge tại `main` `9a4db1e1`: cùng ca, cùng ba theme, liên kết đã nhận `:focus-visible` nhưng `outline-style: none`, ảnh không có viền. Nguyên nhân là quy tắc `a:focus { outline: none }` ở `apps/dhcb/src/index.css` ghi đè quy tắc `a:focus-visible`. PR #1137 đổi quy tắc xóa viền thành `a:focus:not(:focus-visible)`; đo lại sau merge thấy `outline-style: solid` và ảnh có viền. Lỗi này đã được sửa bởi S04, không mở thêm source S07.
+
+Ảnh trước/sau và JSON số đo được lưu ngoài repo tại `C:\Users\liend\.codex\uiux-implementation\qa-s07-real-zoom\` (`*-focus-200.png`, `*-focus-200-after.png`, `results.json`, `followup.json`). Đây là một route và một kích thước cửa sổ, chưa kiểm vòng focus trap đầy đủ, zoom trên trình duyệt khác, pinch/bàn phím ảo hoặc thiết bị thật; không nâng S07 lên Complete.
+
 ## Điều kiện mở source và kết luận
 
 1. Review phạm vi S07 trên main, ghi quyết định **Approved for implementation** vào spec và merge PR tài liệu trước source; giữ S07a và S07 rộng là hai trạng thái khác nhau.
-2. Chạy ca ưu tiên và xác nhận lỗi cụ thể bằng trace/đo hình học. Nếu có lỗi, chọn đúng một thành phần/route để sửa, chạy `codemap -- impact`, thêm E2E đo hành vi và negative control phù hợp; kiểm ảnh 390/1440 trước/sau và các gate Node 22.
+2. Giữ ca zoom thật ở trên làm baseline; bổ sung vòng focus trap đầy đủ và E2E/negative control cho lỗi focus nếu phạm vi source S07 được duyệt. Lỗi focus đã quan sát ở commit cũ nay được PR #1137 sửa; không tạo bản vá trùng.
 3. Ma trận nghiệm thu còn mở: Home, placement/onboarding, STEM + kết quả, CEFR quiz, outline modal, input focus × 320/390/768/1440 × ba theme, trạng thái có thật; browser zoom 200%, keyboard/focus/44px, pinch và bàn phím ảo trên thiết bị thật. Ghi N/A có lý do thay vì coi là đạt.
 
 **Trạng thái S07: PARTIAL / WAITING.** Cấu hình zoom đã sửa và CI S07a đạt; chưa có bằng chứng để kết luận toàn bộ zoom/reflow/focus/44px hay ba theme trên thiết bị thật.
