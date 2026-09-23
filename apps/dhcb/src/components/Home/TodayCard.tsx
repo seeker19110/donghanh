@@ -43,12 +43,12 @@ function Khung({ children }: { children: ReactNode }) {
   return (
     <section
       aria-labelledby="today-card-heading"
-      className="rounded-3xl border border-zinc-800 bg-zinc-900/90 p-5 sm:p-6 animate-fade-up"
+      className="rounded-3xl border border-zinc-800 bg-zinc-900/90 p-5 sm:px-6 animate-fade-up"
     >
       <h2 id="today-card-heading" className="text-base sm:text-lg font-bold text-white mb-3">
         Hôm nay
       </h2>
-      {children}
+      <div className="min-h-[96px]">{children}</div>
     </section>
   )
 }
