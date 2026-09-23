@@ -59,10 +59,12 @@ export function GameResult({
 export function MiniHeader({
   title,
   sub,
+  uiLang,
   onBack,
 }: {
   title: string
   sub: string
+  uiLang: 'vi' | 'en'
   onBack: () => void
 }) {
   return (
@@ -73,7 +75,8 @@ export function MiniHeader({
       </div>
       <button
         onClick={onBack}
-        className="text-xs text-zinc-400 hover:text-white px-3 py-2 rounded-lg hover:bg-zinc-800/60 transition"
+        aria-label={uiLang === 'vi' ? 'Về Luyện tập' : 'Back to Practice'}
+        className="min-h-11 min-w-11 text-xs text-zinc-400 hover:text-white px-3 py-2 rounded-lg hover:bg-zinc-800/60 transition"
       >
         ✕
       </button>

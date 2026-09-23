@@ -74,7 +74,7 @@ export function VocabListenGuess({
 
   return (
     <div className="space-y-5">
-      <p className="text-xs text-zinc-500 text-center">
+      <p className="text-xs text-zinc-300 text-center">
         {idx + 1}/{items.length}
       </p>
       <div className="flex justify-center">

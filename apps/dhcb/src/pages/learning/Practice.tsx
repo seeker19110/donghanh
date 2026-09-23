@@ -190,7 +190,7 @@ export default function Practice() {
           baseWidth="max-w-2xl"
           className="!pb-[calc(1.5rem+var(--bnav-h))]"
         >
-          <MiniHeader title={title} sub={sub} onBack={closeMode} />
+          <MiniHeader title={title} sub={sub} uiLang={uiLang} onBack={closeMode} />
           {activeMode === 'vocab-listen' && (
             <VocabListenGuess
               pool={session.pool}
@@ -299,7 +299,7 @@ export default function Practice() {
         {/* ── TẦNG 1: LUYỆN TẬP 5 MÔN HỌC CỐT LÕI & GIẢI ĐỀ AI ── */}
         <section aria-label="Luyện tập 5 Môn học cốt lõi" className="space-y-3">
           <div className="flex items-center justify-between px-1">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-blue-400 theme-light:text-blue-800">
+            <h2 className="text-xs font-bold uppercase tracking-wider text-blue-300 theme-light:text-blue-800">
               1. Luyện Tập 5 Môn Học & Giải Đề Từng Bước
             </h2>
             <button

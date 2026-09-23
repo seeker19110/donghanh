@@ -118,6 +118,27 @@ async function replay(page: Page, audio: AudioRequest[], direction: Direction) {
 }
 
 test.describe('S04 — direction độc lập UI', () => {
+  test('Keyboard focus is visible on a mode and its answer', async ({ page }) => {
+    await setup(page, 'A', 'vi')
+    const mode = page.getByRole('button', { name: 'Nghe Đoán Từ Vựng' })
+    await mode.focus()
+    await page.keyboard.press('Tab')
+    await page.keyboard.press('Shift+Tab')
+    await expect(mode).toBeFocused()
+    await expect(mode).toHaveCSS('outline-style', 'solid')
+    await mode.press('Enter')
+    const exit = page.getByRole('button', { name: 'Về Luyện tập' })
+    const exitBox = await exit.boundingBox()
+    expect(exitBox?.width).toBeGreaterThanOrEqual(44)
+    expect(exitBox?.height).toBeGreaterThanOrEqual(44)
+    const answer = options(page, 'A').first()
+    await answer.focus()
+    await page.keyboard.press('Tab')
+    await page.keyboard.press('Shift+Tab')
+    await expect(answer).toBeFocused()
+    await expect(answer).toHaveCSS('outline-style', 'solid')
+  })
+
   test('Settings thật lưu B, reload Practice dùng B dù UI được gieo vi', async ({ page }) => {
     const audio = await setup(page, 'A', 'vi')
     await page.goto('/cai-dat')
@@ -190,7 +211,11 @@ test.describe('S04 — direction độc lập UI', () => {
         await page.getByRole('button', { name: /^(Làm lại|Retry)$/ }).click()
         await expect(page.getByText('1/8', { exact: true })).toBeVisible()
         expect((await replay(page, audio, direction)).request).toEqual(first.request)
-        await page.getByRole('button', { name: '✕', exact: true }).click()
+        await page
+          .getByRole('button', {
+            name: nextUi === 'vi' ? 'Về Luyện tập' : 'Back to Practice',
+          })
+          .click()
         await openListen(page)
         await expect(options(page, newDirection)).toHaveCount(4)
         await replay(page, audio, newDirection)
