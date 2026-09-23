@@ -47,7 +47,17 @@ describe('useStemCompletionState', () => {
   async function hien(user: User | null, subjectId: StemSubjectId | undefined, loading = false) {
     await act(async () => {
       root.render(
-        <AuthContext.Provider value={{ user, loading, isGuest: false, refresh: async () => {} }}>
+        <AuthContext.Provider
+          value={{
+            user,
+            loading,
+            isGuest: false,
+            refresh: async () => {},
+            refreshVerified: async () => {
+              throw new Error('Không dùng trong fixture này')
+            },
+          }}
+        >
           <Do subjectId={subjectId} />
         </AuthContext.Provider>,
       )

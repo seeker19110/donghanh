@@ -1,6 +1,7 @@
 // packages/core-ui/clientAuth.ts — Xác thực phía client dùng chung cho toàn bộ hệ sinh thái (Hub & Subdomains).
 // Quản lý đăng nhập, đăng ký, OAuth 2.0 (Google, Facebook, Apple, Microsoft), SSO cookie và chuyển hướng an toàn.
 
+import { z } from 'zod'
 import { setStoredToken, clearStoredToken, getAuthHeader } from './authHeader.js'
 
 // GĐ1 2026-09-12 (docs/specs/2026-09-12-gd1-xoa-goi-pro.md): chỉ còn Free + VIP.
@@ -558,6 +559,44 @@ export async function getCurrentUser(): Promise<AppUser | null> {
     isFounder?: boolean
   }
   return { ...profile, createdAt: Date.now() }
+}
+
+/** Đọc lại phiên mà không diễn giải lỗi server thành đăng xuất. Không tự đổi token. */
+export class SessionVerificationError extends Error {
+  constructor(public readonly reason: 'unauthorized' | 'http' | 'invalid-response') {
+    super('Không xác nhận được phiên đăng nhập')
+    this.name = 'SessionVerificationError'
+  }
+}
+
+const verifiedUserSchema = z.object({
+  id: z.string().min(1),
+  email: z.string(),
+  name: z.string(),
+  plan: z.enum(['free', 'vip']),
+  onboarded: z.boolean(),
+  planExpiresAt: z.string().nullable().optional(),
+  emailVerified: z.boolean().optional(),
+  isAdmin: z.boolean().optional(),
+  isFounder: z.boolean().optional(),
+})
+
+export async function getCurrentUserVerified(): Promise<AppUser> {
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), 15_000)
+  try {
+    const resp = await fetch('/api/auth?action=me', {
+      headers: getAuthHeader(),
+      credentials: 'include',
+      signal: controller.signal,
+    })
+    if (!resp.ok) throw new SessionVerificationError(resp.status === 401 ? 'unauthorized' : 'http')
+    const parsed = verifiedUserSchema.safeParse(await resp.json())
+    if (!parsed.success) throw new SessionVerificationError('invalid-response')
+    return { ...parsed.data, createdAt: Date.now() }
+  } finally {
+    clearTimeout(timer)
+  }
 }
 
 export function clearProfileCache(): void {

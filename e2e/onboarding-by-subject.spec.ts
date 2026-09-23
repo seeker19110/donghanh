@@ -29,7 +29,7 @@ async function mockOnboardingSave(page: Page): Promise<void> {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify(profile(onboarded)),
+      body: JSON.stringify(route.request().method() === 'POST' ? { ok: true } : profile(onboarded)),
     })
   })
   await page.route('**/api/auth?action=me', (route) =>

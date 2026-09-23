@@ -1,3 +1,4 @@
+import { getStoredToken } from '@core/authHeader'
 // ──────────────────────────────────────────────────────────────────────
 // BÀI TEST XẾP LỚP ĐẦU VÀO — trang riêng, KHÔNG bọc RequireAuth (giống /onboarding)
 // vì có thể vào từ giữa luồng onboarding, trước khi user.onboarded = true.
@@ -63,6 +64,11 @@ const CEFR_LABEL: Record<CefrId, { vi: string; en: string }> = {
 type Phase = 'intro' | 'testing' | 'result'
 
 export default function Placement() {
+  const { user } = useAuth()
+  return <PlacementSession key={user?.id ?? ''} />
+}
+
+function PlacementSession() {
   const nav = useNavigate()
   const location = useLocation()
   const { user } = useAuth()
@@ -81,6 +87,16 @@ export default function Placement() {
   const [loadError, setLoadError] = useState(false)
   const [roundToLoad, setRoundToLoad] = useState<CefrId>(PLACEMENT_START)
   const requestId = useRef(0)
+  const [saving, setSaving] = useState(false)
+  const [saveError, setSaveError] = useState(false)
+  const pendingSave = useRef(false)
+  const mounted = useRef(false)
+  useEffect(() => {
+    mounted.current = true
+    return () => {
+      mounted.current = false
+    }
+  }, [])
 
   useEffect(
     () => () => {
@@ -177,14 +193,31 @@ export default function Placement() {
   // Áp kết quả vào profiles NGAY (chỉ đổi level, giữ goal/dailyMinutes đã có) —
   // dùng khi thi từ /profile (đã onboarded từ trước).
   async function applyResultNow(res: PlacementResult) {
-    if (!user) return
+    if (!user || pendingSave.current) return
+    pendingSave.current = true
+    setSaving(true)
+    setSaveError(false)
+    const token = getStoredToken()
     const cached = getCachedOnboarding(user.id)
     const goal = cached?.goal ?? 'daily'
     const dailyMinutes = cached?.dailyMinutes ?? 10
     const ageGroup = cached?.ageGroup ?? 'nguoi_lon'
-    await saveOnboarding({ level: res.appLevel, goal, dailyMinutes, ageGroup })
-    cacheOnboarding(user.id, { level: res.appLevel, goal, dailyMinutes, ageGroup })
-    setDailySpeed(user.id, minutesToSpeed(dailyMinutes))
+    try {
+      const outcome = await saveOnboarding({ level: res.appLevel, goal, dailyMinutes, ageGroup })
+      if (!mounted.current || token !== getStoredToken()) return
+      if (!outcome.ok) {
+        setSaveError(true)
+        return
+      }
+      cacheOnboarding(user.id, { level: res.appLevel, goal, dailyMinutes, ageGroup })
+      setDailySpeed(user.id, minutesToSpeed(dailyMinutes))
+      nav('/cai-dat', { replace: true })
+    } catch {
+      if (mounted.current) setSaveError(true)
+    } finally {
+      pendingSave.current = false
+      if (mounted.current) setSaving(false)
+    }
   }
 
   function continueAfterResult() {
@@ -194,7 +227,7 @@ export default function Placement() {
       // gian rồi lưu 1 lần (tránh set onboarded=true giữa chừng).
       nav('/onboarding', { replace: true, state: { presetLevel: result.appLevel } })
     } else {
-      void applyResultNow(result).then(() => nav('/cai-dat', { replace: true }))
+      void applyResultNow(result)
     }
   }
 
@@ -300,11 +333,29 @@ export default function Placement() {
             <p className="text-3xl font-bold text-white">
               {isA ? CEFR_LABEL[result.cefr].vi : CEFR_LABEL[result.cefr].en}
             </p>
+            {saveError && (
+              <p role="alert" className="text-sm text-content leading-relaxed">
+                {isA
+                  ? 'Chưa xác nhận được việc lưu hồ sơ. Kết quả vẫn còn; hãy thử lại.'
+                  : 'Could not confirm the profile was saved. Your result is still here; please try again.'}
+              </p>
+            )}
             <button
+              disabled={saving}
               onClick={continueAfterResult}
               className="w-full mt-4 bg-accent-500 hover:bg-accent-400 text-black font-semibold py-3 rounded-2xl transition"
             >
-              {isA ? 'Tiếp tục' : 'Continue'}
+              {saving
+                ? isA
+                  ? 'Đang lưu…'
+                  : 'Saving…'
+                : saveError
+                  ? isA
+                    ? 'Thử lưu lại'
+                    : 'Retry saving'
+                  : isA
+                    ? 'Tiếp tục'
+                    : 'Continue'}
             </button>
           </div>
         </PageShell>

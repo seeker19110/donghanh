@@ -8,6 +8,7 @@
 // Giai đoạn C (rời Supabase): mọi đọc/ghi đi qua /api/history (Postgres tự host),
 // server tự kiểm user từ Bearer token — thay client query Supabase dựa vào RLS trước đây.
 
+import { z } from 'zod'
 import { isGuestId } from '@core/guestId'
 import { getAuthHeader, getStoredToken } from '@core/authHeader'
 import type { ChatSession, WritingSubmission, SpeakingSession, DailyUsage } from '../types'
@@ -139,20 +140,41 @@ export async function pullUserData(userId: string): Promise<void> {
 // Giai đoạn C: gọi POST /api/profile thay Supabase client — không còn Supabase session
 // sau khi cutover khỏi Supabase Auth (Giai đoạn B). Server tự xác định user từ token
 // (getAuthHeader()), không cần truyền userId nữa.
+export type SaveOnboardingResult =
+  | { ok: true }
+  | { ok: false; reason: 'network' | 'timeout' | 'invalid-response' }
+  | { ok: false; reason: 'http'; status: number }
+
+const onboardingSavedSchema = z.object({ ok: z.literal(true) })
+
 export async function saveOnboarding(data: {
   level: string
   goal: string
   dailyMinutes: number
   ageGroup?: string
-}) {
+}): Promise<SaveOnboardingResult> {
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), 15_000)
   try {
     const resp = await fetch('/api/profile', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
       body: JSON.stringify({ action: 'onboarding', ...data }),
+      signal: controller.signal,
     })
-    if (!resp.ok) console.warn('[cloud] lưu onboarding lỗi: HTTP', resp.status)
-  } catch (err) {
-    console.warn('[cloud] lưu onboarding lỗi:', err instanceof Error ? err.message : err)
+    if (!resp.ok) return { ok: false, reason: 'http', status: resp.status }
+    let body: unknown
+    try {
+      body = await resp.json()
+    } catch {
+      return { ok: false, reason: controller.signal.aborted ? 'timeout' : 'invalid-response' }
+    }
+    return onboardingSavedSchema.safeParse(body).success
+      ? { ok: true }
+      : { ok: false, reason: 'invalid-response' }
+  } catch {
+    return { ok: false, reason: controller.signal.aborted ? 'timeout' : 'network' }
+  } finally {
+    clearTimeout(timer)
   }
 }

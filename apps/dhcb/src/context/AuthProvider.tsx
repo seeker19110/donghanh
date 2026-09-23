@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback, useRef, type ReactNode } from 'react'
 import { AuthContext } from './authContext'
-import { getCurrentUser } from '../lib/auth'
+import { getCurrentUser, getCurrentUserVerified, SessionVerificationError } from '../lib/auth'
 import { preloadBrowseChunks } from '../lib/preloadBrowse'
 import { resetPreload } from '../lib/preloadState'
 import { clearAudioCache } from '../lib/audioCache'
 import { cacheAllowedVoices } from '../lib/voiceTiers'
+import { getStoredToken, clearStoredToken } from '@core/authHeader'
 import { getGuestId } from '@core/guestId'
 import { mergeGuestProgressInto, hasGuestProgress } from '../lib/guestProgress'
 import type { User } from '../types'
@@ -34,8 +35,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
   const wasLoggedIn = useRef(false)
 
-  const refresh = useCallback(async () => {
-    const u = await getCurrentUser()
+  const generation = useRef(0)
+  const mounted = useRef(false)
+
+  const applyUser = useCallback(async (u: User | null, isCurrent: () => boolean) => {
+    if (!isCurrent()) return
     // Token vừa mất (đăng xuất / hết hạn) mà trước đó đang đăng nhập → dọn state client-only
     // (Giai đoạn B: không còn onAuthStateChange của Supabase để bắt sự kiện SIGNED_OUT).
     if (wasLoggedIn.current && !u) {
@@ -51,6 +55,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         console.warn('[auth] hợp nhất tiến độ khách thất bại (tiến độ cục bộ vẫn còn):', err)
       })
     }
+    if (!isCurrent()) return
     wasLoggedIn.current = !!u
     // Không có phiên → chạy ở chế độ Khách thay vì chặn toàn bộ app.
     setUser(u ?? buildGuestUser())
@@ -59,7 +64,45 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (u) cacheAllowedVoices(u.plan)
   }, [])
 
+  const refresh = useCallback(async () => {
+    const request = ++generation.current
+    const u = await getCurrentUser()
+    // Giữ cơ chế nạp phiên cũ, gồm cookie adoption có thể đặt token trong lúc đọc.
+    await applyUser(u, () => mounted.current && request === generation.current)
+  }, [applyUser])
+
+  const refreshVerified = useCallback(
+    async (expectedUserId: string): Promise<User> => {
+      const request = ++generation.current
+      const token = getStoredToken()
+      const isCurrent = () =>
+        mounted.current && request === generation.current && token === getStoredToken()
+      try {
+        const u = await getCurrentUserVerified()
+        if (!isCurrent() || u.id !== expectedUserId) throw new Error('Phiên đăng nhập đã thay đổi')
+        await applyUser(u, isCurrent)
+        if (!isCurrent()) throw new Error('Phiên đăng nhập đã thay đổi')
+        return u
+      } catch (error) {
+        if (
+          isCurrent() &&
+          error instanceof SessionVerificationError &&
+          error.reason === 'unauthorized'
+        ) {
+          clearStoredToken()
+          await applyUser(
+            null,
+            () => mounted.current && request === generation.current && !getStoredToken(),
+          )
+        }
+        throw error
+      }
+    },
+    [applyUser],
+  )
+
   useEffect(() => {
+    mounted.current = true
     // Gọi qua then() để mọi setState chạy trong callback bất đồng bộ
     // (luật react-hooks/set-state-in-effect — không setState đồng bộ trong effect).
     void Promise.resolve()
@@ -72,7 +115,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (e.key === null || e.key === 'gsa_session_token_v1') refresh()
     }
     window.addEventListener('storage', onStorage)
-    return () => window.removeEventListener('storage', onStorage)
+    return () => {
+      mounted.current = false
+      generation.current += 1
+      window.removeEventListener('storage', onStorage)
+    }
   }, [refresh])
 
   // Khi user đăng nhập xong → CHỈ warm-up nhẹ chunk đầu của trang Bài học + Cụm từ
@@ -101,7 +148,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // `isGuest` tách riêng khỏi `user` để nơi gọi không phải nhớ `user?.isGuest === true`; hai
   // giá trị luôn khớp nhau vì cùng sinh ra từ một chỗ.
   return (
-    <AuthContext.Provider value={{ user, loading, refresh, isGuest: user?.isGuest === true }}>
+    <AuthContext.Provider
+      value={{ user, loading, refresh, refreshVerified, isGuest: user?.isGuest === true }}
+    >
       {children}
     </AuthContext.Provider>
   )
