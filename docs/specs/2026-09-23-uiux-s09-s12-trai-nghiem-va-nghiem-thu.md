@@ -75,13 +75,13 @@ và [review đã ghi](../ux-upgrade/s09-s12/README.md) chỉ chứng minh tươn
 
 Các đường dẫn source dưới đây tương đối với `apps/dhcb/src/`.
 
-| Đích              | Hiện trạng đã đọc tại base review                                                                                                                                                                                                                                      | Contract S09 và ranh giới                                                                                                                                           |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| STEM bốn môn      | `pages/learning/StemLessonView.tsx`: chỉ xử lý hash bắt đầu `#cau-`; nạp lười rồi focus câu, câu không tồn tại về h1. `TuKiemTra` giữ answers/checked bằng `useLearningSession`; kết quả nộp chỉ ở React state.                                                        | Mở rộng anchor section trong chính trang; giữ nháp cùng owner/contentVersion. Reload không được dựng lại kết quả authoritative từ nháp.                             |
-| Kết quả STEM      | Caller production duy nhất của `components/learning/ActivityResult.tsx` là `StemLessonView`; `lib/stemResultView.ts` ghép evidence theo questionIndex nhưng bỏ index khỏi props. Component dùng index hiển thị làm key và số câu.                                      | Adapter sở hữu định danh/nguồn kết quả; component chỉ trình bày. Không sort trước khi giữ số câu gốc.                                                               |
-| Bài lập trình     | `pages/subjects/programming/ProgrammingLessonPage.tsx`: StepRail/StepBar gọi setStep; stepIndex và code/predictChoice/arranged/hintsShown/sampleViewed nằm trong nháp. results không persist. `components/programming/LessonProse.tsx` là renderer, không phải router. | Tái dùng thanh bước, không thêm mục lục bài trùng. Cần map URL ↔ bước và thứ tự ưu tiên URL/resume trước duyệt. Không chạm grader hoặc saveLessonProgress.          |
-| Hội thoại English | `pages/subjects/english/Lessons.tsx` giữ selectedMeta bằng state; `lessons/LessonView.tsx` có activeTurn/audio/role-play, cuộn trong panel mobile và theo trang desktop; không dùng ActivityResult/useLearningSession.                                                 | Fixture id 1 không phải bằng chứng route mở được bài đó. Cần contract chọn bài/turn, Back và audio trước duyệt; không tự áp contract STEM vào EvaluationResultView. |
-| Link sổ lỗi       | `lib/mistakeRoutes.ts` sinh STEM `#cau-N`; English chỉ về loại hoạt động. [S11a](../changelog/0423-2026-09-23-stem-so-loi-deep-link.md) đã nối đích DOM STEM.                                                                                                          | Giữ nguyên builder/đường dẫn môn và số câu; không hứa English quay lại đúng turn từ sổ lỗi.                                                                         |
+| Đích              | Hiện trạng đã đọc tại base review                                                                                                                                                                                                                                      | Contract S09 và ranh giới                                                                                                                                                           |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| STEM bốn môn      | `pages/learning/StemLessonView.tsx`: chỉ xử lý hash bắt đầu `#cau-`; nạp lười rồi focus câu, câu không tồn tại về h1. `TuKiemTra` giữ answers/checked bằng `useLearningSession`; kết quả nộp chỉ ở React state.                                                        | Mở rộng anchor section trong chính trang; giữ nháp cùng owner/contentVersion. Reload không được dựng lại kết quả authoritative từ nháp.                                             |
+| Kết quả STEM      | Caller production duy nhất của `components/learning/ActivityResult.tsx` là `StemLessonView`; `lib/stemResultView.ts` ghép evidence theo questionIndex nhưng bỏ index khỏi props. Component dùng index hiển thị làm key và số câu.                                      | Adapter sở hữu định danh/nguồn kết quả; component chỉ trình bày. Không sort trước khi giữ số câu gốc.                                                                               |
+| Bài lập trình     | `pages/subjects/programming/ProgrammingLessonPage.tsx`: StepRail/StepBar gọi setStep; stepIndex và code/predictChoice/arranged/hintsShown/sampleViewed nằm trong nháp. results không persist. `components/programming/LessonProse.tsx` là renderer, không phải router. | Tái dùng thanh bước, không thêm mục lục bài trùng. Map URL ↔ bước và precedence đã chốt ở §2.8; chưa triển khai. Không chạm grader hoặc saveLessonProgress.                         |
+| Hội thoại English | `pages/subjects/english/Lessons.tsx` giữ selectedMeta bằng state; `lessons/LessonView.tsx` có activeTurn/audio/role-play, cuộn trong panel mobile và theo trang desktop; không dùng ActivityResult/useLearningSession.                                                 | Fixture id 1 không phải bằng chứng route mở được bài đó. Contract chọn bài/turn, Back và audio đã chốt ở §2.7; chưa triển khai; không tự áp contract STEM vào EvaluationResultView. |
+| Link sổ lỗi       | `lib/mistakeRoutes.ts` sinh STEM `#cau-N`; English chỉ về loại hoạt động. [S11a](../changelog/0423-2026-09-23-stem-so-loi-deep-link.md) đã nối đích DOM STEM.                                                                                                          | Giữ nguyên builder/đường dẫn môn và số câu; không hứa English quay lại đúng turn từ sổ lỗi.                                                                                         |
 
 **Write set khi triển khai sau duyệt:** adapter `lib/stemResultView.ts`, component
 `components/learning/ActivityResult.tsx`, caller `pages/learning/StemLessonView.tsx`
@@ -181,17 +181,179 @@ không tự nó là lý do thiếu quyền duyệt spec.
 
 ### 2.6. Blockers để chuyển Approved for implementation
 
-| ID     | Điều còn thiếu                                                                                                                                                                                          | Cách khép / owner                                                                                                                                                                          |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| S09-B1 | Goal yêu cầu M1/M2; tại base review S04/S05 và S08 còn mở. Không có quyết định tách một slice S09 độc lập khỏi phụ thuộc đó trong goal hiện hành.                                                       | Agent điều phối/chủ goal đối chiếu SHA main, ghi dependency đã đạt hoặc phê duyệt slice nhỏ có dependency rõ; không đổi S04/S08 trong PR này.                                              |
-| S09-B2 | English fixture là hội thoại chọn bằng state, chưa có URL bài/turn. “Mở trực tiếp/Back” chung của S09 chưa có mapping cho caller này; audio/role-play và EvaluationResultView không phải contract STEM. | Reviewer English chốt route/query/hash, invalid id, ưu tiên resume, lifecycle audio và phạm vi kết quả; bổ sung bảng acceptance trên đúng caller, hoặc tách thành slice sau được duyệt rõ. |
-| S09-B3 | Programming stepIndex chưa map hash; chưa chốt URL thắng hay thua resume/stale draft, anchor kết quả khi results chưa tồn tại.                                                                          | Reviewer lập trình chốt map sáu bước hiện hữu (concept/example/predict/parsons/make/done), thứ tự hydrate/resume/hash và fallback; chỉ đổi bước không chạy code/chấm/hoàn thành.           |
+| ID     | Điều còn thiếu                                                             | Cách khép / owner                                                                                                            |
+| ------ | -------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| S09-B1 | OPEN — S09 vẫn Draft: phụ thuộc S04/S05 và M2 chưa được nghiệm thu đầy đủ. | Điều phối đối chiếu main và evidence phụ thuộc trước duyệt; PR này không cấp Approved, không sửa source/browser.             |
+| S09-B2 | CLOSED — DESIGN CONTRACT ONLY: hội thoại mẫu English §2.7.                 | Hai audit và review tích hợp pin SHA; implementation/browser/audio/AT còn phải chứng minh. Không bao gồm CEFR/Chat/Speaking. |
+| S09-B3 | CLOSED — DESIGN CONTRACT ONLY: sáu bước lập trình §2.8.                    | Map, precedence, owner/result, history/focus và fixtures đã chốt; source/browser chưa triển khai/nghiệm thu.                 |
 
 Contract STEM §2.3–2.4 đã có quyết định review nhưng **không tự cấp Approved riêng**
 trong một spec S09 toàn phạm vi còn Draft. Khi khép B1–B3, cập nhật ngay original spec
 này với SHA và người review theo ủy quyền, merge spec trước source. Không cần chuyên
 gia chấm 40 mẫu S10 hoặc pilot S12 để chốt riêng bố cục S09; cũng không vì chốt bố cục
 mà đánh dấu các phần đó đã đạt. Rollback review này là revert tài liệu, không đổi dữ liệu.
+
+### 2.7. B2 — Contract hội thoại mẫu English
+
+**CLOSED — DESIGN CONTRACT ONLY, 23/09/2026.** Hai audit độc lập Astra low
+(English B2 và Programming B3) đọc source tại
+`b7f56206090ea9b4649fc27d61044ca9c309e826`; agent tích hợp theo ủy quyền người dùng
+trên `3c0ec2830e4f6f535d9f1fa6d784008ca3f9e435` sau PR #1135. Các file caller được
+audit không đổi giữa hai SHA. Các quyết định dưới đây là yêu cầu triển khai tương lai,
+không phải hành vi đã chạy. S09 toàn phạm vi vẫn **Draft**, B1 còn mở.
+
+Phạm vi B2 chỉ là `pages/subjects/english/Lessons.tsx` và
+`pages/subjects/english/lessons/LessonView.tsx` (path tương đối `apps/dhcb/src/`).
+CEFR có URL unit/activity và resume riêng; Chat/Speaking là caller riêng của
+`components/EvaluationResultView.tsx`. Không tuyên bố coverage turn-link cho các
+caller đó. Nếu sửa component dùng chung, phải kiểm hồi quy từng caller.
+
+1. **Identity/URL:** giữ route `/goc-hoc-tap/english/bai-hoc`, dùng
+   `?lesson=1#luot-20`. `lesson` là số nguyên dương tồn tại trong index; chỉ nhận một
+   tham số `lesson`. Whitelist hash: `#dau-bai`, `#hoi-thoai`, `#luot-N`, `#ket-qua`.
+   N bắt đầu 1 theo thứ tự source, không theo speaker hoặc thứ tự hiển thị.
+   Turn index chỉ ổn định trong phiên bản nội dung đã pin SHA; chưa có turn id hay
+   contentVersion bền vững, không hứa định danh xuyên lần sửa giáo trình.
+2. **Load/invalid:** auth/feature gate → tải index → xác minh lesson → tải chunk →
+   kiểm `loadedLesson.id` → resolve hash sau render. URL hợp lệ thắng selection cũ.
+   Thiếu `lesson` mở danh sách, không tự chọn bài chưa xem. Id rỗng/lặp/sai cú pháp/
+   không tồn tại hiện thông báo tại danh sách và focus heading; không mở bài khác.
+   HTTP/network/chunk lỗi có Retry riêng, không báo thành id sai. Hash lạ, malformed
+   hoặc N ngoài phạm vi về heading bài đang mở, không clamp sang lượt cuối.
+3. **History/resume:** chọn bài/đích khác push đúng một entry; chọn lại chỉ focus,
+   không push. Back/Forward đọc URL. “Danh sách” bỏ lesson/hash một cách xác định,
+   giữ query khác, không gọi back vô điều kiện. Redirect legacy giữ query/hash.
+   Reload mở lesson/hash, không phục hồi audio/recording/role-play/evaluation.
+   Không thêm persistent resume cho hội thoại mẫu trong S09. “Tiếp tục” hiện chọn
+   bài chưa xem; không được gọi đó là khôi phục lượt đang học.
+4. **Focus:** đích có `tabIndex=-1`, nhãn “Lượt N — người nói”; chờ đúng bài render
+   rồi focus/cuộn đúng panel mobile hoặc trang desktop, tránh header/audio toolbar.
+   Reduced motion không smooth-scroll. Chọn mục lục đóng menu và giữ focus đích;
+   Escape trả trigger. Back về danh sách focus bài vừa mở nếu còn hiện, nếu không
+   về heading danh sách. Đổi location/bài/owner hủy callback focus cũ.
+5. **Audio/role-play:** jump chỉ định vị phần đọc, không seek/đổi rpIdx/skip lượt,
+   mở mic, chấm hoặc tự phát. Khi áp navigation, dừng playback/word pacing, hủy
+   recorder và vô hiệu hóa callback cũ, kể cả sau await, STT và grading. Role-play
+   đang chạy kết thúc chưa hoàn thành; navigation không thành skip có điểm.
+   Play/record lại cần thao tác rõ ràng. Giữ chiều A/B, EN/VI/both và quyền giọng.
+6. **Kết quả:** `#ket-qua` chỉ hiện evaluation memory đúng lesson/owner/direction;
+   đổi các khóa này không lộ kết quả hoặc nhận response phiên cũ. Không có thì hiện
+   “Chưa có kết quả trong lần mở bài này”, không giả điểm 0/tự chấm. Đóng kết quả về
+   `#hoi-thoai`, focus heading, giữ reset role-play của caller. Summary/encouragement
+   luôn truy cập được; explanation có thể thu gọn nhưng original/corrected vẫn thấy.
+   Schema lỗi chưa có turn id: không gán lỗi thứ N thành lượt N hoặc hứa “Xem lượt
+   sai”; không áp passed/pending/outbox của STEM lên English.
+7. **Sư phạm:** jump không đổi mastery/completion hay đánh dấu mọi lượt đã học.
+   `markViewed` hiện chạy khi mở bài; không chạy lại theo hash. Không đổi prompt,
+   rubric, thứ tự nội dung hoặc thêm scaffolding C1/C2 vào bài người mới.
+
+**Khoảng cách source phải sửa trước nghiệm thu:** `data/lessons/loader.ts` hiện chưa
+kiểm HTTP status và nhận `chunk[meta.idx]` trước kiểm id; caller thiếu catch/retry.
+`LessonView.tsx` còn await giữa lượt/bản dịch; token TTS riêng chưa bảo vệ cả chuỗi.
+`lessons/useRolePlay.ts` cần generation theo owner/lesson/direction và cleanup waiter
+cho recorder/transcription/grading. Những việc này chưa được triển khai trong PR docs.
+
+**Fixtures pin tại SHA audit trên:** runtime source là
+`apps/dhcb/public/data/lessons/index.json` và `chunk-000.json`/`chunk-001.json` cùng
+thư mục, qua `apps/dhcb/src/data/lessons/loader.ts`; không dùng đường dẫn tổng hợp
+`src/data/lessons.json` trong fixtures.json cũ làm bằng chứng runtime.
+
+| ID acceptance/fixture                    | Dữ liệu thật và expected cần chứng minh                                                                                                                       |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| S09-EN-AC01 / s09-en-lesson-1-last-turn  | Bài 1 “Giới thiệu bản thân”, 20 turns, chunk-000; `?lesson=1#luot-20`, cả A/B: đúng lượt/focus, direct/reload/history; tới đích ≤2 kích hoạt.                 |
+| S09-EN-AC02 / s09-en-lesson-2-switch     | Bài 2 “Một ngày bình thường của tôi”, 20 turns, chunk-000; đổi bài/hash khi audio/role-play đang chạy: hủy chuỗi cũ, không phát/chấm lại, không thêm điểm.    |
+| S09-EN-AC03 / s09-en-lesson-11-load-race | Bài 11 “Trả phòng khách sạn”, 20 turns, chunk-001; trì hoãn tải rồi chuyển bài 1/owner: không nhận response hoặc focus cũ; HTTP lỗi có Retry.                 |
+| S09-EN-AC04 / s09-en-invalid-targets     | `lesson=0`, `lesson=abc`, rỗng, lặp, id không tồn tại; bài 1 `#luot-0`, `#luot-21`, malformed/hash lạ: fallback đúng cấp, không mở nhầm bài.                  |
+| S09-EN-AC05 / s09-en-result-absent       | Reload bài 1 `#ket-qua`: thông báo rỗng, không điểm giả/request grading; memory khác owner/direction không hiện.                                              |
+| S09-EN-AC06 / s09-en-result-long-mock    | Cần tạo evaluation tổng hợp có explanation dài và original trùng nhau; kiểm disclosure/focus/summary và không suy turn identity. Không phải evidence sư phạm. |
+
+Các ca trên cần browser với audio/provider mock, đếm side effect, keyboard/reduced
+motion và ma trận §2.5; chưa chạy. 20 turns là số đọc từ dữ liệu, chưa đo chiều cao
+app hay chứng minh bài dài. Fixtures.json cũ giữ trạng thái lịch sử; bảng này là
+contract fixture mới, không nâng các anchor null cũ thành đã triển khai.
+
+### 2.8. B3 — Contract bài lập trình
+
+**CLOSED — DESIGN CONTRACT ONLY**, cùng nguồn/reviewer/SHA ở §2.7.
+`pages/subjects/programming/ProgrammingLessonPage.tsx` sở hữu map dưới đây.
+Tái dùng StepRail/StepBar, chỉ một thanh trong DOM và `aria-current="step"` đúng.
+
+| Step key     | stepIndex (0-based) | Nhãn         | Hash/DOM id |
+| ------------ | ------------------- | ------------ | ----------- |
+| concept      | 0                   | Khái niệm    | #concept    |
+| example      | 1                   | Ví dụ mẫu    | #example    |
+| predict      | 2                   | Dự đoán      | #predict    |
+| parsons      | 3                   | Xếp code     | #parsons    |
+| make         | 4                   | Tự viết      | #make       |
+| done         | 5                   | Về nhà       | #done       |
+| Đầu bài      | 0                   | Tên bài      | #dau-bai    |
+| Kết quả Make | 4                   | Kết quả chấm | #ket-qua    |
+
+`#ket-qua` là đích con của Make, không phải bước thứ bảy; `done` không đồng nghĩa
+đã đạt bài. Thêm shortcut “Kết quả chấm” để tới kết quả ≤2 kích hoạt.
+
+1. **Hydrate/precedence:** nạp đúng bài → canonical pathname giữ toàn bộ query/hash
+   → chờ owner/session hydrate. Hash hợp lệ thắng bước resume nhưng giữ mọi trường
+   draft hợp lệ (`code`, `predictChoice`, `arranged`, `hintsShown`, `sampleViewed`).
+   Mở bình thường không hash dùng bước resume hợp lệ, nếu không có thì 0.
+2. **Stale:** không prefill hay ghi đè stale draft bằng bước URL trước quyết định;
+   modal giữ focus. “Dùng lại” nhận cả draft/bước stale rồi áp hash; “Bắt đầu mới”
+   hoặc đóng modal dùng draft mới rồi áp hash. Không hash: dùng bước stale khi nhận
+   lại, hoặc 0 khi bắt đầu mới. Hash sai/malformed về concept và focus đầu bài, giữ
+   draft; step lưu ngoài [0,5] fallback 0, không truy cập STEPS ngoài phạm vi.
+3. **History/storage:** chọn đích khác push một entry, cùng đích chỉ focus;
+   Back/Forward resolve không push. Back về entry không hash dùng bước ghi trong
+   history entry, thiếu metadata về đầu bài, không lấy resume vừa bị thay đổi.
+   Giữ `?khoa=` và query khác qua bare-id/slug cũ/legacy redirect. Storage event mới
+   vẫn theo chính sách draft hiện tại; hash hợp lệ giữ quyền quyết định bước UI.
+   Không đổi chính sách đồng bộ chung trong slice điều hướng này.
+4. **Kết quả:** heading `#ket-qua` luôn có trong Make. Đang grading nói “Đang chấm”,
+   có thể hiện ca đã trả về nhưng chưa kết luận toàn bài. `results=null` sau direct
+   open/reload nói “Chưa có kết quả chấm trong lần mở bài này”, link `#make`.
+   Đã dừng nhưng thiếu ca nói rõ chưa đầy đủ. Chỉ trình bày hoàn tất lượt chấm khi
+   đã dừng và đủ số test của bài; không dùng `passed` một mình và không coi kết quả
+   client là xác nhận lưu server. Jump giữ results memory cùng phiên, reload không
+   phục hồi results/output ví dụ/parsonsChecked từ draft. Predict explanation có
+   thể suy từ lựa chọn đã khôi phục; không gọi đó là lượt trả lời mới.
+5. **Owner isolation:** kết quả và callback bất đồng bộ phải gắn owner/bài/phiên;
+   đổi owner/bài vô hiệu hóa kết quả và response cũ trước khi render. Hiện LessonBody
+   chỉ key theo lesson id, hook reset session không tự reset results: đây là gap
+   triển khai bắt buộc, không được hứa result anchor an toàn trước khi có test.
+6. **Không thêm side effect:** jump không gọi runExample, gradeMake, Parsons onCheck,
+   mở sample, thêm SRS hay hoàn thành bài. Giữ LessonBody mount khi chỉ đổi hash;
+   run đã được người dùng bắt đầu tiếp tục, không khởi động lần mới. DOM/fetch
+   LivePreview chỉ chạy sau “Xem trang chạy”; quay lại Make không tự chạy script.
+   Mount hiện gọi saveLessonProgress in_progress: acceptance đếm request phát sinh
+   thêm do jump, không yêu cầu direct open có tổng request bằng 0.
+7. **Focus:** heading mỗi bước có id cố định/tabIndex=-1, kể cả Predict/Parsons.
+   Sau đúng bước render mới focus rồi scroll tránh header; không tự focus editor.
+   Kết quả rỗng vẫn focus heading kết quả. Đổi bài/owner/location hủy focus callback;
+   modal stale ưu tiên. Fallback đầu bài phải có heading nhìn thấy được (h1 hiện
+   sr-only). Áp ma trận keyboard/viewport/reduced motion §2.5.
+
+**Gap source:** canonical redirect và `components/LegacyProgrammingRedirect.tsx`
+chưa giữ hash; schema step chỉ nonnegative; `gradeMake` cập nhật results từng test
+trong khi passed dùng allTestsPassed ngay. S09 cần phân biệt trạng thái trình bày;
+nếu phải sửa lifecycle passed/xóa draft/ghi completion, tách review và scope trước
+source, không âm thầm đổi grader hoặc saveLessonProgress.
+
+| ID acceptance/fixture                                                        | Dữ liệu và expected cần chứng minh                                                                           |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| S09-P-AC01 / s09-p-six-anchors                                               | `p1-u1-l1`: sáu hash đúng bước/heading; shortcut kết quả ≤2 kích hoạt.                                       |
+| S09-P-AC02 / s09-p-url-over-resume                                           | Resume Make + #predict → Predict, mọi trường draft giữ nguyên.                                               |
+| S09-P-AC03 / s09-p-stale-adopt, s09-p-stale-discard                          | Cả hai quyết định stale + hash; không prefill/ghi đè trước quyết định, focus không thoát modal.              |
+| S09-P-AC04 / s09-p-invalid-target                                            | Hash lạ/malformed/step 99 → concept/đầu bài, không crash/chạy code.                                          |
+| S09-P-AC05 / s09-p-result-empty, s09-p-result-partial, s09-p-result-complete | Direct/reload rỗng; pending/thiếu ca không báo hoàn tất; jump giữ kết quả memory cùng phiên.                 |
+| S09-P-AC06 / s09-p-history-canonical                                         | Bare id, slug cũ, legacy, Back/Forward giữ query/hash và focus; entry không hash dùng metadata hoặc đầu bài. |
+| S09-P-AC07 / s09-p-no-rerun                                                  | Đếm runner/grade/completed/SRS trước–sau jump: không tăng; quay lại Make không tự chạy LivePreview.          |
+| S09-P-AC08 / s09-p-owner-load-race                                           | Đổi owner/bài, tải/chấm chậm: không hiện kết quả hoặc focus từ phiên cũ.                                     |
+| S09-P-AC09 / s09-p-keyboard-layout                                           | Keyboard, mobile/desktop, reduced motion, heading thấy được và không bị che.                                 |
+
+Nguồn fixture pin SHA audit §2.7: `packages/subject-programming/lessons/p1u1.ts`
+(`p1-u1-l1`, bốn test Make để tạo partial/mixed), `p3u10.ts` cùng thư mục
+(`p3-u10-l1?khoa=git`, ngữ cảnh khóa), `p3u6.ts` (`p3-u6-l2`, DOM preview;
+coverage nền ở `e2e/programming-lesson.spec.ts`). Các fixture ID ở bảng là kế hoạch
+unit/integration/E2E, chưa PASS; chưa đo chiều cao app, chưa có browser/AT evidence.
 
 ## 3. S10 — Phản hồi sư phạm và rubric nội dung
 
