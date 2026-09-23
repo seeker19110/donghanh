@@ -361,3 +361,11 @@ quyền file và giao diện được chốt trước code. Root review diff, đ
   gỡ blocker acceptance chuyên môn. Không có kết quả sản phẩm/ảnh/pilot mới.
 - Next: merge PR spec qua required checks, rồi giao S04 source riêng; S05 chưa được giao
   source. Goal NOT COMPLETE. Validation docs và PR đợt này ghi tại changelog 0427.
+
+### S06 follow-up — kiểm điều kiện triển khai 2026-09-23
+
+Base origin/main `422c9134`: #1122 đã merge nhưng S06 vẫn PARTIAL. Lịch sử spec
+#1119/#1131 chỉ có approval riêng S08; follow-up S06 chờ quyết định duyệt rõ phạm vi.
+Theo yêu cầu tác vụ, đợt này docs-only, **BLOCKED_IMPLEMENTATION_APPROVAL**.
+Không có source/test mới hoặc kết quả contrast mới. Xem
+[audit và bước tiếp theo](../research/2026-09-23-s06-follow-up-approval-audit.md).
