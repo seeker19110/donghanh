@@ -1,0 +1,20 @@
+# S05 — bằng chứng kiểm toán ngoại tuyến trước duyệt
+
+**Trạng thái: `WAITING_EXPERT_REVIEW`.** Đây là số liệu khả thi cho [đặc tả S05](../specs/2026-09-23-uiux-s03-s05-tinh-dung-bai-tap.md) và [thiết kế manifest](../specs/2026-09-23-s05-offline-audit-manifest.md), không phải phê duyệt S05 hay bằng chứng builder runtime. Script ngoại tuyến độc lập với builder chưa được duyệt; repo chỉ được đọc để kiểm toán. Không truy cập dữ liệu người học, production hay provider.
+
+Nguồn: `origin/main` `9c3e2fa27d9da5b4ea5675f7abaec4abe3af2106`, tree `apps/dhcb/public/data/dictionary` `0e9a2f1ef11d5ab8ed2bbfac46a31dab452abd3a`, 10 chunk / 12.153 entry. Dataset digest SHA256 `45ea26ee3066549e9aba97d3c05dc6a4a98b25c40e1d11d86516b33de36bbb65`; rule `s05-offline-v1`, seed `s05-v1`, Node 22.23.2. Script SHA256 `9e2b17b25bc46f652b2ea712cb14996482b008b2ee4522ecd719300fcf51a3a4`. Không có dirty path trong vùng dictionary.
+
+| Chiều | Có ví dụ theo điều kiện cũ | Hợp lệ sau luật chặt | Không khớp | Nhiều span | Lý do khác |
+| ----- | -------------------------: | -------------------: | ---------: | ---------: | ---------: |
+| A     |                     12.153 |  **12.122** (99,74%) |         25 |          6 |          0 |
+| B     |                     12.153 |   **4.760** (39,17%) |      7.385 |          8 |          0 |
+
+Mỗi chiều cộng đúng 12.153; `invalid_entry`, `missing_sentence`, `empty_target`, `invalid_span`, `insufficient_distractors`, `invariant_failed` đều bằng 0 trên toàn từ điển hiện tại. Câu NFC, offset UTF-16, ranh giới Unicode chữ/mark/số, A chỉ `word` và bảy form dạng chuỗi, B chỉ toàn bộ `vi` đã trim/NFC. Mỗi câu accepted có đúng một span và bốn option khác nhãn/id sau chuẩn hóa. Lọc trước cap; số liệu toàn từ điển **không** bảo đảm pool người học B có tối thiểu bốn câu.
+
+Manifest [40 mẫu để review](2026-09-23-s05-review-manifest.json) chứa 20 A và 20 B khác nhau, lấy theo rank SHA256 và strata trong thiết kế. Không thiếu mẫu hoặc strata; A có mẫu form-only và cụm từ, B có mẫu dấu tiếng Việt và cụm từ. Đã đọc thủ công 40 câu/đáp án/blank/options về tính khôi phục; verifier độc lập kiểm 24.306 candidate và 16.882 câu accepted về offset, boundary, round-trip, bốn nhãn/id, đúng một correct id: PASS. Bốn fixture âm/dương về Unicode, forms, từ con, dấu câu và chọn mẫu: PASS. Lặp hai lần cùng rule/dataset cho cùng candidate SHA và cùng 40 hàng mẫu; `sourceCommit` trong metadata thay đổi do `main` tiến thêm commit không đổi tree từ điển.
+
+**Các vấn đề cần duyệt:** 4.650/4.651 nghĩa Việt chứa dấu phẩy/chấm phẩy không khớp nguyên cụm; thêm 2.735 ca B không khớp thuộc nhóm khác như diễn đạt lại hoặc biến thể hình thái. Ví dụ `a.m.` có nghĩa “buổi sáng” nhưng câu chỉ dùng “sáng”; “hỏi” xuất hiện hai lần trong một câu nên phải loại. Nhiều distractor tuy khác nhãn nhưng lạc ngữ cảnh; câu `ornament` có lựa chọn “tội phản quốc”, câu `matrix` có cụm “math matrix problem” cần xét độ tự nhiên. Chuyên gia cần kiểm nghĩa đích, ngữ pháp, độ tuổi, mức mơ hồ và mức phù hợp với nhiệm vụ **khôi phục câu ví dụ đã học**. Bốn nhãn riêng không chứng minh một đáp án duy nhất về ngữ nghĩa.
+
+Artifact ngoại tuyến không commit: `summary.json` SHA256 `37127d2a706aff4d680e20cc767cf7cf6f0ccd2c289ccbd22ec0b1abba176df2`, `candidates.jsonl` SHA256 `51f076a3c16258e1dbacc574d0cf6989e6ee1d77dec7772df5109907c183c4a4`, manifest đầy đủ (gồm rejected mẫu) SHA256 `2ab083ebd4ca31e162671f7b6be59ec36f72ff9a90d55fa10a039c32b9366b54`. Script, unit và verifier ở thư mục làm việc ngoại tuyến `C:\Users\liend\.codex\uiux-implementation\s05-audit`; không commit 24.306 candidate. Manifest 40 mẫu trong repo có SHA256 `90771c6fa51c0ff60dbc6be1a4dd9d016a14c13e3b1d285527bdf6c0984151df` và chỉ dùng để review. Mọi trường chuyên gia/Product là `WAITING_EXPERT_REVIEW`; các kiểm tra kỹ thuật `PASS` chỉ nói về cấu trúc.
+
+S05 vẫn **Draft**. Còn thiếu chuyên gia/Product ký duyệt, fixture pool học sạch, builder runtime dùng chung luật, UI/score/keyboard và CI source. Không suy semantic acceptance hoặc release pass từ PR tài liệu này.
