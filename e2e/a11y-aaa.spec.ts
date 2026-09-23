@@ -281,7 +281,7 @@ test.describe('S06a negative controls', () => {
     expect(findings.some((finding) => finding.startsWith('incomplete:'))).toBe(true)
     expect(findings.some((finding) => finding.includes('missing target'))).toBe(true)
     const rule = results.violations[0]
-    expect(rule).toBeDefined()
+    if (!rule || !rule.nodes[0]) throw new Error('Control phải sinh violation có node')
     const nested = await collectAaaFindings(page, {
       incomplete: [],
       violations: [{ ...rule, nodes: [{ ...rule.nodes[0], target: ['#frame', '#child'] }] }],

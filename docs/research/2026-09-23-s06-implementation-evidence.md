@@ -64,3 +64,32 @@ Codemap Layout: 77 file ảnh hưởng. Màu computed sau sửa (foreground/back
 S07 (zoom/reflow) và S08 (quiz/AT) vẫn chờ đặc tả Approved/merged và S06 tích hợp.
 Chưa thay meta viewport, CSS toàn cục, các component quiz, focus hoặc dữ liệu học viên; chỉ avatar trong Layout thay màu như ghi ở trên. Không migration;
 rollback bằng revert bốn file của slice này, đồng thời ghi nhận lỗ hổng gate mở lại.
+
+## Kiểm tra CI PR #1122 ngày 23/09
+
+Đã fetch/reconcile `origin/codex/uiux-accessibility`; HEAD `9d020f4a`, không conflict.
+Run [35853132839](https://github.com/seeker19110/donghanh/actions/runs/35853132839)
+fail Type/Lint/Format tại **TypeScript**: assertion Playwright `toBeDefined()` không
+thu hẹp kiểu `rule`/`rule.nodes[0]` dưới `noUncheckedIndexedAccess`. Sửa bằng guard
+throw nếu fixture không tạo violation có node; không ép kiểu hoặc bỏ kiểm tra.
+Sau sửa `tsc -p tsconfig.e2e.json`: exit 0. Controls chạy lại: **2/2 đạt**.
+
+E2E shard 1/6 có **60 test fail**; năm shard còn lại và unit/build đều đạt trong run
+trên. Đây là lỗi/thiếu evidence được cổng mới phát hiện, không phải conflict Git:
+
+- `ProgrammingLevelPage.tsx:252` và `ProgrammingCoursePage.tsx:185`: chữ “Chương n”
+  dùng `text-zinc-500` trong heading. CI đo 5.85 dark-blue, 5.21 blue-sky, 5.11 kid,
+  dưới 7:1. Local `/lap-trinh/p1` dark-blue tái hiện 10 node vi phạm.
+- Cùng route có 10 dấu chương trong button (target `.w-3.text-content-muted.t-caption`)
+  incomplete ở cả hai rule vì chỉ chứa ký tự phi văn bản. Chưa có phép đo/kết luận
+  bổ sung nên vẫn fail, không loại vì chrome hoặc aria-hidden.
+- Các route khác còn incomplete nền ảnh, gradient, phần tử che khuất, text SVG;
+  ví dụ STEM target `text[x="100"]`, `text[x="320"]`, `text[x="60"]`, `text[x="140"]`.
+- Khối AI phản hồi code blue-sky/kid có target `.gap-2\\.5 > div > span` mất khỏi DOM
+  lúc phân loại. Phải ổn định trạng thái scan hoặc cung cấp evidence tương ứng;
+  không được coi missing là pass.
+
+Lượt local sau sửa TS: **2 controls đạt, 1 route p1 dark-blue fail** (8.6s).
+Chưa sửa hai page ngoài ownership hoặc các nguyên nhân incomplete; PR vẫn bị chặn
+bởi E2E. Cần các slice sửa token/component có đo lại và xử lý evidence chưa kết luận,
+không thể xác nhận merge-ready bằng việc chỉ sửa TypeScript.
