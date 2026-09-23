@@ -93,7 +93,6 @@ for (const theme of THEMES) {
     const { violations } = await new AxeBuilder({ page })
       .include('#admin-intake-panel')
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
-      .disableRules(['meta-viewport'])
       .analyze()
     expect(violations.map((v) => `${v.id} (${v.impact}, ${v.nodes.length})`)).toEqual([])
   })

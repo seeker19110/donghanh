@@ -42,7 +42,6 @@ async function scan(page: Page, tags: string[]) {
   const { violations } = await new AxeBuilder({ page })
     .include('main')
     .withTags(tags)
-    .disableRules(['meta-viewport'])
     .analyze()
   return violations.map((v) => `${v.id} (${v.impact}, ${v.nodes.length} phần tử)`)
 }

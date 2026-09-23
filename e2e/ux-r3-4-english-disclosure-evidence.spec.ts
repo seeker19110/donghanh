@@ -560,7 +560,6 @@ for (const theme of THEMES) {
     await freezeAnimations(page)
     const { violations } = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
-      .disableRules(['meta-viewport'])
       .analyze()
     expect(violations.map((v) => ({ id: v.id, impact: v.impact }))).toEqual([])
   })
