@@ -15,7 +15,7 @@ const REQUIRED_FILES = [
   'docs/ui-ux/README.md',
   'docs/ui-ux/apps/dhcb.md',
   'docs/ui-ux/apps/hub.md',
-  '.agents/skills/ui-ux-craftsman/SKILL.md',
+  '.agents/skills/ui-ux/SKILL.md',
   '.agents/rules/ui-ux-guidelines.md',
   'packages/core-ui/theme.css',
 ]
@@ -74,7 +74,7 @@ describe('UI/UX decision contract', () => {
   })
 
   it('skill và auto-rule trỏ vào decision contract và đúng hai app hiện hành', () => {
-    const skill = readFileSync('.agents/skills/ui-ux-craftsman/SKILL.md', 'utf8')
+    const skill = readFileSync('.agents/skills/ui-ux/SKILL.md', 'utf8')
     const rule = readFileSync('.agents/rules/ui-ux-guidelines.md', 'utf8')
 
     for (const content of [skill, rule]) {
