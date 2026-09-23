@@ -99,14 +99,20 @@ export default function WordCard({
             {/* Mặt trước — từ + IPA */}
             <div
               aria-hidden={flipped}
-              className="flip-face bg-gradient-to-b from-zinc-900/90 via-zinc-900/80 to-zinc-950/90 border border-zinc-800/80 group-hover:border-accent-500/50 shadow-xl w-full rounded-3xl p-8 sm:p-10 min-h-[220px] flex flex-col items-center justify-center text-center transition-all duration-300 relative overflow-hidden"
+              style={{ visibility: flipped ? 'hidden' : 'visible' }}
+              className="flip-face bg-zinc-900 border border-zinc-800/80 group-hover:border-accent-500/50 shadow-xl w-full rounded-3xl p-8 sm:p-10 min-h-[220px] flex flex-col items-center justify-center text-center transition-all duration-300 relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-28 h-28 bg-accent-500/5 rounded-full blur-xl pointer-events-none" />
-              <span className="font-extrabold text-white text-3xl sm:text-4xl mb-2 tracking-tight drop-shadow-sm">
+              <span
+                data-reading-content
+                className="font-extrabold text-white text-3xl sm:text-4xl mb-2 tracking-tight drop-shadow-sm"
+              >
                 {card.word}
               </span>
               {card.ipa_en && (
-                <span className="text-sm text-accent-400 font-semibold theme-light:text-accent-800 font-mono bg-accent-500/10 px-3 py-0.5 rounded-full border border-accent-500/20">
+                <span
+                  data-reading-content
+                  className="text-sm text-accent-400 font-semibold theme-light:text-accent-900 font-mono bg-accent-500/10 px-3 py-0.5 rounded-full border border-accent-500/20"
+                >
                   {card.ipa_en}
                 </span>
               )}
@@ -118,7 +124,9 @@ export default function WordCard({
             {/* Mặt sau — nghĩa + ví dụ (xoay sẵn 180° để hiện đúng chiều khi lật) */}
             <div
               aria-hidden={!flipped}
-              className="flip-face flip-back bg-gradient-to-b from-zinc-900/95 via-zinc-900/85 to-zinc-950/95 border border-zinc-800/80 shadow-xl w-full rounded-3xl p-8 sm:p-10 min-h-[220px] flex flex-col items-center justify-center text-center transition-all duration-300"
+              data-reading-content
+              style={{ visibility: flipped ? 'visible' : 'hidden' }}
+              className="flip-face flip-back bg-zinc-900 border border-zinc-800/80 shadow-xl w-full rounded-3xl p-8 sm:p-10 min-h-[220px] flex flex-col items-center justify-center text-center transition-all duration-300"
             >
               <span className="text-2xl text-zinc-100 font-bold mb-2 tracking-tight">
                 {card.vi}
@@ -133,7 +141,7 @@ export default function WordCard({
                       key={i}
                       className="bg-zinc-950/40 p-2 rounded-xl border border-zinc-800/50"
                     >
-                      <p className="text-xs font-medium text-accent-300 theme-light:text-accent-800 italic">
+                      <p className="text-xs font-medium text-accent-300 theme-light:text-accent-900 italic">
                         {ex.en}
                       </p>
                       <p className="text-xs text-zinc-400 mt-0.5">{ex.vi}</p>

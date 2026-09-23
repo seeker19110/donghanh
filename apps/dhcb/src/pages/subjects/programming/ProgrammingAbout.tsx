@@ -164,7 +164,7 @@ export default function ProgrammingAbout() {
                 key={chang.level}
                 className="flex items-start gap-3 rounded-2xl bg-zinc-950 border border-zinc-800 p-3"
               >
-                <span className="shrink-0 px-2 py-0.5 rounded-full bg-accent-500/15 border border-accent-500/40 text-[11px] font-bold text-accent-300 theme-light:text-accent-800">
+                <span className="shrink-0 px-2 py-0.5 rounded-full bg-accent-500/15 border border-accent-500/40 text-[11px] font-bold text-accent-300 theme-light:text-accent-900">
                   {chang.level}
                 </span>
                 <span className="text-sm text-zinc-200 leading-relaxed">{chang.mo_ta}</span>
@@ -280,7 +280,7 @@ export default function ProgrammingAbout() {
             vững chứ không phải mẹo vặt.
           </p>
           <p className="text-sm text-zinc-200 leading-relaxed">
-            <strong className="text-amber-300 theme-light:text-amber-800">Không hợp nếu:</strong>{' '}
+            <strong className="text-amber-300 theme-light:text-amber-900">Không hợp nếu:</strong>{' '}
             bạn cần một công việc trong ba tháng.
           </p>
         </section>

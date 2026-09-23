@@ -91,9 +91,8 @@ const ALLOWED_COLOR_SHADOW_COUNT: Record<string, number> = {
   'pages/learning/appliedKnowledge/tabs/SimulatorsLab.tsx': 10, // 10 simulator đang chọn
   'pages/learning/SubjectDetail.tsx': 2, // lớp/độ khó đang chọn
   'pages/learning/Subjects.tsx': 3, // 3 bộ lọc đang chọn
-  'pages/subjects/english/Chat.tsx': 1, // cấp độ đang chọn
   'pages/subjects/english/lessons/LessonView.tsx': 1, // dòng hội thoại đang đọc (tách từ Lessons.tsx 2026-09-06)
-  'pages/subjects/english/Speaking.tsx': 2, // cấp độ đang chọn + đang ghi âm
+  'pages/subjects/english/Speaking.tsx': 1, // đang ghi âm; nút chọn cấp độ đã dùng buttonClass
 }
 
 describe('Bóng phát sáng màu chỉ còn ở trạng thái có nghĩa (đợt D2)', () => {

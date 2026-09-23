@@ -201,11 +201,11 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
           kind: 'label',
           id: 'lb-lt',
           x: 300,
-          y: 34,
+          y: 28,
           text: 'mạch mới LIÊN TỤC — chạy một lèo',
           size: 11,
           anchor: 'middle',
-          fill: 'primary',
+          fill: 'neutral',
         },
         {
           kind: 'line',
@@ -282,12 +282,12 @@ export const SINH12_C1_LESSONS: BiologyLesson[] = [
         {
           kind: 'label',
           id: 'lb-ok',
-          x: 300,
+          x: 220,
           y: 208,
           text: 'mạch GIÁN ĐOẠN — từng đoạn Okazaki, ligase nối lại',
           size: 11,
           anchor: 'middle',
-          fill: 'accent',
+          fill: 'neutral',
         },
         {
           kind: 'arrow',

@@ -75,6 +75,7 @@ export function LessonList({
           return (
             <button
               key={l.id}
+              id={`lesson-card-${l.id}`}
               onClick={() => onSelect(l)}
               // `aria-current="true"` chứ không chỉ đổi màu: người dùng trình đọc màn hình
               // cũng cần biết mục nào đang mở, mà màu thì họ không thấy.
@@ -92,15 +93,23 @@ export function LessonList({
                 <div
                   className={`${compact ? 'w-7 h-7' : 'w-8 h-8'} rounded-lg ${c.bg} flex items-center justify-center shrink-0 mt-0.5`}
                 >
-                  <span className={`text-xs font-bold ${c.text}`}>{l.id}</span>
+                  <span id={`lesson-card-${l.id}-number`} className={`text-xs font-bold ${c.text}`}>
+                    {l.id}
+                  </span>
                 </div>
                 <div className="flex-1 min-w-0">
                   <p
+                    id={`lesson-card-${l.id}-title`}
                     className={`font-semibold leading-snug ${compact ? 'text-sm' : 'text-[15px]'} ${c.text}`}
                   >
                     {l.title}
                   </p>
-                  <p className="text-xs text-zinc-400 truncate mt-0.5">{l.situation}</p>
+                  <p
+                    id={`lesson-card-${l.id}-situation`}
+                    className="text-xs text-zinc-400 break-words mt-0.5"
+                  >
+                    {l.situation}
+                  </p>
                   {/* Dòng "N lượt thoại" chỉ có chỗ ở khuôn rộng. */}
                   {!compact && (
                     <p className="text-[11px] text-zinc-400 mt-1.5">

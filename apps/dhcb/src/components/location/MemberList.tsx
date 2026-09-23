@@ -45,12 +45,12 @@ export default function MemberList({ members, myUserId, distancesFromMe }: Props
           <li key={member.userId} className="flex items-center gap-3 py-3">
             <span
               className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-base font-bold ${
-                member.sharingEnabled ? '' : 'opacity-40'
+                member.sharingEnabled ? '' : 'text-zinc-100'
               }`}
               style={
                 member.sharingEnabled
                   ? { backgroundColor: color, color: MEMBER_INK }
-                  : { border: `2px dashed ${color}`, color }
+                  : { border: `2px dashed ${color}` }
               }
               aria-hidden="true"
             >

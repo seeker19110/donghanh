@@ -141,6 +141,12 @@ function Shape({ shape }: { shape: AnimationShape }) {
           fontSize={shape.size ?? 14}
           textAnchor={shape.anchor ?? 'start'}
           fill={color(shape.fill, 'rgb(var(--text-primary))')}
+          stroke="rgb(var(--surface-card))"
+          strokeWidth={3}
+          strokeDasharray="none"
+          paintOrder="stroke fill"
+          vectorEffect="non-scaling-stroke"
+          strokeLinejoin="round"
         >
           {shape.text}
         </text>
@@ -223,7 +229,11 @@ ${css}
             </marker>
           ))}
         </defs>
-        {spec.shapes.map((shape) => {
+        {/* Nhãn vẽ sau hình để halo đục không bị đường/hình chuyển động che chữ. */}
+        {[
+          ...spec.shapes.filter((shape) => shape.kind !== 'label'),
+          ...spec.shapes.filter((shape) => shape.kind === 'label'),
+        ].map((shape) => {
           const animName = animNames.get(shape.id)
           // `animation-name` PHẢI nằm trên CHÍNH thẻ <g> mang data-animated, vì duration /
           // iteration / play-state được gán cho <g> qua CSS ở trên và CSS animation KHÔNG kế

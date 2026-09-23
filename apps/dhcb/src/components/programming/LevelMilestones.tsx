@@ -68,6 +68,11 @@ function ProgressRing({ done, total }: { done: number; total: number }) {
           x="20"
           y="24"
           textAnchor="middle"
+          stroke="rgb(var(--surface-card))"
+          strokeWidth={3}
+          paintOrder="stroke fill"
+          vectorEffect="non-scaling-stroke"
+          strokeLinejoin="round"
           className="fill-zinc-300 text-[11px] font-bold"
           style={{ fontSize: '11px' }}
         >

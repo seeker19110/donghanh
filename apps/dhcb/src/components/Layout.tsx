@@ -308,7 +308,7 @@ export default function Layout({
             title={T.profile}
             className="tap-44 flex items-center gap-2 shrink-0 hover:opacity-90 transition active:scale-95 min-w-0 group"
           >
-            <span className="w-7 h-7 rounded-full bg-gradient-to-br from-accent-500 via-accent-400 to-indigo-500 ring-1.5 ring-accent-500/30 flex items-center justify-center text-xs font-bold text-white shadow-sm shrink-0 group-hover:scale-105 transition-transform">
+            <span className="w-7 h-7 rounded-full bg-zinc-800 ring-1.5 ring-accent-500/30 flex items-center justify-center text-xs font-bold text-zinc-100 shadow-sm shrink-0 group-hover:scale-105 transition-transform">
               {user.name[0]?.toUpperCase()}
             </span>
             <span className="text-sm font-medium text-white truncate hidden sm:inline max-w-[10rem]">

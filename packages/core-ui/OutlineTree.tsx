@@ -15,6 +15,7 @@
 // THUẦN TRÌNH BÀY: không router, không fetch, không storage. `packages/core-ui` không phụ
 // thuộc `react-router` (kiểm 2026-09-15), nên liên kết do nơi gọi dựng qua `renderLink` — app
 // truyền `<Link>` của react-router vào.
+import { Check, Circle, CircleDashed, ChevronDown, ChevronRight, Lock, Minus } from 'lucide-react'
 import { useId, useMemo, useState, type KeyboardEvent, type ReactNode } from 'react'
 import type { Outline, OutlineNode } from '@dhcb/core-contracts/outline'
 import { isOutlineLeaf } from '@dhcb/core-contracts/outline'
@@ -32,14 +33,6 @@ const NHAN_TIEN_DO: Record<OutlineNode['progress'], string> = {
   'in-progress': 'Đang học dở',
   'not-started': 'Chưa học',
   unknown: 'Chưa đo được',
-}
-
-/** Dấu hình học đi kèm nhãn chữ: người không phân biệt được màu vẫn phân biệt được hình. */
-const DAU_TIEN_DO: Record<OutlineNode['progress'], string> = {
-  completed: '✓',
-  'in-progress': '◐',
-  'not-started': '○',
-  unknown: '–',
 }
 
 export interface OutlineTreeLinkProps {
@@ -327,9 +320,11 @@ function NutChuong({
       aria-controls={panelId}
       className="tap-44 flex min-h-[44px] w-full items-center gap-2 rounded-xl px-2 py-1.5 text-left text-content-secondary transition hover:bg-surface-raised hover:text-content"
     >
-      <span aria-hidden="true" className="t-caption w-3 shrink-0 text-content-muted">
-        {mo ? '▾' : '▸'}
-      </span>
+      {mo ? (
+        <ChevronDown aria-hidden="true" className="h-3 w-3 shrink-0 text-content-secondary" />
+      ) : (
+        <ChevronRight aria-hidden="true" className="h-3 w-3 shrink-0 text-content-secondary" />
+      )}
       <span className="t-caption min-w-0 flex-1 leading-snug">{node.title}</span>
       {node.hint && <span className="t-caption shrink-0 text-content-muted">{node.hint}</span>}
       {node.availability === 'locked' && <span className="sr-only">· Khoá</span>}
@@ -353,17 +348,23 @@ function NutLa({
 }) {
   const daKhoa = node.availability === 'locked'
   const nhanTrangThai = daKhoa ? 'Khoá' : NHAN_TIEN_DO[node.progress]
-  const dau = daKhoa ? '🔒' : DAU_TIEN_DO[node.progress]
+  const Dau = daKhoa
+    ? Lock
+    : node.progress === 'completed'
+      ? Check
+      : node.progress === 'in-progress'
+        ? CircleDashed
+        : node.progress === 'not-started'
+          ? Circle
+          : Minus
   const mauDau =
     node.progress === 'completed' && !daKhoa
       ? 'text-emerald-400 theme-light:text-emerald-800'
-      : 'text-content-muted'
+      : 'text-content-secondary'
 
   const noiDung = (
     <>
-      <span aria-hidden="true" className={`t-caption w-4 shrink-0 text-center ${mauDau}`}>
-        {dau}
-      </span>
+      <Dau aria-hidden="true" className={`mt-0.5 h-4 w-4 shrink-0 ${mauDau}`} />
       <span className="min-w-0 flex-1">
         <span className="t-caption line-clamp-2 block break-words leading-snug">{node.title}</span>
         {duongDan && (
