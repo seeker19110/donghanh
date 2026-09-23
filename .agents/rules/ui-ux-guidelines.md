@@ -1,16 +1,31 @@
 ---
-description: 'Quy chuẩn UI/UX & Triển khai giao diện Đồng Hành — Áp dụng tự động cho mọi thay đổi Frontend (apps/english/src/**, components, UI)'
+description: 'Quy chuẩn UI/UX Đồng Hành — áp dụng cho frontend apps/dhcb/src/** và apps/hub/src/**'
 ---
 
-# QUY CHUẨN THIẾT KẾ UI/UX & QUY TRÌNH TRIỂN KHAI FRONTEND ĐỒNG HÀNH
+# UI/UX FRONTEND RULE — ĐỒNG HÀNH
 
-Mỗi khi tạo mới hoặc sửa đổi component giao diện trong `apps/english/src/**`, AI Agent BẮT BUỘC tuân thủ:
+Khi tạo/sửa/review UI trong `apps/dhcb/src/**` hoặc `apps/hub/src/**`:
 
-1. **Quy trình 5 bước:**
-   - **B1 (Bối cảnh):** AI Chat / Voice Tutor (Waveform, Bubble) | Gamification & Luyện tập (SRS Flashcards, Quiz spring animation) | Dashboard (Bento Grid) | Thanh toán (VietQR, Pricing).
-   - **B2 (Design Tokens):** Dùng thang `zinc` + biến CSS `accent` (`bg-zinc-950`, `bg-zinc-900`, `text-zinc-100`, `text-zinc-400`, `text-accent-400`, `bg-accent-500`). **CẤM** hardcode mã hex `#...`.
-   - **B3 (5 Trạng thái):** Bắt buộc làm đủ Empty (gợi ý bắt đầu), Loading Skeleton (CLS < 0.1), Data Loaded, Error/Retry, Validation Feedback.
-   - **B4 (A11y & Micro-Interactions):** Đủ trạng thái `hover`, `active:scale-[0.98]`, `focus-visible`, `disabled`. Vùng chạm mobile tối thiểu $\ge 44\text{px}$. Nút icon phải có `aria-label` và `title`.
-   - **B5 (Verification):** Chạy `npm run lint` và `npm run typecheck`.
+1. **Context trước style.** Xác định app, persona/job, device/network, information shape và dominant
+   risk. Viết một dominant intent 2–5 từ.
+2. **Route quyết định.** Đọc `docs/ui-ux/decision-contract.json` + profile trong
+   `docs/ui-ux/apps/`; áp `must-have` và condition match. Không lấy external style preset làm
+   điểm xuất phát.
+3. **Source of truth.** Token/theme nằm ở `packages/core-ui/theme.css` + Tailwind mapping hiện hữu.
+   Không tạo palette/font/spacing source thứ hai; không hardcode hex trong component.
+4. **State theo capability.** Xét loading, empty, data/success, error/retry, validation/conflict,
+   offline/queued, permission/limit. Không áp “5 states” máy móc nếu state không tồn tại; ghi N/A.
+5. **A11y/ergonomics.** Semantic HTML, visible label, accessible name, focus-visible tức thì,
+   keyboard order, reduced-motion, không color-only; action mobile chính >=44px.
+6. **Motion có nghĩa.** Không thêm `transition-all`; chọn property cụ thể. Pulse/glow/scale chỉ khi
+   truyền state/priority thật, không decoration mặc định.
+7. **Learning/Companion.** Reading ưu tiên readability; voice phải hiểu được khi motion tắt;
+   gamification không che task; AI output không giả authoritative progress/payment state.
+8. **Trust/data.** Payment/account có status + recovery rõ; data-heavy UI ưu tiên scanability,
+   tabular number và chart semantics hơn decorative card layout.
+9. **Review một outcome mỗi lượt.** Ví dụ: “keyboard error summary”, “mobile voice latency”,
+   “lesson long reading”; không gom mọi checklist vào một pass.
+10. **Verify.** Chạy `npm run check:ui-ux`, `npm run lint`, `npm run typecheck`; thay đổi flow
+    quan trọng chạy E2E/axe liên quan.
 
-2. **Chi tiết tra cứu:** Đọc kỹ hướng dẫn tại [.agents/skills/ui-ux-craftsman/SKILL.md](file:///c:/Users/liend/donghanh/.agents/skills/ui-ux-craftsman/SKILL.md).
+Chi tiết: `.agents/skills/ui-ux-craftsman/SKILL.md` và `docs/ui-ux/README.md`.
