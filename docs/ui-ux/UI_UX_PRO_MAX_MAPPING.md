@@ -13,17 +13,17 @@ Nguồn tham khảo: `nextlevelbuilder/ui-ux-pro-max-skill` (MIT), quét sâu 20
 
 ## Native hóa sâu từ upstream
 
-| Upstream | Đồng Hành |
-| --- | --- |
-| Query Contract | dominant intent 2–5 từ, một concern mỗi pass |
-| reasoning_contract.py | `docs/ui-ux/decision-contract.json` grammar đóng, test bằng Vitest |
-| Master + page override | app profile + page override chỉ chứa constraint, không copy token |
-| product/style reasoning | condition theo learning/voice/kids/gamification/payment/data-heavy |
-| stack guidance | repo evidence + React/Vite/Tailwind/Lucide có precedence |
-| forms reference | inputMode/autocomplete/error summary/read-only/unsaved-state guidance |
-| navigation reference | state preservation, route focus, hierarchy consistency |
-| chart reference | accessible context/alternative, aggregation, mobile semantics |
-| validation | `npm run check:ui-ux` tái dùng gate thật đang có |
+| Upstream                | Đồng Hành                                                             |
+| ----------------------- | --------------------------------------------------------------------- |
+| Query Contract          | dominant intent 2–5 từ, một concern mỗi pass                          |
+| reasoning_contract.py   | `docs/ui-ux/decision-contract.json` grammar đóng, test bằng Vitest    |
+| Master + page override  | app profile + page override chỉ chứa constraint, không copy token     |
+| product/style reasoning | condition theo learning/voice/kids/gamification/payment/data-heavy    |
+| stack guidance          | repo evidence + React/Vite/Tailwind/Lucide có precedence              |
+| forms reference         | inputMode/autocomplete/error summary/read-only/unsaved-state guidance |
+| navigation reference    | state preservation, route focus, hierarchy consistency                |
+| chart reference         | accessible context/alternative, aggregation, mobile semantics         |
+| validation              | `npm run check:ui-ux` tái dùng gate thật đang có                      |
 
 ## Cố ý không lấy
 
@@ -41,6 +41,7 @@ maintenance/runtime mà không tăng correctness.
 ## Nguyên tắc cập nhật về sau
 
 Khi upstream có rule mới, chỉ nhập nếu:
+
 1. có risk/outcome rõ trong Đồng Hành;
 2. chưa được gate/rule hiện hữu bao phủ;
 3. có thể diễn đạt bằng vocabulary repo;

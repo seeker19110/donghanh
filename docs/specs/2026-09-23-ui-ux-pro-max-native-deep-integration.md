@@ -1,13 +1,13 @@
 # Feature spec: Native hóa sâu UI/UX Pro Max vào Đồng Hành
 
-| Thuộc tính   | Giá trị |
-| ------------ | ------- |
-| Issue        | N/A — yêu cầu trực tiếp |
-| Spec owner   | Chủ dự án |
-| Trạng thái   | **Approved for implementation** |
+| Thuộc tính   | Giá trị                                  |
+| ------------ | ---------------------------------------- |
+| Issue        | N/A — yêu cầu trực tiếp                  |
+| Spec owner   | Chủ dự án                                |
+| Trạng thái   | **Approved for implementation**          |
 | Người duyệt  | Chủ dự án — yêu cầu trực tiếp trong chat |
-| Ngày duyệt   | 2026-09-23 |
-| Lần cập nhật | 2026-09-23 |
+| Ngày duyệt   | 2026-09-23                               |
+| Lần cập nhật | 2026-09-23                               |
 
 ## 1. Tóm tắt quyết định
 
@@ -47,11 +47,11 @@ reasoning contract và master/page override. Không copy data catalog.
 
 ## 4. Phương án và quyết định
 
-| Phương án | Lợi ích | Chi phí/rủi ro | Kết luận |
-| --------- | ------- | -------------- | -------- |
-| Không làm | Không đổi repo | Agent tiếp tục suy từ prose dài | Loại |
-| Vendor upstream | Đủ search/catalog | Trùng source of truth, thêm Python/tooling | Loại |
-| Native decision contract | Nhẹ, deterministic, đúng domain Đồng Hành | Cần duy trì schema nhỏ | **Chọn** |
+| Phương án                | Lợi ích                                   | Chi phí/rủi ro                             | Kết luận |
+| ------------------------ | ----------------------------------------- | ------------------------------------------ | -------- |
+| Không làm                | Không đổi repo                            | Agent tiếp tục suy từ prose dài            | Loại     |
+| Vendor upstream          | Đủ search/catalog                         | Trùng source of truth, thêm Python/tooling | Loại     |
+| Native decision contract | Nhẹ, deterministic, đúng domain Đồng Hành | Cần duy trì schema nhỏ                     | **Chọn** |
 
 ## 5. Outcome và guardrails
 
@@ -126,13 +126,13 @@ Không runtime telemetry. Gate chạy local/CI qua Vitest.
 
 ## 14. Test plan
 
-| Lớp | Trường hợp | Bằng chứng |
-| --- | --- | --- |
-| Unit | decision contract schema/grammar | `scripts/ui-ux-decision-contract.test.ts` |
-| Integration | package script gom gate | `npm run check:ui-ux` |
-| E2E/a11y | không đổi runtime | N/A trong slice này |
-| Manual/eval | đọc skill/rule/profile | PR diff |
-| Concurrent/retry/migration | không áp dụng | N/A |
+| Lớp                        | Trường hợp                       | Bằng chứng                                |
+| -------------------------- | -------------------------------- | ----------------------------------------- |
+| Unit                       | decision contract schema/grammar | `scripts/ui-ux-decision-contract.test.ts` |
+| Integration                | package script gom gate          | `npm run check:ui-ux`                     |
+| E2E/a11y                   | không đổi runtime                | N/A trong slice này                       |
+| Manual/eval                | đọc skill/rule/profile           | PR diff                                   |
+| Concurrent/retry/migration | không áp dụng                    | N/A                                       |
 
 ## 15. Kế hoạch triển khai
 
@@ -144,10 +144,10 @@ Merge không đổi runtime. Rollback bằng revert PR.
 
 ## 17. Rủi ro và giả định
 
-| Rủi ro/giả định | Xác suất | Ảnh hưởng | Giảm thiểu/xác minh | Owner |
-| --- | --- | --- | --- | --- |
-| Contract thành source token thứ hai | Thấp | Cao | Cấm chứa token value; chỉ chứa constraints | Chủ dự án |
-| Rule trùng guideline cũ | Vừa | Vừa | Precedence + map phần mới/đã có | Chủ dự án |
+| Rủi ro/giả định                     | Xác suất | Ảnh hưởng | Giảm thiểu/xác minh                        | Owner     |
+| ----------------------------------- | -------- | --------- | ------------------------------------------ | --------- |
+| Contract thành source token thứ hai | Thấp     | Cao       | Cấm chứa token value; chỉ chứa constraints | Chủ dự án |
+| Rule trùng guideline cũ             | Vừa      | Vừa       | Precedence + map phần mới/đã có            | Chủ dự án |
 
 ## 18. Câu hỏi mở và quyết định
 

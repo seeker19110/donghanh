@@ -285,7 +285,6 @@ Thang mức, hiệu chỉnh cho DHCB:
 > riêng cho 197 chỗ `transition-all` và 56 chỗ `hover:scale-*` — cùng lập luận với mục 9.5: đổi
 > hàng loạt là rủi ro thị giác thật đổi lấy lợi ích không đo được.
 
-
 ---
 
 ## 11. UI/UX PRO MAX — DECISION CONTRACT NATIVE CHO ĐỒNG HÀNH (2026-09-23)
