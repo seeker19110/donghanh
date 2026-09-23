@@ -15,7 +15,7 @@
 // ──────────────────────────────────────────────────────────────────────
 
 import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import { GraduationCap, ArrowLeft, Sparkles, RotateCcw } from 'lucide-react'
@@ -34,7 +34,6 @@ import { stopSpeaking } from '../../../lib/tts'
 import { buildExam, levelGrammarSources, type ExamQuestion } from '../../../lib/cefrExam'
 import {
   nextPlacementStep,
-  cefrToAppLevel,
   canRetakePlacement,
   PLACEMENT_START,
   PLACEMENT_ROUND_PLAN,
@@ -79,6 +78,16 @@ export default function Placement() {
   const [answers, setAnswers] = useState<boolean[]>([])
   const [result, setResult] = useState<PlacementResult | null>(null)
   const [loading, setLoading] = useState(false)
+  const [loadError, setLoadError] = useState(false)
+  const [roundToLoad, setRoundToLoad] = useState<CefrId>(PLACEMENT_START)
+  const requestId = useRef(0)
+
+  useEffect(
+    () => () => {
+      requestId.current += 1
+    },
+    [],
+  )
 
   usePageTitle('Kiểm tra trình độ | Môn Tiếng Anh · Đồng hành cùng bạn')
 
@@ -91,29 +100,34 @@ export default function Placement() {
   async function loadRound(levelId: CefrId) {
     const level = CEFR_LEVELS.find((l) => l.id === levelId)
     if (!level || !user) return
+    const request = ++requestId.current
+    setRoundToLoad(levelId)
+    setLoadError(false)
     setLoading(true)
-    const dialogueLists = await Promise.all(level.units.map((u) => getDialogues(u.id)))
-    const dialogues: Dialogue[] = dialogueLists.flat()
-    const qs = buildExam({
-      isA,
-      words: getLevelWords(level.id, getCachedOnboarding(user.id)?.ageGroup),
-      learned: getLearnedWords(user.id),
-      grammar: levelGrammarSources(level),
-      dialogues,
-      plan: PLACEMENT_ROUND_PLAN,
-    })
-    setLevelObj(level)
-    setLoading(false)
-    // Kho quá mỏng để hỏi (ca hiếm) → không thi được vòng này, dùng luôn cấp này
-    // làm kết quả (giống "điểm ở giữa" — dừng lại đây).
-    if (qs.length === 0) {
-      finish({ cefr: level.id, appLevel: cefrToAppLevel(level.id) })
-      return
+    try {
+      const dialogueLists = await Promise.all(level.units.map((u) => getDialogues(u.id)))
+      if (request !== requestId.current) return
+      const dialogues: Dialogue[] = dialogueLists.flat()
+      const qs = buildExam({
+        isA,
+        words: getLevelWords(level.id, getCachedOnboarding(user.id)?.ageGroup),
+        learned: getLearnedWords(user.id),
+        grammar: levelGrammarSources(level),
+        dialogues,
+        plan: PLACEMENT_ROUND_PLAN,
+      })
+      // Thiếu câu hỏi không phải bằng chứng về trình độ của người học.
+      if (qs.length === 0) throw new Error('No placement questions')
+      setLevelObj(level)
+      setQuestions(qs)
+      setCurrent(0)
+      setSelected(null)
+      setAnswers([])
+    } catch {
+      if (request === requestId.current) setLoadError(true)
+    } finally {
+      if (request === requestId.current) setLoading(false)
     }
-    setQuestions(qs)
-    setCurrent(0)
-    setSelected(null)
-    setAnswers([])
   }
 
   function startTest() {
@@ -185,6 +199,8 @@ export default function Placement() {
   }
 
   function skipTest() {
+    requestId.current += 1
+    stopSpeaking()
     if (fromOnboarding) nav('/onboarding', { replace: true })
     else nav('/cai-dat', { replace: true })
   }
@@ -305,9 +321,33 @@ export default function Placement() {
         baseWidth="max-w-lg"
         className={`!pb-[calc(1.5rem+var(--bnav-h))] space-y-4 ${fromOnboarding ? '!pt-10' : ''}`}
       >
-        {loading || !questions || !levelObj ? (
+        {loadError ? (
+          <div className="glass rounded-xl p-6 space-y-4">
+            <p role="alert" className="text-content leading-relaxed">
+              {isA
+                ? 'Chưa tải được câu hỏi. Bạn có thể thử lại; các vòng đã làm vẫn được giữ trong phiên này.'
+                : 'Could not load questions. Try again; completed rounds are kept in this session.'}
+            </p>
+            <button
+              type="button"
+              onClick={() => void loadRound(roundToLoad)}
+              className="tap-44 w-full rounded-xl bg-accent-500 px-4 py-3 font-semibold text-black hover:bg-accent-400 transition-colors"
+            >
+              {isA ? 'Thử lại' : 'Try again'}
+            </button>
+            <button
+              type="button"
+              onClick={skipTest}
+              className="tap-44 w-full rounded-xl bg-zinc-800 px-4 py-3 text-content transition-colors hover:bg-zinc-700"
+            >
+              {isA ? 'Thoát bài kiểm tra' : 'Exit test'}
+            </button>
+          </div>
+        ) : loading || !questions || !levelObj ? (
           <div className="glass rounded-xl p-8 text-center animate-fade-in">
-            <RotateCcw className={`w-6 h-6 mx-auto mb-2 animate-spin ${accent.text}`} />
+            <RotateCcw
+              className={`w-6 h-6 mx-auto mb-2 animate-spin motion-reduce:animate-none ${accent.text}`}
+            />
             <p className="text-zinc-400 text-sm">
               {isA ? 'Đang chuẩn bị câu hỏi…' : 'Preparing questions…'}
             </p>

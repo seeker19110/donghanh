@@ -22,6 +22,8 @@ export default tseslint.config(
       '**/dist/**',
       '**/dist-server/**',
       '**/node_modules/**',
+      // Checkout Git độc lập do agent tạo; mỗi worktree chạy lint từ gốc riêng.
+      '.claude/worktrees/**',
       // scripts/archive = script sinh dữ liệu DÙNG MỘT LẦN đã đóng băng, giữ làm lịch sử chứ
       // không chạy nữa — không sửa để chiều lint.
       'scripts/archive/**',
