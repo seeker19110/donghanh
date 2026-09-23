@@ -99,12 +99,13 @@ export default function HomeAiBriefingCard({
         </div>
       </div>
 
-      {/* Normal/error = 80px (canonical 320/390: bubble hai dòng = 79.5px; copy fallback nội bộ
-          giữ ngắn, không clamp). Comeback mobile =
+      {/* Mobile normal/error = 80px (bubble hai dòng = 79.5px). Desktop dự trữ 98px
+          cho insight có thể đến sau request, để thẻ Hôm nay không bị đẩy xuống khi
+          bản tin tải xong. Comeback mobile =
           173px: thêm detail hai dòng + hàng action 44px. Các sàn giữ loading → loaded/error ổn
           định; nội dung API dài hơn vẫn được phép nở tự nhiên, không bị clamp. */}
       <div
-        className={`${isDesktop ? 'mt-4' : 'mt-3'} ${reserveComeback ? 'min-h-[173px]' : 'min-h-[80px]'}`}
+        className={`${isDesktop ? 'mt-4' : 'mt-3'} ${reserveComeback ? 'min-h-[173px]' : isDesktop ? 'min-h-[98px]' : 'min-h-[80px]'}`}
       >
         {loading ? (
           <div aria-live="polite" className="space-y-2" aria-label="Đang tải bản tin">
