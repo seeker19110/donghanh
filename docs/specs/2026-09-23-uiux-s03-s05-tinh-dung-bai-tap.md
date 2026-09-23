@@ -329,6 +329,28 @@ câu điền từ hợp lệ về span: đó là S05. S00 là baseline/research 
 | Sửa  | `apps/dhcb/src/lib/pronounceAssessApi.ts`                    | errorCode additive, giữ message/fallback   |
 | Sửa  | `apps/dhcb/src/lib/pronounceAssessApi.test.ts`               | Hồi quy consumer cũ và mã lỗi              |
 
+**Bổ sung QA S04 (Approved for implementation, 2026-09-23):** kiểm thực tế
+AC04 trên bản source #1137 phát hiện outline bàn phím bị selector `:focus` chung
+ghi đè `:focus-visible`, tiến độ `1/8` và tiêu đề môn học trên Practice chưa đạt
+ngưỡng chữ đọc 7:1, nút đóng mode thiếu nhãn và vùng chạm 44px. Chủ sản phẩm đã
+ủy quyền quyết định và hoàn thiện UI/UX; bổ sung đúng các điểm chạm sau trước khi
+merge source. Đây là sửa lỗi accessibility đã đo, không mở lại contract chiều học,
+không làm S05 hay tuyên bố nghiệm thu thiết bị thật.
+
+| Việc | Đường dẫn file                                               | Giới hạn bổ sung QA                                                      |
+| ---- | ------------------------------------------------------------ | ------------------------------------------------------------------------ |
+| Sửa  | `apps/dhcb/src/index.css`                                    | `:focus:not(:focus-visible)` giữ outline bàn phím, chỉ selector hiện hữu |
+| Sửa  | `apps/dhcb/src/pages/learning/Practice.tsx`                  | Màu heading, truyền nhãn nút thoát mode                                  |
+| Sửa  | `apps/dhcb/src/pages/learning/practice/VocabListenGuess.tsx` | Màu tiến độ câu đạt 7:1 trên ba theme                                    |
+| Sửa  | `apps/dhcb/src/pages/learning/practice/GameChrome.tsx`       | Accessible name vi/en và target 44px                                     |
+
+Evidence before: QA head `db54c74827717b144f2cf399a62fe19cc20df359`, 30 trạng
+thái ba theme/năm viewport không tràn ngang, nhưng focus mode/đáp án vô hình;
+tiến độ 1/8 tương phản 6.76/5.41/5.32:1, heading dark-blue 6.8:1. Sau sửa phải
+đo lại outline/tương phản trên ba theme, kiểm E2E và CI đúng source head. 200% mới
+được mô phỏng viewport tương đương; browser zoom thật, screen reader và microphone
+thật còn chờ evidence. QA không được coi là pass chỉ nhờ thay class/token.
+
 Impact đã chạy trên baseline bằng Node 22.23.2: `PronunciationCheck.tsx` có 13 file
 ảnh hưởng, gồm caller trực tiếp `WordCard.tsx`/`PronounceList.tsx`; `pronounceAssessApi.ts`
 có 16 file, trực tiếp `DetailedPronunciationCheck.tsx` và test helper. Giữ default props
