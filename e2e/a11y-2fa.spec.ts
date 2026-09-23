@@ -21,7 +21,6 @@ async function scanSection(page: Page) {
   const { violations } = await new AxeBuilder({ page })
     .include(SECTION)
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
-    .disableRules(['meta-viewport'])
     .analyze()
   return violations.map((v) => `${v.id} (${v.impact}, ${v.nodes.length} phần tử)`)
 }

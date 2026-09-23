@@ -39,11 +39,7 @@ async function mockApi(page: Page, plan: unknown) {
 
 async function scan(page: Page, tags: string[]) {
   await freezeAnimations(page)
-  const { violations } = await new AxeBuilder({ page })
-    .include('main')
-    .withTags(tags)
-    .disableRules(['meta-viewport'])
-    .analyze()
+  const { violations } = await new AxeBuilder({ page }).include('main').withTags(tags).analyze()
   return violations.map((v) => `${v.id} (${v.impact}, ${v.nodes.length} phần tử)`)
 }
 

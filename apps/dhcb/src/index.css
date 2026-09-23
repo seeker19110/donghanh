@@ -109,8 +109,8 @@ html[data-focus='1'] nav.bottom-nav {
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Chặn double-tap zoom trên mobile (vẫn cho phép scroll/pan dọc) */
-    touch-action: pan-x pan-y;
+    /* Giữ cuộn và pinch zoom; tránh độ trễ double-tap trên điều khiển cảm ứng. */
+    touch-action: manipulation;
   }
 
   /* iOS Safari tự zoom khi focus vào ô nhập có font < 16px.
