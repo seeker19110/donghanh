@@ -1,0 +1,184 @@
+{
+  "version": 1,
+  "precedence": [
+    "business-security-correctness",
+    "existing-product-evidence",
+    "core-ui-theme-and-design-tokens",
+    "app-profile",
+    "ui-ux-craftsman",
+    "external-guidance"
+  ],
+  "actionPrefixes": [
+    "constraint",
+    "pattern",
+    "mode",
+    "review"
+  ],
+  "rules": {
+    "must-have": {
+      "signals": [
+        "*"
+      ],
+      "actions": [
+        "constraint:semantic-html",
+        "constraint:keyboard-focus",
+        "constraint:error-recovery",
+        "constraint:reduced-motion",
+        "constraint:no-color-only-meaning",
+        "review:dominant-intent-first"
+      ]
+    },
+    "learning-reading": {
+      "signals": [
+        "lesson",
+        "reading",
+        "theory",
+        "story",
+        "explanation",
+        "grammar",
+        "article"
+      ],
+      "actions": [
+        "constraint:reading-width-65-75ch",
+        "constraint:body-leading-1-5-1-7",
+        "constraint:progressive-disclosure",
+        "pattern:learning-focus"
+      ]
+    },
+    "voice-realtime": {
+      "signals": [
+        "voice",
+        "speech",
+        "stt",
+        "tts",
+        "listening",
+        "speaking",
+        "realtime"
+      ],
+      "actions": [
+        "constraint:state-visible-without-motion",
+        "constraint:interruptible-feedback",
+        "constraint:latency-feedback",
+        "pattern:voice-state-machine"
+      ]
+    },
+    "mobile-low-end": {
+      "signals": [
+        "mobile",
+        "phone",
+        "touch",
+        "low-end",
+        "slow-device",
+        "poor-network"
+      ],
+      "actions": [
+        "constraint:touch-target-44",
+        "constraint:avoid-heavy-motion",
+        "constraint:offline-recovery",
+        "constraint:mobile-reprioritize-not-shrink",
+        "mode:performance-first"
+      ]
+    },
+    "children": {
+      "signals": [
+        "kid",
+        "child",
+        "children",
+        "nhi đồng",
+        "trẻ em"
+      ],
+      "actions": [
+        "constraint:large-readable-targets",
+        "constraint:clear-language",
+        "constraint:avoid-overstimulation",
+        "pattern:kid-learning"
+      ]
+    },
+    "gamification": {
+      "signals": [
+        "gamification",
+        "badge",
+        "streak",
+        "xp",
+        "leaderboard",
+        "battle",
+        "pvp"
+      ],
+      "actions": [
+        "constraint:reward-does-not-block-task",
+        "constraint:no-redundant-success-toast",
+        "constraint:motion-has-meaning",
+        "review:intrinsic-task-before-celebration"
+      ]
+    },
+    "payment-trust": {
+      "signals": [
+        "payment",
+        "pricing",
+        "checkout",
+        "vietqr",
+        "subscription",
+        "upgrade",
+        "billing"
+      ],
+      "actions": [
+        "constraint:trust-and-total-visible",
+        "constraint:destructive-separation",
+        "constraint:no-ambiguous-success",
+        "constraint:recovery-path-visible",
+        "pattern:high-trust-flow"
+      ]
+    },
+    "data-heavy": {
+      "signals": [
+        "dashboard",
+        "analytics",
+        "table",
+        "admin",
+        "review-queue",
+        "report",
+        "chart"
+      ],
+      "actions": [
+        "constraint:scanability-over-decoration",
+        "constraint:tabular-numbers",
+        "constraint:responsive-data-preserves-comparison",
+        "constraint:chart-needs-text-context",
+        "pattern:data-dense"
+      ]
+    },
+    "forms": {
+      "signals": [
+        "form",
+        "input",
+        "validation",
+        "signup",
+        "login",
+        "profile",
+        "settings"
+      ],
+      "actions": [
+        "constraint:visible-label",
+        "constraint:reserve-error-space",
+        "constraint:error-summary-when-multiple",
+        "constraint:semantic-input-autofill",
+        "review:recovery-and-focus"
+      ]
+    },
+    "accessibility": {
+      "signals": [
+        "a11y",
+        "accessibility",
+        "screen-reader",
+        "keyboard",
+        "focus",
+        "wcag"
+      ],
+      "actions": [
+        "constraint:observable-outcome-first",
+        "constraint:test-at-boundary",
+        "review:one-accessibility-outcome-per-pass"
+      ]
+    }
+  }
+}
