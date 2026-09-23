@@ -282,3 +282,31 @@ kiểm thử source hoặc nghiệm thu sư phạm. S01 vẫn là slice source �
 - Giải quyết hai add/add conflict tài liệu bằng cách giữ bằng chứng mới hơn; giữ cập nhật dependency Pyodide từ main. Không có source conflict.
 - #1121, #1122, #1123 không có xung đột Git tại thời điểm kiểm tra. #1122 còn lỗi CI accessibility; không coi mergeable là đã qua quality gate.
 - Commit reconcile cần CI mới. Source S01 chưa merge/deploy; kết quả gate cũ vẫn chỉ là bằng chứng cho commit cũ.
+
+### Iteration 6 — phân công toàn bộ S02–S12 cho Astra low
+
+Người dùng yêu cầu giao toàn bộ phần còn lại cho subagent Astra low. Ba nhóm được
+cấp worktree riêng trên main `f07820aa` (sau merge #1119 và cập nhật Pyodide), độc
+quyền file và giao diện được chốt trước code. Root review diff, điều phối test và publish.
+
+| Nhóm    | Agent                 | Kết quả đợt đầu                                                                                                                                                     | Trạng thái                                                                    |
+| ------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| S02–S05 | s02_s05_learning      | [#1121](https://github.com/seeker19110/donghanh/pull/1121): S03 lọc đúng môn trước cap, reset phiên user/môn/cap; 41 unit + 9 E2E targeted đạt                      | Draft PR, full CI/ảnh còn pending; S02/S04/S05 chuẩn bị contract, chưa source |
+| S06–S08 | s06_s08_accessibility | [#1122](https://github.com/seeker19110/donghanh/pull/1122): S06a inline/incomplete/target collector, avatar token; controls 2/2, Layout 17/17, Home 3 theme 3/3 đạt | Draft PR, chưa xong S06b và ma trận rộng; S07/S08 chưa source                 |
+| S09–S12 | s09_s12_experience    | [#1123](https://github.com/seeker19110/donghanh/pull/1123): prototype, 40 mẫu rubric, routing matrix, protocol/phiếu pilot                                          | Draft bộ chuẩn bị, không có thay đổi production, chưa chuyên gia/pilot        |
+
+- Root kiểm prototype sáu tổ hợp viewport/theme, focus, Back, giữ nháp và năm trạng thái;
+  đã xem ảnh mobile. Không đổi tên bằng chứng prototype thành nghiệm thu production.
+- #1120 S01 hiện tất cả CI xanh, base main, chưa merge tại lúc kiểm tra. #1119 đã merge.
+- Không dùng lại số full gate S01 cho các nhánh mới: targeted chỉ chứng minh phạm vi
+  đã chạy; full CI từng PR đang được yêu cầu. Không thêm skip/disable để đạt gate.
+- Quyền push/mở PR giữ nguyên; không tự merge/deploy. Các feature mới còn phải qua
+  spec Approved/merged và phụ thuộc đã nêu; không giả bằng chứng chuyên gia hoặc pilot.
+- Next: CI và review từng Draft PR; xử lý findings rồi tích hợp từng slice, reconcile
+  main trước khi nhóm nhận slice tiếp. Goal vẫn NOT COMPLETE.
+
+### Iteration 7 — reconcile sau tích hợp S01 và prototype
+
+- Main `bdf4b838` đã có #1120 và #1123. Giữ cả lịch sử phân công và xử lý xung đột trong goal; không có source conflict.
+- #1121 đã có quality/e2e xanh ở `ec39818c`; commit merge main cần CI mới. #1122 còn E2E accessibility đỏ, đang sửa nguồn gây lỗi.
+- S02 lưu hồ sơ và S11a đích deep-link đang triển khai độc lập; S07a khôi phục quyền zoom đang kiểm chứng. Chưa hoàn tất các milestone hoặc pilot.

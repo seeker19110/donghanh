@@ -10,6 +10,7 @@ import {
   reviewStemCard,
   getAllStemCards,
   getDueStemCards,
+  getDueStemCardsForSubject,
   hydrateStemCards,
   duongDanBaiCuaThe,
 } from './stemSrs'
@@ -21,7 +22,7 @@ import {
   getSrsSnapshot,
   addToSRS,
 } from './srs'
-import type { StemLessonLike } from '@dhcb/core-contracts/stemLesson'
+import type { StemLessonLike, StemSubjectId } from '@dhcb/core-contracts/stemLesson'
 
 const BAI = (id: string, soThe: number): StemLessonLike =>
   ({
@@ -116,6 +117,57 @@ describe('stemSrs', () => {
     await addStemLessonCardsToSrs('u1', 'physics', 'l1')
     vi.advanceTimersByTime(5 * 3_600_000)
     expect(getDueStemCards('u1', 2)).toHaveLength(2)
+  })
+
+  it.each<StemSubjectId>(['mathematics', 'physics', 'chemistry', 'biology'])(
+    'lọc %s trước cap=1 dù ba môn khác quá hạn lâu hơn',
+    (subjectId) => {
+      const subjects: StemSubjectId[] = ['mathematics', 'physics', 'chemistry', 'biology']
+      for (const other of subjects.filter((id) => id !== subjectId)) {
+        addToSRS('u1', stemCardKey(other, 'l1', 0))
+      }
+      vi.advanceTimersByTime(1000)
+      addToSRS('u1', stemCardKey(subjectId, 'l1', 0))
+      vi.advanceTimersByTime(5 * 3_600_000)
+      expect(getDueStemCardsForSubject('u1', subjectId, 1).map((card) => card.key)).toEqual([
+        stemCardKey(subjectId, 'l1', 0),
+      ])
+      expect(getDueStemCards('u1')).toHaveLength(4)
+      expect(getDueStemCards('u1', 1)[0]!.subjectId).not.toBe(subjectId)
+    },
+  )
+
+  it('giữ thứ tự due/difficulty, không cap trả đủ; bỏ future, namespace và user khác', () => {
+    const due = Date.now() - 1000
+    const card = (difficulty: number, at = due) => ({
+      due: at,
+      stability: 1,
+      difficulty,
+      elapsed_days: 1,
+      scheduled_days: 1,
+      learning_steps: 0,
+      reps: 2,
+      lapses: 0,
+      state: 2,
+      last_review: due - 86_400_000,
+    })
+    localStorage.setItem(
+      'srs_u1',
+      JSON.stringify({
+        'stem:physics:l1:0': card(2),
+        'stem:physics:l1:1': card(8),
+        'stem:physics:l1:2': card(5, due - 1000),
+        'stem:physics:l1:3': card(5, Date.now() + 1000),
+        'stem:chemistry:l1:0': card(5, due - 2000),
+        'stem:invalid:l1:0': card(5),
+        'prog:l1:0': card(5),
+      }),
+    )
+    expect(getDueStemCardsForSubject('u1', 'physics', 2).map((c) => c.index)).toEqual([2, 1])
+    expect(getDueStemCardsForSubject('u1', 'physics')).toHaveLength(3)
+    expect(getDueStemCardsForSubject('u1', 'biology', 1)).toEqual([])
+    expect(getDueStemCardsForSubject('u2', 'physics', 1)).toEqual([])
+    expect(getDueStemCards('u1')).toHaveLength(4)
   })
 
   it('reviewStemCard đẩy thẻ ra khỏi hàng đợi (đi đúng đường ghi cũ của hệ SRS)', async () => {
