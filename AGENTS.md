@@ -1,8 +1,8 @@
-# AGENTS.md — English Tutor
+# AGENTS.md — DHCB (Đồng Hành Cùng Bạn)
 
 ## Repository purpose
 
-This repository contains the production Vietnamese–English AI tutor. Treat learner data,
+This repository contains DHCB (Đồng Hành Cùng Bạn), a personal companion platform with a Vietnamese–English AI tutor. Treat learner data,
 authentication, payments, entitlements, usage accounting and AI-provider costs as high-risk areas.
 
 ## Environment

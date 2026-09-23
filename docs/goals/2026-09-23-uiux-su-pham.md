@@ -1,14 +1,14 @@
 # Goal: Nâng cấp UI/UX và độ tin cậy sư phạm
 
-| Thuộc tính        | Giá trị                                                                                                          |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------- |
-| Goal ID           | GOAL-2026-0923-UIUX-PEDAGOGY                                                                                     |
-| Owner             | Chủ sản phẩm Đồng Hành; agent phụ trách kế hoạch và bằng chứng kỹ thuật                                          |
-| Trạng thái        | IN PROGRESS — S01/S03/S11a đã merge; S02/S06/S07a đang hoàn thiện CI                                             |
-| Bắt đầu           | 2026-09-23                                                                                                       |
-| Target review     | Sau từng slice; tổng lịch được ước lượng lại sau M1                                                              |
-| Quyền được cấp    | Lập kế hoạch, tự quyết phương án và triển khai local, push và mở PR đã được cho phép; chưa có quyền merge/deploy |
-| Budget/guardrails | Một outcome/PR; tối đa 3 lần sửa cùng lỗi; 0 paid provider trong test; không production data/secrets             |
+| Thuộc tính        | Giá trị                                                                                              |
+| ----------------- | ---------------------------------------------------------------------------------------------------- |
+| Goal ID           | GOAL-2026-0923-UIUX-PEDAGOGY                                                                         |
+| Owner             | Chủ sản phẩm Đồng Hành; agent phụ trách kế hoạch và bằng chứng kỹ thuật                              |
+| Trạng thái        | IN PROGRESS — S01/S02/S03/S06/S07a/S11a đã merge; nghiệm thu rộng còn mở                             |
+| Bắt đầu           | 2026-09-23                                                                                           |
+| Target review     | Sau từng slice; tổng lịch được ước lượng lại sau M1                                                  |
+| Quyền được cấp    | Tự quyết kế hoạch, triển khai, push và auto-merge qua required checks theo chỉ thị người dùng        |
+| Budget/guardrails | Một outcome/PR; tối đa 3 lần sửa cùng lỗi; 0 paid provider trong test; không production data/secrets |
 
 ## 1. Outcome và Definition of Goal Complete
 
@@ -81,7 +81,7 @@ retention, gamification mở rộng. Không âm thầm mở rộng những mục
 ## 3. Milestones và slices
 
 Mỗi S là một PR nhỏ dự kiến; tách thêm nếu impact map cho thấy phạm vi quá lớn.
-S00 là PR tài liệu; S01–S12 là 12 slice kỹ thuật/nghiệm thu. Đối chiếu `main` tại `670e6b26`: S00/S01/S03 đã merge; S11a là phần sửa đích câu hỏi đã merge. Các phần còn lại theo bảng và bằng chứng hiện hành bên dưới; không suy ra hoàn tất milestone từ một phần đã tích hợp.
+S00 là PR tài liệu; S01–S12 là 12 slice kỹ thuật/nghiệm thu. Đối chiếu `main` tại `b0c424c0`: S00/S01/S02/S03/S06/S07a đã merge; S11a là phần sửa đích câu hỏi đã merge. Các phần còn lại theo bảng và bằng chứng hiện hành bên dưới; không suy ra hoàn tất milestone từ một phần đã tích hợp.
 
 | ID     | Outcome/AC                                                | Dependency    | Spec                                                  | Issue/PR | State                 | Evidence cần có                                                                                   |
 | ------ | --------------------------------------------------------- | ------------- | ----------------------------------------------------- | -------- | --------------------- | ------------------------------------------------------------------------------------------------- |
@@ -91,7 +91,7 @@ S00 là PR tài liệu; S01–S12 là 12 slice kỹ thuật/nghiệm thu. Đối
 | M1/S03 | Ôn đúng môn, cap sau lọc (F6)                             | S00           | Quy tắc hàng đợi hiện có                              | —        | MERGED                | Bốn môn, due xen kẽ, cap=1, môn rỗng; hub xuyên môn không hồi quy                                 |
 | M1/S04 | UI language độc lập chiều học (F8)                        | S00           | Ma trận ngôn ngữ cho mọi mode Practice                | —        | BACKLOG               | 2×2 tổ hợp; nhãn/audio/câu/đáp án đúng; reload giữ lựa chọn                                       |
 | M1/S05 | Bộ tạo câu điền từ hợp lệ (F7)                            | S04           | Contract câu hỏi và chính sách dữ liệu                | —        | BACKLOG               | Dạng từ, dấu Việt, đa nghĩa, từ con, đáp án trùng, pool nhỏ; báo độ phủ trước/sau                 |
-| M2/S06 | Gate AAA phản ánh đúng chữ thực và 7:1 (F5)               | S00           | Mở rộng cổng hiện hữu                                 | —        | IN PROGRESS #1122     | Negative controls span/em/heading, token/nền alpha; mọi incomplete được xử lý                     |
+| M2/S06 | Gate AAA phản ánh đúng chữ thực và 7:1 (F5)               | S00           | Mở rộng cổng hiện hữu                                 | —        | PARTIAL #1122 MERGED  | Negative controls span/em/heading, token/nền alpha; mọi incomplete được xử lý                     |
 | M2/S07 | Zoom/reflow/focus/44px trên màn bị ảnh hưởng (F3)         | S06           | Quyết định zoom ở §2 + checklist UI                   | —        | PARTIAL — S07a #1126  | 320/390/768/1440, ba theme, zoom 200%, reflow, keyboard, dialog, input                            |
 | M2/S08 | Quiz có phản hồi đọc/nghe được và focus đúng (F4)         | S06           | Contract hiển thị câu hỏi dùng chung                  | —        | BACKLOG               | Đúng/sai bằng chữ, lựa chọn có ngữ nghĩa; live region không đọc lặp; NVDA/VoiceOver               |
 | M3/S09 | Điều hướng trong bài dài; kết quả gọn, sửa sai thuận tiện | M1, M2        | Feature spec mới, tái dùng LessonProse/ActivityResult | —        | BACKLOG               | Prototype và ảnh trước/sau; tới phần cần ≤2 thao tác; giữ nháp/focus/URL                          |
@@ -196,13 +196,13 @@ hiện có. Việc gửi lời mời pilot, truy cập production và triển kh
 
 ## 6. Current truth
 
-- `main` đã reconcile tại `6f8054ff`: S01 (#1120), S03 (#1121), bộ prototype/rubric/protocol (#1123) và S11a sửa đích câu hỏi (#1124) đã tích hợp; quality/e2e của các PR source đã xanh trước merge.
+- `main` đã reconcile tại `b0c424c0`: S01 (#1120), S02 (#1125), S03 (#1121), S06 phần cổng/tương phản (#1122), S07a quyền zoom (#1126), bộ prototype/rubric/protocol (#1123) và S11a sửa đích câu hỏi (#1124) đã tích hợp. Required quality/e2e của các PR source đã xanh trước merge.
 - Baseline: [nghiên cứu 23/09](../research/2026-09-23-uiux-su-pham-baseline.md).
 - S02 lưu hồ sơ có source và kiểm thử tại [#1125](https://github.com/seeker19110/donghanh/pull/1125); head `4a34e704` đạt quality/e2e/metadata, đã merge tại `021b3dae`.
-- S06 tại [#1122](https://github.com/seeker19110/donghanh/pull/1122) đang sửa các lỗi thật do cổng inline/incomplete phát hiện, bổ sung kiểm 7:1 cho chữ lớn và phép đo tái lập cho nhãn SVG/phần tử ngoài vùng cuộn. Chưa đạt toàn ma trận.
+- S06 tại [#1122](https://github.com/seeker19110/donghanh/pull/1122) đã merge `b0c424c0`: cổng inline/incomplete, 7:1 cho chữ đọc kể cả heading lớn, phép đo nhãn SVG và phần tử ngoài vùng cuộn. Full CI của head cuối đạt quality/e2e, 6/6 E2E shards; kiểm thiết bị/screen reader thật và toàn ma trận S07/S08 chưa có.
 - S07a tại [#1126](https://github.com/seeker19110/donghanh/pull/1126) khôi phục cấu hình zoom và bỏ miễn trừ viewport; head `e5215014` đạt quality/e2e/metadata, đã merge tại `6f8054ff`; chưa chứng minh pinch trên thiết bị thật hay toàn bộ S07.
 - S04/S05/S08 chưa triển khai source; S09/S10/S12 mới có bộ chuẩn bị. S11a sửa link hiện hữu không đồng nghĩa hoàn tất S11 rộng. Chuyên gia, screen reader/thiết bị thật và pilot ngày 7/14 chưa có evidence.
-- Next: đưa các PR còn mở qua CI, giải quyết conflict khi main đổi, rồi đối chiếu acceptance từng slice trước tiến hành phần tiếp. Không suy hoàn thành từ số PR hoặc bản đặc tả.
+- Next: review và merge đặc tả Draft cho S04/S05/S08/S09–S11 theo contract và dependency; sau đó triển khai từng slice, giữ nguyên cổng kiểm. Review kỹ thuật S04/S05 là [#1128](https://github.com/seeker19110/donghanh/pull/1128), S08 là [#1129](https://github.com/seeker19110/donghanh/pull/1129); cả hai chưa làm spec thành Approved. S10 cần chuyên gia rà 40 mẫu; S12 cần thiết bị thật, người học và số đo ngày 7/14. CI trên merge commit `b0c424c0` ở run `35866657006` đạt quality/e2e.
 
 ### Đặc tả chi tiết đã chuẩn bị
 
@@ -234,7 +234,7 @@ kiểm thử source hoặc nghiệm thu sư phạm. Các sửa lỗi độc lậ
 - [ ] Tài liệu, rollback, residual risks được cập nhật.
 - [ ] Chủ sản phẩm xác nhận nghiệm thu.
 
-**Kết luận goal: NOT COMPLETE. S01/S02/S03/S07a/S11a đã tích hợp; S06 đang kiểm chứng. Các slice khác và nghiệm thu sư phạm/người dùng còn mở.**
+**Kết luận goal: NOT COMPLETE. S01/S02/S03/S06 phần kỹ thuật/S07a/S11a đã tích hợp; S04/S05/S08/S09/S10/S11 rộng/S12 và nghiệm thu người học còn mở.**
 
 ### Iteration 2 — 2026-09-23: S01
 
@@ -340,3 +340,11 @@ quyền file và giao diện được chốt trước code. Root review diff, đ
 - Lượt kiểm chứng rộng tập trung: 64/69 đạt; năm lỗi còn lại có phép đo cụ thể ở nhãn ADN và phiên âm thẻ từ. Sau sửa nguồn, 37/37 ca cuối đạt (6 trạng thái, 29 controls, 2 ảnh). Đây là targeted evidence, không phải thay thế full CI của head mới.
 - Primary đã review ảnh trước/sau và diff, giữ mọi rule/ngưỡng; ma trận hữu hạn 10 bài thật phủ đủ palette được giải thích tại `docs/ux-upgrade/s06/contrast-fixture-scope.md`.
 - Tiếp theo: push snapshot đã review, bật auto-merge theo chỉ thị người dùng và xác nhận quality/e2e/metadata trên head mới. Các phần sư phạm/pilot trong Goal DoD vẫn chưa hoàn tất.
+
+### Iteration 12 — 2026-09-23: đối chiếu main và giao một đợt việc còn lại
+
+- #1122 đã qua full CI ở head `a21f33d6` (quality/e2e, 6/6 E2E shards), auto-merge vào main `b0c424c0`. Lỗi unit allowlist hiệu ứng sau khi bỏ glow ở Chat/Speaking đã sửa bằng phép đếm chính xác, targeted 13/13; không nới gate.
+- Đối chiếu source/spec trên main: S04/S05/S08 chưa triển khai, đặc tả liên quan vẫn Draft. S09 chỉ có prototype; S10 có 40 mẫu chờ chuyên gia; S11 mới có sửa deep-link; S12 có protocol nhưng chưa pilot. Không đánh dấu các milestone này DONE.
+- Giao Astra low ba workstream độc lập: review S04/S05, review S08, audit đọc-chỉ S09–S12 và PR #1127. Mỗi agent có write set riêng; source feature chỉ bắt đầu sau spec được review, Approved và merge theo delivery loop.
+- Main CI trên `b0c424c0` (run `35866657006`) đã đạt quality/e2e. Deploy workflow tự khởi chạy sau merge và báo success; không suy ra đã có smoke/pilot production.
+- Review S04/S05 đã mở [#1128](https://github.com/seeker19110/donghanh/pull/1128), S08 đã mở [#1129](https://github.com/seeker19110/donghanh/pull/1129). Cả hai là tài liệu review trên base mới; cần tích hợp vào spec gốc, duyệt và merge trước source feature.
