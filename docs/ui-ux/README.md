@@ -6,7 +6,7 @@
 
 - Màu/theme/surface/text token: `packages/core-ui/theme.css`.
 - Tailwind mapping: config của từng app.
-- Quy tắc UI chi tiết: `.agents/skills/ui-ux-craftsman/SKILL.md`.
+- Quy tắc UI chi tiết: `.agents/skills/ui-ux/SKILL.md`.
 - Decision routing: `docs/ui-ux/decision-contract.json`.
 - App context: `docs/ui-ux/apps/*.md`.
 
