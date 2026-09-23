@@ -101,7 +101,8 @@ SRS, outbox hoặc server-draft trong slice này. Review hiện tại chỉ sử
 - Nút/link jump chỉ đổi hash và focus/scroll; giữ pathname, query và nháp. Click đích
   khác tạo một history entry; click lại cùng đích không thêm entry. Back/Forward
   không ghi thêm history. Chờ bài nạp xong mới resolve; không để callback bài cũ
-  focus bài mới. URL canonical hóa phải giữ hash/query như luồng hiện có.
+  focus bài mới. Nếu thêm canonical redirect cho STEM (hiện chưa có), phải giữ
+  hash/query và không tạo history entry thừa.
 - Hash hợp lệ đưa focus đến heading/câu có `tabIndex=-1`, sau đó cuộn có khoảng tránh
   header. Hash không tồn tại, sai cú pháp hoặc section tùy chọn vắng mặt về h1 của
   bài hiện tại; không dùng hash tùy ý làm selector CSS. Hash rỗng ở lần mở bình thường
@@ -186,6 +187,8 @@ không tự nó là lý do thiếu quyền duyệt spec.
 | S09-B1 | OPEN — S09 vẫn Draft: phụ thuộc S04/S05 và M2 chưa được nghiệm thu đầy đủ. | Điều phối đối chiếu main và evidence phụ thuộc trước duyệt; PR này không cấp Approved, không sửa source/browser.             |
 | S09-B2 | CLOSED — DESIGN CONTRACT ONLY: hội thoại mẫu English §2.7.                 | Hai audit và review tích hợp pin SHA; implementation/browser/audio/AT còn phải chứng minh. Không bao gồm CEFR/Chat/Speaking. |
 | S09-B3 | CLOSED — DESIGN CONTRACT ONLY: sáu bước lập trình §2.8.                    | Map, precedence, owner/result, history/focus và fixtures đã chốt; source/browser chưa triển khai/nghiệm thu.                 |
+
+Đối chiếu độc lập B1 trên `main` `9c3e2fa2` ở [audit điều hướng B1](../research/2026-09-23-s09-b1-navigation-contract-audit.md): #1137 đã merge S04 source, #1138 chỉ khép thiết kế manifest S05, #1133 khép S08 source, #1142 bổ sung bằng chứng zoom S07 hẹp. M1/M2 vẫn chưa nghiệm thu đầy đủ nên **S09-B1 tiếp tục OPEN**. Source STEM hiện nhận bare id nhưng chưa canonical redirect; không viện dẫn chú thích trong `mistakeRoutes.ts` làm bằng chứng redirect đã tồn tại. Audit ghi fixture/URL thật, thứ tự URL–resume, owner/result và lệnh proof cho PR source; không cấp Approved hay xác nhận AC.
 
 Contract STEM §2.3–2.4 đã có quyết định review nhưng **không tự cấp Approved riêng**
 trong một spec S09 toàn phạm vi còn Draft. Khi khép B1–B3, cập nhật ngay original spec
