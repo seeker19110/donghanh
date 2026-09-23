@@ -66,9 +66,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const refresh = useCallback(async () => {
     const request = ++generation.current
-    const u = await getCurrentUser()
-    // Giữ cơ chế nạp phiên cũ, gồm cookie adoption có thể đặt token trong lúc đọc.
-    await applyUser(u, () => mounted.current && request === generation.current)
+    const isCurrent = () => mounted.current && request === generation.current
+    try {
+      const u = await getCurrentUser()
+      // Giữ cơ chế nạp phiên cũ, gồm cookie adoption có thể đặt token trong lúc đọc.
+      await applyUser(u, isCurrent)
+    } finally {
+      // Request cũ trong StrictMode không được mở route gate trước phiên hiện hành.
+      if (isCurrent()) setLoading(false)
+    }
   }, [applyUser])
 
   const refreshVerified = useCallback(
@@ -107,7 +113,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // (luật react-hooks/set-state-in-effect — không setState đồng bộ trong effect).
     void Promise.resolve()
       .then(refresh)
-      .finally(() => setLoading(false))
+      .catch(() => undefined)
 
     // Bearer token không tự "hết hạn giữa chừng" như cookie — chỉ cần đồng bộ lại giữa các
     // tab khi 1 tab đăng xuất/đăng nhập (localStorage 'storage' event chỉ bắn ở TAB KHÁC).

@@ -1,4 +1,4 @@
-import { act, useContext } from 'react'
+import { act, StrictMode, useContext } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest'
 import { AuthProvider } from './AuthProvider'
@@ -85,6 +85,65 @@ describe('AuthProvider refreshVerified', () => {
     expect(context.loading).toBe(false)
     expect(localStorage.getItem('gsa_session_token_v1')).toBe('adopted-token')
   })
+
+  it.each(['success', 'reject'] as const)(
+    'StrictMode: request cũ %s không kết thúc loading trước phiên hiện hành',
+    async (outcome) => {
+      act(() => root.unmount())
+      const old = deferred()
+      const current = deferred()
+      calls.read.mockReset().mockReturnValueOnce(old.promise).mockReturnValueOnce(current.promise)
+      root = createRoot(container)
+      await act(async () =>
+        root.render(
+          <StrictMode>
+            <AuthProvider>
+              <Consumer />
+            </AuthProvider>
+          </StrictMode>,
+        ),
+      )
+      expect(calls.read).toHaveBeenCalledTimes(2)
+      await act(async () => {
+        if (outcome === 'success') old.resolve(USER)
+        else old.reject(new Error('stale offline'))
+      })
+      expect(context.loading).toBe(true)
+      expect(context.user).toBeNull()
+      await act(async () => current.resolve({ ...USER, id: 'u2' }))
+      expect(context.loading).toBe(false)
+      expect(context.user?.id).toBe('u2')
+    },
+  )
+
+  it.each(['success', 'reject'] as const)(
+    'StrictMode: request cũ %s sau phiên hiện hành không ghi đè user/loading',
+    async (outcome) => {
+      act(() => root.unmount())
+      const old = deferred()
+      const current = deferred()
+      calls.read.mockReset().mockReturnValueOnce(old.promise).mockReturnValueOnce(current.promise)
+      root = createRoot(container)
+      await act(async () =>
+        root.render(
+          <StrictMode>
+            <AuthProvider>
+              <Consumer />
+            </AuthProvider>
+          </StrictMode>,
+        ),
+      )
+      await act(async () => current.resolve({ ...USER, id: 'u2' }))
+      expect(context.loading).toBe(false)
+      expect(context.user?.id).toBe('u2')
+      await act(async () => {
+        if (outcome === 'success') old.resolve(USER)
+        else old.reject(new Error('stale offline'))
+      })
+      expect(context.loading).toBe(false)
+      expect(context.user?.id).toBe('u2')
+    },
+  )
 
   it('verified success cập nhật cùng user và trả hồ sơ server', async () => {
     calls.verified.mockResolvedValue({ ...USER, onboarded: true })

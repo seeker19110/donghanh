@@ -95,3 +95,22 @@ chứng DB đã hoạt động hoặc projection luôn đồng bộ.
   pending/error/retry và khóa control, nhưng nghiệm thu trực quan vẫn còn phải làm.
 - Rollback bằng revert đồng bộ helper, hai caller, method auth và fixtures/tests.
   Không migration hoặc sửa dữ liệu đã lưu. Không revert helper riêng khỏi caller.
+
+## CI lần đầu và sửa race khởi tạo phiên
+
+PR #1125, head `e2789608`, CI run `35857742916`: type/lint/format, unit/coverage,
+build/budget/boot và audit đã pass. E2E shard 3 có ba lỗi admin, shard 6 có một lỗi
+Dashboard CEFR; ảnh trạng thái lỗi đều đang ở Home thay vì route yêu cầu. Không tăng
+thời gian chờ hoặc bỏ test.
+
+Nguyên nhân: guard generation mới bỏ response cũ nhưng `.finally(setLoading(false))`
+ở effect khởi tạo vẫn kết thúc loading cho request cũ của StrictMode. Route gate thấy
+`user=null` trước khi request hiện hành hoàn tất và chuyển sang login/Home. Sửa để
+chỉ request hiện hành, còn mounted, kết thúc loading trong `refresh`; effect bắt lỗi
+khởi tạo để không tạo unhandled rejection.
+
+Bổ sung bốn regression StrictMode: success/reject cũ, mỗi loại hoàn tất trước hoặc
+sau response hiện hành. Negative control dùng provider trước sửa: 2/15 test thất bại
+và hai unhandled rejection. Provider đã sửa: **15/15 PASS**, ESLint hai file PASS.
+Full CI trên head sửa tiếp theo còn chờ; các con số 200 unit/8 E2E phía trên là bằng
+chứng trước follow-up này, không thay thế gate trên head mới.
