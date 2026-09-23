@@ -270,3 +270,25 @@ kiểm thử source hoặc nghiệm thu sư phạm. S01 vẫn là slice source �
   tài liệu. Chỉ PR S01 thay source; đặc tả phần sau vẫn Draft.
 - Full gate local ở iteration 3 là bằng chứng hiện có; chờ CI cho commit đã push.
 - Chưa cấp quyền merge/deploy; không coi push hoặc mở PR là hoàn thành goal.
+
+### Iteration 5 — phân công toàn bộ S02–S12 cho Astra low
+
+Người dùng yêu cầu giao toàn bộ phần còn lại cho subagent Astra low. Ba nhóm được
+cấp worktree riêng trên main `f07820aa` (sau merge #1119 và cập nhật Pyodide), độc
+quyền file và giao diện được chốt trước code. Root review diff, điều phối test và publish.
+
+| Nhóm    | Agent                 | Kết quả đợt đầu                                                                                                                                                     | Trạng thái                                                                    |
+| ------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| S02–S05 | s02_s05_learning      | [#1121](https://github.com/seeker19110/donghanh/pull/1121): S03 lọc đúng môn trước cap, reset phiên user/môn/cap; 41 unit + 9 E2E targeted đạt                      | Draft PR, full CI/ảnh còn pending; S02/S04/S05 chuẩn bị contract, chưa source |
+| S06–S08 | s06_s08_accessibility | [#1122](https://github.com/seeker19110/donghanh/pull/1122): S06a inline/incomplete/target collector, avatar token; controls 2/2, Layout 17/17, Home 3 theme 3/3 đạt | Draft PR, chưa xong S06b và ma trận rộng; S07/S08 chưa source                 |
+| S09–S12 | s09_s12_experience    | [#1123](https://github.com/seeker19110/donghanh/pull/1123): prototype, 40 mẫu rubric, routing matrix, protocol/phiếu pilot                                          | Draft bộ chuẩn bị, không có thay đổi production, chưa chuyên gia/pilot        |
+
+- Root kiểm prototype sáu tổ hợp viewport/theme, focus, Back, giữ nháp và năm trạng thái;
+  đã xem ảnh mobile. Không đổi tên bằng chứng prototype thành nghiệm thu production.
+- #1120 S01 hiện tất cả CI xanh, base main, chưa merge tại lúc kiểm tra. #1119 đã merge.
+- Không dùng lại số full gate S01 cho các nhánh mới: targeted chỉ chứng minh phạm vi
+  đã chạy; full CI từng PR đang được yêu cầu. Không thêm skip/disable để đạt gate.
+- Quyền push/mở PR giữ nguyên; không tự merge/deploy. Các feature mới còn phải qua
+  spec Approved/merged và phụ thuộc đã nêu; không giả bằng chứng chuyên gia hoặc pilot.
+- Next: CI và review từng Draft PR; xử lý findings rồi tích hợp từng slice, reconcile
+  main trước khi nhóm nhận slice tiếp. Goal vẫn NOT COMPLETE.
