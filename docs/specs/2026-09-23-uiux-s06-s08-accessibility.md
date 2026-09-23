@@ -1,11 +1,11 @@
 # S06–S08 — Cổng tương phản, zoom và phản hồi quiz
 
-| Thuộc tính       | Giá trị                                                                        |
-| ---------------- | ------------------------------------------------------------------------------ |
-| Goal             | [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), M2/S06–S08            |
-| Trạng thái       | **Draft** — chưa duyệt, chưa triển khai, không phải bằng chứng nghiệm thu      |
-| Baseline         | [Audit 23/09](../research/2026-09-23-uiux-su-pham-baseline.md), SHA `1d9e247e` |
-| Đơn vị giao việc | Ba PR riêng: S06, S07, S08; không gộp source vào PR đặc tả                     |
+| Thuộc tính       | Giá trị                                                                                       |
+| ---------------- | --------------------------------------------------------------------------------------------- |
+| Goal             | [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), M2/S06–S08                           |
+| Trạng thái       | **S08 Approved for implementation** — chưa nghiệm thu; S06 đã merge, S07 còn ma trận thủ công |
+| Baseline         | [Audit 23/09](../research/2026-09-23-uiux-su-pham-baseline.md), SHA `1d9e247e`                |
+| Đơn vị giao việc | Ba PR riêng: S06, S07, S08; không gộp source vào PR đặc tả                                    |
 
 ## 1. Phạm vi và phụ thuộc
 
@@ -13,10 +13,9 @@ S06 khép lỗ hổng F5 của cổng AAA và quản lý kết quả chưa kết
 cho phép zoom và kiểm chứng thao tác ở bố cục hẹp. S08 sửa F4, thêm ngữ nghĩa lựa chọn,
 phản hồi chữ và thông báo cho công nghệ hỗ trợ trong quiz hiện có.
 
-S06 phụ thuộc S00 và bản đặc tả được review, merge, đánh dấu **Approved for implementation**.
-S07 và S08 phụ thuộc S06 được tích hợp; trình tự mặc định S06 → S07 → S08. Trước mỗi
-PR phải đối chiếu main, chạy impact map cho hotspot, xác định chính xác file được sửa.
-Không suy quyền triển khai từ việc Draft này liệt kê phương án.
+S06 đã tích hợp tại PR #1122; S07a tại #1126. S08 phụ thuộc phần cổng S06 đã tích hợp.
+Trước mỗi PR phải đối chiếu main, chạy impact map cho hotspot, xác định chính xác file
+được sửa. Quyết định S08 dưới đây chỉ duyệt phạm vi triển khai, không chứng nhận AC.
 
 Không sửa thuật toán ra đề/chấm điểm, thời điểm công bố đáp án của bài thi, mastery,
 thanh toán hoặc API. Không đổi framework, không quét sửa màu toàn repo, không dùng AI
@@ -115,6 +114,13 @@ có thiết bị hoặc người kiểm, ghi WAITING, không đánh dấu AC tư
 
 ## 4. S08 — Quiz phản hồi bằng chữ và trình đọc màn hình
 
+**Quyết định triển khai ngày 2026-09-23:** Người dùng giao quyền tự quyết phương án và
+triển khai trong goal này. Agent S08 đã review mã trên main `b0c424c0` tại
+[review contract](2026-09-23-uiux-s08-review-contract.md), PR #1129 đã merge;
+primary rà lại hợp đồng và chọn các quyết định dưới đây. S08 được **Approved for
+implementation** sau khi PR đặc tả này merge. Quyền duyệt triển khai không thay
+bằng chứng NVDA/VoiceOver, ảnh, E2E hoặc nghiệm thu của người học.
+
 ### Hiện trạng và contract
 
 `apps/dhcb/src/components/ExamQuestionCard.tsx` nhận `q`, `selected`, `onPick`,
@@ -130,6 +136,11 @@ Giữ lựa chọn là button có tên bằng nội dung đáp án, nhóm có t�
 tự gắn role radio khi chưa triển khai hợp đồng phím radio. Khi đã trả lời, handler
 và phím tắt không được ghi thêm đáp án. Trạng thái unavailable vẫn phải đọc được.
 
+Nhóm đáp án dùng `role="group"` và `aria-labelledby`. Với câu nghe, accessible name
+chỉ gồm số câu và chỉ dẫn nghe; không lộ `audioText` hoặc đáp án trước chọn. Sau chọn,
+button còn nhận focus để đọc, `aria-disabled` báo không đổi lựa chọn và handler tự
+chặn click/phím lặp; không dùng native `disabled` làm mất focus đang đứng ở đáp án.
+
 Thêm chữ nhìn thấy “Đúng”, “Chưa đúng”, “Bạn đã chọn…” và đáp án đúng **chỉ ở giai đoạn
 hiện tại đã cho phép công bố**; không tự thay chính sách đánh giá của caller. Tách
 nhãn UI khỏi nội dung ngôn ngữ đích; phối hợp S04, không mở lại logic direction trong S08.
@@ -140,6 +151,23 @@ quả sau thao tác chọn. Không bọc cả câu hỏi/đáp án vào live reg
 lặp khi rerender hoặc restore. Sau chọn giữ focus tại đáp án; sau Next đưa focus
 tới câu mới có tên/số câu, sau kết thúc tới tiêu đề kết quả; Restart trở về câu đầu.
 Không tự phát TTS mới, không tranh âm thanh với trình đọc màn hình.
+
+Thông báo là state của sự kiện chọn hợp lệ, tách khỏi `selected`: vào quiz/restore/
+rerender/đổi UI không tự phát lại; Next và Restart xóa status cũ. Một node status
+ổn định dùng polite và atomic. Component sở hữu câu focus heading mới; caller sở hữu
+heading kết quả sau câu cuối. Phạm vi source vì vậy gồm `ExamQuestionCard`, `QuizTab`,
+`CefrExam`, `ListeningTab`, `Placement` và hook bàn phím sau impact map, không chỉ hai
+component đáp án. Không thay thời điểm công bố kết quả của caller hiện hữu.
+
+`useQuizKeyboard` bỏ sự kiện repeat/defaultPrevented/Ctrl/Alt/Meta, vùng nhập liệu,
+modal và nút tương tác khác khỏi shortcut Enter/Space toàn cửa sổ. Enter/Space trên
+button dùng native activation. Guard ở `pick`/`next` bảo vệ một lần ghi, kể cả hai
+callback trước lượt render tiếp theo. Review mọi consumer của hook trước khi sửa;
+không đổi shortcut ngoài quiz này nếu chưa có test tương thích.
+
+Bảng kết quả không cắt cụt câu/đáp án dài; chữ “Đúng/Chưa đúng” nhìn thấy được,
+icon trang trí `aria-hidden`. Dùng transition màu và nhánh reduced motion; ring
+focus hiện ngay. Giữ schema phiên, chấm điểm và dữ liệu học hiện hành.
 
 ### AC và kiểm chứng S08
 
@@ -168,8 +196,8 @@ test chưa chạy hoặc incomplete không chuyển thành pass. Negative contro
 
 Lưu báo cáo sạch cùng ảnh/trace có thể truy cập từ PR, không chứa dữ liệu người học
 thật/token. Mỗi AC liên kết artifact riêng. Audit baseline là evidence trước sửa,
-không dùng lại làm evidence sau sửa. Tài liệu Draft này chỉ được chuẩn bị bằng đọc
-mã; chưa chạy test, trình đọc màn hình, thiết bị hay đo tương phản mới.
+không dùng lại làm evidence sau sửa. Phần hợp đồng S08 được duyệt bằng review mã;
+review đó chưa chạy test, trình đọc màn hình, thiết bị hay đo tương phản mới.
 
 Rollback S06: revert phần thay đổi gate/helper của PR nếu công cụ sai, ghi rõ lỗ hổng
 F5 mở lại và giữ PR sau bị chặn; không công bố AAA đạt. Rollback S07: revert slice
@@ -182,6 +210,6 @@ Không có migration, không cần sửa dữ liệu hoặc tác động product
 
 - [ ] Review hợp đồng phân loại chữ, incomplete và ngưỡng 7:1.
 - [ ] Review từng PR scope và phụ thuộc, gồm phối hợp S04/S05.
-- [ ] Đặc tả được duyệt/merge trước source; tài liệu hiện vẫn **Draft**.
+- [x] S08 đã được review và duyệt phạm vi triển khai; PR đặc tả phải merge trước source.
 - [ ] Mỗi slice có automated evidence và manual evidence còn thiếu được nêu rõ.
-- [ ] Chỉ đánh dấu hoàn tất sau tích hợp và kiểm chứng trên main; không suy từ bản Draft.
+- [ ] Chỉ đánh dấu hoàn tất sau tích hợp và kiểm chứng trên main; không suy từ phê duyệt spec.
