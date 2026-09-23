@@ -104,7 +104,7 @@ Hệ thống được chuẩn hóa theo 10 bộ quy chuẩn SOTA chuyên biệt 
 2. `financial-security-sentinel`: VietQR Webhook HMAC-SHA256, Idempotency, Prompt Caching Gateway, Referral VIP, Streak Freeze Vault.
 3. `pedagogy-linguistics-master`: Sư phạm song ngữ 2 chiều, CEFR A1-C2, CAT IRT 3PL, BKT DAG, Acoustic GOP, Echo Shadowing.
 4. `principal-engineer-architect`: Type safety strict, Zod validation, RRF Hybrid RAG, Web Worker Audio DSP, OPFS Edge AI, 5 Quality Gates.
-5. `ui-ux-craftsman`: 5 Focus Studios, CyberTutor Avatar Canvas 2D 15-visemes (WebGL chưa làm), 1v1 PvP 60 FPS, WCAG 2.2 AAA/AA, Design Tokens.
+5. `ui-ux`: 5 Focus Studios, CyberTutor Avatar Canvas 2D 15-visemes (WebGL chưa làm), 1v1 PvP 60 FPS, WCAG 2.2 AAA/AA, Design Tokens.
 6. `gamification-viral-growth-architect`: 1v1 PvP Arena, Elo FIDE ($K=32$), Ghost Rival Matchmaking, Referral VIP 4 tầng mốc, Story Canvas.
 7. `multimodal-realtime-voice-master`: Full-Duplex WebRTC (<250ms), Barge-in (<50ms), Web Audio Worker ($F_0, F_1, F_2$), 3D Viseme Shaders.
 8. `memory-palace-cognitive-scaffolder`: Method of Loci 3D/Isometric, BKT DAG gap backtrack, Flow State CLI Regulator, Metacognitive MAI.

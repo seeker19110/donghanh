@@ -1,9 +1,9 @@
 ---
-name: ui-ux-craftsman
+name: ui-ux
 description: 'Quy chuẩn thiết kế UI/UX đỉnh cao và quy trình triển khai giao diện cho Đồng Hành (Personal AI Companion & English Tutor). Bắt buộc kích hoạt khi tạo mới, thiết kế, review hoặc sửa đổi bất kỳ trang (page), layout, modal, form, audio/voice widget, quiz, flashcard, dashboard hay component nào.'
 ---
 
-# UI/UX CRAFTSMAN V7.0 — QUY CHUẨN THIẾT KẾ & GIAO DIỆN ĐỈNH CAO
+# UI/UX — QUY CHUẨN THIẾT KẾ & GIAO DIỆN ĐỒNG HÀNH
 
 Bộ Skill này đóng gói toàn bộ tri thức thiết kế UI/UX hiện đại, tâm lý học học tập (learning ergonomics), hiệu ứng chuyển động mượt mà 60 FPS, chuẩn khả năng tiếp cận (W3C WCAG 2.2 AAA/AA) và quy trình triển khai giao diện cho hệ sinh thái Đồng Hành.
 
@@ -11,7 +11,9 @@ Bộ Skill này đóng gói toàn bộ tri thức thiết kế UI/UX hiện đ�
 
 ## 1. QUY TRÌNH 5 BƯỚC TRIỂN KHAI KHI CODE GIAO DIỆN MỚI
 
-Mọi thay đổi giao diện trong `apps/english/src/**` đều phải tuân thủ 5 bước tuần tự:
+Mọi thay đổi giao diện trong `apps/dhcb/src/**` và `apps/hub/src/**` đều phải tuân thủ 5 bước tuần tự.
+Trước B1, đọc `docs/ui-ux/decision-contract.json` và profile app tương ứng trong
+`docs/ui-ux/apps/`.
 
 ```
 [B1: Bối cảnh & Phân loại] ──► [B2: Thiết kế Tokens & Bố cục] ──► [B3: Đủ 5 Trạng thái] ──► [B4: Micro-Interactions] ──► [B5: Verification Gate]
@@ -75,7 +77,7 @@ Mọi màn hình hoặc component có tương tác/tải dữ liệu phải xử
 ## 4. VI TƯƠNG TÁC & HIỆU ỨNG VẬT LÝ (MICRO-INTERACTIONS & MOTION)
 
 - **Nút bấm & Card tương tác:** Đầy đủ `hover:border-accent-500/50`, `active:scale-[0.98]`, `focus-visible:ring-2 focus-visible:ring-accent-500`, `disabled:opacity-50 disabled:pointer-events-none`.
-- **Chuyển động (Motion Ergonomics):** Sử dụng Spring Physics hoặc CSS Transitions (`transition-all duration-200 ease-out`).
+- **Chuyển động (Motion Ergonomics):** Chỉ transition đúng thuộc tính có ý nghĩa (`transition-colors`, `transition-transform`, `transition-opacity`); tránh `transition-all`. Motion phải interruptible và có nhánh `motion-reduce:` khi phù hợp.
 - **A11y:** Mọi nút Icon-only phải có `aria-label` và `title` rõ nghĩa cho Screen Readers.
 
 ---
@@ -282,3 +284,117 @@ Thang mức, hiệu chỉnh cho DHCB:
 > **Phạm vi thi hành:** cả 6 luật ở mục A áp cho **code MỚI và code đang sửa**. Không mở đợt quét
 > riêng cho 197 chỗ `transition-all` và 56 chỗ `hover:scale-*` — cùng lập luận với mục 9.5: đổi
 > hàng loạt là rủi ro thị giác thật đổi lấy lợi ích không đo được.
+
+---
+
+## 11. UI/UX PRO MAX — DECISION CONTRACT NATIVE CHO ĐỒNG HÀNH (2026-09-23)
+
+Phần có giá trị nhất của `nextlevelbuilder/ui-ux-pro-max-skill` không phải catalog style/font/icon mà
+là cách **định tuyến quyết định trước khi thiết kế**. Đồng Hành native hóa thành
+`docs/ui-ux/decision-contract.json` để agent dùng cùng một vocabulary và CI có thể kiểm contract.
+
+### A. Precedence — khi guideline mâu thuẫn
+
+1. Business/security/privacy/pedagogy correctness.
+2. Evidence và pattern đang chạy thật trong repo.
+3. `packages/core-ui/theme.css` + Tailwind mapping của app (token source of truth).
+4. Profile `docs/ui-ux/apps/dhcb.md` hoặc `hub.md`.
+5. Skill này.
+6. External guidance, gồm UI/UX Pro Max.
+
+Không external recommendation nào được tự đổi token, navigation hierarchy, icon system, font,
+payment semantics hoặc learner-state authority.
+
+### B. Query contract — một dominant intent mỗi lượt
+
+Trước khi code/review, viết intent 2–5 từ + constraint quan trọng, ví dụ:
+
+- `mobile voice latency`;
+- `lesson long reading`;
+- `payment retry trust`;
+- `admin data table`;
+- `kid quiz feedback`;
+- `keyboard error summary`.
+
+Match signal trong decision contract; `must-have` luôn áp. Nếu có nhiều concern độc lập, tách lượt.
+Không dùng query kiểu “review accessibility performance animation colors responsive forms” vì nó
+che mất observable outcome cần sửa.
+
+### C. Context bắt buộc trước pattern
+
+Mỗi thay đổi phải xác định đủ:
+
+- **app:** DHCB hay Hub;
+- **persona/job:** learner, companion user, admin/reviewer, account/payment;
+- **device/network:** mobile/desktop, touch/keyboard, slow/offline;
+- **information shape:** prose, quiz, chat/voice, form, dashboard/table/chart, high-trust flow;
+- **dominant risk:** hiểu sai, thao tác nhầm, mất tiến độ, sensory overload, latency uncertainty,
+  focus loss, payment ambiguity;
+- **existing pattern:** component/flow nào trong repo đã giải bài toán gần nhất.
+
+Chỉ sau đó mới chọn density/motion/layout. “Bento”, “glass”, “immersive”, “3D” không phải requirement.
+
+### D. Master + override nhưng KHÔNG tạo source token thứ hai
+
+Đồng Hành **không** tạo `DESIGN.md` hoặc file master chứa lại màu/font/spacing. Source token vẫn là
+`packages/core-ui/theme.css`. Lớp mới chỉ chứa **decision constraints**:
+
+- global routing: `docs/ui-ux/decision-contract.json`;
+- app profile: `docs/ui-ux/apps/*.md`;
+- page/feature override khi thật sự cần: `docs/ui-ux/pages/<feature>.md`.
+
+Page override phải ghi lý do nghiệp vụ, rule bị override, phạm vi, a11y/performance implication và
+ngày review. Không override vì sở thích thẩm mỹ.
+
+### E. Conditional design posture
+
+- **Learning/reading:** readability > decoration; prose 65–75ch, line-height 1.5–1.7,
+  progressive disclosure, giữ focus học.
+- **Voice/realtime:** state phải hiểu được cả khi motion bị tắt; feedback latency rõ; user action
+  luôn interrupt được animation/voice affordance.
+- **Mobile/low-end/network yếu:** performance-first; touch >=44px; không animation nặng; offline /
+  retry / queued state rõ; mobile là tái ưu tiên thông tin chứ không thu nhỏ desktop.
+- **Kids:** target/chữ rõ hơn, copy đơn giản, hạn chế overstimulation; reward không che task.
+- **Gamification:** celebration chỉ sau outcome thật, không toast trùng feedback đã nhìn thấy,
+  không biến mọi interaction thành scale/glow/pulse.
+- **Payment/trust:** total/status/recovery rõ, success chỉ khi authoritative state xác nhận;
+  destructive/exit tách khỏi primary action.
+- **Data-heavy/admin:** scanability > decoration; tabular number; chart có context/text alternative;
+  mobile vẫn giữ quan hệ dữ liệu quan trọng.
+
+### F. Forms — bổ sung từ quick-reference upstream, curate cho repo
+
+- Dùng `type` / `inputMode` / `autocomplete` đúng ngữ nghĩa để mobile keyboard/autofill hỗ trợ.
+- Validation ưu tiên sau blur/submit thay vì spam khi đang gõ, trừ constraint realtime rõ ràng.
+- Nhiều lỗi cùng lúc: có error summary focusable + link tới field, vẫn giữ inline error.
+- Read-only và disabled là hai trạng thái khác nhau cả semantic lẫn visual.
+- Form dài/rủi ro mất dữ liệu phải cân nhắc draft/autosave/confirm unsaved change theo spec, không
+  tự thêm persistence nếu business contract chưa cho phép.
+
+### G. Navigation & state preservation
+
+- Top-level navigation giữ nhất quán; không trộn bottom nav/sidebar/tab ở cùng hierarchy.
+- Back/deep-link phải giữ context hợp lý: scroll, filter, input draft nếu contract cho phép.
+- Route change quan trọng phải xét focus về main heading/content cho screen reader.
+- Destination unavailable cần lý do/next step thay vì chỉ biến mất nếu người dùng cần hiểu quyền/trạng thái.
+
+### H. Charts/data
+
+Nếu chart mang thông tin quyết định, phải có title/context, unit/time range, accessible text/table
+alternative khi cần và exact value qua interaction phù hợp. Không dùng pie/donut nhiều category,
+3D chart hoặc dual-axis khó diễn giải chỉ vì “đẹp”. Với dataset lớn, aggregate/sample + drill-down
+thay vì render mọi điểm.
+
+### I. Verification contract
+
+Chạy tối thiểu cho thay đổi UI:
+
+```bash
+npm run check:ui-ux
+npm run lint
+npm run typecheck
+```
+
+Flow đổi hành vi/layout/navigation/auth/payment/learning state chạy thêm E2E liên quan và axe.
+`check:ui-ux` không thay E2E; nó gom contract + policy + contrast gates nhanh để phát hiện sai
+kiến trúc UI trước full suite.
