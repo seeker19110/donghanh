@@ -28,4 +28,4 @@ Khi tạo/sửa/review UI trong `apps/dhcb/src/**` hoặc `apps/hub/src/**`:
 10. **Verify.** Chạy `npm run check:ui-ux`, `npm run lint`, `npm run typecheck`; thay đổi flow
     quan trọng chạy E2E/axe liên quan.
 
-Chi tiết: `.agents/skills/ui-ux-craftsman/SKILL.md` và `docs/ui-ux/README.md`.
+Chi tiết: `.agents/skills/ui-ux/SKILL.md` và `docs/ui-ux/README.md`.
