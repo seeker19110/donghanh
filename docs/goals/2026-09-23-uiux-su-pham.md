@@ -92,7 +92,7 @@ S00 là PR tài liệu; S01–S12 là 12 slice kỹ thuật/nghiệm thu. Đối
 | M1/S04 | UI language độc lập chiều học (F8)                        | S00           | Approved #1134; QA amend #1141               | #1137    | SOURCE MERGED; AC04 còn mở | 2×2, phiên/Retry, callback/lỗi đã có test; zoom thật, AT, microphone/thiết bị chưa kiểm           |
 | M1/S05 | Bộ tạo câu điền từ hợp lệ (F7)                            | S04           | Review #1128; audit design #1138             | #1138    | Draft                      | Audit offline/manifest đã thiết kế; đo mẫu B và nghiệm thu chuyên gia còn thiếu                   |
 | M2/S06 | Gate AAA phản ánh đúng chữ thực và 7:1 (F5)               | S00           | Follow-up #1139 chưa Approved                | #1122    | PARTIAL                    | Gate đã merge; kiểm hết incomplete/ma trận follow-up còn mở                                       |
-| M2/S07 | Zoom/reflow/focus/44px trên màn bị ảnh hưởng (F3)         | S06           | Gap audit #1140                              | #1126    | PARTIAL — S07a             | Zoom đã mở; focus/target ở sheet mục lục, zoom 200% và thiết bị thật còn thiếu                    |
+| M2/S07 | Zoom/reflow/focus/44px trên màn bị ảnh hưởng (F3)         | S06           | Gap audit #1140; zoom evidence #1142         | #1126    | PARTIAL — S07a             | Một ca Chrome 200% ba theme đã đo; ma trận rộng, browser khác/thiết bị thật còn thiếu             |
 | M2/S08 | Quiz có phản hồi đọc/nghe được và focus đúng (F4)         | S06           | Approved trong spec S06–S08                  | #1133    | SOURCE MERGED; AT còn mở   | Unit/E2E mock đạt; NVDA/VoiceOver và thiết bị thật chưa kiểm                                      |
 | M3/S09 | Điều hướng trong bài dài; kết quả gọn, sửa sai thuận tiện | M1, M2        | Review #1135; B2/B3 design #1136             | —        | Draft                      | B1 còn mở; chưa Approved/source; prototype không thay thế AC và ảnh trước/sau                     |
 | M4/S10 | Chuẩn phản hồi sư phạm và rubric đánh giá nội dung        | M1, S08       | Feature/content spec riêng                   | —        | BACKLOG                    | Luyện/đánh giá tách rõ; ba nhóm trình độ; chuyên gia rà bộ mẫu, không coi AI tự duyệt là evidence |
@@ -204,6 +204,7 @@ hiện có. Việc gửi lời mời pilot, truy cập production và triển kh
 - S04 spec [#1134](https://github.com/seeker19110/donghanh/pull/1134) và QA amendment [#1141](https://github.com/seeker19110/donghanh/pull/1141) đã merge trước source [#1137](https://github.com/seeker19110/donghanh/pull/1137). Unit/E2E mock và QA ba theme ở 320/390/1440 CSS px đã kiểm focus/tương phản; AC04 chưa nghiệm thu đầy đủ vì chưa kiểm zoom thật, screen reader, microphone và thiết bị thật.
 - S08 source [#1133](https://github.com/seeker19110/donghanh/pull/1133) đã merge với quality/e2e xanh. Bằng chứng mock không thay thế NVDA/VoiceOver hay thiết bị thật.
 - S05 vẫn Draft: [#1138](https://github.com/seeker19110/donghanh/pull/1138) chỉ chốt thiết kế audit offline/manifest; chưa đo coverage đạt chuẩn hoặc có duyệt chuyên gia mẫu B. S06/S07 vẫn PARTIAL theo audit [#1139](https://github.com/seeker19110/donghanh/pull/1139)/[#1140](https://github.com/seeker19110/donghanh/pull/1140); không suy ra Approved follow-up S06 từ approval S08.
+- [#1142](https://github.com/seeker19110/donghanh/pull/1142) đang mở khi lập checkpoint, chỉ sửa báo cáo S07. Trên một sheet mục lục Vật lí, Chrome 153 headless/Windows dùng Page zoom thật 100→200% (780→390 CSS px, DPR 1→2), ba theme: focus thấy được, 20 target hiển thị/theme ≥44px, không tràn ngang. Đây là ca browser zoom có dữ liệu mock, chưa chứng minh toàn ma trận, pinch, browser khác hoặc thiết bị thật; S07 vẫn PARTIAL. Báo cáo/JSON nằm ngoài repo, không coi PR đang mở là đã merge.
 - S09 vẫn Draft: review [#1135](https://github.com/seeker19110/donghanh/pull/1135), B2/B3 đóng ở mức thiết kế tại [#1136](https://github.com/seeker19110/donghanh/pull/1136), B1 phụ thuộc M1/M2 còn mở. S10 cần chuyên gia rà 40 mẫu; S11a không hoàn tất S11 rộng; S12 cần thiết bị thật, người học và số đo ngày 7/14. Không có bằng chứng chuyên gia hoặc pilot.
 - Next best slice: hoàn tất audit/điều kiện duyệt S05 sau S04, đồng thời thu bằng chứng accessibility còn thiếu; không bắt đầu S09 source khi B1 chưa đóng.
 
@@ -378,7 +379,8 @@ Không có source/test mới hoặc kết quả contrast mới. Xem
   #1137 đạt quality/e2e và sáu shard trước merge; CI trên merge commit đang chạy
   tại thời điểm cập nhật, không gán kết quả PR cho CI của `main`.
 - Gap: S04 source và S08 source đã tích hợp, nhưng AC04/S08 AT chưa đủ kiểm thật.
-  S05 còn Draft dù có audit design; S06/S07 partial; S09 Draft vì B1; S10/S12
+  #1142 thêm một ca Chrome zoom 200% cho S07 nhưng chưa đóng ma trận. S05 còn
+  Draft dù có audit design; S06/S07 partial; S09 Draft vì B1; S10/S12
   chờ chuyên gia/người học/thiết bị thật. Goal NOT COMPLETE.
 - Không thay source hoặc migration trong checkpoint. Validation: Prettier Markdown,
   `git diff --check` và required checks của PR tài liệu trước auto-merge.

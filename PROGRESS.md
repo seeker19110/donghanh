@@ -173,7 +173,8 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
   screen reader/thiết bị thật; S04 còn thiếu zoom/microphone thật. S05 Draft sau audit design
   [#1138](https://github.com/seeker19110/donghanh/pull/1138); S06/S07 partial theo
   [audit S06](docs/research/2026-09-23-s06-follow-up-approval-audit.md) và
-  [audit S07](docs/research/2026-09-23-s07-followup-evidence-gap.md). S09 Draft do B1 còn mở
+  [audit S07](docs/research/2026-09-23-s07-followup-evidence-gap.md); #1142 đang mở, báo cáo
+  một ca Chrome 200% ba theme trên sheet Vật lí, chưa đủ ma trận S07. S09 Draft do B1 còn mở
   dù B2/B3 đã có contract. S10 chờ chuyên gia rà mẫu, S12 chờ pilot ngày 7/14.
   Bước tiếp theo: audit/điều kiện duyệt S05 và thu bằng chứng accessibility còn thiếu;
   xem trạng thái và giới hạn nghiệm thu trong goal, không coi source merge là goal hoàn tất.
