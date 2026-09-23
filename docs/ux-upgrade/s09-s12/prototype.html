@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>S09 — Prototype điều hướng trong bài</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #fff;
+        --fg: #17202a;
+        --surface: #f0f3f5;
+        --line: #54616b;
+        --focus: #123f8a;
+      }
+      [data-theme='dark'] {
+        color-scheme: dark;
+        --bg: #111820;
+        --fg: #f4f7fa;
+        --surface: #1d2833;
+        --line: #a9bac9;
+        --focus: #9ecbff;
+      }
+      [data-theme='warm'] {
+        --bg: #fff9ec;
+        --fg: #302318;
+        --surface: #f0e7d5;
+        --line: #685741;
+        --focus: #283f80;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font:
+          1rem/1.65 system-ui,
+          sans-serif;
+      }
+      main,
+      header {
+        max-width: 72ch;
+        margin: auto;
+        padding: 1rem;
+      }
+      header {
+        border-bottom: 1px solid var(--line);
+      }
+      a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+      }
+      button,
+      select,
+      input {
+        font: inherit;
+        color: var(--fg);
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: 0.35rem;
+        min-height: 44px;
+        padding: 0.45rem 0.65rem;
+        max-width: 100%;
+      }
+      button,
+      summary,
+      select {
+        cursor: pointer;
+      }
+      a,
+      summary {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+      }
+      :focus {
+        outline: 3px solid var(--focus);
+        outline-offset: 3px;
+      }
+      h1,
+      h2,
+      h3,
+      section {
+        scroll-margin-top: 1rem;
+      }
+      h1 {
+        font-size: 1.8rem;
+        line-height: 1.3;
+      }
+      h2 {
+        font-size: 1.35rem;
+      }
+      section {
+        margin: 2rem 0;
+      }
+      .panel {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        padding: 1rem;
+        border-radius: 0.5rem;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        align-items: center;
+      }
+      label {
+        display: block;
+      }
+      nav ul {
+        list-style: none;
+        padding: 0;
+      }
+      details {
+        margin: 1rem 0;
+        border-top: 1px solid var(--line);
+        padding-top: 0.5rem;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      #draft-note {
+        min-height: 1.65em;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <p>Prototype S09 · dữ liệu minh họa · không gửi/lưu kết quả</p>
+      <div class="controls">
+        <label
+          >Theme review
+          <select id="theme">
+            <option value="light">Sáng</option>
+            <option value="dark">Tối</option>
+            <option value="warm">Ấm</option>
+          </select></label
+        >
+        <button id="open-outline" type="button" aria-expanded="false" aria-controls="outline">
+          Trong bài
+        </button>
+      </div>
+      <nav id="outline" aria-label="Trong bài" hidden>
+        <button id="close-outline" type="button">Đóng mục lục</button>
+        <ul>
+          <li><a href="#ly-thuyet">Lý thuyết</a></li>
+          <li><a href="#vi-du">Ví dụ</a></li>
+          <li><a href="#tu-kiem">Tự kiểm</a></li>
+          <li><a href="#ket-qua">Kết quả</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <h1 id="dau-bai" tabindex="-1">Mệnh đề và phủ định</h1>
+      <p>
+        Bài mẫu: toan10-c1-b1. Nội dung ngắn để review tương tác; không thay LessonProse hoặc giáo
+        trình.
+      </p>
+      <section aria-labelledby="ly-thuyet">
+        <h2 id="ly-thuyet" tabindex="-1">Lý thuyết</h2>
+        <p>
+          Để phủ định “mọi phần tử đều có tính chất P”, ta cần một phần tử không có tính chất P. Phủ
+          định của “lớn hơn” gồm cả trường hợp bằng.
+        </p>
+        <p>
+          Ví dụ, phủ định của x &gt; 3 là x ≤ 3. Việc đổi vị trí trong bài không thay câu trả lời
+          bạn đang thử.
+        </p>
+      </section>
+      <section aria-labelledby="vi-du">
+        <h2 id="vi-du" tabindex="-1">Ví dụ có hướng dẫn</h2>
+        <p>
+          Phủ định “mọi học sinh cao trên 1,60 m” là “có ít nhất một học sinh cao không quá 1,60 m”.
+        </p>
+      </section>
+      <section aria-labelledby="tu-kiem">
+        <h2 id="tu-kiem" tabindex="-1">Tự kiểm</h2>
+        <h3 id="cau-1" tabindex="-1">Câu 1. Phủ định của ∀x ∈ ℝ, x² &gt; 5?</h3>
+        <label for="answer">Câu trả lời thử của bạn</label
+        ><input id="answer" type="text" aria-describedby="draft-note" />
+        <p id="draft-note">Nháp trong lần mở prototype này; tải lại sẽ mất. Không chấm hoặc lưu.</p>
+        <a href="#ket-qua">Xem kết quả minh họa</a>
+      </section>
+      <section class="panel" aria-labelledby="ket-qua">
+        <h2 id="ket-qua" tabindex="-1">Kết quả minh họa</h2>
+        <label for="status">Chọn trạng thái cần review</label>
+        <select id="status">
+          <option value="passed">passed — server xác nhận đạt</option>
+          <option value="failed">failed — chưa đạt</option>
+          <option value="pending">pending — chờ gửi</option>
+          <option value="local">local — trên máy</option>
+          <option value="error">error — bị từ chối</option>
+        </select>
+        <p id="summary" role="status" aria-live="polite"></p>
+        <p id="threshold" hidden>Cần đúng từ 80% số câu trở lên.</p>
+        <p id="action-note">Các số dưới đây là fixture, không được tính từ ô nhập phía trên.</p>
+        <div id="wrong-result" hidden>
+          <a href="#cau-1">Tự thử lại câu 1</a>
+          <details>
+            <summary>Câu 1 — xem nguyên nhân cần sửa</summary>
+            <p>
+              Bạn chọn ∃x ∈ ℝ, x² &lt; 5. Phủ định của &gt; cần giữ cả dấu bằng: ≤. Hãy thử kiểm
+              trường hợp x² = 5.
+            </p>
+          </details>
+        </div>
+        <p id="first-correct" hidden>
+          Câu 1 đúng: bạn chọn ∃x ∈ ℝ, x² ≤ 5, đã đổi lượng từ và giữ trường hợp bằng.
+        </p>
+        <details>
+          <summary id="correct-label">Câu đúng — xem chi tiết</summary>
+          <p>
+            Bạn đã phân biệt điều kiện đủ và điều kiện cần theo chiều kéo theo trong câu minh họa.
+          </p>
+        </details>
+      </section>
+      <p>
+        “Làm lại” tạo attempt mới và “gửi lại” giữ attempt cũ sẽ do caller thật xử lý sau review
+        contract. Prototype chỉ điều hướng và đổi fixture.
+      </p>
+    </main>
+    <script>
+      const outline = document.getElementById('outline')
+      const opener = document.getElementById('open-outline')
+      function closeOutline(restoreFocus) {
+        outline.hidden = true
+        opener.setAttribute('aria-expanded', 'false')
+        if (restoreFocus) opener.focus()
+      }
+      opener.addEventListener('click', () => {
+        const opening = outline.hidden
+        outline.hidden = !opening
+        opener.setAttribute('aria-expanded', String(opening))
+        if (opening) outline.querySelector('a').focus()
+      })
+      document.getElementById('close-outline').addEventListener('click', () => closeOutline(true))
+      outline.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeOutline(true)
+      })
+      function jump() {
+        let id = 'dau-bai'
+        try {
+          id = decodeURIComponent(location.hash.slice(1)) || id
+        } catch {
+          /* malformed hash falls back */
+        }
+        const target = document.getElementById(id)
+        const heading =
+          target && /^H[1-3]$/.test(target.tagName) ? target : document.getElementById('dau-bai')
+        closeOutline(false)
+        heading.focus({ preventScroll: true })
+        heading.scrollIntoView({ block: 'start' })
+      }
+      document.querySelectorAll('a[href^="#"]').forEach((link) =>
+        link.addEventListener('click', () => {
+          if (link.hash === location.hash) jump()
+        }),
+      )
+      window.addEventListener('hashchange', jump)
+      document.getElementById('theme').addEventListener('change', (event) => {
+        document.documentElement.dataset.theme = event.target.value
+      })
+      const summaries = {
+        passed: 'Đúng 2/2 câu. Đã hoàn thành bài này.',
+        failed: 'Đúng 1/2 câu. Chưa đạt.',
+        pending: 'Đúng 1/2 câu. Đã lưu trên máy này, sẽ gửi lại.',
+        local: 'Đúng 1/2 câu. Chưa đạt — kết quả ghi trên máy này.',
+        error:
+          'Không gửi được kết quả: máy chủ từ chối lượt nộp này. Phần đúng/sai từng câu vẫn xem được.',
+      }
+      function showStatus() {
+        const state = document.getElementById('status').value
+        document.getElementById('summary').textContent = summaries[state]
+        document.getElementById('threshold').hidden = state === 'passed' || state === 'error'
+        document.getElementById('wrong-result').hidden = state === 'passed'
+        document.getElementById('first-correct').hidden = state !== 'passed'
+        document.getElementById('correct-label').textContent =
+          state === 'passed' ? 'Hai câu đúng — xem chi tiết' : 'Câu 2 đúng — xem chi tiết'
+      }
+      document.getElementById('status').addEventListener('change', showStatus)
+      showStatus()
+      if (location.hash) jump()
+    </script>
+  </body>
+</html>

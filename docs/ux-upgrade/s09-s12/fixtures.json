@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "baseSha": "f07820aa",
+  "fixtures": [
+    {
+      "subjectId": "mathematics",
+      "contentId": "toan10-c1-b1",
+      "questionIndex": 0,
+      "anchor": "cau-1",
+      "source": "packages/subject-math/lessons/toan10c1.ts",
+      "status": "source-verified-not-ui-tested"
+    },
+    {
+      "subjectId": "physics",
+      "contentId": "ly10-c1-b1",
+      "questionIndex": 0,
+      "anchor": "cau-1",
+      "source": "packages/subject-physics/lessons/ly10c1.ts",
+      "status": "source-verified-not-ui-tested"
+    },
+    {
+      "subjectId": "chemistry",
+      "contentId": "hoa10-c1-b1",
+      "questionIndex": 0,
+      "anchor": "cau-1",
+      "source": "packages/subject-chemistry/lessons/hoa10c1.ts",
+      "status": "source-verified-not-ui-tested"
+    },
+    {
+      "subjectId": "biology",
+      "contentId": "sinh10-c1-b1",
+      "questionIndex": 0,
+      "anchor": "cau-1",
+      "source": "packages/subject-biology/lessons/sinh10c1.ts",
+      "status": "source-verified-not-ui-tested"
+    },
+    {
+      "subjectId": "english",
+      "contentId": 1,
+      "source": "apps/dhcb/src/data/lessons.json",
+      "section": "turns",
+      "anchor": null,
+      "status": "source-verified-no-question-anchor"
+    },
+    {
+      "subjectId": "programming",
+      "contentId": "p1-u1-l1",
+      "source": "packages/subject-programming/lessons/p1u1.ts",
+      "section": "predict/parsons",
+      "anchor": null,
+      "status": "source-verified-anchor-needs-caller-review"
+    }
+  ]
+}
