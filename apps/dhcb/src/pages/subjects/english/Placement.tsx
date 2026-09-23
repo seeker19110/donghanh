@@ -16,7 +16,7 @@ import { getStoredToken } from '@core/authHeader'
 // ──────────────────────────────────────────────────────────────────────
 
 import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import { GraduationCap, ArrowLeft, Sparkles, RotateCcw } from 'lucide-react'
@@ -86,6 +86,14 @@ function PlacementSession() {
   const [loading, setLoading] = useState(false)
   const [loadError, setLoadError] = useState(false)
   const [roundToLoad, setRoundToLoad] = useState<CefrId>(PLACEMENT_START)
+  const steps = useMemo(
+    () => ({ questions, picked: new Set<number>(), advanced: new Set<number>() }),
+    [questions],
+  )
+  const resultHeading = useRef<HTMLHeadingElement>(null)
+  useEffect(() => {
+    if (phase === 'result') resultHeading.current?.focus()
+  }, [phase])
   const requestId = useRef(0)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(false)
@@ -153,12 +161,36 @@ function PlacementSession() {
   }
 
   function pick(opt: string) {
-    if (selected === null) setSelected(opt)
+    const q = questions?.[current]
+    if (
+      phase !== 'testing' ||
+      loading ||
+      loadError ||
+      !q ||
+      selected !== null ||
+      steps.picked.has(current) ||
+      steps.advanced.has(current) ||
+      !q.options.includes(opt)
+    )
+      return
+    steps.picked.add(current)
+    setSelected(opt)
   }
 
   function next() {
-    if (!questions || !levelObj) return
+    if (
+      phase !== 'testing' ||
+      loading ||
+      loadError ||
+      !questions ||
+      !levelObj ||
+      selected === null ||
+      steps.advanced.has(current)
+    )
+      return
     const q = questions[current]
+    if (!q) return
+    steps.advanced.add(current)
     const ok = selected === q?.correct
     const newAnswers = [...answers, ok]
     setAnswers(newAnswers)
@@ -330,9 +362,9 @@ function PlacementSession() {
             <p className="text-sm text-zinc-400">
               {isA ? 'Trình độ đề xuất của bạn:' : 'Your suggested level:'}
             </p>
-            <p className="text-3xl font-bold text-white">
+            <h2 ref={resultHeading} tabIndex={-1} className="text-3xl font-bold text-white">
               {isA ? CEFR_LABEL[result.cefr].vi : CEFR_LABEL[result.cefr].en}
-            </p>
+            </h2>
             {saveError && (
               <p role="alert" className="text-sm text-content leading-relaxed">
                 {isA

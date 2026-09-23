@@ -21,13 +21,32 @@ import { useEffect } from 'react'
 
 /** Phần tử đang lấy nét có phải nơi người dùng đang GÕ CHỮ không. */
 function isTypingTarget(target: EventTarget | null): boolean {
-  if (!(target instanceof HTMLElement)) return false
-  const tag = target.tagName
+  if (!(target instanceof Element)) return false
   // Nếu người học đang gõ vào ô nhập (bài điền từ, ô chat, ô tìm kiếm) thì phím số là nội dung
   // họ muốn gõ, không phải lệnh chọn đáp án. Bỏ qua bước này là lỗi kinh điển của phím tắt
   // toàn trang: gõ "1" vào ô tìm kiếm lại nhảy sang câu khác.
   return (
-    tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target.isContentEditable === true
+    !!target.closest('input, textarea, select, [role="textbox"], [role="combobox"]') ||
+    (target instanceof HTMLElement && target.isContentEditable) ||
+    !!target.closest('[contenteditable]:not([contenteditable="false"])')
+  )
+}
+
+// Enter/Space thuộc control đang focus, kể cả khi target là icon/con bên trong.
+// Không áp dụng cho phím số: người học vẫn chọn đáp án bằng số khi focus ở button.
+const INTERACTIVE_TARGET =
+  'button, a[href], area[href], summary, input, textarea, select, audio[controls], video[controls], ' +
+  '[tabindex]:not([tabindex="-1"]), [role="button"], [role="link"], [role="checkbox"], ' +
+  '[role="radio"], [role="switch"], [role="tab"], [role="menuitem"], ' +
+  '[role="menuitemcheckbox"], [role="menuitemradio"], [role="slider"], ' +
+  '[role="spinbutton"], [role="listbox"], [role="option"], [role="treeitem"]'
+
+function hasOpenModal(): boolean {
+  return Array.from(document.querySelectorAll('dialog[open], [aria-modal="true"]')).some(
+    (modal) =>
+      !modal.closest('[hidden], [inert], [aria-hidden="true"]') &&
+      getComputedStyle(modal).display !== 'none' &&
+      getComputedStyle(modal).visibility !== 'hidden',
   )
 }
 
@@ -36,7 +55,7 @@ export type QuizKeyAction = { kind: 'pick'; index: number } | { kind: 'next' } |
 
 export interface QuizKeyInput {
   key: string
-  /** Có phím bổ trợ nào đang giữ không (Ctrl/Cmd/Alt). */
+  /** Có phím bổ trợ nào đang giữ không (Ctrl/Cmd/Alt/Shift). */
   modified: boolean
   /** Con trỏ đang nằm trong ô nhập chữ. */
   typing: boolean
@@ -97,10 +116,19 @@ export function useQuizKeyboard({
     if (!enabled) return
 
     function handle(event: KeyboardEvent) {
+      if (event.repeat || event.defaultPrevented || event.isComposing || hasOpenModal()) return
+      const target = event.composedPath().find((node) => node instanceof Element) ?? event.target
+      if (
+        (event.key === 'Enter' || event.key === ' ') &&
+        target instanceof Element &&
+        target.closest(INTERACTIVE_TARGET)
+      )
+        return
+
       const action = resolveQuizKey({
         key: event.key,
-        modified: event.ctrlKey || event.metaKey || event.altKey,
-        typing: isTypingTarget(event.target),
+        modified: event.ctrlKey || event.metaKey || event.altKey || event.shiftKey,
+        typing: isTypingTarget(target),
         answered,
         optionCount,
       })

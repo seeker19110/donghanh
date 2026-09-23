@@ -1,7 +1,7 @@
 // apps/dhcb/src/components/studyTabs/ListeningTab.tsx — tách từ components/StudyTabs.tsx (2.071 dòng) ngày 2026-09-06, mã GIỮ NGUYÊN.
 // Barrel `components/StudyTabs.tsx` re-export nên nơi dùng không đổi đường import.
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { RotateCcw, ChevronRight, Home, Volume2, Headphones, Keyboard } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import type { DictEntry } from '../../types'
@@ -50,6 +50,25 @@ function MeaningPractice({
   const [answers, setAnswers] = useState<boolean[]>([])
   const [done, setDone] = useState(false)
 
+  const [attempt, setAttempt] = useState(0)
+  const steps = useMemo(
+    () => ({ attempt, picked: new Set<number>(), advanced: new Set<number>() }),
+    [attempt],
+  )
+  const resultHeading = useRef<HTMLHeadingElement>(null)
+  const questionContainer = useRef<HTMLDivElement>(null)
+  const restartFocus = useRef(false)
+  useEffect(() => {
+    if (done) resultHeading.current?.focus()
+    else if (restartFocus.current) {
+      const heading = questionContainer.current?.querySelector<HTMLElement>('h2[tabindex="-1"]')
+      if (heading) {
+        restartFocus.current = false
+        heading.focus()
+      }
+    }
+  }, [done, attempt])
+
   const q = questions[current]
 
   // Tự phát audio khi vào câu mới (tốc độ gợi ý theo cấp); dừng khi rời màn.
@@ -76,7 +95,14 @@ function MeaningPractice({
   const pct = Math.round((score / questions.length) * 100)
 
   function pick(opt: string) {
-    if (selected === null) {
+    if (
+      !done &&
+      selected === null &&
+      !steps.picked.has(current) &&
+      !steps.advanced.has(current) &&
+      q?.options.includes(opt)
+    ) {
+      steps.picked.add(current)
       setSelected(opt)
       if (opt === q?.correct) {
         haptics.success()
@@ -89,7 +115,8 @@ function MeaningPractice({
   }
 
   function next() {
-    if (!q) return
+    if (done || !q || selected === null || steps.advanced.has(current)) return
+    steps.advanced.add(current)
     const newAnswers = [...answers, selected === q.correct]
     setAnswers(newAnswers)
     if (current + 1 >= questions.length) setDone(true)
@@ -100,6 +127,8 @@ function MeaningPractice({
   }
 
   function restart() {
+    restartFocus.current = true
+    setAttempt((a) => a + 1)
     setCurrent(0)
     setSelected(null)
     setAnswers([])
@@ -119,9 +148,9 @@ function MeaningPractice({
       <div className="animate-fade-in space-y-4">
         <div className="glass rounded-xl p-8 text-center space-y-2">
           <p className="text-4xl">{grade.emoji}</p>
-          <p className="text-2xl font-bold text-white">
+          <h2 ref={resultHeading} tabIndex={-1} className="text-2xl font-bold text-white">
             {score}/{questions.length}
-          </p>
+          </h2>
           <p className="text-zinc-400">{grade.label}</p>
           <div className="h-2 bg-zinc-800 rounded-full overflow-hidden mt-3">
             <div
@@ -150,7 +179,7 @@ function MeaningPractice({
   }
 
   return (
-    <div className="animate-fade-in space-y-4">
+    <div ref={questionContainer} className="animate-fade-in space-y-4">
       <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
         <div
           className="h-full bg-sky-500 rounded-full transition-all"

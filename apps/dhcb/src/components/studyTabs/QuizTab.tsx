@@ -1,7 +1,7 @@
 // apps/dhcb/src/components/studyTabs/QuizTab.tsx — tách từ components/StudyTabs.tsx (2.071 dòng) ngày 2026-09-06, mã GIỮ NGUYÊN.
 // Barrel `components/StudyTabs.tsx` re-export nên nơi dùng không đổi đường import.
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useId, useRef } from 'react'
 import { RotateCcw, ChevronRight, Home } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useQuizKeyboard } from '@dhcb/core-ui/useQuizKeyboard'
@@ -52,6 +52,20 @@ export function QuizTab({
   const [selected, setSelected] = useState<string | null>(restored?.selected ?? null)
   const [answers, setAnswers] = useState<boolean[]>(restored?.answers ?? [])
   const [done, setDone] = useState(false)
+  const [announcement, setAnnouncement] = useState('')
+  const questionId = useId()
+  const questionHeading = useRef<HTMLHeadingElement>(null)
+  const resultHeading = useRef<HTMLHeadingElement>(null)
+  const optionButtons = useRef<(HTMLButtonElement | null)[]>([])
+  const focusAfterStep = useRef(false)
+  const selectedNow = useRef<string | null>(restored?.selected ?? null)
+  const advancedStep = useRef<number | null>(null)
+
+  useEffect(() => {
+    if (!focusAfterStep.current) return
+    ;(done ? resultHeading : questionHeading).current?.focus()
+    focusAfterStep.current = false
+  }, [current, done])
 
   // Ghi lại phiên sau mỗi thay đổi. Làm xong cả bài thì XOÁ: giữ lại sẽ khiến lần vào sau bị
   // ném thẳng vào màn kết quả cũ thay vì được làm một bài mới.
@@ -70,7 +84,10 @@ export function QuizTab({
     optionCount: questions[current]?.options.length ?? 0,
     onPick: (i) => {
       const opt = questions[current]?.options[i]
-      if (opt !== undefined) pick(opt)
+      if (opt !== undefined) {
+        optionButtons.current[i]?.focus()
+        pick(opt)
+      }
     },
     onNext: () => next(),
     answered: selected !== null,
@@ -95,8 +112,18 @@ export function QuizTab({
   const pct = Math.round((score / questions.length) * 100)
 
   function pick(opt: string) {
-    if (selected === null) {
+    if (!done && selectedNow.current === null && q?.options.includes(opt)) {
+      selectedNow.current = opt
       setSelected(opt)
+      setAnnouncement(
+        opt === q.correct
+          ? isA
+            ? `Đúng. Bạn đã chọn ${opt}.`
+            : `Correct. You chose ${opt}.`
+          : isA
+            ? `Chưa đúng. Bạn đã chọn ${opt}. Đáp án đúng: ${q.correct}.`
+            : `Not correct. You chose ${opt}. Correct answer: ${q.correct}.`,
+      )
       if (opt === q?.correct) {
         haptics.success()
         sound.correct()
@@ -108,8 +135,11 @@ export function QuizTab({
   }
 
   function next() {
-    if (!q) return
-    const ok = selected === q.correct
+    if (!q || done || selectedNow.current === null || advancedStep.current === current) return
+    advancedStep.current = current
+    focusAfterStep.current = true
+    setAnnouncement('')
+    const ok = selectedNow.current === q.correct
     const newAnswers = [...answers, ok]
     setAnswers(newAnswers)
     if (q.kind === 'grammar' && q.lessonId) {
@@ -124,6 +154,7 @@ export function QuizTab({
       }
       setDone(true)
     } else {
+      selectedNow.current = null
       setCurrent((c) => c + 1)
       setSelected(null)
     }
@@ -131,6 +162,10 @@ export function QuizTab({
 
   function restart() {
     clearQuizSession(uid, sessionScope)
+    selectedNow.current = null
+    advancedStep.current = null
+    focusAfterStep.current = true
+    setAnnouncement('')
     setCurrent(0)
     setSelected(null)
     setAnswers([])
@@ -154,9 +189,9 @@ export function QuizTab({
       <div className="animate-fade-in space-y-4">
         <div className="glass rounded-xl p-8 text-center space-y-2">
           <p className="text-4xl">{grade.emoji}</p>
-          <p className="text-2xl font-bold text-white">
+          <h2 ref={resultHeading} tabIndex={-1} className="text-2xl font-bold text-white">
             {score}/{questions.length}
-          </p>
+          </h2>
           <p className="text-zinc-400">{grade.label}</p>
           <div className="h-2 bg-zinc-800 rounded-full overflow-hidden mt-3">
             <div
@@ -178,9 +213,16 @@ export function QuizTab({
               key={i}
               className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm ${answers[i] ? 'bg-accent-500/10 text-accent-300' : 'bg-rose-500/10 text-rose-300 theme-light:text-rose-900'}`}
             >
-              <span>{answers[i] ? '✓' : '✗'}</span>
-              <span className="font-medium truncate">{qq.prompt}</span>
-              <span className="text-zinc-400 flex-1 truncate">= {qq.correct}</span>
+              <span aria-hidden="true">{answers[i] ? '✓' : '✗'}</span>
+              <span className="min-w-0 flex-1 break-words">
+                <span className="font-medium">
+                  {answers[i] ? (isA ? 'Đúng' : 'Correct') : isA ? 'Chưa đúng' : 'Not correct'}:{' '}
+                  {qq.prompt}
+                </span>
+                <span className="block text-zinc-400 break-words">
+                  {isA ? 'Đáp án' : 'Answer'}: {qq.correct}
+                </span>
+              </span>
               {!answers[i] && qq.kind === 'grammar' && qq.lessonId && (
                 <button
                   onClick={() => onOpenLesson(qq.lessonId!)}
@@ -230,28 +272,54 @@ export function QuizTab({
               : `Q ${current + 1}/${questions.length} — Fill in the blank`}
         </p>
         {q.kind === 'vocab' ? (
-          <p className="text-4xl font-bold text-white">{q.prompt}</p>
+          <h2
+            ref={questionHeading}
+            id={questionId}
+            tabIndex={-1}
+            className="text-4xl font-bold text-white"
+          >
+            <span className="sr-only">
+              {isA ? 'Câu' : 'Question'} {current + 1}.{' '}
+            </span>
+            {q.prompt}
+          </h2>
         ) : (
-          <p className="text-xl font-semibold text-white leading-snug px-2">{q.prompt}</p>
+          <h2
+            ref={questionHeading}
+            id={questionId}
+            tabIndex={-1}
+            className="text-xl font-semibold text-white leading-snug px-2"
+          >
+            <span className="sr-only">
+              {isA ? 'Câu' : 'Question'} {current + 1}.{' '}
+            </span>
+            {q.prompt}
+          </h2>
         )}
       </div>
-      <div className="space-y-2.5">
+      <div role="group" aria-labelledby={questionId} className="space-y-2.5">
         {q.options.map((opt, optIdx) => {
           let cls = 'bg-zinc-900/80 border-zinc-800 text-zinc-300 hover:border-zinc-600'
           if (selected !== null) {
             // Đúng → phồng nhẹ; đáp án sai đã chọn → lắc ngang (đồng bộ mini-quiz)
             if (opt === q.correct)
-              cls = 'bg-accent-500/20 border-accent-500/60 text-accent-300 animate-pop-correct'
+              cls =
+                'bg-accent-500/20 border-accent-500/60 text-accent-300 animate-pop-correct motion-reduce:animate-none'
             else if (opt === selected)
               cls =
-                'bg-rose-500/20 border-rose-500/60 text-rose-300 theme-light:text-rose-900 animate-shake'
+                'bg-rose-500/20 border-rose-500/60 text-rose-300 theme-light:text-rose-900 animate-shake motion-reduce:animate-none'
             else cls = 'bg-zinc-900/40 border-zinc-800/40 text-zinc-400'
           }
           return (
             <button
               key={opt}
+              ref={(node) => {
+                optionButtons.current[optIdx] = node
+              }}
+              aria-pressed={selected === opt}
+              aria-disabled={selected !== null}
               onClick={() => pick(opt)}
-              className={`w-full flex items-center gap-3 text-left px-4 py-3.5 rounded-2xl border font-medium text-[15px] transition-all ${cls}`}
+              className={`w-full flex items-center gap-3 text-left px-4 py-3.5 rounded-2xl border font-medium text-[15px] transition-colors ${cls}`}
             >
               <QuizOptionKey index={optIdx} />
               <span className="min-w-0 flex-1">{opt}</span>
@@ -259,6 +327,16 @@ export function QuizTab({
           )
         })}
       </div>
+      <p aria-live="polite" aria-atomic="true" role="status" className="sr-only">
+        {announcement}
+      </p>
+      {selected !== null && (
+        <p className="text-sm text-zinc-200">
+          {selected === q.correct ? (isA ? 'Đúng' : 'Correct') : isA ? 'Chưa đúng' : 'Not correct'}.{' '}
+          {isA ? 'Bạn đã chọn' : 'You chose'}: {selected}.
+          {selected !== q.correct && ` ${isA ? 'Đáp án đúng' : 'Correct answer'}: ${q.correct}.`}
+        </p>
+      )}
       {selected !== null && (
         <button
           onClick={next}
