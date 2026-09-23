@@ -1,7 +1,7 @@
 # 0420 — Khôi phục bài xếp lớp sau lỗi tải câu hỏi
 
 - Ngày: 2026-09-23.
-- Base: `1d9e247e`; PR chưa tạo, chưa merge/deploy.
+- Base: `1d9e247e`; PR [#1120](https://github.com/seeker19110/donghanh/pull/1120), đặt trên PR tài liệu [#1119](https://github.com/seeker19110/donghanh/pull/1119); chưa merge/deploy.
 - Goal: [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), S01/F1.
 
 ## Thay đổi
@@ -69,3 +69,9 @@ Primary review diff và chịu trách nhiệm full gate tích hợp.
 
 Log lượt mới: `C:/Users/liend/.codex/uiux-implementation/recovery-*.log`.
 Kết quả này bổ sung lịch sử lỗi ở trên, không xóa hoặc biến lượt đã ngắt thành pass.
+
+## PR và CI
+
+Người dùng đã cho phép push/mở PR. Tài liệu ở #1119, source S01 ở #1120 (base #1119).
+Full gate ở trên là kết quả local; CI remote đang chạy cho commit đã push. Metadata
+thiếu hai heading được sửa ở mô tả PR, không hạ gate hoặc giả phê duyệt đặc tả.
