@@ -8,8 +8,8 @@
 //     nhét thẳng vào bundle là mọi trang đều phải gánh.
 //  2. Chấm câu hỏi bằng `gradeAnswer` của @dhcb/core-grading — hàm thuần, tất định, chạy
 //     offline. KHÔNG có AI trong luồng phán đúng/sai (nguyên tắc bất di bất dịch của engine).
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Link, Navigate, useLocation, useParams } from 'react-router-dom'
 import { ArrowLeft, Check, X } from 'lucide-react'
 import { z } from 'zod'
 // Import xuyên gói phải trỏ FILE cụ thể (CLAUDE.md mục 6): không gói `@dhcb/*` nào khai entry
@@ -44,6 +44,7 @@ import { useOutlinePane } from '../../components/useOutlinePane'
 import { LoiTienDo } from '../../components/OutlinePane'
 import OutlinePrevNext from '../../components/OutlinePrevNext'
 import ActivityResult from '../../components/learning/ActivityResult'
+import { neoCauHoi } from '../../lib/mistakeRoutes'
 import { ketQuaSangManHinh } from '../../lib/stemResultView'
 import { useStemCompletionState } from '../../lib/useStemCompletionState'
 import { useIsDesktopViewport } from '../../lib/useIsDesktopViewport'
@@ -89,7 +90,7 @@ function CauHoi({
 
   return (
     <li className="rounded-xl border border-line-subtle bg-surface-card p-4">
-      <p className="font-medium text-content">
+      <p id={neoCauHoi(thuTu - 1)} tabIndex={-1} className="scroll-mt-24 font-medium text-content">
         Câu {thuTu}. {cau.prompt}
       </p>
 
@@ -345,6 +346,8 @@ function TuKiemTra({
 }
 
 export default function StemLessonView() {
+  const { hash } = useLocation()
+  const articleRef = useRef<HTMLElement>(null)
   const { subjectId, lessonSlug } = useParams<{ subjectId: string; lessonSlug: string }>()
   const subject = getStemSubject(subjectId)
   const lessonId = maBaiTuUrl(lessonSlug)
@@ -380,6 +383,17 @@ export default function StemLessonView() {
   const daTaiXong = ketQua?.id === lessonId
   const bai = daTaiXong ? ketQua.bai : null
   const trangThai = !daTaiXong ? 'dang-tai' : ketQua.loi ? 'loi' : 'xong'
+
+  // Sổ lỗi đã xuất #cau-N; đợi bài nạp lười dựng đích rồi mới cuộn/focus.
+  // Chỉ đọc DOM: đổi hash không reset nháp, chấm lại hoặc sinh lượt nộp.
+  useEffect(() => {
+    if (!bai || !hash.startsWith('#cau-') || !articleRef.current) return
+    const article = articleRef.current
+    const question = /^#cau-[1-9]\d*$/.test(hash) ? article.querySelector<HTMLElement>(hash) : null
+    const target = question ?? article.querySelector('h1')
+    target?.focus({ preventScroll: true })
+    target?.scrollIntoView({ block: 'start', behavior: 'instant' })
+  }, [bai, hash])
 
   // Mục lục môn (S07-2). Dựng từ CHỈ MỤC (`tomTat`), không chờ nội dung bài tải xong — nhờ
   // vậy cột trái có ngay từ khung hình đầu và không gây nhảy layout khi bài về.
@@ -443,7 +457,7 @@ export default function StemLessonView() {
             // `read-measure` (index.css): bó CẢ cột bài học vào khoảng đọc, thay vì rắc lên
             // từng thẻ `<p>`. Đo bằng cổng AC-3 trước khi sửa (2026-09-16): 92 ký tự/dòng ở
             // 768px và 97 ở 1440px — gần gấp rưỡi khoảng 60–75 mà spec nền chốt.
-            <article className="mt-4 read-measure">
+            <article ref={articleRef} className="mt-4 read-measure">
               <p className="text-content-muted">
                 {bai.track === 'advanced'
                   ? `Chuyên đề bồi dưỡng học sinh giỏi · ${nhanCapHsg(bai.advancedTier)}`
@@ -453,7 +467,7 @@ export default function StemLessonView() {
                 bằng mã lệnh — panel mục lục mobile đóng xong sẽ focus đúng vào đây. */}
               <h1
                 tabIndex={-1}
-                className="mt-1 text-2xl sm:text-3xl font-extrabold text-content focus:outline-none"
+                className="mt-1 scroll-mt-24 text-2xl sm:text-3xl font-extrabold text-content"
               >
                 {bai.title}
               </h1>
