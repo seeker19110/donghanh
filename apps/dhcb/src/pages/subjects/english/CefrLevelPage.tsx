@@ -891,7 +891,7 @@ export default function CefrLevelPage() {
 
       {/* Thanh tab học của cấp — ẩn khi cấp còn khóa */}
       {!locked && (
-        <div className="grid grid-cols-6 gap-1.5 mb-4">
+        <div className="grid grid-cols-3 min-[340px]:grid-cols-6 gap-1.5 mb-4">
           {TABS.map(({ key, icon: Icon, labelA, labelB, badge, active, inactive }) => (
             <button
               key={key}
