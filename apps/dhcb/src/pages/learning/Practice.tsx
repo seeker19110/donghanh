@@ -161,7 +161,7 @@ export default function Practice() {
       ],
       fillblank: [
         isUiVi ? 'Điền từ trắc nghiệm' : 'Fill in the blank',
-        isUiVi ? 'Chọn từ đúng cho câu' : 'Pick the right word',
+        isUiVi ? 'Khôi phục câu ví dụ đã học' : 'Restore the example sentence you learned',
       ],
       'pronounce-words': [
         isUiVi ? 'Chấm phát âm từ vựng' : 'Word pronunciation',
@@ -686,8 +686,8 @@ export default function Practice() {
                 </p>
                 <p className="text-[11px] text-zinc-400 truncate">
                   {isUiVi
-                    ? 'Chọn từ chính xác để hoàn chỉnh câu'
-                    : 'Choose the word that completes the sentence'}
+                    ? 'Khôi phục câu ví dụ đã học'
+                    : 'Restore the example sentence you learned'}
                 </p>
               </div>
               <ChevronRight className="w-4 h-4 text-zinc-500 shrink-0" />
