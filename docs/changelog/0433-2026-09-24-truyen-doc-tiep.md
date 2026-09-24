@@ -1,6 +1,6 @@
 # "Đọc tiếp" cho Truyện — nhớ truyện đang đọc dở
 
-- **Ngày:** 2026-09-24 · **PR:** (điền số sau khi tạo PR)
+- **Ngày:** 2026-09-24 · **PR:** #1158
 - **Đặc tả:** [docs/specs/2026-09-24-truyen-doc-tiep.md](../specs/2026-09-24-truyen-doc-tiep.md)
   (tự viết cho việc giao trực tiếp trong phiên, Approved for implementation)
 - **Trả nợ:** `PROGRESS.md`, audit UI/UX lần 2 (`0419-*`) — ""Đọc tiếp" ở Truyện cần cơ chế lưu

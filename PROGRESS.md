@@ -1055,7 +1055,7 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   6 commit, cùng PR)** — Luyện nghe 74.309 → 2.159px, Truyện 17.456 → 2.009px, VIP nói bằng lợi
   ích. Còn mở: P2-5 theme `kid` chỉ đổi màu (câu hỏi sản phẩm); thuật ngữ sót ở EdgeAiIndicator /
   MemoryPalaceCard / CyberTutorAvatar3D; ~~"Đọc tiếp" ở Truyện~~ ĐÃ LÀM 2026-09-24
-  (`docs/changelog/0433-*.md`, PR đợt 0433 — lưu đoạn đang đọc ở localStorage, chưa đồng bộ
+  (`docs/changelog/0433-*.md`, PR #1158 — lưu đoạn đang đọc ở localStorage, chưa đồng bộ
   đa thiết bị);
   `e2e/home-clarity-evidence.spec.ts:660` đỏ ngẫu nhiên ~1/3 lượt ở ca CLS 0,103 (đã đỏ y hệt
   trên `main` gốc 0d1d6bf — Tầng 1b, cần làm test ổn định, không phải hồi quy).**
