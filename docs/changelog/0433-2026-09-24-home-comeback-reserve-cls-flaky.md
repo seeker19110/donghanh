@@ -56,9 +56,29 @@ CI ghi nhận. Không có gì "ngẫu nhiên" trong giao diện — chỉ có th
 - Unit: `vitest run apps/dhcb/src/components/Home apps/dhcb/src/pages/core/Home.test.tsx` 7 file /
   83 test xanh; `npm run typecheck` · `npm run lint` thoát 0.
 
-## Còn mở (góp ý, ngoài phạm vi)
+## Cập nhật cùng ngày: đóng nợ ca 320px
 
-- `TodayCard` (+72px khi có 2 việc phụ) và `WeekRhythm` (+30px khi nhiệm vụ về) vẫn là hai shift
-  thật nhỏ ở mọi trạng thái member. Đủ xa ngưỡng nên không đỏ test, nhưng muốn CLS ≈ 0 thì cần dự
-  trữ theo số việc phụ dự đoán được từ dữ liệu đồng bộ, và giữ chỗ cho dòng nhiệm vụ khi đã đăng nhập.
-- Ở 320px cột chữ còn hẹp hơn nữa — sàn 219px có thể lại thiếu. Test chưa có ca comeback 320px.
+Đo trực tiếp (script tạm gắn `getBoundingClientRect` trên khối reserve, không đoán) ở 6 bề rộng
+320/340/350/360/375/390px cho ra đúng **ba bậc**, không phải một đường dốc:
+
+| Bề rộng   | Chiều cao nội dung thật | Số dòng lead+detail |
+| --------- | ----------------------: | ------------------- |
+| < 340px   |                   287px | 4 + 4               |
+| 340–359px |                   242px | 3 + 4 (lệch)        |
+| ≥ 360px   |          219px (như cũ) | 3 + 3               |
+
+Sàn cũ (219px cố định cho mọi mobile) để 320px thiếu 68px: CLS đo được 0,072–0,084 — dưới ngưỡng
+0,1 nhưng đủ gần để một máy chậm/CI đẩy qua. Đây đúng nợ đã ghi "còn mở" ở trên.
+
+**Đã sửa:** `apps/dhcb/src/components/Home/HomeAiBriefingCard.tsx` đổi sàn mobile từ một hằng số
+sang 3 breakpoint Tailwind cố định trong một chuỗi (không ghép động, để Tailwind quét được class):
+`min-h-[287px] min-[340px]:min-h-[242px] min-[360px]:min-h-[219px]`.
+`e2e/home-clarity-evidence.spec.ts` thêm ca comeback ở 320/340/390px (ba đại diện ba bậc).
+`HomeAiBriefingCard.test.tsx` thêm ca kiểm cả 3 class breakpoint có mặt.
+
+**Bằng chứng sau sửa:** 320/340/390px mỗi bề rộng 5 lần lặp, **15/15 xanh**, CLS 0,019–0,030 (so
+với 0,072–0,084 ở 320px trước sửa). Cả file spec 7/7 xanh (2,1 phút). Unit `Home/` 6 file / 71
+test xanh. `npm run typecheck` · lint (3 file đã sửa) thoát 0.
+
+`TodayCard` (+72px khi có 2 việc phụ) và `WeekRhythm` (+30px khi nhiệm vụ về) vẫn là hai shift
+thật nhỏ ở mọi trạng thái member, đủ xa ngưỡng nên không đỏ test — để ngoài phạm vi đợt này.

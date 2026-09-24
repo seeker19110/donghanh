@@ -95,6 +95,17 @@ describe('HomeAiBriefingCard — thẻ AI tập trung (đợt C)', () => {
     expect(reserve?.className).not.toContain('min-h-[173px]')
   })
 
+  // Cột chữ càng hẹp càng nhiều dòng: đo thật <340px = 287px, 340–359px = 242px (E2E canh CLS
+  // ở 320/340/390). Sàn nhỏ nhất phải là bậc hẹp nhất vì mobile-first.
+  it('candidate comeback mobile có sàn theo bậc bề rộng cho màn 320px và 340px', async () => {
+    fetchBriefing.mockReturnValue(new Promise(() => {}))
+    const el = await render({ isDesktop: false, reserveComeback: true })
+    const cls = el.querySelector('[aria-label="Đang tải bản tin"]')?.parentElement?.className ?? ''
+    expect(cls).toMatch(/(^|\s)min-h-\[287px\](\s|$)/)
+    expect(cls).toContain('min-[340px]:min-h-[242px]')
+    expect(cls).toContain('min-[360px]:min-h-[219px]')
+  })
+
   it('candidate comeback desktop giữ reserve 173px (cột chữ rộng, lead + detail hai dòng)', async () => {
     fetchBriefing.mockReturnValue(new Promise(() => {}))
     const el = await render({ isDesktop: true, reserveComeback: true })
