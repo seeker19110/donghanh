@@ -9,7 +9,14 @@
 //  2. Chấm câu hỏi bằng `gradeAnswer` của @dhcb/core-grading — hàm thuần, tất định, chạy
 //     offline. KHÔNG có AI trong luồng phán đúng/sai (nguyên tắc bất di bất dịch của engine).
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Link, Navigate, useLocation, useParams } from 'react-router-dom'
+import {
+  Link,
+  Navigate,
+  useLocation,
+  useNavigate,
+  useNavigationType,
+  useParams,
+} from 'react-router-dom'
 import { ArrowLeft, Check, X } from 'lucide-react'
 import { z } from 'zod'
 // Import xuyên gói phải trỏ FILE cụ thể (CLAUDE.md mục 6): không gói `@dhcb/*` nào khai entry
@@ -45,6 +52,13 @@ import { LoiTienDo } from '../../components/OutlinePane'
 import OutlinePrevNext from '../../components/OutlinePrevNext'
 import ActivityResult from '../../components/learning/ActivityResult'
 import { neoCauHoi } from '../../lib/mistakeRoutes'
+import {
+  giaiNeoTrongBai,
+  mucTrongBai,
+  NEO_TRONG_BAI,
+  type CauTrucBai,
+} from '../../lib/stemLessonAnchors'
+import TrongBaiNav from '../../components/learning/TrongBaiNav'
 import { ketQuaSangManHinh } from '../../lib/stemResultView'
 import { useStemCompletionState } from '../../lib/useStemCompletionState'
 import { useIsDesktopViewport } from '../../lib/useIsDesktopViewport'
@@ -176,9 +190,12 @@ function TuKiemTra({
   subjectId,
   nextHref,
   onSubmitted,
+  onNhay,
 }: {
   bai: StemLessonLike
   subjectId: StemSubjectId
+  /** [S09b] Nhảy tới một neo trong bài (đổi hash + focus) — dùng cho link "về Tự kiểm tra". */
+  onNhay: (id: string) => void
   /** Bài kế tiếp theo cây mục lục — màn kết quả mời đi tiếp thay vì bỏ người học ở đó. */
   nextHref?: string
   /** Nộp xong (bất kể đạt hay chưa) thì mục lục phải đọc lại trạng thái từ nguồn sự thật. */
@@ -333,7 +350,13 @@ function TuKiemTra({
 
   return (
     <>
-      <h2 className="mt-8 text-xl font-bold text-content">Tự kiểm tra</h2>
+      <h2
+        id={NEO_TRONG_BAI.tuKiem}
+        tabIndex={-1}
+        className="mt-8 scroll-mt-24 text-xl font-bold text-content"
+      >
+        Tự kiểm tra
+      </h2>
       {phien.storageMode === 'memory' && (
         <p className="mt-2 text-content-secondary" role="status">
           Trình duyệt đang chặn lưu nháp — rời trang là mất phần đang gõ.
@@ -367,16 +390,46 @@ function TuKiemTra({
           {!daTraLoiHet && (
             <p className="mt-2 text-content-secondary">Trả lời đủ {soCau} câu rồi mới nộp được.</p>
           )}
-          {manKetQua && (
-            <ActivityResult
-              {...manKetQua}
-              passRatio={STEM_CHECK_PASS_RATIO}
-              // Giữ hành vi S11: "Làm lại" chỉ dọn màn kết quả, KHÔNG xoá nháp; lượt nộp sau
-              // sinh attemptId mới (§2.4 — không gắn "Gửi lại" vào đây).
-              onRetry={() => setLuotNop(null)}
-              {...(nextHref ? { nextHref } : {})}
-            />
-          )}
+        </div>
+      )}
+
+      {/* [S09b] Heading `#ket-qua` LUÔN có, để link "Kết quả" trong mục Trong bài không bao giờ
+          rơi vào khoảng không. Chưa nộp (hoặc vừa tải lại trang) thì nói thẳng là chưa có — KHÔNG
+          dựng điểm 0 hay tự nộp để có màn hình; kết quả chỉ đến từ lượt nộp thật (§2.3). */}
+      <h2
+        id={NEO_TRONG_BAI.ketQua}
+        tabIndex={-1}
+        className="mt-8 scroll-mt-24 text-xl font-bold text-content"
+      >
+        Kết quả
+      </h2>
+      {soCau === 0 ? (
+        <p className="mt-2 text-content-secondary">
+          Bài này chưa có câu tự kiểm tra nên không có lượt nộp và không có kết quả.
+        </p>
+      ) : manKetQua ? (
+        <ActivityResult
+          {...manKetQua}
+          passRatio={STEM_CHECK_PASS_RATIO}
+          // Giữ hành vi S11: "Làm lại" chỉ dọn màn kết quả, KHÔNG xoá nháp; lượt nộp sau
+          // sinh attemptId mới (§2.4 — không gắn "Gửi lại" vào đây).
+          onRetry={() => setLuotNop(null)}
+          {...(nextHref ? { nextHref } : {})}
+        />
+      ) : (
+        <div className="mt-2">
+          <p className="text-content-secondary">Chưa có kết quả lượt nộp trong lần mở bài này.</p>
+          <a
+            href={`#${NEO_TRONG_BAI.tuKiem}`}
+            onClick={(e) => {
+              if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+              e.preventDefault()
+              onNhay(NEO_TRONG_BAI.tuKiem)
+            }}
+            className="tap-44 inline-flex items-center font-medium text-content underline underline-offset-4"
+          >
+            Về phần Tự kiểm tra để làm và nộp bài
+          </a>
         </div>
       )}
     </>
@@ -384,7 +437,9 @@ function TuKiemTra({
 }
 
 export default function StemLessonView() {
-  const { hash } = useLocation()
+  const location = useLocation()
+  const { hash } = location
+  const navigate = useNavigate()
   const articleRef = useRef<HTMLElement>(null)
   const { subjectId, lessonSlug } = useParams<{ subjectId: string; lessonSlug: string }>()
   const subject = getStemSubject(subjectId)
@@ -422,16 +477,84 @@ export default function StemLessonView() {
   const bai = daTaiXong ? ketQua.bai : null
   const trangThai = !daTaiXong ? 'dang-tai' : ketQua.loi ? 'loi' : 'xong'
 
-  // Sổ lỗi đã xuất #cau-N; đợi bài nạp lười dựng đích rồi mới cuộn/focus.
-  // Chỉ đọc DOM: đổi hash không reset nháp, chấm lại hoặc sinh lượt nộp.
+  // [S09b] Hình dạng bài → section nào tồn tại. Cùng MỘT nguồn cho danh sách "Trong bài" và bộ
+  // giải hash, nên link trong danh sách không bao giờ trỏ vào section không được vẽ.
+  const cauTruc = useMemo<CauTrucBai | null>(
+    () =>
+      bai
+        ? {
+            soCau: bai.checkQuestions.length,
+            coHoatAnh: Boolean(bai.animation),
+            coTheOn: bai.srsCards.length > 0,
+          }
+        : null,
+    [bai],
+  )
+  const dsMuc = useMemo(() => (cauTruc ? mucTrongBai(cauTruc) : []), [cauTruc])
+
+  // Bấm lại CÙNG đích thì hash không đổi → không có gì để effect bên dưới phản ứng. Bộ đếm này
+  // là tín hiệu "focus lại đích hiện tại" mà KHÔNG thêm history entry.
+  const [lanNhay, setLanNhay] = useState(0)
+  // Hash đã xử lý lần trước, theo bài: phân biệt "mở bài không hash" (giữ nguyên hành vi cũ) với
+  // "Back về entry đầu bài" (trả focus về đầu bài).
+  const hashTruoc = useRef<{ baiId: string; hash: string } | null>(null)
+
+  // Hash ĐANG CHỜ router render (đã push nhưng location chưa kịp đổi). KHÔNG so với
+  // `location.hash` trong closure: router cập nhật location ở một lượt render SAU, có khi còn
+  // commit từng bước (hash cũ rồi mới hash mới), nên bấm nhanh liên tiếp sẽ so với hash CŨ và
+  // đẩy entry trùng — đo được thật ở E2E 1440px (history.length 4 → 5, 1/6 lượt chạy).
+  // Chỉ xoá "đang chờ" khi location tới ĐÚNG hash đó, hoặc khi người dùng Back/Forward (POP).
+  const hashDangCho = useRef<string | null>(null)
+  const kieuDieuHuong = useNavigationType()
   useEffect(() => {
-    if (!bai || !hash.startsWith('#cau-') || !articleRef.current) return
+    if (hashDangCho.current === hash || kieuDieuHuong === 'POP') hashDangCho.current = null
+  }, [hash, kieuDieuHuong])
+
+  /** Chọn một mục: chỉ đổi hash (giữ pathname + query + state), không đụng nháp. */
+  const nhay = useCallback(
+    (id: string) => {
+      const hashMoi = `#${id}`
+      if ((hashDangCho.current ?? location.hash) === hashMoi) {
+        setLanNhay((n) => n + 1)
+        return
+      }
+      hashDangCho.current = hashMoi
+      navigate(
+        { pathname: location.pathname, search: location.search, hash: hashMoi },
+        { state: location.state as unknown },
+      )
+    },
+    [location.hash, location.pathname, location.search, location.state, navigate],
+  )
+
+  // Sổ lỗi xuất #cau-N; mục Trong bài xuất #ly-thuyet… Đợi bài nạp lười dựng xong đích (`bai`
+  // chỉ khác null khi ĐÚNG bài đang xem đã tải) rồi mới focus/cuộn — callback của bài cũ không
+  // thể focus bài mới vì effect chạy lại theo `bai` mới và chỉ tìm trong `<article>` hiện tại.
+  // Chỉ đọc DOM: đổi hash không reset nháp, không chấm lại, không sinh lượt nộp.
+  useEffect(() => {
     const article = articleRef.current
-    const question = /^#cau-[1-9]\d*$/.test(hash) ? article.querySelector<HTMLElement>(hash) : null
-    const target = question ?? article.querySelector('h1')
+    if (!bai || !cauTruc || !article) return
+    const truoc = hashTruoc.current
+    hashTruoc.current = { baiId: bai.id, hash }
+
+    const dich = giaiNeoTrongBai(hash, cauTruc)
+    let target: HTMLElement | null = null
+    if (dich.loai === 'khong') {
+      // Mở bài bình thường (không hash) → giữ hành vi cũ, không cướp focus. Chỉ khi QUAY LẠI
+      // entry không hash trong cùng bài (Back) mới đưa focus về đầu bài.
+      const quayLaiDauBai = truoc?.baiId === bai.id && truoc.hash !== ''
+      if (!quayLaiDauBai) return
+    } else if (dich.loai === 'dich') {
+      // `getElementById` với id đã qua danh sách trắng — không bao giờ dựng CSS selector từ URL.
+      const el = document.getElementById(dich.id)
+      target = el && article.contains(el) ? el : null
+    }
+    target ??= article.querySelector('h1')
     target?.focus({ preventScroll: true })
+    // `instant` cả khi không bật giảm chuyển động: cuộn mượt làm focus và vị trí lệch nhau trong
+    // lúc chạy, và người bật prefers-reduced-motion không bao giờ gặp chuyển động (AC08).
     target?.scrollIntoView({ block: 'start', behavior: 'instant' })
-  }, [bai, hash])
+  }, [bai, cauTruc, hash, lanNhay])
 
   // Mục lục môn (S07-2). Dựng từ CHỈ MỤC (`tomTat`), không chờ nội dung bài tải xong — nhờ
   // vậy cột trái có ngay từ khung hình đầu và không gây nhảy layout khi bài về.
@@ -504,27 +627,49 @@ export default function StemLessonView() {
               {/* `tabIndex={-1}`: không thêm điểm dừng Tab, nhưng cho phép đưa tiêu điểm tới
                 bằng mã lệnh — panel mục lục mobile đóng xong sẽ focus đúng vào đây. */}
               <h1
+                id={NEO_TRONG_BAI.dauBai}
                 tabIndex={-1}
                 className="mt-1 scroll-mt-24 text-2xl sm:text-3xl font-extrabold text-content"
               >
                 {bai.title}
               </h1>
 
+              {/* [S09b] Các PHẦN của bài đang mở — khác "Mục lục môn học" (cây các bài). */}
+              <TrongBaiNav muc={dsMuc} thuGon={!isDesktop} onChon={nhay} />
+
               {bai.reviewStatus === 'draft' && <ChuaDuyetChuyenMon />}
 
               <p className="mt-4 text-content-secondary">{bai.hook}</p>
 
-              <h2 className="mt-8 text-xl font-bold text-content">Lý thuyết</h2>
+              <h2
+                id={NEO_TRONG_BAI.lyThuyet}
+                tabIndex={-1}
+                className="mt-8 scroll-mt-24 text-xl font-bold text-content"
+              >
+                Lý thuyết
+              </h2>
               <p className="mt-2 whitespace-pre-line text-content">{bai.theory}</p>
 
               {bai.animation && (
                 <>
-                  <h2 className="mt-8 text-xl font-bold text-content">Hoạt ảnh minh hoạ</h2>
+                  <h2
+                    id={NEO_TRONG_BAI.hoatAnh}
+                    tabIndex={-1}
+                    className="mt-8 scroll-mt-24 text-xl font-bold text-content"
+                  >
+                    Hoạt ảnh minh hoạ
+                  </h2>
                   <LessonAnimation spec={bai.animation} className="mt-2" />
                 </>
               )}
 
-              <h2 className="mt-8 text-xl font-bold text-content">Ví dụ mẫu</h2>
+              <h2
+                id={NEO_TRONG_BAI.viDu}
+                tabIndex={-1}
+                className="mt-8 scroll-mt-24 text-xl font-bold text-content"
+              >
+                Ví dụ mẫu
+              </h2>
               <p className="mt-2 text-content">{bai.workedExample.problem}</p>
               <ol className="mt-3 list-decimal space-y-2 pl-6 text-content">
                 {bai.workedExample.steps.map((buoc, i) => (
@@ -538,18 +683,32 @@ export default function StemLessonView() {
                 bai={bai}
                 subjectId={subject.id}
                 onSubmitted={tienDo.reload}
+                onNhay={nhay}
                 {...(baiSau ? { nextHref: baiSau } : {})}
               />
 
-              <h2 className="mt-8 text-xl font-bold text-content">Thẻ ôn tập</h2>
-              <dl className="mt-3 space-y-3">
-                {bai.srsCards.map((the, i) => (
-                  <div key={i} className="rounded-xl border border-line-subtle bg-surface-card p-4">
-                    <dt className="font-medium text-content">{the.hoi}</dt>
-                    <dd className="mt-1 text-content-secondary">{the.dap}</dd>
-                  </div>
-                ))}
-              </dl>
+              {bai.srsCards.length > 0 && (
+                <>
+                  <h2
+                    id={NEO_TRONG_BAI.theOn}
+                    tabIndex={-1}
+                    className="mt-8 scroll-mt-24 text-xl font-bold text-content"
+                  >
+                    Thẻ ôn tập
+                  </h2>
+                  <dl className="mt-3 space-y-3">
+                    {bai.srsCards.map((the, i) => (
+                      <div
+                        key={i}
+                        className="rounded-xl border border-line-subtle bg-surface-card p-4"
+                      >
+                        <dt className="font-medium text-content">{the.hoi}</dt>
+                        <dd className="mt-1 text-content-secondary">{the.dap}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </>
+              )}
 
               <LuotDuyetBai lessonId={bai.id} mon={subject.id} />
 
