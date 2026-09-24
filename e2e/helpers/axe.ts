@@ -44,12 +44,21 @@ export async function waitForStableDom(
   } = {},
 ): Promise<void> {
   const deadline = Date.now() + timeout
-  let last = -1
+  let last = ''
   let same = 0
   while (Date.now() < deadline) {
-    const n = await page.evaluate(() => document.querySelectorAll('*').length)
-    same = n === last ? same + 1 : 0
-    last = n
+    // [2026-09-24] Ba điều kiện, không chỉ số phần tử: (1) số phần tử, (2) URL — trang chuyển
+    // hướng về URL chuẩn (`<Navigate replace>`) sẽ dựng lại cả Layout SAU khi đếm đã đứng yên,
+    // (3) KHÔNG còn khung chờ `[data-page-loading]` của Suspense — skeleton đứng yên đủ 3 nhịp khi
+    // dev server/CI chậm, trước đây bị coi là "ổn định" và cổng AAA quét giữa lúc trang thay DOM
+    // (đo được: `/lap-trinh/bai-hoc/p1-u4-l1` đỏ 6/8 lượt với 4 worker, "DOM changed during scan").
+    const snap = await page.evaluate(() =>
+      document.querySelector('[data-page-loading]')
+        ? null
+        : `${location.href}|${document.querySelectorAll('*').length}`,
+    )
+    same = snap !== null && snap === last ? same + 1 : 0
+    last = snap ?? ''
     if (same >= stableTicks) return
     await page.waitForTimeout(interval)
   }
