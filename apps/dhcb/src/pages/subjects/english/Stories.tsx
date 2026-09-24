@@ -16,6 +16,7 @@ import { loadStoryIndex } from '../../../data/stories/loader'
 import { STORY_KINDS } from '../../../data/stories/index'
 import type { StoryMeta, StoryKind } from '../../../data/stories/index'
 import { buildSlugSegment } from '@core/slug'
+import { getAllStoryProgress } from '../../../lib/storyProgress'
 
 type Lang = ReturnType<typeof useLang>['T']
 
@@ -80,6 +81,9 @@ export default function Stories() {
   const [level, setLevel] = useState<StoryMeta['level'] | null>(null)
   const [country, setCountry] = useState<string | null>(null)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
+  // Truyện đang đọc dở — đọc một lần khi mở trang (quay lại từ StoryReader là mount lại nên
+  // luôn thấy vị trí mới nhất). Chỉ localStorage, xem lib/storyProgress.ts.
+  const [progressById] = useState(getAllStoryProgress)
 
   useEffect(() => {
     loadStoryIndex().then(setAll)
@@ -227,6 +231,7 @@ export default function Stories() {
                   key={story.id}
                   story={story}
                   isA={isA}
+                  progress={progressById[story.id]}
                   onClick={() =>
                     nav(
                       duongDanTruyen(
