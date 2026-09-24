@@ -28,6 +28,7 @@ import {
   type Width,
 } from '../e2e/helpers/learningUxScreens.js'
 import type { ThemeName } from '../e2e/helpers/auth.js'
+import { screenshotFullPage } from '../e2e/helpers/fullPageShot.js'
 
 const MOI_THEME: readonly ThemeName[] = ['dark-blue', 'blue-sky', 'kid']
 
@@ -153,7 +154,9 @@ async function chup(
           const page: Page = await ctx.newPage()
           try {
             await moManHinh(page, man, state, theme)
-            const buf = await page.screenshot({ fullPage: true })
+            // KHÔNG dùng `fullPage: true`: lệnh đó cho trang thấy khung nhìn 1×1 thoáng qua,
+            // trang dùng `TwoPane` bị dựng lại giữa lúc chụp (ảnh mờ). Xem fullPageShot.ts.
+            const buf = await screenshotFullPage(page)
             const cao = chieuCaoPng(buf)
             // Bẫy Tầng 8b đã dính thật: ảnh trắng / màn đăng nhập trông "có chụp"
             // nhưng là màn khác. Chặn ngay tại đây, đừng để lọt vào báo cáo.
