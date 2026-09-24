@@ -1,9 +1,12 @@
 # S05 — Thiết kế audit offline và manifest nghiệm thu
 
-> **Draft — đề xuất acceptance, chưa Approved for implementation.**
+> **Technical implementation approved sau khi PR bổ sung 24/09 merge; expert/Product
+> acceptance vẫn WAITING.**
 > Bổ sung §4 của [spec S03–S05](2026-09-23-uiux-s03-s05-tinh-dung-bai-tap.md).
-> Chưa có builder, manifest 20 mẫu, review chuyên gia hoặc bằng chứng release S05.
-> Không thay trạng thái S04; source S05 vẫn chờ dependency và approval trong spec gốc.
+> Manifest 40 mẫu và audit khả thi đã có; builder runtime, review chuyên gia và bằng
+> chứng release S05 vẫn chưa có tại thời điểm duyệt kỹ thuật.
+> Không thay trạng thái S04; source S05 đi theo quyết định kỹ thuật bổ sung ngày
+> 24/09 trong spec gốc, chỉ sau khi PR đặc tả đó merge.
 
 ## 1. Phạm vi và bằng chứng cấu trúc
 
