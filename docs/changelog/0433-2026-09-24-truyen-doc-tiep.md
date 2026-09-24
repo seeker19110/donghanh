@@ -38,3 +38,11 @@
 - **Negative control:** bỏ guard `finishedRef` trong observer → ca "chạm mốc cuối… không ghi lại"
   đỏ; khôi phục → xanh.
 - Cổng: xem mục Validation của PR.
+- **Tầng 8b (chụp bổ sung sau khi mở PR):** spec tạm dùng `e2e/helpers/fullPageShot.ts`, mock
+  `et_story_progress` cho `ft-jack-beanstalk`, chụp danh sách `/goc-hoc-tap/english/truyen` và trang
+  đọc ở 1440/390px × `blue-sky`/`dark-blue` (4/4 đạt; ảnh để ngoài repo, spec tạm đã xoá). Kết quả:
+  thẻ hiện "Đọc tiếp · đã đọc 42%"; trang đọc tự cuộn tới giữa truyện (390px: `scrollY` 6553 /
+  cao 11.439px), dòng "Đang đọc tiếp từ đoạn 41/56." + nút "Đọc lại từ đầu" nằm ngay dưới header;
+  không cuộn ngang (`scrollWidth` = bề rộng khung nhìn) ở cả 4 tổ hợp. Lưu ý đo: trang đọc gom
+  dòng theo đoạn (`p`), truyện này 96 dòng nhưng 56 đoạn — bản ghi thật luôn lưu số đoạn do chính
+  trang đọc đếm nên nhất quán; con số 96 chỉ là dữ liệu mẫu của lần chụp.

@@ -302,17 +302,25 @@ export default function Practice() {
           {isUiVi ? 'Phòng Luyện Tập Đa Môn & Sửa Lỗi' : 'Multi-Subject Practice & Mistake Studio'}
         </h1>
 
-        {/* ── BANNER SPOTLIGHT: SỔ TAY SỬA LỖI ĐA MÔN & CUNG ĐIỆN TRÍ NHỚ ── */}
-        <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-br from-rose-500/15 via-zinc-900/90 to-amber-500/10 border border-rose-500/30 hover:border-rose-500/60 transition-all duration-200 shadow-lg group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        {/* ── BANNER SPOTLIGHT: SỔ TAY SỬA LỖI ĐA MÔN & CUNG ĐIỆN TRÍ NHỚ ──
+            [S06b, 2026-09-24] Chữ đọc nằm trên nền token ĐẶC (`bg-surface-card`) chứ không trên
+            gradient: axe không xác định được màu nền của gradient nên không đo được 7:1 (cổng
+            AAA báo `incomplete`). Gradient rose→amber chỉ còn là dải trang trí mảnh ở mép trên,
+            nằm NGOÀI vùng chữ. */}
+        <div className="relative overflow-hidden p-4 sm:p-5 rounded-3xl bg-surface-card border border-rose-500/30 hover:border-rose-500/60 transition-all duration-200 shadow-lg group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-rose-500 to-amber-500"
+          />
           <div className="flex items-start gap-3.5">
             <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-rose-500 to-amber-500 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform text-white font-bold">
               <AlertCircle className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2 mb-0.5">
-                <h3 className="font-bold text-white text-base">Sổ Tay Sửa Lỗi Đa Môn AI</h3>
+                <h3 className="font-bold text-content text-base">Sổ Tay Sửa Lỗi Đa Môn AI</h3>
               </div>
-              <p className="text-xs text-zinc-300 leading-relaxed max-w-xl">
+              <p className="text-xs text-content-secondary leading-relaxed max-w-xl">
                 Tự động tổng hợp các bẫy biến đổi Toán - Lý - Hóa, lỗi phát âm IPA, sai ngữ pháp
                 IELTS để bạn ôn tập ngắt quãng (SRS) và không lặp lại lỗi sai.
               </p>

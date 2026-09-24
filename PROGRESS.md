@@ -174,10 +174,12 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
   screen reader/thiết bị thật; S04 còn thiếu zoom/microphone thật. S06/S07 partial theo
   [audit S06](docs/research/2026-09-23-s06-follow-up-approval-audit.md) và
   [audit S07](docs/research/2026-09-23-s07-followup-evidence-gap.md); #1142 đã merge, báo cáo
-  một ca Chrome 200% ba theme trên sheet Vật lí, chưa đủ ma trận S07. S09 Draft do B1 còn mở
-  dù B2/B3 đã có contract. S10 chờ chuyên gia rà mẫu, S12 chờ pilot ngày 7/14.
-  Bước tiếp theo: khép phần kỹ thuật S06/S07/S09–S11 kiểm được bằng CI/browser và thu bằng
-  chứng accessibility còn thiếu;
+  một ca Chrome 200% ba theme trên sheet Vật lí, chưa đủ ma trận S07. **24/09: người dùng duyệt
+  toàn bộ phần còn lại** — S06b (phủ AAA cho `/luyen-tap` + `/goc-hoc-tap/english`) và S09 (B1
+  đóng mức kỹ thuật; thứ tự S09a kết quả STEM → S09b Trong bài → S09c English / S09d Lập trình)
+  đã Approved for implementation (`docs/changelog/0434-*.md`). S10 chờ chuyên gia rà mẫu, S12 chờ pilot ngày 7/14.
+  S06b source xong (`docs/changelog/0435-*.md`: hai màn vào cổng AAA, sửa nền gradient, xanh 3 theme).
+  Bước tiếp theo: source S09a, rồi S09b–d; thu bằng chứng accessibility còn thiếu;
   xem trạng thái và giới hạn nghiệm thu trong goal, không coi source merge là goal hoàn tất.
 
 > Mỗi mục 1 PR, dừng xin duyệt ở mỗi cổng (CLAUDE.md mục 3). Mục đã ✅ KHÔNG nằm ở đây — xem

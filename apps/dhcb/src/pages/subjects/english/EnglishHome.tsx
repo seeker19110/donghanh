@@ -156,7 +156,7 @@ export default function EnglishHome() {
               <div>
                 <h2 className="text-base font-bold text-white flex items-center gap-2">
                   {isA ? 'Gia Sư Tiếng Anh Song Ngữ' : 'Bilingual English Tutor'}
-                  <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 theme-light:text-emerald-800 font-bold border border-emerald-500/30 whitespace-nowrap">
+                  <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 theme-light:text-emerald-900 font-bold border border-emerald-500/30 whitespace-nowrap">
                     A1–C2
                   </span>
                 </h2>
@@ -475,10 +475,12 @@ export default function EnglishHome() {
           </div>
         </section>
 
-        {/* ── THỬ THÁCH VIDEO 1 PHÚT ── */}
+        {/* ── THỬ THÁCH VIDEO 1 PHÚT ──
+            [S06b, 2026-09-24] Nền ĐẶC `bg-zinc-900` (token --z-900) thay gradient zinc→rose:
+            axe không xác định được màu nền gradient nên cổng AAA không đo được tương phản. */}
         <button
           onClick={() => nav(duongDanThuThach())}
-          className="w-full p-3.5 rounded-2xl bg-gradient-to-r from-zinc-900 via-zinc-900 to-rose-950/30 border border-rose-500/20 hover:border-rose-500/40 text-left transition flex items-center justify-between group shadow-sm"
+          className="w-full p-3.5 rounded-2xl bg-zinc-900 border border-rose-500/20 hover:border-rose-500/40 text-left transition flex items-center justify-between group shadow-sm"
         >
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-rose-500/15 text-rose-400 theme-light:text-rose-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition">

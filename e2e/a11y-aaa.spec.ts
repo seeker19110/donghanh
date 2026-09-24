@@ -76,6 +76,11 @@ const ROUTES = [
   // AAA: đây là màn ĐỌC (lời giải thích của trợ giảng) nên AAA là chuẩn đúng cho nó.
   '/ban-dong-hanh',
   '/goc-hoc-tap/english/luyen-nghe', // audit 2026-09-22 P0-1: nhóm gập + tìm kiếm + Xem thêm
+  // [S06b] Hai màn đã ở cổng AA nhưng chưa ở AAA. Banner Sổ tay lỗi sai / Đấu trường từng
+  // đặt chữ đọc trên gradient nên axe không đo được 7:1 (incomplete) — nay chữ nằm trên nền
+  // token đặc, phải qua cổng AAA như mọi màn đọc khác.
+  '/luyen-tap', // Phòng luyện tập
+  '/goc-hoc-tap/english', // trang tổng quan môn Tiếng Anh
 ] as const
 
 test.beforeEach(async ({ page }) => {
