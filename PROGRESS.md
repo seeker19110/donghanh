@@ -1060,10 +1060,11 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   câu tiếng Việt) và `MemoryPalaceCard` (gộp badge "Platform V5 Method of Loci" thành "Ghi nhớ
   bằng không gian") — `CyberTutorAvatar3D` hoá ra đã dọn sạch từ trước. Còn mở: P2-5 theme `kid`
   chỉ đổi màu (câu hỏi sản phẩm); Phòng luyện tập vs Tiếng Anh home vẫn nhiều lối vào cùng đích;
-  ảnh Hồ sơ 1440px chụp `fullPage` luôn mờ (cần nhìn tay trình duyệt thật); "Đọc tiếp" ở Truyện
-  cần cơ chế lưu truyện đang đọc; `e2e/home-clarity-evidence.spec.ts:660` đỏ ngẫu nhiên ~1/3 lượt
-  ở ca CLS 0,103 (đã đỏ y hệt trên `main` gốc 0d1d6bf — Tầng 1b, cần làm test ổn định, không phải
-  hồi quy).**
+  "Đọc tiếp" ở Truyện cần cơ chế lưu truyện đang đọc.
+  ~~`e2e/home-clarity-evidence.spec.ts` đỏ ngẫu nhiên ~1/3 lượt ở ca CLS 0,103~~ **ĐÃ SỬA
+  2026-09-24 (PR #1159, `docs/changelog/0433-2026-09-24-home-comeback-reserve-cls-flaky.md`)**:
+  không phải nhiễu đo — sàn comeback mobile của `HomeAiBriefingCard` thiếu chỗ (2 nút icon làm chữ
+  xuống 3 dòng); CLS dưới tải 0,056–0,090 → 0,022–0,026, 30/30 xanh, ngưỡng 0,1 giữ nguyên.**
 - 🟡 **[2026-09-22 — audit câu chữ toàn dự án + trả nợ, `docs/changelog/0406-*.md` · `0408-*.md`
   · `0409-*.md` · `0410-*.md`, PR #1102 · #1105 · #1106 · PR đợt 0410] Nợ còn lại:** chỉ còn
   **58 câu mẫu viết tay nằm trong hồ `pool`** của `cefrCircleSentences.json` — chưa gán được vòng
