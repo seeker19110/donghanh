@@ -90,7 +90,7 @@ S00 là PR tài liệu; S01–S12 là 12 slice kỹ thuật/nghiệm thu. Đối
 | M1/S02 | Lưu hồ sơ trung thực ở Placement và Onboarding (F2)       | S01           | Hợp đồng kết quả lưu + hai caller            | —        | MERGED #1125               | 500/offline/retry/double-click; local draft còn; chỉ điều hướng sau thành công                    |
 | M1/S03 | Ôn đúng môn, cap sau lọc (F6)                             | S00           | Quy tắc hàng đợi hiện có                     | —        | MERGED                     | Bốn môn, due xen kẽ, cap=1, môn rỗng; hub xuyên môn không hồi quy                                 |
 | M1/S04 | UI language độc lập chiều học (F8)                        | S00           | Approved #1134; QA amend #1141               | #1137    | SOURCE MERGED; AC04 còn mở | 2×2, phiên/Retry, callback/lỗi đã có test; zoom thật, AT, microphone/thiết bị chưa kiểm           |
-| M1/S05 | Bộ tạo câu điền từ hợp lệ (F7)                            | S04           | Review #1128; audit design #1138             | #1138    | Draft                      | Audit offline/manifest đã thiết kế; đo mẫu B và nghiệm thu chuyên gia còn thiếu                   |
+| M1/S05 | Bộ tạo câu điền từ hợp lệ (F7)                            | S04           | Review #1128; #1138; approve #1153           | PR S05   | SOURCE; expert WAITING     | Builder/UI/audit/E2E có; parity 12.122/4.760 với audit độc lập; chờ chuyên gia/Product            |
 | M2/S06 | Gate AAA phản ánh đúng chữ thực và 7:1 (F5)               | S00           | Follow-up #1139 chưa Approved                | #1122    | PARTIAL                    | Gate đã merge; kiểm hết incomplete/ma trận follow-up còn mở                                       |
 | M2/S07 | Zoom/reflow/focus/44px trên màn bị ảnh hưởng (F3)         | S06           | Gap audit #1140; zoom evidence #1142         | #1126    | PARTIAL — S07a             | Một ca Chrome 200% ba theme đã đo; ma trận rộng, browser khác/thiết bị thật còn thiếu             |
 | M2/S08 | Quiz có phản hồi đọc/nghe được và focus đúng (F4)         | S06           | Approved trong spec S06–S08                  | #1133    | SOURCE MERGED; AT còn mở   | Unit/E2E mock đạt; NVDA/VoiceOver và thiết bị thật chưa kiểm                                      |
@@ -208,7 +208,8 @@ hiện có. Việc gửi lời mời pilot, truy cập production và triển kh
 - S09 vẫn Draft: review [#1135](https://github.com/seeker19110/donghanh/pull/1135), B2/B3 đóng ở mức thiết kế tại [#1136](https://github.com/seeker19110/donghanh/pull/1136), B1 phụ thuộc M1/M2 còn mở. S10 cần chuyên gia rà 40 mẫu; S11a không hoàn tất S11 rộng; S12 cần thiết bị thật, người học và số đo ngày 7/14. Không có bằng chứng chuyên gia hoặc pilot.
 - S07b [#1150](https://github.com/seeker19110/donghanh/pull/1150) và S07c [#1152](https://github.com/seeker19110/donghanh/pull/1152) đã merge: tab CEFR ở 320 px và nút Back chung đạt 44×44 trong E2E 320/390, ba theme. #1152 đạt quality/e2e/metadata trên head `4be722f7`; main tại `548bf937`. S07 rộng vẫn PARTIAL vì pinch, bàn phím ảo và thiết bị thật chưa có evidence.
 - Chủ sản phẩm ngày 24/09 yêu cầu ghi nợ chuyên gia, pilot và AT/thiết bị thật, tiếp tục phần khác. S05 technical source được duyệt riêng sau PR đặc tả bổ sung; 40 mẫu vẫn `WAITING_EXPERT_REVIEW`, Product acceptance và release vẫn WAITING. S12 pilot 8 người/ngày 7/14 cũng WAITING, không điền dữ liệu giả.
-- Next best slice: hoàn thiện S05 builder/runtime/audit dùng chung luật, rồi khép các phần kỹ thuật S06/S07/S09–S11 có thể kiểm bằng CI và browser; giữ nợ nghiệm thu thật riêng.
+- S05 source kỹ thuật (changelog 0432): builder `fillBlankQuestions.ts` dùng chung cho `FillBlankQuiz` và `scripts/audit-fillblank.ts`; audit toàn từ điển khớp số liệu độc lập (A 12.122, B 4.760 accepted). 40 mẫu cùng ref với manifest cũ nhưng distractor khác — chuyên gia review manifest mới; expert/Product vẫn `WAITING_EXPERT_REVIEW`.
+- Next best slice: khép các phần kỹ thuật S06/S07/S09–S11 có thể kiểm bằng CI và browser; giữ nợ nghiệm thu thật riêng (S05 expert, S04/S08 AT, S12 pilot).
 
 ### Đặc tả chi tiết đã chuẩn bị
 
@@ -388,3 +389,12 @@ Không có source/test mới hoặc kết quả contrast mới. Xem
   `git diff --check` và required checks của PR tài liệu trước auto-merge.
 - Next: hoàn tất điều kiện duyệt S05 và bằng chứng accessibility còn thiếu;
   giữ S09 source sau khi B1 và dependency được đóng.
+
+### Iteration 15 — S05 source kỹ thuật
+
+- Base `81ae6f74` (#1153 duyệt kỹ thuật S05). Builder thuần + caller + script audit + E2E
+  trong một PR; không đổi dữ liệu từ điển, API, persistence, migration.
+- Evidence: unit/E2E, negative control guard chấm đôi, parity audit toàn từ điển, ảnh 8b
+  trước/sau và axe AA 0 vi phạm ở 18 tổ hợp. Xem `docs/changelog/0432-*.md`.
+- Gap còn: review chuyên gia 20 câu/chiều, Product acceptance, fixture pool học sạch.
+  Goal NOT COMPLETE.

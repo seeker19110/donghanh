@@ -168,15 +168,16 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
   [goal 5 đợt](docs/goals/2026-09-23-uiux-su-pham.md) và
   [baseline F1–F8](docs/research/2026-09-23-uiux-su-pham-baseline.md).
   S01–S04 và S08 đã có source trên `main`; S06 phần cổng, S07a mở zoom và S11a sửa deep-link
-  cũng đã merge. [#1137](https://github.com/seeker19110/donghanh/pull/1137) đạt quality/e2e
+  cũng đã merge. **S05 source kỹ thuật** (builder điền từ dùng chung runtime + audit,
+  `docs/changelog/0432-*.md`) đã làm; review chuyên gia 20 câu/chiều + Product vẫn WAITING. [#1137](https://github.com/seeker19110/donghanh/pull/1137) đạt quality/e2e
   trước merge; CI trên merge commit còn chạy lúc cập nhật. S04/S08 vẫn thiếu bằng chứng
-  screen reader/thiết bị thật; S04 còn thiếu zoom/microphone thật. S05 Draft sau audit design
-  [#1138](https://github.com/seeker19110/donghanh/pull/1138); S06/S07 partial theo
+  screen reader/thiết bị thật; S04 còn thiếu zoom/microphone thật. S06/S07 partial theo
   [audit S06](docs/research/2026-09-23-s06-follow-up-approval-audit.md) và
   [audit S07](docs/research/2026-09-23-s07-followup-evidence-gap.md); #1142 đã merge, báo cáo
   một ca Chrome 200% ba theme trên sheet Vật lí, chưa đủ ma trận S07. S09 Draft do B1 còn mở
   dù B2/B3 đã có contract. S10 chờ chuyên gia rà mẫu, S12 chờ pilot ngày 7/14.
-  Bước tiếp theo: audit/điều kiện duyệt S05 và thu bằng chứng accessibility còn thiếu;
+  Bước tiếp theo: khép phần kỹ thuật S06/S07/S09–S11 kiểm được bằng CI/browser và thu bằng
+  chứng accessibility còn thiếu;
   xem trạng thái và giới hạn nghiệm thu trong goal, không coi source merge là goal hoàn tất.
 
 > Mỗi mục 1 PR, dừng xin duyệt ở mỗi cổng (CLAUDE.md mục 3). Mục đã ✅ KHÔNG nằm ở đây — xem
