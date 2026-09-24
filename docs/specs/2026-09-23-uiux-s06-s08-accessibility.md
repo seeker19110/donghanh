@@ -133,6 +133,31 @@ bị thật hay nghiệm thu S07 rộng. PR đặc tả phải merge trước PR
   ngoài S07b; ghi theo dõi riêng. S07 rộng vẫn **PARTIAL / WAITING**, chỉ AC vùng
   tab được kiểm sau source, không suy toàn ma trận đạt.
 
+### S07c — Vùng chạm Back chung của header
+
+**Quyết định triển khai ngày 2026-09-24:** Người dùng đã giao quyền tự quyết và triển
+khai toàn bộ goal UI/UX. Sau khi #1150 đã merge, primary review `Layout.tsx` ở main
+`29ecce99` cùng artifact Chrome zoom 200% và duyệt slice này **Approved for
+implementation** khi PR đặc tả merge. Duyệt phạm vi không thay bằng chứng thiết bị
+thật, pinch, bàn phím ảo hay AT cho S07 rộng.
+
+`Layout` dùng chung có Back button mang `aria-label` từ breadcrumb. Ở <640 px, chữ
+nhãn được ẩn và class hiện tại `p-2.5` với icon 16 px tạo box 36×36 CSS px. Đây là
+control shared có thể điều hướng ra khỏi bài học, nên phải đạt 44×44 thực; không suy
+từ icon hoặc vùng lân cận.
+
+- Source chỉ sửa `apps/dhcb/src/components/Layout.tsx`: gắn utility `.tap-44` sẵn có
+  vào button Back. Không đổi `onBack`, `backTo`, URL, nhãn, breadcrumb, thứ tự Tab,
+  focus mode, title, AI quick action, BottomNav, logic học/chấm điểm/API hay owner.
+- E2E mới đo `getBoundingClientRect()` và `elementFromPoint()` của button Back ở
+  320/390 px, ba theme, trên CEFR và một route STEM có Back. Kiểm click đi tới đúng
+  route, Enter/Space activate được và `documentElement.scrollWidth <= clientWidth`.
+  Bài kiểm phải chứng minh header vẫn hiện title/control cạnh Back nếu có; không chỉ
+  snapshot class.
+- Chạy full gate Node 22 theo `AGENTS.md`, gồm E2E. Nếu 44 px làm tràn header hoặc
+  che focus, dừng slice và thiết kế lại có bằng chứng; không hạ ngưỡng hay thêm
+  ngoại lệ. Rollback là revert source PR, vẫn giữ S07b và ghi S07c chưa đạt.
+
 ## 4. S08 — Quiz phản hồi bằng chữ và trình đọc màn hình
 
 **Quyết định triển khai ngày 2026-09-23:** Người dùng giao quyền tự quyết phương án và
@@ -232,5 +257,7 @@ Không có migration, không cần sửa dữ liệu hoặc tác động product
 - [ ] Review hợp đồng phân loại chữ, incomplete và ngưỡng 7:1.
 - [ ] Review từng PR scope và phụ thuộc, gồm phối hợp S04/S05.
 - [x] S08 đã được review và duyệt phạm vi triển khai; PR đặc tả phải merge trước source.
+- [x] S07b đã merge và được kiểm E2E ở 320/390; S07c được duyệt riêng, source chỉ mở sau
+      khi PR đặc tả này merge.
 - [ ] Mỗi slice có automated evidence và manual evidence còn thiếu được nêu rõ.
 - [ ] Chỉ đánh dấu hoàn tất sau tích hợp và kiểm chứng trên main; không suy từ phê duyệt spec.
