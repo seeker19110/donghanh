@@ -101,11 +101,15 @@ export default function HomeAiBriefingCard({
 
       {/* Mobile normal/error = 80px (bubble hai dòng = 79.5px). Desktop dự trữ 98px
           cho insight có thể đến sau request, để thẻ Hôm nay không bị đẩy xuống khi
-          bản tin tải xong. Comeback mobile =
-          173px: thêm detail hai dòng + hàng action 44px. Các sàn giữ loading → loaded/error ổn
-          định; nội dung API dài hơn vẫn được phép nở tự nhiên, không bị clamp. */}
+          bản tin tải xong. Comeback desktop = 173px: lead hai dòng + detail hai dòng + hàng
+          action 44px. Comeback MOBILE = 219px (thêm 2 dòng × 22.75px): bong bóng comeback có HAI
+          nút icon 44px (🔊 + ✕) nên cột chữ ở 390px chỉ còn ~190px — lead ≤90 ký tự và câu
+          quay lại đều xuống 3 dòng. Bản 173px cũ thiếu đúng 46px, bản tin tải xong là đẩy thẻ
+          Hôm nay xuống (CLS đo được 0,056–0,103 tuỳ khung hình gộp shift — xem
+          docs/changelog/0433-*.md). Các sàn giữ loading → loaded/error ổn định; nội dung API
+          dài hơn vẫn được phép nở tự nhiên, không bị clamp. */}
       <div
-        className={`${isDesktop ? 'mt-4' : 'mt-3'} ${reserveComeback ? 'min-h-[173px]' : isDesktop ? 'min-h-[98px]' : 'min-h-[80px]'}`}
+        className={`${isDesktop ? 'mt-4' : 'mt-3'} ${reserveComeback ? (isDesktop ? 'min-h-[173px]' : 'min-h-[219px]') : isDesktop ? 'min-h-[98px]' : 'min-h-[80px]'}`}
       >
         {loading ? (
           <div aria-live="polite" className="space-y-2" aria-label="Đang tải bản tin">

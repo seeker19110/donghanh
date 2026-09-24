@@ -84,12 +84,23 @@ describe('HomeAiBriefingCard — thẻ AI tập trung (đợt C)', () => {
     )
   })
 
-  it('candidate comeback reserve đúng 173px ngay trong loading, trước khi detail/actions có mặt', async () => {
+  // Mobile comeback: bong bóng có HAI nút icon (🔊 + ✕) nên cột chữ ở 390px hẹp, lead và câu
+  // quay lại xuống 3 dòng — sàn 173px cũ thiếu 46px, gây CLS ngẫu nhiên ở E2E
+  // `home-clarity-evidence` (docs/changelog/0433-*.md).
+  it('candidate comeback mobile reserve 219px ngay trong loading, trước khi detail/actions có mặt', async () => {
     fetchBriefing.mockReturnValue(new Promise(() => {}))
     const el = await render({ isDesktop: false, reserveComeback: true })
     const reserve = el.querySelector('[aria-label="Đang tải bản tin"]')?.parentElement
+    expect(reserve?.className).toContain('min-h-[219px]')
+    expect(reserve?.className).not.toContain('min-h-[173px]')
+  })
+
+  it('candidate comeback desktop giữ reserve 173px (cột chữ rộng, lead + detail hai dòng)', async () => {
+    fetchBriefing.mockReturnValue(new Promise(() => {}))
+    const el = await render({ isDesktop: true, reserveComeback: true })
+    const reserve = el.querySelector('[aria-label="Đang tải bản tin"]')?.parentElement
     expect(reserve?.className).toContain('min-h-[173px]')
-    expect(reserve?.className).not.toContain('min-h-[70px]')
+    expect(reserve?.className).not.toContain('min-h-[219px]')
   })
 
   it('đã tải: không còn animate-pulse nào (pulse chỉ dành cho skeleton — luật 6 mục 9)', async () => {
@@ -166,7 +177,7 @@ describe('HomeAiBriefingCard — thẻ AI tập trung (đợt C)', () => {
     expect(
       el.querySelector('[aria-label="Lời chào của Bạn Đồng Hành"]')?.parentElement?.parentElement
         ?.className,
-    ).toContain('min-h-[173px]')
+    ).toContain('min-h-[219px]')
   })
 
   it('mobile hiện trọn summary dài và comeback detail, override line-clamp chỉ tại Home', async () => {
@@ -186,7 +197,7 @@ describe('HomeAiBriefingCard — thẻ AI tập trung (đợt C)', () => {
     expect(paragraphs[0]?.textContent).toBe(longSummary)
     expect(paragraphs[1]?.textContent).toContain('Đã 123 ngày')
     // Reserve chỉ là sàn chống CLS; nội dung dài được phép nở tự nhiên, không đặt max-height.
-    expect(fullCopy?.parentElement?.className).toContain('min-h-[173px]')
+    expect(fullCopy?.parentElement?.className).toContain('min-h-[219px]')
     expect(fullCopy?.parentElement?.className).not.toContain('max-h-')
   })
 
