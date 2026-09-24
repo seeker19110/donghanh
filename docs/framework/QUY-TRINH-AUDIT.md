@@ -363,6 +363,7 @@ loại việc.
 ```ts
 import { test } from '@playwright/test'
 import { mockLogin } from './helpers/auth'
+import { screenshotFullPage, waitForShotReady } from './helpers/fullPageShot'
 
 const OUT = '/tmp/shots' // thư mục nào cũng được, miễn ngoài repo
 const ROUTES: [string, string][] = [['/mon-hoc', 'subjects']] // các trang trong phạm vi
@@ -377,14 +378,16 @@ for (const [w, h, tag] of [
     await mockLogin(page, 'vi') // dùng helper thật của dự án, đừng tự gieo localStorage
     for (const [route, name] of ROUTES) {
       await page.goto(route)
-      await page.waitForTimeout(1800) // chờ nội dung nạp lười
-      await page.screenshot({ path: `${OUT}/${PHASE}-${name}-${tag}.png`, fullPage: true })
+      // Chờ theo TRẠNG THÁI (DOM đứng yên + hết skeleton), không chờ cứng số giây — xem helper.
+      await waitForShotReady(page)
+      // KHÔNG dùng page.screenshot({ fullPage: true }) — xem bẫy thứ tư bên dưới.
+      await screenshotFullPage(page, { path: `${OUT}/${PHASE}-${name}-${tag}.png` })
     }
   })
 }
 ```
 
-Ba cái bẫy đã dính thật khi làm việc này:
+Bốn cái bẫy đã dính thật khi làm việc này:
 
 - **Đừng tự gieo `localStorage` để giả đăng nhập** — dùng `mockLogin` trong `e2e/helpers/auth.ts`.
   Tự gieo sai khoá thì trang chụp ra là màn đăng nhập, và rất dễ tưởng đó là giao diện thật.
@@ -393,6 +396,15 @@ Ba cái bẫy đã dính thật khi làm việc này:
   (`{ subjects: [...] }` khác `{ subject: {...} }`).
 - **Đo chiều cao trang bằng máy, đừng ước lượng:** đọc thẳng từ header PNG —
   `python3 -c "import struct;d=open('f.png','rb').read(33);print(struct.unpack('>II',d[16:24]))"`.
+- **Đừng chụp bằng `fullPage: true` (bẫy 2026-09-24, `docs/changelog/0433-*.md`).** Trong lúc
+  chụp toàn trang, Chromium cho trang thấy khung nhìn **1×1 px** thoáng qua. Ở 1440px, truy vấn
+  `(min-width: 1024px)` của `useIsDesktopViewport()` lật false → true, `TwoPane` đổi nhánh, React
+  dựng lại cả cột chính: `animate-fade-in` chạy lại, khối nạp dữ liệu quay về skeleton. Ảnh ra
+  **mờ và lệch xuống vài px** (Hồ sơ 1440px: 8/10 lần), trong khi đo `opacity` ngay trước khi chụp
+  vẫn = 1. `freezeAnimations()` hay `animations: 'disabled'` KHÔNG đủ (vẫn 3–4/10 lần). Dùng
+  `screenshotFullPage()` ở `e2e/helpers/fullPageShot.ts`: nó giữ nguyên bề rộng, nới chiều cao
+  khung nhìn rồi chụp thường, và **ném lỗi** nếu truy vấn desktop vẫn lật trong lúc chụp. Hệ quả
+  cần biết khi nhìn ảnh: phần tử `position: fixed` (thanh bên) nay cao hết ảnh thay vì dừng ở 900px.
 
 ### Tầng 9 — Kiểm tra vận hành (production)
 
