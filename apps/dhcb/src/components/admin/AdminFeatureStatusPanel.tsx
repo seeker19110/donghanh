@@ -8,6 +8,7 @@ import {
   MinusCircle,
 } from 'lucide-react'
 import { getAuthHeader } from '@core/authHeader'
+import { thongDiepLoiThanThien } from '../../lib/friendlyError'
 
 interface FeatureCheckResult {
   key: string
@@ -77,7 +78,7 @@ export default function AdminFeatureStatusPanel() {
       setLatest(data.latest)
       setHistory(data.history ?? [])
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Lỗi tải trạng thái')
+      setError(thongDiepLoiThanThien(err, 'Lỗi tải trạng thái'))
     } finally {
       setLoading(false)
     }
@@ -102,7 +103,7 @@ export default function AdminFeatureStatusPanel() {
       setLatest(data)
       setHistory((prev) => [data, ...prev].slice(0, 30))
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Lỗi khi chạy kiểm tra')
+      setError(thongDiepLoiThanThien(err, 'Lỗi khi chạy kiểm tra'))
     } finally {
       setChecking(false)
     }
