@@ -144,9 +144,11 @@ const ChatPage = lazyWithRetry(() => import('./pages/subjects/english/ChatPage')
 
 // Màn hình chờ — dùng khi kiểm tra session và khi lazy-load trang.
 // Hiện khung skeleton nhấp nháy thay vì chữ trơ, đỡ cảm giác đơ.
+// `data-page-loading` + `aria-busy`: cổng E2E (`waitForStableDom`) nhận ra khung chờ này — skeleton
+// đứng yên vài trăm ms nên đếm phần tử KHÔNG đủ phân biệt "đang tải" với "đã xong".
 function PageLoading() {
   return (
-    <div className="min-h-dvh bg-zinc-950">
+    <div className="min-h-dvh bg-zinc-950" aria-busy="true" data-page-loading="">
       <div className="h-14 border-b border-zinc-800/60" />
       <CardListSkeleton rows={6} />
     </div>
