@@ -1,6 +1,6 @@
 # Gọn Phòng luyện tập: chốt "nhà" của từng tính năng, gỡ lối vào trùng với Tiếng Anh home
 
-- **Ngày:** 2026-09-24 · **PR:** #PR_SO
+- **Ngày:** 2026-09-24 · **PR:** #1157
 - **Nguồn:** audit UI/UX sâu `docs/audit/2026-09-22-danh-gia-sau-ui-ux.md` mục **P2-1**
   (đợt C trong bảng kế hoạch — phần "Luyện tập").
 - **Loại:** `refactor(ui)` — không đổi route, không xoá tính năng, chỉ gọn điểm vào.

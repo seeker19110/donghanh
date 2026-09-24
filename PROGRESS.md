@@ -1044,7 +1044,7 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 - 🟡 **[2026-09-22 — audit UI/UX sâu, `docs/audit/2026-09-22-danh-gia-sau-ui-ux.md` +
   `docs/changelog/0412-*.md`, PR đợt 0412] Đã xử lý 6 đợt A–F trong một PR.** Nợ còn lại: (1)
   ~44 chỗ `err.message` ngoài Ghi chú chưa đi qua `lib/friendlyError.ts`; (2) ✅ Phòng luyện tập vs
-  Tiếng Anh home — ĐÃ GỘP (2026-09-24, PR #PR_SO, `docs/changelog/0433-*.md`): chốt nhà từng tính
+  Tiếng Anh home — ĐÃ GỘP (2026-09-24, PR #1157, `docs/changelog/0433-*.md`): chốt nhà từng tính
   năng, `/luyen-tap` gỡ kho học liệu trùng + rút 4 kỹ năng AI thành lối tắt, cao 3154→2461px ở
   390px; còn nút "N thẻ đến hạn" ở Tiếng Anh home trỏ `/luyen-tap` (không có ôn SRS); (3) ảnh
   Hồ sơ 1440px chụp `fullPage` luôn mờ dù đo `opacity=1` — cần một lần nhìn tay trên trình duyệt
