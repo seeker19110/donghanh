@@ -23,11 +23,8 @@ export default function MemoryPalaceCard() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 theme-light:text-amber-900 border border-amber-500/30 tracking-wide uppercase">
-                  Platform V5 Method of Loci
-                </span>
-                <span className="text-[11px] font-semibold text-zinc-400">
-                  Spatial Memory Palace & Mnemonics
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 theme-light:text-amber-900 border border-amber-500/30">
+                  Ghi nhớ bằng không gian
                 </span>
               </div>
               <h3 className="text-base sm:text-lg font-bold text-white mt-1">

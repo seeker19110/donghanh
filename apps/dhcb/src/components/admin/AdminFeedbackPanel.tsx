@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 import { getAuthHeader } from '@core/authHeader'
 import { useToast } from '@core/ToastProvider'
+import { thongDiepLoiThanThien } from '../../lib/friendlyError'
 import type { TutorFeedbackRow } from '@dhcb/core-contracts/adminViews'
 import {
   CATEGORY_METADATA,
@@ -64,7 +65,7 @@ export default function AdminFeedbackPanel() {
         setTutorFeedbacks(data.feedbackList || [])
       }
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Lỗi tải dữ liệu')
+      setError(thongDiepLoiThanThien(err, 'Lỗi tải dữ liệu'))
     } finally {
       setLoading(false)
     }
