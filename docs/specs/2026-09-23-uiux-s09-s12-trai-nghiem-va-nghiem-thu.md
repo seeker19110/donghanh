@@ -1,11 +1,11 @@
 # S09–S12 — Trải nghiệm bài học, sửa lỗi và nghiệm thu
 
-| Thuộc tính | Giá trị                                                                        |
-| ---------- | ------------------------------------------------------------------------------ |
-| Goal       | [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), M3–M5                 |
-| Trạng thái | Draft — chưa Approved for implementation, chưa triển khai/nghiệm thu           |
-| Baseline   | [Audit 23/09](../research/2026-09-23-uiux-su-pham-baseline.md), SHA `1d9e247e` |
-| Cách chia  | Bốn slice riêng; mỗi slice review và merge spec trước source                   |
+| Thuộc tính | Giá trị                                                                            |
+| ---------- | ---------------------------------------------------------------------------------- |
+| Goal       | [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), M3–M5                     |
+| Trạng thái | **S09 Approved for implementation** (24/09, §2.1b); S10–S12 Draft; chưa nghiệm thu |
+| Baseline   | [Audit 23/09](../research/2026-09-23-uiux-su-pham-baseline.md), SHA `1d9e247e`     |
+| Cách chia  | Bốn slice riêng; mỗi slice review và merge spec trước source                       |
 
 ## 1. Nguồn thực tế và giới hạn
 
@@ -70,6 +70,29 @@ Audit [22/09](../audit/2026-09-22-danh-gia-sau-ui-ux.md) có nhiều màn lỗi/
 là giả thuyết cải thiện, không phải bằng chứng hiệu quả học. [Prototype](../ux-upgrade/s09-s12/prototype.html)
 và [review đã ghi](../ux-upgrade/s09-s12/README.md) chỉ chứng minh tương tác HTML
 độc lập. Không lấy chúng làm ảnh/contrast/nháp của app thật.
+
+### 2.1b. Quyết định duyệt triển khai 24/09/2026
+
+**S09 Approved for implementation.** Người dùng ngày 24/09 duyệt toàn bộ phần còn lại
+của goal theo tiêu chí ưu tiên chất lượng cao nhất. Primary đối chiếu lại B1 trên main
+`d23ad61`: M1 source đã tích hợp (S01–S04, S05 technical #1154), M2 source đã tích hợp
+(S06 cổng #1122, S07a/b/c #1126/#1150/#1152, S08 #1133). Phần còn thiếu của M1/M2 là
+nghiệm thu người thật (chuyên gia S05, AT/thiết bị S04/S07/S08) — §2.5 đã ghi rõ đó
+**không** phải lý do thiếu quyền duyệt spec. Vì vậy S09-B1 đóng ở mức kỹ thuật.
+
+Duyệt này không chuyển các ô nghiệm thu thật thành đạt, không duyệt S10–S12.
+Thứ tự PR source, mỗi PR một write set tuần tự (không song song trên cùng file):
+
+1. **S09a — kết quả STEM (§2.4):** `lib/stemResultView.ts`,
+   `components/learning/ActivityResult.tsx`, caller `pages/learning/StemLessonView.tsx`
+   và test. AC04–AC06.
+2. **S09b — Trong bài STEM (§2.3):** `pages/learning/StemLessonView.tsx` và test/E2E.
+   AC01–AC03, AC07–AC08 phần STEM.
+3. **S09c — hội thoại mẫu English (§2.7)** và **S09d — bài lập trình (§2.8)**: PR riêng
+   sau S09b, ownership riêng. AC09 cho caller tương ứng.
+
+Mỗi PR: codemap impact trước sửa, test đỏ trước sửa với ca có thể tái hiện, full gate,
+ảnh Tầng 8b 390/1440. Ô screen reader/thiết bị thật ghi WAITING, không ghi PASS.
 
 ### 2.2. Hiện trạng và ownership
 
@@ -182,11 +205,11 @@ không tự nó là lý do thiếu quyền duyệt spec.
 
 ### 2.6. Blockers để chuyển Approved for implementation
 
-| ID     | Điều còn thiếu                                                             | Cách khép / owner                                                                                                            |
-| ------ | -------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| S09-B1 | OPEN — S09 vẫn Draft: phụ thuộc S04/S05 và M2 chưa được nghiệm thu đầy đủ. | Điều phối đối chiếu main và evidence phụ thuộc trước duyệt; PR này không cấp Approved, không sửa source/browser.             |
-| S09-B2 | CLOSED — DESIGN CONTRACT ONLY: hội thoại mẫu English §2.7.                 | Hai audit và review tích hợp pin SHA; implementation/browser/audio/AT còn phải chứng minh. Không bao gồm CEFR/Chat/Speaking. |
-| S09-B3 | CLOSED — DESIGN CONTRACT ONLY: sáu bước lập trình §2.8.                    | Map, precedence, owner/result, history/focus và fixtures đã chốt; source/browser chưa triển khai/nghiệm thu.                 |
+| ID     | Điều còn thiếu                                                                                    | Cách khép / owner                                                                                                            |
+| ------ | ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| S09-B1 | CLOSED 24/09 (mức kỹ thuật, §2.1b) — M1/M2 source đã tích hợp; nghiệm thu người thật vẫn WAITING. | Đối chiếu main `d23ad61`; không chuyển ô AT/chuyên gia/thiết bị thành đạt.                                                   |
+| S09-B2 | CLOSED — DESIGN CONTRACT ONLY: hội thoại mẫu English §2.7.                                        | Hai audit và review tích hợp pin SHA; implementation/browser/audio/AT còn phải chứng minh. Không bao gồm CEFR/Chat/Speaking. |
+| S09-B3 | CLOSED — DESIGN CONTRACT ONLY: sáu bước lập trình §2.8.                                           | Map, precedence, owner/result, history/focus và fixtures đã chốt; source/browser chưa triển khai/nghiệm thu.                 |
 
 Đối chiếu độc lập B1 trên `main` `9c3e2fa2` ở [audit điều hướng B1](../research/2026-09-23-s09-b1-navigation-contract-audit.md): #1137 đã merge S04 source, #1138 chỉ khép thiết kế manifest S05, #1133 khép S08 source, #1142 bổ sung bằng chứng zoom S07 hẹp. M1/M2 vẫn chưa nghiệm thu đầy đủ nên **S09-B1 tiếp tục OPEN**. Source STEM hiện nhận bare id nhưng chưa canonical redirect; không viện dẫn chú thích trong `mistakeRoutes.ts` làm bằng chứng redirect đã tồn tại. Audit ghi fixture/URL thật, thứ tự URL–resume, owner/result và lệnh proof cho PR source; không cấp Approved hay xác nhận AC.
 

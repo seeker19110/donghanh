@@ -1,11 +1,11 @@
 # S06–S08 — Cổng tương phản, zoom và phản hồi quiz
 
-| Thuộc tính       | Giá trị                                                                                                        |
-| ---------------- | -------------------------------------------------------------------------------------------------------------- |
-| Goal             | [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), M2/S06–S08                                            |
-| Trạng thái       | **S08 và S07b hẹp Approved for implementation** — chưa nghiệm thu; S06 đã merge, S07 rộng còn ma trận thủ công |
-| Baseline         | [Audit 23/09](../research/2026-09-23-uiux-su-pham-baseline.md), SHA `1d9e247e`                                 |
-| Đơn vị giao việc | Ba PR riêng: S06, S07, S08; không gộp source vào PR đặc tả                                                     |
+| Thuộc tính       | Giá trị                                                                                                      |
+| ---------------- | ------------------------------------------------------------------------------------------------------------ |
+| Goal             | [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), M2/S06–S08                                          |
+| Trạng thái       | **S08, S07b hẹp, S07c và S06b Approved for implementation** — chưa nghiệm thu; S07 rộng còn ma trận thủ công |
+| Baseline         | [Audit 23/09](../research/2026-09-23-uiux-su-pham-baseline.md), SHA `1d9e247e`                               |
+| Đơn vị giao việc | Ba PR riêng: S06, S07, S08; không gộp source vào PR đặc tả                                                   |
 
 ## 1. Phạm vi và phụ thuộc
 
@@ -75,6 +75,35 @@ chứng minh đã tải xong. Không tạo một bộ quét độc lập thay c�
 File dự kiến: hai spec a11y, helper axe và test helper; sửa token/component chỉ khi có
 vi phạm tái hiện và impact rõ. Negative controls phải chứng minh gate thất bại khi
 cố tình đưa lỗi vào, không chỉ snapshot danh sách selector.
+
+### Quyết định S06b — mở rộng cổng AAA sang Luyện tập và Tiếng Anh home
+
+**Approved for implementation (chỉ S06b, 24/09/2026).** Người dùng ngày 24/09 duyệt
+toàn bộ phần còn lại của goal theo tiêu chí ưu tiên chất lượng cao nhất và giao agent tự
+quyết phương án. Primary review `e2e/a11y-aaa.spec.ts`, `e2e/a11y.spec.ts` và
+[audit follow-up](../research/2026-09-23-s06-follow-up-approval-audit.md) trên main
+`d23ad61`. Đây là quyết định kỹ thuật nội bộ, không phải nghiệm thu AAA, AT hay chuyên gia.
+PR đặc tả phải merge trước PR source.
+
+Lỗi tái hiện được đã ghi ở changelog 0433 (Phòng luyện tập): `/luyen-tap` và
+`/goc-hoc-tap/english` nằm trong cổng AA nhưng **không** nằm trong `ROUTES` của cổng AAA.
+Chạy thử AAA tạm cho hai trang đỏ ở cả ba theme vì `incomplete` “không xác định được màu
+nền do gradient” trên banner Sổ tay lỗi sai / Đấu trường. Đây đúng loại F5: chữ đọc
+thật chưa được đo 7:1.
+
+- Thêm hai route vào `ROUTES` của `e2e/a11y-aaa.spec.ts`. Test đỏ trước sửa là bằng
+  chứng tái hiện; ghi lại số node `incomplete` từng theme.
+- Sửa ở component: chữ đọc trên banner phải nằm trên nền token đặc xác định được (ví dụ
+  lớp nền đặc sau chữ, gradient chỉ là trang trí ngoài vùng chữ), màu chữ lấy từ token
+  `--z-*`/`--a-*`. Không thêm ngoại lệ, không `disableRules`, không hạ ngưỡng 7:1/4.5:1,
+  không đổi collector hay cách xử lý `incomplete` để đưa gate về xanh.
+- Nếu sửa component làm đổi giao diện: ảnh Tầng 8b 1440/390 trước/sau ba theme.
+  Chạy đủ AA + AAA cho hai route và các route khác dùng chung component bị sửa
+  (`npm run codemap -- impact`).
+- Nếu sau khi phủ route vẫn còn `incomplete` không sửa được bằng component, PR dừng ở
+  VERIFYING và ghi rõ target, không báo AAA đạt.
+
+Rollback: revert PR source; hai route trở lại ngoài cổng AAA và F5 cho hai màn này mở lại.
 
 ## 3. S07 — Zoom, reflow, focus và vùng chạm
 
@@ -254,7 +283,7 @@ Không có migration, không cần sửa dữ liệu hoặc tác động product
 
 ## 6. Điều kiện chuyển trạng thái
 
-- [ ] Review hợp đồng phân loại chữ, incomplete và ngưỡng 7:1.
+- [x] Review hợp đồng phân loại chữ, incomplete và ngưỡng 7:1 (S06b, 24/09).
 - [ ] Review từng PR scope và phụ thuộc, gồm phối hợp S04/S05.
 - [x] S08 đã được review và duyệt phạm vi triển khai; PR đặc tả phải merge trước source.
 - [x] S07b đã merge và được kiểm E2E ở 320/390; S07c được duyệt riêng, source chỉ mở sau
