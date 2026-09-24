@@ -1063,7 +1063,8 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   câu tiếng Việt) và `MemoryPalaceCard` (gộp badge "Platform V5 Method of Loci" thành "Ghi nhớ
   bằng không gian") — `CyberTutorAvatar3D` hoá ra đã dọn sạch từ trước. Còn mở: P2-5 theme `kid`
   chỉ đổi màu (câu hỏi sản phẩm); Phòng luyện tập vs Tiếng Anh home vẫn nhiều lối vào cùng đích;
-  "Đọc tiếp" ở Truyện cần cơ chế lưu truyện đang đọc.
+  ~~"Đọc tiếp" ở Truyện~~ ĐÃ LÀM 2026-09-24 (`docs/changelog/0433-*.md`, PR #1158 — lưu đoạn
+  đang đọc ở localStorage, chưa đồng bộ đa thiết bị).
   ~~`e2e/home-clarity-evidence.spec.ts` đỏ ngẫu nhiên ~1/3 lượt ở ca CLS 0,103~~ **ĐÃ SỬA
   2026-09-24 (PR #1159, `docs/changelog/0433-2026-09-24-home-comeback-reserve-cls-flaky.md`)**:
   không phải nhiễu đo — sàn comeback mobile của `HomeAiBriefingCard` thiếu chỗ (2 nút icon làm chữ

@@ -2,7 +2,7 @@
 // trang Nghe). Tải nội dung LAZY qua loadStory() (không import tĩnh — tránh phình bundle).
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Play, Pause, Square, Eye, EyeOff, Sparkles } from 'lucide-react'
+import { Play, Pause, Square, Eye, EyeOff, Sparkles, RotateCcw } from 'lucide-react'
 import Layout from '../../../components/Layout'
 import { PageShell } from '@core/PageShell'
 import { TwoPane } from '@core/TwoPane'
@@ -17,6 +17,7 @@ import { loadStory } from '../../../data/stories/loader'
 import type { Story } from '../../../data/stories/index'
 import { buildSlugSegment, idFromSlugSegment } from '@core/slug'
 import { duongDanTruyen } from '../../../lib/englishRoutes'
+import { getStoryProgress, saveStoryProgress, clearStoryProgress } from '../../../lib/storyProgress'
 import {
   speak,
   stopSpeaking,
@@ -40,6 +41,10 @@ export default function StoryReader() {
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
   const [showTranslation, setShowTranslation] = useState(false) // mặc định ẨN — trang luyện nghe
+  // "Đọc tiếp" (docs/specs/2026-09-24-truyen-doc-tiep.md): đoạn đã đọc dở lần trước, đọc ra
+  // NGAY lúc tải xong truyện (trong callback async, không setState đồng bộ trong effect).
+  // null = mở từ đầu như cũ.
+  const [resumeFrom, setResumeFrom] = useState<number | null>(null)
 
   // Đổi truyện (id đổi) → quay lại trạng thái đang tải — pattern so-sánh-prev ngay
   // trong render (không setState đồng bộ trong effect). Mount lần đầu đã đúng mặc định.
@@ -48,6 +53,7 @@ export default function StoryReader() {
     setPrevId(id)
     setLoading(true)
     setNotFound(false)
+    setResumeFrom(null)
   }
 
   useEffect(() => {
@@ -56,8 +62,16 @@ export default function StoryReader() {
     loadStory(id).then((s) => {
       if (!alive) return
       setLoading(false)
-      if (!s) setNotFound(true)
-      else setStory(s)
+      if (!s) {
+        setNotFound(true)
+        return
+      }
+      setStory(s)
+      const saved = getStoryProgress(id)
+      // Bản ghi trỏ quá số đoạn hiện có (truyện đã bị sửa ngắn đi) → bỏ, mở từ đầu.
+      const total = groupLinesByParagraph(s.lines).length
+      if (saved && saved.para < total) setResumeFrom(saved.para)
+      else if (saved) clearStoryProgress(id)
     })
     return () => {
       alive = false
@@ -75,6 +89,70 @@ export default function StoryReader() {
   }, [story, id, isA, slugParam, nav])
 
   const paragraphs = useMemo(() => (story ? groupLinesByParagraph(story.lines) : []), [story])
+
+  // ── Đọc tiếp: cuộn tới đoạn đã lưu (một lần mỗi truyện) + theo dõi đoạn đang đọc ──────────
+  // Vị trí = đoạn TRÊN CÙNG đang nằm trong dải đọc (từ dưới header sticky ~80px tới 40% chiều
+  // cao màn hình). Chạm mốc cuối truyện (`endRef`, sau cả phần bài học rút ra) = ĐỌC XONG →
+  // xoá trạng thái, và thôi ghi trong lượt xem này để cuộn ngược lên xem lại không biến truyện
+  // thành "đọc dở" lần nữa.
+  const resumeScrolledRef = useRef<string | null>(null)
+  const finishedRef = useRef(false)
+  const endRef = useRef<HTMLDivElement | null>(null)
+  const resumeNoticeRef = useRef<HTMLDivElement | null>(null)
+  const titleRef = useRef<HTMLHeadingElement | null>(null)
+
+  useEffect(() => {
+    if (!story || !id || paragraphs.length === 0) return
+    const storyId = id
+    const total = paragraphs.length
+    if (resumeScrolledRef.current !== storyId) {
+      resumeScrolledRef.current = storyId
+      finishedRef.current = false
+      if (resumeFrom !== null) {
+        // Cuộn TỨC THÌ (không smooth) và TRƯỚC khi gắn observer: lần báo đầu tiên của observer
+        // phải thấy vị trí đã cuộn, nếu không nó ghi đè "đoạn 0" và xoá mất chỗ đang đọc.
+        document.getElementById(`doan-${resumeFrom}`)?.scrollIntoView({ block: 'start' })
+        // Đưa tiêu điểm tới dòng thông báo để trình đọc màn hình biết trang vừa nhảy tới đâu.
+        resumeNoticeRef.current?.focus({ preventScroll: true })
+      }
+    }
+    if (typeof IntersectionObserver === 'undefined') return
+
+    const visible = new Set<number>()
+    const paraObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const idx = Number((entry.target as HTMLElement).dataset.storyPara)
+          if (entry.isIntersecting) visible.add(idx)
+          else visible.delete(idx)
+        }
+        if (finishedRef.current || visible.size === 0) return
+        saveStoryProgress(storyId, Math.min(...visible), total)
+      },
+      { rootMargin: '-80px 0px -60% 0px' },
+    )
+    const endObserver = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return
+      finishedRef.current = true
+      clearStoryProgress(storyId)
+    })
+    document
+      .querySelectorAll<HTMLElement>('[data-story-para]')
+      .forEach((el) => paraObserver.observe(el))
+    if (endRef.current) endObserver.observe(endRef.current)
+    return () => {
+      paraObserver.disconnect()
+      endObserver.disconnect()
+    }
+    // `isDesktop` đổi → TwoPane dựng lại DOM đoạn văn, phải gắn observer lại vào nút mới.
+  }, [story, id, paragraphs, isDesktop, resumeFrom])
+
+  function restartFromBeginning() {
+    if (id) clearStoryProgress(id)
+    setResumeFrom(null)
+    window.scrollTo({ top: 0 })
+    titleRef.current?.focus({ preventScroll: true })
+  }
   const flatLines = story?.lines ?? []
   // Giọng cố định theo thể loại truyện (không dùng giọng chung toàn app nữa — xem lib/stories.ts)
   // Truyền `plan` để tự hạ giọng khi gói chưa mở khoá giọng Gemini — xem getStoryVoice().
@@ -324,7 +402,7 @@ export default function StoryReader() {
               {story.level}
             </span>
           </div>
-          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          <h1 ref={titleRef} tabIndex={-1} className="sr-only focus:outline-none">
             {isA ? story.titleEn : story.titleVi}
           </h1>
 
@@ -368,7 +446,34 @@ export default function StoryReader() {
             {paragraphs.map((para, pi) => (
               // `id` là đích của mục lục đoạn ở cột phụ desktop. `scroll-mt-20` chừa đúng chiều
               // cao header sticky, nếu không đoạn được nhảy tới sẽ nằm KHUẤT sau header.
-              <div key={pi} id={`doan-${pi}`} className="space-y-2 scroll-mt-20">
+              <div
+                key={pi}
+                id={`doan-${pi}`}
+                data-story-para={pi}
+                className="space-y-2 scroll-mt-20"
+              >
+                {resumeFrom === pi && (
+                  // Dòng báo "đang đọc tiếp" nằm NGAY ĐẦU đoạn được cuộn tới — đặt ở đầu trang
+                  // thì người đọc không bao giờ thấy nó (trang đã cuộn qua rồi).
+                  <div
+                    ref={resumeNoticeRef}
+                    tabIndex={-1}
+                    className="flex flex-wrap items-center gap-2 rounded-xl border border-accent-500/30 bg-accent-500/10 px-3 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500"
+                  >
+                    <p className="text-xs text-zinc-200">
+                      {isA
+                        ? `Đang đọc tiếp từ đoạn ${pi + 1}/${paragraphs.length}.`
+                        : `Continuing from paragraph ${pi + 1}/${paragraphs.length}.`}
+                    </p>
+                    <button
+                      onClick={restartFromBeginning}
+                      className="tap-44 ml-auto flex items-center gap-1.5 px-3 py-2 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 text-zinc-300 text-xs font-medium transition"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
+                      {isA ? 'Đọc lại từ đầu' : 'Start over'}
+                    </button>
+                  </div>
+                )}
                 {para.map((ln, li) => {
                   const idx = (paraOffsets[pi] ?? 0) + li
                   const isActive = playing && activeIdx === idx
@@ -441,6 +546,8 @@ export default function StoryReader() {
               )}
             </div>
           )}
+          {/* Mốc cuối truyện: lọt vào màn hình = đã đọc hết → xoá trạng thái "đọc dở". */}
+          <div ref={endRef} className="h-px" aria-hidden="true" />
         </TwoPane>
       </PageShell>
     </div>
