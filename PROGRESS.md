@@ -178,7 +178,8 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
   toàn bộ phần còn lại** — S06b (phủ AAA cho `/luyen-tap` + `/goc-hoc-tap/english`) và S09 (B1
   đóng mức kỹ thuật; thứ tự S09a kết quả STEM → S09b Trong bài → S09c English / S09d Lập trình)
   đã Approved for implementation (`docs/changelog/0434-*.md`). S10 chờ chuyên gia rà mẫu, S12 chờ pilot ngày 7/14.
-  Bước tiếp theo: source S06b và S09a, rồi S09b–d; thu bằng chứng accessibility còn thiếu;
+  S06b source xong (`docs/changelog/0435-*.md`: hai màn vào cổng AAA, sửa nền gradient, xanh 3 theme).
+  Bước tiếp theo: source S09a, rồi S09b–d; thu bằng chứng accessibility còn thiếu;
   xem trạng thái và giới hạn nghiệm thu trong goal, không coi source merge là goal hoàn tất.
 
 > Mỗi mục 1 PR, dừng xin duyệt ở mỗi cổng (CLAUDE.md mục 3). Mục đã ✅ KHÔNG nằm ở đây — xem
