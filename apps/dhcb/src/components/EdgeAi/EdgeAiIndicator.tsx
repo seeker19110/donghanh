@@ -61,13 +61,17 @@ export const EdgeAiIndicator: React.FC<EdgeAiIndicatorProps> = ({ className = ''
               <div className="bg-zinc-950 p-3 rounded-xl border border-zinc-800/80 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-zinc-400">Chế độ xử lý:</span>
-                  <span className="font-bold text-emerald-400 theme-light:text-emerald-900 uppercase">
-                    {capability.inferenceMode}
+                  <span className="font-bold text-emerald-400 theme-light:text-emerald-900">
+                    {capability.inferenceMode === 'webgpu'
+                      ? 'Chấm ngay trên máy'
+                      : capability.inferenceMode === 'wasm'
+                        ? 'Chấm trên máy'
+                        : 'Chấm qua máy chủ'}
                   </span>
                 </div>
                 {capability.adapterName && (
                   <div className="flex items-center justify-between">
-                    <span className="text-zinc-400">GPU Adapter:</span>
+                    <span className="text-zinc-400">Phần cứng xử lý:</span>
                     <span className="font-mono text-zinc-200 text-[11px] truncate max-w-[200px]">
                       {capability.adapterName}
                     </span>
