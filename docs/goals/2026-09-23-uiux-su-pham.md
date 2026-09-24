@@ -4,7 +4,7 @@
 | ----------------- | ---------------------------------------------------------------------------------------------------- |
 | Goal ID           | GOAL-2026-0923-UIUX-PEDAGOGY                                                                         |
 | Owner             | Chủ sản phẩm Đồng Hành; agent phụ trách kế hoạch và bằng chứng kỹ thuật                              |
-| Trạng thái        | IN PROGRESS — S01–S04, S08, S06 phần cổng, S07a và S11a đã merge; nghiệm thu rộng còn mở             |
+| Trạng thái        | IN PROGRESS — S07b/c cũng đã merge; nghiệm thu kỹ thuật và người thật còn mở                         |
 | Bắt đầu           | 2026-09-23                                                                                           |
 | Target review     | Sau từng slice; tổng lịch được ước lượng lại sau M1                                                  |
 | Quyền được cấp    | Tự quyết kế hoạch, triển khai, push và auto-merge qua required checks theo chỉ thị người dùng        |
@@ -206,7 +206,9 @@ hiện có. Việc gửi lời mời pilot, truy cập production và triển kh
 - S05 vẫn Draft: [#1138](https://github.com/seeker19110/donghanh/pull/1138) chỉ chốt thiết kế audit offline/manifest; chưa đo coverage đạt chuẩn hoặc có duyệt chuyên gia mẫu B. S06/S07 vẫn PARTIAL theo audit [#1139](https://github.com/seeker19110/donghanh/pull/1139)/[#1140](https://github.com/seeker19110/donghanh/pull/1140); không suy ra Approved follow-up S06 từ approval S08.
 - [#1142](https://github.com/seeker19110/donghanh/pull/1142) đã merge tại `9c3e2fa2`, chỉ sửa báo cáo S07. Trên một sheet mục lục Vật lí, Chrome 153 headless/Windows dùng Page zoom thật 100→200% (780→390 CSS px, DPR 1→2), ba theme: focus thấy được, 20 target hiển thị/theme ≥44px, không tràn ngang. Đây là ca browser zoom có dữ liệu mock, chưa chứng minh toàn ma trận, pinch, browser khác hoặc thiết bị thật; S07 vẫn PARTIAL. Báo cáo/JSON nằm ngoài repo.
 - S09 vẫn Draft: review [#1135](https://github.com/seeker19110/donghanh/pull/1135), B2/B3 đóng ở mức thiết kế tại [#1136](https://github.com/seeker19110/donghanh/pull/1136), B1 phụ thuộc M1/M2 còn mở. S10 cần chuyên gia rà 40 mẫu; S11a không hoàn tất S11 rộng; S12 cần thiết bị thật, người học và số đo ngày 7/14. Không có bằng chứng chuyên gia hoặc pilot.
-- Next best slice: hoàn tất audit/điều kiện duyệt S05 sau S04, đồng thời thu bằng chứng accessibility còn thiếu; không bắt đầu S09 source khi B1 chưa đóng.
+- S07b [#1150](https://github.com/seeker19110/donghanh/pull/1150) và S07c [#1152](https://github.com/seeker19110/donghanh/pull/1152) đã merge: tab CEFR ở 320 px và nút Back chung đạt 44×44 trong E2E 320/390, ba theme. #1152 đạt quality/e2e/metadata trên head `4be722f7`; main tại `548bf937`. S07 rộng vẫn PARTIAL vì pinch, bàn phím ảo và thiết bị thật chưa có evidence.
+- Chủ sản phẩm ngày 24/09 yêu cầu ghi nợ chuyên gia, pilot và AT/thiết bị thật, tiếp tục phần khác. S05 technical source được duyệt riêng sau PR đặc tả bổ sung; 40 mẫu vẫn `WAITING_EXPERT_REVIEW`, Product acceptance và release vẫn WAITING. S12 pilot 8 người/ngày 7/14 cũng WAITING, không điền dữ liệu giả.
+- Next best slice: hoàn thiện S05 builder/runtime/audit dùng chung luật, rồi khép các phần kỹ thuật S06/S07/S09–S11 có thể kiểm bằng CI và browser; giữ nợ nghiệm thu thật riêng.
 
 ### Đặc tả chi tiết đã chuẩn bị
 

@@ -1,6 +1,6 @@
 # S03–S05 — Đúng môn, đúng chiều học và câu điền từ hợp lệ
 
-> Trạng thái: **DESIGN_READY** — chỉ S04; S05 vẫn Draft, S03 đã triển khai qua #1121.
+> Trạng thái: **DESIGN_READY** — S04 đã triển khai; S05 được duyệt riêng cho source kỹ thuật sau khi PR bổ sung này merge, còn nghiệm thu chuyên môn WAITING; S03 đã triển khai qua #1121.
 >
 > **Kết luận:** Approved for implementation — chỉ S04; có hiệu lực sau khi PR spec này merge.
 > Người quyết định: Codex theo ủy quyền rõ của chủ sản phẩm trong tác vụ ngày 2026-09-23
@@ -48,7 +48,7 @@ không hứa mọi kết quả AI được cache và không cấp quyền gọi 
 | Thuộc tính     | Giá trị                                                                                                                                                       |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Goal           | [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), M1/S03–S05                                                                                           |
-| Trạng thái     | S03 đã merge #1121; S04 duyệt ở header; S05 **Draft**, blockers tại §4                                                                                        |
+| Trạng thái     | S03 đã merge #1121; S04 đã triển khai; S05 **Approved for technical implementation** sau PR bổ sung này, nghiệm thu chuyên môn WAITING tại §4                 |
 | Baseline       | Main `bec484dff7129145c531cacbb321d2942ed07b7a` gồm #1128 đã merge; baseline audit gốc `1d9e247e`                                                             |
 | Review         | [Review S04/S05](2026-09-23-uiux-s04-s05-review.md), [#1128](https://github.com/seeker19110/donghanh/pull/1128); tích hợp và đối chiếu source ngày 2026-09-23 |
 | Cách giao việc | Ba slice, ba PR riêng; S05 phụ thuộc S04; không sửa đồng thời các mode Practice                                                                               |
@@ -272,7 +272,7 @@ Builder trả danh sách và thống kê số loại bỏ theo lý do; không đ
 - Manifest từng mẫu ghi câu, span, đáp án, options, lý do loại và SHA dữ liệu/luật.
   Ghi riêng kiểm kỹ thuật và review chuyên môn; agent tự kiểm không thay chuyên gia.
 
-### Quyết định S05: Draft và điều kiện gỡ blocker
+### Quyết định S05 ngày 23/09: Draft và điều kiện gỡ blocker
 
 Không cấp approval S05 trong PR này. Dependency bắt buộc: S04 spec đã merge, tiếp đó
 S04 source đã merge với evidence S04_AC01–04 trên đúng head. S05 đọc lại main, dùng
@@ -289,6 +289,38 @@ Chấp nhận empty state dưới bốn câu, kể cả chiều B, không hạ c
 Rollback: revert builder/caller/tests cùng PR; không thay persistence hay migration.
 Rủi ro chấp nhận: độ phủ giảm ở chiều B vì dữ liệu không đủ span rõ ràng. Chất lượng
 câu ưu tiên hơn đủ tám câu; batch nâng độ phủ phải có spec và kiểm duyệt nội dung riêng.
+
+### Quyết định bổ sung 24/09: source kỹ thuật S05
+
+Quyết định này thay trạng thái **chờ source** ở các ghi chú lịch sử phía trên và
+phần handoff S04 bên dưới; nó không thay điều kiện nghiệm thu chuyên môn.
+
+Chủ sản phẩm tiếp tục giao hoàn thiện phần kỹ thuật và yêu cầu **ghi nợ** nghiệm thu
+chuyên gia, người học và thiết bị thật. Sau khi S04 source #1137 đã merge, primary
+đối chiếu lại main `548bf937`, contract phiên Practice và audit ngoại tuyến
+`docs/research/2026-09-23-s05-offline-evidence.md`. S05 được **Approved for technical
+implementation** khi PR đặc tả này merge. Quyết định này chỉ cho phép xây pure
+builder, nối UI và kiểm thử; expert review 20 câu mỗi chiều và Product acceptance
+vẫn `WAITING_EXPERT_REVIEW`, không được ghi release/semantic PASS từ CI.
+
+- `fillBlankQuestions.ts` là một luật duy nhất cho runtime và script audit. Runtime
+  nhận pool `DictEntry[]` và dùng vị trí entry trong pool làm id phiên; audit dùng
+  `chunk#index0` kèm dataset digest làm ref bền trong đúng phiên bản dữ liệu. Cả hai
+  giữ cùng chuẩn hóa, span, reason và chọn options; không dùng id phiên làm định danh
+  xuyên phiên hay trạng thái learner có thẩm quyền.
+- Builder trả accepted trước cap và thống kê mỗi entry đúng một reason. Caller trộn
+  và cap sau validate; question giữ bốn options/id cố định đến hết phiên, kể cả đổi
+  ngôn ngữ UI. Dùng id để chấm và guard đồng bộ để chặn double-click trước rerender.
+- Pool chỉ 0–3 câu hợp lệ hiện empty với đường về hub, không tạo score 0; 4–7 dùng
+  đúng số câu; từ 8 cap ở 8. Copy nhiệm vụ nói rõ **“Khôi phục câu ví dụ đã học”**,
+  không ngụ ý distractor sai trong mọi ngữ cảnh.
+- Source PR hẹp gồm builder/test, `FillBlankQuiz`/test, script audit/test và E2E
+  cho A/B, empty, keyboard, retry, cùng full gate Node 22. Không sửa từ điển,
+  Practice session contract, API, DB, billing/mastery hay dữ liệu người học.
+- Artifact audit mới phải có hash, rule version, tổng reason và trạng thái review
+  chuyên môn WAITING. Manifest 40 mẫu cũ là danh sách review, không được tự điền
+  expert PASS. Rollback source bằng revert builder/caller/script cùng PR; giữ bản
+  manifest cũ và ghi S05 technical chưa đạt.
 
 ## 5. Gate, bằng chứng và điều kiện triển khai
 
