@@ -216,7 +216,7 @@ export default function Layout({
             // bậc theo phân cấp của trang đó (vd bài học Lập trình lùi về đúng chặng, không
             // phải P1). `backLabel` tính từ cùng cây route TĨNH của `buildCrumbs` nên khớp
             // đúng đích đó, thay vì nhãn cứng "Trang chủ" (sai khi đích không phải Trang chủ).
-            className="flex items-center gap-1.5 text-zinc-400 hover:text-white transition shrink-0 -ml-1 p-2.5 rounded-xl hover:bg-zinc-800/60 active:scale-95"
+            className="tap-44 flex items-center gap-1.5 text-zinc-400 hover:text-white transition shrink-0 -ml-1 p-2.5 rounded-xl hover:bg-zinc-800/60 active:scale-95"
           >
             <ArrowLeft className="w-4 h-4" />
             <span className="text-sm font-medium hidden sm:inline">{backLabel}</span>
