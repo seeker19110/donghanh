@@ -12,16 +12,11 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePageTitle } from '../../lib/usePageTitle'
 import {
-  duongDanBaiHocAnh,
-  duongDanCauThongDung,
   duongDanLuyenNghe,
   duongDanLuyenNoi,
   duongDanLuyenViet,
   duongDanSoTayLoiSai,
-  duongDanThuThach,
   duongDanTroTruyen,
-  duongDanTruyen,
-  duongDanTuDien,
 } from '../../lib/englishRoutes'
 import {
   Headphones,
@@ -34,11 +29,7 @@ import {
   Shuffle,
   ChevronRight,
   Sparkles,
-  BookOpen,
-  BookMarked,
-  Video,
   AlertCircle,
-  Award,
   Calculator,
   Atom,
   FlaskConical,
@@ -46,6 +37,7 @@ import {
   Activity,
   GraduationCap,
   ArrowRight,
+  type LucideIcon,
 } from 'lucide-react'
 import Layout from '../../components/Layout.js'
 import { PageShell } from '@core/PageShell'
@@ -68,6 +60,50 @@ import { FillBlankQuiz } from './practice/FillBlankQuiz'
 import { PronounceList } from './practice/PronounceList'
 import { Shadowing } from './practice/Shadowing'
 import { ReverseInterview } from './practice/ReverseInterview'
+
+// [2026-09-24, audit UI/UX P2-1] Lối tắt 4 kỹ năng gia sư AI môn Tiếng Anh. Mô tả đầy đủ nằm ở
+// trang nhà của môn (EnglishHome) — ở đây chỉ nhãn ngắn, đi qua đúng hàm dựng URL dùng chung.
+const AI_TUTOR_LINKS: ReadonlyArray<{
+  key: string
+  to: () => string
+  icon: LucideIcon
+  iconClass: string
+  vi: string
+  en: string
+}> = [
+  {
+    key: 'speaking',
+    to: duongDanLuyenNoi,
+    icon: Mic,
+    iconClass: 'bg-sky-500/15 text-sky-400 theme-light:text-sky-900',
+    vi: 'Luyện nói',
+    en: 'Speaking',
+  },
+  {
+    key: 'writing',
+    to: duongDanLuyenViet,
+    icon: PenLine,
+    iconClass: 'bg-violet-500/15 text-violet-400 theme-light:text-violet-800',
+    vi: 'Luyện viết',
+    en: 'Writing',
+  },
+  {
+    key: 'chat',
+    to: duongDanTroTruyen,
+    icon: MessageCircle,
+    iconClass: 'bg-accent-500/15 text-accent-400',
+    vi: 'Trò chuyện',
+    en: 'Chat',
+  },
+  {
+    key: 'listening',
+    to: duongDanLuyenNghe,
+    icon: Headphones,
+    iconClass: 'bg-rose-500/15 text-rose-400 theme-light:text-rose-900',
+    vi: 'Luyện nghe',
+    en: 'Listening',
+  },
+]
 
 // ── Trang chính ─────────────────────────────────────────────────────────
 export default function Practice() {
@@ -296,282 +332,8 @@ export default function Practice() {
         {/* ── ĐẤU TRƯỜNG 1V1 PVP ARENA ── */}
         <PvPArenaCard />
 
-        {/* ── TẦNG 1: LUYỆN TẬP 5 MÔN HỌC CỐT LÕI & GIẢI ĐỀ AI ── */}
-        <section aria-label="Luyện tập 5 Môn học cốt lõi" className="space-y-3">
-          <div className="flex items-center justify-between px-1">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-blue-300 theme-light:text-blue-800">
-              1. Luyện Tập 5 Môn Học & Giải Đề Từng Bước
-            </h2>
-            <button
-              onClick={() => goToSubjects(nav)}
-              className="text-[11px] text-zinc-400 hover:text-blue-300 transition flex items-center gap-1 font-medium"
-            >
-              <span>Xem tất cả môn</span>
-              <ChevronRight className="w-3 h-3" />
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {/* Toán Học */}
-            <button
-              onClick={() => goToSubjects(nav, 'mathematics')}
-              className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-blue-500/30 hover:border-blue-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex flex-col justify-between"
-            >
-              <div className="flex items-start gap-3 mb-2">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
-                  <Calculator className="w-5 h-5 text-white" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-1 mb-0.5">
-                    <h3 className="font-bold text-white text-sm">Toán Học</h3>
-                    <span className="text-[11px] px-1.5 py-0.2 rounded bg-blue-500/15 text-blue-300 theme-light:text-blue-800 font-semibold border border-blue-500/20">
-                      Giải từng bước
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
-                    Khảo sát hàm số, đạo hàm, tích phân, hình học Oxyz & giải đề thi.
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between text-[11px] text-blue-400 theme-light:text-blue-800 font-medium pt-2 border-t border-zinc-800/80">
-                <span>Giải bài tập & Nhận gợi ý gợi mở</span>
-                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </button>
-
-            {/* Vật Lý */}
-            <button
-              onClick={() => goToSubjects(nav, 'physics')}
-              className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-cyan-500/30 hover:border-cyan-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex flex-col justify-between"
-            >
-              <div className="flex items-start gap-3 mb-2">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
-                  <Atom className="w-5 h-5 text-white" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-1 mb-0.5">
-                    <h3 className="font-bold text-white text-sm">Vật Lý</h3>
-                    <span className="text-[11px] px-1.5 py-0.2 rounded bg-cyan-500/15 text-cyan-300 theme-light:text-cyan-800 font-semibold border border-cyan-500/20">
-                      Thí nghiệm mô phỏng
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
-                    Dao động cơ, sóng âm, điện xoay chiều kèm phân tích công thức.
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between text-[11px] text-cyan-400 theme-light:text-cyan-800 font-medium pt-2 border-t border-zinc-800/80">
-                <span>Luyện giải & Thí nghiệm</span>
-                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </button>
-
-            {/* Hóa Học */}
-            <button
-              onClick={() => goToSubjects(nav, 'chemistry')}
-              className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-amber-500/30 hover:border-amber-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex flex-col justify-between"
-            >
-              <div className="flex items-start gap-3 mb-2">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
-                  <FlaskConical className="w-5 h-5 text-white" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-1 mb-0.5">
-                    <h3 className="font-bold text-white text-sm">Hóa Học</h3>
-                    <span className="text-[11px] px-1.5 py-0.2 rounded bg-amber-500/15 text-amber-300 theme-light:text-amber-800 font-semibold border border-amber-500/20">
-                      Cân bằng phản ứng
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
-                    Cân bằng oxi hóa khử, este - lipit, amino axit & bài toán dung dịch.
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between text-[11px] text-amber-400 theme-light:text-amber-800 font-medium pt-2 border-t border-zinc-800/80">
-                <span>Luyện chuỗi phản ứng</span>
-                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </button>
-
-            {/* Sinh Học */}
-            <button
-              onClick={() => goToSubjects(nav, 'biology')}
-              className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-emerald-500/30 hover:border-emerald-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex flex-col justify-between"
-            >
-              <div className="flex items-start gap-3 mb-2">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
-                  <Dna className="w-5 h-5 text-white" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-1 mb-0.5">
-                    <h3 className="font-bold text-white text-sm">Sinh Học</h3>
-                    <span className="text-[11px] px-1.5 py-0.2 rounded bg-emerald-500/15 text-emerald-300 theme-light:text-emerald-800 font-semibold border border-emerald-500/20">
-                      Di Truyền
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
-                    Di truyền Mendel, phiên mã ADN, đột biến gen và phả hệ.
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between text-[11px] text-emerald-400 theme-light:text-emerald-800 font-medium pt-2 border-t border-zinc-800/80">
-                <span>Luyện giải bài tập ADN</span>
-                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </button>
-
-            {/* Tiếng Anh Song Ngữ */}
-            <button
-              onClick={() => nav(duongDanMonTiengAnh())}
-              className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-purple-500/30 hover:border-purple-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex flex-col justify-between"
-            >
-              <div className="flex items-start gap-3 mb-2">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
-                  <GraduationCap className="w-5 h-5 text-white" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-1 mb-0.5">
-                    <h3 className="font-bold text-white text-sm">Tiếng Anh CEFR</h3>
-                    <span className="text-[11px] px-1.5 py-0.2 rounded bg-purple-500/15 text-purple-300 theme-light:text-purple-800 font-semibold border border-purple-500/20">
-                      A1 - C2
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
-                    Lộ trình chuẩn hóa 6 cấp độ CEFR, từ vựng và phản xạ ngữ cảnh.
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between text-[11px] text-purple-400 theme-light:text-purple-800 font-medium pt-2 border-t border-zinc-800/80">
-                <span>Khám phá lộ trình</span>
-                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </button>
-
-            {/* 10 Simulators Thí Nghiệm */}
-            <button
-              onClick={() => nav('/ung-dung-thuc-te')}
-              className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-teal-500/30 hover:border-teal-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex flex-col justify-between"
-            >
-              <div className="flex items-start gap-3 mb-2">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
-                  <Activity className="w-5 h-5 text-white" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between gap-1 mb-0.5">
-                    <h3 className="font-bold text-white text-sm">10 thí nghiệm STEM</h3>
-                    <span className="text-[11px] px-1.5 py-0.2 rounded bg-teal-500/15 text-teal-300 theme-light:text-teal-800 font-semibold border border-teal-500/20">
-                      Phòng Thí Nghiệm
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
-                    Mô phỏng điện EVN, con lắc lò xo, tên lửa nước, thấu kính quang học.
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between text-[11px] text-teal-400 theme-light:text-teal-800 font-medium pt-2 border-t border-zinc-800/80">
-                <span>Vào phòng thí nghiệm</span>
-                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </button>
-          </div>
-        </section>
-
-        {/* ── TẦNG 2: 4 TRỤ CỘT KỸ NĂNG CHÍNH (Core Skills Mastery) ── */}
-        <section aria-label="4 Kỹ năng cốt lõi" className="space-y-3">
-          <div className="flex items-center justify-between px-1">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-accent-400 theme-light:text-accent-800">
-              2. 4 Kỹ Năng Đàm Thoại & Đánh Giá AI
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {/* Luyện Nói & IPA */}
-            <button
-              onClick={() => nav(duongDanLuyenNoi())}
-              className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-sky-500/30 hover:border-sky-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex items-start gap-3.5"
-            >
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
-                <Mic className="w-5 h-5 text-zinc-950 font-bold" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between gap-1 mb-0.5">
-                  <h3 className="font-bold text-white text-sm">Luyện Nói & Chấm Âm IPA</h3>
-                  <span className="text-[11px] px-1.5 py-0.2 rounded bg-sky-500/15 text-sky-300 theme-light:text-sky-800 font-semibold border border-sky-500/20">
-                    Nghe bạn nói
-                  </span>
-                </div>
-                <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
-                  Đàm thoại tự do, nhận diện và chấm điểm từng âm vị IPA, sửa lỗi bằng tiếng mẹ đẻ.
-                </p>
-              </div>
-            </button>
-
-            {/* Luyện Viết & IELTS */}
-            <button
-              onClick={() => nav(duongDanLuyenViet())}
-              className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-violet-500/30 hover:border-violet-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex items-start gap-3.5"
-            >
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
-                <PenLine className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between gap-1 mb-0.5">
-                  <h3 className="font-bold text-white text-sm">Luyện Viết & Chấm IELTS</h3>
-                  <span className="text-[11px] px-1.5 py-0.2 rounded bg-violet-500/15 text-violet-300 theme-light:text-violet-800 font-semibold border border-violet-500/20">
-                    Chấm kiểu IELTS
-                  </span>
-                </div>
-                <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
-                  Chấm 4 tiêu chí Task, Coherence, Lexical, Grammar kèm gợi ý viết lại xuất sắc.
-                </p>
-              </div>
-            </button>
-
-            {/* Chat Đối Thoại Gợi Mở */}
-            <button
-              onClick={() => nav(duongDanTroTruyen())}
-              className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-accent-500/30 hover:border-accent-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex items-start gap-3.5"
-            >
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-accent-500 to-amber-500 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
-                <MessageCircle className="w-5 h-5 text-zinc-950 font-bold" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between gap-1 mb-0.5">
-                  <h3 className="font-bold text-white text-sm">Chat Đàm Thoại AI</h3>
-                  <span className="text-[11px] px-1.5 py-0.2 rounded bg-accent-500/15 text-accent-300 theme-light:text-accent-800 font-semibold border border-accent-500/20">
-                    Gợi mở
-                  </span>
-                </div>
-                <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
-                  Nhập vai tình huống thực tế, trò chuyện linh hoạt và sửa lỗi ngữ cảnh tức thì.
-                </p>
-              </div>
-            </button>
-
-            {/* Thư Viện Nghe */}
-            <button
-              onClick={() => nav(duongDanLuyenNghe())}
-              className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-rose-500/30 hover:border-rose-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex items-start gap-3.5"
-            >
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
-                <Headphones className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between gap-1 mb-0.5">
-                  <h3 className="font-bold text-white text-sm">Thư Viện Luyện Nghe</h3>
-                  <span className="text-[11px] px-1.5 py-0.2 rounded bg-rose-500/15 text-rose-300 theme-light:text-rose-800 font-semibold border border-rose-500/20">
-                    Giọng bản xứ
-                  </span>
-                </div>
-                <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
-                  Kho bài nghe, truyện cổ tích và hội thoại mẫu giọng bản xứ chuẩn Mỹ.
-                </p>
-              </div>
-            </button>
-          </div>
-        </section>
-
-        {/* ── TẦNG 3: 8 BÀI TẬP PHẢN XẠ NHANH (Interactive Drill Studio) ── */}
+        {/* ── 1. 8 BÀI TẬP PHẢN XẠ NHANH — nội dung RIÊNG của trang này (nhà của 8 mini-game), nên
+            đứng đầu thay vì nằm dưới hai lớp danh mục như trước 2026-09-24. ── */}
         <section
           aria-label={isUiVi ? 'Bài tập tương tác nhanh' : 'Quick interactive exercises'}
           className="space-y-3"
@@ -602,7 +364,7 @@ export default function Practice() {
           <div className="flex items-center justify-between px-1">
             <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-sky-400" />
-              {isUiVi ? '3. 8 Chế Độ Luyện Tập Phản Xạ Nhanh' : '3. Eight quick practice modes'}
+              {isUiVi ? '1. 8 Chế Độ Luyện Tập Phản Xạ Nhanh' : '1. Eight quick practice modes'}
             </h2>
           </div>
 
@@ -779,76 +541,216 @@ export default function Practice() {
           </div>
         </section>
 
-        {/* ── TẦNG 4: SỔ TAY LỖI SAI & KHO HỌC LIỆU BỔ TRỢ (Resource & Tool Vault) ── */}
-        <section aria-label="Kho học liệu bổ trợ" className="space-y-3">
+        {/* ── 2. GIA SƯ AI TIẾNG ANH — LỐI VÀO NHANH ──
+            [2026-09-24, audit UI/UX P2-1] Nhà của 4 kỹ năng gia sư AI (và của Từ điển · Truyện ·
+            Mẫu câu · Ngữ pháp · Thử thách 1 phút) là trang môn Tiếng Anh — nơi mô tả đầy đủ. Ở
+            đây chỉ giữ 4 lối tắt một dòng, KHÔNG nhân bản mô tả; kho học liệu bổ trợ đã gỡ hẳn
+            khỏi trang này, vào qua thẻ "Tiếng Anh CEFR" ở mục 3. */}
+        <section aria-labelledby="practice-ai-tutor" className="space-y-3">
+          <h2
+            id="practice-ai-tutor"
+            className="px-1 text-xs font-bold uppercase tracking-wider text-accent-400 theme-light:text-accent-800"
+          >
+            {isUiVi
+              ? '2. Luyện với gia sư AI · Tiếng Anh'
+              : '2. Practice with the AI tutor · English'}
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            {AI_TUTOR_LINKS.map(({ key, to, icon: Icon, iconClass, vi, en }) => (
+              <button
+                key={key}
+                onClick={() => nav(to())}
+                className="tap-44 flex items-center gap-2.5 p-3 rounded-2xl bg-zinc-900/70 hover:bg-zinc-800/80 border border-zinc-800/80 hover:border-zinc-700 text-left transition active:scale-[0.98] group"
+              >
+                <span
+                  className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 group-hover:scale-105 transition ${iconClass}`}
+                >
+                  <Icon className="w-4 h-4" aria-hidden="true" />
+                </span>
+                <span className="text-xs font-semibold text-zinc-200 min-w-0">
+                  {isUiVi ? vi : en}
+                </span>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {/* ── 3. LUYỆN TẬP 5 MÔN HỌC CỐT LÕI & GIẢI ĐỀ AI ── */}
+        <section aria-label="Luyện tập 5 Môn học cốt lõi" className="space-y-3">
           <div className="flex items-center justify-between px-1">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400" />
-              4. Kho Học Liệu Bổ Trợ
+            <h2 className="text-xs font-bold uppercase tracking-wider text-blue-300 theme-light:text-blue-800">
+              3. Luyện Tập 5 Môn Học & Giải Đề Từng Bước
             </h2>
+            <button
+              onClick={() => goToSubjects(nav)}
+              className="text-[11px] text-zinc-400 hover:text-blue-300 transition flex items-center gap-1 font-medium"
+            >
+              <span>Xem tất cả môn</span>
+              <ChevronRight className="w-3 h-3" />
+            </button>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-            {/* [2026-09-22, audit UI/UX P2-1] Ô "Sổ Tay Lỗi Sai" ở đây đã gỡ: cùng đích với
-                banner đầu trang, một trang không mở cùng một cửa hai lần. */}
-            {/* Từ điển 12k từ */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {/* Toán Học */}
             <button
-              onClick={() => nav(duongDanTuDien())}
-              className="tap-44 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-amber-500/40 text-left transition active:scale-[0.98] group"
+              onClick={() => goToSubjects(nav, 'mathematics')}
+              className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-blue-500/30 hover:border-blue-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex flex-col justify-between"
             >
-              <div className="w-8 h-8 rounded-xl bg-amber-500/15 text-amber-400 theme-light:text-amber-800 flex items-center justify-center shrink-0 mb-2 group-hover:scale-105 transition">
-                <BookOpen className="w-4 h-4" />
+              <div className="flex items-start gap-3 mb-2">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
+                  <Calculator className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-1 mb-0.5">
+                    <h3 className="font-bold text-white text-sm">Toán Học</h3>
+                    <span className="text-[11px] px-1.5 py-0.2 rounded bg-blue-500/15 text-blue-300 theme-light:text-blue-800 font-semibold border border-blue-500/20">
+                      Giải từng bước
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
+                    Khảo sát hàm số, đạo hàm, tích phân, hình học Oxyz & giải đề thi.
+                  </p>
+                </div>
               </div>
-              <p className="text-xs font-bold text-white truncate">Từ Điển 12k+ IPA</p>
-              <p className="text-[11px] text-zinc-400 truncate">Tra cứu & Nghe phát âm</p>
+              <div className="flex items-center justify-between text-[11px] text-blue-400 theme-light:text-blue-800 font-medium pt-2 border-t border-zinc-800/80">
+                <span>Giải bài tập & Nhận gợi ý gợi mở</span>
+                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </div>
             </button>
 
-            {/* Truyện song ngữ */}
+            {/* Vật Lý */}
             <button
-              onClick={() => nav(duongDanTruyen())}
-              className="tap-44 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-pink-500/40 text-left transition active:scale-[0.98] group"
+              onClick={() => goToSubjects(nav, 'physics')}
+              className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-cyan-500/30 hover:border-cyan-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex flex-col justify-between"
             >
-              <div className="w-8 h-8 rounded-xl bg-pink-500/15 text-pink-400 theme-light:text-pink-800 flex items-center justify-center shrink-0 mb-2 group-hover:scale-105 transition">
-                <BookMarked className="w-4 h-4" />
+              <div className="flex items-start gap-3 mb-2">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
+                  <Atom className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-1 mb-0.5">
+                    <h3 className="font-bold text-white text-sm">Vật Lý</h3>
+                    <span className="text-[11px] px-1.5 py-0.2 rounded bg-cyan-500/15 text-cyan-300 theme-light:text-cyan-800 font-semibold border border-cyan-500/20">
+                      Thí nghiệm mô phỏng
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
+                    Dao động cơ, sóng âm, điện xoay chiều kèm phân tích công thức.
+                  </p>
+                </div>
               </div>
-              <p className="text-xs font-bold text-white truncate">Truyện Karaoke Text</p>
-              <p className="text-[11px] text-zinc-400 truncate">Vừa nghe vừa sáng chữ</p>
+              <div className="flex items-center justify-between text-[11px] text-cyan-400 theme-light:text-cyan-800 font-medium pt-2 border-t border-zinc-800/80">
+                <span>Luyện giải & Thí nghiệm</span>
+                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </div>
             </button>
 
-            {/* Mẫu câu thông dụng */}
+            {/* Hóa Học */}
             <button
-              onClick={() => nav(duongDanCauThongDung())}
-              className="tap-44 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-blue-500/40 text-left transition active:scale-[0.98] group"
+              onClick={() => goToSubjects(nav, 'chemistry')}
+              className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-amber-500/30 hover:border-amber-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex flex-col justify-between"
             >
-              <div className="w-8 h-8 rounded-xl bg-blue-500/15 text-blue-400 theme-light:text-blue-800 flex items-center justify-center shrink-0 mb-2 group-hover:scale-105 transition">
-                <MessageCircle className="w-4 h-4" />
+              <div className="flex items-start gap-3 mb-2">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
+                  <FlaskConical className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-1 mb-0.5">
+                    <h3 className="font-bold text-white text-sm">Hóa Học</h3>
+                    <span className="text-[11px] px-1.5 py-0.2 rounded bg-amber-500/15 text-amber-300 theme-light:text-amber-800 font-semibold border border-amber-500/20">
+                      Cân bằng phản ứng
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
+                    Cân bằng oxi hóa khử, este - lipit, amino axit & bài toán dung dịch.
+                  </p>
+                </div>
               </div>
-              <p className="text-xs font-bold text-white truncate">Mẫu Câu Giao Tiếp</p>
-              <p className="text-[11px] text-zinc-400 truncate">Câu thông dụng hằng ngày</p>
+              <div className="flex items-center justify-between text-[11px] text-amber-400 theme-light:text-amber-800 font-medium pt-2 border-t border-zinc-800/80">
+                <span>Luyện chuỗi phản ứng</span>
+                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </div>
             </button>
 
-            {/* Bài học mẫu */}
+            {/* Sinh Học */}
             <button
-              onClick={() => nav(duongDanBaiHocAnh())}
-              className="tap-44 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-teal-500/40 text-left transition active:scale-[0.98] group"
+              onClick={() => goToSubjects(nav, 'biology')}
+              className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-emerald-500/30 hover:border-emerald-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex flex-col justify-between"
             >
-              <div className="w-8 h-8 rounded-xl bg-teal-500/15 text-teal-400 theme-light:text-teal-800 flex items-center justify-center shrink-0 mb-2 group-hover:scale-105 transition">
-                <Award className="w-4 h-4" />
+              <div className="flex items-start gap-3 mb-2">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
+                  <Dna className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-1 mb-0.5">
+                    <h3 className="font-bold text-white text-sm">Sinh Học</h3>
+                    <span className="text-[11px] px-1.5 py-0.2 rounded bg-emerald-500/15 text-emerald-300 theme-light:text-emerald-800 font-semibold border border-emerald-500/20">
+                      Di Truyền
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
+                    Di truyền Mendel, phiên mã ADN, đột biến gen và phả hệ.
+                  </p>
+                </div>
               </div>
-              <p className="text-xs font-bold text-white truncate">100+ Hội Thoại Mẫu</p>
-              <p className="text-[11px] text-zinc-400 truncate">Tình huống theo chủ đề</p>
+              <div className="flex items-center justify-between text-[11px] text-emerald-400 theme-light:text-emerald-800 font-medium pt-2 border-t border-zinc-800/80">
+                <span>Luyện giải bài tập ADN</span>
+                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </div>
             </button>
 
-            {/* Video Thử Thách */}
+            {/* Tiếng Anh Song Ngữ */}
             <button
-              onClick={() => nav(duongDanThuThach())}
-              className="tap-44 p-3.5 rounded-2xl bg-zinc-900/70 hover:bg-zinc-850 border border-zinc-800/80 hover:border-orange-500/40 text-left transition active:scale-[0.98] group"
+              onClick={() => nav(duongDanMonTiengAnh())}
+              className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-purple-500/30 hover:border-purple-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex flex-col justify-between"
             >
-              <div className="w-8 h-8 rounded-xl bg-orange-500/15 text-orange-400 theme-light:text-orange-800 flex items-center justify-center shrink-0 mb-2 group-hover:scale-105 transition">
-                <Video className="w-4 h-4" />
+              <div className="flex items-start gap-3 mb-2">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
+                  <GraduationCap className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-1 mb-0.5">
+                    <h3 className="font-bold text-white text-sm">Tiếng Anh CEFR</h3>
+                    <span className="text-[11px] px-1.5 py-0.2 rounded bg-purple-500/15 text-purple-300 theme-light:text-purple-800 font-semibold border border-purple-500/20">
+                      A1 - C2
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
+                    Lộ trình CEFR, từ điển, truyện song ngữ, mẫu câu & thử thách 1 phút.
+                  </p>
+                </div>
               </div>
-              <p className="text-xs font-bold text-white truncate">Thử Thách 1 Phút</p>
-              <p className="text-[11px] text-zinc-400 truncate">Video nói tiếng Anh tuần</p>
+              <div className="flex items-center justify-between text-[11px] text-purple-400 theme-light:text-purple-800 font-medium pt-2 border-t border-zinc-800/80">
+                <span>Khám phá lộ trình</span>
+                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </button>
+
+            {/* 10 Simulators Thí Nghiệm */}
+            <button
+              onClick={() => nav('/ung-dung-thuc-te')}
+              className="tap-44 p-4 rounded-3xl bg-zinc-900/80 hover:bg-zinc-800/80 border border-teal-500/30 hover:border-teal-500/60 text-left transition-all duration-200 group active:scale-[0.98] shadow-sm flex flex-col justify-between"
+            >
+              <div className="flex items-start gap-3 mb-2">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
+                  <Activity className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-1 mb-0.5">
+                    <h3 className="font-bold text-white text-sm">10 thí nghiệm STEM</h3>
+                    <span className="text-[11px] px-1.5 py-0.2 rounded bg-teal-500/15 text-teal-300 theme-light:text-teal-800 font-semibold border border-teal-500/20">
+                      Phòng Thí Nghiệm
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-zinc-400 line-clamp-2 leading-relaxed">
+                    Mô phỏng điện EVN, con lắc lò xo, tên lửa nước, thấu kính quang học.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center justify-between text-[11px] text-teal-400 theme-light:text-teal-800 font-medium pt-2 border-t border-zinc-800/80">
+                <span>Vào phòng thí nghiệm</span>
+                <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </div>
             </button>
           </div>
         </section>

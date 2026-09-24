@@ -1043,8 +1043,10 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   không ai chạy lại `npm run changelog`) — đổi file của PR #1109 sang `0412`.
 - 🟡 **[2026-09-22 — audit UI/UX sâu, `docs/audit/2026-09-22-danh-gia-sau-ui-ux.md` +
   `docs/changelog/0412-*.md`, PR đợt 0412] Đã xử lý 6 đợt A–F trong một PR.** Nợ còn lại: (1)
-  ~44 chỗ `err.message` ngoài Ghi chú chưa đi qua `lib/friendlyError.ts`; (2) Phòng luyện tập vs
-  Tiếng Anh home vẫn nhiều lối vào cùng đích — chưa chốt trang chủ của từng tính năng; (3) ảnh
+  ~44 chỗ `err.message` ngoài Ghi chú chưa đi qua `lib/friendlyError.ts`; (2) ✅ Phòng luyện tập vs
+  Tiếng Anh home — ĐÃ GỘP (2026-09-24, PR #PR_SO, `docs/changelog/0433-*.md`): chốt nhà từng tính
+  năng, `/luyen-tap` gỡ kho học liệu trùng + rút 4 kỹ năng AI thành lối tắt, cao 3154→2461px ở
+  390px; còn nút "N thẻ đến hạn" ở Tiếng Anh home trỏ `/luyen-tap` (không có ôn SRS); (3) ảnh
   Hồ sơ 1440px chụp `fullPage` luôn mờ dù đo `opacity=1` — cần một lần nhìn tay trên trình duyệt
   thật; (4) chưa chụp theme `kid` và các trang cần dữ liệu thật (bảng giá, huy hiệu, Kanban).
   **Kiểm lại 2026-09-22 (audit lần 2, `docs/audit/2026-09-22-danh-gia-toan-dien-ui-ux-lan-2.md`,
