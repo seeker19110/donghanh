@@ -65,5 +65,18 @@ test nào chọn phần tử đã gỡ).
   Chạy thử AAA tạm cho cả hai trang: đỏ ở cả 3 theme, nhưng toàn bộ là `incomplete` "không xác
   định được màu nền do gradient" trên banner Sổ tay / Đấu trường (có từ trước, Tiếng Anh home
   không sửa cũng đỏ tương tự) — không có vi phạm nào ở phần tử mới.
-- Nút "N thẻ đến hạn" ở Tiếng Anh home dẫn tới `/luyen-tap`, nơi không có phần ôn thẻ SRS — một
-  lối vào sai đích khác, để đợt sau.
+
+## Bổ sung cùng PR: nút "N thẻ đến hạn" sai đích — ĐÃ SỬA
+
+Nút "N thẻ đến hạn" ở Tiếng Anh home (`EnglishHome.tsx`) trỏ `/luyen-tap`, nơi không có phần ôn
+thẻ SRS. Nay nút mở `duongDanCapCefr(cấp đang học)?tab=srs` — **đúng luật của adapter chung**
+`lib/today/englishNext.ts` (mục ôn ở thẻ "Hôm nay" trang chủ): chỉ hiện khi có cấp đang học, đích
+là tab `srs` của cấp đó. Tab `SRSReview` mặc định ôn thẻ của MỌI cấp (`pool` = toàn bộ từ đã học),
+nên khớp con số `srsDue` trên nút.
+
+- Test mới `EnglishHome.srsButton.test.tsx` (3 ca): nút mở đúng `…?tab=srs`; ẩn khi không có cấp
+  đang học; ẩn khi 0 thẻ đến hạn.
+- Phép thử ngược: trả nút về `/luyen-tap` → ca đầu đỏ (`expected '/luyen-tap' to be
+'/goc-hoc-tap/english/lo-trinh/a1?tab=…'`); khôi phục → xanh.
+- Ca biên giữ theo luật sẵn có: người học đã xong mọi cấp (không còn cấp đang học) mà vẫn có thẻ
+  đến hạn thì nút ẩn — giống thẻ "Hôm nay". Muốn đổi thì đổi ở `englishNext` cho cả hai nơi.

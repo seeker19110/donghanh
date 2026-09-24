@@ -169,9 +169,11 @@ export default function EnglishHome() {
                 </p>
               </div>
             </div>
-            {srsDue > 0 && (
+            {/* Ôn thẻ nằm ở tab `srs` của trang cấp (mặc định ôn MỌI cấp nên khớp số `srsDue`);
+                `/luyen-tap` không có phần ôn thẻ. */}
+            {srsDue > 0 && continueHref && (
               <button
-                onClick={() => nav('/luyen-tap')}
+                onClick={() => nav(`${continueHref}?tab=srs`)}
                 className="tap-44 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/30 text-xs text-sky-300 theme-light:text-sky-900 font-semibold transition"
               >
                 <Brain className="w-3.5 h-3.5" />
