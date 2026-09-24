@@ -67,6 +67,16 @@ type StemDraft = z.infer<typeof stemDraftSchema>
 
 const NHAP_RONG: StemDraft = { answers: {}, checked: [] }
 
+/**
+ * [S09a] Một lượt nộp đã có kết quả, gắn CHẶT với câu trả lời lúc bấm Nộp và với người nộp.
+ * Chỉ sống trong bộ nhớ — không persist thêm trạng thái "có thẩm quyền" nào (§2.4).
+ */
+interface LuotDaNop {
+  ketQua: SubmitEvidenceResult
+  answers: Readonly<Record<string, string>>
+  uid: string
+}
+
 function CauHoi({
   cau,
   thuTu,
@@ -244,9 +254,21 @@ function TuKiemTra({
 
   // ── Nộp bài: MỘT lượt cho cả bài, và người phán "đạt hay chưa" là SERVER (S11-2) ──
   const [dangNop, setDangNop] = useState(false)
-  const [ketQuaNop, setKetQuaNop] = useState<SubmitEvidenceResult | null>(null)
+  const [luotNop, setLuotNop] = useState<LuotDaNop | null>(null)
 
   const uid = owner?.id ?? ''
+
+  // [S09a AC05] Số thứ tự lượt nộp "còn hiệu lực". Đổi người dùng (hoặc rời bài) thì tăng lên,
+  // nên response về muộn của người/bài cũ tự nhận ra mình đã lỗi thời và KHÔNG ghi đè màn
+  // kết quả của người/bài mới. Đổi bài vốn đã dựng lại component (`key={bai.id}`); ref này che
+  // nốt ca đổi người trên cùng một bài.
+  const luotHieuLuc = useRef(0)
+  useEffect(
+    () => () => {
+      luotHieuLuc.current += 1
+    },
+    [uid],
+  )
   const soCau = bai.checkQuestions.length
   const daTraLoiHet =
     soCau > 0 &&
@@ -276,24 +298,38 @@ function TuKiemTra({
   const nop = useCallback(async () => {
     if (!uid || dangNop) return
     setDangNop(true)
+    const luot = ++luotHieuLuc.current
+    // [S09a AC05] Chụp câu trả lời NGAY LÚC BẤM NỘP (chỉ trong bộ nhớ). Màn kết quả hiện đúng
+    // bản chụp này — sửa nháp trong lúc chờ hay sau khi có kết quả không được lọt vào lượt cũ.
+    const banChup: Readonly<Record<string, string>> = { ...draft.answers }
     // Nộp rồi thì mọi câu đều phải hiện đúng/sai — kể cả câu tự luận chưa bấm "Kiểm tra".
     setDraft((prev) => ({ ...prev, checked: bai.checkQuestions.map((_, i) => String(i)) }))
     const answers = bai.checkQuestions
-      .map((_, i) => ({ questionIndex: i, raw: (draft.answers[String(i)] ?? '').trim() }))
+      .map((_, i) => ({ questionIndex: i, raw: (banChup[String(i)] ?? '').trim() }))
       .filter((a) => a.raw.length > 0)
     try {
-      setKetQuaNop(
-        await submitStemEvidence(
-          uid,
-          { subjectId, contentId: bai.id, activityKind: 'stem_lesson_check', answers },
-          bai,
-        ),
+      const ketQua = await submitStemEvidence(
+        uid,
+        { subjectId, contentId: bai.id, activityKind: 'stem_lesson_check', answers },
+        bai,
       )
+      // Lượt đã lỗi thời (đổi người dùng / rời bài trong lúc chờ): bỏ qua kết quả trên màn
+      // hình. Bằng chứng thì đã ghi xong ở `submitStemEvidence` — mục lục vẫn phải đọc lại.
+      if (luot === luotHieuLuc.current) setLuotNop({ ketQua, answers: banChup, uid })
       onSubmitted?.()
     } finally {
       setDangNop(false)
     }
   }, [uid, dangNop, setDraft, bai, subjectId, draft.answers, onSubmitted])
+
+  // Chỉ hiện kết quả của ĐÚNG người đang mở bài: đổi tài khoản thì kết quả người trước biến mất.
+  const manKetQua = useMemo(
+    () =>
+      luotNop && luotNop.uid === uid
+        ? ketQuaSangManHinh(luotNop.ketQua, bai, luotNop.answers)
+        : null,
+    [luotNop, uid, bai],
+  )
 
   return (
     <>
@@ -331,11 +367,13 @@ function TuKiemTra({
           {!daTraLoiHet && (
             <p className="mt-2 text-content-secondary">Trả lời đủ {soCau} câu rồi mới nộp được.</p>
           )}
-          {ketQuaNop && (
+          {manKetQua && (
             <ActivityResult
-              {...ketQuaSangManHinh(ketQuaNop, bai, draft.answers)}
+              {...manKetQua}
               passRatio={STEM_CHECK_PASS_RATIO}
-              onRetry={() => setKetQuaNop(null)}
+              // Giữ hành vi S11: "Làm lại" chỉ dọn màn kết quả, KHÔNG xoá nháp; lượt nộp sau
+              // sinh attemptId mới (§2.4 — không gắn "Gửi lại" vào đây).
+              onRetry={() => setLuotNop(null)}
               {...(nextHref ? { nextHref } : {})}
             />
           )}

@@ -184,4 +184,144 @@ describe('ActivityResult', () => {
     expect(chu).toContain('Đúng 3/3 câu')
     expect(chu).not.toContain('Bạn trả lời')
   })
+
+  // ——— [S09a] Contract kết quả §2.4 (docs/specs/2026-09-23-uiux-s09-s12-trai-nghiem-va-nghiem-thu.md) ———
+
+  /** Ba câu của bài, THỨ TỰ GỐC; evidence nói câu 3 sai, câu 2 thiếu, câu 1 đúng. */
+  const CO_INDEX: ActivityResultProps['items'] = [
+    {
+      questionIndex: 0,
+      id: 'ly10-c2-b10#cau-1',
+      prompt: 'Đề câu một',
+      yourAnswer: 'A',
+      correct: true,
+      explain: 'Giải thích câu một',
+      reason: 'CORRECT',
+    },
+    {
+      questionIndex: 1,
+      id: 'ly10-c2-b10#cau-2',
+      prompt: 'Đề câu hai',
+      yourAnswer: 'B',
+      correct: null,
+    },
+    {
+      questionIndex: 2,
+      id: 'ly10-c2-b10#cau-3',
+      prompt: 'Đề câu ba',
+      yourAnswer: 'C',
+      correct: false,
+      explain: 'Giải thích câu ba',
+      reason: 'MISSING_UNIT',
+    },
+  ]
+
+  function hangKetQua() {
+    return [...container.querySelectorAll('ol > li')]
+  }
+
+  it('AC04: số câu lấy từ index GỐC, sai trước · chưa có kết quả · đúng sau', () => {
+    hien({ status: 'failed', correct: 1, total: 3, items: CO_INDEX })
+    const hang = hangKetQua()
+    expect(hang.map((li) => li.id)).toEqual(['ket-qua-cau-3', 'ket-qua-cau-2', 'ket-qua-cau-1'])
+    expect(hang[0]!.textContent).toContain('Câu 3. Đề câu ba')
+    expect(hang[1]!.textContent).toContain('Câu 2. Đề câu hai')
+    expect(hang[2]!.textContent).toContain('Câu 1. Đề câu một')
+  })
+
+  it('AC04: giữ thứ tự gốc TRONG từng nhóm (sắp xếp ổn định)', () => {
+    const sai = (i: number) => ({
+      questionIndex: i,
+      prompt: `Đề ${i + 1}`,
+      yourAnswer: 'x',
+      correct: false,
+    })
+    hien({ status: 'failed', correct: 0, total: 4, items: [sai(3), sai(0), sai(2), sai(1)] })
+    // Thứ tự nguồn là "thứ tự gốc" của caller — màn hình không tự đảo trong cùng một nhóm.
+    expect(hangKetQua().map((li) => li.id)).toEqual([
+      'ket-qua-cau-4',
+      'ket-qua-cau-1',
+      'ket-qua-cau-3',
+      'ket-qua-cau-2',
+    ])
+  })
+
+  it('câu chưa có kết quả nói đúng như vậy — không gọi là sai, không lý do, không lời giải', () => {
+    hien({ status: 'failed', correct: 1, total: 3, items: CO_INDEX })
+    const hang2 = container.querySelector('#ket-qua-cau-2')!
+    expect(hang2.textContent).toContain('Chưa có kết quả câu này')
+    expect(hang2.textContent).not.toContain('Chưa đúng')
+    expect(hang2.textContent).not.toContain('Đúng')
+    expect(hang2.querySelector('button')).toBeNull()
+  })
+
+  it('mỗi hàng có link "Xem câu N" tới đúng neo #cau-N, id hàng không trùng id câu hỏi', () => {
+    hien({ status: 'failed', correct: 1, total: 3, items: CO_INDEX })
+    const link = container.querySelector<HTMLAnchorElement>('#ket-qua-cau-3 a')!
+    expect(link.textContent).toBe('Xem câu 3')
+    expect(link.getAttribute('href')).toBe('/#cau-3')
+    expect(container.querySelector('#cau-3')).toBeNull()
+  })
+
+  it('caller cũ không có index: giữ thứ tự cũ, số câu theo thứ tự hiển thị, KHÔNG có link định vị', () => {
+    hien({ ...CO_BAN, status: 'failed' })
+    expect(container.textContent).toContain('Câu 1. Gia tốc rơi tự do là bao nhiêu?')
+    expect(container.textContent).toContain('Câu 2. Vật rơi tự do có vận tốc đầu bằng?')
+    expect(container.querySelector('ol a')).toBeNull()
+    expect(hangKetQua().every((li) => li.id === '')).toBe(true)
+  })
+
+  it('lời giải mặc định ĐÓNG sau nút "Xem giải thích câu N" có aria-expanded; câu đúng vẫn mở được', () => {
+    hien({ status: 'failed', correct: 1, total: 3, items: CO_INDEX })
+    const nut3 = [...container.querySelectorAll('button')].find(
+      (b) => b.textContent === 'Xem giải thích câu 3',
+    )!
+    const nut1 = [...container.querySelectorAll('button')].find(
+      (b) => b.textContent === 'Xem giải thích câu 1',
+    )!
+    expect(nut3.getAttribute('aria-expanded')).toBe('false')
+    const vung3 = document.getElementById(nut3.getAttribute('aria-controls')!)!
+    expect(vung3.hidden).toBe(true)
+    expect(vung3.textContent).toContain('Giải thích câu ba')
+    act(() => nut3.click())
+    expect(nut3.getAttribute('aria-expanded')).toBe('true')
+    expect(vung3.hidden).toBe(false)
+    // Câu đúng cũng có lời giải truy cập được.
+    expect(nut1.getAttribute('aria-expanded')).toBe('false')
+    act(() => nut1.click())
+    expect(document.getElementById(nut1.getAttribute('aria-controls')!)!.hidden).toBe(false)
+    expect(nut1.className).toContain('tap-44')
+  })
+
+  it('MỘT vùng sống duy nhất; mở/đóng lời giải không đổi nội dung vùng sống', () => {
+    hien({ status: 'failed', correct: 1, total: 3, items: CO_INDEX, passRatio: 0.8 })
+    const song = container.querySelectorAll('[role="status"], [aria-live]')
+    expect(song).toHaveLength(1)
+    const truoc = song[0]!.innerHTML
+    const nut = [...container.querySelectorAll('button')].find((b) =>
+      b.textContent?.startsWith('Xem giải thích'),
+    )!
+    act(() => nut.click())
+    expect(container.querySelectorAll('[role="status"], [aria-live]')).toHaveLength(1)
+    expect(container.querySelector('[role="status"]')!.innerHTML).toBe(truoc)
+    // Ngưỡng đạt nằm trong summary, KHÔNG bị giấu trong disclosure.
+    expect(song[0]!.textContent).toContain('Cần đúng từ 80% số câu trở lên')
+  })
+
+  it('AC06: pending mất mạng / server lỗi đều nói rõ là CHƯA GỬI XONG', () => {
+    for (const pendingReason of ['offline', 'server'] as const) {
+      const chu = hien({ ...CO_BAN, status: 'pending', passed: false, pendingReason })
+      expect(chu).toContain('chưa gửi xong')
+      expect(chu).not.toContain('hoàn thành')
+    }
+  })
+
+  it('có đường quay về tóm tắt kết quả trong ≤1 lần bấm từ cuối danh sách', () => {
+    hien({ status: 'failed', correct: 1, total: 3, items: CO_INDEX })
+    const ve = [...container.querySelectorAll('button')].find(
+      (b) => b.textContent === 'Về tóm tắt kết quả',
+    )!
+    act(() => ve.click())
+    expect(document.activeElement?.textContent).toContain('Đúng 1/3 câu')
+  })
 })
