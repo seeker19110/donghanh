@@ -21,6 +21,7 @@ import {
   type GoogleMarker,
 } from '../../lib/googleMapsLoader'
 import type { MeetPoint, MemberPosition } from '../../lib/locationShare'
+import { thongDiepLoiThanThien } from '../../lib/friendlyError'
 import { MEMBER_INK, memberColor, memberInitial } from './memberColor'
 
 interface Props {
@@ -105,7 +106,7 @@ export default function LiveMap({ members, meetPoint, myUserId }: Props) {
         setReady(true)
       })
       .catch((err: Error) => {
-        if (!cancelled) setError(err.message)
+        if (!cancelled) setError(thongDiepLoiThanThien(err, 'Không tải được bản đồ. Thử lại sau.'))
       })
 
     return () => {

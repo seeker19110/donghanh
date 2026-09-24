@@ -610,23 +610,27 @@ test.describe('UX-R2 — canonical Home evidence', () => {
     }
   })
 
-  test('comeback có English evidence giữ CLS dưới 0,1 từ render đầu', async ({
-    browser,
-  }, testInfo) => {
-    test.skip(CAPTURE_BEFORE, 'before mode chỉ chụp canonical member-data')
-    const fixture = await createFixturePage(browser, 'member-comeback', 'dark-blue', 390)
-    try {
-      const cls = await settleHome(fixture.page, 'member-comeback-dark-blue-390')
-      await expect(fixture.page.getByText(/Đã \d+ ngày rồi/).first()).toBeVisible()
-      await testInfo.attach('cls-comeback-390-dark-blue.json', {
-        body: Buffer.from(JSON.stringify(cls, null, 2)),
-        contentType: 'application/json',
-      })
-      expect(fixture.unexpectedRequests).toEqual([])
-    } finally {
-      await fixture.close()
-    }
-  })
+  // Ba bề rộng phủ ba bậc sàn comeback mobile (<340 · 340–359 · ≥360); 320px là mức reflow
+  // WCAG 1.4.10 — mỗi bậc có số dòng khác nên phải kiểm riêng, không suy từ 390px.
+  for (const width of [320, 340, 390] as const) {
+    test(`comeback có English evidence giữ CLS dưới 0,1 từ render đầu (${width}px)`, async ({
+      browser,
+    }, testInfo) => {
+      test.skip(CAPTURE_BEFORE, 'before mode chỉ chụp canonical member-data')
+      const fixture = await createFixturePage(browser, 'member-comeback', 'dark-blue', width)
+      try {
+        const cls = await settleHome(fixture.page, `member-comeback-dark-blue-${width}`)
+        await expect(fixture.page.getByText(/Đã \d+ ngày rồi/).first()).toBeVisible()
+        await testInfo.attach(`cls-comeback-${width}-dark-blue.json`, {
+          body: Buffer.from(JSON.stringify(cls, null, 2)),
+          contentType: 'application/json',
+        })
+        expect(fixture.unexpectedRequests).toEqual([])
+      } finally {
+        await fixture.close()
+      }
+    })
+  }
 
   test('desktop giữ đúng đích của 3 shortcut Tiếng Anh và shortcut Ghi chú', async ({
     browser,

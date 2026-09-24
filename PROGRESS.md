@@ -1044,21 +1044,28 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
 - 🟡 **[2026-09-22 — audit UI/UX sâu, `docs/audit/2026-09-22-danh-gia-sau-ui-ux.md` +
   `docs/changelog/0412-*.md`, PR đợt 0412] Đã xử lý 6 đợt A–F trong một PR.** Nợ còn lại: (1)
   ~44 chỗ `err.message` ngoài Ghi chú chưa đi qua `lib/friendlyError.ts`; (2) Phòng luyện tập vs
-  Tiếng Anh home vẫn nhiều lối vào cùng đích — chưa chốt trang chủ của từng tính năng; (3) ảnh
-  Hồ sơ 1440px chụp `fullPage` luôn mờ dù đo `opacity=1` — cần một lần nhìn tay trên trình duyệt
-  thật; (4) chưa chụp theme `kid` và các trang cần dữ liệu thật (bảng giá, huy hiệu, Kanban).
+  Tiếng Anh home vẫn nhiều lối vào cùng đích — chưa chốt trang chủ của từng tính năng; (3) ~~ảnh
+  Hồ sơ 1440px chụp `fullPage` luôn mờ~~ **ĐÃ ĐÓNG 2026-09-24 (`docs/changelog/0433-*.md`)**: lỗi của
+  công cụ chụp chứ không phải của trang. `fullPage` cho trang thấy khung nhìn 1×1, `TwoPane` bị dựng
+  lại và `fade-in` chạy lại giữa lúc chụp. Đã thay bằng `e2e/helpers/fullPageShot.ts`; (4) chưa chụp theme `kid` và các trang cần dữ liệu thật (bảng giá, huy hiệu, Kanban).
   **Kiểm lại 2026-09-22 (audit lần 2, `docs/audit/2026-09-22-danh-gia-toan-dien-ui-ux-lan-2.md`,
   `docs/changelog/0417-*.md`): 5/6 đợt có hiệu lực; (4) đã chụp `kid` (chỉ đổi màu). Nợ mới xếp
   P0: Luyện nghe 74.309px ở mobile (1.000 thẻ phẳng) và trang VIP mô tả bằng thuật ngữ + hứa
   Gemini Live chưa kiểm chứng; P1: Companion desktop ô nhập đè gợi ý, Nhiệm vụ báo "Đăng nhập" khi
   API lỗi, skeleton treo ở Hồ sơ. **ĐÃ SỬA HẾT 6 đợt G–M cùng ngày (`docs/changelog/0419-*.md`,
   6 commit, cùng PR)** — Luyện nghe 74.309 → 2.159px, Truyện 17.456 → 2.009px, VIP nói bằng lợi
-  ích. Còn mở: P2-5 theme `kid` chỉ đổi màu (câu hỏi sản phẩm); thuật ngữ sót ở EdgeAiIndicator /
-  MemoryPalaceCard / CyberTutorAvatar3D; ~~"Đọc tiếp" ở Truyện~~ ĐÃ LÀM 2026-09-24
-  (`docs/changelog/0433-*.md`, PR #1158 — lưu đoạn đang đọc ở localStorage, chưa đồng bộ
-  đa thiết bị);
-  `e2e/home-clarity-evidence.spec.ts:660` đỏ ngẫu nhiên ~1/3 lượt ở ca CLS 0,103 (đã đỏ y hệt
-  trên `main` gốc 0d1d6bf — Tầng 1b, cần làm test ổn định, không phải hồi quy).**
+  ích. **Đợt 0433 (2026-09-24, `docs/changelog/0433-*.md`) trả xong 2 nợ nhỏ:** (1) 8 chỗ
+  `err.message` thô còn sót (`LiveMap.tsx` + 6 panel admin, ~11 điểm) nay qua `thongDiepLoiThanThien`;
+  (5) thuật ngữ sót ở `EdgeAiIndicator` ("GPU Adapter" → "Phần cứng xử lý", `inferenceMode` thô →
+  câu tiếng Việt) và `MemoryPalaceCard` (gộp badge "Platform V5 Method of Loci" thành "Ghi nhớ
+  bằng không gian") — `CyberTutorAvatar3D` hoá ra đã dọn sạch từ trước. Còn mở: P2-5 theme `kid`
+  chỉ đổi màu (câu hỏi sản phẩm); Phòng luyện tập vs Tiếng Anh home vẫn nhiều lối vào cùng đích;
+  ~~"Đọc tiếp" ở Truyện~~ ĐÃ LÀM 2026-09-24 (`docs/changelog/0433-*.md`, PR #1158 — lưu đoạn
+  đang đọc ở localStorage, chưa đồng bộ đa thiết bị).
+  ~~`e2e/home-clarity-evidence.spec.ts` đỏ ngẫu nhiên ~1/3 lượt ở ca CLS 0,103~~ **ĐÃ SỬA
+  2026-09-24 (PR #1159, `docs/changelog/0433-2026-09-24-home-comeback-reserve-cls-flaky.md`)**:
+  không phải nhiễu đo — sàn comeback mobile của `HomeAiBriefingCard` thiếu chỗ (2 nút icon làm chữ
+  xuống 3 dòng); CLS dưới tải 0,056–0,090 → 0,022–0,026, 30/30 xanh, ngưỡng 0,1 giữ nguyên.**
 - 🟡 **[2026-09-22 — audit câu chữ toàn dự án + trả nợ, `docs/changelog/0406-*.md` · `0408-*.md`
   · `0409-*.md` · `0410-*.md`, PR #1102 · #1105 · #1106 · PR đợt 0410] Nợ còn lại:** chỉ còn
   **58 câu mẫu viết tay nằm trong hồ `pool`** của `cefrCircleSentences.json` — chưa gán được vòng
