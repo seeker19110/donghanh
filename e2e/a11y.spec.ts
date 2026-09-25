@@ -634,3 +634,42 @@ test('Bạn Đồng Hành — thẻ Workplace Harvester không tràn ngang ở 3
   await cardsTab.click()
   await expect(cardsTab).toHaveAttribute('aria-pressed', 'true')
 })
+
+// [S06d-b] Ở 390 px, header thẻ đặt tiêu đề và nút CTA chung một hàng không xuống dòng: tiêu đề bị ép
+// thành cột hẹp (3–4 dòng) và nút CTA bẻ chữ thành 3–4 dòng. Header nay xếp dọc ở màn hẹp.
+// Đo đúng triệu chứng người đọc thấy: mọi tiêu đề h3 trong ba studio có thẻ dạng này tối đa 2 dòng,
+// và nút ngay trong header thẻ giữ một dòng chữ.
+const MAX_TITLE_LINES_390 = 2
+const MAX_HEADER_BUTTON_HEIGHT = 48
+for (const studio of ['Ghi nhớ', 'Thử thách', 'Kế hoạch']) {
+  test(`Bạn Đồng Hành — header thẻ không bị ép hẹp ở 390 px, studio ${studio}`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await mockLogin(page, 'vi', 'blue-sky')
+    await muteTts(page)
+    await page.goto('/ban-dong-hanh', { waitUntil: 'domcontentloaded' })
+    const tab = page.getByRole('button', { name: studio, exact: true })
+    await tab.click()
+    await expect(tab).toHaveAttribute('aria-pressed', 'true')
+    await waitForStableDom(page)
+    const cramped = await page.locator('main h3').evaluateAll(
+      (headings, [maxLines, maxButton]) =>
+        headings.flatMap((h) => {
+          const problems: string[] = []
+          const name = (h.textContent ?? '').trim().slice(0, 40)
+          const lineHeight = parseFloat(getComputedStyle(h).lineHeight)
+          const lines = Math.round(h.getBoundingClientRect().height / lineHeight)
+          if (lines > maxLines) problems.push(`tiêu đề "${name}" ${lines} dòng`)
+          const button = h.closest('.border-b')?.querySelector(':scope > button')
+          if (button && button.getBoundingClientRect().height > maxButton)
+            problems.push(
+              `nút ở header "${name}" cao ${Math.round(button.getBoundingClientRect().height)}px`,
+            )
+          return problems
+        }),
+      [MAX_TITLE_LINES_390, MAX_HEADER_BUTTON_HEIGHT] as const,
+    )
+    expect(cramped, `Header thẻ bị ép hẹp ở studio ${studio}`).toEqual([])
+  })
+}

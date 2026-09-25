@@ -191,7 +191,8 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
   **25/09:** S06c Approved (`docs/changelog/0447-*.md`): 14 vi phạm AA tương phản ở 5 studio `/ban-dong-hanh`, cổng AA chưa quét các studio này — sửa + đưa vào cổng ở PR kế tiếp.
   S06c source xong (`docs/changelog/0448-*.md`): 14 vi phạm đã sửa, `aria-pressed` + vùng chạm 44px, cổng AA quét đủ 5 studio × 3 theme. Nợ còn: AAA ở 5 studio (1–5 nút mỗi studio × theme, chưa vào `a11y-aaa.spec.ts`), thẻ Workplace Harvester tràn ngang ở 390px.
   **25/09:** S06d Approved (`docs/changelog/0449-*.md`): hai nợ trên thành một slice — cổng AAA quét 5 studio (đo trên main: 10/15 ca đỏ, badge 11px dưới 7:1 và chữ trên nền gradient) + sửa tràn ngang Workplace Harvester; nợ riêng: nhãn thanh đáy "partially obscured" khi quét AAA ở 390px.
-  S06d source xong (`docs/changelog/0450-*.md`): 5 studio × 3 theme xanh cổng AAA (bỏ nền gradient dưới chữ đọc, badge 11px ≥7:1), Workplace Harvester hết tràn ngang + `aria-pressed`. Nợ còn: thẻ Wearables/Articulatory/Acoustic chật ở 390px (chưa tràn), nhãn thanh đáy khi quét AAA ở 390px.
+  S06d source xong (`docs/changelog/0450-*.md`): 5 studio × 3 theme xanh cổng AAA (bỏ nền gradient dưới chữ đọc, badge 11px ≥7:1), Workplace Harvester hết tràn ngang + `aria-pressed`. Nợ còn: nhãn thanh đáy khi quét AAA ở 390px.
+  Header 6 thẻ CompanionVoice hết chật ở 390px (`docs/changelog/0451-*.md`): xếp dọc ở màn hẹp, tiêu đề ≤2 dòng, nút một dòng, có cổng E2E. Nợ nhỏ: badge A2A/Ambient xuống 2 dòng; Echo/Holodeck thiếu trạng thái rỗng/lỗi.
   Bước tiếp theo: S11 (sau S10 chuyên gia) và thu bằng chứng accessibility/thiết bị thật còn thiếu;
   xem trạng thái và giới hạn nghiệm thu trong goal, không coi source merge là goal hoàn tất.
 
