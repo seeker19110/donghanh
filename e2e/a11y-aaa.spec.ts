@@ -327,6 +327,12 @@ for (const theme of THEMES) {
     await page.getByRole('button', { name: 'Tự viết' }).click()
     await page.getByRole('button', { name: /Gợi ý bậc/ }).click()
     await expect(page.getByText(/mốc 50 kWh đầu/)).toBeVisible()
+    // Về đầu trang trước khi quét, như mọi vòng quét theo route ở trên (không bao giờ cuộn).
+    // Playwright tự cuộn để bấm "Gợi ý bậc"; độ cuộn đó phụ thuộc chiều cao bố cục, và khi dòng
+    // CodeMirror nằm đúng dưới header dính (nền mờ + blur) thì axe không xác định được nền của
+    // chữ HEADER → "incomplete" giả, đổi theo từng pixel bố cục (S09d thêm heading bước là lộ
+    // ra). Khối AI dưới màn hình vẫn được đo lại bằng `remeasureContrast` (tự cuộn tới đích).
+    await page.evaluate(() => window.scrollTo(0, 0))
 
     const violated = await scanAaa(page)
     expect(violated, `Vi phạm WCAG AAA trên khối AI phản hồi code, theme=${theme}.`).toEqual([])
