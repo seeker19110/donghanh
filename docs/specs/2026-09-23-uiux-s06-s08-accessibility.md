@@ -1,11 +1,11 @@
 # S06–S08 — Cổng tương phản, zoom và phản hồi quiz
 
-| Thuộc tính       | Giá trị                                                                                                                  |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| Goal             | [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), M2/S06–S08                                                      |
-| Trạng thái       | **S08, S07b hẹp, S07c, S07d, S06b và S06c Approved for implementation** — chưa nghiệm thu; S07 rộng còn ma trận thủ công |
-| Baseline         | [Audit 23/09](../research/2026-09-23-uiux-su-pham-baseline.md), SHA `1d9e247e`                                           |
-| Đơn vị giao việc | Ba PR riêng: S06, S07, S08; không gộp source vào PR đặc tả                                                               |
+| Thuộc tính       | Giá trị                                                                                                                        |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Goal             | [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), M2/S06–S08                                                            |
+| Trạng thái       | **S08, S07b hẹp, S07c, S07d, S06b, S06c và S06d Approved for implementation** — chưa nghiệm thu; S07 rộng còn ma trận thủ công |
+| Baseline         | [Audit 23/09](../research/2026-09-23-uiux-su-pham-baseline.md), SHA `1d9e247e`                                                 |
+| Đơn vị giao việc | Ba PR riêng: S06, S07, S08; không gộp source vào PR đặc tả                                                                     |
 
 ## 1. Phạm vi và phụ thuộc
 
@@ -142,6 +142,51 @@ Bằng chứng yêu cầu: ảnh Tầng 8b trước/sau ở 390/1440 cho các st
 
 Ngoài phạm vi: AAA cho nội dung studio (đo và ghi nợ riêng nếu đỏ), bố cục thẻ chật ở 390 px,
 và nội dung các thẻ. Rollback: revert PR source.
+
+### Quyết định S06d — AAA cho chữ đọc ở 5 studio Bạn Đồng Hành, sửa tràn ngang 390 px (25/09/2026)
+
+**Approved for implementation (chỉ S06d, 25/09/2026).** Nguồn quyết định giống S06c: người dùng
+yêu cầu tiếp tục nâng cấp UI/UX, làm hết phần agent làm được. Đây là hai nợ S06c đã ghi lại
+(`docs/changelog/0448-*.md`).
+
+**Lỗi tái hiện được trên main `05d0929`.** Thêm vào `e2e/a11y-aaa.spec.ts` một vòng quét 5 studio
+× 3 theme, dùng đúng `scanAaa` hiện có, viewport mặc định giống các route AAA khác. Kết quả:
+**10/15 ca đỏ**. "Trò chuyện" xanh ở cả 3 theme (studio mặc định, đã có trong `ROUTES`). "Kế hoạch"
+chỉ đỏ ở dark-blue. "Ghi nhớ", "Thử thách" và "Tổng kết" đỏ ở cả 3 theme. Hai nhóm lỗi:
+
+1. **Chữ nội dung dưới 7:1** (tỷ lệ từ 5.1 đến 6.96): badge chữ 11 px dạng `bg-*-500/20 text-*-300` ở
+   `SocraticDiagnosticsCard`, `WearablesSyncCard`, `EchoShadowingCard`, `ScenarioHolodeckCard`,
+   `AgentOrchestratorCard` và `LifeSynthesisDashboard`; đoạn `text-zinc-500` ở `AgentOrchestratorCard`;
+   nhãn `theme-light:text-accent-800` trên nền accent nhạt ở `LifeSynthesisDashboard`.
+2. **Chữ đọc trên nền gradient**, axe không đo được nên cổng báo "chưa kết luận". Gặp ở tiêu đề,
+   đoạn mô tả, badge và nút gradient của `MetacognitiveJournalCard`, `MemoryPalaceCard`,
+   `DebateArenaCard`, `StemScratchpadCard`, `AcousticPhoneticsLab` và `AgentOrchestratorCard`.
+
+Riêng thẻ `WorkplaceHarvesterCard` (studio "Kế hoạch") tràn ngang ở 390 px: tiêu đề và nhóm tab
+nằm chung một hàng `flex justify-between` không xuống dòng, nên tab "Thẻ SRS" bị cắt mất.
+
+Phạm vi source:
+
+1. **Nền đặc thay gradient** cho thẻ và nút chứa chữ đọc. Dùng khuôn S06b: nền token
+   (`bg-surface-card`/`bg-surface-raised`) kèm viền màu để giữ nhận diện từng thẻ. Nút dùng nền đặc
+   đủ AA với `text-[#fff]`. Không đổi token toàn cục, không thêm ngoại lệ vào cổng.
+2. **Badge/nhãn/đoạn chữ ≥ 7:1** ở cả 3 theme. Dùng khuôn đã có trong repo: dark lên `*-200`,
+   theme sáng `theme-light:text-*-900`; `text-zinc-500` đổi sang `text-content-secondary`.
+3. **Tràn ngang:** header của `WorkplaceHarvesterCard` xuống dòng được ở màn hẹp. Tab có
+   `aria-pressed` và `.tap-44-y` như chip S06c. Assert thẻ không có `scrollWidth > clientWidth`
+   ở 390 px.
+4. **Cổng:** giữ vòng 5 studio × 3 theme trong `e2e/a11y-aaa.spec.ts`. Vòng này phải đỏ trên main
+   (bằng chứng ở trên) và xanh sau khi sửa. Cổng AA của S06c phải giữ xanh.
+
+Bằng chứng yêu cầu: ảnh Tầng 8b trước/sau ở 390/1440 cho các studio bị sửa, full gate.
+
+Ngoài phạm vi:
+
+- Chữ ở thanh điều hướng đáy khi quét AAA ở 390 px: axe báo "partially obscured". Đây là lỗi
+  chung mọi trang ở viewport hẹp, không riêng studio. Ghi nợ riêng.
+- Nội dung, tên gọi tiếng Anh và bố cục khác của các thẻ.
+
+Rollback: revert PR source.
 
 ## 3. S07 — Zoom, reflow, focus và vùng chạm
 
