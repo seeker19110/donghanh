@@ -233,6 +233,15 @@ Bằng chứng yêu cầu:
 Pinch, bàn phím ảo, browser zoom trên trình duyệt khác và AT thật vẫn **WAITING**. Rollback:
 revert PR source.
 
+**Điều chỉnh khi triển khai (25/09, changelog 0443).** Đi Shift+Tab lộ thêm lỗi header sticky
+che focus ở mép trên. Chromium bỏ qua `scroll-margin` khi cuộn focus bằng Tab, chỉ tôn trọng
+`scroll-padding` của `<html>`. Vì thế cách sửa ở mục 1 đổi thành `html[data-kbd-nav]
+{ scroll-padding-top/bottom }`:
+
+- Cờ `data-kbd-nav` do `lib/keyboardNavModality.ts` bật khi nhấn Tab và tắt khi chạm/bấm chuột.
+- Chiều cao header do `Layout.tsx` đo thật.
+- Cờ này tránh cộng dồn với `scroll-mt-*` của các điểm neo khi điều hướng bằng chuột.
+
 ## 4. S08 — Quiz phản hồi bằng chữ và trình đọc màn hình
 
 **Quyết định triển khai ngày 2026-09-23:** Người dùng giao quyền tự quyết phương án và

@@ -9,12 +9,16 @@ import App from './App'
 import { applyTheme, getTheme } from '@core/theme'
 import { unlockAudio } from './lib/tts'
 import { initErrorTracking } from './lib/errorTracking'
+import { initKeyboardNavModality } from './lib/keyboardNavModality'
 
 // Áp dụng theme đã lưu NGAY trước khi render để tránh nhấp nháy màu
 applyTheme(getTheme())
 
 // Bật Sentry (error tracking) — no-op nếu chưa cấu hình VITE_SENTRY_DSN (xem errorTracking.ts).
 initErrorTracking()
+
+// Cờ điều hướng bàn phím → CSS chừa chỗ header/thanh đáy khi Tab (S07d, WCAG 2.4.11).
+initKeyboardNavModality()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

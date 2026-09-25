@@ -217,8 +217,8 @@ export default function DesktopSidebar() {
     const groupId = `nav-sub-${childGroupId(child).replace(/\W+/g, '-')}`
     // Cùng một bộ lớp cho <Link> và <a>: mục con môn học có thể trỏ sang origin khác
     // (Góc học tập ở subdomain riêng — xem lib/subjectsHost.ts), lúc đó phải là thẻ <a> thật.
-    const cls = `flex items-center gap-2.5 rounded-lg pl-3 pr-2 py-2 text-[13px] font-medium transition ${
-      hasChildren ? 'pr-10' : ''
+    const cls = `tap-44-coarse-y flex items-center gap-2.5 rounded-lg pl-3 pr-2 py-2 text-[13px] font-medium transition ${
+      hasChildren ? 'pr-12' : ''
     } ${active ? 'bg-zinc-800 text-white' : 'text-zinc-300 hover:bg-zinc-800/70 hover:text-white'}`
     const inner = (
       <>
@@ -291,7 +291,7 @@ export default function DesktopSidebar() {
           aria-current={active ? 'page' : undefined}
           className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition ${
             collapsed ? 'justify-center' : ''
-          } ${hasChildren ? 'pr-10' : ''} ${
+          } ${hasChildren ? 'pr-12' : ''} ${
             active
               ? 'bg-zinc-800 border border-accent-500/40 text-white'
               : 'border border-transparent text-zinc-300 hover:bg-zinc-800/70 hover:text-white'
@@ -316,7 +316,7 @@ export default function DesktopSidebar() {
               // Nhãn nói RÕ mở/đóng nhóm nào: trong sidebar có nhiều nút giống hệt nhau,
               // "Mở rộng" trơ trọi thì trình đọc màn hình đọc ra ba nút không phân biệt được.
               aria-label={`${open ? 'Thu gọn' : 'Mở rộng'} mục ${item.label}`}
-              className="absolute right-1 top-1.5 p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/80 transition"
+              className="tap-44 absolute right-1 top-1 flex items-center justify-center rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/80 transition"
             >
               <ChevronDown
                 className={`w-4 h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
@@ -364,7 +364,7 @@ export default function DesktopSidebar() {
           onClick={toggle}
           aria-label={collapsed ? 'Mở rộng thanh điều hướng' : 'Thu gọn thanh điều hướng'}
           title={collapsed ? 'Mở rộng thanh điều hướng' : 'Thu gọn thanh điều hướng'}
-          className="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition shrink-0"
+          className="tap-44 flex items-center justify-center rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition shrink-0"
         >
           {collapsed ? (
             <PanelLeftOpen className="w-4 h-4" />
@@ -386,8 +386,8 @@ export default function DesktopSidebar() {
           nay chỉ là dòng chữ nhỏ, không còn mục cấp 1 riêng (P1-7, rút 10 → 7 mục). */}
       <Link
         to="/nang-cap"
-        className={`px-3 py-2 text-xs text-content-muted hover:text-content transition ${
-          collapsed ? 'text-center' : ''
+        className={`tap-44-coarse-y flex items-center px-3 py-2 text-xs text-content-muted hover:text-content transition ${
+          collapsed ? 'justify-center' : ''
         }`}
       >
         {collapsed ? 'VIP' : 'Free · Nâng cấp'}

@@ -1,4 +1,4 @@
-import { useState, useEffect, type ReactNode } from 'react'
+import { useState, useEffect, useRef, type ReactNode } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { ArrowLeft, BookOpen, Bot, Home as HomeIcon } from 'lucide-react'
 import { useLang } from '../context/useLang'
@@ -152,6 +152,26 @@ export default function Layout({
     }
   }, [focus])
 
+  // [S07d] Chiều cao THẬT của header sticky → biến `--app-header-h` trên <html>, để CSS
+  // (index.css, `html[data-kbd-nav] { scroll-padding-top }`) chừa đúng khoảng đó khi trình
+  // duyệt cuộn phần tử đang focus vào tầm nhìn. Thiếu nó, Shift+Tab đưa nút lên mép trên và
+  // header che mất hoàn toàn (WCAG 2.4.11 — probe 25/09). Đo bằng ResizeObserver vì header
+  // đổi cao theo safe-area/nhãn, một hằng số cứng sẽ lệch.
+  const headerRef = useRef<HTMLElement>(null)
+  useEffect(() => {
+    const header = headerRef.current
+    if (!header) return
+    const root = document.documentElement
+    const update = () => root.style.setProperty('--app-header-h', `${header.offsetHeight}px`)
+    update()
+    const observer = new ResizeObserver(update)
+    observer.observe(header)
+    return () => {
+      observer.disconnect()
+      root.style.removeProperty('--app-header-h')
+    }
+  }, [])
+
   // Nội dung huy hiệu streak — dùng chung cho cả hai lớp bọc bên dưới.
   const streakBadge = (
     <>
@@ -166,7 +186,10 @@ export default function Layout({
   )
 
   return (
-    <header className="sticky top-0 z-50 bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800/80 relative pt-safe shadow-sm">
+    <header
+      ref={headerRef}
+      className="sticky top-0 z-50 bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800/80 relative pt-safe shadow-sm"
+    >
       {/* Tấm nền ĐẶC phủ toàn bộ khoảng phía TRÊN header cho Reachability (cử chỉ kéo màn
           hình xuống — thuần MOBILE). `lg:hidden` vì desktop không có cử chỉ này, mà header
           `z-50` lại nằm trên sidebar `z-40` nên tấm nền còn có thể phủ lên sidebar.
