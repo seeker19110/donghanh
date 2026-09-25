@@ -1,11 +1,11 @@
 # S06–S08 — Cổng tương phản, zoom và phản hồi quiz
 
-| Thuộc tính       | Giá trị                                                                                                            |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------ |
-| Goal             | [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), M2/S06–S08                                                |
-| Trạng thái       | **S08, S07b hẹp, S07c, S07d và S06b Approved for implementation** — chưa nghiệm thu; S07 rộng còn ma trận thủ công |
-| Baseline         | [Audit 23/09](../research/2026-09-23-uiux-su-pham-baseline.md), SHA `1d9e247e`                                     |
-| Đơn vị giao việc | Ba PR riêng: S06, S07, S08; không gộp source vào PR đặc tả                                                         |
+| Thuộc tính       | Giá trị                                                                                                                  |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Goal             | [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), M2/S06–S08                                                      |
+| Trạng thái       | **S08, S07b hẹp, S07c, S07d, S06b và S06c Approved for implementation** — chưa nghiệm thu; S07 rộng còn ma trận thủ công |
+| Baseline         | [Audit 23/09](../research/2026-09-23-uiux-su-pham-baseline.md), SHA `1d9e247e`                                           |
+| Đơn vị giao việc | Ba PR riêng: S06, S07, S08; không gộp source vào PR đặc tả                                                               |
 
 ## 1. Phạm vi và phụ thuộc
 
@@ -104,6 +104,44 @@ thật chưa được đo 7:1.
   VERIFYING và ghi rõ target, không báo AAA đạt.
 
 Rollback: revert PR source; hai route trở lại ngoài cổng AAA và F5 cho hai màn này mở lại.
+
+### Quyết định S06c — đưa 5 studio Bạn Đồng Hành vào cổng AA và sửa vi phạm (25/09/2026)
+
+**Approved for implementation (chỉ S06c, 25/09/2026).** Cùng nguồn quyết định với S07d: người
+dùng yêu cầu làm hết phần agent làm được, ưu tiên chất lượng. Primary review trên main.
+
+**Lỗi tái hiện được.** Khi chụp ảnh Tầng 8b cho nợ #1061, lần đầu có quét axe A/AA cho cả 5
+studio của `/ban-dong-hanh` ở 390 px × 3 theme. Kết quả là **14 nút vi phạm `color-contrast`**,
+có ở cả theme mặc định. Cổng AA hiện chỉ quét studio mặc định nên chưa từng bắt được. Các lỗi:
+
+- Nút chữ trắng trên `bg-emerald-600`/`bg-teal-600`, tỷ lệ 3.65:1, ở `WearablesSyncCard` và
+  `ArticulatoryPhoneticsVisualizer`.
+- Chip âm vị đang chọn ở theme sáng dùng nền `bg-teal-950/60`, tỷ lệ 2.15:1.
+- Ở `LifeSynthesisDashboard` (theme sáng):
+  - Badge `text-accent-300`: 1.37:1.
+  - Nút `text-zinc-950` bị đảo thành chữ sáng: 2.65:1.
+  - Nhãn `text-accent-400`: 1.97:1.
+
+Ngoài ra, thanh chọn studio và chip âm vị chỉ báo "đang chọn" bằng màu (không có
+`aria-pressed`), và vùng chạm dưới 44 px.
+
+Phạm vi source:
+
+1. **Sửa màu:**
+   - Dùng đúng khuôn đang có trong repo: `theme-light:text-accent-800`, `text-[#09090b]` cho chữ
+     tối cố định trên nền accent (CLAUDE.md §4.5).
+   - Nền nút đậm hơn: `bg-emerald-700`/`bg-teal-700`.
+   - Chip đang chọn ở theme sáng dùng `theme-light:bg-teal-100`.
+   - Không sửa token toàn cục, không hạ ngưỡng.
+2. **Trạng thái chọn và vùng chạm:** thêm `aria-pressed` cho nút studio và chip âm vị, kèm
+   `.tap-44-y`.
+3. **Cổng:** `e2e/a11y.spec.ts` quét cả 5 studio × 3 theme ở 390 px, yêu cầu 0 vi phạm A/AA.
+   Chạy đỏ trên main trước khi sửa là bằng chứng tái hiện.
+
+Bằng chứng yêu cầu: ảnh Tầng 8b trước/sau ở 390/1440 cho các studio bị sửa, full gate.
+
+Ngoài phạm vi: AAA cho nội dung studio (đo và ghi nợ riêng nếu đỏ), bố cục thẻ chật ở 390 px,
+và nội dung các thẻ. Rollback: revert PR source.
 
 ## 3. S07 — Zoom, reflow, focus và vùng chạm
 

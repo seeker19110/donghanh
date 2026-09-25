@@ -188,6 +188,7 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
   **25/09:** S10b + S11b Approved (`docs/changelog/0444-*.md`): S10b xuất phản hồi thật của app cho 40 mẫu để chuyên gia chấm (không chấm thay); S11b tự thử lại câu STEM sai không lộ đáp án cũ.
   S11b source xong (`docs/changelog/0445-*.md`): vào câu STEM sai từ Sổ lỗi thì ẩn đáp án cũ + lời giải (có nút xem lại), nút "Thử lại câu này", E2E chuỗi sai → tự thử → nộp đúng → Sổ lỗi hết câu.
   S10b source xong (`docs/changelog/0446-*.md`): `candidate-feedback.json` dựng nguyên văn phản hồi app cho 40 mẫu (22 ca chuyên gia chấm được ngay; English cần provider), cổng chống lỗi thời, sàng lọc agent 5 nghi vấn — **chờ chuyên gia**.
+  **25/09:** S06c Approved (`docs/changelog/0447-*.md`): 14 vi phạm AA tương phản ở 5 studio `/ban-dong-hanh`, cổng AA chưa quét các studio này — sửa + đưa vào cổng ở PR kế tiếp.
   Bước tiếp theo: S11 (sau S10 chuyên gia) và thu bằng chứng accessibility/thiết bị thật còn thiếu;
   xem trạng thái và giới hạn nghiệm thu trong goal, không coi source merge là goal hoàn tất.
 
@@ -1113,15 +1114,11 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   **Còn thiếu:** cấu trúc animation cho môn Anh (chưa thiết kế), và 3 animation Vật lý/Hoá/Sinh
   vì ba môn chưa nối vào `apps/` (khi nối thì chạy script trên với `--subject`, cần mở rộng
   `napHoatAnh`). Đặc tả: `docs/specs/2026-09-21-hoat-anh-mo-phong-bai-hoc.md`.
-- 🟡 **[2026-09-20 — PR #1061, `docs/changelog/0388-*.md`] Sửa tương phản theme blue-sky
-  (CompanionVoice + StudioDialogue) — CHƯA chụp ảnh Tầng 8b.** Audit + sửa xong 2 lỗi: (1) 6 file
-  `CompanionVoice/*` dùng nền cố định `bg-slate-900/90` + chữ `theme-light:` tối → tương phản đo
-  được chỉ 1.72:1, đã đổi nền sang token `surface-*`/`line-*`, chữ xám sang `text-content*`;
-  (2) 10 file `CompanionVoice/*` + rà `StudioDialogue.tsx` có `text-white` trên nền màu cố định
-  bị đảo tối (`--c-white`) → đổi sang `text-[#fff]`. typecheck/lint/format/test đều xanh. **Còn
-  thiếu:** ảnh chụp 1440px + 390px trước/sau theo Tầng 8b (`QUY-TRINH-AUDIT.md`) — các thẻ
-  CompanionVoice đổi từ nền tối sang nền sáng viền màu ở blue-sky, cần chủ dự án/phiên có server
-  xem bằng mắt trước khi merge PR #1061.
+- ✅ **[2026-09-20 — PR #1061 → ĐÓNG 2026-09-25, `docs/changelog/0447-*.md`] Ảnh Tầng 8b cho sửa
+  tương phản CompanionVoice đã chụp và xem bằng mắt.** Ảnh 390/1440 × blue-sky/dark-blue × 3 studio
+  cho thấy: trước sửa, 3 thẻ nền tối có chữ gần như không đọc được; sau sửa, chữ đọc được. Quét axe
+  cùng lúc lộ ra **14 vi phạm AA khác** ở 5 studio, mà cổng AA chưa quét → mở S06c (Approved,
+  sửa ở PR kế tiếp).
 - ✅ **[2026-09-20 — Đợt 4 theo dõi audit 0380 — ĐÃ ĐÓNG 2 việc, còn 1 việc cần backend thật]**
   Chủ dự án đã chốt việc 1 và 2 (`docs/changelog/0380-*.md`):
   1. Gỡ `ComingSoonBanner` khỏi `/luyen-noi` (`Speaking.tsx`) — tính năng đã chạy thật trên
