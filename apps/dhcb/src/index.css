@@ -92,6 +92,23 @@ html[data-focus='1'] nav.bottom-nav {
   display: none;
 }
 
+/* [S07d, 2026-09-25] FOCUS KHÔNG BỊ HEADER/THANH ĐÁY CHE (WCAG 2.4.11). Khi Tab tới một
+   phần tử ngoài tầm nhìn, trình duyệt cuộn nó tới SÁT MÉP viewport — đúng chỗ header sticky
+   (Shift+Tab, mép trên) hoặc BottomNav cố định (Tab, mép dưới) nằm đè. Probe 25/09 đo được
+   nút bị che hoàn toàn ở Home 320/390/768, CEFR 320, Placement và kết quả STEM.
+   Chromium chỉ tôn trọng `scroll-padding` của <html> khi cuộn focus bằng Tab (đo thật —
+   `scroll-margin` của phần tử bị bỏ qua). Chỉ bật khi `data-kbd-nav` (lib/keyboardNavModality.ts):
+   bật thường trực thì nó cộng dồn với `scroll-mt-*` của các điểm neo và làm lệch cú nhảy neo
+   bằng chuột. `--app-header-h` do Layout.tsx đo (vắng → 0); `--bnav-h` = 0 từ 1024px; chế độ
+   tập trung ẩn thanh đáy nên đáy chỉ chừa 8px. */
+html[data-kbd-nav] {
+  scroll-padding-top: calc(var(--app-header-h, 0px) + 8px);
+  scroll-padding-bottom: calc(var(--bnav-h) + 8px);
+}
+html[data-kbd-nav][data-focus='1'] {
+  scroll-padding-bottom: 8px;
+}
+
 @layer base {
   html {
     /* Chặn iOS/Safari tự phóng to chữ khi xoay ngang màn hình */
@@ -342,6 +359,15 @@ html[data-focus='1'] nav.bottom-nav {
      vượt 44px sẵn nên chỉ cần chiều cao. */
   .tap-44-y {
     min-height: 44px;
+  }
+
+  /* [S07d] Chỉ ép 44px khi con trỏ CHÍNH là ngón tay (tablet cảm ứng ≥1024px thấy
+     sidebar desktop). Với chuột, liên kết 36px đã qua sàn 24px của WCAG 2.5.8 và giữ
+     được mật độ danh sách dài — luật 44px của dự án là luật cho vùng CHẠM. */
+  @media (pointer: coarse) {
+    .tap-44-coarse-y {
+      min-height: 44px;
+    }
   }
 
   /* ── KHOẢNG ĐỌC (measure) — luật "độ dài dòng ≤ 75ch" của ui-ux-craftsman mục 9 ──

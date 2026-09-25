@@ -920,9 +920,11 @@ export default function CefrLevelPage() {
           {isA ? level.titleVi : level.titleEn}
         </h1>
       ) : (
-        <p className="text-sm font-semibold text-zinc-300 mb-4">
+        // [S07d] h1 chứ không phải p: ở các tab này đây là tiêu đề DUY NHẤT của trang
+        // (probe 25/09 đo được 0 h1). Giữ nguyên cỡ chữ gọn — chỉ đổi ngữ nghĩa.
+        <h1 className="text-sm font-semibold text-zinc-300 mb-4">
           {isA ? level.titleVi : level.titleEn}
-        </p>
+        </h1>
       )}
 
       {/* 5 tab học theo cấp — cần từ điển nạp xong mới render */}

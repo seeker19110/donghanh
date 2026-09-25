@@ -309,7 +309,7 @@ function PlacementSession() {
               </button>
               <button
                 onClick={skipTest}
-                className="w-full text-sm text-zinc-400 hover:text-zinc-200 py-2 transition"
+                className="tap-44-y w-full text-sm text-zinc-400 hover:text-zinc-200 py-2 transition"
               >
                 {isA ? 'Bỏ qua — tự chọn trình độ' : 'Skip — pick manually'}
               </button>
@@ -330,7 +330,7 @@ function PlacementSession() {
               </button>
               <button
                 onClick={skipTest}
-                className="w-full text-sm text-zinc-400 hover:text-zinc-200 py-2 transition"
+                className="tap-44-y w-full text-sm text-zinc-400 hover:text-zinc-200 py-2 transition"
               >
                 {isA ? 'Bỏ qua — tự chọn trình độ' : 'Skip — pick manually'}
               </button>
@@ -357,6 +357,9 @@ function PlacementSession() {
           baseWidth="max-w-lg"
           className={`!pb-[calc(1.5rem+var(--bnav-h))] space-y-5 ${fromOnboarding ? '!pt-10' : ''}`}
         >
+          {/* [S07d] Mỗi màn có đúng một h1 — trình đọc màn hình nhảy theo tiêu đề cần biết
+              đang ở trang nào; tiêu đề nhìn thấy là h2 trình độ ngay dưới. */}
+          <h1 className="sr-only">{isA ? 'Kết quả test xếp lớp' : 'Placement test result'}</h1>
           <div className="glass rounded-2xl p-8 text-center space-y-3 animate-fade-in">
             <p className="text-5xl">🎓</p>
             <p className="text-sm text-zinc-400">
@@ -404,6 +407,8 @@ function PlacementSession() {
         baseWidth="max-w-lg"
         className={`!pb-[calc(1.5rem+var(--bnav-h))] space-y-4 ${fromOnboarding ? '!pt-10' : ''}`}
       >
+        {/* [S07d] h1 ẩn thị giác, cùng khuôn màn bắt đầu — màn đang thi trước đây có 0 h1. */}
+        <h1 className="sr-only">{isA ? '🎯 Test xếp lớp' : '🎯 Placement test'}</h1>
         {loadError ? (
           <div className="glass rounded-xl p-6 space-y-4">
             <p role="alert" className="text-content leading-relaxed">
@@ -440,7 +445,7 @@ function PlacementSession() {
             <div className="flex items-center justify-between">
               <button
                 onClick={skipTest}
-                className="flex items-center gap-1 text-sm text-zinc-400 hover:text-zinc-200 transition"
+                className="tap-44 -ml-2 px-2 flex items-center gap-1 text-sm text-zinc-400 hover:text-zinc-200 transition"
               >
                 <ArrowLeft className="w-4 h-4" /> {isA ? 'Thoát' : 'Exit'}
               </button>
