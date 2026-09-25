@@ -42,13 +42,13 @@ export default function AcousticPhoneticsLab() {
 
   return (
     <div className="rounded-2xl border border-indigo-500/30 bg-surface-card p-5 shadow-xl backdrop-blur-md">
-      <div className="flex items-center justify-between border-b border-indigo-800/30 pb-4">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-400 theme-light:text-indigo-800">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-indigo-800/30 pb-4">
+        <div className="flex min-w-0 items-center gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-400 theme-light:text-indigo-800">
             <Activity className="h-5 w-5" />
           </div>
-          <div>
-            <div className="flex items-center gap-2">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
               <h3 className="font-semibold text-zinc-100">Acoustic Phonetics &amp; GOP Lab</h3>
               <span className="rounded-full bg-indigo-500/20 px-2 py-0.5 text-[11px] font-medium text-indigo-200 theme-light:text-indigo-900">
                 Phoneme Engine V4
