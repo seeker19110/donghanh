@@ -184,6 +184,7 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
   S09d source xong (`docs/changelog/0439-*.md`: hash ↔ bước bài lập trình, lối tắt "Kết quả chấm", sửa kẹt "Đang chấm…" khi đổi tài khoản).
   S09c source xong (`docs/changelog/0438-*.md`: `?lesson=N#luot-M`, loader kiểm HTTP + id, huỷ audio/đóng vai khi điều hướng). **S09 xong toàn bộ phần source.**
   Hai nợ nhỏ sau S09 đã trả (`docs/changelog/0441-*.md`): liên kết "Bỏ qua mục lục" (bài Vật lí 52 → 5 Tab), thẻ hội thoại đếm lượt thống nhất; kèm sửa tiêu điểm rơi về `<body>` sau khi chọn trong mục lục mobile.
+  **25/09:** S07d Approved (`docs/changelog/0442-*.md`, probe 108 ô: focus bị thanh đáy che ở Home/CEFR, vùng chạm < 44px, thiếu `h1`) — source + cổng ma trận ở PR kế tiếp.
   Bước tiếp theo: S11 (sau S10 chuyên gia) và thu bằng chứng accessibility/thiết bị thật còn thiếu;
   xem trạng thái và giới hạn nghiệm thu trong goal, không coi source merge là goal hoàn tất.
 

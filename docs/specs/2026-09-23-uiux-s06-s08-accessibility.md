@@ -1,11 +1,11 @@
 # S06–S08 — Cổng tương phản, zoom và phản hồi quiz
 
-| Thuộc tính       | Giá trị                                                                                                      |
-| ---------------- | ------------------------------------------------------------------------------------------------------------ |
-| Goal             | [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), M2/S06–S08                                          |
-| Trạng thái       | **S08, S07b hẹp, S07c và S06b Approved for implementation** — chưa nghiệm thu; S07 rộng còn ma trận thủ công |
-| Baseline         | [Audit 23/09](../research/2026-09-23-uiux-su-pham-baseline.md), SHA `1d9e247e`                               |
-| Đơn vị giao việc | Ba PR riêng: S06, S07, S08; không gộp source vào PR đặc tả                                                   |
+| Thuộc tính       | Giá trị                                                                                                            |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Goal             | [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), M2/S06–S08                                                |
+| Trạng thái       | **S08, S07b hẹp, S07c, S07d và S06b Approved for implementation** — chưa nghiệm thu; S07 rộng còn ma trận thủ công |
+| Baseline         | [Audit 23/09](../research/2026-09-23-uiux-su-pham-baseline.md), SHA `1d9e247e`                                     |
+| Đơn vị giao việc | Ba PR riêng: S06, S07, S08; không gộp source vào PR đặc tả                                                         |
 
 ## 1. Phạm vi và phụ thuộc
 
@@ -186,6 +186,52 @@ từ icon hoặc vùng lân cận.
 - Chạy full gate Node 22 theo `AGENTS.md`, gồm E2E. Nếu 44 px làm tràn header hoặc
   che focus, dừng slice và thiết kế lại có bằng chứng; không hạ ngưỡng hay thêm
   ngoại lệ. Rollback là revert source PR, vẫn giữ S07b và ghi S07c chưa đạt.
+
+### S07d — Cổng ma trận tự động: focus bị che, vùng chạm, tiêu đề
+
+**Approved for implementation (chỉ S07d, 25/09/2026).** Ngày 25/09 người dùng yêu cầu làm
+hết mọi việc agent tự làm được, ưu tiên chất lượng cao. Nền của quyết định là
+[probe 108 ô](../research/2026-09-25-s07d-ma-tran-tu-dong.md) trên main `6e47152`. Đây là
+quyết định kỹ thuật nội bộ, không phải nghiệm thu S07 rộng. PR đặc tả phải merge trước PR source.
+
+Source sửa đúng các lỗi mà probe tái hiện được:
+
+1. **Focus bị thanh đáy che (WCAG 2.4.11).** Đặt `html { scroll-padding-bottom: var(--bnav-h) }`
+   ở `apps/dhcb/src/index.css`. Biến này đã bằng 0 từ 1024 px trở lên. Ở chế độ tập trung
+   (`html[data-focus='1']`, thanh đáy bị ẩn) thì đặt về 0. Không đổi chiều cao `BottomNav`, không
+   đổi `--bnav-h` và không đổi padding của trang.
+2. **Vùng chạm mobile:**
+   - Ô hỏi Home (`HomeUniversalAiBar.tsx`): input cao tối thiểu 44 px.
+   - Placement: "Bỏ qua — tự chọn trình độ" (hai chỗ) và "Thoát" dùng `.tap-44`/`.tap-44-y`
+     sẵn có.
+3. **Sidebar desktop:**
+   - Hai nút icon (thu gọn nhóm, thu gọn thanh) dùng `.tap-44`, cho nhất quán với nút anh em
+     vốn đã đạt.
+   - Liên kết con và liên kết gói chỉ tăng lên 44 px khi `(pointer: coarse)`, tức tablet cảm ứng
+     từ 1024 px. Chuột vẫn giữ mật độ hiện tại, vốn đã đạt sàn 24 px của WCAG 2.5.8.
+4. **Tiêu đề:**
+   - CEFR ở tab khác "Bài học": đổi `<p>` tiêu đề cấp thành `<h1>`, giữ nguyên style.
+   - Placement màn câu hỏi/kết quả: thêm `h1` ẩn thị giác, cùng khuôn với màn bắt đầu.
+5. **Cổng E2E mới `e2e/s07-matrix.spec.ts`**, chặn CI:
+   - Không tràn ngang, và mọi control của màn chịu sửa đạt ≥44×44 ở 320/390/768, ba theme.
+   - Đi Tab rồi Shift+Tab ở 320/390: không phần tử focus nào bị che hoàn toàn. Đo bằng
+     `elementFromPoint` tại tâm và hai góc.
+   - Sidebar có `hasTouch` ở 1440 thì control ≥44 px; không có `hasTouch` thì mật độ không đổi.
+   - Có đúng một `h1` ở các màn trên.
+   - Có negative control: bỏ `scroll-padding` trong fixture thì phép đo focus bị che phải đỏ.
+
+Không đổi logic học, điều hướng, URL, nhãn, thứ tự Tab, quiz, lưu hay API. Không nới ngưỡng
+test cũ và không thêm ngoại lệ. Nếu có một thay đổi làm tràn header hoặc đẩy nội dung, dừng lại
+và thiết kế lại có bằng chứng.
+
+Bằng chứng yêu cầu:
+
+- Full gate Node 22.
+- Ảnh Tầng 8b 1440/390 trước/sau cho Home và Placement.
+- AA + AAA hiện hành vẫn xanh.
+
+Pinch, bàn phím ảo, browser zoom trên trình duyệt khác và AT thật vẫn **WAITING**. Rollback:
+revert PR source.
 
 ## 4. S08 — Quiz phản hồi bằng chữ và trình đọc màn hình
 
