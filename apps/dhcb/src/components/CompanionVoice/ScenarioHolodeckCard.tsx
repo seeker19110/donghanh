@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { thongDiepLoiThanThien } from '../../lib/friendlyError'
 import {
   Users,
@@ -11,37 +11,27 @@ import {
   AlertTriangle,
   RotateCcw,
 } from 'lucide-react'
-import type {
-  HolodeckScenario,
-  HolodeckSession,
-  HolodeckTurn,
+import {
+  HolodeckScenarioSchema,
+  type HolodeckSession,
+  type HolodeckTurn,
 } from '@dhcb/core-contracts/scenarioHolodeck'
+import LoadError from '../LoadError'
+import { useCatalogList } from '../../lib/useCatalogList'
 
 export default function ScenarioHolodeckCard() {
-  const [scenarios, setScenarios] = useState<HolodeckScenario[]>([])
+  // Danh sách kịch bản: trạng thái tải/lỗi/rỗng tách bạch (trước đây lỗi tải để thân thẻ trống trơn).
+  const { state: catalog, retry: retryCatalog } = useCatalogList(
+    '/api/scenario-holodeck',
+    'scenarios',
+    HolodeckScenarioSchema,
+  )
+  const scenarios = catalog.status === 'ready' ? catalog.items : []
   const [activeSession, setActiveSession] = useState<HolodeckSession | null>(null)
   const [selectedScenarioId, setSelectedScenarioId] = useState<string>('bigtech_panel_interview')
   const [userUtterance, setUserUtterance] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
-
-  // Fetch scenarios list
-  useEffect(() => {
-    async function loadScenarios() {
-      try {
-        const res = await fetch('/api/scenario-holodeck')
-        if (res.ok) {
-          const data = await res.json()
-          if (data.scenarios) {
-            setScenarios(data.scenarios)
-          }
-        }
-      } catch (err) {
-        console.error('Failed to load scenarios', err)
-      }
-    }
-    loadScenarios()
-  }, [])
 
   const currentScenario =
     scenarios.find((s) => s.id === (activeSession?.scenarioId || selectedScenarioId)) ||
@@ -177,8 +167,28 @@ export default function ScenarioHolodeckCard() {
         </div>
       )}
 
+      {!activeSession && catalog.status === 'loading' && (
+        <p role="status" className="mt-4 text-xs text-content-secondary">
+          Đang tải kịch bản…
+        </p>
+      )}
+      {!activeSession && catalog.status === 'error' && (
+        <div className="mt-4">
+          <LoadError
+            message={catalog.message}
+            hint="Tiến độ học của bạn không bị ảnh hưởng — chỉ danh sách kịch bản chưa tải được."
+            onRetry={retryCatalog}
+          />
+        </div>
+      )}
+      {!activeSession && catalog.status === 'ready' && scenarios.length === 0 && (
+        <p className="mt-4 text-xs text-content-secondary">
+          Chưa có kịch bản nào để luyện. Hãy quay lại sau.
+        </p>
+      )}
+
       {/* Body State 1: Select Scenario */}
-      {!activeSession && (
+      {!activeSession && scenarios.length > 0 && (
         <div className="mt-4 space-y-3">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {scenarios.map((sc) => {

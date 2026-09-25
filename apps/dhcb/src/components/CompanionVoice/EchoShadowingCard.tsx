@@ -1,9 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Mic, Play, Award, Sparkles, Zap, RotateCcw, Volume2 } from 'lucide-react'
-import type { ShadowingPassage, ShadowingSession } from '@dhcb/core-contracts/echoShadowing'
+import { ShadowingPassageSchema, type ShadowingSession } from '@dhcb/core-contracts/echoShadowing'
+import LoadError from '../LoadError'
+import { useCatalogList } from '../../lib/useCatalogList'
 
 export default function EchoShadowingCard() {
-  const [passages, setPassages] = useState<ShadowingPassage[]>([])
+  // Danh sách bài mẫu: trạng thái tải/lỗi/rỗng tách bạch (trước đây lỗi tải để thân thẻ trống trơn).
+  const { state: catalog, retry: retryCatalog } = useCatalogList(
+    '/api/echo-shadowing',
+    'passages',
+    ShadowingPassageSchema,
+  )
+  const passages = catalog.status === 'ready' ? catalog.items : []
   const [selectedId, setSelectedId] = useState<string>('jobs_stanford_commencement')
   const [isRecording, setIsRecording] = useState<boolean>(false)
   const [sessionResult, setSessionResult] = useState<ShadowingSession | null>(null)
@@ -11,21 +19,6 @@ export default function EchoShadowingCard() {
   // Độ "nhiễu" trang trí cho 28 thanh sóng âm — random 1 LẦN qua lazy initializer
   // (Math.random là hàm không thuần, không được gọi trực tiếp trong lúc render).
   const [barJitter] = useState<number[]>(() => Array.from({ length: 28 }, () => Math.random() * 30))
-
-  useEffect(() => {
-    async function loadPassages() {
-      try {
-        const res = await fetch('/api/echo-shadowing')
-        if (res.ok) {
-          const data = await res.json()
-          if (data.passages) setPassages(data.passages)
-        }
-      } catch (err) {
-        console.error('Failed to load shadowing passages', err)
-      }
-    }
-    loadPassages()
-  }, [])
 
   const currentPassage = passages.find((p) => p.id === selectedId) || passages[0]
 
@@ -91,29 +84,51 @@ export default function EchoShadowingCard() {
         )}
       </div>
 
-      {/* Passage Selector */}
-      <div className="mt-4 flex gap-2 overflow-x-auto pb-2">
-        {passages.map((p) => {
-          const isSelected = p.id === selectedId
-          return (
-            <button
-              key={p.id}
-              onClick={() => {
-                setSelectedId(p.id)
-                setSessionResult(null)
-              }}
-              aria-pressed={isSelected}
-              className={`tap-44-y px-3 py-1.5 rounded-xl text-xs font-semibold shrink-0 transition-all border ${
-                isSelected
-                  ? 'bg-sky-950/60 theme-light:bg-sky-100 border-sky-400 text-sky-200 theme-light:text-sky-900 shadow-md shadow-sky-500/20'
-                  : 'bg-surface-raised border-line-subtle text-content-secondary hover:text-content'
-              }`}
-            >
-              {p.title.split('—')[0]}
-            </button>
-          )
-        })}
-      </div>
+      {catalog.status === 'loading' && (
+        <p role="status" className="mt-4 text-xs text-content-secondary">
+          Đang tải bài mẫu…
+        </p>
+      )}
+      {catalog.status === 'error' && (
+        <div className="mt-4">
+          <LoadError
+            message={catalog.message}
+            hint="Tiến độ học của bạn không bị ảnh hưởng — chỉ danh sách bài mẫu chưa tải được."
+            onRetry={retryCatalog}
+          />
+        </div>
+      )}
+      {catalog.status === 'ready' && passages.length === 0 && (
+        <p className="mt-4 text-xs text-content-secondary">
+          Chưa có bài mẫu nào để luyện. Hãy quay lại sau.
+        </p>
+      )}
+
+      {/* Passage Selector — chỉ dựng khi có bài, tránh khoảng trống thừa ở trạng thái tải/lỗi/rỗng */}
+      {passages.length > 0 && (
+        <div className="mt-4 flex gap-2 overflow-x-auto pb-2">
+          {passages.map((p) => {
+            const isSelected = p.id === selectedId
+            return (
+              <button
+                key={p.id}
+                onClick={() => {
+                  setSelectedId(p.id)
+                  setSessionResult(null)
+                }}
+                aria-pressed={isSelected}
+                className={`tap-44-y px-3 py-1.5 rounded-xl text-xs font-semibold shrink-0 transition-all border ${
+                  isSelected
+                    ? 'bg-sky-950/60 theme-light:bg-sky-100 border-sky-400 text-sky-200 theme-light:text-sky-900 shadow-md shadow-sky-500/20'
+                    : 'bg-surface-raised border-line-subtle text-content-secondary hover:text-content'
+                }`}
+              >
+                {p.title.split('—')[0]}
+              </button>
+            )
+          })}
+        </div>
+      )}
 
       {currentPassage && (
         <div className="mt-4 space-y-4">
