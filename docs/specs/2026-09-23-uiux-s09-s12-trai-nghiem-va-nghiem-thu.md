@@ -1,11 +1,11 @@
 # S09–S12 — Trải nghiệm bài học, sửa lỗi và nghiệm thu
 
-| Thuộc tính | Giá trị                                                                            |
-| ---------- | ---------------------------------------------------------------------------------- |
-| Goal       | [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), M3–M5                     |
-| Trạng thái | **S09 Approved for implementation** (24/09, §2.1b); S10–S12 Draft; chưa nghiệm thu |
-| Baseline   | [Audit 23/09](../research/2026-09-23-uiux-su-pham-baseline.md), SHA `1d9e247e`     |
-| Cách chia  | Bốn slice riêng; mỗi slice review và merge spec trước source                       |
+| Thuộc tính | Giá trị                                                                                                                                    |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Goal       | [UI/UX và sư phạm](../goals/2026-09-23-uiux-su-pham.md), M3–M5                                                                             |
+| Trạng thái | **S09 Approved for implementation** (24/09, §2.1b); **S10b, S11b Approved** (25/09, §3.1, §4.1); S10/S11 rộng + S12 Draft; chưa nghiệm thu |
+| Baseline   | [Audit 23/09](../research/2026-09-23-uiux-su-pham-baseline.md), SHA `1d9e247e`                                                             |
+| Cách chia  | Bốn slice riêng; mỗi slice review và merge spec trước source                                                                               |
 
 ## 1. Nguồn thực tế và giới hạn
 
@@ -423,6 +423,45 @@ link thay đổi nội dung; negative controls cố tình sai chiều, sai kiế
 bị nói thành lỗi học viên phải bị loại. Chưa có chuyên gia thì trạng thái WAITING,
 không viết “đã đạt sư phạm”.
 
+### 3.1. Quyết định S10b — xuất phản hồi ứng viên thật cho 40 mẫu (25/09/2026)
+
+**Approved for implementation (chỉ S10b, 25/09/2026).** Ngày 25/09 người dùng yêu cầu làm hết
+phần agent tự làm được, ưu tiên chất lượng. Bộ 40 ca `docs/ux-upgrade/s09-s12/rubric-40.json`
+đã có từ #1123 nhưng chưa review được, vì phiếu review bắt buộc có "phản hồi ứng viên nguyên
+văn" mà chưa ca nào có. S10b chỉ chuẩn bị nguyên liệu cho chuyên gia. **Không** chấm, **không**
+đổi `status`/`scores`/`reviewer` và **không** sửa nội dung bài.
+
+- **Script `scripts/s10-candidate-feedback.ts`** đọc từng ca và dựng lại đúng chữ app đang hiện,
+  từ **mã nguồn thật**:
+  - STEM: `gradeAnswer` + nhãn "Đúng rồi."/"Chưa đúng." + `explain` của câu.
+  - Lập trình: chữ phản hồi của `PredictStep`/`ParsonsStep` + `explain`.
+  - Lỗi hệ thống: chữ `ActivityResult` theo `status`/`pendingReason`.
+
+  Kết quả ghi ra `docs/ux-upgrade/s09-s12/candidate-feedback.json`, mỗi ca có `caseId`,
+  `pathKind`, `feedbackText` nguyên văn, `sourceRefs` và `generatedFromSha`.
+
+- **Ca không có đường phản hồi trong app** thì ghi rõ lý do, không bịa chữ:
+  - English phụ thuộc AI: `NEEDS_PROVIDER_RUN`, vì chạy provider trả phí nằm ngoài phạm vi.
+  - `workedExample` không được chấm: `NO_APP_GRADER`.
+  - Ca "chưa trả lời" bị nút nộp chặn: ghi chữ chặn thật.
+  - R40 là ca tổng hợp: `SYNTHETIC`.
+- **Chữ phản hồi dùng chung** được tách thành hằng số để script và component đọc cùng một
+  nguồn. Việc tách không đổi chữ nào hiển thị; snapshot hoặc test component hiện có phải giữ
+  nguyên.
+- **Cổng vitest `scripts/s10-candidate-feedback.test.ts`:**
+  - Tính toàn vẹn `rubric-40.json`: đúng 12/16/8/4, id duy nhất, mọi ca `WAITING_EXPERT_REVIEW`
+    với `scores/reviewer = null` cho tới khi có chuyên gia.
+  - `candidate-feedback.json` khớp với lượt sinh lại từ source hiện tại. Nội dung bài đổi thì
+    cổng đỏ, buộc sinh lại. Đây là luật "thay nội dung phải đo lại" của goal.
+  - Negative control: sửa một `feedbackText` trong fixture thì cổng phải đỏ.
+- **Sàng lọc của agent**, ghi riêng, nhãn "agent screening — không phải review chuyên gia":
+  - Ghi các nghi vấn nhìn thấy được, không cho điểm.
+  - Nghi vấn đã biết: phản hồi sai của `ParsonsStep` luôn nhắc "if → elif → else", kể cả ở bài
+    P1-U1 chỉ có `print`.
+  - Sửa nội dung/chữ phản hồi là việc sau khi chuyên gia kết luận, không nằm trong S10b.
+
+Rollback: xoá script, JSON và test. Không ảnh hưởng runtime.
+
 ## 4. S11 — Từ sửa lỗi đến tự thử và ôn đúng chỗ
 
 **Outcome:** từ phản hồi người học quay lại đúng phần cần sửa, tự thử rồi ôn bằng cơ chế
@@ -453,6 +492,49 @@ sinh bảng lỗi thứ hai để lấp thiếu metadata.
 và retry mất response; test route không tồn tại và source English chưa có câu cụ thể;
 kiểm keyboard/focus ở lần quay về. Tái dùng tests evidenceMistakes/MistakeBank và
 FlashcardReview, không dựng API kiểm thử song song.
+
+### 4.1. Quyết định S11b — tự thử lại câu STEM sai, không lộ đáp án cũ (25/09/2026)
+
+**Approved for implementation (chỉ S11b, 25/09/2026).** Cùng nguồn quyết định với S10b. S11b
+chỉ gồm phần kỹ thuật kiểm được bằng CI; chuẩn chữ phản hồi vẫn chờ S10. Đọc mã trên main:
+
+- `StemLessonView` giữ nháp `answers`/`checked`. Câu trắc nghiệm được chấm ngay khi bấm.
+- Nộp bài thì mọi câu vào trạng thái `checked`, lộ "Chưa đúng." kèm `explain`.
+- "Làm lại" (`onRetry`) không xoá nháp.
+- Hệ quả: mở câu sai từ Sổ lỗi (`#cau-N`) trên cùng máy thì thấy ngay đáp án cũ và lời giải.
+  Đây là **vi phạm hợp đồng S11** ("câu trả lời cũ/lời giải không tự lộ trước lượt tự thử mới").
+
+Phạm vi source (`StemLessonView.tsx`, `MistakeBank.tsx`, test liên quan):
+
+1. **Nút "Thử lại câu này"** trên câu đã chấm là sai (trắc nghiệm và tự luận). Bấm nút sẽ:
+   - Xoá đáp án và cờ `checked` của đúng câu đó trong nháp, ẩn luôn lời giải.
+   - Đưa focus về đề câu.
+   - Là thao tác chủ động của người học, không tự chạy.
+2. **Vào từ Sổ lỗi.** Link STEM "Ôn lại lỗi này" truyền router state `{ tuThuLaiCau: N }`, không
+   đổi URL (`#cau-N` giữ nguyên hợp đồng). Nếu state khớp một câu có trong bài:
+   - Câu đó hiển thị ở **chế độ tự thử**: không đánh dấu lựa chọn cũ, không hiện lời giải.
+   - Có dòng "Đang tự thử lại — câu trả lời lần trước đang ẩn" và nút "Xem câu trả lời lần
+     trước" để thoát chế độ này.
+   - Nháp chưa bị ghi cho tới khi người học trả lời.
+   - Tải lại trang hoặc mở link chia sẻ thì không có state, nên trang hiện như cũ.
+3. **Nhãn trung thực.** Lỗi English ở danh sách "Tất cả" đổi thành "Ôn lại ở {tên màn}", cùng
+   khuôn thẻ ôn đã có. Không hứa quay về đúng câu.
+4. **Không đổi:**
+   - Cách chấm, `attemptId`, hàng đợi pending, luật gỡ lỗi của `mistakesFromEvidence`, SRS,
+     mastery và API.
+   - Lỗi vẫn chỉ hết khi có lượt nộp mới đúng câu đó.
+   - Mở lời giải hay bấm CTA không tạo bằng chứng.
+5. **Evidence:**
+   - Unit cho hai hành vi trên.
+   - E2E dùng mock server có trạng thái cho chuỗi: làm bài sai 1 câu → nộp → Sổ lỗi hiện câu →
+     "Ôn lại" → đích focus vào đề, đáp án cũ ẩn → "Xem câu trả lời lần trước" hiện lại →
+     trả lời đúng → nộp → Sổ lỗi hết câu đó.
+   - Kèm các ca: bài không tồn tại (thông báo + về đúng môn), `#cau-99`, Sổ lỗi rỗng, và Back về
+     Sổ lỗi bằng bàn phím.
+   - Ảnh Tầng 8b trước/sau 390/1440 cho câu ở chế độ tự thử; full gate.
+
+Ngoài phạm vi S11b: English/lập trình chưa có định danh câu (giữ nhãn trung thực), "hẹn ôn"
+mới, sửa chữ phản hồi (S10). Rollback: revert PR source; nháp và bằng chứng không đổi schema.
 
 ## 5. S12 — Audit toàn luồng và pilot
 
