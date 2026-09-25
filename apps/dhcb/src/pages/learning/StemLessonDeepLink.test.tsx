@@ -78,13 +78,15 @@ describe('liên kết câu STEM sau khi tải nội dung', () => {
     expect(choice!.getAttribute('aria-pressed')).toBe('true')
   })
 
-  it.each(['', '#tra-loi-1', '#khac'])('không chiếm focus của hash ngoài câu: %s', async (hash) => {
-    await open(hash)
+  it('mở bài không hash giữ hành vi cũ: không chiếm focus, không cuộn', async () => {
+    await open('')
     expect(document.activeElement).toBe(document.body)
     expect(scroll).not.toHaveBeenCalled()
   })
 
-  it.each(['#cau-999', '#cau-0', '#cau-%E0%A4%A'])(
+  // [S09b] Contract §2.3 đổi luật cũ "hash ngoài câu thì bỏ qua": hash không thuộc danh sách
+  // trắng (kể cả id có thật trong DOM như ô nhập `#tra-loi-1`) nay về tiêu đề bài hiện tại.
+  it.each(['#cau-999', '#cau-0', '#cau-%E0%A4%A', '#tra-loi-1', '#khac'])(
     'hash %s không tồn tại về tiêu đề bài',
     async (hash) => {
       await open(hash)
