@@ -50,7 +50,7 @@ export default function AgentOrchestratorCard() {
           <button
             type="button"
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-indigo-500 to-sky-500 hover:from-indigo-400 hover:to-sky-400 text-white transition active:scale-98 shadow-md"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-[#fff] transition active:scale-98 shadow-md"
           >
             <Play className="w-3.5 h-3.5 fill-current" />
             <span>Khởi chạy Agent</span>
@@ -83,7 +83,7 @@ export default function AgentOrchestratorCard() {
         ) : (
           <div className="p-4 rounded-2xl bg-zinc-900/40 border border-dashed border-zinc-800 text-center space-y-1">
             <p className="text-xs text-zinc-300 font-semibold">Chưa có phiên Agent nào đang chạy</p>
-            <p className="text-[11px] text-zinc-500">
+            <p className="text-[11px] text-content-secondary">
               Nhấn nút &quot;Khởi chạy Agent&quot; để ủy quyền giải quyết nhiệm vụ phức tạp đa bước.
             </p>
           </div>

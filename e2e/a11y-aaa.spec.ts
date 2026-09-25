@@ -5,6 +5,7 @@ import { openLiveLocationTrip } from './helpers/location'
 import { mockLessonContrastSample } from './helpers/lessonContrastFixture'
 import { freezeAnimations, waitForStableDom } from './helpers/axe'
 import { moCauTuThuLai } from './helpers/stemRetry'
+import { muteTts } from './helpers/tts'
 import {
   AAA_RULE_IDS,
   AAA_TAGS,
@@ -640,4 +641,26 @@ for (const theme of THEMES) {
     await expect(front).toBeVisible()
     await expect(back).toBeHidden()
   })
+}
+
+// [S06d] Năm studio của Bạn Đồng Hành — ROUTES chỉ quét studio mặc định nên chữ đọc ở 4 studio
+// còn lại chưa từng qua cổng 7:1 (S06c chỉ đưa chúng vào cổng AA). Cùng khuôn chờ theo trạng
+// thái với vòng COMPANION_STUDIOS ở e2e/a11y.spec.ts.
+const COMPANION_STUDIOS = ['Trò chuyện', 'Ghi nhớ', 'Thử thách', 'Kế hoạch', 'Tổng kết']
+for (const theme of THEMES) {
+  for (const studio of COMPANION_STUDIOS) {
+    test(`a11y AAA (nội dung + tiêu đề): Bạn Đồng Hành — studio ${studio}, theme=${theme}`, async ({
+      page,
+    }) => {
+      await mockLogin(page, 'vi', theme)
+      await muteTts(page)
+      await page.goto('/ban-dong-hanh', { waitUntil: 'domcontentloaded' })
+      const tab = page.getByRole('button', { name: studio, exact: true })
+      await tab.click()
+      await expect(tab).toHaveAttribute('aria-pressed', 'true')
+      await waitForStableDom(page)
+      const violated = await scanAaa(page)
+      expect(violated, `Vi phạm AAA ở studio ${studio}, theme=${theme}`).toEqual([])
+    })
+  }
 }

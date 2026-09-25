@@ -70,7 +70,7 @@ export default function EchoShadowingCard() {
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-base font-bold text-white tracking-wide">Nói Đè Theo Mẫu</h3>
-              <span className="text-[11px] px-2 py-0.5 font-bold uppercase rounded-full bg-sky-500/20 text-sky-300 theme-light:text-sky-900 border border-sky-500/30">
+              <span className="text-[11px] px-2 py-0.5 font-bold uppercase rounded-full bg-sky-500/20 text-sky-200 theme-light:text-sky-900 border border-sky-500/30">
                 Phản xạ tức thì
               </span>
             </div>

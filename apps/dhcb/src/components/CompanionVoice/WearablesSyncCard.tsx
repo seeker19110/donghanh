@@ -69,7 +69,7 @@ export default function WearablesSyncCard() {
               <h3 className="text-base font-bold text-white tracking-wide">
                 Wearables & Circadian Bio-Adaptive MCP
               </h3>
-              <span className="text-[11px] px-2 py-0.5 font-bold uppercase rounded-full bg-emerald-500/20 text-emerald-300 theme-light:text-emerald-900 border border-emerald-500/30">
+              <span className="text-[11px] px-2 py-0.5 font-bold uppercase rounded-full bg-emerald-500/20 text-emerald-200 theme-light:text-emerald-900 border border-emerald-500/30">
                 Bio-Sync Active
               </span>
             </div>

@@ -128,7 +128,7 @@ export default function ScenarioHolodeckCard() {
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-base font-bold text-white tracking-wide">Scenario Holodeck V3</h3>
-              <span className="text-[11px] px-2 py-0.5 font-bold uppercase rounded-full bg-indigo-500/20 text-indigo-300 theme-light:text-indigo-800 border border-indigo-500/30">
+              <span className="text-[11px] px-2 py-0.5 font-bold uppercase rounded-full bg-indigo-500/20 text-indigo-200 theme-light:text-indigo-900 border border-indigo-500/30">
                 Multi-Agent VR
               </span>
             </div>

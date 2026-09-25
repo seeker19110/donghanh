@@ -55,7 +55,7 @@ export default function LifeSynthesisDashboard() {
                 <h3 className="text-sm font-bold text-zinc-100 tracking-tight">
                   Tổng Hợp Đa Miền & Dự Báo Mục Tiêu
                 </h3>
-                <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-accent-500/15 text-accent-300 theme-light:text-accent-800 border border-accent-500/30 uppercase tracking-wider">
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-accent-500/15 text-accent-200 theme-light:text-accent-900 border border-accent-500/30 uppercase tracking-wider">
                   V5.4 Flagship
                 </span>
               </div>
@@ -83,7 +83,7 @@ export default function LifeSynthesisDashboard() {
                 <Target className="w-3.5 h-3.5 text-accent-400" />
                 Đồng Bộ Toàn Diện
               </span>
-              <span className="text-[11px] font-bold text-accent-400 theme-light:text-accent-800">
+              <span className="text-[11px] font-bold text-accent-300 theme-light:text-accent-900">
                 Holistic
               </span>
             </div>

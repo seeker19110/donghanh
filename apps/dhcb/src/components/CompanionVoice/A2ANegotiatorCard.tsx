@@ -110,7 +110,7 @@ export const A2ANegotiatorCard: React.FC = () => {
           </div>
         </div>
 
-        <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-500/20 text-indigo-300 theme-light:text-indigo-800 border border-indigo-500/30">
+        <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-500/20 text-indigo-200 theme-light:text-indigo-900 border border-indigo-500/30">
           {matches.length} bạn học phù hợp
         </span>
       </button>

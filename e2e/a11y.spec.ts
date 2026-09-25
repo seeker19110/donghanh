@@ -609,3 +609,28 @@ for (const theme of THEMES) {
     })
   }
 }
+
+// [S06d] Thẻ Workplace Harvester (studio "Kế hoạch") từng tràn ngang ở 390 px: tiêu đề và nhóm tab
+// chung một hàng không xuống dòng nên tab "Thẻ SRS" bị cắt. Thẻ có overflow-hidden nên phần tràn
+// không hiện thanh cuộn — đo bằng scrollWidth > clientWidth của chính thẻ và của hàng header.
+test('Bạn Đồng Hành — thẻ Workplace Harvester không tràn ngang ở 390 px', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await mockLogin(page, 'vi', 'blue-sky')
+  await muteTts(page)
+  await page.goto('/ban-dong-hanh', { waitUntil: 'domcontentloaded' })
+  const tab = page.getByRole('button', { name: 'Kế hoạch', exact: true })
+  await tab.click()
+  await expect(tab).toHaveAttribute('aria-pressed', 'true')
+  const heading = page.getByRole('heading', { name: /Workplace Error Harvester/ })
+  await expect(heading).toBeVisible()
+  const cardsTab = page.getByRole('button', { name: /Thẻ SRS/ })
+  await expect(cardsTab).toBeInViewport({ ratio: 1 })
+  const overflow = await heading.evaluate((h) => {
+    const header = h.closest('.border-b') as HTMLElement
+    const card = header.parentElement as HTMLElement
+    return [header, card].map((el) => el.scrollWidth - el.clientWidth)
+  })
+  expect(overflow, 'Header/thẻ Workplace Harvester tràn ngang (px)').toEqual([0, 0])
+  await cardsTab.click()
+  await expect(cardsTab).toHaveAttribute('aria-pressed', 'true')
+})
