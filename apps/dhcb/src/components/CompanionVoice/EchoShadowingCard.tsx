@@ -1,19 +1,22 @@
 import { useState } from 'react'
 import { Mic, Play, Award, Sparkles, Zap, RotateCcw, Volume2, AlertTriangle } from 'lucide-react'
-import type { ShadowingPassage, ShadowingSession } from '@dhcb/core-contracts/echoShadowing'
-import { useCompanionList } from './useCompanionList'
-import CardLoadStatus from './CardLoadStatus'
+import { ShadowingPassageSchema, type ShadowingSession } from '@dhcb/core-contracts/echoShadowing'
+import LoadError from '../LoadError'
+import { useCatalogList } from '../../lib/useCatalogList'
 
 export default function EchoShadowingCard() {
-  const {
-    items: passages,
-    state: loadState,
-    reload,
-  } = useCompanionList<ShadowingPassage>('/api/echo-shadowing', 'passages')
+  // Danh sách bài mẫu: trạng thái tải/lỗi/rỗng tách bạch (trước đây lỗi tải để thân thẻ trống trơn).
+  const { state: catalog, retry: retryCatalog } = useCatalogList(
+    '/api/echo-shadowing',
+    'passages',
+    ShadowingPassageSchema,
+  )
+  const passages = catalog.status === 'ready' ? catalog.items : []
   const [selectedId, setSelectedId] = useState<string>('jobs_stanford_commencement')
   const [isRecording, setIsRecording] = useState<boolean>(false)
   const [sessionResult, setSessionResult] = useState<ShadowingSession | null>(null)
   const [isEvaluating, setIsEvaluating] = useState<boolean>(false)
+  // Lỗi khi CHẤM lượt vừa luyện (khác lỗi tải danh sách bài mẫu ở trên).
   const [evalError, setEvalError] = useState<string | null>(null)
   // Độ "nhiễu" trang trí cho 28 thanh sóng âm — random 1 LẦN qua lazy initializer
   // (Math.random là hàm không thuần, không được gọi trực tiếp trong lúc render).
@@ -84,9 +87,27 @@ export default function EchoShadowingCard() {
         )}
       </div>
 
-      <CardLoadStatus state={loadState} noun="bài mẫu" onRetry={reload} />
+      {catalog.status === 'loading' && (
+        <p role="status" className="mt-4 text-xs text-content-secondary">
+          Đang tải bài mẫu…
+        </p>
+      )}
+      {catalog.status === 'error' && (
+        <div className="mt-4">
+          <LoadError
+            message={catalog.message}
+            hint="Tiến độ học của bạn không bị ảnh hưởng — chỉ danh sách bài mẫu chưa tải được."
+            onRetry={retryCatalog}
+          />
+        </div>
+      )}
+      {catalog.status === 'ready' && passages.length === 0 && (
+        <p className="mt-4 text-xs text-content-secondary">
+          Chưa có bài mẫu nào để luyện. Hãy quay lại sau.
+        </p>
+      )}
 
-      {/* Passage Selector — chỉ dựng khi có bài, để khối trạng thái rỗng/lỗi không có khoảng trống thừa bên dưới */}
+      {/* Passage Selector — chỉ dựng khi có bài, tránh khoảng trống thừa ở trạng thái tải/lỗi/rỗng */}
       {passages.length > 0 && (
         <div className="mt-4 flex gap-2 overflow-x-auto pb-2">
           {passages.map((p) => {

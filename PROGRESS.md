@@ -193,7 +193,8 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
   **25/09:** S06d Approved (`docs/changelog/0449-*.md`): hai nợ trên thành một slice — cổng AAA quét 5 studio (đo trên main: 10/15 ca đỏ, badge 11px dưới 7:1 và chữ trên nền gradient) + sửa tràn ngang Workplace Harvester; nợ riêng: nhãn thanh đáy "partially obscured" khi quét AAA ở 390px.
   S06d source xong (`docs/changelog/0450-*.md`): 5 studio × 3 theme xanh cổng AAA (bỏ nền gradient dưới chữ đọc, badge 11px ≥7:1), Workplace Harvester hết tràn ngang + `aria-pressed`.
   Header 6 thẻ CompanionVoice hết chật ở 390px (`docs/changelog/0451-*.md`): xếp dọc ở màn hẹp, tiêu đề ≤2 dòng, nút một dòng, có cổng E2E.
-  Ba nợ nhỏ sau S06d đã trả (`docs/changelog/0452-*.md`): Echo/Holodeck có trạng thái tải/rỗng/lỗi + Thử lại; badge A2A/Ambient một dòng ở 390px; thanh đáy nền đặc nên nhãn đo được tương phản (cổng mới 390px × 3 theme). **Chuỗi S06 hết nợ mở.**
+  Echo/Holodeck có trạng thái tải/lỗi/rỗng + Thử lại (`docs/changelog/0452-*.md`, PR #1178): hook dùng chung `lib/useCatalogList.ts` (kiểm Zod, sai hợp đồng = lỗi), test hợp đồng server↔client, E2E 3 ca.
+  Nợ nhỏ còn lại sau S06d đã trả (`docs/changelog/0453-*.md`, PR #1179): badge A2A/Ambient một dòng ở 390px; thanh đáy nền đặc nên nhãn đo được tương phản (cổng mới 390px × 3 theme); thẻ shadowing báo lỗi khi chấm lượt thất bại. **Chuỗi S06 hết nợ mở.**
   Bước tiếp theo: S11 (sau S10 chuyên gia) và thu bằng chứng accessibility/thiết bị thật còn thiếu;
   xem trạng thái và giới hạn nghiệm thu trong goal, không coi source merge là goal hoàn tất.
 
@@ -1060,7 +1061,7 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   không ai chạy lại `npm run changelog`) — đổi file của PR #1109 sang `0412`.
 - 🟡 **[2026-09-22 — audit UI/UX sâu, `docs/audit/2026-09-22-danh-gia-sau-ui-ux.md` +
   `docs/changelog/0412-*.md`, PR đợt 0412] Đã xử lý 6 đợt A–F trong một PR.** Nợ còn lại: (1)
-  ✅ `err.message` thô — ĐÃ ĐÓNG HẲN 2026-09-25 (`docs/changelog/0452-*.md`): 0433 bỏ sót khuôn
+  ✅ `err.message` thô — ĐÃ ĐÓNG HẲN 2026-09-25 (`docs/changelog/0453-*.md`): 0433 bỏ sót khuôn
   `(err as Error).message` (27 điểm/14 panel admin + `feedbackApi`/`FeedbackModal` + lỗi giọng nói
   ở `Companion.tsx`), nay đã sửa; admin dùng `thongDiepLoiQuanTri` (giữ chi tiết lỗi server/Zod);
   cổng canh trong `friendlyError.test.ts` chặn khuôn này quay lại; (2) ✅ Phòng luyện tập vs

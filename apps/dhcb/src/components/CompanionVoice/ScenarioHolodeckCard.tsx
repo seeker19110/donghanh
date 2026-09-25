@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import { thongDiepLoiThanThien } from '../../lib/friendlyError'
-import { useCompanionList } from './useCompanionList'
-import CardLoadStatus from './CardLoadStatus'
 import {
   Users,
   Flame,
@@ -13,18 +11,22 @@ import {
   AlertTriangle,
   RotateCcw,
 } from 'lucide-react'
-import type {
-  HolodeckScenario,
-  HolodeckSession,
-  HolodeckTurn,
+import {
+  HolodeckScenarioSchema,
+  type HolodeckSession,
+  type HolodeckTurn,
 } from '@dhcb/core-contracts/scenarioHolodeck'
+import LoadError from '../LoadError'
+import { useCatalogList } from '../../lib/useCatalogList'
 
 export default function ScenarioHolodeckCard() {
-  const {
-    items: scenarios,
-    state: loadState,
-    reload,
-  } = useCompanionList<HolodeckScenario>('/api/scenario-holodeck', 'scenarios')
+  // Danh sách kịch bản: trạng thái tải/lỗi/rỗng tách bạch (trước đây lỗi tải để thân thẻ trống trơn).
+  const { state: catalog, retry: retryCatalog } = useCatalogList(
+    '/api/scenario-holodeck',
+    'scenarios',
+    HolodeckScenarioSchema,
+  )
+  const scenarios = catalog.status === 'ready' ? catalog.items : []
   const [activeSession, setActiveSession] = useState<HolodeckSession | null>(null)
   const [selectedScenarioId, setSelectedScenarioId] = useState<string>('bigtech_panel_interview')
   const [userUtterance, setUserUtterance] = useState<string>('')
@@ -86,6 +88,7 @@ export default function ScenarioHolodeckCard() {
   const handleFinalize = async () => {
     if (!activeSession || isLoading) return
     setIsLoading(true)
+    // Xoá lỗi của lượt trước — không thì tổng kết thành công vẫn còn treo khung lỗi cũ.
     setErrorMsg(null)
     try {
       const res = await fetch('/api/scenario-holodeck', {
@@ -166,9 +169,28 @@ export default function ScenarioHolodeckCard() {
         </div>
       )}
 
+      {!activeSession && catalog.status === 'loading' && (
+        <p role="status" className="mt-4 text-xs text-content-secondary">
+          Đang tải kịch bản…
+        </p>
+      )}
+      {!activeSession && catalog.status === 'error' && (
+        <div className="mt-4">
+          <LoadError
+            message={catalog.message}
+            hint="Tiến độ học của bạn không bị ảnh hưởng — chỉ danh sách kịch bản chưa tải được."
+            onRetry={retryCatalog}
+          />
+        </div>
+      )}
+      {!activeSession && catalog.status === 'ready' && scenarios.length === 0 && (
+        <p className="mt-4 text-xs text-content-secondary">
+          Chưa có kịch bản nào để luyện. Hãy quay lại sau.
+        </p>
+      )}
+
       {/* Body State 1: Select Scenario */}
-      {!activeSession && <CardLoadStatus state={loadState} noun="kịch bản" onRetry={reload} />}
-      {!activeSession && loadState === 'ready' && (
+      {!activeSession && scenarios.length > 0 && (
         <div className="mt-4 space-y-3">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {scenarios.map((sc) => {

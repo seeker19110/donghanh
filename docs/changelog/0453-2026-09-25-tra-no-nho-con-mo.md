@@ -1,20 +1,23 @@
-# Trả nợ nhỏ còn mở: trạng thái tải/rỗng/lỗi, badge một dòng, thanh đáy nền đặc, lỗi thô
+# Trả nợ nhỏ còn mở: lỗi chấm lượt shadowing, badge một dòng, thanh đáy nền đặc, lỗi thô
 
-- **Ngày:** 2026-09-25 · **PR:** PR của nhánh `seeker/zealous-allen-ygj0gw` (sau #1177)
+- **Ngày:** 2026-09-25 · **PR:** #1179 (nhánh `seeker/zealous-allen-ygj0gw`)
 - **Loại:** `fix(ui)`. Người dùng yêu cầu "liệt kê, sửa và hoàn thiện toàn bộ". Bốn việc dưới đây
-  là phần nợ đang mở sửa được hoàn toàn bằng code: ba nợ ghi ở `0450`/`0451`, cộng phần sót của
-  nợ lỗi thô (audit UI/UX 2026-09-22).
+  là phần nợ đang mở sửa được hoàn toàn bằng code: nợ ghi ở `0450`/`0451`, cộng phần sót của nợ
+  lỗi thô (audit UI/UX 2026-09-22).
+- **Trùng việc với PR #1178, đã gộp:** trong lúc PR này mở, `main` nhận #1178 (`0452`), cùng sửa
+  trạng thái tải/lỗi/rỗng của thẻ Nói Đè Theo Mẫu + Scenario Holodeck bằng `lib/useCatalogList.ts`.
+  Khi gộp `main`, PR này **giữ bản của #1178** vì nó kiểm từng phần tử bằng Zod và huỷ request
+  bằng `AbortController`. PR này bỏ hẳn `CompanionVoice/useCompanionList.ts` +
+  `CardLoadStatus.tsx` của mình để không có hai hook cùng làm một việc. Chỉ giữ hai phần #1178
+  chưa phủ, ghi ở mục 1.
 
 ## Đã làm
 
-1. **Thẻ "Nói Đè Theo Mẫu" (Echo Shadowing) và Scenario Holodeck có trạng thái tải/rỗng/lỗi.**
-   Trước đây hai thẻ nuốt lỗi fetch vào console, nên khi API lỗi hoặc trả rỗng thì thân thẻ trống.
-   - Hook mới `CompanionVoice/useCompanionList.ts`: bốn trạng thái `loading · ready · empty · error`,
-     kiểm dữ liệu lúc chạy (không phải mảng thì là lỗi), cờ huỷ khi thẻ bị gỡ, `reload()`.
-   - Component mới `CompanionVoice/CardLoadStatus.tsx`: `role="status"` khi tải/rỗng,
-     `role="alert"` khi lỗi, nút "Thử lại" có vùng chạm 44px.
-   - Thẻ "Nói Đè Theo Mẫu" nay cũng báo lỗi khi chấm lượt thất bại (trước đây im lặng).
-   - Holodeck: "Tổng kết" xoá lỗi cũ trước khi gọi lại.
+1. **Thẻ Nói Đè Theo Mẫu báo lỗi khi CHẤM lượt thất bại.** Lỗi tải danh sách đã được #1178 xử lý;
+   còn lượt chấm vẫn là `if (res.ok)` + `console.error`. API lỗi thì nút trở lại như chưa bấm,
+   không báo gì. Nay có khung `role="alert"`, chữ `text-content` để đạt AAA. Kèm test
+   `EchoShadowingCard.test.tsx` (timer giả vì thẻ mô phỏng 4,5 giây thu âm). Holodeck: "Tổng kết"
+   xoá lỗi của lượt trước trước khi gọi lại.
 2. **Badge "0 bạn học phù hợp" (A2A) và "Chưa kích hoạt" (Ambient) còn một dòng ở 390px.**
    Khối tiêu đề `min-w-0 flex-1`, badge `shrink-0 whitespace-nowrap`. Nút mở/đóng thêm `aria-expanded`.
 3. **Nhãn thanh điều hướng đáy đo được tương phản ở mọi trang.** Nền thanh đáy trước đây trong mờ
@@ -43,28 +46,32 @@
 
 ## Tầng 8b — ảnh trước/sau
 
-Studio Thử thách và Kế hoạch, 390px và 1440px, theme blue-sky.
+Studio Thử thách và Kế hoạch, 390px và 1440px, theme blue-sky. Chụp lại **trên kết quả đã gộp
+`main` (sau #1178)**, không dùng ảnh của bản trước khi gộp.
 
-- Ở 390px, badge A2A/Ambient còn một dòng. Thẻ Echo/Holodeck hiện khối lỗi kèm "Thử lại" thay cho
-  thân trống. Máy dev không có CSDL nên API lỗi, đúng là trường hợp cần kiểm.
-- Ở 1440px, bố cục giữ nguyên. Đã bỏ khoảng trống thừa dưới khối lỗi, do hàng chọn bài rỗng vẫn
-  được dựng.
-- Không có nội dung bị lặp hay bị mất.
+- Ở 390px, badge A2A/Ambient còn một dòng (trước: 2 dòng).
+- Thẻ Echo/Holodeck hiện đúng MỘT khối lỗi `LoadError` của #1178 kèm "Thử lại". Máy dev không có
+  CSDL nên API lỗi, đúng là trường hợp cần kiểm. Khối trạng thái cũ của nhánh này đã gỡ hẳn, không
+  lặp.
+- Ở 1440px, bố cục giữ nguyên. Không có nội dung bị lặp hay bị mất.
 
 ## Bằng chứng
 
-- `cardLoadStatus.test.tsx` 6 ca. Negative control: đưa hai thẻ về bản cũ thì đỏ 6/6.
+- `EchoShadowingCard.test.tsx` 3 ca. Negative control: chạy với bản `main` (chưa có nhánh lỗi
+  chấm) thì đỏ đúng 2 ca lỗi, ca chấm thành công vẫn xanh.
 - Cổng thanh đáy: sau khi sửa xanh 9/9. Negative control: trả lại nền `/90 backdrop-blur-xl` thì đỏ
   9 ca.
 - `npx playwright test e2e/a11y.spec.ts e2e/a11y-aaa.spec.ts e2e/bottomnav.spec.ts -g "Bạn Đồng
 Hành|BottomNav"`: 49/49.
 - Lỗi thô: `feedbackApi.test.ts` 3 ca + `friendlyError.test.ts` thêm 5 ca. Negative control: trả
   `feedbackApi.ts` + một panel admin về bản cũ thì đỏ đúng 2 ca (nhánh `HTTP <mã>` và cổng canh).
-- E2E vùng chạm tới: `admin`, `a11y-admin-intake`, `companion-history`, `learning-ux-states`,
-  `bottomnav`: 178 passed (5 skip có sẵn).
-- Sau khi xoá `dist`: typecheck ✅, lint ✅, prettier ✅, `npm run test:coverage` 17.164 ✅
-  (94,68/90,61/95,41/95,19, sàn 93/89/93/93), build ✅. Bundle JS 152,15 → 152,25 kB / 160
-  (đo HEAD~1 trong worktree tạm), CSS 23,72 kB không đổi.
+- E2E vùng chạm tới, trước khi gộp: `admin`, `a11y-admin-intake`, `companion-history`,
+  `learning-ux-states`, `bottomnav`: 178 passed (5 skip có sẵn).
+- **Trên kết quả đã gộp `main`** (gộp có xung đột nên chạy lại đủ cổng theo CLAUDE.md mục 11):
+  sau khi xoá `dist`, typecheck ✅, lint ✅, prettier ✅, `npm run test:coverage` 17.169 ✅
+  (94,67/90,6/95,36/95,18, sàn 93/89/93/93), build ✅. E2E `companion-catalog-states` (của
+  #1178) + `bottomnav` + `admin` + `companion-history` + a11y AA/AAA các studio: 152 passed.
+  Bundle JS 152,21 kB / 160, CSS 23,72 kB / 26.
 
 ## Nợ còn lại
 
