@@ -36,6 +36,7 @@ import { usePageTitle } from '../../lib/usePageTitle'
 import { useAuth } from '../../context/useAuth'
 import { contentFingerprint } from '../../lib/learningSession'
 import { boCoTuThuLai, docCauTuThuLai } from '../../lib/stemRetry'
+import { STEM_CHECK_COPY } from '../../lib/feedbackCopy'
 import { useLearningSession } from '../../lib/useLearningSession'
 import { ChuaDuyetChuyenMon } from '../../components/ChuaDuyetChuyenMon'
 import { LuotDuyetBai } from '../../components/admin/LuotDuyetBai'
@@ -187,12 +188,12 @@ function CauHoi({
             {ketQua === 'dung' ? (
               <>
                 <Check className="inline h-4 w-4 mr-1" aria-hidden="true" />
-                Đúng rồi.
+                {STEM_CHECK_COPY.dung}
               </>
             ) : (
               <>
                 <X className="inline h-4 w-4 mr-1" aria-hidden="true" />
-                Chưa đúng.
+                {STEM_CHECK_COPY.sai}
               </>
             )}
           </p>
@@ -466,7 +467,7 @@ function TuKiemTra({
             {dangNop ? 'Đang nộp…' : 'Nộp bài tự kiểm tra'}
           </button>
           {!daTraLoiHet && (
-            <p className="mt-2 text-content-secondary">Trả lời đủ {soCau} câu rồi mới nộp được.</p>
+            <p className="mt-2 text-content-secondary">{STEM_CHECK_COPY.chuaTraLoiHet(soCau)}</p>
           )}
         </div>
       )}

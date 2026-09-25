@@ -4,6 +4,7 @@
 // nắm được trình tự chương trình chạy. Xáo trộn là tất định theo id bài (parsonsShuffle) nên
 // mở lại bài không bị đảo khác đi.
 import { CheckCircle2 } from 'lucide-react'
+import { PARSONS_COPY } from '../../lib/feedbackCopy'
 
 interface Props {
   prompt: string
@@ -83,13 +84,12 @@ export default function ParsonsStep({
 
       {result === 'correct' && (
         <p className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-zinc-100">
-          Đúng thứ tự! Chương trình đọc từ trên xuống đúng như bạn xếp. 🎉
+          {PARSONS_COPY.dung}
         </p>
       )}
       {result === 'wrong' && (
         <p className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-zinc-100">
-          Chưa đúng thứ tự — để ý: khai báo/đọc dữ liệu trước, rồi if → elif → else; dòng thụt lề
-          nằm ngay dưới điều kiện của nó.
+          {PARSONS_COPY.sai}
         </p>
       )}
     </section>

@@ -5,6 +5,7 @@
 // nhất, nên giao diện phải nói đúng như vậy (luật N5: sai không phải sự cố).
 import type { ProgrammingLesson } from '@dhcb/subject-programming/lessonTypes'
 import CodeSurface from './CodeSurface'
+import { PREDICT_COPY } from '../../lib/feedbackCopy'
 
 interface Props {
   predict: ProgrammingLesson['predict']
@@ -49,11 +50,7 @@ export default function PredictStep({ predict, choice, revealed, onChoose }: Pro
               : 'bg-amber-500/10 border-amber-500/30'
           }`}
         >
-          <p className="font-semibold mb-1">
-            {correct
-              ? 'Chính xác! 🎉'
-              : 'Chưa đúng — không sao, đoán sai là lúc học được nhiều nhất.'}
-          </p>
+          <p className="font-semibold mb-1">{correct ? PREDICT_COPY.dung : PREDICT_COPY.sai}</p>
           <p>{predict.explain}</p>
         </div>
       )}
