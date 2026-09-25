@@ -333,6 +333,7 @@ export default function Lessons() {
             isDesktop
             railSide="left"
             railLabel={isA ? 'Danh sách bài hội thoại' : 'Dialogue list'}
+            skipRailLabel={isA ? 'Bỏ qua danh sách, tới bài' : 'Skip the list, go to the lesson'}
             rail={
               <div className="pr-1">
                 <h2

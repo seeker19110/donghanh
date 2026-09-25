@@ -30,9 +30,11 @@ test('Tab lần đầu là skip link, Enter đưa tiêu điểm thẳng vào n�
   expect(box?.width ?? 0).toBeGreaterThan(50)
   expect(box?.height ?? 0).toBeGreaterThan(20)
 
-  // 3) Enter đưa TIÊU ĐIỂM (không chỉ cuộn màn hình) vào vùng nội dung chính.
+  // 3) Enter đưa TIÊU ĐIỂM (không chỉ cuộn màn hình) vào vùng nội dung chính — và KHÔNG gắn
+  //    `#noi-dung-chinh` vào URL (trang bài học đọc hash làm đích điều hướng trong bài).
   await page.keyboard.press('Enter')
   await expect(page.locator(':focus')).toHaveAttribute('id', 'noi-dung-chinh')
+  expect(await page.evaluate(() => location.hash)).toBe('')
 
   // 4) Và Tab kế tiếp rơi vào phần tử BÊN TRONG nội dung, không quay về menu — đây mới là
   //    điều người dùng thật sự cần; ba bước trên chỉ vô nghĩa nếu bước này sai.
@@ -82,3 +84,46 @@ for (const route of TRANG_TU_DUNG_MAIN) {
     await expect(page.locator(':focus')).toHaveAttribute('id', 'noi-dung-chinh')
   })
 }
+
+// [2026-09-25] Trang bài có cột mục lục TRÁI (`TwoPane railSide="left"`): cột đó nằm TRONG
+// `<main>` và đứng trước nội dung, nên riêng skip link trên vẫn để lại ~20 điểm dừng trong cây
+// mục lục. Đo trước sửa: bài Vật lí mất 52 Tab tới "Lý thuyết"; sau sửa 5.
+test('trang bài có mục lục trái: liên kết thứ hai bỏ qua mục lục, tiêu điểm không bị header che', async ({
+  page,
+}) => {
+  await mockLogin(page)
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto('/goc-hoc-tap/physics/bai-hoc/ly10-c2-b10--su-roi-tu-do')
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+
+  await page.keyboard.press('Tab')
+  await page.keyboard.press('Enter')
+  await page.keyboard.press('Tab')
+  const boQua = page.locator(':focus')
+  await expect(boQua).toHaveText('Bỏ qua mục lục, tới nội dung')
+  expect((await boQua.boundingBox())?.width ?? 0).toBeGreaterThan(50)
+
+  await page.keyboard.press('Enter')
+  await page.keyboard.press('Tab')
+  const dich = page.locator(':focus')
+  // Rơi vào cột NỘI DUNG, không vào cây mục lục; URL không bị gắn hash lạ.
+  expect(await dich.evaluate((el) => !el.closest('aside') && !!el.closest('main'))).toBe(true)
+  expect(await page.evaluate(() => location.hash)).toBe('')
+  // Không bị header sticky che (WCAG 2.4.11): mép trên của phần tử nằm dưới đáy header.
+  const dayHeader = await page.evaluate(
+    () => document.querySelector('header')?.getBoundingClientRect().bottom ?? 0,
+  )
+  expect((await dich.boundingBox())?.y ?? 0).toBeGreaterThanOrEqual(dayHeader)
+
+  // Tới "Lý thuyết" của mục "Trong bài" chỉ còn vài Tab (trước sửa: 52 từ đầu trang).
+  // Đã bấm 3 lần Tab (Enter không tính).
+  let soTab = 3
+  while (
+    !/^Lý thuyết$/.test((await page.locator(':focus').textContent())?.trim() ?? '') &&
+    soTab < 12
+  ) {
+    await page.keyboard.press('Tab')
+    soTab += 1
+  }
+  expect(soTab).toBeLessThanOrEqual(5)
+})

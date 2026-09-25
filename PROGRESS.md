@@ -181,10 +181,9 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
   S06b source xong (`docs/changelog/0435-*.md`: hai màn vào cổng AAA, sửa nền gradient, xanh 3 theme).
   S09a source xong (`docs/changelog/0436-*.md`: kết quả STEM giữ số câu gốc, câu thiếu kết quả không bị coi là sai).
   S09b source xong (`docs/changelog/0437-*.md`: mục "Trong bài" + neo section cố định, ≤2 thao tác tới lý thuyết/tự kiểm/kết quả).
-  Nợ nhỏ: desktop cần ~50 Tab mới tới "Trong bài" (cây mục lục đứng trước) — đề xuất skip link "Tới nội dung bài".
   S09d source xong (`docs/changelog/0439-*.md`: hash ↔ bước bài lập trình, lối tắt "Kết quả chấm", sửa kẹt "Đang chấm…" khi đổi tài khoản).
   S09c source xong (`docs/changelog/0438-*.md`: `?lesson=N#luot-M`, loader kiểm HTTP + id, huỷ audio/đóng vai khi điều hướng). **S09 xong toàn bộ phần source.**
-  Nợ nhỏ: thẻ bài ghi "10 lượt thoại" (cặp) trong khi trang bài đếm 20 lượt — đề xuất đổi nhãn thẻ.
+  Hai nợ nhỏ sau S09 đã trả (`docs/changelog/0441-*.md`): liên kết "Bỏ qua mục lục" (bài Vật lí 52 → 5 Tab), thẻ hội thoại đếm lượt thống nhất; kèm sửa tiêu điểm rơi về `<body>` sau khi chọn trong mục lục mobile.
   Bước tiếp theo: S11 (sau S10 chuyên gia) và thu bằng chứng accessibility/thiết bị thật còn thiếu;
   xem trạng thái và giới hạn nghiệm thu trong goal, không coi source merge là goal hoàn tất.
 

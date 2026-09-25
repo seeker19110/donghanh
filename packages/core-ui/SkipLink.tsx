@@ -26,6 +26,17 @@ export function SkipLink({ label = 'Bỏ qua tới nội dung chính' }: SkipLin
   return (
     <a
       href={`#${MAIN_CONTENT_ID}`}
+      // [2026-09-25] Focus bằng mã thay vì để trình duyệt theo `href`: theo `href` thì (1) trình
+      // duyệt cuộn `<main>` sát mép trên — phần tử đầu nội dung bị header sticky che (đo ở 1440px:
+      // liên kết quay lại ở top=32px, header cao 56px); (2) URL bị gắn `#noi-dung-chinh`, mà trang
+      // bài học đọc hash làm đích điều hướng trong bài — hash lạ bị coi là đích sai. Không tìm
+      // thấy đích (trang tự dựng `<main>` quên id) thì để trình duyệt xử lý như cũ.
+      onClick={(e) => {
+        const dich = document.getElementById(MAIN_CONTENT_ID)
+        if (!dich) return
+        e.preventDefault()
+        dich.focus({ preventScroll: true })
+      }}
       // `sr-only` khi chưa có tiêu điểm, hiện đầy đủ khi được Tab tới. KHÔNG dùng
       // `display:none`/`visibility:hidden` — hai thứ đó gỡ luôn phần tử khỏi thứ tự Tab,
       // tức là liên kết sẽ không bao giờ nhận được tiêu điểm để mà hiện ra.
