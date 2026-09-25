@@ -182,7 +182,8 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
   S09a source xong (`docs/changelog/0436-*.md`: kết quả STEM giữ số câu gốc, câu thiếu kết quả không bị coi là sai).
   S09b source xong (`docs/changelog/0437-*.md`: mục "Trong bài" + neo section cố định, ≤2 thao tác tới lý thuyết/tự kiểm/kết quả).
   Nợ nhỏ: desktop cần ~50 Tab mới tới "Trong bài" (cây mục lục đứng trước) — đề xuất skip link "Tới nội dung bài".
-  Bước tiếp theo: S09c English, S09d Lập trình; thu bằng chứng accessibility còn thiếu;
+  S09d source xong (`docs/changelog/0439-*.md`: hash ↔ bước bài lập trình, lối tắt "Kết quả chấm", sửa kẹt "Đang chấm…" khi đổi tài khoản).
+  Bước tiếp theo: S09c English; thu bằng chứng accessibility còn thiếu;
   xem trạng thái và giới hạn nghiệm thu trong goal, không coi source merge là goal hoàn tất.
 
 > Mỗi mục 1 PR, dừng xin duyệt ở mỗi cổng (CLAUDE.md mục 3). Mục đã ✅ KHÔNG nằm ở đây — xem
