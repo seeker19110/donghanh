@@ -187,6 +187,7 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
   **25/09:** S07d Approved (`docs/changelog/0442-*.md`) và source xong (`docs/changelog/0443-*.md`): focus không còn bị header/thanh đáy che khi Tab/Shift+Tab, vùng chạm 44px, `h1` ở CEFR/Placement, cổng `e2e/s07-matrix.spec.ts` 76 ca có negative control.
   **25/09:** S10b + S11b Approved (`docs/changelog/0444-*.md`): S10b xuất phản hồi thật của app cho 40 mẫu để chuyên gia chấm (không chấm thay); S11b tự thử lại câu STEM sai không lộ đáp án cũ.
   S11b source xong (`docs/changelog/0445-*.md`): vào câu STEM sai từ Sổ lỗi thì ẩn đáp án cũ + lời giải (có nút xem lại), nút "Thử lại câu này", E2E chuỗi sai → tự thử → nộp đúng → Sổ lỗi hết câu.
+  S10b source xong (`docs/changelog/0446-*.md`): `candidate-feedback.json` dựng nguyên văn phản hồi app cho 40 mẫu (22 ca chuyên gia chấm được ngay; English cần provider), cổng chống lỗi thời, sàng lọc agent 5 nghi vấn — **chờ chuyên gia**.
   Bước tiếp theo: S11 (sau S10 chuyên gia) và thu bằng chứng accessibility/thiết bị thật còn thiếu;
   xem trạng thái và giới hạn nghiệm thu trong goal, không coi source merge là goal hoàn tất.
 

@@ -4,12 +4,12 @@ Trạng thái: **Draft / reviewable**, base `f07820aa`, ngày 2026-09-23. Đây 
 và prototype cục bộ, chưa phải tính năng đã tích hợp. Không thay source production,
 không gọi provider, không thay mastery/evidence/lịch ôn.
 
-| Slice | Đầu ra hiện có                                                                               | Còn chặn triển khai/nghiệm thu                                                          |
-| ----- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| S09   | [Prototype](prototype.html), [fixture thật](fixtures.json), quyết định anchor/focus bên dưới | M1/M2; spec Approved và merged; caller contract; ảnh và E2E trên app thật               |
-| S10   | [40 ca](rubric-40.json), [rubric và negative controls](rubric-review.md)                     | M1/S08; chuyên gia duyệt từng ca; spec Approved và merged                               |
-| S11   | [Ma trận routing](routing-matrix.md)                                                         | S03/S09/S10; xác minh metadata lập trình; spec Approved và merged                       |
-| S12   | [Protocol, phiếu nhiệm vụ, báo cáo](acceptance-protocol.md)                                  | S01–S11 tích hợp; audit thật; 8 người lớn tự nguyện; ngày 7/14; chủ sản phẩm nghiệm thu |
+| Slice | Đầu ra hiện có                                                                                                                                                                                | Còn chặn triển khai/nghiệm thu                                                          |
+| ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| S09   | [Prototype](prototype.html), [fixture thật](fixtures.json), quyết định anchor/focus bên dưới                                                                                                  | M1/M2; spec Approved và merged; caller contract; ảnh và E2E trên app thật               |
+| S10   | [40 ca](rubric-40.json), [rubric và negative controls](rubric-review.md); **S10b:** [phản hồi ứng viên](candidate-feedback.json) sinh từ mã nguồn + [sàng lọc agent](agent-screening-s10b.md) | Chuyên gia duyệt từng ca; English cần chạy provider hoặc mẫu viết tay                   |
+| S11   | [Ma trận routing](routing-matrix.md)                                                                                                                                                          | S03/S09/S10; xác minh metadata lập trình; spec Approved và merged                       |
+| S12   | [Protocol, phiếu nhiệm vụ, báo cáo](acceptance-protocol.md)                                                                                                                                   | S01–S11 tích hợp; audit thật; 8 người lớn tự nguyện; ngày 7/14; chủ sản phẩm nghiệm thu |
 
 ## Quyết định chuẩn bị đã chốt
 

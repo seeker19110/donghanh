@@ -30,12 +30,11 @@ import { Check, ChevronDown, Minus, X } from 'lucide-react'
 import { nhanLyDo } from '../../lib/gradeReasonLabel'
 import { neoCauHoi } from '../../lib/mistakeRoutes'
 import { buttonClass } from '@core/buttonStyles'
+import { cauTongKetKetQua, type TongKetInput } from '../../lib/feedbackCopy'
 
-/** Năm trạng thái của một lượt nộp — xem ghi chú 1 ở đầu file. */
-export type ActivityResultStatus = 'passed' | 'failed' | 'pending' | 'local' | 'error'
-
-/** Vì sao lượt nộp còn nằm trên máy (khớp `PendingReason` của `lib/stemEvidence.ts`). */
-export type ActivityResultPendingReason = 'offline' | 'server' | 'auth'
+// Hai kiểu trạng thái khai ở `lib/feedbackCopy.ts` (nơi dựng câu tổng kết — S10b), xuất lại ở
+// đây để mọi nơi đang import từ component không phải đổi.
+export type { ActivityResultStatus, ActivityResultPendingReason } from '../../lib/feedbackCopy'
 
 export interface ActivityResultItem {
   /**
@@ -68,18 +67,7 @@ export interface ActivityResultItem {
   reason?: string
 }
 
-export interface ActivityResultProps {
-  status: ActivityResultStatus
-  correct: number
-  total: number
-  /**
-   * Kết quả chấm TẠI CHỖ (khách / bản đang chờ gửi). Không dùng cho `passed`/`failed` — hai
-   * trạng thái đó đã tự nói lên phán quyết của server.
-   */
-  passed?: boolean
-  pendingReason?: ActivityResultPendingReason
-  /** Lời từ chối của server, hiện nguyên văn khi `status === 'error'`. */
-  errorMessage?: string
+export interface ActivityResultProps extends TongKetInput {
   items: readonly ActivityResultItem[]
   /** Tỉ lệ đúng tối thiểu để đạt; có thì hiện thêm một dòng ngưỡng khi chưa đạt. */
   passRatio?: number
@@ -89,34 +77,6 @@ export interface ActivityResultProps {
   onRetry?: () => void
   /** Chỗ cắm "Hẹn ôn" cho slice S12. S11 KHÔNG ghi thẻ ôn nào. */
   reviewSlot?: ReactNode
-}
-
-/** Câu tổng kết của từng trạng thái. Đây là nơi DUY NHẤT quyết định người học đọc được gì. */
-function cauTongKet(p: ActivityResultProps): string {
-  const diem = `Đúng ${p.correct}/${p.total} câu.`
-  switch (p.status) {
-    case 'passed':
-      return `${diem} Đã hoàn thành bài này.`
-    case 'failed':
-      return `${diem} Chưa đạt.`
-    case 'local':
-      return p.passed
-        ? `${diem} Đạt — kết quả ghi trên máy này, đăng nhập để lưu vào tài khoản.`
-        : `${diem} Chưa đạt — kết quả ghi trên máy này.`
-    case 'pending':
-      // [S09a AC06] Nói rõ lượt nộp CHƯA GỬI XONG và vì sao: mất mạng hay máy chủ lỗi là hai
-      // tình huống người học phản ứng khác nhau (tìm mạng / chỉ cần chờ).
-      switch (p.pendingReason) {
-        case 'auth':
-          return `${diem} Đăng nhập lại để lưu kết quả — bài làm đang giữ trên máy này.`
-        case 'offline':
-          return `${diem} Mất kết nối nên chưa gửi xong. Đã lưu trên máy này, sẽ gửi lại khi có mạng.`
-        default:
-          return `${diem} Máy chủ chưa nhận nên chưa gửi xong. Đã lưu trên máy này, sẽ gửi lại.`
-      }
-    case 'error':
-      return `Không gửi được kết quả: ${p.errorMessage ?? 'máy chủ từ chối lượt nộp này'}. Phần đúng/sai từng câu ở trên vẫn xem được.`
-  }
 }
 
 /** Một hàng đã sẵn sàng để vẽ: số câu, key và neo đã tính xong. */
@@ -221,7 +181,7 @@ export default function ActivityResult(props: ActivityResultProps) {
             phán quyết, còn danh sách từng câu để người học tự đọc. Mở/đóng lời giải không chạm
             vào vùng này nên không bị đọc lại. */}
         <div role="status">
-          <p className="font-medium text-content">{cauTongKet(props)}</p>
+          <p className="font-medium text-content">{cauTongKetKetQua(props)}</p>
           {chuaDat && passRatio !== undefined && (
             <p className="mt-1 text-content-secondary">
               Cần đúng từ {Math.round(passRatio * 100)}% số câu trở lên.

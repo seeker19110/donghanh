@@ -1,0 +1,398 @@
+{
+  "version": 1,
+  "rubricVersion": 1,
+  "notice": "Phản hồi ứng viên dựng lại NGUYÊN VĂN từ mã nguồn app — nguyên liệu cho chuyên gia chấm. KHÔNG phải kết quả chấm; không ca nào đạt/không đạt ở đây.",
+  "generator": "scripts/s10-candidate-feedback.ts",
+  "generatedFromSha": "27032a6",
+  "cases": [
+    {
+      "caseId": "R01",
+      "group": "english",
+      "pathKind": "NEEDS_PROVIDER_RUN",
+      "feedbackText": null,
+      "sourceRefs": ["apps/dhcb/src/prompts/", "apps/server/src/api (/api/agent)"],
+      "note": "Phản hồi môn Anh do AI sinh lúc chạy; cần chạy provider (trả phí) theo prompt hiện hành mới có bản để chấm."
+    },
+    {
+      "caseId": "R02",
+      "group": "english",
+      "pathKind": "NEEDS_PROVIDER_RUN",
+      "feedbackText": null,
+      "sourceRefs": ["apps/dhcb/src/prompts/", "apps/server/src/api (/api/agent)"],
+      "note": "Phản hồi môn Anh do AI sinh lúc chạy; cần chạy provider (trả phí) theo prompt hiện hành mới có bản để chấm."
+    },
+    {
+      "caseId": "R03",
+      "group": "english",
+      "pathKind": "NEEDS_PROVIDER_RUN",
+      "feedbackText": null,
+      "sourceRefs": ["apps/dhcb/src/prompts/", "apps/server/src/api (/api/agent)"],
+      "note": "Phản hồi môn Anh do AI sinh lúc chạy; cần chạy provider (trả phí) theo prompt hiện hành mới có bản để chấm."
+    },
+    {
+      "caseId": "R04",
+      "group": "english",
+      "pathKind": "NEEDS_PROVIDER_RUN",
+      "feedbackText": null,
+      "sourceRefs": ["apps/dhcb/src/prompts/", "apps/server/src/api (/api/agent)"],
+      "note": "Phản hồi môn Anh do AI sinh lúc chạy; cần chạy provider (trả phí) theo prompt hiện hành mới có bản để chấm."
+    },
+    {
+      "caseId": "R05",
+      "group": "english",
+      "pathKind": "NEEDS_PROVIDER_RUN",
+      "feedbackText": null,
+      "sourceRefs": ["apps/dhcb/src/prompts/", "apps/server/src/api (/api/agent)"],
+      "note": "Phản hồi môn Anh do AI sinh lúc chạy; cần chạy provider (trả phí) theo prompt hiện hành mới có bản để chấm."
+    },
+    {
+      "caseId": "R06",
+      "group": "english",
+      "pathKind": "NEEDS_PROVIDER_RUN",
+      "feedbackText": null,
+      "sourceRefs": ["apps/dhcb/src/prompts/", "apps/server/src/api (/api/agent)"],
+      "note": "Phản hồi môn Anh do AI sinh lúc chạy; cần chạy provider (trả phí) theo prompt hiện hành mới có bản để chấm."
+    },
+    {
+      "caseId": "R07",
+      "group": "english",
+      "pathKind": "NEEDS_PROVIDER_RUN",
+      "feedbackText": null,
+      "sourceRefs": ["apps/dhcb/src/prompts/", "apps/server/src/api (/api/agent)"],
+      "note": "Phản hồi môn Anh do AI sinh lúc chạy; cần chạy provider (trả phí) theo prompt hiện hành mới có bản để chấm."
+    },
+    {
+      "caseId": "R08",
+      "group": "english",
+      "pathKind": "NEEDS_PROVIDER_RUN",
+      "feedbackText": null,
+      "sourceRefs": ["apps/dhcb/src/prompts/", "apps/server/src/api (/api/agent)"],
+      "note": "Phản hồi môn Anh do AI sinh lúc chạy; cần chạy provider (trả phí) theo prompt hiện hành mới có bản để chấm."
+    },
+    {
+      "caseId": "R09",
+      "group": "english",
+      "pathKind": "NEEDS_PROVIDER_RUN",
+      "feedbackText": null,
+      "sourceRefs": ["apps/dhcb/src/prompts/", "apps/server/src/api (/api/agent)"],
+      "note": "Phản hồi môn Anh do AI sinh lúc chạy; cần chạy provider (trả phí) theo prompt hiện hành mới có bản để chấm."
+    },
+    {
+      "caseId": "R10",
+      "group": "english",
+      "pathKind": "NEEDS_PROVIDER_RUN",
+      "feedbackText": null,
+      "sourceRefs": ["apps/dhcb/src/prompts/", "apps/server/src/api (/api/agent)"],
+      "note": "Phản hồi môn Anh do AI sinh lúc chạy; cần chạy provider (trả phí) theo prompt hiện hành mới có bản để chấm."
+    },
+    {
+      "caseId": "R11",
+      "group": "english",
+      "pathKind": "NEEDS_PROVIDER_RUN",
+      "feedbackText": null,
+      "sourceRefs": ["apps/dhcb/src/prompts/", "apps/server/src/api (/api/agent)"],
+      "note": "Phản hồi môn Anh do AI sinh lúc chạy; cần chạy provider (trả phí) theo prompt hiện hành mới có bản để chấm."
+    },
+    {
+      "caseId": "R12",
+      "group": "english",
+      "pathKind": "NEEDS_PROVIDER_RUN",
+      "feedbackText": null,
+      "sourceRefs": ["apps/dhcb/src/prompts/", "apps/server/src/api (/api/agent)"],
+      "note": "Phản hồi môn Anh do AI sinh lúc chạy; cần chạy provider (trả phí) theo prompt hiện hành mới có bản để chấm."
+    },
+    {
+      "caseId": "R13",
+      "group": "stem",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Đúng rồi.\nĐây là câu bẫy đúp. Lỗi thứ nhất: giữ nguyên lượng từ ∀ (đáp án c, d) — phủ định phải ĐỔI ∀ thành ∃, vì bác bỏ \"mọi x\" chỉ cần chỉ ra MỘT phản ví dụ. Lỗi thứ hai: bỏ mất dấu bằng (đáp án b) — phủ định của \"x² > 5\" gồm cả trường hợp x² bằng đúng 5, nên phải là \"x² ≤ 5\". Cả hai lỗi gộp lại cho đáp án a là đúng.",
+      "sourceRefs": [
+        "packages/subject-math/lessons/toan10c1.ts#toan10-c1-b1/checkQuestions[0]",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": null
+    },
+    {
+      "caseId": "R14",
+      "group": "stem",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Chưa đúng.\nĐây là câu bẫy đúp. Lỗi thứ nhất: giữ nguyên lượng từ ∀ (đáp án c, d) — phủ định phải ĐỔI ∀ thành ∃, vì bác bỏ \"mọi x\" chỉ cần chỉ ra MỘT phản ví dụ. Lỗi thứ hai: bỏ mất dấu bằng (đáp án b) — phủ định của \"x² > 5\" gồm cả trường hợp x² bằng đúng 5, nên phải là \"x² ≤ 5\". Cả hai lỗi gộp lại cho đáp án a là đúng.",
+      "sourceRefs": [
+        "packages/subject-math/lessons/toan10c1.ts#toan10-c1-b1/checkQuestions[0]",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": null
+    },
+    {
+      "caseId": "R15",
+      "group": "stem",
+      "pathKind": "BLOCKED_UNANSWERED",
+      "feedbackText": "Trả lời đủ 3 câu rồi mới nộp được.",
+      "sourceRefs": [
+        "packages/subject-math/lessons/toan10c1.ts#toan10-c1-b1/checkQuestions[0]",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": "Chưa chọn thì câu không được chấm; dòng này hiện dưới nút nộp (nút bị khoá)."
+    },
+    {
+      "caseId": "R16",
+      "group": "stem",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Chưa đúng.\nĐây là câu bẫy đúp. Lỗi thứ nhất: giữ nguyên lượng từ ∀ (đáp án c, d) — phủ định phải ĐỔI ∀ thành ∃, vì bác bỏ \"mọi x\" chỉ cần chỉ ra MỘT phản ví dụ. Lỗi thứ hai: bỏ mất dấu bằng (đáp án b) — phủ định của \"x² > 5\" gồm cả trường hợp x² bằng đúng 5, nên phải là \"x² ≤ 5\". Cả hai lỗi gộp lại cho đáp án a là đúng.",
+      "sourceRefs": [
+        "packages/subject-math/lessons/toan10c1.ts#toan10-c1-b1/checkQuestions[0]",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": "Câu trắc nghiệm: app chỉ nhận lựa chọn, KHÔNG nhận phần giải thích tự do của người học — phản hồi giống hệt ca chỉ chọn cùng đáp án."
+    },
+    {
+      "caseId": "R17",
+      "group": "stem",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Đúng rồi.\nPhương pháp lí thuyết dùng suy luận và mô hình toán học nên chọn \"lí thuyết\" là đúng. Phương pháp thực nghiệm thì khác: nó dựa vào thí nghiệm và số liệu đo, không phải vào lập luận toán học.",
+      "sourceRefs": [
+        "packages/subject-physics/lessons/ly10c1.ts#ly10-c1-b1/checkQuestions[0]",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": null
+    },
+    {
+      "caseId": "R18",
+      "group": "stem",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Chưa đúng.\nPhương pháp lí thuyết dùng suy luận và mô hình toán học nên chọn \"lí thuyết\" là đúng. Phương pháp thực nghiệm thì khác: nó dựa vào thí nghiệm và số liệu đo, không phải vào lập luận toán học.",
+      "sourceRefs": [
+        "packages/subject-physics/lessons/ly10c1.ts#ly10-c1-b1/checkQuestions[0]",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": null
+    },
+    {
+      "caseId": "R19",
+      "group": "stem",
+      "pathKind": "BLOCKED_UNANSWERED",
+      "feedbackText": "Trả lời đủ 2 câu rồi mới nộp được.",
+      "sourceRefs": [
+        "packages/subject-physics/lessons/ly10c1.ts#ly10-c1-b1/checkQuestions[0]",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": "Chưa chọn thì câu không được chấm; dòng này hiện dưới nút nộp (nút bị khoá)."
+    },
+    {
+      "caseId": "R20",
+      "group": "stem",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Chưa đúng.\nPhương pháp lí thuyết dùng suy luận và mô hình toán học nên chọn \"lí thuyết\" là đúng. Phương pháp thực nghiệm thì khác: nó dựa vào thí nghiệm và số liệu đo, không phải vào lập luận toán học.",
+      "sourceRefs": [
+        "packages/subject-physics/lessons/ly10c1.ts#ly10-c1-b1/checkQuestions[0]",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": "Câu trắc nghiệm: app chỉ nhận lựa chọn, KHÔNG nhận phần giải thích tự do của người học — phản hồi giống hệt ca chỉ chọn cùng đáp án."
+    },
+    {
+      "caseId": "R21",
+      "group": "stem",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Đúng rồi.\nĐây là định nghĩa chuẩn: Hoá học nghiên cứu THÀNH PHẦN, CẤU TRÚC, TÍNH CHẤT, và SỰ BIẾN ĐỔI của mọi loại chất — không giới hạn ở kim loại hay phản ứng cháy.",
+      "sourceRefs": [
+        "packages/subject-chemistry/lessons/hoa10c1.ts#hoa10-c1-b1/checkQuestions[0]",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": null
+    },
+    {
+      "caseId": "R22",
+      "group": "stem",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Chưa đúng.\nĐây là định nghĩa chuẩn: Hoá học nghiên cứu THÀNH PHẦN, CẤU TRÚC, TÍNH CHẤT, và SỰ BIẾN ĐỔI của mọi loại chất — không giới hạn ở kim loại hay phản ứng cháy.",
+      "sourceRefs": [
+        "packages/subject-chemistry/lessons/hoa10c1.ts#hoa10-c1-b1/checkQuestions[0]",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": null
+    },
+    {
+      "caseId": "R23",
+      "group": "stem",
+      "pathKind": "BLOCKED_UNANSWERED",
+      "feedbackText": "Trả lời đủ 2 câu rồi mới nộp được.",
+      "sourceRefs": [
+        "packages/subject-chemistry/lessons/hoa10c1.ts#hoa10-c1-b1/checkQuestions[0]",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": "Chưa chọn thì câu không được chấm; dòng này hiện dưới nút nộp (nút bị khoá)."
+    },
+    {
+      "caseId": "R24",
+      "group": "stem",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Chưa đúng.\nĐây là định nghĩa chuẩn: Hoá học nghiên cứu THÀNH PHẦN, CẤU TRÚC, TÍNH CHẤT, và SỰ BIẾN ĐỔI của mọi loại chất — không giới hạn ở kim loại hay phản ứng cháy.",
+      "sourceRefs": [
+        "packages/subject-chemistry/lessons/hoa10c1.ts#hoa10-c1-b1/checkQuestions[0]",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": "Câu trắc nghiệm: app chỉ nhận lựa chọn, KHÔNG nhận phần giải thích tự do của người học — phản hồi giống hệt ca chỉ chọn cùng đáp án."
+    },
+    {
+      "caseId": "R25",
+      "group": "stem",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Đúng rồi.\nSinh thái học (Ecology) nghiên cứu về mối quan hệ giữa các sinh vật với nhau và với môi trường sống.",
+      "sourceRefs": [
+        "packages/subject-biology/lessons/sinh10c1.ts#sinh10-c1-b1/checkQuestions[0]",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": null
+    },
+    {
+      "caseId": "R26",
+      "group": "stem",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Chưa đúng.\nSinh thái học (Ecology) nghiên cứu về mối quan hệ giữa các sinh vật với nhau và với môi trường sống.",
+      "sourceRefs": [
+        "packages/subject-biology/lessons/sinh10c1.ts#sinh10-c1-b1/checkQuestions[0]",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": null
+    },
+    {
+      "caseId": "R27",
+      "group": "stem",
+      "pathKind": "BLOCKED_UNANSWERED",
+      "feedbackText": "Trả lời đủ 2 câu rồi mới nộp được.",
+      "sourceRefs": [
+        "packages/subject-biology/lessons/sinh10c1.ts#sinh10-c1-b1/checkQuestions[0]",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": "Chưa chọn thì câu không được chấm; dòng này hiện dưới nút nộp (nút bị khoá)."
+    },
+    {
+      "caseId": "R28",
+      "group": "stem",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Chưa đúng.\nSinh thái học (Ecology) nghiên cứu về mối quan hệ giữa các sinh vật với nhau và với môi trường sống.",
+      "sourceRefs": [
+        "packages/subject-biology/lessons/sinh10c1.ts#sinh10-c1-b1/checkQuestions[0]",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": "Câu trắc nghiệm: app chỉ nhận lựa chọn, KHÔNG nhận phần giải thích tự do của người học — phản hồi giống hệt ca chỉ chọn cùng đáp án."
+    },
+    {
+      "caseId": "R29",
+      "group": "programming",
+      "pathKind": "NO_APP_GRADER",
+      "feedbackText": null,
+      "sourceRefs": ["packages/subject-programming/lessons/p1u1.ts#p1-u1-l1/workedExample"],
+      "note": "Ví dụ mẫu (workedExample) chỉ để đọc/chạy thử; app không có bước chấm câu trả lời tự gõ loại này."
+    },
+    {
+      "caseId": "R30",
+      "group": "programming",
+      "pathKind": "NO_APP_GRADER",
+      "feedbackText": null,
+      "sourceRefs": ["packages/subject-programming/lessons/p1u1.ts#p1-u1-l1/workedExample"],
+      "note": "Ví dụ mẫu (workedExample) chỉ để đọc/chạy thử; app không có bước chấm câu trả lời tự gõ loại này."
+    },
+    {
+      "caseId": "R31",
+      "group": "programming",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Chính xác! 🎉\nprint() chỉ in ra NỘI DUNG chữ nằm bên trong dấu ngoặc kép, KHÔNG in kèm cặp dấu ngoặc kép — vậy màn hình hiện đúng Xin chao cac ban, không có dấu \" nào cả.",
+      "sourceRefs": [
+        "packages/subject-programming/lessons/p1u1.ts#p1-u1-l1/predict",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": null
+    },
+    {
+      "caseId": "R32",
+      "group": "programming",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Chưa đúng — không sao, đoán sai là lúc học được nhiều nhất.\nprint() chỉ in ra NỘI DUNG chữ nằm bên trong dấu ngoặc kép, KHÔNG in kèm cặp dấu ngoặc kép — vậy màn hình hiện đúng Xin chao cac ban, không có dấu \" nào cả.",
+      "sourceRefs": [
+        "packages/subject-programming/lessons/p1u1.ts#p1-u1-l1/predict",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": null
+    },
+    {
+      "caseId": "R33",
+      "group": "programming",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Đúng thứ tự! Chương trình đọc từ trên xuống đúng như bạn xếp. 🎉",
+      "sourceRefs": [
+        "packages/subject-programming/lessons/p1u1.ts#p1-u1-l1/parsons",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": "Chữ phản hồi Xếp code là CỐ ĐỊNH cho mọi bài, không theo nội dung bài."
+    },
+    {
+      "caseId": "R34",
+      "group": "programming",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Chưa đúng thứ tự — để ý: khai báo/đọc dữ liệu trước, rồi if → elif → else; dòng thụt lề nằm ngay dưới điều kiện của nó.",
+      "sourceRefs": [
+        "packages/subject-programming/lessons/p1u1.ts#p1-u1-l1/parsons",
+        "apps/dhcb/src/lib/feedbackCopy.ts"
+      ],
+      "note": "Chữ phản hồi Xếp code là CỐ ĐỊNH cho mọi bài, không theo nội dung bài."
+    },
+    {
+      "caseId": "R35",
+      "group": "programming",
+      "pathKind": "NO_APP_GRADER",
+      "feedbackText": null,
+      "sourceRefs": ["packages/subject-programming/lessons/p1u1.ts#p1-u1-l1/workedExample"],
+      "note": "Ví dụ mẫu (workedExample) chỉ để đọc/chạy thử; app không có bước chấm câu trả lời tự gõ loại này."
+    },
+    {
+      "caseId": "R36",
+      "group": "programming",
+      "pathKind": "NO_APP_GRADER",
+      "feedbackText": null,
+      "sourceRefs": ["packages/subject-programming/lessons/p1u1.ts#p1-u1-l1/workedExample"],
+      "note": "Ví dụ mẫu (workedExample) chỉ để đọc/chạy thử; app không có bước chấm câu trả lời tự gõ loại này."
+    },
+    {
+      "caseId": "R37",
+      "group": "system",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Đúng 2/3 câu. Mất kết nối nên chưa gửi xong. Đã lưu trên máy này, sẽ gửi lại khi có mạng.",
+      "sourceRefs": [
+        "apps/dhcb/src/components/learning/ActivityResult.tsx",
+        "apps/dhcb/src/lib/feedbackCopy.ts#cauTongKetKetQua"
+      ],
+      "note": "Trạng thái pending/offline; điểm 2/3 chỉ để minh hoạ câu đầy đủ."
+    },
+    {
+      "caseId": "R38",
+      "group": "system",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Đúng 2/3 câu. Đăng nhập lại để lưu kết quả — bài làm đang giữ trên máy này.",
+      "sourceRefs": [
+        "apps/dhcb/src/components/learning/ActivityResult.tsx",
+        "apps/dhcb/src/lib/feedbackCopy.ts#cauTongKetKetQua"
+      ],
+      "note": "Trạng thái pending/auth; điểm 2/3 chỉ để minh hoạ câu đầy đủ."
+    },
+    {
+      "caseId": "R39",
+      "group": "system",
+      "pathKind": "APP_FEEDBACK",
+      "feedbackText": "Không gửi được kết quả: máy chủ từ chối lượt nộp này. Phần đúng/sai từng câu ở trên vẫn xem được.",
+      "sourceRefs": [
+        "apps/dhcb/src/components/learning/ActivityResult.tsx",
+        "apps/dhcb/src/lib/feedbackCopy.ts#cauTongKetKetQua"
+      ],
+      "note": "Trạng thái error; điểm 2/3 chỉ để minh hoạ câu đầy đủ."
+    },
+    {
+      "caseId": "R40",
+      "group": "system",
+      "pathKind": "SYNTHETIC",
+      "feedbackText": null,
+      "sourceRefs": ["S10-spec/system-boundary-synthetic"],
+      "note": "Ca biên tổng hợp \"chưa có phản hồi\" — ActivityResult không có trạng thái thứ sáu; app không có màn hình tương ứng."
+    }
+  ]
+}
