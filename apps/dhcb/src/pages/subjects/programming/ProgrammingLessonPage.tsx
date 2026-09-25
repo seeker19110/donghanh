@@ -3,8 +3,24 @@
 // → ⑤Parsons (xếp dòng) → ⑥Tự viết chấm test-case → ⑦ứng dụng về nhà. (⑧ thẻ SRS: PR sau.)
 // Code chạy bằng sandbox Pyodide tự host (lib/pythonRunner) — chấm bằng engine thuần
 // (@dhcb/subject-programming/grading), tiến độ lưu server (lib/programmingProgress).
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useNavigate, useParams, useLocation, Navigate, Link } from 'react-router-dom'
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type MouseEvent,
+  type ReactNode,
+} from 'react'
+import {
+  useNavigate,
+  useNavigationType,
+  useParams,
+  useLocation,
+  Navigate,
+  Link,
+} from 'react-router-dom'
 import {
   BookOpen,
   Play,
@@ -53,6 +69,15 @@ import { addLessonCardsToSrs } from '../../../lib/programmingSrs'
 import type { ProgrammingLesson } from '@dhcb/subject-programming/lessonTypes'
 import { useProgrammingLesson } from '../../../lib/useProgrammingLesson'
 import { buildSlugSegment, idFromSlugSegment } from '@core/slug'
+import {
+  LESSON_HEAD_ANCHOR,
+  LESSON_RESULT_ANCHOR,
+  anchorOfStep,
+  readEntryStep,
+  resolveLessonTarget,
+  withEntryStep,
+  type LessonAnchor,
+} from '../../../lib/programmingLessonSteps'
 import { getLevelIdOfLesson } from '@dhcb/subject-programming/curriculum'
 import { z } from 'zod'
 import {
@@ -65,6 +90,8 @@ import {
 
 // 6 màn hình phủ 8 bước sư phạm (①② gộp một màn; ⑧ SRS chạy ngầm khi đạt bài Make).
 // `graded` = bước có chấm (pha TRẢ) · `startsPhase` = vẽ vạch ngăn phía trước (luật N3).
+// `key` đồng thời là id DOM + hash của heading bước — bảng chốt ở `lib/programmingLessonSteps`
+// (S09d, đặc tả S09 §2.8); ca S09-P-AC01 trong ProgrammingLessonPage.test.tsx canh hai nơi khớp nhau.
 const STEPS: readonly LessonStep[] = [
   { key: 'concept', label: 'Khái niệm', icon: BookOpen },
   { key: 'example', label: 'Ví dụ mẫu', icon: Play },
@@ -116,7 +143,7 @@ function vanTayBai(lesson: ProgrammingLesson): string {
  */
 export default function ProgrammingLessonPage() {
   const { lessonId: lessonSlugParam } = useParams<{ lessonId: string }>()
-  const { search } = useLocation()
+  const { search, hash } = useLocation()
   const lessonId = lessonSlugParam ? idFromSlugSegment(lessonSlugParam) : undefined
   const trangThai = useProgrammingLesson(lessonId)
   // Ngữ cảnh khoá ngắn (`?khoa=git`) — mã lạ trả `undefined`, trang lặng lẽ dùng cây bậc.
@@ -164,7 +191,9 @@ export default function ProgrammingLessonPage() {
   if (lessonSlugParam !== canonicalSegment) {
     // GIỮ NGUYÊN query khi chuyển hướng: `?khoa=<khoá ngắn>` là ngữ cảnh khoá đang học
     // (xem `duongDanBaiHoc`), mất nó là người học mở link cũ xong lạc khỏi khoá của mình.
-    return <Navigate to={`${duongDanBaiHoc(lesson)}${search}`} replace />
+    // GIỮ cả hash (S09d): link cũ `…/p1-u1-l1#make` phải mở đúng bước Tự viết. `replace` nên
+    // chuyển hướng không để lại history entry thừa.
+    return <Navigate to={`${duongDanBaiHoc(lesson)}${search}${hash}`} replace />
   }
   // key theo id: đổi bài là dựng lại thân trang từ đầu (state bước/code không dính bài cũ).
   return <LessonBody key={lesson.id} lesson={lesson} courseId={courseId} />
@@ -178,29 +207,73 @@ function LessonBody({
   courseId: ShortCourseId | undefined
 }) {
   const nav = useNavigate()
+  const loc = useLocation()
+  const navType = useNavigationType()
   const { user } = useAuth()
 
-  // ③ Ví dụ mẫu
-  const [exampleOutput, setExampleOutput] = useState('')
-  // Luật N4: 3 trạng thái rõ ràng, không có ca "chạy xong mà màn hình trống".
-  const [exampleState, setExampleState] = useState<RunState>('idle')
+  // --- Owner của mọi kết quả chạy/chấm (S09d, đặc tả S09 §2.8 mục 5) -------------------
+  // `LessonBody` chỉ dựng lại khi ĐỔI BÀI (key = lesson.id). Đổi tài khoản giữa chừng (đăng
+  // nhập/đăng xuất) thì trang KHÔNG dựng lại — nên mỗi kết quả phải mang theo owner đã tạo ra
+  // nó, và chỉ được hiện khi owner đó còn là owner hiện tại. Callback bất đồng bộ (máy chạy
+  // code trả về chậm) còn bị chặn thêm bằng số thế hệ: owner đổi là mọi lượt cũ mất hiệu lực.
+  const owner = useMemo<SessionOwner | null>(
+    () => (user ? { kind: user.isGuest ? 'guest' : 'account', id: user.id } : null),
+    [user],
+  )
+  const ownerKey = owner ? `${owner.kind}:${owner.id}` : ''
+  const ownerKeyRef = useRef(ownerKey)
+  // "Thế hệ" owner: tăng mỗi lần owner đổi; lượt chạy/chấm nào bắt đầu ở thế hệ cũ thì bỏ.
+  // `useLayoutEffect` (không phải `useEffect`): tăng NGAY trong commit, trước khi bất kỳ
+  // promise nào của máy chạy code kịp resolve và ghi state của owner cũ sau lượt reset dưới.
+  const theHeOwnerRef = useRef(0)
+  useLayoutEffect(() => {
+    if (ownerKeyRef.current === ownerKey) return
+    ownerKeyRef.current = ownerKey
+    theHeOwnerRef.current += 1 // vô hiệu hoá mọi lượt chạy/chấm đang dở của owner cũ
+  }, [ownerKey])
+
+  // ③ Ví dụ mẫu. Luật N4: 3 trạng thái rõ ràng, không có ca "chạy xong mà màn hình trống".
+  const [viDu, setViDu] = useState<{ owner: string; state: RunState; output: string } | null>(null)
+  const viDuCuaOwner = viDu && viDu.owner === ownerKey ? viDu : null
+  const exampleState: RunState = viDuCuaOwner?.state ?? 'idle'
+  const exampleOutput = viDuCuaOwner?.output ?? ''
   const shuffledLines = useMemo(() => parsonsShuffle(lesson.parsons.lines, lesson.id), [lesson])
-  const [grading, setGrading] = useState(false)
   // KẾT QUẢ CHẤM không nằm trong nháp: mở lại bài là phải bấm "Chấm bài" để chấm THẬT.
-  const [results, setResults] = useState<TestCaseResult[] | null>(null)
+  // Chỉ sống trong bộ nhớ của lần mở bài này — nhảy bước (đổi hash) giữ nguyên, reload thì mất.
+  const [cham, setCham] = useState<{
+    owner: string
+    grading: boolean
+    results: TestCaseResult[] | null
+  } | null>(null)
+  const chamCuaOwner = cham && cham.owner === ownerKey ? cham : null
+  const grading = chamCuaOwner?.grading ?? false
+  const results = chamCuaOwner?.results ?? null
+  const tongSoCa = lesson.make.testCases.length
+  // Lượt chấm chỉ được coi là XONG khi đã dừng VÀ đủ số ca của bài. `allTestsPassed` trên
+  // một mảng dở dang (mới 1/4 ca về, ca đó đạt) trả true — trước S09d trang từng báo "Đạt
+  // toàn bộ test!" giữa lúc đang chấm. Đây chỉ là trạng thái TRÌNH BÀY: việc ghi completed/xoá
+  // nháp trong `gradeMake` vẫn quyết trên mảng đủ ca như cũ.
+  const chamXong = !grading && results !== null && results.length === tongSoCa
   // Đã bấm "Kiểm tra thứ tự" chưa — cũng không lưu: kết quả Parsons được TÍNH LẠI bằng hàm
   // thuần `checkParsonsOrder`, không có con số đúng/sai nào được cất trên máy.
   const [parsonsChecked, setParsonsChecked] = useState(false)
-  const passed = results !== null && allTestsPassed(results)
+  const passed = chamXong && allTestsPassed(results)
+  // Owner đổi → XOÁ HẲN kết quả trong bộ nhớ (không chỉ ẩn theo owner). Nếu chỉ ẩn, lượt chấm
+  // dở của A bị bỏ ở `await` kế tiếp sẽ để lại `{owner: A, grading: true}`: A đăng nhập lại là
+  // kẹt "Đang chấm…" và nút "Chấm bài" bị chặn mãi (ca test A → B → A). Mẫu "chỉnh state khi
+  // prop đổi ngay trong render" của React — không cần effect, không có khung hình trung gian.
+  const [ownerCuaKetQua, setOwnerCuaKetQua] = useState(ownerKey)
+  if (ownerCuaKetQua !== ownerKey) {
+    setOwnerCuaKetQua(ownerKey)
+    setCham(null)
+    setViDu(null)
+    setParsonsChecked(false)
+  }
 
   // --- Phiên học: bước + nháp sống qua reload, CÙNG THIẾT BỊ (S08-2) ---------------------
   // Đặc tả: docs/specs/2026-09-15-learning-ux-s08-khung-phien-resume.md
   // Nháp KHÔNG phải tiến độ: nó không gọi API, không đổi "đã hoàn thành hay chưa" — việc đó
   // vẫn chỉ do server quyết (`saveLessonProgress` bên dưới, giữ nguyên).
-  const owner = useMemo<SessionOwner | null>(
-    () => (user ? { kind: user.isGuest ? 'guest' : 'account', id: user.id } : null),
-    [user],
-  )
   const contentVersion = useMemo(() => vanTayBai(lesson), [lesson])
   const macDinh = useCallback(
     () => ({
@@ -227,8 +300,7 @@ function LessonBody({
     paused: passed,
     ...(courseId ? { courseId } : {}),
   })
-  const step = phien.stepIndex
-  const setStep = phien.setStep
+  const { setStep, stepIndex: resumeStep } = phien
   const { code, predictChoice, arranged, hintsShown, sampleViewed } = phien.draft
   const suaNhap = phien.setDraft
   const setCode = useCallback(
@@ -250,21 +322,25 @@ function LessonBody({
   }, [user, lesson])
 
   const runExample = async () => {
-    setExampleState('running')
-    setExampleOutput('')
+    const luot = theHeOwnerRef.current
+    const chuLuot = ownerKey
+    setViDu({ owner: chuLuot, state: 'running', output: '' })
     const r = await runLessonCode(lesson.language, lesson.workedExample.code, {
       stdinLines: lesson.workedExample.stdinLines,
-      onOutput: setExampleOutput,
+      onOutput: (output) => {
+        if (theHeOwnerRef.current === luot) setViDu({ owner: chuLuot, state: 'running', output })
+      },
       ...(lesson.domHtml ? { domHtml: lesson.domHtml } : {}),
     })
-    setExampleOutput(r.output + (r.error ? `\n${r.error}` : ''))
-    setExampleState('done')
+    if (theHeOwnerRef.current !== luot) return // owner đã đổi — bỏ kết quả của phiên cũ
+    setViDu({ owner: chuLuot, state: 'done', output: r.output + (r.error ? `\n${r.error}` : '') })
   }
 
   const gradeMake = async () => {
     if (grading) return
-    setGrading(true)
-    setResults(null)
+    const luot = theHeOwnerRef.current
+    const chuLuot = ownerKey
+    setCham({ owner: chuLuot, grading: true, results: null })
     const out: TestCaseResult[] = []
     for (const testCase of lesson.make.testCases) {
       const r = await runLessonCode(lesson.language, code, {
@@ -273,12 +349,14 @@ function LessonBody({
         // Bài SQL: ca chấm có thể mang bộ dữ liệu riêng (bảng rỗng, có NULL, thứ tự khác).
         ...(testCase.datasetSql ? { datasetSql: testCase.datasetSql } : {}),
       })
+      // Owner đổi giữa lúc chấm → lượt này thuộc phiên cũ: không hiện, không ghi gì thêm.
+      if (theHeOwnerRef.current !== luot) return
       out.push(
         gradeTestCase(testCase, r.output, r.error ?? (r.timedOut ? 'Quá thời gian' : undefined)),
       )
-      setResults([...out])
+      setCham({ owner: chuLuot, grading: true, results: [...out] })
     }
-    setGrading(false)
+    setCham({ owner: chuLuot, grading: false, results: out })
     if (allTestsPassed(out) && owner) {
       // Bài xong thì nháp hết nghĩa ("resume" là cho việc DỞ) — xoá ngay, và `paused` ở trên
       // giữ cho nó không bị ghi lại khi người học bấm tiếp sang bước "Về nhà".
@@ -303,7 +381,94 @@ function LessonBody({
     return true
   }
 
+  // --- Bước ↔ URL (S09d, đặc tả S09 §2.8) ------------------------------------------------
+  // Bước đang HIỆN được SUY RA từ URL mỗi lượt render (không phải một state thứ hai phải giữ
+  // cho khớp): hash hợp lệ thắng bước resume; không hash thì dùng resume (mở bài) hoặc bước
+  // ghi trong history entry (Back/Forward). Hàm quyết định là hàm thuần `resolveLessonTarget`.
+  // Nháp (code, lựa chọn Dự đoán, thứ tự Parsons, gợi ý, đã xem mẫu) KHÔNG bao giờ bị đụng ở
+  // đây — đổi bước chỉ đổi màn đang hiện.
+  const [mountKey] = useState(loc.key)
+  const target = resolveLessonTarget({
+    hash: loc.hash,
+    // Entry lúc mở bài (kể cả reload — trình duyệt báo POP) là "mở"; POP tới entry KHÁC trong
+    // lúc trang đang mở mới là Back/Forward.
+    navigation: loc.key !== mountKey && navType === 'POP' ? 'history' : 'open',
+    resumeStep,
+    entryStep: readEntryStep(loc.state),
+  })
+  const step = target.stepIndex
   const current = STEPS[step]!
+  // Phiên đã hydrate xong: có owner, đã đọc storage, và KHÔNG còn hộp hỏi nháp cũ (stale). Chưa
+  // xong thì chưa ghi bước URL vào phiên (không đè nháp stale trước khi người học quyết) và chưa
+  // focus (hộp hỏi đang giữ focus).
+  const hydrated = phien.status !== 'loading' && phien.staleSession === null
+
+  /** Focus heading đích rồi cuộn tới (heading có `scroll-mt-*` chừa header dính). */
+  const focusAnchor = useCallback((anchor: LessonAnchor) => {
+    // id là hằng số đã chốt, KHÔNG phải chuỗi lấy từ URL — không dùng hash làm selector.
+    const el = document.getElementById(anchor) ?? document.getElementById(LESSON_HEAD_ANCHOR)
+    if (!el) return
+    el.focus({ preventScroll: true })
+    // Chỉ cuộn khi heading đang bị header dính che hoặc nằm ngoài khung nhìn — bấm một bước
+    // ngay dưới thanh bước thì heading đã ở trong tầm mắt, cuộn thêm chỉ làm trang giật.
+    // Vùng header lấy từ chính `scroll-margin-top` của heading (lớp `scroll-mt-*`), không đặt
+    // một con số thứ hai phải giữ cho khớp.
+    const vungHeader = parseFloat(getComputedStyle(el).scrollMarginTop) || 0
+    const hop = el.getBoundingClientRect()
+    const daThay = hop.top >= vungHeader && hop.bottom <= window.innerHeight
+    // `instant`: không phụ thuộc animation, người bật giảm chuyển động không bị cuộn trượt.
+    if (!daThay && typeof el.scrollIntoView === 'function') {
+      el.scrollIntoView({ block: 'start', behavior: 'instant' })
+    }
+  }, [])
+
+  // Mỗi entry history chỉ xử lý MỘT lần (theo `location.key`): ghi bước vào phiên (để resume
+  // lần sau đúng chỗ) + focus đích. Không chạy lại khi bước resume đổi vì tab khác ghi — nếu
+  // chạy lại, hai tab mở hai hash khác nhau sẽ ghi đè nhau qua sự kiện `storage` mãi mãi.
+  const daXuLyKeyRef = useRef<string | null>(null)
+  const focusDich = target.focus
+  useEffect(() => {
+    if (!hydrated || daXuLyKeyRef.current === loc.key) return
+    const lanDau = daXuLyKeyRef.current === null
+    daXuLyKeyRef.current = loc.key
+    if (step !== resumeStep) setStep(step)
+    // Mở bài bình thường (không hash) giữ hành vi cũ: không tự kéo focus.
+    if (lanDau && focusDich === null) return
+    if (focusDich) focusAnchor(focusDich)
+  }, [hydrated, loc.key, step, resumeStep, setStep, focusDich, focusAnchor])
+
+  /**
+   * Đi tới một đích: đích khác → push ĐÚNG MỘT entry (giữ pathname + query `?khoa=`…); cùng
+   * đích → chỉ focus lại, không thêm entry. KHÔNG chạy code, không chấm, không lưu tiến độ.
+   */
+  const goTo = (anchor: LessonAnchor) => {
+    // "Cùng đích" = đúng hash đang mở, HOẶC chưa có hash mà bấm lại đúng bước đang hiện (mở bài
+    // xong bấm "Khái niệm" trên thanh bước): màn hình không đổi thì không đẻ thêm entry Back.
+    const cungDich = loc.hash === `#${anchor}` || (loc.hash === '' && anchor === anchorOfStep(step))
+    if (cungDich) {
+      if (hydrated) focusAnchor(anchor)
+      return
+    }
+    // Entry hiện tại không hash và chưa ghi bước (entry lúc mở bài): ghi bước đang hiện vào
+    // chính nó (replace, không thêm entry) để Back về đây trả đúng bước này, không lấy bước
+    // resume mà các lần nhảy sau sẽ thay đổi.
+    if (!loc.hash && readEntryStep(loc.state) === undefined) {
+      nav(
+        { pathname: loc.pathname, search: loc.search },
+        { replace: true, state: withEntryStep(loc.state, step) },
+      )
+    }
+    nav({ pathname: loc.pathname, search: loc.search, hash: `#${anchor}` })
+  }
+  const goToStep = (i: number) => goTo(anchorOfStep(i))
+
+  /** Link trong trang (`href="#…"`): để trình duyệt tự xử lý khi mở tab mới/cmd-click. */
+  const onAnchorClick = (anchor: LessonAnchor) => (e: MouseEvent<HTMLAnchorElement>) => {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+    e.preventDefault()
+    goTo(anchor)
+  }
+
   const isDesktop = useIsDesktopViewport()
   const levelId = getLevelIdOfLesson(lesson.id)
 
@@ -361,10 +526,18 @@ function LessonBody({
           <TwoPane
             isDesktop={isDesktop}
             railLabel="Các bước bài học"
-            rail={<StepRail steps={STEPS} current={step} isDone={stepDone} onGo={setStep} />}
+            rail={<StepRail steps={STEPS} current={step} isDone={stepDone} onGo={goToStep} />}
           >
             <div className="space-y-5">
-              <h1 tabIndex={-1} className="sr-only focus:outline-none">
+              {/* Đích `#dau-bai` (S09d): tên bài đã hiện ở header nên h1 ẩn khi đọc bình thường
+                  (hiện cả hai là lặp chữ — đúng loại lỗi ảnh Tầng 8b từng bắt). Nhưng khi được
+                  FOCUS (hash lạ, Back về đầu bài) nó HIỆN RA: người dùng bàn phím nhìn thấy focus
+                  đang ở đâu, không phải một điểm focus vô hình. */}
+              <h1
+                id={LESSON_HEAD_ANCHOR}
+                tabIndex={-1}
+                className="sr-only t-h2 text-content rounded-lg scroll-mt-24 focus:not-sr-only focus:block focus:px-2 focus:py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+              >
                 {lesson.title}
               </h1>
 
@@ -382,6 +555,17 @@ function LessonBody({
                       : `Bậc ${levelId?.toUpperCase()}`}
                   </button>
                 )}
+                {/* Lối tắt tới kết quả chấm (S09d, §2.8): MỘT lần kích hoạt từ bất kỳ bước nào.
+                    `#ket-qua` là đích CON của bước Tự viết, không phải bước thứ bảy — nên nó là
+                    link riêng ở đây, không chen vào thanh bước. Chỉ điều hướng: không chấm. */}
+                <a
+                  href={`#${LESSON_RESULT_ANCHOR}`}
+                  onClick={onAnchorClick(LESSON_RESULT_ANCHOR)}
+                  className="tap-44 inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-line-subtle bg-surface-card text-xs font-semibold text-content-secondary hover:text-content transition"
+                >
+                  <ListChecks className="w-3.5 h-3.5" aria-hidden="true" />
+                  <span>Kết quả chấm</span>
+                </a>
               </div>
 
               {/* Trình duyệt chặn lưu (Safari riêng tư, chặn site data…): NÓI THẬT ngay từ đầu
@@ -417,12 +601,13 @@ function LessonBody({
                 trong hai (không `lg:hidden`) để DOM không chứa hai danh sách bước trùng nhau —
                 trình đọc màn hình sẽ đọc hai lần và Playwright báo strict-mode violation. */}
               {!isDesktop && (
-                <StepBar steps={STEPS} current={step} isDone={stepDone} onGo={setStep} />
+                <StepBar steps={STEPS} current={step} isDone={stepDone} onGo={goToStep} />
               )}
 
               {/* ①② Móc thực tế + khái niệm */}
               {current.key === 'concept' && (
-                <section className="space-y-4">
+                <section className="space-y-4" aria-labelledby="concept">
+                  <TieuDeBuoc id="concept">{current.label}</TieuDeBuoc>
                   <div className="bg-accent-500/10 border border-accent-500/30 rounded-3xl p-5">
                     <p className="read-body read-measure text-zinc-100">{lesson.hook}</p>
                   </div>
@@ -434,7 +619,8 @@ function LessonBody({
 
               {/* ③ Ví dụ mẫu chạy được */}
               {current.key === 'example' && (
-                <section className="space-y-3">
+                <section className="space-y-3" aria-labelledby="example">
+                  <TieuDeBuoc id="example">{current.label}</TieuDeBuoc>
                   <p className="read-body read-measure text-zinc-300">
                     Đọc từng dòng (chú thích tiếng Việt trong code) rồi bấm chạy để thấy kết quả
                     thật:
@@ -460,32 +646,39 @@ function LessonBody({
 
               {/* ④ Predict — dự đoán TRƯỚC khi chạy */}
               {current.key === 'predict' && (
-                <PredictStep
-                  predict={lesson.predict}
-                  choice={predictChoice}
-                  revealed={predictRevealed}
-                  onChoose={(i) => suaNhap((d) => ({ ...d, predictChoice: i }))}
-                />
+                <section className="space-y-3" aria-labelledby="predict">
+                  <TieuDeBuoc id="predict">{current.label}</TieuDeBuoc>
+                  <PredictStep
+                    predict={lesson.predict}
+                    choice={predictChoice}
+                    revealed={predictRevealed}
+                    onChoose={(i) => suaNhap((d) => ({ ...d, predictChoice: i }))}
+                  />
+                </section>
               )}
 
               {/* ⑤ Parsons — bấm dòng để xếp thứ tự */}
               {current.key === 'parsons' && (
-                <ParsonsStep
-                  prompt={lesson.parsons.prompt}
-                  shuffledLines={shuffledLines}
-                  arranged={arranged}
-                  result={parsonsResult}
-                  onArrangedChange={(lines) => {
-                    setParsonsChecked(false)
-                    suaNhap((d) => ({ ...d, arranged: lines }))
-                  }}
-                  onCheck={() => setParsonsChecked(true)}
-                />
+                <section className="space-y-3" aria-labelledby="parsons">
+                  <TieuDeBuoc id="parsons">{current.label}</TieuDeBuoc>
+                  <ParsonsStep
+                    prompt={lesson.parsons.prompt}
+                    shuffledLines={shuffledLines}
+                    arranged={arranged}
+                    result={parsonsResult}
+                    onArrangedChange={(lines) => {
+                      setParsonsChecked(false)
+                      suaNhap((d) => ({ ...d, arranged: lines }))
+                    }}
+                    onCheck={() => setParsonsChecked(true)}
+                  />
+                </section>
               )}
 
               {/* ⑥ Make — tự viết, chấm test-case */}
               {current.key === 'make' && (
-                <section className="space-y-3">
+                <section className="space-y-3" aria-labelledby="make">
+                  <TieuDeBuoc id="make">{current.label}</TieuDeBuoc>
                   <div className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5">
                     <p className="read-body read-measure text-zinc-200 whitespace-pre-line">
                       {lesson.make.prompt}
@@ -578,28 +771,62 @@ function LessonBody({
                     results={results}
                     passed={passed}
                   />
-                  {results && <TestResultList results={results} />}
-                  {passed && (
-                    <div className="rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-4 text-sm text-zinc-100 flex items-start gap-2">
-                      <Trophy className="w-5 h-5 text-emerald-400 theme-light:text-emerald-900 shrink-0" />
-                      <p>
-                        <strong>Đạt toàn bộ test!</strong> Bài được ghi nhận hoàn thành
-                        {sampleViewed ? ' (bạn có xem code mẫu — thử tự viết lại lần nữa nhé)' : ''}
-                        . Sang bước "Về nhà" để chốt bài.
-                      </p>
-                    </div>
-                  )}
+                  {/* Kết quả chấm — đích `#ket-qua` (S09d, §2.8 mục 4). Heading LUÔN có trong bước
+                      Tự viết để lối tắt/deep link luôn có chỗ đến, kể cả khi chưa chấm lần nào.
+                      Bốn trạng thái, không trạng thái nào được giả là "đã xong": đang chấm ·
+                      chưa có kết quả trong lần mở này · dừng mà thiếu ca · chấm xong đủ ca. */}
+                  <section className="space-y-2" aria-labelledby={LESSON_RESULT_ANCHOR}>
+                    <TieuDeBuoc id={LESSON_RESULT_ANCHOR} level={3}>
+                      Kết quả chấm
+                    </TieuDeBuoc>
+                    <p className="read-body text-content-secondary">
+                      {grading ? (
+                        `Đang chấm… đã có ${results?.length ?? 0}/${tongSoCa} ca — chưa kết luận toàn bài.`
+                      ) : results === null ? (
+                        <>
+                          Chưa có kết quả chấm trong lần mở bài này.{' '}
+                          <a
+                            href="#make"
+                            onClick={onAnchorClick('make')}
+                            className="underline underline-offset-2 text-content"
+                          >
+                            Lên đầu bước Tự viết
+                          </a>{' '}
+                          rồi bấm "Chấm bài".
+                        </>
+                      ) : results.length < tongSoCa ? (
+                        `Lượt chấm chưa đầy đủ: mới có ${results.length}/${tongSoCa} ca — hãy bấm "Chấm bài" lại.`
+                      ) : (
+                        `Đã chấm xong ${tongSoCa} ca: đạt ${results.filter((r) => r.passed).length}/${tongSoCa}.`
+                      )}
+                    </p>
+                    {results && <TestResultList results={results} />}
+                    {passed && (
+                      <div className="rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-4 text-sm text-zinc-100 flex items-start gap-2">
+                        <Trophy className="w-5 h-5 text-emerald-400 theme-light:text-emerald-900 shrink-0" />
+                        <p>
+                          <strong>Đạt toàn bộ test!</strong> Đã gửi kết quả để ghi nhận hoàn thành
+                          bài
+                          {sampleViewed
+                            ? ' (bạn có xem code mẫu — thử tự viết lại lần nữa nhé)'
+                            : ''}
+                          . Sang bước "Về nhà" để chốt bài.
+                        </p>
+                      </div>
+                    )}
+                  </section>
                 </section>
               )}
 
               {/* ⑦ Ứng dụng về nhà */}
               {current.key === 'done' && (
-                <section className="space-y-4">
+                <section className="space-y-4" aria-labelledby="done">
+                  <TieuDeBuoc id="done">{current.label}</TieuDeBuoc>
                   <div className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-5">
-                    <h2 className="text-sm font-bold text-white mb-2 flex items-center gap-2">
+                    <h3 className="text-sm font-bold text-white mb-2 flex items-center gap-2">
                       <Home className="w-4 h-4 text-accent-400" />
                       <span>Ứng dụng vào đời thật</span>
-                    </h2>
+                    </h3>
                     <p className="read-body read-measure text-zinc-200">{lesson.homework}</p>
                   </div>
                   <div
@@ -609,9 +836,13 @@ function LessonBody({
                         : 'border-zinc-800 bg-zinc-900/80 text-zinc-300'
                     }`}
                   >
+                    {/* "Về nhà" là bước cuối, KHÔNG đồng nghĩa đã đạt bài (§2.8): chỉ lượt chấm xong
+                        đủ ca và đạt hết mới được nói "hoàn thành". */}
                     {passed
-                      ? 'Bài học đã hoàn thành — tiến độ đã được lưu. 🎉'
-                      : 'Bạn chưa đạt hết test ở bước "Tự viết" — quay lại chấm bài để hoàn thành bài học.'}
+                      ? 'Bài học đã hoàn thành — bạn đạt hết test ở bước "Tự viết". 🎉'
+                      : results === null
+                        ? 'Chưa có kết quả chấm trong lần mở bài này — quay lại bước "Tự viết" và bấm "Chấm bài" để hoàn thành bài học.'
+                        : 'Bạn chưa đạt hết test ở bước "Tự viết" — quay lại chấm bài để hoàn thành bài học.'}
                   </div>
                   <button
                     onClick={() => nav(backTo)}
@@ -628,7 +859,7 @@ function LessonBody({
               {/* Điều hướng trước / sau */}
               <div className="flex items-center justify-between pt-2">
                 <button
-                  onClick={() => setStep(Math.max(0, step - 1))}
+                  onClick={() => goToStep(Math.max(0, step - 1))}
                   disabled={step === 0}
                   className="tap-44 inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-zinc-900 border border-zinc-800 disabled:opacity-40 text-zinc-200 font-semibold text-sm transition"
                 >
@@ -637,7 +868,7 @@ function LessonBody({
                 </button>
                 {step < STEPS.length - 1 && (
                   <button
-                    onClick={() => setStep(step + 1)}
+                    onClick={() => goToStep(step + 1)}
                     className={`tap-44 inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl font-semibold text-sm transition ${
                       stepDone(step)
                         ? 'bg-accent-500 hover:bg-accent-400 text-black'
@@ -658,7 +889,9 @@ function LessonBody({
       </PageShell>
 
       {/* Bài đã được cập nhật kể từ lần trước: HỎI, không tự đổ nháp cũ đè lên đề mới.
-          Chưa trả lời thì trang đang chạy bằng `starterCode` mới và bước 0 — đúng như đang thấy. */}
+          Chưa trả lời thì trang đang chạy bằng `starterCode` mới và bước 0 (hoặc bước theo hash
+          URL) — đúng như đang thấy; bước URL chỉ được GHI vào phiên sau khi người học quyết
+          (xem `hydrated` ở trên). */}
       {phien.staleSession && (
         <Modal
           title="Bài này đã được cập nhật"
@@ -689,5 +922,31 @@ function LessonBody({
       )}
       {sheet}
     </div>
+  )
+}
+
+/**
+ * Heading của một bước / đích con — đích focus khi nhảy tới (S09d, §2.8 mục 7). `id` là hằng số
+ * đã chốt ở `lib/programmingLessonSteps`; `tabIndex=-1` để focus được bằng script mà KHÔNG
+ * chen vào thứ tự Tab; `scroll-mt-24` chừa chiều cao header dính khi cuộn tới.
+ */
+function TieuDeBuoc({
+  id,
+  level = 2,
+  children,
+}: {
+  id: LessonAnchor
+  level?: 2 | 3
+  children: ReactNode
+}) {
+  const Tag = level === 2 ? 'h2' : 'h3'
+  return (
+    <Tag
+      id={id}
+      tabIndex={-1}
+      className={`${level === 2 ? 't-h3' : 't-label'} text-content rounded-lg scroll-mt-24 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400`}
+    >
+      {children}
+    </Tag>
   )
 }

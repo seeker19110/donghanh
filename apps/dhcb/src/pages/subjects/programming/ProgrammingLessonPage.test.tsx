@@ -9,9 +9,17 @@
 //   4. Nháp KHÔNG tạo completion: mở lại bài dở không hề gọi `saveLessonProgress('completed')`;
 //      ngược lại đạt hết test thì nháp bị XOÁ (AC-14).
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { act } from 'react'
+import { act, useEffect, useRef } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
-import { MemoryRouter, Routes, Route } from 'react-router-dom'
+import {
+  MemoryRouter,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+  useNavigationType,
+  type NavigateFunction,
+} from 'react-router-dom'
 import type { ProgrammingLesson } from '@dhcb/subject-programming/lessonTypes'
 import { buildSlugSegment } from '@core/slug'
 import { LEARNING_SESSION_PREFIX, __resetSessionMemory } from '../../../lib/learningSession'
@@ -77,10 +85,20 @@ vi.mock('../../../components/CodeEditor', () => ({
 vi.mock('../../../lib/useProgrammingLesson', () => ({
   useProgrammingLesson: () => ({ status: 'ready', lesson: baiHienTai.lesson }),
 }))
+// Máy chạy code giả. Mặc định: code có chữ "xong" thì coi như in ra "xong" (đủ để đạt
+// test-case). Test S09d thay `mayChay.impl` để giữ một ca "đang chạy" (chấm dở/chấm chậm).
+type KetQuaChay = { output: string; error: string | undefined }
+const mayChayMacDinh = (_lang: string, code: string): Promise<KetQuaChay> =>
+  Promise.resolve({ output: code.includes('xong') ? 'xong' : 'chưa', error: undefined })
+const mayChay: { impl: typeof mayChayMacDinh; soLan: number } = {
+  impl: mayChayMacDinh,
+  soLan: 0,
+}
 vi.mock('../../../lib/codeRunner', () => ({
-  // Code của học viên có chữ "xong" thì coi như in ra "xong" (đủ để đạt test-case duy nhất).
-  runLessonCode: (_lang: string, code: string) =>
-    Promise.resolve({ output: code.includes('xong') ? 'xong' : 'chưa', error: undefined }),
+  runLessonCode: (lang: string, code: string) => {
+    mayChay.soLan += 1
+    return mayChay.impl(lang, code)
+  },
   resetLessonRunners: () => {},
   laBaiDongLenh: () => false,
 }))
@@ -99,29 +117,63 @@ vi.mock('../../../lib/programmingProgress', async () => {
     fetchProgressWithState: () => Promise.resolve({ lessons: [], state: 'ready' as const }),
   }
 })
-vi.mock('../../../lib/programmingSrs', () => ({ addLessonCardsToSrs: () => {} }))
+const themSrs = vi.fn()
+vi.mock('../../../lib/programmingSrs', () => ({
+  addLessonCardsToSrs: (...args: unknown[]) => themSrs(...args),
+}))
 // PHẢI trả về CÙNG MỘT object mỗi lần gọi: `useProgrammingOutlineCtx` có effect phụ thuộc
 // `[user]`, mock trả object mới mỗi lượt render là vòng lặp render vô tận (đã dính thật).
-vi.mock('../../../context/useAuth', () => {
-  const ctx = {
-    user: { id: 'u1', plan: 'free', isGuest: false, email: '', name: 'U', onboarded: true },
+// Test S09d đổi `dangNhap.ctx` sang object KHÁC (một lần) để giả đổi owner giữa chừng.
+function taoCtx(id: string) {
+  return {
+    user: { id, plan: 'free', isGuest: false, email: '', name: 'U', onboarded: true },
     loading: false,
   }
-  return { useAuth: () => ctx }
-})
+}
+const dangNhap = { ctx: taoCtx('u1') }
+vi.mock('../../../context/useAuth', () => ({ useAuth: () => dangNhap.ctx }))
 
 let container: HTMLDivElement
 let root: Root
 
+// Theo dõi router: vị trí hiện tại + số entry đã PUSH (đếm history entry mới) + hàm navigate
+// để giả Back/Forward.
+const dinhTuyen: {
+  nav: NavigateFunction | null
+  loc: { pathname: string; search: string; hash: string; key: string } | null
+  soPush: number
+} = { nav: null, loc: null, soPush: 0 }
+function DoViTri() {
+  const loc = useLocation()
+  const kieu = useNavigationType()
+  const nav = useNavigate()
+  const keyTruoc = useRef<string | null>(null)
+  useEffect(() => {
+    dinhTuyen.nav = nav
+    dinhTuyen.loc = loc
+    if (keyTruoc.current !== loc.key && kieu === 'PUSH') dinhTuyen.soPush += 1
+    keyTruoc.current = loc.key
+  })
+  return null
+}
+
 /** Mở trang (như một lần TẢI TRANG mới: unmount rồi mount lại = reload). */
-function mo(lesson: ProgrammingLesson = baiHienTai.lesson) {
+function mo(lesson: ProgrammingLesson = baiHienTai.lesson, duoi = '') {
   baiHienTai.lesson = lesson
   const doan = buildSlugSegment(lesson.id, lesson.title)
   act(() =>
     root.render(
-      <MemoryRouter initialEntries={[`/lap-trinh/bai-hoc/${doan}`]}>
+      <MemoryRouter initialEntries={[`/lap-trinh/bai-hoc/${doan}${duoi}`]}>
         <Routes>
-          <Route path="/lap-trinh/bai-hoc/:lessonId" element={<ProgrammingLessonPage />} />
+          <Route
+            path="/lap-trinh/bai-hoc/:lessonId"
+            element={
+              <>
+                <ProgrammingLessonPage />
+                <DoViTri />
+              </>
+            }
+          />
         </Routes>
       </MemoryRouter>,
     ),
@@ -164,6 +216,13 @@ beforeEach(() => {
   localStorage.clear()
   __resetSessionMemory()
   luuTienDo.mockClear()
+  themSrs.mockClear()
+  mayChay.impl = mayChayMacDinh
+  mayChay.soLan = 0
+  dangNhap.ctx = taoCtx('u1')
+  dinhTuyen.nav = null
+  dinhTuyen.loc = null
+  dinhTuyen.soPush = 0
   baiHienTai.lesson = taoBai()
   vi.useFakeTimers()
   container = document.createElement('div')
@@ -278,5 +337,376 @@ describe('ProgrammingLessonPage — phiên học (S08-2)', () => {
     expect(luuTienDo.mock.calls.some((c) => c[2] === 'completed')).toBe(true)
     const conKhoa = Object.keys(localStorage).filter((k) => k.startsWith(LEARNING_SESSION_PREFIX))
     expect(conKhoa).toEqual([])
+  })
+})
+
+// ============================================================================================
+// S09d — điều hướng sáu bước bằng URL
+// (docs/specs/2026-09-23-uiux-s09-s12-trai-nghiem-va-nghiem-thu.md §2.8)
+// ============================================================================================
+
+/** Tải lại trang (unmount + mount) với phần đuôi URL (query/hash) tuỳ chọn. */
+function taiLai(duoi = '', lesson: ProgrammingLesson = baiHienTai.lesson) {
+  act(() => root.unmount())
+  root = createRoot(container)
+  mo(lesson, duoi)
+}
+
+/** Nhãn bước đang có `aria-current="step"` — phải có ĐÚNG MỘT trong DOM. */
+function buocHienTai(): string {
+  const cur = document.body.querySelectorAll('[aria-current="step"]')
+  expect(cur).toHaveLength(1)
+  return cur[0]!.getAttribute('aria-label') ?? ''
+}
+
+function lienKet(ten: string): HTMLAnchorElement {
+  const found = [...document.body.querySelectorAll('a')].find(
+    (a) => (a.textContent ?? '').trim() === ten,
+  )
+  if (!found) throw new Error(`Không thấy link "${ten}"`)
+  return found
+}
+
+function idDangFocus(): string {
+  return (document.activeElement as HTMLElement | null)?.id ?? ''
+}
+
+function quayLai(buoc: number) {
+  act(() => {
+    void dinhTuyen.nav?.(buoc)
+  })
+}
+
+/** Để máy chấm giả (promise) chạy xong mà KHÔNG động tới timer giả. */
+async function doiChamXong() {
+  await act(async () => {
+    for (let i = 0; i < 10; i += 1) await Promise.resolve()
+  })
+}
+
+/** Lưu nháp: đang ở Tự viết, gõ code, chờ debounce ghi xuống storage. */
+function luuNhapOMake(code: string) {
+  mo()
+  bam('Tự viết')
+  goCode(code)
+  act(() => vi.advanceTimersByTime(600))
+}
+
+describe('ProgrammingLessonPage — bước ↔ URL (S09d, §2.8)', () => {
+  it('S09-P-AC01: sáu hash mở đúng bước + focus đúng heading, đúng một aria-current', () => {
+    const mongDoi: Array<[string, string, string]> = [
+      ['#concept', 'Khái niệm', 'Móc thực tế'],
+      ['#example', 'Ví dụ mẫu', 'Chạy ví dụ'],
+      ['#predict', 'Dự đoán', 'In ra gì?'],
+      ['#parsons', 'Xếp code', 'Xếp đi'],
+      ['#make', 'Tự viết', 'Tự viết đi'],
+      ['#done', 'Về nhà', 'Về nhà làm'],
+    ]
+    mo()
+    for (const [hash, nhan, chuTrongBuoc] of mongDoi) {
+      taiLai(hash)
+      expect(buocHienTai()).toContain(nhan)
+      expect(chu()).toContain(chuTrongBuoc)
+      expect(idDangFocus()).toBe(hash.slice(1))
+    }
+  })
+
+  it('S09-P-AC02: resume Make + #predict → Predict, mọi trường nháp giữ nguyên', () => {
+    luuNhapOMake('code dang go')
+    // Thêm một trường nháp khác: mở 1 gợi ý.
+    bam('Gợi ý (0/1)')
+    act(() => vi.advanceTimersByTime(600))
+
+    taiLai('#predict')
+    expect(buocHienTai()).toContain('Dự đoán')
+    expect(chu()).toContain('In ra gì?')
+
+    bam('Tự viết')
+    expect(oCode().value).toBe('code dang go')
+    expect(chu()).toContain('gợi ý 1') // hintsShown vẫn là 1
+  })
+
+  it('mở bình thường không hash vẫn dùng bước resume (hành vi S08 giữ nguyên)', () => {
+    luuNhapOMake('abc')
+    taiLai()
+    expect(buocHienTai()).toContain('Tự viết')
+  })
+
+  it('S09-P-AC04: hash lạ / step lưu 99 → Khái niệm + focus đầu bài, giữ nháp, không crash', () => {
+    luuNhapOMake('nhap cua toi')
+    taiLai('#khong-ton-tai')
+    expect(buocHienTai()).toContain('Khái niệm')
+    expect(idDangFocus()).toBe('dau-bai')
+    bam('Tự viết')
+    expect(oCode().value).toBe('nhap cua toi')
+    act(() => vi.advanceTimersByTime(600))
+
+    // Bước lưu ngoài phạm vi (sửa tay localStorage) → về bước 0, không đọc STEPS[99].
+    const khoa = Object.keys(localStorage).find((k) => k.startsWith(LEARNING_SESSION_PREFIX))!
+    const raw = JSON.parse(localStorage.getItem(khoa)!) as Record<string, unknown>
+    localStorage.setItem(khoa, JSON.stringify({ ...raw, stepIndex: 99 }))
+    taiLai()
+    expect(buocHienTai()).toContain('Khái niệm')
+    expect(mayChay.soLan).toBe(0)
+  })
+
+  it('history: đích khác push MỘT entry, cùng đích chỉ focus; Back/Forward không push', () => {
+    mo()
+    expect(dinhTuyen.soPush).toBe(0)
+    bam('Dự đoán')
+    expect(dinhTuyen.loc?.hash).toBe('#predict')
+    expect(dinhTuyen.soPush).toBe(1)
+    expect(idDangFocus()).toBe('predict')
+
+    // Cùng đích: không thêm entry, nhưng focus quay lại heading.
+    act(() => (document.activeElement as HTMLElement | null)?.blur())
+    bam('Dự đoán')
+    expect(dinhTuyen.soPush).toBe(1)
+    expect(idDangFocus()).toBe('predict')
+
+    bam('Xếp code')
+    expect(dinhTuyen.soPush).toBe(2)
+
+    quayLai(-1)
+    expect(buocHienTai()).toContain('Dự đoán')
+    expect(idDangFocus()).toBe('predict')
+    // Về entry đầu (không hash): dùng bước GHI trong entry (0), focus đầu bài.
+    quayLai(-1)
+    expect(dinhTuyen.loc?.hash).toBe('')
+    expect(buocHienTai()).toContain('Khái niệm')
+    expect(idDangFocus()).toBe('dau-bai')
+    quayLai(1)
+    expect(buocHienTai()).toContain('Dự đoán')
+    expect(dinhTuyen.soPush).toBe(2)
+  })
+
+  it('Back về entry đầu KHÔNG lấy resume vừa bị đổi: dùng bước ghi lúc mở (Make)', () => {
+    luuNhapOMake('x')
+    taiLai() // mở bình thường → resume Make
+    expect(buocHienTai()).toContain('Tự viết')
+    bam('Dự đoán') // resume trên máy giờ là Dự đoán
+    act(() => vi.advanceTimersByTime(600))
+    quayLai(-1)
+    expect(buocHienTai()).toContain('Tự viết')
+  })
+
+  it('giữ ?khoa= và query khác khi nhảy bước', () => {
+    mo(taoBai(), '?khoa=git&x=1')
+    bam('Xếp code')
+    expect(dinhTuyen.loc?.search).toBe('?khoa=git&x=1')
+    expect(dinhTuyen.loc?.hash).toBe('#parsons')
+  })
+
+  it('URL bare-id chuyển về URL chuẩn GIỮ query + hash', () => {
+    baiHienTai.lesson = taoBai()
+    act(() =>
+      root.render(
+        <MemoryRouter initialEntries={['/lap-trinh/bai-hoc/p1-u4-l1?khoa=git#predict']}>
+          <Routes>
+            <Route
+              path="/lap-trinh/bai-hoc/:lessonId"
+              element={
+                <>
+                  <ProgrammingLessonPage />
+                  <DoViTri />
+                </>
+              }
+            />
+            <Route
+              path="/goc-hoc-tap/programming/bai-hoc/:lessonId"
+              element={
+                <>
+                  <ProgrammingLessonPage />
+                  <DoViTri />
+                </>
+              }
+            />
+          </Routes>
+        </MemoryRouter>,
+      ),
+    )
+    expect(dinhTuyen.loc?.pathname).toBe(
+      `/goc-hoc-tap/programming/bai-hoc/${buildSlugSegment('p1-u4-l1', 'Bài thử')}`,
+    )
+    expect(dinhTuyen.loc?.search).toBe('?khoa=git')
+    expect(dinhTuyen.loc?.hash).toBe('#predict')
+    expect(buocHienTai()).toContain('Dự đoán')
+  })
+
+  it('S09-P-AC03 adopt: stale + #predict — chưa quyết thì không ghi đè; "Dùng lại" nhận nháp rồi áp hash', () => {
+    luuNhapOMake('code cu')
+    taiLai('#predict', taoBai({ starterCode: '# đề mới' }))
+    expect(chu()).toContain('Bài này đã được cập nhật')
+    // Chưa quyết: nháp stale KHÔNG bị ghi đè trong storage bởi bước URL.
+    const khoa = Object.keys(localStorage).find((k) => k.startsWith(LEARNING_SESSION_PREFIX))!
+    const truoc = localStorage.getItem(khoa)
+    act(() => vi.advanceTimersByTime(600))
+    expect(localStorage.getItem(khoa)).toBe(truoc)
+
+    bam('Dùng lại code đã gõ')
+    expect(buocHienTai()).toContain('Dự đoán')
+    expect(idDangFocus()).toBe('predict')
+    bam('Tự viết')
+    expect(oCode().value).toBe('code cu')
+  })
+
+  it('S09-P-AC03 discard: stale + #predict — "Bắt đầu mới" dùng nháp mới rồi áp hash', () => {
+    luuNhapOMake('code cu')
+    taiLai('#predict', taoBai({ starterCode: '# đề mới' }))
+    // Có hai nút "Bắt đầu mới" (nút đóng modal + nút chính) — bấm nút chính (cuối).
+    const nutMoi = [...document.body.querySelectorAll('button')].filter(
+      (b) => (b.textContent ?? '').trim() === 'Bắt đầu mới',
+    )
+    act(() => nutMoi[nutMoi.length - 1]!.click())
+    expect(buocHienTai()).toContain('Dự đoán')
+    bam('Tự viết')
+    expect(oCode().value).toBe('# đề mới')
+  })
+
+  it('S09-P-AC05 rỗng: shortcut "Kết quả chấm" 1 kích hoạt → Make + focus #ket-qua, nói rõ chưa có kết quả', () => {
+    mo()
+    act(() => lienKet('Kết quả chấm').click())
+    expect(buocHienTai()).toContain('Tự viết')
+    expect(dinhTuyen.loc?.hash).toBe('#ket-qua')
+    expect(idDangFocus()).toBe('ket-qua')
+    expect(chu()).toContain('Chưa có kết quả chấm trong lần mở bài này')
+    expect(mayChay.soLan).toBe(0)
+  })
+
+  it('S09-P-AC05 dở dang: đang chấm, ca 1 đạt nhưng ca 2 chưa về → KHÔNG báo đạt toàn bài', async () => {
+    const hai = taoBai({
+      testCases: [
+        { stdinLines: [], expected: 'xong', match: 'contains', hidden: false, label: 'ca 1' },
+        { stdinLines: [], expected: 'xong', match: 'contains', hidden: false, label: 'ca 2' },
+      ],
+    })
+    let thaCa2: (v: KetQuaChay) => void = () => {}
+    mayChay.impl = () =>
+      mayChay.soLan === 1
+        ? Promise.resolve({ output: 'xong', error: undefined })
+        : new Promise<KetQuaChay>((r) => {
+            thaCa2 = r
+          })
+    mo(hai, '#make')
+    goCode('print("xong")')
+    act(() => nut('Chấm bài').click())
+    await doiChamXong()
+    expect(chu()).toContain('Đang chấm')
+    expect(chu()).not.toContain('Đạt toàn bộ test!')
+    expect(buocHienTai()).toContain('chưa đạt')
+
+    thaCa2({ output: 'xong', error: undefined })
+    await doiChamXong()
+    expect(chu()).toContain('Đạt toàn bộ test!')
+  })
+
+  it('S09-P-AC05/AC07: nhảy bước giữ kết quả trong phiên; không chạy/chấm/lưu thêm vì jump', async () => {
+    mo(taoBai(), '#make')
+    goCode('print("chua")')
+    act(() => nut('Chấm bài').click())
+    await doiChamXong()
+    expect(chu()).toContain('Đã chấm xong')
+    const soChay = mayChay.soLan
+    const soLuu = luuTienDo.mock.calls.length
+    const soSrs = themSrs.mock.calls.length
+
+    bam('Dự đoán')
+    bam('Về nhà')
+    act(() => lienKet('Kết quả chấm').click())
+    quayLai(-1)
+    quayLai(1)
+    expect(idDangFocus()).toBe('ket-qua')
+    expect(chu()).toContain('Đã chấm xong') // kết quả memory còn
+    expect(mayChay.soLan).toBe(soChay)
+    expect(luuTienDo.mock.calls.length).toBe(soLuu)
+    expect(themSrs.mock.calls.length).toBe(soSrs)
+  })
+
+  it('S09-P-AC05 reload: kết quả KHÔNG được dựng lại từ nháp', async () => {
+    mo(taoBai(), '#make')
+    goCode('print("chua")')
+    act(() => nut('Chấm bài').click())
+    await doiChamXong()
+    act(() => vi.advanceTimersByTime(600))
+    taiLai('#ket-qua')
+    expect(idDangFocus()).toBe('ket-qua')
+    expect(chu()).toContain('Chưa có kết quả chấm trong lần mở bài này')
+  })
+
+  it('"Về nhà" không đồng nghĩa đã đạt bài', () => {
+    mo(taoBai(), '#done')
+    expect(chu()).not.toContain('Bài học đã hoàn thành')
+  })
+
+  it('S09-P-AC08: đổi owner giữa lúc chấm chậm → không hiện kết quả phiên cũ, không ghi completed', async () => {
+    let tha: (v: KetQuaChay) => void = () => {}
+    mayChay.impl = () =>
+      new Promise<KetQuaChay>((r) => {
+        tha = r
+      })
+    mo(taoBai(), '#make')
+    goCode('print("xong")')
+    act(() => nut('Chấm bài').click())
+    await doiChamXong()
+    expect(chu()).toContain('Đang chấm')
+
+    dangNhap.ctx = taoCtx('u2')
+    mo(taoBai(), '#make') // render lại cùng root: owner đổi, trang không remount
+    tha({ output: 'xong', error: undefined })
+    await doiChamXong()
+    expect(chu()).not.toContain('Đạt toàn bộ test!')
+    expect(chu()).not.toContain('Đang chấm')
+    expect(luuTienDo.mock.calls.some((c) => c[2] === 'completed')).toBe(false)
+  })
+
+  it('S09-P-AC08: kết quả đã chấm của owner cũ không hiện cho owner mới', async () => {
+    mo(taoBai(), '#make')
+    goCode('print("chua")')
+    act(() => nut('Chấm bài').click())
+    await doiChamXong()
+    expect(chu()).toContain('Đã chấm xong')
+    dangNhap.ctx = taoCtx('u2')
+    mo(taoBai(), '#make')
+    expect(chu()).not.toContain('Đã chấm xong')
+    expect(chu()).toContain('Chưa có kết quả chấm trong lần mở bài này')
+  })
+
+  it('S09-P-AC08: owner A → B → A giữa lúc chấm dở: A không bị kẹt "Đang chấm", chấm lại được', async () => {
+    let tha: (v: KetQuaChay) => void = () => {}
+    mayChay.impl = () =>
+      new Promise<KetQuaChay>((r) => {
+        tha = r
+      })
+    mo(taoBai(), '#make')
+    goCode('print("chua")')
+    act(() => nut('Chấm bài').click())
+    await doiChamXong()
+    expect(chu()).toContain('Đang chấm')
+
+    dangNhap.ctx = taoCtx('u2')
+    mo(taoBai(), '#make')
+    dangNhap.ctx = taoCtx('u1')
+    mo(taoBai(), '#make')
+    tha({ output: 'chua', error: undefined }) // lượt cũ về muộn — phải bị bỏ
+    await doiChamXong()
+    expect(chu()).not.toContain('Đang chấm')
+    expect(chu()).toContain('Chưa có kết quả chấm trong lần mở bài này')
+
+    // Lượt chấm MỚI của chính A vẫn chạy được (không bị chặn bởi cờ `grading` cũ).
+    mayChay.impl = mayChayMacDinh
+    const truoc = mayChay.soLan
+    act(() => nut('Chấm bài').click())
+    await doiChamXong()
+    expect(mayChay.soLan).toBeGreaterThan(truoc)
+    expect(chu()).toContain('Đã chấm xong')
+  })
+
+  it('bấm lại đúng bước đang hiện (chưa có hash) không thêm history entry, chỉ focus', () => {
+    mo()
+    expect(buocHienTai()).toContain('Khái niệm')
+    bam('Khái niệm')
+    expect(dinhTuyen.soPush).toBe(0)
+    expect(dinhTuyen.loc?.hash).toBe('')
+    expect(idDangFocus()).toBe('concept')
   })
 })

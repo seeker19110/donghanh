@@ -180,7 +180,10 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
   đã Approved for implementation (`docs/changelog/0434-*.md`). S10 chờ chuyên gia rà mẫu, S12 chờ pilot ngày 7/14.
   S06b source xong (`docs/changelog/0435-*.md`: hai màn vào cổng AAA, sửa nền gradient, xanh 3 theme).
   S09a source xong (`docs/changelog/0436-*.md`: kết quả STEM giữ số câu gốc, câu thiếu kết quả không bị coi là sai).
-  Bước tiếp theo: S09b Trong bài STEM, rồi S09c/S09d; thu bằng chứng accessibility còn thiếu;
+  S09b source xong (`docs/changelog/0437-*.md`: mục "Trong bài" + neo section cố định, ≤2 thao tác tới lý thuyết/tự kiểm/kết quả).
+  Nợ nhỏ: desktop cần ~50 Tab mới tới "Trong bài" (cây mục lục đứng trước) — đề xuất skip link "Tới nội dung bài".
+  S09d source xong (`docs/changelog/0439-*.md`: hash ↔ bước bài lập trình, lối tắt "Kết quả chấm", sửa kẹt "Đang chấm…" khi đổi tài khoản).
+  Bước tiếp theo: S09c English; thu bằng chứng accessibility còn thiếu;
   xem trạng thái và giới hạn nghiệm thu trong goal, không coi source merge là goal hoàn tất.
 
 > Mỗi mục 1 PR, dừng xin duyệt ở mỗi cổng (CLAUDE.md mục 3). Mục đã ✅ KHÔNG nằm ở đây — xem
