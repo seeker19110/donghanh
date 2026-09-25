@@ -35,12 +35,20 @@ export default function EvaluationResultView({
   evaluation,
   onClose,
   dir,
+  landmark = true,
 }: {
   evaluation: EvaluationResult
   onClose: () => void
   dir: Direction
+  /**
+   * [S09c] Mặc định `true` = giữ NGUYÊN hành vi cho Chat/Speaking: component thay cả màn và tự
+   * là landmark `<main>`. Bài hội thoại mẫu nhúng kết quả vào một phần `#ket-qua` BÊN TRONG
+   * trang đã có `<main>` → truyền `false` để không sinh landmark main thứ hai lồng nhau.
+   */
+  landmark?: boolean
 }) {
   const isA = dir === 'A'
+  const Khung = landmark ? 'main' : 'div'
   const { scores } = evaluation
   const overall = scores.overall
   const scoreGradient =
@@ -52,7 +60,7 @@ export default function EvaluationResultView({
 
   return (
     <div className="flex-1 min-h-0 overflow-y-auto">
-      <main className="max-w-2xl mx-auto px-4 py-6 space-y-4 animate-fade-up">
+      <Khung className="max-w-2xl mx-auto px-4 py-6 space-y-4 animate-fade-up">
         <div className="glass rounded-2xl p-6 text-center">
           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-violet-500 to-purple-400 flex items-center justify-center mx-auto mb-4 shadow-lg">
             <Trophy className="w-6 h-6 text-white" />
@@ -151,7 +159,7 @@ export default function EvaluationResultView({
         >
           {isA ? 'Tiếp tục hội thoại' : 'Continue conversation'}
         </button>
-      </main>
+      </Khung>
     </div>
   )
 }

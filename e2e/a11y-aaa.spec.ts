@@ -40,6 +40,8 @@ const ROUTES = [
   '/tien-do',
   '/tu-dien',
   '/bai-hoc',
+  // [S09c] Bài hội thoại mở theo URL: tiêu đề bài, đích lượt, `#ket-qua` rỗng.
+  '/goc-hoc-tap/english/bai-hoc?lesson=1#ket-qua',
   '/lich-su-hoc',
   '/cau-thong-dung',
   '/lo-trinh-hoc',
@@ -268,7 +270,13 @@ for (const theme of THEMES) {
   for (const route of ROUTES) {
     test(`a11y AAA (nội dung + tiêu đề): ${route} theme=${theme}`, async ({ page }) => {
       await mockLogin(page, 'vi', theme)
-      if (route === '/bai-hoc') await mockLessonContrastSample(page)
+      // [S09c] Bài hội thoại 20 lượt: mỗi CHỮ là một <span> karaoke → hàng trăm nút cần đo
+      // tương phản; đo thật ~22–30s ở máy dev, sát trần 30s mặc định → nới thời gian cho đúng ca này.
+      if (route.startsWith('/goc-hoc-tap/english/bai-hoc?')) test.slow()
+      // Cả danh sách lẫn bài mở theo URL đều có danh sách bài (cột trái desktop) — giữ mẫu
+      // hữu hạn để cuộn đo chữ không kéo vòng tải thêm 350 bài.
+      if (route === '/bai-hoc' || route.startsWith('/goc-hoc-tap/english/bai-hoc'))
+        await mockLessonContrastSample(page)
       await page.goto(route, { waitUntil: 'domcontentloaded' })
       // Dữ liệu curriculum/từ điển tính OFFLINE ở client (networkidle không giúp) nên
       // chờ cố định cho render xong — cùng cách làm với e2e/a11y.spec.ts.

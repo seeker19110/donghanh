@@ -2,8 +2,15 @@
 // SearchBar · LessonList · LessonView · InlinePronounce · WordText · hằng dùng chung nay nằm ở
 // `pages/subjects/english/lessons/`, file này chỉ còn TRANG CHÍNH. `InlinePronounce` re-export
 // để `components/CefrLessonViews.tsx` giữ nguyên đường import.
+//
+// [S09c, 2026-09-24 — spec 2026-09-23 §2.7] Bài đang mở nay nằm trên URL (`?lesson=N`), không còn
+// ở state: mở thẳng/tải lại/Back/Forward đều ra đúng bài. Thứ tự: chỉ mục → xác minh mã bài →
+// nạp chunk → kiểm `id` bài nạp về → LessonView tự giải hash. Mã sai (rỗng/lặp/sai cú pháp/không
+// tồn tại) báo NGAY tại danh sách, không mở bài khác; lỗi mạng/HTTP/dữ liệu có "Thử lại" riêng,
+// không bị gọi là "không tìm thấy bài".
 import { duongDanMonTiengAnh } from '../../../lib/subjectsHost'
-import { useState, useEffect, useDeferredValue } from 'react'
+import { useState, useEffect, useDeferredValue, useMemo, useRef } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { usePageTitle } from '../../../lib/usePageTitle'
 import { Play, Loader2 } from 'lucide-react'
 import Layout from '../../../components/Layout'
@@ -14,6 +21,7 @@ import { getDirection } from '../../../lib/storage'
 import { useAuth } from '../../../context/useAuth'
 import { getViewedIds, markViewed } from '../../../lib/viewedTracking'
 import { loadIndex, loadLesson, type Lesson, type LessonMeta } from '../../../data/lessons/loader'
+import { docThamSoBai, searchBoBai, searchVoiBai } from '../../../lib/englishLessonAnchors'
 import type { Direction } from '../../../types'
 import { getColor } from './lessons/shared'
 import { SearchBar } from './lessons/SearchBar'
@@ -21,6 +29,67 @@ import { LessonList } from './lessons/LessonList'
 import { LessonView } from './lessons/LessonView'
 
 export { InlinePronounce } from './lessons/InlinePronounce'
+
+// Id DOM cố định của các khối trạng thái trên trang (đích focus bằng mã lệnh).
+const ID_DANH_SACH = 'danh-sach-bai'
+const ID_BAI_SAI = 'bai-khong-mo-duoc'
+const ID_LOI_TAI = 'loi-tai-bai'
+
+type ChiMuc =
+  | { trangThai: 'dang-tai'; lan: number }
+  | { trangThai: 'loi'; lan: number }
+  | { trangThai: 'xong'; lan: number; ds: LessonMeta[] }
+
+type KetQuaTaiBai =
+  | { id: number; lan: number; trangThai: 'xong'; lesson: Lesson }
+  | { id: number; lan: number; trangThai: 'loi' }
+
+// Khối báo lỗi tải có nút "Thử lại" — dùng chung cho chỉ mục và nội dung bài.
+function LoiTai({
+  isA,
+  tieuDe,
+  onThuLai,
+  onVeDanhSach,
+}: {
+  isA: boolean
+  tieuDe: string
+  onThuLai: () => void
+  /** Có khi lỗi thuộc một BÀI: cho lối về danh sách ngoài "Thử lại". */
+  onVeDanhSach?: () => void
+}) {
+  return (
+    <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 px-5 py-6 text-center">
+      <h2
+        id={ID_LOI_TAI}
+        tabIndex={-1}
+        className="text-base font-semibold text-white focus:outline-none focus-visible:underline"
+      >
+        {tieuDe}
+      </h2>
+      <p className="mt-2 text-sm text-zinc-400">
+        {isA
+          ? 'Có thể mạng đang chập chờn hoặc máy chủ tạm lỗi. Bài học vẫn còn — thử tải lại nhé.'
+          : 'The network or server may be having trouble. The lesson still exists — please try again.'}
+      </p>
+      <button
+        type="button"
+        onClick={onThuLai}
+        className="tap-44 mt-4 inline-flex items-center justify-center rounded-xl bg-accent-500/20 px-4 py-2 text-sm font-semibold text-accent-300 theme-light:text-accent-800 hover:bg-accent-500/30 transition"
+      >
+        {isA ? 'Thử lại' : 'Try again'}
+      </button>
+      {onVeDanhSach && (
+        <button
+          type="button"
+          onClick={onVeDanhSach}
+          className="tap-44 mt-4 ml-3 inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium text-zinc-300 underline underline-offset-4"
+        >
+          {isA ? 'Về danh sách' : 'Back to list'}
+        </button>
+      )}
+    </div>
+  )
+}
 
 // ── Trang chính ───────────────────────────────────────────────────────────────
 export default function Lessons() {
@@ -32,54 +101,141 @@ export default function Lessons() {
   const isDesktop = useIsDesktopViewport()
   const { user } = useAuth()
   const uid = user?.id ?? ''
-  const [index, setIndex] = useState<LessonMeta[]>([])
+  const location = useLocation()
+  const navigate = useNavigate()
   const [query, setQuery] = useState('')
   const deferredQuery = useDeferredValue(query)
-  const [selectedMeta, setSelectedMeta] = useState<LessonMeta | null>(null)
-  const [lesson, setLesson] = useState<Lesson | null>(null)
-  const [loadingLesson, setLoadingLesson] = useState(false)
-  useEffect(() => {
-    loadIndex().then(setIndex)
-  }, [])
 
-  // Đổi bài đang chọn → bật/tắt trạng thái tải NGAY TRONG RENDER (pattern so-sánh-prev,
-  // không setState đồng bộ trong effect); phần async tải bài vẫn nằm ở effect dưới.
-  const [prevSelectedMeta, setPrevSelectedMeta] = useState(selectedMeta)
-  if (selectedMeta !== prevSelectedMeta) {
-    setPrevSelectedMeta(selectedMeta)
-    if (!selectedMeta) setLesson(null)
-    else setLoadingLesson(true)
-  }
-
+  // ── Chỉ mục bài (có Thử lại) ────────────────────────────────────────────────
+  const [chiMuc, setChiMuc] = useState<ChiMuc>({ trangThai: 'dang-tai', lan: 0 })
+  const lanTaiChiMuc = chiMuc.lan
   useEffect(() => {
-    if (!selectedMeta) return
     let alive = true
-    loadLesson(selectedMeta).then((l) => {
-      if (alive) {
-        setLesson(l)
-        setLoadingLesson(false)
-      }
-    })
-    // Đánh dấu "đã xem" vào localStorage — CTA "Tiếp tục bài N" đọc trực tiếp
-    // localStorage mỗi render nên khi quay lại danh sách sẽ tự tính lại đúng.
-    if (uid) markViewed('lessons', uid, String(selectedMeta.id))
+    loadIndex().then(
+      (ds) => {
+        if (alive) setChiMuc({ trangThai: 'xong', lan: lanTaiChiMuc, ds })
+      },
+      () => {
+        if (alive) setChiMuc({ trangThai: 'loi', lan: lanTaiChiMuc })
+      },
+    )
     return () => {
       alive = false
     }
-  }, [selectedMeta, uid])
+  }, [lanTaiChiMuc])
+  const index = useMemo(() => (chiMuc.trangThai === 'xong' ? chiMuc.ds : []), [chiMuc])
 
-  // Bài đầu tiên (theo thứ tự danh sách) CHƯA xem — gợi ý "Tiếp tục bài N".
-  // Đọc trực tiếp localStorage mỗi render (bỏ khóa invalidation viewedRefresh cũ).
+  // ── Bài được chọn: đọc từ URL, đối chiếu chỉ mục ──────────────────────────────
+  const thamSo = docThamSoBai(location.search)
+  const selectedMeta = thamSo.loai === 'so' ? (index.find((m) => m.id === thamSo.id) ?? null) : null
+  const dangChoChiMuc = thamSo.loai === 'so' && chiMuc.trangThai === 'dang-tai'
+  const baiSai =
+    thamSo.loai === 'sai' ||
+    (thamSo.loai === 'so' && chiMuc.trangThai === 'xong' && selectedMeta === null)
+
+  // ── Nạp nội dung bài (có Thử lại) ─────────────────────────────────────────────
+  // "Đang tải" là SUY RA (kết quả hiện có không thuộc đúng bài/lần tải) chứ không phải state
+  // riêng → không setState đồng bộ trong effect, và response của bài cũ không bao giờ khớp.
+  const [lanTaiBai, setLanTaiBai] = useState(0)
+  const [taiBai, setTaiBai] = useState<KetQuaTaiBai | null>(null)
+  useEffect(() => {
+    if (!selectedMeta) return
+    let alive = true
+    const id = selectedMeta.id
+    loadLesson(selectedMeta).then(
+      (l) => {
+        if (!alive) return
+        // Chốt chặn cuối: bài nạp về phải đúng mã đã xin, không thì coi là lỗi dữ liệu.
+        setTaiBai(
+          l.id === id
+            ? { id, lan: lanTaiBai, trangThai: 'xong', lesson: l }
+            : { id, lan: lanTaiBai, trangThai: 'loi' },
+        )
+      },
+      () => {
+        if (alive) setTaiBai({ id, lan: lanTaiBai, trangThai: 'loi' })
+      },
+    )
+    return () => {
+      alive = false
+    }
+  }, [selectedMeta, lanTaiBai])
+  const ketQuaBai =
+    selectedMeta && taiBai && taiBai.id === selectedMeta.id && taiBai.lan === lanTaiBai
+      ? taiBai
+      : null
+  const lesson = ketQuaBai?.trangThai === 'xong' ? ketQuaBai.lesson : null
+  const loiTaiBai = ketQuaBai?.trangThai === 'loi'
+
+  // Đánh dấu "đã xem" khi MỞ bài — theo mã bài, KHÔNG theo hash, nên nhảy lượt không chạy lại.
+  // CTA "Tiếp tục bài N" đọc trực tiếp localStorage mỗi render nên tự tính lại đúng.
+  const idDangMo = selectedMeta?.id ?? null
+  useEffect(() => {
+    if (uid && idDangMo !== null) markViewed('lessons', uid, String(idDangMo))
+  }, [idDangMo, uid])
+
+  // ── Điều hướng ─────────────────────────────────────────────────────────────
+  /** Chọn một bài: đúng MỘT history entry; chọn lại đúng bài đang mở (không hash) chỉ focus. */
+  function chonBai(meta: LessonMeta) {
+    if (selectedMeta?.id === meta.id && location.hash === '') {
+      document.getElementById('dau-bai')?.focus()
+      return
+    }
+    navigate({
+      pathname: location.pathname,
+      search: searchVoiBai(location.search, meta.id),
+      hash: '',
+    })
+  }
+
+  /** "Danh sách": bỏ lesson + hash một cách xác định (không `navigate(-1)` vô điều kiện). */
+  function veDanhSach() {
+    navigate({ pathname: location.pathname, search: searchBoBai(location.search), hash: '' })
+  }
+
+  // Focus theo trạng thái trang, mỗi lần location đổi:
+  //  · mã bài sai → heading thông báo tại danh sách;
+  //  · vừa rời một bài về danh sách (nút "Danh sách" hoặc Back) → thẻ bài vừa mở nếu còn hiện,
+  //    không thì heading danh sách.
+  const baiTruocRef = useRef<number | null>(null)
+  useEffect(() => {
+    const baiTruoc = baiTruocRef.current
+    baiTruocRef.current = idDangMo
+    if (baiSai) {
+      document.getElementById(ID_BAI_SAI)?.focus()
+      return
+    }
+    if (idDangMo === null && baiTruoc !== null && thamSo.loai === 'khong') {
+      const the = document.getElementById(`lesson-card-${baiTruoc}`)
+      ;(the ?? document.getElementById(ID_DANH_SACH))?.focus()
+    }
+  }, [location.key, baiSai, idDangMo, thamSo.loai])
+
+  // Lỗi tải hiện ra → đưa focus tới heading lỗi để trình đọc màn hình đọc ngay.
+  const coLoi = loiTaiBai || chiMuc.trangThai === 'loi'
+  useEffect(() => {
+    if (coLoi) document.getElementById(ID_LOI_TAI)?.focus()
+  }, [coLoi])
+
+  function thuLaiChiMuc() {
+    setChiMuc({ trangThai: 'dang-tai', lan: chiMuc.lan + 1 })
+  }
+
+  // Bài đầu tiên (theo thứ tự danh sách) CHƯA xem — gợi ý "Tiếp tục bài N". Đây là gợi ý bài
+  // CHƯA XEM, KHÔNG phải khôi phục lượt đang học dở (S09 không lưu vị trí trong bài).
   const nextUnviewed = (() => {
     if (!uid || index.length === 0) return null
     const viewed = getViewedIds('lessons', uid)
-    return index.find((m) => !viewed.has(String(m.id))) ?? null
+    // Bài ĐANG MỞ coi như đã xem ngay trong lượt render này: `markViewed` chạy ở effect (SAU
+    // commit) và không setState, nên nếu chỉ đọc localStorage thì gợi ý vẫn trỏ vào chính bài
+    // đang mở cho tới lần render kế tiếp.
+    return index.find((m) => m.id !== idDangMo && !viewed.has(String(m.id))) ?? null
   })()
 
   // Gợi ý "Tiếp tục bài N" — dùng chung cho cả màn danh sách mobile lẫn cột trái desktop.
   const continueCta = nextUnviewed && !query.trim() && (
     <button
-      onClick={() => setSelectedMeta(nextUnviewed)}
+      onClick={() => chonBai(nextUnviewed)}
       className="w-full flex items-center gap-3 bg-accent-500/10 hover:bg-accent-500/15 border border-accent-500/30 rounded-2xl px-4 py-3 mb-4 transition text-left"
     >
       <div className="w-9 h-9 rounded-xl bg-accent-500/20 flex items-center justify-center shrink-0">
@@ -96,22 +252,82 @@ export default function Lessons() {
     </button>
   )
 
+  // Thông báo mã bài sai — tại danh sách, focus heading (spec §2.7 mục 2).
+  const thongBaoBaiSai = baiSai && (
+    <div className="mb-4 rounded-2xl border border-amber-500/40 bg-amber-500/10 px-4 py-3">
+      <h2
+        id={ID_BAI_SAI}
+        tabIndex={-1}
+        className="text-sm font-semibold text-white focus:outline-none focus-visible:underline"
+      >
+        {isA ? 'Không mở được bài này' : 'This lesson could not be opened'}
+      </h2>
+      <p className="mt-1 text-sm text-zinc-300">
+        {/* Desktop: thông báo nằm ở cột phải, danh sách ở cột TRÁI — không nói "bên dưới". */}
+        {isA
+          ? `Đường dẫn không trỏ tới bài hội thoại nào có trong danh sách. Hãy chọn một bài ${isDesktop ? 'ở cột bên trái' : 'bên dưới'}.`
+          : `The link does not point to any dialogue in the list. Please pick one ${isDesktop ? 'from the list on the left' : 'below'}.`}
+      </p>
+    </div>
+  )
+
+  const dangTai = (
+    <div className="flex items-center justify-center py-24 text-zinc-400" role="status">
+      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+      {isA ? 'Đang tải bài học…' : 'Loading lesson…'}
+    </div>
+  )
+
+  const loiChiMuc = chiMuc.trangThai === 'loi' && (
+    <LoiTai
+      isA={isA}
+      tieuDe={isA ? 'Không tải được danh sách bài' : 'Could not load the lesson list'}
+      onThuLai={thuLaiChiMuc}
+    />
+  )
+
+  // Nội dung chi tiết bài (dùng chung hai khuôn). `key` theo bài/owner/chiều: đổi một trong ba là
+  // remount LessonView → mọi audio/ghi âm/chấm/kết quả trong bộ nhớ của lần mở cũ bị huỷ sạch.
+  function chiTiet(variant: 'mobile' | 'desktop') {
+    if (!selectedMeta) return null
+    if (loiTaiBai) {
+      return (
+        <LoiTai
+          isA={isA}
+          tieuDe={
+            isA
+              ? `Không tải được bài ${selectedMeta.id}: ${selectedMeta.title}`
+              : `Could not load lesson ${selectedMeta.id}`
+          }
+          onThuLai={() => setLanTaiBai((n) => n + 1)}
+          {...(variant === 'mobile' ? { onVeDanhSach: veDanhSach } : {})}
+        />
+      )
+    }
+    if (!lesson) return dangTai
+    return (
+      <LessonView
+        key={`${lesson.id}:${uid}:${dir}`}
+        lesson={lesson}
+        isA={isA}
+        color={getColor(selectedMeta.id)}
+        plan={user?.plan ?? 'free'}
+        userId={uid}
+        onBack={veDanhSach}
+        {...(variant === 'desktop' ? { variant } : {})}
+      />
+    )
+  }
+
   // ── Desktop (≥1024px): MỘT màn hình master–detail ─────────────────────────
   // Trước đây desktop đi đúng luồng của điện thoại: danh sách BỊ THAY THẾ bởi chi tiết. Muốn
   // đổi bài phải quay lại rồi cuộn tìm lại từ đầu, trong khi màn 1280px thừa chỗ để giữ cả hai.
-  // Dưới 1024px KHÔNG đổi gì — hai nhánh dưới đây giữ nguyên như trước đợt này.
   if (isDesktop) {
-    const selectedColor = selectedMeta ? getColor(selectedMeta.id) : null
     return (
       <div className="min-h-dvh bg-zinc-950">
-        {/* `focus`: trang ngồi học lâu → ẩn bộ chuyển Studio + huy hiệu streak (xem Layout). */}
-        <Layout
-          backTo={duongDanMonTiengAnh()}
-          back
-          focus
-          title={selectedMeta?.title}
-          subtitle={selectedMeta?.situation}
-        />
+        {/* `focus`: trang ngồi học lâu → ẩn bộ chuyển Studio + huy hiệu streak (xem Layout).
+            [S09c] Không truyền title/subtitle bài: tên bài đã là <h1> trong nội dung. */}
+        <Layout backTo={duongDanMonTiengAnh()} back focus />
         <PageShell width="standard" baseWidth="max-w-3xl">
           <TwoPane
             isDesktop
@@ -119,25 +335,36 @@ export default function Lessons() {
             railLabel={isA ? 'Danh sách bài hội thoại' : 'Dialogue list'}
             rail={
               <div className="pr-1">
-                <h2 className="t-label px-1 pb-2 text-zinc-300">
+                <h2
+                  id={ID_DANH_SACH}
+                  tabIndex={-1}
+                  className="t-label px-1 pb-2 text-zinc-300 focus:outline-none"
+                >
                   {isA ? `${index.length} bài hội thoại` : `${index.length} dialogues`}
                 </h2>
                 <div className="mb-3">
                   <SearchBar query={query} setQuery={setQuery} isA={isA} variant="desktop" />
                 </div>
                 {continueCta}
+                {loiChiMuc}
                 <LessonList
                   lessons={index}
                   isA={isA}
                   query={deferredQuery}
-                  onSelect={setSelectedMeta}
+                  onSelect={chonBai}
                   compact
-                  selectedId={selectedMeta?.id}
+                  {...(selectedMeta ? { selectedId: selectedMeta.id } : {})}
                 />
               </div>
             }
           >
-            {!selectedMeta ? (
+            {selectedMeta ? (
+              chiTiet('desktop')
+            ) : dangChoChiMuc ? (
+              dangTai
+            ) : baiSai ? (
+              thongBaoBaiSai
+            ) : (
               // Màn rỗng: KHÔNG tự chọn bài thay người dùng — mở sẵn một bài bất kỳ thì lần
               // sau quay lại họ không phân biệt được đâu là bài mình đang học dở.
               <div className="rounded-3xl border border-dashed border-zinc-800 bg-zinc-900/40 px-6 py-16 text-center">
@@ -153,21 +380,6 @@ export default function Lessons() {
                     : 'The lesson list stays on the left, so you can switch lessons at any time without leaving this page.'}
                 </p>
               </div>
-            ) : loadingLesson || !lesson || !selectedColor ? (
-              <div className="flex items-center justify-center py-24 text-zinc-400">
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                {isA ? 'Đang tải bài học…' : 'Loading lesson…'}
-              </div>
-            ) : (
-              <LessonView
-                lesson={lesson}
-                isA={isA}
-                color={selectedColor}
-                plan={user?.plan ?? 'free'}
-                userId={uid}
-                onBack={() => setSelectedMeta(null)}
-                variant="desktop"
-              />
             )}
           </TwoPane>
         </PageShell>
@@ -176,30 +388,16 @@ export default function Lessons() {
   }
 
   // ── Màn hình chi tiết bài học (mobile) ────────────────────────────────────
-  if (selectedMeta) {
-    const c = getColor(selectedMeta.id)
+  if (selectedMeta || dangChoChiMuc) {
     return (
       <div className="h-[calc(100dvh-var(--bnav-h))] overflow-hidden bg-zinc-950 flex flex-col">
-        <Layout
-          backTo={duongDanMonTiengAnh()}
-          title={selectedMeta.title}
-          subtitle={selectedMeta.situation}
-          back
-        />
-        {loadingLesson || !lesson ? (
-          <div className="flex-1 flex items-center justify-center text-zinc-400">
-            <Loader2 className="w-5 h-5 animate-spin mr-2" />
-            {isA ? 'Đang tải bài học…' : 'Loading lesson…'}
-          </div>
+        <Layout backTo={duongDanMonTiengAnh()} back />
+        {selectedMeta && lesson && !loiTaiBai ? (
+          chiTiet('mobile')
         ) : (
-          <LessonView
-            lesson={lesson}
-            isA={isA}
-            color={c}
-            plan={user?.plan ?? 'free'}
-            userId={uid}
-            onBack={() => setSelectedMeta(null)}
-          />
+          <div className="flex-1 overflow-y-auto px-4 py-4">
+            {selectedMeta ? chiTiet('mobile') : dangTai}
+          </div>
         )}
       </div>
     )
@@ -224,16 +422,18 @@ export default function Lessons() {
           baseWidth="max-w-3xl"
           className="!pt-4 !pb-2 sm:!pb-[calc(1.5rem+var(--bnav-h))]"
         >
-          <h1 tabIndex={-1} className="sr-only focus:outline-none">
+          <h1 id={ID_DANH_SACH} tabIndex={-1} className="sr-only focus:outline-none">
             {isA ? 'Các bài hội thoại mẫu thông dụng' : 'Common sample dialogues'}
           </h1>
+          {thongBaoBaiSai}
           {/* Gợi ý "Tiếp tục bài N" — bài đầu tiên chưa xem, ẩn khi đang tìm kiếm */}
           {continueCta}
           {/* Search bar — chỉ hiện ở trên trên desktop */}
           <div className="hidden sm:block mb-4">
             <SearchBar query={query} setQuery={setQuery} isA={isA} variant="desktop" />
           </div>
-          <LessonList lessons={index} isA={isA} query={deferredQuery} onSelect={setSelectedMeta} />
+          {loiChiMuc}
+          <LessonList lessons={index} isA={isA} query={deferredQuery} onSelect={chonBai} />
         </PageShell>
       </div>
 

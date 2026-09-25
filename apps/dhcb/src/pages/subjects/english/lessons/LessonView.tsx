@@ -1,9 +1,16 @@
 // apps/dhcb/src/pages/subjects/english/lessons/LessonView.tsx — chi tiết bài học: audio player +
 // karaoke. Tách từ Lessons.tsx 2026-09-06 (mã giữ nguyên); cùng ngày tách tiếp chế độ "Đóng vai"
 // ra useRolePlay.ts + RolePlayToolbar/RolePlayTurnControls/RolePlayFinishBar.
+//
+// [S09c, 2026-09-24 — spec 2026-09-23 §2.7] Định vị trong bài bằng URL: `#dau-bai`, `#hoi-thoai`,
+// `#luot-N`, `#ket-qua` (danh sách trắng ở lib/englishLessonAnchors.ts). Nhảy đích chỉ ĐỊNH VỊ
+// phần đọc: không seek audio, không đổi lượt đóng vai, không mở micro/chấm/tự phát. Mọi điều
+// hướng đều DỪNG phát/ghi âm và vô hiệu callback cũ (thế hệ `phatRef` + `useRolePlay`). Kết quả
+// chấm hiện TẠI CHỖ ở `#ket-qua` (không thay cả màn như trước) để hội thoại và đích lượt vẫn còn.
 
-import { useState, useRef, useEffect, useMemo } from 'react'
+import { useState, useRef, useEffect, useMemo, useCallback, useEffectEvent } from 'react'
 import type { PointerEvent } from 'react'
+import { useLocation, useNavigate, useNavigationType } from 'react-router-dom'
 import { Play, Pause, Square, Volume2, ChevronUp, ChevronDown } from 'lucide-react'
 import {
   speak,
@@ -29,6 +36,19 @@ import { useRolePlay } from './useRolePlay'
 import { RolePlayToolbar } from './RolePlayToolbar'
 import { RolePlayTurnControls } from './RolePlayTurnControls'
 import { RolePlayFinishBar } from './RolePlayFinishBar'
+import { TrongBaiHoiThoai, type LuotTrongBai } from './TrongBaiHoiThoai'
+import {
+  giaiNeoBaiAnh,
+  kieuCuonTheoDoc,
+  NEO_BAI_ANH,
+  neoLuot,
+  nhanLuot,
+} from '../../../../lib/englishLessonAnchors'
+
+// Khoảng thở giữa mép trên vùng nhìn thấy và đích sau khi nhảy.
+const KHOANG_THO_PX = 12
+// Header sticky 56px + khoảng thở, khớp `top-16` của thanh điều khiển ở khuôn desktop.
+const DAU_TRANG_DESKTOP_PX = 64
 
 // ── Chi tiết bài học với audio player + karaoke ──────────────────────────────
 export function LessonView({
@@ -118,7 +138,10 @@ export function LessonView({
   const [mode, setMode] = useState<AudioMode>('en')
   const [wordSync, setWordSync] = useState<WordSync | null>(null)
 
-  const stopRef = useRef(false)
+  // Thế hệ phát audio: mỗi lần phát/dừng/điều hướng tăng lên; chuỗi phát cũ so lại sau MỖI
+  // `await` và tự thoát nếu đã khác. Cờ boolean `stopRef` cũ bị lượt "Phát tất cả" mới đặt lại
+  // `false` trong khi vòng cũ còn đang chờ giọng đọc → hai vòng chạy song song.
+  const phatRef = useRef(0)
   const pauseRef = useRef(false)
   const speedRef = useRef<Speed>(getRatePref())
   const modeRef = useRef<AudioMode>('en')
@@ -128,8 +151,10 @@ export function LessonView({
 
   // Dừng audio khi thoát trang hoặc back về danh sách
   useEffect(() => {
+    // Giữ chính đối tượng ref (không phải giá trị) để cleanup vô hiệu hoá đúng thế hệ đang chạy.
+    const phat = phatRef
     return () => {
-      stopRef.current = true
+      phat.current++
       stopSpeaking()
     }
   }, [])
@@ -161,7 +186,8 @@ export function LessonView({
 
   async function startPlayAll() {
     unlockAudio() // mở khoá audio iOS NGAY trong cú bấm (trước mọi await)
-    stopRef.current = false
+    const the = ++phatRef.current
+    const daDung = () => the !== phatRef.current
     pauseRef.current = false
     setPlaying(true)
     setPaused(false)
@@ -174,7 +200,7 @@ export function LessonView({
     // Tải nhanh hơn đọc nên bộ nạp luôn đi trước trình phát; trùng câu thì gộp (dedup).
     void (async () => {
       for (const t of lesson.turns) {
-        if (stopRef.current) break
+        if (daDung()) break
         const v = t.speaker === 'A' ? voiceARef.current : voiceBRef.current
         const m = modeRef.current
         if (m === 'en' || m === 'both') await prefetchSpeech(t.en, 'en-US', v)
@@ -183,14 +209,15 @@ export function LessonView({
     })()
 
     for (let i = 0; i < lesson.turns.length; i++) {
-      if (stopRef.current) break
-      while (pauseRef.current && !stopRef.current) await new Promise((r) => setTimeout(r, 100))
-      if (stopRef.current) break
+      if (daDung()) return
+      while (pauseRef.current && !daDung()) await new Promise((r) => setTimeout(r, 100))
+      if (daDung()) return
 
       const t = lesson.turns[i]
       if (!t) continue // i < turns.length nên t luôn có; guard để TS narrow kiểu
       setActiveTurn(i)
-      turnRefs.current[i]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      // Cuộn theo dòng đang đọc — mượt, trừ khi người dùng bật giảm chuyển động.
+      turnRefs.current[i]?.scrollIntoView({ behavior: kieuCuonTheoDoc(), block: 'center' })
 
       const targetText = isA ? t.en : t.vi
       const transText = isA ? t.vi : t.en
@@ -212,25 +239,25 @@ export function LessonView({
         await speak(targetText, targetLang, curVoice, curSpeed, (wi) =>
           syncWord({ turnIdx: i, lang: tLang, wordIdx: wi }),
         )
-        if (!stopRef.current) {
-          syncWord(null)
-          await new Promise((r) => setTimeout(r, 250))
-          await speak(transText, transLang, curVoice, curSpeed, (wi) =>
-            syncWord({ turnIdx: i, lang: rLang, wordIdx: wi }),
-          )
-        }
+        if (daDung()) return
+        syncWord(null)
+        await new Promise((r) => setTimeout(r, 250))
+        if (daDung()) return
+        await speak(transText, transLang, curVoice, curSpeed, (wi) =>
+          syncWord({ turnIdx: i, lang: rLang, wordIdx: wi }),
+        )
       }
 
+      if (daDung()) return
       syncWord(null)
-      if (!stopRef.current) await new Promise((r) => setTimeout(r, 500))
+      await new Promise((r) => setTimeout(r, 500))
     }
 
-    if (!stopRef.current) {
-      setActiveTurn(null)
-      setPlaying(false)
-      setPaused(false)
-      syncWord(null)
-    }
+    if (daDung()) return
+    setActiveTurn(null)
+    setPlaying(false)
+    setPaused(false)
+    syncWord(null)
   }
 
   function handlePause() {
@@ -244,7 +271,8 @@ export function LessonView({
     resumeCurrentAudio()
   }
   function handleStop() {
-    stopRef.current = true
+    phatRef.current++
+    pauseRef.current = false
     stopSpeaking()
     setPlaying(false)
     setPaused(false)
@@ -255,7 +283,10 @@ export function LessonView({
   async function playTurn(idx: number) {
     unlockAudio() // mở khoá audio iOS NGAY trong cú bấm (trước mọi await)
     if (playing || paused) handleStop()
+    const the = ++phatRef.current
+    const daDung = () => the !== phatRef.current
     await new Promise((r) => setTimeout(r, 80))
+    if (daDung()) return
 
     const t = lesson.turns[idx]
     if (!t) return // idx ngoài phạm vi thì không phát gì
@@ -281,12 +312,15 @@ export function LessonView({
       await speak(targetText, targetLang, curVoice, curSpeed, (wi) =>
         syncWord({ turnIdx: idx, lang: tLang, wordIdx: wi }),
       )
+      if (daDung()) return
       syncWord(null)
       await new Promise((r) => setTimeout(r, 250))
+      if (daDung()) return
       await speak(transText, transLang, curVoice, curSpeed, (wi) =>
         syncWord({ turnIdx: idx, lang: rLang, wordIdx: wi }),
       )
     }
+    if (daDung()) return
     syncWord(null)
   }
 
@@ -307,6 +341,7 @@ export function LessonView({
     rpThrottled,
     startRolePlay,
     stopRolePlay,
+    huyTheoDieuHuong,
     closeRolePlayResult,
     gradeRolePlay,
     beginRolePlayRecording,
@@ -323,6 +358,97 @@ export function LessonView({
     setActiveTurn,
     syncWord,
   })
+
+  // ── Định vị trong bài theo URL (S09c) ─────────────────────────────────────────
+  const location = useLocation()
+  const navigate = useNavigate()
+  const kieuDieuHuong = useNavigationType()
+  const panelRef = useRef<HTMLDivElement>(null)
+  const toolbarRef = useRef<HTMLDivElement>(null)
+  // Bấm lại CÙNG đích: hash không đổi nên không có gì để effect phản ứng. Bộ đếm này là tín
+  // hiệu "focus lại đích hiện tại" mà KHÔNG thêm history entry.
+  const [lanNhay, setLanNhay] = useState(0)
+  // Hash ĐANG CHỜ router áp (đã push nhưng location chưa kịp đổi) — so với nó thay vì
+  // `location.hash` trong closure, để bấm nhanh liên tiếp không đẩy entry trùng (bài học S09b).
+  const hashDangCho = useRef<string | null>(null)
+  useEffect(() => {
+    if (hashDangCho.current === location.hash || kieuDieuHuong === 'POP') hashDangCho.current = null
+  }, [location.hash, kieuDieuHuong])
+
+  /** Nhảy tới một đích trong bài: chỉ đổi hash (giữ pathname + query), không đụng audio/nháp. */
+  const nhay = useCallback(
+    (id: string) => {
+      const hashMoi = `#${id}`
+      if ((hashDangCho.current ?? location.hash) === hashMoi) {
+        setLanNhay((n) => n + 1)
+        return
+      }
+      hashDangCho.current = hashMoi
+      navigate({ pathname: location.pathname, search: location.search, hash: hashMoi })
+    },
+    [location.hash, location.pathname, location.search, navigate],
+  )
+
+  // Mọi điều hướng áp lên bài đang mở (đổi hash, Back/Forward) → dừng phát, huỷ ghi âm/STT/chấm
+  // đang chờ; đóng vai đang chạy kết thúc CHƯA hoàn thành. Đổi bài/owner/chiều thì trang remount
+  // LessonView (xem `key` ở Lessons.tsx) và cleanup lo phần đó.
+  const huyKhiDieuHuong = useEffectEvent(() => {
+    handleStop()
+    huyTheoDieuHuong()
+  })
+  const keyDaXuLy = useRef(location.key)
+  useEffect(() => {
+    if (keyDaXuLy.current === location.key) return
+    keyDaXuLy.current = location.key
+    huyKhiDieuHuong()
+  }, [location.key])
+
+  // Focus + cuộn tới đích sau khi ĐÚNG bài này đã render (component chỉ sống khi bài đã nạp).
+  // Chỉ gọi `getElementById` với id đã qua danh sách trắng — không dựng CSS selector từ URL.
+  const hashDaXuLy = useRef<string | null>(null)
+  useEffect(() => {
+    const panel = panelRef.current
+    if (!panel) return
+    const truoc = hashDaXuLy.current
+    hashDaXuLy.current = location.hash
+    const dich = giaiNeoBaiAnh(location.hash, lesson.turns.length)
+    const dauBai = document.getElementById(NEO_BAI_ANH.dauBai)
+
+    if (dich.loai === 'khong') {
+      // Không hash: người học vừa CHỌN bài (PUSH) hoặc Back về entry đầu bài → focus tiêu đề,
+      // không cuộn. Mở thẳng/tải lại (POP) thì giữ hành vi cũ, không cướp focus.
+      const quayVeDauBai = truoc !== null && truoc !== ''
+      const vuaChonBai = truoc === null && kieuDieuHuong !== 'POP'
+      if (quayVeDauBai || vuaChonBai) dauBai?.focus({ preventScroll: true })
+      return
+    }
+    const el = dich.loai === 'dich' ? document.getElementById(dich.id) : null
+    const target = el && panel.contains(el) ? el : dauBai
+    if (!target) return
+    target.focus({ preventScroll: true })
+    // Chừa chỗ cho header + thanh điều khiển sticky ở desktop; mobile cuộn trong panel riêng
+    // (thanh điều khiển nằm ngoài panel) nên chỉ cần khoảng thở.
+    const lech = isDesktopPane
+      ? DAU_TRANG_DESKTOP_PX + (toolbarRef.current?.offsetHeight ?? 0) + KHOANG_THO_PX
+      : KHOANG_THO_PX
+    target.style.scrollMarginTop = `${lech}px`
+    // `instant` kể cả khi không bật giảm chuyển động: cuộn mượt làm focus và vị trí lệch nhau
+    // trong lúc chạy; người bật prefers-reduced-motion không bao giờ gặp chuyển động.
+    target.scrollIntoView({ block: 'start', behavior: 'instant' })
+  }, [location.hash, lanNhay, lesson.turns.length, kieuDieuHuong, isDesktopPane])
+
+  // Chấm xong → đưa người học tới `#ket-qua` (một entry mới, Back về chỗ cũ).
+  const danhGiaDaXuLy = useRef(rpEvaluation)
+  useEffect(() => {
+    if (rpEvaluation && rpEvaluation !== danhGiaDaXuLy.current) nhay(NEO_BAI_ANH.ketQua)
+    danhGiaDaXuLy.current = rpEvaluation
+  }, [rpEvaluation, nhay])
+
+  // Đóng kết quả: giữ reset đóng vai của caller, rồi về phần hội thoại.
+  function dongKetQua() {
+    closeRolePlayResult()
+    nhay(NEO_BAI_ANH.hoiThoai)
+  }
 
   const speakerName = (role: 'A' | 'B') =>
     role === 'A'
@@ -365,16 +491,10 @@ export function LessonView({
     { key: 'vi', label: 'VI' },
   ]
 
-  // Đang xem kết quả chấm điểm đóng vai → thay toàn bộ nội dung màn bài học.
-  if (rpEvaluation) {
-    return (
-      <EvaluationResultView
-        evaluation={rpEvaluation}
-        onClose={closeRolePlayResult}
-        dir={isA ? 'A' : 'B'}
-      />
-    )
-  }
+  const dsLuot: LuotTrongBai[] = lesson.turns.map((t, i) => ({
+    soThuTu: i + 1,
+    nhan: nhanLuot(i + 1, speakerName(t.speaker), isA),
+  }))
 
   return (
     <>
@@ -383,6 +503,7 @@ export function LessonView({
           dài vài màn hình, mà Tạm dừng/Dừng là thứ cần đúng lúc đang nghe dở. `top-16` chừa
           đúng header sticky cao 56px cộng khoảng thở, khớp `top-20` của cột phụ `TwoPane`. */}
       <div
+        ref={toolbarRef}
         className={
           isDesktopPane
             ? 'sticky top-16 z-10 mb-4 rounded-2xl border border-zinc-800/60 bg-zinc-950/95 backdrop-blur-sm px-3 py-2.5'
@@ -405,6 +526,9 @@ export function LessonView({
                 <div className="h-3.5 w-px bg-zinc-700" />
               </>
             )}
+
+            {/* [S09c] Các PHẦN của bài đang mở — luôn trong tầm tay trên thanh điều khiển. */}
+            <TrongBaiHoiThoai isA={isA} luot={dsLuot} onChon={nhay} />
 
             {/* Play / Pause / Resume / Stop */}
             <div className="flex items-center gap-1.5">
@@ -464,7 +588,7 @@ export function LessonView({
               >
                 <ChevronUp className="w-3.5 h-3.5" />
               </button>
-              <span className="min-w-[30px] text-center px-1.5 py-0.5 rounded text-xs font-medium bg-sky-500/20 text-sky-300 theme-light:text-sky-900 border border-sky-500/40">
+              <span className="min-w-[30px] text-center px-1.5 py-0.5 rounded text-xs font-medium bg-sky-500/20 text-sky-200 theme-light:text-sky-900 border border-sky-500/40">
                 {speed}×
               </span>
               <button
@@ -574,112 +698,180 @@ export function LessonView({
 
       {/* Bong bóng hội thoại — khuôn mobile cuộn NỘI BỘ (không cuộn cả trang); khuôn desktop
           nằm trong luồng cuộn chung của `PageShell` nên không tự cuộn nữa. */}
-      <div className={isDesktopPane ? '' : 'flex-1 overflow-y-auto'}>
-        <div
-          className={
-            isDesktopPane ? 'space-y-3 pb-8' : 'max-w-3xl mx-auto px-4 py-4 space-y-3 pb-8'
-          }
-        >
-          {lesson.turns.map((t, i) => {
-            const isActive = activeTurn === i
-            const isLeft = t.speaker === 'A'
-            const isMyTurn = rolePlay !== null && rpIdx === i
+      <div ref={panelRef} className={isDesktopPane ? '' : 'flex-1 overflow-y-auto'}>
+        <div className={isDesktopPane ? 'pb-8' : 'max-w-3xl mx-auto px-4 py-4 pb-8'}>
+          {/* [S09c] Tiêu đề bài = đích `#dau-bai` và nơi rơi về khi hash hỏng. Header trang không
+              còn nhắc lại tên bài (tránh lặp chữ hai lần trên cùng một màn). */}
+          <h1
+            id={NEO_BAI_ANH.dauBai}
+            tabIndex={-1}
+            className="text-lg font-bold leading-snug text-white focus:outline-none focus-visible:underline"
+          >
+            {isA ? `Bài ${lesson.id}: ${lesson.title}` : `Lesson ${lesson.id}: ${lesson.title}`}
+          </h1>
+          <p className="mt-1 text-sm text-zinc-400">{lesson.situation}</p>
 
-            return (
-              <div
-                key={i}
-                ref={(el) => {
-                  turnRefs.current[i] = el
-                }}
-                className={`flex ${isLeft ? 'justify-start' : 'justify-end'}`}
-              >
+          <h2
+            id={NEO_BAI_ANH.hoiThoai}
+            tabIndex={-1}
+            className="mt-5 mb-3 text-sm font-semibold text-zinc-300 focus:outline-none focus-visible:underline"
+          >
+            {isA
+              ? `Hội thoại · ${lesson.turns.length} lượt`
+              : `Dialogue · ${lesson.turns.length} turns`}
+          </h2>
+
+          <div className="space-y-3">
+            {lesson.turns.map((t, i) => {
+              const isActive = activeTurn === i
+              const isLeft = t.speaker === 'A'
+              const isMyTurn = rolePlay !== null && rpIdx === i
+
+              return (
                 <div
-                  className={`max-w-[85%] rounded-2xl p-3.5 transition-all duration-300 ${
-                    isActive
-                      ? isLeft
-                        ? `${color.bg} border ${color.border} shadow-lg`
-                        : 'bg-sky-500/15 border border-sky-500/50 shadow-lg shadow-sky-500/10'
-                      : isLeft
-                        ? 'bg-zinc-900 border border-zinc-800'
-                        : 'bg-accent-500/10 border border-accent-500/30'
-                  } ${isMyTurn ? 'ring-2 ring-offset-1 ring-offset-zinc-950 ring-accent-500/60 animate-pulse' : ''}`}
+                  key={i}
+                  ref={(el) => {
+                    turnRefs.current[i] = el
+                  }}
+                  className={`flex ${isLeft ? 'justify-start' : 'justify-end'}`}
                 >
-                  {/* Nhãn speaker + nút phát + nút kiểm tra phát âm */}
-                  <div className="flex items-center justify-between gap-2 mb-1.5">
-                    <p className="text-[11px] font-medium text-zinc-400">
-                      {t.speaker === 'A'
-                        ? isA
-                          ? (lesson.speakerAName?.vi ?? 'Người A')
-                          : (lesson.speakerAName?.en ?? 'Person A')
-                        : isA
-                          ? (lesson.speakerBName?.vi ?? 'Người B')
-                          : (lesson.speakerBName?.en ?? 'Person B')}
-                      {isMyTurn && (
-                        <span className="ml-1.5 text-violet-400 theme-light:text-violet-800">
-                          {isA ? '· đến lượt bạn' : '· your turn'}
+                  {/* [S09c] Đích `#luot-N` (N theo thứ tự nguồn, từ 1): focus được bằng mã lệnh,
+                    không thêm điểm dừng Tab; nhãn "Lượt N — người nói" cho trình đọc màn hình. */}
+                  <div
+                    id={neoLuot(i + 1)}
+                    role="group"
+                    tabIndex={-1}
+                    aria-label={nhanLuot(i + 1, speakerName(t.speaker), isA)}
+                    className={`max-w-[85%] rounded-2xl p-3.5 transition-all duration-300 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-accent-400 ${
+                      isActive
+                        ? isLeft
+                          ? `${color.bg} border ${color.border} shadow-lg`
+                          : 'bg-sky-500/15 border border-sky-500/50 shadow-lg shadow-sky-500/10'
+                        : isLeft
+                          ? 'bg-zinc-900 border border-zinc-800'
+                          : 'bg-accent-500/10 border border-accent-500/30'
+                    } ${isMyTurn ? 'ring-2 ring-offset-1 ring-offset-zinc-950 ring-accent-500/60 animate-pulse' : ''}`}
+                  >
+                    {/* Nhãn speaker + nút phát + nút kiểm tra phát âm */}
+                    <div className="flex items-center justify-between gap-2 mb-1.5">
+                      <p className="text-[11px] font-medium text-zinc-400">
+                        {/* Số lượt nhìn thấy được để khớp với lưới "Tới lượt" trong mục Trong bài. */}
+                        <span aria-hidden="true" className="mr-1.5 tabular-nums">
+                          {i + 1}.
                         </span>
-                      )}
-                    </p>
-                    {/* gap-2 để vùng chạm 44px của 2 nút cạnh nhau không đè lên nhau */}
-                    {!rolePlay && (
-                      <div className="flex items-center gap-2">
-                        <InlinePronounce
-                          text={isA ? t.en : t.vi}
-                          lang={isA ? 'en-US' : 'vi-VN'}
-                          isA={isA}
-                        />
-                        <button
-                          onClick={() => void playTurn(i)}
-                          title={isA ? 'Nghe câu này' : 'Play this line'}
-                          aria-label={isA ? 'Nghe câu này' : 'Play this line'}
-                          className={`tap-44 shrink-0 w-9 h-9 flex items-center justify-center rounded-full transition ${
-                            isActive
-                              ? `${color.text} bg-zinc-800/50`
-                              : 'text-zinc-400 hover:text-zinc-300 hover:bg-zinc-700'
-                          }`}
-                        >
-                          <Volume2
-                            className={`w-[1.125rem] h-[1.125rem] ${isActive ? 'animate-pulse' : ''}`}
+                        {speakerName(t.speaker)}
+                        {isMyTurn && (
+                          <span className="ml-1.5 text-violet-400 theme-light:text-violet-800">
+                            {isA ? '· đến lượt bạn' : '· your turn'}
+                          </span>
+                        )}
+                      </p>
+                      {/* gap-2 để vùng chạm 44px của 2 nút cạnh nhau không đè lên nhau */}
+                      {!rolePlay && (
+                        <div className="flex items-center gap-2">
+                          <InlinePronounce
+                            text={isA ? t.en : t.vi}
+                            lang={isA ? 'en-US' : 'vi-VN'}
+                            isA={isA}
                           />
-                        </button>
-                      </div>
+                          <button
+                            onClick={() => void playTurn(i)}
+                            title={isA ? 'Nghe câu này' : 'Play this line'}
+                            aria-label={isA ? 'Nghe câu này' : 'Play this line'}
+                            className={`tap-44 shrink-0 w-9 h-9 flex items-center justify-center rounded-full transition ${
+                              isActive
+                                ? `${color.text} bg-zinc-800/50`
+                                : 'text-zinc-400 hover:text-zinc-300 hover:bg-zinc-700'
+                            }`}
+                          >
+                            <Volume2
+                              className={`w-[1.125rem] h-[1.125rem] ${isActive ? 'animate-pulse' : ''}`}
+                            />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Câu chính */}
+                    <WordText
+                      text={isA ? t.en : t.vi}
+                      baseClass={`text-sm leading-relaxed ${isActive ? color.text : 'text-white'}`}
+                      wordSync={wordSync}
+                      turnIdx={i}
+                      lang={isA ? 'en' : 'vi'}
+                    />
+
+                    {/* Bản dịch */}
+                    <WordText
+                      text={isA ? t.vi : t.en}
+                      baseClass="text-xs text-zinc-400 italic mt-1 leading-relaxed"
+                      wordSync={wordSync}
+                      turnIdx={i}
+                      lang={isA ? 'vi' : 'en'}
+                    />
+
+                    {/* Đến lượt người dùng trong chế độ đóng vai → nút ghi âm thay vì phát TTS */}
+                    {isMyTurn && (
+                      <RolePlayTurnControls
+                        isA={isA}
+                        canRecord={canRecord}
+                        rpRecording={rpRecording}
+                        rpTranscribing={rpTranscribing}
+                        beginRolePlayRecording={beginRolePlayRecording}
+                        finishRolePlayRecording={finishRolePlayRecording}
+                        skipRolePlayLine={skipRolePlayLine}
+                      />
                     )}
                   </div>
-
-                  {/* Câu chính */}
-                  <WordText
-                    text={isA ? t.en : t.vi}
-                    baseClass={`text-sm leading-relaxed ${isActive ? color.text : 'text-white'}`}
-                    wordSync={wordSync}
-                    turnIdx={i}
-                    lang={isA ? 'en' : 'vi'}
-                  />
-
-                  {/* Bản dịch */}
-                  <WordText
-                    text={isA ? t.vi : t.en}
-                    baseClass="text-xs text-zinc-400 italic mt-1 leading-relaxed"
-                    wordSync={wordSync}
-                    turnIdx={i}
-                    lang={isA ? 'vi' : 'en'}
-                  />
-
-                  {/* Đến lượt người dùng trong chế độ đóng vai → nút ghi âm thay vì phát TTS */}
-                  {isMyTurn && (
-                    <RolePlayTurnControls
-                      isA={isA}
-                      canRecord={canRecord}
-                      rpRecording={rpRecording}
-                      rpTranscribing={rpTranscribing}
-                      beginRolePlayRecording={beginRolePlayRecording}
-                      finishRolePlayRecording={finishRolePlayRecording}
-                      skipRolePlayLine={skipRolePlayLine}
-                    />
-                  )}
                 </div>
+              )
+            })}
+          </div>
+
+          {/* [S09c] `#ket-qua` LUÔN có. Chỉ hiện kết quả chấm TRONG BỘ NHỚ của đúng lần mở bài
+              này (LessonView remount theo bài/owner/chiều) — không điểm giả, không tự chấm, không
+              gắn lỗi thứ N vào lượt N (lỗi chưa có định danh lượt). */}
+          <section aria-labelledby={NEO_BAI_ANH.ketQua} className="mt-8">
+            <h2
+              id={NEO_BAI_ANH.ketQua}
+              tabIndex={-1}
+              className="text-sm font-semibold text-zinc-300 focus:outline-none focus-visible:underline"
+            >
+              {isA ? 'Kết quả' : 'Result'}
+            </h2>
+            {rpEvaluation ? (
+              <EvaluationResultView
+                evaluation={rpEvaluation}
+                onClose={dongKetQua}
+                dir={isA ? 'A' : 'B'}
+                landmark={false}
+              />
+            ) : (
+              <div className="mt-2 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4">
+                <p className="text-sm text-zinc-200">
+                  {isA
+                    ? 'Chưa có kết quả trong lần mở bài này.'
+                    : 'No result yet in this visit to the lesson.'}
+                </p>
+                <p className="mt-1 text-xs text-zinc-400">
+                  {isA
+                    ? 'Kết quả chỉ có sau khi bạn đóng vai hết bài rồi bấm “Kết thúc & chấm điểm”. Tải lại trang thì kết quả cũ không được giữ.'
+                    : 'A result appears only after you role-play the whole lesson and tap “Finish & grade”. Reloading the page does not keep an earlier result.'}
+                </p>
+                <a
+                  href={`#${NEO_BAI_ANH.hoiThoai}`}
+                  onClick={(e) => {
+                    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+                    e.preventDefault()
+                    nhay(NEO_BAI_ANH.hoiThoai)
+                  }}
+                  className="tap-44 mt-2 inline-flex items-center text-xs font-medium text-zinc-200 underline underline-offset-4"
+                >
+                  {isA ? 'Về phần hội thoại' : 'Back to the dialogue'}
+                </a>
               </div>
-            )
-          })}
+            )}
+          </section>
         </div>
       </div>
 

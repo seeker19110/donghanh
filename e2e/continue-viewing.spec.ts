@@ -22,10 +22,11 @@ test.describe('Gợi ý "Tiếp tục" — đánh dấu đã xem', () => {
     // master–detail tiêu đề bài xuất hiện ở CẢ hai chỗ (mục danh sách + thanh header), nên
     // `getByText` sẽ vi phạm strict-mode. `aria-current` cũng chính là thứ ta cam kết cho
     // trình đọc màn hình, nên kiểm nó là kiểm đúng hợp đồng a11y.
-    await expect(page.getByRole('button', { name: /Giới thiệu bản thân/ })).toHaveAttribute(
-      'aria-current',
-      'true',
-    )
+    // [S09c] Bài đang mở nay nằm trên URL (`?lesson=1`): router áp điều hướng ở một lượt render
+    // SAU cú bấm, nên ngay sau click nút "Tiếp tục" (vẫn chứa tên bài 1) và thẻ bài 1 cùng khớp
+    // /Giới thiệu bản thân/ → strict-mode ném lỗi tức thì, không chờ. Nhắm thẳng thẻ bài bằng id
+    // ổn định của nó để assertion được phép chờ; hợp đồng kiểm (aria-current) giữ nguyên.
+    await expect(page.locator('#lesson-card-1')).toHaveAttribute('aria-current', 'true')
     await expect(page.getByRole('button', { name: /Tiếp tục/ })).toContainText('Bài 2')
   })
 

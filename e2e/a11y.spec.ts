@@ -85,6 +85,8 @@ const AUTHED_ROUTES = [
   '/tien-do',
   '/tu-dien',
   '/bai-hoc',
+  // [S09c] Bài hội thoại mở theo URL: mục "Trong bài", tiêu đề bài, đích lượt, `#ket-qua` rỗng.
+  '/goc-hoc-tap/english/bai-hoc?lesson=1#ket-qua',
   '/lich-su-hoc',
   '/cau-thong-dung',
   '/lo-trinh-hoc',
