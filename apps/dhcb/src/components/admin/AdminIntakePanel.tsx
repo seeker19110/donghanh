@@ -14,6 +14,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Compass, Loader2, ShieldAlert, RefreshCw } from 'lucide-react'
 import { getAuthHeader } from '@core/authHeader'
 import { formatRate } from '../../lib/statFormat'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 
 interface Stats {
   days: number
@@ -70,7 +71,7 @@ export default function AdminIntakePanel() {
       if (!res.ok) throw new Error(`Lỗi ${res.status}`)
       setStats((await res.json()) as Stats)
     } catch (err) {
-      setError(`Không tải được số liệu: ${(err as Error).message}`)
+      setError(`Không tải được số liệu: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setLoading(false)
     }

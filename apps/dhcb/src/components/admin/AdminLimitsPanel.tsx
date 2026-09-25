@@ -10,6 +10,7 @@ import { ShieldAlert, Loader2, Save } from 'lucide-react'
 import { useToast } from '@core/ToastProvider'
 import { getAuthHeader } from '@core/authHeader'
 import { Button } from '@core/Button'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 
 interface AppSettings {
   limits: { free: number; vip: number }
@@ -61,7 +62,7 @@ export default function AdminLimitsPanel({ onForbiddenChange }: Props) {
         setPromoEnabled(data.promoUntil !== null)
         setPromoLocal(toLocalInputValue(data.promoUntil))
       } catch (err) {
-        toast.error(`Không tải được cấu hình: ${(err as Error).message}`)
+        toast.error(`Không tải được cấu hình: ${thongDiepLoiQuanTri(err)}`)
       } finally {
         setLoading(false)
       }
@@ -99,7 +100,7 @@ export default function AdminLimitsPanel({ onForbiddenChange }: Props) {
       setPromoLocal(toLocalInputValue(updated.promoUntil))
       toast.success('Đã lưu cấu hình')
     } catch (err) {
-      toast.error(`Lưu thất bại: ${(err as Error).message}`)
+      toast.error(`Lưu thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setSaving(false)
     }

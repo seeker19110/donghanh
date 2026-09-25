@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { ShieldAlert, Power, AlertTriangle, CheckCircle2, RefreshCw } from 'lucide-react'
 import { getAuthHeader } from '@core/authHeader'
-import { thongDiepLoiThanThien } from '../../lib/friendlyError'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 
 export default function AdminSystemControlPanel() {
   const [circuitBreaker, setCircuitBreaker] = useState<boolean>(false)
@@ -26,7 +26,7 @@ export default function AdminSystemControlPanel() {
       const data = await res.json()
       setCircuitBreaker(data.circuitBreakerEnabled ?? false)
     } catch (err: unknown) {
-      setError(thongDiepLoiThanThien(err, 'Lỗi tải trạng thái'))
+      setError(thongDiepLoiQuanTri(err, 'Lỗi tải trạng thái'))
     } finally {
       setLoading(false)
     }
@@ -58,7 +58,7 @@ export default function AdminSystemControlPanel() {
       setCircuitBreaker(data.circuitBreakerEnabled)
       setMsg(data.message)
     } catch (err: unknown) {
-      setError(thongDiepLoiThanThien(err, 'Lỗi bật/tắt cầu dao'))
+      setError(thongDiepLoiQuanTri(err, 'Lỗi bật/tắt cầu dao'))
     } finally {
       setUpdating(false)
     }

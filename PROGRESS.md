@@ -1060,7 +1060,10 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   không ai chạy lại `npm run changelog`) — đổi file của PR #1109 sang `0412`.
 - 🟡 **[2026-09-22 — audit UI/UX sâu, `docs/audit/2026-09-22-danh-gia-sau-ui-ux.md` +
   `docs/changelog/0412-*.md`, PR đợt 0412] Đã xử lý 6 đợt A–F trong một PR.** Nợ còn lại: (1)
-  ~44 chỗ `err.message` ngoài Ghi chú chưa đi qua `lib/friendlyError.ts`; (2) ✅ Phòng luyện tập vs
+  ✅ `err.message` thô — ĐÃ ĐÓNG HẲN 2026-09-25 (`docs/changelog/0452-*.md`): 0433 bỏ sót khuôn
+  `(err as Error).message` (27 điểm/14 panel admin + `feedbackApi`/`FeedbackModal` + lỗi giọng nói
+  ở `Companion.tsx`), nay đã sửa; admin dùng `thongDiepLoiQuanTri` (giữ chi tiết lỗi server/Zod);
+  cổng canh trong `friendlyError.test.ts` chặn khuôn này quay lại; (2) ✅ Phòng luyện tập vs
   Tiếng Anh home — ĐÃ GỘP (2026-09-24, PR #1157, `docs/changelog/0433-*.md`): chốt nhà từng tính
   năng, `/luyen-tap` gỡ kho học liệu trùng + rút 4 kỹ năng AI thành lối tắt, cao 3154→2461px ở
   390px; nút "N thẻ đến hạn" ở Tiếng Anh home nay mở tab ôn SRS của cấp đang học (trước trỏ

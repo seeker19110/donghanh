@@ -11,7 +11,7 @@ import {
   X,
 } from 'lucide-react'
 import { getAuthHeader } from '@core/authHeader'
-import { thongDiepLoiThanThien } from '../../lib/friendlyError'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 import type { AdminPaymentRow } from '@dhcb/core-contracts/adminViews'
 
 export default function AdminPaymentsPanel() {
@@ -48,7 +48,7 @@ export default function AdminPaymentsPanel() {
       const data = await res.json()
       setPayments(data.payments || [])
     } catch (err: unknown) {
-      setError(thongDiepLoiThanThien(err, 'Lỗi tải dữ liệu'))
+      setError(thongDiepLoiQuanTri(err, 'Lỗi tải dữ liệu'))
     } finally {
       setLoading(false)
     }
@@ -89,7 +89,7 @@ export default function AdminPaymentsPanel() {
       setMatchingPayment(null)
       fetchPayments()
     } catch (err: unknown) {
-      setError(thongDiepLoiThanThien(err, 'Lỗi xử lý khớp đơn'))
+      setError(thongDiepLoiQuanTri(err, 'Lỗi xử lý khớp đơn'))
     } finally {
       setSubmittingMatch(false)
     }

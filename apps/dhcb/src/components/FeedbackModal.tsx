@@ -5,6 +5,7 @@ import { useAuth } from '../context/useAuth'
 import { useLang } from '../context/useLang'
 import { useToast } from '@core/ToastProvider'
 import { submitFeedback } from '../lib/feedbackApi'
+import { thongDiepLoiThanThien } from '../lib/friendlyError'
 import { CATEGORY_METADATA, type UserFeedbackCategory } from '@dhcb/core-contracts/feedback'
 import { useDialogBehavior } from './useDialogBehavior'
 
@@ -96,7 +97,16 @@ export default function FeedbackModal({ isOpen, onClose, initialCategory = 'feat
           : 'Feedback submitted successfully! Thank you ❤️',
       )
     } else {
-      toast.error(res.error)
+      // Lỗi mạng/HTTP thô ("Failed to fetch", "HTTP 500") đổi thành câu đọc được theo chiều học.
+      toast.error(
+        thongDiepLoiThanThien(
+          res.error,
+          isA
+            ? 'Chưa gửi được ý kiến, thử lại sau.'
+            : 'Could not send your feedback, try again later.',
+          isA ? 'vi' : 'en',
+        ),
+      )
     }
   }
 

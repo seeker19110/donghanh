@@ -191,9 +191,7 @@ export default function Companion() {
       setVoiceError(
         e instanceof Error && e.message === 'EMPTY_RECORDING'
           ? 'Không nghe rõ, thử nói lại nhé.'
-          : e instanceof Error
-            ? e.message
-            : 'Lỗi nhận diện giọng nói',
+          : thongDiepLoiThanThien(e, 'Lỗi nhận diện giọng nói'),
       )
       return
     }

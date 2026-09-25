@@ -10,7 +10,7 @@ import {
 } from 'lucide-react'
 import { getAuthHeader } from '@core/authHeader'
 import { useToast } from '@core/ToastProvider'
-import { thongDiepLoiThanThien } from '../../lib/friendlyError'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 import type { TutorFeedbackRow } from '@dhcb/core-contracts/adminViews'
 import {
   CATEGORY_METADATA,
@@ -65,7 +65,7 @@ export default function AdminFeedbackPanel() {
         setTutorFeedbacks(data.feedbackList || [])
       }
     } catch (err: unknown) {
-      setError(thongDiepLoiThanThien(err, 'Lỗi tải dữ liệu'))
+      setError(thongDiepLoiQuanTri(err, 'Lỗi tải dữ liệu'))
     } finally {
       setLoading(false)
     }
@@ -91,7 +91,7 @@ export default function AdminFeedbackPanel() {
       )
       toast.success('Đã cập nhật trạng thái')
     } catch (err) {
-      toast.error((err as Error).message)
+      toast.error(thongDiepLoiQuanTri(err))
     } finally {
       setUpdatingId(null)
     }

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { BarChart3, Loader2, ShieldAlert, RefreshCw } from 'lucide-react'
 import { getAuthHeader } from '@core/authHeader'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 
 interface DailyRow {
   day: string
@@ -63,7 +64,7 @@ export default function AdminAnalyticsPanel() {
       if (!res.ok) throw new Error(`Lỗi ${res.status}`)
       setSummary((await res.json()) as Summary)
     } catch (err) {
-      setError(`Không tải được số liệu: ${(err as Error).message}`)
+      setError(`Không tải được số liệu: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setLoading(false)
     }

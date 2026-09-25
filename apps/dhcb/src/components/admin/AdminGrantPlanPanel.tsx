@@ -8,6 +8,7 @@ import { Loader2, Search, ShieldCheck } from 'lucide-react'
 import { useToast } from '@core/ToastProvider'
 import { getAuthHeader } from '@core/authHeader'
 import type { Plan } from '@dhcb/core-billing/plan'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 
 const PLAN_OPTIONS: { key: Plan; label: string }[] = [
   { key: 'free', label: 'Free' },
@@ -72,7 +73,7 @@ export default function AdminGrantPlanPanel({
       setResult(data)
       toast.success(`Gói hiện tại: ${data.plan}`)
     } catch (err) {
-      toast.error(`Tra cứu thất bại: ${(err as Error).message}`)
+      toast.error(`Tra cứu thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setLookingUp(false)
     }
@@ -108,7 +109,7 @@ export default function AdminGrantPlanPanel({
       setResult(data)
       toast.success(`Đã cấp gói ${data.plan} cho ${data.email}`)
     } catch (err) {
-      toast.error(`Cấp gói thất bại: ${(err as Error).message}`)
+      toast.error(`Cấp gói thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setGranting(false)
     }

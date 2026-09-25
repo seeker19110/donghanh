@@ -7,6 +7,7 @@ import { Loader2, Plus, Trash2, Save } from 'lucide-react'
 import { useToast } from '@core/ToastProvider'
 import { getAuthHeader } from '@core/authHeader'
 import type { Plan } from '@dhcb/core-billing/plan'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 
 interface Bullet {
   id: number
@@ -78,7 +79,7 @@ function PlanSection({ entry, onReload }: { entry: PlanEntry; onReload: () => Pr
       toast.success('Đã lưu')
       await onReload()
     } catch (err) {
-      toast.error(`Lưu thất bại: ${(err as Error).message}`)
+      toast.error(`Lưu thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setSavingInfo(false)
     }
@@ -95,7 +96,7 @@ function PlanSection({ entry, onReload }: { entry: PlanEntry; onReload: () => Pr
       toast.success('Đã lưu')
       await onReload()
     } catch (err) {
-      toast.error(`Lưu thất bại: ${(err as Error).message}`)
+      toast.error(`Lưu thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setSavingRowId(null)
     }
@@ -108,7 +109,7 @@ function PlanSection({ entry, onReload }: { entry: PlanEntry; onReload: () => Pr
       toast.success('Đã xoá')
       await onReload()
     } catch (err) {
-      toast.error(`Xoá thất bại: ${(err as Error).message}`)
+      toast.error(`Xoá thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setDeletingId(null)
     }
@@ -129,7 +130,7 @@ function PlanSection({ entry, onReload }: { entry: PlanEntry; onReload: () => Pr
       setNewEn('')
       await onReload()
     } catch (err) {
-      toast.error(`Thêm thất bại: ${(err as Error).message}`)
+      toast.error(`Thêm thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setAdding(false)
     }
@@ -265,7 +266,7 @@ export default function AdminPlanMarketingPanel() {
     try {
       setData((await api('GET')) as MarketingData)
     } catch (err) {
-      toastError(`Tải nội dung thất bại: ${(err as Error).message}`)
+      toastError(`Tải nội dung thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setLoading(false)
     }

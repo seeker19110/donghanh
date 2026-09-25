@@ -6,6 +6,7 @@ import { Loader2, Save } from 'lucide-react'
 import { useToast } from '@core/ToastProvider'
 import { getAuthHeader } from '@core/authHeader'
 import { ACHIEVEMENTS } from '../../data/achievements'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 
 interface RewardConfig {
   enabled: boolean
@@ -57,7 +58,7 @@ function RewardRowEditor({ row, onReload }: { row: RewardRow; onReload: () => Pr
       toast.success('Đã lưu')
       await onReload()
     } catch (err) {
-      toast.error(`Lưu thất bại: ${(err as Error).message}`)
+      toast.error(`Lưu thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setSaving(false)
     }
@@ -118,7 +119,7 @@ export default function AdminAchievementRewardsPanel() {
       const data = (await api('GET')) as { rewards: RewardRow[] }
       setRows(data.rewards)
     } catch (err) {
-      toastError(`Tải cấu hình thất bại: ${(err as Error).message}`)
+      toastError(`Tải cấu hình thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setLoading(false)
     }

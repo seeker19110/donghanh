@@ -1,8 +1,9 @@
-# Trả ba nợ nhỏ sau S06d: trạng thái tải/rỗng/lỗi, badge một dòng, thanh đáy nền đặc
+# Trả nợ nhỏ còn mở: trạng thái tải/rỗng/lỗi, badge một dòng, thanh đáy nền đặc, lỗi thô
 
 - **Ngày:** 2026-09-25 · **PR:** PR của nhánh `seeker/zealous-allen-ygj0gw` (sau #1177)
-- **Loại:** `fix(companion)`. Người dùng yêu cầu "liệt kê, sửa và hoàn thiện toàn bộ". Ba nợ này
-  ghi ở `0450` và `0451`, là phần nợ đang mở sửa được hoàn toàn bằng code.
+- **Loại:** `fix(ui)`. Người dùng yêu cầu "liệt kê, sửa và hoàn thiện toàn bộ". Bốn việc dưới đây
+  là phần nợ đang mở sửa được hoàn toàn bằng code: ba nợ ghi ở `0450`/`0451`, cộng phần sót của
+  nợ lỗi thô (audit UI/UX 2026-09-22).
 
 ## Đã làm
 
@@ -22,6 +23,24 @@
    ở 390px, cuộn nửa trang, 3 trang × 3 theme, không có vi phạm hay incomplete. Có chặn xanh giả:
    phải đo được ít nhất 5 nhãn.
 
+4. **Lỗi thô không còn lên giao diện — đóng hẳn nợ (1) của audit UI/UX 2026-09-22.** Rà lại
+   thấy đợt `0433` chỉ quét khuôn `err instanceof Error ? err.message : …`, bỏ sót khuôn
+   `(err as Error).message`:
+   - **Phía người học:** `FeedbackModal` hiện nguyên văn "Failed to fetch" / "Lỗi 400" (qua
+     `lib/feedbackApi.ts`). Nay nhánh HTTP trả `HTTP <mã>`, giao diện dịch qua
+     `thongDiepLoiThanThien` theo chiều học (A tiếng Việt, B tiếng Anh). Lỗi nhận giọng nói ở
+     `pages/companion/Companion.tsx` trước đây hiện cả câu kỹ thuật tiếng Anh ("STT API returned
+     invalid response"), nay cũng qua helper.
+   - **Màn admin:** 27 điểm ở 14 panel. Hàm mới `thongDiepLoiQuanTri` vẫn dịch lỗi trình
+     duyệt/HTTP nhưng GIỮ mọi câu khác, kể cả thông điệp Zod tiếng Anh ("Invalid email
+     address"). Hàm thường sẽ thay câu đó bằng "Có lỗi xảy ra" và admin mất chi tiết cần để sửa.
+     5 panel đợt `0433` (dùng hàm thường) cũng chuyển sang hàm này, tổng 19 panel.
+   - **Cố ý giữ nguyên** (như `0433`): bộ chạy code môn Lập trình (`lib/*Runner.ts`, `workers/`),
+     chỗ chỉ so mã lỗi (`e.message === 'EMPTY_RECORDING'`…), và `Subjects`/`SubjectDetail`
+     (câu tiếng Việt viết sẵn).
+   - **Cổng canh** trong `lib/friendlyError.test.ts`: quét `apps/dhcb/src`. Ngoài bộ chạy code
+     Lập trình, không file nào được chứa `(x as Error).message`.
+
 ## Tầng 8b — ảnh trước/sau
 
 Studio Thử thách và Kế hoạch, 390px và 1440px, theme blue-sky.
@@ -39,8 +58,13 @@ Studio Thử thách và Kế hoạch, 390px và 1440px, theme blue-sky.
   9 ca.
 - `npx playwright test e2e/a11y.spec.ts e2e/a11y-aaa.spec.ts e2e/bottomnav.spec.ts -g "Bạn Đồng
 Hành|BottomNav"`: 49/49.
-- Sau khi xoá `dist`: typecheck ✅, lint ✅, prettier ✅, `npm run test:coverage` 17.156 ✅,
-  build ✅.
+- Lỗi thô: `feedbackApi.test.ts` 3 ca + `friendlyError.test.ts` thêm 5 ca. Negative control: trả
+  `feedbackApi.ts` + một panel admin về bản cũ thì đỏ đúng 2 ca (nhánh `HTTP <mã>` và cổng canh).
+- E2E vùng chạm tới: `admin`, `a11y-admin-intake`, `companion-history`, `learning-ux-states`,
+  `bottomnav`: 178 passed (5 skip có sẵn).
+- Sau khi xoá `dist`: typecheck ✅, lint ✅, prettier ✅, `npm run test:coverage` 17.164 ✅
+  (94,68/90,61/95,41/95,19, sàn 93/89/93/93), build ✅. Bundle JS 152,15 → 152,25 kB / 160
+  (đo HEAD~1 trong worktree tạm), CSS 23,72 kB không đổi.
 
 ## Nợ còn lại
 

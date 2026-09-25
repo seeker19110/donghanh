@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Database, RefreshCw, HardDrive, AlertTriangle, CheckCircle2, Search } from 'lucide-react'
 import { getAuthHeader } from '@core/authHeader'
-import { thongDiepLoiThanThien } from '../../lib/friendlyError'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 
 // Tab admin "Cache TTS & R2" — trả lời: cache có đang tiết kiệm tiền API không, và kho audio
 // trên Cloudflare R2 có khớp với DB không. Nguồn dữ liệu: /api/admin-tts-cache.
@@ -77,7 +77,7 @@ export default function AdminTtsCachePanel() {
       if (!res.ok) throw new Error('Không tải được số liệu cache TTS')
       setData((await res.json()) as ApiData)
     } catch (err: unknown) {
-      setError(thongDiepLoiThanThien(err, 'Lỗi tải số liệu'))
+      setError(thongDiepLoiQuanTri(err, 'Lỗi tải số liệu'))
     } finally {
       setLoading(false)
     }
@@ -111,7 +111,7 @@ export default function AdminTtsCachePanel() {
       setMsg(body.message)
       await fetchData()
     } catch (err: unknown) {
-      setError(thongDiepLoiThanThien(err, 'Lỗi bắt đầu quét'))
+      setError(thongDiepLoiQuanTri(err, 'Lỗi bắt đầu quét'))
     } finally {
       setScanning(false)
     }

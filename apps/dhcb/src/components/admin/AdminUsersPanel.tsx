@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { Loader2, Search, Users, ShieldCheck, ShieldOff } from 'lucide-react'
 import { useToast } from '@core/ToastProvider'
 import { getAuthHeader } from '@core/authHeader'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 
 interface AdminUserRow {
   id: string
@@ -66,7 +67,7 @@ export default function AdminUsersPanel({ onSelectEmail, onEmailsChange }: Admin
         setUsers(data.users)
         onEmailsChange?.(data.users.map((u) => u.email))
       } catch (err) {
-        if (!cancelled) toast.error(`Tải danh sách thất bại: ${(err as Error).message}`)
+        if (!cancelled) toast.error(`Tải danh sách thất bại: ${thongDiepLoiQuanTri(err)}`)
       } finally {
         if (!cancelled) setLoading(false)
       }

@@ -18,7 +18,9 @@ export async function submitFeedback(
 
     const data = await res.json().catch(() => ({}))
     if (!res.ok) {
-      return { ok: false, error: (data as { error?: string }).error ?? `Lỗi ${res.status}` }
+      // `HTTP <mã>` (không phải "Lỗi <mã>") để `thongDiepLoiThanThien` nhận ra là chuỗi kỹ thuật
+      // và dịch đúng theo mã (401 → đăng nhập lại, 429 → chờ, 5xx → máy chủ sự cố).
+      return { ok: false, error: (data as { error?: string }).error ?? `HTTP ${res.status}` }
     }
 
     return {
@@ -27,7 +29,8 @@ export async function submitFeedback(
       message: (data as { message: string }).message,
     }
   } catch (err) {
-    return { ok: false, error: (err as Error).message ?? 'Không thể gửi phản hồi' }
+    // Chuỗi thô (vd "Failed to fetch") — giao diện tự dịch qua `thongDiepLoiThanThien`.
+    return { ok: false, error: err instanceof Error ? err.message : 'Không thể gửi phản hồi' }
   }
 }
 

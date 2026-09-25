@@ -18,6 +18,7 @@ import {
   type TieuChiDuyet,
 } from '@dhcb/core-contracts/lessonReview'
 import type { StemSubjectId } from '@dhcb/core-contracts/stemLesson'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 
 const NHAN_TIEU_CHI: Record<TieuChiDuyet, string> = {
   dungChuongTrinh:
@@ -112,7 +113,7 @@ function NoiDungLuotDuyetBai({ lessonId, mon }: { lessonId: string; mon: StemSub
       toast.success(datHet ? 'Đã ghi: bài đạt duyệt.' : 'Đã ghi: bài CHƯA đạt, còn tiêu chí trượt.')
       await taiLuotDuyet()
     } catch (err) {
-      toast.error(`Ghi lượt duyệt thất bại: ${(err as Error).message}`)
+      toast.error(`Ghi lượt duyệt thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setDangGui(false)
     }
