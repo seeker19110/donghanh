@@ -82,7 +82,7 @@ export default function WearablesSyncCard() {
         <button
           onClick={handleSyncNow}
           disabled={isSyncing}
-          className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-[#fff] text-xs font-semibold shadow-lg flex items-center gap-1.5 transition-all disabled:opacity-50"
+          className="px-3.5 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-[#fff] text-xs font-semibold shadow-lg flex items-center gap-1.5 transition-all disabled:opacity-50"
         >
           <RotateCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
           <span>{isSyncing ? 'Đang đồng bộ...' : 'Đồng bộ Sinh trắc'}</span>
@@ -102,9 +102,10 @@ export default function WearablesSyncCard() {
             <button
               key={src}
               onClick={() => setSelectedSource(src)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all border ${
+              aria-pressed={isSelected}
+              className={`tap-44-y px-3 py-1.5 rounded-xl text-xs font-semibold transition-all border ${
                 isSelected
-                  ? 'bg-emerald-950/60 border-emerald-400 text-emerald-200 theme-light:text-emerald-900 shadow-md shadow-emerald-500/20'
+                  ? 'bg-emerald-950/60 theme-light:bg-emerald-100 border-emerald-400 text-emerald-200 theme-light:text-emerald-900 shadow-md shadow-emerald-500/20'
                   : 'bg-surface-raised border-line-subtle text-content-secondary hover:text-content'
               }`}
             >

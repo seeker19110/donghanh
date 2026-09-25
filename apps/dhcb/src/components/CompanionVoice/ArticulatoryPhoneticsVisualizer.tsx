@@ -109,7 +109,7 @@ export default function ArticulatoryPhoneticsVisualizer() {
         <button
           onClick={handleTestPhonetics}
           disabled={isAnalyzing}
-          className="px-3.5 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-[#fff] text-xs font-semibold shadow-lg flex items-center gap-1.5 transition-all disabled:opacity-50"
+          className="px-3.5 py-1.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-[#fff] text-xs font-semibold shadow-lg flex items-center gap-1.5 transition-all disabled:opacity-50"
         >
           <Sparkles className="w-3.5 h-3.5" />
           <span>{isAnalyzing ? 'Đang phân tích...' : 'Kiểm tra Phát âm'}</span>
@@ -127,9 +127,10 @@ export default function ArticulatoryPhoneticsVisualizer() {
                 setSelectedPhoneme(item.target)
                 setReport(null)
               }}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold shrink-0 transition-all border ${
+              aria-pressed={isSelected}
+              className={`tap-44-y px-3 py-1.5 rounded-xl text-xs font-semibold shrink-0 transition-all border ${
                 isSelected
-                  ? 'bg-teal-950/60 border-teal-400 text-teal-200 theme-light:text-teal-900 shadow-md shadow-teal-500/20'
+                  ? 'bg-teal-950/60 theme-light:bg-teal-100 border-teal-400 text-teal-200 theme-light:text-teal-900 shadow-md shadow-teal-500/20'
                   : 'bg-surface-raised border-line-subtle text-content-secondary hover:text-content'
               }`}
             >
