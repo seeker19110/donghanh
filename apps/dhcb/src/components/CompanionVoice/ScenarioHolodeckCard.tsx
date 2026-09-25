@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { thongDiepLoiThanThien } from '../../lib/friendlyError'
+import { useCompanionList } from './useCompanionList'
+import CardLoadStatus from './CardLoadStatus'
 import {
   Users,
   Flame,
@@ -18,30 +20,16 @@ import type {
 } from '@dhcb/core-contracts/scenarioHolodeck'
 
 export default function ScenarioHolodeckCard() {
-  const [scenarios, setScenarios] = useState<HolodeckScenario[]>([])
+  const {
+    items: scenarios,
+    state: loadState,
+    reload,
+  } = useCompanionList<HolodeckScenario>('/api/scenario-holodeck', 'scenarios')
   const [activeSession, setActiveSession] = useState<HolodeckSession | null>(null)
   const [selectedScenarioId, setSelectedScenarioId] = useState<string>('bigtech_panel_interview')
   const [userUtterance, setUserUtterance] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
-
-  // Fetch scenarios list
-  useEffect(() => {
-    async function loadScenarios() {
-      try {
-        const res = await fetch('/api/scenario-holodeck')
-        if (res.ok) {
-          const data = await res.json()
-          if (data.scenarios) {
-            setScenarios(data.scenarios)
-          }
-        }
-      } catch (err) {
-        console.error('Failed to load scenarios', err)
-      }
-    }
-    loadScenarios()
-  }, [])
 
   const currentScenario =
     scenarios.find((s) => s.id === (activeSession?.scenarioId || selectedScenarioId)) ||
@@ -98,6 +86,7 @@ export default function ScenarioHolodeckCard() {
   const handleFinalize = async () => {
     if (!activeSession || isLoading) return
     setIsLoading(true)
+    setErrorMsg(null)
     try {
       const res = await fetch('/api/scenario-holodeck', {
         method: 'POST',
@@ -178,7 +167,8 @@ export default function ScenarioHolodeckCard() {
       )}
 
       {/* Body State 1: Select Scenario */}
-      {!activeSession && (
+      {!activeSession && <CardLoadStatus state={loadState} noun="kịch bản" onRetry={reload} />}
+      {!activeSession && loadState === 'ready' && (
         <div className="mt-4 space-y-3">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {scenarios.map((sc) => {

@@ -48,7 +48,10 @@ export default function BottomNav({
     <nav
       // [P0-4, 2026-09-17] Class `bottom-nav` KHÔNG mang style riêng — nó là móc để
       // `index.css` ẩn thanh này khi `[data-focus='1']` (chế độ tập trung, xem Layout.tsx).
-      className="bottom-nav lg:hidden fixed bottom-0 inset-x-0 z-40 min-h-[5.25rem] pb-safe bg-zinc-950/90 backdrop-blur-xl border-t border-zinc-800/80 shadow-2xl shadow-black/40"
+      // Nền ĐẶC, không trong mờ + blur (2026-09-25): nền 90% để nội dung trang cuộn bên dưới lọt
+      // qua, nên tương phản nhãn đổi theo từng trang và axe báo "partially obscured" ở 390px
+      // (không đo được). Nền đặc cho nhãn một màu nền cố định, đo được, ở mọi trang.
+      className="bottom-nav lg:hidden fixed bottom-0 inset-x-0 z-40 min-h-[5.25rem] pb-safe bg-zinc-950 border-t border-zinc-800/80 shadow-2xl shadow-black/40"
       aria-label="Điều hướng chính"
     >
       {/* Viền sáng gradient đa sắc tinh tế ở đỉnh thanh điều hướng */}

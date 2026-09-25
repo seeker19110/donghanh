@@ -1,37 +1,30 @@
-import { useState, useEffect } from 'react'
-import { Mic, Play, Award, Sparkles, Zap, RotateCcw, Volume2 } from 'lucide-react'
+import { useState } from 'react'
+import { Mic, Play, Award, Sparkles, Zap, RotateCcw, Volume2, AlertTriangle } from 'lucide-react'
 import type { ShadowingPassage, ShadowingSession } from '@dhcb/core-contracts/echoShadowing'
+import { useCompanionList } from './useCompanionList'
+import CardLoadStatus from './CardLoadStatus'
 
 export default function EchoShadowingCard() {
-  const [passages, setPassages] = useState<ShadowingPassage[]>([])
+  const {
+    items: passages,
+    state: loadState,
+    reload,
+  } = useCompanionList<ShadowingPassage>('/api/echo-shadowing', 'passages')
   const [selectedId, setSelectedId] = useState<string>('jobs_stanford_commencement')
   const [isRecording, setIsRecording] = useState<boolean>(false)
   const [sessionResult, setSessionResult] = useState<ShadowingSession | null>(null)
   const [isEvaluating, setIsEvaluating] = useState<boolean>(false)
+  const [evalError, setEvalError] = useState<string | null>(null)
   // Độ "nhiễu" trang trí cho 28 thanh sóng âm — random 1 LẦN qua lazy initializer
   // (Math.random là hàm không thuần, không được gọi trực tiếp trong lúc render).
   const [barJitter] = useState<number[]>(() => Array.from({ length: 28 }, () => Math.random() * 30))
-
-  useEffect(() => {
-    async function loadPassages() {
-      try {
-        const res = await fetch('/api/echo-shadowing')
-        if (res.ok) {
-          const data = await res.json()
-          if (data.passages) setPassages(data.passages)
-        }
-      } catch (err) {
-        console.error('Failed to load shadowing passages', err)
-      }
-    }
-    loadPassages()
-  }, [])
 
   const currentPassage = passages.find((p) => p.id === selectedId) || passages[0]
 
   const handleStartShadowing = async () => {
     setIsRecording(true)
     setSessionResult(null)
+    setEvalError(null)
 
     // Giả lập phiên thu âm shadowing 5 giây
     setTimeout(async () => {
@@ -47,12 +40,12 @@ export default function EchoShadowingCard() {
             phonemeAccuracy: Math.floor(Math.random() * 10) + 88, // 88 - 98%
           }),
         })
-        if (res.ok) {
-          const data = await res.json()
-          setSessionResult(data.session)
-        }
-      } catch (err) {
-        console.error('Failed to evaluate shadowing', err)
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        const data = await res.json()
+        setSessionResult(data.session)
+      } catch {
+        // Trước đây lỗi chỉ ra console → nút trở lại như chưa bấm, người học không biết vì sao.
+        setEvalError('Chưa chấm được lượt vừa rồi. Kiểm tra kết nối mạng rồi luyện lại nhé.')
       } finally {
         setIsEvaluating(false)
       }
@@ -91,29 +84,34 @@ export default function EchoShadowingCard() {
         )}
       </div>
 
-      {/* Passage Selector */}
-      <div className="mt-4 flex gap-2 overflow-x-auto pb-2">
-        {passages.map((p) => {
-          const isSelected = p.id === selectedId
-          return (
-            <button
-              key={p.id}
-              onClick={() => {
-                setSelectedId(p.id)
-                setSessionResult(null)
-              }}
-              aria-pressed={isSelected}
-              className={`tap-44-y px-3 py-1.5 rounded-xl text-xs font-semibold shrink-0 transition-all border ${
-                isSelected
-                  ? 'bg-sky-950/60 theme-light:bg-sky-100 border-sky-400 text-sky-200 theme-light:text-sky-900 shadow-md shadow-sky-500/20'
-                  : 'bg-surface-raised border-line-subtle text-content-secondary hover:text-content'
-              }`}
-            >
-              {p.title.split('—')[0]}
-            </button>
-          )
-        })}
-      </div>
+      <CardLoadStatus state={loadState} noun="bài mẫu" onRetry={reload} />
+
+      {/* Passage Selector — chỉ dựng khi có bài, để khối trạng thái rỗng/lỗi không có khoảng trống thừa bên dưới */}
+      {passages.length > 0 && (
+        <div className="mt-4 flex gap-2 overflow-x-auto pb-2">
+          {passages.map((p) => {
+            const isSelected = p.id === selectedId
+            return (
+              <button
+                key={p.id}
+                onClick={() => {
+                  setSelectedId(p.id)
+                  setSessionResult(null)
+                  setEvalError(null)
+                }}
+                aria-pressed={isSelected}
+                className={`tap-44-y px-3 py-1.5 rounded-xl text-xs font-semibold shrink-0 transition-all border ${
+                  isSelected
+                    ? 'bg-sky-950/60 theme-light:bg-sky-100 border-sky-400 text-sky-200 theme-light:text-sky-900 shadow-md shadow-sky-500/20'
+                    : 'bg-surface-raised border-line-subtle text-content-secondary hover:text-content'
+                }`}
+              >
+                {p.title.split('—')[0]}
+              </button>
+            )
+          })}
+        </div>
+      )}
 
       {currentPassage && (
         <div className="mt-4 space-y-4">
@@ -161,6 +159,19 @@ export default function EchoShadowingCard() {
               </div>
             )}
           </div>
+
+          {evalError && (
+            <div
+              role="alert"
+              className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-start gap-2"
+            >
+              <AlertTriangle
+                className="w-4 h-4 mt-0.5 shrink-0 text-red-400 theme-light:text-red-900"
+                aria-hidden
+              />
+              <p className="text-xs text-content">{evalError}</p>
+            </div>
+          )}
 
           {/* Action Button */}
           {!sessionResult && (
