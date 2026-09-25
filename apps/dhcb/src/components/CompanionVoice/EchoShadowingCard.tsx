@@ -102,9 +102,10 @@ export default function EchoShadowingCard() {
                 setSelectedId(p.id)
                 setSessionResult(null)
               }}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold shrink-0 transition-all border ${
+              aria-pressed={isSelected}
+              className={`tap-44-y px-3 py-1.5 rounded-xl text-xs font-semibold shrink-0 transition-all border ${
                 isSelected
-                  ? 'bg-sky-950/60 border-sky-400 text-sky-200 theme-light:text-sky-900 shadow-md shadow-sky-500/20'
+                  ? 'bg-sky-950/60 theme-light:bg-sky-100 border-sky-400 text-sky-200 theme-light:text-sky-900 shadow-md shadow-sky-500/20'
                   : 'bg-surface-raised border-line-subtle text-content-secondary hover:text-content'
               }`}
             >

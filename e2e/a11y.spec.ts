@@ -588,3 +588,24 @@ for (const theme of THEMES) {
     expect(all, `Vi phạm A/AA ở câu STEM tự thử lại, theme=${theme}`).toEqual([])
   })
 }
+
+// [S06c] Năm studio của Bạn Đồng Hành — trước đây cổng chỉ quét studio mặc định, nên 4 studio
+// còn lại chưa từng được đo (14 vi phạm tương phản sống sót tới 25/09, spec S06–S08 mục S06c).
+const COMPANION_STUDIOS = ['Trò chuyện', 'Ghi nhớ', 'Thử thách', 'Kế hoạch', 'Tổng kết']
+for (const theme of THEMES) {
+  for (const studio of COMPANION_STUDIOS) {
+    test(`a11y: Bạn Đồng Hành — studio ${studio}, theme=${theme}`, async ({ page }) => {
+      await page.setViewportSize({ width: 390, height: 844 })
+      await mockLogin(page, 'vi', theme)
+      await muteTts(page)
+      await page.goto('/ban-dong-hanh', { waitUntil: 'domcontentloaded' })
+      const tab = page.getByRole('button', { name: studio, exact: true })
+      await tab.click()
+      // Chờ theo TRẠNG THÁI: nút studio báo đang chọn, rồi DOM của studio (nạp lười) đứng yên.
+      await expect(tab).toHaveAttribute('aria-pressed', 'true')
+      await waitForStableDom(page)
+      const { all } = await scan(page)
+      expect(all, `Vi phạm A/AA ở studio ${studio}, theme=${theme}`).toEqual([])
+    })
+  }
+}

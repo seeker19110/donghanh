@@ -189,6 +189,7 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
   S11b source xong (`docs/changelog/0445-*.md`): vào câu STEM sai từ Sổ lỗi thì ẩn đáp án cũ + lời giải (có nút xem lại), nút "Thử lại câu này", E2E chuỗi sai → tự thử → nộp đúng → Sổ lỗi hết câu.
   S10b source xong (`docs/changelog/0446-*.md`): `candidate-feedback.json` dựng nguyên văn phản hồi app cho 40 mẫu (22 ca chuyên gia chấm được ngay; English cần provider), cổng chống lỗi thời, sàng lọc agent 5 nghi vấn — **chờ chuyên gia**.
   **25/09:** S06c Approved (`docs/changelog/0447-*.md`): 14 vi phạm AA tương phản ở 5 studio `/ban-dong-hanh`, cổng AA chưa quét các studio này — sửa + đưa vào cổng ở PR kế tiếp.
+  S06c source xong (`docs/changelog/0448-*.md`): 14 vi phạm đã sửa, `aria-pressed` + vùng chạm 44px, cổng AA quét đủ 5 studio × 3 theme. Nợ còn: AAA ở 5 studio (1–5 nút mỗi studio × theme, chưa vào `a11y-aaa.spec.ts`), thẻ Workplace Harvester tràn ngang ở 390px.
   Bước tiếp theo: S11 (sau S10 chuyên gia) và thu bằng chứng accessibility/thiết bị thật còn thiếu;
   xem trạng thái và giới hạn nghiệm thu trong goal, không coi source merge là goal hoàn tất.
 

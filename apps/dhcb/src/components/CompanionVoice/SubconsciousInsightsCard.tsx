@@ -92,7 +92,7 @@ export const SubconsciousInsightsCard: React.FC = () => {
       </div>
 
       {/* Recommended Mindset */}
-      <div className="bg-purple-950/60 border border-purple-800/50 rounded-xl p-3 text-purple-200 theme-light:text-purple-800 leading-relaxed font-medium flex items-start gap-2.5">
+      <div className="bg-purple-950/60 theme-light:bg-purple-100 border border-purple-800/50 rounded-xl p-3 text-purple-200 theme-light:text-purple-800 leading-relaxed font-medium flex items-start gap-2.5">
         <Sparkles className="w-4 h-4 text-purple-400 theme-light:text-purple-800 shrink-0 mt-0.5" />
         <div>
           <span className="text-[11px] uppercase font-bold tracking-wider text-purple-400 theme-light:text-purple-800 block mb-0.5">

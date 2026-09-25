@@ -117,10 +117,10 @@ export default function MicroDrillModal({
                 if (isAnswered) {
                   if (isCorrect) {
                     btnStyle =
-                      'bg-emerald-950/60 text-emerald-300 theme-light:text-emerald-900 border-emerald-500 shadow-md shadow-emerald-500/20'
+                      'bg-emerald-950/60 theme-light:bg-emerald-100 text-emerald-300 theme-light:text-emerald-900 border-emerald-500 shadow-md shadow-emerald-500/20'
                   } else if (isSelected) {
                     btnStyle =
-                      'bg-rose-950/60 text-rose-300 theme-light:text-rose-900 border-rose-500'
+                      'bg-rose-950/60 theme-light:bg-rose-100 text-rose-300 theme-light:text-rose-900 border-rose-500'
                   } else {
                     btnStyle = 'opacity-40 border-zinc-800'
                   }
