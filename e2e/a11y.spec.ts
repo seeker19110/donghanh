@@ -4,6 +4,7 @@ import { mockLogin, USER_ID, type ThemeName } from './helpers/auth'
 import { openLiveLocationTrip } from './helpers/location'
 import { muteTts } from './helpers/tts'
 import { freezeAnimations, waitForStableDom } from './helpers/axe'
+import { moCauTuThuLai } from './helpers/stemRetry'
 
 // Quét a11y bằng axe-core (WCAG 2.0/2.1/2.2 A & AA), gồm quyền phóng to viewport.
 //
@@ -573,5 +574,17 @@ for (const theme of THEMES) {
     await nopBaiStem(page)
     const { all } = await scan(page)
     expect(all).toEqual([])
+  })
+}
+
+// [S11b] Câu STEM ở chế độ TỰ THỬ LẠI (vào từ Sổ lỗi, router state) — 0 vi phạm A/AA.
+for (const theme of THEMES) {
+  test(`a11y: câu STEM tự thử lại từ Sổ lỗi, theme=${theme}`, async ({ page }) => {
+    await mockLogin(page, 'vi', theme)
+    await muteTts(page)
+    await moCauTuThuLai(page)
+    await waitForStableDom(page)
+    const { all } = await scan(page)
+    expect(all, `Vi phạm A/AA ở câu STEM tự thử lại, theme=${theme}`).toEqual([])
   })
 }

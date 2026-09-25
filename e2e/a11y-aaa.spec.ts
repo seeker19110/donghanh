@@ -4,6 +4,7 @@ import { mockLogin, type ThemeName } from './helpers/auth'
 import { openLiveLocationTrip } from './helpers/location'
 import { mockLessonContrastSample } from './helpers/lessonContrastFixture'
 import { freezeAnimations, waitForStableDom } from './helpers/axe'
+import { moCauTuThuLai } from './helpers/stemRetry'
 import {
   AAA_RULE_IDS,
   AAA_TAGS,
@@ -428,6 +429,20 @@ for (const theme of THEMES) {
     await nopBaiStem(page)
     const violated = await scanAaa(page)
     expect(violated, `Vi phạm WCAG AAA trên màn kết quả bài STEM, theme=${theme}.`).toEqual([])
+  })
+}
+
+// [S11b] Câu STEM ở chế độ TỰ THỬ LẠI (vào từ Sổ lỗi) — chỉ tồn tại sau một lượt bấm có
+// router state, nên vòng quét theo route không thấy. Dòng hướng dẫn là chữ đọc → 7:1.
+for (const theme of THEMES) {
+  test(`a11y AAA (nội dung + tiêu đề): câu STEM tự thử lại từ Sổ lỗi theme=${theme}`, async ({
+    page,
+  }) => {
+    await mockLogin(page, 'vi', theme)
+    await moCauTuThuLai(page)
+    await waitForStableDom(page)
+    const violated = await scanAaa(page)
+    expect(violated, `Vi phạm WCAG AAA ở câu STEM tự thử lại, theme=${theme}.`).toEqual([])
   })
 }
 

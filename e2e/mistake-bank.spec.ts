@@ -71,7 +71,7 @@ test('lỗi không có bằng chứng hiện "ghi tay" và "Ôn lại" đi tới
   // Danh sách "Tất cả" hiện nút ôn lại ngay, không phải lật thẻ.
   await page.getByRole('button', { name: /Tất cả/ }).click()
   await page
-    .getByRole('link', { name: /Ôn lại lỗi này/ })
+    .getByRole('link', { name: /Ôn lại ở Luyện nói/ })
     .first()
     .click()
   await expect(page).toHaveURL(/\/luyen-noi/)
