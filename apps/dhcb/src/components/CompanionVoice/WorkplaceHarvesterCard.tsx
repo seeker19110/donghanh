@@ -107,13 +107,13 @@ export default function WorkplaceHarvesterCard() {
   return (
     <div className="bg-surface-card border border-amber-500/30 rounded-2xl p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden transition-all duration-300">
       {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-line-subtle">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-line-subtle">
+        <div className="flex min-w-0 items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-orange-500 flex items-center justify-center shadow-lg">
             <Briefcase className="w-5 h-5 text-[#fff]" />
           </div>
-          <div>
-            <div className="flex items-center gap-2">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
               <h3 className="text-base font-bold text-white tracking-wide">
                 Workplace Error Harvester & Auto-SRS
               </h3>
@@ -131,8 +131,10 @@ export default function WorkplaceHarvesterCard() {
         {/* Tab switcher */}
         <div className="flex bg-surface-raised p-1 rounded-xl border border-line-strong">
           <button
+            type="button"
             onClick={() => setActiveTab('mistakes')}
-            className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors ${
+            aria-pressed={activeTab === 'mistakes'}
+            className={`tap-44-y px-3 py-1 rounded-lg text-xs font-semibold transition-colors ${
               activeTab === 'mistakes'
                 ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
                 : 'text-content-secondary hover:text-content'
@@ -141,8 +143,10 @@ export default function WorkplaceHarvesterCard() {
             Lỗi Thu Hoạch ({mistakes.length})
           </button>
           <button
+            type="button"
             onClick={() => setActiveTab('cards')}
-            className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors ${
+            aria-pressed={activeTab === 'cards'}
+            className={`tap-44-y px-3 py-1 rounded-lg text-xs font-semibold transition-colors ${
               activeTab === 'cards'
                 ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
                 : 'text-content-secondary hover:text-content'
@@ -154,14 +158,15 @@ export default function WorkplaceHarvesterCard() {
       </div>
 
       {/* Quick Ingest Form */}
-      <form onSubmit={handleHarvestText} className="mt-4 flex gap-2">
+      <form onSubmit={handleHarvestText} className="mt-4 flex flex-wrap gap-2">
         <input
           type="text"
           value={testText}
           onChange={(e) => setTestText(e.target.value)}
           placeholder="Dán đoạn thảo luận / email (ví dụ: 'I am agree with you to discuss about this project')..."
           disabled={isHarvesting}
-          className="flex-1 px-4 py-2.5 rounded-xl bg-surface-raised border border-line-strong text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors"
+          aria-label="Đoạn văn cần thu hoạch lỗi"
+          className="min-w-0 flex-1 basis-48 px-4 py-2.5 rounded-xl bg-surface-raised border border-line-strong text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors"
         />
         <button
           type="submit"
