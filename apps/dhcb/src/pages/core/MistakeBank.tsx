@@ -32,6 +32,7 @@ import {
   type MistakeSource,
 } from '../../lib/mistakes'
 import { duongDanOnLaiLoiAnh, duongDanCauSaiStem } from '../../lib/mistakeRoutes'
+import { stateTuThuLai } from '../../lib/stemRetry'
 import {
   mistakesFromEvidence,
   getDueEvidenceMistakes,
@@ -265,12 +266,16 @@ function ListRow({
       {mistake.explanation && (
         <p className="text-[11px] text-content-secondary break-words mt-1">{mistake.explanation}</p>
       )}
+      {/* [S11b] Nhãn nói ĐÚNG nơi sẽ mở: lỗi môn Anh không neo được tới câu nào, nên không hứa
+          "sửa đúng câu này" — cùng khuôn với thẻ ôn ở trên. */}
       <Link
         to={duongDanOnLaiLoiAnh(mistake.source)}
         className="tap-44 mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-accent-300 theme-light:text-accent-800 hover:underline"
       >
         <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
-        {isA ? 'Ôn lại lỗi này' : 'Practise again'}
+        {isA
+          ? `Ôn lại ở ${SOURCE_META[mistake.source].vi}`
+          : `Practise again in ${SOURCE_META[mistake.source].en}`}
       </Link>
     </div>
   )
@@ -309,8 +314,11 @@ function StemMistakeRow({ entry }: { entry: MistakeEntry }) {
           Kết quả chấm: {lyDo}
         </p>
       )}
+      {/* [S11b] state = "mở để TỰ THỬ LẠI": trang bài ẩn đáp án cũ + lời giải của câu này cho tới
+          khi người học trả lời lại (lib/stemRetry.ts). URL `#cau-N` giữ nguyên hợp đồng. */}
       <Link
         to={duongDanCauSaiStem(entry.subjectId, entry.contentId, entry.questionIndex, tieuDe)}
+        state={stateTuThuLai(entry.questionIndex)}
         className="tap-44 mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-accent-300 theme-light:text-accent-800 hover:underline"
       >
         <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />

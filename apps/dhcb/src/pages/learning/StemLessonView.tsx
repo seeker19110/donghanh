@@ -35,6 +35,7 @@ import { buttonClass } from '@core/buttonStyles'
 import { usePageTitle } from '../../lib/usePageTitle'
 import { useAuth } from '../../context/useAuth'
 import { contentFingerprint } from '../../lib/learningSession'
+import { boCoTuThuLai, docCauTuThuLai } from '../../lib/stemRetry'
 import { useLearningSession } from '../../lib/useLearningSession'
 import { ChuaDuyetChuyenMon } from '../../components/ChuaDuyetChuyenMon'
 import { LuotDuyetBai } from '../../components/admin/LuotDuyetBai'
@@ -94,20 +95,32 @@ interface LuotDaNop {
 function CauHoi({
   cau,
   thuTu,
-  traLoi,
-  daCham,
+  traLoi: traLoiNhap,
+  daCham: daChamNhap,
+  dangTuThu,
   onChon,
   onGo,
   onKiemTra,
+  onThuLai,
+  onXemLai,
 }: {
   cau: StemCheckQuestion
   thuTu: number
   traLoi: string
   daCham: boolean
+  /** [S11b] Vào từ Sổ lỗi: ẩn đáp án cũ + lời giải cho tới khi người học trả lời lại. */
+  dangTuThu: boolean
   onChon: (giaTri: string) => void
   onGo: (giaTri: string) => void
   onKiemTra: () => void
+  /** [S11b] Xoá đáp án + kết quả của RIÊNG câu này để làm lại từ đầu. */
+  onThuLai: () => void
+  /** [S11b] Thoát chế độ tự thử, hiện lại câu trả lời lần trước. */
+  onXemLai: () => void
 }) {
+  // Chế độ tự thử CHỈ đổi thứ được VẼ, không đụng nháp: người học có thể xem lại bất cứ lúc nào.
+  const traLoi = dangTuThu ? '' : traLoiNhap
+  const daCham = dangTuThu ? false : daChamNhap
   // Kết quả SUY RA, không lưu: có bấm chấm và có chữ thì mới có đúng/sai.
   const ketQua: 'dung' | 'sai' | null =
     daCham && traLoi.trim() ? (gradeAnswer(traLoi, cau.answer).correct ? 'dung' : 'sai') : null
@@ -117,6 +130,21 @@ function CauHoi({
       <p id={neoCauHoi(thuTu - 1)} tabIndex={-1} className="scroll-mt-24 font-medium text-content">
         Câu {thuTu}. {cau.prompt}
       </p>
+
+      {dangTuThu && (
+        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+          <p className="text-content-secondary">
+            Đang tự thử lại — câu trả lời lần trước đang được ẩn.
+          </p>
+          <button
+            type="button"
+            onClick={onXemLai}
+            className="tap-44-y text-accent-300 theme-light:text-accent-800 underline underline-offset-2"
+          >
+            Xem câu trả lời lần trước
+          </button>
+        </div>
+      )}
 
       {cau.choices ? (
         <ul className="mt-3 space-y-2">
@@ -171,6 +199,17 @@ function CauHoi({
           <p className="mt-1 text-content-secondary">{cau.explain}</p>
         </div>
       )}
+      {/* Nút nằm NGOÀI vùng role="status" để trình đọc màn hình không đọc nhãn nút như một
+          phần của thông báo kết quả. */}
+      {ketQua === 'sai' && (
+        <button
+          type="button"
+          onClick={onThuLai}
+          className={`${buttonClass({ variant: 'secondary' })} mt-3 min-h-[44px]`}
+        >
+          Thử lại câu này
+        </button>
+      )}
     </li>
   )
 }
@@ -191,9 +230,12 @@ function TuKiemTra({
   nextHref,
   onSubmitted,
   onNhay,
+  tuThuLaiCau = null,
 }: {
   bai: StemLessonLike
   subjectId: StemSubjectId
+  /** [S11b] Câu (đếm từ 0) được mở từ Sổ lỗi để tự thử lại — đọc MỘT lần lúc dựng. */
+  tuThuLaiCau?: number | null
   /** [S09b] Nhảy tới một neo trong bài (đổi hash + focus) — dùng cho link "về Tự kiểm tra". */
   onNhay: (id: string) => void
   /** Bài kế tiếp theo cây mục lục — màn kết quả mời đi tiếp thay vì bỏ người học ở đó. */
@@ -239,23 +281,47 @@ function TuKiemTra({
 
   const { draft, setDraft } = phien
 
+  // [S11b] Câu đang ở chế độ tự thử (ẩn đáp án cũ). Chỉ nhận chỉ số có thật trong bài — cờ đến
+  // từ history nên có thể lệch (bài đã sửa bớt câu). Thoát khi người học trả lời hoặc bấm xem lại.
+  const [cauTuThu, setCauTuThu] = useState<number | null>(() =>
+    tuThuLaiCau !== null && tuThuLaiCau < bai.checkQuestions.length ? tuThuLaiCau : null,
+  )
+
   // Trắc nghiệm: bấm là chọn VÀ chấm luôn (giữ đúng hành vi đang có).
   const chon = useCallback(
-    (i: number, giaTri: string) =>
+    (i: number, giaTri: string) => {
+      setCauTuThu((c) => (c === i ? null : c))
       setDraft((prev) => ({
         answers: { ...prev.answers, [i]: giaTri },
         checked: prev.checked.includes(String(i)) ? prev.checked : [...prev.checked, String(i)],
-      })),
+      }))
+    },
     [setDraft],
   )
 
   // Tự luận: gõ là bỏ kết quả cũ, chỉ chấm khi bấm "Kiểm tra" (hành vi hiện có, giữ nguyên).
   const go = useCallback(
-    (i: number, giaTri: string) =>
+    (i: number, giaTri: string) => {
+      setCauTuThu((c) => (c === i ? null : c))
       setDraft((prev) => ({
         answers: { ...prev.answers, [i]: giaTri },
         checked: prev.checked.filter((k) => k !== String(i)),
-      })),
+      }))
+    },
+    [setDraft],
+  )
+
+  // [S11b] "Thử lại câu này": xoá đáp án + kết quả của RIÊNG câu i (thao tác chủ động của người
+  // học), rồi đưa focus về đề câu để làm lại ngay. Không tạo bằng chứng, không đụng câu khác.
+  const thuLai = useCallback(
+    (i: number) => {
+      setDraft((prev) => {
+        const { [String(i)]: _bo, ...conLai } = prev.answers
+        void _bo
+        return { answers: conLai, checked: prev.checked.filter((k) => k !== String(i)) }
+      })
+      requestAnimationFrame(() => document.getElementById(neoCauHoi(i))?.focus())
+    },
     [setDraft],
   )
 
@@ -287,9 +353,17 @@ function TuKiemTra({
     [uid],
   )
   const soCau = bai.checkQuestions.length
+  // [S11b] Đáp án ĐANG HIỆU LỰC: câu đang tự thử coi như chưa trả lời — nộp lúc này không được
+  // lặng lẽ gửi lại đáp án cũ mà người học đang không nhìn thấy.
+  const dapAnHieuLuc = useMemo(() => {
+    if (cauTuThu === null) return draft.answers
+    const { [String(cauTuThu)]: _an, ...conLai } = draft.answers
+    void _an
+    return conLai
+  }, [draft.answers, cauTuThu])
   const daTraLoiHet =
     soCau > 0 &&
-    bai.checkQuestions.every((_, i) => (draft.answers[String(i)] ?? '').trim().length > 0)
+    bai.checkQuestions.every((_, i) => (dapAnHieuLuc[String(i)] ?? '').trim().length > 0)
 
   // Gửi lại những lượt nộp đang kẹt trên máy này (mất mạng / server lỗi / hết phiên lúc nộp).
   // CÓ ĐIỀU KIỆN `hasPendingEvidence`: hàng đợi rỗng thì KHÔNG có request nào rời trình duyệt,
@@ -318,7 +392,7 @@ function TuKiemTra({
     const luot = ++luotHieuLuc.current
     // [S09a AC05] Chụp câu trả lời NGAY LÚC BẤM NỘP (chỉ trong bộ nhớ). Màn kết quả hiện đúng
     // bản chụp này — sửa nháp trong lúc chờ hay sau khi có kết quả không được lọt vào lượt cũ.
-    const banChup: Readonly<Record<string, string>> = { ...draft.answers }
+    const banChup: Readonly<Record<string, string>> = { ...dapAnHieuLuc }
     // Nộp rồi thì mọi câu đều phải hiện đúng/sai — kể cả câu tự luận chưa bấm "Kiểm tra".
     setDraft((prev) => ({ ...prev, checked: bai.checkQuestions.map((_, i) => String(i)) }))
     const answers = bai.checkQuestions
@@ -337,7 +411,7 @@ function TuKiemTra({
     } finally {
       setDangNop(false)
     }
-  }, [uid, dangNop, setDraft, bai, subjectId, draft.answers, onSubmitted])
+  }, [uid, dangNop, setDraft, bai, subjectId, dapAnHieuLuc, onSubmitted])
 
   // Chỉ hiện kết quả của ĐÚNG người đang mở bài: đổi tài khoản thì kết quả người trước biến mất.
   const manKetQua = useMemo(
@@ -370,9 +444,13 @@ function TuKiemTra({
             thuTu={i + 1}
             traLoi={draft.answers[String(i)] ?? ''}
             daCham={draft.checked.includes(String(i))}
+            // Chỉ có gì để ẩn khi nháp còn đáp án cũ (máy khác/không nháp thì hiện như thường).
+            dangTuThu={cauTuThu === i && (draft.answers[String(i)] ?? '').trim().length > 0}
             onChon={(giaTri) => chon(i, giaTri)}
             onGo={(giaTri) => go(i, giaTri)}
             onKiemTra={() => kiemTra(i)}
+            onThuLai={() => thuLai(i)}
+            onXemLai={() => setCauTuThu(null)}
           />
         ))}
       </ul>
@@ -436,14 +514,35 @@ function TuKiemTra({
   )
 }
 
+/** Mã bài từ đoạn cuối pathname — biết "đang ở bài nào" mà không cần chờ bài nạp xong. */
+function maBaiTuPathname(pathname: string): string {
+  return maBaiTuUrl(pathname.split('/').filter(Boolean).pop())
+}
+
 export default function StemLessonView() {
   const location = useLocation()
   const { hash } = location
   const navigate = useNavigate()
+
+  // [S11b] Cờ "tự thử lại câu N" từ Sổ lỗi: chụp MỘT lần lúc mở trang, rồi xoá khỏi history
+  // (replace, giữ nguyên pathname/query/hash) để tải lại trang không bật lại chế độ tự thử.
+  // Gắn với ĐÚNG bài lúc mở: chuyển sang bài khác trong mục lục thì cờ không được đi theo.
+  const [tuThuLai] = useState(() => ({
+    maBai: maBaiTuPathname(location.pathname),
+    cau: docCauTuThuLai(location.state),
+  }))
+  useEffect(() => {
+    if (docCauTuThuLai(location.state) === null) return
+    navigate(
+      { pathname: location.pathname, search: location.search, hash: location.hash },
+      { replace: true, state: boCoTuThuLai(location.state) },
+    )
+  }, [location.state, location.pathname, location.search, location.hash, navigate])
   const articleRef = useRef<HTMLElement>(null)
   const { subjectId, lessonSlug } = useParams<{ subjectId: string; lessonSlug: string }>()
   const subject = getStemSubject(subjectId)
   const lessonId = maBaiTuUrl(lessonSlug)
+  const tuThuLaiCau = tuThuLai.cau !== null && tuThuLai.maBai === lessonId ? tuThuLai.cau : null
 
   // Giữ CẢ mã bài trong state, rồi suy ra trạng thái tải bằng cách so với mã bài đang xem.
   // Nhờ vậy không phải gọi setState đồng bộ ngay đầu effect khi chuyển bài (ESLint chặn, và
@@ -684,6 +783,7 @@ export default function StemLessonView() {
                 subjectId={subject.id}
                 onSubmitted={tienDo.reload}
                 onNhay={nhay}
+                tuThuLaiCau={tuThuLaiCau}
                 {...(baiSau ? { nextHref: baiSau } : {})}
               />
 

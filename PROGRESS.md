@@ -186,6 +186,7 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
   Hai nợ nhỏ sau S09 đã trả (`docs/changelog/0441-*.md`): liên kết "Bỏ qua mục lục" (bài Vật lí 52 → 5 Tab), thẻ hội thoại đếm lượt thống nhất; kèm sửa tiêu điểm rơi về `<body>` sau khi chọn trong mục lục mobile.
   **25/09:** S07d Approved (`docs/changelog/0442-*.md`) và source xong (`docs/changelog/0443-*.md`): focus không còn bị header/thanh đáy che khi Tab/Shift+Tab, vùng chạm 44px, `h1` ở CEFR/Placement, cổng `e2e/s07-matrix.spec.ts` 76 ca có negative control.
   **25/09:** S10b + S11b Approved (`docs/changelog/0444-*.md`): S10b xuất phản hồi thật của app cho 40 mẫu để chuyên gia chấm (không chấm thay); S11b tự thử lại câu STEM sai không lộ đáp án cũ.
+  S11b source xong (`docs/changelog/0445-*.md`): vào câu STEM sai từ Sổ lỗi thì ẩn đáp án cũ + lời giải (có nút xem lại), nút "Thử lại câu này", E2E chuỗi sai → tự thử → nộp đúng → Sổ lỗi hết câu.
   Bước tiếp theo: S11 (sau S10 chuyên gia) và thu bằng chứng accessibility/thiết bị thật còn thiếu;
   xem trạng thái và giới hạn nghiệm thu trong goal, không coi source merge là goal hoàn tất.
 
