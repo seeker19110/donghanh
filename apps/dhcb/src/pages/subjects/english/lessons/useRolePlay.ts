@@ -1,6 +1,13 @@
 // apps/dhcb/src/pages/subjects/english/lessons/useRolePlay.ts — state + logic chế độ "Đóng vai",
 // tách từ LessonView.tsx (2026-09-06). Mã trong hook GIỮ NGUYÊN, chỉ đổi chỗ: thứ hook cần từ
 // trình phát (ref tốc độ/giọng, đặt dòng đang đọc, sáng chữ) nhận qua tham số.
+//
+// [S09c, 2026-09-24 — spec §2.7 mục 5] THẾ HỆ (generation) thay cờ `rpStopRef`: mỗi lần bắt
+// đầu/dừng/điều hướng tăng `theHeRef`; mọi đoạn mã chạy SAU một `await` (TTS, micro, STT, chấm
+// điểm) so lại thế hệ đã chụp và bỏ cuộc nếu đã khác. Cờ boolean cũ có lỗ: "Dừng" rồi "Đọc lại"
+// nhanh thì vòng cũ thấy cờ đã về `false` và chạy song song với vòng mới; phản hồi chấm điểm
+// về sau khi rời bài vẫn cộng lượt dùng. Hook sống theo MỘT bài/owner/chiều học (trang đặt
+// `key` cho LessonView), nên kết quả chấm chỉ thuộc đúng bài/owner/chiều đó.
 import { thongDiepLoiThanThien } from '../../../../lib/friendlyError'
 import { useState, useRef, useEffect } from 'react'
 import type { MutableRefObject } from 'react'
@@ -60,7 +67,8 @@ export function useRolePlay({
   const [rpEvaluating, setRpEvaluating] = useState(false)
   const [rpEvaluation, setRpEvaluation] = useState<EvaluationResult | null>(null)
   const [rpError, setRpError] = useState('')
-  const rpStopRef = useRef(false)
+  // Thế hệ phiên đóng vai hiện hành — xem chú thích đầu file.
+  const theHeRef = useRef(0)
   const rpRecorderRef = useRef<Recorder | null>(null)
   const rpResolveRef = useRef<((text: string) => void) | null>(null)
   const rpWordTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -101,11 +109,18 @@ export function useRolePlay({
   async function beginRolePlayRecording() {
     if (!canRecord || rpIdx === null || rpRecording) return
     unlockAudio()
+    const the = theHeRef.current
     try {
       const rec = await startRecording(isA ? 'en' : 'vi')
+      // Đã điều hướng/dừng trong lúc chờ quyền micro → nhả micro ngay, không gắn vào phiên mới.
+      if (the !== theHeRef.current) {
+        rec.cancel()
+        return
+      }
       rpRecorderRef.current = rec
       setRpRecording(true)
     } catch {
+      if (the !== theHeRef.current) return
       setRpError(
         isA
           ? 'Không mở được micro. Kiểm tra quyền truy cập trình duyệt.'
@@ -117,6 +132,10 @@ export function useRolePlay({
   async function finishRolePlayRecording() {
     const rec = rpRecorderRef.current
     if (!rec) return
+    const the = theHeRef.current
+    // Bộ ghi đã được "dừng" (đang chờ STT) → nhả khỏi ref NGAY, để lệnh huỷ khi điều hướng không
+    // gọi stop/cancel lần hai lên cùng một bộ ghi (có thể phát `onstop` lần nữa → gửi STT lần 2).
+    rpRecorderRef.current = null
     setRpRecording(false)
     setRpTranscribing(true)
     stopWordPacer()
@@ -126,7 +145,8 @@ export function useRolePlay({
     } catch {
       text = ''
     }
-    rpRecorderRef.current = null
+    // STT về sau khi đã điều hướng: bỏ transcript, KHÔNG đánh thức vòng đóng vai (nó đã bị huỷ).
+    if (the !== theHeRef.current) return
     setRpTranscribing(false)
     rpResolveRef.current?.(text)
     rpResolveRef.current = null
@@ -145,7 +165,10 @@ export function useRolePlay({
 
   async function startRolePlay(role: 'A' | 'B') {
     unlockAudio()
-    rpStopRef.current = false
+    // Phiên mới: vô hiệu mọi chuỗi cũ còn treo (vd bấm "Đọc lại" khi vòng trước chưa kịp thoát).
+    huyChuoi()
+    const the = theHeRef.current
+    const conHieuLuc = () => the === theHeRef.current
     setRolePicker(false)
     setRolePlay({ role })
     setRpFinished(false)
@@ -156,7 +179,7 @@ export function useRolePlay({
     syncWord(null)
 
     for (let i = 0; i < lesson.turns.length; i++) {
-      if (rpStopRef.current) break
+      if (!conHieuLuc()) return
       const t = lesson.turns[i]
       if (!t) continue
       setActiveTurn(i)
@@ -167,8 +190,8 @@ export function useRolePlay({
       if (t.speaker === role) {
         setRpIdx(i)
         const text = await waitForUserTurn(i, displayText, displayLang)
+        if (!conHieuLuc()) return
         setRpIdx(null)
-        if (rpStopRef.current) break
         setRpTranscripts((prev) => ({ ...prev, [i]: text }))
       } else {
         const v = t.speaker === 'A' ? voiceARef.current : voiceBRef.current
@@ -176,21 +199,22 @@ export function useRolePlay({
         await speak(displayText, lang, v, speedRef.current, (wi) =>
           syncWord({ turnIdx: i, lang: displayLang, wordIdx: wi }),
         )
-        if (!rpStopRef.current) await new Promise((r) => setTimeout(r, 400))
+        if (!conHieuLuc()) return
+        await new Promise((r) => setTimeout(r, 400))
       }
     }
 
-    const wasStopped = rpStopRef.current
-    rpStopRef.current = false
+    if (!conHieuLuc()) return
     setActiveTurn(null)
     syncWord(null)
     setRpIdx(null)
-    if (!wasStopped) setRpFinished(true)
-    else setRolePlay(null)
+    setRpFinished(true)
   }
 
-  function stopRolePlay() {
-    rpStopRef.current = true
+  // Huỷ phần "đang chạy" (không đụng state React): tăng thế hệ, dừng giọng đọc/nhịp sáng chữ,
+  // huỷ ghi âm (nhả micro, không gửi STT) và đánh thức lời chờ lượt người dùng để vòng cũ thoát.
+  function huyChuoi() {
+    theHeRef.current++
     stopWordPacer()
     stopSpeaking()
     if (rpRecorderRef.current) {
@@ -199,6 +223,10 @@ export function useRolePlay({
     }
     rpResolveRef.current?.('')
     rpResolveRef.current = null
+  }
+
+  function stopRolePlay() {
+    huyChuoi()
     setRpRecording(false)
     setRpTranscribing(false)
     setRolePlay(null)
@@ -206,6 +234,20 @@ export function useRolePlay({
     setRpIdx(null)
     setActiveTurn(null)
     syncWord(null)
+  }
+
+  /**
+   * Trang vừa áp một điều hướng (đổi hash/đích): phiên đóng vai đang chạy KẾT THÚC CHƯA HOÀN
+   * THÀNH — không thành "bỏ qua có điểm", không mở thanh chấm; lượt chấm đang chờ bị bỏ (phản
+   * hồi về sau không hiện, không cộng lượt). Kết quả ĐÃ có của lần mở bài này thì giữ nguyên.
+   * Muốn phát/ghi lại phải bấm rõ ràng.
+   */
+  function huyTheoDieuHuong() {
+    stopRolePlay()
+    setRolePicker(false)
+    setRpTranscripts({})
+    setRpEvaluating(false)
+    setRpError('')
   }
 
   function closeRolePlayResult() {
@@ -229,6 +271,7 @@ export function useRolePlay({
       return
     }
     if (rpThrottled) return
+    const the = theHeRef.current
     setRpEvaluating(true)
     setRpError('')
     const role = rolePlay.role
@@ -239,6 +282,9 @@ export function useRolePlay({
     }))
     try {
       const raw = await callClaude(history, sys, 2048, 'speaking')
+      // Đã rời phiên (điều hướng/đổi bài/owner) khi đang chấm → bỏ phản hồi: không hiện điểm,
+      // không cộng lượt. Lượt gọi AI đã tốn thì không lấy lại được, nhưng không "ghi điểm" sai chỗ.
+      if (the !== theHeRef.current) return
       const data = parseJson<EvaluationResult>(raw)
       if (!data) {
         throw new Error(
@@ -251,6 +297,7 @@ export function useRolePlay({
       incrementUsage(userId, 'speakingCount')
       rpThrottle()
     } catch (e) {
+      if (the !== theHeRef.current) return
       setRpError(
         thongDiepLoiThanThien(e, isA ? 'Lỗi không xác định' : 'Unknown error', isA ? 'vi' : 'en'),
       )
@@ -258,12 +305,16 @@ export function useRolePlay({
     setRpEvaluating(false)
   }
 
-  // Dừng đóng vai khi rời màn hình
+  // Rời màn hình (đổi bài/owner/chiều → trang remount LessonView): huỷ mọi chuỗi còn treo.
+  // Chỉ đụng ref — setState sau khi unmount là vô nghĩa.
   useEffect(
     () => () => {
-      rpStopRef.current = true
+      theHeRef.current++
       stopWordPacer()
       if (rpRecorderRef.current) rpRecorderRef.current.cancel()
+      rpRecorderRef.current = null
+      rpResolveRef.current?.('')
+      rpResolveRef.current = null
     },
     [],
   )
@@ -284,6 +335,7 @@ export function useRolePlay({
     rpThrottled,
     startRolePlay,
     stopRolePlay,
+    huyTheoDieuHuong,
     closeRolePlayResult,
     gradeRolePlay,
     beginRolePlayRecording,
