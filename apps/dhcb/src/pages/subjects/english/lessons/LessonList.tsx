@@ -110,10 +110,12 @@ export function LessonList({
                   >
                     {l.situation}
                   </p>
-                  {/* Dòng "N lượt thoại" chỉ có chỗ ở khuôn rộng. */}
+                  {/* Dòng "N lượt thoại" chỉ có chỗ ở khuôn rộng. Đếm TỪNG lượt nói (không chia
+                      đôi thành cặp) — cùng cách đếm với trang bài ("Lượt 20"), link `#luot-N`
+                      và dòng mô tả "Mỗi bài 10–20 đoạn" (turnCount thật 10–20). */}
                   {!compact && (
                     <p className="text-[11px] text-zinc-400 mt-1.5">
-                      {l.turnCount / 2} {isA ? 'lượt thoại' : 'exchanges'}
+                      {l.turnCount} {isA ? 'lượt thoại' : 'turns'}
                     </p>
                   )}
                 </div>

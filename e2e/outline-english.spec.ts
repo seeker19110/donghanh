@@ -138,6 +138,11 @@ test.describe('mục lục cấp CEFR — mobile', () => {
     await ketQua.click()
 
     await expect(panel).toBeHidden()
+    // Kiểm TRẠNG THÁI CUỐI, không đọc một lần ngay khi panel ẩn. Đo 2026-09-25: màn hội thoại
+    // mobile không có `<h1>`; `<h1>` cũ nhận focus rồi bị gỡ nên tiêu điểm rơi về `<body>` MỌI lần
+    // — bản test cũ đọc đúng khoảnh khắc `<h1>` cũ còn sống nên xanh giả (có tải CPU thì đỏ 10/16).
+    // Chờ qua hết cửa sổ dựng lại trang (useOutlinePane canh 3 giây) rồi mới đọc.
+    await page.waitForTimeout(3500)
     const theTieuDiem = await page.evaluate(() => document.activeElement?.tagName ?? '')
     expect(theTieuDiem).not.toBe('BODY')
   })

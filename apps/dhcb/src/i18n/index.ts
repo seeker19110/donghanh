@@ -264,7 +264,7 @@ export const t = {
     dictTitleA: 'Dictionary',
     dictDescA: 'Look up 10,000 common English words: part of speech, Vietnamese meaning, examples.',
     lessonsTitleA: 'Sample dialogues',
-    lessonsDescA: 'Sample dialogues on everyday topics, 10–20 bilingual exchanges per lesson.',
+    lessonsDescA: 'Sample dialogues on everyday topics, 10–20 bilingual turns per lesson.',
     tagDictCount: '10,000+ words',
     tagLessonsCount: '350 lessons',
     tagPhrasesCount: '1,000 topics',
@@ -288,7 +288,7 @@ export const t = {
     dictTitleB: 'Dictionary',
     dictDescB: 'Look up 10,000 common Vietnamese–English words with part of speech and examples.',
     lessonsTitleB: 'Sample dialogues',
-    lessonsDescB: 'Everyday Vietnamese dialogues, 10–20 bilingual exchanges per lesson.',
+    lessonsDescB: 'Everyday Vietnamese dialogues, 10–20 bilingual turns per lesson.',
     listenDescB: 'Everyday Vietnamese dialogues + a library of common sentences, with audio.',
 
     // Login
@@ -365,7 +365,7 @@ export const t = {
 
     // Lessons
     lessonsPageTitle: 'Conversation lessons',
-    lessonsPageSub: '10–20 bilingual exchanges per lesson',
+    lessonsPageSub: '10–20 bilingual turns per lesson',
 
     // Phrases
     phrasesPageTitle: 'Common Sentences',

@@ -14,7 +14,7 @@
 // changelog `0199`: trình đọc màn hình đọc nội dung hai lần, và Playwright báo strict-mode
 // violation vì tìm thấy hai phần tử trùng. Vì vậy nhánh desktop phải được quyết ở JS
 // (`useIsDesktopViewport()` phía app) và chỉ MỘT nhánh được dựng.
-import type { ReactNode } from 'react'
+import { useId, useRef, type ReactNode } from 'react'
 
 export interface TwoPaneProps {
   /** Cột chính. */
@@ -39,6 +39,11 @@ export interface TwoPaneProps {
    * bên phải sẽ buộc người dùng đọc ngược.
    */
   railSide?: 'left' | 'right'
+  /**
+   * Nhãn liên kết ẩn "bỏ qua cột trái" — chỉ dùng khi `railSide="left"`. Mặc định tiếng Việt;
+   * truyền vào để đổi theo ngôn ngữ giao diện.
+   */
+  skipRailLabel?: string
 }
 
 const RAIL_CLASS = {
@@ -53,7 +58,10 @@ export function TwoPane({
   railWidth = 'normal',
   railLabel = 'Thông tin hỗ trợ',
   railSide = 'right',
+  skipRailLabel = 'Bỏ qua mục lục, tới nội dung',
 }: TwoPaneProps) {
+  const mainId = useId()
+  const mainRef = useRef<HTMLDivElement>(null)
   if (!isDesktop || !rail) return <>{children}</>
 
   // `sticky` + `max-h` + cuộn riêng: cột phụ bám theo khi đọc nội dung dài, nhưng không bao giờ
@@ -67,12 +75,41 @@ export function TwoPane({
       {rail}
     </aside>
   )
-  const mainEl = <div className="min-w-0 flex-1">{children}</div>
+  // `tabIndex={-1}`: nhận tiêu điểm bằng mã lệnh (đích của liên kết bỏ qua), không thêm điểm dừng Tab.
+  const mainEl = (
+    <div id={mainId} ref={mainRef} tabIndex={-1} className="min-w-0 flex-1 focus:outline-none">
+      {children}
+    </div>
+  )
+
+  // [2026-09-25] Cột trái (mục lục môn/khoá) đứng TRƯỚC nội dung trong DOM, và nằm TRONG `<main>`
+  // nên liên kết "Bỏ qua tới nội dung chính" không qua được nó. Đo thật ở 1440px: bài Vật lí mất
+  // ~20 điểm dừng Tab trong cây mục lục mới tới "Trong bài". Liên kết này vô hình cho tới khi
+  // nhận tiêu điểm (cùng khuôn `SkipLink`, WCAG 2.4.1). Xử lý bằng mã thay vì để trình duyệt
+  // theo `href`: trang bài đọc `location.hash` làm đích điều hướng trong bài, một hash lạ sẽ bị
+  // coi là đích sai và đẩy tiêu điểm về đầu bài, lại còn làm bẩn URL chia sẻ.
+  const skipEl =
+    railSide === 'left' ? (
+      <a
+        href={`#${mainId}`}
+        onClick={(e) => {
+          e.preventDefault()
+          // `preventScroll`: cột nội dung vốn đã trong khung nhìn; để trình duyệt tự cuộn thì
+          // phần tử đầu cột bị đẩy lên DƯỚI header sticky (đo ở ảnh 1440px — liên kết quay lại
+          // bị che, WCAG 2.4.11).
+          mainRef.current?.focus({ preventScroll: true })
+        }}
+        className="sr-only focus:not-sr-only focus:absolute focus:z-[60] focus:px-4 focus:py-2 focus:rounded-xl focus:bg-accent-500 focus:text-[#09090b] focus:font-semibold focus:text-sm focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-accent-300"
+      >
+        {skipRailLabel}
+      </a>
+    ) : null
 
   // Thứ tự trong DOM đi theo thứ tự thị giác (không dùng `order-*` của CSS để đảo): trình đọc
   // màn hình và phím Tab đi theo DOM, nên đảo bằng CSS sẽ làm hai luồng đó lệch nhau.
   return (
-    <div className="flex items-start gap-6">
+    <div className="relative flex items-start gap-6">
+      {skipEl}
       {railSide === 'left' ? asideEl : mainEl}
       {railSide === 'left' ? mainEl : asideEl}
     </div>

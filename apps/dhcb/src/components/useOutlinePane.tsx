@@ -11,6 +11,7 @@ import { useCallback, useState, type ReactNode } from 'react'
 import { ListTree } from 'lucide-react'
 import type { Outline } from '@dhcb/core-contracts/outline'
 import { ancestorChapterIds, ancestorChapterIdsOfNode } from '@dhcb/core-learner/outline/outlineNav'
+import { MAIN_CONTENT_ID } from '@core/PageShell'
 import Modal from './Modal'
 import { OutlineTreeLinked } from './OutlinePane'
 
@@ -39,8 +40,14 @@ function ghiChuongMo(key: string, ids: ReadonlySet<string>): void {
   }
 }
 
-/** Bao nhiêu khung hình thì thôi chờ `<h1>` mới — ~0,5 giây ở 60 fps. */
-const SO_KHUNG_CHO_H1 = 30
+/**
+ * Chờ `<h1>` mới tối đa bao lâu. Tính bằng THỜI GIAN, không bằng số khung hình: trước đây là
+ * 30 khung (~0,5 giây ở 60 fps), nhưng máy chậm vừa dựng khung hình thưa vừa nạp bài lâu hơn —
+ * đo 2026-09-25 trên main có tải CPU, `e2e/outline-english.spec.ts` (mobile) đỏ 10/16: hết 30
+ * khung mà bài mới chưa có, hàm focus `<h1>` CŨ, rồi `<h1>` cũ bị gỡ → tiêu điểm rơi về `<body>`.
+ */
+const THOI_GIAN_CHO_H1_MS = 3000
+const NHAN_H1_CU_SAU_MS = 500
 
 /**
  * Sau khi chọn một bài trong panel: đưa tiêu điểm về `<h1>` của BÀI MỚI.
@@ -53,16 +60,32 @@ const SO_KHUNG_CHO_H1 = 30
  */
 function dieuTieuDiemVeTieuDe(): void {
   const cu = document.querySelector('h1')
-  let conLai = SO_KHUNG_CHO_H1
+  const hetHan = performance.now() + THOI_GIAN_CHO_H1_MS
+  // Đo 2026-09-25 (CEFR mobile, chọn một hội thoại): `<h1>` xuất hiện, nhận focus, rồi bị GỠ khi
+  // màn con dựng xong — màn hội thoại chỉ có `<h3>`, không có `<h1>` nào. Tiêu điểm rơi về
+  // `<body>` mọi lần; test cũ xanh chỉ vì đọc tiêu điểm đúng khoảnh khắc `<h1>` cũ còn sống.
+  // Vì vậy canh tới hết hạn: ưu tiên `<h1>` MỚI; tiêu điểm "mồ côi" (ở `<body>`) mà chưa có
+  // `<h1>` thì về vùng nội dung chính (`#noi-dung-chinh`, `tabIndex=-1` — cũng là đích của liên
+  // kết "Bỏ qua tới nội dung chính"). Người dùng đã tự đi chỗ khác thì thôi, không giành lại.
+  // Sau mốc này mà chưa thấy `<h1>` KHÁC thì nhận `<h1>` đang có: trang bài lập trình dùng LẠI
+  // đúng node `<h1>` khi đổi bài (React giữ phần tử, chỉ đổi chữ), nên "khác `<h1>` cũ" không bao
+  // giờ đúng ở đó. Giữ đúng mốc ~0,5 giây của bản cũ.
+  const mocNhanH1Cu = performance.now() + NHAN_H1_CU_SAU_MS
+  let daFocus: HTMLElement | null = null
   const thu = () => {
-    const moi = document.querySelector('h1')
-    if (moi && moi !== cu) {
-      moi.focus()
-      return
+    const active = document.activeElement
+    const moCoi = !active || active === document.body
+    // Trước lần focus đầu, tiêu điểm đang ở nút mở panel là do `Modal` trả về khi đóng — chưa
+    // phải người dùng tự chọn, nên chưa dừng.
+    if (daFocus && !moCoi && active !== daFocus) return
+    const h1 = document.querySelector('h1')
+    const moi = h1 && (h1 !== cu || performance.now() >= mocNhanH1Cu) ? h1 : null
+    const dich = moi ?? (moCoi ? document.getElementById(MAIN_CONTENT_ID) : null)
+    if (dich && dich !== daFocus && (moCoi || dich === moi)) {
+      dich.focus({ preventScroll: dich !== moi })
+      daFocus = dich
     }
-    conLai -= 1
-    if (conLai > 0) requestAnimationFrame(thu)
-    else moi?.focus()
+    if (performance.now() < hetHan) requestAnimationFrame(thu)
   }
   requestAnimationFrame(thu)
 }
