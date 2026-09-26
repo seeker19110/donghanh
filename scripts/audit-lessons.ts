@@ -106,9 +106,14 @@ for (const bai of PROGRAMMING_LESSONS) {
   // Cũng bỏ qua bài đã có ca 'exact' phủ TOÀN BỘ output: khớp tuyệt đối trên bộ dữ liệu cố
   // định đã chặn đường ăn may, ca ẩn thêm không kiểm được gì mới (các bài SQL là ca này).
   const NGON_NGU_MO_PHONG = ['git', 'hermes', 'vibe', 'openclaw', 'bash']
+  // Bộ chạy Kotlin mô phỏng BỎ QUA stdin (`kotlinSim/chayKotlin.ts`: `void dongVao`, chưa có
+  // `readLine()`) → mọi bài lấy dữ liệu từ hằng trong đề, ca ẩn không thể dùng input khác. Cảnh báo
+  // ở đây không bao giờ gỡ được, chỉ làm chìm cảnh báo thật (2026-09-25: 7/13 ca là Kotlin).
+  const NGON_NGU_KHONG_STDIN = ['kotlin']
   const coCaExact = bai.make.testCases.some((tc) => tc.match === 'exact')
   if (
     !NGON_NGU_MO_PHONG.includes(bai.language) &&
+    !NGON_NGU_KHONG_STDIN.includes(bai.language) &&
     !coCaExact &&
     !bai.make.testCases.some((tc) => tc.hidden)
   )

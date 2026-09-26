@@ -27,6 +27,24 @@ describe('tầng khoá ngắn', () => {
     }
   })
 
+  it('không bài nào xuất hiện hai lần trong cùng một khoá', () => {
+    // Trước 2026-09-25 đây chỉ là cảnh báo KHOA_BAI_LAP của `scripts/audit-lessons.ts`, không
+    // chặn CI, nên khoá `airel` lặp hai bài suốt nhiều đợt: học viên gặp lại đúng bài cũ ở một
+    // chương mới, còn chương đó thiếu bài khớp chủ đề của mình.
+    for (const course of SHORT_COURSES) {
+      const daGap = new Map<string, string>()
+      for (const chapter of course.chapters) {
+        for (const lessonId of chapter.lessonIds) {
+          expect(
+            daGap.get(lessonId),
+            `${course.id}: bài "${lessonId}" ở ${chapter.id} đã có ở ${daGap.get(lessonId)}`,
+          ).toBeUndefined()
+          daGap.set(lessonId, chapter.id)
+        }
+      }
+    }
+  })
+
   it('id khoá và id chương không trùng nhau trong toàn bộ registry', () => {
     const courseIds = SHORT_COURSES.map((c) => c.id)
     expect(new Set(courseIds).size).toBe(courseIds.length)

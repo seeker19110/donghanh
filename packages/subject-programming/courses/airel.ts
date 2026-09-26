@@ -130,7 +130,10 @@ export const AIREL_COURSE: ShortCourse = {
       ],
       lab: 'Bắn cảnh báo khi thumbs-down >5%/giờ hoặc latency p99 vượt 5 giây.',
       deliverable: 'Dashboard realtime cho latency, throughput, hallucination và safety.',
-      lessonIds: ['p6-u107-l2', 'llmagent-u3-l5'],
+      // p6-u110-l2 (phân loại mức sự cố + leo thang bằng con số) khớp lab ngưỡng cảnh báo.
+      // Trước 2026-09-25 chương này dùng p6-u107-l2 (SLO/ngân sách lỗi), trùng chương 12, nơi
+      // "Error budget" là trọng tâm ghi rõ (audit-lessons KHOA_BAI_LAP).
+      lessonIds: ['p6-u110-l2', 'llmagent-u3-l5'],
     },
     {
       id: 'airel-c9',
@@ -160,7 +163,9 @@ export const AIREL_COURSE: ShortCourse = {
       ],
       lab: 'Kill worker ở bước 3/5, khởi động lại và xác nhận không gọi lại API đã hoàn tất.',
       deliverable: 'Chaos suite gồm 5 kịch bản và báo cáo tỷ lệ tự phục hồi.',
-      lessonIds: ['p6-u105-l2', 'p6-u14-l2'],
+      // p6-u104-l1 (việc nền bị giao HAI lần) khớp lab "kill worker ở bước 3/5, không gọi lại API
+      // đã xong". Trước 2026-09-25 chương này dùng lại p6-u14-l2 của chương 9 (KHOA_BAI_LAP).
+      lessonIds: ['p6-u105-l2', 'p6-u104-l1'],
     },
     {
       id: 'airel-c11',
