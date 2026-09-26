@@ -117,7 +117,16 @@ for (const bai of PROGRAMMING_LESSONS) {
     !coCaExact &&
     !bai.make.testCases.some((tc) => tc.hidden)
   )
-    canhBao('KHONG_CA_AN', bai.id, 'không ca test-case nào ẩn (chống hardcode)')
+    canhBao(
+      'KHONG_CA_AN',
+      bai.id,
+      // Đề dùng HẰNG (mọi ca stdin rỗng): thêm ca ẩn không đổi được input nên vô tác dụng — chỉ
+      // thiết kế lại đề cho đọc input mới chống chép cứng được. 2026-09-26 đã soát 5 bài như vậy
+      // (p6-u13-l1, p6-u14-l1/l2, p6-u15-l1/l2) và GIỮ đề dùng hằng có chủ đích (changelog 0456).
+      bai.make.testCases.every((tc) => tc.stdinLines.length === 0)
+        ? 'không ca ẩn — đề dùng hằng (stdin rỗng), chỉ thiết kế lại đề mới chống chép cứng'
+        : 'không ca test-case nào ẩn (chống hardcode)',
+    )
 
   if (!bai.srsCards) canhBao('THIEU_SRS', bai.id, 'chưa có thẻ SRS (bước ⑧)')
 

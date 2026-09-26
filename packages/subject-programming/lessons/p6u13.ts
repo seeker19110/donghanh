@@ -270,6 +270,23 @@ main()
           hidden: false,
           label: 'một đơn — trung bình bằng chính nó',
         },
+        // Hai ca ẨN (2026-09-26): các ca công khai đều có trung bình chẵn và không ca nào chạy cả
+        // chương trình với danh sách rỗng, nên in cứng ba dòng mẫu là qua bài. Hai ca này kiểm
+        // đúng phần còn thiếu: làm tròn thật và ca biên không có đơn nào đi qua vỏ `main()`.
+        {
+          stdinLines: ['3', '10000', '20000', '25000'],
+          expected: 'Trung binh: 18333',
+          match: 'contains',
+          hidden: true,
+          label: 'trung bình lẻ phải làm tròn',
+        },
+        {
+          stdinLines: ['0'],
+          expected: 'Trung binh: 0',
+          match: 'contains',
+          hidden: true,
+          label: 'không có đơn nào — không lỗi chia cho 0',
+        },
       ],
       hints: [
         'Lõi thuần nhận DANH SÁCH đã đọc sẵn, không tự đọc. Việc đọc là của vỏ: `don_list = [int(input()) for _ in range(n)]`.',
