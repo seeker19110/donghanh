@@ -195,6 +195,7 @@ wc -l`), đừng cộng nhẩm — ghi chú trước đó từng ghi `fairy-tale
   Header 6 thẻ CompanionVoice hết chật ở 390px (`docs/changelog/0451-*.md`): xếp dọc ở màn hẹp, tiêu đề ≤2 dòng, nút một dòng, có cổng E2E.
   Echo/Holodeck có trạng thái tải/lỗi/rỗng + Thử lại (`docs/changelog/0452-*.md`, PR #1178): hook dùng chung `lib/useCatalogList.ts` (kiểm Zod, sai hợp đồng = lỗi), test hợp đồng server↔client, E2E 3 ca.
   Nợ nhỏ còn lại sau S06d đã trả (`docs/changelog/0453-*.md`, PR #1179): badge A2A/Ambient một dòng ở 390px; thanh đáy nền đặc nên nhãn đo được tương phản (cổng mới 390px × 3 theme); thẻ shadowing báo lỗi khi chấm lượt thất bại. **Chuỗi S06 hết nợ mở.**
+  **26/09:** hoạt ảnh có nút "Xem lớn" khi chữ nhãn dưới 10px (đo: 1.000/1.861 nhãn ở 390px), mở hộp thoại toàn màn hình tự xoay hình khổ ngang; kèm sửa khoá `airel` lặp bài, đáp án không dấu lộ đáp án ở bài Git (`docs/changelog/0454-*.md`).
   Bước tiếp theo: S11 (sau S10 chuyên gia) và thu bằng chứng accessibility/thiết bị thật còn thiếu;
   xem trạng thái và giới hạn nghiệm thu trong goal, không coi source merge là goal hoàn tất.
 
@@ -1208,11 +1209,6 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   (`docs/changelog/0383-*.md`), mọi môn dùng `/goc-hoc-tap/<mã môn>` trên MỘT host — không còn
   origin thứ hai để ghi nhầm. Nợ vẫn 🟡 vì phần dữ liệu ĐÃ ghi ở origin cũ chưa được dọn/chuyển.
   Đóng nợ sau 60 ngày không phản ánh, hoặc khi `hoc-tap.` bị gỡ khỏi `server_name` của nginx.
-- **[2026-09-14 — phát hiện khi NHÌN ảnh chụp Tầng 8b, xem `docs/changelog/0309-*.md`] Nhãn chữ
-  trong hoạt ảnh khó đọc ở màn hình 390px.** Đo được **29/150 nhãn dài hơn 24 ký tự** ở cỡ chữ
-  11–12 trong viewBox rộng 440 — trên điện thoại chúng co lại rất nhỏ. **KHÔNG phải lỗi mới**:
-  bài `ly11-c2-b8` đã như vậy từ trước. Sửa tận gốc phải đụng `packages/core-ui/LessonAnimation.tsx`
-  (codemap: 5 file ảnh hưởng) hoặc đặt luật độ dài nhãn cho toàn bộ hoạt ảnh — cần một đợt riêng.
 - ✅ **[2026-09-14 — ĐÃ TRẢ 2026-09-16, xem changelog trả nợ flaky] Test flaky có sẵn của môn
   Lập trình đã sửa.** Nguyên nhân thật KHÔNG phải `vi.setSystemTime` mà là ca "limit cắt đúng số
   thẻ cho một phiên ôn" nạp cả 381 bài (~1184 thẻ) vào SRS — `addLessonCardsToSrs()` gọi `save()`

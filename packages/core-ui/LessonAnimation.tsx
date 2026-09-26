@@ -6,7 +6,12 @@
 //   1. Ánh xạ vai trò màu → token `--a-*` / `--text-*` / `--anim-*`, để đúng ở cả 5 theme.
 //   2. Tôn trọng `prefers-reduced-motion`: dừng hẳn hoạt ảnh, hiện cảnh ở mốc 0.
 //   3. Luôn kèm mô tả bằng lời + nút phát/dừng — hoạt ảnh không được là kênh thông tin duy nhất.
-import { useId, useMemo, useState } from 'react'
+//   4. Nút "Xem lớn" khi chữ nhãn hiện quá nhỏ ở bề rộng hiện tại (2026-09-25). Hoạt ảnh vẽ
+//      trên khung 420–716 đơn vị nên ở màn điện thoại (SVG rộng ~358px) đo được 1.000/1.861 nhãn
+//      dưới 10px, tệ nhất 6px. Không sửa tay từng nhãn được; hộp thoại toàn màn hình tự xoay hình
+//      khổ ngang theo chiều dài màn hình dựng đứng, nên chữ về lại đúng cỡ kể cả khi khoá xoay.
+import { useEffect, useId, useMemo, useRef, useState, type CSSProperties, type Ref } from 'react'
+import { boCucXemLon, chuQuaNho } from './lessonAnimationZoom.js'
 import type {
   AnimationColorRole,
   AnimationKeyframe,
@@ -159,11 +164,207 @@ export interface LessonAnimationProps {
   className?: string
 }
 
+interface AnimationSvgProps {
+  spec: LessonAnimationSpec
+  uid: string
+  animNames: Map<string, string>
+  arrowRoles: AnimationColorRole[]
+  descriptionId: string
+  svgRef?: Ref<SVGSVGElement>
+  style?: CSSProperties
+}
+
+/** Thẻ svg của hoạt ảnh — tách riêng để vẽ ĐÚNG MỘT cách ở cả trong bài lẫn khung "Xem lớn".
+ *  Cả hai dùng chung lớp `dhcb-anim-${uid}`, nên chung @keyframes và chung trạng thái phát/dừng. */
+function AnimationSvg({
+  spec,
+  uid,
+  animNames,
+  arrowRoles,
+  descriptionId,
+  svgRef,
+  style,
+}: AnimationSvgProps) {
+  return (
+    <svg
+      ref={svgRef}
+      className={`dhcb-anim-${uid} w-full h-auto`}
+      style={style}
+      viewBox={`0 0 ${spec.viewBoxWidth} ${spec.viewBoxHeight}`}
+      role="img"
+      aria-describedby={descriptionId}
+      aria-label={spec.title}
+    >
+      <defs>
+        {arrowRoles.map((role) => (
+          <marker
+            key={role}
+            id={`dhcb-arrowhead-${role}`}
+            viewBox="0 0 10 10"
+            refX="9"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 0 L 10 5 L 0 10 z" fill={COLOR_BY_ROLE[role]} />
+          </marker>
+        ))}
+      </defs>
+      {/* Nhãn vẽ sau hình để halo đục không bị đường/hình chuyển động che chữ. */}
+      {[
+        ...spec.shapes.filter((shape) => shape.kind !== 'label'),
+        ...spec.shapes.filter((shape) => shape.kind === 'label'),
+      ].map((shape) => {
+        const animName = animNames.get(shape.id)
+        // `animation-name` PHẢI nằm trên CHÍNH thẻ <g> mang data-animated, vì duration /
+        // iteration / play-state được gán cho <g> qua CSS ở trên và CSS animation KHÔNG kế
+        // thừa xuống con. Bẫy đã mắc thật (2026-09-22, docs/changelog/0407-*.md): trước đây
+        // tên nằm ở hình con → hình con có tên nhưng duration 0s, <g> có duration nhưng không
+        // tên → KHÔNG hoạt ảnh nào từng chạy ở cả 4 môn STEM lẫn Lập trình, mà mọi cổng (Zod,
+        // snapshot HTML, ảnh chụp cảnh đầu) vẫn xanh vì cảnh đầu vốn đúng.
+        return (
+          <g
+            key={shape.id}
+            data-animated={animName ? 'true' : undefined}
+            style={animName ? { animationName: animName } : undefined}
+          >
+            <Shape shape={shape} />
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
+interface XemLonProps extends Omit<AnimationSvgProps, 'svgRef' | 'style'> {
+  playing: boolean
+  onTogglePlay: () => void
+  onClose: () => void
+}
+
+/**
+ * Khung "Xem lớn": `<dialog>` gốc mở bằng `showModal()`. Trình duyệt tự lo bẫy tiêu điểm (phần
+ * còn lại của trang thành inert) và Esc để đóng. Tiêu điểm được trả về nút mở ở `onClose` của nơi
+ * gọi. Dùng thẻ gốc vì hook hộp thoại của dự án nằm ở `apps/`, mà `packages/` không được import `apps/`.
+ */
+function XemLon({ spec, playing, onTogglePlay, onClose, ...svg }: XemLonProps) {
+  const dialogRef = useRef<HTMLDialogElement>(null)
+  const nutDongRef = useRef<HTMLButtonElement>(null)
+  const khungRef = useRef<HTMLDivElement>(null)
+  const [khung, setKhung] = useState<{ w: number; h: number } | null>(null)
+  const tieuDeId = `dhcb-anim-xem-lon-${svg.uid}`
+
+  useEffect(() => {
+    const d = dialogRef.current
+    if (d && !d.open && typeof d.showModal === 'function') d.showModal()
+    // Tiêu điểm vào nút Đóng: lối ra rõ nhất, và không bấm nhầm được thứ gì khi vừa mở.
+    nutDongRef.current?.focus()
+    // Khoá cuộn trang nền: Safari iOS vẫn cuộn nền phía sau hộp thoại modal.
+    const cu = document.documentElement.style.overflow
+    document.documentElement.style.overflow = 'hidden'
+    return () => {
+      document.documentElement.style.overflow = cu
+    }
+  }, [])
+
+  useEffect(() => {
+    const el = khungRef.current
+    if (!el || typeof ResizeObserver === 'undefined') return
+    const ro = new ResizeObserver((entries) => {
+      const r = entries[0]?.contentRect
+      if (r && r.width > 0 && r.height > 0) setKhung({ w: r.width, h: r.height })
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
+  const boCuc = khung ? boCucXemLon(spec, khung.w, khung.h) : null
+  // Mô tả trong bài nằm NGOÀI dialog, bị inert khi dialog mở, nên khung này mang bản riêng.
+  const moTaId = `dhcb-anim-xem-lon-mo-ta-${svg.uid}`
+
+  return (
+    <dialog
+      ref={dialogRef}
+      aria-labelledby={tieuDeId}
+      onClose={onClose}
+      className="m-0 h-dvh max-h-none w-screen max-w-none border-0 bg-surface-card p-0 text-content backdrop:bg-black/60"
+    >
+      <div className="flex h-full flex-col">
+        <div className="flex items-center gap-2 border-b border-line-subtle px-3 py-2">
+          <h2
+            id={tieuDeId}
+            className="min-w-0 flex-1 truncate text-base font-semibold text-content"
+          >
+            {spec.title}
+          </h2>
+          <button
+            type="button"
+            onClick={onTogglePlay}
+            className="min-h-[44px] shrink-0 rounded-lg border border-line-strong px-3 text-content"
+          >
+            {playing ? 'Tạm dừng' : 'Chạy'}
+          </button>
+          <button
+            ref={nutDongRef}
+            type="button"
+            onClick={() => dialogRef.current?.close()}
+            className="min-h-[44px] shrink-0 rounded-lg border border-line-strong px-3 text-content"
+          >
+            Đóng
+          </button>
+        </div>
+        {boCuc?.xoay && (
+          <p className="px-3 pt-2 text-sm text-content-secondary">
+            Xoay ngang điện thoại để đọc hình theo đúng chiều.
+          </p>
+        )}
+        <p id={moTaId} className="sr-only">
+          {spec.description}
+        </p>
+        <div ref={khungRef} className="relative min-h-0 flex-1 overflow-hidden">
+          {boCuc && (
+            <AnimationSvg
+              spec={spec}
+              {...svg}
+              descriptionId={moTaId}
+              style={{
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                width: `${boCuc.rongPx}px`,
+                transform: `translate(-50%, -50%)${boCuc.xoay ? ' rotate(90deg)' : ''}`,
+              }}
+            />
+          )}
+        </div>
+      </div>
+    </dialog>
+  )
+}
+
 export function LessonAnimation({ spec, className }: LessonAnimationProps) {
   const rawId = useId()
   // useId sinh chuỗi có dấu ':' — không hợp lệ trong tên @keyframes và id của SVG.
   const uid = rawId.replace(/[^a-zA-Z0-9]/g, '')
   const [playing, setPlaying] = useState(true)
+  const [xemLon, setXemLon] = useState(false)
+  const svgRef = useRef<SVGSVGElement>(null)
+  const nutXemLonRef = useRef<HTMLButtonElement>(null)
+  // Bề rộng THẬT của thẻ svg trên màn hình. Đo trong effect (không đo lúc render) nên khi render
+  // phía server / lần vẽ đầu, nút "Xem lớn" chưa hiện. Nút nằm cùng hàng nút phát/dừng nên hiện
+  // muộn cũng không làm trang nhảy bố cục.
+  const [rongSvg, setRongSvg] = useState(0)
+  useEffect(() => {
+    const el = svgRef.current
+    if (!el || typeof ResizeObserver === 'undefined') return
+    const ro = new ResizeObserver((entries) => {
+      const w = entries[0]?.contentRect.width
+      if (w) setRongSvg(w)
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
 
   const { css, animNames } = useMemo(() => {
     const names = new Map<string, string>()
@@ -206,52 +407,14 @@ ${css}
 }
       `}</style>
 
-      <svg
-        className={`dhcb-anim-${uid} w-full h-auto`}
-        viewBox={`0 0 ${spec.viewBoxWidth} ${spec.viewBoxHeight}`}
-        role="img"
-        aria-describedby={descriptionId}
-        aria-label={spec.title}
-      >
-        <defs>
-          {arrowRoles.map((role) => (
-            <marker
-              key={role}
-              id={`dhcb-arrowhead-${role}`}
-              viewBox="0 0 10 10"
-              refX="9"
-              refY="5"
-              markerWidth="6"
-              markerHeight="6"
-              orient="auto-start-reverse"
-            >
-              <path d="M 0 0 L 10 5 L 0 10 z" fill={COLOR_BY_ROLE[role]} />
-            </marker>
-          ))}
-        </defs>
-        {/* Nhãn vẽ sau hình để halo đục không bị đường/hình chuyển động che chữ. */}
-        {[
-          ...spec.shapes.filter((shape) => shape.kind !== 'label'),
-          ...spec.shapes.filter((shape) => shape.kind === 'label'),
-        ].map((shape) => {
-          const animName = animNames.get(shape.id)
-          // `animation-name` PHẢI nằm trên CHÍNH thẻ <g> mang data-animated, vì duration /
-          // iteration / play-state được gán cho <g> qua CSS ở trên và CSS animation KHÔNG kế
-          // thừa xuống con. Bẫy đã mắc thật (2026-09-22, docs/changelog/0407-*.md): trước đây
-          // tên nằm ở hình con → hình con có tên nhưng duration 0s, <g> có duration nhưng không
-          // tên → KHÔNG hoạt ảnh nào từng chạy ở cả 4 môn STEM lẫn Lập trình, mà mọi cổng (Zod,
-          // snapshot HTML, ảnh chụp cảnh đầu) vẫn xanh vì cảnh đầu vốn đúng.
-          return (
-            <g
-              key={shape.id}
-              data-animated={animName ? 'true' : undefined}
-              style={animName ? { animationName: animName } : undefined}
-            >
-              <Shape shape={shape} />
-            </g>
-          )
-        })}
-      </svg>
+      <AnimationSvg
+        spec={spec}
+        uid={uid}
+        animNames={animNames}
+        arrowRoles={arrowRoles}
+        descriptionId={descriptionId}
+        svgRef={svgRef}
+      />
 
       <figcaption className="mt-2 space-y-2">
         <p className="font-medium text-content">{spec.title}</p>
@@ -265,14 +428,43 @@ ${css}
             ))}
           </ol>
         )}
-        <button
-          type="button"
-          onClick={() => setPlaying((p) => !p)}
-          className="min-h-[44px] rounded-lg border border-line-strong px-4 text-content"
-        >
-          {playing ? 'Tạm dừng hoạt ảnh' : 'Chạy hoạt ảnh'}
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => setPlaying((p) => !p)}
+            className="min-h-[44px] rounded-lg border border-line-strong px-4 text-content"
+          >
+            {playing ? 'Tạm dừng hoạt ảnh' : 'Chạy hoạt ảnh'}
+          </button>
+          {chuQuaNho(spec, rongSvg) && (
+            <button
+              ref={nutXemLonRef}
+              type="button"
+              aria-haspopup="dialog"
+              onClick={() => setXemLon(true)}
+              className="min-h-[44px] rounded-lg border border-line-strong px-4 text-content"
+            >
+              Xem lớn
+            </button>
+          )}
+        </div>
       </figcaption>
+      {xemLon && (
+        <XemLon
+          spec={spec}
+          uid={uid}
+          animNames={animNames}
+          arrowRoles={arrowRoles}
+          descriptionId={descriptionId}
+          playing={playing}
+          onTogglePlay={() => setPlaying((p) => !p)}
+          onClose={() => {
+            setXemLon(false)
+            // Trả tiêu điểm về đúng nút đã mở, không để rơi về <body>.
+            nutXemLonRef.current?.focus()
+          }}
+        />
+      )}
     </figure>
   )
 }

@@ -4,7 +4,9 @@
 //  1. Vai trò màu phải ra biến CSS token — lọt một mã màu thô là mất tương phản ở theme khác.
 //  2. Hoạt ảnh luôn phải có kênh thay thế bằng lời; đây là điều khiến nội dung tới được người
 //     dùng trình đọc màn hình và người bật "giảm chuyển động".
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { act } from 'react'
+import { createRoot, type Root } from 'react-dom/client'
 import { renderToStaticMarkup } from 'react-dom/server'
 import type { LessonAnimation as Spec } from '@dhcb/core-contracts/lessonAnimation'
 import { LessonAnimation } from './LessonAnimation.js'
@@ -163,5 +165,99 @@ describe('LessonAnimation', () => {
   it('hoạt ảnh không lặp thì khai iteration-count là 1', () => {
     const h = renderToStaticMarkup(<LessonAnimation spec={{ ...spec, loop: false }} />)
     expect(h).toContain('animation-iteration-count: 1')
+  })
+})
+
+// ── Nút "Xem lớn" (2026-09-25) ────────────────────────────────────────────────────────────
+// ResizeObserver giả trả số đo thật: svg trong bài rộng `rongSvgGia`; khung hộp thoại 390 × 780
+// (điện thoại dựng đứng, trừ thanh tiêu đề).
+;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+let rongSvgGia = 358
+class ResizeObserverGia {
+  constructor(private readonly cb: ResizeObserverCallback) {}
+  observe(el: Element) {
+    const r =
+      el.tagName.toLowerCase() === 'svg'
+        ? { width: rongSvgGia, height: 60 }
+        : { width: 390, height: 780 }
+    this.cb(
+      [{ contentRect: r } as unknown as ResizeObserverEntry],
+      this as unknown as ResizeObserver,
+    )
+  }
+  unobserve() {}
+  disconnect() {}
+}
+
+const hinhRong: Spec = {
+  ...spec,
+  title: 'Các phân tử sinh học',
+  viewBoxWidth: 716,
+  viewBoxHeight: 118,
+  shapes: [
+    { kind: 'rect', id: 'nen', x: 0, y: 0, w: 700, h: 100 },
+    { kind: 'label', id: 'nhan', x: 10, y: 50, text: 'protein', size: 12 },
+  ],
+}
+
+let container: HTMLDivElement
+let root: Root | null = null
+
+async function veVao(s: Spec) {
+  vi.stubGlobal('ResizeObserver', ResizeObserverGia)
+  container = document.createElement('div')
+  document.body.appendChild(container)
+  root = createRoot(container)
+  await act(async () => {
+    root?.render(<LessonAnimation spec={s} />)
+  })
+}
+
+function nut(ten: string): HTMLButtonElement | undefined {
+  return [...document.querySelectorAll('button')].find((b) => b.textContent?.trim() === ten)
+}
+
+afterEach(() => {
+  if (root) act(() => root?.unmount())
+  root = null
+  container?.remove()
+  vi.unstubAllGlobals()
+  rongSvgGia = 358
+})
+
+describe('LessonAnimation — nút "Xem lớn"', () => {
+  it('chữ hiện dưới 10px (716 đơn vị trên svg 358px) → có nút, báo mở hộp thoại', async () => {
+    await veVao(hinhRong)
+    expect(nut('Xem lớn')?.getAttribute('aria-haspopup')).toBe('dialog')
+  })
+
+  it('chữ đủ lớn (svg 800px) → KHÔNG có nút', async () => {
+    rongSvgGia = 800
+    await veVao(hinhRong)
+    expect(nut('Xem lớn')).toBeUndefined()
+  })
+
+  it('mở: hộp thoại có tiêu đề, tiêu điểm vào "Đóng", hình khổ ngang được xoay cho vừa chiều dài', async () => {
+    await veVao(hinhRong)
+    await act(async () => nut('Xem lớn')?.click())
+    const dialog = document.querySelector('dialog')
+    expect(dialog?.open).toBe(true)
+    const tieuDe = document.getElementById(dialog?.getAttribute('aria-labelledby') ?? '')
+    expect(tieuDe?.textContent).toBe('Các phân tử sinh học')
+    expect(document.activeElement).toBe(nut('Đóng'))
+    const svgLon = dialog?.querySelector('svg')
+    expect(svgLon?.style.transform).toContain('rotate(90deg)')
+    expect(svgLon?.style.width).toBe('780px')
+    // Mô tả cho trình đọc màn hình nằm TRONG hộp thoại (mô tả trong bài bị inert khi mở).
+    const moTa = document.getElementById(svgLon?.getAttribute('aria-describedby') ?? '')
+    expect(dialog?.contains(moTa)).toBe(true)
+  })
+
+  it('đóng: hộp thoại gỡ khỏi trang, tiêu điểm trở về nút "Xem lớn"', async () => {
+    await veVao(hinhRong)
+    await act(async () => nut('Xem lớn')?.click())
+    await act(async () => nut('Đóng')?.click())
+    expect(document.querySelector('dialog')).toBeNull()
+    expect(document.activeElement).toBe(nut('Xem lớn'))
   })
 })
