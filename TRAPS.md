@@ -1,10 +1,10 @@
 # TRAPS.md — bẫy đã mắc trong repo này
 
-> Sổ bẫy ĐÃ MẮC THẬT của dự án `donghanh`, không phải danh sách "nên tránh" chung chung. Mỗi
+> Sổ bẫy ĐÃ MẮC THẬT của dự án `dhcb`, không phải danh sách "nên tránh" chung chung. Mỗi
 > mục có ngày + PR/changelog + cách rà + cổng/quy ước chốt chặn. Khác `docs/adr/` (ghi **quyết
 > định** kiến trúc): file này ghi **lỗi đã xảy ra**. Ý tưởng mượn từ repo khung
 > `seeker19110/project-template` (đọc 2026-09-12), điều chỉnh cho đúng quy ước thật của
-> `donghanh`.
+> `dhcb`.
 >
 > Cách dùng: gặp lỗi lạ → tìm khuôn khớp ở đây trước khi đọc code từ đầu. Sửa xong → thêm mục
 > mới nếu là khuôn mới, hoặc thêm ngày/PR vào mục cũ nếu là **tái phát**.
