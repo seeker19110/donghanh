@@ -54,6 +54,17 @@ const CO_DAU_TIENG_VIET = /[ăâđêôơưàáảãạèéẻẽẹìíỉĩị�
 // Chuỗi kỹ thuật: mã lỗi/định danh kiểu `ECONNRESET`, `socket hang up`, đường dẫn, stack…
 const TRONG_NHU_MA = /^[A-Z_]{4,}\b|\bat\s+\S+:\d+|\/[\w./-]+:\d+|<[a-z!]|\{.*\}$/
 
+/** Lấy chuỗi lỗi thô từ `err` (Error hoặc chuỗi); kiểu khác → chuỗi rỗng. */
+function chuoiLoiTho(err: unknown): string {
+  return err instanceof Error ? err.message : typeof err === 'string' ? err : ''
+}
+
+/** Khớp một chuỗi kỹ thuật của trình duyệt/HTTP trong bảng `MAU` thì trả câu dịch, không thì null. */
+function dichLoiKyThuat(raw: string, lang: NgonNgu): string | null {
+  for (const [re, vi, en] of MAU) if (re.test(raw)) return lang === 'en' ? en : vi
+  return null
+}
+
 /**
  * Trả về câu thân thiện cho `err`. Thông điệp đã là câu người viết (server hoặc code app) thì
  * giữ nguyên — chỉ dịch các chuỗi kỹ thuật của trình duyệt/HTTP.
@@ -63,12 +74,26 @@ export function thongDiepLoiThanThien(
   macDinh = 'Có lỗi xảy ra, thử lại sau.',
   lang: NgonNgu = 'vi',
 ): string {
-  const raw = err instanceof Error ? err.message : typeof err === 'string' ? err : ''
+  const raw = chuoiLoiTho(err)
   if (!raw) return macDinh
-  for (const [re, vi, en] of MAU) if (re.test(raw)) return lang === 'en' ? en : vi
+  const daDich = dichLoiKyThuat(raw, lang)
+  if (daDich) return daDich
   if (CO_DAU_TIENG_VIET.test(raw)) return raw
   if (TRONG_NHU_MA.test(raw)) return macDinh
   // Câu tiếng Anh thường do server/app viết cho chiều B ("Daily limit reached") — giữ.
   if (lang === 'en' && /\s/.test(raw)) return raw
   return macDinh
+}
+
+/**
+ * Bản cho màn QUẢN TRỊ (`components/admin/*`, 2026-09-25). Vẫn dịch lỗi kỹ thuật của trình
+ * duyệt/HTTP ("Failed to fetch", JSON hỏng, 401/5xx…) như bản trên, nhưng GIỮ NGUYÊN mọi câu
+ * khác — kể cả câu tiếng Anh không dấu như thông điệp Zod mặc định ("Invalid email address").
+ * Bản trên thay những câu đó bằng câu chung chung vì người học không làm gì được với chúng;
+ * admin thì cần đúng chi tiết đó để biết phải sửa gì.
+ */
+export function thongDiepLoiQuanTri(err: unknown, macDinh = 'Có lỗi xảy ra, thử lại sau.'): string {
+  const raw = chuoiLoiTho(err)
+  if (!raw) return macDinh
+  return dichLoiKyThuat(raw, 'vi') ?? raw
 }

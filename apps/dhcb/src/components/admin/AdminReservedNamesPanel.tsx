@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Ban, Plus, Trash2, AlertCircle, RefreshCw } from 'lucide-react'
 import { getAuthHeader } from '@core/authHeader'
-import { thongDiepLoiThanThien } from '../../lib/friendlyError'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 import type { ReservedNameRow } from '@dhcb/core-contracts/adminViews'
 
 export default function AdminReservedNamesPanel() {
@@ -27,7 +27,7 @@ export default function AdminReservedNamesPanel() {
       const data = await res.json()
       setItems(data.reservedNames || [])
     } catch (err: unknown) {
-      setError(thongDiepLoiThanThien(err, 'Lỗi tải danh sách từ cấm'))
+      setError(thongDiepLoiQuanTri(err, 'Lỗi tải danh sách từ cấm'))
     } finally {
       setLoading(false)
     }
@@ -57,7 +57,7 @@ export default function AdminReservedNamesPanel() {
       setNewPhrase('')
       fetchReserved()
     } catch (err: unknown) {
-      setError(thongDiepLoiThanThien(err, 'Lỗi thêm từ cấm'))
+      setError(thongDiepLoiQuanTri(err, 'Lỗi thêm từ cấm'))
     } finally {
       setSubmitting(false)
     }
@@ -77,7 +77,7 @@ export default function AdminReservedNamesPanel() {
 
       fetchReserved()
     } catch (err: unknown) {
-      setError(thongDiepLoiThanThien(err, 'Lỗi xóa từ cấm'))
+      setError(thongDiepLoiQuanTri(err, 'Lỗi xóa từ cấm'))
     }
   }
 

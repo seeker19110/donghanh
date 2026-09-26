@@ -6,6 +6,7 @@ import { Loader2, ShieldCheck, Trash2 } from 'lucide-react'
 import { useToast } from '@core/ToastProvider'
 import { getAuthHeader } from '@core/authHeader'
 import { Button } from '@core/Button'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 
 interface WhitelistItem {
   email: string
@@ -38,7 +39,7 @@ export default function AdminVipWhitelistPanel() {
       const data = (await res.json()) as { items: WhitelistItem[] }
       setItems(data.items)
     } catch (err) {
-      toastError(`Tải danh sách thất bại: ${(err as Error).message}`)
+      toastError(`Tải danh sách thất bại: ${thongDiepLoiQuanTri(err)}`)
       setItems([])
     } finally {
       setLoading(false)
@@ -73,7 +74,7 @@ export default function AdminVipWhitelistPanel() {
       setNote('')
       await load()
     } catch (err) {
-      toast.error(`Thêm thất bại: ${(err as Error).message}`)
+      toast.error(`Thêm thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setAdding(false)
     }
@@ -95,7 +96,7 @@ export default function AdminVipWhitelistPanel() {
       toast.success(`Đã gỡ ${targetEmail} khỏi danh sách VIP`)
       await load()
     } catch (err) {
-      toast.error(`Gỡ thất bại: ${(err as Error).message}`)
+      toast.error(`Gỡ thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setRemovingEmail(null)
     }

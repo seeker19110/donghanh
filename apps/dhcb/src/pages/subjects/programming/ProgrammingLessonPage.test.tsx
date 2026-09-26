@@ -450,6 +450,26 @@ describe('ProgrammingLessonPage — bước ↔ URL (S09d, §2.8)', () => {
     expect(mayChay.soLan).toBe(0)
   })
 
+  it('hai cú bấm liền nhau trước khi trang kịp render lại (máy chậm): Back vẫn về đích thứ nhất', () => {
+    // Bắt được trên CI (E2E S09-P-AC06, 2026-09-25): React Router v7 cập nhật location trong
+    // `startTransition`, nên khi máy chậm cú bấm thứ hai chạy lúc trang CHƯA render lại, `loc`
+    // trong handler vẫn là entry lúc mở bài (không hash, chưa ghi bước). `goTo` khi đó tưởng mình
+    // còn ở entry đầu và `replace` ĐÈ MẤT entry `#example` vừa push, Back nhảy thẳng về đầu bài.
+    // Hai cú bấm trong CÙNG một act() = React không render lại giữa chúng.
+    mo()
+    act(() => {
+      nut('Ví dụ mẫu').click()
+      lienKet('Kết quả chấm').click()
+    })
+    expect(dinhTuyen.loc?.hash).toBe('#ket-qua')
+    quayLai(-1)
+    expect(dinhTuyen.loc?.hash).toBe('#example')
+    expect(buocHienTai()).toContain('Ví dụ mẫu')
+    quayLai(-1)
+    expect(dinhTuyen.loc?.hash).toBe('')
+    expect(buocHienTai()).toContain('Khái niệm')
+  })
+
   it('history: đích khác push MỘT entry, cùng đích chỉ focus; Back/Forward không push', () => {
     mo()
     expect(dinhTuyen.soPush).toBe(0)

@@ -47,6 +47,13 @@ async function mo(page: Page, url: string) {
   await expect(page.locator('#dau-bai')).toBeAttached({ timeout: 30_000 })
 }
 
+/** Reload rồi chờ bài nạp xong như `mo()` — thiếu bước chờ này thì kiểm ngay sau reload đỏ khi
+ *  nhiều worker chạy song song (đo 2026-09-25: 16/84 lượt với 8 worker, thanh bước chưa kịp dựng). */
+async function taiLai(page: Page) {
+  await page.reload({ waitUntil: 'domcontentloaded' })
+  await expect(page.locator('#dau-bai')).toBeAttached({ timeout: 30_000 })
+}
+
 /** Bước đang `aria-current="step"` — DOM chỉ được có đúng MỘT thanh bước. */
 async function kiemBuoc(page: Page, nhan: string) {
   await expect(page.getByRole('navigation', { name: 'Các bước bài học' })).toHaveCount(1)
@@ -87,7 +94,7 @@ test.describe('S09d — bước bài Lập trình ↔ URL', () => {
       await kiemDich(page, id)
     }
     // Reload trên #done: vẫn bước Về nhà (URL là nguồn quyết bước), và không nói "hoàn thành".
-    await page.reload({ waitUntil: 'domcontentloaded' })
+    await taiLai(page)
     await kiemBuoc(page, 'Về nhà')
     await expect(page.getByText('Bài học đã hoàn thành')).toHaveCount(0)
   })
@@ -154,7 +161,7 @@ test.describe('S09d — bước bài Lập trình ↔ URL', () => {
         ),
       )
       .toBe(true)
-    await page.reload({ waitUntil: 'domcontentloaded' })
+    await taiLai(page)
     await kiemBuoc(page, 'Dự đoán')
     await page.getByRole('button', { name: 'Tự viết' }).click()
     await expect(oCode(page)).toContainText('# nhap s09d')
@@ -182,7 +189,10 @@ test.describe('S09d — bước bài Lập trình ↔ URL', () => {
     await page.goto('/lap-trinh/bai-hoc/p3-u10-l1?khoa=git#parsons', {
       waitUntil: 'domcontentloaded',
     })
-    await expect(page).toHaveURL(/\/p3-u10-l1--[a-z0-9-]+\?khoa=git#parsons$/)
+    // Chuyển về URL chuẩn chỉ xảy ra SAU khi nạp lười xong chunk bài — dev server biên dịch lần
+    // đầu, chậm hẳn khi nhiều worker chạy song song (đo 2026-09-25: 7/12 lượt quá 5s mặc định).
+    // Chờ rộng tay như `mo()`, điều kiện kiểm giữ nguyên.
+    await expect(page).toHaveURL(/\/p3-u10-l1--[a-z0-9-]+\?khoa=git#parsons$/, { timeout: 30_000 })
     await kiemBuoc(page, 'Xếp code')
     await kiemDich(page, 'parsons')
 

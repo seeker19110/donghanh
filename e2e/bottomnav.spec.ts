@@ -1,5 +1,8 @@
 import { test, expect, type Page } from '@playwright/test'
-import { mockLogin } from './helpers/auth'
+import AxeBuilder from '@axe-core/playwright'
+import { mockLogin, type ThemeName } from './helpers/auth'
+import { freezeAnimations, waitForStableDom } from './helpers/axe'
+import { muteTts } from './helpers/tts'
 
 // BottomNav hiện ở mọi kích thước màn hình (xem --bnav-h trong index.css) — quét ở khổ mobile.
 test.use({ viewport: { width: 390, height: 844 } })
@@ -99,3 +102,36 @@ test.describe('BottomNav (U-5)', () => {
     await expect(page.locator('nav[aria-label="Điều hướng chính"]')).toBeHidden()
   })
 })
+
+// [2026-09-25] Nhãn thanh đáy phải ĐO ĐƯỢC tương phản ở mọi trang. Trước đây nền thanh đáy trong
+// mờ 90% + blur nên nội dung trang cuộn bên dưới lọt qua: axe báo "partially obscured" /
+// "overlapped" (incomplete — không đo được) và tương phản nhãn đổi theo từng trang. Cổng a11y
+// chính chỉ quét khổ desktop (thanh đáy ẩn từ 1024px) nên không bắt được. Cuộn nửa trang để
+// chắc chắn có nội dung nằm dưới thanh đáy lúc quét.
+const NAV_THEMES: ThemeName[] = ['blue-sky', 'dark-blue', 'kid']
+for (const theme of NAV_THEMES) {
+  for (const route of ['/', '/ban-dong-hanh', '/luyen-tap']) {
+    test(`BottomNav: nhãn đo được và đạt tương phản AA+AAA — ${route}, theme=${theme}`, async ({
+      page,
+    }) => {
+      await mockLogin(page, 'vi', theme)
+      await muteTts(page)
+      await page.goto(route, { waitUntil: 'domcontentloaded' })
+      await expect(page.locator('nav.bottom-nav')).toBeVisible()
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight / 2))
+      await freezeAnimations(page)
+      await waitForStableDom(page)
+      const results = await new AxeBuilder({ page })
+        .include('nav.bottom-nav')
+        .withRules(['color-contrast', 'color-contrast-enhanced'])
+        .analyze()
+      const problems = [...results.violations, ...results.incomplete].flatMap((rule) =>
+        rule.nodes.map((node) => `${rule.id} ${JSON.stringify(node.target)}`),
+      )
+      expect(problems, `Nhãn thanh đáy không đạt/không đo được ở ${route}`).toEqual([])
+      // Chống xanh giả: phải thật sự đo được các nhãn, không phải quét rỗng.
+      const measured = results.passes.find((rule) => rule.id === 'color-contrast')
+      expect(measured?.nodes.length ?? 0).toBeGreaterThanOrEqual(5)
+    })
+  }
+}

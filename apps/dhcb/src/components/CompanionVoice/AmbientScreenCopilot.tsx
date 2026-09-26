@@ -103,11 +103,13 @@ export const AmbientScreenCopilot: React.FC = () => {
     <div className="bg-zinc-900/80 border border-zinc-800 rounded-2xl overflow-hidden transition text-xs shadow-lg">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-4 py-3 flex items-center justify-between hover:bg-zinc-800/50 transition"
+        aria-expanded={isOpen}
+        className="w-full px-4 py-3 flex items-center justify-between gap-3 hover:bg-zinc-800/50 transition"
       >
-        <div className="flex items-center gap-2">
+        {/* min-w-0 + flex-1: khối tiêu đề co lại/xuống dòng, nhường badge giữ nguyên một dòng ở 390px. */}
+        <div className="flex min-w-0 flex-1 items-center gap-2">
           <div
-            className={`p-1.5 rounded-xl border ${
+            className={`shrink-0 p-1.5 rounded-xl border ${
               stream
                 ? 'bg-emerald-500/20 text-emerald-300 theme-light:text-emerald-900 border-emerald-500/40 animate-pulse'
                 : 'bg-zinc-800 text-sky-400 theme-light:text-sky-900 border-zinc-700'
@@ -126,7 +128,7 @@ export const AmbientScreenCopilot: React.FC = () => {
         </div>
 
         <span
-          className={`px-2 py-0.5 rounded-full text-[11px] font-semibold border ${
+          className={`shrink-0 whitespace-nowrap px-2 py-0.5 rounded-full text-[11px] font-semibold border ${
             stream
               ? 'bg-emerald-500/20 text-emerald-300 theme-light:text-emerald-900 border-emerald-500/30'
               : 'bg-zinc-800 text-zinc-400 border-zinc-700'

@@ -14,6 +14,7 @@ import {
   Gauge,
 } from 'lucide-react'
 import { getAuthHeader } from '@core/authHeader'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 
 type Mode = 'chat' | 'writing' | 'speaking' | 'stt' | 'pronounce' | 'code_feedback'
 
@@ -187,7 +188,7 @@ export default function AdminUsagePanel() {
       if (!res.ok) throw new Error(`Lỗi ${res.status}`)
       setStats((await res.json()) as Stats)
     } catch (err) {
-      setError(`Không tải được số liệu: ${(err as Error).message}`)
+      setError(`Không tải được số liệu: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setLoading(false)
     }

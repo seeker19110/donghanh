@@ -88,6 +88,8 @@ export default function ScenarioHolodeckCard() {
   const handleFinalize = async () => {
     if (!activeSession || isLoading) return
     setIsLoading(true)
+    // Xoá lỗi của lượt trước — không thì tổng kết thành công vẫn còn treo khung lỗi cũ.
+    setErrorMsg(null)
     try {
       const res = await fetch('/api/scenario-holodeck', {
         method: 'POST',

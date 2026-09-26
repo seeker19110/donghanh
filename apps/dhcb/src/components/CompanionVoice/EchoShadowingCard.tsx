@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Mic, Play, Award, Sparkles, Zap, RotateCcw, Volume2 } from 'lucide-react'
+import { Mic, Play, Award, Sparkles, Zap, RotateCcw, Volume2, AlertTriangle } from 'lucide-react'
 import { ShadowingPassageSchema, type ShadowingSession } from '@dhcb/core-contracts/echoShadowing'
 import LoadError from '../LoadError'
 import { useCatalogList } from '../../lib/useCatalogList'
@@ -16,6 +16,8 @@ export default function EchoShadowingCard() {
   const [isRecording, setIsRecording] = useState<boolean>(false)
   const [sessionResult, setSessionResult] = useState<ShadowingSession | null>(null)
   const [isEvaluating, setIsEvaluating] = useState<boolean>(false)
+  // Lỗi khi CHẤM lượt vừa luyện (khác lỗi tải danh sách bài mẫu ở trên).
+  const [evalError, setEvalError] = useState<string | null>(null)
   // Độ "nhiễu" trang trí cho 28 thanh sóng âm — random 1 LẦN qua lazy initializer
   // (Math.random là hàm không thuần, không được gọi trực tiếp trong lúc render).
   const [barJitter] = useState<number[]>(() => Array.from({ length: 28 }, () => Math.random() * 30))
@@ -25,6 +27,7 @@ export default function EchoShadowingCard() {
   const handleStartShadowing = async () => {
     setIsRecording(true)
     setSessionResult(null)
+    setEvalError(null)
 
     // Giả lập phiên thu âm shadowing 5 giây
     setTimeout(async () => {
@@ -40,12 +43,12 @@ export default function EchoShadowingCard() {
             phonemeAccuracy: Math.floor(Math.random() * 10) + 88, // 88 - 98%
           }),
         })
-        if (res.ok) {
-          const data = await res.json()
-          setSessionResult(data.session)
-        }
-      } catch (err) {
-        console.error('Failed to evaluate shadowing', err)
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        const data = await res.json()
+        setSessionResult(data.session)
+      } catch {
+        // Trước đây lỗi chỉ ra console → nút trở lại như chưa bấm, người học không biết vì sao.
+        setEvalError('Chưa chấm được lượt vừa rồi. Kiểm tra kết nối mạng rồi luyện lại nhé.')
       } finally {
         setIsEvaluating(false)
       }
@@ -115,6 +118,7 @@ export default function EchoShadowingCard() {
                 onClick={() => {
                   setSelectedId(p.id)
                   setSessionResult(null)
+                  setEvalError(null)
                 }}
                 aria-pressed={isSelected}
                 className={`tap-44-y px-3 py-1.5 rounded-xl text-xs font-semibold shrink-0 transition-all border ${
@@ -176,6 +180,19 @@ export default function EchoShadowingCard() {
               </div>
             )}
           </div>
+
+          {evalError && (
+            <div
+              role="alert"
+              className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-start gap-2"
+            >
+              <AlertTriangle
+                className="w-4 h-4 mt-0.5 shrink-0 text-red-400 theme-light:text-red-900"
+                aria-hidden
+              />
+              <p className="text-xs text-content">{evalError}</p>
+            </div>
+          )}
 
           {/* Action Button */}
           {!sessionResult && (

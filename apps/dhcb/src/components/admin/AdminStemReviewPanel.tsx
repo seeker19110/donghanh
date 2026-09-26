@@ -14,6 +14,7 @@ import { useToast } from '@core/ToastProvider'
 import { getAuthHeader } from '@core/authHeader'
 import { STEM_SUBJECTS, duongDanBaiHoc, type StemSubject } from '../../lib/stemLessonRoutes'
 import type { StemSubjectId } from '@dhcb/core-contracts/stemLesson'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 
 interface LuotDuyet {
   lessonId: string
@@ -85,7 +86,7 @@ export default function AdminStemReviewPanel() {
       const body = (await res.json()) as { luotDuyet: LuotDuyet[] }
       setLuotDuyet(body.luotDuyet)
     } catch (err) {
-      toastError(`Tải tiến độ duyệt thất bại: ${(err as Error).message}`)
+      toastError(`Tải tiến độ duyệt thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setLoading(false)
     }

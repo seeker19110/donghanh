@@ -7,6 +7,7 @@ import { Loader2, Plus, Trash2 } from 'lucide-react'
 import { useToast } from '@core/ToastProvider'
 import { getAuthHeader } from '@core/authHeader'
 import type { Plan } from '@dhcb/core-billing/plan'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 
 interface FeatureCatalogItem {
   key: string
@@ -51,7 +52,7 @@ export default function AdminPlanFeaturesPanel() {
       }
       setMatrix((await res.json()) as Matrix)
     } catch (err) {
-      toastError(`Tải danh sách thất bại: ${(err as Error).message}`)
+      toastError(`Tải danh sách thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setLoading(false)
     }
@@ -88,7 +89,7 @@ export default function AdminPlanFeaturesPanel() {
         throw new Error(data.error ?? `Lỗi ${res.status}`)
       }
     } catch (err) {
-      toast.error(`Cập nhật thất bại: ${(err as Error).message}`)
+      toast.error(`Cập nhật thất bại: ${thongDiepLoiQuanTri(err)}`)
       await load()
     } finally {
       setTogglingCell(null)
@@ -123,7 +124,7 @@ export default function AdminPlanFeaturesPanel() {
       setNewLabel('')
       await load()
     } catch (err) {
-      toast.error(`Thêm thất bại: ${(err as Error).message}`)
+      toast.error(`Thêm thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setAdding(false)
     }
@@ -145,7 +146,7 @@ export default function AdminPlanFeaturesPanel() {
       toast.success('Đã xoá tính năng')
       await load()
     } catch (err) {
-      toast.error(`Xoá thất bại: ${(err as Error).message}`)
+      toast.error(`Xoá thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setDeletingKey(null)
     }

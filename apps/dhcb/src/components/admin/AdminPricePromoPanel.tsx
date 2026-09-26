@@ -8,6 +8,7 @@ import { ShieldAlert, Loader2, Save } from 'lucide-react'
 import { useToast } from '@core/ToastProvider'
 import { getAuthHeader } from '@core/authHeader'
 import { Button } from '@core/Button'
+import { thongDiepLoiQuanTri } from '../../lib/friendlyError'
 
 interface PricePromo {
   percent: number
@@ -55,7 +56,7 @@ export default function AdminPricePromoPanel({ onForbiddenChange }: Props) {
         setStartsLocal(toLocalInputValue(data.startsAt))
         setEndsLocal(toLocalInputValue(data.endsAt))
       } catch (err) {
-        toast.error(`Không tải được cấu hình: ${(err as Error).message}`)
+        toast.error(`Không tải được cấu hình: ${thongDiepLoiQuanTri(err)}`)
       } finally {
         setLoading(false)
       }
@@ -91,7 +92,7 @@ export default function AdminPricePromoPanel({ onForbiddenChange }: Props) {
       setEndsLocal(toLocalInputValue(updated.endsAt))
       toast.success('Đã lưu cấu hình khuyến mãi')
     } catch (err) {
-      toast.error(`Lưu thất bại: ${(err as Error).message}`)
+      toast.error(`Lưu thất bại: ${thongDiepLoiQuanTri(err)}`)
     } finally {
       setSaving(false)
     }

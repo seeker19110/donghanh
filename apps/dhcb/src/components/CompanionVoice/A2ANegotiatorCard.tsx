@@ -94,10 +94,12 @@ export const A2ANegotiatorCard: React.FC = () => {
     <div className="bg-zinc-900/80 border border-zinc-800 rounded-2xl overflow-hidden transition text-xs shadow-lg">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-4 py-3 flex items-center justify-between hover:bg-zinc-800/50 transition"
+        aria-expanded={isOpen}
+        className="w-full px-4 py-3 flex items-center justify-between gap-3 hover:bg-zinc-800/50 transition"
       >
-        <div className="flex items-center gap-2">
-          <div className="p-1.5 rounded-xl bg-indigo-500/20 text-indigo-300 theme-light:text-indigo-800 border border-indigo-500/30">
+        {/* min-w-0 + flex-1: khối tiêu đề co lại/xuống dòng, nhường badge giữ nguyên một dòng ở 390px. */}
+        <div className="flex min-w-0 flex-1 items-center gap-2">
+          <div className="shrink-0 p-1.5 rounded-xl bg-indigo-500/20 text-indigo-300 theme-light:text-indigo-800 border border-indigo-500/30">
             <Users className="w-4 h-4" />
           </div>
           <div className="text-left">
@@ -110,7 +112,7 @@ export const A2ANegotiatorCard: React.FC = () => {
           </div>
         </div>
 
-        <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-500/20 text-indigo-200 theme-light:text-indigo-900 border border-indigo-500/30">
+        <span className="shrink-0 whitespace-nowrap px-2 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-500/20 text-indigo-200 theme-light:text-indigo-900 border border-indigo-500/30">
           {matches.length} bạn học phù hợp
         </span>
       </button>
