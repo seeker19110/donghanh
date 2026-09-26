@@ -32,9 +32,9 @@ export const AnimationKeyframeSchema = z
     /** Tịnh tiến theo trục x/y, đơn vị toạ độ viewBox. */
     dx: z.number().optional(),
     dy: z.number().optional(),
-    /** Xoay quanh tâm hình (độ). */
+    /** Xoay (độ) quanh `origin` của hình nếu có khai, không thì quanh tâm hình. */
     rotate: z.number().optional(),
-    /** Phóng to/thu nhỏ quanh tâm hình. */
+    /** Phóng to/thu nhỏ quanh `origin` của hình nếu có khai, không thì quanh tâm hình. */
     scale: z.number().positive().max(20).optional(),
     opacity: z.number().min(0).max(1).optional(),
   })
@@ -49,6 +49,13 @@ const styleFields = {
   dash: z.string().max(20).optional(),
   opacity: z.number().min(0).max(1).optional(),
   keyframes: z.array(AnimationKeyframeSchema).max(20).optional(),
+  /**
+   * Điểm gốc của `rotate`/`scale` trong keyframes, theo toạ độ viewBox. Bỏ trống = tâm hình.
+   * Vì sao cần (2026-09-26): chỉ co giãn/xoay quanh TÂM thì mũi tên lực "dài dần" bị tách khỏi
+   * điểm đặt, cột năng lượng "cao dần" bị nhấc khỏi mặt đất, con lắc/bán kính quay quanh trung
+   * điểm của chính nó. Khai `origin` = đuôi mũi tên, chân cột, điểm treo thì hình đúng nghĩa.
+   */
+  origin: z.tuple([z.number().min(-2000).max(4000), z.number().min(-2000).max(4000)]).optional(),
 }
 
 /** Hình vẽ trong một cảnh. Bộ hình cố tình HẸP — đủ vẽ mọi minh hoạ STEM phổ thông
@@ -108,6 +115,8 @@ export const AnimationShapeSchema = z.discriminatedUnion('kind', [
         .array(z.tuple([z.number(), z.number()]))
         .min(2)
         .max(400),
+      /** Khép kín: vẽ cả cạnh nối điểm cuối về điểm đầu (đa giác — vòng benzen, mạch điện,
+       *  miền nghiệm). Không cần lặp lại điểm đầu ở cuối danh sách. */
       closed: z.boolean().optional(),
       ...styleFields,
     })

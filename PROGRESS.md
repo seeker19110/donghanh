@@ -1122,9 +1122,12 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   CSS, `TRAPS.md` mục 10), kiểm bằng 55 khung hình theo thời gian. **Rà mắt Toán xong
   (2026-09-22, `docs/changelog/0408-*.md`):** 34/34 hoạt ảnh Toán soi 5 mốc thời gian bằng
   `npm run shots:lesson-anim`, sửa 17 hoạt ảnh (4 sai nội dung, 13 nhãn đè/cắt/chồng lớp), soi lại đủ.
-  **Còn thiếu:** cấu trúc animation cho môn Anh (chưa thiết kế), và 3 animation Vật lý/Hoá/Sinh
-  vì ba môn chưa nối vào `apps/` (khi nối thì chạy script trên với `--subject`, cần mở rộng
-  `napHoatAnh`). Đặc tả: `docs/specs/2026-09-21-hoat-anh-mo-phong-bai-hoc.md`.
+  **Rà mắt Vật lí xong (2026-09-26, `docs/changelog/0457-*.md`):** 73/73 hoạt ảnh soi 5 mốc +
+  máy kiểm hình học mới trong `shots:lesson-anim`; sửa 58 (khoảng 20 sai KIẾN THỨC, có
+  chiều đường sức quanh dây thẳng bị đảo) + 3 lỗi renderer (`closed` thiếu cạnh khép ở 19 hình
+  cả 4 môn, thêm `origin` cho xoay/co, bỏ halo chữ trên nền màu). **Còn thiếu:** rà mắt Hoá (56)
+  và Sinh (64) hoạt ảnh — làm ở các PR kế tiếp; cấu trúc animation cho môn Anh (chưa thiết kế).
+  Đặc tả: `docs/specs/2026-09-21-hoat-anh-mo-phong-bai-hoc.md`.
 - ✅ **[2026-09-20 — PR #1061 → ĐÓNG 2026-09-25, `docs/changelog/0447-*.md`] Ảnh Tầng 8b cho sửa
   tương phản CompanionVoice đã chụp và xem bằng mắt.** Ảnh 390/1440 × blue-sky/dark-blue × 3 studio
   cho thấy: trước sửa, 3 thẻ nền tối có chữ gần như không đọc được; sau sửa, chữ đọc được. Quét axe

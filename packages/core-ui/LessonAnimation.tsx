@@ -35,7 +35,8 @@ function color(role: AnimationColorRole | undefined, fallback: string): string {
   return role ? COLOR_BY_ROLE[role] : fallback
 }
 
-/** Tâm hình — mọi phép xoay/phóng đều quanh tâm để hoạt ảnh không "trôi" khỏi vị trí. */
+/** Tâm hình — gốc mặc định của phép xoay/phóng khi hình không khai `origin`, để hoạt ảnh không
+ *  "trôi" khỏi vị trí. Hình cần gốc khác (đuôi mũi tên, chân cột, điểm treo) thì khai `origin`. */
 function centerOf(shape: AnimationShape): { cx: number; cy: number } {
   switch (shape.kind) {
     case 'circle':
@@ -129,14 +130,17 @@ function Shape({ shape }: { shape: AnimationShape }) {
           markerEnd={`url(#dhcb-arrowhead-${shape.stroke ?? 'neutral'})`}
         />
       )
-    case 'polyline':
-      return (
-        <polyline
-          {...common}
-          points={shape.points.map((p) => `${p[0]},${p[1]}`).join(' ')}
-          fill={shape.closed ? color(shape.fill, 'none') : 'none'}
-        />
+    case 'polyline': {
+      const points = shape.points.map((p) => `${p[0]},${p[1]}`).join(' ')
+      // `closed` PHẢI vẽ bằng <polygon>: <polyline> không bao giờ vẽ cạnh nối điểm cuối về điểm
+      // đầu (chỉ phần tô là khép). Bẫy đã mắc thật (rà 2026-09-26): 19 hình khép kín ở cả 4 môn
+      // thiếu đúng một cạnh — vòng benzen hở, mạch điện hở, đường chạy vòng sân thiếu cạnh trái.
+      return shape.closed ? (
+        <polygon {...common} points={points} fill={color(shape.fill, 'none')} />
+      ) : (
+        <polyline {...common} points={points} fill="none" />
       )
+    }
     case 'label':
       return (
         <text
@@ -146,7 +150,10 @@ function Shape({ shape }: { shape: AnimationShape }) {
           fontSize={shape.size ?? 14}
           textAnchor={shape.anchor ?? 'start'}
           fill={color(shape.fill, 'rgb(var(--text-primary))')}
-          stroke="rgb(var(--surface-card))"
+          // Viền (halo) cùng màu nền giúp chữ nổi trên đường/hình. Riêng chữ màu `surface` là chữ
+          // đặt TRÊN một hình tô màu (nhãn trong điện trở, trong quả cầu): viền cùng màu với chữ chỉ
+          // làm nét dính vào nhau ("R = 6 Ω" thành một khối) — bỏ viền.
+          stroke={shape.fill === 'surface' ? 'none' : 'rgb(var(--surface-card))'}
           strokeWidth={3}
           strokeDasharray="none"
           paintOrder="stroke fill"
@@ -373,7 +380,10 @@ export function LessonAnimation({ spec, className }: LessonAnimationProps) {
       if (!shape.keyframes || shape.keyframes.length === 0) continue
       const name = `dhcbAnim${uid}${shape.id.replace(/[^a-zA-Z0-9]/g, '')}`
       names.set(shape.id, name)
-      blocks.push(keyframesCss(name, shape.keyframes, spec.durationMs, centerOf(shape)))
+      // Gốc xoay/co giãn: `origin` nếu hình có khai (đuôi mũi tên, chân cột, điểm treo…), không
+      // thì tâm hình như trước — hoạt ảnh cũ không đổi.
+      const goc = shape.origin ? { cx: shape.origin[0], cy: shape.origin[1] } : centerOf(shape)
+      blocks.push(keyframesCss(name, shape.keyframes, spec.durationMs, goc))
     }
     return { css: blocks.join('\n'), animNames: names }
   }, [spec, uid])

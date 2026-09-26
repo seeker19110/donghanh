@@ -461,6 +461,31 @@ Cổng cho lớp lỗi này: `npm run shots:lesson-anim` (chụp 5 mốc × mọ
 nếu có hoạt ảnh không chạy) rồi NGƯỜI đọc từng dải ảnh — chưa có máy nào chấm được "nhãn có đi
 theo hình không".
 
+**Bốn bẫy nữa lộ ra khi rà mắt 73 hoạt ảnh Vật lí (2026-09-26, `docs/changelog/0457-*.md`)** —
+58/73 hoạt ảnh phải sửa, ~20 sai KIẾN THỨC, mọi cổng vẫn xanh:
+
+1. **`closed: true` vẽ bằng `<polyline>` KHÔNG có cạnh khép.** `<polyline>` chỉ tô kín phần
+   fill, không bao giờ vẽ nét từ điểm cuối về điểm đầu → 19 hình ở cả 4 môn thiếu đúng một cạnh
+   (vòng benzen hở, mạch điện hở, đáy hình chóp thiếu cạnh). Sửa ở renderer: `closed` → `<polygon>`.
+   Cổng: ca "đường khép kín (`closed`) vẽ bằng <polygon>" trong `LessonAnimation.test.tsx`.
+2. **Trục y SVG hướng XUỐNG — chiều quay đọc theo trục toán học thì ngược trên màn hình.**
+   `ly12-c3-b14` mô tả "ngược chiều kim đồng hồ" (đúng quy tắc nắm tay phải) nhưng bốn mũi tên
+   khai theo trực giác y-hướng-lên nên trên màn hình chạy CÙNG chiều kim đồng hồ: dạy sai quy tắc
+   nắm tay phải. Không máy nào bắt được; cách rà: với mọi hoạt ảnh có lời "chiều kim đồng hồ",
+   "lên/xuống", "trái/phải", đọc CHIỀU trên ẢNH CHỤP rồi đối chiếu câu mô tả, không đọc toạ độ.
+   Cùng họ lỗi: electron vẽ cùng chiều I ở dây dưới, dòng qua R đi ngược vòng dòng, từ thông hai
+   nhánh lõi thép cùng chiều, B song song F trong loa — đều là lỗi "chiều" chỉ thấy khi nhìn ảnh.
+3. **Chữ "×"/"⊗" làm ký hiệu từ trường bị vẽ ĐÈ lên hình động** vì renderer luôn vẽ nhãn SAU
+   hình (để halo che đường). Ký hiệu nền phải vẽ bằng hình (hai nét, vòng tròn) đặt ĐẦU danh sách.
+4. **Bẫy thứ ba ở trên (xoay/co quanh tâm) nay có lối ra:** khai `origin` cho hình — mũi tên lực
+   dài dần từ điểm đặt, cột năng lượng mọc từ chân, vật quay quanh tâm quỹ đạo bằng một `rotate`
+   (chính xác, thay cho mô phỏng nhiều mốc `dx/dy`). Cổng: ca "co giãn/xoay quanh `origin`".
+
+Công cụ: `npm run shots:lesson-anim` nay in thêm dòng ⚠ hình học ở mỗi mốc (chữ tràn/đè/bị gạch,
+chấm/mũi tên ra khung). **Bẫy trong chính công cụ đo** (đã mắc khi viết): đọc `durationMs` từ
+`document.querySelector('style')` lấy nhầm thẻ `<style>` theme đầu trang → mặc định 1000 ms, đo
+mãi giây đầu của mọi hoạt ảnh mà vẫn in "sạch". Đọc từ spec, và ném lỗi khi thiếu thay vì mặc định.
+
 ## 11. `vi.mock` KHÔNG áp cho các `import()` động chạy ĐỒNG THỜI — chỉ lượt đầu nhận mock
 
 **Ngày/PR:** 2026-09-22, `docs/changelog/0411-*.md` (test cho `apps/dhcb/src/lib/subjectProgressBoard.ts`).
