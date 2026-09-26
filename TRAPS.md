@@ -293,6 +293,13 @@ mỗi `goto` (không nới cả file/cả suite), kèm comment số đo. Xác nh
 trên server nguội, 2 worker, chạy chung nhiều spec — 25/25 ca xanh (`docs/changelog/` đợt việc
 này có số PR + log đầy đủ).
 
+**Tái phát 2026-09-25 (PR #1179, `docs/changelog/0453-*.md`):** `e2e/programming-lesson-steps.spec.ts`
+— hai chỗ kiểm NGAY sau `page.goto()` URL cũ và sau `page.reload()` chưa chờ bài nạp lười xong
+như helper `mo()` của chính file. Đo bằng `--repeat-each=12 --workers=6/8 --retries=0`: 7/12 lượt
+đỏ trên `main`, 16/84 lượt đỏ sau reload. Sửa: chờ `#dau-bai` 30s (helper `taiLai`) và nới đúng
+expect URL đầu tiên → 84/84 xanh. Cách rà cho spec mới: mọi `goto`/`reload` tới trang nạp lười phải
+đi qua helper có bước chờ, không `expect` thẳng với ngưỡng 5s mặc định.
+
 ## 8. Ký tự điều khiển gõ THẲNG vào mã nguồn → `git diff` thành nhị phân, file trượt khỏi review
 
 **Ngày/PR:** file vào `main` ở #932 (2026-09-15), phát hiện + trả nợ ở PR #964
@@ -528,3 +535,28 @@ lớp trong cho biết **vì sao**.
 **Cổng chốt chặn:** không phải cổng máy mà là kỷ luật — CLAUDE.md mục 5 đã cấm đoán. Trước khi
 viết "nguyên nhân là X" vào tài liệu hay mô tả PR, phải dán được **nguyên văn dòng lỗi nói ra X**.
 Không dán được nghĩa là đang đoán.
+
+## 14. Đọc `location` của lượt render trong handler điều hướng → bấm nhanh hai lần ĐÈ MẤT history entry
+
+**Ngày/PR:** mắc lần đầu ở S09b (trang bài STEM, phát hiện qua E2E 1440px: `history.length` 4 → 5,
+1/6 lượt), **tái phạm** ở S09d (trang bài Lập trình). Lộ ra 2026-09-25 khi E2E S09-P-AC06 đỏ cả
+hai lượt trên CI của PR #1179. Sửa ở PR #1179 (`docs/changelog/0453-*.md`).
+
+**Khuôn lỗi:** React Router v7 (`BrowserRouter` lẫn `MemoryRouter`) cập nhật location trong
+`React.startTransition` (xem `useTransitions` trong mã nguồn react-router). `navigate()` ghi vào
+history NGAY, nhưng trang render lại SAU, và khi máy chậm thì trễ hẳn. Handler của cú bấm thứ hai
+vì vậy đọc `useLocation()` của lượt render CŨ. Ở trang Lập trình, `goTo` thấy "chưa có hash, entry
+chưa ghi bước" nên `replace` đè mất entry `#example` vừa push, và Back nhảy thẳng về đầu bài. Máy
+dev rảnh không bao giờ thấy lỗi. Người dùng thật trên máy yếu bấm hai lần liền là dính.
+
+**Cách rà:** tìm handler (không phải effect) vừa đọc `loc.hash`/`location.hash`/`loc.state`,
+vừa quyết định `navigate(...)` push hay replace dựa trên giá trị đó:
+`grep -rln "replace: true" apps/dhcb/src --include=*.tsx | xargs grep -ln "\.hash"`.
+Handler kiểu này phải đọc qua một ref cập nhật NGAY khi điều hướng (`viTriRef` ở
+`ProgrammingLessonPage.tsx`, `hashDangCho` ở `StemLessonView.tsx`/`LessonView.tsx`), không đọc
+thẳng `loc`.
+
+**Cổng chốt chặn:** unit test "hai cú bấm trong CÙNG một `act()`" (React không render lại giữa
+hai cú). Đây là cách tái hiện tất định, không cần máy chậm: xem ca "hai cú bấm liền nhau trước
+khi trang kịp render lại" ở `ProgrammingLessonPage.test.tsx` (đỏ trước khi sửa với đúng triệu
+chứng của CI). Trang mới có điều hướng theo hash phải có ca tương tự.

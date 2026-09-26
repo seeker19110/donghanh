@@ -437,14 +437,26 @@ function LessonBody({
     if (focusDich) focusAnchor(focusDich)
   }, [hydrated, loc.key, step, resumeStep, setStep, focusDich, focusAnchor])
 
+  // Vị trí MỚI NHẤT (hash + state của entry) mà `goTo` dựa vào để quyết định. KHÔNG đọc thẳng
+  // `loc`: React Router v7 cập nhật location trong `startTransition`, nên khi máy chậm cú bấm
+  // thứ hai chạy lúc trang CHƯA render lại, `loc` vẫn là entry cũ. `goTo` khi đó tưởng mình còn
+  // ở entry đầu bài và `replace` đè mất entry vừa push → Back bỏ qua bước đó (bắt được trên CI ở
+  // E2E S09-P-AC06, 2026-09-25). Ref được cập nhật NGAY khi chính trang điều hướng, và đồng bộ
+  // lại theo `loc` sau mỗi lần commit (layout effect: trước khi trình duyệt nhận sự kiện kế).
+  const viTriRef = useRef<{ hash: string; state: unknown }>({ hash: loc.hash, state: loc.state })
+  useLayoutEffect(() => {
+    viTriRef.current = { hash: loc.hash, state: loc.state }
+  }, [loc])
+
   /**
    * Đi tới một đích: đích khác → push ĐÚNG MỘT entry (giữ pathname + query `?khoa=`…); cùng
    * đích → chỉ focus lại, không thêm entry. KHÔNG chạy code, không chấm, không lưu tiến độ.
    */
   const goTo = (anchor: LessonAnchor) => {
+    const { hash, state } = viTriRef.current
     // "Cùng đích" = đúng hash đang mở, HOẶC chưa có hash mà bấm lại đúng bước đang hiện (mở bài
     // xong bấm "Khái niệm" trên thanh bước): màn hình không đổi thì không đẻ thêm entry Back.
-    const cungDich = loc.hash === `#${anchor}` || (loc.hash === '' && anchor === anchorOfStep(step))
+    const cungDich = hash === `#${anchor}` || (hash === '' && anchor === anchorOfStep(step))
     if (cungDich) {
       if (hydrated) focusAnchor(anchor)
       return
@@ -452,18 +464,22 @@ function LessonBody({
     // Entry hiện tại không hash và chưa ghi bước (entry lúc mở bài): ghi bước đang hiện vào
     // chính nó (replace, không thêm entry) để Back về đây trả đúng bước này, không lấy bước
     // resume mà các lần nhảy sau sẽ thay đổi.
-    if (!loc.hash && readEntryStep(loc.state) === undefined) {
+    if (!hash && readEntryStep(state) === undefined) {
       nav(
         { pathname: loc.pathname, search: loc.search },
-        { replace: true, state: withEntryStep(loc.state, step) },
+        { replace: true, state: withEntryStep(state, step) },
       )
     }
     nav({ pathname: loc.pathname, search: loc.search, hash: `#${anchor}` })
+    // Entry vừa push không mang state (React Router đặt `null`).
+    viTriRef.current = { hash: `#${anchor}`, state: null }
   }
   const goToStep = (i: number) => goTo(anchorOfStep(i))
 
-  /** Link trong trang (`href="#…"`): để trình duyệt tự xử lý khi mở tab mới/cmd-click. */
-  const onAnchorClick = (anchor: LessonAnchor) => (e: MouseEvent<HTMLAnchorElement>) => {
+  /** Link trong trang (`href="#…"`): để trình duyệt tự xử lý khi mở tab mới/cmd-click.
+   *  Nhận thẳng `(e, anchor)` và gọi từ arrow inline trong JSX — KHÔNG làm hàm "tạo handler"
+   *  gọi lúc render, vì `goTo` đọc ref và luật `react-hooks/refs` coi đó là đọc ref khi render. */
+  const onAnchorClick = (e: MouseEvent<HTMLAnchorElement>, anchor: LessonAnchor) => {
     if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
     e.preventDefault()
     goTo(anchor)
@@ -560,7 +576,7 @@ function LessonBody({
                     link riêng ở đây, không chen vào thanh bước. Chỉ điều hướng: không chấm. */}
                 <a
                   href={`#${LESSON_RESULT_ANCHOR}`}
-                  onClick={onAnchorClick(LESSON_RESULT_ANCHOR)}
+                  onClick={(e) => onAnchorClick(e, LESSON_RESULT_ANCHOR)}
                   className="tap-44 inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-line-subtle bg-surface-card text-xs font-semibold text-content-secondary hover:text-content transition"
                 >
                   <ListChecks className="w-3.5 h-3.5" aria-hidden="true" />
@@ -787,7 +803,7 @@ function LessonBody({
                           Chưa có kết quả chấm trong lần mở bài này.{' '}
                           <a
                             href="#make"
-                            onClick={onAnchorClick('make')}
+                            onClick={(e) => onAnchorClick(e, 'make')}
                             className="underline underline-offset-2 text-content"
                           >
                             Lên đầu bước Tự viết

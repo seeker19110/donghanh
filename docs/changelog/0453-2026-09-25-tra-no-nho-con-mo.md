@@ -1,9 +1,10 @@
 # Trả nợ nhỏ còn mở: lỗi chấm lượt shadowing, badge một dòng, thanh đáy nền đặc, lỗi thô
 
 - **Ngày:** 2026-09-25 · **PR:** #1179 (nhánh `seeker/zealous-allen-ygj0gw`)
-- **Loại:** `fix(ui)`. Người dùng yêu cầu "liệt kê, sửa và hoàn thiện toàn bộ". Bốn việc dưới đây
-  là phần nợ đang mở sửa được hoàn toàn bằng code: nợ ghi ở `0450`/`0451`, cộng phần sót của nợ
-  lỗi thô (audit UI/UX 2026-09-22).
+- **Loại:** `fix(ui)`. Người dùng yêu cầu "liệt kê, sửa và hoàn thiện toàn bộ", rồi "còn lỗi nào
+  fix toàn bộ đi". Năm việc dưới đây gồm phần nợ đang mở sửa được hoàn toàn bằng code (nợ ghi ở
+  `0450`/`0451`, phần sót của nợ lỗi thô ở audit UI/UX 2026-09-22), cộng một lỗi đua thời gian có
+  sẵn trên `main` lộ ra khi CI của PR này chạy.
 - **Trùng việc với PR #1178, đã gộp:** trong lúc PR này mở, `main` nhận #1178 (`0452`), cùng sửa
   trạng thái tải/lỗi/rỗng của thẻ Nói Đè Theo Mẫu + Scenario Holodeck bằng `lib/useCatalogList.ts`.
   Khi gộp `main`, PR này **giữ bản của #1178** vì nó kiểm từng phần tử bằng Zod và huỷ request
@@ -44,6 +45,21 @@
    - **Cổng canh** trong `lib/friendlyError.test.ts`: quét `apps/dhcb/src`. Ngoài bộ chạy code
      Lập trình, không file nào được chứa `(x as Error).message`.
 
+5. **Lỗi đua thời gian ở trang bài Lập trình (S09d), có sẵn trên `main`, làm E2E của PR này đỏ.**
+   CI đỏ cả hai lượt ở `S09-P-AC06`: sau Back, URL mất `#example`.
+   - **Nguyên nhân gốc:** React Router v7 cập nhật location trong `startTransition`. Khi máy chậm,
+     cú bấm thứ hai (lối tắt "Kết quả chấm") chạy lúc trang chưa render lại, nên `goTo` đọc `loc`
+     cũ, tưởng còn ở entry đầu bài và `replace` đè mất entry `#example`. Người dùng thật trên máy
+     yếu bấm nhanh hai lần cũng dính.
+   - **Cách sửa:** `goTo` đọc vị trí qua `viTriRef`. Ref được cập nhật ngay khi trang điều hướng
+     và đồng bộ theo `loc` sau mỗi commit. Trang STEM/Tiếng Anh đã có cơ chế tương đương
+     (`hashDangCho`, bài học S09b); trang Lập trình làm sau mà quên.
+   - **Unit test tái hiện tất định:** hai cú bấm trong cùng một `act()`. Trước khi sửa đỏ đúng
+     triệu chứng CI (`expected '' to be '#example'`).
+   - **E2E:** hai chỗ kiểm ngay sau `goto` URL cũ và sau `reload` chưa chờ bài nạp lười như `mo()`.
+     Thêm helper `taiLai` và chờ `#dau-bai` 30s.
+   - Ghi vào `TRAPS.md`: mục 14 mới, cộng một dòng tái phát ở mục 7.
+
 ## Tầng 8b — ảnh trước/sau
 
 Studio Thử thách và Kế hoạch, 390px và 1440px, theme blue-sky. Chụp lại **trên kết quả đã gộp
@@ -73,7 +89,17 @@ Hành|BottomNav"`: 49/49.
   #1178) + `bottomnav` + `admin` + `companion-history` + a11y AA/AAA các studio: 152 passed.
   Bundle JS 152,21 kB / 160, CSS 23,72 kB / 26.
 
+- Lỗi đua thời gian, đo bằng `--repeat-each=12 --retries=0`:
+  - Ca AC06, 6 worker: `main` đỏ 7/12; sau khi sửa 12/12 xanh.
+  - Cả file 7 ca, 8 worker: trước khi thêm `taiLai` đỏ 16–18/84; sau khi sửa 84/84 xanh.
+  - `ProgrammingLessonPage.test.tsx`: 25/25.
+
 ## Nợ còn lại
+
+- `e2e/programming-lesson.spec.ts` (spec khác, không đụng trong PR này) còn vài `expect` đầu tiên
+  sau `goto` dùng ngưỡng 5s mặc định. Ép 6 worker × 4 lần ở máy thì đỏ 12/32 lượt (đúng biến thể
+  "dev server nguội" ở `TRAPS.md` mục 7); cấu hình CI (2 worker) xanh 42/42. Sửa theo đúng khuôn
+  mục 7 khi có đợt riêng.
 
 Không còn nợ mở của chuỗi S06. Các nợ khác trong `PROGRESS.md` cần người, chuyên gia, thiết bị thật
 hoặc chờ ràng buộc bên ngoài. Xem danh sách phân loại trong mô tả PR.
