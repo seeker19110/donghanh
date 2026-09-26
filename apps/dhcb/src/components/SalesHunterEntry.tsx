@@ -23,8 +23,8 @@ export default function SalesHunterEntry({
           Sales-Hunter · Ứng dụng riêng của Đồng Hành
         </summary>
         <p className="mt-3 text-sm leading-relaxed text-zinc-300">
-          Theo dõi ưu đãi và bản nháp affiliate. Bản thử nghiệm đầu chỉ đọc, dành cho người
-          vận hành được cấp quyền riêng; chưa mở tự động đăng bài.
+          Theo dõi ưu đãi và bản nháp affiliate. Bản thử nghiệm đầu chỉ đọc, dành cho người vận hành
+          được cấp quyền riêng; chưa mở tự động đăng bài.
         </p>
         <p className="mt-2 text-sm text-zinc-300">
           Không dùng dữ liệu học tập, phiên đăng nhập hoặc gói thanh toán Learning.

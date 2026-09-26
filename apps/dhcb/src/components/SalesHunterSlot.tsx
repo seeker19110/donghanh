@@ -4,10 +4,7 @@ import { showSalesHunterEntry } from '../lib/salesHunter'
 const SalesHunterEntry = lazy(() => import('./SalesHunterEntry'))
 
 /** A failed optional Sales chunk must never unmount the Learning/Companion application. */
-export default class SalesHunterSlot extends Component<
-  Record<string, never>,
-  { failed: boolean }
-> {
+export default class SalesHunterSlot extends Component<Record<string, never>, { failed: boolean }> {
   state = { failed: false }
 
   static getDerivedStateFromError() {
