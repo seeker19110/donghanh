@@ -6,6 +6,19 @@ bỏ). Thứ tự: như thứ tự cũ trong `PROGRESS.md`, mới hơn ở trên
 
 Khi đóng thêm một món nợ: cắt khối đó khỏi `PROGRESS.md`, dán vào ĐẦU danh sách dưới đây.
 
+- ✅ **[2026-09-14 → ĐÓNG 2026-09-26, `docs/changelog/0454-*.md`] Nhãn chữ
+  trong hoạt ảnh khó đọc ở màn hình 390px.** Đo được **29/150 nhãn dài hơn 24 ký tự** ở cỡ chữ
+  11–12 trong viewBox rộng 440 — trên điện thoại chúng co lại rất nhỏ. **KHÔNG phải lỗi mới**:
+  bài `ly11-c2-b8` đã như vậy từ trước. Sửa tận gốc phải đụng `packages/core-ui/LessonAnimation.tsx`
+  (codemap: 5 file ảnh hưởng) hoặc đặt luật độ dài nhãn cho toàn bộ hoạt ảnh — cần một đợt riêng.
+  **Đóng bằng nút "Xem lớn" ở bộ vẽ** (chủ dự án chọn trong 4 phương án, 2026-09-25). Đo lại khi
+  đóng mới thấy nợ lớn hơn nhiều so với mô tả gốc: **1.000/1.861 nhãn của 238 hoạt ảnh hiện dưới
+  10px** ở màn 390px (SVG thật rộng 358px), tệ nhất 6px (khung Sinh 716 × 118). Hình trong bài giữ
+  nguyên; hình nào có chữ nhỏ hơn 10px ở bề rộng hiện tại thì hiện thêm nút "Xem lớn". Nút mở
+  `<dialog>` toàn màn hình, tự xoay 90° khi máy dựng đứng mà hình khổ ngang, nên chữ về ≥ 10px kể
+  cả khi khoá xoay. Không sửa tay nhãn nào. Cổng: `lessonAnimationZoom.test.ts` +
+  `LessonAnimation.test.tsx` + `e2e/lesson-animation-zoom.spec.ts`.
+
 - ✅ **[2026-08-28 → ĐÓNG 2026-09-21 (khảo sát nợ kỹ thuật định kỳ), nay VÔ NGHĨA vì trang đã bị
   xoá] "4 trang trụ Career/Work/Startup/Life vẫn chưa có bản chiều B".** Ba việc chính trong mục
   gốc (Career.tsx hỏi "Số năm kinh nghiệm", Work.tsx/Life.tsx đặt `<Layout>` cuối JSX,

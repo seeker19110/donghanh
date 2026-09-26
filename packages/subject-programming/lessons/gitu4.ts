@@ -39,7 +39,7 @@ git commit -m "c1"
 git push -u origin main`,
       question: 'Chuyện gì xảy ra khi gõ git push mà CHƯA từng git remote add?',
       choices: [
-        'Khong co gi day duoc — bao loi vi chua khai remote, phai git remote add truoc',
+        'Không có gì để đẩy lên được — báo lỗi vì chưa khai remote, phải git remote add trước',
         'Tự tạo remote mới với tên "origin" rồi đẩy lên',
         'Đẩy thành công lên một kho tạm không tên',
         'Không có gì xảy ra, lệnh bị bỏ qua im lặng',
