@@ -6,6 +6,7 @@ import { createRoot } from 'react-dom/client'
 import '@fontsource-variable/inter/wght.css'
 import './index.css'
 import App from './App'
+import SalesHunterSlot from './components/SalesHunterSlot'
 import { applyTheme, getTheme } from '@core/theme'
 import { unlockAudio } from './lib/tts'
 import { initErrorTracking } from './lib/errorTracking'
@@ -23,6 +24,7 @@ initKeyboardNavModality()
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
+    <SalesHunterSlot />
   </StrictMode>,
 )
 
