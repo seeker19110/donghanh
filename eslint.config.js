@@ -31,10 +31,6 @@ export default tseslint.config(
       'coverage/**',
       'playwright-report/**',
       'test-results/**',
-      // Cấu hình cũ chạy `eslint . --ext ts,tsx,js,mjs` nên .cjs CHƯA BAO GIỜ được lint. Flat
-      // config thì mặc định lint cả .cjs, nên phải loại ra để đợt chuyển này không đổi phạm vi.
-      // Muốn lint commitlint.config.cjs / ecosystem.config.cjs thì làm ở PR riêng.
-      '**/*.cjs',
     ],
   },
 
@@ -62,6 +58,17 @@ export default tseslint.config(
     rules: {
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     },
+  },
+
+  {
+    // File .cjs là CommonJS THẬT (PM2 đọc ecosystem.config.cjs, commitlint đọc
+    // commitlint.config.cjs bằng require). Trước 2026-09-26 cả hai nằm trong `ignores` vì cấu hình
+    // cũ chạy `--ext ts,tsx,js,mjs` nên CHƯA BAO GIỜ được lint (nợ ghi ở đợt chuyển flat config,
+    // changelog 0414). Nay lint thật, khai đúng sourceType để parser không coi chúng là ES module,
+    // và cho phép `require` vì đó là cách import chuẩn của CommonJS.
+    files: ['**/*.cjs'],
+    languageOptions: { sourceType: 'commonjs' },
+    rules: { '@typescript-eslint/no-require-imports': 'off' },
   },
 
   // Phải để SAU các bộ recommended: tắt các luật ESLint xung đột với Prettier (định dạng do

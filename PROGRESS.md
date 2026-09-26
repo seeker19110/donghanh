@@ -1049,8 +1049,9 @@ scripts/load-test/k6-baseline.js`) nhắm staging/production — tăng dần VU_
   nginx chưa từng có `brotli_static`.
   (2) **Node 22 → 26 LTS: hoãn tới sau 2026-10-28** (v22 còn hỗ trợ đến 2027-04-30 nên không gấp;
   v24 rời Active LTS 2026-10-20 nên nâng lên 24 là nâng vào dòng sắp hạ cấp). Cần việc tay VPS.
-  (3) **Có lint `.cjs` hay không:** flat config mặc định lint cả `.cjs` trong khi cấu hình cũ chạy
-  `--ext ts,tsx,js,mjs`; tạm để `**/*.cjs` trong `ignores` để không lặng lẽ đổi phạm vi.
+  (3) ✅ **`.cjs` nay được lint thật (2026-09-26, `docs/changelog/0455-*.md`):** bỏ `**/*.cjs` khỏi
+  `ignores`, khai `sourceType: 'commonjs'` (trước đó flat config parse `.cjs` như ES module).
+  Hai file `commitlint.config.cjs`/`ecosystem.config.cjs` qua 127 luật; file thử có biến thừa bị bắt.
   (4) **ESLint 10:** chờ `eslint-plugin-jsx-a11y` mở peer (nay chỉ tới `^9`).
 - ✅ **ĐÃ ĐÓNG [2026-09-22, xác nhận qua CI — `docs/changelog/0413-*.md`] Deploy VPS đỏ 5 lần
   liên tiếp vì hết heap Node lúc build (`FATAL ERROR ... JavaScript heap out of memory`),
